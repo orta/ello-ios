@@ -11,6 +11,4 @@ branches:
 notifications:
   email: false
 
-before_deploy: rm -rf build/Applications
-
 # TODO: add s3 ipa archiving at some point
