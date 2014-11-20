@@ -1,0 +1,16 @@
+osx_image: xcode61
+language: objective-c
+cache: bundler
+rvm: 2.1.1
+before_script:
+  - export LANG=en_US.UTF-8
+script: ./travis-build.sh
+branches:
+  only:
+  - master
+notifications:
+  email: false
+
+before_deploy: rm -rf build/Applications
+
+# TODO: add s3 ipa archiving at some point

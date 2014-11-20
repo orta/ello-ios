@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>7133950F-6EA2-423D-AAF8-33185A56867A</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Ello</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>CE85FE9109D7F16FB7ECA4B10F7B364BA28396B0</key>
+		<string>github.com:modeset/ello-ios.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Ello.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>CE85FE9109D7F16FB7ECA4B10F7B364BA28396B0</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>github.com:modeset/ello-ios.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>CE85FE9109D7F16FB7ECA4B10F7B364BA28396B0</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>CE85FE9109D7F16FB7ECA4B10F7B364BA28396B0</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Ello</string>
+		</dict>
+	</array>
+</dict>
+</plist>
