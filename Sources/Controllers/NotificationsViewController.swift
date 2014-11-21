@@ -1,5 +1,5 @@
 //
-//  SecondViewController.swift
+//  NotificationsViewController.swift
 //  Ello
 //
 //  Created by Sean Dougherty on 11/20/14.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SecondViewController: UIViewController {
+class NotificationsViewController: BaseElloViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +20,9 @@ class SecondViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    class func instantiateFromStoryboard(storyboard: UIStoryboard) -> NotificationsViewController {
+        return storyboard.viewControllerWithID(.Notifications) as NotificationsViewController
+    }
 
 }
 

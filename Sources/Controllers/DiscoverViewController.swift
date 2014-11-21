@@ -1,5 +1,5 @@
 //
-//  FirstViewController.swift
+//  DiscoverViewController.swift
 //  Ello
 //
 //  Created by Sean Dougherty on 11/20/14.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FirstViewController: UIViewController {
+class DiscoverViewController: BaseElloViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +20,9 @@ class FirstViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    class func instantiateFromStoryboard(storyboard: UIStoryboard) -> DiscoverViewController {
+        return storyboard.viewControllerWithID(.Discover) as DiscoverViewController
+    }
 
 }
 
