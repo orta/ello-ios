@@ -30,7 +30,9 @@
                             <constraint firstAttribute="centerY" secondItem="KQZ-1w-vlD" secondAttribute="centerY" id="exm-UA-ej4"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="first" id="acW-dT-cKf"/>
+                    <tabBarItem key="tabBarItem" title="" image="discover-icon" id="acW-dT-cKf">
+                        <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
+                    </tabBarItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
@@ -62,16 +64,18 @@
                             <constraint firstAttribute="centerY" secondItem="zEq-FU-wV5" secondAttribute="centerY" id="qzY-Ky-pLD"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="second" id="cPa-gy-q4n"/>
+                    <tabBarItem key="tabBarItem" title="" image="notifications-icon" id="cPa-gy-q4n">
+                        <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
+                    </tabBarItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="774" y="-318"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Ello Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
             <objects>
-                <tabBarController id="49e-Tb-3d3" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="ElloTabBarController" id="49e-Tb-3d3" customClass="ElloTabBarController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="W28-zg-YXA" customClass="ElloTabBar" customModule="Ello" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="975" width="768" height="49"/>
@@ -82,7 +86,7 @@
                     <connections>
                         <segue destination="9pv-A4-QxB" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
                         <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
-                        <segue destination="ECy-3N-QOg" kind="relationship" relationship="viewControllers" id="2P8-zn-3Fb"/>
+                        <segue destination="6gB-P3-Psq" kind="relationship" relationship="viewControllers" id="2P8-zn-3Fb"/>
                         <segue destination="pfO-53-D6h" kind="relationship" relationship="viewControllers" id="t8D-oN-sU8"/>
                     </connections>
                 </tabBarController>
@@ -99,28 +103,47 @@
                         <viewControllerLayoutGuide type="bottom" id="gFv-e7-ahl"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="x9i-Ne-hXf">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Friends" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="ev9-8R-gkS">
-                                <rect key="frame" x="240" y="255" width="121" height="42"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="hOT-bT-dJV">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="36"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Axt-R9-gZf">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FriendsCell" id="beQ-fD-toB" customClass="FriendsCell" customModule="Ello" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="centerY" secondItem="ev9-8R-gkS" secondAttribute="centerY" id="Le6-sv-WUN"/>
-                            <constraint firstAttribute="centerX" secondItem="ev9-8R-gkS" secondAttribute="centerX" id="a44-bp-DDT"/>
+                            <constraint firstItem="hOT-bT-dJV" firstAttribute="top" secondItem="x9i-Ne-hXf" secondAttribute="top" id="1HK-ru-RpT"/>
+                            <constraint firstItem="gFv-e7-ahl" firstAttribute="top" secondItem="hOT-bT-dJV" secondAttribute="bottom" id="5Gw-hY-sko"/>
+                            <constraint firstItem="hOT-bT-dJV" firstAttribute="leading" secondItem="x9i-Ne-hXf" secondAttribute="leading" id="MTC-u8-9cj"/>
+                            <constraint firstAttribute="trailing" secondItem="hOT-bT-dJV" secondAttribute="trailing" id="uVh-8F-nfh"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="second" id="aLZ-c4-Yur"/>
+                    <navigationItem key="navigationItem" title="Friends" id="GeI-Rc-cTm"/>
+                    <connections>
+                        <outlet property="collectionView" destination="hOT-bT-dJV" id="SDn-Gj-Jnn"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yZW-gK-AYq" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="774" y="354"/>
+            <point key="canvasLocation" x="1586" y="354"/>
         </scene>
         <!--Profile-->
         <scene sceneID="g5m-Pl-KDJ">
@@ -148,15 +171,45 @@
                             <constraint firstAttribute="centerX" secondItem="FuP-qN-aM0" secondAttribute="centerX" id="vUP-ua-Diw"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="second" id="6NF-g8-Kfc"/>
+                    <tabBarItem key="tabBarItem" title="" image="profile-icon" id="6NF-g8-Kfc">
+                        <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
+                    </tabBarItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NZn-Ke-ysC" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="774" y="1054"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="c48-ys-FOn">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" hidesBarsOnSwipe="YES" id="6gB-P3-Psq" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <tabBarItem key="tabBarItem" title="" image="friends-icon" id="aLZ-c4-Yur">
+                        <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
+                    </tabBarItem>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="Tgb-bf-SEj">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Qz1-hz-MJ9">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
+                    <connections>
+                        <segue destination="ECy-3N-QOg" kind="relationship" relationship="rootViewController" id="83q-mi-5IX"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jgF-yh-vr4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="774" y="354"/>
+        </scene>
     </scenes>
     <resources>
-        <image name="first" width="30" height="30"/>
-        <image name="second" width="30" height="30"/>
+        <image name="discover-icon" width="49" height="49"/>
+        <image name="friends-icon" width="49" height="49"/>
+        <image name="notifications-icon" width="49" height="49"/>
+        <image name="profile-icon" width="49" height="49"/>
     </resources>
+    <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
 </document>

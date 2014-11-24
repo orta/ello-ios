@@ -21,6 +21,18 @@ class FriendsViewControllerSpec: QuickSpec {
                 controller = FriendsViewController.instantiateFromStoryboard(storyboard)
             })
 
+            describe("storyboard", {
+
+                beforeEach({
+                    controller.loadView()
+                    controller.viewDidLoad()
+                })
+
+                it("IBOutlets are  not nil", {
+                    expect(controller.collectionView).notTo(beNil())
+                })
+            })
+
             it("can be instatiated from storyboard") {
                 expect(controller).notTo(beNil())
             }

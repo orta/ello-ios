@@ -12,7 +12,14 @@ class DiscoverViewController: BaseElloViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+
+        let target: ElloAPI = .Posts
+        ElloAPIProvider.request(target, completion: { (data, statusCode, response, error) in
+            if let data = data {
+                let post = Post.fromJSON(data) as Post
+                println("Post body = \(post.body)")
+            }
+        })
     }
 
     override func didReceiveMemoryWarning() {

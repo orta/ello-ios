@@ -10,19 +10,23 @@ import UIKit
 
 class FriendsViewController: BaseElloViewController {
 
+    @IBOutlet weak var collectionView: UICollectionView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        navigationController?.hidesBarsOnSwipe = true
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     class func instantiateFromStoryboard(storyboard: UIStoryboard) -> FriendsViewController {
         return storyboard.viewControllerWithID(.Friends) as FriendsViewController
+    }
+
+    func setupCollectionView() {
+//        collectionView.delegate = self
+        collectionView.alwaysBounceHorizontal = false
+        collectionView.alwaysBounceVertical = true
+//        collectionView.dataSource = self
     }
 
     /*
