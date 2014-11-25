@@ -15,25 +15,8 @@ class ProfileViewController: BaseElloViewController {
         // Do any additional setup after loading the view.
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    class func instantiateFromStoryboard(storyboard: UIStoryboard) -> ProfileViewController {
+    class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> ProfileViewController {
         let controller = storyboard.viewControllerWithID(.Profile)
-        println(controller)
         return storyboard.viewControllerWithID(.Profile) as ProfileViewController
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

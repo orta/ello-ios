@@ -1,8 +1,8 @@
 //
-//  ProfileViewControllerSpec.swift
+//  RequestInviteViewControllerSpec.swift
 //  Ello
 //
-//  Created by Sean Dougherty on 11/21/14.
+//  Created by Sean Dougherty on 11/24/14.
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
@@ -10,14 +10,14 @@ import Quick
 import Nimble
 
 
-class ProfileViewControllerSpec: QuickSpec {
+class RequestInviteViewControllerSpec: QuickSpec {
     override func spec() {
 
-        var controller = ProfileViewController.instantiateFromStoryboard()
+        var controller = RequestInviteViewController.instantiateFromStoryboard()
         describe("initialization", {
 
             beforeEach({
-                controller = ProfileViewController.instantiateFromStoryboard()
+                controller = RequestInviteViewController.instantiateFromStoryboard()
             })
 
             it("can be instatiated from storyboard") {
@@ -28,10 +28,9 @@ class ProfileViewControllerSpec: QuickSpec {
                 expect(controller).to(beAKindOf(BaseElloViewController.self))
             })
 
-            it("is a ProfileViewController", {
-                expect(controller).to(beAKindOf(ProfileViewController.self))
+            it("is a RequestInviteViewController", {
+                expect(controller).to(beAKindOf(RequestInviteViewController.self))
             })
         })
     }
 }
-

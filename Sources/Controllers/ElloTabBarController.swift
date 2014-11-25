@@ -15,7 +15,7 @@ class ElloTabBarController: UITabBarController {
         self.selectedIndex = 2
     }
 
-    class func instantiateFromStoryboard(storyboard: UIStoryboard) -> ElloTabBarController {
+    class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> ElloTabBarController {
         return storyboard.viewControllerWithID(.ElloTabBar) as ElloTabBarController
     }
 }

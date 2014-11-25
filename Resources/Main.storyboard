@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14C68k" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14C68k" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jJZ-zI-fFG">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="AtlasTypewriter-Regular.otf">
+            <string>AtlasTypewriter-Regular</string>
+            <string>AtlasTypewriter-Regular</string>
+        </mutableArray>
+    </customFonts>
     <scenes>
         <!--Discover-->
         <scene sceneID="hNz-n2-bh7">
@@ -145,6 +151,88 @@
             </objects>
             <point key="canvasLocation" x="1586" y="354"/>
         </scene>
+        <!--Landing View Controller-->
+        <scene sceneID="YOJ-27-8ul">
+            <objects>
+                <viewController storyboardIdentifier="LandingViewController" id="jJZ-zI-fFG" customClass="LandingViewController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="T72-Sf-vR6"/>
+                        <viewControllerLayoutGuide type="bottom" id="zOh-YH-NrG"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="apv-Ip-wbz">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bvm-6v-S7r">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ello-logo" translatesAutoresizingMaskIntoConstraints="NO" id="oHS-RL-ubg">
+                                        <rect key="frame" x="217" y="176" width="166" height="166"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="166" id="Nv2-Ge-lE0"/>
+                                            <constraint firstAttribute="height" constant="166" id="gVQ-RZ-fPx"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="oHS-RL-ubg" firstAttribute="leading" secondItem="bvm-6v-S7r" secondAttribute="leading" constant="217" placeholder="YES" id="3nc-qT-sig"/>
+                                    <constraint firstAttribute="bottom" secondItem="oHS-RL-ubg" secondAttribute="bottom" constant="258" placeholder="YES" id="AUc-na-g9O"/>
+                                    <constraint firstItem="oHS-RL-ubg" firstAttribute="top" secondItem="bvm-6v-S7r" secondAttribute="top" constant="176" id="PZj-Ab-6hR"/>
+                                    <constraint firstAttribute="centerX" secondItem="oHS-RL-ubg" secondAttribute="centerX" id="fbE-OP-dvp"/>
+                                    <constraint firstAttribute="trailing" secondItem="oHS-RL-ubg" secondAttribute="trailing" constant="217" placeholder="YES" id="xEH-jD-TgJ"/>
+                                </constraints>
+                            </scrollView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="war-Oo-BBs" customClass="ElloButton" customModule="Ello" customModuleProvider="target">
+                                <rect key="frame" x="20" y="490" width="560" height="60"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="nzB-YX-5wq"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <state key="normal" title="Sign In">
+                                    <color key="titleColor" red="0.99989169836044312" green="1" blue="0.99988096952438354" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="signInTapped:" destination="jJZ-zI-fFG" eventType="touchUpInside" id="HW1-xd-aWe"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O3D-Iv-9fS" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
+                                <rect key="frame" x="20" y="555" width="98" height="30"/>
+                                <state key="normal" title="Request Invite">
+                                    <color key="titleColor" red="0.99650349650349646" green="0.99300699300699302" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="requestInviteTapped:" destination="jJZ-zI-fFG" eventType="touchUpInside" id="JJR-09-2jJ"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.14901960784313725" green="0.14901960784313725" blue="0.14901960784313725" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="war-Oo-BBs" firstAttribute="leading" secondItem="O3D-Iv-9fS" secondAttribute="leading" id="0aC-mf-6xw"/>
+                            <constraint firstAttribute="trailing" secondItem="war-Oo-BBs" secondAttribute="trailing" constant="20" id="9vj-pZ-JXy"/>
+                            <constraint firstAttribute="bottom" secondItem="bvm-6v-S7r" secondAttribute="bottom" id="GPR-AZ-w8e"/>
+                            <constraint firstAttribute="trailing" secondItem="bvm-6v-S7r" secondAttribute="trailing" id="Qhe-tE-OXT"/>
+                            <constraint firstItem="bvm-6v-S7r" firstAttribute="top" secondItem="apv-Ip-wbz" secondAttribute="top" id="W8Y-SS-qld"/>
+                            <constraint firstItem="war-Oo-BBs" firstAttribute="leading" secondItem="apv-Ip-wbz" secondAttribute="leading" constant="20" id="csZ-tW-ldu"/>
+                            <constraint firstAttribute="centerX" secondItem="war-Oo-BBs" secondAttribute="centerX" id="fdB-ve-9FO"/>
+                            <constraint firstAttribute="bottom" secondItem="war-Oo-BBs" secondAttribute="bottom" constant="50" id="h3K-f5-9ZY"/>
+                            <constraint firstItem="O3D-Iv-9fS" firstAttribute="top" secondItem="war-Oo-BBs" secondAttribute="bottom" constant="5" id="nw0-tV-HDN"/>
+                            <constraint firstItem="bvm-6v-S7r" firstAttribute="leading" secondItem="apv-Ip-wbz" secondAttribute="leading" id="wQW-3Z-AOj"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="requestInviteButton" destination="O3D-Iv-9fS" id="3N4-K1-Vf4"/>
+                        <outlet property="scrollView" destination="bvm-6v-S7r" id="FYi-8e-de2"/>
+                        <outlet property="signInButton" destination="war-Oo-BBs" id="YNK-dV-vhB"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jjg-AH-34k" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1276" y="0.0"/>
+        </scene>
         <!--Profile-->
         <scene sceneID="g5m-Pl-KDJ">
             <objects>
@@ -204,9 +292,193 @@
             </objects>
             <point key="canvasLocation" x="774" y="354"/>
         </scene>
+        <!--Sign In View Controller-->
+        <scene sceneID="VSf-J3-5ZL">
+            <objects>
+                <viewController storyboardIdentifier="SignInViewController" id="1E8-65-vmf" customClass="SignInViewController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="6pQ-AE-iiJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="L1w-mG-MKi"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ee3-ut-kbw">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rKd-87-4ed">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ello-logo" translatesAutoresizingMaskIntoConstraints="NO" id="sTi-2Z-i06">
+                                        <rect key="frame" x="270" y="96" width="60" height="60"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="60" id="Qba-K9-mGK"/>
+                                            <constraint firstAttribute="width" constant="60" id="pHn-S3-s5W"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="sTi-2Z-i06" firstAttribute="top" secondItem="rKd-87-4ed" secondAttribute="top" constant="96" id="5Y2-hy-8Ve"/>
+                                    <constraint firstAttribute="bottom" secondItem="sTi-2Z-i06" secondAttribute="bottom" constant="444" placeholder="YES" id="8jB-jg-3QX"/>
+                                    <constraint firstItem="sTi-2Z-i06" firstAttribute="leading" secondItem="rKd-87-4ed" secondAttribute="leading" constant="270" placeholder="YES" id="Wwp-wh-FvB"/>
+                                    <constraint firstAttribute="centerX" secondItem="sTi-2Z-i06" secondAttribute="centerX" id="duC-Na-njm"/>
+                                    <constraint firstAttribute="trailing" secondItem="sTi-2Z-i06" secondAttribute="trailing" constant="270" placeholder="YES" id="yze-ml-ff0"/>
+                                </constraints>
+                            </scrollView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Simple, beautiful &amp; ad-free." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oWE-Ad-ZNk">
+                                <rect key="frame" x="20" y="200" width="560" height="14"/>
+                                <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="14"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter your email address" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Web-5r-2bE" customClass="ElloTextField" customModule="Ello" customModuleProvider="target">
+                                <rect key="frame" x="20" y="285" width="564" height="60"/>
+                                <color key="backgroundColor" red="0.78030639886856079" green="0.7804415225982666" blue="0.78029787540435791" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="meH-6e-9vy"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nvr-ta-RoO" customClass="ElloButton" customModule="Ello" customModuleProvider="target">
+                                <rect key="frame" x="20" y="490" width="560" height="60"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="Tek-3L-uxn"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <state key="normal" title="Enter Ello">
+                                    <color key="titleColor" red="0.99989169836044312" green="1" blue="0.99988096952438354" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="enterTapped:" destination="1E8-65-vmf" eventType="touchUpInside" id="HjL-I0-OPK"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jrq-Pl-YPY" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
+                                <rect key="frame" x="20" y="555" width="159" height="30"/>
+                                <state key="normal" title="Forgot your password?">
+                                    <color key="titleColor" red="0.99650349650000003" green="0.99300699299999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="forgotPasswordTapped:" destination="1E8-65-vmf" eventType="touchUpInside" id="ahS-lr-Q4F"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.14901960784313725" green="0.14901960784313725" blue="0.14901960784313725" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="oWE-Ad-ZNk" firstAttribute="top" secondItem="Ee3-ut-kbw" secondAttribute="top" constant="200" id="7Wz-QW-LE0"/>
+                            <constraint firstAttribute="trailing" secondItem="Nvr-ta-RoO" secondAttribute="trailing" constant="20" id="A5U-Fn-2XL"/>
+                            <constraint firstAttribute="centerX" secondItem="Nvr-ta-RoO" secondAttribute="centerX" id="CNF-6l-prX"/>
+                            <constraint firstItem="oWE-Ad-ZNk" firstAttribute="leading" secondItem="Ee3-ut-kbw" secondAttribute="leading" constant="20" id="HlO-Ur-bah"/>
+                            <constraint firstItem="Web-5r-2bE" firstAttribute="top" secondItem="Ee3-ut-kbw" secondAttribute="top" constant="285" id="PfP-oW-PVc"/>
+                            <constraint firstItem="rKd-87-4ed" firstAttribute="top" secondItem="Ee3-ut-kbw" secondAttribute="top" id="S3Q-IL-v5C"/>
+                            <constraint firstItem="Nvr-ta-RoO" firstAttribute="leading" secondItem="Ee3-ut-kbw" secondAttribute="leading" constant="20" id="Sh6-TC-G1O"/>
+                            <constraint firstAttribute="trailing" secondItem="oWE-Ad-ZNk" secondAttribute="trailing" constant="20" id="TUt-jL-w1b"/>
+                            <constraint firstItem="Web-5r-2bE" firstAttribute="leading" secondItem="Ee3-ut-kbw" secondAttribute="leading" constant="20" id="f5W-cR-tCt"/>
+                            <constraint firstAttribute="trailing" secondItem="rKd-87-4ed" secondAttribute="trailing" id="gX7-bK-Wpe"/>
+                            <constraint firstItem="jrq-Pl-YPY" firstAttribute="top" secondItem="Nvr-ta-RoO" secondAttribute="bottom" constant="5" id="qS2-Hd-kVZ"/>
+                            <constraint firstAttribute="bottom" secondItem="Nvr-ta-RoO" secondAttribute="bottom" constant="50" id="qaw-AA-EiH"/>
+                            <constraint firstItem="rKd-87-4ed" firstAttribute="leading" secondItem="Ee3-ut-kbw" secondAttribute="leading" id="qg2-63-MwU"/>
+                            <constraint firstAttribute="bottom" secondItem="rKd-87-4ed" secondAttribute="bottom" id="r08-bh-9AY"/>
+                            <constraint firstItem="Nvr-ta-RoO" firstAttribute="leading" secondItem="jrq-Pl-YPY" secondAttribute="leading" id="yba-88-Wgi"/>
+                            <constraint firstAttribute="trailing" secondItem="Web-5r-2bE" secondAttribute="trailing" constant="16" id="yd4-OA-8Sq"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="enterButton" destination="Nvr-ta-RoO" id="6xf-MI-ErC"/>
+                        <outlet property="forgotPasswordButton" destination="jrq-Pl-YPY" id="5TT-oU-K8F"/>
+                        <outlet property="scrollView" destination="rKd-87-4ed" id="4Zc-NV-qhO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kVt-Bc-o7M" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-636" y="-318"/>
+        </scene>
+        <!--Request Invite View Controller-->
+        <scene sceneID="saz-lO-v9y">
+            <objects>
+                <viewController storyboardIdentifier="RequestInviteViewController" id="h3t-nr-j8u" customClass="RequestInviteViewController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="d3I-51-qyx"/>
+                        <viewControllerLayoutGuide type="bottom" id="fjW-dj-SMK"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="7Ax-vx-WkB">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3MY-Bp-l90">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ello-logo" translatesAutoresizingMaskIntoConstraints="NO" id="hxR-W0-mZA">
+                                        <rect key="frame" x="270" y="96" width="60" height="60"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="60" id="19B-q6-cuf"/>
+                                            <constraint firstAttribute="height" constant="60" id="udv-wW-qCk"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="hxR-W0-mZA" firstAttribute="leading" secondItem="3MY-Bp-l90" secondAttribute="leading" constant="270" placeholder="YES" id="KU6-6r-dWs"/>
+                                    <constraint firstItem="hxR-W0-mZA" firstAttribute="top" secondItem="3MY-Bp-l90" secondAttribute="top" constant="96" id="RgW-5D-GqM"/>
+                                    <constraint firstAttribute="trailing" secondItem="hxR-W0-mZA" secondAttribute="trailing" constant="270" placeholder="YES" id="SgN-iY-nXc"/>
+                                    <constraint firstAttribute="centerX" secondItem="hxR-W0-mZA" secondAttribute="centerX" id="XzI-an-xm8"/>
+                                    <constraint firstAttribute="bottom" secondItem="hxR-W0-mZA" secondAttribute="bottom" constant="444" placeholder="YES" id="py0-qE-SsE"/>
+                                </constraints>
+                            </scrollView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rfi-XG-AkF" customClass="ElloButton" customModule="Ello" customModuleProvider="target">
+                                <rect key="frame" x="20" y="490" width="560" height="60"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="nnc-6v-AJb"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <state key="normal" title="Request Invite">
+                                    <color key="titleColor" red="0.99989169840000003" green="1" blue="0.99988096950000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f8B-Xn-GAl" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
+                                <rect key="frame" x="20" y="555" width="38" height="30"/>
+                                <state key="normal" title="Login">
+                                    <color key="titleColor" red="0.99650349650000003" green="0.99300699299999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Simple, beautiful &amp; ad-free." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YA6-Qs-GG2">
+                                <rect key="frame" x="20" y="200" width="560" height="14"/>
+                                <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="14"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.14901960784313725" green="0.14901960784313725" blue="0.14901960784313725" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="YA6-Qs-GG2" secondAttribute="trailing" constant="20" id="4lL-5v-718"/>
+                            <constraint firstAttribute="trailing" secondItem="3MY-Bp-l90" secondAttribute="trailing" id="6Y4-1z-fpr"/>
+                            <constraint firstItem="YA6-Qs-GG2" firstAttribute="top" secondItem="7Ax-vx-WkB" secondAttribute="top" constant="200" id="7Wy-ZP-4PN"/>
+                            <constraint firstAttribute="bottom" secondItem="rfi-XG-AkF" secondAttribute="bottom" constant="50" id="8YT-Jd-06y"/>
+                            <constraint firstItem="3MY-Bp-l90" firstAttribute="top" secondItem="7Ax-vx-WkB" secondAttribute="top" id="BYf-ch-tqD"/>
+                            <constraint firstAttribute="trailing" secondItem="rfi-XG-AkF" secondAttribute="trailing" constant="20" id="I1o-Zv-bkD"/>
+                            <constraint firstItem="rfi-XG-AkF" firstAttribute="leading" secondItem="7Ax-vx-WkB" secondAttribute="leading" constant="20" id="PKF-Uz-MKg"/>
+                            <constraint firstItem="f8B-Xn-GAl" firstAttribute="top" secondItem="rfi-XG-AkF" secondAttribute="bottom" constant="5" id="THK-Fj-Mg6"/>
+                            <constraint firstItem="rfi-XG-AkF" firstAttribute="leading" secondItem="f8B-Xn-GAl" secondAttribute="leading" id="bvs-d8-9LL"/>
+                            <constraint firstAttribute="centerX" secondItem="rfi-XG-AkF" secondAttribute="centerX" id="jtb-ov-Bvd"/>
+                            <constraint firstItem="3MY-Bp-l90" firstAttribute="leading" secondItem="7Ax-vx-WkB" secondAttribute="leading" id="uZh-kF-g3H"/>
+                            <constraint firstAttribute="bottom" secondItem="3MY-Bp-l90" secondAttribute="bottom" id="x2W-gm-D3v"/>
+                            <constraint firstItem="YA6-Qs-GG2" firstAttribute="leading" secondItem="7Ax-vx-WkB" secondAttribute="leading" constant="20" id="ydb-Zl-xJm"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="t8S-gl-4Zo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-636" y="354"/>
+        </scene>
     </scenes>
     <resources>
         <image name="discover-icon" width="49" height="49"/>
+        <image name="ello-logo" width="166" height="166"/>
         <image name="friends-icon" width="49" height="49"/>
         <image name="notifications-icon" width="49" height="49"/>
         <image name="profile-icon" width="49" height="49"/>

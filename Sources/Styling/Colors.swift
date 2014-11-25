@@ -9,7 +9,10 @@
 import UIKit
 
 extension UIColor {
-    public class func tabBarGray() -> UIColor { return UIColor(hex:0xf3f3f3) }
+    public class func tabBarGray() -> UIColor { return UIColor(hex:0xF2F2F2) }
+    public class func elloDarkGray() -> UIColor { return UIColor(hex:0x333333) }
+    public class func elloLightGray() -> UIColor { return UIColor(hex:0xA9A9A9) }
+    public class func elloTextFieldGray() -> UIColor { return UIColor(hex:0xE4E4E4) }
 }
 
 extension UIColor {

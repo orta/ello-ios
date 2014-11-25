@@ -13,12 +13,11 @@ import Nimble
 class FriendsViewControllerSpec: QuickSpec {
     override func spec() {
 
-        let storyboard = UIStoryboard.iPhone()
-        var controller = FriendsViewController.instantiateFromStoryboard(storyboard)
+        var controller = FriendsViewController.instantiateFromStoryboard()
         describe("initialization", {
 
             beforeEach({
-                controller = FriendsViewController.instantiateFromStoryboard(storyboard)
+                controller = FriendsViewController.instantiateFromStoryboard()
             })
 
             describe("storyboard", {

@@ -30,9 +30,8 @@ class FriendsDataSourceSpec: QuickSpec {
 
             describe("-collectionView:cellForItemAtIndexPath:", {
 
-                it("returns 5", {
+                it("returns a friends cell", {
                     let collectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: UICollectionViewFlowLayout())
-                    expect(dataSource.collectionView(collectionView, numberOfItemsInSection: 0)).to(equal(5))
                 })
             })
         })

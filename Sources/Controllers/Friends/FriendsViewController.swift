@@ -18,7 +18,7 @@ class FriendsViewController: BaseElloViewController {
         navigationController?.hidesBarsOnSwipe = true
     }
 
-    class func instantiateFromStoryboard(storyboard: UIStoryboard) -> FriendsViewController {
+    class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> FriendsViewController {
         return storyboard.viewControllerWithID(.Friends) as FriendsViewController
     }
 
@@ -28,15 +28,5 @@ class FriendsViewController: BaseElloViewController {
         collectionView.alwaysBounceVertical = true
 //        collectionView.dataSource = self
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

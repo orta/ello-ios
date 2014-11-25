@@ -13,12 +13,11 @@ import Nimble
 class DiscoverViewControllerSpec: QuickSpec {
     override func spec() {
 
-        let storyboard = UIStoryboard.iPhone()
-        var controller = DiscoverViewController.instantiateFromStoryboard(storyboard)
+        var controller = DiscoverViewController.instantiateFromStoryboard()
         describe("initialization", {
 
             beforeEach({
-                controller = DiscoverViewController.instantiateFromStoryboard(storyboard)
+                controller = DiscoverViewController.instantiateFromStoryboard()
             })
 
             it("can be instatiated from storyboard") {

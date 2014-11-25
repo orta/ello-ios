@@ -13,12 +13,11 @@ import Nimble
 class NotificationsViewControllerSpec: QuickSpec {
     override func spec() {
 
-        let storyboard = UIStoryboard.iPhone()
-        var controller = NotificationsViewController.instantiateFromStoryboard(storyboard)
+        var controller = NotificationsViewController.instantiateFromStoryboard()
         describe("initialization", {
 
             beforeEach({
-                controller = NotificationsViewController.instantiateFromStoryboard(storyboard)
+                controller = NotificationsViewController.instantiateFromStoryboard()
             })
 
             it("can be instatiated from storyboard") {
