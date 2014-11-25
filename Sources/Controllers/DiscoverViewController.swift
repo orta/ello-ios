@@ -14,7 +14,7 @@ class DiscoverViewController: BaseElloViewController {
         super.viewDidLoad()
 
         let target: ElloAPI = .Posts
-        ElloAPIProvider.request(target, completion: { (data, statusCode, response, error) in
+        ElloAPIProvider.request(.Posts, completion: { (data, statusCode, response, error) in
             if let data = data {
                 let post = Post.fromJSON(data) as Post
                 println("Post body = \(post.body)")
@@ -28,7 +28,7 @@ class DiscoverViewController: BaseElloViewController {
     }
 
     class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> DiscoverViewController {
-        return storyboard.viewControllerWithID(.Discover) as DiscoverViewController
+        return storyboard.controllerWithID(.Discover) as DiscoverViewController
     }
 
 }

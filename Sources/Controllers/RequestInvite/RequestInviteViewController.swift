@@ -15,7 +15,7 @@ class RequestInviteViewController: BaseElloViewController {
     }
 
     class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> RequestInviteViewController {
-        return storyboard.viewControllerWithID(.RequestInvite) as RequestInviteViewController
+        return storyboard.controllerWithID(.RequestInvite) as RequestInviteViewController
     }
     
 }

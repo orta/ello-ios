@@ -16,7 +16,6 @@ class ProfileViewController: BaseElloViewController {
     }
 
     class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> ProfileViewController {
-        let controller = storyboard.viewControllerWithID(.Profile)
-        return storyboard.viewControllerWithID(.Profile) as ProfileViewController
+        return storyboard.controllerWithID(.Profile) as ProfileViewController
     }
 }

@@ -16,6 +16,6 @@ class ElloTabBarController: UITabBarController {
     }
 
     class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> ElloTabBarController {
-        return storyboard.viewControllerWithID(.ElloTabBar) as ElloTabBarController
+        return storyboard.controllerWithID(.ElloTabBar) as ElloTabBarController
     }
 }

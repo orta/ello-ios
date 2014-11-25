@@ -12,17 +12,16 @@ class ElloTextButton: UIButton {
 
     required override init(frame: CGRect) {
         super.init(frame: frame)
-        self.sharedSetup()
+        sharedSetup()
     }
 
     required init(coder: NSCoder) {
         super.init(coder: coder)
-        self.sharedSetup()
+        sharedSetup()
     }
 
-    func sharedSetup() {
+    private func sharedSetup() {
         self.backgroundColor = UIColor.clearColor()
-//        self.titleLabel?.font = UIFont.typewriterFont(14.0)
         self.titleLabel?.numberOfLines = 1
         self.setTitleColor(UIColor.elloLightGray(), forState: UIControlState.Normal)
 
@@ -34,9 +33,5 @@ class ElloTextButton: UIButton {
 
             self.setAttributedTitle(attributedString, forState: UIControlState.Normal)
         }
-
-
-//        (NSUnderlineStyleAttributeName value:@(1) range:NSMakeRange(4, 4)];
-
     }
 }

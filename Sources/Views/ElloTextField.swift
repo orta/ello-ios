@@ -24,6 +24,8 @@ class ElloTextField: UITextField {
         self.backgroundColor = UIColor.elloTextFieldGray()
         self.font = UIFont.typewriterFont(14.0)
         self.textColor = UIColor.blackColor()
+
+        self.setNeedsDisplay()
     }
 
     override func textRectForBounds(bounds: CGRect) -> CGRect {

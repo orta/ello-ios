@@ -16,7 +16,7 @@ class NotificationsViewController: BaseElloViewController {
     }
 
     class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> NotificationsViewController {
-        return storyboard.viewControllerWithID(.Notifications) as NotificationsViewController
+        return storyboard.controllerWithID(.Notifications) as NotificationsViewController
     }
 
 }

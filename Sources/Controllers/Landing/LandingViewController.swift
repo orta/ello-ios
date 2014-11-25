@@ -21,7 +21,7 @@ class LandingViewController: BaseElloViewController {
     }
 
     class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> LandingViewController {
-        return storyboard.viewControllerWithID(.Landing) as LandingViewController
+        return storyboard.controllerWithID(.Landing) as LandingViewController
     }
 
 // MARK: - Private

@@ -19,7 +19,7 @@ class FriendsViewController: BaseElloViewController {
     }
 
     class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> FriendsViewController {
-        return storyboard.viewControllerWithID(.Friends) as FriendsViewController
+        return storyboard.controllerWithID(.Friends) as FriendsViewController
     }
 
     func setupCollectionView() {
