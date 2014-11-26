@@ -34,6 +34,8 @@ class SignInViewControllerSpec: QuickSpec {
                     expect(controller.scrollView).notTo(beNil())
                     expect(controller.enterButton).notTo(beNil())
                     expect(controller.forgotPasswordButton).notTo(beNil())
+                    expect(controller.emailTextField).notTo(beNil())
+                    expect(controller.passwordTextField).notTo(beNil())
                 })
 
                 it("IBActins are wired up", {
@@ -57,6 +59,42 @@ class SignInViewControllerSpec: QuickSpec {
 
         })
 
+        describe("text fields", {
+
+            beforeEach({
+                controller = SignInViewController.instantiateFromStoryboard()
+                controller.loadView()
+                controller.viewDidLoad()
+            })
+
+            context("emailTextField", {
+
+                it("is properly configured", {
+                    expect(controller.emailTextField.keyboardType.rawValue) == UIKeyboardType.EmailAddress.rawValue
+                    expect(controller.emailTextField.returnKeyType.rawValue) == UIReturnKeyType.Next.rawValue
+                })
+
+                it("has controller as delegate", {
+                    expect(controller.emailTextField.delegate) === controller
+                })
+                
+            })
+
+            context("passwordTextField", {
+
+                it("is properly configured", {
+                    expect(controller.passwordTextField.keyboardType.rawValue) == UIKeyboardType.Default.rawValue
+                    expect(controller.passwordTextField.returnKeyType.rawValue) == UIReturnKeyType.Go.rawValue
+                    expect(controller.passwordTextField.secureTextEntry) == true
+                })
+
+                it("has controller as delegate", {
+                    expect(controller.passwordTextField.delegate) === controller
+                })
+                
+            })
+        })
+
         describe("-viewDidLoad", {
 
             beforeEach({
@@ -65,8 +103,12 @@ class SignInViewControllerSpec: QuickSpec {
                 controller.viewDidLoad()
             })
 
-            it("has a cross disolve modal transition style", {
+            it("has a cross dissolve modal transition style", {
                 expect(controller.modalTransitionStyle.rawValue) == UIModalTransitionStyle.CrossDissolve.rawValue
+            })
+
+            it("has a disabled enter button", {
+                expect(controller.enterButton.enabled) == false
             })
         })
 

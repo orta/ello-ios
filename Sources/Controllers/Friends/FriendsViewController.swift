@@ -13,8 +13,7 @@ class FriendsViewController: BaseElloViewController {
     @IBOutlet weak var collectionView: UICollectionView!
 
     override func viewDidLoad() {
-        super.viewDidLoad()
-
+        super.viewDidLoad()        
         navigationController?.hidesBarsOnSwipe = true
     }
 
