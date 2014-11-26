@@ -7,14 +7,12 @@ platform :ios, '8.0'
 inhibit_all_warnings!
 
 target 'Ello' do
-  pod 'MBProgressHUD', '~> 0.8'
   pod 'Alamofire', :git => "https://github.com/mrackwitz/Alamofire.git", :branch => "podspec"
   pod 'LlamaKit', :git => "https://github.com/AshFurrow/LlamaKit", :branch => "rac_podspec"
   pod 'Moya', :git => "https://github.com/AshFurrow/Moya"
 end
 
 target 'Specs' do
-  pod 'MBProgressHUD', '~> 0.8'
   pod 'Alamofire', :git => "https://github.com/mrackwitz/Alamofire.git", :branch => "podspec"
   pod 'LlamaKit', :git => "https://github.com/AshFurrow/LlamaKit", :branch => "rac_podspec"
   pod 'Moya', :git => "https://github.com/AshFurrow/Moya"
