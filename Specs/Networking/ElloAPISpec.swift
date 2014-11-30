@@ -35,6 +35,20 @@ class ElloAPISpec: QuickSpec {
                         let sampleData = target.sampleData as NSData
                         expect(message).to(equal(NSString(data: sampleData, encoding: NSUTF8StringEncoding)))
                     }
+
+//                    it("returns stubbed data for xauth request") {
+//                        var message: String?
+//
+//                        let target: ElloAPI = .XAuth
+//                        provider.request(target, completion: { (data, statusCode, response, error) in
+//                            if let data = data {
+//                                message = NSString(data: data, encoding: NSUTF8StringEncoding)
+//                            }
+//                        })
+//
+//                        let sampleData = target.sampleData as NSData
+//                        expect(message).to(equal(NSString(data: sampleData, encoding: NSUTF8StringEncoding)))
+//                    }
                 })
             }
 
