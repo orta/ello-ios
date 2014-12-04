@@ -20,7 +20,17 @@ class ElloTextField: UITextField {
         self.sharedSetup()
     }
 
+    deinit {
+        let center = NSNotificationCenter.defaultCenter()
+        center.removeObserver(self)
+    }
+
     func sharedSetup() {
+
+        let center = NSNotificationCenter.defaultCenter()
+        center.addObserver(self, selector: Selector("textDidBeginEditing:"), name: UITextFieldTextDidBeginEditingNotification, object: nil)
+        center.addObserver(self, selector: Selector("textDidEndEditing:"), name: UITextFieldTextDidEndEditingNotification, object: nil)
+
         self.backgroundColor = UIColor.elloTextFieldGray()
         self.font = UIFont.typewriterFont(14.0)
         self.textColor = UIColor.blackColor()
@@ -38,5 +48,25 @@ class ElloTextField: UITextField {
 
     private func rectForBounds(bounds: CGRect) -> CGRect {
         return CGRectInset( bounds , 30 , 10 );
+    }
+
+    func textDidBeginEditing(notification: NSNotification) {
+        if let textField = notification.object as? UITextField {
+            if textField == self {
+                UIView.animateWithDuration(0.2, animations: {
+                    textField.backgroundColor = UIColor.whiteColor()
+                })
+            }
+        }
+    }
+
+    func textDidEndEditing(notification: NSNotification) {
+        if let textField = notification.object as? UITextField {
+            if textField == self {
+                UIView.animateWithDuration(0.2, animations: {
+                    textField.backgroundColor = UIColor.elloTextFieldGray()
+                })
+            }
+        }
     }
 }
