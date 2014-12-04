@@ -16,7 +16,6 @@ class LandingViewController: BaseElloViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupStyles()
     }
 
@@ -27,8 +26,9 @@ class LandingViewController: BaseElloViewController {
 // MARK: - Private
 
     private func setupStyles() {
-        self.scrollView.backgroundColor = UIColor.elloDarkGray()
-        self.view.backgroundColor = UIColor.elloDarkGray()
+        scrollView.backgroundColor = UIColor.elloDarkGray()
+        view.backgroundColor = UIColor.elloDarkGray()
+        view.setNeedsDisplay()
     }
 
 // MARK: - IBActions

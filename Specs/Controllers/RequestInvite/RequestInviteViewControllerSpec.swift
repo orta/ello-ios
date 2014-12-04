@@ -13,8 +13,40 @@ import Nimble
 class RequestInviteViewControllerSpec: QuickSpec {
     override func spec() {
 
+        beforeSuite {
+            ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
+        }
+
+        afterSuite {
+            ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
+        }
+
         var controller = RequestInviteViewController.instantiateFromStoryboard()
+        let screenHeight = controller.view.bounds.size.height
+        let screenWidth = controller.view.bounds.size.width
+
         describe("initialization", {
+
+            describe("storyboard", {
+
+                beforeEach({
+                    controller.loadView()
+                    controller.viewDidLoad()
+                })
+
+                it("IBOutlets are  not nil", {
+                    expect(controller.scrollView).notTo(beNil())
+                    expect(controller.requestInviteButton).notTo(beNil())
+                    expect(controller.emailTextField).notTo(beNil())
+                    expect(controller.signInButton).notTo(beNil())
+                })
+
+                it("IBActins are wired up", {
+                    expect(controller.requestInviteButton.actionsForTarget(controller, forControlEvent: UIControlEvents.TouchUpInside)).to(contain("requestInvitTapped:"))
+
+                    expect(controller.signInButton.actionsForTarget(controller, forControlEvent: UIControlEvents.TouchUpInside)).to(contain("signInTapped:"))
+                });
+            })
 
             beforeEach({
                 controller = RequestInviteViewController.instantiateFromStoryboard()

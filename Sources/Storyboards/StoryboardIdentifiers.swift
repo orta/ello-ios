@@ -19,5 +19,6 @@ public enum ViewControllerStoryboardIdentifier : String {
     case ElloTabBar = "ElloTabBarController"
     case Landing = "LandingViewController"
     case RequestInvite = "RequestInviteViewController"
+    case ForgotPassword = "ForgotPasswordViewController"
     case SignIn = "SignInViewController"
 }

@@ -1,18 +1,18 @@
 //
-//  RequestInviteViewController.swift
+//  ForgotPasswordViewController.swift
 //  Ello
 //
-//  Created by Sean Dougherty on 11/24/14.
+//  Created by Sean Dougherty on 12/4/14.
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
 import UIKit
 
-class RequestInviteViewController: BaseElloViewController, UITextFieldDelegate {
+class ForgotPasswordViewController: BaseElloViewController, UITextFieldDelegate {
 
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var emailTextField: ElloTextField!
-    @IBOutlet weak var requestInviteButton: ElloButton!
+    @IBOutlet weak var resetPasswordButton: ElloButton!
     @IBOutlet weak var signInButton: ElloTextButton!
 
     override func viewDidLoad() {
@@ -22,8 +22,8 @@ class RequestInviteViewController: BaseElloViewController, UITextFieldDelegate {
         setupNotificationObservers()
     }
 
-    class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> RequestInviteViewController {
-        return storyboard.controllerWithID(.RequestInvite) as RequestInviteViewController
+    class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> ForgotPasswordViewController {
+        return storyboard.controllerWithID(.ForgotPassword) as ForgotPasswordViewController
     }
 
     // MARK: - Private
@@ -39,7 +39,7 @@ class RequestInviteViewController: BaseElloViewController, UITextFieldDelegate {
 
     private func setupTextFields() {
         emailTextField.delegate = self
-        requestInviteButton.enabled = false
+        resetPasswordButton.enabled = false
     }
 
     private func setupNotificationObservers() {
@@ -105,7 +105,7 @@ class RequestInviteViewController: BaseElloViewController, UITextFieldDelegate {
 
         switch textField {
         case emailTextField:
-            requestInviteButton.enabled = isValid(emailTextField.text)
+            resetPasswordButton.enabled = isValid(proposedString)
             return true
         default:
             return true
@@ -114,19 +114,19 @@ class RequestInviteViewController: BaseElloViewController, UITextFieldDelegate {
 
     // MARK: - IBActions
 
-    @IBAction func requestInvitTapped(sender: ElloButton) {
+    @IBAction func resetPasswordTapped(sender: ElloButton) {
 
         if isValid(emailTextField.text) {
-//            ElloHUD.showLoadingHud()
+            //            ElloHUD.showLoadingHud()
         }
         else {
-            
+
         }
     }
 
     @IBAction func signInTapped(sender: ElloTextButton) {
-        let signInController = SignInViewController.instantiateFromStoryboard()
-        self.presentViewController(signInController, animated:true, completion:nil)
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
 }
+
