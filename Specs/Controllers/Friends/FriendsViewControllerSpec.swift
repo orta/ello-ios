@@ -13,6 +13,14 @@ import Nimble
 class FriendsViewControllerSpec: QuickSpec {
     override func spec() {
 
+        beforeSuite {
+            ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
+        }
+
+        afterSuite {
+            ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
+        }
+        
         var controller = FriendsViewController.instantiateFromStoryboard()
         describe("initialization", {
 

@@ -1,0 +1,72 @@
+ [
+  {
+  "created_at": "1980-03-08T00:00:00.000Z",
+  "id": 21,
+  "kind": "own_post",
+  "subject": {
+  "author": {
+  "avatar_url": "http://ello.dev/uploads/user/avatar/42/avatar.png",
+  "id": 42,
+  "name": "Secret Spy",
+  "username": "archer"
+  },
+  "body": [
+           {
+           "data": "@figgis ISIS agents use **Krav Maga.**",
+           "kind": "text"
+           }
+           ],
+  "content": [
+              "<p><a href=\"/figgis\" class=\"user-mention\" rel=\"nofollow\">@figgis</a> ISIS agents use <strong>Krav Maga.</strong></p>"
+              ],
+  "created_at": "2014-11-30T05:57:53.976Z",
+  "id": 18,
+  "summary": [
+              "<p><a href='/figgis' class='user-mention' rel='nofollow'>@figgis</a> ISIS agents use <strong>Krav Maga.</strong></p>"
+              ],
+  "token": "Neqi_1EqTv_iAeX-7odYPw"
+  },
+  "subject_type": "Post"
+  },
+  {
+  "created_at": "1980-03-07T00:00:00.000Z",
+  "id": 20,
+  "kind": "friend_post",
+  "subject": {
+  "author": {
+  "avatar_url": "http://ello.dev/uploads/user/avatar/666/avatar.png",
+  "id": 666,
+  "name": "Cyril Figgis",
+  "username": "figgis"
+  },
+  "body": [
+           {
+           "data": "@archer, Will I get to learn karate?",
+           "kind": "text"
+           }
+           ],
+  "content": [
+              "<p><a href=\"/archer\" class=\"user-mention\" rel=\"nofollow\">@archer</a>, Will I get to learn karate?</p>"
+              ],
+  "created_at": "2014-11-30T05:57:53.936Z",
+  "id": 17,
+  "summary": [
+              "<p><a href='/archer' class='user-mention' rel='nofollow'>@archer</a>, Will I get to learn karate?</p>"
+              ],
+  "token": "iQ7twNQtWwAQjBw4kEL1rg"
+  },
+  "subject_type": "Post"
+  },
+  {
+  "created_at": "1980-03-06T00:00:00.000Z",
+  "id": 19,
+  "kind": "welcome_post",
+  "subject": {
+  "avatar_url": "http://ello.dev/uploads/user/avatar/42/avatar.png",
+  "id": 42,
+  "name": "Secret Spy",
+  "username": "archer"
+  },
+  "subject_type": "User"
+  }
+  ]

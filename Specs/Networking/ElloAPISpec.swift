@@ -16,19 +16,20 @@ class ElloAPISpec: QuickSpec {
     override func spec() {
         describe("valid enpoints") {
             describe("with stubbed responses") {
-                describe("a provider", { () -> () in
+                describe("a provider", {
                     var provider: MoyaProvider<ElloAPI>!
                     beforeEach {
-                        provider = MoyaProvider(endpointsClosure: endpointsClosure, stubResponses: true)
+                        provider = ElloProvider.StubbingProvider()
                     }
 
-                    it("returns stubbed data for posts request") {
+                    it("returns stubbed data for auth request") {
                         var message: String?
 
-                        let target: ElloAPI = .Posts
+                        let target: ElloAPI = .Auth(email:"test@example.com", password: "123456")
                         provider.request(target, completion: { (data, statusCode, response, error) in
                             if let data = data {
                                 message = NSString(data: data, encoding: NSUTF8StringEncoding)
+                                println(message)
                             }
                         })
 
@@ -36,19 +37,20 @@ class ElloAPISpec: QuickSpec {
                         expect(message).to(equal(NSString(data: sampleData, encoding: NSUTF8StringEncoding)))
                     }
 
-//                    it("returns stubbed data for xauth request") {
-//                        var message: String?
-//
-//                        let target: ElloAPI = .XAuth
-//                        provider.request(target, completion: { (data, statusCode, response, error) in
-//                            if let data = data {
-//                                message = NSString(data: data, encoding: NSUTF8StringEncoding)
-//                            }
-//                        })
-//
-//                        let sampleData = target.sampleData as NSData
-//                        expect(message).to(equal(NSString(data: sampleData, encoding: NSUTF8StringEncoding)))
-//                    }
+                    it("returns stubbed data for friends stream request") {
+                        var message: String?
+
+                        let target: ElloAPI = .FriendStream
+                        provider.request(target, completion: { (data, statusCode, response, error) in
+                            if let data = data {
+                                message = NSString(data: data, encoding: NSUTF8StringEncoding)
+                                println(message)
+                            }
+                        })
+
+                        let sampleData = target.sampleData as NSData
+                        expect(message).to(equal(NSString(data: sampleData, encoding: NSUTF8StringEncoding)))
+                    }
                 })
             }
 

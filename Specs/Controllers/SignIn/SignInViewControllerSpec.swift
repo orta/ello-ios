@@ -13,6 +13,14 @@ import Ello
 class SignInViewControllerSpec: QuickSpec {
     override func spec() {
 
+        beforeSuite {
+            ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
+        }
+
+        afterSuite {
+            ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
+        }
+
         var controller = SignInViewController.instantiateFromStoryboard()
         let screenHeight = controller.view.bounds.size.height
         let screenWidth = controller.view.bounds.size.width

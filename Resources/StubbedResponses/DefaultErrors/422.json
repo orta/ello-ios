@@ -1,0 +1,8 @@
+{
+    "messages": ["Name can't be blank"],
+    "errors": {
+        "name": ["can't be blank"]
+    },
+    "error": "invalid_resource",
+    "error_description": "The current resource was invalid."
+}

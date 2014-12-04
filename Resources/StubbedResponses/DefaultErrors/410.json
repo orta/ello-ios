@@ -1,0 +1,4 @@
+{
+    "error": "invalid_version",
+    "error_description": "The requested API version no longer exists."
+}

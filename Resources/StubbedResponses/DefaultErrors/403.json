@@ -1,0 +1,4 @@
+{
+    "error": "unauthorized",
+    "error_description": "You do not have access to the requested resource."
+}

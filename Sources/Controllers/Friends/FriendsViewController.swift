@@ -15,6 +15,13 @@ class FriendsViewController: BaseElloViewController {
     override func viewDidLoad() {
         super.viewDidLoad()        
         navigationController?.hidesBarsOnSwipe = true
+
+        let streamService = StreamService()
+        streamService.loadFriendStream({ (activities) in
+            println(activities)
+        }, failure: { (error, statusCode) in
+            println("failed to load friends stream")
+        })
     }
 
     class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> FriendsViewController {

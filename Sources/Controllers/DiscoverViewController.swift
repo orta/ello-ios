@@ -13,13 +13,7 @@ class DiscoverViewController: BaseElloViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let target: ElloAPI = .Posts
-        ElloAPIProvider.request(.Posts, completion: { (data, statusCode, response, error) in
-            if let data = data {
-                let post = Post.fromJSON(data) as Post
-                println("Post body = \(post.body)")
-            }
-        })
+        
     }
 
     override func didReceiveMemoryWarning() {

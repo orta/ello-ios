@@ -9,7 +9,7 @@
 import UIKit
 
 class JSONAble: NSObject {
-    class func fromJSON(data: NSData) -> JSONAble {
+    class func fromJSON(data:[String: AnyObject]) -> JSONAble {
         return JSONAble()
     }
 }
