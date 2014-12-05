@@ -11,7 +11,7 @@ import Foundation
 //public enum SegueIdentifier : String {
 //}
 
-public enum ViewControllerStoryboardIdentifier : String {
+enum ViewControllerStoryboardIdentifier : String {
     case Discover = "DiscoverViewController"
     case Notifications = "NotificationsViewController"
     case Friends = "FriendsViewController"

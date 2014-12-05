@@ -19,6 +19,12 @@ class LandingViewController: BaseElloViewController {
         setupStyles()
     }
 
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        checkIfLoggedIn()
+    }
+
     class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> LandingViewController {
         return storyboard.controllerWithID(.Landing) as LandingViewController
     }
@@ -29,6 +35,28 @@ class LandingViewController: BaseElloViewController {
         scrollView.backgroundColor = UIColor.elloDarkGray()
         view.backgroundColor = UIColor.elloDarkGray()
         view.setNeedsDisplay()
+    }
+
+    private func checkIfLoggedIn() {
+        let authToken = AuthToken()
+        if authToken.isValid {
+            for bundle in NSBundle.allBundles() {
+                println(bundle)
+            }
+
+            let vc = ElloTabBarController.instantiateFromStoryboard()
+            self.presentViewController(vc, animated: true, completion: nil)
+        }
+        else {
+            showSignInButton()
+        }
+    }
+
+    private func showSignInButton() {
+        signInButton.hidden = false
+        UIView.animateWithDuration(0.2, animations: {
+            self.signInButton.alpha = 1.0
+        })
     }
 
 // MARK: - IBActions

@@ -12,10 +12,11 @@ class ElloTabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.selectedIndex = 2
+        selectedIndex = 2
+        modalTransitionStyle = .CrossDissolve
     }
 
-    class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> ElloTabBarController {
-        return storyboard.controllerWithID(.ElloTabBar) as ElloTabBarController
+    class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) ->  UIViewController {
+        return storyboard.controllerWithID(.ElloTabBar)
     }
 }

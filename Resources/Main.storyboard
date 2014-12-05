@@ -184,7 +184,7 @@
                                     <constraint firstAttribute="trailing" secondItem="oHS-RL-ubg" secondAttribute="trailing" constant="217" placeholder="YES" id="xEH-jD-TgJ"/>
                                 </constraints>
                             </scrollView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="war-Oo-BBs" customClass="ElloButton" customModule="Ello" customModuleProvider="target">
+                            <button hidden="YES" opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="war-Oo-BBs" customClass="ElloButton" customModule="Ello" customModuleProvider="target">
                                 <rect key="frame" x="113" y="490" width="374" height="60"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>

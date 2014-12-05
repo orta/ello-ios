@@ -13,11 +13,11 @@ import Nimble
 class ElloTabBarControllerSpec: QuickSpec {
     override func spec() {
 
-        var controller = ElloTabBarController.instantiateFromStoryboard()
+        var controller = ElloTabBarController.instantiateFromStoryboard() as ElloTabBarController
         describe("initialization", {
 
             beforeEach({
-                controller = ElloTabBarController.instantiateFromStoryboard()
+                controller = ElloTabBarController.instantiateFromStoryboard() as ElloTabBarController
             })
 
             it("can be instatiated from storyboard") {
@@ -33,7 +33,7 @@ class ElloTabBarControllerSpec: QuickSpec {
         describe("-viewDidLoad", {
 
             beforeEach({
-                controller = ElloTabBarController.instantiateFromStoryboard()
+                controller = ElloTabBarController.instantiateFromStoryboard() as ElloTabBarController
             })
 
             it("sets friends as the selected tab", {
