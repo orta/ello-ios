@@ -13,7 +13,6 @@ class DiscoverViewController: BaseElloViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
     }
 
     override func didReceiveMemoryWarning() {

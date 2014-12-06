@@ -22,6 +22,11 @@ class RequestInviteViewController: BaseElloViewController, UITextFieldDelegate {
         setupNotificationObservers()
     }
 
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        removeNotificationObservers()
+    }
+
     class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> RequestInviteViewController {
         return storyboard.controllerWithID(.RequestInvite) as RequestInviteViewController
     }
@@ -46,6 +51,11 @@ class RequestInviteViewController: BaseElloViewController, UITextFieldDelegate {
         let center = NSNotificationCenter.defaultCenter()
         center.addObserver(self, selector: Selector("keyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
         center.addObserver(self, selector: Selector("keyboardWillHide:"), name: UIKeyboardWillHideNotification, object: nil)
+    }
+
+    private func removeNotificationObservers() {
+        let center = NSNotificationCenter.defaultCenter()
+        center.removeObserver(self)
     }
 
     private func keyboardWillChangeFrame(notification: NSNotification, showsKeyboard: Bool) {

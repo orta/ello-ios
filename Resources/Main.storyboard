@@ -254,9 +254,27 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WgW-c8-5do" customClass="ElloButton" customModule="Ello" customModuleProvider="target">
+                                <rect key="frame" x="200" y="311" width="200" height="60"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="XPp-4b-03W"/>
+                                    <constraint firstAttribute="width" constant="200" id="dQV-B0-079"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <state key="normal" title="Log Out">
+                                    <color key="titleColor" red="0.99989169840000003" green="1" blue="0.99988096950000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="logOutTapped:" destination="pfO-53-D6h" eventType="touchUpInside" id="zs2-OL-irh"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="centerX" secondItem="WgW-c8-5do" secondAttribute="centerX" id="5cX-EA-pXF"/>
+                            <constraint firstItem="WgW-c8-5do" firstAttribute="top" secondItem="FuP-qN-aM0" secondAttribute="bottom" constant="14" id="CFd-AD-Yw4"/>
                             <constraint firstAttribute="centerY" secondItem="FuP-qN-aM0" secondAttribute="centerY" id="jOW-pc-Uz7"/>
                             <constraint firstAttribute="centerX" secondItem="FuP-qN-aM0" secondAttribute="centerX" id="vUP-ua-Diw"/>
                         </constraints>

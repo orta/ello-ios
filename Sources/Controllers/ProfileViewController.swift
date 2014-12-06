@@ -18,4 +18,9 @@ class ProfileViewController: BaseElloViewController {
     class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> ProfileViewController {
         return storyboard.controllerWithID(.Profile) as ProfileViewController
     }
+
+    @IBAction func logOutTapped(sender: ElloTextButton) {
+        NSNotificationCenter.defaultCenter().postNotificationName(AccessManager.Notifications.LoggedOut.rawValue, object: nil)
+    }
+
 }

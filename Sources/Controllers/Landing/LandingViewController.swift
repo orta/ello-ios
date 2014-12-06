@@ -17,6 +17,7 @@ class LandingViewController: BaseElloViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupStyles()
+        setupNotificationObservers()
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -40,10 +41,6 @@ class LandingViewController: BaseElloViewController {
     private func checkIfLoggedIn() {
         let authToken = AuthToken()
         if authToken.isValid {
-            for bundle in NSBundle.allBundles() {
-                println(bundle)
-            }
-
             let vc = ElloTabBarController.instantiateFromStoryboard()
             self.presentViewController(vc, animated: true, completion: nil)
         }
@@ -57,6 +54,23 @@ class LandingViewController: BaseElloViewController {
         UIView.animateWithDuration(0.2, animations: {
             self.signInButton.alpha = 1.0
         })
+    }
+
+    private func setupNotificationObservers() {
+        let center = NSNotificationCenter.defaultCenter()
+        center.addObserver(self, selector: Selector("loggedOut:"), name: AccessManager.Notifications.LoggedOut.rawValue, object: nil)
+    }
+
+    private func removeNotificationObservers() {
+        let center = NSNotificationCenter.defaultCenter()
+        center.removeObserver(self)
+    }
+
+    func loggedOut(notification: NSNotification) {
+        let authToken = AuthToken()
+        authToken.reset()
+
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
 
 // MARK: - IBActions
