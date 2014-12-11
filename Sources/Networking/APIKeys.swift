@@ -44,13 +44,13 @@ public struct APIKeys {
         self.secret = secret
     }
 
-    public init(keys: ElloKeys) {
-        self.init(key: keys.elloAPIClientKey() ?? "", secret: keys.elloAPIClientSecret() ?? "")
-    }
+//    public init(keys: ElloKeys) {
+//        self.init(key: keys.elloAPIClientKey() ?? "", secret: keys.elloAPIClientSecret() ?? "")
+//    }
 
     public init() {
-        let keys = ElloKeys()
-        self.init(keys: keys)
+//        let keys = ElloKeys()
+        self.init(key: "e057fa8a53b1544ab0872485b5339c30d909957a54e8d15e89c75bb96fa0b6e8", secret: "071c12dfcd65db6d54b757267ff930cf1488262efb04aa38b870712c1a33bf05")
     }
 }
 

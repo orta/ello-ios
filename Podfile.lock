@@ -7,6 +7,9 @@ PODS:
     - Alamofire
   - Nimble (0.1.0)
   - Quick (0.2.0)
+  - SDWebImage (3.7.1):
+    - SDWebImage/Core (= 3.7.1)
+  - SDWebImage/Core (3.7.1)
   - SwiftyJSON (2.1.1)
 
 DEPENDENCIES:
@@ -15,6 +18,7 @@ DEPENDENCIES:
   - Moya (from `https://github.com/AshFurrow/Moya`)
   - Nimble (from `https://github.com/ashfurrow/Nimble`, branch `podspec`)
   - Quick (from `https://github.com/orta/Quick`, branch `podspec`)
+  - SDWebImage (~> 3.7)
   - SwiftyJSON (from `https://github.com/orta/SwiftyJSON`, branch `podspec`)
 
 EXTERNAL SOURCES:
@@ -42,6 +46,7 @@ SPEC CHECKSUMS:
   Moya: 5c78199dca4481d07aa04e43d04d29e42933915d
   Nimble: a758538afa362515139cc23f17a19be9b0d20ae0
   Quick: 1b2e5892266a111ec2e13f925f8a4103978f13f8
+  SDWebImage: 116e88633b5b416ea0ca4b334a4ac59cf72dd38d
   SwiftyJSON: 85e4853fa377da93059763a3ca68fc5765d9b249
 
 COCOAPODS: 0.35.0

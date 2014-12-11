@@ -13,6 +13,8 @@ plugin 'cocoapods-keys', {
     "ElloAPIClientKey"
   ]}
 
+pod 'SDWebImage', '~> 3.7'
+
 # swift pods
 pod 'SwiftyJSON', :git => "https://github.com/orta/SwiftyJSON", :branch => "podspec"
 pod 'Alamofire', :git => "https://github.com/mrackwitz/Alamofire.git", :branch => "podspec"

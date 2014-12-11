@@ -15,9 +15,9 @@ class User: JSONAble {
     dynamic let name: String
     dynamic let userId: Int
     dynamic let username: String
-    dynamic let avatarURL: NSURL
+    dynamic let avatarURL: NSURL?
 
-    init(name: String, userId: Int, username: String, avatarURL: NSURL!) {
+    init(name: String, userId: Int, username: String, avatarURL: NSURL?) {
         self.name = name
         self.userId = userId
         self.username = username
@@ -29,7 +29,8 @@ class User: JSONAble {
         let name = json["name"].stringValue
         let userId = json["id"].intValue
         let username = json["username"].stringValue
-        let avatarURL = json["avatar_url"].stringValue
-        return User(name: name, userId: userId, username: username, avatarURL: NSURL(string: avatarURL))
+        let avatarPath = json["avatar_url"].stringValue
+        let avatarURL = NSURL(string: avatarPath)
+        return User(name: name, userId: userId, username: username, avatarURL:avatarURL)
     }
 }

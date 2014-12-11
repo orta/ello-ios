@@ -26,3 +26,6 @@ test-reports/*
 *.dat
 *.dep
 
+# cocoapods ignores
+Pods/Keys
+

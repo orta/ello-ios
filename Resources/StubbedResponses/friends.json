@@ -1,72 +1,682 @@
- [
-  {
-  "created_at": "1980-03-08T00:00:00.000Z",
+ [{
+  "id": 11846,
+  "kind": "friend_post",
+  "subject_type": "Post",
+  "created_at": "2014-12-08T22:10:01.037Z",
+  "subject": {
+		"id": 4178,
+		"token": "d-I6o3lcrO0aevnxIVIb1w",
+		"body": [{
+                 "kind": "text",
+                 "readonly": false,
+                 "data": "test"
+                 }],
+		"summary": ["\u003cp\u003etest\u003c/p\u003e"],
+		"content": ["\u003cp\u003etest\u003c/p\u003e"],
+  "comment_count": 22,
+  "viewed_count" : 834,
+		"allow_comments": true,
+		"created_at": "2014-12-08T22:09:59.903Z",
+		"author": {
+  "id": 16,
+  "username": "masonforest",
+  "name": null,
+  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/16/ello-094d97ba-6a6b-43b0-97a0-9ab1adc8416e.png",
+  "relationship_priority": "friend"
+		}
+  }
+  }, {
+  "id": 11843,
+  "kind": "friend_post",
+  "subject_type": "Post",
+  "created_at": "2014-12-08T20:16:59.356Z",
+  "subject": {
+		"id": 4176,
+		"token": "-uo63GMAvFonNviOX6gSOg",
+		"body": [{
+                 "kind": "text",
+                 "data": "This is a bad post"
+                 }],
+		"summary": ["\u003cp\u003eThis is a bad post\u003c/p\u003e"],
+		"content": ["\u003cp\u003eThis is a bad post\u003c/p\u003e"],
+  "comment_count": 3,
+  "viewed_count" : 456,
+
+		"allow_comments": true,
+		"created_at": "2014-12-08T20:16:58.683Z",
+		"author": {
+  "id": 16,
+  "username": "masonforest",
+  "name": null,
+  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/16/ello-094d97ba-6a6b-43b0-97a0-9ab1adc8416e.png",
+  "relationship_priority": "friend"
+		}
+  }
+  }, {
+  "id": 11837,
+  "kind": "friend_post",
+  "subject_type": "Post",
+  "created_at": "2014-12-08T14:46:24.356Z",
+  "subject": {
+		"id": 4174,
+		"token": "Pekslwr5e7JpvnfQo8IzIg",
+		"body": [{
+                 "kind": "text",
+                 "data": "http://www.worldtimebuddy.com/?pl=1\u0026amp;lid=3169070,2655603,5391959\u0026amp;h=3169070\u003cbr\u003e"
+                 }],
+		"summary": ["\u003cp\u003e\u003ca href='http://www.worldtimebuddy.com/?pl=1\u0026amp;lid=3169070,2655603,5391959\u0026amp;h=3169070' rel='nofollow' target='_blank'\u003ehttp://www.worldtimebuddy.com/?pl=...\u003c/a\u003e\u003c/p\u003e"],
+		"content": ["\u003cp\u003e\u003ca href=\"http://www.worldtimebuddy.com/?pl=1\u0026amp;lid=3169070,2655603,5391959\u0026amp;h=3169070\" rel=\"nofollow\" target=\"_blank\"\u003ehttp://www.worldtimebuddy.com/?pl=1\u0026amp;lid=3169070,2655603,5391959\u0026amp;h=3169070\u003c/a\u003e\u003c/p\u003e"],
+		"allow_comments": true,
+  "comment_count": 0,
+  "viewed_count" : 89,
+		"created_at": "2014-12-08T14:46:21.719Z",
+		"author": {
+  "id": 16,
+  "username": "masonforest",
+  "name": null,
+  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/16/ello-094d97ba-6a6b-43b0-97a0-9ab1adc8416e.png",
+  "relationship_priority": "friend"
+		}
+  }
+  }, {
+  "id": 11785,
+  "kind": "friend_post",
+  "subject_type": "Post",
+  "created_at": "2014-12-02T20:20:59.304Z",
+  "subject": {
+		"id": 4157,
+		"token": "QJup58_GDiImrADv-L3pJQ",
+		"body": [{
+                 "kind": "text",
+                 "data": "@antimason"
+                 }],
+		"summary": ["\u003cp\u003e\u003ca href='/antimason' class='user-mention' rel='nofollow'\u003e@antimason\u003c/a\u003e\u003c/p\u003e"],
+		"content": ["\u003cp\u003e\u003ca href=\"/antimason\" class=\"user-mention\" rel=\"nofollow\"\u003e@antimason\u003c/a\u003e\u003c/p\u003e"],
+  "comment_count": 9,
+  "viewed_count" : 96,
+		"allow_comments": true,
+		"created_at": "2014-12-02T20:20:59.186Z",
+		"author": {
+  "id": 16,
+  "username": "masonforest",
+  "name": null,
+  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/16/ello-094d97ba-6a6b-43b0-97a0-9ab1adc8416e.png",
+  "relationship_priority": "friend"
+		}
+  }
+  }, {
+  "id": 11783,
+  "kind": "friend_post",
+  "subject_type": "Post",
+  "created_at": "2014-12-02T20:20:49.121Z",
+  "subject": {
+		"id": 4156,
+		"token": "ROQCLtO9K8veqMT89zFeXw",
+		"body": [{
+                 "kind": "text",
+                 "data": "other post"
+                 }],
+		"summary": ["\u003cp\u003eother post\u003c/p\u003e"],
+		"content": ["\u003cp\u003eother post\u003c/p\u003e"],
+  "comment_count": 43,
+  "viewed_count" : 9144,
+		"allow_comments": true,
+		"created_at": "2014-12-02T20:20:48.976Z",
+		"author": {
+  "id": 16,
+  "username": "masonforest",
+  "name": null,
+  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/16/ello-094d97ba-6a6b-43b0-97a0-9ab1adc8416e.png",
+  "relationship_priority": "friend"
+		}
+  }
+  }, {
+  "id": 11778,
+  "kind": "friend_post",
+  "subject_type": "Post",
+  "created_at": "2014-12-02T20:20:31.715Z",
+  "subject": {
+		"id": 4155,
+		"token": "SjDzK3yand9o9ajaxr6c8Q",
+		"body": [{
+                 "kind": "text",
+                 "data": "Hi"
+                 }],
+		"summary": ["\u003cp\u003eHi\u003c/p\u003e"],
+		"content": ["\u003cp\u003eHi\u003c/p\u003e"],
+  "comment_count": 0,
+  "viewed_count" : 3,
+		"allow_comments": true,
+		"created_at": "2014-12-02T20:20:31.543Z",
+		"author": {
+  "id": 16,
+  "username": "masonforest",
+  "name": null,
+  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/16/ello-094d97ba-6a6b-43b0-97a0-9ab1adc8416e.png",
+  "relationship_priority": "friend"
+		}
+  }
+  }, {
+  "id": 4687,
+  "kind": "friend_post",
+  "subject_type": "Post",
+  "created_at": "2014-11-10T18:05:08.237Z",
+  "subject": {
+		"id": 3950,
+		"token": "tKomLnoucagSgGHue4q4uA",
+		"body": [{
+                 "kind": "image",
+                 "data": {
+                 "url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/85/optimized.jpg",
+                 "via": "direct",
+                 "alt": "ello-15c97681-b4a6-496f-8c5f-0096fd215703.jpeg",
+                 "asset_id": 85
+                 }
+                 }],
+		"summary": ["\u003cimg src=\"http://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/85/small_screen.jpg\"/\u003e"],
+		"content": ["\u003cimg src=\"http://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/85/small_screen.jpg\"/\u003e"],
+  "comment_count": 99,
+  "viewed_count" : 12696,
+		"allow_comments": true,
+		"created_at": "2014-11-10T18:05:07.988Z",
+		"author": {
+  "id": 1,
+  "username": "testjayzes",
+  "name": null,
+  "avatar_url": "http://d1kcg9sf6q7qwh.cloudfront.net/images/fallback/user/avatar/default.png",
+  "relationship_priority": "friend"
+		}
+  }
+  }, {
+  "id": 4619,
+  "kind": "friend_post",
+  "subject_type": "Post",
+  "created_at": "2014-11-10T18:04:08.551Z",
+  "subject": {
+		"id": 3949,
+		"token": "x_0c0tQLbpyxzKiNtzNObw",
+		"body": [{
+                 "kind": "image",
+                 "data": {
+                 "url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/84/optimized.jpg",
+                 "via": "direct",
+                 "alt": "ello-73ade794-fd54-49bb-94cf-eca19d0cf4f0.png",
+                 "asset_id": 84
+                 }
+                 }],
+		"summary": ["\u003cimg src=\"http://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/84/small_screen.jpg\"/\u003e"],
+		"content": ["\u003cimg src=\"http://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/84/small_screen.jpg\"/\u003e"],
+  "comment_count": 67,
+  "viewed_count" : 656,
+		"allow_comments": true,
+		"created_at": "2014-11-10T18:04:07.336Z",
+		"author": {
+  "id": 1,
+  "username": "testjayzes",
+  "name": null,
+  "avatar_url": "http://d1kcg9sf6q7qwh.cloudfront.net/images/fallback/user/avatar/default.png",
+  "relationship_priority": "friend"
+		}
+  }
+  }, {
+  "id": 653,
+  "kind": "own_post",
+  "subject_type": "Post",
+  "created_at": "2014-10-15T22:17:27.205Z",
+  "subject": {
+		"id": 118,
+		"token": "R24PXkwmprZ6SGjU0lzPyQ",
+		"body": [{
+                 "kind": "text",
+                 "data": "@lucian "
+                 }, {
+                 "kind": "image",
+                 "data": {
+                 "url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/29/optimized.jpg",
+                 "via": "direct",
+                 "alt": "droog_slow_glow_lamp_04.jpg",
+                 "asset_id": 29
+                 }
+                 }, {
+                 "kind": "text",
+                 "data": "I have one of these, but I find droog to be kind of overpriced and a bit pretentious."
+                 }],
+		"summary": ["\u003cp\u003e\u003ca href='/lucian' class='user-mention' rel='nofollow'\u003e@lucian\u003c/a\u003e \u003c/p\u003e", "\u003cimg src=\"http://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/29/small_screen.jpg\"/\u003e"],
+		"content": ["\u003cp\u003e\u003ca href=\"/lucian\" class=\"user-mention\" rel=\"nofollow\"\u003e@lucian\u003c/a\u003e \u003c/p\u003e", "\u003cimg src=\"http://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/29/small_screen.jpg\"/\u003e", "\u003cp\u003eI have one of these, but I find droog to be kind of overpriced and a bit pretentious.\u003c/p\u003e"],
+  "comment_count": 33,
+  "viewed_count" : 346,
+		"allow_comments": true,
+		"created_at": "2014-10-15T22:17:27.092Z",
+		"author": {
+  "id": 2,
+  "username": "jejacks0n",
+  "name": null,
+  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/2/ello-0d585f2b-a685-488e-9cef-ae58eaeecbd0.png",
+  "relationship_priority": "self"
+		}
+  }
+  }, {
+  "id": 588,
+  "kind": "own_post",
+  "subject_type": "Post",
+  "created_at": "2014-10-15T18:54:19.382Z",
+  "subject": {
+		"id": 104,
+		"token": "Mw6Ey46PQ0JbFFXCCaMqAA",
+		"body": [{
+                 "kind": "text",
+                 "data": "https://ello.co/foo"
+                 }],
+		"summary": ["\u003cp\u003e\u003ca href='/foo' rel='nofollow'\u003ehttps://ello.co/foo\u003c/a\u003e\u003c/p\u003e"],
+		"content": ["\u003cp\u003e\u003ca href=\"/foo\" rel=\"nofollow\"\u003ehttps://ello.co/foo\u003c/a\u003e\u003c/p\u003e"],
+  "comment_count": 88,
+  "viewed_count" : 11175,
+		"allow_comments": true,
+		"created_at": "2014-10-15T18:54:16.208Z",
+		"author": {
+  "id": 2,
+  "username": "jejacks0n",
+  "name": null,
+  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/2/ello-0d585f2b-a685-488e-9cef-ae58eaeecbd0.png",
+  "relationship_priority": "self"
+		}
+  }
+  }, {
+  "id": 572,
+  "kind": "own_post",
+  "subject_type": "Post",
+  "created_at": "2014-10-15T02:38:40.276Z",
+  "subject": {
+		"id": 100,
+		"token": "0iq67dFU3qupoP9ehDMprg",
+		"body": [{
+                 "kind": "text",
+                 "data": "@jejacks0ntest testing"
+                 }],
+		"summary": ["\u003cp\u003e\u003ca href='/jejacks0ntest' class='user-mention' rel='nofollow'\u003e@jejacks0ntest\u003c/a\u003e testing\u003c/p\u003e"],
+		"content": ["\u003cp\u003e\u003ca href=\"/jejacks0ntest\" class=\"user-mention\" rel=\"nofollow\"\u003e@jejacks0ntest\u003c/a\u003e testing\u003c/p\u003e"],
+  "comment_count": 22,
+  "viewed_count" : 466,
+		"allow_comments": true,
+		"created_at": "2014-10-15T02:38:40.100Z",
+		"author": {
+  "id": 2,
+  "username": "jejacks0n",
+  "name": null,
+  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/2/ello-0d585f2b-a685-488e-9cef-ae58eaeecbd0.png",
+  "relationship_priority": "self"
+		}
+  }
+  }, {
+  "id": 556,
+  "kind": "own_post",
+  "subject_type": "Post",
+  "created_at": "2014-10-14T23:34:41.299Z",
+  "subject": {
+		"id": 95,
+		"token": "KtzT6hXYi8oH11PhF6E3TA",
+		"body": [{
+                 "kind": "text",
+                 "data": "@cacheflowez yeah!"
+                 }],
+		"summary": ["\u003cp\u003e\u003ca href='/cacheflowez' class='user-mention' rel='nofollow'\u003e@cacheflowez\u003c/a\u003e yeah!\u003c/p\u003e"],
+		"content": ["\u003cp\u003e\u003ca href=\"/cacheflowez\" class=\"user-mention\" rel=\"nofollow\"\u003e@cacheflowez\u003c/a\u003e yeah!\u003c/p\u003e"],
+  "comment_count": 8,
+  "viewed_count" : 33,
+		"allow_comments": true,
+		"created_at": "2014-10-14T23:34:41.251Z",
+		"author": {
+  "id": 2,
+  "username": "jejacks0n",
+  "name": null,
+  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/2/ello-0d585f2b-a685-488e-9cef-ae58eaeecbd0.png",
+  "relationship_priority": "self"
+		}
+  }
+  }, {
+  "id": 482,
+  "kind": "friend_post",
+  "subject_type": "Post",
+  "created_at": "2014-10-14T21:56:03.225Z",
+  "subject": {
+		"id": 89,
+		"token": "88qP6dkZxDgiuai8jTjKzQ",
+		"body": [{
+                 "kind": "text",
+                 "data": "adasdasd"
+                 }],
+		"summary": ["\u003cp\u003eadasdasd\u003c/p\u003e"],
+		"content": ["\u003cp\u003eadasdasd\u003c/p\u003e"],
+  "comment_count": 4,
+  "viewed_count" : 55,
+		"allow_comments": true,
+		"created_at": "2014-10-14T21:56:03.132Z",
+		"author": {
+  "id": 14,
+  "username": "jejacks0ntest",
+  "name": null,
+  "avatar_url": "http://d1kcg9sf6q7qwh.cloudfront.net/images/fallback/user/avatar/default.png",
+  "relationship_priority": "friend"
+		}
+  }
+  }, {
+  "id": 444,
+  "kind": "friend_post",
+  "subject_type": "Post",
+  "created_at": "2014-10-14T16:21:27.698Z",
+  "subject": {
+		"id": 85,
+		"token": "DmwbsWIj5FyiGpe8nMlJIQ",
+		"body": [{
+                 "kind": "text",
+                 "data": "@gv you're avatar looks funny. it's round and not square."
+                 }, {
+                 "kind": "image",
+                 "data": {
+                 "url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/19/optimized.jpg",
+                 "via": "direct",
+                 "alt": "grass.jpg",
+                 "asset_id": 19
+                 }
+                 }],
+		"summary": ["\u003cp\u003e\u003ca href='/gv' class='user-mention' rel='nofollow'\u003e@gv\u003c/a\u003e you\u0026apos;re avatar looks funny. it\u0026apos;s round and not square.\u003c/p\u003e", "\u003cimg src=\"http://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/19/small_screen.jpg\"/\u003e"],
+		"content": ["\u003cp\u003e\u003ca href=\"/gv\" class=\"user-mention\" rel=\"nofollow\"\u003e@gv\u003c/a\u003e you're avatar looks funny. it's round and not square.\u003c/p\u003e", "\u003cimg src=\"http://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/19/small_screen.jpg\"/\u003e"],
+  "comment_count": 23,
+  "viewed_count" : 768,
+		"allow_comments": true,
+		"created_at": "2014-10-14T16:21:27.584Z",
+		"author": {
+  "id": 4,
+  "username": "mk",
+  "name": "Matthew Kitt",
+  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/4/mk-inverted.png",
+  "relationship_priority": "inactive"
+		}
+  }
+  }, {
+  "id": 384,
+  "kind": "friend_post",
+  "subject_type": "Post",
+  "created_at": "2014-10-13T21:04:33.000Z",
+  "subject": {
+		"id": 69,
+		"token": "2sCOSkKtw2pWJtbFw9_8zw",
+		"body": [{
+                 "kind": "text",
+                 "data": "@testtodd mentioning @jejacks0n on someone elses post\u003cbr\u003e\u003cbr\u003e"
+                 }],
+		"summary": ["\u003cp\u003e\u003ca href='/testtodd' class='user-mention' rel='nofollow'\u003e@testtodd\u003c/a\u003e mentioning \u003ca href='/jejacks0n' class='user-mention' rel='nofollow'\u003e@jejacks0n\u003c/a\u003e on s...\u003c/p\u003e"],
+		"content": ["\u003cp\u003e\u003ca href=\"/testtodd\" class=\"user-mention\" rel=\"nofollow\"\u003e@testtodd\u003c/a\u003e mentioning \u003ca href=\"/jejacks0n\" class=\"user-mention\" rel=\"nofollow\"\u003e@jejacks0n\u003c/a\u003e on someone elses post\u003c/p\u003e"],
+  "comment_count": 2,
+  "viewed_count" : 19,
+		"allow_comments": true,
+		"created_at": "2014-10-13T21:04:33.766Z",
+		"author": {
+  "id": 4,
+  "username": "mk",
+  "name": "Matthew Kitt",
+  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/4/mk-inverted.png",
+  "relationship_priority": "inactive"
+		}
+  }
+  }, {
+  "id": 432,
+  "kind": "friend_post",
+  "subject_type": "Post",
+  "created_at": "2014-10-13T20:34:06.000Z",
+  "subject": {
+		"id": 63,
+		"token": "uABABvXXTcNn402SAymIiQ",
+		"body": [{
+                 "kind": "text",
+                 "data": "@testtodd @testlucian Yo Yo Yo"
+                 }],
+		"summary": ["\u003cp\u003e\u003ca href='/testtodd' class='user-mention' rel='nofollow'\u003e@testtodd\u003c/a\u003e \u003ca href='/testlucian' class='user-mention' rel='nofollow'\u003e@testlucian\u003c/a\u003e Yo Yo Yo\u003c/p\u003e"],
+		"content": ["\u003cp\u003e\u003ca href=\"/testtodd\" class=\"user-mention\" rel=\"nofollow\"\u003e@testtodd\u003c/a\u003e \u003ca href=\"/testlucian\" class=\"user-mention\" rel=\"nofollow\"\u003e@testlucian\u003c/a\u003e Yo Yo Yo\u003c/p\u003e"],
+  "comment_count": 1,
+  "viewed_count" : 10,
+		"allow_comments": true,
+		"created_at": "2014-10-13T20:34:06.391Z",
+		"author": {
+  "id": 11,
+  "username": "budnitztester",
+  "name": null,
+  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/11/Jamie-Reid_God_Save_safety_pin_version.png",
+  "relationship_priority": "friend"
+		}
+  }
+  }, {
+  "id": 60,
+  "kind": "friend_post",
+  "subject_type": "Post",
+  "created_at": "2014-10-02T05:57:06.520Z",
+  "subject": {
+		"id": 16,
+		"token": "uPj4045xYx4J_7KsK5RVDA",
+		"body": [{
+                 "kind": "text",
+                 "data": "holy fucking shard!\u003cbr\u003e\u003cbr\u003e"
+                 }],
+		"summary": ["\u003cp\u003eholy fucking shard!\u003c/p\u003e"],
+		"content": ["\u003cp\u003eholy fucking shard!\u003c/p\u003e"],
+  "comment_count": 35,
+  "viewed_count" : 866,
+		"allow_comments": true,
+		"created_at": "2014-10-02T05:57:06.037Z",
+		"author": {
+  "id": 1,
+  "username": "testjayzes",
+  "name": null,
+  "avatar_url": "http://d1kcg9sf6q7qwh.cloudfront.net/images/fallback/user/avatar/default.png",
+  "relationship_priority": "friend"
+		}
+  }
+  }, {
+  "id": 902,
+  "kind": "friend_post",
+  "subject_type": "Post",
+  "created_at": "2014-10-02T05:57:06.000Z",
+  "subject": {
+		"id": 16,
+		"token": "uPj4045xYx4J_7KsK5RVDA",
+		"body": [{
+                 "kind": "text",
+                 "data": "holy fucking shard!\u003cbr\u003e\u003cbr\u003e"
+                 }],
+		"summary": ["\u003cp\u003eholy fucking shard!\u003c/p\u003e"],
+		"content": ["\u003cp\u003eholy fucking shard!\u003c/p\u003e"],
+  "comment_count": 4,
+  "viewed_count" : 49,
+		"allow_comments": true,
+		"created_at": "2014-10-02T05:57:06.037Z",
+		"author": {
+  "id": 1,
+  "username": "testjayzes",
+  "name": null,
+  "avatar_url": "http://d1kcg9sf6q7qwh.cloudfront.net/images/fallback/user/avatar/default.png",
+  "relationship_priority": "friend"
+		}
+  }
+  }, {
+  "id": 33,
+  "kind": "friend_post",
+  "subject_type": "Post",
+  "created_at": "2014-10-02T05:12:49.638Z",
+  "subject": {
+		"id": 15,
+		"token": "iUwbNfFkleIlrXbPfkizjQ",
+		"body": [{
+                 "kind": "text",
+                 "data": "this is a post!\u003cbr\u003e\u003cbr\u003e"
+                 }],
+		"summary": ["\u003cp\u003ethis is a post!\u003c/p\u003e"],
+		"content": ["\u003cp\u003ethis is a post!\u003c/p\u003e"],
+  "comment_count": 8,
+  "viewed_count" : 513,
+		"allow_comments": true,
+		"created_at": "2014-10-02T05:12:49.514Z",
+		"author": {
+  "id": 1,
+  "username": "testjayzes",
+  "name": null,
+  "avatar_url": "http://d1kcg9sf6q7qwh.cloudfront.net/images/fallback/user/avatar/default.png",
+  "relationship_priority": "friend"
+		}
+  }
+  }, {
+  "id": 27,
+  "kind": "friend_post",
+  "subject_type": "Post",
+  "created_at": "2014-10-02T05:12:36.290Z",
+  "subject": {
+		"id": 13,
+		"token": "epwXJPrw5rxPUgYvPSfUqA",
+		"body": [{
+                 "kind": "text",
+                 "data": "hello!\u003cbr\u003e\u003cbr\u003e"
+                 }],
+		"summary": ["\u003cp\u003ehello!\u003c/p\u003e"],
+		"content": ["\u003cp\u003ehello!\u003c/p\u003e"],
+  "comment_count": 2,
+  "viewed_count" : 11,
+		"allow_comments": true,
+		"created_at": "2014-10-02T05:12:35.914Z",
+		"author": {
+  "id": 1,
+  "username": "testjayzes",
+  "name": null,
+  "avatar_url": "http://d1kcg9sf6q7qwh.cloudfront.net/images/fallback/user/avatar/default.png",
+  "relationship_priority": "friend"
+		}
+  }
+  }, {
+  "id": 22,
+  "kind": "own_post",
+  "subject_type": "Post",
+  "created_at": "2014-10-01T23:26:40.203Z",
+  "subject": {
+		"id": 12,
+		"token": "v8STzJxr_-QJ9cZncCp69g",
+		"body": [{
+                 "kind": "text",
+                 "data": "@mk, I missed you."
+                 }],
+		"summary": ["\u003cp\u003e\u003ca href='/mk' class='user-mention' rel='nofollow'\u003e@mk\u003c/a\u003e, I missed you.\u003c/p\u003e"],
+		"content": ["\u003cp\u003e\u003ca href=\"/mk\" class=\"user-mention\" rel=\"nofollow\"\u003e@mk\u003c/a\u003e, I missed you.\u003c/p\u003e"],
+  "comment_count": 7,
+  "viewed_count" : 946,
+		"allow_comments": true,
+		"created_at": "2014-10-01T23:26:40.112Z",
+		"author": {
+  "id": 2,
+  "username": "jejacks0n",
+  "name": null,
+  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/2/ello-0d585f2b-a685-488e-9cef-ae58eaeecbd0.png",
+  "relationship_priority": "self"
+		}
+  }
+  }, {
   "id": 21,
   "kind": "own_post",
+  "subject_type": "Post",
+  "created_at": "2014-10-01T23:25:48.215Z",
   "subject": {
-  "author": {
-  "avatar_url": "http://ello.dev/uploads/user/avatar/42/avatar.png",
-  "id": 42,
-  "name": "Secret Spy",
-  "username": "archer"
-  },
-  "body": [
-           {
-           "data": "@figgis ISIS agents use **Krav Maga.**",
-           "kind": "text"
-           }
-           ],
-  "content": [
-              "<p><a href=\"/figgis\" class=\"user-mention\" rel=\"nofollow\">@figgis</a> ISIS agents use <strong>Krav Maga.</strong></p>"
-              ],
-  "created_at": "2014-11-30T05:57:53.976Z",
-  "id": 18,
-  "summary": [
-              "<p><a href='/figgis' class='user-mention' rel='nofollow'>@figgis</a> ISIS agents use <strong>Krav Maga.</strong></p>"
-              ],
-  "token": "Neqi_1EqTv_iAeX-7odYPw"
-  },
-  "subject_type": "Post"
-  },
-  {
-  "created_at": "1980-03-07T00:00:00.000Z",
-  "id": 20,
-  "kind": "friend_post",
-  "subject": {
-  "author": {
-  "avatar_url": "http://ello.dev/uploads/user/avatar/666/avatar.png",
-  "id": 666,
-  "name": "Cyril Figgis",
-  "username": "figgis"
-  },
-  "body": [
-           {
-           "data": "@archer, Will I get to learn karate?",
-           "kind": "text"
-           }
-           ],
-  "content": [
-              "<p><a href=\"/archer\" class=\"user-mention\" rel=\"nofollow\">@archer</a>, Will I get to learn karate?</p>"
-              ],
-  "created_at": "2014-11-30T05:57:53.936Z",
-  "id": 17,
-  "summary": [
-              "<p><a href='/archer' class='user-mention' rel='nofollow'>@archer</a>, Will I get to learn karate?</p>"
-              ],
-  "token": "iQ7twNQtWwAQjBw4kEL1rg"
-  },
-  "subject_type": "Post"
-  },
-  {
-  "created_at": "1980-03-06T00:00:00.000Z",
-  "id": 19,
-  "kind": "welcome_post",
-  "subject": {
-  "avatar_url": "http://ello.dev/uploads/user/avatar/42/avatar.png",
-  "id": 42,
-  "name": "Secret Spy",
-  "username": "archer"
-  },
-  "subject_type": "User"
+		"id": 11,
+		"token": "7lKHhrc-6v-jPH1-4p3enA",
+		"body": [{
+                 "kind": "text",
+                 "data": "@mk, please don't ignore me."
+                 }],
+		"summary": ["\u003cp\u003e\u003ca href='/mk' class='user-mention' rel='nofollow'\u003e@mk\u003c/a\u003e, please don\u0026apos;t ignore me.\u003c/p\u003e"],
+		"content": ["\u003cp\u003e\u003ca href=\"/mk\" class=\"user-mention\" rel=\"nofollow\"\u003e@mk\u003c/a\u003e, please don't ignore me.\u003c/p\u003e"],
+  "comment_count":35,
+  "viewed_count" : 9712,
+		"allow_comments": true,
+		"created_at": "2014-10-01T23:25:48.111Z",
+		"author": {
+  "id": 2,
+  "username": "jejacks0n",
+  "name": null,
+  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/2/ello-0d585f2b-a685-488e-9cef-ae58eaeecbd0.png",
+  "relationship_priority": "self"
+		}
   }
-  ]
+  }, {
+  "id": 19,
+  "kind": "own_post",
+  "subject_type": "Post",
+  "created_at": "2014-10-01T23:24:12.986Z",
+  "subject": {
+		"id": 10,
+		"token": "-vyqMfc-FGBUeOnZBb-YLA",
+		"body": [{
+                 "kind": "text",
+                 "data": "@mk, don't block me."
+                 }],
+		"summary": ["\u003cp\u003e\u003ca href='/mk' class='user-mention' rel='nofollow'\u003e@mk\u003c/a\u003e, don\u0026apos;t block me.\u003c/p\u003e"],
+		"content": ["\u003cp\u003e\u003ca href=\"/mk\" class=\"user-mention\" rel=\"nofollow\"\u003e@mk\u003c/a\u003e, don't block me.\u003c/p\u003e"],
+  "comment_count": 22,
+  "viewed_count" : 3614,
+		"allow_comments": true,
+		"created_at": "2014-10-01T23:24:12.899Z",
+		"author": {
+  "id": 2,
+  "username": "jejacks0n",
+  "name": null,
+  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/2/ello-0d585f2b-a685-488e-9cef-ae58eaeecbd0.png",
+  "relationship_priority": "self"
+		}
+  }
+  }, {
+  "id": 17,
+  "kind": "own_post",
+  "subject_type": "Post",
+  "created_at": "2014-10-01T23:24:03.097Z",
+  "subject": {
+		"id": 9,
+		"token": "-M_RWfxm6Rz7Qjjllh4dOg",
+		"body": [{
+                 "kind": "text",
+                 "data": "@mikepack/@mk, you should mute me.\u003cbr\u003e"
+                 }],
+		"summary": ["\u003cp\u003e@mikepack/\u003ca href='/mk' class='user-mention' rel='nofollow'\u003e@mk\u003c/a\u003e, you should mute me.\u003c/p\u003e"],
+		"content": ["\u003cp\u003e@mikepack/\u003ca href=\"/mk\" class=\"user-mention\" rel=\"nofollow\"\u003e@mk\u003c/a\u003e, you should mute me.\u003c/p\u003e"],
+  "comment_count": 86,
+  "viewed_count" : 1924,
+		"allow_comments": true,
+		"created_at": "2014-10-01T23:24:02.992Z",
+		"author": {
+  "id": 2,
+  "username": "jejacks0n",
+  "name": null,
+  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/2/ello-0d585f2b-a685-488e-9cef-ae58eaeecbd0.png",
+  "relationship_priority": "self"
+		}
+  }
+  }, {
+  "id": 15,
+  "kind": "own_post",
+  "subject_type": "Post",
+  "created_at": "2014-10-01T23:23:44.770Z",
+  "subject": {
+		"id": 8,
+		"token": "dD229fU82TaDW-I8pkuVPA",
+		"body": [{
+                 "kind": "text",
+                 "data": "@mk, super annoying."
+                 }],
+		"summary": ["\u003cp\u003e\u003ca href='/mk' class='user-mention' rel='nofollow'\u003e@mk\u003c/a\u003e, super annoying.\u003c/p\u003e"],
+		"content": ["\u003cp\u003e\u003ca href=\"/mk\" class=\"user-mention\" rel=\"nofollow\"\u003e@mk\u003c/a\u003e, super annoying.\u003c/p\u003e"],
+  "comment_count": 39,
+  "viewed_count" : 884,
+		"allow_comments": true,
+		"created_at": "2014-10-01T23:23:44.701Z",
+		"author": {
+  "id": 2,
+  "username": "jejacks0n",
+  "name": null,
+  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/2/ello-0d585f2b-a685-488e-9cef-ae58eaeecbd0.png",
+  "relationship_priority": "self"
+		}
+  }
+  }]

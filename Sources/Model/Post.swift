@@ -17,22 +17,31 @@ class Post: JSONAble {
         case Unknown = "Unknown"
     }
 
-    class BodyElement {}
+    class BodyElement {
+        let type:BodyElementTypes
+        init(type: BodyElementTypes) {
+            self.type = type
+        }
+    }
 
-    class UnknownBodyElement : BodyElement {}
+    class UnknownBodyElement : BodyElement {
+        init() {
+            super.init(type: BodyElementTypes.Unknown)
+        }
+    }
 
     class ImageBodyElement : BodyElement {
         let assetId:Int
         let via:String
         let alt:String
-        let url:NSURL
+        let url:NSURL?
 
-        init(assetId: Int, via: String, alt: String, url:NSURL) {
+        init(assetId: Int, via: String, alt: String, url:NSURL?) {
             self.assetId = assetId
             self.via = via
             self.alt = alt
             self.url = url
-            super.init()
+            super.init(type: BodyElementTypes.Image)
         }
     }
 
@@ -41,25 +50,30 @@ class Post: JSONAble {
 
         init(content: String) {
             self.content = content
-            super.init()
+            super.init(type: BodyElementTypes.Text)
         }
     }
 
     dynamic let postId: Int
+    dynamic let commentCount: Int
+    dynamic let viewedCount: Int
     dynamic let body: [BodyElement]
     dynamic let content: [String]
     dynamic let summary: [String]
     dynamic let token: String
+
     dynamic let createdAt: NSDate
     dynamic var author: User?
 
-    init(body: [BodyElement], createdAt: NSDate, postId: Int, content: [String], summary: [String], token: String) {
+    init(body: [BodyElement], createdAt: NSDate, postId: Int, content: [String], summary: [String], token: String, commentCount: Int, viewedCount: Int) {
         self.body = body
         self.createdAt = createdAt
         self.postId = postId
         self.content = content
         self.summary = summary
         self.token = token
+        self.commentCount = commentCount
+        self.viewedCount = viewedCount
     }
 
     override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
@@ -69,10 +83,12 @@ class Post: JSONAble {
         let summary = json["summary"].object as [String]
         let token = json["token"].stringValue
         let postId = json["id"].intValue
+        let viewedCount = json["viewed_count"].intValue
+        let commentCount = json["comment_count"].intValue
 
         var createdAt:NSDate = dateFromServerString(json["created_at"].stringValue) ?? NSDate()
 
-        let post = Post(body: bodyElements(json), createdAt: createdAt, postId: postId, content: content, summary: summary, token: token)
+        let post = Post(body: bodyElements(json), createdAt: createdAt, postId: postId, content: content, summary: summary, token: token, commentCount: commentCount, viewedCount: viewedCount)
 
         if let authorDict = json["author"].object as? [String: AnyObject] {
             post.author = User.fromJSON(authorDict) as? User

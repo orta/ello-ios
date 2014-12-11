@@ -73,8 +73,6 @@ class RequestInviteViewController: BaseElloViewController, UITextFieldDelegate {
                 )
                 scrollView.contentInset = adjustedInsets
                 scrollView.scrollIndicatorInsets = adjustedInsets
-
-                println(keyboardScreenEndFrame)
             }
         }
     }

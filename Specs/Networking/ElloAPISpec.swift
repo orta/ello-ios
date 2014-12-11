@@ -29,7 +29,6 @@ class ElloAPISpec: QuickSpec {
                         provider.request(target, completion: { (data, statusCode, response, error) in
                             if let data = data {
                                 message = NSString(data: data, encoding: NSUTF8StringEncoding)
-                                println(message)
                             }
                         })
 
@@ -44,7 +43,6 @@ class ElloAPISpec: QuickSpec {
                         provider.request(target, completion: { (data, statusCode, response, error) in
                             if let data = data {
                                 message = NSString(data: data, encoding: NSUTF8StringEncoding)
-                                println(message)
                             }
                         })
 

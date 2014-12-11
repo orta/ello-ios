@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6221" systemVersion="14C68k" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jJZ-zI-fFG">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C78c" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jJZ-zI-fFG">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6213"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="AtlasTypewriter-Regular.otf">
+            <string>AtlasTypewriter-Regular</string>
+            <string>AtlasTypewriter-Regular</string>
             <string>AtlasTypewriter-Regular</string>
             <string>AtlasTypewriter-Regular</string>
             <string>AtlasTypewriter-Regular</string>
@@ -116,21 +118,226 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="hOT-bT-dJV">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Axt-R9-gZf">
-                                    <size key="itemSize" width="50" height="50"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="Axt-R9-gZf">
+                                    <size key="itemSize" width="599" height="184"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FriendsCell" id="beQ-fD-toB" customClass="FriendsCell" customModule="Ello" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="StreamFooterCell" id="P76-vx-Q2Z" userLabel="StreamFooterCell" customClass="StreamFooterCell" customModule="Ello" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="599" height="54"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gFJ-zo-yZG">
+                                                    <rect key="frame" x="0.0" y="0.0" width="599" height="54"/>
+                                                    <subviews>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yfB-Mo-73D" customClass="StreamFooterButton" customModule="Ello" customModuleProvider="target">
+                                                            <rect key="frame" x="575" y="16" width="19" height="22"/>
+                                                            <state key="normal" image="chevron-icon">
+                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k0A-Ky-x9O" customClass="StreamFooterButton" customModule="Ello" customModuleProvider="target">
+                                                            <rect key="frame" x="224" y="16" width="40" height="22"/>
+                                                            <state key="normal" title="36" image="repost-icon">
+                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DGx-L8-OiN" customClass="StreamFooterButton" customModule="Ello" customModuleProvider="target">
+                                                            <rect key="frame" x="156" y="16" width="43" height="22"/>
+                                                            <state key="normal" title="56" image="heart-icon">
+                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lLZ-rl-op1" customClass="StreamFooterButton" customModule="Ello" customModuleProvider="target">
+                                                            <rect key="frame" x="89" y="16" width="42" height="22"/>
+                                                            <state key="normal" title="15" image="dots-icon">
+                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="89C-tv-GIz" customClass="StreamFooterButton" customModule="Ello" customModuleProvider="target">
+                                                            <rect key="frame" x="10" y="16" width="54" height="22"/>
+                                                            <state key="normal" title="666" image="eye-icon">
+                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                        </button>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="centerY" secondItem="yfB-Mo-73D" secondAttribute="centerY" id="4ev-TU-p3R"/>
+                                                        <constraint firstAttribute="centerY" secondItem="k0A-Ky-x9O" secondAttribute="centerY" id="5rI-Wl-1jO"/>
+                                                        <constraint firstItem="89C-tv-GIz" firstAttribute="leading" secondItem="gFJ-zo-yZG" secondAttribute="leading" constant="10" id="EST-6t-k5p"/>
+                                                        <constraint firstItem="lLZ-rl-op1" firstAttribute="leading" secondItem="89C-tv-GIz" secondAttribute="trailing" constant="25" id="Ei0-yV-hJP"/>
+                                                        <constraint firstItem="k0A-Ky-x9O" firstAttribute="leading" secondItem="DGx-L8-OiN" secondAttribute="trailing" constant="25" id="JXH-ad-Jf1"/>
+                                                        <constraint firstAttribute="centerY" secondItem="DGx-L8-OiN" secondAttribute="centerY" id="NTS-td-Tfa"/>
+                                                        <constraint firstItem="DGx-L8-OiN" firstAttribute="leading" secondItem="lLZ-rl-op1" secondAttribute="trailing" constant="25" id="Q91-SZ-IUp"/>
+                                                        <constraint firstAttribute="centerY" secondItem="89C-tv-GIz" secondAttribute="centerY" id="cbv-pQ-cc2"/>
+                                                        <constraint firstAttribute="trailing" secondItem="yfB-Mo-73D" secondAttribute="trailing" constant="5" id="t4i-Is-Bif"/>
+                                                        <constraint firstAttribute="centerY" secondItem="lLZ-rl-op1" secondAttribute="centerY" id="uOs-go-Epg"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="gFJ-zo-yZG" firstAttribute="leading" secondItem="P76-vx-Q2Z" secondAttribute="leading" id="3Hj-XJ-rfM"/>
+                                            <constraint firstAttribute="bottom" secondItem="gFJ-zo-yZG" secondAttribute="bottom" id="EJc-zo-L88"/>
+                                            <constraint firstAttribute="trailing" secondItem="gFJ-zo-yZG" secondAttribute="trailing" id="PUA-Zw-yu4"/>
+                                            <constraint firstItem="gFJ-zo-yZG" firstAttribute="top" secondItem="P76-vx-Q2Z" secondAttribute="top" id="a9n-qc-lL8"/>
+                                        </constraints>
+                                        <size key="customSize" width="599" height="54"/>
+                                        <connections>
+                                            <outlet property="chevronButton" destination="yfB-Mo-73D" id="v2Z-MS-4uY"/>
+                                            <outlet property="dotButton" destination="lLZ-rl-op1" id="zUo-QF-GXl"/>
+                                            <outlet property="eyeButton" destination="89C-tv-GIz" id="qtH-Pl-3VY"/>
+                                            <outlet property="heartButton" destination="DGx-L8-OiN" id="vwL-42-nWB"/>
+                                            <outlet property="repostButton" destination="k0A-Ky-x9O" id="qXI-9l-faD"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="StreamImageCell" id="GGC-y5-Isi" userLabel="StreamImageCell" customClass="StreamImageCell" customModule="Ello" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="599" height="464"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jvA-g2-edP">
+                                                    <rect key="frame" x="0.0" y="0.0" width="599" height="464"/>
+                                                </imageView>
+                                                <textField opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="2CR-u1-Rxj">
+                                                    <rect key="frame" x="0.0" y="227" width="599" height="10"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Aa0-xb-tP6">
+                                                    <rect key="frame" x="0.0" y="0.0" width="599" height="464"/>
+                                                    <state key="normal">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="imageTapped:" destination="GGC-y5-Isi" eventType="touchUpInside" id="ovU-IR-Joh"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="Aa0-xb-tP6" firstAttribute="leading" secondItem="GGC-y5-Isi" secondAttribute="leading" id="22m-nf-xnh"/>
+                                            <constraint firstItem="jvA-g2-edP" firstAttribute="leading" secondItem="GGC-y5-Isi" secondAttribute="leading" id="657-xY-dyC"/>
+                                            <constraint firstAttribute="centerY" secondItem="2CR-u1-Rxj" secondAttribute="centerY" id="6g6-jY-9rD"/>
+                                            <constraint firstAttribute="trailing" secondItem="jvA-g2-edP" secondAttribute="trailing" id="7uz-CX-Xcb"/>
+                                            <constraint firstAttribute="trailing" secondItem="2CR-u1-Rxj" secondAttribute="trailing" id="8JI-YP-jG3"/>
+                                            <constraint firstAttribute="bottom" secondItem="jvA-g2-edP" secondAttribute="bottom" id="F8k-0v-zTj"/>
+                                            <constraint firstAttribute="bottom" secondItem="Aa0-xb-tP6" secondAttribute="bottom" id="OLj-6d-HXQ"/>
+                                            <constraint firstItem="jvA-g2-edP" firstAttribute="top" secondItem="GGC-y5-Isi" secondAttribute="top" id="dEj-Zo-rrL"/>
+                                            <constraint firstItem="Aa0-xb-tP6" firstAttribute="top" secondItem="GGC-y5-Isi" secondAttribute="top" id="dp7-by-TLl"/>
+                                            <constraint firstItem="2CR-u1-Rxj" firstAttribute="leading" secondItem="GGC-y5-Isi" secondAttribute="leading" id="lbq-lW-3yz"/>
+                                            <constraint firstAttribute="trailing" secondItem="Aa0-xb-tP6" secondAttribute="trailing" id="zlm-0H-4j2"/>
+                                        </constraints>
+                                        <size key="customSize" width="599" height="464"/>
+                                        <connections>
+                                            <outlet property="debugTextField" destination="2CR-u1-Rxj" id="4LA-32-3ry"/>
+                                            <outlet property="imageButton" destination="Aa0-xb-tP6" id="Q8V-wk-AaB"/>
+                                            <outlet property="imageView" destination="jvA-g2-edP" id="Yv0-Ml-UWI"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="StreamCell" id="beQ-fD-toB" userLabel="StreamCell" customClass="StreamCell" customModule="Ello" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="599" height="80"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s9K-Bx-O4q" userLabel="ContentView">
+                                                    <rect key="frame" x="12" y="10" width="575" height="60"/>
+                                                    <subviews>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="deA-kz-Gec">
+                                                            <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="60" id="99T-eM-xfB"/>
+                                                                <constraint firstAttribute="height" constant="60" id="xMo-Pw-gCd"/>
+                                                            </constraints>
+                                                        </imageView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2m" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fh8-XF-BrM" userLabel="timestamp">
+                                                            <rect key="frame" x="525" y="23" width="50" height="14"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="50" id="cNG-Lj-E0Q"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="14"/>
+                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AGO-KQ-D74">
+                                                            <rect key="frame" x="80" y="23" width="81" height="14"/>
+                                                            <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="14"/>
+                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstAttribute="trailing" secondItem="Fh8-XF-BrM" secondAttribute="trailing" id="2Ag-OA-K6p"/>
+                                                        <constraint firstItem="AGO-KQ-D74" firstAttribute="leading" secondItem="deA-kz-Gec" secondAttribute="trailing" constant="20" id="4we-va-WV1"/>
+                                                        <constraint firstAttribute="centerY" secondItem="deA-kz-Gec" secondAttribute="centerY" id="M4W-1p-oL8"/>
+                                                        <constraint firstAttribute="centerY" secondItem="AGO-KQ-D74" secondAttribute="centerY" id="Z2B-no-Uve"/>
+                                                        <constraint firstAttribute="centerY" secondItem="Fh8-XF-BrM" secondAttribute="centerY" id="buc-Vn-mWq"/>
+                                                        <constraint firstItem="deA-kz-Gec" firstAttribute="leading" secondItem="s9K-Bx-O4q" secondAttribute="leading" id="xvw-eS-fEa"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <constraints>
+                                            <constraint firstItem="s9K-Bx-O4q" firstAttribute="leading" secondItem="beQ-fD-toB" secondAttribute="leading" constant="12" id="agA-dH-ztd"/>
+                                            <constraint firstAttribute="bottom" secondItem="s9K-Bx-O4q" secondAttribute="bottom" constant="10" id="fK9-En-cfk"/>
+                                            <constraint firstItem="s9K-Bx-O4q" firstAttribute="top" secondItem="beQ-fD-toB" secondAttribute="top" constant="10" id="jkT-Vp-4pg"/>
+                                            <constraint firstAttribute="trailing" secondItem="s9K-Bx-O4q" secondAttribute="trailing" constant="12" id="txe-2y-Tf3"/>
+                                        </constraints>
+                                        <size key="customSize" width="599" height="80"/>
+                                        <connections>
+                                            <outlet property="avatarImageView" destination="deA-kz-Gec" id="mv5-q4-wQe"/>
+                                            <outlet property="timestampLabel" destination="Fh8-XF-BrM" id="LU9-4H-Xvk"/>
+                                            <outlet property="usernameLabel" destination="AGO-KQ-D74" id="OoR-HU-FaG"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="StreamTextCell" id="KbH-G3-UlV" userLabel="StreamTextCell" customClass="StreamTextCell" customModule="Ello" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="599" height="184"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <webView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VFU-X9-20n">
+                                                    <rect key="frame" x="0.0" y="0.0" width="599" height="184"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </webView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Web (text) View" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lqv-lb-hb7">
+                                                    <rect key="frame" x="241" y="82" width="118" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="VFU-X9-20n" firstAttribute="leading" secondItem="KbH-G3-UlV" secondAttribute="leading" id="2UN-xB-5lR"/>
+                                            <constraint firstAttribute="centerX" secondItem="lqv-lb-hb7" secondAttribute="centerX" id="DCj-jD-FoR"/>
+                                            <constraint firstAttribute="bottom" secondItem="VFU-X9-20n" secondAttribute="bottom" id="J2j-2f-thg"/>
+                                            <constraint firstAttribute="centerY" secondItem="lqv-lb-hb7" secondAttribute="centerY" id="N3f-Jw-l7U"/>
+                                            <constraint firstAttribute="trailing" secondItem="VFU-X9-20n" secondAttribute="trailing" id="Sfm-ct-XGu"/>
+                                            <constraint firstItem="VFU-X9-20n" firstAttribute="top" secondItem="KbH-G3-UlV" secondAttribute="top" id="Y0F-44-UKn"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="webView" destination="VFU-X9-20n" id="XaS-aW-EEG"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
@@ -150,7 +357,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yZW-gK-AYq" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1586" y="354"/>
+            <point key="canvasLocation" x="1585" y="354"/>
         </scene>
         <!--Landing View Controller-->
         <scene sceneID="YOJ-27-8ul">
@@ -299,6 +506,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="Tgb-bf-SEj">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Qz1-hz-MJ9">
@@ -684,11 +892,16 @@
         </scene>
     </scenes>
     <resources>
+        <image name="chevron-icon" width="19" height="13"/>
         <image name="discover-icon" width="49" height="49"/>
+        <image name="dots-icon" width="21" height="13"/>
         <image name="ello-logo" width="166" height="166"/>
+        <image name="eye-icon" width="23" height="13"/>
         <image name="friends-icon" width="49" height="49"/>
+        <image name="heart-icon" width="22" height="13"/>
         <image name="notifications-icon" width="49" height="49"/>
         <image name="profile-icon" width="49" height="49"/>
+        <image name="repost-icon" width="19" height="13"/>
     </resources>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
 </document>

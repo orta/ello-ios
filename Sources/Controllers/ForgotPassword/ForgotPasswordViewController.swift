@@ -73,8 +73,6 @@ class ForgotPasswordViewController: BaseElloViewController, UITextFieldDelegate 
                 )
                 scrollView.contentInset = adjustedInsets
                 scrollView.scrollIndicatorInsets = adjustedInsets
-
-                println(keyboardScreenEndFrame)
             }
         }
     }
