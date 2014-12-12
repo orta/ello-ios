@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WebKit
 
 class FriendsDataSource: NSObject, UICollectionViewDataSource {
 
@@ -42,7 +43,6 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-
         var cell:UICollectionViewCell
         if let streamCellItem = streamCellItems?[indexPath.item] {
 
@@ -58,37 +58,32 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
             }
 
         }
-
         return UICollectionViewCell()
     }
 
     private func postCellForActivity(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> UICollectionViewCell {
-        let post:Post = streamCellItem.activity.subject as Post
-
         var cell = UICollectionViewCell()
         switch streamCellItem.type {
         case .Header:
-            if let streamCell = collectionView.dequeueReusableCellWithReuseIdentifier("StreamCell", forIndexPath: indexPath) as? StreamCell {
-                if let avatarURL = post.author?.avatarURL? {
-                    streamCell.setAvatarURL(avatarURL)
-                }
-                streamCell.timestampLabel.text = NSDate().distanceOfTimeInWords(post.createdAt)
-                streamCell.usernameLabel.text = "@" + (post.author?.username ?? "meow")
-                cell = streamCell
-            }
+            cell = headerCell(streamCellItem, collectionView: collectionView, indexPath: indexPath)
         case .BodyElement:
             cell = cellForBodyElement(streamCellItem, collectionView: collectionView, indexPath: indexPath)
         case .Footer:
-            cell = collectionView.dequeueReusableCellWithReuseIdentifier("StreamFooterCell", forIndexPath: indexPath) as UICollectionViewCell
-
-            if let cell = cell as? StreamFooterCell {
-                cell.views = post.viewedCount.localizedStringFromNumber()
-                cell.comments = post.commentCount.localizedStringFromNumber()
-            }
-
+            cell = footerCell(streamCellItem, collectionView: collectionView, indexPath: indexPath)
         }
 
         return cell
+    }
+
+    private func headerCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> StreamCell {
+        let post:Post = streamCellItem.activity.subject as Post
+        let streamCell = collectionView.dequeueReusableCellWithReuseIdentifier("StreamCell", forIndexPath: indexPath) as StreamCell
+        if let avatarURL = post.author?.avatarURL? {
+            streamCell.setAvatarURL(avatarURL)
+        }
+        streamCell.timestampLabel.text = NSDate().distanceOfTimeInWords(post.createdAt)
+        streamCell.usernameLabel.text = "@" + (post.author?.username ?? "meow")
+        return streamCell
     }
 
     private func cellForBodyElement(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -96,23 +91,53 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
         var cell = UICollectionViewCell()
         switch streamCellItem.data!.type {
         case Post.BodyElementTypes.Image:
-            if let imageCell = collectionView.dequeueReusableCellWithReuseIdentifier("StreamImageCell", forIndexPath: indexPath) as? StreamImageCell {
-                if let photoData = streamCellItem.data as Post.ImageBodyElement? {
-                    if let photoURL = photoData.url? {
-                        imageCell.setImageURL(photoURL)
-                        imageCell.viewController = self.viewController
-                    }
-                }
-
-                cell = imageCell
-            }
+            cell = imageCell(streamCellItem, collectionView: collectionView, indexPath: indexPath)
         case Post.BodyElementTypes.Text:
-            cell = collectionView.dequeueReusableCellWithReuseIdentifier("StreamTextCell", forIndexPath: indexPath) as UICollectionViewCell
+            cell = textCell(streamCellItem, collectionView: collectionView, indexPath: indexPath)
         case Post.BodyElementTypes.Unknown:
             cell = collectionView.dequeueReusableCellWithReuseIdentifier("StreamUnknownCell", forIndexPath: indexPath) as UICollectionViewCell
         }
 
         return cell
+    }
+
+    private func footerCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> StreamFooterCell {
+        let post:Post = streamCellItem.activity.subject as Post
+        let footerCell = collectionView.dequeueReusableCellWithReuseIdentifier("StreamFooterCell", forIndexPath: indexPath) as StreamFooterCell
+        footerCell.views = post.viewedCount.localizedStringFromNumber()
+        footerCell.comments = post.commentCount.localizedStringFromNumber()
+        return footerCell
+    }
+
+    private func imageCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> StreamImageCell {
+        let imageCell = collectionView.dequeueReusableCellWithReuseIdentifier("StreamImageCell", forIndexPath: indexPath) as StreamImageCell
+        if let photoData = streamCellItem.data as Post.ImageBodyElement? {
+            if let photoURL = photoData.url? {
+                imageCell.setImageURL(photoURL)
+                imageCell.viewController = self.viewController
+            }
+        }
+        return imageCell
+    }
+
+    private func textCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> StreamTextCell {
+        let textCell = collectionView.dequeueReusableCellWithReuseIdentifier("StreamTextCell", forIndexPath: indexPath) as StreamTextCell
+
+        if let textData = streamCellItem.data as Post.TextBodyElement? {
+            let indexHTML = NSBundle.mainBundle().pathForResource("index", ofType: "html", inDirectory: "www")!
+            let indexURL = NSURL(string:"http://www.google.com")!
+            var error:NSError?
+            let indexAsText = NSString(contentsOfFile: indexHTML, encoding: NSUTF8StringEncoding, error: &error)
+            if error == nil && indexAsText != nil {
+                println(indexAsText!)
+                textCell.webView.loadHTMLString("meow", baseURL: NSURL(string: "/"))
+            }
+            var req = NSURLRequest(URL:indexURL)
+//            textCell.webView.loadRequest(req)
+//            textCell.webView.loadRequest(req)
+
+        }
+        return textCell
     }
 
 //    private func numberOfCells() -> Int? {
