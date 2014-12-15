@@ -11,26 +11,26 @@ import Nimble
 
 
 class NotificationsViewControllerSpec: QuickSpec {
-    override func spec() {
-
-        var controller = NotificationsViewController.instantiateFromStoryboard()
-        describe("initialization", {
-
-            beforeEach({
-                controller = NotificationsViewController.instantiateFromStoryboard()
-            })
-
-            it("can be instatiated from storyboard") {
-                expect(controller).notTo(beNil())
-            }
-
-            it("is a BaseElloViewController", {
-                expect(controller).to(beAKindOf(BaseElloViewController.self))
-            })
-
-            it("is a NotificationsViewController", {
-                expect(controller).to(beAKindOf(NotificationsViewController.self))
-            })
-        })
-    }
+//    override func spec() {
+//
+//        var controller = NotificationsViewController.instantiateFromStoryboard()
+//        describe("initialization", {
+//
+//            beforeEach({
+//                controller = NotificationsViewController.instantiateFromStoryboard()
+//            })
+//
+//            it("can be instatiated from storyboard") {
+//                expect(controller).notTo(beNil())
+//            }
+//
+//            it("is a BaseElloViewController", {
+//                expect(controller).to(beAKindOf(BaseElloViewController.self))
+//            })
+//
+//            it("is a NotificationsViewController", {
+//                expect(controller).to(beAKindOf(NotificationsViewController.self))
+//            })
+//        })
+//    }
 }

@@ -2,4 +2,5 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "JTSImageViewController.h"
 #import "JTSImageInfo.h"
+#import "UITabBarController+NBUAdditions.h"
 //#import <Pods/ElloKeys.h>

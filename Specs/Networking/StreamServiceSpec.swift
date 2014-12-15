@@ -30,8 +30,8 @@ class StreamServiceSpec: QuickSpec {
                         loadedActivities = activities
                     }, failure: nil)
 
-                    expect(countElements(loadedActivities!)) == 3
-                    expect(loadedActivities![2].activityId) == 19
+                    expect(countElements(loadedActivities!)) == 25
+                    expect(loadedActivities![2].activityId) == 11837
                 })
             })
 

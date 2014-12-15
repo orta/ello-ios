@@ -39,7 +39,7 @@ extension NSDate {
 
         let sinceInterval:NSTimeInterval = self.timeIntervalSinceDate(date)
         let direction = sinceInterval <= 0.0 ? Ago : FromNow
-        let since:Double = abs(sinceInterval)
+        let since:Double = round(abs(sinceInterval))
 
         let seconds   = Int(since)
         let minutes   = Int(since / SECONDS_PER_MINUTE)

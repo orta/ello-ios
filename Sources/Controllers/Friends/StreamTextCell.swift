@@ -9,58 +9,42 @@
 import WebKit
 import Foundation
 
-class StreamTextCell: UICollectionViewCell, WKNavigationDelegate {
+class StreamTextCell: UICollectionViewCell, UIWebViewDelegate {
 
-    let webView:WKWebView
+    @IBOutlet weak var webView:UIWebView!
 
-    var calculatedHeight:CGFloat = 120.0
+    var calculatedHeight:CGFloat = 0.0
+    let jsCommandProtocol = "ello://"
+    let jsCommandPageReady = "ello://page-ready:"
 
     required init(coder aDecoder: NSCoder) {
-        let config = WKWebViewConfiguration()
-        webView = WKWebView(frame: CGRectZero, configuration:config)
         super.init(coder: aDecoder)
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        if webView.superview == nil {
-            self.contentView.addSubview(webView)
-            webView.navigationDelegate = self
-        }
         webView.frame = self.contentView.frame
+        webView.scrollView.scrollEnabled = false
     }
 
+    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+        let requestURL = request.URLString
+        if requestURL.hasPrefix(jsCommandProtocol) {
+            if requestURL.hasPrefix(jsCommandPageReady) {
+                let heightAsString:String = requestURL.stringByReplacingOccurrencesOfString(jsCommandPageReady, withString: "")
 
-    func webView(webView: WKWebView, didCommitNavigation navigation: WKNavigation!) {
-        println("didCommitNavigation")
+                let height = CGFloat((heightAsString as NSString).doubleValue)
+                    calculatedHeight = height
+                    NSNotificationCenter.defaultCenter().postNotificationName("UpdateHeightNotification", object: self)
+                UIView.animateWithDuration(0.15, animations: {
+                    self.contentView.alpha = 1.0
+                })
+            }
+            return false
+        }
+        if requestURL.hasPrefix("http://") || requestURL.hasPrefix("https://") {
+            return false
+        }
+        return true
     }
-    func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
-        println("didFinishNavigation")
-    }
-    func webView(webView: WKWebView, didFailNavigation navigation: WKNavigation!, withError error: NSError) {
-        println("didFailNavigation")
-    }
-
-
-    private func setup() {
-//        println(frame)
-//        webView.frame = contentView.frame
-//        self.internalWebView.backgroundColor = UIColor.blueColor()
-//        self.contentView.backgroundColor = UIColor.redColor()
-    }
-
-//    func webView() -> WKWebView {
-//        return webView
-//    }
-
-//    override func preferredLayoutAttributesFittingAttributes(layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes! {
-//        let attributes = super.preferredLayoutAttributesFittingAttributes(layoutAttributes)
-//        let newSize = CGSize(width: UIScreen.screenWidth(), height: layoutAttributes.size.height)
-//        var newFrame = attributes.frame
-//        newFrame.size.height = newSize.height
-//        newFrame.size.width = newSize.width
-//        attributes.frame = newFrame
-//        return attributes
-//    }
-
 }

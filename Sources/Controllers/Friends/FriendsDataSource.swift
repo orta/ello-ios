@@ -14,6 +14,14 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
     typealias StreamCellItem = (activity:Activity, type:CellType, data:Post.BodyElement?, cellHeight:CGFloat)
 
     var streamCellItems:[StreamCellItem]?
+    var testWebView:UIWebView?
+
+    init(controller: UIViewController) {
+        viewController = controller
+        testWebView = UIWebView(frame: controller.view.frame)
+        super.init()
+    }
+
     weak var viewController: UIViewController?
 
     var activities:[Activity]? {
@@ -71,7 +79,6 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
         case .Footer:
             cell = footerCell(streamCellItem, collectionView: collectionView, indexPath: indexPath)
         }
-
         return cell
     }
 
@@ -122,20 +129,19 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
 
     private func textCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> StreamTextCell {
         let textCell = collectionView.dequeueReusableCellWithReuseIdentifier("StreamTextCell", forIndexPath: indexPath) as StreamTextCell
-
+        textCell.contentView.alpha = 0.0
         if let textData = streamCellItem.data as Post.TextBodyElement? {
+            println("textCell")
             let indexHTML = NSBundle.mainBundle().pathForResource("index", ofType: "html", inDirectory: "www")!
-            let indexURL = NSURL(string:"http://www.google.com")!
+            let indexURL = NSURL(string:indexHTML)!
+            var req = NSURLRequest(URL:indexURL)
+
             var error:NSError?
             let indexAsText = NSString(contentsOfFile: indexHTML, encoding: NSUTF8StringEncoding, error: &error)
             if error == nil && indexAsText != nil {
-                println(indexAsText!)
-                textCell.webView.loadHTMLString("meow", baseURL: NSURL(string: "/"))
+                let postHTML = indexAsText!.stringByReplacingOccurrencesOfString("{{post-content}}", withString: textData.content)
+                textCell.webView.loadHTMLString(postHTML, baseURL: NSURL(string: "/"))
             }
-            var req = NSURLRequest(URL:indexURL)
-//            textCell.webView.loadRequest(req)
-//            textCell.webView.loadRequest(req)
-
         }
         return textCell
     }
@@ -165,7 +171,7 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
                         case Post.BodyElementTypes.Image:
                             height = UIScreen.screenWidth() / (4/3)
                         case Post.BodyElementTypes.Text:
-                            height = 120.0
+                             height = estimatedTextCellHeight(element)
                         case Post.BodyElementTypes.Unknown:
                             height = 120.0
                         }
@@ -182,6 +188,28 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
         }
         else {
             return nil
+        }
+    }
+
+    private func estimatedTextCellHeight(element:Post.BodyElement) -> CGFloat {
+
+        if let textData = element as? Post.TextBodyElement {
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.lineSpacing = 18.0
+            let attributes = [NSFontAttributeName : UIFont.typewriterFont(12.0),
+                NSParagraphStyleAttributeName : paragraphStyle]
+
+            let constrainedSize = CGSizeMake(self.viewController!.view.frame.size.width, CGFloat.max)
+            let string = NSString(string: textData.content.stripHTML())
+            let rect = string.boundingRectWithSize(constrainedSize,
+                options: NSStringDrawingOptions.UsesLineFragmentOrigin,
+                attributes: attributes,
+                context: nil)
+
+            return rect.size.height
+        }
+        else {
+            return 120.0
         }
     }
 }

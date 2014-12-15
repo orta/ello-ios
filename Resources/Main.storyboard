@@ -76,6 +76,9 @@
                     <tabBarItem key="tabBarItem" title="" image="notifications-icon" id="cPa-gy-q4n">
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
                     </tabBarItem>
+                    <connections>
+                        <outlet property="containerView" destination="QS5-Rx-YEW" id="ZEu-a6-98Y"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
             </objects>
@@ -312,31 +315,25 @@
                                             <rect key="frame" x="0.0" y="0.0" width="599" height="184"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <webView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VFU-X9-20n">
+                                                <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jml-Dd-CFk">
                                                     <rect key="frame" x="0.0" y="0.0" width="599" height="184"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="KbH-G3-UlV" id="Jpb-2F-HmS"/>
+                                                    </connections>
                                                 </webView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Web (text) View" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lqv-lb-hb7">
-                                                    <rect key="frame" x="241" y="82" width="118" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstItem="VFU-X9-20n" firstAttribute="leading" secondItem="KbH-G3-UlV" secondAttribute="leading" id="2UN-xB-5lR"/>
-                                            <constraint firstAttribute="centerX" secondItem="lqv-lb-hb7" secondAttribute="centerX" id="DCj-jD-FoR"/>
-                                            <constraint firstAttribute="bottom" secondItem="VFU-X9-20n" secondAttribute="bottom" id="J2j-2f-thg"/>
-                                            <constraint firstAttribute="centerY" secondItem="lqv-lb-hb7" secondAttribute="centerY" id="N3f-Jw-l7U"/>
-                                            <constraint firstAttribute="trailing" secondItem="VFU-X9-20n" secondAttribute="trailing" id="Sfm-ct-XGu"/>
-                                            <constraint firstItem="VFU-X9-20n" firstAttribute="top" secondItem="KbH-G3-UlV" secondAttribute="top" id="Y0F-44-UKn"/>
+                                            <constraint firstAttribute="bottom" secondItem="jml-Dd-CFk" secondAttribute="bottom" id="6hZ-7s-Kho"/>
+                                            <constraint firstItem="jml-Dd-CFk" firstAttribute="top" secondItem="KbH-G3-UlV" secondAttribute="top" id="CGn-et-dsK"/>
+                                            <constraint firstAttribute="trailing" secondItem="jml-Dd-CFk" secondAttribute="trailing" id="Nwz-L9-6OF"/>
+                                            <constraint firstItem="jml-Dd-CFk" firstAttribute="leading" secondItem="KbH-G3-UlV" secondAttribute="leading" id="fWD-sg-1KG"/>
                                         </constraints>
                                         <connections>
-                                            <outlet property="webView" destination="VFU-X9-20n" id="XaS-aW-EEG"/>
+                                            <outlet property="webView" destination="jml-Dd-CFk" id="rrF-Si-MK9"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
