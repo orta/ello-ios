@@ -42,10 +42,11 @@ class FriendsViewController: BaseElloViewController, UICollectionViewDelegate, U
         streamService.loadFriendStream({ (activities) in
             ElloHUD.hideLoadingHud()
             self.activities = activities
-            self.dataSource.activities = activities
-            self.dataSource.viewController = self
-            self.collectionView.dataSource = self.dataSource
-            self.collectionView.reloadData()
+            self.dataSource.addActivities(activities, completion: {
+                self.dataSource.viewController = self
+                self.collectionView.dataSource = self.dataSource
+                self.collectionView.reloadData()
+            })
         }, failure: { (error, statusCode) in
             ElloHUD.hideLoadingHud()
             println("failed to load friends stream")

@@ -30,21 +30,27 @@ class StreamTextCell: UICollectionViewCell, UIWebViewDelegate {
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         let requestURL = request.URLString
         if requestURL.hasPrefix(jsCommandProtocol) {
-            if requestURL.hasPrefix(jsCommandPageReady) {
-                let heightAsString:String = requestURL.stringByReplacingOccurrencesOfString(jsCommandPageReady, withString: "")
-
-                let height = CGFloat((heightAsString as NSString).doubleValue)
-                    calculatedHeight = height
-                    NSNotificationCenter.defaultCenter().postNotificationName("UpdateHeightNotification", object: self)
-                UIView.animateWithDuration(0.15, animations: {
-                    self.contentView.alpha = 1.0
-                })
-            }
+//            if requestURL.hasPrefix(jsCommandPageReady) {
+//                let heightAsString:String = requestURL.stringByReplacingOccurrencesOfString(jsCommandPageReady, withString: "")
+//
+//                let height = CGFloat((heightAsString as NSString).doubleValue)
+//                    calculatedHeight = height
+//                    NSNotificationCenter.defaultCenter().postNotificationName("UpdateHeightNotification", object: self)
+//                UIView.animateWithDuration(0.15, animations: {
+//                    self.contentView.alpha = 1.0
+//                })
+//            }
             return false
         }
         if requestURL.hasPrefix("http://") || requestURL.hasPrefix("https://") {
             return false
         }
         return true
+    }
+
+    func webViewDidFinishLoad(webView: UIWebView) {
+        UIView.animateWithDuration(0.15, animations: {
+            self.contentView.alpha = 1.0
+        })
     }
 }

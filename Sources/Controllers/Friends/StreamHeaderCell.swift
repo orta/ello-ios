@@ -1,5 +1,5 @@
 //
-//  StreamCell.swift
+//  StreamHeaderCell.swift
 //  Ello
 //
 //  Created by Sean Dougherty on 11/22/14.
@@ -9,7 +9,7 @@
 import UIKit
 import Foundation
 
-class StreamCell: UICollectionViewCell {
+class StreamHeaderCell: UICollectionViewCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
