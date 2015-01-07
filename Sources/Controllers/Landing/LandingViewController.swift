@@ -12,7 +12,7 @@ class LandingViewController: BaseElloViewController {
 
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var signInButton: ElloButton!
-    @IBOutlet weak var requestInviteButton: ElloTextButton!
+    @IBOutlet weak var signUpButton: LightElloButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,14 +45,20 @@ class LandingViewController: BaseElloViewController {
             self.presentViewController(vc, animated: true, completion: nil)
         }
         else {
-            showSignInButton()
+            showButtons()
         }
     }
 
-    private func showSignInButton() {
+    private func showButtons() {
         signInButton.hidden = false
+        signUpButton.hidden = false
+        
+        signInButton.enabled = true
+        signUpButton.enabled = true
+        
         UIView.animateWithDuration(0.2, animations: {
             self.signInButton.alpha = 1.0
+            self.signUpButton.alpha = 1.0
         })
     }
 
@@ -79,10 +85,9 @@ class LandingViewController: BaseElloViewController {
         let signInController = SignInViewController.instantiateFromStoryboard()
         self.presentViewController(signInController, animated:true, completion:nil)
     }
-
-    @IBAction func requestInviteTapped(sender: ElloTextButton) {
-        let requestInviteController = RequestInviteViewController.instantiateFromStoryboard()
-        self.presentViewController(requestInviteController, animated:true, completion:nil)
+    
+    @IBAction func signUpTapped(sender: ElloButton) {
+        let createAccountController = CreateAccountViewController.instantiateFromStoryboard()
+        self.presentViewController(createAccountController, animated:true, completion:nil)
     }
-
 }

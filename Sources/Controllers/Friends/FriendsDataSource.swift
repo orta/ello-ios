@@ -24,14 +24,12 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
     var indexFile:String?
     var contentReadyClosure:StreamContentReady?
     var streamCellItems:[StreamCellItem]?
-    var testWebView:UIWebView!
-    var sizeCalculator:StreamTextCellSizeCalculator
-    var viewController: UIViewController
+    let testWebView:UIWebView
+    let sizeCalculator:StreamTextCellSizeCalculator
 
-    init(controller: UIViewController) {
-        viewController = controller
-        testWebView = UIWebView(frame: controller.view.frame)
-        sizeCalculator = StreamTextCellSizeCalculator(webView: testWebView)
+    init(testWebView: UIWebView) {
+        self.testWebView = testWebView
+        self.sizeCalculator = StreamTextCellSizeCalculator(webView: testWebView)
         super.init()
     }
 
@@ -117,7 +115,6 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
         if let photoData = streamCellItem.data as Post.ImageBodyElement? {
             if let photoURL = photoData.url? {
                 imageCell.setImageURL(photoURL)
-                imageCell.viewController = self.viewController
             }
         }
         return imageCell

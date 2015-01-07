@@ -13,6 +13,8 @@ import Nimble
 class FriendsViewControllerSpec: QuickSpec {
     override func spec() {
 
+        var controller = FriendsViewController.instantiateFromStoryboard()
+        
         beforeSuite {
             ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
         }
@@ -21,7 +23,6 @@ class FriendsViewControllerSpec: QuickSpec {
             ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
         }
         
-        var controller = FriendsViewController.instantiateFromStoryboard()
         describe("initialization", {
 
             beforeEach({
@@ -51,6 +52,34 @@ class FriendsViewControllerSpec: QuickSpec {
             it("is a FriendsViewController", {
                 expect(controller).to(beAKindOf(FriendsViewController.self))
             })
+        })
+        
+        describe("-viewDidLoad:", {
+            
+            beforeEach({
+                controller = FriendsViewController.instantiateFromStoryboard()
+                controller.loadView()
+                controller.viewDidLoad()
+            })
+            
+            it("properly configures dataSource") {
+                expect(controller.dataSource).to(beAnInstanceOf(FriendsDataSource.self))
+            }
+            
+            it("hides the nav bar on swipe") {
+                expect(controller.navigationController?.hidesBarsOnSwipe) == true
+            }
+
+            // TODO: fix error about delegate not found
+            it("configures collectionView") {
+//                expect(controller.collectionView.delegate) == controller
+                expect(controller.collectionView.alwaysBounceHorizontal) == false
+                expect(controller.collectionView.alwaysBounceVertical) == true
+            }
+            
+            it("adds notification observers") {
+                
+            }
         })
     }
 }

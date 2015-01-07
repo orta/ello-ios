@@ -9,14 +9,13 @@
 import UIKit
 import Foundation
 
-class StreamImageCell: UICollectionViewCell, JTSImageViewControllerOptionsDelegate, JTSImageViewControllerDismissalDelegate {
+class StreamImageCell: UICollectionViewCell {
 
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var debugTextField: UITextField!
     @IBOutlet weak var imageButton: UIButton!
-    weak var viewController: UIViewController?
 
-    var defaultAspectRatio:CGFloat = 4.0/3.0
+    let defaultAspectRatio:CGFloat = 4.0/3.0
     var aspectRatio:CGFloat = 4.0/3.0
     var calculatedHeight:CGFloat {
         get { return UIScreen.screenWidth() / self.aspectRatio }
@@ -53,48 +52,7 @@ class StreamImageCell: UICollectionViewCell, JTSImageViewControllerOptionsDelega
     }
 
     @IBAction func imageTapped(sender: UIButton) {
-
-        if let vc = viewController {
-            let imageInfo = JTSImageInfo()
-            imageInfo.image = self.imageView.image
-            imageInfo.referenceRect = self.imageView.frame
-            imageInfo.referenceView = self.imageView.superview
-//            self.imageView.alpha = 0.0
-            let imageViewer = JTSImageViewController(imageInfo: imageInfo, mode: JTSImageViewControllerMode.Image, backgroundStyle: JTSImageViewControllerBackgroundOption.None)
-            let transition:JTSImageViewControllerTransition = ._FromOriginalPosition
-            imageViewer.showFromViewController(vc, transition: transition)
-            imageViewer.optionsDelegate = self
-            imageViewer.dismissalDelegate = self
-
-        }
-//        // Present the view controller.
-//        [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOriginalPosition];
+        NSNotificationCenter.defaultCenter().postNotificationName("ImageTappedNotification", object: self.imageView)
     }
     
-    func alphaForBackgroundDimmingOverlayInImageViewer(imageViewer: JTSImageViewController!) -> CGFloat {
-        return 1.0
-    }
-
-    func imageViewerDidDismiss(imageViewer: JTSImageViewController!) {
-//        UIView.animateWithDuration(1.15, animations: {
-//            self.imageView.alpha = 1.0
-//        })
-    }
-
-
-//    override func preferredLayoutAttributesFittingAttributes(layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes! {
-//        let attributes = super.preferredLayoutAttributesFittingAttributes(layoutAttributes)
-//
-//        var newBounds = attributes.bounds
-//        newBounds.size.height = UIScreen.screenWidth() / self.aspectRatio
-//        newBounds.size.width = UIScreen.screenWidth()
-//        attributes.bounds = newBounds
-////        let newSize = CGSize(width: UIScreen.screenWidth(), height: UIScreen.screenWidth() / self.aspectRatio )
-////        var newFrame = attributes.frame
-////        newFrame.size.height = newSize.height
-////        newFrame.size.width = newSize.width
-////        attributes.frame = newFrame
-//        return attributes
-//    }
-//    
 }

@@ -34,3 +34,20 @@ class ElloButton: UIButton {
     }
 
 }
+
+class LightElloButton: ElloButton {
+    
+    override var enabled: Bool {
+        didSet {
+            self.backgroundColor = enabled ? UIColor.elloButtonLightGray() : UIColor.elloButtonLightGray()
+        }
+    }
+   
+    override func sharedSetup() {
+        self.titleLabel?.font = UIFont.typewriterFont(14.0)
+        self.titleLabel?.numberOfLines = 1
+        self.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+        self.setTitleColor(UIColor.blackColor(), forState: UIControlState.Disabled)
+    }
+    
+}

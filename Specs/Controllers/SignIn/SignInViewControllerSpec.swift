@@ -44,12 +44,25 @@ class SignInViewControllerSpec: QuickSpec {
                     expect(controller.forgotPasswordButton).notTo(beNil())
                     expect(controller.emailTextField).notTo(beNil())
                     expect(controller.passwordTextField).notTo(beNil())
+                    expect(controller.createAccountButton).notTo(beNil())
                 })
 
-                it("IBActins are wired up", {
-                    expect(controller.enterButton.actionsForTarget(controller, forControlEvent: UIControlEvents.TouchUpInside)).to(contain("enterTapped:"))
+                it("IBActions are wired up", {
+                    let enterActions = controller.enterButton.actionsForTarget(controller, forControlEvent: UIControlEvents.TouchUpInside)
+                    
+                    expect(enterActions).to(contain("enterTapped:"))
+                    
+                    expect(enterActions?.count) == 1
+                    
+                    let forgotPasswordActions = controller.forgotPasswordButton.actionsForTarget(controller, forControlEvent: UIControlEvents.TouchUpInside)
+                    expect(forgotPasswordActions).to(contain("forgotPasswordTapped:"))
+                    
+                    expect(forgotPasswordActions?.count) == 1
 
-                    expect(controller.forgotPasswordButton.actionsForTarget(controller, forControlEvent: UIControlEvents.TouchUpInside)).to(contain("forgotPasswordTapped:"))
+                    let createAccountActions = controller.createAccountButton.actionsForTarget(controller, forControlEvent: UIControlEvents.TouchUpInside)
+                    expect(createAccountActions).to(contain("createAccountTapped:"))
+                    
+                    expect(createAccountActions?.count) == 1
                 });
             })
 
@@ -144,7 +157,6 @@ class SignInViewControllerSpec: QuickSpec {
                 })
 
                 context("keyboard is not docked", {
-
                     it("does NOT adjust scrollview", {
 
                         let keyboardRect = CGRectMake(0.0, screenHeight - 100, screenWidth, 303.0)

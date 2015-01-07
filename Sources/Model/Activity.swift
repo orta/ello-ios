@@ -15,14 +15,14 @@ import SwiftyJSON
 
 class Activity: JSONAble {
 
-    enum ActivityKinds: String {
+    enum Kind: String {
         case OwnPost = "own_post"
         case FriendPost = "friend_post"
         case WelcomPost = "welcome_post"
         case Unknown = "Unknown"
     }
 
-    enum ActivitySubjectType: String {
+    enum SubjectType: String {
         case Post = "Post"
         case User = "User"
         case Unknown = "Unknown"
@@ -30,12 +30,12 @@ class Activity: JSONAble {
 
     dynamic let createdAt: NSDate
     dynamic let activityId: Int
-    let kind: ActivityKinds
-    let subjectType: ActivitySubjectType
+    let kind: Kind
+    let subjectType: SubjectType
     dynamic let subject: AnyObject?
 
 
-    init(kind: ActivityKinds, activityId: Int, createdAt: NSDate, subject:AnyObject?, subjectType: ActivitySubjectType) {
+    init(kind: Kind, activityId: Int, createdAt: NSDate, subject:AnyObject?, subjectType: SubjectType) {
         self.kind = kind
         self.activityId = activityId
         self.createdAt = createdAt
@@ -45,16 +45,16 @@ class Activity: JSONAble {
 
     override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
         let json = JSON(data)
-        let kind = ActivityKinds(rawValue: json["kind"].stringValue) ?? ActivityKinds.Unknown
+        let kind = Kind(rawValue: json["kind"].stringValue) ?? Kind.Unknown
         let activityId = json["id"].intValue
-        let subjectType = ActivitySubjectType(rawValue: json["subject_type"].stringValue) ?? ActivitySubjectType.Unknown
+        let subjectType = SubjectType(rawValue: json["subject_type"].stringValue) ?? SubjectType.Unknown
 
         var createdAt:NSDate = dateFromServerString(json["created_at"].stringValue) ?? NSDate()
 
         return Activity(kind: kind, activityId: activityId, createdAt: createdAt, subject: parseSubject(json, subjectType: subjectType), subjectType: subjectType)
     }
 
-    class private func parseSubject(json:JSON, subjectType: ActivitySubjectType) -> AnyObject? {
+    class private func parseSubject(json:JSON, subjectType: SubjectType) -> AnyObject? {
         var subject:AnyObject?
         switch subjectType {
         case .User:

@@ -41,10 +41,19 @@ class ForgotPasswordViewControllerSpec: QuickSpec {
                     expect(controller.signInButton).notTo(beNil())
                 })
 
-                it("IBActins are wired up", {
-                    expect(controller.resetPasswordButton.actionsForTarget(controller, forControlEvent: UIControlEvents.TouchUpInside)).to(contain("resetPasswordTapped:"))
+                it("IBActions are wired up", {
+                    let resetActions = controller.resetPasswordButton.actionsForTarget(controller, forControlEvent: UIControlEvents.TouchUpInside)
+                    
+                    expect(resetActions).to(contain("resetPasswordTapped:"))
+                    
+                    expect(resetActions?.count) == 1
+                    
+                    let signInActions = controller.signInButton.actionsForTarget(controller, forControlEvent: UIControlEvents.TouchUpInside)
+                    
+                    expect(signInActions).to(contain("signInTapped:"))
+                    
+                    expect(signInActions?.count) == 1
 
-                    expect(controller.signInButton.actionsForTarget(controller, forControlEvent: UIControlEvents.TouchUpInside)).to(contain("signInTapped:"))
                 });
             })
 

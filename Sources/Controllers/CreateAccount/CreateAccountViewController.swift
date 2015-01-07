@@ -1,5 +1,5 @@
 //
-//  RequestInviteViewController.swift
+//  CreateAccountViewController.swift
 //  Ello
 //
 //  Created by Sean Dougherty on 11/24/14.
@@ -8,12 +8,15 @@
 
 import UIKit
 
-class RequestInviteViewController: BaseElloViewController, UITextFieldDelegate {
+class CreateAccountViewController: BaseElloViewController, UITextFieldDelegate {
 
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var emailTextField: ElloTextField!
-    @IBOutlet weak var requestInviteButton: ElloButton!
-    @IBOutlet weak var signInButton: ElloTextButton!
+    @IBOutlet weak var usernameTextField: ElloTextField!
+    @IBOutlet weak var passwordTextField: ElloTextField!
+    @IBOutlet weak var aboutButton: ElloTextButton!
+    @IBOutlet weak var loginButton: ElloTextButton!
+    @IBOutlet weak var createAccountButton: ElloButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,8 +30,8 @@ class RequestInviteViewController: BaseElloViewController, UITextFieldDelegate {
         removeNotificationObservers()
     }
 
-    class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> RequestInviteViewController {
-        return storyboard.controllerWithID(.RequestInvite) as RequestInviteViewController
+    class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> CreateAccountViewController {
+        return storyboard.controllerWithID(.CreateAccount) as CreateAccountViewController
     }
 
     // MARK: - Private
@@ -44,7 +47,9 @@ class RequestInviteViewController: BaseElloViewController, UITextFieldDelegate {
 
     private func setupTextFields() {
         emailTextField.delegate = self
-        requestInviteButton.enabled = false
+        usernameTextField.delegate = self
+        passwordTextField.delegate = self
+        createAccountButton.enabled = false
     }
 
     private func setupNotificationObservers() {
@@ -81,8 +86,9 @@ class RequestInviteViewController: BaseElloViewController, UITextFieldDelegate {
         return (rect.origin.y + rect.size.height) == view.bounds.size.height
     }
 
-    private func isValid(email:String) -> Bool {
-        return email.isValidEmail()
+    private func isValid(email:String, _ username:String, _ password:String) -> Bool {
+        // TODO: add fancy server side validation/suggestion
+        return email.isValidEmail() && password.isValidPassword()
     }
 
     // MARK: Keyboard Event Notifications
@@ -113,7 +119,7 @@ class RequestInviteViewController: BaseElloViewController, UITextFieldDelegate {
 
         switch textField {
         case emailTextField:
-            requestInviteButton.enabled = isValid(emailTextField.text)
+            createAccountButton.enabled = isValid(emailTextField.text, usernameTextField.text, passwordTextField.text)
             return true
         default:
             return true
@@ -122,9 +128,9 @@ class RequestInviteViewController: BaseElloViewController, UITextFieldDelegate {
 
     // MARK: - IBActions
 
-    @IBAction func requestInvitTapped(sender: ElloButton) {
-
-        if isValid(emailTextField.text) {
+    @IBAction func createAccountTapped(sender: ElloButton) {
+        println("create account tapped")
+        if isValid(emailTextField.text, usernameTextField.text, passwordTextField.text) {
 //            ElloHUD.showLoadingHud()
         }
         else {
@@ -132,9 +138,15 @@ class RequestInviteViewController: BaseElloViewController, UITextFieldDelegate {
         }
     }
 
-    @IBAction func signInTapped(sender: ElloTextButton) {
+    @IBAction func loginTapped(sender: ElloTextButton) {
+        println("login tapped")
         let signInController = SignInViewController.instantiateFromStoryboard()
         self.presentViewController(signInController, animated:true, completion:nil)
+    }
+    
+    @IBAction func aboutTapped(sender: ElloTextButton) {
+        //TODO: show about screen
+        println("about tapped")
     }
     
 }

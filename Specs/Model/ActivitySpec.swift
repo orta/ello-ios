@@ -32,9 +32,9 @@ class ActivitySpec: QuickSpec {
 
             let activity = Activity.fromJSON(data) as Activity
 
-            expect(activity.subjectType) == Activity.ActivitySubjectType.User
+            expect(activity.subjectType) == Activity.SubjectType.User
             expect(activity.activityId) == activityId
-            expect(activity.kind) == Activity.ActivityKinds.FriendPost
+            expect(activity.kind) == Activity.Kind.FriendPost
             expect(activity.createdAt) == createdAt
 
             let user = activity.subject as User
@@ -68,9 +68,9 @@ class ActivitySpec: QuickSpec {
 
             let activity = Activity.fromJSON(data) as Activity
 
-            expect(activity.subjectType) == Activity.ActivitySubjectType.Post
+            expect(activity.subjectType) == Activity.SubjectType.Post
             expect(activity.activityId) == activityId
-            expect(activity.kind) == Activity.ActivityKinds.WelcomPost
+            expect(activity.kind) == Activity.Kind.WelcomPost
             expect(activity.createdAt) == createdAt
 
             let post = activity.subject as Post
