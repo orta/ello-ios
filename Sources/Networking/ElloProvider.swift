@@ -167,7 +167,8 @@ extension MoyaProvider {
             success(data:mappedObjects!)
         }
         else {
-            let jsonMappingError:ElloNetworkError = ElloNetworkError(error: "Error", errorDescription: "NEED DEFAULT HERE", messages: nil, errors: nil)
+            let jsonMappingError = ElloNetworkError(errors: [:], title: "Error", code: ElloNetworkError.CodeType.unknown.rawValue, detail: "NEED DEFAULT HERE", status: nil, messages: nil, attrs: nil)
+            
             let elloError = NSError.networkError(jsonMappingError, code: ElloErrorCode.JSONMapping)
             if let failure = failure {
                 failure(error: elloError, statusCode: nil)
@@ -212,8 +213,8 @@ extension MoyaProvider {
             }
         }
         else {
-            let description = error?.localizedDescription ?? "NEED DEFAULT HERE"
-            elloNetworkError = ElloNetworkError(error: "Error", errorDescription: description, messages: nil, errors: nil)
+            let detail = error?.localizedDescription ?? "NEED DEFAULT HERE"
+            elloNetworkError = ElloNetworkError(errors: [:], title: "Error", code: ElloNetworkError.CodeType.unknown.rawValue, detail: detail, status: nil, messages: nil, attrs: nil)
         }
 
         var errorCodeType = (statusCode == nil) ? ElloErrorCode.Data : ElloErrorCode.StatusCode

@@ -15,7 +15,7 @@ PODS:
 DEPENDENCIES:
   - Alamofire (from `https://github.com/mrackwitz/Alamofire.git`, branch `podspec`)
   - LlamaKit (from `https://github.com/AshFurrow/LlamaKit`, branch `rac_podspec`)
-  - Moya (from `https://github.com/steam/Moya`)
+  - Moya (from `https://github.com/AshFurrow/Moya`)
   - Nimble (from `https://github.com/ashfurrow/Nimble`, branch `podspec`)
   - Quick (from `https://github.com/orta/Quick`, branch `podspec`)
   - SDWebImage (~> 3.7)
@@ -29,7 +29,7 @@ EXTERNAL SOURCES:
     :branch: rac_podspec
     :git: https://github.com/AshFurrow/LlamaKit
   Moya:
-    :git: https://github.com/steam/Moya
+    :git: https://github.com/AshFurrow/Moya
   Nimble:
     :branch: podspec
     :git: https://github.com/ashfurrow/Nimble
@@ -48,8 +48,8 @@ CHECKOUT OPTIONS:
     :commit: 3e1f3b480213992cbc4f5706e5c27e49f6c18d39
     :git: https://github.com/AshFurrow/LlamaKit
   Moya:
-    :commit: 3cfd1b5bf6b8a971f7a14abb713ef6f4179847b1
-    :git: https://github.com/steam/Moya
+    :commit: 5e36500a14b702074598dfc83a57f1d879f3ea5e
+    :git: https://github.com/AshFurrow/Moya
   Nimble:
     :commit: 8db5bb2eba40ce71ea7b68d5ce81976142717b5e
     :git: https://github.com/ashfurrow/Nimble

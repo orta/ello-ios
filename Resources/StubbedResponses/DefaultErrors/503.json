@@ -1,4 +1,8 @@
 {
-    "error": "unavailable",
-    "error_description": "We're undergoing maintenance right now, but will be back online in about 2 minutes."
+    "errors": {
+        "status":"503",
+        "title":"The service is unavailable. Try back shortly.",
+        "detail":"Oh snap, the service is down while we work on it.",
+        "code":"unavailable"
+    }
 }

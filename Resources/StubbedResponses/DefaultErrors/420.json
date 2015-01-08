@@ -1,4 +1,7 @@
 {
-    "error": "rate_limited",
-    "error_description": "The request could not be handled due to rate limiting."
+    "errors": {
+        "status":"420",
+        "title":"The request could not be handled due to rate limiting.",
+        "code":"rate_limited"
+    }
 }

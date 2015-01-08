@@ -1,4 +1,7 @@
 {
-    "error": "not_found",
-    "error_description": "The requested resource could not be found."
+    "errors": {
+        "status":"404",
+        "title":"The requested resource could not be found.",
+        "code":"not_found"
+    }
 }
