@@ -1,0 +1,108 @@
+{
+    "posts": {
+        "id": "81",
+        "href": "/api/edge/posts/81",
+        "token": "NkwfgnXux54tuPBM2Xm0ZA",
+        "collapsed": false,
+        "allow_comments": true,
+        "summary": [
+                    "<p>archer, I&apos;m sorry, did you say &quot;mancrush&quot;?</p>",
+                    "<img src='//abc123.cloudfront.net/uploads/x/Burt_Reynolds.jpg'/>"
+                    ],
+        "created_at": "2014-06-01T00:00:00.000Z",
+        "body": [
+                 {
+                 "kind": "text",
+                 "data": "archer, I'm sorry, did you say \"mancrush\"?"
+                 },
+                 {
+                 "kind": "image",
+                 "data": {
+                 "url": "//abc123.cloudfront.net/uploads/x/Burt_Reynolds.jpg",
+                 "via": "direct",
+                 "alt": "Burt_Reynolds.jpg",
+                 "asset_id": 42
+                 }
+                 }
+                 ],
+        "content": [
+                    "<p>archer, I'm sorry, did you say \"mancrush\"?</p>",
+                    "<img src='//abc123.cloudfront.net/uploads/x/Burt_Reynolds.jpg'/>"
+                    ],
+        "views_count": 1,
+        "comments_count": 3,
+        "reposts_count": 0,
+        "links": {
+            "author": {
+                "type": "users",
+                "href": "/api/edge/users/666",
+                "id": "666"
+            },
+            "comments": [
+                         "84",
+                         "83"
+                         ]
+        }
+    },
+    "linked": {
+        "users": [
+                  {
+                  "id": "666",
+                  "href": "/api/edge/users/666",
+                  "username": "cfiggis",
+                  "name": "Cyril Figgis",
+                  "avatar_url": "//abc123.cloudfront.net/uploads/user/avatar/666/avatar.png",
+                  "experimental_features": true,
+                  "relationship_priority": null
+                  },
+                  {
+                  "id": "43",
+                  "href": "/api/edge/users/43",
+                  "username": "lanakane32d",
+                  "name": "Lana Kane",
+                  "avatar_url": "//abc123.cloudfront.net/uploads/user/avatar/43/avatar.png",
+                  "experimental_features": true,
+                  "relationship_priority": null
+                  },
+                  {
+                  "id": "420",
+                  "href": "/api/edge/users/420",
+                  "username": "pam",
+                  "name": "Pamilanderson",
+                  "avatar_url": "//abc123.cloudfront.net/uploads/user/avatar/420/avatar.png",
+                  "experimental_features": true,
+                  "relationship_priority": null
+                  }
+                  ],
+        "comments": [
+                     {
+                     "id": "84",
+                     "summary": [
+                                 "<p>hah!</p>"
+                                 ],
+                     "created_at": "2014-06-04T00:00:00.000Z",
+                     "links": {
+                     "author": {
+                     "type": "users",
+                     "href": "/api/edge/users/43",
+                     "id": "43"
+                     }
+                     }
+                     },
+                     {
+                     "id": "83",
+                     "summary": [
+                                 "<p>Hello, I am a comment with awesome content!</p>"
+                                 ],
+                     "created_at": "2014-06-03T00:00:00.000Z",
+                     "links": {
+                     "author": {
+                     "type": "users",
+                     "href": "/api/edge/users/420",
+                     "id": "420"
+                     }
+                     }
+                     }
+                     ]
+    }
+}

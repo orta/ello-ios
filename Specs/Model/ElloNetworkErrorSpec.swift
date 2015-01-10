@@ -24,7 +24,7 @@ class ElloNetworkErrorSpec: QuickSpec {
             let errors:[String:AnyObject] = ["status" : status, "title" : title, "code" : code, "detail" : detail, "messages" : messages, "attrs" : attrs]
             let data:[String: AnyObject] = ["errors" : errors]
 
-            let elloNetworkError = ElloNetworkError.fromJSON(data) as ElloNetworkError
+            let elloNetworkError = ElloNetworkError.fromJSON(data, linked: nil) as ElloNetworkError
 
             expect(elloNetworkError.code) == ElloNetworkError.CodeType.rateLimited
             expect(elloNetworkError.title) == title

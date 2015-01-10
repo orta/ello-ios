@@ -21,7 +21,7 @@ class UserSpec: QuickSpec {
 
             let data:[String: AnyObject] = ["avatar_url" : avatar, "id" : userId, "name" : name, "username" : username]
 
-            let user = User.fromJSON(data) as User
+            let user = User.fromJSON(data, linked: nil) as User
 
             expect(user.avatarURL) == avatarURL
             expect(user.userId) == userId

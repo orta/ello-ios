@@ -29,8 +29,8 @@ class PostSpec: QuickSpec {
 
             let data:[String: AnyObject] = ["body" : body , "author" : authorDict, "created_at" : createdAtString, "content" : content, "summary" : summary, "token" : token, "id" : postId]
 
-            let post = Post.fromJSON(data) as Post
-            var createdAt:NSDate = dateFromServerString(createdAtString)!
+            let post = Post.fromJSON(data, linked: nil) as Post
+            var createdAt:NSDate = createdAtString.toNSDate()!
 
             expect(post.createdAt) == createdAt
             expect(post.content) == content

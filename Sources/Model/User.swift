@@ -24,7 +24,7 @@ class User: JSONAble {
         self.avatarURL = avatarURL
     }
 
-    override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
+    override class func fromJSON(data:[String: AnyObject], linked: [String:[AnyObject]]?) -> JSONAble {
         let json = JSON(data)
         let name = json["name"].stringValue
         let userId = json["id"].intValue

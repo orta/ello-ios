@@ -76,7 +76,7 @@ class Post: JSONAble {
         self.viewedCount = viewedCount
     }
 
-    override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
+    override class func fromJSON(data:[String: AnyObject], linked: [String:[AnyObject]]?) -> JSONAble {
         let json = JSON(data)
 
         let content = json["content"].object as [String]
@@ -86,12 +86,12 @@ class Post: JSONAble {
         let viewedCount = json["viewed_count"].intValue
         let commentCount = json["comment_count"].intValue
 
-        var createdAt:NSDate = dateFromServerString(json["created_at"].stringValue) ?? NSDate()
+        var createdAt:NSDate = json["created_at"].stringValue.toNSDate() ?? NSDate()
 
         let post = Post(body: bodyElements(json), createdAt: createdAt, postId: postId, content: content, summary: summary, token: token, commentCount: commentCount, viewedCount: viewedCount)
 
         if let authorDict = json["author"].object as? [String: AnyObject] {
-            post.author = User.fromJSON(authorDict) as? User
+            post.author = User.fromJSON(authorDict, linked: nil) as? User
         }
 
         return post

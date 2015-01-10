@@ -28,9 +28,9 @@ class ActivitySpec: QuickSpec {
             let subject:[String: AnyObject] = ["avatar_url" : avatar, "id" : userId, "name" : name, "username" : username]
             let data:[String: AnyObject] = ["kind" : kind, "subject" : subject, "created_at" : createdAtString, "subject_type" : subjectType, "id" : activityId]
 
-            var createdAt:NSDate = dateFromServerString(createdAtString)!
+            var createdAt:NSDate = createdAtString.toNSDate()!
 
-            let activity = Activity.fromJSON(data) as Activity
+            let activity = Activity.fromJSON(data, linked: nil) as Activity
 
             expect(activity.subjectType) == Activity.SubjectType.User
             expect(activity.activityId) == activityId
@@ -62,11 +62,11 @@ class ActivitySpec: QuickSpec {
 
             let data:[String: AnyObject] = ["kind" : kind, "subject" : subject, "created_at" : createdAtString, "subject_type" : subjectType, "id" : activityId]
 
-            var createdAt:NSDate = dateFromServerString(createdAtString)!
+            var createdAt:NSDate = createdAtString.toNSDate()!
 
-            var postCreatedAt:NSDate = dateFromServerString(postCreatedAtString)!
+            var postCreatedAt:NSDate = postCreatedAtString.toNSDate()!
 
-            let activity = Activity.fromJSON(data) as Activity
+            let activity = Activity.fromJSON(data, linked: nil) as Activity
 
             expect(activity.subjectType) == Activity.SubjectType.Post
             expect(activity.activityId) == activityId

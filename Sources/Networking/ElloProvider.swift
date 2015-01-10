@@ -239,7 +239,7 @@ extension MoyaProvider {
     func mapToObjectArray(object: AnyObject?, classType: JSONAble.Type) -> [JSONAble]? {
 
         if let dicts = object as? [[String:AnyObject]] {
-            let jsonables:[JSONAble] =  dicts.map({ return classType.fromJSON($0) })
+            let jsonables:[JSONAble] =  dicts.map({ return classType.fromJSON($0, linked: nil) })
             return jsonables
         }
 
@@ -249,7 +249,7 @@ extension MoyaProvider {
     func mapToObject(object:AnyObject?, classType: JSONAble.Type) -> JSONAble? {
 
         func resultFromJSON(object:[String: AnyObject], classType: JSONAble.Type) -> JSONAble? {
-            return classType.fromJSON(object)
+            return classType.fromJSON(object, linked: nil)
         }
 
         if let dict = object as? [String:AnyObject] {

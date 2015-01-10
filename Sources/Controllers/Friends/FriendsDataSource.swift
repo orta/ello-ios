@@ -18,6 +18,7 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
         case Footer = "StreamFooterCell"
         case Image = "StreamImageCell"
         case Text = "StreamTextCell"
+        case Comment = "StreamCommentCell"
         case Unknown = "StreamUnknownCell"
     }
 
@@ -55,7 +56,6 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         if let streamCellItem = streamCellItems?[indexPath.item] {
             let activity = streamCellItem.activity
-
             switch activity.subjectType {
             case .Post:
                 return postCellForActivity(streamCellItem, collectionView: collectionView, indexPath: indexPath)
