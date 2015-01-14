@@ -27,18 +27,18 @@ struct StreamCellItemParser {
     private func bodyStreamCellItems(activity:Activity) -> [StreamCellItem] {
         var cellArray:[StreamCellItem] = []
         if let post = activity.subject as? Post {
-            for element in post.content {
+            for block in post.content {
                 var height:CGFloat
-                switch element.type {
-                case Post.BodyElementTypes.Image:
+                switch block.kind {
+                case Block.Kind.Image:
                     height = UIScreen.screenWidth() / (4/3)
-                case Post.BodyElementTypes.Text:
+                case Block.Kind.Text:
                     height = 0
-                case Post.BodyElementTypes.Unknown:
+                case Block.Kind.Unknown:
                     height = 120.0
                 }
 
-                let body:StreamCellItem = StreamCellItem(activity: activity, type: StreamCellItem.CellType.BodyElement, data: element, cellHeight: height)
+                let body:StreamCellItem = StreamCellItem(activity: activity, type: StreamCellItem.CellType.BodyElement, data: block, cellHeight: height)
                 cellArray.append(body)
             }
         }

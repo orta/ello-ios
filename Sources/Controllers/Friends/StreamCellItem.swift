@@ -18,10 +18,10 @@ class StreamCellItem {
 
     let activity:Activity
     let type:StreamCellItem.CellType
-    let data:Post.BodyElement?
+    let data:Block?
     var cellHeight:CGFloat = 0
 
-    init(activity:Activity, type:StreamCellItem.CellType, data:Post.BodyElement?, cellHeight:CGFloat) {
+    init(activity:Activity, type:StreamCellItem.CellType, data:Block?, cellHeight:CGFloat) {
         self.activity = activity
         self.type = type
         self.data = data

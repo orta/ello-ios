@@ -92,12 +92,12 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
 
     private func cellForBodyElement(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        switch streamCellItem.data!.type {
-        case Post.BodyElementTypes.Image:
+        switch streamCellItem.data!.kind {
+        case Block.Kind.Image:
             return imageCell(streamCellItem, collectionView: collectionView, indexPath: indexPath)
-        case Post.BodyElementTypes.Text:
+        case Block.Kind.Text:
             return textCell(streamCellItem, collectionView: collectionView, indexPath: indexPath)
-        case Post.BodyElementTypes.Unknown:
+        case Block.Kind.Unknown:
             return collectionView.dequeueReusableCellWithReuseIdentifier(CellIdentifier.Unknown.rawValue, forIndexPath: indexPath) as UICollectionViewCell
         }
     }
@@ -112,7 +112,7 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
 
     private func imageCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> StreamImageCell {
         let imageCell = collectionView.dequeueReusableCellWithReuseIdentifier(CellIdentifier.Image.rawValue, forIndexPath: indexPath) as StreamImageCell
-        if let photoData = streamCellItem.data as Post.ImageBodyElement? {
+        if let photoData = streamCellItem.data as ImageBlock? {
             if let photoURL = photoData.url? {
                 imageCell.setImageURL(photoURL)
             }
@@ -123,7 +123,7 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
     private func textCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> StreamTextCell {
         let textCell = collectionView.dequeueReusableCellWithReuseIdentifier(CellIdentifier.Text.rawValue, forIndexPath: indexPath) as StreamTextCell
         textCell.contentView.alpha = 0.0
-        if let textData = streamCellItem.data as Post.TextBodyElement? {
+        if let textData = streamCellItem.data as TextBlock? {
             textCell.webView.loadHTMLString(StreamTextCellHTML.postHTML(textData.content), baseURL: NSURL(string: "/"))
         }
         return textCell
@@ -134,7 +134,7 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
         var cellItems = parser.streamCellItems(activities)
 
         let textElements = cellItems.filter {
-            return $0.data as? Post.TextBodyElement != nil
+            return $0.data as? TextBlock != nil
         }
 
         self.sizeCalculator.processCells(textElements, {

@@ -15,14 +15,14 @@ class Comment: JSONAble {
     
     let commentId: String
     let createdAt: NSDate
-    let summary: [String]
+    let content: [Block]
     let author: User?
     let parentPost: Post?
     
-    init(commentId: String, createdAt: NSDate, summary: [String], author: User?, parentPost: Post?) {
+    init(commentId: String, createdAt: NSDate, content: [Block], author: User?, parentPost: Post?) {
         self.commentId = commentId
         self.createdAt = createdAt
-        self.summary = summary
+        self.content = content
         self.author = author
         self.parentPost = parentPost
     }
@@ -33,8 +33,7 @@ class Comment: JSONAble {
         
         var commentId = json["id"].stringValue
         var createdAt = json["created_at"].stringValue.toNSDate()!
-        let summary = json["summary"].object as [String]
-        
+       
         var author:User?
         if let authorDict = json["author"].object as? [String: AnyObject] {
             author = User.fromJSON(authorDict, linked: linked) as? User
@@ -45,6 +44,6 @@ class Comment: JSONAble {
             parentPost = Post.fromJSON(parentPostDict, linked: linked) as? Post
         }
 
-        return Comment(commentId: commentId, createdAt: createdAt, summary: summary, author: author, parentPost: parentPost)
+        return Comment(commentId: commentId, createdAt: createdAt, content: Block.blocks(json), author: author, parentPost: parentPost)
     }
 }

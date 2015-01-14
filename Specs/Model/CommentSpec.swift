@@ -21,7 +21,11 @@ class CommentSpec: QuickSpec {
             var createdAt:NSDate = createdAtString.toNSDate()!
             
             expect(comment.createdAt) == createdAt
-            expect(comment.summary) == ["<p>Hello, I am a comment with awesome content!</p>"]
+            
+            let commentContent0:TextBlock = comment.content[0] as TextBlock
+            expect(commentContent0.kind) == Block.Kind.Text
+            expect(commentContent0.content) == "Hello, I am a comment with awesome content!"
+
             expect(comment.commentId) == "30"
             
             let commentAuthor:User = comment.author!

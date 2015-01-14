@@ -56,9 +56,10 @@ class ActivitySpec: QuickSpec {
             var postCreatedAt:NSDate = "2014-12-23T22:27:47.341Z".toNSDate()!
             expect(post.createdAt) == postCreatedAt
 
-            let postContent:Post.TextBodyElement = post.content[0] as Post.TextBodyElement
-            expect(postContent.type) == Post.BodyElementTypes.Text
-            expect(postContent.content) == "yo mang"
+            let postContent0:TextBlock = post.content[0] as TextBlock
+            expect(postContent0.kind) == Block.Kind.Text
+            expect(postContent0.content) == "yo mang"
+            
             expect(post.token) == "KVNldSWCvfPkjsbWcvB4mA"
             expect(post.postId) == "598"
             

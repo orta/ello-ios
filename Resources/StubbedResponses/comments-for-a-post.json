@@ -1,0 +1,39 @@
+{
+    "linked": {
+        "users": [
+            {
+                "id": "345",
+                "href": "/api/edge/users/345",
+                "username": "pam",
+                "name": "Pamilanderson",
+                "avatar_url": "http://abc123.cloudfront.net/uploads/user/avatar/420/avatar.png",
+                "experimental_features": true,
+                "relationship_priority": null
+            }
+        ]
+    },
+    "comments": [
+        {
+            "id": "112",
+            "content": [
+                {
+                    "kind": "text",
+                    "data": "<p>Hello, I am a comment with awesome content!</p>"
+                }
+            ],
+            "created_at": "2014-06-02T00:00:00.000Z",
+            "links": {
+                "author": {
+                    "type": "users",
+                    "href": "/api/edge/users/420",
+                    "id": "345"
+                },
+                "parent_post": {
+                    "type": "posts",
+                    "href": "/api/edge/posts/111",
+                    "id": "111"
+                }
+            }
+        }
+    ]
+}
