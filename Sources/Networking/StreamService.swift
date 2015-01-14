@@ -17,7 +17,7 @@ class StreamService: NSObject {
 
     func loadFriendStream(success: StreamSuccessCompletion, failure: StreamFailureCompletion?) {
         let endpoint: ElloAPI = .FriendStream
-        ElloProvider.sharedProvider.elloRequest(endpoint, method: .GET, parameters: endpoint.defaultParameters, mappableType: Activity.self, success: { (data) -> () in
+        ElloProvider.sharedProvider.elloRequest(endpoint, method: .GET, parameters: endpoint.defaultParameters, propertyName:MappingType.Prop.Activities, success: { (data) -> () in
             if let activities:[Activity] = data as? [Activity] {
                 success(activities: activities)
             }

@@ -1,0 +1,14 @@
+{
+    "users": {
+        "id": "42",
+        "href": "/api/edge/users/42",
+        "username": "archer",
+        "name": "Sterling",
+        "avatar_url": "https://abc123.cloudfront.net/uploads/user/avatar/42/avatar.png",
+        "experimental_features": false,
+        "relationship_priority": "self",
+        "posts_count": 1,
+        "followers_count": 0,
+        "following_count": 1
+    }
+}

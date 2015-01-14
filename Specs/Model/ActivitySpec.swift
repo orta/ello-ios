@@ -14,72 +14,61 @@ class ActivitySpec: QuickSpec {
 
         it("converts User activities from JSON") {
 
-            let activityId = 123
-            let subjectType = "User"
-            let kind = "friend_post"
-            let createdAtString = "2013-09-30T05:57:53.936Z"
+            let parsedActivity = stubbedJSONData("activity-welcome-post", "activity")
 
-            let avatar = "http://ello.dev/uploads/user/avatar/42/avatar.png"
-            let avatarURL = NSURL(string: avatar)
-            let userId = 42
-            let name = "Secret Spy"
-            let username = "archer"
-
-            let subject:[String: AnyObject] = ["avatar_url" : avatar, "id" : userId, "name" : name, "username" : username]
-            let data:[String: AnyObject] = ["kind" : kind, "subject" : subject, "created_at" : createdAtString, "subject_type" : subjectType, "id" : activityId]
-
+            var createdAtString = "2014-06-01T00:00:00.000Z"
             var createdAt:NSDate = createdAtString.toNSDate()!
 
-            let activity = Activity.fromJSON(data, linked: nil) as Activity
+            let activity = Activity.fromJSON(parsedActivity, linked: nil) as Activity
 
             expect(activity.subjectType) == Activity.SubjectType.User
-            expect(activity.activityId) == activityId
-            expect(activity.kind) == Activity.Kind.FriendPost
-            expect(activity.createdAt) == createdAt
-
-            let user = activity.subject as User
-            expect(user.avatarURL) == avatarURL
-            expect(user.userId) == userId
-            expect(user.name) == name
-            expect(user.username) == username
-        }
-
-
-        it("converts Post activities from JSON") {
-            let activityId = 666
-            let subjectType = "Post"
-            let kind = "welcome_post"
-            let createdAtString = "2010-09-30T05:57:53.936Z"
-
-            let body = [["data" : "@figgis ISIS agents use **Krav Maga.**", "kind" : "text"]]
-            let postCreatedAtString = "2013-11-30T05:57:53.936Z"
-            let content = [ "<p><a href=\"/archer\" class=\"user-mention\" rel=\"nofollow\">@archer</a>, Will I get to learn karate?</p>"]
-            let summary = [ "<p><a href='/archer' class='user-mention' rel='nofollow'>@archer</a>, Will I get to learn karate?</p>"]
-            let token = "iQ7twNQtWwAQjBw4kEL1rg"
-            let postId = 17
-
-            let subject:[String: AnyObject] = ["body" : body , "created_at" : postCreatedAtString, "content" : content, "summary" : summary, "token" : token, "id" : postId]
-
-            let data:[String: AnyObject] = ["kind" : kind, "subject" : subject, "created_at" : createdAtString, "subject_type" : subjectType, "id" : activityId]
-
-            var createdAt:NSDate = createdAtString.toNSDate()!
-
-            var postCreatedAt:NSDate = postCreatedAtString.toNSDate()!
-
-            let activity = Activity.fromJSON(data, linked: nil) as Activity
-
-            expect(activity.subjectType) == Activity.SubjectType.Post
-            expect(activity.activityId) == activityId
+            expect(activity.activityId) == createdAtString
             expect(activity.kind) == Activity.Kind.WelcomPost
             expect(activity.createdAt) == createdAt
 
+            let user = activity.subject as User
+            expect(user.avatarURL!.absoluteString) == "https://abc123.cloudfront.net/uploads/user/avatar/42/avatar.png"
+            expect(user.userId) == "55"
+            expect(user.name) == "Sterling"
+            expect(user.username) == "archer"
+            expect(user.href) == "/api/edge/users/42"
+            expect(user.experimentalFeatures) == true
+            expect(user.relationshipPriority) == "self"
+            expect(user.postsCount!) == 456
+            expect(user.followingCount!) == 111
+            expect(user.followersCount!) == 10
+        }
+
+        it("converts Post activities from JSON") {
+            let (parsedActivity, parsedLinked) = stubbedJSONDataWithLinked("activity-own-post", "activity")
+            
+            let activity = Activity.fromJSON(parsedActivity, linked: parsedLinked) as Activity
+
+            var createdAtString = "2014-06-03T00:00:00.000Z"
+            var createdAt:NSDate = createdAtString.toNSDate()!
+            
+            expect(activity.subjectType) == Activity.SubjectType.Post
+            expect(activity.activityId) == createdAtString
+            expect(activity.kind) == Activity.Kind.OwnPost
+            expect(activity.createdAt) == createdAt
+
             let post = activity.subject as Post
-//            expect(post.body) == body
+            var postCreatedAt:NSDate = "2014-12-23T22:27:47.341Z".toNSDate()!
             expect(post.createdAt) == postCreatedAt
-            expect(post.content) == content
-            expect(post.summary) == summary
-            expect(post.token) == token
-            expect(post.postId) == postId
+
+            let postContent:Post.TextBodyElement = post.content[0] as Post.TextBodyElement
+            expect(postContent.type) == Post.BodyElementTypes.Text
+            expect(postContent.content) == "yo mang"
+            expect(post.token) == "KVNldSWCvfPkjsbWcvB4mA"
+            expect(post.postId) == "598"
+            
+            let postAuthor = post.author!
+            expect(postAuthor.userId) == "42"
+            expect(postAuthor.username) == "archer"
+            expect(postAuthor.name) == "Sterling"
+            expect(postAuthor.experimentalFeatures) == false
+            expect(postAuthor.relationshipPriority) == "self"
+            expect(postAuthor.href) == "/api/edge/users/42"
         }
     }
 }

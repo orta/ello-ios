@@ -12,48 +12,52 @@ import Nimble
 class CommentSpec: QuickSpec {
     override func spec() {
         
-        func linkedUser() -> [String:AnyObject] {
-            let avatar = "http://ello.dev/uploads/user/avatar/42/avatar.png"
-            let userId = "43"
-            let name = "Secret Spy"
-            let username = "archer"
-            
-            return ["avatar_url" : avatar, "id" : userId, "name" : name, "username" : username]
-        }
-        
-
         it("converts from JSON") {
-            
-            let commentId = "666"
-            let createdAtString = "2013-11-30T05:57:53.936Z"
-            let summary = ["one", "eleven"]
-            let links = ["author":["type":"users", "href":"/api/edge/users/43", "id":"43"]]
-            
-            let authorAvatar = "http://ello.dev/uploads/user/avatar/42/avatar.png"
-            let authorAvatarURL = NSURL(string: authorAvatar)
-            let authorId = "43"
-            let authorName = "Secret Spy"
-            let authorUsername = "archer"
-            
-            let userData:[String: AnyObject] = ["avatar_url" : authorAvatar, "id" : authorId, "name" : authorName, "username" : authorUsername]
-            
-            let linkedObjects = ["users":[userData as AnyObject]]
 
-            let data:[String:AnyObject] = ["id" : commentId, "created_at" : createdAtString, "summary" : summary, "links" : links]
-            
-            let comment = Comment.fromJSON(data, linked: linkedObjects) as Comment
+            let (parsedComment, parsedLinked) = stubbedJSONDataWithLinked("comments", "comments")
+            let createdAtString = "2014-06-02T00:00:00.000Z"
+            let comment = Comment.fromJSON(parsedComment, linked: parsedLinked) as Comment
             
             var createdAt:NSDate = createdAtString.toNSDate()!
             
             expect(comment.createdAt) == createdAt
-            expect(comment.summary) == summary
-            expect(comment.commentId) == commentId.toInt()
+            expect(comment.summary) == ["<p>Hello, I am a comment with awesome content!</p>"]
+            expect(comment.commentId) == "30"
             
-            expect(comment.author).to(beAnInstanceOf(User.self))
-            expect(comment.author!.name) == authorName
-            expect(comment.author!.userId) == authorId.toInt()
-            expect(comment.author!.username) == authorUsername
-            expect(comment.author!.avatarURL) == authorAvatarURL
+            let commentAuthor:User = comment.author!
+            
+            expect(commentAuthor).to(beAnInstanceOf(User.self))
+            expect(commentAuthor.name) == "Smalls"
+            expect(commentAuthor.userId) == "420"
+            expect(commentAuthor.username) == "bigE"
+            expect(commentAuthor.href) == "/api/edge/users/420"
+            expect(commentAuthor.relationshipPriority) == "friend"
+            expect(commentAuthor.experimentalFeatures) == true
+            expect(commentAuthor.avatarURL!.absoluteString) == "https://abc123.cloudfront.net/uploads/user/avatar/420/avatar.png"
+            
+            var postCreatedAt:NSDate = "2014-12-23T22:27:47.325Z".toNSDate()!
+            
+            expect(comment.parentPost).to(beAnInstanceOf(Post.self))
+            expect(comment.parentPost!.token) == "ibLWX5p5fPBfzE8GmfOG6w"
+            expect(comment.parentPost!.postId) == "29"
+            expect(comment.parentPost!.href) == "/api/edge/posts/29"
+            expect(comment.parentPost!.createdAt) == postCreatedAt
+            expect(comment.parentPost!.viewsCount) == 25
+            expect(comment.parentPost!.commentsCount) == 10
+            expect(comment.parentPost!.repostsCount) == 52
+            expect(comment.parentPost!.collapsed) == false
+            
+            let postAuthor:User = comment.parentPost!.author!
+            
+            expect(postAuthor).to(beAnInstanceOf(User.self))
+            expect(postAuthor.name) == "Cyril Figgis"
+            expect(postAuthor.userId) == "666"
+            expect(postAuthor.username) == "cfiggis"
+            expect(postAuthor.href) == "/api/edge/users/666"
+            expect(postAuthor.relationshipPriority) == "friend"
+            expect(postAuthor.experimentalFeatures) == true
+            expect(postAuthor.avatarURL!.absoluteString) == "https://abc123.cloudfront.net/uploads/user/avatar/666/avatar.png"
+            
         }
     }
 }

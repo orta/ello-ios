@@ -54,51 +54,52 @@ class Post: JSONAble {
         }
     }
 
-    dynamic let postId: Int
-    dynamic let commentCount: Int
-    dynamic let viewedCount: Int
-    dynamic let body: [BodyElement]
-    dynamic let content: [String]
-    dynamic let summary: [String]
-    dynamic let token: String
+    let postId: String
+    let createdAt: NSDate
+    let href: String
+    let collapsed: Bool
+    let content: [BodyElement]
+    let token: String
+    var author: User?
+    let commentsCount: Int?
+    let viewsCount: Int?
+    let repostsCount: Int?
 
-    dynamic let createdAt: NSDate
-    dynamic var author: User?
-
-    init(body: [BodyElement], createdAt: NSDate, postId: Int, content: [String], summary: [String], token: String, commentCount: Int, viewedCount: Int) {
-        self.body = body
-        self.createdAt = createdAt
+    init(postId: String, createdAt: NSDate, href: String, collapsed:Bool, content: [BodyElement], token: String, commentsCount: Int?, viewsCount: Int?, repostsCount: Int?) {
         self.postId = postId
+        self.createdAt = createdAt
+        self.href = href
+        self.collapsed = collapsed
         self.content = content
-        self.summary = summary
         self.token = token
-        self.commentCount = commentCount
-        self.viewedCount = viewedCount
+        self.commentsCount = commentsCount
+        self.viewsCount = viewsCount
+        self.repostsCount = repostsCount
     }
 
     override class func fromJSON(data:[String: AnyObject], linked: [String:[AnyObject]]?) -> JSONAble {
-        let json = JSON(data)
-
-        let content = json["content"].object as [String]
-        let summary = json["summary"].object as [String]
-        let token = json["token"].stringValue
-        let postId = json["id"].intValue
-        let viewedCount = json["viewed_count"].intValue
-        let commentCount = json["comment_count"].intValue
-
+        let linkedData = JSONAble.linkItems(data, linked: linked)
+        let json = JSON(linkedData)
+        let postId = json["id"].stringValue
         var createdAt:NSDate = json["created_at"].stringValue.toNSDate() ?? NSDate()
+        let href = json["href"].stringValue
+        let collapsed = json["collapsed"].boolValue
+        let token = json["token"].stringValue
+        let viewsCount = json["views_count"].int
+        let commentsCount = json["comments_count"].int
+        let repostsCount = json["reposts_count"].int
 
-        let post = Post(body: bodyElements(json), createdAt: createdAt, postId: postId, content: content, summary: summary, token: token, commentCount: commentCount, viewedCount: viewedCount)
+        let post = Post(postId: postId, createdAt: createdAt, href: href, collapsed: collapsed, content: bodyElements(json), token: token, commentsCount: commentsCount, viewsCount: viewsCount, repostsCount: repostsCount)
 
         if let authorDict = json["author"].object as? [String: AnyObject] {
-            post.author = User.fromJSON(authorDict, linked: nil) as? User
+            post.author = User.fromJSON(authorDict, linked: linked) as? User
         }
 
         return post
     }
 
     class private func bodyElements(json:JSON) -> [BodyElement] {
-        let body = json["body"].object as [AnyObject]
+        let body = json["content"].object as [AnyObject]
         return body.map { (bodyDict) -> BodyElement in
 
             let kind = BodyElementTypes(rawValue: bodyDict["kind"] as String) ?? BodyElementTypes.Unknown

@@ -1,687 +1,116 @@
- [{
-  "id": 11846,
-  "kind": "friend_post",
-  "subject_type": "Post",
-  "created_at": "2014-12-08T22:10:01.037Z",
-  "subject": {
-		"id": 4178,
-		"token": "d-I6o3lcrO0aevnxIVIb1w",
-		"body": [{
-                 "kind": "text",
-                 "readonly": false,
-                 "data": "<p>Get your <a href='/upso' class='user-mention' rel='nofollow'>@upso</a> wallpapers here <img class='emoji' title=':point_right:' alt=':point_right:' src='https://d2r3yqi5wwm1w7.cloudfront.net/images/emoji/unicode/1f449.png' height='20' width='20' align='absmiddle'> <a href='/wtf/post/wallpapers' rel='nofollow'>ello.co/wtf/post/wallpapers</a><br>You can get a matching shirt over here <img class='emoji' title=':point_right:' alt=':point_right:' src='https://d2r3yqi5wwm1w7.cloudfront.net/images/emoji/unicode/1f449.png' height='20' width='20' align='absmiddle'> <a href='http://ello.threadless.com/#/product/upso/mens' rel='nofollow' target='_blank'>ello.threadless.com</a></p>"
-                 }],
-		"summary": ["\u003cp\u003etest\u003c/p\u003e"],
-		"content": ["\u003cp\u003etest\u003c/p\u003e"],
-  "comment_count": 22,
-  "viewed_count" : 834,
-		"allow_comments": true,
-		"created_at": "2014-12-08T22:09:59.903Z",
-		"author": {
-  "id": 16,
-  "username": "masonforest",
-  "name": null,
-  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/16/ello-094d97ba-6a6b-43b0-97a0-9ab1adc8416e.png",
-  "relationship_priority": "friend"
-		}
-  }
-  }, {
-  "id": 11843,
-  "kind": "friend_post",
-  "subject_type": "Post",
-  "created_at": "2014-12-08T20:16:59.356Z",
-  "subject": {
-		"id": 4176,
-		"token": "-uo63GMAvFonNviOX6gSOg",
-		"body": [{
-                 "kind": "text",
-                 "data": "<div class='post-content'><p></p><p>Here's a passage from <a href='/marychilds' class='user-mention' rel='nofollow'>@marychilds</a>'s great <a href='http://www.bloomberg.com/news/2014-12-02/fall-of-the-bond-king-how-gross-lost-empire-as-pimco-cracked.html' rel='nofollow' target='_blank'>Pimco piece</a> that I keep thinking about:</p><p>&gt; After the forum, Gross devised a seating plan for a meeting of <br>&gt; portfolio managers, relegating Balls, Ivascyn and Mather to the <br>&gt; rows of the conference room instead of at the main table. The <br>&gt; arrangement was perceived as a snub, according to a person <br>&gt; familiar with the matter.</p><p>This is the story of how one of the greatest investors ever was essentially fired from the firm that he built and ran for decades. There's a version of that story that makes it about Gross's lagging performance. There's a version that makes it about Gross's <a href='http://blogs.reuters.com/felix-salmon/2014/02/25/its-time-for-bill-gross-to-retire/' rel='nofollow' target='_blank'>eccentricity and unpleasantness</a>, and of course they're not exclusive; the eccentricity and the underperformance combine into a pretty compelling case against him.</p><p>'We fired him because he underperformed his benchmarks' is a good rational story. 'We fired him because he wrote loony letters and forbade eye contact' is a good titillating crazy story. But 'Interviews with 25 current and former Pimco employees' dredged up ... the seating chart thing. People were used to the eye contact stuff. The underperformance was just a phase. The seating arrangements: That's where they drew the line.</p><p>I'm obviously overinterpreting -- the performance and craziness stuff were probably way more important than the seating plan -- but I like this anecdote for what it says about how power and work relationships are perceived and contested. I've <a href='/matt_levine/post/YR_R_M2lFsfE-v0yk1YvyQ' rel='nofollow'>elloed before</a> about that <a href='https://hbr.org/2014/11/why-citi-got-rid-of-assigned-desks/' rel='nofollow' target='_blank'>Citi HR seating arrangement story</a>, in which the authors categorize as 'minor' issues like 'Where do employees put their personal items such as knapsacks or handbags?' and 'How do we stop people from speaking too loudly?,' while the 'major' issue is 'How can we be open and collaborative if people are separated by specialties?' That major issue is bullshit; those minor issues are critical to how people experience their working lives. </p><p>But handbag storage and seating arrangements resist theory, or at least the theory that we have; it's hard to attach big words to issues that, as you write them down, seem so banal and personal. People who are paid tens or hundreds of millions of dollars a year to run the global financial system aren't supposed to be distracted by issues like where they sit at meetings. But when Mary called all those Pimco people, that's what they wanted to talk about.</p><p></p></div>"
-                 }],
-		"summary": ["\u003cp\u003eThis is a bad post\u003c/p\u003e"],
-		"content": ["\u003cp\u003eThis is a bad post\u003c/p\u003e"],
-  "comment_count": 3,
-  "viewed_count" : 456,
-
-		"allow_comments": true,
-		"created_at": "2014-12-08T20:16:58.683Z",
-		"author": {
-  "id": 16,
-  "username": "masonforest",
-  "name": null,
-  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/16/ello-094d97ba-6a6b-43b0-97a0-9ab1adc8416e.png",
-  "relationship_priority": "friend"
-		}
-  }
-  }, {
-  "id": 11837,
-  "kind": "friend_post",
-  "subject_type": "Post",
-  "created_at": "2014-12-08T14:46:24.356Z",
-  "subject": {
-		"id": 4174,
-		"token": "Pekslwr5e7JpvnfQo8IzIg",
-		"body": [{
-                 "kind": "text",
-                 "data": "<p></p><p><img class='emoji' title=':sound:' alt=':sound:' src='https://d2r3yqi5wwm1w7.cloudfront.net/images/emoji/unicode/1f509.png' height='20' width='20' align='absmiddle'><img class='emoji' title=':speaker:' alt=':speaker:' src='https://d2r3yqi5wwm1w7.cloudfront.net/images/emoji/unicode/1f508.png' height='20' width='20' align='absmiddle'><img class='emoji' title=':sound:' alt=':sound:' src='https://d2r3yqi5wwm1w7.cloudfront.net/images/emoji/unicode/1f509.png' height='20' width='20' align='absmiddle'><img class='emoji' title=':speaker:' alt=':speaker:' src='https://d2r3yqi5wwm1w7.cloudfront.net/images/emoji/unicode/1f508.png' height='20' width='20' align='absmiddle'><img class='emoji' title=':sound:' alt=':sound:' src='https://d2r3yqi5wwm1w7.cloudfront.net/images/emoji/unicode/1f509.png' height='20' width='20' align='absmiddle'><img class='emoji' title=':speaker:' alt=':speaker:' src='https://d2r3yqi5wwm1w7.cloudfront.net/images/emoji/unicode/1f508.png' height='20' width='20' align='absmiddle'><img class='emoji' title=':sound:' alt=':sound:' src='https://d2r3yqi5wwm1w7.cloudfront.net/images/emoji/unicode/1f509.png' height='20' width='20' align='absmiddle'></p><p>I've been doing a bit of musical archaeology in the past couple of weeks as I prepare for a special DJ set this Saturday night. </p><p><a href='http://www.youtube.com/watch?v=7GaiiRdk_uI' rel='nofollow' target='_blank'><img src='http://img.youtube.com/vi/7GaiiRdk_uI/0.jpg' alt='Video'></a></p><p>I've generally dealt with experimental electronic music for the past decade, and was a longtime fixture in the local Colorado scene. As I've cruised into my mid-30s I've become uninterested in playing or being at clubs, and a new generation of musicians have carried the torch that mostly belongs to carefree 20-somethings. At the same time, I've spent the last 3.5 years as a business owner, and slightly more recently as a devoted partner to another human (and her cat). All of this has resulted in my music 'career', which is something very dear to me and my identity, screeching to a near-halt. All the while, this increasing responsibility and growth in my professional life has become ever more fulfilling as I've been able to co-create a new world of opportunity, creative technological output and general magic with the things that we've been fortunate (and hard-working) enough to manifest.</p><p><a href='http://www.youtube.com/watch?v=S3tR__Kbqmg' rel='nofollow' target='_blank'><img src='http://img.youtube.com/vi/S3tR__Kbqmg/0.jpg' alt='Video'></a></p><p>All that said, I was recently asked by one of Denver's longtime indie venues to open for College, who I knew from writing my <a href='https://www.youtube.com/watch?v=-DSVDcw6iW8' rel='nofollow' target='_blank'>favorite song from the Drive soundtrack</a>. Their sound is a throwback to minimal new wave, which is something that I've explored a bit in the past few years via a series of mixes that I've come across. Branching out to coldwave, neue deutsche welle and even a bit of disco, I've become enamored with the precursors to the contemporary music that I've enjoyed in my life. Given College's style and my interest in the origins of these sounds, I agreed to play a vintage new wave/coldwave opening set.</p><p><a href='http://www.youtube.com/watch?v=GwsTFCX0wso' rel='nofollow' target='_blank'><img src='http://img.youtube.com/vi/GwsTFCX0wso/0.jpg' alt='Video'></a></p><p>Here's a treasure trove of mixes that originally led me down this path. They're worth a listen or three, and were my starting point for learning about the genres:</p><ul><li><a href='http://yearofmixtapes.blogspot.com/2009/08/week-14-neue-deutsche-welle.html' rel='nofollow' target='_blank'>Chrissy Murderbot's Year of Mixtapes Week 14: Neue Deutsche Welle</a></li><li><a href='https://soundcloud.com/marchoule/marc-houles-synth-pop-mix' rel='nofollow' target='_blank'>Marc Houle Synth Pop mix #1</a></li><li><a href='https://soundcloud.com/marchoule/pulseradio-121' rel='nofollow' target='_blank'>Marc Houle Synth Pop mix #2</a></li><li><a href='http://electronicexplorations.org/?show=luke-vibert' rel='nofollow' target='_blank'>Luke Vibert's Electronic Explorations mix</a></li><li><a href='https://soundcloud.com/checkyoponytail/com-truise-cyp2-mixtape-2' rel='nofollow' target='_blank'>Com Truise - CYP2 Mix tape</a></li><li><a href='https://soundcloud.com/giorgiomoroder/electro-disco-the-mix-tape-greatest-hits-non-stop-mix' rel='nofollow' target='_blank'>Giorgio Moroder - Electro Disco (Greatest Hits Non-Stop Mix)</a> </li><li><a href='https://soundcloud.com/factmag/fact-mix-349-silent-servant/s-fWwrO' rel='nofollow' target='_blank'>Silent Servant - FACT mix 349</a></li></ul><p>I'll hopefully remember to record my mix, but if you're in Denver on Saturday night, join me for decades worth of vintage electronic sounds at <a href='http://www.larimerlounge.com/event_details.cfm?blogid=1633' rel='nofollow' target='_blank'>Larimer Lounge</a>. I'll be playing first, and early.</p><p><img class='emoji' title=':notes:' alt=':notes:' src='https://d2r3yqi5wwm1w7.cloudfront.net/images/emoji/unicode/1f3b6.png' height='20' width='20' align='absmiddle'> <img class='emoji' title=':heart:' alt=':heart:' src='https://d2r3yqi5wwm1w7.cloudfront.net/images/emoji/unicode/2764.png' height='20' width='20' align='absmiddle'></p><p></p>"
-                 }],
-		"summary": ["\u003cp\u003e\u003ca href='http://www.worldtimebuddy.com/?pl=1\u0026amp;lid=3169070,2655603,5391959\u0026amp;h=3169070' rel='nofollow' target='_blank'\u003ehttp://www.worldtimebuddy.com/?pl=...\u003c/a\u003e\u003c/p\u003e"],
-		"content": ["\u003cp\u003e\u003ca href=\"http://www.worldtimebuddy.com/?pl=1\u0026amp;lid=3169070,2655603,5391959\u0026amp;h=3169070\" rel=\"nofollow\" target=\"_blank\"\u003ehttp://www.worldtimebuddy.com/?pl=1\u0026amp;lid=3169070,2655603,5391959\u0026amp;h=3169070\u003c/a\u003e\u003c/p\u003e"],
-		"allow_comments": true,
-  "comment_count": 0,
-  "viewed_count" : 89,
-		"created_at": "2014-12-08T14:46:21.719Z",
-		"author": {
-  "id": 16,
-  "username": "masonforest",
-  "name": null,
-  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/16/ello-094d97ba-6a6b-43b0-97a0-9ab1adc8416e.png",
-  "relationship_priority": "friend"
-		}
-  }
-  }, {
-  "id": 11785,
-  "kind": "friend_post",
-  "subject_type": "Post",
-  "created_at": "2014-12-02T20:20:59.304Z",
-  "subject": {
-		"id": 4157,
-		"token": "QJup58_GDiImrADv-L3pJQ",
-		"body": [{
-                 "kind": "text",
-                 "data": "@antimason"
-                 }],
-		"summary": ["\u003cp\u003e\u003ca href='/antimason' class='user-mention' rel='nofollow'\u003e@antimason\u003c/a\u003e\u003c/p\u003e"],
-		"content": ["\u003cp\u003e\u003ca href=\"/antimason\" class=\"user-mention\" rel=\"nofollow\"\u003e@antimason\u003c/a\u003e\u003c/p\u003e"],
-  "comment_count": 9,
-  "viewed_count" : 96,
-		"allow_comments": true,
-		"created_at": "2014-12-02T20:20:59.186Z",
-		"author": {
-  "id": 16,
-  "username": "masonforest",
-  "name": null,
-  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/16/ello-094d97ba-6a6b-43b0-97a0-9ab1adc8416e.png",
-  "relationship_priority": "friend"
-		}
-  }
-  }, {
-  "id": 11783,
-  "kind": "friend_post",
-  "subject_type": "Post",
-  "created_at": "2014-12-02T20:20:49.121Z",
-  "subject": {
-		"id": 4156,
-		"token": "ROQCLtO9K8veqMT89zFeXw",
-		"body": [{
-                 "kind": "image",
-                 "data": {
-                 "url": "https://d324imu86q1bqn.cloudfront.net/uploads/asset/attachment/1181913/optimized.jpg",
-                 "via": "direct",
-                 "alt": "ello-15c97681-b4a6-496f-8c5f-0096fd215703.jpeg",
-                 "asset_id": 85
-                 }
-                 }],
-		"summary": ["\u003cp\u003eother post\u003c/p\u003e"],
-		"content": ["\u003cp\u003eother post\u003c/p\u003e"],
-  "comment_count": 43,
-  "viewed_count" : 9144,
-		"allow_comments": true,
-		"created_at": "2014-12-02T20:20:48.976Z",
-		"author": {
-  "id": 16,
-  "username": "masonforest",
-  "name": null,
-  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/16/ello-094d97ba-6a6b-43b0-97a0-9ab1adc8416e.png",
-  "relationship_priority": "friend"
-		}
-  }
-  }, {
-  "id": 11778,
-  "kind": "friend_post",
-  "subject_type": "Post",
-  "created_at": "2014-12-02T20:20:31.715Z",
-  "subject": {
-		"id": 4155,
-		"token": "SjDzK3yand9o9ajaxr6c8Q",
-		"body": [{
-                 "kind": "text",
-                 "data": "<p>My name <a href='/budnitz' class='user-mention' rel='nofollow'>@budnitz</a> coded on an envelope by <a href='/revad' class='user-mention' rel='nofollow'>@revad</a> and David Riley for <a href='/codedimages' class='user-mention' rel='nofollow'>@codedimages</a>.</p>"
-                 }],
-		"summary": ["\u003cp\u003eHi\u003c/p\u003e"],
-		"content": ["\u003cp\u003eHi\u003c/p\u003e"],
-  "comment_count": 0,
-  "viewed_count" : 3,
-		"allow_comments": true,
-		"created_at": "2014-12-02T20:20:31.543Z",
-		"author": {
-  "id": 16,
-  "username": "masonforest",
-  "name": null,
-  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/16/ello-094d97ba-6a6b-43b0-97a0-9ab1adc8416e.png",
-  "relationship_priority": "friend"
-		}
-  }
-  }, {
-  "id": 4687,
-  "kind": "friend_post",
-  "subject_type": "Post",
-  "created_at": "2014-11-10T18:05:08.237Z",
-  "subject": {
-		"id": 3950,
-		"token": "tKomLnoucagSgGHue4q4uA",
-		"body": [{
-                 "kind": "image",
-                 "data": {
-                 "url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/85/optimized.jpg",
-                 "via": "direct",
-                 "alt": "ello-15c97681-b4a6-496f-8c5f-0096fd215703.jpeg",
-                 "asset_id": 85
-                 }
-                 }],
-		"summary": ["\u003cimg src=\"http://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/85/small_screen.jpg\"/\u003e"],
-		"content": ["\u003cimg src=\"http://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/85/small_screen.jpg\"/\u003e"],
-  "comment_count": 99,
-  "viewed_count" : 12696,
-		"allow_comments": true,
-		"created_at": "2014-11-10T18:05:07.988Z",
-		"author": {
-  "id": 1,
-  "username": "testjayzes",
-  "name": null,
-  "avatar_url": "http://d1kcg9sf6q7qwh.cloudfront.net/images/fallback/user/avatar/default.png",
-  "relationship_priority": "friend"
-		}
-  }
-  }, {
-  "id": 4619,
-  "kind": "friend_post",
-  "subject_type": "Post",
-  "created_at": "2014-11-10T18:04:08.551Z",
-  "subject": {
-		"id": 3949,
-		"token": "x_0c0tQLbpyxzKiNtzNObw",
-		"body": [{
-                 "kind": "image",
-                 "data": {
-                 "url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/84/optimized.jpg",
-                 "via": "direct",
-                 "alt": "ello-73ade794-fd54-49bb-94cf-eca19d0cf4f0.png",
-                 "asset_id": 84
-                 }
-                 }],
-		"summary": ["\u003cimg src=\"http://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/84/small_screen.jpg\"/\u003e"],
-		"content": ["\u003cimg src=\"http://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/84/small_screen.jpg\"/\u003e"],
-  "comment_count": 67,
-  "viewed_count" : 656,
-		"allow_comments": true,
-		"created_at": "2014-11-10T18:04:07.336Z",
-		"author": {
-  "id": 1,
-  "username": "testjayzes",
-  "name": null,
-  "avatar_url": "http://d1kcg9sf6q7qwh.cloudfront.net/images/fallback/user/avatar/default.png",
-  "relationship_priority": "friend"
-		}
-  }
-  }, {
-  "id": 653,
-  "kind": "own_post",
-  "subject_type": "Post",
-  "created_at": "2014-10-15T22:17:27.205Z",
-  "subject": {
-		"id": 118,
-		"token": "R24PXkwmprZ6SGjU0lzPyQ",
-		"body": [{
-                 "kind": "text",
-                 "data": "<div class='post-content'><p></p><p>Hi!</p><p>There are many new people joining Ello right now, and I thought I'd write a little bit about where the network is going, and where it's come from.</p><p>When we first began building Ello, we knew that we'd never have ads on the network. </p><p>Advertising on a social network is invasive, tacky and insults our intelligence. Letting a big company that doesn’t necessarily have our best interests at heart read our posts, know who our friends are, and collect all kinds of data about us (and then sell it to who knows who) doesn’t seem like a fair deal just so we can use a social network.</p><p>But even more importantly, we also discovered that without worrying about ads, the network we were creating could be completely different.</p><p>Think about it this way: a social network that relies on ads and data mining to pay the bills works for the advertiser. The user is the product that is bought and sold.</p><p>This means that every feature they design has to serve two masters: it has to churn pages (to show ads) or generate clicks (to collect data) — and it also has to be appealing enough to get users to click the little blue button (to show more ads or collect more data).</p><p>The result is a conflict of interest. Every feature is subtly compromised. Boosted posts and ads hide posts by our friends that we really want to see. User experience gets cluttered. There’s a persistent feeling of being manipulated. I think this is one reason for so much negativity on other social networks. We don’t feel like being nice when the place you’re hanging out isn’t being nice to us.</p><p>Building Ello, there is nothing between us and the network we ourselves really want to use. We are working only for you. There’s no interference.</p><p>I can’t imagine the excitement we feel building Ello (and that we’re feeling from everyone using it) is shared by the workers at the other big social networks. It cannot be as fun working for an advertiser as it is for us to be creating Ello for you. </p><p>Ello is a <a href='/wtf/post/pbc' rel='nofollow'>Public Benefit Corporation</a> (PBC), as special kind of for-profit company in the USA that makes it legally impossible for Ello to be forced to ever show ads or sell user data. </p><p>Ello is also still in Beta. There are a lot of features still on the way, and many awesome surprises coming soon! The Ello mobile apps will be out in the New Year. </p><p>Many thanks to everyone using Ello, for supporting us through our <a href='http://ello.threadless.com/#/' rel='nofollow' target='_blank'>T-shirt Store</a>, and for providing feedback that is helping Ello grow into what you want it to be.</p><p>There is a better way!</p><p>Much love,</p><p>Paul</p><p><img class='emoji' title=':ello:' alt=':ello:' src='https://d2r3yqi5wwm1w7.cloudfront.net/images/emoji/ello.png' height='20' width='20' align='absmiddle'></p><p></p></div>"
-                 }, {
-                 "kind": "image",
-                 "data": {
-                 "url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/29/optimized.jpg",
-                 "via": "direct",
-                 "alt": "droog_slow_glow_lamp_04.jpg",
-                 "asset_id": 29
-                 }
-                 }, {
-                 "kind": "text",
-                 "data": "<p>I have one of these, but I find droog to be kind of overpriced and a bit pretentious.</p>"
-                 }],
-		"summary": ["\u003cp\u003e\u003ca href='/lucian' class='user-mention' rel='nofollow'\u003e@lucian\u003c/a\u003e \u003c/p\u003e", "\u003cimg src=\"http://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/29/small_screen.jpg\"/\u003e"],
-		"content": ["\u003cp\u003e\u003ca href=\"/lucian\" class=\"user-mention\" rel=\"nofollow\"\u003e@lucian\u003c/a\u003e \u003c/p\u003e", "\u003cimg src=\"http://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/29/small_screen.jpg\"/\u003e", "\u003cp\u003eI have one of these, but I find droog to be kind of overpriced and a bit pretentious.\u003c/p\u003e"],
-  "comment_count": 33,
-  "viewed_count" : 346,
-		"allow_comments": true,
-		"created_at": "2014-10-15T22:17:27.092Z",
-		"author": {
-  "id": 2,
-  "username": "jejacks0n",
-  "name": null,
-  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/2/ello-0d585f2b-a685-488e-9cef-ae58eaeecbd0.png",
-  "relationship_priority": "self"
-		}
-  }
-  }, {
-  "id": 588,
-  "kind": "own_post",
-  "subject_type": "Post",
-  "created_at": "2014-10-15T18:54:19.382Z",
-  "subject": {
-		"id": 104,
-		"token": "Mw6Ey46PQ0JbFFXCCaMqAA",
-		"body": [{
-                 "kind": "text",
-                 "data": "<p>https://ello.co/foo</p>"
-                 }],
-		"summary": ["\u003cp\u003e\u003ca href='/foo' rel='nofollow'\u003ehttps://ello.co/foo\u003c/a\u003e\u003c/p\u003e"],
-		"content": ["\u003cp\u003e\u003ca href=\"/foo\" rel=\"nofollow\"\u003ehttps://ello.co/foo\u003c/a\u003e\u003c/p\u003e"],
-  "comment_count": 88,
-  "viewed_count" : 11175,
-		"allow_comments": true,
-		"created_at": "2014-10-15T18:54:16.208Z",
-		"author": {
-  "id": 2,
-  "username": "jejacks0n",
-  "name": null,
-  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/2/ello-0d585f2b-a685-488e-9cef-ae58eaeecbd0.png",
-  "relationship_priority": "self"
-		}
-  }
-  }, {
-  "id": 572,
-  "kind": "own_post",
-  "subject_type": "Post",
-  "created_at": "2014-10-15T02:38:40.276Z",
-  "subject": {
-		"id": 100,
-		"token": "0iq67dFU3qupoP9ehDMprg",
-		"body": [{
-                 "kind": "text",
-                 "data": "<p>@jejacks0ntest testing</p>"
-                 }],
-		"summary": ["\u003cp\u003e\u003ca href='/jejacks0ntest' class='user-mention' rel='nofollow'\u003e@jejacks0ntest\u003c/a\u003e testing\u003c/p\u003e"],
-		"content": ["\u003cp\u003e\u003ca href=\"/jejacks0ntest\" class=\"user-mention\" rel=\"nofollow\"\u003e@jejacks0ntest\u003c/a\u003e testing\u003c/p\u003e"],
-  "comment_count": 22,
-  "viewed_count" : 466,
-		"allow_comments": true,
-		"created_at": "2014-10-15T02:38:40.100Z",
-		"author": {
-  "id": 2,
-  "username": "jejacks0n",
-  "name": null,
-  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/2/ello-0d585f2b-a685-488e-9cef-ae58eaeecbd0.png",
-  "relationship_priority": "self"
-		}
-  }
-  }, {
-  "id": 556,
-  "kind": "own_post",
-  "subject_type": "Post",
-  "created_at": "2014-10-14T23:34:41.299Z",
-  "subject": {
-		"id": 95,
-		"token": "KtzT6hXYi8oH11PhF6E3TA",
-		"body": [{
-                 "kind": "text",
-                 "data": "<p>@cacheflowez yeah!</p>"
-                 }],
-		"summary": ["\u003cp\u003e\u003ca href='/cacheflowez' class='user-mention' rel='nofollow'\u003e@cacheflowez\u003c/a\u003e yeah!\u003c/p\u003e"],
-		"content": ["\u003cp\u003e\u003ca href=\"/cacheflowez\" class=\"user-mention\" rel=\"nofollow\"\u003e@cacheflowez\u003c/a\u003e yeah!\u003c/p\u003e"],
-  "comment_count": 8,
-  "viewed_count" : 33,
-		"allow_comments": true,
-		"created_at": "2014-10-14T23:34:41.251Z",
-		"author": {
-  "id": 2,
-  "username": "jejacks0n",
-  "name": null,
-  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/2/ello-0d585f2b-a685-488e-9cef-ae58eaeecbd0.png",
-  "relationship_priority": "self"
-		}
-  }
-  }, {
-  "id": 482,
-  "kind": "friend_post",
-  "subject_type": "Post",
-  "created_at": "2014-10-14T21:56:03.225Z",
-  "subject": {
-		"id": 89,
-		"token": "88qP6dkZxDgiuai8jTjKzQ",
-		"body": [{
-                 "kind": "text",
-                 "data": "<p>adasdasd</p>"
-                 }],
-		"summary": ["\u003cp\u003eadasdasd\u003c/p\u003e"],
-		"content": ["\u003cp\u003eadasdasd\u003c/p\u003e"],
-  "comment_count": 4,
-  "viewed_count" : 55,
-		"allow_comments": true,
-		"created_at": "2014-10-14T21:56:03.132Z",
-		"author": {
-  "id": 14,
-  "username": "jejacks0ntest",
-  "name": null,
-  "avatar_url": "http://d1kcg9sf6q7qwh.cloudfront.net/images/fallback/user/avatar/default.png",
-  "relationship_priority": "friend"
-		}
-  }
-  }, {
-  "id": 444,
-  "kind": "friend_post",
-  "subject_type": "Post",
-  "created_at": "2014-10-14T16:21:27.698Z",
-  "subject": {
-		"id": 85,
-		"token": "DmwbsWIj5FyiGpe8nMlJIQ",
-		"body": [{
-                 "kind": "text",
-                 "data": "<p>@gv you're avatar looks funny. it's round and not square.</p>"
-                 }, {
-                 "kind": "image",
-                 "data": {
-                 "url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/19/optimized.jpg",
-                 "via": "direct",
-                 "alt": "grass.jpg",
-                 "asset_id": 19
-                 }
-                 }],
-		"summary": ["\u003cp\u003e\u003ca href='/gv' class='user-mention' rel='nofollow'\u003e@gv\u003c/a\u003e you\u0026apos;re avatar looks funny. it\u0026apos;s round and not square.\u003c/p\u003e", "\u003cimg src=\"http://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/19/small_screen.jpg\"/\u003e"],
-		"content": ["\u003cp\u003e\u003ca href=\"/gv\" class=\"user-mention\" rel=\"nofollow\"\u003e@gv\u003c/a\u003e you're avatar looks funny. it's round and not square.\u003c/p\u003e", "\u003cimg src=\"http://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/19/small_screen.jpg\"/\u003e"],
-  "comment_count": 23,
-  "viewed_count" : 768,
-		"allow_comments": true,
-		"created_at": "2014-10-14T16:21:27.584Z",
-		"author": {
-  "id": 4,
-  "username": "mk",
-  "name": "Matthew Kitt",
-  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/4/mk-inverted.png",
-  "relationship_priority": "inactive"
-		}
-  }
-  }, {
-  "id": 384,
-  "kind": "friend_post",
-  "subject_type": "Post",
-  "created_at": "2014-10-13T21:04:33.000Z",
-  "subject": {
-		"id": 69,
-		"token": "2sCOSkKtw2pWJtbFw9_8zw",
-		"body": [{
-                 "kind": "text",
-                 "data": "<p>@testtodd mentioning @jejacks0n on someone elses post\u003cbr\u003e\u003cbr\u003e</p>"
-                 }],
-		"summary": ["\u003cp\u003e\u003ca href='/testtodd' class='user-mention' rel='nofollow'\u003e@testtodd\u003c/a\u003e mentioning \u003ca href='/jejacks0n' class='user-mention' rel='nofollow'\u003e@jejacks0n\u003c/a\u003e on s...\u003c/p\u003e"],
-		"content": ["\u003cp\u003e\u003ca href=\"/testtodd\" class=\"user-mention\" rel=\"nofollow\"\u003e@testtodd\u003c/a\u003e mentioning \u003ca href=\"/jejacks0n\" class=\"user-mention\" rel=\"nofollow\"\u003e@jejacks0n\u003c/a\u003e on someone elses post\u003c/p\u003e"],
-  "comment_count": 2,
-  "viewed_count" : 19,
-		"allow_comments": true,
-		"created_at": "2014-10-13T21:04:33.766Z",
-		"author": {
-  "id": 4,
-  "username": "mk",
-  "name": "Matthew Kitt",
-  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/4/mk-inverted.png",
-  "relationship_priority": "inactive"
-		}
-  }
-  }, {
-  "id": 432,
-  "kind": "friend_post",
-  "subject_type": "Post",
-  "created_at": "2014-10-13T20:34:06.000Z",
-  "subject": {
-		"id": 63,
-		"token": "uABABvXXTcNn402SAymIiQ",
-		"body": [{
-                 "kind": "text",
-                 "data": "<p>@testtodd @testlucian Yo Yo Yo</p>"
-                 }],
-		"summary": ["\u003cp\u003e\u003ca href='/testtodd' class='user-mention' rel='nofollow'\u003e@testtodd\u003c/a\u003e \u003ca href='/testlucian' class='user-mention' rel='nofollow'\u003e@testlucian\u003c/a\u003e Yo Yo Yo\u003c/p\u003e"],
-		"content": ["\u003cp\u003e\u003ca href=\"/testtodd\" class=\"user-mention\" rel=\"nofollow\"\u003e@testtodd\u003c/a\u003e \u003ca href=\"/testlucian\" class=\"user-mention\" rel=\"nofollow\"\u003e@testlucian\u003c/a\u003e Yo Yo Yo\u003c/p\u003e"],
-  "comment_count": 1,
-  "viewed_count" : 10,
-		"allow_comments": true,
-		"created_at": "2014-10-13T20:34:06.391Z",
-		"author": {
-  "id": 11,
-  "username": "budnitztester",
-  "name": null,
-  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/11/Jamie-Reid_God_Save_safety_pin_version.png",
-  "relationship_priority": "friend"
-		}
-  }
-  }, {
-  "id": 60,
-  "kind": "friend_post",
-  "subject_type": "Post",
-  "created_at": "2014-10-02T05:57:06.520Z",
-  "subject": {
-		"id": 16,
-		"token": "uPj4045xYx4J_7KsK5RVDA",
-		"body": [{
-                 "kind": "text",
-                 "data": "<p>holy fucking shard!\u003cbr\u003e\u003cbr\u003e</p>"
-                 }],
-		"summary": ["\u003cp\u003eholy fucking shard!\u003c/p\u003e"],
-		"content": ["\u003cp\u003eholy fucking shard!\u003c/p\u003e"],
-  "comment_count": 35,
-  "viewed_count" : 866,
-		"allow_comments": true,
-		"created_at": "2014-10-02T05:57:06.037Z",
-		"author": {
-  "id": 1,
-  "username": "testjayzes",
-  "name": null,
-  "avatar_url": "http://d1kcg9sf6q7qwh.cloudfront.net/images/fallback/user/avatar/default.png",
-  "relationship_priority": "friend"
-		}
-  }
-  }, {
-  "id": 902,
-  "kind": "friend_post",
-  "subject_type": "Post",
-  "created_at": "2014-10-02T05:57:06.000Z",
-  "subject": {
-		"id": 16,
-		"token": "uPj4045xYx4J_7KsK5RVDA",
-		"body": [{
-                 "kind": "text",
-                 "data": "<div class='post-content'><p></p><p>The summation of the human condition:</p><p><i>First there is a mountain, <br>Then there is no mountain, <br>Then there is.<br></i><br>— Donovan (Channeling Qingyuan Weixin as later translated by D.T. Suzuki)</p><p></p></div>"
-                 }],
-		"summary": ["\u003cp\u003eholy fucking shard!\u003c/p\u003e"],
-		"content": ["\u003cp\u003eholy fucking shard!\u003c/p\u003e"],
-  "comment_count": 4,
-  "viewed_count" : 49,
-		"allow_comments": true,
-		"created_at": "2014-10-02T05:57:06.037Z",
-		"author": {
-  "id": 1,
-  "username": "testjayzes",
-  "name": null,
-  "avatar_url": "http://d1kcg9sf6q7qwh.cloudfront.net/images/fallback/user/avatar/default.png",
-  "relationship_priority": "friend"
-		}
-  }
-  }, {
-  "id": 33,
-  "kind": "friend_post",
-  "subject_type": "Post",
-  "created_at": "2014-10-02T05:12:49.638Z",
-  "subject": {
-		"id": 15,
-		"token": "iUwbNfFkleIlrXbPfkizjQ",
-		"body": [{
-                 "kind": "text",
-                 "data": "<p>this is a post!\u003cbr\u003e\u003cbr\u003e</p>"
-                 }],
-		"summary": ["\u003cp\u003ethis is a post!\u003c/p\u003e"],
-		"content": ["\u003cp\u003ethis is a post!\u003c/p\u003e"],
-  "comment_count": 8,
-  "viewed_count" : 513,
-		"allow_comments": true,
-		"created_at": "2014-10-02T05:12:49.514Z",
-		"author": {
-  "id": 1,
-  "username": "testjayzes",
-  "name": null,
-  "avatar_url": "http://d1kcg9sf6q7qwh.cloudfront.net/images/fallback/user/avatar/default.png",
-  "relationship_priority": "friend"
-		}
-  }
-  }, {
-  "id": 27,
-  "kind": "friend_post",
-  "subject_type": "Post",
-  "created_at": "2014-10-02T05:12:36.290Z",
-  "subject": {
-		"id": 13,
-		"token": "epwXJPrw5rxPUgYvPSfUqA",
-		"body": [{
-                 "kind": "text",
-                 "data": "<p>hello!\u003cbr\u003e\u003cbr\u003e</p>"
-                 }],
-		"summary": ["\u003cp\u003ehello!\u003c/p\u003e"],
-		"content": ["\u003cp\u003ehello!\u003c/p\u003e"],
-  "comment_count": 2,
-  "viewed_count" : 11,
-		"allow_comments": true,
-		"created_at": "2014-10-02T05:12:35.914Z",
-		"author": {
-  "id": 1,
-  "username": "testjayzes",
-  "name": null,
-  "avatar_url": "http://d1kcg9sf6q7qwh.cloudfront.net/images/fallback/user/avatar/default.png",
-  "relationship_priority": "friend"
-		}
-  }
-  }, {
-  "id": 22,
-  "kind": "own_post",
-  "subject_type": "Post",
-  "created_at": "2014-10-01T23:26:40.203Z",
-  "subject": {
-		"id": 12,
-		"token": "v8STzJxr_-QJ9cZncCp69g",
-		"body": [{
-                 "kind": "text",
-                 "data": "<p>@mk, I missed you.</p>"
-                 }],
-		"summary": ["\u003cp\u003e\u003ca href='/mk' class='user-mention' rel='nofollow'\u003e@mk\u003c/a\u003e, I missed you.\u003c/p\u003e"],
-		"content": ["\u003cp\u003e\u003ca href=\"/mk\" class=\"user-mention\" rel=\"nofollow\"\u003e@mk\u003c/a\u003e, I missed you.\u003c/p\u003e"],
-  "comment_count": 7,
-  "viewed_count" : 946,
-		"allow_comments": true,
-		"created_at": "2014-10-01T23:26:40.112Z",
-		"author": {
-  "id": 2,
-  "username": "jejacks0n",
-  "name": null,
-  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/2/ello-0d585f2b-a685-488e-9cef-ae58eaeecbd0.png",
-  "relationship_priority": "self"
-		}
-  }
-  }, {
-  "id": 21,
-  "kind": "own_post",
-  "subject_type": "Post",
-  "created_at": "2014-10-01T23:25:48.215Z",
-  "subject": {
-		"id": 11,
-		"token": "7lKHhrc-6v-jPH1-4p3enA",
-		"body": [{
-                 "kind": "text",
-                 "data": "<p>@mk, please don't ignore me.</p>"
-                 }],
-		"summary": ["\u003cp\u003e\u003ca href='/mk' class='user-mention' rel='nofollow'\u003e@mk\u003c/a\u003e, please don\u0026apos;t ignore me.\u003c/p\u003e"],
-		"content": ["\u003cp\u003e\u003ca href=\"/mk\" class=\"user-mention\" rel=\"nofollow\"\u003e@mk\u003c/a\u003e, please don't ignore me.\u003c/p\u003e"],
-  "comment_count":35,
-  "viewed_count" : 9712,
-		"allow_comments": true,
-		"created_at": "2014-10-01T23:25:48.111Z",
-		"author": {
-  "id": 2,
-  "username": "jejacks0n",
-  "name": null,
-  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/2/ello-0d585f2b-a685-488e-9cef-ae58eaeecbd0.png",
-  "relationship_priority": "self"
-		}
-  }
-  }, {
-  "id": 19,
-  "kind": "own_post",
-  "subject_type": "Post",
-  "created_at": "2014-10-01T23:24:12.986Z",
-  "subject": {
-		"id": 10,
-		"token": "-vyqMfc-FGBUeOnZBb-YLA",
-		"body": [{
-                 "kind": "text",
-                 "data": "<p>@mk, don't block me.</p>"
-                 }],
-		"summary": ["\u003cp\u003e\u003ca href='/mk' class='user-mention' rel='nofollow'\u003e@mk\u003c/a\u003e, don\u0026apos;t block me.\u003c/p\u003e"],
-		"content": ["\u003cp\u003e\u003ca href=\"/mk\" class=\"user-mention\" rel=\"nofollow\"\u003e@mk\u003c/a\u003e, don't block me.\u003c/p\u003e"],
-  "comment_count": 22,
-  "viewed_count" : 3614,
-		"allow_comments": true,
-		"created_at": "2014-10-01T23:24:12.899Z",
-		"author": {
-  "id": 2,
-  "username": "jejacks0n",
-  "name": null,
-  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/2/ello-0d585f2b-a685-488e-9cef-ae58eaeecbd0.png",
-  "relationship_priority": "self"
-		}
-  }
-  }, {
-  "id": 17,
-  "kind": "own_post",
-  "subject_type": "Post",
-  "created_at": "2014-10-01T23:24:03.097Z",
-  "subject": {
-		"id": 9,
-		"token": "-M_RWfxm6Rz7Qjjllh4dOg",
-		"body": [{
-                 "kind": "text",
-                 "data": "<p>@mikepack/@mk, you should mute me.\u003cbr\u003e</p>"
-                 }],
-		"summary": ["\u003cp\u003e@mikepack/\u003ca href='/mk' class='user-mention' rel='nofollow'\u003e@mk\u003c/a\u003e, you should mute me.\u003c/p\u003e"],
-		"content": ["\u003cp\u003e@mikepack/\u003ca href=\"/mk\" class=\"user-mention\" rel=\"nofollow\"\u003e@mk\u003c/a\u003e, you should mute me.\u003c/p\u003e"],
-  "comment_count": 86,
-  "viewed_count" : 1924,
-		"allow_comments": true,
-		"created_at": "2014-10-01T23:24:02.992Z",
-		"author": {
-  "id": 2,
-  "username": "jejacks0n",
-  "name": null,
-  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/2/ello-0d585f2b-a685-488e-9cef-ae58eaeecbd0.png",
-  "relationship_priority": "self"
-		}
-  }
-  }, {
-  "id": 15,
-  "kind": "own_post",
-  "subject_type": "Post",
-  "created_at": "2014-10-01T23:23:44.770Z",
-  "subject": {
-		"id": 8,
-		"token": "dD229fU82TaDW-I8pkuVPA",
-		"body": [{
-                 "kind": "text",
-                 "data": "<p>@mk, super annoying.</p>"
-                 }],
-		"summary": ["\u003cp\u003e\u003ca href='/mk' class='user-mention' rel='nofollow'\u003e@mk\u003c/a\u003e, super annoying.\u003c/p\u003e"],
-		"content": ["\u003cp\u003e\u003ca href=\"/mk\" class=\"user-mention\" rel=\"nofollow\"\u003e@mk\u003c/a\u003e, super annoying.\u003c/p\u003e"],
-  "comment_count": 39,
-  "viewed_count" : 884,
-		"allow_comments": true,
-		"created_at": "2014-10-01T23:23:44.701Z",
-		"author": {
-  "id": 2,
-  "username": "jejacks0n",
-  "name": null,
-  "avatar_url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/2/ello-0d585f2b-a685-488e-9cef-ae58eaeecbd0.png",
-  "relationship_priority": "self"
-		}
-  }
-  }]
+{    
+    "activities": [
+        {
+            "kind": "own_post",
+            "subject_type": "Post",
+            "created_at": "2014-06-03T00:00:00.000Z",
+            "subject": {
+                "posts": {
+                    "id": "2",
+                    "href": "/api/edge/posts/2",
+                    "token": "KVNldSWCvfPkjsbWcvB4mA",
+                    "collapsed": false,
+                    "allow_comments": true,
+                    "content": [
+                        {
+                            "kind": "text",
+                            "readonly": false,
+                            "data": "<p>Get your <a href='/upso' class='user-mention' rel='nofollow'>@upso</a> wallpapers here <img class='emoji' title=':point_right:' alt=':point_right:' src='https://d2r3yqi5wwm1w7.cloudfront.net/images/emoji/unicode/1f449.png' height='20' width='20' align='absmiddle'> <a href='/wtf/post/wallpapers' rel='nofollow'>ello.co/wtf/post/wallpapers</a><br>You can get a matching shirt over here <img class='emoji' title=':point_right:' alt=':point_right:' src='https://d2r3yqi5wwm1w7.cloudfront.net/images/emoji/unicode/1f449.png' height='20' width='20' align='absmiddle'> <a href='http://ello.threadless.com/#/product/upso/mens' rel='nofollow' target='_blank'>ello.threadless.com</a></p>"
+                        }
+                    ],
+                    "summary": [
+                        "<p>cfiggis, ISIS agents use <strong>Krav Maga</strong>.</p>"
+                    ],
+                    "created_at": "2014-12-23T22:27:47.341Z",
+                    "views_count": 0,
+                    "comments_count": 0,
+                    "reposts_count": 0,
+                    "links": {
+                        "author": {
+                            "type": "users",
+                            "href": "/api/edge/users/42",
+                            "id": "42"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "friend_post",
+            "subject_type": "Post",
+            "created_at": "2014-06-02T00:00:00.000Z",
+            "subject": {
+                "posts": {
+                    "id": "1",
+                    "href": "/api/edge/posts/1",
+                    "token": "ibLWX5p5fPBfzE8GmfOG6w",
+                    "collapsed": false,
+                    "allow_comments": true,
+                    "content": [
+                        {
+                            "kind": "image",
+                            "data": {
+                                "url": "https://d324imu86q1bqn.cloudfront.net/uploads/asset/attachment/1181913/optimized.jpg",
+                                "via": "direct",
+                                "alt": "ello-15c97681-b4a6-496f-8c5f-0096fd215703.jpeg",
+                                "asset_id": 85
+                            }
+                        }
+                    ],
+                    "created_at": "2014-12-23T22:27:47.325Z",
+                    "views_count": 0,
+                    "comments_count": 0,
+                    "reposts_count": 0,
+                    "links": {
+                        "author": {
+                            "type": "users",
+                            "href": "/api/edge/users/666",
+                            "id": "666"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "kind": "welcome_post",
+            "subject_type": "User",
+            "created_at": "2014-06-01T00:00:00.000Z",
+            "subject": {
+                "users": {
+                    "id": "42",
+                    "href": "/api/edge/users/42",
+                    "username": "archer",
+                    "name": "Sterling",
+                    "avatar_url": "https://abc123.cloudfront.net/uploads/user/avatar/42/avatar.png",
+                    "experimental_features": false,
+                    "relationship_priority": "self",
+                    "posts_count": 1,
+                    "followers_count": 0,
+                    "following_count": 1
+                }
+            }
+        }
+    ],
+    "linked": {
+        "users": [
+            {
+                "id": "42",
+                "href": "/api/edge/users/42",
+                "username": "archer",
+                "name": "Sterling",
+                "avatar_url": "https://abc123.cloudfront.net/uploads/user/avatar/42/avatar.png",
+                "experimental_features": false,
+                "relationship_priority": "self"
+            },
+            {
+                "id": "666",
+                "href": "/api/edge/users/666",
+                "username": "cfiggis",
+                "name": "Cyril Figgis",
+                "avatar_url": "https://abc123.cloudfront.net/uploads/user/avatar/666/avatar.png",
+                "experimental_features": true,
+                "relationship_priority": "friend"
+            }
+        ]
+    }
+}

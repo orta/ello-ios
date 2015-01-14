@@ -13,36 +13,36 @@ class PostSpec: QuickSpec {
     override func spec() {
 
         it("converts from JSON") {
-            let body = [["data" : "@figgis ISIS agents use **Krav Maga.**", "kind" : "text"]]
-            let createdAtString = "2013-11-30T05:57:53.936Z"
-            let content = [ "<p><a href=\"/archer\" class=\"user-mention\" rel=\"nofollow\">@archer</a>, Will I get to learn karate?</p>"]
-            let summary = [ "<p><a href='/archer' class='user-mention' rel='nofollow'>@archer</a>, Will I get to learn karate?</p>"]
-            let token = "iQ7twNQtWwAQjBw4kEL1rg"
-            let postId = 17
-
-            let authorName = "Secret Spy"
-            let authorId = 42
-            let authorUsername = "archer"
-            let authorAvatar = "http://ello.dev/uploads/user/avatar/42/avatar.png"
-            let authorAvatarURL = NSURL(string: authorAvatar)
-            let authorDict = ["avatar_url" : authorAvatar, "id" : authorId, "name" : authorName, "username" : authorUsername]
-
-            let data:[String: AnyObject] = ["body" : body , "author" : authorDict, "created_at" : createdAtString, "content" : content, "summary" : summary, "token" : token, "id" : postId]
-
-            let post = Post.fromJSON(data, linked: nil) as Post
+            
+            let (parsedPost, parsedLinked) = stubbedJSONDataWithLinked("posts", "posts")
+            let createdAtString = "2014-12-23T22:27:47.325Z"
+            let post = Post.fromJSON(parsedPost, linked: parsedLinked) as Post
             var createdAt:NSDate = createdAtString.toNSDate()!
 
             expect(post.createdAt) == createdAt
-            expect(post.content) == content
-            expect(post.summary) == summary
-            expect(post.token) == token
-            expect(post.postId) == postId
+
+            let postContent0:Post.ImageBodyElement = post.content[0] as Post.ImageBodyElement
+            expect(postContent0.type) == Post.BodyElementTypes.Image
+            expect(postContent0.via) == "direct"
+            expect(postContent0.alt) == "ello-15c97681-b4a6-496f-8c5f-0096fd215703.jpeg"
+            expect(postContent0.assetId) == 85
+            
+            let postContent1:Post.TextBodyElement = post.content[1] as Post.TextBodyElement
+            expect(postContent1.type) == Post.BodyElementTypes.Text
+            expect(postContent1.content) == "test text content"
+            
+            
+            expect(post.token) == "ibLWX5p5fPBfzE8GmfOG6w"
+            expect(post.postId) == "526"
 
             expect(post.author).to(beAnInstanceOf(User.self))
-            expect(post.author!.name) == authorName
-            expect(post.author!.userId) == authorId
-            expect(post.author!.username) == authorUsername
-            expect(post.author!.avatarURL) == authorAvatarURL
+            expect(post.author!.name) == "Cyril Figgis"
+            expect(post.author!.userId) == "666"
+            expect(post.author!.username) == "cfiggis"
+            expect(post.author!.experimentalFeatures) == true
+            expect(post.author!.relationshipPriority) == "friend"
+            expect(post.author!.href) == "/api/edge/users/666"
+            expect(post.author!.avatarURL!.absoluteString) == "https://abc123.cloudfront.net/uploads/user/avatar/666/avatar.png"
         }
         
     }

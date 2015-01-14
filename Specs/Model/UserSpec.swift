@@ -13,20 +13,19 @@ class UserSpec: QuickSpec {
     override func spec() {
 
         it("converts from JSON") {
-            let avatar = "http://ello.dev/uploads/user/avatar/42/avatar.png"
-            let avatarURL = NSURL(string: avatar)
-            let userId = 42
-            let name = "Secret Spy"
-            let username = "archer"
-
-            let data:[String: AnyObject] = ["avatar_url" : avatar, "id" : userId, "name" : name, "username" : username]
-
+            let data = stubbedJSONData("user", "users")
             let user = User.fromJSON(data, linked: nil) as User
-
-            expect(user.avatarURL) == avatarURL
-            expect(user.userId) == userId
-            expect(user.name) == name
-            expect(user.username) == username
+            
+            expect(user.avatarURL!.absoluteString) == "https://abc123.cloudfront.net/uploads/user/avatar/42/avatar.png"
+            expect(user.userId) == "42"
+            expect(user.name) == "Sterling"
+            expect(user.username) == "archer"
+            expect(user.href) == "/api/edge/users/42"
+            expect(user.experimentalFeatures) == false
+            expect(user.relationshipPriority) == "self"
+            expect(user.postsCount!) == 1
+            expect(user.followersCount!) == 0
+            expect(user.followingCount!) == 1
         }
     }
 }

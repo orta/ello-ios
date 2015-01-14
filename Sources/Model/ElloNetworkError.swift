@@ -31,7 +31,6 @@ class ElloNetworkError: JSONAble {
         case unknown = "unknown"
     }
 
-    let errors: [String:AnyObject]
     let title: String
     let code: CodeType
     let detail: String?
@@ -39,8 +38,7 @@ class ElloNetworkError: JSONAble {
     let messages: [String]?
     let attrs: [String:[String]]?
 
-    init(errors: [String:AnyObject], title:String, code:String, detail:String?, status:String?, messages:[String]?, attrs:[String:[String]]?) {
-        self.errors = errors
+    init(title:String, code:String, detail:String?, status:String?, messages:[String]?, attrs:[String:[String]]?) {
         self.code = CodeType(rawValue: code) ?? CodeType.unknown
         self.title = title
         self.detail = detail
@@ -51,14 +49,13 @@ class ElloNetworkError: JSONAble {
     
     override class func fromJSON(data:[String: AnyObject], linked: [String:[AnyObject]]?) -> JSONAble {
         let json = JSON(data)
-        let errors = json["errors"].object as [String:AnyObject]
-        let title = errors["title"] as String
-        let code = errors["code"] as? String ?? CodeType.unknown.rawValue
-        let detail = errors["detail"] as? String
-        let status = errors["status"] as? String
-        let messages = errors["messages"] as? [String]
-        let attrs = errors["attrs"] as? [String:[String]]
+        let title = json["title"].stringValue
+        let code = json["code"].string ?? CodeType.unknown.rawValue
+        let detail = json["detail"].string
+        let status = json["status"].string
+        let messages = json["messages"].object as? [String]
+        let attrs = json["attrs"].object as? [String:[String]]
         
-        return ElloNetworkError(errors: errors, title:title, code: code, detail: detail, status: status, messages: messages, attrs: attrs)
+        return ElloNetworkError(title:title, code: code, detail: detail, status: status, messages: messages, attrs: attrs)
     }
 }

@@ -46,7 +46,7 @@ struct ElloProvider {
     }
 
     static var errorEndpointsClosure = { (target: ElloAPI, method: Moya.Method, parameters: [String: AnyObject]) -> Endpoint<ElloAPI> in
-
+ 
         let sampleResponse = { () -> (EndpointSampleResponse) in
             return .Error(ElloProvider.errorStatusCode.rawValue, NSError(domain: ElloErrorDomain, code: 0, userInfo: [NSLocalizedFailureReasonErrorKey: "failure"]), ElloProvider.errorStatusCode.defaultData)
         }()
@@ -104,29 +104,29 @@ struct ElloProvider {
 
 extension MoyaProvider {
 
-    func elloRequest(token: T, method: Moya.Method, parameters: [String: AnyObject], mappableType: JSONAble.Type, success: ElloSuccessCompletion, failure: ElloFailureCompletion?) {
+    func elloRequest(token: T, method: Moya.Method, parameters: [String: AnyObject], propertyName: MappingType.Prop, success: ElloSuccessCompletion, failure: ElloFailureCompletion?) {
 
         self.request(token, method: method, parameters: parameters, completion: {
             (data, statusCode, response, error) in
 
-            self.handleRequest(token, method: method, parameters: parameters, data: data, statusCode: statusCode, success: success, failure: failure, isRetry: false, mappableType: mappableType, error: error)
+            self.handleRequest(token, method: method, parameters: parameters, data: data, statusCode: statusCode, success: success, failure: failure, isRetry: false, propertyName: propertyName, error: error)
         })
     }
 
-    func handleRequest(token: T, method: Moya.Method, parameters: [String: AnyObject], data:NSData?, var statusCode:Int?, success: ElloSuccessCompletion, failure: ElloFailureCompletion?, isRetry: Bool, mappableType: JSONAble.Type, error:NSError?) {
+    func handleRequest(token: T, method: Moya.Method, parameters: [String: AnyObject], data:NSData?, var statusCode:Int?, success: ElloSuccessCompletion, failure: ElloFailureCompletion?, isRetry: Bool, propertyName: MappingType.Prop, error:NSError?) {
         if data != nil && statusCode != nil {
             switch statusCode! {
             case 200...299:
-                self.handleNetworkSuccess(data!, mappableType: mappableType, success: success, failure: failure)
+                self.handleNetworkSuccess(data!, propertyName: propertyName, success: success, failure: failure)
             case 300...399:
-                self.handleNetworkSuccess(data!, mappableType: mappableType, success: success, failure: failure)
+                self.handleNetworkSuccess(data!, propertyName: propertyName, success: success, failure: failure)
             case 401:
                 if !isRetry {
                     let authService = AuthService()
                     authService.reAuthenticate({
                         // now retry the previous request that generated the original 401
                         self.request(token, method: method, parameters: parameters, completion: { (data, statusCode, response, error) in
-                            self.handleRequest(token, method: method, parameters: parameters, data: data, statusCode: statusCode, success: success, failure: failure, isRetry: true, mappableType: mappableType, error: error)
+                            self.handleRequest(token, method: method, parameters: parameters, data: data, statusCode: statusCode, success: success, failure: failure, isRetry: true, propertyName: propertyName, error: error)
                         })
                     },
                     failure: {
@@ -154,20 +154,30 @@ extension MoyaProvider {
         }
     }
 
-    func handleNetworkSuccess(data:NSData, mappableType: JSONAble.Type, success:ElloSuccessCompletion, failure:ElloFailureCompletion?) {
+    func handleNetworkSuccess(data:NSData, propertyName: MappingType.Prop, success:ElloSuccessCompletion, failure:ElloFailureCompletion?) {
         let (mappedJSON: AnyObject?, error) = mapJSON(data)
+        
         var mappedObjects: AnyObject?
         if mappedJSON != nil && error == nil {
-            if let mappedJSONArray = mappedJSON as? [AnyObject] {
-                mappedObjects = mapToObjectArray(mappedJSON!, classType: mappableType)
+            if let dict = mappedJSON as? [String:AnyObject] {
+                let linked = dict["linked"] as [String:[AnyObject]]?
+                
+                if let node = dict[propertyName.rawValue] as? [[String:AnyObject]] {
+                    if let JSONAbleType = MappingType.types[propertyName] {
+                        mappedObjects = mapToObjectArray(node, classType: JSONAbleType, linked: linked)
+                    }
+                }
+                else if let node = dict[propertyName.rawValue] as? [String:AnyObject] {
+                    if let JSONAbleType = MappingType.types[propertyName] {
+                        mappedObjects = mapToObject(node, classType: JSONAbleType, linked: linked)
+                    }
+                }
             }
-            else {
-                mappedObjects = mapToObject(mappedJSON!, classType: mappableType)
-            }
+
             success(data:mappedObjects!)
         }
         else {
-            let jsonMappingError = ElloNetworkError(errors: [:], title: "Error", code: ElloNetworkError.CodeType.unknown.rawValue, detail: "NEED DEFAULT HERE", status: nil, messages: nil, attrs: nil)
+            let jsonMappingError = ElloNetworkError(title: "Error", code: ElloNetworkError.CodeType.unknown.rawValue, detail: "NEED DEFAULT HERE", status: nil, messages: nil, attrs: nil)
             
             let elloError = NSError.networkError(jsonMappingError, code: ElloErrorCode.JSONMapping)
             if let failure = failure {
@@ -209,12 +219,14 @@ extension MoyaProvider {
             var mappedObjects: AnyObject?
 
             if mappedJSON != nil && error == nil {
-                elloNetworkError = mapToObject(mappedJSON!, classType: ElloNetworkError.self) as? ElloNetworkError
+                if let node = mappedJSON?[MappingType.Prop.Errors.rawValue] as? [String:AnyObject] {
+                    elloNetworkError = mapToObject(node, classType: ElloNetworkError.self, linked: nil) as? ElloNetworkError
+                }
             }
         }
         else {
             let detail = error?.localizedDescription ?? "NEED DEFAULT HERE"
-            elloNetworkError = ElloNetworkError(errors: [:], title: "Error", code: ElloNetworkError.CodeType.unknown.rawValue, detail: detail, status: nil, messages: nil, attrs: nil)
+            elloNetworkError = ElloNetworkError(title: "Error", code: ElloNetworkError.CodeType.unknown.rawValue, detail: detail, status: nil, messages: nil, attrs: nil)
         }
 
         var errorCodeType = (statusCode == nil) ? ElloErrorCode.Data : ElloErrorCode.StatusCode
@@ -227,7 +239,7 @@ extension MoyaProvider {
 
         var error: NSError?
         var json: AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &error)
-
+        
         if json == nil && error != nil {
             var userInfo: [NSObject : AnyObject]? = ["data": data]
             error = NSError(domain: ElloErrorDomain, code: ElloErrorCode.JSONMapping.rawValue, userInfo: userInfo)
@@ -236,26 +248,23 @@ extension MoyaProvider {
         return (json, error)
     }
 
-    func mapToObjectArray(object: AnyObject?, classType: JSONAble.Type) -> [JSONAble]? {
+    func mapToObjectArray(object: AnyObject?, classType: JSONAble.Type, linked:[String:[AnyObject]]?) -> [JSONAble]? {
 
         if let dicts = object as? [[String:AnyObject]] {
-            let jsonables:[JSONAble] =  dicts.map({ return classType.fromJSON($0, linked: nil) })
+            let jsonables:[JSONAble] =  dicts.map({ return classType.fromJSON($0, linked: linked) })
             return jsonables
         }
 
         return nil
     }
 
-    func mapToObject(object:AnyObject?, classType: JSONAble.Type) -> JSONAble? {
-
-        func resultFromJSON(object:[String: AnyObject], classType: JSONAble.Type) -> JSONAble? {
-            return classType.fromJSON(object, linked: nil)
-        }
-
+    func mapToObject(object:AnyObject?, classType: JSONAble.Type, linked:[String:[AnyObject]]?) -> JSONAble? {
+    
         if let dict = object as? [String:AnyObject] {
-            return resultFromJSON(dict, classType)
+            return classType.fromJSON(dict, linked: linked)
         }
-        
-        return nil
+        else {
+            return nil
+        }
     }
 }

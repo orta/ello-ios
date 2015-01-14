@@ -27,7 +27,7 @@ struct StreamCellItemParser {
     private func bodyStreamCellItems(activity:Activity) -> [StreamCellItem] {
         var cellArray:[StreamCellItem] = []
         if let post = activity.subject as? Post {
-            for element in post.body {
+            for element in post.content {
                 var height:CGFloat
                 switch element.type {
                 case Post.BodyElementTypes.Image:

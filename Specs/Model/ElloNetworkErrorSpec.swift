@@ -13,33 +13,16 @@ class ElloNetworkErrorSpec: QuickSpec {
     override func spec() {
 
         it("converts from JSON") {
-            let code = "rate_limited"
-            let title = "The request could not be handled due to rate limiting."
-            let status = "420"
-            let detail = "sample test detail"
-            let messages = ["message one", "message two", "message three"]
-            let nameAttrs = ["can't be blank", "too $hort"]
-            let addressAttrs = ["too long"]
-            let attrs = ["name" : nameAttrs, "address" : addressAttrs]
-            let errors:[String:AnyObject] = ["status" : status, "title" : title, "code" : code, "detail" : detail, "messages" : messages, "attrs" : attrs]
-            let data:[String: AnyObject] = ["errors" : errors]
+            let errors = stubbedJSONData("422", "errors")
 
-            let elloNetworkError = ElloNetworkError.fromJSON(data, linked: nil) as ElloNetworkError
+            let elloNetworkError = ElloNetworkError.fromJSON(errors, linked: nil) as ElloNetworkError
 
-            expect(elloNetworkError.code) == ElloNetworkError.CodeType.rateLimited
-            expect(elloNetworkError.title) == title
-            expect(elloNetworkError.status) == status
-            expect(elloNetworkError.detail) == detail
-            expect(elloNetworkError.messages) == messages
-            expect(elloNetworkError.attrs!["name"]!) == nameAttrs
-            expect(elloNetworkError.attrs!["address"]!) == addressAttrs
-            expect((elloNetworkError.errors["status"] as String)) == status
-            expect((elloNetworkError.errors["title"] as String)) == title
-            expect((elloNetworkError.errors["code"] as String)) == code
-            expect((elloNetworkError.errors["detail"] as String)) == detail
-            expect((elloNetworkError.errors["messages"] as [String])) == messages
-            
-            expect(elloNetworkError.detail) == detail
+            expect(elloNetworkError.code) == ElloNetworkError.CodeType.invalidResource
+            expect(elloNetworkError.title) == "The current resource was invalid."
+            expect(elloNetworkError.status) == "422"
+            expect(elloNetworkError.detail).to(beNil())
+            expect(elloNetworkError.messages) == ["Name can't be blank"]
+            expect(elloNetworkError.attrs!["name"]!) == ["can't be blank"]
         }
     }
 

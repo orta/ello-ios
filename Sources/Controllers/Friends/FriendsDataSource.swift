@@ -105,8 +105,8 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
     private func footerCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> StreamFooterCell {
         let post:Post = streamCellItem.activity.subject as Post
         let footerCell = collectionView.dequeueReusableCellWithReuseIdentifier(CellIdentifier.Footer.rawValue, forIndexPath: indexPath) as StreamFooterCell
-        footerCell.views = post.viewedCount.localizedStringFromNumber()
-        footerCell.comments = post.commentCount.localizedStringFromNumber()
+        footerCell.views = post.viewsCount?.localizedStringFromNumber()
+        footerCell.comments = post.commentsCount?.localizedStringFromNumber()
         return footerCell
     }
 

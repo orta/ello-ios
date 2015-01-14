@@ -1,0 +1,79 @@
+{
+    "comments": {
+        "id": "30",
+        "summary": [
+            "<p>Hello, I am a comment with awesome content!</p>"
+        ],
+        "created_at": "2014-06-02T00:00:00.000Z",
+        "body": [
+            {
+                "kind": "text",
+                "data": "Hello, I am a comment with awesome content!"
+            }
+        ],
+        "content": [
+            "<p>Hello, I am a comment with awesome content!</p>"
+        ],
+        "links": {
+            "author": {
+                "type": "users",
+                "href": "/api/edge/users/420",
+                "id": "420"
+            },
+            "parent_post": {
+                "type": "posts",
+                "href": "/api/edge/posts/29",
+                "id": "29"
+            }
+        }
+    },
+    "linked": {
+        "users": [
+            {
+                "id": "420",
+                "href": "/api/edge/users/420",
+                "username": "bigE",
+                "name": "Smalls",
+                "avatar_url": "https://abc123.cloudfront.net/uploads/user/avatar/420/avatar.png",
+                "experimental_features": true,
+                "relationship_priority": "friend"
+            },
+            {
+                "id": "666",
+                "href": "/api/edge/users/666",
+                "username": "cfiggis",
+                "name": "Cyril Figgis",
+                "avatar_url": "https://abc123.cloudfront.net/uploads/user/avatar/666/avatar.png",
+                "experimental_features": true,
+                "relationship_priority": "friend"
+            }
+        ],
+        "posts": [
+            {
+                "id": "29",
+                "href": "/api/edge/posts/29",
+                "token": "ibLWX5p5fPBfzE8GmfOG6w",
+                "collapsed": false,
+                "allow_comments": true,
+                "content": [
+                    {
+                        "kind": "text",
+                        "readonly": false,
+                        "data": "test text content"
+                    }
+                ],
+                "created_at": "2014-12-23T22:27:47.325Z",
+                "views_count": 25,
+                "comments_count": 10,
+                "reposts_count": 52,
+                "links": {
+                    "author": {
+                        "type": "users",
+                        "href": "/api/edge/users/666",
+                        "id": "666"
+                    }
+                }
+            }
+        ]
+    }
+}
