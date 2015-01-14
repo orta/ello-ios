@@ -11,7 +11,6 @@ import Nimble
 
 class ElloNetworkErrorSpec: QuickSpec {
     override func spec() {
-
         it("converts from JSON") {
             let errors = stubbedJSONData("422", "errors")
 
@@ -25,5 +24,4 @@ class ElloNetworkErrorSpec: QuickSpec {
             expect(elloNetworkError.attrs!["name"]!) == ["can't be blank"]
         }
     }
-
 }
