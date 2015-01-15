@@ -3,6 +3,7 @@ before_script:
   - export LANG=en_US.UTF-8
   - rm Podfile
   - rm Gemfile
+  - rm .ruby-version
   - rm Podfile.lock
   - rm Gemfile.lock
 
