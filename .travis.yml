@@ -1,9 +1,11 @@
 language: objective-c
-cache:
-  - bundler
-  - cocoapods
 before_script:
   - export LANG=en_US.UTF-8
+  - rm Podfile
+  - rm Gemfile
+  - rm Podfile.lock
+  - rm Gemfile.lock
+
 script: ./travis-build.sh
 branches:
   only:
