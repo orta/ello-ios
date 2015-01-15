@@ -6,7 +6,7 @@ before_script:
   - rm .ruby-version
   - rm Podfile.lock
   - rm Gemfile.lock
-
+install:	
 script: ./travis-build.sh
 branches:
   only:
