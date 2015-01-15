@@ -10,7 +10,7 @@
 import UIKit
 import WebKit
 
-class NotificationsViewController: UIViewController {
+class NotificationsViewController: BaseElloViewController {
 
     @IBOutlet var containerView : UIView! = nil
     var webView: WKWebView!
@@ -35,6 +35,10 @@ class NotificationsViewController: UIViewController {
 //        self.webView!.loadHTMLString("yo", baseURL:NSURL(string:"/") )
 //        self.view?.backgroundColor = UIColor.redColor()
 //        self.webView?.backgroundColor = UIColor.blueColor()
+    }
+    
+    class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> NotificationsViewController {
+        return storyboard.controllerWithID(.Notifications) as NotificationsViewController
     }
 
     override func didReceiveMemoryWarning() {

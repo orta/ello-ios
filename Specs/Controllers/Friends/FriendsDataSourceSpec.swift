@@ -51,7 +51,7 @@ class FriendsDataSourceSpec: QuickSpec {
 
                 it("returns 8", {
                     
-                    expect(dataSource.collectionView(vc.collectionView, numberOfItemsInSection: 0)).to(equal(8))
+                    expect(dataSource.collectionView(vc.collectionView, numberOfItemsInSection: 0)).to(equal(7))
                 })
             })
 

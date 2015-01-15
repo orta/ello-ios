@@ -12,8 +12,8 @@ public class ElloTabBar: UITabBar {
 
     required public init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        self.barTintColor = UIColor.tabBarGray()
+        self.barTintColor = UIColor.whiteColor()
         self.tintColor = UIColor.blackColor()
+        self.clipsToBounds = true
     }
-
 }

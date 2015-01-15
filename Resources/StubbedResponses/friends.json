@@ -50,7 +50,7 @@
                         {
                             "kind": "image",
                             "data": {
-                                "url": "https://d324imu86q1bqn.cloudfront.net/uploads/asset/attachment/1181913/optimized.jpg",
+                                "url": "http://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/43/optimized.jpg",
                                 "via": "direct",
                                 "alt": "ello-15c97681-b4a6-496f-8c5f-0096fd215703.jpeg",
                                 "asset_id": 85
@@ -81,7 +81,7 @@
                     "href": "/api/edge/users/42",
                     "username": "archer",
                     "name": "Sterling",
-                    "avatar_url": "https://abc123.cloudfront.net/uploads/user/avatar/42/avatar.png",
+                    "avatar_url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/10/regular_optimized-5.png",
                     "experimental_features": false,
                     "relationship_priority": "self",
                     "posts_count": 1,
@@ -98,7 +98,7 @@
                 "href": "/api/edge/users/42",
                 "username": "archer",
                 "name": "Sterling",
-                "avatar_url": "https://abc123.cloudfront.net/uploads/user/avatar/42/avatar.png",
+                "avatar_url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/10/regular_optimized-5.png",
                 "experimental_features": false,
                 "relationship_priority": "self"
             },
@@ -107,7 +107,7 @@
                 "href": "/api/edge/users/666",
                 "username": "cfiggis",
                 "name": "Cyril Figgis",
-                "avatar_url": "https://abc123.cloudfront.net/uploads/user/avatar/666/avatar.png",
+                "avatar_url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/9/regular_pinup5_thumb.png",
                 "experimental_features": true,
                 "relationship_priority": "friend"
             }

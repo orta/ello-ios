@@ -18,7 +18,16 @@ class Activity: JSONAble {
     enum Kind: String {
         case OwnPost = "own_post"
         case FriendPost = "friend_post"
-        case WelcomPost = "welcome_post"
+        case WelcomePost = "welcome_post"
+        case NoisePost = "noise_post"
+        case RepostNotification = "repost_notification"
+        case NewFollowerPost = "new_follower_post"
+        case PostMentionNotification = "post_mention_notification"
+        case CommentMentionNotification = "comment_mention_notification"
+        case InvitationAcceptedPost = "invitation_accepted_post"
+        case NewFollowedUserPost = "new_followed_user_post"
+        case CommentNotification = "comment_notification"
+        case WelcomeNotification = "welcome_notification"
         case Unknown = "Unknown"
     }
 

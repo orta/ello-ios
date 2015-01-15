@@ -80,13 +80,21 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
     }
 
     private func headerCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> StreamHeaderCell {
-        let post:Post = streamCellItem.activity.subject as Post
+        println(streamCellItem.activity)
+        var author:User?
+        if let post:Post = streamCellItem.activity.subject as? Post {
+            author = post.author?
+        }
+        else if let user:User = streamCellItem.activity.subject as? User {
+            author = user
+        }
+
         let streamCell = collectionView.dequeueReusableCellWithReuseIdentifier(CellIdentifier.Header.rawValue, forIndexPath: indexPath) as StreamHeaderCell
-        if let avatarURL = post.author?.avatarURL? {
+        if let avatarURL = author?.avatarURL? {
             streamCell.setAvatarURL(avatarURL)
         }
-        streamCell.timestampLabel.text = NSDate().distanceOfTimeInWords(post.createdAt)
-        streamCell.usernameLabel.text = "@" + (post.author?.username ?? "meow")
+        streamCell.timestampLabel.text = NSDate().distanceOfTimeInWords(streamCellItem.activity.createdAt)
+        streamCell.usernameLabel.text = "@" + (author?.username ?? "meow")
         return streamCell
     }
 

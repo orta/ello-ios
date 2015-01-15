@@ -15,7 +15,9 @@ struct StreamCellItemParser {
         for activity in activities {
             cellItems += headerStreamCellItems(activity)
             cellItems += bodyStreamCellItems(activity)
-            cellItems += footerStreamCellItems(activity)
+            if activity.kind != Activity.Kind.WelcomePost {
+                cellItems += footerStreamCellItems(activity)
+            }
         }
         return cellItems
     }

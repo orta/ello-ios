@@ -1,7 +1,7 @@
-osx_image: xcode61
-rvm:
-  - "2.2.0"
 language: objective-c
+cache:
+  - bundler
+  - cocoapods
 before_script:
   - export LANG=en_US.UTF-8
 script: ./travis-build.sh

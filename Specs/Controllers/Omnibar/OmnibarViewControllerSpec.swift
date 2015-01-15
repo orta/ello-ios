@@ -1,46 +1,45 @@
 //
-//  FriendsViewControllerSpec.swift
+//  OmnibarViewControllerSpec.swift
 //  Ello
 //
-//  Created by Sean Dougherty on 11/21/14.
-//  Copyright (c) 2014 Ello. All rights reserved.
+//  Created by Sean on 1/15/15.
+//  Copyright (c) 2015 Ello. All rights reserved.
 //
 
 import Quick
 import Nimble
 
 
-class FriendsViewControllerSpec: QuickSpec {
+class OmnibarViewControllerSpec: QuickSpec {
     override func spec() {
-
-        var controller = FriendsViewController.instantiateFromStoryboard()
+        
+        var controller = OmnibarViewController.instantiateFromStoryboard()
         
         beforeSuite {
             ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
         }
-
+        
         afterSuite {
             ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
         }
         
         describe("initialization", {
-
+            
             beforeEach({
-                controller = FriendsViewController.instantiateFromStoryboard()
+                controller = OmnibarViewController.instantiateFromStoryboard()
             })
-
+            
             describe("storyboard", {
-
+                
                 beforeEach({
                     controller.loadView()
                     controller.viewDidLoad()
                 })
-
+                
                 it("IBOutlets are  not nil", {
-                    expect(controller.collectionView).notTo(beNil())
                 })
             })
-
+            
             it("can be instatiated from storyboard") {
                 expect(controller).notTo(beNil())
             }
@@ -49,14 +48,14 @@ class FriendsViewControllerSpec: QuickSpec {
                 expect(controller).to(beAKindOf(BaseElloViewController.self))
             })
 
-            it("is a FriendsViewController", {
-                expect(controller).to(beAKindOf(FriendsViewController.self))
+            it("is a OmnibarViewController", {
+                expect(controller).to(beAKindOf(OmnibarViewController.self))
             })
             
             it("has a tab bar item", {
                 expect(controller.tabBarItem).notTo(beNil())
                 
-                let selectedImage:UIImage = controller.navigationController!.tabBarItem.valueForKey("selectedImage") as UIImage
+                let selectedImage:UIImage = controller.tabBarItem.valueForKey("selectedImage") as UIImage
                 
                 expect(selectedImage).notTo(beNil())
             })
@@ -65,24 +64,13 @@ class FriendsViewControllerSpec: QuickSpec {
         describe("-viewDidLoad:", {
             
             beforeEach({
-                controller = FriendsViewController.instantiateFromStoryboard()
+                controller = OmnibarViewController.instantiateFromStoryboard()
                 controller.loadView()
                 controller.viewDidLoad()
             })
             
-            it("properly configures dataSource") {
-                expect(controller.dataSource).to(beAnInstanceOf(FriendsDataSource.self))
-            }
-            
-            it("hides the nav bar on swipe") {
-                expect(controller.navigationController?.hidesBarsOnSwipe) == true
-            }
+            it("configures tableView") {
 
-            // TODO: fix error about delegate not found
-            it("configures collectionView") {
-//                expect(controller.collectionView.delegate) == controller
-                expect(controller.collectionView.alwaysBounceHorizontal) == false
-                expect(controller.collectionView.alwaysBounceVertical) == true
             }
             
             it("adds notification observers") {

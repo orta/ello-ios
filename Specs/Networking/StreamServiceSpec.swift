@@ -57,7 +57,7 @@ class StreamServiceSpec: QuickSpec {
                         expect(post0Author.name) == "Sterling"
                         expect(post0Author.experimentalFeatures) == false
                         expect(post0Author.relationshipPriority) == "self"
-                        expect(post0Author.avatarURL!.absoluteString) == "https://abc123.cloudfront.net/uploads/user/avatar/42/avatar.png"
+                        expect(post0Author.avatarURL!.absoluteString) == "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/10/regular_optimized-5.png"
                     })
                 }
 

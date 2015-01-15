@@ -23,7 +23,7 @@ class ActivitySpec: QuickSpec {
 
             expect(activity.subjectType) == Activity.SubjectType.User
             expect(activity.activityId) == createdAtString
-            expect(activity.kind) == Activity.Kind.WelcomPost
+            expect(activity.kind) == Activity.Kind.WelcomePost
             expect(activity.createdAt) == createdAt
 
             let user = activity.subject as User
