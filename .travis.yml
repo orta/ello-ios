@@ -2,17 +2,12 @@ language: objective-c
 rvm: 2.2.0
 before_script:
   - export LANG=en_US.UTF-8
-  - rm Podfile
-  - rm Gemfile
-  - rm .ruby-version
-  - rm Podfile.lock
-  - rm Gemfile.lock
 install:
-  - rm Podfile
-  - rm Gemfile
-  - rm .ruby-version
-  - rm Podfile.lock
-  - rm Gemfile.lock
+  - rm ./Podfile
+  - rm ./Gemfile
+  - rm ./.ruby-version
+  - rm ./Podfile.lock
+  - rm ./Gemfile.lock
 script: ./travis-build.sh
 branches:
   only:
