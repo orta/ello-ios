@@ -28,20 +28,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "12FEBD151A4225F600933A02"
-               BuildableName = "ElloTests.xctest"
-               BlueprintName = "ElloTests"
-               ReferencedContainer = "container:Ello.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "12D14C4E1A43752200C6F8E8"
                BuildableName = "Specs.xctest"
                BlueprintName = "Specs"

@@ -13,15 +13,18 @@ import Moya
 
 class FriendsDataSourceSpec: QuickSpec {
     override func spec() {
-        let vc = FriendsViewController.instantiateFromStoryboard()
-        vc.loadView()
-        vc.viewDidLoad()
-
-//        let keyWindow = UIWindow(frame: UIScreen.mainScreen().bounds)
-//        keyWindow.makeKeyAndVisible()
-//        keyWindow.rootViewController = vc
-//        vc.loadView()
-//        vc.viewDidLoad()
+        
+        var vc = FriendsViewController.instantiateFromStoryboard()
+        
+        beforeEach({
+            vc = FriendsViewController.instantiateFromStoryboard()
+            let keyWindow = UIWindow(frame: UIScreen.mainScreen().bounds)
+            keyWindow.makeKeyAndVisible()
+            keyWindow.rootViewController = vc
+            vc.loadView()
+            vc.viewDidLoad()
+        })
+        
         
         var dataSource: FriendsDataSource!
 //        let collectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -55,14 +58,14 @@ class FriendsDataSourceSpec: QuickSpec {
                 })
             })
 
-            describe("-collectionView:cellForItemAtIndexPath:", {
-
+//            describe("-collectionView:cellForItemAtIndexPath:", {
+//
 //                it("returns a StreamHeaderCell", {
 //                    let cell = dataSource.collectionView(vc.collectionView, cellForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0))
 //                    expect{cell}.toEventually(beAnInstanceOf(StreamHeaderCell.self))
-//                    
+//
 //                })
-            })
+//            })
         })
     }
 }
