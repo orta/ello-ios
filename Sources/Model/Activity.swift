@@ -16,17 +16,17 @@ import SwiftyJSON
 class Activity: JSONAble {
 
     enum Kind: String {
-        case OwnPost = "own_post"
-        case FriendPost = "friend_post"
-        case WelcomePost = "welcome_post"
-        case NoisePost = "noise_post"
-        case RepostNotification = "repost_notification"
+        case OwnPost = "own_post" // main feed
+        case FriendPost = "friend_post" // main feed
+        case WelcomePost = "welcome_post" // main feed
+        case NoisePost = "noise_post" // main feed
+        case RepostNotification = "repost_notification" // main feed (but collapsable
         case NewFollowerPost = "new_follower_post"
         case PostMentionNotification = "post_mention_notification"
         case CommentMentionNotification = "comment_mention_notification"
         case InvitationAcceptedPost = "invitation_accepted_post"
-        case NewFollowedUserPost = "new_followed_user_post"
-        case CommentNotification = "comment_notification"
+        case NewFollowedUserPost = "new_followed_user_post" // main feed
+        case CommentNotification = "comment_notification" // main feed
         case WelcomeNotification = "welcome_notification"
         case Unknown = "Unknown"
     }

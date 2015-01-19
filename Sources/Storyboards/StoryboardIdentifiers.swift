@@ -15,6 +15,7 @@ enum ViewControllerStoryboardIdentifier : String {
     case Discover = "DiscoverViewController"
     case Notifications = "NotificationsViewController"
     case Friends = "FriendsViewController"
+    case Stream = "StreamViewController"
     case Profile = "ProfileViewController"
     case Post = "PostViewController"
     case Omnibar = "OmnibarViewController"

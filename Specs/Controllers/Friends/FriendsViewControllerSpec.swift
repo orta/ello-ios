@@ -52,14 +52,7 @@ class FriendsViewControllerSpec: QuickSpec {
             it("is a FriendsViewController", {
                 expect(controller).to(beAKindOf(FriendsViewController.self))
             })
-            
-            it("has a tab bar item", {
-                expect(controller.tabBarItem).notTo(beNil())
-                
-                let selectedImage:UIImage = controller.navigationController!.tabBarItem.valueForKey("selectedImage") as UIImage
-                
-                expect(selectedImage).notTo(beNil())
-            })
+        
         })
         
         describe("-viewDidLoad:", {
@@ -72,10 +65,6 @@ class FriendsViewControllerSpec: QuickSpec {
             
             it("properly configures dataSource") {
                 expect(controller.dataSource).to(beAnInstanceOf(FriendsDataSource.self))
-            }
-            
-            it("hides the nav bar on swipe") {
-                expect(controller.navigationController?.hidesBarsOnSwipe) == true
             }
 
             // TODO: fix error about delegate not found

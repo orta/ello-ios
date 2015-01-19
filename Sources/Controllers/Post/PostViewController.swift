@@ -22,7 +22,7 @@ class PostViewController: BaseElloViewController, UICollectionViewDelegate, UICo
         super.viewDidLoad()
         setupCollectionView()
         addNotificationObservers()
-        navigationController?.hidesBarsOnSwipe = true
+//        navigationController?.hidesBarsOnSwipe = true
         
         if let tabBar = self.tabBarController?.tabBar {
             tabBarFrame = tabBar.frame

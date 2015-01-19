@@ -44,6 +44,7 @@
                             <constraint firstAttribute="centerY" secondItem="KQZ-1w-vlD" secondAttribute="centerY" id="exm-UA-ej4"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <tabBarItem key="tabBarItem" title="" image="discover-icon" id="acW-dT-cKf">
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
                         <userDefinedRuntimeAttributes>
@@ -81,6 +82,7 @@
                             <constraint firstAttribute="centerY" secondItem="zEq-FU-wV5" secondAttribute="centerY" id="qzY-Ky-pLD"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <tabBarItem key="tabBarItem" title="" image="notifications-icon" id="cPa-gy-q4n">
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
                         <userDefinedRuntimeAttributes>
@@ -99,6 +101,7 @@
         <scene sceneID="yl2-sM-qoP">
             <objects>
                 <tabBarController storyboardIdentifier="ElloTabBarController" id="49e-Tb-3d3" customClass="ElloTabBarController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="W28-zg-YXA" customClass="ElloTabBar" customModule="Ello" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="975" width="768" height="49"/>
@@ -118,20 +121,61 @@
             </objects>
             <point key="canvasLocation" x="0.0" y="0.0"/>
         </scene>
+        <!--Streams-->
+        <scene sceneID="1KH-Io-LbQ">
+            <objects>
+                <viewController id="hkH-y2-vf2" customClass="StreamViewController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="yLi-cj-Iz8"/>
+                        <viewControllerLayoutGuide type="bottom" id="Cu5-ro-RnE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="b3f-dm-11N">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sxq-dN-l1X">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="0.00083137051921811089" blue="0.69331204694526471" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="Sxq-dN-l1X" firstAttribute="leading" secondItem="b3f-dm-11N" secondAttribute="leading" id="Gfr-6R-MUN"/>
+                            <constraint firstAttribute="trailing" secondItem="Sxq-dN-l1X" secondAttribute="trailing" id="hew-hv-gFc"/>
+                            <constraint firstAttribute="bottom" secondItem="Sxq-dN-l1X" secondAttribute="bottom" id="lbw-bY-IgY"/>
+                            <constraint firstItem="Sxq-dN-l1X" firstAttribute="top" secondItem="b3f-dm-11N" secondAttribute="top" id="wu4-jP-jSU"/>
+                        </constraints>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <navigationItem key="navigationItem" title="Streams" id="3ES-HP-ulE">
+                        <barButtonItem key="leftBarButtonItem" image="hamburger-icon" style="plain" id="zlg-gM-1Tc">
+                            <color key="tintColor" red="0.66274509800000003" green="0.66274509800000003" blue="0.66274509800000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="search-icon" style="plain" id="erj-L9-Ry4">
+                            <color key="tintColor" red="0.66274509800000003" green="0.66274509800000003" blue="0.66274509800000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="scrollView" destination="Sxq-dN-l1X" id="xVF-3i-MrH"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qNb-Xl-lU7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1695" y="377"/>
+        </scene>
         <!--Friends-->
         <scene sceneID="USh-ZM-Jv6">
             <objects>
-                <viewController title="Friends" id="ECy-3N-QOg" customClass="FriendsViewController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FriendsViewController" title="Friends" id="ECy-3N-QOg" customClass="FriendsViewController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="R3M-bz-5sE"/>
                         <viewControllerLayoutGuide type="bottom" id="gFv-e7-ahl"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="x9i-Ne-hXf">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="hOT-bT-dJV">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="Axt-R9-gZf">
                                     <size key="itemSize" width="599" height="184"/>
@@ -422,19 +466,29 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="hOT-bT-dJV" firstAttribute="top" secondItem="x9i-Ne-hXf" secondAttribute="top" id="1HK-ru-RpT"/>
-                            <constraint firstItem="gFv-e7-ahl" firstAttribute="top" secondItem="hOT-bT-dJV" secondAttribute="bottom" id="5Gw-hY-sko"/>
+                            <constraint firstAttribute="bottom" secondItem="hOT-bT-dJV" secondAttribute="bottom" id="DEw-1c-2NU"/>
                             <constraint firstItem="hOT-bT-dJV" firstAttribute="leading" secondItem="x9i-Ne-hXf" secondAttribute="leading" id="MTC-u8-9cj"/>
                             <constraint firstAttribute="trailing" secondItem="hOT-bT-dJV" secondAttribute="trailing" id="uVh-8F-nfh"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Friends" id="GeI-Rc-cTm"/>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Friends" id="GeI-Rc-cTm">
+                        <barButtonItem key="leftBarButtonItem" image="hamburger-icon" style="plain" id="tY2-UR-wht">
+                            <color key="tintColor" red="0.66274509800000003" green="0.66274509800000003" blue="0.66274509800000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="search-icon" style="plain" id="kaz-xj-1jW">
+                            <color key="tintColor" red="0.66274509803921566" green="0.66274509803921566" blue="0.66274509803921566" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="collectionView" destination="hOT-bT-dJV" id="SDn-Gj-Jnn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yZW-gK-AYq" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1550" y="332"/>
+            <point key="canvasLocation" x="2477" y="62"/>
         </scene>
         <!--Landing View Controller-->
         <scene sceneID="YOJ-27-8ul">
@@ -571,6 +625,7 @@
                             <constraint firstAttribute="centerX" secondItem="FuP-qN-aM0" secondAttribute="centerX" id="vUP-ua-Diw"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <tabBarItem key="tabBarItem" title="" image="profile-icon" id="6NF-g8-Kfc">
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
                         <userDefinedRuntimeAttributes>
@@ -608,6 +663,7 @@
                             <constraint firstAttribute="centerY" secondItem="dyL-5B-210" secondAttribute="centerY" id="zCc-hW-JML"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <tabBarItem key="tabBarItem" title="" image="post-icon" id="kAH-dT-zG0">
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
                         <userDefinedRuntimeAttributes>
@@ -622,7 +678,7 @@
         <!--Navigation Controller-->
         <scene sceneID="c48-ys-FOn">
             <objects>
-                <navigationController storyboardIdentifier="FriendsViewController" automaticallyAdjustsScrollViewInsets="NO" hidesBarsOnSwipe="YES" id="6gB-P3-Psq" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="StreamViewController" hidesBarsOnSwipe="YES" id="6gB-P3-Psq" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <tabBarItem key="tabBarItem" title="" image="friends-icon" id="aLZ-c4-Yur">
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
@@ -641,7 +697,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </toolbar>
                     <connections>
-                        <segue destination="ECy-3N-QOg" kind="relationship" relationship="rootViewController" id="83q-mi-5IX"/>
+                        <segue destination="hkH-y2-vf2" kind="relationship" relationship="rootViewController" id="BUA-Mh-BWR"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jgF-yh-vr4" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1112,6 +1168,7 @@
         <image name="eye-icon" width="23" height="13"/>
         <image name="friends-icon" width="49" height="49"/>
         <image name="friends-icon-selected" width="49" height="49"/>
+        <image name="hamburger-icon" width="49" height="49"/>
         <image name="heart-icon" width="22" height="13"/>
         <image name="notifications-icon" width="49" height="49"/>
         <image name="notifications-icon-selected" width="49" height="49"/>
@@ -1120,6 +1177,7 @@
         <image name="profile-icon" width="49" height="49"/>
         <image name="profile-icon-selected" width="49" height="49"/>
         <image name="repost-icon" width="19" height="13"/>
+        <image name="search-icon" width="49" height="49"/>
     </resources>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
 </document>

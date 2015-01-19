@@ -17,13 +17,15 @@ class FriendsViewController: BaseElloViewController, UICollectionViewDelegate, U
     var dataSource:FriendsDataSource!
     var tabBarFrame = CGRectZero
     var navBarShowing = true
+    
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
         addNotificationObservers()
-        navigationController?.hidesBarsOnSwipe = true
+//        navigationController?.hidesBarsOnSwipe = true
+        
 
         if let tabBar = self.tabBarController?.tabBar {
             tabBarFrame = tabBar.frame
@@ -117,9 +119,7 @@ class FriendsViewController: BaseElloViewController, UICollectionViewDelegate, U
     }
 
     class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> FriendsViewController {
-        let navController = storyboard.controllerWithID(.Friends) as UINavigationController
-        let friendsController = navController.topViewController
-        return friendsController as FriendsViewController
+        return storyboard.controllerWithID(.Friends) as FriendsViewController
     }
 
     private func setupCollectionView() {
@@ -166,4 +166,7 @@ class FriendsViewController: BaseElloViewController, UICollectionViewDelegate, U
             self.scrolling = false
         }
     }
+    
+    
+    
 }
