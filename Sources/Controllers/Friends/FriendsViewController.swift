@@ -15,28 +15,46 @@ class FriendsViewController: BaseElloViewController, UICollectionViewDelegate, U
     var scrolling = false
     var activities:[Activity]?
     var dataSource:FriendsDataSource!
-    var tabBarFrame = CGRectZero
     var navBarShowing = true
-    
-
+    var isDetail = false
+    var detailPost:Post?
+    var detailCellItems:[StreamCellItem]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
         addNotificationObservers()
-//        navigationController?.hidesBarsOnSwipe = true
-        
 
-        if let tabBar = self.tabBarController?.tabBar {
-            tabBarFrame = tabBar.frame
+        let webView = UIWebView(frame: self.view.bounds)
+        self.dataSource = FriendsDataSource(testWebView: webView)
+        
+        
+        if isDetail {
+            setupForDetail()
+        }
+        else {
+            setupForStream()
+        }
+    }
+    
+    private func setupForDetail() {
+        if let username = self.detailPost?.author?.username {
+            self.title = "@" + username
         }
         
-        let webView = UIWebView(frame: self.view.bounds)
-
-        self.dataSource = FriendsDataSource(testWebView: webView)
-
-        ElloHUD.showLoadingHud()
+        if let cellItems = self.detailCellItems {
+            self.dataSource.streamCellItems = cellItems
+            self.collectionView.dataSource = self.dataSource
+            self.collectionView.reloadData()
+        }
+        
+//        let streamService = StreamService()
+        
+    }
+    
+    private func setupForStream() {
         let streamService = StreamService()
+        ElloHUD.showLoadingHud()
         streamService.loadFriendStream({ (activities) in
             ElloHUD.hideLoadingHud()
             self.activities = activities
@@ -44,28 +62,39 @@ class FriendsViewController: BaseElloViewController, UICollectionViewDelegate, U
                 self.collectionView.dataSource = self.dataSource
                 self.collectionView.reloadData()
             })
-        }, failure: { (error, statusCode) in
-            ElloHUD.hideLoadingHud()
-            println("failed to load friends stream")
+            }, failure: { (error, statusCode) in
+                ElloHUD.hideLoadingHud()
+                println("failed to load friends stream")
         })
     }
-
-    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
-//        println("keyPath: \(keyPath), object: \(object), change: \(change)")
-//        println("view.frame = \(view.frame)")
-        if keyPath == "view.frame" {
-            let shouldHideTabBar = self.view.frame.origin.y == 0
-            if navBarShowing && shouldHideTabBar {
-                println("hiding")
-                navBarShowing = false
-                self.tabBarController?.setTabBarHidden(true, animated: true)
-            } else if !navBarShowing && !shouldHideTabBar {
-                println("showing")
-                navBarShowing = true
-                self.tabBarController?.setTabBarHidden(false, animated: true)
-            }
+    
+    func collectionView(collectionView: UICollectionView,
+        didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        if let post = dataSource.postForIndexPath(indexPath) {
+            let vc = FriendsViewController.instantiateFromStoryboard()
+            vc.isDetail = true
+            vc.detailPost = post
+            vc.detailCellItems = self.dataSource.cellItemsForPost(post)
+            
+            NSNotificationCenter.defaultCenter().postNotificationName(StreamViewController.Notifications.StreamDetailTapped.rawValue, object: vc)
+//            self.parentViewController?.navigationController?.pushViewController(vc, animated: true)
         }
     }
+
+//    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+//        if keyPath == "view.frame" {
+//            let shouldHideTabBar = self.view.frame.origin.y == 0
+//            if navBarShowing && shouldHideTabBar {
+//                println("hiding")
+//                navBarShowing = false
+//                self.tabBarController?.setTabBarHidden(true, animated: true)
+//            } else if !navBarShowing && !shouldHideTabBar {
+//                println("showing")
+//                navBarShowing = true
+//                self.tabBarController?.setTabBarHidden(false, animated: true)
+//            }
+//        }
+//    }
 
     private func addNotificationObservers() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "cellHeightUpdated:", name: "UpdateHeightNotification", object: nil)
@@ -84,7 +113,6 @@ class FriendsViewController: BaseElloViewController, UICollectionViewDelegate, U
             imageViewer.showFromViewController(self, transition: transition)
             imageViewer.optionsDelegate = self
             imageViewer.dismissalDelegate = self
-            
         }
     }
     

@@ -52,11 +52,27 @@ class FriendsDataSourceSpec: QuickSpec {
 
             describe("-collectionView:numberOfItemsInSection:", {
 
-                it("returns 8", {
-                    
+                it("returns 7", {
                     expect(dataSource.collectionView(vc.collectionView, numberOfItemsInSection: 0)).to(equal(7))
                 })
             })
+                        
+            describe("-postForIndexPath:", {
+                
+                it("returns a post", {
+                    expect(dataSource.postForIndexPath(NSIndexPath(forItem: 0, inSection: 0))).to(beAKindOf(Post.self))
+                })
+                
+                it("returns nil when out of bounds", {
+                    expect(dataSource.postForIndexPath(NSIndexPath(forItem: 100, inSection: 0))).to(beNil())
+                })
+                
+                it("returns nil when the subject is not a post", {
+                    expect(dataSource.postForIndexPath(NSIndexPath(forItem: 7, inSection: 0))).to(beNil())
+                })
+            })
+            
+            
 
 //            describe("-collectionView:cellForItemAtIndexPath:", {
 //

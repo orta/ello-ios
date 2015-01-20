@@ -10,6 +10,10 @@ import UIKit
 
 class StreamViewController: BaseElloViewController {
 
+    enum Notifications : String {
+        case StreamDetailTapped = "StreamDetailTappedNotification"
+    }
+
     @IBOutlet weak var scrollView: UIScrollView!
     
     var streamsSegmentedControl: UISegmentedControl!
@@ -22,6 +26,7 @@ class StreamViewController: BaseElloViewController {
         setupStreamsSegmentedControl()
         setupChildViewControllerContainers()
         setupChildViewControllers()
+        setupNotificationObservers()
         navigationItem.titleView = streamsSegmentedControl
         // Do any additional setup after loading the view.
     }
@@ -59,6 +64,7 @@ class StreamViewController: BaseElloViewController {
             vc.willMoveToParentViewController(self)
             let childView = streamControllerViews[index]
             childView.addSubview(vc.view)
+            self.addChildViewController(vc)
             vc.view.setTranslatesAutoresizingMaskIntoConstraints(false)
             let views = ["view":vc.view]
             let verticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[view]-49-|", options: NSLayoutFormatOptions.AlignAllLeft, metrics: nil, views: views)
@@ -69,6 +75,11 @@ class StreamViewController: BaseElloViewController {
             vc.didMoveToParentViewController(self)
             streamControllers.append(vc)
         }
+    }
+    
+    private func setupNotificationObservers() {
+        let center = NSNotificationCenter.defaultCenter()
+        center.addObserver(self, selector: Selector("streamDetailTapped:"), name: StreamViewController.Notifications.StreamDetailTapped.rawValue, object: nil)
     }
     
     private func setupStreamsSegmentedControl() {
@@ -83,6 +94,16 @@ class StreamViewController: BaseElloViewController {
         control.selectedSegmentIndex = 0
         streamsSegmentedControl = control
     }
+    
+    // MARK: Keyboard Event Notifications
+    
+    func streamDetailTapped(notification: NSNotification) {
+        if let vc = notification.object as? BaseElloViewController {
+            let item = UIBarButtonItem.backChevronWithTarget(self, action: "backTapped:")
+            vc.navigationItem.leftBarButtonItem = item
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
 
     // MARK: - IBActions
     
@@ -92,5 +113,9 @@ class StreamViewController: BaseElloViewController {
         let x:CGFloat = CGFloat(sender.selectedSegmentIndex) * width
         let rect = CGRect(x: x, y: 0, width: width, height: height)
         scrollView.scrollRectToVisible(rect, animated: true)
+    }
+    
+    @IBAction func backTapped(sender: UIButton) {
+        self.navigationController?.popViewControllerAnimated(true)
     }
 }
