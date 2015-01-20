@@ -70,15 +70,18 @@ class FriendsViewController: BaseElloViewController, UICollectionViewDelegate, U
     
     func collectionView(collectionView: UICollectionView,
         didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        if let post = dataSource.postForIndexPath(indexPath) {
-            let vc = FriendsViewController.instantiateFromStoryboard()
-            vc.isDetail = true
-            vc.detailPost = post
-            vc.detailCellItems = self.dataSource.cellItemsForPost(post)
-            
-            NSNotificationCenter.defaultCenter().postNotificationName(StreamViewController.Notifications.StreamDetailTapped.rawValue, object: vc)
-//            self.parentViewController?.navigationController?.pushViewController(vc, animated: true)
-        }
+            if self.isDetail {
+                return
+            }
+            if let post = dataSource.postForIndexPath(indexPath) {
+                let vc = FriendsViewController.instantiateFromStoryboard()
+                vc.isDetail = true
+                vc.detailPost = post
+                vc.detailCellItems = self.dataSource.cellItemsForPost(post)
+                
+                NSNotificationCenter.defaultCenter().postNotificationName(StreamViewController.Notifications.StreamDetailTapped.rawValue, object: vc)
+    //            self.parentViewController?.navigationController?.pushViewController(vc, animated: true)
+            }
     }
 
 //    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {

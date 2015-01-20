@@ -26,7 +26,7 @@ class Block {
     class func blocks(json:JSON) -> [Block] {
         let content = json["content"].object as [AnyObject]
         return content.map { (contentDict) -> Block in
-            println(contentDict)
+//            println(contentDict)
             let kind = Block.Kind(rawValue: contentDict["kind"] as String) ?? Block.Kind.Unknown
             let data = contentDict["data"]
             switch kind {

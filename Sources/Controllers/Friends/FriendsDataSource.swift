@@ -98,7 +98,7 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
     }
 
     private func headerCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> StreamHeaderCell {
-        println(streamCellItem.activity)
+//        println(streamCellItem.activity)
         var author:User?
         if let post:Post = streamCellItem.activity.subject as? Post {
             author = post.author?

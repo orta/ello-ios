@@ -6,16 +6,50 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-class ElloNavigationController: UINavigationController, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate {
+class ElloNavigationController: UINavigationController, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
+    
+    var interactionController: UIPercentDrivenInteractiveTransition?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         transitioningDelegate = self
         delegate = self
+        
+        let left = UIScreenEdgePanGestureRecognizer(target: self, action: "handleSwipeFromLeft:")
+        left.edges = .Left
+        self.view.addGestureRecognizer(left);
     }
     
-    var interactionController: UIPercentDrivenInteractiveTransition?
+    func handleSwipeFromLeft(gesture: UIScreenEdgePanGestureRecognizer) {
+        let percent = gesture.translationInView(gesture.view!).x / gesture.view!.bounds.size.width
+        
+        switch gesture.state {
+        case .Began:
+            interactionController = UIPercentDrivenInteractiveTransition()
+            if viewControllers.count > 1 {
+                popViewControllerAnimated(true)
+            } else {
+                dismissViewControllerAnimated(true, completion: nil)
+            }
+        case .Changed:
+            interactionController?.updateInteractiveTransition(percent)
+        case .Ended, .Cancelled:
+            if percent > 0.5 {
+                interactionController?.finishInteractiveTransition()
+            } else {
+                interactionController?.cancelInteractiveTransition()
+            }
+            interactionController = nil
+        default:
+            interactionController = nil
+        }
+    }
     
+    // MARK: - UIGestureRecognizerDelegate
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
     
     // MARK: - UIViewControllerTransitioningDelegate
     
