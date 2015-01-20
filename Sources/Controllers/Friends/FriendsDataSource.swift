@@ -33,6 +33,24 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
         self.sizeCalculator = StreamTextCellSizeCalculator(webView: testWebView)
         super.init()
     }
+    
+    func postForIndexPath(indexPath:NSIndexPath) -> Post? {
+        if indexPath.item >= streamCellItems?.count {
+            return nil
+        }
+        return streamCellItems?[indexPath.item].activity.subject as? Post
+    }
+    
+    func cellItemsForPost(post:Post) -> [StreamCellItem]? {
+        return streamCellItems?.filter({ (item) -> Bool in
+            if let cellPost = item.activity.subject as? Post {
+                return post.postId == cellPost.postId
+            }
+            else {
+                return false
+            }
+        })
+    }
 
     func addActivities(activities:[Activity], completion:StreamContentReady) {
         self.contentReadyClosure = completion
