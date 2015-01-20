@@ -16,6 +16,7 @@ class FriendsViewController: BaseElloViewController, UICollectionViewDelegate, U
     var activities:[Activity]?
     var dataSource:FriendsDataSource!
     var navBarShowing = true
+    
     var isDetail = false
     var detailPost:Post?
     var detailCellItems:[StreamCellItem]?
@@ -48,8 +49,18 @@ class FriendsViewController: BaseElloViewController, UICollectionViewDelegate, U
             self.collectionView.reloadData()
         }
         
-//        let streamService = StreamService()
-        
+        if let post = detailPost {
+            let streamService = StreamService()
+            streamService.loadMoreCommentsForPost(post.postId,
+                success: { (comments) -> () in
+                    self.dataSource.addComments(comments, completion: {
+                        self.collectionView.dataSource = self.dataSource                        
+                        self.collectionView.reloadData()
+                    })
+                }) { (error, statusCode) -> () in
+                    println("failed to load comments")
+                }
+        }
     }
     
     private func setupForStream() {

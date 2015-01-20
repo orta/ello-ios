@@ -50,7 +50,6 @@ class StreamViewController: BaseElloViewController {
             let x:CGFloat = CGFloat(index) * width
             let frame = CGRect(x: x, y: 0, width: width, height: height)
             let view = UIView(frame: frame)
-            view.backgroundColor = index % 2 == 0 ? UIColor.redColor() : UIColor.blueColor()
             scrollView.addSubview(view)
             streamControllerViews.append(view)
         }
@@ -65,6 +64,7 @@ class StreamViewController: BaseElloViewController {
             let childView = streamControllerViews[index]
             childView.addSubview(vc.view)
             self.addChildViewController(vc)
+            
             vc.view.setTranslatesAutoresizingMaskIntoConstraints(false)
             let views = ["view":vc.view]
             let verticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[view]-49-|", options: NSLayoutFormatOptions.AlignAllLeft, metrics: nil, views: views)
@@ -72,6 +72,7 @@ class StreamViewController: BaseElloViewController {
             
             let horizontalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[view]-0-|", options: NSLayoutFormatOptions.AlignAllLeft, metrics: nil, views: views)
             childView.addConstraints(horizontalConstraints)
+            
             vc.didMoveToParentViewController(self)
             streamControllers.append(vc)
         }

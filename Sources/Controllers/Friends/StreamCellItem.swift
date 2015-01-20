@@ -12,17 +12,27 @@ class StreamCellItem {
 
     enum CellType {
         case Header
+        case CommentHeader
         case Footer
         case BodyElement
+        case CommentBodyElement
     }
 
-    let activity:Activity
+    let comment:Comment?
+    let activity:Activity?
     let type:StreamCellItem.CellType
     let data:Block?
     var cellHeight:CGFloat = 0
 
     init(activity:Activity, type:StreamCellItem.CellType, data:Block?, cellHeight:CGFloat) {
         self.activity = activity
+        self.type = type
+        self.data = data
+        self.cellHeight = cellHeight
+    }
+    
+    init(comment:Comment, type:StreamCellItem.CellType, data:Block?, cellHeight:CGFloat) {
+        self.comment = comment
         self.type = type
         self.data = data
         self.cellHeight = cellHeight

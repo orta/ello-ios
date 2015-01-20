@@ -10,11 +10,20 @@ import Foundation
 
 struct StreamCellItemParser {
 
+    func streamCellItems(comments:[Comment]) -> [StreamCellItem] {
+        var cellItems:[StreamCellItem] = []
+        for comment in comments {
+            cellItems += headerStreamCellItems(comment)
+            cellItems += regionStreamCellItems(comment)
+        }
+        return cellItems
+    }
+    
     func streamCellItems(activities:[Activity]) -> [StreamCellItem] {
         var cellItems:[StreamCellItem] = []
         for activity in activities {
             cellItems += headerStreamCellItems(activity)
-            cellItems += bodyStreamCellItems(activity)
+            cellItems += regionStreamCellItems(activity)
             if activity.kind != Activity.Kind.WelcomePost {
                 cellItems += footerStreamCellItems(activity)
             }
@@ -25,8 +34,12 @@ struct StreamCellItemParser {
     private func headerStreamCellItems(activity:Activity) -> [StreamCellItem] {
         return [StreamCellItem(activity: activity, type: StreamCellItem.CellType.Header, data: nil, cellHeight: 80.0)]
     }
+    
+    private func headerStreamCellItems(comment:Comment) -> [StreamCellItem] {
+        return [StreamCellItem(comment: comment, type: StreamCellItem.CellType.CommentHeader, data: nil, cellHeight: 50.0)]
+    }
 
-    private func bodyStreamCellItems(activity:Activity) -> [StreamCellItem] {
+    private func regionStreamCellItems(activity:Activity) -> [StreamCellItem] {
         var cellArray:[StreamCellItem] = []
         if let post = activity.subject as? Post {
             for block in post.content {
@@ -43,6 +56,25 @@ struct StreamCellItemParser {
                 let body:StreamCellItem = StreamCellItem(activity: activity, type: StreamCellItem.CellType.BodyElement, data: block, cellHeight: height)
                 cellArray.append(body)
             }
+        }
+        return cellArray
+    }
+    
+    private func regionStreamCellItems(comment:Comment) -> [StreamCellItem] {
+        var cellArray:[StreamCellItem] = []
+        for block in comment.content {
+            var height:CGFloat
+            switch block.kind {
+            case Block.Kind.Image:
+                height = UIScreen.screenWidth() / (4/3)
+            case Block.Kind.Text:
+                height = 0
+            case Block.Kind.Unknown:
+                height = 120.0
+            }
+            
+            let body:StreamCellItem = StreamCellItem(comment: comment, type: StreamCellItem.CellType.CommentBodyElement, data: block, cellHeight: height)
+            cellArray.append(body)
         }
         return cellArray
     }

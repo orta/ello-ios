@@ -14,6 +14,7 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
     typealias StreamContentReady = () -> ()
 
     enum CellIdentifier: String {
+        case CommentHeader = "StreamCommentHeaderCell"
         case Header = "StreamHeaderCell"
         case Footer = "StreamFooterCell"
         case Image = "StreamImageCell"
@@ -24,7 +25,7 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
 
     var indexFile:String?
     var contentReadyClosure:StreamContentReady?
-    var streamCellItems:[StreamCellItem]?
+    var streamCellItems:[StreamCellItem] = []
     let testWebView:UIWebView
     let sizeCalculator:StreamTextCellSizeCalculator
 
@@ -35,15 +36,15 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
     }
     
     func postForIndexPath(indexPath:NSIndexPath) -> Post? {
-        if indexPath.item >= streamCellItems?.count {
+        if indexPath.item >= streamCellItems.count {
             return nil
         }
-        return streamCellItems?[indexPath.item].activity.subject as? Post
+        return streamCellItems[indexPath.item].activity?.subject as? Post
     }
     
     func cellItemsForPost(post:Post) -> [StreamCellItem]? {
-        return streamCellItems?.filter({ (item) -> Bool in
-            if let cellPost = item.activity.subject as? Post {
+        return streamCellItems.filter({ (item) -> Bool in
+            if let cellPost = item.activity?.subject as? Post {
                 return post.postId == cellPost.postId
             }
             else {
@@ -56,36 +57,61 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
         self.contentReadyClosure = completion
         self.streamCellItems = self.createStreamCellItems(activities)
     }
+    
+    func addComments(comments:[Comment], completion:StreamContentReady) {
+        self.contentReadyClosure = completion
+        createAndAddCommentStreamCellItems(comments)
+    }
 
     func updateHeightForIndexPath(indexPath:NSIndexPath?, height:CGFloat) {
         if let indexPath = indexPath {
-            streamCellItems?[indexPath.item].cellHeight = height
+            streamCellItems[indexPath.item].cellHeight = height
         }
     }
 
     func heightForIndexPath(indexPath:NSIndexPath) -> CGFloat {
-        return streamCellItems?[indexPath.item].cellHeight ?? 0.0
+        return streamCellItems[indexPath.item].cellHeight ?? 0.0
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return streamCellItems?.count ?? 0
+        return streamCellItems.count ?? 0
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        if let streamCellItem = streamCellItems?[indexPath.item] {
-            let activity = streamCellItem.activity
-            switch activity.subjectType {
-            case .Post:
-                return postCellForActivity(streamCellItem, collectionView: collectionView, indexPath: indexPath)
-            case .User:
-                return postCellForActivity(streamCellItem, collectionView: collectionView, indexPath: indexPath)
-            case .Unknown:
-                return postCellForActivity(streamCellItem, collectionView: collectionView, indexPath: indexPath)
+        if indexPath.item < countElements(streamCellItems) {
+            let streamCellItem = streamCellItems[indexPath.item]
+            
+            if let activity = streamCellItem.activity {
+                switch activity.subjectType {
+                case .Post:
+                    return postCellForActivity(streamCellItem, collectionView: collectionView, indexPath: indexPath)
+                case .User:
+                    return postCellForActivity(streamCellItem, collectionView: collectionView, indexPath: indexPath)
+                case .Unknown:
+                    return postCellForActivity(streamCellItem, collectionView: collectionView, indexPath: indexPath)
+                }
+            }
+            else if let comment = streamCellItem.comment {
+                return cellForComment(streamCellItem, collectionView: collectionView, indexPath: indexPath)
             }
         }
+       
         return UICollectionViewCell()
     }
 
+    private func cellForComment(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> UICollectionViewCell {
+        switch streamCellItem.type {
+        case .CommentHeader:
+            return commentHeaderCell(streamCellItem, collectionView: collectionView, indexPath: indexPath)
+        case .CommentBodyElement:
+            return cellForBodyElement(streamCellItem, collectionView: collectionView, indexPath: indexPath)
+        case .Footer:
+            return footerCell(streamCellItem, collectionView: collectionView, indexPath: indexPath)
+        default:
+            return UICollectionViewCell()
+        }
+    }
+    
     private func postCellForActivity(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> UICollectionViewCell {
         switch streamCellItem.type {
         case .Header:
@@ -94,16 +120,36 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
             return cellForBodyElement(streamCellItem, collectionView: collectionView, indexPath: indexPath)
         case .Footer:
             return footerCell(streamCellItem, collectionView: collectionView, indexPath: indexPath)
+        default:
+            return UICollectionViewCell()
         }
     }
 
+    private func commentHeaderCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> StreamCommentHeaderCell {
+ 
+        let streamCell = collectionView.dequeueReusableCellWithReuseIdentifier(CellIdentifier.CommentHeader.rawValue, forIndexPath: indexPath) as StreamCommentHeaderCell
+
+        var author:User? = streamCellItem.comment?.author
+        
+        if let avatarURL = author?.avatarURL? {
+            streamCell.setAvatarURL(avatarURL)
+        }
+        
+        if let comment = streamCellItem.comment {
+            streamCell.timestampLabel.text = NSDate().distanceOfTimeInWords(comment.createdAt)
+        }
+        
+        streamCell.usernameLabel.text = "@" + (author?.username ?? "meow")
+        return streamCell
+    }
+    
     private func headerCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> StreamHeaderCell {
-//        println(streamCellItem.activity)
+        
         var author:User?
-        if let post:Post = streamCellItem.activity.subject as? Post {
+        if let post:Post = streamCellItem.activity?.subject as? Post {
             author = post.author?
         }
-        else if let user:User = streamCellItem.activity.subject as? User {
+        else if let user:User = streamCellItem.activity?.subject as? User {
             author = user
         }
 
@@ -111,7 +157,11 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
         if let avatarURL = author?.avatarURL? {
             streamCell.setAvatarURL(avatarURL)
         }
-        streamCell.timestampLabel.text = NSDate().distanceOfTimeInWords(streamCellItem.activity.createdAt)
+        
+        if let activity = streamCellItem.activity {
+            streamCell.timestampLabel.text = NSDate().distanceOfTimeInWords(activity.createdAt)
+        }
+        
         streamCell.usernameLabel.text = "@" + (author?.username ?? "meow")
         return streamCell
     }
@@ -129,7 +179,7 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
     }
 
     private func footerCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> StreamFooterCell {
-        let post:Post = streamCellItem.activity.subject as Post
+        let post:Post = streamCellItem.activity?.subject as Post
         let footerCell = collectionView.dequeueReusableCellWithReuseIdentifier(CellIdentifier.Footer.rawValue, forIndexPath: indexPath) as StreamFooterCell
         footerCell.views = post.viewsCount?.localizedStringFromNumber()
         footerCell.comments = post.commentsCount?.localizedStringFromNumber()
@@ -155,7 +205,7 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
         return textCell
     }
 
-    private func createStreamCellItems(activities:[Activity]) -> [StreamCellItem]? {
+    private func createStreamCellItems(activities:[Activity]) -> [StreamCellItem] {
         let parser = StreamCellItemParser()
         var cellItems = parser.streamCellItems(activities)
 
@@ -170,5 +220,23 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
         })
 
         return cellItems
+    }
+    
+    private func createAndAddCommentStreamCellItems(comments:[Comment]) -> [StreamCellItem] {
+        let parser = StreamCellItemParser()
+        var cellItems = parser.streamCellItems(comments)
+        
+        let textElements = cellItems.filter {
+            return $0.data as? TextBlock != nil
+        }
+        
+        self.sizeCalculator.processCells(textElements, {
+            self.streamCellItems += cellItems
+            if let ready = self.contentReadyClosure {
+                ready()
+            }
+        })
+        
+        return self.streamCellItems
     }
 }
