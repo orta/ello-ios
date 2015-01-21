@@ -9,13 +9,14 @@
 import UIKit
 import SwiftyJSON
 
-class Post: JSONAble {
+class Post: JSONAble, Streamable {
 
     let postId: String
-    let createdAt: NSDate
+    var createdAt: NSDate
     let href: String
     let collapsed: Bool
-    let content: [Block]
+    var content: [Block]
+    var kind = StreamableKind.Post
     let token: String
     var author: User?
     let commentsCount: Int?

@@ -18,21 +18,14 @@ class StreamCellItem {
         case CommentBodyElement
     }
 
-    let comment:Comment?
-    let activity:Activity?
+//    let comment:Comment?
+    let streamable:Streamable
     let type:StreamCellItem.CellType
     let data:Block?
     var cellHeight:CGFloat = 0
 
-    init(activity:Activity, type:StreamCellItem.CellType, data:Block?, cellHeight:CGFloat) {
-        self.activity = activity
-        self.type = type
-        self.data = data
-        self.cellHeight = cellHeight
-    }
-    
-    init(comment:Comment, type:StreamCellItem.CellType, data:Block?, cellHeight:CGFloat) {
-        self.comment = comment
+    init(streamable:Streamable, type:StreamCellItem.CellType, data:Block?, cellHeight:CGFloat) {
+        self.streamable = streamable
         self.type = type
         self.data = data
         self.cellHeight = cellHeight

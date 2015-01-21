@@ -10,59 +10,36 @@ import Foundation
 
 struct StreamCellItemParser {
 
-    func streamCellItems(comments:[Comment]) -> [StreamCellItem] {
+    func streamCellItems(streamables:[Streamable]) -> [StreamCellItem] {
         var cellItems:[StreamCellItem] = []
-        for comment in comments {
-            cellItems += headerStreamCellItems(comment)
-            cellItems += regionStreamCellItems(comment)
-        }
-        return cellItems
-    }
-    
-    func streamCellItems(activities:[Activity]) -> [StreamCellItem] {
-        var cellItems:[StreamCellItem] = []
-        for activity in activities {
-            cellItems += headerStreamCellItems(activity)
-            cellItems += regionStreamCellItems(activity)
-            if activity.kind != Activity.Kind.WelcomePost {
-                cellItems += footerStreamCellItems(activity)
+        for streamable in streamables {
+            cellItems += headerStreamCellItems(streamable)
+            cellItems += regionStreamCellItems(streamable)
+            if streamable.kind == StreamableKind.Post {
+                cellItems += footerStreamCellItems(streamable)
             }
         }
         return cellItems
     }
 
-    private func headerStreamCellItems(activity:Activity) -> [StreamCellItem] {
-        return [StreamCellItem(activity: activity, type: StreamCellItem.CellType.Header, data: nil, cellHeight: 80.0)]
-    }
-    
-    private func headerStreamCellItems(comment:Comment) -> [StreamCellItem] {
-        return [StreamCellItem(comment: comment, type: StreamCellItem.CellType.CommentHeader, data: nil, cellHeight: 50.0)]
-    }
-
-    private func regionStreamCellItems(activity:Activity) -> [StreamCellItem] {
-        var cellArray:[StreamCellItem] = []
-        if let post = activity.subject as? Post {
-            for block in post.content {
-                var height:CGFloat
-                switch block.kind {
-                case Block.Kind.Image:
-                    height = UIScreen.screenWidth() / (4/3)
-                case Block.Kind.Text:
-                    height = 0
-                case Block.Kind.Unknown:
-                    height = 120.0
-                }
-
-                let body:StreamCellItem = StreamCellItem(activity: activity, type: StreamCellItem.CellType.BodyElement, data: block, cellHeight: height)
-                cellArray.append(body)
-            }
+    private func headerStreamCellItems(streamable:Streamable) -> [StreamCellItem] {
+        
+        var type = StreamCellItem.CellType.Header
+        var height:CGFloat = 80.0
+        switch streamable.kind {
+        case .Comment:
+            type = StreamCellItem.CellType.CommentHeader
+            height = 50.0
+        default:
+            println(streamable.kind)
         }
-        return cellArray
+        
+        return [StreamCellItem(streamable: streamable, type: type, data: nil, cellHeight: height)]
     }
-    
-    private func regionStreamCellItems(comment:Comment) -> [StreamCellItem] {
+
+    private func regionStreamCellItems(streamable:Streamable) -> [StreamCellItem] {
         var cellArray:[StreamCellItem] = []
-        for block in comment.content {
+        for block in streamable.content {
             var height:CGFloat
             switch block.kind {
             case Block.Kind.Image:
@@ -73,13 +50,13 @@ struct StreamCellItemParser {
                 height = 120.0
             }
             
-            let body:StreamCellItem = StreamCellItem(comment: comment, type: StreamCellItem.CellType.CommentBodyElement, data: block, cellHeight: height)
+            let body:StreamCellItem = StreamCellItem(streamable: streamable, type: StreamCellItem.CellType.BodyElement, data: block, cellHeight: height)
             cellArray.append(body)
         }
         return cellArray
     }
 
-    private func footerStreamCellItems(activity:Activity) -> [StreamCellItem] {
-        return [StreamCellItem(activity: activity, type: StreamCellItem.CellType.Footer, data: nil, cellHeight: 54.0)]
+    private func footerStreamCellItems(streamable:Streamable) -> [StreamCellItem] {
+        return [StreamCellItem(streamable: streamable, type: StreamCellItem.CellType.Footer, data: nil, cellHeight: 54.0)]
     }
 }

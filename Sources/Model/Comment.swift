@@ -11,12 +11,13 @@ import Foundation
 import UIKit
 import SwiftyJSON
 
-class Comment: JSONAble {
+class Comment: JSONAble, Streamable {
     
     let commentId: String
-    let createdAt: NSDate
-    let content: [Block]
-    let author: User?
+    var createdAt: NSDate
+    var content: [Block]
+    var author: User?
+    var kind = StreamableKind.Comment
     let parentPost: Post?
     
     init(commentId: String, createdAt: NSDate, content: [Block], author: User?, parentPost: Post?) {

@@ -20,12 +20,15 @@ class Activity: JSONAble {
         case FriendPost = "friend_post" // main feed
         case WelcomePost = "welcome_post" // main feed
         case NoisePost = "noise_post" // main feed
-        case RepostNotification = "repost_notification" // main feed (but collapsable
+       
+        
+        // Notifications
+        case RepostNotification = "repost_notification" // main feed (but collapsable)
+        case NewFollowedUserPost = "new_followed_user_post" // main feed
         case NewFollowerPost = "new_follower_post"
         case PostMentionNotification = "post_mention_notification"
         case CommentMentionNotification = "comment_mention_notification"
         case InvitationAcceptedPost = "invitation_accepted_post"
-        case NewFollowedUserPost = "new_followed_user_post" // main feed
         case CommentNotification = "comment_notification" // main feed
         case WelcomeNotification = "welcome_notification"
         case Unknown = "Unknown"

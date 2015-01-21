@@ -13,7 +13,7 @@ class FriendsViewController: BaseElloViewController, UICollectionViewDelegate, U
 
     @IBOutlet weak var collectionView: UICollectionView!
     var scrolling = false
-    var activities:[Activity]?
+    var streamables:[Streamable]?
     var dataSource:FriendsDataSource!
     var navBarShowing = true
     
@@ -52,8 +52,8 @@ class FriendsViewController: BaseElloViewController, UICollectionViewDelegate, U
         if let post = detailPost {
             let streamService = StreamService()
             streamService.loadMoreCommentsForPost(post.postId,
-                success: { (comments) -> () in
-                    self.dataSource.addComments(comments, completion: {
+                success: { (streamables) -> () in
+                    self.dataSource.addStreamables(streamables, completion: {
                         self.collectionView.dataSource = self.dataSource                        
                         self.collectionView.reloadData()
                     })
@@ -66,10 +66,11 @@ class FriendsViewController: BaseElloViewController, UICollectionViewDelegate, U
     private func setupForStream() {
         let streamService = StreamService()
         ElloHUD.showLoadingHud()
-        streamService.loadFriendStream({ (activities) in
+        streamService.loadFriendStream({ (streamables) in
             ElloHUD.hideLoadingHud()
-            self.activities = activities
-            self.dataSource.addActivities(activities, completion: {
+            self.streamables = streamables
+
+            self.dataSource.addStreamables(streamables, completion: {
                 self.collectionView.dataSource = self.dataSource
                 self.collectionView.reloadData()
             })

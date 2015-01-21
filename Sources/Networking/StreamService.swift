@@ -10,14 +10,14 @@ import UIKit
 import Moya
 import SwiftyJSON
 
-typealias StreamSuccessCompletion = (activities: [Activity]) -> ()
+typealias StreamSuccessCompletion = (streamables: [Streamable]) -> ()
 typealias StreamFailureCompletion = (error: NSError, statusCode:Int?) -> ()
 
 typealias PostSuccessCompletion = (post: Post) -> ()
 typealias PostFailureCompletion = (error: NSError, statusCode:Int?) -> ()
 
 
-typealias CommentsSuccessCompletion = (comments: [Comment]) -> ()
+typealias CommentsSuccessCompletion = (streamables: [Streamable]) -> ()
 typealias CommentsFailureCompletion = (error: NSError, statusCode:Int?) -> ()
 
 class StreamService: NSObject {
@@ -26,7 +26,14 @@ class StreamService: NSObject {
         let endpoint: ElloAPI = .FriendStream
         ElloProvider.sharedProvider.elloRequest(endpoint, method: .GET, parameters: endpoint.defaultParameters, propertyName:MappingType.Prop.Activities, success: { (data) -> () in
             if let activities:[Activity] = data as? [Activity] {
-                success(activities: activities)
+                
+                var filteredActivities = activities.filter({$0.subjectType == Activity.SubjectType.Post})
+                
+                var streamables:[Streamable] = filteredActivities.map({ (activity) -> Streamable in
+                    return activity.subject as Post
+                })
+                
+                success(streamables: streamables)
             }
             else {
                 ElloProvider.unCastableJSONAble(failure)
@@ -38,7 +45,8 @@ class StreamService: NSObject {
         let endpoint: ElloAPI = .PostComments(postId: postID)
         ElloProvider.sharedProvider.elloRequest(endpoint, method: .GET, parameters: endpoint.defaultParameters, propertyName:MappingType.Prop.Comments, success: { (data) -> () in
             if let comments:[Comment] = data as? [Comment] {
-                success(comments: comments)
+                let streamables:[Streamable] = comments.map({return $0 as Streamable})
+                success(streamables: streamables)
             }
             else {
                 ElloProvider.unCastableJSONAble(failure)
