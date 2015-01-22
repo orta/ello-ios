@@ -47,7 +47,7 @@ struct StreamCellItemParser {
             case Block.Kind.Text:
                 height = 0
             case Block.Kind.Unknown:
-                height = 120.0
+                height = 0.0
             }
             
             let body:StreamCellItem = StreamCellItem(streamable: streamable, type: StreamCellItem.CellType.BodyElement, data: block, cellHeight: height)

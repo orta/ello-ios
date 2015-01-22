@@ -78,3 +78,29 @@
 * Initial commit of Ello iOS!
 
 -----------------
+
+-----------------
+###Ello 0.1 Build 7
+####Commit notes:
+
+* Connect app to staging server live data.
+* Load comments into the stream
+* Adds release notes and increment build to builder.
+
+-----------------
+
+-----------------
+###Ello 0.1 Build 8
+####Commit notes:
+
+
+
+-----------------
+
+-----------------
+###Ello 0.1 Build 9
+####Commit notes:
+
+
+
+-----------------
