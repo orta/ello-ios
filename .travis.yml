@@ -7,7 +7,7 @@ install:
   - rm ./Podfile
   - rm ./Gemfile
   - rm ./.ruby-version
-script: ./travis-build.sh
+script: ./bin/travis-build.sh
 branches:
   only:
   - master
