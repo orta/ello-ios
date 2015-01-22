@@ -21,7 +21,6 @@ class ElloAPISpec: QuickSpec {
                     beforeEach {
                         provider = ElloProvider.StubbingProvider()
                     }
-
                     it("returns stubbed data for auth request") {
                         var message: String?
 

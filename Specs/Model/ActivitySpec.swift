@@ -11,34 +11,6 @@ import Nimble
 
 class ActivitySpec: QuickSpec {
     override func spec() {
-
-//        it("converts User activities from JSON") {
-//
-//            let parsedActivity = stubbedJSONData("activity-welcome-post", "activity")
-//
-//            var createdAtString = "2014-06-01T00:00:00.000Z"
-//            var createdAt:NSDate = createdAtString.toNSDate()!
-//
-//            let activity = Activity.fromJSON(parsedActivity, linked: nil) as Activity
-//
-//            expect(activity.subjectType) == Activity.SubjectType.User
-//            expect(activity.activityId) == createdAtString
-//            expect(activity.kind) == Activity.Kind.WelcomePost
-//            expect(activity.createdAt) == createdAt
-//
-//            let user = activity.subject as User
-//            expect(user.avatarURL!.absoluteString) == "https://abc123.cloudfront.net/uploads/user/avatar/42/avatar.png"
-//            expect(user.userId) == "55"
-//            expect(user.name) == "Sterling"
-//            expect(user.username) == "archer"
-//            expect(user.href) == "/api/edge/users/42"
-//            expect(user.experimentalFeatures) == true
-//            expect(user.relationshipPriority) == "self"
-//            expect(user.postsCount!) == 456
-//            expect(user.followingCount!) == 111
-//            expect(user.followersCount!) == 10
-//        }
-
         it("converts Post activities from JSON") {
             let (parsedActivity, parsedLinked) = stubbedJSONDataWithLinked("activity-own-post", "activity")
             

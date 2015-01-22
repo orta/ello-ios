@@ -12,8 +12,7 @@ import Nimble
 class PostSpec: QuickSpec {
     override func spec() {
 
-        it("converts from JSON") {
-            
+        it("converts from JSON") {            
             let (parsedPost, parsedLinked) = stubbedJSONDataWithLinked("posts", "posts")
             let createdAtString = "2014-12-23T22:27:47.325Z"
             let post = Post.fromJSON(parsedPost, linked: parsedLinked) as Post
