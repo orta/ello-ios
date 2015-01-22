@@ -46,8 +46,8 @@ class User: JSONAble {
         let experimentalFeatures = json["experimental_features"].boolValue
         let href = json["href"].stringValue
         let relationshipPriority = json["relationship_priority"].stringValue
-        let avatarURL = NSURL(string: avatarPath)
-        
+        let avatarURL = NSURL(string: avatarPath, relativeToURL: NSURL(string: "https://ello.co"))
+
         let postsCount = json["posts_count"].int
         let followersCount = json["followers_count"].int
         let followingCount = json["following_count"].int

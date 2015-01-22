@@ -3,8 +3,17 @@
         "kind": "own_post",
         "subject_type": "Post",
         "created_at": "2014-06-03T00:00:00.000Z",
-        "subject": {
-            "posts": {
+        "links": {
+            "subject": {
+                "type": "posts",
+                "href": "/api/edge/posts/2",
+                "id": "598"
+            }
+        }
+    },
+    "linked": {
+        "posts": [
+            {
                 "id": "598",
                 "href": "/api/edge/posts/2",
                 "token": "KVNldSWCvfPkjsbWcvB4mA",
@@ -32,9 +41,7 @@
                     }
                 }
             }
-        }
-    },
-    "linked": {
+        ],
         "users": [
             {
                 "id": "42",

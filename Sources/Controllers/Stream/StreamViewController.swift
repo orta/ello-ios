@@ -59,22 +59,24 @@ class StreamViewController: BaseElloViewController {
     
     private func setupChildViewControllers() {
         for (index, segment) in enumerate(segments) {
-            let vc = FriendsViewController.instantiateFromStoryboard()
-            vc.willMoveToParentViewController(self)
-            let childView = streamControllerViews[index]
-            childView.addSubview(vc.view)
-            self.addChildViewController(vc)
-            
-            vc.view.setTranslatesAutoresizingMaskIntoConstraints(false)
-            let views = ["view":vc.view]
-            let verticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[view]-49-|", options: NSLayoutFormatOptions.AlignAllLeft, metrics: nil, views: views)
-            childView.addConstraints(verticalConstraints)
-            
-            let horizontalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[view]-0-|", options: NSLayoutFormatOptions.AlignAllLeft, metrics: nil, views: views)
-            childView.addConstraints(horizontalConstraints)
-            
-            vc.didMoveToParentViewController(self)
-            streamControllers.append(vc)
+            if index == 0 {
+                let vc = FriendsViewController.instantiateFromStoryboard()
+                vc.willMoveToParentViewController(self)
+                let childView = streamControllerViews[index]
+                childView.addSubview(vc.view)
+                self.addChildViewController(vc)
+
+                vc.view.setTranslatesAutoresizingMaskIntoConstraints(false)
+                let views = ["view":vc.view]
+                let verticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[view]-49-|", options: NSLayoutFormatOptions.AlignAllLeft, metrics: nil, views: views)
+                childView.addConstraints(verticalConstraints)
+
+                let horizontalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[view]-0-|", options: NSLayoutFormatOptions.AlignAllLeft, metrics: nil, views: views)
+                childView.addConstraints(horizontalConstraints)
+
+                vc.didMoveToParentViewController(self)
+                streamControllers.append(vc)
+            }
         }
     }
     

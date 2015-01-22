@@ -148,6 +148,8 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
             let footerCell = collectionView.dequeueReusableCellWithReuseIdentifier(CellIdentifier.Footer.rawValue, forIndexPath: indexPath) as StreamFooterCell
             footerCell.views = post.viewsCount?.localizedStringFromNumber()
             footerCell.comments = post.commentsCount?.localizedStringFromNumber()
+            footerCell.reposts = post.repostsCount?.localizedStringFromNumber()
+            
             return footerCell
         }
         

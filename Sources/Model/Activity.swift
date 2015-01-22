@@ -20,8 +20,7 @@ class Activity: JSONAble {
         case FriendPost = "friend_post" // main feed
         case WelcomePost = "welcome_post" // main feed
         case NoisePost = "noise_post" // main feed
-       
-        
+
         // Notifications
         case RepostNotification = "repost_notification" // main feed (but collapsable)
         case NewFollowedUserPost = "new_followed_user_post" // main feed
@@ -58,6 +57,7 @@ class Activity: JSONAble {
     override class func fromJSON(data:[String: AnyObject], linked: [String:[AnyObject]]?) -> JSONAble {
         let linkedData = JSONAble.linkItems(data, linked: linked)
         let json = JSON(linkedData)
+        let sub = json["subject"]
         let kind = Kind(rawValue: json["kind"].stringValue) ?? Kind.Unknown
         let activityId = json["created_at"].stringValue
         let subjectType = SubjectType(rawValue: json["subject_type"].stringValue) ?? SubjectType.Unknown
@@ -70,11 +70,11 @@ class Activity: JSONAble {
         var subject:AnyObject?
         switch subjectType {
         case .User:
-            if let userDict = (json["subject"].object as? [String: AnyObject])?["users"] as? [String: AnyObject] {
+            if let userDict = json["subject"].object as? [String: AnyObject] {
                 subject = User.fromJSON(userDict, linked: linked) as User
             }
         case .Post:
-            if let postDict = (json["subject"].object as? [String: AnyObject])?["posts"] as? [String: AnyObject] {
+            if let postDict = json["subject"].object as? [String: AnyObject] {
                 subject = Post.fromJSON(postDict, linked: linked) as Post
             }
         case .Unknown:

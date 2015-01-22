@@ -62,9 +62,9 @@ class StreamViewControllerSpec: QuickSpec {
                 controller.viewDidLoad()
             })
             
-            it("has 2 streams", {
+            it("has streams", {
                 expect(countElements(controller.streamControllerViews)) == 2
-                expect(countElements(controller.streamControllers)) == 2
+                expect(countElements(controller.streamControllers)) == 1
             })
             
             it("hides the nav bar on swipe") {

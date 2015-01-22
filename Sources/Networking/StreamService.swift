@@ -26,9 +26,7 @@ class StreamService: NSObject {
         let endpoint: ElloAPI = .FriendStream
         ElloProvider.sharedProvider.elloRequest(endpoint, method: .GET, parameters: endpoint.defaultParameters, propertyName:MappingType.Prop.Activities, success: { (data) -> () in
             if let activities:[Activity] = data as? [Activity] {
-                
-                var filteredActivities = activities.filter({$0.subjectType == Activity.SubjectType.Post})
-                
+                var filteredActivities = activities.filter({$0.subject as? Post != nil})
                 var streamables:[Streamable] = filteredActivities.map({ (activity) -> Streamable in
                     return activity.subject as Post
                 })

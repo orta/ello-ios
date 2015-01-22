@@ -15,7 +15,6 @@ typealias ElloFailureCompletion = (error: NSError, statusCode:Int?) -> ()
 
 struct ElloProvider {
 
-
     static var errorStatusCode:ErrorStatusCode = .Status404
 
     enum ErrorStatusCode: Int {
@@ -68,12 +67,12 @@ struct ElloProvider {
         case .Auth, .ReAuth:
             return endpoint
         default:
-            return endpoint.endpointByAddingHTTPHeaderFields(["Content-Type": "application/json", "Authorization": AuthToken().tokenWithBearer ?? "", "Accept-Language": ""])
+            return endpoint.endpointByAddingHTTPHeaderFields(["Authorization": AuthToken().tokenWithBearer ?? "", "Accept-Language": ""])
         }
     }
 
     static func DefaultProvider() -> MoyaProvider<ElloAPI> {
-        return MoyaProvider(endpointsClosure: endpointsClosure, stubResponses: true)
+        return MoyaProvider(endpointsClosure: endpointsClosure, stubResponses: false)
     }
 
     static func StubbingProvider() -> MoyaProvider<ElloAPI> {
@@ -174,15 +173,25 @@ extension MoyaProvider {
                 }
             }
 
-            success(data:mappedObjects!)
+            if let mappedObjects: AnyObject = mappedObjects {
+                success(data:mappedObjects)
+            }
+            else {
+                failedToMapObjects(failure)
+            }
+
         }
         else {
-            let jsonMappingError = ElloNetworkError(title: "Error", code: ElloNetworkError.CodeType.unknown.rawValue, detail: "NEED DEFAULT HERE", status: nil, messages: nil, attrs: nil)
-            
-            let elloError = NSError.networkError(jsonMappingError, code: ElloErrorCode.JSONMapping)
-            if let failure = failure {
-                failure(error: elloError, statusCode: nil)
-            }
+            failedToMapObjects(failure)
+        }
+    }
+
+    private func failedToMapObjects(failure:ElloFailureCompletion?){
+        let jsonMappingError = ElloNetworkError(title: "Error", code: ElloNetworkError.CodeType.unknown.rawValue, detail: "NEED DEFAULT HERE", status: nil, messages: nil, attrs: nil)
+
+        let elloError = NSError.networkError(jsonMappingError, code: ElloErrorCode.JSONMapping)
+        if let failure = failure {
+            failure(error: elloError, statusCode: nil)
         }
     }
 

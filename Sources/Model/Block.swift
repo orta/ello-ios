@@ -26,7 +26,6 @@ class Block {
     class func blocks(json:JSON) -> [Block] {
         let content = json["content"].object as [AnyObject]
         return content.map { (contentDict) -> Block in
-//            println(contentDict)
             let kind = Block.Kind(rawValue: contentDict["kind"] as String) ?? Block.Kind.Unknown
             let data = contentDict["data"]
             switch kind {
@@ -35,11 +34,9 @@ class Block {
                 return TextBlock(content: data)
             case .Image:
                 let data = data as [String:AnyObject]
-                let assetId = data["asset_id"] as Int
-                let via = data["via"] as String
                 let alt = data["alt"] as? String ?? ""
                 let url = data["url"] as String
-                return ImageBlock(assetId: assetId, via: via, alt: alt, url: NSURL(string: url)!)
+                return ImageBlock(alt: alt, url: NSURL(string: url)!)
             case .Unknown:
                 return UnknownBlock()
             }
@@ -54,14 +51,10 @@ class UnknownBlock : Block {
 }
 
 class ImageBlock : Block {
-    let assetId:Int
-    let via:String
     let alt:String
     let url:NSURL?
     
-    init(assetId: Int, via: String, alt: String, url:NSURL?) {
-        self.assetId = assetId
-        self.via = via
+    init(alt: String, url:NSURL?) {
         self.alt = alt
         self.url = url
         super.init(kind: Block.Kind.Image)
