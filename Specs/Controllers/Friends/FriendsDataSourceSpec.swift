@@ -35,16 +35,16 @@ class FriendsDataSourceSpec: QuickSpec {
         describe("initialization", {
 
             beforeEach({
-                dataSource = FriendsDataSource(testWebView: webView)
+                dataSource = FriendsDataSource(testWebView: webView, footerCellDelegate: vc)
                 vc.dataSource = dataSource
                 StreamService().loadFriendStream({ (streamables) -> () in
                     loadedStreamables = streamables
                 }, failure: nil)
 
-                dataSource.addStreamables(loadedStreamables!, completion: {
+                dataSource.addStreamables(loadedStreamables!, completion: { (cellCount) -> () in
                     vc.collectionView.dataSource = dataSource
                     vc.collectionView.reloadData()
-                })
+                }, startingIndexPath:nil)
             })
 
             describe("-collectionView:numberOfItemsInSection:", {

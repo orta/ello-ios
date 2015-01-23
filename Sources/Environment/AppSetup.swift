@@ -21,9 +21,7 @@ class AppSetup {
     }
 
     init() {
-        let defaults = NSUserDefaults.standardUserDefaults()
-        useStaging = defaults.boolForKey("ElloUseStaging")
-
+        useStaging = Defaults["ElloUseStaging"].bool ?? true
         if let inTests: AnyClass = NSClassFromString("XCTest") { isTesting = true }
     }
 }
