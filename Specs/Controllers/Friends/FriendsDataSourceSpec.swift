@@ -35,7 +35,7 @@ class FriendsDataSourceSpec: QuickSpec {
         describe("initialization", {
 
             beforeEach({
-                dataSource = FriendsDataSource(testWebView: webView, footerCellDelegate: vc)
+                dataSource = FriendsDataSource(testWebView: webView)
                 vc.dataSource = dataSource
                 StreamService().loadFriendStream({ (streamables) -> () in
                     loadedStreamables = streamables

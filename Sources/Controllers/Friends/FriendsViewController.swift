@@ -27,9 +27,10 @@ class FriendsViewController: BaseElloViewController, UICollectionViewDelegate, U
         addNotificationObservers()
 
         let webView = UIWebView(frame: self.view.bounds)
+
         self.dataSource = FriendsDataSource(testWebView: webView)
-        
-        
+        self.dataSource.postbarDelegate = PostbarController(collectionView: collectionView, dataSource: self.dataSource)
+
         if isDetail {
             setupForDetail()
         }
@@ -53,10 +54,10 @@ class FriendsViewController: BaseElloViewController, UICollectionViewDelegate, U
             let streamService = StreamService()
             streamService.loadMoreCommentsForPost(post.postId,
                 success: { (streamables) -> () in
-                    self.dataSource.addStreamables(streamables, completion: {
+                    self.dataSource.addStreamables(streamables, completion: { (cellCount) -> () in
                         self.collectionView.dataSource = self.dataSource                        
                         self.collectionView.reloadData()
-                    })
+                    }, startingIndexPath:nil)
                 }) { (error, statusCode) -> () in
                     println("failed to load comments")
                 }
@@ -70,10 +71,10 @@ class FriendsViewController: BaseElloViewController, UICollectionViewDelegate, U
             ElloHUD.hideLoadingHud()
             self.streamables = streamables
 
-            self.dataSource.addStreamables(streamables, completion: {
+            self.dataSource.addStreamables(streamables, completion: { (cellCount) -> () in
                 self.collectionView.dataSource = self.dataSource
                 self.collectionView.reloadData()
-            })
+            }, startingIndexPath:nil)
         }, failure: { (error, statusCode) in
                 ElloHUD.hideLoadingHud()
                 println("failed to load friends stream")
@@ -176,30 +177,6 @@ class FriendsViewController: BaseElloViewController, UICollectionViewDelegate, U
         return CGSizeMake(UIScreen.screenWidth(), dataSource.heightForIndexPath(indexPath))
     }
 
-//    func scrollViewDidScroll(scrollView: UIScrollView) {
-//        let velocity = scrollView.panGestureRecognizer.velocityInView(scrollView.superview)
-//        let directionUp = velocity.y < 0
-//        if !self.scrolling {
-//            if let tabBar = self.tabBarController?.tabBar {
-//                if directionUp {
-//                    self.tabBarController?.setTabBarHidden(true, animated: true)
-////                    UIView.animateWithDuration(0.15, animations: {
-////                        tabBar.frame = CGRectMake(tabBar.frame.origin.x,  self.tabBarFrame.origin.y + tabBar.frame.size.height, tabBar.frame.size.width, tabBar.frame.size.height)
-////                        }, completion: { (finished) -> Void in
-////                    })
-//                }
-//                else {
-//                    self.tabBarController?.setTabBarHidden(false, animated: true)
-////                    UIView.animateWithDuration(0.15, animations: {
-////                        tabBar.frame = self.tabBarFrame
-////                        }, completion: { (finished) -> Void in
-////                    })
-//                }
-//            }
-//            self.scrolling = true
-//        }
-//    }
-
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         self.scrolling = false
     }
@@ -209,7 +186,4 @@ class FriendsViewController: BaseElloViewController, UICollectionViewDelegate, U
             self.scrolling = false
         }
     }
-    
-    
-    
 }

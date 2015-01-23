@@ -198,30 +198,45 @@
                                                             <state key="normal" image="chevron-icon">
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
+                                                            <connections>
+                                                                <action selector="chevronButtonTapped:" destination="P76-vx-Q2Z" eventType="touchUpInside" id="O6w-TY-LO7"/>
+                                                            </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k0A-Ky-x9O" customClass="StreamFooterButton" customModule="Ello" customModuleProvider="target">
                                                             <rect key="frame" x="184" y="16" width="30" height="22"/>
                                                             <state key="normal" title="0" image="repost-icon">
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
+                                                            <connections>
+                                                                <action selector="repostButtonTapped:" destination="P76-vx-Q2Z" eventType="touchUpInside" id="dbm-GE-w4m"/>
+                                                            </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DGx-L8-OiN" customClass="StreamFooterButton" customModule="Ello" customModuleProvider="target">
                                                             <rect key="frame" x="126" y="16" width="33" height="22"/>
                                                             <state key="normal" title="0" image="heart-icon">
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
+                                                            <connections>
+                                                                <action selector="lovesButtonTapped:" destination="P76-vx-Q2Z" eventType="touchUpInside" id="d8C-Gq-Bvy"/>
+                                                            </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lLZ-rl-op1" customClass="StreamFooterButton" customModule="Ello" customModuleProvider="target">
                                                             <rect key="frame" x="69" y="16" width="32" height="22"/>
                                                             <state key="normal" title="0" image="dots-icon">
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
+                                                            <connections>
+                                                                <action selector="commentsButtonTapped:" destination="P76-vx-Q2Z" eventType="touchUpInside" id="GE3-W2-WEY"/>
+                                                            </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="89C-tv-GIz" customClass="StreamFooterButton" customModule="Ello" customModuleProvider="target">
                                                             <rect key="frame" x="10" y="16" width="34" height="22"/>
                                                             <state key="normal" title="0" image="eye-icon">
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
+                                                            <connections>
+                                                                <action selector="viewsButtonTapped:" destination="P76-vx-Q2Z" eventType="touchUpInside" id="fK3-bS-f34"/>
+                                                            </connections>
                                                         </button>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -251,10 +266,10 @@
                                         <size key="customSize" width="599" height="54"/>
                                         <connections>
                                             <outlet property="chevronButton" destination="yfB-Mo-73D" id="v2Z-MS-4uY"/>
-                                            <outlet property="dotButton" destination="lLZ-rl-op1" id="zUo-QF-GXl"/>
-                                            <outlet property="eyeButton" destination="89C-tv-GIz" id="qtH-Pl-3VY"/>
-                                            <outlet property="heartButton" destination="DGx-L8-OiN" id="vwL-42-nWB"/>
+                                            <outlet property="commentsButton" destination="lLZ-rl-op1" id="XH3-um-XYa"/>
+                                            <outlet property="lovesButton" destination="DGx-L8-OiN" id="fk0-TM-fT8"/>
                                             <outlet property="repostButton" destination="k0A-Ky-x9O" id="qXI-9l-faD"/>
+                                            <outlet property="viewsButton" destination="89C-tv-GIz" id="etU-t5-ebg"/>
                                         </connections>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="StreamImageCell" id="GGC-y5-Isi" userLabel="StreamImageCell" customClass="StreamImageCell" customModule="Ello" customModuleProvider="target">

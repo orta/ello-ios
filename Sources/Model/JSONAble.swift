@@ -25,19 +25,23 @@ class JSONAble: NSObject {
         if let linked = linked {
             // loop over objects in links
             for (key, value) in links! {
-                let type = "type"
                 // grab the type in links
-                if let link = value["type"] as? String {
+                if let link:String = value["type"] as? String {
                     // grab the linked ojbect matching type
-                    if let mappedObjects = linked[link] {
-                        for object:AnyObject in mappedObjects {
-                            let objectId:String = object["id"] as String
-                            let valueId:String = value["id"] as String
-                            if objectId == valueId {
-                                linkedData[key] = object
-                            }
-                        }
-                    }
+
+//                    if let mappedObjects = linked[link] as? [String:[AnyObject]] {
+//                        let object = mappedObjects["id"] as AnyObject
+//                        linkedData[key] = mappedObjects["id"] as AnyObject
+
+//                        linkedData[key] =
+//                        for object:AnyObject in mappedObjects {
+//                            let objectId:String = object["id"] as String
+//                            let valueId:String = value["id"] as String
+//                            if objectId == valueId {
+//                                linkedData[key] = object
+//                            }
+//                        }
+//                    }
                 }
             }
         }

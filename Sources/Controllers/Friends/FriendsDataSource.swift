@@ -11,7 +11,7 @@ import WebKit
 
 class FriendsDataSource: NSObject, UICollectionViewDataSource {
 
-    typealias StreamContentReady = () -> ()
+    typealias StreamContentReady = (indexPaths:[NSIndexPath]) -> ()
 
     enum CellIdentifier: String {
         case CommentHeader = "StreamCommentHeaderCell"
@@ -28,6 +28,7 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
     var streamCellItems:[StreamCellItem] = []
     let testWebView:UIWebView
     let sizeCalculator:StreamTextCellSizeCalculator
+    var postbarDelegate:PostbarDelegate?
 
     init(testWebView: UIWebView) {
         self.testWebView = testWebView
@@ -53,9 +54,14 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
         })
     }
 
-    func addStreamables(streamables:[Streamable], completion:StreamContentReady) {
+    func commentIndexPathsForPost(post: Post) -> [NSIndexPath] {
+        var indexPaths:[NSIndexPath] = []
+        return indexPaths
+    }
+
+    func addStreamables(streamables:[Streamable], completion:StreamContentReady, startingIndexPath:NSIndexPath?) {
         self.contentReadyClosure = completion
-        self.streamCellItems = self.createStreamCellItems(streamables)
+        self.streamCellItems = self.createStreamCellItems(streamables, startingIndexPath: startingIndexPath)
     }
 
     func updateHeightForIndexPath(indexPath:NSIndexPath?, height:CGFloat) {
@@ -146,6 +152,7 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
     private func footerCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> StreamFooterCell {
         if let post = streamCellItem.streamable as? Post {
             let footerCell = collectionView.dequeueReusableCellWithReuseIdentifier(CellIdentifier.Footer.rawValue, forIndexPath: indexPath) as StreamFooterCell
+            footerCell.delegate = self.postbarDelegate
             footerCell.views = post.viewsCount?.localizedStringFromNumber()
             footerCell.comments = post.commentsCount?.localizedStringFromNumber()
             footerCell.reposts = post.repostsCount?.localizedStringFromNumber()
@@ -156,19 +163,26 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
         return StreamFooterCell()
     }
 
-    private func createStreamCellItems(streamables:[Streamable]) -> [StreamCellItem] {
-        let parser = StreamCellItemParser()
-        var cellItems = parser.streamCellItems(streamables)
+    private func createStreamCellItems(streamables:[Streamable], startingIndexPath:NSIndexPath?) -> [StreamCellItem] {
+        var cellItems = StreamCellItemParser().streamCellItems(streamables)
 
         let textElements = cellItems.filter {
             return $0.data as? TextBlock != nil
         }
 
         self.sizeCalculator.processCells(textElements, {
-            self.streamCellItems += cellItems
-            if let ready = self.contentReadyClosure {
-                ready()
+            var indexPaths:[NSIndexPath] = []
+            if let startingIndexPath = startingIndexPath {
+                for (index, cellItem) in enumerate(cellItems) {
+                    var index = startingIndexPath.item + index + 1
+                    indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
+                    self.streamCellItems.insert(cellItem, atIndex: index)
+                }
             }
+            else {
+                self.streamCellItems += cellItems
+            }
+            self.contentReadyClosure?(indexPaths: indexPaths)
         })
 
         return self.streamCellItems

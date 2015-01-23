@@ -160,7 +160,11 @@ extension MoyaProvider {
         if mappedJSON != nil && error == nil {
             if let dict = mappedJSON as? [String:AnyObject] {
                 let linked = dict["linked"] as [String:[AnyObject]]?
-                
+
+
+                // add ^^^ to our "global" linked object
+                // save linked to disk
+
                 if let node = dict[propertyName.rawValue] as? [[String:AnyObject]] {
                     if let JSONAbleType = MappingType.types[propertyName] {
                         mappedObjects = mapToObjectArray(node, classType: JSONAbleType, linked: linked)
@@ -183,6 +187,35 @@ extension MoyaProvider {
         }
         else {
             failedToMapObjects(failure)
+        }
+    }
+
+    private func parseLinked(linked:[String:[[String:AnyObject]]]) {
+//        let linked = dict["linked"] as [String:[AnyObject]]?
+//        [String:[String:AnyObject]]
+
+        var linkedStore = [String:[String:AnyObject]]()
+        for (key:String, valueArray:[[String:AnyObject]]) in linked {
+            if linkedStore[key] == nil {
+                linkedStore[key] = [String:AnyObject]()
+            }
+            for object:[String:AnyObject] in valueArray {
+                if let linkedStoreDict = linkedStore[key] {
+                    if let stringId = object["id"] as? String {
+                        if linkedStoreDict[stringId] == nil {
+                            linkedStoreDict[stringId] = [String:AnyObject]()
+                            println(linkedStoreDict[stringId])
+                        }
+//                        if let something: AnyObject = linkedStoreDict[stringId] {
+//                            something = object
+//                        }
+
+//                        [stringId] = object
+                    }
+                }
+
+//                linkedStore[key]["\(object['id'])"] = object
+            }
         }
     }
 
