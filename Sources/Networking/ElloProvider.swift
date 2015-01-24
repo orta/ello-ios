@@ -159,22 +159,23 @@ extension MoyaProvider {
         var mappedObjects: AnyObject?
         if mappedJSON != nil && error == nil {
             if let dict = mappedJSON as? [String:AnyObject] {
-                let linked = dict["linked"] as [String:[AnyObject]]?
+                let linked = dict["linked"] as [String:[[String:AnyObject]]]?
 
+                parseLinked(linked!)
 
                 // add ^^^ to our "global" linked object
                 // save linked to disk
 
-                if let node = dict[propertyName.rawValue] as? [[String:AnyObject]] {
-                    if let JSONAbleType = MappingType.types[propertyName] {
-                        mappedObjects = mapToObjectArray(node, classType: JSONAbleType, linked: linked)
-                    }
-                }
-                else if let node = dict[propertyName.rawValue] as? [String:AnyObject] {
-                    if let JSONAbleType = MappingType.types[propertyName] {
-                        mappedObjects = mapToObject(node, classType: JSONAbleType, linked: linked)
-                    }
-                }
+//                if let node = dict[propertyName.rawValue] as? [[String:AnyObject]] {
+//                    if let JSONAbleType = MappingType.types[propertyName] {
+//                        mappedObjects = mapToObjectArray(node, classType: JSONAbleType, linked: linked)
+//                    }
+//                }
+//                else if let node = dict[propertyName.rawValue] as? [String:AnyObject] {
+//                    if let JSONAbleType = MappingType.types[propertyName] {
+//                        mappedObjects = mapToObject(node, classType: JSONAbleType, linked: linked)
+//                    }
+//                }
             }
 
             if let mappedObjects: AnyObject = mappedObjects {
@@ -191,32 +192,25 @@ extension MoyaProvider {
     }
 
     private func parseLinked(linked:[String:[[String:AnyObject]]]) {
-//        let linked = dict["linked"] as [String:[AnyObject]]?
-//        [String:[String:AnyObject]]
-
         var linkedStore = [String:[String:AnyObject]]()
-        for (key:String, valueArray:[[String:AnyObject]]) in linked {
-            if linkedStore[key] == nil {
-                linkedStore[key] = [String:AnyObject]()
+        for (type:String, typeObjects:[[String:AnyObject]]) in linked {
+            if linkedStore[type] == nil {
+                linkedStore[type] = [String:AnyObject]()
             }
-            for object:[String:AnyObject] in valueArray {
-                if let linkedStoreDict = linkedStore[key] {
-                    if let stringId = object["id"] as? String {
-                        if linkedStoreDict[stringId] == nil {
-                            linkedStoreDict[stringId] = [String:AnyObject]()
-                            println(linkedStoreDict[stringId])
-                        }
-//                        if let something: AnyObject = linkedStoreDict[stringId] {
-//                            something = object
-//                        }
-
-//                        [stringId] = object
+            for object:[String:AnyObject] in typeObjects {
+                if var typeDict = linkedStore[type] {
+                    if var stringId = object["id"] as? String {
+                        typeDict[stringId] = object
+                        // this one prints out an Optional object with properties
+                        println(typeDict[stringId])
+                        // this one prints nil
+                        println(linkedStore[type]?[stringId])
                     }
                 }
-
-//                linkedStore[key]["\(object['id'])"] = object
             }
         }
+        println("LINKED STORE")
+        println(linkedStore["posts"]?["4528"])
     }
 
     private func failedToMapObjects(failure:ElloFailureCompletion?){
