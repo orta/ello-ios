@@ -198,19 +198,12 @@ extension MoyaProvider {
                 linkedStore[type] = [String:AnyObject]()
             }
             for object:[String:AnyObject] in typeObjects {
-                if var typeDict = linkedStore[type] {
-                    if var stringId = object["id"] as? String {
-                        typeDict[stringId] = object
-                        // this one prints out an Optional object with properties
-                        println(typeDict[stringId])
-                        // this one prints nil
-                        println(linkedStore[type]?[stringId])
-                    }
-                }
+                linkedStore[type]?[object["id"] as String] = object
             }
         }
         println("LINKED STORE")
-        println(linkedStore["posts"]?["4528"])
+        println(linkedStore)
+//        println(linkedStore["posts"]?["4528"])
     }
 
     private func failedToMapObjects(failure:ElloFailureCompletion?){
