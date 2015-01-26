@@ -1,5 +1,5 @@
 //
-//  FriendsViewControllerSpec.swift
+//  StreamViewControllerSpec.swift
 //  Ello
 //
 //  Created by Sean Dougherty on 11/21/14.
@@ -10,10 +10,10 @@ import Quick
 import Nimble
 
 
-class FriendsViewControllerSpec: QuickSpec {
+class StreamViewControllerSpec: QuickSpec {
     override func spec() {
 
-        var controller = FriendsViewController.instantiateFromStoryboard()
+        var controller = StreamViewController.instantiateFromStoryboard()
         
         beforeSuite {
             ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
@@ -26,7 +26,7 @@ class FriendsViewControllerSpec: QuickSpec {
         describe("initialization", {
 
             beforeEach({
-                controller = FriendsViewController.instantiateFromStoryboard()
+                controller = StreamViewController.instantiateFromStoryboard()
             })
 
             describe("storyboard", {
@@ -49,8 +49,8 @@ class FriendsViewControllerSpec: QuickSpec {
                 expect(controller).to(beAKindOf(BaseElloViewController.self))
             })
 
-            it("is a FriendsViewController", {
-                expect(controller).to(beAKindOf(FriendsViewController.self))
+            it("is a StreamViewController", {
+                expect(controller).to(beAKindOf(StreamViewController.self))
             })
         
         })
@@ -58,13 +58,13 @@ class FriendsViewControllerSpec: QuickSpec {
         describe("-viewDidLoad:", {
             
             beforeEach({
-                controller = FriendsViewController.instantiateFromStoryboard()
+                controller = StreamViewController.instantiateFromStoryboard()
                 controller.loadView()
                 controller.viewDidLoad()
             })
             
             it("properly configures dataSource") {
-                expect(controller.dataSource).to(beAnInstanceOf(FriendsDataSource.self))
+                expect(controller.dataSource).to(beAnInstanceOf(StreamDataSource.self))
             }
 
             // TODO: fix error about delegate not found

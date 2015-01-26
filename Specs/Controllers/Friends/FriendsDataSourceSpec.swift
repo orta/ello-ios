@@ -1,5 +1,5 @@
 //
-//  FriendsDataSourceSpec.swift
+//  StreamDataSourceSpec.swift
 //  Ello
 //
 //  Created by Sean Dougherty on 11/22/14.
@@ -11,13 +11,13 @@ import Nimble
 import Moya
 
 
-class FriendsDataSourceSpec: QuickSpec {
+class StreamDataSourceSpec: QuickSpec {
     override func spec() {
         
-        var vc = FriendsViewController.instantiateFromStoryboard()
+        var vc = StreamViewController.instantiateFromStoryboard()
         
         beforeEach({
-            vc = FriendsViewController.instantiateFromStoryboard()
+            vc = StreamViewController.instantiateFromStoryboard()
             let keyWindow = UIWindow(frame: UIScreen.mainScreen().bounds)
             keyWindow.makeKeyAndVisible()
             keyWindow.rootViewController = vc
@@ -26,7 +26,7 @@ class FriendsDataSourceSpec: QuickSpec {
         })
         
         
-        var dataSource: FriendsDataSource!
+        var dataSource: StreamDataSource!
         let collectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: UICollectionViewFlowLayout())
         let webView = UIWebView(frame: CGRectMake(0, 0, 320, 640))
         ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.endpointsClosure, stubResponses: true)
@@ -35,7 +35,7 @@ class FriendsDataSourceSpec: QuickSpec {
         describe("initialization", {
 
             beforeEach({
-                dataSource = FriendsDataSource(testWebView: webView)
+                dataSource = StreamDataSource(testWebView: webView)
                 vc.dataSource = dataSource
                 StreamService().loadFriendStream({ (streamables) -> () in
                     loadedStreamables = streamables

@@ -124,7 +124,7 @@
         <!--Streams-->
         <scene sceneID="1KH-Io-LbQ">
             <objects>
-                <viewController id="hkH-y2-vf2" customClass="StreamViewController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="hkH-y2-vf2" customClass="StreamContainerViewController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="yLi-cj-Iz8"/>
                         <viewControllerLayoutGuide type="bottom" id="Cu5-ro-RnE"/>
@@ -161,10 +161,10 @@
             </objects>
             <point key="canvasLocation" x="1695" y="377"/>
         </scene>
-        <!--Friends-->
+        <!--Stream-->
         <scene sceneID="USh-ZM-Jv6">
             <objects>
-                <viewController storyboardIdentifier="FriendsViewController" title="Friends" id="ECy-3N-QOg" customClass="FriendsViewController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="StreamViewController" title="Stream" id="ECy-3N-QOg" customClass="StreamViewController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="R3M-bz-5sE"/>
                         <viewControllerLayoutGuide type="bottom" id="gFv-e7-ahl"/>
@@ -400,9 +400,10 @@
                                             <constraint firstAttribute="bottom" secondItem="jml-Dd-CFk" secondAttribute="bottom" id="6hZ-7s-Kho"/>
                                             <constraint firstItem="jml-Dd-CFk" firstAttribute="top" secondItem="KbH-G3-UlV" secondAttribute="top" id="CGn-et-dsK"/>
                                             <constraint firstAttribute="trailing" secondItem="jml-Dd-CFk" secondAttribute="trailing" id="Nwz-L9-6OF"/>
-                                            <constraint firstItem="jml-Dd-CFk" firstAttribute="leading" secondItem="KbH-G3-UlV" secondAttribute="leading" id="fWD-sg-1KG"/>
+                                            <constraint firstItem="jml-Dd-CFk" firstAttribute="leading" secondItem="KbH-G3-UlV" secondAttribute="leading" priority="999" id="fWD-sg-1KG"/>
                                         </constraints>
                                         <connections>
+                                            <outlet property="leadingConstraint" destination="fWD-sg-1KG" id="7UZ-Ko-1y7"/>
                                             <outlet property="webView" destination="jml-Dd-CFk" id="rrF-Si-MK9"/>
                                         </connections>
                                     </collectionViewCell>
@@ -424,7 +425,7 @@
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i4O-sj-KiS">
-                                                            <rect key="frame" x="40" y="9" width="75" height="13"/>
+                                                            <rect key="frame" x="60" y="9" width="75" height="13"/>
                                                             <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="13"/>
                                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <nil key="highlightedColor"/>
@@ -445,7 +446,7 @@
                                                         <constraint firstAttribute="centerY" secondItem="Fef-Oe-Iv6" secondAttribute="centerY" id="TCM-nE-Vxd"/>
                                                         <constraint firstAttribute="centerY" secondItem="i4O-sj-KiS" secondAttribute="centerY" id="fTY-Bh-2jv"/>
                                                         <constraint firstAttribute="centerY" secondItem="KSS-ax-DjD" secondAttribute="centerY" id="gM1-eG-asI"/>
-                                                        <constraint firstItem="i4O-sj-KiS" firstAttribute="leading" secondItem="KSS-ax-DjD" secondAttribute="trailing" constant="10" id="sg8-96-Jmq"/>
+                                                        <constraint firstItem="i4O-sj-KiS" firstAttribute="leading" secondItem="KSS-ax-DjD" secondAttribute="trailing" constant="30" id="sg8-96-Jmq"/>
                                                         <constraint firstAttribute="trailing" secondItem="Fef-Oe-Iv6" secondAttribute="trailing" id="xqM-lH-vIT"/>
                                                     </constraints>
                                                 </view>
@@ -684,7 +685,7 @@
         <!--Ello Navigation Controller-->
         <scene sceneID="c48-ys-FOn">
             <objects>
-                <navigationController storyboardIdentifier="StreamViewController" hidesBarsOnSwipe="YES" id="6gB-P3-Psq" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="StreamContainerViewController" hidesBarsOnSwipe="YES" id="6gB-P3-Psq" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <tabBarItem key="tabBarItem" title="" image="friends-icon" id="aLZ-c4-Yur">
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>

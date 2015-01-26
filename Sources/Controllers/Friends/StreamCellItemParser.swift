@@ -25,13 +25,13 @@ struct StreamCellItemParser {
     private func headerStreamCellItems(streamable:Streamable) -> [StreamCellItem] {
         
         var type = StreamCellItem.CellType.Header
-        var height:CGFloat = 80.0
+        var height:CGFloat
         switch streamable.kind {
         case .Comment:
             type = StreamCellItem.CellType.CommentHeader
             height = 50.0
         default:
-            println(streamable.kind)
+            height = 80.0
         }
         
         return [StreamCellItem(streamable: streamable, type: type, data: nil, cellHeight: height)]

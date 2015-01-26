@@ -14,7 +14,7 @@ import Foundation
 enum ViewControllerStoryboardIdentifier : String {
     case Discover = "DiscoverViewController"
     case Notifications = "NotificationsViewController"
-    case Friends = "FriendsViewController"
+    case StreamContainer = "StreamContainerViewController"
     case Stream = "StreamViewController"
     case Profile = "ProfileViewController"
     case Post = "PostViewController"

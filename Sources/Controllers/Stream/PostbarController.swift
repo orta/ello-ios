@@ -11,9 +11,9 @@ import Foundation
 class PostbarController:NSObject, PostbarDelegate {
 
     let collectionView:UICollectionView
-    let dataSource:FriendsDataSource
+    let dataSource:StreamDataSource
 
-    init(collectionView:UICollectionView, dataSource:FriendsDataSource) {
+    init(collectionView:UICollectionView, dataSource:StreamDataSource) {
         self.collectionView = collectionView
         self.dataSource = dataSource
     }

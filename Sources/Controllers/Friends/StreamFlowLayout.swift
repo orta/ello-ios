@@ -1,5 +1,5 @@
 //
-//  FriendsFlowLayout.swift
+//  StreamFlowLayout.swift
 //  Ello
 //
 //  Created by Sean Dougherty on 12/6/14.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FriendsFlowLayout: UICollectionViewFlowLayout {
+class StreamFlowLayout: UICollectionViewFlowLayout {
 
 //    func collectionView(collectionView: UICollectionView,
 //        layout collectionViewLayout: UICollectionViewLayout,

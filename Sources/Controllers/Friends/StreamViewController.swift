@@ -1,5 +1,5 @@
 //
-//  FriendsViewController.swift
+//  StreamViewController.swift
 //  Ello
 //
 //  Created by Sean Dougherty on 11/21/14.
@@ -9,12 +9,12 @@
 import Foundation
 import UIKit
 
-class FriendsViewController: BaseElloViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, JTSImageViewControllerOptionsDelegate, JTSImageViewControllerDismissalDelegate {
+class StreamViewController: BaseElloViewController, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, JTSImageViewControllerOptionsDelegate, JTSImageViewControllerDismissalDelegate {
 
     @IBOutlet weak var collectionView: UICollectionView!
     var scrolling = false
     var streamables:[Streamable]?
-    var dataSource:FriendsDataSource!
+    var dataSource:StreamDataSource!
     var navBarShowing = true
     
     var isDetail = false
@@ -28,7 +28,7 @@ class FriendsViewController: BaseElloViewController, UICollectionViewDelegate, U
 
         let webView = UIWebView(frame: self.view.bounds)
 
-        self.dataSource = FriendsDataSource(testWebView: webView)
+        self.dataSource = StreamDataSource(testWebView: webView)
         self.dataSource.postbarDelegate = PostbarController(collectionView: collectionView, dataSource: self.dataSource)
 
         if isDetail {
@@ -54,9 +54,9 @@ class FriendsViewController: BaseElloViewController, UICollectionViewDelegate, U
             let streamService = StreamService()
             streamService.loadMoreCommentsForPost(post.postId,
                 success: { (streamables) -> () in
-                    self.dataSource.addStreamables(streamables, completion: { (cellCount) -> () in
-                        self.collectionView.dataSource = self.dataSource                        
-                        self.collectionView.reloadData()
+                    self.dataSource.addStreamables(streamables, completion: { (indexPaths) -> () in
+                        self.collectionView.dataSource = self.dataSource
+                        self.collectionView.insertItemsAtIndexPaths(indexPaths)
                     }, startingIndexPath:nil)
                 }) { (error, statusCode) -> () in
                     println("failed to load comments")
@@ -87,12 +87,12 @@ class FriendsViewController: BaseElloViewController, UICollectionViewDelegate, U
                 return
             }
             if let post = dataSource.postForIndexPath(indexPath) {
-                let vc = FriendsViewController.instantiateFromStoryboard()
+                let vc = StreamViewController.instantiateFromStoryboard()
                 vc.isDetail = true
                 vc.detailPost = post
                 vc.detailCellItems = self.dataSource.cellItemsForPost(post)
                 
-                NSNotificationCenter.defaultCenter().postNotificationName(StreamViewController.Notifications.StreamDetailTapped.rawValue, object: vc)
+                NSNotificationCenter.defaultCenter().postNotificationName(StreamContainerViewController.Notifications.StreamDetailTapped.rawValue, object: vc)
     //            self.parentViewController?.navigationController?.pushViewController(vc, animated: true)
             }
     }
@@ -162,8 +162,8 @@ class FriendsViewController: BaseElloViewController, UICollectionViewDelegate, U
 //        collectionView.reloadItemsAtIndexPaths([indexPath])
     }
 
-    class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> FriendsViewController {
-        return storyboard.controllerWithID(.Friends) as FriendsViewController
+    class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> StreamViewController {
+        return storyboard.controllerWithID(.Stream) as StreamViewController
     }
 
     private func setupCollectionView() {

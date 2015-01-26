@@ -1,5 +1,5 @@
 //
-//  StreamViewController.swift
+//  StreamContainerViewController.swift
 //  Ello
 //
 //  Created by Sean on 1/17/15.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class StreamViewController: BaseElloViewController {
+class StreamContainerViewController: BaseElloViewController {
 
     enum Notifications : String {
         case StreamDetailTapped = "StreamDetailTappedNotification"
@@ -36,12 +36,11 @@ class StreamViewController: BaseElloViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> StreamViewController {
-        let navController = storyboard.controllerWithID(.Stream) as UINavigationController
+    class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> StreamContainerViewController {
+        let navController = storyboard.controllerWithID(.StreamContainer) as UINavigationController
         let streamsController = navController.topViewController
-        return streamsController as StreamViewController
-    }
-    
+        return streamsController as StreamContainerViewController
+    }    
 
     private func setupChildViewControllerContainers() {
         let width:CGFloat = self.view.bounds.size.width
@@ -60,7 +59,7 @@ class StreamViewController: BaseElloViewController {
     private func setupChildViewControllers() {
         for (index, segment) in enumerate(segments) {
             if index == 0 {
-                let vc = FriendsViewController.instantiateFromStoryboard()
+                let vc = StreamViewController.instantiateFromStoryboard()
                 vc.willMoveToParentViewController(self)
                 let childView = streamControllerViews[index]
                 childView.addSubview(vc.view)
@@ -79,10 +78,10 @@ class StreamViewController: BaseElloViewController {
             }
         }
     }
-    
+
     private func setupNotificationObservers() {
         let center = NSNotificationCenter.defaultCenter()
-        center.addObserver(self, selector: Selector("streamDetailTapped:"), name: StreamViewController.Notifications.StreamDetailTapped.rawValue, object: nil)
+        center.addObserver(self, selector: Selector("streamDetailTapped:"), name: StreamContainerViewController.Notifications.StreamDetailTapped.rawValue, object: nil)
     }
     
     private func setupStreamsSegmentedControl() {

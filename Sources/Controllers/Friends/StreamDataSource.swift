@@ -1,5 +1,5 @@
 //
-//  FriendsDataSource.swift
+//  StreamDataSource.swift
 //  Ello
 //
 //  Created by Sean Dougherty on 11/22/14.
@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class FriendsDataSource: NSObject, UICollectionViewDataSource {
+class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     typealias StreamContentReady = (indexPaths:[NSIndexPath]) -> ()
 
@@ -56,7 +56,9 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
 
     func commentIndexPathsForPost(post: Post) -> [NSIndexPath] {
         var indexPaths:[NSIndexPath] = []
+
         for (index,value) in enumerate(streamCellItems) {
+
             if let comment = value.streamable as? Comment {
                 if comment.parentPost?.postId == post.postId {
                     indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
@@ -148,10 +150,18 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
     }
 
     private func textCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> StreamTextCell {
-        let textCell = collectionView.dequeueReusableCellWithReuseIdentifier(CellIdentifier.Text.rawValue, forIndexPath: indexPath) as StreamTextCell
+        var textCell:StreamTextCell = collectionView.dequeueReusableCellWithReuseIdentifier(CellIdentifier.Text.rawValue, forIndexPath: indexPath) as StreamTextCell
+
         textCell.contentView.alpha = 0.0
         if let textData = streamCellItem.data as TextBlock? {
             textCell.webView.loadHTMLString(StreamTextCellHTML.postHTML(textData.content), baseURL: NSURL(string: "/"))
+        }
+
+        if let comment = streamCellItem.streamable as? Comment {
+            textCell.leadingConstraint.constant = 58.0
+        }
+        else {
+            textCell.leadingConstraint.constant = 0.0
         }
         return textCell
     }
@@ -179,16 +189,15 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
 
         self.sizeCalculator.processCells(textElements, {
             var indexPaths:[NSIndexPath] = []
-            if let startingIndexPath = startingIndexPath {
-                for (index, cellItem) in enumerate(cellItems) {
-                    var index = startingIndexPath.item + index + 1
-                    indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
-                    self.streamCellItems.insert(cellItem, atIndex: index)
-                }
+
+            var indexPath:NSIndexPath = startingIndexPath ?? NSIndexPath(forItem: countElements(self.streamCellItems) - 1, inSection: 0)
+
+            for (index, cellItem) in enumerate(cellItems) {
+                var index = indexPath.item + index + 1
+                indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
+                self.streamCellItems.insert(cellItem, atIndex: index)
             }
-            else {
-                self.streamCellItems += cellItems
-            }
+
             self.contentReadyClosure?(indexPaths: indexPaths)
         })
 

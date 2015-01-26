@@ -1,5 +1,5 @@
 //
-//  StreamViewControllerSpec.swift
+//  StreamContainerViewControllerSpec.swift
 //  Ello
 //
 //  Created by Sean on 1/19/15.
@@ -10,14 +10,14 @@ import Quick
 import Nimble
 
 
-class StreamViewControllerSpec: QuickSpec {
+class StreamContainerViewControllerSpec: QuickSpec {
     override func spec() {
         
-        var controller = StreamViewController.instantiateFromStoryboard()
+        var controller = StreamContainerViewController.instantiateFromStoryboard()
         describe("initialization", {
             
             beforeEach({
-                controller = StreamViewController.instantiateFromStoryboard()
+                controller = StreamContainerViewController.instantiateFromStoryboard()
             })
             
             describe("storyboard", {
@@ -41,8 +41,8 @@ class StreamViewControllerSpec: QuickSpec {
                 expect(controller).to(beAKindOf(BaseElloViewController.self))
             })
             
-            it("is a StreamViewController", {
-                expect(controller).to(beAKindOf(StreamViewController.self))
+            it("is a StreamContainerViewController", {
+                expect(controller).to(beAKindOf(StreamContainerViewController.self))
             })
             
             it("has a tab bar item", {
@@ -57,7 +57,7 @@ class StreamViewControllerSpec: QuickSpec {
         describe("-viewDidLoad:", {
             
             beforeEach({
-                controller = StreamViewController.instantiateFromStoryboard()
+                controller = StreamContainerViewController.instantiateFromStoryboard()
                 controller.loadView()
                 controller.viewDidLoad()
             })

@@ -14,6 +14,8 @@ class ElloHUD: NSObject {
 
         if let win = UIApplication.sharedApplication().windows.last as? UIView {
             let hud = MBProgressHUD.showHUDAddedTo(win, animated: true)
+            hud.opacity = 0.0
+
             let elloLogo = UIImageView(image: UIImage(named: "ello-logo"))
             elloLogo.bounds = CGRectMake(0, 0, 60, 60)
 

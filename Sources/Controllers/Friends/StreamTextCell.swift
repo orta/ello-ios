@@ -11,19 +11,17 @@ import Foundation
 
 class StreamTextCell: UICollectionViewCell, UIWebViewDelegate {
 
+
     @IBOutlet weak var webView:UIWebView!
+    @IBOutlet weak var leadingConstraint:NSLayoutConstraint!
 
     var calculatedHeight:CGFloat = 0.0
     let jsCommandProtocol = "ello://"
     let jsCommandPageReady = "ello://page-ready:"
 
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-
     override func layoutSubviews() {
+        self.webView.frame = self.bounds
         super.layoutSubviews()
-        webView.frame = self.contentView.frame
         webView.scrollView.scrollEnabled = false
     }
 
