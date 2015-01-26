@@ -56,6 +56,13 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
 
     func commentIndexPathsForPost(post: Post) -> [NSIndexPath] {
         var indexPaths:[NSIndexPath] = []
+        for (index,value) in enumerate(streamCellItems) {
+            if let comment = value.streamable as? Comment {
+                if comment.parentPost?.postId == post.postId {
+                    indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
+                }
+            }
+        }
         return indexPaths
     }
 

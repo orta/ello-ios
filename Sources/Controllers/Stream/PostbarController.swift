@@ -18,7 +18,7 @@ class PostbarController:NSObject, PostbarDelegate {
         self.dataSource = dataSource
     }
 
-    // Mark: - API Keys
+    // Mark:
 
     func viewsButtonTapped(cell:StreamFooterCell) {
         println("viewsButtonTapped")
@@ -26,20 +26,27 @@ class PostbarController:NSObject, PostbarDelegate {
 
     func commentsButtonTapped(cell:StreamFooterCell) {
         cell.commentsButton.enabled = false
-        if cell.commentsOpened {
-            cell.commentsButton.enabled = true
-        }
-        else {
-            if let indexPath = collectionView.indexPathForCell(cell) {
-                if let post = dataSource.postForIndexPath(indexPath) {
+        if let indexPath = collectionView.indexPathForCell(cell) {
+            if let post = dataSource.postForIndexPath(indexPath) {
+                if cell.commentsOpened {
+                    let indexPaths = self.dataSource.commentIndexPathsForPost(post)
+                    if let first = indexPaths.first {
+                        let range = Range(start: first.item,  end: first.item + countElements(indexPaths))
+                        self.dataSource.streamCellItems.removeRange(range)
+                        // self.collectionView.dataSource = self.dataSource
+                        self.collectionView.deleteItemsAtIndexPaths(indexPaths)
+                    }
+                    cell.commentsButton.enabled = true
+                }
+                else {
                     let streamService = StreamService()
                     streamService.loadMoreCommentsForPost(post.postId, success: {
                         self.commentLoadSuccess($0, indexPath: indexPath, cell: cell)
-                    }, failure: commentLoadFailure)
+                        }, failure: commentLoadFailure)
                 }
             }
         }
-    }            
+    }
 
     func lovesButtonTapped(cell:StreamFooterCell) {
         println("lovesButtonTapped")

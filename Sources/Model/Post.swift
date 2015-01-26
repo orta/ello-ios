@@ -35,8 +35,8 @@ class Post: JSONAble, Streamable {
         self.repostsCount = repostsCount
     }
 
-    override class func fromJSON(data:[String: AnyObject], linked: [String:[AnyObject]]?) -> JSONAble {
-        let linkedData = JSONAble.linkItems(data, linked: linked)
+    override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
+        let linkedData = JSONAble.linkItems(data)
         let json = JSON(linkedData)
         let postId = json["id"].stringValue
         var createdAt:NSDate = json["created_at"].stringValue.toNSDate() ?? NSDate()
@@ -50,7 +50,7 @@ class Post: JSONAble, Streamable {
         let post = Post(postId: postId, createdAt: createdAt, href: href, collapsed: collapsed, content: Block.blocks(json), token: token, commentsCount: commentsCount, viewsCount: viewsCount, repostsCount: repostsCount)
 
         if let authorDict = json["author"].object as? [String: AnyObject] {
-            post.author = User.fromJSON(authorDict, linked: linked) as? User
+            post.author = User.fromJSON(authorDict) as? User
         }
 
         return post

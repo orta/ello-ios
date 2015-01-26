@@ -36,8 +36,8 @@ class User: JSONAble {
         self.postsCount = postsCount
     }
 
-    override class func fromJSON(data:[String: AnyObject], linked: [String:[AnyObject]]?) -> JSONAble {
-        let linkedData = JSONAble.linkItems(data, linked: linked)
+    override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
+        let linkedData = JSONAble.linkItems(data)
         let json = JSON(linkedData)
         let name = json["name"].stringValue
         let userId = json["id"].stringValue

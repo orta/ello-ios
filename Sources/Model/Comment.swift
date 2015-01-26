@@ -28,8 +28,8 @@ class Comment: JSONAble, Streamable {
         self.parentPost = parentPost
     }
     
-    override class func fromJSON(data: [String: AnyObject], linked: [String:[AnyObject]]?) -> JSONAble {
-        let linkedData = JSONAble.linkItems(data, linked: linked)
+    override class func fromJSON(data: [String: AnyObject]) -> JSONAble {
+        let linkedData = JSONAble.linkItems(data)
         let json = JSON(linkedData)
         
         var commentId = json["id"].stringValue
@@ -37,12 +37,12 @@ class Comment: JSONAble, Streamable {
        
         var author:User?
         if let authorDict = json["author"].object as? [String: AnyObject] {
-            author = User.fromJSON(authorDict, linked: linked) as? User
+            author = User.fromJSON(authorDict) as? User
         }
         
         var parentPost:Post?
         if let parentPostDict = json["parent_post"].object as? [String: AnyObject] {
-            parentPost = Post.fromJSON(parentPostDict, linked: linked) as? Post
+            parentPost = Post.fromJSON(parentPostDict) as? Post
         }
 
         return Comment(commentId: commentId, createdAt: createdAt, content: Block.blocks(json), author: author, parentPost: parentPost)

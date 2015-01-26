@@ -54,8 +54,8 @@ class Activity: JSONAble {
         self.subjectType = subjectType
     }
 
-    override class func fromJSON(data:[String: AnyObject], linked: [String:[AnyObject]]?) -> JSONAble {
-        let linkedData = JSONAble.linkItems(data, linked: linked)
+    override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
+        let linkedData = JSONAble.linkItems(data)
         let json = JSON(linkedData)
         let sub = json["subject"]
         let kind = Kind(rawValue: json["kind"].stringValue) ?? Kind.Unknown
@@ -63,19 +63,19 @@ class Activity: JSONAble {
         let subjectType = SubjectType(rawValue: json["subject_type"].stringValue) ?? SubjectType.Unknown
         var createdAt = json["created_at"].stringValue.toNSDate() ?? NSDate()
 
-        return Activity(kind: kind, activityId: activityId, createdAt: createdAt, subject: parseSubject(json, subjectType: subjectType, linked: linked), subjectType: subjectType)
+        return Activity(kind: kind, activityId: activityId, createdAt: createdAt, subject: parseSubject(json, subjectType: subjectType), subjectType: subjectType)
     }
 
-    class private func parseSubject(json:JSON, subjectType: SubjectType, linked: [String:[AnyObject]]?) -> AnyObject? {
+    class private func parseSubject(json:JSON, subjectType: SubjectType) -> AnyObject? {
         var subject:AnyObject?
         switch subjectType {
         case .User:
             if let userDict = json["subject"].object as? [String: AnyObject] {
-                subject = User.fromJSON(userDict, linked: linked) as User
+                subject = User.fromJSON(userDict) as User
             }
         case .Post:
             if let postDict = json["subject"].object as? [String: AnyObject] {
-                subject = Post.fromJSON(postDict, linked: linked) as Post
+                subject = Post.fromJSON(postDict) as Post
             }
         case .Unknown:
             subject = nil

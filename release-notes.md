@@ -104,3 +104,16 @@
 
 
 -----------------
+
+-----------------
+###Ello 0.1 Build 10
+####Commit notes:
+
+* Fix the linked object parsing.
+* Updating the linked parsing for better data.
+* working on mapping linked items for lookup
+* Converted NSUserDefaults to SwiftyUserDefaults.
+* Altered specs to work for streamables.
+* Fix crash for posts with embeds.
+
+-----------------

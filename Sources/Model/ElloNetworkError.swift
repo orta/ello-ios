@@ -47,7 +47,7 @@ class ElloNetworkError: JSONAble {
         self.attrs = attrs
     }
     
-    override class func fromJSON(data:[String: AnyObject], linked: [String:[AnyObject]]?) -> JSONAble {
+    override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
         let json = JSON(data)
         let title = json["title"].stringValue
         let code = json["code"].string ?? CodeType.unknown.rawValue

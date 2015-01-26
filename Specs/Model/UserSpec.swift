@@ -14,7 +14,8 @@ class UserSpec: QuickSpec {
 
         it("converts from JSON") {
             let data = stubbedJSONData("user", "users")
-            let user = User.fromJSON(data, linked: nil) as User
+
+            let user = User.fromJSON(data) as User
             
             expect(user.avatarURL!.absoluteString) == "https://abc123.cloudfront.net/uploads/user/avatar/42/avatar.png"
             expect(user.userId) == "42"

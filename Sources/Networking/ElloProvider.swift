@@ -11,6 +11,8 @@ import Moya
 
 typealias ElloSuccessCompletion = (data: AnyObject) -> ()
 typealias ElloFailureCompletion = (error: NSError, statusCode:Int?) -> ()
+typealias ElloLinkedStore = [String:[String:AnyObject]]
+var LinkedStore = ElloLinkedStore()
 
 
 struct ElloProvider {
@@ -40,7 +42,6 @@ struct ElloProvider {
             default:
                 return "ElloProviderNotification\(self.rawValue)"
             }
-
         }
     }
 
@@ -159,23 +160,22 @@ extension MoyaProvider {
         var mappedObjects: AnyObject?
         if mappedJSON != nil && error == nil {
             if let dict = mappedJSON as? [String:AnyObject] {
-                let linked = dict["linked"] as [String:[[String:AnyObject]]]?
+                let linked = dict["linked"] as? [String:[[String:AnyObject]]]
 
-                parseLinked(linked!)
+                if linked != nil {
+                    parseLinked(linked!)
+                }
 
-                // add ^^^ to our "global" linked object
-                // save linked to disk
-
-//                if let node = dict[propertyName.rawValue] as? [[String:AnyObject]] {
-//                    if let JSONAbleType = MappingType.types[propertyName] {
-//                        mappedObjects = mapToObjectArray(node, classType: JSONAbleType, linked: linked)
-//                    }
-//                }
-//                else if let node = dict[propertyName.rawValue] as? [String:AnyObject] {
-//                    if let JSONAbleType = MappingType.types[propertyName] {
-//                        mappedObjects = mapToObject(node, classType: JSONAbleType, linked: linked)
-//                    }
-//                }
+                if let node = dict[propertyName.rawValue] as? [[String:AnyObject]] {
+                    if let JSONAbleType = MappingType.types[propertyName] {
+                        mappedObjects = mapToObjectArray(node, classType: JSONAbleType, linked: LinkedStore)
+                    }
+                }
+                else if let node = dict[propertyName.rawValue] as? [String:AnyObject] {
+                    if let JSONAbleType = MappingType.types[propertyName] {
+                        mappedObjects = mapToObject(node, classType: JSONAbleType, linked: LinkedStore)
+                    }
+                }
             }
 
             if let mappedObjects: AnyObject = mappedObjects {
@@ -191,19 +191,16 @@ extension MoyaProvider {
         }
     }
 
-    private func parseLinked(linked:[String:[[String:AnyObject]]]) {
-        var linkedStore = [String:[String:AnyObject]]()
+    private func parseLinked(linked:[String:[[String:AnyObject]]]){
+
         for (type:String, typeObjects:[[String:AnyObject]]) in linked {
-            if linkedStore[type] == nil {
-                linkedStore[type] = [String:AnyObject]()
+            if LinkedStore[type] == nil {
+                LinkedStore[type] = [String:AnyObject]()
             }
             for object:[String:AnyObject] in typeObjects {
-                linkedStore[type]?[object["id"] as String] = object
+                LinkedStore[type]?[object["id"] as String] = object
             }
         }
-        println("LINKED STORE")
-        println(linkedStore)
-//        println(linkedStore["posts"]?["4528"])
     }
 
     private func failedToMapObjects(failure:ElloFailureCompletion?){
@@ -249,7 +246,7 @@ extension MoyaProvider {
 
             if mappedJSON != nil && error == nil {
                 if let node = mappedJSON?[MappingType.Prop.Errors.rawValue] as? [String:AnyObject] {
-                    elloNetworkError = mapToObject(node, classType: ElloNetworkError.self, linked: nil) as? ElloNetworkError
+                    elloNetworkError = mapToObject(node, classType: ElloNetworkError.self, linked: LinkedStore) as? ElloNetworkError
                 }
             }
         }
@@ -277,20 +274,20 @@ extension MoyaProvider {
         return (json, error)
     }
 
-    func mapToObjectArray(object: AnyObject?, classType: JSONAble.Type, linked:[String:[AnyObject]]?) -> [JSONAble]? {
+    func mapToObjectArray(object: AnyObject?, classType: JSONAble.Type, linked:ElloLinkedStore) -> [JSONAble]? {
 
         if let dicts = object as? [[String:AnyObject]] {
-            let jsonables:[JSONAble] =  dicts.map({ return classType.fromJSON($0, linked: linked) })
+            let jsonables:[JSONAble] =  dicts.map({ return classType.fromJSON($0) })
             return jsonables
         }
 
         return nil
     }
 
-    func mapToObject(object:AnyObject?, classType: JSONAble.Type, linked:[String:[AnyObject]]?) -> JSONAble? {
+    func mapToObject(object:AnyObject?, classType: JSONAble.Type, linked:ElloLinkedStore) -> JSONAble? {
     
         if let dict = object as? [String:AnyObject] {
-            return classType.fromJSON(dict, linked: linked)
+            return classType.fromJSON(dict)
         }
         else {
             return nil
