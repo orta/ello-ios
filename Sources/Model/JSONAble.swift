@@ -8,8 +8,6 @@
 
 import UIKit
 
-//typealias ElloLinked = [String:[String:AnyObject]]?
-
 class JSONAble: NSObject {
     class func fromJSON(data:[String: AnyObject]) -> JSONAble {
         return JSONAble()
@@ -22,12 +20,12 @@ class JSONAble: NSObject {
         if links == nil {
             return data
         }
-        
+
         // loop over objects in links
         for (key, value) in links! {
             // grab the type in links
             if let link:String = value["type"] as? String {
-                linkedData[key] = LinkedStore[link]?[value["id"] as String]?
+                linkedData[key] = Store.store[link]?[value["id"] as String]?
             }
         }
         return linkedData

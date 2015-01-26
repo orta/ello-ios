@@ -11,8 +11,6 @@ import Moya
 
 typealias ElloSuccessCompletion = (data: AnyObject) -> ()
 typealias ElloFailureCompletion = (error: NSError, statusCode:Int?) -> ()
-typealias ElloLinkedStore = [String:[String:AnyObject]]
-var LinkedStore = ElloLinkedStore()
 
 
 struct ElloProvider {
@@ -163,17 +161,17 @@ extension MoyaProvider {
                 let linked = dict["linked"] as? [String:[[String:AnyObject]]]
 
                 if linked != nil {
-                    parseLinked(linked!)
+                    Store.parseLinked(linked!)
                 }
 
                 if let node = dict[propertyName.rawValue] as? [[String:AnyObject]] {
                     if let JSONAbleType = MappingType.types[propertyName] {
-                        mappedObjects = mapToObjectArray(node, classType: JSONAbleType, linked: LinkedStore)
+                        mappedObjects = mapToObjectArray(node, classType: JSONAbleType, linked: Store)
                     }
                 }
                 else if let node = dict[propertyName.rawValue] as? [String:AnyObject] {
                     if let JSONAbleType = MappingType.types[propertyName] {
-                        mappedObjects = mapToObject(node, classType: JSONAbleType, linked: LinkedStore)
+                        mappedObjects = mapToObject(node, classType: JSONAbleType, linked: Store)
                     }
                 }
             }
@@ -188,18 +186,6 @@ extension MoyaProvider {
         }
         else {
             failedToMapObjects(failure)
-        }
-    }
-
-    private func parseLinked(linked:[String:[[String:AnyObject]]]){
-
-        for (type:String, typeObjects:[[String:AnyObject]]) in linked {
-            if LinkedStore[type] == nil {
-                LinkedStore[type] = [String:AnyObject]()
-            }
-            for object:[String:AnyObject] in typeObjects {
-                LinkedStore[type]?[object["id"] as String] = object
-            }
         }
     }
 
@@ -246,7 +232,7 @@ extension MoyaProvider {
 
             if mappedJSON != nil && error == nil {
                 if let node = mappedJSON?[MappingType.Prop.Errors.rawValue] as? [String:AnyObject] {
-                    elloNetworkError = mapToObject(node, classType: ElloNetworkError.self, linked: LinkedStore) as? ElloNetworkError
+                    elloNetworkError = mapToObject(node, classType: ElloNetworkError.self, linked: Store) as? ElloNetworkError
                 }
             }
         }
