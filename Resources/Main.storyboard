@@ -202,8 +202,8 @@
                                                                 <action selector="chevronButtonTapped:" destination="P76-vx-Q2Z" eventType="touchUpInside" id="O6w-TY-LO7"/>
                                                             </connections>
                                                         </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k0A-Ky-x9O" customClass="StreamFooterButton" customModule="Ello" customModuleProvider="target">
-                                                            <rect key="frame" x="184" y="16" width="30" height="22"/>
+                                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k0A-Ky-x9O" customClass="StreamFooterButton" customModule="Ello" customModuleProvider="target">
+                                                            <rect key="frame" x="184" y="0.0" width="30" height="54"/>
                                                             <state key="normal" title="0" image="repost-icon">
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
@@ -211,8 +211,8 @@
                                                                 <action selector="repostButtonTapped:" destination="P76-vx-Q2Z" eventType="touchUpInside" id="dbm-GE-w4m"/>
                                                             </connections>
                                                         </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DGx-L8-OiN" customClass="StreamFooterButton" customModule="Ello" customModuleProvider="target">
-                                                            <rect key="frame" x="126" y="16" width="33" height="22"/>
+                                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DGx-L8-OiN" customClass="StreamFooterButton" customModule="Ello" customModuleProvider="target">
+                                                            <rect key="frame" x="126" y="0.0" width="33" height="54"/>
                                                             <state key="normal" title="0" image="heart-icon">
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
@@ -221,7 +221,7 @@
                                                             </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lLZ-rl-op1" customClass="StreamFooterButton" customModule="Ello" customModuleProvider="target">
-                                                            <rect key="frame" x="69" y="16" width="32" height="22"/>
+                                                            <rect key="frame" x="69" y="0.0" width="32" height="54"/>
                                                             <state key="normal" title="0" image="dots-icon">
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
@@ -230,7 +230,7 @@
                                                             </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="89C-tv-GIz" customClass="StreamFooterButton" customModule="Ello" customModuleProvider="target">
-                                                            <rect key="frame" x="10" y="16" width="34" height="22"/>
+                                                            <rect key="frame" x="10" y="0.0" width="34" height="54"/>
                                                             <state key="normal" title="0" image="eye-icon">
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
@@ -245,10 +245,18 @@
                                                         <constraint firstAttribute="centerY" secondItem="k0A-Ky-x9O" secondAttribute="centerY" id="5rI-Wl-1jO"/>
                                                         <constraint firstItem="89C-tv-GIz" firstAttribute="leading" secondItem="gFJ-zo-yZG" secondAttribute="leading" constant="10" id="EST-6t-k5p"/>
                                                         <constraint firstItem="lLZ-rl-op1" firstAttribute="leading" secondItem="89C-tv-GIz" secondAttribute="trailing" constant="25" id="Ei0-yV-hJP"/>
+                                                        <constraint firstItem="89C-tv-GIz" firstAttribute="top" secondItem="gFJ-zo-yZG" secondAttribute="top" id="HcY-ka-EWP"/>
                                                         <constraint firstItem="k0A-Ky-x9O" firstAttribute="leading" secondItem="DGx-L8-OiN" secondAttribute="trailing" constant="25" id="JXH-ad-Jf1"/>
                                                         <constraint firstAttribute="centerY" secondItem="DGx-L8-OiN" secondAttribute="centerY" id="NTS-td-Tfa"/>
                                                         <constraint firstItem="DGx-L8-OiN" firstAttribute="leading" secondItem="lLZ-rl-op1" secondAttribute="trailing" constant="25" id="Q91-SZ-IUp"/>
+                                                        <constraint firstItem="lLZ-rl-op1" firstAttribute="top" secondItem="gFJ-zo-yZG" secondAttribute="top" id="Qbq-y6-39u"/>
+                                                        <constraint firstAttribute="bottom" secondItem="89C-tv-GIz" secondAttribute="bottom" id="Wxg-Su-b3a"/>
+                                                        <constraint firstItem="DGx-L8-OiN" firstAttribute="top" secondItem="gFJ-zo-yZG" secondAttribute="top" id="bFD-bd-gcE"/>
                                                         <constraint firstAttribute="centerY" secondItem="89C-tv-GIz" secondAttribute="centerY" id="cbv-pQ-cc2"/>
+                                                        <constraint firstAttribute="bottom" secondItem="k0A-Ky-x9O" secondAttribute="bottom" id="gS3-7o-8NO"/>
+                                                        <constraint firstAttribute="bottom" secondItem="lLZ-rl-op1" secondAttribute="bottom" id="grM-1H-qoo"/>
+                                                        <constraint firstItem="k0A-Ky-x9O" firstAttribute="top" secondItem="gFJ-zo-yZG" secondAttribute="top" id="grO-BP-bnp"/>
+                                                        <constraint firstAttribute="bottom" secondItem="DGx-L8-OiN" secondAttribute="bottom" id="mdP-cK-gho"/>
                                                         <constraint firstAttribute="trailing" secondItem="yfB-Mo-73D" secondAttribute="trailing" constant="5" id="t4i-Is-Bif"/>
                                                         <constraint firstAttribute="centerY" secondItem="lLZ-rl-op1" secondAttribute="centerY" id="uOs-go-Epg"/>
                                                     </constraints>
@@ -766,7 +774,7 @@
                                                     <action selector="enterTapped:" destination="1E8-65-vmf" eventType="touchUpInside" id="HjL-I0-OPK"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jrq-Pl-YPY" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jrq-Pl-YPY" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="459" width="159" height="30"/>
                                                 <state key="normal" title="Forgot your password?">
                                                     <color key="titleColor" red="0.99650349650000003" green="0.99300699299999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -786,7 +794,7 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
                                             </textField>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DMb-4a-gz1" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DMb-4a-gz1" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="497" width="135" height="30"/>
                                                 <state key="normal" title="Create an account?">
                                                     <color key="titleColor" red="0.99650349650000003" green="0.99300699299999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>

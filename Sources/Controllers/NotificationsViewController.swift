@@ -24,13 +24,13 @@ class NotificationsViewController: BaseElloViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let config = WKWebViewConfiguration()
-        self.webView = WKWebView(frame: self.view.frame, configuration:config)
-        self.view.addSubview(self.webView)
+//        let config = WKWebViewConfiguration()
+//        self.webView = WKWebView(frame: self.view.frame, configuration:config)
+//        self.view.addSubview(self.webView)
 
-        var url = NSURL(string:"http://ello.co/")
-        var req = NSURLRequest(URL:url!)
-        self.webView.loadRequest(req)
+//        var url = NSURL(string:"http://ello.co/")
+//        var req = NSURLRequest(URL:url!)
+//        self.webView.loadRequest(req)
 
 //        self.webView!.loadHTMLString("yo", baseURL:NSURL(string:"/") )
 //        self.view?.backgroundColor = UIColor.redColor()

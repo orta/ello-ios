@@ -83,9 +83,6 @@ class StreamViewController: BaseElloViewController, UICollectionViewDelegate, UI
     
     func collectionView(collectionView: UICollectionView,
         didSelectItemAtIndexPath indexPath: NSIndexPath) {
-            if self.isDetail {
-                return
-            }
             if let post = dataSource.postForIndexPath(indexPath) {
                 let vc = StreamViewController.instantiateFromStoryboard()
                 vc.isDetail = true
@@ -95,6 +92,11 @@ class StreamViewController: BaseElloViewController, UICollectionViewDelegate, UI
                 NSNotificationCenter.defaultCenter().postNotificationName(StreamContainerViewController.Notifications.StreamDetailTapped.rawValue, object: vc)
     //            self.parentViewController?.navigationController?.pushViewController(vc, animated: true)
             }
+    }
+
+    func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+        if !self.isDetail && self.dataSource.streamCellItems[indexPath.item].type == StreamCellItem.CellType.Header { return true }
+        return false
     }
 
 //    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {

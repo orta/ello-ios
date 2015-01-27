@@ -51,14 +51,14 @@ class LandingViewController: BaseElloViewController {
 
     private func showButtons() {
         signInButton.hidden = false
-        signUpButton.hidden = false
-        
+//        signUpButton.hidden = false
+
         signInButton.enabled = true
-        signUpButton.enabled = true
-        
+//        signUpButton.enabled = true
+
         UIView.animateWithDuration(0.2, animations: {
             self.signInButton.alpha = 1.0
-            self.signUpButton.alpha = 1.0
+//            self.signUpButton.alpha = 1.0
         })
     }
 
