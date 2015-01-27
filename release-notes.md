@@ -1,6 +1,6 @@
 
 -----------------
-###Ello 0.1 Build 5
+###Ello 0.1 Build 1
 
 ####Tracker stories:
 * [83332054](https://www.pivotaltracker.com/story/show/83332054) As a user I should be able to view a Post Detail Page
@@ -15,6 +15,19 @@
 
 ####Commit notes:
 
+* Prep for alpha build.
+* Update naming to more accurately reflect the web app.
+* Cache linked data in ElloLinkedStore
+* Pull linked out of fromJSON
+* Fix the linked object parsing.
+* Updating the linked parsing for better data.
+* working on mapping linked items for lookup
+* Converted NSUserDefaults to SwiftyUserDefaults.
+* Altered specs to work for streamables.
+* Fix crash for posts with embeds.
+* Connect app to staging server live data.
+* Load comments into the stream
+* Adds release notes and increment build to builder.
 * Move travis-build into bin folder.
 * Adds rake task for distributing to TestFlight.
 * Update pods.
@@ -76,44 +89,5 @@
 * Tweaks to Travis
 * Setup Ello to run on Travis.
 * Initial commit of Ello iOS!
-
------------------
-
------------------
-###Ello 0.1 Build 7
-####Commit notes:
-
-* Connect app to staging server live data.
-* Load comments into the stream
-* Adds release notes and increment build to builder.
-
------------------
-
------------------
-###Ello 0.1 Build 8
-####Commit notes:
-
-
-
------------------
-
------------------
-###Ello 0.1 Build 9
-####Commit notes:
-
-
-
------------------
-
------------------
-###Ello 0.1 Build 10
-####Commit notes:
-
-* Fix the linked object parsing.
-* Updating the linked parsing for better data.
-* working on mapping linked items for lookup
-* Converted NSUserDefaults to SwiftyUserDefaults.
-* Altered specs to work for streamables.
-* Fix crash for posts with embeds.
 
 -----------------
