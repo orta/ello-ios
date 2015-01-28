@@ -35,7 +35,7 @@ class StreamDataSourceSpec: QuickSpec {
         describe("initialization", {
 
             beforeEach({
-                dataSource = StreamDataSource(testWebView: webView)
+                dataSource = StreamDataSource(testWebView: webView, streamKind: StreamKind.Friend)
                 vc.dataSource = dataSource
                 StreamService().loadFriendStream({ (streamables) -> () in
                     loadedStreamables = streamables

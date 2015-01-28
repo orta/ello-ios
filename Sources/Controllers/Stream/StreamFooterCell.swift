@@ -18,6 +18,7 @@ protocol PostbarDelegate : NSObjectProtocol {
 
 class StreamFooterCell: UICollectionViewCell {
 
+    var streamKind:StreamKind?
     var commentsOpened = false
     weak var delegate: PostbarDelegate?
 
@@ -45,6 +46,14 @@ class StreamFooterCell: UICollectionViewCell {
     var reposts:String? {
         get { return repostButton.titleForState(.Normal) }
         set { repostButton.setButtonTitle(newValue) }
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        if let streamKind = streamKind {
+            self.viewsButton.hidden = streamKind.isGridLayout
+        }
     }
 
     // MARK: - IBActions

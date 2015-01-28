@@ -334,7 +334,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s9K-Bx-O4q" userLabel="ContentView">
-                                                    <rect key="frame" x="12" y="10" width="575" height="60"/>
+                                                    <rect key="frame" x="8" y="10" width="579" height="60"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="deA-kz-Gec">
                                                             <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
@@ -343,7 +343,7 @@
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2m" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fh8-XF-BrM" userLabel="timestamp">
-                                                            <rect key="frame" x="525" y="23" width="50" height="14"/>
+                                                            <rect key="frame" x="529" y="23" width="50" height="14"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="50" id="cNG-Lj-E0Q"/>
                                                             </constraints>
@@ -374,7 +374,7 @@
                                         </view>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstItem="s9K-Bx-O4q" firstAttribute="leading" secondItem="beQ-fD-toB" secondAttribute="leading" constant="12" id="agA-dH-ztd"/>
+                                            <constraint firstItem="s9K-Bx-O4q" firstAttribute="leading" secondItem="beQ-fD-toB" secondAttribute="leading" constant="8" id="agA-dH-ztd"/>
                                             <constraint firstAttribute="bottom" secondItem="s9K-Bx-O4q" secondAttribute="bottom" constant="10" id="fK9-En-cfk"/>
                                             <constraint firstItem="s9K-Bx-O4q" firstAttribute="top" secondItem="beQ-fD-toB" secondAttribute="top" constant="10" id="jkT-Vp-4pg"/>
                                             <constraint firstAttribute="trailing" secondItem="s9K-Bx-O4q" secondAttribute="trailing" constant="12" id="txe-2y-Tf3"/>
@@ -383,6 +383,7 @@
                                         <connections>
                                             <outlet property="avatarImageView" destination="deA-kz-Gec" id="mv5-q4-wQe"/>
                                             <outlet property="timestampLabel" destination="Fh8-XF-BrM" id="LU9-4H-Xvk"/>
+                                            <outlet property="userNameLeadingConstraint" destination="4we-va-WV1" id="Gzt-IV-WDC"/>
                                             <outlet property="usernameLabel" destination="AGO-KQ-D74" id="OoR-HU-FaG"/>
                                         </connections>
                                     </collectionViewCell>

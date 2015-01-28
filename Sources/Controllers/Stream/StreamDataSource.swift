@@ -23,6 +23,8 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         case Unknown = "StreamUnknownCell"
     }
 
+    let streamKind:StreamKind
+
     var indexFile:String?
     var contentReadyClosure:StreamContentReady?
     var streamCellItems:[StreamCellItem] = []
@@ -30,7 +32,8 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     let sizeCalculator:StreamTextCellSizeCalculator
     var postbarDelegate:PostbarDelegate?
 
-    init(testWebView: UIWebView) {
+    init(testWebView: UIWebView, streamKind:StreamKind) {
+        self.streamKind = streamKind
         self.testWebView = testWebView
         self.sizeCalculator = StreamTextCellSizeCalculator(webView: testWebView)
         super.init()
@@ -42,7 +45,8 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         }
         return streamCellItems[indexPath.item].streamable as? Post
     }
-    
+
+    // TODO: also grab out comment cells for the detail view
     func cellItemsForPost(post:Post) -> [StreamCellItem]? {
         return streamCellItems.filter({ (item) -> Bool in
             if let cellPost = item.streamable as? Post {
@@ -122,15 +126,15 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     
     private func headerCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        var headerCell:StreamHeaderCell = StreamHeaderCell()
+        var headerCell:StreamHeaderCell
         switch streamCellItem.streamable.kind {
         case .Comment:
             headerCell = collectionView.dequeueReusableCellWithReuseIdentifier(CellIdentifier.CommentHeader.rawValue, forIndexPath: indexPath) as StreamCommentHeaderCell
         default:
             headerCell = collectionView.dequeueReusableCellWithReuseIdentifier(CellIdentifier.Header.rawValue, forIndexPath: indexPath) as StreamHeaderCell
+            headerCell.streamKind = streamKind
         }
-        
-        
+
         if let avatarURL = streamCellItem.streamable.author?.avatarURL? {
             headerCell.setAvatarURL(avatarURL)
         }
@@ -183,11 +187,12 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     private func footerCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> StreamFooterCell {
         if let post = streamCellItem.streamable as? Post {
             let footerCell = collectionView.dequeueReusableCellWithReuseIdentifier(CellIdentifier.Footer.rawValue, forIndexPath: indexPath) as StreamFooterCell
-            footerCell.delegate = self.postbarDelegate
+            footerCell.delegate = postbarDelegate
             footerCell.views = post.viewsCount?.localizedStringFromNumber()
             footerCell.comments = post.commentsCount?.localizedStringFromNumber()
             footerCell.reposts = post.repostsCount?.localizedStringFromNumber()
-            
+            footerCell.streamKind = streamKind
+
             return footerCell
         }
         

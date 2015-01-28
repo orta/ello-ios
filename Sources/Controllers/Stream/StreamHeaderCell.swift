@@ -9,13 +9,17 @@
 import UIKit
 import Foundation
 
+
+
 class StreamHeaderCell: UICollectionViewCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
+    @IBOutlet weak var userNameLeadingConstraint: NSLayoutConstraint!
 
     var calculatedHeight:CGFloat = 80.0
+    var streamKind:StreamKind?
 
     func setAvatarURL(url:NSURL) {
 
@@ -40,6 +44,15 @@ class StreamHeaderCell: UICollectionViewCell {
         super.layoutSubviews()
         styleUsernameLabel()
         styleTimestampLabel()
+
+        if let streamKind = streamKind {
+            if streamKind.isGridLayout {
+                self.userNameLeadingConstraint.constant = 14.0
+            }
+            else {
+                self.userNameLeadingConstraint.constant = 20.0
+            }
+        }
     }
 
     private func styleUsernameLabel() {

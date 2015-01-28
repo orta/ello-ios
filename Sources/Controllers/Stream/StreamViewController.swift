@@ -17,9 +17,7 @@ class StreamViewController: BaseElloViewController {
     var dataSource:StreamDataSource!
     var navBarShowing = true
 
-    var streamKind:StreamKind?
-    var isDetail = false
-    var detailPost:Post?
+    var streamKind:StreamKind = StreamKind.Friend
     var detailCellItems:[StreamCellItem]?
     var imageViewerDelegate:StreamImageViewer?
 
@@ -53,8 +51,8 @@ class StreamViewController: BaseElloViewController {
 
 // MARK: Private Functions
 
-    private func setupForDetail() {
-        if let username = self.detailPost?.author?.username {
+    private func setupForDetail(post:Post) {
+        if let username = post.author?.username {
             self.title = "@" + username
         }
 
@@ -64,17 +62,15 @@ class StreamViewController: BaseElloViewController {
             self.collectionView.reloadData()
         }
 
-        if let post = detailPost {
-            let streamService = StreamService()
-            streamService.loadMoreCommentsForPost(post.postId,
-                success: { (streamables) -> () in
-                    self.dataSource.addStreamables(streamables, completion: { (indexPaths) -> () in
-                        self.collectionView.dataSource = self.dataSource
-                        self.collectionView.insertItemsAtIndexPaths(indexPaths)
-                        }, startingIndexPath:nil)
-                }) { (error, statusCode) -> () in
-                    println("failed to load comments")
-            }
+        let streamService = StreamService()
+        streamService.loadMoreCommentsForPost(post.postId,
+            success: { (streamables) -> () in
+                self.dataSource.addStreamables(streamables, completion: { (indexPaths) -> () in
+                    self.collectionView.dataSource = self.dataSource
+                    self.collectionView.insertItemsAtIndexPaths(indexPaths)
+                    }, startingIndexPath:nil)
+            }) { (error, statusCode) -> () in
+                println("failed to load comments")
         }
     }
 
@@ -129,16 +125,15 @@ class StreamViewController: BaseElloViewController {
     private func setupDataSource() {
         let webView = UIWebView(frame: self.view.bounds)
 
-        self.dataSource = StreamDataSource(testWebView: webView)
+        self.dataSource = StreamDataSource(testWebView: webView, streamKind: streamKind)
         self.dataSource.postbarDelegate = PostbarController(collectionView: collectionView, dataSource: self.dataSource)
     }
 
     private func prepareForStreamType() {
-        if isDetail {
-            setupForDetail()
-        }
-        else if let streamKind = streamKind {
-            setupForStream(streamKind)
+        switch streamKind {
+        case .PostDetail(let post):
+            setupForDetail(post)
+        default: setupForStream(streamKind)
         }
     }
 }
@@ -149,8 +144,7 @@ extension StreamViewController : UICollectionViewDelegate {
         didSelectItemAtIndexPath indexPath: NSIndexPath) {
             if let post = dataSource.postForIndexPath(indexPath) {
                 let vc = StreamViewController.instantiateFromStoryboard()
-                vc.isDetail = true
-                vc.detailPost = post
+                vc.streamKind = .PostDetail(post:post)
                 vc.detailCellItems = self.dataSource.cellItemsForPost(post)
 
                 NSNotificationCenter.defaultCenter().postNotificationName(StreamContainerViewController.Notifications.StreamDetailTapped.rawValue, object: vc)
@@ -159,8 +153,7 @@ extension StreamViewController : UICollectionViewDelegate {
 
     func collectionView(collectionView: UICollectionView,
         shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-            if !self.isDetail && self.dataSource.streamCellItems[indexPath.item].type == StreamCellItem.CellType.Header { return true }
-            return false
+            return !streamKind.isDetail && self.dataSource.streamCellItems[indexPath.item].type == StreamCellItem.CellType.Header
     }
 }
 

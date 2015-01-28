@@ -11,17 +11,19 @@ import UIKit
 enum StreamKind {
     case Friend
     case Noise
+    case PostDetail(post:Post)
 
     var name:String {
         switch self {
         case .Friend: return "Friends"
         case .Noise: return "Noise"
+        case .PostDetail: return "Post Detail"
         }
     }
 
     var columnCount:Int {
         switch self {
-        case .Friend: return 1
+        case .Friend, .PostDetail: return 1
         case .Noise: return 2
         }
     }
@@ -30,10 +32,22 @@ enum StreamKind {
         switch self {
         case .Friend: return .FriendStream
         case .Noise: return .NoiseStream
+        case .PostDetail: return .NoiseStream // never use
         }
     }
 
-    static let allValues = [Friend, Noise]
+    var isGridLayout:Bool {
+        return self.columnCount > 1
+    }
+
+    var isDetail:Bool {
+        switch self {
+        case .PostDetail: return true
+        default: return false
+        }
+    }
+
+    static let streamValues = [Friend, Noise]
 }
 
 class StreamContainerViewController: BaseElloViewController {
@@ -73,19 +87,19 @@ class StreamContainerViewController: BaseElloViewController {
         let width:CGFloat = self.view.bounds.size.width
         let height:CGFloat = self.view.bounds.size.height
 
-        for (index, _) in enumerate(StreamKind.allValues) {
+        for (index, _) in enumerate(StreamKind.streamValues) {
             let x:CGFloat = CGFloat(index) * width
             let frame = CGRect(x: x, y: 0, width: width, height: height)
             let view = UIView(frame: frame)
             scrollView.addSubview(view)
             streamControllerViews.append(view)
         }
-        scrollView.contentSize = CGSize(width: width * CGFloat(countElements(StreamKind.allValues)), height: height)
+        scrollView.contentSize = CGSize(width: width * CGFloat(countElements(StreamKind.streamValues)), height: height)
         scrollView.scrollEnabled = false
     }
     
     private func setupChildViewControllers() {
-        for (index, kind) in enumerate(StreamKind.allValues) {
+        for (index, kind) in enumerate(StreamKind.streamValues) {
 //            if index == 0 {
                 let vc = StreamViewController.instantiateFromStoryboard()
                 vc.streamKind = kind
@@ -114,7 +128,7 @@ class StreamContainerViewController: BaseElloViewController {
     }
     
     private func setupStreamsSegmentedControl() {
-        let control = UISegmentedControl(items: StreamKind.allValues.map{ $0.name })
+        let control = UISegmentedControl(items: StreamKind.streamValues.map{ $0.name })
         control.addTarget(self, action: "streamSegmentTapped:", forControlEvents: .ValueChanged)
         var rect = control.bounds
         rect.size = CGSize(width: rect.size.width, height: 19.0)
