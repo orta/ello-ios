@@ -14,10 +14,22 @@ enum StreamKind {
 
     var name:String {
         switch self {
-        case .Friend:
-            return "Friends"
-        case .Noise:
-            return "Noise"
+        case .Friend: return "Friends"
+        case .Noise: return "Noise"
+        }
+    }
+
+    var columnCount:Int {
+        switch self {
+        case .Friend: return 1
+        case .Noise: return 2
+        }
+    }
+
+    var endpoint:ElloAPI {
+        switch self {
+        case .Friend: return .FriendStream
+        case .Noise: return .NoiseStream
         }
     }
 
@@ -25,8 +37,6 @@ enum StreamKind {
 }
 
 class StreamContainerViewController: BaseElloViewController {
-
-
 
     enum Notifications : String {
         case StreamDetailTapped = "StreamDetailTappedNotification"

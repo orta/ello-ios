@@ -78,33 +78,17 @@ class StreamViewController: BaseElloViewController {
         }
     }
 
-    private func setupForFriendStream() {
+    private func setupForStream(streamKind:StreamKind) {
         let streamService = StreamService()
         //        ElloHUD.showLoadingHud()
-        streamService.loadFriendStream({ (streamables) in
-            //            ElloHUD.hideLoadingHud()
-            self.streamables = streamables
-
-            self.dataSource.addStreamables(streamables, completion: { (cellCount) -> () in
-                self.collectionView.dataSource = self.dataSource
-                self.collectionView.reloadData()
-                }, startingIndexPath:nil)
-            }, failure: { (error, statusCode) in
-                //                ElloHUD.hideLoadingHud()
-                println("failed to load friends stream")
-        })
-    }
-
-    private func setupForNoiseStream() {
-        let streamService = StreamService()
-        //        ElloHUD.showLoadingHud()
-        streamService.loadNoiseStream({ (streamables) in
+        streamService.loadStream(streamKind.endpoint,
+            success:{ (streamables) in
             //            ElloHUD.hideLoadingHud()
             self.streamables = streamables
 
             self.dataSource.addStreamables(streamables, completion: { (cellCount) -> () in
                 let layout:StreamCollectionViewLayout = self.collectionView.collectionViewLayout as StreamCollectionViewLayout
-                layout.columnCount = 2
+                layout.columnCount = streamKind.columnCount
                 self.collectionView.dataSource = self.dataSource
                 self.collectionView.reloadData()
                 }, startingIndexPath:nil)
@@ -154,13 +138,7 @@ class StreamViewController: BaseElloViewController {
             setupForDetail()
         }
         else if let streamKind = streamKind {
-            setupForFriendStream()
-            switch streamKind {
-            case .Friend:
-                setupForFriendStream()
-            case .Noise:
-                setupForNoiseStream()
-            }
+            setupForStream(streamKind)
         }
     }
 }

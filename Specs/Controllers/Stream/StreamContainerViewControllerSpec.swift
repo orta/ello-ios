@@ -64,7 +64,7 @@ class StreamContainerViewControllerSpec: QuickSpec {
             
             it("has streams", {
                 expect(countElements(controller.streamControllerViews)) == 2
-                expect(countElements(controller.streamControllers)) == 1
+                expect(countElements(controller.streamControllers)) == 2
             })
             
             it("hides the nav bar on swipe") {

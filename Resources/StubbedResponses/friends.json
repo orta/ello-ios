@@ -91,7 +91,26 @@
                 "href": "/api/edge/users/42",
                 "username": "archer",
                 "name": "Sterling",
-                "avatar_url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/10/regular_optimized-5.png",
+                "avatar": {
+                    "large": {
+                        "url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/10/regular_optimized-5.png"
+                    },
+                    "regular": {
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/420/regular_pam.png"
+                    },
+                    "small": {
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/420/small_pam.png"
+                    },
+                    "pixellated_large": {
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/420/pixellated_large_pam.png"
+                    },
+                    "pixellated_regular": {
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/420/pixellated_regular_pam.png"
+                    },
+                    "pixellated_small": {
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/420/pixellated_small_pam.png"
+                    }
+                },
                 "experimental_features": false,
                 "relationship_priority": "self"
             },
@@ -100,7 +119,26 @@
                 "href": "/api/edge/users/666",
                 "username": "cfiggis",
                 "name": "Cyril Figgis",
-                "avatar_url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/9/regular_pinup5_thumb.png",
+                "avatar": {
+                    "large": {
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/420/large_pam.png"
+                    },
+                    "regular": {
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/420/regular_pam.png"
+                    },
+                    "small": {
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/420/small_pam.png"
+                    },
+                    "pixellated_large": {
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/420/pixellated_large_pam.png"
+                    },
+                    "pixellated_regular": {
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/420/pixellated_regular_pam.png"
+                    },
+                    "pixellated_small": {
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/420/pixellated_small_pam.png"
+                    }
+                },
                 "experimental_features": true,
                 "relationship_priority": "friend"
             }
