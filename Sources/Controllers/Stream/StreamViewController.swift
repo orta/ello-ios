@@ -9,9 +9,7 @@
 import Foundation
 import UIKit
 
-class StreamViewController: BaseElloViewController,
-UICollectionViewDelegate,
-StreamCollectionViewLayoutDelegate {
+class StreamViewController: BaseElloViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
     var scrolling = false
@@ -36,49 +34,6 @@ StreamCollectionViewLayoutDelegate {
 
     class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> StreamViewController {
         return storyboard.controllerWithID(.Stream) as StreamViewController
-    }
-    
-
-// MARK: UICollectionViewDelegate
-
-    func collectionView(collectionView: UICollectionView,
-        didSelectItemAtIndexPath indexPath: NSIndexPath) {
-            if let post = dataSource.postForIndexPath(indexPath) {
-                let vc = StreamViewController.instantiateFromStoryboard()
-                vc.isDetail = true
-                vc.detailPost = post
-                vc.detailCellItems = self.dataSource.cellItemsForPost(post)
-                
-                NSNotificationCenter.defaultCenter().postNotificationName(StreamContainerViewController.Notifications.StreamDetailTapped.rawValue, object: vc)
-            }
-    }
-
-    func collectionView(collectionView: UICollectionView,
-        shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-        if !self.isDetail && self.dataSource.streamCellItems[indexPath.item].type == StreamCellItem.CellType.Header { return true }
-        return false
-    }
-
-// MARK: StreamCollectionViewLayoutDelegate
-
-    func collectionView (collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-            return CGSizeMake(UIScreen.screenWidth(), dataSource.heightForIndexPath(indexPath, numberOfColumns:1))
-    }
-
-    func collectionView (collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
-        groupForItemAtIndexPath indexPath: NSIndexPath) -> String {
-            return dataSource.groupForIndexPath(indexPath)
-    }
-
-    func collectionView (collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
-        heightForItemAtIndexPath indexPath: NSIndexPath, numberOfColumns: NSInteger) -> CGFloat {
-            return dataSource.heightForIndexPath(indexPath, numberOfColumns:numberOfColumns)
-    }
-
-    func collectionView (collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
-        maintainAspectRatioForItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-            return dataSource.maintainAspectRatioForItemAtIndexPath(indexPath)
     }
 
 // MARK: Public Functions
@@ -207,5 +162,49 @@ StreamCollectionViewLayoutDelegate {
                 setupForNoiseStream()
             }
         }
+    }
+}
+
+extension StreamViewController : UICollectionViewDelegate {
+
+    func collectionView(collectionView: UICollectionView,
+        didSelectItemAtIndexPath indexPath: NSIndexPath) {
+            if let post = dataSource.postForIndexPath(indexPath) {
+                let vc = StreamViewController.instantiateFromStoryboard()
+                vc.isDetail = true
+                vc.detailPost = post
+                vc.detailCellItems = self.dataSource.cellItemsForPost(post)
+
+                NSNotificationCenter.defaultCenter().postNotificationName(StreamContainerViewController.Notifications.StreamDetailTapped.rawValue, object: vc)
+            }
+    }
+
+    func collectionView(collectionView: UICollectionView,
+        shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+            if !self.isDetail && self.dataSource.streamCellItems[indexPath.item].type == StreamCellItem.CellType.Header { return true }
+            return false
+    }
+}
+
+extension StreamViewController : StreamCollectionViewLayoutDelegate {
+
+    func collectionView(collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+            return CGSizeMake(UIScreen.screenWidth(), dataSource.heightForIndexPath(indexPath, numberOfColumns:1))
+    }
+
+    func collectionView(collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
+        groupForItemAtIndexPath indexPath: NSIndexPath) -> String {
+            return dataSource.groupForIndexPath(indexPath)
+    }
+
+    func collectionView(collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
+        heightForItemAtIndexPath indexPath: NSIndexPath, numberOfColumns: NSInteger) -> CGFloat {
+            return dataSource.heightForIndexPath(indexPath, numberOfColumns:numberOfColumns)
+    }
+
+    func collectionView(collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
+        maintainAspectRatioForItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+            return dataSource.maintainAspectRatioForItemAtIndexPath(indexPath)
     }
 }
