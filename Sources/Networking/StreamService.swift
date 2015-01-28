@@ -30,13 +30,30 @@ class StreamService: NSObject {
                 var streamables:[Streamable] = filteredActivities.map({ (activity) -> Streamable in
                     return activity.subject as Post
                 })
-                
+
                 success(streamables: streamables)
             }
             else {
                 ElloProvider.unCastableJSONAble(failure)
             }
-        }, failure: failure)
+            }, failure: failure)
+    }
+
+    func loadNoiseStream(success: StreamSuccessCompletion, failure: StreamFailureCompletion?) {
+        let endpoint: ElloAPI = .NoiseStream
+        ElloProvider.sharedProvider.elloRequest(endpoint, method: .GET, parameters: endpoint.defaultParameters, propertyName:MappingType.Prop.Activities, success: { (data) -> () in
+            if let activities:[Activity] = data as? [Activity] {
+                var filteredActivities = activities.filter({$0.subject as? Post != nil})
+                var streamables:[Streamable] = filteredActivities.map({ (activity) -> Streamable in
+                    return activity.subject as Post
+                })
+
+                success(streamables: streamables)
+            }
+            else {
+                ElloProvider.unCastableJSONAble(failure)
+            }
+            }, failure: failure)
     }
     
     func loadMoreCommentsForPost(postID:String, success: CommentsSuccessCompletion, failure: CommentsFailureCompletion?) {

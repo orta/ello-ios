@@ -22,12 +22,14 @@ class StreamCellItem {
     let streamable:Streamable
     let type:StreamCellItem.CellType
     let data:Block?
-    var cellHeight:CGFloat = 0
+    var oneColumnCellHeight:CGFloat = 0
+    var multiColumnCellHeight:CGFloat = 0
 
-    init(streamable:Streamable, type:StreamCellItem.CellType, data:Block?, cellHeight:CGFloat) {
+    init(streamable:Streamable, type:StreamCellItem.CellType, data:Block?, oneColumnCellHeight:CGFloat, multiColumnCellHeight:CGFloat) {
         self.streamable = streamable
         self.type = type
         self.data = data
-        self.cellHeight = cellHeight
+        self.oneColumnCellHeight = oneColumnCellHeight
+        self.multiColumnCellHeight = multiColumnCellHeight
     }
 }

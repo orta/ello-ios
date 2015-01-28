@@ -25,38 +25,45 @@ struct StreamCellItemParser {
     private func headerStreamCellItems(streamable:Streamable) -> [StreamCellItem] {
         
         var type = StreamCellItem.CellType.Header
-        var height:CGFloat
+        var oneColumnHeight:CGFloat
+        var multiColumnHeight:CGFloat
         switch streamable.kind {
         case .Comment:
             type = StreamCellItem.CellType.CommentHeader
-            height = 50.0
+            oneColumnHeight = 50.0
+            multiColumnHeight = 50.0
         default:
-            height = 80.0
+            oneColumnHeight = 80.0
+            multiColumnHeight = 49.0
         }
         
-        return [StreamCellItem(streamable: streamable, type: type, data: nil, cellHeight: height)]
+        return [StreamCellItem(streamable: streamable, type: type, data: nil, oneColumnCellHeight: oneColumnHeight, multiColumnCellHeight: multiColumnHeight)]
     }
 
     private func regionStreamCellItems(streamable:Streamable) -> [StreamCellItem] {
         var cellArray:[StreamCellItem] = []
         for block in streamable.content {
-            var height:CGFloat
+            var oneColumnHeight:CGFloat
+            var multiColumnHeight:CGFloat
             switch block.kind {
             case Block.Kind.Image:
-                height = UIScreen.screenWidth() / (4/3)
+                oneColumnHeight = UIScreen.screenWidth() / (4/3)
+                multiColumnHeight = UIScreen.screenWidth() / (4/3)
             case Block.Kind.Text:
-                height = 0
+                oneColumnHeight = 0.0
+                multiColumnHeight = 0.0
             case Block.Kind.Unknown:
-                height = 0.0
+                oneColumnHeight = 0.0
+                multiColumnHeight = 0.0
             }
             
-            let body:StreamCellItem = StreamCellItem(streamable: streamable, type: StreamCellItem.CellType.BodyElement, data: block, cellHeight: height)
+            let body:StreamCellItem = StreamCellItem(streamable: streamable, type: StreamCellItem.CellType.BodyElement, data: block, oneColumnCellHeight: oneColumnHeight, multiColumnCellHeight: multiColumnHeight)
             cellArray.append(body)
         }
         return cellArray
     }
 
     private func footerStreamCellItems(streamable:Streamable) -> [StreamCellItem] {
-        return [StreamCellItem(streamable: streamable, type: StreamCellItem.CellType.Footer, data: nil, cellHeight: 54.0)]
+        return [StreamCellItem(streamable: streamable, type: StreamCellItem.CellType.Footer, data: nil, oneColumnCellHeight: 54.0, multiColumnCellHeight: 54.0)]
     }
 }

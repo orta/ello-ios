@@ -22,6 +22,9 @@ class Post: JSONAble, Streamable {
     let commentsCount: Int?
     let viewsCount: Int?
     let repostsCount: Int?
+    var groupId:String {
+        get { return postId }
+    }
 
     init(postId: String, createdAt: NSDate, href: String, collapsed:Bool, content: [Block], token: String, commentsCount: Int?, viewsCount: Int?, repostsCount: Int?) {
         self.postId = postId

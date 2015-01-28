@@ -19,4 +19,5 @@ protocol Streamable {
     var createdAt:NSDate { get }
     var kind:StreamableKind { get }
     var content:[Block] { get }
+    var groupId:String { get }
 }

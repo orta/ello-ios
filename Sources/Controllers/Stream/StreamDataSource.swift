@@ -75,12 +75,26 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     func updateHeightForIndexPath(indexPath:NSIndexPath?, height:CGFloat) {
         if let indexPath = indexPath {
-            streamCellItems[indexPath.item].cellHeight = height
+            streamCellItems[indexPath.item].oneColumnCellHeight = height
+            streamCellItems[indexPath.item].multiColumnCellHeight = height
         }
     }
 
-    func heightForIndexPath(indexPath:NSIndexPath) -> CGFloat {
-        return streamCellItems[indexPath.item].cellHeight ?? 0.0
+    func heightForIndexPath(indexPath:NSIndexPath, numberOfColumns:NSInteger) -> CGFloat {
+        if numberOfColumns == 1 {
+            return streamCellItems[indexPath.item].oneColumnCellHeight ?? 0.0
+        }
+        else {
+            return streamCellItems[indexPath.item].multiColumnCellHeight ?? 0.0
+        }
+    }
+
+    func maintainAspectRatioForItemAtIndexPath(indexPath:NSIndexPath) -> Bool {
+        return streamCellItems[indexPath.item].data?.kind == Block.Kind.Image ?? false
+    }
+
+    func groupForIndexPath(indexPath:NSIndexPath) -> String {
+        return streamCellItems[indexPath.item].streamable.groupId
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

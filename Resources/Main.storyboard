@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C94b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jJZ-zI-fFG">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C106a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jJZ-zI-fFG">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="AtlasTypewriter-Regular.otf">
@@ -135,8 +136,10 @@
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sxq-dN-l1X">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </scrollView>
                         </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Sxq-dN-l1X" firstAttribute="leading" secondItem="b3f-dm-11N" secondAttribute="leading" id="Gfr-6R-MUN"/>
                             <constraint firstAttribute="trailing" secondItem="Sxq-dN-l1X" secondAttribute="trailing" id="hew-hv-gFc"/>
@@ -176,12 +179,7 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="hOT-bT-dJV">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="Axt-R9-gZf">
-                                    <size key="itemSize" width="599" height="184"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
+                                <collectionViewLayout key="collectionViewLayout" id="RLZ-Kl-cg7" customClass="StreamCollectionViewLayout" customModule="Ello" customModuleProvider="target"/>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="StreamFooterCell" id="P76-vx-Q2Z" userLabel="StreamFooterCell" customClass="StreamFooterCell" customModule="Ello" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -341,8 +339,7 @@
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="deA-kz-Gec">
                                                             <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="60" id="99T-eM-xfB"/>
-                                                                <constraint firstAttribute="height" constant="60" id="xMo-Pw-gCd"/>
+                                                                <constraint firstAttribute="width" secondItem="deA-kz-Gec" secondAttribute="height" multiplier="1:1" id="Rew-eB-sfR"/>
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2m" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fh8-XF-BrM" userLabel="timestamp">
@@ -364,7 +361,9 @@
                                                     <constraints>
                                                         <constraint firstAttribute="trailing" secondItem="Fh8-XF-BrM" secondAttribute="trailing" id="2Ag-OA-K6p"/>
                                                         <constraint firstItem="AGO-KQ-D74" firstAttribute="leading" secondItem="deA-kz-Gec" secondAttribute="trailing" constant="20" id="4we-va-WV1"/>
+                                                        <constraint firstAttribute="bottom" secondItem="deA-kz-Gec" secondAttribute="bottom" id="Iqe-vv-hkL"/>
                                                         <constraint firstAttribute="centerY" secondItem="deA-kz-Gec" secondAttribute="centerY" id="M4W-1p-oL8"/>
+                                                        <constraint firstItem="deA-kz-Gec" firstAttribute="top" secondItem="s9K-Bx-O4q" secondAttribute="top" id="N2g-Et-E6U"/>
                                                         <constraint firstAttribute="centerY" secondItem="AGO-KQ-D74" secondAttribute="centerY" id="Z2B-no-Uve"/>
                                                         <constraint firstAttribute="centerY" secondItem="Fh8-XF-BrM" secondAttribute="centerY" id="buc-Vn-mWq"/>
                                                         <constraint firstItem="deA-kz-Gec" firstAttribute="leading" secondItem="s9K-Bx-O4q" secondAttribute="leading" id="xvw-eS-fEa"/>
@@ -373,6 +372,7 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstItem="s9K-Bx-O4q" firstAttribute="leading" secondItem="beQ-fD-toB" secondAttribute="leading" constant="12" id="agA-dH-ztd"/>
                                             <constraint firstAttribute="bottom" secondItem="s9K-Bx-O4q" secondAttribute="bottom" constant="10" id="fK9-En-cfk"/>
@@ -390,11 +390,11 @@
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="599" height="184"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jml-Dd-CFk">
-                                                    <rect key="frame" x="0.0" y="0.0" width="599" height="184"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="KbH-G3-UlV" id="Jpb-2F-HmS"/>

@@ -19,6 +19,11 @@ class Comment: JSONAble, Streamable {
     var author: User?
     var kind = StreamableKind.Comment
     let parentPost: Post?
+    var groupId:String {
+        get {
+            return parentPost?.postId ?? ""
+        }
+    }
     
     init(commentId: String, createdAt: NSDate, content: [Block], author: User?, parentPost: Post?) {
         self.commentId = commentId
