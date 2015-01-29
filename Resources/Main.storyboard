@@ -16,6 +16,7 @@
             <string>AtlasTypewriter-Regular</string>
             <string>AtlasTypewriter-Regular</string>
             <string>AtlasTypewriter-Regular</string>
+            <string>AtlasTypewriter-Regular</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -760,8 +761,14 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="go" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
                                             </textField>
+                                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cw6-Pt-meS" userLabel="Error" customClass="ElloErrorLabel" customModule="Ello" customModuleProvider="target">
+                                                <rect key="frame" x="2" y="379" width="370" height="13"/>
+                                                <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="13"/>
+                                                <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nvr-ta-RoO" customClass="ElloButton" customModule="Ello" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="379" width="374" height="60"/>
+                                                <rect key="frame" x="0.0" y="389" width="374" height="60"/>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="60" id="Tek-3L-uxn"/>
@@ -776,7 +783,7 @@
                                                 </connections>
                                             </button>
                                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jrq-Pl-YPY" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="459" width="159" height="30"/>
+                                                <rect key="frame" x="0.0" y="469" width="159" height="30"/>
                                                 <state key="normal" title="Forgot your password?">
                                                     <color key="titleColor" red="0.99650349650000003" green="0.99300699299999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -796,7 +803,7 @@
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
                                             </textField>
                                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DMb-4a-gz1" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="497" width="135" height="30"/>
+                                                <rect key="frame" x="0.0" y="507" width="135" height="30"/>
                                                 <state key="normal" title="Create an account?">
                                                     <color key="titleColor" red="0.99650349650000003" green="0.99300699299999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -809,9 +816,10 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstItem="DMb-4a-gz1" firstAttribute="leading" secondItem="OGh-YU-zox" secondAttribute="leading" id="0Jc-vX-80c"/>
-                                            <constraint firstItem="Nvr-ta-RoO" firstAttribute="top" secondItem="C9D-14-Tzq" secondAttribute="bottom" constant="20" id="58Q-XW-uap"/>
+                                            <constraint firstItem="Cw6-Pt-meS" firstAttribute="leading" secondItem="OGh-YU-zox" secondAttribute="leading" constant="2" id="6KD-oh-yhk"/>
                                             <constraint firstItem="oWE-Ad-ZNk" firstAttribute="leading" secondItem="OGh-YU-zox" secondAttribute="leading" id="7qX-Pn-vXM"/>
                                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="374" id="BbQ-3B-KRZ"/>
+                                            <constraint firstItem="Cw6-Pt-meS" firstAttribute="top" secondItem="C9D-14-Tzq" secondAttribute="bottom" constant="20" id="L6G-NR-0w7"/>
                                             <constraint firstItem="sTi-2Z-i06" firstAttribute="top" secondItem="OGh-YU-zox" secondAttribute="top" constant="50" id="LKf-CP-r1O"/>
                                             <constraint firstAttribute="centerX" secondItem="sTi-2Z-i06" secondAttribute="centerX" id="OVl-l6-cxD"/>
                                             <constraint firstItem="jrq-Pl-YPY" firstAttribute="leading" secondItem="OGh-YU-zox" secondAttribute="leading" id="PSN-cJ-9XU"/>
@@ -825,9 +833,11 @@
                                             <constraint firstItem="C9D-14-Tzq" firstAttribute="top" secondItem="Web-5r-2bE" secondAttribute="bottom" constant="20" id="kNW-T1-QWh"/>
                                             <constraint firstAttribute="trailing" secondItem="oWE-Ad-ZNk" secondAttribute="trailing" id="nIB-su-nN6"/>
                                             <constraint firstItem="Web-5r-2bE" firstAttribute="top" secondItem="oWE-Ad-ZNk" secondAttribute="bottom" constant="55" id="p3i-X7-ybH"/>
+                                            <constraint firstItem="Nvr-ta-RoO" firstAttribute="top" secondItem="C9D-14-Tzq" secondAttribute="bottom" constant="30" id="t0m-3A-wyJ"/>
                                             <constraint firstAttribute="trailing" secondItem="C9D-14-Tzq" secondAttribute="trailing" id="unk-Uo-hut"/>
                                             <constraint firstItem="Nvr-ta-RoO" firstAttribute="leading" secondItem="OGh-YU-zox" secondAttribute="leading" id="vga-ec-pwJ"/>
                                             <constraint firstAttribute="height" constant="550" id="xZR-jT-NvU"/>
+                                            <constraint firstAttribute="trailing" secondItem="Cw6-Pt-meS" secondAttribute="trailing" constant="2" id="z1m-Ke-g2T"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -856,6 +866,8 @@
                         <outlet property="createAccountButton" destination="DMb-4a-gz1" id="fgb-AK-zx0"/>
                         <outlet property="emailTextField" destination="Web-5r-2bE" id="0ga-jD-SI7"/>
                         <outlet property="enterButton" destination="Nvr-ta-RoO" id="6xf-MI-ErC"/>
+                        <outlet property="enterButtonTopContraint" destination="t0m-3A-wyJ" id="Q0k-PJ-kHN"/>
+                        <outlet property="errorLabel" destination="Cw6-Pt-meS" id="s8l-u7-NpX"/>
                         <outlet property="forgotPasswordButton" destination="jrq-Pl-YPY" id="5TT-oU-K8F"/>
                         <outlet property="passwordTextField" destination="C9D-14-Tzq" id="KEk-hb-sNp"/>
                         <outlet property="scrollView" destination="rKd-87-4ed" id="4Zc-NV-qhO"/>

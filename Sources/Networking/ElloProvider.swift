@@ -127,7 +127,7 @@ extension MoyaProvider {
                             self.handleRequest(token, method: method, parameters: parameters, data: data, statusCode: statusCode, success: success, failure: failure, isRetry: true, propertyName: propertyName, error: error)
                         })
                     },
-                    failure: {
+                    failure: { (_,_) in
                         self.postNetworkFailureNotification(data, error: error, statusCode: statusCode)
                     })
                 } else {
@@ -189,7 +189,7 @@ extension MoyaProvider {
         }
     }
 
-    private func failedToMapObjects(failure:ElloFailureCompletion?){
+    func failedToMapObjects(failure:ElloFailureCompletion?) {
         let jsonMappingError = ElloNetworkError(title: "Error", code: ElloNetworkError.CodeType.unknown.rawValue, detail: "NEED DEFAULT HERE", status: nil, messages: nil, attrs: nil)
 
         let elloError = NSError.networkError(jsonMappingError, code: ElloErrorCode.JSONMapping)
