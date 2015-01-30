@@ -190,7 +190,7 @@ extension MoyaProvider {
     }
 
     func failedToMapObjects(failure:ElloFailureCompletion?) {
-        let jsonMappingError = ElloNetworkError(title: "Error", code: ElloNetworkError.CodeType.unknown.rawValue, detail: "NEED DEFAULT HERE", status: nil, messages: nil, attrs: nil)
+        let jsonMappingError = ElloNetworkError(title: "Unknown Error", code: ElloNetworkError.CodeType.unknown.rawValue, detail: "NEED DEFAULT HERE", status: nil, messages: nil, attrs: nil)
 
         let elloError = NSError.networkError(jsonMappingError, code: ElloErrorCode.JSONMapping)
         if let failure = failure {

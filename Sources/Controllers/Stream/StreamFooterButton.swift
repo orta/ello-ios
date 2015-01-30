@@ -30,8 +30,12 @@ class StreamFooterButton: UIButton {
 
     private func setButtonTitle(title:String, color:UIColor, forState state:UIControlState) {
         var attributedString = NSMutableAttributedString(string: title)
-        attributedString.addAttribute(NSFontAttributeName, value:UIFont.typewriterFont(12.0), range: NSRange(location: 0, length: countElements(title)))
-        attributedString.addAttribute(NSForegroundColorAttributeName, value:color, range: NSRange(location: 0, length: countElements(title)))
+        var range = NSRange(location: 0, length: countElements(title))
+        var attributes = [
+            NSFontAttributeName : UIFont.typewriterFont(12.0),
+            NSForegroundColorAttributeName : color
+        ]
+        attributedString.addAttributes(attributes, range: range)
         self.setAttributedTitle(attributedString, forState: state)
     }
 
