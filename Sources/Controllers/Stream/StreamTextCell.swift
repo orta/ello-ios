@@ -41,6 +41,9 @@ class StreamTextCell: UICollectionViewCell, UIWebViewDelegate {
             return false
         }
         if requestURL.hasPrefix("http://") || requestURL.hasPrefix("https://") {
+            var dict = [String:String]()
+            dict["url"] = requestURL
+            NSNotificationCenter.defaultCenter().postNotificationName(externalWebNotification, object: nil, userInfo: dict)
             return false
         }
         return true
