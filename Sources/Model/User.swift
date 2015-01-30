@@ -44,23 +44,23 @@ class User: JSONAble {
         let name = json["name"].stringValue
         let userId = json["id"].stringValue
         let username = json["username"].stringValue
-        var avatar = json["avatar"].object as [String:[String:String]]
+//        var avatar = json["avatar"].object as [String:[String:String]]
 
         let experimentalFeatures = json["experimental_features"].boolValue
         let href = json["href"].stringValue
         let relationshipPriority = json["relationship_priority"].stringValue
 
-        var avatarPath = avatar["large"]?["url"]
+//        var avatarPath = avatar["large"]?["url"]
         var avatarURL:NSURL?
-        if let avatarPath = avatarPath {
-            avatarURL = NSURL(string: avatarPath, relativeToURL: NSURL(string: "https://ello.co"))
-        }
+//        if let avatarPath = avatarPath {
+//            avatarURL = NSURL(string: avatarPath, relativeToURL: NSURL(string: "https://ello.co"))
+//        }
 
-        var pixellatedAvatarPath = avatar["pixellated_large"]?["url"]
+//        var pixellatedAvatarPath = avatar["pixellated_large"]?["url"]
         var pixellatedAvatarURL:NSURL?
-        if let pixellatedAvatarPath = pixellatedAvatarPath {
-            pixellatedAvatarURL = NSURL(string: pixellatedAvatarPath, relativeToURL: NSURL(string: "https://ello.co"))
-        }
+//        if let pixellatedAvatarPath = pixellatedAvatarPath {
+//            pixellatedAvatarURL = NSURL(string: pixellatedAvatarPath, relativeToURL: NSURL(string: "https://ello.co"))
+//        }
 
         let postsCount = json["posts_count"].int
         let followersCount = json["followers_count"].int
