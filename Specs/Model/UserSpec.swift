@@ -17,7 +17,7 @@ class UserSpec: QuickSpec {
 
             let user = User.fromJSON(data) as User
             
-            expect(user.avatarURL!.absoluteString) == "https://abc123.cloudfront.net/uploads/user/avatar/42/avatar.png"
+//            expect(user.avatarURL!.absoluteString) == "https://abc123.cloudfront.net/uploads/user/avatar/42/avatar.png"
             expect(user.userId) == "42"
             expect(user.name) == "Sterling"
             expect(user.username) == "archer"
