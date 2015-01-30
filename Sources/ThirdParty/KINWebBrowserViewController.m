@@ -359,7 +359,7 @@ static void *KINContext = &KINContext;
 #pragma mark - Done Button Action
 
 - (void)doneButtonPressed:(id)sender {
-    [self dismissAnimated:YES];
+    [self.navigationController dismissViewControllerAnimated:YES completion:^{[self loadURLString: @"about:blank"];}];
 }
 
 #pragma mark - UIBarButtonItem Target Action Methods
@@ -488,12 +488,6 @@ static void *KINContext = &KINContext;
             [self.progressView setProgress:progress animated:YES];
         }
     }
-}
-
-#pragma mark - Dismiss
-
-- (void)dismissAnimated:(BOOL)animated {
-    [self.navigationController dismissViewControllerAnimated:animated completion:nil];
 }
 
 #pragma mark - Interface Orientation
