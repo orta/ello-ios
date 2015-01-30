@@ -5,11 +5,15 @@
 //  Created by Sean on 1/19/15.
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
+let externalWebNotification = Notification<String>(name: "externalWebNotification")
 
-class ElloNavigationController: UINavigationController, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
+class ElloNavigationController: UINavigationController, UIGestureRecognizerDelegate {
     
     var interactionController: UIPercentDrivenInteractiveTransition?
-    
+    var externalWebObserver: NotificationObserver?
+    let externalWebController: UINavigationController = KINWebBrowserViewController.navigationControllerWithWebBrowser()
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
         transitioningDelegate = self
@@ -18,6 +22,17 @@ class ElloNavigationController: UINavigationController, UIViewControllerTransiti
         let left = UIScreenEdgePanGestureRecognizer(target: self, action: "handleSwipeFromLeft:")
         left.edges = .Left
         self.view.addGestureRecognizer(left);
+
+        externalWebObserver = NotificationObserver(notification: externalWebNotification) { url in
+            self.showExternalWebView(url)
+        }
+    }
+
+    func showExternalWebView(url: String) {
+        presentViewController(externalWebController, animated: true, completion: nil)
+        if let externalWebView = externalWebController.rootWebBrowser() {
+            externalWebView.loadURLString(url)
+        }
     }
     
     func handleSwipeFromLeft(gesture: UIScreenEdgePanGestureRecognizer) {
@@ -44,35 +59,41 @@ class ElloNavigationController: UINavigationController, UIViewControllerTransiti
             interactionController = nil
         }
     }
-    
-    // MARK: - UIGestureRecognizerDelegate
-    
+
+}
+
+extension ElloNavigationController: UIGestureRecognizerDelegate {
+
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
-    
-    // MARK: - UIViewControllerTransitioningDelegate
-    
+
+}
+
+extension ElloNavigationController: UIViewControllerTransitioningDelegate {
+
     func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return ForwardAnimator()
     }
-    
+
     func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return BackAnimator()
     }
-    
+
     func interactionControllerForPresentation(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
         return interactionController
     }
-    
+
     func interactionControllerForDismissal(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
         return interactionController
     }
-    
-    // MARK: - UINavigationControllerDelegate
-    
+
+}
+
+extension ElloNavigationController: UINavigationControllerDelegate {
+
     func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        
+
         if operation == .Push {
             return ForwardAnimator()
         } else if operation == .Pop {
@@ -80,11 +101,11 @@ class ElloNavigationController: UINavigationController, UIViewControllerTransiti
         }
         return nil
     }
-    
+
     func navigationController(navigationController: UINavigationController, interactionControllerForAnimationController animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
         return interactionController
     }
-    
+
 }
 
 class ForwardAnimator : NSObject, UIViewControllerAnimatedTransitioning {

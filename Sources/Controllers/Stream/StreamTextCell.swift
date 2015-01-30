@@ -40,7 +40,8 @@ class StreamTextCell: UICollectionViewCell, UIWebViewDelegate {
 //            }
             return false
         }
-        if requestURL.hasPrefix("http://") || requestURL.hasPrefix("https://") {
+        else if requestURL.hasPrefix("http://") || requestURL.hasPrefix("https://") {
+            postNotification(externalWebNotification, requestURL)
             return false
         }
         return true
