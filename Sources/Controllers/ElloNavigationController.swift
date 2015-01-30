@@ -5,11 +5,12 @@
 //  Created by Sean on 1/19/15.
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
-let externalWebNotification = "co.ello.ExternalWebNotification"
+let externalWebNotification = Notification<String>(name: "externalWebNotification")
 
 class ElloNavigationController: UINavigationController, UIGestureRecognizerDelegate {
     
     var interactionController: UIPercentDrivenInteractiveTransition?
+    var externalWebObserver: NotificationObserver?
     let externalWebController: UINavigationController = KINWebBrowserViewController.navigationControllerWithWebBrowser()
 
 
@@ -21,12 +22,13 @@ class ElloNavigationController: UINavigationController, UIGestureRecognizerDeleg
         let left = UIScreenEdgePanGestureRecognizer(target: self, action: "handleSwipeFromLeft:")
         left.edges = .Left
         self.view.addGestureRecognizer(left);
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showExternalWebView:", name: externalWebNotification, object: nil)
+
+        externalWebObserver = NotificationObserver(notification: externalWebNotification) { url in
+            self.showExternalWebView(url)
+        }
     }
 
-    func showExternalWebView(notification: NSNotification) {
-        let url = notification.userInfo!["url"] as String
-        println("LOAD EXTERNAL PAGE: \(url)")
+    func showExternalWebView(url: String) {
         presentViewController(externalWebController, animated: true, completion: nil)
         if let externalWebView = externalWebController.rootWebBrowser() {
             externalWebView.loadURLString(url)
