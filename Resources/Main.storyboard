@@ -598,10 +598,10 @@
             </objects>
             <point key="canvasLocation" x="-1276" y="0.0"/>
         </scene>
-        <!--Profile-->
+        <!--Settings-->
         <scene sceneID="g5m-Pl-KDJ">
             <objects>
-                <viewController storyboardIdentifier="SettingsViewController" title="Profile" id="pfO-53-D6h" customClass="ProfileViewController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SettingsViewController" title="Settings" id="pfO-53-D6h" customClass="SettingsViewController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="dNe-YE-ehL"/>
                         <viewControllerLayoutGuide type="bottom" id="s7Y-oa-bk3"/>
@@ -610,7 +610,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Profile" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="FuP-qN-aM0">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" text="Settings" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="FuP-qN-aM0">
                                 <rect key="frame" x="249" y="255" width="103" height="42"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="36"/>
