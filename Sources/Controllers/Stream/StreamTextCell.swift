@@ -9,32 +9,6 @@
 import WebKit
 import Foundation
 
-enum RequestType {
-    case Post
-    case Profile
-    case External
-
-    var regexPattern: String {
-        switch self {
-        case .Post: return "ello(-staging.herokuapp)?\\.co(m)?\\/.+\\/post\\/[^\\/]+\\/?$"
-        case .Profile: return "ello(-staging.herokuapp)?\\.co(m)?\\/[^\\/]+\\/?$"
-        case .External: return "https?:\\/\\"
-        }
-    }
-
-    static func match(url: String) -> RequestType {
-        for type in self.all {
-            if let match = url.rangeOfString(type.regexPattern, options: .RegularExpressionSearch) {
-                return type
-            }
-        }
-        return self.External
-    }
-
-    // Order matters: [MostSpecific, MostGeneric]
-    static let all = [Post, Profile, External]
-}
-
 class StreamTextCell: UICollectionViewCell, UIWebViewDelegate {
 
 
@@ -67,10 +41,11 @@ class StreamTextCell: UICollectionViewCell, UIWebViewDelegate {
             return false
         }
         else if requestURL.hasPrefix("http://") || requestURL.hasPrefix("https://") {
-            switch RequestType.match(requestURL) {
-            case .External: postNotification(externalWebNotification, requestURL)
-            case .Profile: println("Profile link clicked: \(requestURL)")
-            case .Post: println("Post link clicked: \(requestURL)")
+            let (type, data) = RequestType.match(requestURL)
+            switch type {
+            case .External: postNotification(externalWebNotification, data)
+            case .Profile: println("Profile click: \(data)")
+            case .Post: println("Post detail click: \(data)")
             }
             return false
         }
