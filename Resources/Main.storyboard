@@ -99,6 +99,32 @@
             </objects>
             <point key="canvasLocation" x="774" y="-318"/>
         </scene>
+        <!--Profile View Controller-->
+        <scene sceneID="q7L-2M-ZIh">
+            <objects>
+                <viewController storyboardIdentifier="ProfileViewController" id="C9W-zI-bcF" customClass="ProfileViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Emq-L4-Qsn"/>
+                        <viewControllerLayoutGuide type="bottom" id="IxZ-B1-LJJ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="wUH-k7-X8a">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Profile" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dau-6P-KgV">
+                                <rect key="frame" x="276" y="289" width="49" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nG3-vb-V8J" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1656" y="-370"/>
+        </scene>
         <!--Ello Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
             <objects>
