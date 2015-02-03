@@ -1,5 +1,5 @@
 //
-//  ProfileViewController.swift
+//  SettingsViewController.swift
 //  Ello
 //
 //  Created by Sean Dougherty on 11/21/14.
@@ -8,15 +8,15 @@
 
 import UIKit
 
-class ProfileViewController: BaseElloViewController {
+class SettingsViewController: BaseElloViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
 
-    class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> ProfileViewController {
-        return storyboard.controllerWithID(.Profile) as ProfileViewController
+    class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> SettingsViewController {
+        return storyboard.controllerWithID(.Settings) as SettingsViewController
     }
 
     @IBAction func logOutTapped(sender: ElloTextButton) {

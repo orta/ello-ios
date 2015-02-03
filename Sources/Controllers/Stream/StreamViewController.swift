@@ -125,7 +125,7 @@ class StreamViewController: BaseElloViewController {
     private func setupDataSource() {
         let webView = UIWebView(frame: self.view.bounds)
 
-        self.dataSource = StreamDataSource(testWebView: webView, streamKind: streamKind)
+        self.dataSource = StreamDataSource(testWebView: webView, streamKind: streamKind, linkHandler: linkHandler)
         self.dataSource.postbarDelegate = PostbarController(collectionView: collectionView, dataSource: self.dataSource)
     }
 
@@ -134,6 +134,14 @@ class StreamViewController: BaseElloViewController {
         case .PostDetail(let post):
             setupForDetail(post)
         default: setupForStream(streamKind)
+        }
+    }
+
+    private func linkHandler(type: RequestType, data: String) {
+        switch type {
+        case .External: postNotification(externalWebNotification, data)
+        case .Profile: println("showProfile: \(data)")
+        case .Post: println("showPostDetail: \(data)")
         }
     }
 }
