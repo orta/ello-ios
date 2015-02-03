@@ -11,9 +11,9 @@ import Foundation
 
 class StreamTextCell: UICollectionViewCell, UIWebViewDelegate {
 
-
     @IBOutlet weak var webView:UIWebView!
     @IBOutlet weak var leadingConstraint:NSLayoutConstraint!
+    var linkHandler : ((RequestType, String) -> ())?
 
     var calculatedHeight:CGFloat = 0.0
     let jsCommandProtocol = "ello://"
@@ -41,12 +41,9 @@ class StreamTextCell: UICollectionViewCell, UIWebViewDelegate {
             return false
         }
         else if requestURL.hasPrefix("http://") || requestURL.hasPrefix("https://") {
+            println("Request URL: \(requestURL)")
             let (type, data) = RequestType.match(requestURL)
-            switch type {
-            case .External: postNotification(externalWebNotification, data)
-            case .Profile: println("Profile click: \(data)")
-            case .Post: println("Post detail click: \(data)")
-            }
+            linkHandler?(type, data)
             return false
         }
         return true
