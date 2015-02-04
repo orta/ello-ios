@@ -140,9 +140,15 @@ class StreamViewController: BaseElloViewController {
     private func linkHandler(type: RequestType, data: String) {
         switch type {
         case .External: postNotification(externalWebNotification, data)
-        case .Profile: println("showProfile: \(data)")
+        case .Profile: presentProfile(data)
         case .Post: println("showPostDetail: \(data)")
         }
+    }
+
+    private func presentProfile(username: String) {
+        let controller = ProfileViewController.instantiateFromStoryboard()
+        controller.username = username
+        self.navigationController?.pushViewController(controller, animated: true)
     }
 }
 

@@ -28,7 +28,7 @@ class SettingsViewControllerSpec: QuickSpec {
                 expect(controller).to(beAKindOf(BaseElloViewController.self))
             })
 
-            it("is a ProfileViewController", {
+            it("is a SettingsViewController", {
                 expect(controller).to(beAKindOf(SettingsViewController.self))
             })
             
