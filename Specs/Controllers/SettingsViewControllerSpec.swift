@@ -1,5 +1,5 @@
 //
-//  SettingsViewControllerSpec.swift
+//  ProfileViewControllerSpec.swift
 //  Ello
 //
 //  Created by Sean Dougherty on 11/21/14.
@@ -10,14 +10,14 @@ import Quick
 import Nimble
 
 
-class SettingsViewControllerSpec: QuickSpec {
+class ProfileViewControllerSpec: QuickSpec {
     override func spec() {
 
-        var controller = SettingsViewController.instantiateFromStoryboard()
+        var controller = ProfileViewController.instantiateFromStoryboard()
         describe("initialization", {
 
             beforeEach({
-                controller = SettingsViewController.instantiateFromStoryboard()
+                controller = ProfileViewController.instantiateFromStoryboard()
             })
 
             it("can be instatiated from storyboard") {
@@ -28,8 +28,8 @@ class SettingsViewControllerSpec: QuickSpec {
                 expect(controller).to(beAKindOf(BaseElloViewController.self))
             })
 
-            it("is a SettingsViewController", {
-                expect(controller).to(beAKindOf(SettingsViewController.self))
+            it("is a ProfileViewController", {
+                expect(controller).to(beAKindOf(ProfileViewController.self))
             })
             
             it("has a tab bar item", {
