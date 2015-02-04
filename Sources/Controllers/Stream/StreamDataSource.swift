@@ -32,6 +32,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     let sizeCalculator:StreamTextCellSizeCalculator
     weak var postbarDelegate:PostbarDelegate?
     weak var webLinkDelegate:WebLinkDelegate?
+    weak var imageDelegate:StreamImageCellDelegate?
 
     init(testWebView: UIWebView, streamKind:StreamKind) {
         self.streamKind = streamKind
