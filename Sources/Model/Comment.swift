@@ -50,6 +50,6 @@ class Comment: JSONAble, Streamable {
             parentPost = Post.fromJSON(parentPostDict) as? Post
         }
 
-        return Comment(commentId: commentId, createdAt: createdAt, content: Block.blocks(json), author: author, parentPost: parentPost)
+        return Comment(commentId: commentId, createdAt: createdAt, content: Block.blocks(json, assets:nil), author: author, parentPost: parentPost)
     }
 }

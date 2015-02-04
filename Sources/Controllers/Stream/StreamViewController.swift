@@ -24,7 +24,7 @@ class StreamViewController: BaseElloViewController {
     var streamKind:StreamKind = StreamKind.Friend
     var detailCellItems:[StreamCellItem]?
     var imageViewerDelegate:StreamImageViewer?
-
+    var updatedStreamImageCellHeightNotification:NotificationObserver?
     override func viewDidLoad() {
         super.viewDidLoad()
         imageViewerDelegate = StreamImageViewer(controller:self)
@@ -40,16 +40,9 @@ class StreamViewController: BaseElloViewController {
 
 // MARK: Public Functions
 
-    func cellHeightUpdated(notification:NSNotification) {
-        if let cell = notification.object? as? StreamImageCell {
-            if let indexPath = collectionView.indexPathForCell(cell) {
-                self.updateCellHeight(indexPath, height: cell.calculatedHeight)
-            }
-        }
-        if let cell = notification.object? as? StreamTextCell {
-            if let indexPath = collectionView.indexPathForCell(cell) {
-                self.updateCellHeight(indexPath, height: cell.calculatedHeight)
-            }
+    func imageCellHeightUpdated(cell:StreamImageCell) {
+        if let indexPath = collectionView.indexPathForCell(cell) {
+            self.updateCellHeight(indexPath, height: cell.calculatedHeight)
         }
     }
 
@@ -99,9 +92,8 @@ class StreamViewController: BaseElloViewController {
     }
 
     private func addNotificationObservers() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "cellHeightUpdated:", name: "UpdateHeightNotification", object: nil)
-        if let imageViewer = imageViewerDelegate {
-            NSNotificationCenter.defaultCenter().addObserver(imageViewer, selector: "imageTapped:", name: "ImageTappedNotification", object: nil)
+        updatedStreamImageCellHeightNotification = NotificationObserver(notification: updateStreamImageCellHeightNotification) { streamTextCell in
+            self.imageCellHeightUpdated(streamTextCell)
         }
     }
 
@@ -131,7 +123,11 @@ class StreamViewController: BaseElloViewController {
 
         self.dataSource = StreamDataSource(testWebView: webView, streamKind: streamKind)
         self.dataSource.postbarDelegate = PostbarController(collectionView: collectionView, dataSource: self.dataSource)
-        self.dataSource.webLinkDelegate = self
+        if let imageViewer = imageViewerDelegate {
+            self.dataSource.imageDelegate = imageViewer
+        }
+		self.dataSource.webLinkDelegate = self
+
     }
 
     private func prepareForStreamType() {
@@ -159,6 +155,7 @@ extension StreamViewController : WebLinkDelegate {
     }
 }
 
+// MARK: StreamViewController : UICollectionViewDelegate
 extension StreamViewController : UICollectionViewDelegate {
 
     func collectionView(collectionView: UICollectionView,
@@ -178,6 +175,7 @@ extension StreamViewController : UICollectionViewDelegate {
     }
 }
 
+// MARK: StreamViewController : StreamCollectionViewLayoutDelegate
 extension StreamViewController : StreamCollectionViewLayoutDelegate {
 
     func collectionView(collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,

@@ -32,6 +32,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     let sizeCalculator:StreamTextCellSizeCalculator
     weak var postbarDelegate:PostbarDelegate?
     weak var webLinkDelegate:WebLinkDelegate?
+    weak var imageDelegate:StreamImageCellDelegate?
 
     init(testWebView: UIWebView, streamKind:StreamKind) {
         self.streamKind = streamKind
@@ -39,7 +40,9 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         self.sizeCalculator = StreamTextCellSizeCalculator(webView: testWebView)
         super.init()
     }
-    
+
+    // MARK: - Public
+
     func postForIndexPath(indexPath:NSIndexPath) -> Post? {
         if indexPath.item >= streamCellItems.count {
             return nil
@@ -124,6 +127,8 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
        
         return UICollectionViewCell()
     }
+
+    // MARK: - Private
     
     private func headerCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> UICollectionViewCell {
 
@@ -160,11 +165,18 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     private func imageCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> StreamImageCell {
         let imageCell = collectionView.dequeueReusableCellWithReuseIdentifier(CellIdentifier.Image.rawValue, forIndexPath: indexPath) as StreamImageCell
+
         if let photoData = streamCellItem.data as ImageBlock? {
-            if let photoURL = photoData.url? {
+            if let photoURL = photoData.hdpi?.url? {
+                imageCell.serverProvidedAspectRatio = StreamCellItemParser.aspectRatioForImageBlock(photoData)
+                imageCell.setImageURL(photoURL)
+            }
+            else if let photoURL = photoData.url? {
                 imageCell.setImageURL(photoURL)
             }
         }
+
+        imageCell.delegate = imageDelegate
         return imageCell
     }
 
@@ -187,18 +199,22 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
     
     private func footerCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> StreamFooterCell {
+        let footerCell = collectionView.dequeueReusableCellWithReuseIdentifier(CellIdentifier.Footer.rawValue, forIndexPath: indexPath) as StreamFooterCell
         if let post = streamCellItem.streamable as? Post {
-            let footerCell = collectionView.dequeueReusableCellWithReuseIdentifier(CellIdentifier.Footer.rawValue, forIndexPath: indexPath) as StreamFooterCell
-            footerCell.delegate = postbarDelegate
-            footerCell.views = post.viewsCount?.localizedStringFromNumber()
             footerCell.comments = post.commentsCount?.localizedStringFromNumber()
-            footerCell.reposts = post.repostsCount?.localizedStringFromNumber()
+            if self.streamKind.isGridLayout {
+                footerCell.views = ""
+                footerCell.reposts = ""
+            }
+            else {
+                footerCell.views = post.viewsCount?.localizedStringFromNumber()
+                footerCell.reposts = post.repostsCount?.localizedStringFromNumber()
+            }
             footerCell.streamKind = streamKind
-
-            return footerCell
+            footerCell.delegate = postbarDelegate
         }
         
-        return StreamFooterCell()
+        return footerCell
     }
 
     private func createStreamCellItems(streamables:[Streamable], startingIndexPath:NSIndexPath?) -> [StreamCellItem] {

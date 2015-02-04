@@ -27,6 +27,15 @@ class JSONAble: NSObject {
             if let link:String = value["type"] as? String {
                 linkedData[key] = Store.store[link]?[value["id"] as String]?
             }
+            else if let links = value as? [String] {
+                var linkIds = [String:AnyObject]()
+                for link:String in links {
+                    if let linked: AnyObject = Store.store[key]?[link] {
+                        linkIds[link] = linked
+                    }
+                }
+                linkedData[key] = linkIds
+            }
         }
         return linkedData
     }

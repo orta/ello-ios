@@ -9,20 +9,38 @@
 import UIKit
 import Foundation
 
+protocol StreamImageCellDelegate : NSObjectProtocol {
+    func imageTapped(imageView:UIImageView)
+}
+
+let updateStreamImageCellHeightNotification = Notification<StreamImageCell>(name: "updateStreamImageCellHeightNotification")
+
 class StreamImageCell: UICollectionViewCell {
 
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var debugTextField: UITextField!
     @IBOutlet weak var imageButton: UIButton!
 
-    let defaultAspectRatio:CGFloat = 4.0/3.0
-    var aspectRatio:CGFloat = 4.0/3.0
+    weak var delegate: StreamImageCellDelegate?
+    var serverProvidedAspectRatio:CGFloat?
+    private let defaultAspectRatio:CGFloat = 4.0/3.0
+    private var aspectRatio:CGFloat = 4.0/3.0
+    private var circle:PulsingCircle!
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        circle = PulsingCircle(frame:CGRectZero)
+        contentView.insertSubview(circle!, belowSubview: imageView)
+    }
+
     var calculatedHeight:CGFloat {
         get { return UIScreen.screenWidth() / self.aspectRatio }
     }
 
     func setImageURL(url:NSURL) {
-        debugTextField.text = url.absoluteString
+        circle.stopPulse()
+        circle.frame = CGRect(x: self.bounds.width/2 - 30.0, y: self.bounds.height/2 - 30.0, width: 60.0, height: 60.0)
+        circle.pulse()
 
         self.imageView.sd_setImageWithURL(url, completed: {
             (image, error, type, url) -> Void in
@@ -31,12 +49,20 @@ class StreamImageCell: UICollectionViewCell {
 
                 self.aspectRatio = (image.size.width / image.size.height)
 
-                NSNotificationCenter.defaultCenter().postNotificationName("UpdateHeightNotification", object: self)
+                if self.serverProvidedAspectRatio == nil {
+                    postNotification(updateStreamImageCellHeightNotification, self)
+                }
 
-                UIView.animateWithDuration(0.15, animations: {
-                    self.contentView.alpha = 1.0
-                    self.imageView.alpha = 1.0
-                })
+                UIView.animateWithDuration(0.15,
+                    delay:0.0,
+                    options:UIViewAnimationOptions.CurveLinear,
+                    animations: {
+                        self.contentView.alpha = 1.0
+                        self.imageView.alpha = 1.0
+                    }, completion: { finished in
+                        self.circle.stopPulse()
+                    })
+
                 self.debugTextField.alpha = 0.0
             }
             else {
@@ -49,10 +75,14 @@ class StreamImageCell: UICollectionViewCell {
 
             }
         })
+
+
+        debugTextField.text = url.absoluteString
     }
 
     @IBAction func imageTapped(sender: UIButton) {
-        NSNotificationCenter.defaultCenter().postNotificationName("ImageTappedNotification", object: self.imageView)
+        delegate?.imageTapped(self.imageView)
+//        NSNotificationCenter.defaultCenter().postNotificationName("ImageTappedNotification", object: self.imageView)
     }
     
 }

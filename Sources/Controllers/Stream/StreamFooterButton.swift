@@ -10,16 +10,6 @@ import UIKit
 
 class StreamFooterButton: UIButton {
 
-    required override init(frame: CGRect) {
-        super.init(frame: frame)
-        sharedSetup()
-    }
-
-    required init(coder: NSCoder) {
-        super.init(coder: coder)
-        sharedSetup()
-    }
-
     func setButtonTitle(title:String?) {
         if let title = title {
             setButtonTitle(title, color: UIColor.elloLightGray(), forState: .Normal)

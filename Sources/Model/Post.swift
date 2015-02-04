@@ -50,7 +50,9 @@ class Post: JSONAble, Streamable {
         let commentsCount = json["comments_count"].int
         let repostsCount = json["reposts_count"].int
 
-        let post = Post(postId: postId, createdAt: createdAt, href: href, collapsed: collapsed, content: Block.blocks(json), token: token, commentsCount: commentsCount, viewsCount: viewsCount, repostsCount: repostsCount)
+        let assets = json["assets"].object as? [String: AnyObject]
+
+        let post = Post(postId: postId, createdAt: createdAt, href: href, collapsed: collapsed, content: Block.blocks(json, assets: assets), token: token, commentsCount: commentsCount, viewsCount: viewsCount, repostsCount: repostsCount)
 
         if let authorDict = json["author"].object as? [String: AnyObject] {
             post.author = User.fromJSON(authorDict) as? User
