@@ -10,6 +10,21 @@ import Foundation
 
 struct StreamCellItemParser {
 
+    // MARK: - Static
+
+    static func aspectRatioForImageBlock(imageBlock: ImageBlock) -> CGFloat {
+        let width = imageBlock.hdpi?.width
+        let height = imageBlock.hdpi?.height
+        if width != nil && height != nil {
+            return CGFloat(width!)/CGFloat(height!)
+        }
+        else {
+            return 4.0/3.0
+        }
+    }
+
+    // MARK: - public
+
     func streamCellItems(streamables:[Streamable]) -> [StreamCellItem] {
         var cellItems:[StreamCellItem] = []
         for streamable in streamables {
@@ -21,6 +36,8 @@ struct StreamCellItemParser {
         }
         return cellItems
     }
+
+    // MARK: - Private
 
     private func headerStreamCellItems(streamable:Streamable) -> [StreamCellItem] {
         
@@ -45,10 +62,11 @@ struct StreamCellItemParser {
         for block in streamable.content {
             var oneColumnHeight:CGFloat
             var multiColumnHeight:CGFloat
+
             switch block.kind {
             case Block.Kind.Image:
-                oneColumnHeight = UIScreen.screenWidth() / (4/3)
-                multiColumnHeight = UIScreen.screenWidth() / (4/3)
+                oneColumnHeight = self.oneColumnImageHeight(block as ImageBlock)
+                multiColumnHeight = self.twoColumnImageHeight(block as ImageBlock)
             case Block.Kind.Text:
                 oneColumnHeight = 0.0
                 multiColumnHeight = 0.0
@@ -58,9 +76,18 @@ struct StreamCellItemParser {
             }
             
             let body:StreamCellItem = StreamCellItem(streamable: streamable, type: StreamCellItem.CellType.BodyElement, data: block, oneColumnCellHeight: oneColumnHeight, multiColumnCellHeight: multiColumnHeight)
+
             cellArray.append(body)
         }
         return cellArray
+    }
+
+    private func oneColumnImageHeight(imageBlock: ImageBlock) -> CGFloat {
+        return UIScreen.screenWidth() / StreamCellItemParser.aspectRatioForImageBlock(imageBlock)
+    }
+
+    private func twoColumnImageHeight(imageBlock: ImageBlock) -> CGFloat {
+        return ((UIScreen.screenWidth() - 10.0) / 2) / StreamCellItemParser.aspectRatioForImageBlock(imageBlock)
     }
 
     private func footerStreamCellItems(streamable:Streamable) -> [StreamCellItem] {

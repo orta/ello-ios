@@ -18,7 +18,7 @@ class PostbarController:NSObject, PostbarDelegate {
         self.dataSource = dataSource
     }
 
-    // Mark:
+    // MARK:
 
     func viewsButtonTapped(cell:StreamFooterCell) {
         println("viewsButtonTapped")
@@ -56,7 +56,7 @@ class PostbarController:NSObject, PostbarDelegate {
         println("repostButtonTapped")
     }
 
-    // Mark: - Private
+    // MARK: - Private
 
     private func commentLoadSuccess(streamables:[Streamable], indexPath:NSIndexPath, cell:StreamFooterCell) {
         self.dataSource.addStreamables(streamables, completion: { (indexPaths) -> () in

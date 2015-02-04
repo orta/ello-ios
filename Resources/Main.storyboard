@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C106a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jJZ-zI-fFG">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jJZ-zI-fFG">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -201,63 +201,19 @@
                                                                 <action selector="chevronButtonTapped:" destination="P76-vx-Q2Z" eventType="touchUpInside" id="O6w-TY-LO7"/>
                                                             </connections>
                                                         </button>
-                                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k0A-Ky-x9O" customClass="StreamFooterButton" customModule="Ello" customModuleProvider="target">
-                                                            <rect key="frame" x="184" y="0.0" width="30" height="54"/>
-                                                            <state key="normal" title="0" image="repost-icon">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                            <connections>
-                                                                <action selector="repostButtonTapped:" destination="P76-vx-Q2Z" eventType="touchUpInside" id="dbm-GE-w4m"/>
-                                                            </connections>
-                                                        </button>
-                                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DGx-L8-OiN" customClass="StreamFooterButton" customModule="Ello" customModuleProvider="target">
-                                                            <rect key="frame" x="126" y="0.0" width="33" height="54"/>
-                                                            <state key="normal" title="0" image="heart-icon">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                            <connections>
-                                                                <action selector="lovesButtonTapped:" destination="P76-vx-Q2Z" eventType="touchUpInside" id="d8C-Gq-Bvy"/>
-                                                            </connections>
-                                                        </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lLZ-rl-op1" customClass="StreamFooterButton" customModule="Ello" customModuleProvider="target">
-                                                            <rect key="frame" x="69" y="0.0" width="32" height="54"/>
-                                                            <state key="normal" title="0" image="dots-icon">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                            <connections>
-                                                                <action selector="commentsButtonTapped:" destination="P76-vx-Q2Z" eventType="touchUpInside" id="GE3-W2-WEY"/>
-                                                            </connections>
-                                                        </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="89C-tv-GIz" customClass="StreamFooterButton" customModule="Ello" customModuleProvider="target">
-                                                            <rect key="frame" x="10" y="0.0" width="34" height="54"/>
-                                                            <state key="normal" title="0" image="eye-icon">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                            </state>
-                                                            <connections>
-                                                                <action selector="viewsButtonTapped:" destination="P76-vx-Q2Z" eventType="touchUpInside" id="fK3-bS-f34"/>
-                                                            </connections>
-                                                        </button>
+                                                        <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kZH-Au-7we">
+                                                            <rect key="frame" x="0.0" y="0.0" width="599" height="54"/>
+                                                            <items/>
+                                                        </toolbar>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
+                                                        <constraint firstAttribute="bottom" secondItem="kZH-Au-7we" secondAttribute="bottom" id="4BD-9d-PTw"/>
                                                         <constraint firstAttribute="centerY" secondItem="yfB-Mo-73D" secondAttribute="centerY" id="4ev-TU-p3R"/>
-                                                        <constraint firstAttribute="centerY" secondItem="k0A-Ky-x9O" secondAttribute="centerY" id="5rI-Wl-1jO"/>
-                                                        <constraint firstItem="89C-tv-GIz" firstAttribute="leading" secondItem="gFJ-zo-yZG" secondAttribute="leading" constant="10" id="EST-6t-k5p"/>
-                                                        <constraint firstItem="lLZ-rl-op1" firstAttribute="leading" secondItem="89C-tv-GIz" secondAttribute="trailing" constant="25" id="Ei0-yV-hJP"/>
-                                                        <constraint firstItem="89C-tv-GIz" firstAttribute="top" secondItem="gFJ-zo-yZG" secondAttribute="top" id="HcY-ka-EWP"/>
-                                                        <constraint firstItem="k0A-Ky-x9O" firstAttribute="leading" secondItem="DGx-L8-OiN" secondAttribute="trailing" constant="25" id="JXH-ad-Jf1"/>
-                                                        <constraint firstAttribute="centerY" secondItem="DGx-L8-OiN" secondAttribute="centerY" id="NTS-td-Tfa"/>
-                                                        <constraint firstItem="DGx-L8-OiN" firstAttribute="leading" secondItem="lLZ-rl-op1" secondAttribute="trailing" constant="25" id="Q91-SZ-IUp"/>
-                                                        <constraint firstItem="lLZ-rl-op1" firstAttribute="top" secondItem="gFJ-zo-yZG" secondAttribute="top" id="Qbq-y6-39u"/>
-                                                        <constraint firstAttribute="bottom" secondItem="89C-tv-GIz" secondAttribute="bottom" id="Wxg-Su-b3a"/>
-                                                        <constraint firstItem="DGx-L8-OiN" firstAttribute="top" secondItem="gFJ-zo-yZG" secondAttribute="top" id="bFD-bd-gcE"/>
-                                                        <constraint firstAttribute="centerY" secondItem="89C-tv-GIz" secondAttribute="centerY" id="cbv-pQ-cc2"/>
-                                                        <constraint firstAttribute="bottom" secondItem="k0A-Ky-x9O" secondAttribute="bottom" id="gS3-7o-8NO"/>
-                                                        <constraint firstAttribute="bottom" secondItem="lLZ-rl-op1" secondAttribute="bottom" id="grM-1H-qoo"/>
-                                                        <constraint firstItem="k0A-Ky-x9O" firstAttribute="top" secondItem="gFJ-zo-yZG" secondAttribute="top" id="grO-BP-bnp"/>
-                                                        <constraint firstAttribute="bottom" secondItem="DGx-L8-OiN" secondAttribute="bottom" id="mdP-cK-gho"/>
+                                                        <constraint firstItem="kZH-Au-7we" firstAttribute="top" secondItem="gFJ-zo-yZG" secondAttribute="top" id="d6d-5T-FmK"/>
                                                         <constraint firstAttribute="trailing" secondItem="yfB-Mo-73D" secondAttribute="trailing" constant="5" id="t4i-Is-Bif"/>
-                                                        <constraint firstAttribute="centerY" secondItem="lLZ-rl-op1" secondAttribute="centerY" id="uOs-go-Epg"/>
+                                                        <constraint firstItem="kZH-Au-7we" firstAttribute="leading" secondItem="gFJ-zo-yZG" secondAttribute="leading" id="yeo-LL-j1Z"/>
+                                                        <constraint firstAttribute="trailing" secondItem="kZH-Au-7we" secondAttribute="trailing" id="zyY-nM-RR4"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
@@ -273,10 +229,7 @@
                                         <size key="customSize" width="599" height="54"/>
                                         <connections>
                                             <outlet property="chevronButton" destination="yfB-Mo-73D" id="v2Z-MS-4uY"/>
-                                            <outlet property="commentsButton" destination="lLZ-rl-op1" id="XH3-um-XYa"/>
-                                            <outlet property="lovesButton" destination="DGx-L8-OiN" id="fk0-TM-fT8"/>
-                                            <outlet property="repostButton" destination="k0A-Ky-x9O" id="qXI-9l-faD"/>
-                                            <outlet property="viewsButton" destination="89C-tv-GIz" id="etU-t5-ebg"/>
+                                            <outlet property="toolBar" destination="kZH-Au-7we" id="qeA-pP-yCP"/>
                                         </connections>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="StreamImageCell" id="GGC-y5-Isi" userLabel="StreamImageCell" customClass="StreamImageCell" customModule="Ello" customModuleProvider="target">
@@ -1191,20 +1144,16 @@
         <image name="chevron-icon" width="19" height="13"/>
         <image name="discover-icon" width="49" height="49"/>
         <image name="discover-icon-selected" width="49" height="49"/>
-        <image name="dots-icon" width="21" height="13"/>
         <image name="ello-logo" width="166" height="166"/>
-        <image name="eye-icon" width="23" height="13"/>
         <image name="friends-icon" width="49" height="49"/>
         <image name="friends-icon-selected" width="49" height="49"/>
         <image name="hamburger-icon" width="49" height="49"/>
-        <image name="heart-icon" width="22" height="13"/>
         <image name="notifications-icon" width="49" height="49"/>
         <image name="notifications-icon-selected" width="49" height="49"/>
         <image name="post-icon" width="49" height="49"/>
         <image name="post-icon-selected" width="49" height="49"/>
         <image name="profile-icon" width="49" height="49"/>
         <image name="profile-icon-selected" width="49" height="49"/>
-        <image name="repost-icon" width="19" height="13"/>
         <image name="search-icon" width="49" height="49"/>
     </resources>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>

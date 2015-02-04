@@ -43,8 +43,6 @@ class ElloNavigationController: UINavigationController, UIGestureRecognizerDeleg
             interactionController = UIPercentDrivenInteractiveTransition()
             if viewControllers.count > 1 {
                 popViewControllerAnimated(true)
-            } else {
-                dismissViewControllerAnimated(true, completion: nil)
             }
         case .Changed:
             interactionController?.updateInteractiveTransition(percent)
@@ -124,7 +122,7 @@ class ForwardAnimator : NSObject, UIViewControllerAnimatedTransitioning {
                 let to = toView.frame
                 toView.frame = CGRect(x: from.origin.x + from.size.width, y: from.origin.y, width: to.size.width, height: to.size.height)
                 context.containerView().addSubview(toView)
-                
+
                 UIView.animateWithDuration(transitionDuration(context),
                     delay: 0.0,
                     options: UIViewAnimationOptions.CurveEaseIn,
