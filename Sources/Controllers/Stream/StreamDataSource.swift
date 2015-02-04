@@ -23,14 +23,15 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         case Unknown = "StreamUnknownCell"
     }
 
+    let testWebView:UIWebView
     let streamKind:StreamKind
 
     var indexFile:String?
     var contentReadyClosure:StreamContentReady?
     var streamCellItems:[StreamCellItem] = []
-    let testWebView:UIWebView
     let sizeCalculator:StreamTextCellSizeCalculator
-    var postbarDelegate:PostbarDelegate?
+    weak var postbarDelegate:PostbarDelegate?
+    weak var webLinkDelegate:WebLinkDelegate?
 
     init(testWebView: UIWebView, streamKind:StreamKind) {
         self.streamKind = streamKind
@@ -169,7 +170,8 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     private func textCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> StreamTextCell {
         var textCell:StreamTextCell = collectionView.dequeueReusableCellWithReuseIdentifier(CellIdentifier.Text.rawValue, forIndexPath: indexPath) as StreamTextCell
-
+        
+        textCell.webLinkDelegate = webLinkDelegate
         textCell.contentView.alpha = 0.0
         if let textData = streamCellItem.data as TextBlock? {
             textCell.webView.loadHTMLString(StreamTextCellHTML.postHTML(textData.content), baseURL: NSURL(string: "/"))

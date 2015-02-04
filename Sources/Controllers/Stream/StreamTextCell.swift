@@ -11,9 +11,9 @@ import Foundation
 
 class StreamTextCell: UICollectionViewCell, UIWebViewDelegate {
 
-
     @IBOutlet weak var webView:UIWebView!
     @IBOutlet weak var leadingConstraint:NSLayoutConstraint!
+    weak var webLinkDelegate: WebLinkDelegate?
 
     var calculatedHeight:CGFloat = 0.0
     let jsCommandProtocol = "ello://"
@@ -41,7 +41,9 @@ class StreamTextCell: UICollectionViewCell, UIWebViewDelegate {
             return false
         }
         else if requestURL.hasPrefix("http://") || requestURL.hasPrefix("https://") {
-            postNotification(externalWebNotification, requestURL)
+            println("Request URL: \(requestURL)")
+            let (type, data) = RequestType.match(requestURL)
+            webLinkDelegate?.webLinkTapped(type, data: data)
             return false
         }
         return true
