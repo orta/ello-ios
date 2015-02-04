@@ -24,7 +24,7 @@ class StreamHeaderCell: UICollectionViewCell {
     func setAvatarURL(url:NSURL) {
 
         avatarImageView.sd_setImageWithURL(url, completed: {
-            (image, error, type, url) -> Void in
+            (image, error, type, url) in
 
             if error == nil && image != nil {
                 let size = self.avatarImageView.bounds.size
