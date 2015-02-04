@@ -10,7 +10,8 @@ import UIKit
 
 class StreamImageViewer: NSObject,
 JTSImageViewControllerOptionsDelegate,
-JTSImageViewControllerDismissalDelegate {
+JTSImageViewControllerDismissalDelegate,
+StreamImageCellDelegate {
 
     let controller:UIViewController
 
@@ -18,18 +19,16 @@ JTSImageViewControllerDismissalDelegate {
         self.controller = controller
     }
 
-    func imageTapped(notification:NSNotification) {
-        if let imageView = notification.object as? UIImageView {
-            let imageInfo = JTSImageInfo()
-            imageInfo.image = imageView.image
-            imageInfo.referenceRect = imageView.frame
-            imageInfo.referenceView = imageView.superview
-            let imageViewer = JTSImageViewController(imageInfo: imageInfo, mode: JTSImageViewControllerMode.Image, backgroundStyle: JTSImageViewControllerBackgroundOption.None)
-            let transition:JTSImageViewControllerTransition = ._FromOriginalPosition
-            imageViewer.showFromViewController(controller, transition: transition)
-            imageViewer.optionsDelegate = self
-            imageViewer.dismissalDelegate = self
-        }
+    func imageTapped(imageView:UIImageView) {
+        let imageInfo = JTSImageInfo()
+        imageInfo.image = imageView.image
+        imageInfo.referenceRect = imageView.frame
+        imageInfo.referenceView = imageView.superview
+        let imageViewer = JTSImageViewController(imageInfo: imageInfo, mode: JTSImageViewControllerMode.Image, backgroundStyle: JTSImageViewControllerBackgroundOption.None)
+        let transition:JTSImageViewControllerTransition = ._FromOriginalPosition
+        imageViewer.showFromViewController(controller, transition: transition)
+        imageViewer.optionsDelegate = self
+        imageViewer.dismissalDelegate = self
     }
 
 // MARK: JTSImageViewControllerOptionsDelegate
