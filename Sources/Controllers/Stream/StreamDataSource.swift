@@ -12,7 +12,6 @@ import WebKit
 class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     typealias StreamContentReady = (indexPaths:[NSIndexPath]) -> ()
-    typealias StreamLinkHandler = (type: RequestType, data: String) -> ()
 
     enum CellIdentifier: String {
         case CommentHeader = "StreamCommentHeaderCell"
@@ -26,19 +25,18 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     let testWebView:UIWebView
     let streamKind:StreamKind
-    let linkHandler: StreamLinkHandler
 
     var indexFile:String?
     var contentReadyClosure:StreamContentReady?
     var streamCellItems:[StreamCellItem] = []
     let sizeCalculator:StreamTextCellSizeCalculator
-    var postbarDelegate:PostbarDelegate?
+    weak var postbarDelegate:PostbarDelegate?
+    weak var webLinkDelegate:WebLinkDelegate?
 
-    init(testWebView: UIWebView, streamKind:StreamKind, linkHandler: StreamLinkHandler) {
+    init(testWebView: UIWebView, streamKind:StreamKind) {
         self.streamKind = streamKind
         self.testWebView = testWebView
         self.sizeCalculator = StreamTextCellSizeCalculator(webView: testWebView)
-        self.linkHandler = linkHandler
         super.init()
     }
     
@@ -172,8 +170,8 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     private func textCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> StreamTextCell {
         var textCell:StreamTextCell = collectionView.dequeueReusableCellWithReuseIdentifier(CellIdentifier.Text.rawValue, forIndexPath: indexPath) as StreamTextCell
-
-        textCell.linkHandler = linkHandler
+        
+        textCell.webLinkDelegate = webLinkDelegate
         textCell.contentView.alpha = 0.0
         if let textData = streamCellItem.data as TextBlock? {
             textCell.webView.loadHTMLString(StreamTextCellHTML.postHTML(textData.content), baseURL: NSURL(string: "/"))

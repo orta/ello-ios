@@ -9,6 +9,10 @@
 import Foundation
 import UIKit
 
+protocol WebLinkDelegate: NSObjectProtocol {
+    func webLinkTapped(type: RequestType, data: String)
+}
+
 class StreamViewController: BaseElloViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
@@ -125,8 +129,9 @@ class StreamViewController: BaseElloViewController {
     private func setupDataSource() {
         let webView = UIWebView(frame: self.view.bounds)
 
-        self.dataSource = StreamDataSource(testWebView: webView, streamKind: streamKind, linkHandler: linkHandler)
+        self.dataSource = StreamDataSource(testWebView: webView, streamKind: streamKind)
         self.dataSource.postbarDelegate = PostbarController(collectionView: collectionView, dataSource: self.dataSource)
+        self.dataSource.webLinkDelegate = self
     }
 
     private func prepareForStreamType() {
@@ -137,18 +142,20 @@ class StreamViewController: BaseElloViewController {
         }
     }
 
-    private func linkHandler(type: RequestType, data: String) {
+    private func presentProfile(username: String) {
+        let controller = ProfileViewController.instantiateFromStoryboard()
+        self.navigationController?.pushViewController(controller, animated: true)
+    }
+}
+
+// MARK: StreamViewController : WebLinkDelegate
+extension StreamViewController : WebLinkDelegate {
+    func webLinkTapped(type: RequestType, data: String) {
         switch type {
         case .External: postNotification(externalWebNotification, data)
         case .Profile: presentProfile(data)
         case .Post: println("showPostDetail: \(data)")
         }
-    }
-
-    private func presentProfile(username: String) {
-        let controller = ProfileViewController.instantiateFromStoryboard()
-        controller.username = username
-        self.navigationController?.pushViewController(controller, animated: true)
     }
 }
 
