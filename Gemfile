@@ -11,3 +11,4 @@ gem 'sbconstants'
 # used for automated release notes
 gem 'pivotal-tracker'
 gem 'rugged'
+gem 'plist'
