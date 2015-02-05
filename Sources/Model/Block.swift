@@ -42,7 +42,6 @@ class Block {
 
                 if let assets = assets {
                     if let assetId = assetId {
-                        println("assetId = \(assetId)")
                         if let attachment = assets[assetId]?["attachment"] as? [String:AnyObject] {
                             let hdpi = attachment["hdpi"] as? [String:AnyObject]
                             if let hdpi = hdpi {
