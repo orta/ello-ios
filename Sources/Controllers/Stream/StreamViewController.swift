@@ -13,6 +13,10 @@ protocol WebLinkDelegate: NSObjectProtocol {
     func webLinkTapped(type: ElloURI, data: String)
 }
 
+protocol UserDelegate: NSObjectProtocol {
+    func userTapped(cell: UICollectionViewCell) -> Void
+}
+
 class StreamViewController: BaseElloViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
@@ -92,6 +96,22 @@ class StreamViewController: BaseElloViewController {
         self.dataSource.addStreamables(streamables, startingIndexPath:nil) { (cellCount) -> () in
             self.collectionView.reloadData()
         }
+<<<<<<< HEAD
+=======
+        // loves
+        // reposts
+        // omnibar button
+        let streamService = StreamService()
+        streamService.loadMoreCommentsForPost(post.postId,
+            success: { (streamables) -> () in
+                self.dataSource.addStreamables(streamables, completion: { (indexPaths) -> () in
+                    self.collectionView.dataSource = self.dataSource
+                    self.collectionView.insertItemsAtIndexPaths(indexPaths)
+                    }, startingIndexPath:nil)
+            }) { (error, statusCode) -> () in
+                println("failed to load comments")
+        }
+>>>>>>> Add user tapped and avatar button to cell headers.
     }
 
 // MARK: Private Functions
@@ -157,6 +177,7 @@ class StreamViewController: BaseElloViewController {
             self.dataSource.imageDelegate = imageViewer
         }
         self.dataSource.webLinkDelegate = self
+        self.dataSource.userDelegate = self
         collectionView.dataSource = self.dataSource
     }
 
@@ -175,6 +196,24 @@ extension StreamViewController : WebLinkDelegate {
         case .Post: println("showPostDetail: \(data)")
         }
     }
+}
+
+// MARK: StreamViewController : UserDelegate
+extension StreamViewController : UserDelegate {
+
+    func userTapped(cell: UICollectionViewCell) {
+        if let indexPath = collectionView.indexPathForCell(cell) {
+            if let post = dataSource.postForIndexPath(indexPath) {
+                let vc = StreamViewController.instantiateFromStoryboard()
+                if let user = post.author {
+                    var type = StreamKind.Profile(user: user)
+                    vc.streamKind = type
+                }
+                NSNotificationCenter.defaultCenter().postNotificationName(StreamContainerViewController.Notifications.StreamDetailTapped.rawValue, object: vc)
+            }
+        }
+    }
+    
 }
 
 // MARK: StreamViewController : UICollectionViewDelegate

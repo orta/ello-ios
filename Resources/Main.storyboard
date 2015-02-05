@@ -290,12 +290,6 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s9K-Bx-O4q" userLabel="ContentView">
                                                     <rect key="frame" x="8" y="10" width="579" height="60"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="deA-kz-Gec">
-                                                            <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="width" secondItem="deA-kz-Gec" secondAttribute="height" multiplier="1:1" id="Rew-eB-sfR"/>
-                                                            </constraints>
-                                                        </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2m" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fh8-XF-BrM" userLabel="timestamp">
                                                             <rect key="frame" x="529" y="23" width="50" height="14"/>
                                                             <constraints>
@@ -305,22 +299,33 @@
                                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AGO-KQ-D74">
+                                                        <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AGO-KQ-D74">
                                                             <rect key="frame" x="80" y="24" width="75" height="13"/>
                                                             <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="13"/>
                                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zbx-jJ-fdg" customClass="AvatarButton" customModule="Ello" customModuleProvider="target">
+                                                            <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" secondItem="zbx-jJ-fdg" secondAttribute="height" multiplier="1:1" id="wn1-91-ovT"/>
+                                                            </constraints>
+                                                            <state key="normal">
+                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="userTapped:" destination="beQ-fD-toB" eventType="touchUpInside" id="O0H-j0-apk"/>
+                                                            </connections>
+                                                        </button>
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstAttribute="trailing" secondItem="Fh8-XF-BrM" secondAttribute="trailing" id="2Ag-OA-K6p"/>
-                                                        <constraint firstItem="AGO-KQ-D74" firstAttribute="leading" secondItem="deA-kz-Gec" secondAttribute="trailing" constant="20" id="4we-va-WV1"/>
-                                                        <constraint firstAttribute="bottom" secondItem="deA-kz-Gec" secondAttribute="bottom" id="Iqe-vv-hkL"/>
-                                                        <constraint firstAttribute="centerY" secondItem="deA-kz-Gec" secondAttribute="centerY" id="M4W-1p-oL8"/>
-                                                        <constraint firstItem="deA-kz-Gec" firstAttribute="top" secondItem="s9K-Bx-O4q" secondAttribute="top" id="N2g-Et-E6U"/>
+                                                        <constraint firstAttribute="bottom" secondItem="zbx-jJ-fdg" secondAttribute="bottom" id="Jsv-i3-Uxp"/>
+                                                        <constraint firstItem="zbx-jJ-fdg" firstAttribute="leading" secondItem="s9K-Bx-O4q" secondAttribute="leading" id="PPU-hZ-jJY"/>
+                                                        <constraint firstItem="zbx-jJ-fdg" firstAttribute="top" secondItem="s9K-Bx-O4q" secondAttribute="top" id="Wr4-9y-6uz"/>
                                                         <constraint firstAttribute="centerY" secondItem="AGO-KQ-D74" secondAttribute="centerY" id="Z2B-no-Uve"/>
                                                         <constraint firstAttribute="centerY" secondItem="Fh8-XF-BrM" secondAttribute="centerY" id="buc-Vn-mWq"/>
-                                                        <constraint firstItem="deA-kz-Gec" firstAttribute="leading" secondItem="s9K-Bx-O4q" secondAttribute="leading" id="xvw-eS-fEa"/>
+                                                        <constraint firstItem="AGO-KQ-D74" firstAttribute="leading" secondItem="zbx-jJ-fdg" secondAttribute="trailing" constant="20" id="dy3-gL-90T" userLabel="userNameLeadingConstraint"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
@@ -335,9 +340,9 @@
                                         </constraints>
                                         <size key="customSize" width="599" height="80"/>
                                         <connections>
-                                            <outlet property="avatarImageView" destination="deA-kz-Gec" id="mv5-q4-wQe"/>
+                                            <outlet property="avatarButton" destination="zbx-jJ-fdg" id="GUv-3H-QAW"/>
                                             <outlet property="timestampLabel" destination="Fh8-XF-BrM" id="LU9-4H-Xvk"/>
-                                            <outlet property="userNameLeadingConstraint" destination="4we-va-WV1" id="Gzt-IV-WDC"/>
+                                            <outlet property="userNameLeadingConstraint" destination="dy3-gL-90T" id="QwF-Br-53g"/>
                                             <outlet property="usernameLabel" destination="AGO-KQ-D74" id="OoR-HU-FaG"/>
                                         </connections>
                                     </collectionViewCell>

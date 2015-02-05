@@ -15,20 +15,22 @@ protocol PostTappedDelegate : NSObjectProtocol {
 enum StreamKind {
     case Friend
     case Noise
-    case PostDetail(post:Post)
+    case PostDetail(post: Post)
+    case Profile(user: User)
 
     var name:String {
         switch self {
         case .Friend: return "Friends"
         case .Noise: return "Noise"
         case .PostDetail: return "Post Detail"
+        case .Profile(let user): return "@\((user as User).username)"
         }
     }
 
     var columnCount:Int {
         switch self {
-        case .Friend, .PostDetail: return 1
         case .Noise: return 2
+        default: return 1
         }
     }
 
@@ -37,6 +39,7 @@ enum StreamKind {
         case .Friend: return .FriendStream
         case .Noise: return .NoiseStream
         case .PostDetail: return .NoiseStream // never use
+        case .Profile(let user): return .UserStream(userId: (user as User).userId)
         }
     }
 
