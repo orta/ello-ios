@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 protocol WebLinkDelegate: NSObjectProtocol {
-    func webLinkTapped(type: RequestType, data: String)
+    func webLinkTapped(type: ElloURI, data: String)
 }
 
 class StreamViewController: BaseElloViewController {
@@ -168,7 +168,7 @@ class StreamViewController: BaseElloViewController {
 
 // MARK: StreamViewController : WebLinkDelegate
 extension StreamViewController : WebLinkDelegate {
-    func webLinkTapped(type: RequestType, data: String) {
+    func webLinkTapped(type: ElloURI, data: String) {
         switch type {
         case .External: postNotification(externalWebNotification, data)
         case .Profile: presentProfile(data)
