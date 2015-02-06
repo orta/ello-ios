@@ -50,14 +50,14 @@ class StreamDataSourceSpec: QuickSpec {
             describe("-collectionView:numberOfItemsInSection:", {
 
                 it("returns 87", {
-                    expect(dataSource.collectionView(vc.collectionView, numberOfItemsInSection: 0)).toEventually(equal(87), timeout:5)
+                    expect(dataSource.collectionView(vc.collectionView, numberOfItemsInSection: 0)).toEventually(equal(87), timeout:10)
                 })
             })
                         
             describe("-postForIndexPath:", {
                 
                 it("returns a post", {
-                    expect(dataSource.postForIndexPath(NSIndexPath(forItem: 0, inSection: 0))).toEventually(beAKindOf(Post.self), timeout:5)
+                    expect(dataSource.postForIndexPath(NSIndexPath(forItem: 0, inSection: 0))).toEventually(beAKindOf(Post.self), timeout:10)
                 })
                 
                 it("returns nil when out of bounds", {
