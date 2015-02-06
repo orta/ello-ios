@@ -14,18 +14,18 @@ import Nimble
 
 class StreamServiceSpec: QuickSpec {
     override func spec() {
-        describe("-loadStream", {
+        describe("-loadStream") {
 
             var streamService = StreamService()
 
-            context("success", {
+            context("success") {
                 beforeEach {
                     ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.endpointsClosure, stubResponses: true)
                 }
                 
                 describe("-loadStream") {
                     
-                    it("Calls success with an array of Activity objects", {
+                    it("Calls success with an array of Activity objects") {
                         var loadedStreamables:[Streamable]?
 
                         streamService.loadStream(ElloAPI.FriendStream, { (streamables) -> () in
@@ -56,12 +56,12 @@ class StreamServiceSpec: QuickSpec {
                         expect(post0Author.experimentalFeatures) == true
                         expect(post0Author.relationshipPriority) == "friend"
                         expect(post0Author.avatarURL!.absoluteString) == "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/27/large_ello-09fd7088-2e4f-4781-87db-433d5dbc88a5.png"
-                    })
+                    }
 
-                    it("handles assets", {
+                    it("handles assets") {
                         var loadedStreamables:[Streamable]?
 
-                        streamService.loadFriendStream({ (streamables) -> () in
+                        streamService.loadStream(ElloAPI.FriendStream, { streamables in
                             loadedStreamables = streamables
                         }, failure: nil)
 
@@ -76,7 +76,7 @@ class StreamServiceSpec: QuickSpec {
                         expect(imageBlock.hdpi!.height) == 321
                         expect(imageBlock.hdpi!.size) == 77464
                         expect(imageBlock.hdpi!.imageType) == "image/jpeg"
-                    })
+                    }
                 }
 
                 describe("-loadMoreCommentsForPost") {
@@ -110,9 +110,9 @@ class StreamServiceSpec: QuickSpec {
                         expect(commentAuthor.avatarURL!.absoluteString) == "https://d324imu86q1bqn.cloudfront.net/uploads/user/avatar/97143/regular_owl.png"
                     })
                 }
-            })
+            }
 
-            context("failure", {
+            context("failure") {
 
                 // smoke test a few failure status codes, the whole lot is tested in ElloProviderSpec
 
@@ -120,13 +120,13 @@ class StreamServiceSpec: QuickSpec {
                     ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.errorEndpointsClosure, stubResponses: true)
                 }
 
-                context("404", {
+                context("404") {
 
                     beforeEach {
                         ElloProvider.errorStatusCode = .Status404
                     }
 
-                    it("Calls failure with an error and statusCode", {
+                    it("Calls failure with an error and statusCode") {
 
                         var loadedStreamables:[Streamable]?
                         var loadedStatusCode:Int?
@@ -149,10 +149,10 @@ class StreamServiceSpec: QuickSpec {
                         expect(elloNetworkError.code) == ElloNetworkError.CodeType.notFound
                         expect(elloNetworkError.title) == "The requested resource could not be found."
                         expect(elloNetworkError.status) == "404"
-                    })
-                })
-            })
+                    }
+                }
+            }
 
-        })
+        }
     }
 }
