@@ -38,12 +38,6 @@ class StreamService: NSObject {
             }, failure: failure)
     }
 
-    func loadFriendStream(success: StreamSuccessCompletion, failure: StreamFailureCompletion?) {
-        loadStream(.FriendStream, success: success, failure: failure)
-    }
-
-    func loadNoiseStream(success: StreamSuccessCompletion, failure: StreamFailureCompletion?) {
-        loadStream(.NoiseStream, success: success, failure: failure)
     }
     
     func loadMoreCommentsForPost(postID:String, success: CommentsSuccessCompletion, failure: CommentsFailureCompletion?) {

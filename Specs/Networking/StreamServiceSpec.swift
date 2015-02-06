@@ -14,7 +14,7 @@ import Nimble
 
 class StreamServiceSpec: QuickSpec {
     override func spec() {
-        describe("-loadFriendStream", {
+        describe("-loadStream", {
 
             var streamService = StreamService()
 
@@ -23,12 +23,12 @@ class StreamServiceSpec: QuickSpec {
                     ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.endpointsClosure, stubResponses: true)
                 }
                 
-                describe("-loadFriendsStream") {
+                describe("-loadStream") {
                     
                     it("Calls success with an array of Activity objects", {
                         var loadedStreamables:[Streamable]?
 
-                        streamService.loadFriendStream({ (streamables) -> () in
+                        streamService.loadStream(ElloAPI.FriendStream, { (streamables) -> () in
                             loadedStreamables = streamables
                         }, failure: nil)
 
@@ -132,7 +132,7 @@ class StreamServiceSpec: QuickSpec {
                         var loadedStatusCode:Int?
                         var loadedError:NSError?
 
-                        streamService.loadFriendStream({ (streamables) -> () in
+                        streamService.loadStream(ElloAPI.FriendStream, { (streamables) -> () in
                             loadedStreamables = streamables
                         }, failure: { (error, statusCode) -> () in
                             loadedError = error
