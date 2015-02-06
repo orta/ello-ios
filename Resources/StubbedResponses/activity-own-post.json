@@ -12,6 +12,85 @@
         }
     },
     "linked": {
+        "assets": [
+            {
+                "id": "5381",
+                "attachment": {
+                    "optimized": {
+                        "url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/5381/optimized.jpg",
+                        "metadata": {
+                            "size": 728689,
+                            "type": "image/jpeg",
+                            "width": 2560,
+                            "height": 1094
+                        }
+                    },
+                    "small_screen": {
+                        "url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/5381/small_screen.jpg",
+                        "metadata": {
+                            "size": 58160,
+                            "type": "image/jpeg",
+                            "width": 640,
+                            "height": 274
+                        }
+                    },
+                    "ldpi": {
+                        "url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/5381/ldpi.jpg",
+                        "metadata": {
+                            "size": 4437,
+                            "type": "image/jpeg",
+                            "width": 150,
+                            "height": 64
+                        }
+                    },
+                    "mdpi": {
+                        "url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/5381/mdpi.jpg",
+                        "metadata": {
+                            "size": 21813,
+                            "type": "image/jpeg",
+                            "width": 375,
+                            "height": 160
+                        }
+                    },
+                    "hdpi": {
+                        "url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/5381/hdpi.jpg",
+                        "metadata": {
+                            "size": 77464,
+                            "type": "image/jpeg",
+                            "width": 750,
+                            "height": 321
+                        }
+                    },
+                    "xhdpi": {
+                        "url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/5381/xhdpi.jpg",
+                        "metadata": {
+                            "size": 274363,
+                            "type": "image/jpeg",
+                            "width": 1500,
+                            "height": 641
+                        }
+                    },
+                    "xxhdpi": {
+                        "url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/5381/xxhdpi.jpg",
+                        "metadata": {
+                            "size": 728689,
+                            "type": "image/jpeg",
+                            "width": 2560,
+                            "height": 1094
+                        }
+                    },
+                    "xxxhdpi": {
+                        "url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/5381/xxxhdpi.jpg",
+                        "metadata": {
+                            "size": 728687,
+                            "type": "image/jpeg",
+                            "width": 2560,
+                            "height": 1094
+                        }
+                    }
+                }
+            }
+        ],
         "posts": [
             {
                 "id": "598",
@@ -24,10 +103,15 @@
                         "kind": "text",
                         "readonly": false,
                         "data": "yo mang"
+                    },
+                    {
+                        "kind": "image",
+                        "data": {
+                            "url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/5381/optimized.jpg",
+                            "alt": "optimized.jpg",
+                            "asset_id": "5381"
+                        }
                     }
-                ],
-                "summary": [
-                    "<p>cfiggis, ISIS agents use <strong>Krav Maga</strong>.</p>"
                 ],
                 "created_at": "2014-12-23T22:27:47.341Z",
                 "views_count": 0,
@@ -38,7 +122,10 @@
                         "type": "users",
                         "href": "/api/edge/users/42",
                         "id": "42"
-                    }
+                    },
+                    "assets": [
+                        "5381"
+                    ]
                 }
             }
         ],

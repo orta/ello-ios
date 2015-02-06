@@ -40,7 +40,6 @@ struct StreamCellItemParser {
     // MARK: - Private
 
     private func headerStreamCellItems(streamable:Streamable) -> [StreamCellItem] {
-        
         var type = StreamCellItem.CellType.Header
         var oneColumnHeight:CGFloat
         var multiColumnHeight:CGFloat
