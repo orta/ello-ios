@@ -32,30 +32,50 @@ class StreamServiceSpec: QuickSpec {
                             loadedStreamables = streamables
                         }, failure: nil)
 
-                        expect(countElements(loadedStreamables!)) == 2
+                        expect(countElements(loadedStreamables!)) == 24
 
                         let post0:Post = loadedStreamables![0] as Post
 
-                        expect(post0.postId) == "2"
-                        expect(post0.href) == "/api/edge/posts/2"
-                        expect(post0.token) == "KVNldSWCvfPkjsbWcvB4mA"
+                        expect(post0.postId) == "4718"
+                        expect(post0.href) == "/api/edge/posts/4718"
+                        expect(post0.token) == "_axtKV8Q-MSWbUCWjGqykg"
                         expect(post0.collapsed) == false
-                        expect(post0.viewsCount) == 100
+                        expect(post0.viewsCount) == 6
                         expect(post0.commentsCount) == 50
                         expect(post0.repostsCount) == 3
 
                         let textBlock:TextBlock = post0.content[0] as TextBlock
 
-                        expect(textBlock.content) == "<p>Get your <a href='/upso' class='user-mention' rel='nofollow'>@upso</a> wallpapers here <img class='emoji' title=':point_right:' alt=':point_right:' src='https://d2r3yqi5wwm1w7.cloudfront.net/images/emoji/unicode/1f449.png' height='20' width='20' align='absmiddle'> <a href='/wtf/post/wallpapers' rel='nofollow'>ello.co/wtf/post/wallpapers</a><br>You can get a matching shirt over here <img class='emoji' title=':point_right:' alt=':point_right:' src='https://d2r3yqi5wwm1w7.cloudfront.net/images/emoji/unicode/1f449.png' height='20' width='20' align='absmiddle'> <a href='http://ello.threadless.com/#/product/upso/mens' rel='nofollow' target='_blank'>ello.threadless.com</a></p>"
+                        expect(textBlock.content) == "etest post to determine what happens when someone sees this for the first time as a repost from someone they follow. dcdoran will repost this."
 
                         let post0Author:User = post0.author!
-                        expect(post0Author.userId) == "42"
-                        expect(post0Author.href) == "/api/edge/users/42"
-                        expect(post0Author.username) == "archer"
+                        expect(post0Author.userId) == "27"
+                        expect(post0Author.href) == "/api/edge/users/27"
+                        expect(post0Author.username) == "dcdoran"
                         expect(post0Author.name) == "Sterling"
-                        expect(post0Author.experimentalFeatures) == false
-                        expect(post0Author.relationshipPriority) == "self"
-//                        expect(post0Author.avatarURL!.absoluteString) == "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/10/regular_optimized-5.png"
+                        expect(post0Author.experimentalFeatures) == true
+                        expect(post0Author.relationshipPriority) == "friend"
+                        expect(post0Author.avatarURL!.absoluteString) == "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/27/large_ello-09fd7088-2e4f-4781-87db-433d5dbc88a5.png"
+                    })
+
+                    it("handles assets", {
+                        var loadedStreamables:[Streamable]?
+
+                        streamService.loadFriendStream({ (streamables) -> () in
+                            loadedStreamables = streamables
+                        }, failure: nil)
+
+                        let post2:Post = loadedStreamables![2] as Post
+
+                        expect(post2.postId) == "4707"
+
+                        let imageBlock:ImageBlock = post2.content[0] as ImageBlock
+
+                        expect(imageBlock.hdpi).notTo(beNil())
+                        expect(imageBlock.hdpi!.width) == 750
+                        expect(imageBlock.hdpi!.height) == 321
+                        expect(imageBlock.hdpi!.size) == 77464
+                        expect(imageBlock.hdpi!.imageType) == "image/jpeg"
                     })
                 }
 
@@ -87,7 +107,7 @@ class StreamServiceSpec: QuickSpec {
                         expect(commentAuthor.username) == "pam"
                         expect(commentAuthor.href) == "/api/edge/users/345"
                         expect(commentAuthor.experimentalFeatures) == true
-//                        expect(commentAuthor.avatarURL!.absoluteString) == "https://d324imu86q1bqn.cloudfront.net/uploads/user/avatar/97143/regular_owl.png"
+                        expect(commentAuthor.avatarURL!.absoluteString) == "https://d324imu86q1bqn.cloudfront.net/uploads/user/avatar/97143/regular_owl.png"
                     })
                 }
             })
@@ -115,8 +135,8 @@ class StreamServiceSpec: QuickSpec {
                         streamService.loadFriendStream({ (streamables) -> () in
                             loadedStreamables = streamables
                         }, failure: { (error, statusCode) -> () in
-                                loadedError = error
-                                loadedStatusCode = statusCode
+                            loadedError = error
+                            loadedStatusCode = statusCode
                         })
 
                         expect(loadedStreamables).to(beNil())
@@ -130,9 +150,7 @@ class StreamServiceSpec: QuickSpec {
                         expect(elloNetworkError.title) == "The requested resource could not be found."
                         expect(elloNetworkError.status) == "404"
                     })
-                    
                 })
-
             })
 
         })

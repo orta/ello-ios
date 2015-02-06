@@ -40,8 +40,21 @@ class PostSpec: QuickSpec {
             expect(post.author!.experimentalFeatures) == true
             expect(post.author!.relationshipPriority) == "friend"
             expect(post.author!.href) == "/api/edge/users/666"
-//            expect(post.author!.avatarURL!.absoluteString) == "https://abc123.cloudfront.net/uploads/user/avatar/666/avatar.png"
-        }
+            expect(post.author!.avatarURL!.absoluteString) == "https://abc123.cloudfront.net/uploads/user/avatar/666/avatar.png"
+
+            let imageBlock:ImageBlock = post.content[0] as ImageBlock
+
+            expect(imageBlock.xxhdpi).notTo(beNil())
+            expect(imageBlock.xxhdpi!.width) == 2560
+            expect(imageBlock.xxhdpi!.height) == 1094
+            expect(imageBlock.xxhdpi!.size) == 728689
+            expect(imageBlock.xxhdpi!.imageType) == "image/jpeg"
+
+            expect(imageBlock.hdpi).notTo(beNil())
+            expect(imageBlock.hdpi!.width) == 750
+            expect(imageBlock.hdpi!.height) == 321
+            expect(imageBlock.hdpi!.size) == 77464
+            expect(imageBlock.hdpi!.imageType) == "image/jpeg"        }
         
     }
 }
