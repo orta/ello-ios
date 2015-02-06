@@ -23,13 +23,19 @@ typealias CommentsFailureCompletion = (error: NSError, statusCode:Int?) -> ()
 class StreamService: NSObject {
 
     func loadStream(endpoint:ElloAPI, success: StreamSuccessCompletion, failure: StreamFailureCompletion?) {
+        switch endpoint {
+        case .UserStream: parseUserStream(endpoint, success: success, failure: failure)
+        default: parseActivities(endpoint, success: success, failure: failure)
+        }
+    }
+
+    func parseUserStream(endpoint: ElloAPI, success: StreamSuccessCompletion, failure: StreamFailureCompletion?) {
         ElloProvider.sharedProvider.elloRequest(endpoint, method: .GET, parameters: endpoint.defaultParameters, propertyName:MappingType.Prop.Activities, success: { (data) -> () in
             if let activities:[Activity] = data as? [Activity] {
                 var filteredActivities = activities.filter({$0.subject as? Post != nil})
                 var streamables:[Streamable] = filteredActivities.map({ (activity) -> Streamable in
                     return activity.subject as Post
                 })
-
                 success(streamables: streamables)
             }
             else {
@@ -38,6 +44,19 @@ class StreamService: NSObject {
             }, failure: failure)
     }
 
+    func parseActivities(endpoint: ElloAPI, success: StreamSuccessCompletion, failure: StreamFailureCompletion?) {
+        ElloProvider.sharedProvider.elloRequest(endpoint, method: .GET, parameters: endpoint.defaultParameters, propertyName:MappingType.Prop.Activities, success: { (data) -> () in
+            if let activities:[Activity] = data as? [Activity] {
+                var filteredActivities = activities.filter({$0.subject as? Post != nil})
+                var streamables:[Streamable] = filteredActivities.map({ (activity) -> Streamable in
+                    return activity.subject as Post
+                })
+                success(streamables: streamables)
+            }
+            else {
+                ElloProvider.unCastableJSONAble(failure)
+            }
+            }, failure: failure)
     }
     
     func loadMoreCommentsForPost(postID:String, success: CommentsSuccessCompletion, failure: CommentsFailureCompletion?) {
