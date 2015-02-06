@@ -13,9 +13,9 @@ import Moya
 
 class StreamDataSourceSpec: QuickSpec {
     override func spec() {
-        
+
         var vc = StreamViewController.instantiateFromStoryboard()
-        
+
         beforeEach({
             vc = StreamViewController.instantiateFromStoryboard()
             let keyWindow = UIWindow(frame: UIScreen.mainScreen().bounds)
@@ -24,14 +24,14 @@ class StreamDataSourceSpec: QuickSpec {
             vc.loadView()
             vc.viewDidLoad()
         })
-        
-        
+
+
         var dataSource: StreamDataSource!
         let collectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: UICollectionViewFlowLayout())
         let webView = UIWebView(frame: CGRectMake(0, 0, 320, 640))
         ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.endpointsClosure, stubResponses: true)
         var loadedStreamables:[Streamable]?
-        
+
         describe("initialization", {
 
             beforeEach({
@@ -41,10 +41,10 @@ class StreamDataSourceSpec: QuickSpec {
                     loadedStreamables = streamables
                 }, failure: nil)
 
-                dataSource.addStreamables(loadedStreamables!, completion: { (cellCount) -> () in
+                dataSource.addStreamables(loadedStreamables!, startingIndexPath:nil) { (cellCount) -> () in
                     vc.collectionView.dataSource = dataSource
                     vc.collectionView.reloadData()
-                }, startingIndexPath:nil)
+                }
             })
 
             describe("-collectionView:numberOfItemsInSection:", {
@@ -53,23 +53,23 @@ class StreamDataSourceSpec: QuickSpec {
                     expect(dataSource.collectionView(vc.collectionView, numberOfItemsInSection: 0)).toEventually(equal(87), timeout:10)
                 })
             })
-                        
+
             describe("-postForIndexPath:", {
-                
+
                 it("returns a post", {
                     expect(dataSource.postForIndexPath(NSIndexPath(forItem: 0, inSection: 0))).toEventually(beAKindOf(Post.self), timeout:10)
                 })
-                
+
                 it("returns nil when out of bounds", {
                     expect(dataSource.postForIndexPath(NSIndexPath(forItem: 100, inSection: 0))).toEventually(beNil())
                 })
-                
+
                 it("returns nil when the subject is not a post", {
                     expect(dataSource.postForIndexPath(NSIndexPath(forItem: 7, inSection: 0))).toEventually(beNil())
                 })
             })
 
-            
+
 
 //            describe("-collectionView:cellForItemAtIndexPath:", {
 //
