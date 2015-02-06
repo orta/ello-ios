@@ -26,7 +26,7 @@ class PulsingCircle: UIView {
                 delay: 0.0,
                 options: .CurveEaseOut,
                 animations: {
-                    self.alpha = 0
+                    circle.alpha = 0
                 },
                 completion: completion
             )
