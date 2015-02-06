@@ -102,29 +102,29 @@ struct ElloProvider {
 
 extension MoyaProvider {
 
-    func elloRequest(token: T, method: Moya.Method, parameters: [String: AnyObject], propertyName: MappingType.Prop, success: ElloSuccessCompletion, failure: ElloFailureCompletion?) {
+    func elloRequest(token: T, method: Moya.Method, parameters: [String: AnyObject], mappingType: MappingType, success: ElloSuccessCompletion, failure: ElloFailureCompletion?) {
 
         self.request(token, method: method, parameters: parameters, completion: {
             (data, statusCode, response, error) in
 
-            self.handleRequest(token, method: method, parameters: parameters, data: data, statusCode: statusCode, success: success, failure: failure, isRetry: false, propertyName: propertyName, error: error)
+            self.handleRequest(token, method: method, parameters: parameters, data: data, statusCode: statusCode, success: success, failure: failure, isRetry: false, mappingType: mappingType, error: error)
         })
     }
 
-    func handleRequest(token: T, method: Moya.Method, parameters: [String: AnyObject], data:NSData?, var statusCode:Int?, success: ElloSuccessCompletion, failure: ElloFailureCompletion?, isRetry: Bool, propertyName: MappingType.Prop, error:NSError?) {
+    func handleRequest(token: T, method: Moya.Method, parameters: [String: AnyObject], data:NSData?, var statusCode:Int?, success: ElloSuccessCompletion, failure: ElloFailureCompletion?, isRetry: Bool, mappingType: MappingType, error:NSError?) {
         if data != nil && statusCode != nil {
             switch statusCode! {
             case 200...299:
-                self.handleNetworkSuccess(data!, propertyName: propertyName, success: success, failure: failure)
+                self.handleNetworkSuccess(data!, mappingType: mappingType, success: success, failure: failure)
             case 300...399:
-                self.handleNetworkSuccess(data!, propertyName: propertyName, success: success, failure: failure)
+                self.handleNetworkSuccess(data!, mappingType: mappingType, success: success, failure: failure)
             case 401:
                 if !isRetry {
                     let authService = AuthService()
                     authService.reAuthenticate({
                         // now retry the previous request that generated the original 401
                         self.request(token, method: method, parameters: parameters, completion: { (data, statusCode, response, error) in
-                            self.handleRequest(token, method: method, parameters: parameters, data: data, statusCode: statusCode, success: success, failure: failure, isRetry: true, propertyName: propertyName, error: error)
+                            self.handleRequest(token, method: method, parameters: parameters, data: data, statusCode: statusCode, success: success, failure: failure, isRetry: true, mappingType: mappingType, error: error)
                         })
                     },
                     failure: { (_,_) in
@@ -152,7 +152,7 @@ extension MoyaProvider {
         }
     }
 
-    func handleNetworkSuccess(data:NSData, propertyName: MappingType.Prop, success:ElloSuccessCompletion, failure:ElloFailureCompletion?) {
+    func handleNetworkSuccess(data:NSData, mappingType: MappingType, success:ElloSuccessCompletion, failure:ElloFailureCompletion?) {
         let (mappedJSON: AnyObject?, error) = mapJSON(data)
         
         var mappedObjects: AnyObject?
@@ -164,15 +164,11 @@ extension MoyaProvider {
                     Store.parseLinked(linked!)
                 }
 
-                if let node = dict[propertyName.rawValue] as? [[String:AnyObject]] {
-                    if let JSONAbleType = MappingType.types[propertyName] {
-                        mappedObjects = mapToObjectArray(node, classType: JSONAbleType, linked: Store)
-                    }
+                if let node = dict[mappingType.rawValue] as? [[String:AnyObject]] {
+                    mappedObjects = mapToObjectArray(node, classType: mappingType.jsonableType, linked: Store)
                 }
-                else if let node = dict[propertyName.rawValue] as? [String:AnyObject] {
-                    if let JSONAbleType = MappingType.types[propertyName] {
-                        mappedObjects = mapToObject(node, classType: JSONAbleType, linked: Store)
-                    }
+                else if let node = dict[mappingType.rawValue] as? [String:AnyObject] {
+                    mappedObjects = mapToObject(node, classType: mappingType.jsonableType, linked: Store)
                 }
             }
 
@@ -231,7 +227,7 @@ extension MoyaProvider {
             var mappedObjects: AnyObject?
 
             if mappedJSON != nil && error == nil {
-                if let node = mappedJSON?[MappingType.Prop.Errors.rawValue] as? [String:AnyObject] {
+                if let node = mappedJSON?[MappingType.ErrorsType.rawValue] as? [String:AnyObject] {
                     elloNetworkError = mapToObject(node, classType: ElloNetworkError.self, linked: Store) as? ElloNetworkError
                 }
             }

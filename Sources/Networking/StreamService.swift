@@ -30,7 +30,7 @@ class StreamService: NSObject {
     }
 
     func parseUserStream(endpoint: ElloAPI, success: StreamSuccessCompletion, failure: StreamFailureCompletion?) {
-        ElloProvider.sharedProvider.elloRequest(endpoint, method: .GET, parameters: endpoint.defaultParameters, propertyName:MappingType.Prop.Activities, success: { (data) -> () in
+        ElloProvider.sharedProvider.elloRequest(endpoint, method: .GET, parameters: endpoint.defaultParameters, mappingType:MappingType.ActivitiesType, success: { (data) -> () in
             if let activities:[Activity] = data as? [Activity] {
                 var filteredActivities = activities.filter({$0.subject as? Post != nil})
                 var streamables:[Streamable] = filteredActivities.map({ (activity) -> Streamable in
@@ -45,7 +45,7 @@ class StreamService: NSObject {
     }
 
     func parseActivities(endpoint: ElloAPI, success: StreamSuccessCompletion, failure: StreamFailureCompletion?) {
-        ElloProvider.sharedProvider.elloRequest(endpoint, method: .GET, parameters: endpoint.defaultParameters, propertyName:MappingType.Prop.Activities, success: { (data) -> () in
+        ElloProvider.sharedProvider.elloRequest(endpoint, method: .GET, parameters: endpoint.defaultParameters, mappingType:MappingType.ActivitiesType, success: { (data) -> () in
             if let activities:[Activity] = data as? [Activity] {
                 var filteredActivities = activities.filter({$0.subject as? Post != nil})
                 var streamables:[Streamable] = filteredActivities.map({ (activity) -> Streamable in
@@ -61,7 +61,7 @@ class StreamService: NSObject {
     
     func loadMoreCommentsForPost(postID:String, success: CommentsSuccessCompletion, failure: CommentsFailureCompletion?) {
         let endpoint: ElloAPI = .PostComments(postId: postID)
-        ElloProvider.sharedProvider.elloRequest(endpoint, method: .GET, parameters: endpoint.defaultParameters, propertyName:MappingType.Prop.Comments, success: { (data) -> () in
+        ElloProvider.sharedProvider.elloRequest(endpoint, method: .GET, parameters: endpoint.defaultParameters, mappingType:MappingType.CommentsType, success: { (data) -> () in
             if let comments:[Comment] = data as? [Comment] {
                 let streamables:[Streamable] = comments.map({return $0 as Streamable})
                 success(streamables: streamables)
