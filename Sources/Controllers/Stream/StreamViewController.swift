@@ -16,6 +16,7 @@ protocol WebLinkDelegate: NSObjectProtocol {
 class StreamViewController: BaseElloViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
+    var pulsingCircle : PulsingCircle?
     var scrolling = false
     var streamables:[Streamable]?
     var dataSource:StreamDataSource!
@@ -48,6 +49,17 @@ class StreamViewController: BaseElloViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
+        setupPulsingCircle()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        if let pulsingCircle = self.pulsingCircle {
+            let (width, height) = (self.view.frame.size.width, self.view.frame.size.height)
+            let center = CGPoint(x: width / 2, y: height / 2)
+            pulsingCircle.center = center
+        }
     }
 
     class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> StreamViewController {
@@ -55,6 +67,15 @@ class StreamViewController: BaseElloViewController {
     }
 
 // MARK: Public Functions
+
+    func doneLoading() {
+        if let circle = pulsingCircle {
+            circle.stopPulse() { finished in
+                circle.removeFromSuperview()
+            }
+            pulsingCircle = nil
+        }
+    }
 
     func imageCellHeightUpdated(cell:StreamImageCell) {
         if let indexPath = collectionView.indexPathForCell(cell) {
@@ -74,6 +95,12 @@ class StreamViewController: BaseElloViewController {
     }
 
 // MARK: Private Functions
+
+    private func setupPulsingCircle() {
+        pulsingCircle = PulsingCircle.fill(self.view)
+        self.view.addSubview(pulsingCircle!)
+        pulsingCircle!.pulse()
+    }
 
     private func addNotificationObservers() {
         updatedStreamImageCellHeightNotification = NotificationObserver(notification: updateStreamImageCellHeightNotification) { streamTextCell in
@@ -195,6 +222,36 @@ extension StreamViewController : StreamCollectionViewLayoutDelegate {
 extension StreamViewController : UIScrollViewDelegate {
 
     func scrollViewDidScroll(scrollView : UIScrollView) {
+        let shouldHideTabBar : ()->Bool = { return false }
+        if !shouldHideTabBar() {
+            return
+        }
+
+        let tabBar_ = findTabBar(self.tabBarController!.view)
+        if let tabBar = tabBar_ {
+            if let tabBarView = self.tabBarController?.view {
+                UIView.animateWithDuration(0.5,
+                    animations: {
+                        var frame = tabBar.frame
+                        frame.origin.y = tabBarView.frame.size.height
+                        tabBar.frame = frame
+                    },
+                    completion: nil)
+            }
+        }
     }
 
+    private func findTabBar(view: UIView) -> UITabBar? {
+        if view.isKindOfClass(UITabBar.self) {
+            return view as? UITabBar
+        }
+
+        var foundTabBar : UITabBar? = nil
+        for subview : UIView in view.subviews as [UIView] {
+            if foundTabBar == nil {
+                foundTabBar = findTabBar(subview)
+            }
+        }
+        return foundTabBar
+    }
 }

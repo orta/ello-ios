@@ -32,23 +32,24 @@ class PostDetailViewController: StreamableViewController {
     }
 
     private func setupStreamController() {
-        let vc = StreamViewController.instantiateFromStoryboard()
-        vc.streamKind = .PostDetail(post: self.post)
-        vc.postTappedDelegate = self
+        let controller = StreamViewController.instantiateFromStoryboard()
+        controller.streamKind = .PostDetail(post: self.post)
+        controller.postTappedDelegate = self
 
-        vc.addStreamCellItems(self.detailCellItems)
+        controller.addStreamCellItems(self.detailCellItems)
 
         let streamService = StreamService()
         streamService.loadMoreCommentsForPost(post.postId,
             success: { (streamables) -> () in
-                vc.addStreamables(streamables)
+                controller.addStreamables(streamables)
+                controller.doneLoading()
             }) { (error, statusCode) -> () in
                 println("failed to load comments")
         }
 
-        vc.willMoveToParentViewController(self)
-        self.view.addSubview(vc.view)
-        self.addChildViewController(vc)
+        controller.willMoveToParentViewController(self)
+        self.view.addSubview(controller.view)
+        self.addChildViewController(controller)
     }
 
 }

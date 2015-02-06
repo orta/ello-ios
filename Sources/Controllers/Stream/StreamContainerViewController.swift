@@ -131,11 +131,13 @@ class StreamContainerViewController: StreamableViewController {
     private func setupControllerData(streamKind: StreamKind, controller: StreamViewController) {
         let streamService = StreamService()
         streamService.loadStream(streamKind.endpoint,
-            success:{ (streamables) in
-            controller.addStreamables(streamables)
-        }, failure: { (error, statusCode) in
-            println("failed to load noise stream (reason: \(error))")
-        })
+            success: { (streamables) in
+                controller.addStreamables(streamables)
+                controller.doneLoading()
+            }, failure: { (error, statusCode) in
+                println("failed to load noise stream (reason: \(error))")
+            }
+        )
     }
 
     private func setupStreamsSegmentedControl() {
