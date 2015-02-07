@@ -55,8 +55,7 @@ class Activity: JSONAble {
     }
 
     override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
-        let linkedData = JSONAble.linkItems(data)
-        let json = JSON(linkedData)
+        let json = JSON(data)
         let sub = json["subject"]
         let kind = Kind(rawValue: json["kind"].stringValue) ?? Kind.Unknown
         let activityId = json["created_at"].stringValue
