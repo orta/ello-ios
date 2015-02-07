@@ -36,12 +36,10 @@ class StreamService: NSObject {
             mappingType:MappingType.UsersType,
             success: { data in
                 if let user = data as? User {
-                    println("WE HAVE POSTS = \(user.posts)")
                     var streamables:[Streamable] = user.posts.map({ post -> Streamable in
                         return post as Post
                     })
                     success(streamables: streamables)
-//                        success(streamables: posts)
                 }
             },
             failure: failure

@@ -45,7 +45,6 @@ class Comment: JSONAble, Streamable {
             parseLinks(links, model: comment)
             comment.author = comment.links["author"] as? User
             comment.parentPost = comment.links["parent_post"] as? Post
-            println("parentPost = \(comment.parentPost)")
         }
         return comment
     }

@@ -60,7 +60,6 @@ class JSONAble: NSObject {
 
     class func parseLinks(links: [String: AnyObject], model: JSONAble) {
         for (key, value) in links {
-            println("parseLinks \(key) \(value)")
             if let link:String = value["type"] as? String {
                 if let mappingType = MappingType(rawValue: value["type"] as String) {
                     if let linkJSON = Store.store[link]?[value["id"] as String] as? [String: AnyObject] {
