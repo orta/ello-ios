@@ -19,14 +19,24 @@ enum MappingType: String {
     case UserType = "user"
     case ErrorsType = "errors"
     case ErrorType = "error"
+    case AssetsType = "assets"
 
-    var jsonableType:JSONAble.Type {
+    var jsonableType: JSONAble.Type {
         switch self {
         case CommentsType, CommentType: return Comment.self
         case PostsType, PostType: return Post.self
         case ActivitiesType, ActivityType: return Activity.self
         case UsersType, UserType: return User.self
         case ErrorsType, ErrorType: return ElloNetworkError.self
+        default: return JSONAble.self
         }
     }
+
+    var isOrdered: Bool {
+        switch self {
+        case AssetsType: return false
+        default: return true
+        }
+    }
+
 }
