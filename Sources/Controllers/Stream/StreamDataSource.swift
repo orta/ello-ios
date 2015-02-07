@@ -149,7 +149,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
 
         headerCell.timestampLabel.text = NSDate().distanceOfTimeInWords(streamCellItem.streamable.createdAt)
 
-        headerCell.usernameLabel.text = (streamCellItem.streamable.author?.at_name ?? "@meow")
+        headerCell.usernameLabel.text = (streamCellItem.streamable.author?.atName ?? "@meow")
         return headerCell
     }
 

@@ -19,7 +19,7 @@ class PostDetailViewController: StreamableViewController {
 
         super.init(nibName: nil, bundle: nil)
 
-        self.title = post.author?.at_name ?? "Profile"
+        self.title = post.author?.atName ?? "Profile"
     }
 
     override func viewDidLoad() {

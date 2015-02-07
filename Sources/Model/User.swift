@@ -15,7 +15,7 @@ class User: JSONAble {
     let name: String
     let userId: String
     let username: String
-    var at_name : String { return "@\(username)"}
+    var atName : String { return "@\(username)"}
     let href: String
     let experimentalFeatures: Bool
     let relationshipPriority: String
