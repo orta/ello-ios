@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="StreamFooterCell" customModule="Ello" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="54"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K6s-1n-9IV" userLabel="ContentView">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="54"/>
+                    <subviews>
+                        <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k5Q-PF-gpI" userLabel="toolBar">
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="54"/>
+                            <items/>
+                        </toolbar>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kRh-La-ImK" userLabel="chevronButton" customClass="StreamFooterButton" customModule="Ello" customModuleProvider="target">
+                            <rect key="frame" x="576" y="16" width="19" height="22"/>
+                            <state key="normal" image="chevron-icon">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="chevronButtonTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="rzH-7g-5oF"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="k5Q-PF-gpI" secondAttribute="bottom" id="HK7-TE-wfH" userLabel="toolBar Bottom"/>
+                        <constraint firstItem="k5Q-PF-gpI" firstAttribute="top" secondItem="K6s-1n-9IV" secondAttribute="top" id="RAP-tI-Yyg" userLabel="toolBar Top"/>
+                        <constraint firstAttribute="centerY" secondItem="kRh-La-ImK" secondAttribute="centerY" id="Vfa-EX-8Yc" userLabel="chevronButton Vert Center"/>
+                        <constraint firstItem="k5Q-PF-gpI" firstAttribute="leading" secondItem="K6s-1n-9IV" secondAttribute="leading" id="ZKZ-1n-593" userLabel="toolBar Left"/>
+                        <constraint firstAttribute="trailing" secondItem="kRh-La-ImK" secondAttribute="trailing" constant="5" id="lgu-mq-ycW" userLabel="chevronButton Right"/>
+                        <constraint firstAttribute="trailing" secondItem="k5Q-PF-gpI" secondAttribute="trailing" id="pDS-aR-4hb" userLabel="toolBar Right"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="K6s-1n-9IV" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Ri3-Bi-lXm" userLabel="ContentView Left"/>
+                <constraint firstItem="K6s-1n-9IV" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="d3b-XK-Heh" userLabel="ContentView Top"/>
+                <constraint firstAttribute="trailing" secondItem="K6s-1n-9IV" secondAttribute="trailing" id="sVg-mL-fzs" userLabel="ContentView Right"/>
+                <constraint firstAttribute="bottom" secondItem="K6s-1n-9IV" secondAttribute="bottom" id="yVF-h3-5x0" userLabel="ContentView Bottom"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="chevronButton" destination="kRh-La-ImK" id="YJg-b5-kak"/>
+                <outlet property="toolBar" destination="k5Q-PF-gpI" id="3YR-WK-saX"/>
+            </connections>
+            <point key="canvasLocation" x="304" y="375"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="chevron-icon" width="19" height="13"/>
+    </resources>
+</document>

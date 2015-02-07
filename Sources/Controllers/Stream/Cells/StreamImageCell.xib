@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="StreamImageCell" customModule="Ello" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="100"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gia-lK-VuN" userLabel="imageView">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="100"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cba-zi-ctG" userLabel="imageButton">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="100"/>
+                    <state key="normal">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="imageTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="Uyh-C3-WiI"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="cba-zi-ctG" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="1gy-zm-pE9" userLabel="imageButton Top"/>
+                <constraint firstAttribute="trailing" secondItem="cba-zi-ctG" secondAttribute="trailing" id="2f3-wW-Dwv" userLabel="imageButton Right"/>
+                <constraint firstItem="gia-lK-VuN" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="BcA-cq-mt9" userLabel="imageView Top"/>
+                <constraint firstItem="gia-lK-VuN" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="HFM-0K-iJ1" userLabel="imageView Left"/>
+                <constraint firstAttribute="bottom" secondItem="cba-zi-ctG" secondAttribute="bottom" id="Sxv-kZ-bg3" userLabel="imageButton Bottom"/>
+                <constraint firstItem="cba-zi-ctG" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="TK8-pA-8Rh" userLabel="imageButton Left"/>
+                <constraint firstAttribute="bottom" secondItem="gia-lK-VuN" secondAttribute="bottom" id="Tbz-Vn-W6Q" userLabel="imageView Bottom"/>
+                <constraint firstAttribute="trailing" secondItem="gia-lK-VuN" secondAttribute="trailing" id="yXY-K5-4pb" userLabel="imageView Right"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="imageButton" destination="cba-zi-ctG" id="ctg-Y8-MZ2"/>
+                <outlet property="imageView" destination="gia-lK-VuN" id="68D-tZ-ZsC"/>
+            </connections>
+            <point key="canvasLocation" x="920" y="178"/>
+        </view>
+    </objects>
+</document>

@@ -182,7 +182,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewLayout key="collectionViewLayout" id="RLZ-Kl-cg7" customClass="StreamCollectionViewLayout" customModule="Ello" customModuleProvider="target"/>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="StreamFooterCell" id="P76-vx-Q2Z" userLabel="StreamFooterCell" customClass="StreamFooterCell" customModule="Ello" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="" id="P76-vx-Q2Z" userLabel="StreamFooterCell">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -197,9 +197,6 @@
                                                             <state key="normal" image="chevron-icon">
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
-                                                            <connections>
-                                                                <action selector="chevronButtonTapped:" destination="P76-vx-Q2Z" eventType="touchUpInside" id="O6w-TY-LO7"/>
-                                                            </connections>
                                                         </button>
                                                         <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kZH-Au-7we">
                                                             <rect key="frame" x="0.0" y="0.0" width="599" height="54"/>
@@ -227,12 +224,8 @@
                                             <constraint firstItem="gFJ-zo-yZG" firstAttribute="top" secondItem="P76-vx-Q2Z" secondAttribute="top" id="a9n-qc-lL8"/>
                                         </constraints>
                                         <size key="customSize" width="599" height="54"/>
-                                        <connections>
-                                            <outlet property="chevronButton" destination="yfB-Mo-73D" id="v2Z-MS-4uY"/>
-                                            <outlet property="toolBar" destination="kZH-Au-7we" id="qeA-pP-yCP"/>
-                                        </connections>
                                     </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="StreamImageCell" id="GGC-y5-Isi" userLabel="StreamImageCell" customClass="StreamImageCell" customModule="Ello" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="" id="GGC-y5-Isi" userLabel="StreamImageCell" customClass="StreaImageCell">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -280,7 +273,7 @@
                                             <outlet property="imageView" destination="jvA-g2-edP" id="Yv0-Ml-UWI"/>
                                         </connections>
                                     </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="StreamHeaderCell" id="beQ-fD-toB" userLabel="StreamHeaderCell" customClass="StreamHeaderCell" customModule="Ello" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="" id="beQ-fD-toB" userLabel="StreamHeaderCell">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -334,14 +327,8 @@
                                             <constraint firstAttribute="trailing" secondItem="s9K-Bx-O4q" secondAttribute="trailing" constant="12" id="txe-2y-Tf3"/>
                                         </constraints>
                                         <size key="customSize" width="599" height="80"/>
-                                        <connections>
-                                            <outlet property="avatarImageView" destination="deA-kz-Gec" id="mv5-q4-wQe"/>
-                                            <outlet property="timestampLabel" destination="Fh8-XF-BrM" id="LU9-4H-Xvk"/>
-                                            <outlet property="userNameLeadingConstraint" destination="4we-va-WV1" id="Gzt-IV-WDC"/>
-                                            <outlet property="usernameLabel" destination="AGO-KQ-D74" id="OoR-HU-FaG"/>
-                                        </connections>
                                     </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="StreamTextCell" id="KbH-G3-UlV" userLabel="StreamTextCell" customClass="StreamTextCell" customModule="Ello" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="" id="KbH-G3-UlV" userLabel="StreamTextCell">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -351,9 +338,6 @@
                                                 <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jml-Dd-CFk">
                                                     <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <connections>
-                                                        <outlet property="delegate" destination="KbH-G3-UlV" id="Jpb-2F-HmS"/>
-                                                    </connections>
                                                 </webView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -365,12 +349,8 @@
                                             <constraint firstAttribute="trailing" secondItem="jml-Dd-CFk" secondAttribute="trailing" id="Nwz-L9-6OF"/>
                                             <constraint firstItem="jml-Dd-CFk" firstAttribute="leading" secondItem="KbH-G3-UlV" secondAttribute="leading" priority="999" id="fWD-sg-1KG"/>
                                         </constraints>
-                                        <connections>
-                                            <outlet property="leadingConstraint" destination="fWD-sg-1KG" id="7UZ-Ko-1y7"/>
-                                            <outlet property="webView" destination="jml-Dd-CFk" id="rrF-Si-MK9"/>
-                                        </connections>
                                     </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="StreamCommentHeaderCell" id="Oy8-oP-phQ" userLabel="StreamCommentHeaderCell" customClass="StreamCommentHeaderCell" customModule="Ello" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="" id="Oy8-oP-phQ" userLabel="StreamCommentHeaderCell" customClass="StreamCommentHeaderCell" customModule="Ello" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -423,13 +403,8 @@
                                             <constraint firstAttribute="trailing" secondItem="zdt-AP-z7A" secondAttribute="trailing" constant="12" id="uys-sB-bZg"/>
                                         </constraints>
                                         <size key="customSize" width="599" height="50"/>
-                                        <connections>
-                                            <outlet property="avatarImageView" destination="KSS-ax-DjD" id="kTI-XC-5zX"/>
-                                            <outlet property="timestampLabel" destination="Fef-Oe-Iv6" id="UNc-2g-3mx"/>
-                                            <outlet property="usernameLabel" destination="i4O-sj-KiS" id="rKm-1H-pxG"/>
-                                        </connections>
                                     </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="StreamUnknownCell" id="VYR-7k-1e3">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="" id="VYR-7k-1e3">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">

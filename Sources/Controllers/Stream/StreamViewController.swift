@@ -129,8 +129,27 @@ class StreamViewController: BaseElloViewController {
         collectionView.alwaysBounceHorizontal = false
         collectionView.alwaysBounceVertical = true
         collectionView.directionalLockEnabled = true
-
+        registerCells()
         setupCollectionViewLayout()
+    }
+
+    private func registerCells() {
+        let streamHeaderCellNib = UINib(nibName: StreamCellType.Header.name, bundle: nil)
+        collectionView.registerNib(streamHeaderCellNib, forCellWithReuseIdentifier: StreamCellType.Header.name)
+
+        let streamImageCellNib = UINib(nibName: StreamCellType.Image.name, bundle: nil)
+        collectionView.registerNib(streamImageCellNib, forCellWithReuseIdentifier: StreamCellType.Image.name)
+
+        let streamTextCellNib = UINib(nibName: StreamCellType.Text.name, bundle: nil)
+        collectionView.registerNib(streamTextCellNib, forCellWithReuseIdentifier: StreamCellType.Text.name)
+
+        let streamFooterCellNib = UINib(nibName: StreamCellType.Footer.name, bundle: nil)
+        collectionView.registerNib(streamFooterCellNib, forCellWithReuseIdentifier: StreamCellType.Footer.name)
+
+        let streamCommentHeaderCellNib = UINib(nibName: StreamCellType.CommentHeader.name, bundle: nil)
+        collectionView.registerNib(streamCommentHeaderCellNib, forCellWithReuseIdentifier: StreamCellType.CommentHeader.name)
+
+        collectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: StreamCellType.Unknown.name)
     }
 
     // this gets reset whenever the streamKind changes

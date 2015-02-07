@@ -13,16 +13,6 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     typealias StreamContentReady = (indexPaths:[NSIndexPath]) -> ()
 
-    enum CellIdentifier: String {
-        case CommentHeader = "StreamCommentHeaderCell"
-        case Header = "StreamHeaderCell"
-        case Footer = "StreamFooterCell"
-        case Image = "StreamImageCell"
-        case Text = "StreamTextCell"
-        case Comment = "StreamCommentCell"
-        case Unknown = "StreamUnknownCell"
-    }
-
     let testWebView:UIWebView
     let streamKind:StreamKind
 
@@ -137,9 +127,9 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         var headerCell:StreamHeaderCell
         switch streamCellItem.streamable.kind {
         case .Comment:
-            headerCell = collectionView.dequeueReusableCellWithReuseIdentifier(CellIdentifier.CommentHeader.rawValue, forIndexPath: indexPath) as StreamCommentHeaderCell
+            headerCell = collectionView.dequeueReusableCellWithReuseIdentifier(StreamCellType.CommentHeader.name, forIndexPath: indexPath) as StreamCommentHeaderCell
         default:
-            headerCell = collectionView.dequeueReusableCellWithReuseIdentifier(CellIdentifier.Header.rawValue, forIndexPath: indexPath) as StreamHeaderCell
+            headerCell = collectionView.dequeueReusableCellWithReuseIdentifier(StreamCellType.Header.name, forIndexPath: indexPath) as StreamHeaderCell
             headerCell.streamKind = streamKind
         }
 
@@ -161,12 +151,12 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         case Block.Kind.Text:
             return textCell(streamCellItem, collectionView: collectionView, indexPath: indexPath)
         case Block.Kind.Unknown:
-            return collectionView.dequeueReusableCellWithReuseIdentifier(CellIdentifier.Unknown.rawValue, forIndexPath: indexPath) as UICollectionViewCell
+            return collectionView.dequeueReusableCellWithReuseIdentifier(StreamCellType.Unknown.name, forIndexPath: indexPath) as UICollectionViewCell
         }
     }
 
     private func imageCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> StreamImageCell {
-        let imageCell = collectionView.dequeueReusableCellWithReuseIdentifier(CellIdentifier.Image.rawValue, forIndexPath: indexPath) as StreamImageCell
+        let imageCell = collectionView.dequeueReusableCellWithReuseIdentifier(StreamCellType.Image.name, forIndexPath: indexPath) as StreamImageCell
 
         if let photoData = streamCellItem.data as ImageBlock? {
             if let photoURL = photoData.hdpi?.url? {
@@ -183,7 +173,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     private func textCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> StreamTextCell {
-        var textCell:StreamTextCell = collectionView.dequeueReusableCellWithReuseIdentifier(CellIdentifier.Text.rawValue, forIndexPath: indexPath) as StreamTextCell
+        var textCell:StreamTextCell = collectionView.dequeueReusableCellWithReuseIdentifier(StreamCellType.Text.name, forIndexPath: indexPath) as StreamTextCell
 
         textCell.webLinkDelegate = webLinkDelegate
         textCell.contentView.alpha = 0.0
@@ -201,7 +191,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     private func footerCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> StreamFooterCell {
-        let footerCell = collectionView.dequeueReusableCellWithReuseIdentifier(CellIdentifier.Footer.rawValue, forIndexPath: indexPath) as StreamFooterCell
+        let footerCell = collectionView.dequeueReusableCellWithReuseIdentifier(StreamCellType.Footer.name, forIndexPath: indexPath) as StreamFooterCell
         if let post = streamCellItem.streamable as? Post {
             footerCell.comments = post.commentsCount?.localizedStringFromNumber()
             if self.streamKind.isGridLayout {

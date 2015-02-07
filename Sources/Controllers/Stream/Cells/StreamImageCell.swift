@@ -18,7 +18,6 @@ let updateStreamImageCellHeightNotification = Notification<StreamImageCell>(name
 class StreamImageCell: UICollectionViewCell {
 
     @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var debugTextField: UITextField!
     @IBOutlet weak var imageButton: UIButton!
 
     weak var delegate: StreamImageCellDelegate?
@@ -60,13 +59,10 @@ class StreamImageCell: UICollectionViewCell {
                     }, completion: { finished in
                         self.circle.stopPulse()
                     })
-
-                self.debugTextField.alpha = 0.0
             }
             else {
                 UIView.animateWithDuration(0.15, animations: {
                     self.aspectRatio = self.defaultAspectRatio
-                    self.debugTextField.alpha = 1.0
                     self.contentView.alpha = 0.5
                     self.imageView.alpha = 1.0
                 })
@@ -74,8 +70,6 @@ class StreamImageCell: UICollectionViewCell {
             }
         })
 
-
-        debugTextField.text = url.absoluteString
     }
 
     @IBAction func imageTapped(sender: UIButton) {

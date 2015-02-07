@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="AtlasTypewriter-Regular.otf">
+            <string>AtlasTypewriter-Regular</string>
+            <string>AtlasTypewriter-Regular</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="StreamHeaderCell" customModule="Ello" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OZm-rn-Kbn" userLabel="ContentView">
+                    <rect key="frame" x="8" y="10" width="580" height="60"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eHz-DO-ztr" userLabel="avatarImageView">
+                            <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="eHz-DO-ztr" secondAttribute="height" multiplier="1:1" id="NDk-fT-X5N"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2m" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CoN-8b-doP" userLabel="timestampLabel">
+                            <rect key="frame" x="530" y="21" width="50" height="17"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="50" id="6Vz-Ko-k2G"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="14"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PbC-VT-qSc" userLabel="usernameLabel">
+                            <rect key="frame" x="80" y="22" width="68" height="16"/>
+                            <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="13"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="eHz-DO-ztr" firstAttribute="leading" secondItem="OZm-rn-Kbn" secondAttribute="leading" id="1dg-lQ-miP" userLabel="avatarImageView Left"/>
+                        <constraint firstAttribute="centerY" secondItem="CoN-8b-doP" secondAttribute="centerY" id="1hU-y1-FuE" userLabel="timestampLabel Vert Center"/>
+                        <constraint firstItem="eHz-DO-ztr" firstAttribute="top" secondItem="OZm-rn-Kbn" secondAttribute="top" id="4DE-Ac-Jg4" userLabel="avatarImageView Top"/>
+                        <constraint firstAttribute="centerY" secondItem="PbC-VT-qSc" secondAttribute="centerY" id="6xy-kC-MVH" userLabel="usernameLabel Vert Center"/>
+                        <constraint firstAttribute="trailing" secondItem="CoN-8b-doP" secondAttribute="trailing" id="H7I-5l-urr" userLabel="timestampLabel Right"/>
+                        <constraint firstItem="PbC-VT-qSc" firstAttribute="leading" secondItem="eHz-DO-ztr" secondAttribute="trailing" constant="20" id="PR2-GL-Iue" userLabel="userNameLeadingConstraint"/>
+                        <constraint firstAttribute="bottom" secondItem="eHz-DO-ztr" secondAttribute="bottom" id="cXz-dh-OtC" userLabel="avatarImageView Bottom"/>
+                        <constraint firstAttribute="centerY" secondItem="eHz-DO-ztr" secondAttribute="centerY" id="zEQ-JA-Oha" userLabel="avatarImageView Vert Center"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="OZm-rn-Kbn" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="5MO-hD-Cbg" userLabel="ContentView Left"/>
+                <constraint firstAttribute="trailing" secondItem="OZm-rn-Kbn" secondAttribute="trailing" constant="12" id="Zog-9h-jvX" userLabel="ContentView Right"/>
+                <constraint firstAttribute="bottom" secondItem="OZm-rn-Kbn" secondAttribute="bottom" constant="10" id="n02-oz-wSQ" userLabel="ContentView Bottom"/>
+                <constraint firstItem="OZm-rn-Kbn" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="vb1-RR-EtU" userLabel="ContentView Top"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="avatarImageView" destination="eHz-DO-ztr" id="QkH-If-ith"/>
+                <outlet property="timestampLabel" destination="CoN-8b-doP" id="z6Q-Kt-cG3"/>
+                <outlet property="userNameLeadingConstraint" destination="PR2-GL-Iue" id="fut-vo-cJu"/>
+                <outlet property="usernameLabel" destination="PbC-VT-qSc" id="DRE-AO-Yde"/>
+            </connections>
+            <point key="canvasLocation" x="339" y="338"/>
+        </view>
+    </objects>
+</document>
