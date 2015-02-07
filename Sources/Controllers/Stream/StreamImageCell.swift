@@ -29,7 +29,7 @@ class StreamImageCell: UICollectionViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        circle = PulsingCircle(frame:CGRectZero)
+        circle = PulsingCircle.fill(self)
         contentView.insertSubview(circle!, belowSubview: imageView)
     }
 
@@ -38,12 +38,10 @@ class StreamImageCell: UICollectionViewCell {
     }
 
     func setImageURL(url:NSURL) {
-        circle.stopPulse()
-        circle.frame = CGRect(x: self.bounds.width/2 - 30.0, y: self.bounds.height/2 - 30.0, width: 60.0, height: 60.0)
         circle.pulse()
 
         self.imageView.sd_setImageWithURL(url, completed: {
-            (image, error, type, url) -> Void in
+            (image, error, type, url) in
 
             if error == nil && image != nil {
 
@@ -84,5 +82,5 @@ class StreamImageCell: UICollectionViewCell {
         delegate?.imageTapped(self.imageView)
 //        NSNotificationCenter.defaultCenter().postNotificationName("ImageTappedNotification", object: self.imageView)
     }
-    
+
 }

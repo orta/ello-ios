@@ -27,7 +27,6 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     let streamKind:StreamKind
 
     var indexFile:String?
-    var contentReadyClosure:StreamContentReady?
     var streamCellItems:[StreamCellItem] = []
     let sizeCalculator:StreamTextCellSizeCalculator
     weak var postbarDelegate:PostbarDelegate?
@@ -51,7 +50,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     // TODO: also grab out comment cells for the detail view
-    func cellItemsForPost(post:Post) -> [StreamCellItem]? {
+    func cellItemsForPost(post:Post) -> [StreamCellItem] {
         return streamCellItems.filter({ (item) -> Bool in
             if let cellPost = item.streamable as? Post {
                 return post.postId == cellPost.postId
@@ -76,9 +75,12 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         return indexPaths
     }
 
-    func addStreamables(streamables:[Streamable], completion:StreamContentReady, startingIndexPath:NSIndexPath?) {
-        self.contentReadyClosure = completion
-        self.streamCellItems = self.createStreamCellItems(streamables, startingIndexPath: startingIndexPath)
+    func addStreamCellItems(items:[StreamCellItem]) {
+        self.streamCellItems += items
+    }
+
+    func addStreamables(streamables:[Streamable], startingIndexPath:NSIndexPath?, completion:StreamContentReady) {
+        self.createStreamCellItems(streamables, startingIndexPath: startingIndexPath, completion: completion)
     }
 
     func updateHeightForIndexPath(indexPath:NSIndexPath?, height:CGFloat) {
@@ -124,12 +126,12 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
                 return UICollectionViewCell()
             }
         }
-       
+
         return UICollectionViewCell()
     }
 
     // MARK: - Private
-    
+
     private func headerCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> UICollectionViewCell {
 
         var headerCell:StreamHeaderCell
@@ -147,10 +149,10 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
 
         headerCell.timestampLabel.text = NSDate().distanceOfTimeInWords(streamCellItem.streamable.createdAt)
 
-        headerCell.usernameLabel.text = "@" + (streamCellItem.streamable.author?.username ?? "meow")
+        headerCell.usernameLabel.text = (streamCellItem.streamable.author?.at_name ?? "@meow")
         return headerCell
     }
-    
+
     private func bodyCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> UICollectionViewCell {
 
         switch streamCellItem.data!.kind {
@@ -182,7 +184,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     private func textCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> StreamTextCell {
         var textCell:StreamTextCell = collectionView.dequeueReusableCellWithReuseIdentifier(CellIdentifier.Text.rawValue, forIndexPath: indexPath) as StreamTextCell
-        
+
         textCell.webLinkDelegate = webLinkDelegate
         textCell.contentView.alpha = 0.0
         if let textData = streamCellItem.data as TextBlock? {
@@ -197,7 +199,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         }
         return textCell
     }
-    
+
     private func footerCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> StreamFooterCell {
         let footerCell = collectionView.dequeueReusableCellWithReuseIdentifier(CellIdentifier.Footer.rawValue, forIndexPath: indexPath) as StreamFooterCell
         if let post = streamCellItem.streamable as? Post {
@@ -213,18 +215,18 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
             footerCell.streamKind = streamKind
             footerCell.delegate = postbarDelegate
         }
-        
+
         return footerCell
     }
 
-    private func createStreamCellItems(streamables:[Streamable], startingIndexPath:NSIndexPath?) -> [StreamCellItem] {
+    private func createStreamCellItems(streamables:[Streamable], startingIndexPath:NSIndexPath?, completion:StreamContentReady) {
         var cellItems = StreamCellItemParser().streamCellItems(streamables)
 
         let textElements = cellItems.filter {
             return $0.data as? TextBlock != nil
         }
 
-        self.sizeCalculator.processCells(textElements, {
+        self.sizeCalculator.processCells(textElements) {
             var indexPaths:[NSIndexPath] = []
 
             var indexPath:NSIndexPath = startingIndexPath ?? NSIndexPath(forItem: countElements(self.streamCellItems) - 1, inSection: 0)
@@ -235,9 +237,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
                 self.streamCellItems.insert(cellItem, atIndex: index)
             }
 
-            self.contentReadyClosure?(indexPaths: indexPaths)
-        })
-
-        return self.streamCellItems
-    }
+            completion(indexPaths: indexPaths)
+        }
+   }
 }

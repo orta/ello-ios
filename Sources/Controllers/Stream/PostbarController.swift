@@ -59,10 +59,10 @@ class PostbarController:NSObject, PostbarDelegate {
     // MARK: - Private
 
     private func commentLoadSuccess(streamables:[Streamable], indexPath:NSIndexPath, cell:StreamFooterCell) {
-        self.dataSource.addStreamables(streamables, completion: { (indexPaths) -> () in
+        self.dataSource.addStreamables(streamables, startingIndexPath:indexPath) { (indexPaths) -> () in
             self.collectionView.dataSource = self.dataSource
             self.collectionView.insertItemsAtIndexPaths(indexPaths)
-        }, startingIndexPath:indexPath)
+        }
         cell.commentsButton.enabled = true
     }
 

@@ -16,22 +16,50 @@ protocol WebLinkDelegate: NSObjectProtocol {
 class StreamViewController: BaseElloViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
+    var pulsingCircle : PulsingCircle?
     var scrolling = false
     var streamables:[Streamable]?
     var dataSource:StreamDataSource!
     var navBarShowing = true
 
-    var streamKind:StreamKind = StreamKind.Friend
-    var detailCellItems:[StreamCellItem]?
+    var streamKind:StreamKind = StreamKind.Friend {
+        didSet { setupCollectionViewLayout() }
+    }
     var imageViewerDelegate:StreamImageViewer?
     var updatedStreamImageCellHeightNotification:NotificationObserver?
+    weak var postTappedDelegate : PostTappedDelegate?
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        initialSetup()
+    }
+
+    // If we ever create an init() method that doesn't use nib/storyboards,
+    // we'll need to call this.  Called from awakeFromNib and init.
+    private func initialSetup() {
+        setupImageViewDelegate()
+        setupDataSource()
+        addNotificationObservers()
+    }
+
+    deinit {
+        removeNotificationObservers()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        imageViewerDelegate = StreamImageViewer(controller:self)
         setupCollectionView()
-        addNotificationObservers()
-        setupDataSource()
-        prepareForStreamType()
+        setupPulsingCircle()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        if let pulsingCircle = self.pulsingCircle {
+            let (width, height) = (self.view.frame.size.width, self.view.frame.size.height)
+            let center = CGPoint(x: width / 2, y: height / 2)
+            pulsingCircle.center = center
+        }
     }
 
     class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> StreamViewController {
@@ -40,55 +68,38 @@ class StreamViewController: BaseElloViewController {
 
 // MARK: Public Functions
 
+    func doneLoading() {
+        if let circle = pulsingCircle {
+            circle.stopPulse() { finished in
+                circle.removeFromSuperview()
+            }
+            pulsingCircle = nil
+        }
+    }
+
     func imageCellHeightUpdated(cell:StreamImageCell) {
         if let indexPath = collectionView.indexPathForCell(cell) {
             self.updateCellHeight(indexPath, height: cell.calculatedHeight)
         }
     }
 
-// MARK: Private Functions
+    func addStreamCellItems(items: [StreamCellItem]) {
+        self.dataSource.addStreamCellItems(items)
+        self.collectionView.reloadData()
+    }
 
-    private func setupForDetail(post:Post) {
-        if let username = post.author?.username {
-            self.title = "@" + username
-        }
-
-        if let cellItems = self.detailCellItems {
-            self.dataSource.streamCellItems = cellItems
-            self.collectionView.dataSource = self.dataSource
+    func addStreamables(streamables:[Streamable]) {
+        self.dataSource.addStreamables(streamables, startingIndexPath:nil) { (cellCount) -> () in
             self.collectionView.reloadData()
-        }
-
-        let streamService = StreamService()
-        streamService.loadMoreCommentsForPost(post.postId,
-            success: { (streamables) -> () in
-                self.dataSource.addStreamables(streamables, completion: { (indexPaths) -> () in
-                    self.collectionView.dataSource = self.dataSource
-                    self.collectionView.insertItemsAtIndexPaths(indexPaths)
-                    }, startingIndexPath:nil)
-            }) { (error, statusCode) -> () in
-                println("failed to load comments")
         }
     }
 
-    private func setupForStream(streamKind:StreamKind) {
-        let streamService = StreamService()
-        //        ElloHUD.showLoadingHud()
-        streamService.loadStream(streamKind.endpoint,
-            success:{ (streamables) in
-            //            ElloHUD.hideLoadingHud()
-            self.streamables = streamables
+// MARK: Private Functions
 
-            self.dataSource.addStreamables(streamables, completion: { (cellCount) -> () in
-                let layout:StreamCollectionViewLayout = self.collectionView.collectionViewLayout as StreamCollectionViewLayout
-                layout.columnCount = streamKind.columnCount
-                self.collectionView.dataSource = self.dataSource
-                self.collectionView.reloadData()
-                }, startingIndexPath:nil)
-            }, failure: { (error, statusCode) in
-                //                ElloHUD.hideLoadingHud()
-                println("failed to load noise stream")
-        })
+    private func setupPulsingCircle() {
+        pulsingCircle = PulsingCircle.fill(self.view)
+        self.view.addSubview(pulsingCircle!)
+        pulsingCircle!.pulse()
     }
 
     private func addNotificationObservers() {
@@ -97,25 +108,44 @@ class StreamViewController: BaseElloViewController {
         }
     }
 
+    private func removeNotificationObservers() {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+        if let imageViewer = imageViewerDelegate {
+            NSNotificationCenter.defaultCenter().removeObserver(imageViewer)
+        }
+    }
+
     private func updateCellHeight(indexPath:NSIndexPath, height:CGFloat) {
         collectionView.performBatchUpdates({
             self.dataSource.updateHeightForIndexPath(indexPath, height: height)
-        }, completion: { (finished) -> Void in
+        }, completion: { (finished) in
 
         })
     }
 
     private func setupCollectionView() {
-        let layout:StreamCollectionViewLayout = collectionView.collectionViewLayout as StreamCollectionViewLayout
-        layout.columnCount = 1
-        layout.sectionInset = UIEdgeInsetsZero
-        layout.minimumColumnSpacing = 12
-        layout.minimumInteritemSpacing = 0
-
         collectionView.delegate = self
         automaticallyAdjustsScrollViewInsets = false
         collectionView.alwaysBounceHorizontal = false
         collectionView.alwaysBounceVertical = true
+        collectionView.directionalLockEnabled = true
+
+        setupCollectionViewLayout()
+    }
+
+    // this gets reset whenever the streamKind changes
+    private func setupCollectionViewLayout() {
+        let layout:StreamCollectionViewLayout = collectionView.collectionViewLayout as StreamCollectionViewLayout
+        layout.columnCount = streamKind.columnCount
+        layout.sectionInset = UIEdgeInsetsZero
+        layout.minimumColumnSpacing = 12
+        layout.minimumInteritemSpacing = 0
+    }
+
+    private func setupImageViewDelegate() {
+        if imageViewerDelegate == nil {
+            imageViewerDelegate = StreamImageViewer(controller:self)
+        }
     }
 
     private func setupDataSource() {
@@ -126,16 +156,8 @@ class StreamViewController: BaseElloViewController {
         if let imageViewer = imageViewerDelegate {
             self.dataSource.imageDelegate = imageViewer
         }
-		self.dataSource.webLinkDelegate = self
-
-    }
-
-    private func prepareForStreamType() {
-        switch streamKind {
-        case .PostDetail(let post):
-            setupForDetail(post)
-        default: setupForStream(streamKind)
-        }
+        self.dataSource.webLinkDelegate = self
+        collectionView.dataSource = self.dataSource
     }
 
     private func presentProfile(username: String) {
@@ -161,11 +183,8 @@ extension StreamViewController : UICollectionViewDelegate {
     func collectionView(collectionView: UICollectionView,
         didSelectItemAtIndexPath indexPath: NSIndexPath) {
             if let post = dataSource.postForIndexPath(indexPath) {
-                let vc = StreamViewController.instantiateFromStoryboard()
-                vc.streamKind = .PostDetail(post:post)
-                vc.detailCellItems = self.dataSource.cellItemsForPost(post)
-
-                NSNotificationCenter.defaultCenter().postNotificationName(StreamContainerViewController.Notifications.StreamDetailTapped.rawValue, object: vc)
+                let items = self.dataSource.cellItemsForPost(post)
+                postTappedDelegate?.postTapped(post, initialItems: items)
             }
     }
 
@@ -196,5 +215,43 @@ extension StreamViewController : StreamCollectionViewLayoutDelegate {
     func collectionView(collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
         maintainAspectRatioForItemAtIndexPath indexPath: NSIndexPath) -> Bool {
             return dataSource.maintainAspectRatioForItemAtIndexPath(indexPath)
+    }
+}
+
+// MARK: StreamViewController : UIScrollViewDelegate
+extension StreamViewController : UIScrollViewDelegate {
+
+    func scrollViewDidScroll(scrollView : UIScrollView) {
+        let shouldHideTabBar : ()->Bool = { return false }
+        if !shouldHideTabBar() {
+            return
+        }
+
+        let tabBar_ = findTabBar(self.tabBarController!.view)
+        if let tabBar = tabBar_ {
+            if let tabBarView = self.tabBarController?.view {
+                UIView.animateWithDuration(0.5,
+                    animations: {
+                        var frame = tabBar.frame
+                        frame.origin.y = tabBarView.frame.size.height
+                        tabBar.frame = frame
+                    },
+                    completion: nil)
+            }
+        }
+    }
+
+    private func findTabBar(view: UIView) -> UITabBar? {
+        if view.isKindOfClass(UITabBar.self) {
+            return view as? UITabBar
+        }
+
+        var foundTabBar : UITabBar? = nil
+        for subview : UIView in view.subviews as [UIView] {
+            if foundTabBar == nil {
+                foundTabBar = findTabBar(subview)
+            }
+        }
+        return foundTabBar
     }
 }

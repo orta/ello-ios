@@ -15,6 +15,7 @@ class User: JSONAble {
     let name: String
     let userId: String
     let username: String
+    var at_name : String { return "@\(username)"}
     let href: String
     let experimentalFeatures: Bool
     let relationshipPriority: String
@@ -59,7 +60,7 @@ class User: JSONAble {
         let postsCount = json["posts_count"].int
         let followersCount = json["followers_count"].int
         let followingCount = json["following_count"].int
-        
+
         return User(name: name, userId: userId, username: username, avatarURL:avatarURL, experimentalFeatures: experimentalFeatures, href:href, relationshipPriority:relationshipPriority, followersCount: followersCount, postsCount: postsCount, followingCount:followingCount)
     }
 }

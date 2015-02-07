@@ -21,8 +21,7 @@ class ElloTextField: UITextField {
     }
 
     deinit {
-        let center = NSNotificationCenter.defaultCenter()
-        center.removeObserver(self)
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
     func sharedSetup() {
