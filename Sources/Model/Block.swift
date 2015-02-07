@@ -39,43 +39,35 @@ class Block {
                 let assetId = data["asset_id"] as? String
 
                 let imageBlock = ImageBlock(alt: alt, assetId: assetId, url: NSURL(string: url)!)
-
-                if let assets = assets {
-                    if let assetId = assetId {
-                        if let attachment = assets[assetId]?["attachment"] as? [String:AnyObject] {
-                            let hdpi = attachment["hdpi"] as? [String:AnyObject]
-                            if let hdpi = hdpi {
-                                let hdpiAttachment =
-                                ImageAttachment(
-                                    url: NSURL(string: hdpi["url"] as String),
-                                    height: hdpi["metadata"]?["height"] as? Int,
-                                    width: hdpi["metadata"]?["width"] as? Int,
-                                    imageType: hdpi["metadata"]?["type"] as? String,
-                                    size: hdpi["metadata"]?["size"] as? Int)
-                                imageBlock.hdpi = hdpiAttachment
-                            }
-
-                            let xxhdpi = attachment["xxhdpi"] as? [String:AnyObject]
-
-                            if let xxhdpi = xxhdpi {
-                                let xxhdpiAttachment =
-                                ImageAttachment(
-                                    url: NSURL(string: xxhdpi["url"] as String),
-                                    height: xxhdpi["metadata"]?["height"] as? Int,
-                                    width: xxhdpi["metadata"]?["width"] as? Int,
-                                    imageType: xxhdpi["metadata"]?["type"] as? String,
-                                    size: xxhdpi["metadata"]?["size"] as? Int)
-                                imageBlock.xxhdpi = xxhdpiAttachment
-                            }
-                        }
-                    }
-                }
-
+                imageBlock.hdpi = Block.createImageAttachment("hdpi", data: data, assets: assets, assetId: assetId)
+                imageBlock.xxhdpi = Block.createImageAttachment("xxhdpi", data: data, assets: assets, assetId: assetId)
                 return imageBlock
             case .Unknown:
                 return UnknownBlock()
             }
         }
+    }
+
+    private class func createImageAttachment(sizeKey:String,
+        data:[String:AnyObject],
+        assets:[String: AnyObject]?,
+        assetId:String?) -> ImageAttachment? {
+
+        if let (assets, assetId) = unwrap(assets, assetId) {
+            if let attachment = assets[assetId]?["attachment"] as? [String:AnyObject] {
+                if let size = attachment[sizeKey] as? [String:AnyObject] {
+                    return ImageAttachment(
+                        url: NSURL(string: size["url"] as String),
+                        height: size["metadata"]?["height"] as? Int,
+                        width: size["metadata"]?["width"] as? Int,
+                        imageType: size["metadata"]?["type"] as? String,
+                        size: size["metadata"]?["size"] as? Int
+                    )
+                }
+            }
+        }
+
+        return nil
     }
 }
 
