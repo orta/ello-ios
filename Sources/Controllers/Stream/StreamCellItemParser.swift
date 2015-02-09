@@ -58,25 +58,27 @@ struct StreamCellItemParser {
 
     private func regionStreamCellItems(streamable:Streamable) -> [StreamCellItem] {
         var cellArray:[StreamCellItem] = []
-        for block in streamable.content {
-            var oneColumnHeight:CGFloat
-            var multiColumnHeight:CGFloat
+        if let content = streamable.content {
+            for block in content {
+                var oneColumnHeight:CGFloat
+                var multiColumnHeight:CGFloat
 
-            switch block.kind {
-            case Block.Kind.Image:
-                oneColumnHeight = self.oneColumnImageHeight(block as ImageBlock)
-                multiColumnHeight = self.twoColumnImageHeight(block as ImageBlock)
-            case Block.Kind.Text:
-                oneColumnHeight = 0.0
-                multiColumnHeight = 0.0
-            case Block.Kind.Unknown:
-                oneColumnHeight = 0.0
-                multiColumnHeight = 0.0
+                switch block.kind {
+                case Block.Kind.Image:
+                    oneColumnHeight = self.oneColumnImageHeight(block as ImageBlock)
+                    multiColumnHeight = self.twoColumnImageHeight(block as ImageBlock)
+                case Block.Kind.Text:
+                    oneColumnHeight = 0.0
+                    multiColumnHeight = 0.0
+                case Block.Kind.Unknown:
+                    oneColumnHeight = 0.0
+                    multiColumnHeight = 0.0
+                }
+                
+                let body:StreamCellItem = StreamCellItem(streamable: streamable, type: StreamCellItem.CellType.BodyElement, data: block, oneColumnCellHeight: oneColumnHeight, multiColumnCellHeight: multiColumnHeight)
+
+                cellArray.append(body)
             }
-            
-            let body:StreamCellItem = StreamCellItem(streamable: streamable, type: StreamCellItem.CellType.BodyElement, data: block, oneColumnCellHeight: oneColumnHeight, multiColumnCellHeight: multiColumnHeight)
-
-            cellArray.append(body)
         }
         return cellArray
     }

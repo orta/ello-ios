@@ -41,8 +41,7 @@ class StreamTextCell: UICollectionViewCell, UIWebViewDelegate {
             return false
         }
         else if requestURL.hasPrefix("http://") || requestURL.hasPrefix("https://") {
-            println("Request URL: \(requestURL)")
-            let (type, data) = RequestType.match(requestURL)
+            let (type, data) = ElloURI.match(requestURL)
             webLinkDelegate?.webLinkTapped(type, data: data)
             return false
         }

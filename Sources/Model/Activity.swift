@@ -43,7 +43,7 @@ class Activity: JSONAble {
     dynamic let activityId: String
     let kind: Kind
     let subjectType: SubjectType
-    dynamic let subject: AnyObject?
+    var subject: AnyObject?
 
 
     init(kind: Kind, activityId: String, createdAt: NSDate, subject:AnyObject?, subjectType: SubjectType) {
@@ -55,32 +55,20 @@ class Activity: JSONAble {
     }
 
     override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
-        let linkedData = JSONAble.linkItems(data)
-        let json = JSON(linkedData)
+        let json = JSON(data)
         let sub = json["subject"]
         let kind = Kind(rawValue: json["kind"].stringValue) ?? Kind.Unknown
         let activityId = json["created_at"].stringValue
         let subjectType = SubjectType(rawValue: json["subject_type"].stringValue) ?? SubjectType.Unknown
         var createdAt = json["created_at"].stringValue.toNSDate() ?? NSDate()
 
-        return Activity(kind: kind, activityId: activityId, createdAt: createdAt, subject: parseSubject(json, subjectType: subjectType), subjectType: subjectType)
-    }
+        var activity = Activity(kind: kind, activityId: activityId, createdAt: createdAt, subject: nil, subjectType: subjectType)
 
-    class private func parseSubject(json:JSON, subjectType: SubjectType) -> AnyObject? {
-        var subject:AnyObject?
-        switch subjectType {
-        case .User:
-            if let userDict = json["subject"].object as? [String: AnyObject] {
-                subject = User.fromJSON(userDict) as User
-            }
-        case .Post:
-            if let postDict = json["subject"].object as? [String: AnyObject] {
-                subject = Post.fromJSON(postDict) as Post
-            }
-        case .Unknown:
-            subject = nil
+        if let links = data["links"] as? [String: AnyObject] {
+            parseLinks(links, model: activity)
+            activity.subject = activity.links["subject"]
         }
-        return subject
+        return activity
     }
 
     override var description : String {

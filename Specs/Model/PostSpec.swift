@@ -21,11 +21,11 @@ class PostSpec: QuickSpec {
 
             expect(post.createdAt) == createdAt
 
-            let postContent0:ImageBlock = post.content[0] as ImageBlock
+            let postContent0:ImageBlock = post.content![0] as ImageBlock
             expect(postContent0.kind) == Block.Kind.Image
             expect(postContent0.alt) == "ello-15c97681-b4a6-496f-8c5f-0096fd215703.jpeg"
             
-            let postContent1:TextBlock = post.content[1] as TextBlock
+            let postContent1:TextBlock = post.content![1] as TextBlock
             expect(postContent1.kind) == Block.Kind.Text
             expect(postContent1.content) == "test text content"
             
@@ -42,7 +42,7 @@ class PostSpec: QuickSpec {
             expect(post.author!.href) == "/api/edge/users/666"
             expect(post.author!.avatarURL!.absoluteString) == "https://abc123.cloudfront.net/uploads/user/avatar/666/avatar.png"
 
-            let imageBlock:ImageBlock = post.content[0] as ImageBlock
+            let imageBlock:ImageBlock = post.content![0] as ImageBlock
 
             expect(imageBlock.xxhdpi).notTo(beNil())
             expect(imageBlock.xxhdpi!.width) == 2560

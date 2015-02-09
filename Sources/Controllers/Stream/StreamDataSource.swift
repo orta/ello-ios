@@ -22,6 +22,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     weak var postbarDelegate:PostbarDelegate?
     weak var webLinkDelegate:WebLinkDelegate?
     weak var imageDelegate:StreamImageCellDelegate?
+    weak var userDelegate:UserDelegate?
 
     init(testWebView: UIWebView, streamKind:StreamKind) {
         self.streamKind = streamKind
@@ -138,8 +139,8 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         }
 
         headerCell.timestampLabel.text = NSDate().distanceOfTimeInWords(streamCellItem.streamable.createdAt)
-
         headerCell.usernameLabel.text = (streamCellItem.streamable.author?.at_name ?? "@meow")
+        headerCell.userDelegate = userDelegate
         return headerCell
     }
 
@@ -175,7 +176,6 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     private func textCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> StreamTextCell {
         var textCell:StreamTextCell = collectionView.dequeueReusableCellWithReuseIdentifier(StreamCellType.Text.name, forIndexPath: indexPath) as StreamTextCell
 
-        textCell.webLinkDelegate = webLinkDelegate
         textCell.contentView.alpha = 0.0
         if let textData = streamCellItem.data as TextBlock? {
             textCell.webView.loadHTMLString(StreamTextCellHTML.postHTML(textData.content), baseURL: NSURL(string: "/"))
@@ -187,6 +187,8 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         else {
             textCell.leadingConstraint.constant = 0.0
         }
+        
+        textCell.webLinkDelegate = webLinkDelegate
         return textCell
     }
 
