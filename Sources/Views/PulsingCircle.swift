@@ -19,9 +19,18 @@ class PulsingCircle: UIView {
         return circle
     }
 
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        if window != nil && circle != nil {
+            circle = nil
+            pulse()
+        }
+    }
+
     func stopPulse(completion: ((Bool)->())? = nil) {
         self.userInteractionEnabled = false
         if let circle = circle {
+            self.circle = nil
             UIView.animateWithDuration(0.65,
                 delay: 0.0,
                 options: .CurveEaseOut,
@@ -55,6 +64,7 @@ class PulsingCircle: UIView {
             delay: 0.0,
             options: .CurveEaseOut,
             animations: {
+                self.alpha = 1
                 circle.transform = CGAffineTransformMakeScale(0.8, 0.8)
             },
             completion: { done in
@@ -63,7 +73,6 @@ class PulsingCircle: UIView {
                         delay: 0.0,
                         options: .CurveEaseOut,
                         animations: {
-                            self.alpha = 1
                             circle.transform = CGAffineTransformMakeScale(1.0, 1.0)
                         },
                         completion: { finished in
