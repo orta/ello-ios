@@ -12,7 +12,29 @@ class ElloNavigationController: UINavigationController, UIGestureRecognizerDeleg
     var interactionController: UIPercentDrivenInteractiveTransition?
     var externalWebObserver: NotificationObserver?
     let externalWebController: UINavigationController = KINWebBrowserViewController.navigationControllerWithWebBrowser()
+    var rootViewControllerName : String?
 
+    enum ViewControllers: String {
+        case Notifications = "NotificationsViewController"
+
+        var controllerInstance: UIViewController {
+            switch self {
+            case Notifications: return NotificationsViewController()
+            }
+        }
+    }
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+
+        if self.viewControllers.count == 0 {
+            if let rootViewControllerName = rootViewControllerName {
+                if let controller = ViewControllers(rawValue:rootViewControllerName)?.controllerInstance {
+                    self.viewControllers = [controller]
+                }
+            }
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
