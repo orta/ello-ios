@@ -56,3 +56,14 @@ class PostDetailViewController: StreamableViewController {
     }
 
 }
+
+// MARK: PostDetailViewController : PostTappedDelegate
+extension PostDetailViewController : PostTappedDelegate {
+
+    override func postTapped(post: Post, initialItems: [StreamCellItem]) {
+        if post.postId != self.post.postId {
+            super.postTapped(post, initialItems: initialItems)
+        }
+    }
+
+}
