@@ -26,13 +26,13 @@
                                 <constraint firstAttribute="width" constant="30" id="MjA-9k-hHK"/>
                             </constraints>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aEr-IQ-CaE" userLabel="usernameLabel">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="@username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aEr-IQ-CaE" userLabel="usernameLabel">
                             <rect key="frame" x="60" y="12" width="68" height="16"/>
                             <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="13"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2m" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cga-hh-4UO" userLabel="timestampLabel">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="2m" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cga-hh-4UO" userLabel="timestampLabel">
                             <rect key="frame" x="526" y="12" width="50" height="17"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="50" id="ppV-CQ-dk4"/>
@@ -60,6 +60,7 @@
                 <constraint firstItem="Y6f-gZ-xva" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="12" id="pY8-kO-XDm" userLabel="ContentView Left"/>
                 <constraint firstAttribute="bottom" secondItem="Y6f-gZ-xva" secondAttribute="bottom" constant="10" id="pfq-dn-FUF" userLabel="ContentView Bottom"/>
             </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="avatarImageView" destination="GOo-eb-zVi" id="Whd-zt-t3S"/>

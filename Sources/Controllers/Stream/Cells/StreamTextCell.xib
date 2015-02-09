@@ -25,6 +25,7 @@
                 <constraint firstItem="Szt-NQ-P9k" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" priority="999" id="qSl-wA-SZf" userLabel="leadingConstraint"/>
                 <constraint firstAttribute="trailing" secondItem="Szt-NQ-P9k" secondAttribute="trailing" id="zIV-42-GEN" userLabel="webView Right"/>
             </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="leadingConstraint" destination="qSl-wA-SZf" id="1rc-zI-FVD"/>

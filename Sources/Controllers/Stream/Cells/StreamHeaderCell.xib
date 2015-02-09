@@ -26,7 +26,7 @@
                                 <constraint firstAttribute="width" secondItem="eHz-DO-ztr" secondAttribute="height" multiplier="1:1" id="NDk-fT-X5N"/>
                             </constraints>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2m" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CoN-8b-doP" userLabel="timestampLabel">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="2m" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CoN-8b-doP" userLabel="timestampLabel">
                             <rect key="frame" x="530" y="21" width="50" height="17"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="50" id="6Vz-Ko-k2G"/>
@@ -35,7 +35,7 @@
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PbC-VT-qSc" userLabel="usernameLabel">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="@username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PbC-VT-qSc" userLabel="usernameLabel">
                             <rect key="frame" x="80" y="22" width="68" height="16"/>
                             <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="13"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -61,6 +61,7 @@
                 <constraint firstAttribute="bottom" secondItem="OZm-rn-Kbn" secondAttribute="bottom" constant="10" id="n02-oz-wSQ" userLabel="ContentView Bottom"/>
                 <constraint firstItem="OZm-rn-Kbn" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="vb1-RR-EtU" userLabel="ContentView Top"/>
             </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="avatarImageView" destination="eHz-DO-ztr" id="QkH-If-ith"/>

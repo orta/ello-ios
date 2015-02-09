@@ -34,6 +34,7 @@
                 <constraint firstAttribute="bottom" secondItem="gia-lK-VuN" secondAttribute="bottom" id="Tbz-Vn-W6Q" userLabel="imageView Bottom"/>
                 <constraint firstAttribute="trailing" secondItem="gia-lK-VuN" secondAttribute="trailing" id="yXY-K5-4pb" userLabel="imageView Right"/>
             </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="imageButton" destination="cba-zi-ctG" id="ctg-Y8-MZ2"/>

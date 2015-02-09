@@ -45,6 +45,7 @@
                 <constraint firstAttribute="trailing" secondItem="K6s-1n-9IV" secondAttribute="trailing" id="sVg-mL-fzs" userLabel="ContentView Right"/>
                 <constraint firstAttribute="bottom" secondItem="K6s-1n-9IV" secondAttribute="bottom" id="yVF-h3-5x0" userLabel="ContentView Bottom"/>
             </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="chevronButton" destination="kRh-La-ImK" id="YJg-b5-kak"/>
