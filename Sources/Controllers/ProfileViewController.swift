@@ -35,7 +35,7 @@ class ProfileViewController: StreamableViewController {
 
         super.init(nibName: nil, bundle: nil)
 
-        self.title = user.at_name ?? "Profile"
+        self.title = user.atName ?? "Profile"
     }
 
     private func setupStreamController() {
