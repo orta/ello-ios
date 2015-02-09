@@ -20,14 +20,8 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OZm-rn-Kbn" userLabel="ContentView">
                     <rect key="frame" x="8" y="10" width="580" height="60"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eHz-DO-ztr" userLabel="avatarImageView">
-                            <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
-                            <constraints>
-                                <constraint firstAttribute="width" secondItem="eHz-DO-ztr" secondAttribute="height" multiplier="1:1" id="NDk-fT-X5N"/>
-                            </constraints>
-                        </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="2m" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CoN-8b-doP" userLabel="timestampLabel">
-                            <rect key="frame" x="530" y="21" width="50" height="17"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2m" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CoN-8b-doP" userLabel="timestampLabel">
+                            <rect key="frame" x="530" y="21.5" width="50" height="16.5"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="50" id="6Vz-Ko-k2G"/>
                             </constraints>
@@ -35,22 +29,30 @@
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="@username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PbC-VT-qSc" userLabel="usernameLabel">
-                            <rect key="frame" x="80" y="22" width="68" height="16"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PbC-VT-qSc" userLabel="usernameLabel">
+                            <rect key="frame" x="86" y="22.5" width="68" height="15.5"/>
                             <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="13"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qbj-Zm-LIf" customClass="AvatarButton" customModule="Ello" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="Qbj-Zm-LIf" secondAttribute="height" multiplier="1:1" id="ZBj-FN-6p9"/>
+                            </constraints>
+                            <state key="normal">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                        </button>
                     </subviews>
                     <constraints>
-                        <constraint firstItem="eHz-DO-ztr" firstAttribute="leading" secondItem="OZm-rn-Kbn" secondAttribute="leading" id="1dg-lQ-miP" userLabel="avatarImageView Left"/>
                         <constraint firstAttribute="centerY" secondItem="CoN-8b-doP" secondAttribute="centerY" id="1hU-y1-FuE" userLabel="timestampLabel Vert Center"/>
-                        <constraint firstItem="eHz-DO-ztr" firstAttribute="top" secondItem="OZm-rn-Kbn" secondAttribute="top" id="4DE-Ac-Jg4" userLabel="avatarImageView Top"/>
                         <constraint firstAttribute="centerY" secondItem="PbC-VT-qSc" secondAttribute="centerY" id="6xy-kC-MVH" userLabel="usernameLabel Vert Center"/>
                         <constraint firstAttribute="trailing" secondItem="CoN-8b-doP" secondAttribute="trailing" id="H7I-5l-urr" userLabel="timestampLabel Right"/>
-                        <constraint firstItem="PbC-VT-qSc" firstAttribute="leading" secondItem="eHz-DO-ztr" secondAttribute="trailing" constant="20" id="PR2-GL-Iue" userLabel="userNameLeadingConstraint"/>
-                        <constraint firstAttribute="bottom" secondItem="eHz-DO-ztr" secondAttribute="bottom" id="cXz-dh-OtC" userLabel="avatarImageView Bottom"/>
-                        <constraint firstAttribute="centerY" secondItem="eHz-DO-ztr" secondAttribute="centerY" id="zEQ-JA-Oha" userLabel="avatarImageView Vert Center"/>
+                        <constraint firstItem="Qbj-Zm-LIf" firstAttribute="leading" secondItem="OZm-rn-Kbn" secondAttribute="leading" id="Met-V2-1AY"/>
+                        <constraint firstAttribute="bottom" secondItem="Qbj-Zm-LIf" secondAttribute="bottom" id="OWa-Ly-WMq"/>
+                        <constraint firstItem="PbC-VT-qSc" firstAttribute="leading" secondItem="Qbj-Zm-LIf" secondAttribute="trailing" constant="26" id="ZMj-Ys-OCa"/>
+                        <constraint firstItem="Qbj-Zm-LIf" firstAttribute="top" secondItem="OZm-rn-Kbn" secondAttribute="top" id="xQF-dc-mYY"/>
                     </constraints>
                 </view>
             </subviews>
@@ -64,9 +66,9 @@
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="avatarImageView" destination="eHz-DO-ztr" id="QkH-If-ith"/>
+                <outlet property="avatarButton" destination="Qbj-Zm-LIf" id="EZ6-jh-tY9"/>
                 <outlet property="timestampLabel" destination="CoN-8b-doP" id="z6Q-Kt-cG3"/>
-                <outlet property="userNameLeadingConstraint" destination="PR2-GL-Iue" id="fut-vo-cJu"/>
+                <outlet property="userNameLeadingConstraint" destination="ZMj-Ys-OCa" id="bnp-4h-JlK"/>
                 <outlet property="usernameLabel" destination="PbC-VT-qSc" id="DRE-AO-Yde"/>
             </connections>
             <point key="canvasLocation" x="339" y="338"/>

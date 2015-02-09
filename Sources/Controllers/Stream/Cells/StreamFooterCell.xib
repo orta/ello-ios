@@ -17,7 +17,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="600" height="54"/>
                             <items/>
                         </toolbar>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kRh-La-ImK" userLabel="chevronButton" customClass="StreamFooterButton" customModule="Ello" customModuleProvider="target">
+                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kRh-La-ImK" userLabel="chevronButton" customClass="StreamFooterButton" customModule="Ello" customModuleProvider="target">
                             <rect key="frame" x="576" y="16" width="19" height="22"/>
                             <state key="normal" image="chevron-icon">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
