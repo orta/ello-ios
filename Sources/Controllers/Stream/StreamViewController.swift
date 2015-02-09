@@ -229,7 +229,7 @@ extension StreamViewController : UICollectionViewDelegate {
 
     func collectionView(collectionView: UICollectionView,
         shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-            return !streamKind.isDetail && self.dataSource.streamCellItems[indexPath.item].type == StreamCellItem.CellType.Header
+            return self.dataSource.streamCellItems[indexPath.item].type == StreamCellItem.CellType.Header
     }
 }
 
