@@ -188,12 +188,10 @@ extension StreamViewController : UserDelegate {
     func userTapped(cell: UICollectionViewCell) {
         if let indexPath = collectionView.indexPathForCell(cell) {
             if let post = dataSource.postForIndexPath(indexPath) {
-                let vc = StreamViewController.instantiateFromStoryboard()
                 if let user = post.author {
-                    var type = StreamKind.Profile(user: user)
-                    vc.streamKind = type
+                    let vc = ProfileViewController(user: user)
+                    self.navigationController?.pushViewController(vc, animated: true)
                 }
-                NSNotificationCenter.defaultCenter().postNotificationName(StreamContainerViewController.Notifications.StreamDetailTapped.rawValue, object: vc)
             }
         }
     }

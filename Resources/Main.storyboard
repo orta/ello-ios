@@ -559,7 +559,7 @@
         <!--Profile-->
         <scene sceneID="g5m-Pl-KDJ">
             <objects>
-                <viewController storyboardIdentifier="ProfileViewController" title="Profile" id="pfO-53-D6h" customClass="ProfileViewController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Profile" id="pfO-53-D6h" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="dNe-YE-ehL"/>
                         <viewControllerLayoutGuide type="bottom" id="s7Y-oa-bk3"/>
