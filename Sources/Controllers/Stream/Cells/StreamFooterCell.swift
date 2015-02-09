@@ -125,6 +125,8 @@ class StreamFooterCell: UICollectionViewCell {
         super.awakeFromNib()
         self.toolBar.translucent = false
         self.toolBar.barTintColor = UIColor.whiteColor()
+        self.toolBar.clipsToBounds = true
+        self.toolBar.layer.borderColor = UIColor.whiteColor().CGColor
     }
 
     var views:String? {
