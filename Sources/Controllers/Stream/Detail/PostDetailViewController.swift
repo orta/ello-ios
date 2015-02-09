@@ -43,9 +43,12 @@ class PostDetailViewController: StreamableViewController {
             success: { (streamables) -> () in
                 controller.addStreamables(streamables)
                 controller.doneLoading()
-            }) { (error, statusCode) -> () in
+            },
+            failure: { (error, statusCode) -> () in
                 println("failed to load comments")
-        }
+                controller.doneLoading()
+            }
+        )
 
         controller.willMoveToParentViewController(self)
         self.view.addSubview(controller.view)
