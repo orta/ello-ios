@@ -15,7 +15,7 @@ class Comment: JSONAble, Streamable {
     
     let commentId: String
     var createdAt: NSDate
-    var content: [Block]
+    var content: [Block]?
     var author: User?
     var kind = StreamableKind.Comment
     var parentPost: Post?
@@ -25,7 +25,7 @@ class Comment: JSONAble, Streamable {
         }
     }
     
-    init(commentId: String, createdAt: NSDate, content: [Block], author: User?, parentPost: Post?) {
+    init(commentId: String, createdAt: NSDate, content: [Block]?, author: User?, parentPost: Post?) {
         self.commentId = commentId
         self.createdAt = createdAt
         self.content = content

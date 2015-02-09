@@ -15,7 +15,7 @@ class Post: JSONAble, Streamable {
     var createdAt: NSDate
     let href: String
     let collapsed: Bool
-    var content: [Block]
+    var content: [Block]?
     var kind = StreamableKind.Post
     let token: String
     var author: User?
@@ -26,7 +26,7 @@ class Post: JSONAble, Streamable {
         get { return postId }
     }
 
-    init(postId: String, createdAt: NSDate, href: String, collapsed:Bool, content: [Block], token: String, commentsCount: Int?, viewsCount: Int?, repostsCount: Int?) {
+    init(postId: String, createdAt: NSDate, href: String, collapsed:Bool, content: [Block]?, token: String, commentsCount: Int?, viewsCount: Int?, repostsCount: Int?) {
         self.postId = postId
         self.createdAt = createdAt
         self.href = href
@@ -50,12 +50,14 @@ class Post: JSONAble, Streamable {
         let repostsCount = json["reposts_count"].int
 
         let assets = json["assets"].object as? [String: AnyObject]
+        
 
-        let post = Post(postId: postId, createdAt: createdAt, href: href, collapsed: collapsed, content: Block.blocks(json, assets: assets), token: token, commentsCount: commentsCount, viewsCount: viewsCount, repostsCount: repostsCount)
+        let post = Post(postId: postId, createdAt: createdAt, href: href, collapsed: collapsed, content: nil, token: token, commentsCount: commentsCount, viewsCount: viewsCount, repostsCount: repostsCount)
 
         if let links = data["links"] as? [String: AnyObject] {
             parseLinks(links, model: post)
             post.author = post.links["author"] as? User
+            post.content = Block.blocks(json, assets: post.links["assets"] as? [String: AnyObject])
         }
         return post
     }

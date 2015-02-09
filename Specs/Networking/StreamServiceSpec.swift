@@ -44,7 +44,7 @@ class StreamServiceSpec: QuickSpec {
                         expect(post0.commentsCount) == 50
                         expect(post0.repostsCount) == 3
 
-                        let textBlock:TextBlock = post0.content[0] as TextBlock
+                        let textBlock:TextBlock = post0.content![0] as TextBlock
 
                         expect(textBlock.content) == "etest post to determine what happens when someone sees this for the first time as a repost from someone they follow. dcdoran will repost this."
 
@@ -69,7 +69,7 @@ class StreamServiceSpec: QuickSpec {
 
                         expect(post2.postId) == "4707"
 
-                        let imageBlock:ImageBlock = post2.content[0] as ImageBlock
+                        let imageBlock:ImageBlock = post2.content![0] as ImageBlock
 
                         expect(imageBlock.hdpi).notTo(beNil())
                         expect(imageBlock.hdpi!.width) == 750
@@ -96,7 +96,7 @@ class StreamServiceSpec: QuickSpec {
                         expect(comment.commentId) == "112"
                         expect(comment.createdAt) == expectedCreatedAt
 
-                        let contentBlock0:TextBlock = comment.content[0] as TextBlock
+                        let contentBlock0:TextBlock = comment.content![0] as TextBlock
                         expect(contentBlock0.content) == "<p>Hello, I am a comment with awesome content!</p>"
 
                         let commentAuthor:User = comment.author!
