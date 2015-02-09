@@ -34,7 +34,8 @@ struct StreamTextCellHTML {
     }
 
     static func postHTML(string:String) -> String {
-        return StreamTextCellHTML.indexFileAsString().stringByReplacingOccurrencesOfString("{{post-content}}", withString: string)
+        var htmlString = StreamTextCellHTML.indexFileAsString().stringByReplacingOccurrencesOfString("{{base-url}}", withString: ElloURI.baseURL)
+        return htmlString.stringByReplacingOccurrencesOfString("{{post-content}}", withString: string)
     }
 
 }

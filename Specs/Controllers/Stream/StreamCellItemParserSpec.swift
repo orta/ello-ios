@@ -49,7 +49,7 @@ class StreamCellItemParserSpec: QuickSpec {
             it("returns an array of 87 stream cell items when parsing friends.json's posts") {
                 var loadedStreamables:[Streamable]?
 
-                StreamService().loadFriendStream({ (streamables) -> () in
+                StreamService().loadStream(ElloAPI.FriendStream, { streamables in
                     loadedStreamables = streamables
                 }, failure: nil)
 

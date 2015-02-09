@@ -37,7 +37,7 @@ class StreamDataSourceSpec: QuickSpec {
             beforeEach({
                 dataSource = StreamDataSource(testWebView: webView, streamKind: StreamKind.Friend)
                 vc.dataSource = dataSource
-                StreamService().loadFriendStream({ (streamables) -> () in
+                StreamService().loadStream(ElloAPI.FriendStream, { (streamables) -> () in
                     loadedStreamables = streamables
                 }, failure: nil)
 

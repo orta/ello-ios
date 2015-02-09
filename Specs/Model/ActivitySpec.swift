@@ -27,7 +27,7 @@ class ActivitySpec: QuickSpec {
             var postCreatedAt:NSDate = "2014-12-23T22:27:47.341Z".toNSDate()!
             expect(post.createdAt) == postCreatedAt
 
-            let postContent0:TextBlock = post.content[0] as TextBlock
+            let postContent0:TextBlock = post.content![0] as TextBlock
             expect(postContent0.kind) == Block.Kind.Text
             expect(postContent0.content) == "yo mang"
             
@@ -43,7 +43,7 @@ class ActivitySpec: QuickSpec {
             expect(postAuthor.href) == "/api/edge/users/42"
             expect(postAuthor.avatarURL!.absoluteString) == "https://abc123.cloudfront.net/uploads/user/avatar/420/large_pam.png"
 
-            let imageBlock:ImageBlock = post.content[1] as ImageBlock
+            let imageBlock:ImageBlock = post.content![1] as ImageBlock
 
             expect(imageBlock.xxhdpi).notTo(beNil())
             expect(imageBlock.xxhdpi!.width) == 2560
