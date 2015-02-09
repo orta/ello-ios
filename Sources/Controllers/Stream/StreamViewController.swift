@@ -96,22 +96,6 @@ class StreamViewController: BaseElloViewController {
         self.dataSource.addStreamables(streamables, startingIndexPath:nil) { (cellCount) -> () in
             self.collectionView.reloadData()
         }
-<<<<<<< HEAD
-=======
-        // loves
-        // reposts
-        // omnibar button
-        let streamService = StreamService()
-        streamService.loadMoreCommentsForPost(post.postId,
-            success: { (streamables) -> () in
-                self.dataSource.addStreamables(streamables, completion: { (indexPaths) -> () in
-                    self.collectionView.dataSource = self.dataSource
-                    self.collectionView.insertItemsAtIndexPaths(indexPaths)
-                    }, startingIndexPath:nil)
-            }) { (error, statusCode) -> () in
-                println("failed to load comments")
-        }
->>>>>>> Add user tapped and avatar button to cell headers.
     }
 
 // MARK: Private Functions
