@@ -10,7 +10,11 @@ import Foundation
 import UIKit
 
 protocol WebLinkDelegate: NSObjectProtocol {
-    func webLinkTapped(type: RequestType, data: String)
+    func webLinkTapped(type: ElloURI, data: String)
+}
+
+protocol UserDelegate: NSObjectProtocol {
+    func userTapped(cell: UICollectionViewCell) -> Void
 }
 
 class StreamViewController: BaseElloViewController {
@@ -157,6 +161,7 @@ class StreamViewController: BaseElloViewController {
             self.dataSource.imageDelegate = imageViewer
         }
         self.dataSource.webLinkDelegate = self
+        self.dataSource.userDelegate = self
         collectionView.dataSource = self.dataSource
     }
 
@@ -168,13 +173,29 @@ class StreamViewController: BaseElloViewController {
 
 // MARK: StreamViewController : WebLinkDelegate
 extension StreamViewController : WebLinkDelegate {
-    func webLinkTapped(type: RequestType, data: String) {
+    func webLinkTapped(type: ElloURI, data: String) {
         switch type {
         case .External: postNotification(externalWebNotification, data)
         case .Profile: presentProfile(data)
         case .Post: println("showPostDetail: \(data)")
         }
     }
+}
+
+// MARK: StreamViewController : UserDelegate
+extension StreamViewController : UserDelegate {
+
+    func userTapped(cell: UICollectionViewCell) {
+        if let indexPath = collectionView.indexPathForCell(cell) {
+            if let post = dataSource.postForIndexPath(indexPath) {
+                if let user = post.author {
+                    let vc = ProfileViewController(user: user)
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            }
+        }
+    }
+    
 }
 
 // MARK: StreamViewController : UICollectionViewDelegate
