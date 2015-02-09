@@ -109,28 +109,26 @@ class StreamContainerViewController: StreamableViewController {
 
     private func setupChildViewControllers() {
         for (index, kind) in enumerate(StreamKind.streamValues) {
-//            if index == 0 {
-                let vc = StreamViewController.instantiateFromStoryboard()
-                vc.streamKind = kind
-                vc.postTappedDelegate = self
-                vc.willMoveToParentViewController(self)
-                let childView = streamControllerViews[index]
-                childView.addSubview(vc.view)
-                self.addChildViewController(vc)
+            let vc = StreamViewController.instantiateFromStoryboard()
+            vc.streamKind = kind
+            vc.postTappedDelegate = self
+            vc.willMoveToParentViewController(self)
+            let childView = streamControllerViews[index]
+            childView.addSubview(vc.view)
+            self.addChildViewController(vc)
 
-                vc.view.setTranslatesAutoresizingMaskIntoConstraints(false)
-                let views = ["view":vc.view]
-                let verticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[view]-49-|", options: NSLayoutFormatOptions.AlignAllLeft, metrics: nil, views: views)
-                childView.addConstraints(verticalConstraints)
+            vc.view.setTranslatesAutoresizingMaskIntoConstraints(false)
+            let views = ["view":vc.view]
+            let verticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[view]-49-|", options: NSLayoutFormatOptions.AlignAllLeft, metrics: nil, views: views)
+            childView.addConstraints(verticalConstraints)
 
-                let horizontalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[view]-0-|", options: NSLayoutFormatOptions.AlignAllLeft, metrics: nil, views: views)
-                childView.addConstraints(horizontalConstraints)
+            let horizontalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[view]-0-|", options: NSLayoutFormatOptions.AlignAllLeft, metrics: nil, views: views)
+            childView.addConstraints(horizontalConstraints)
 
-                vc.didMoveToParentViewController(self)
-                streamControllers.append(vc)
+            vc.didMoveToParentViewController(self)
+            streamControllers.append(vc)
 
-                setupControllerData(kind, controller: vc)
-//            }
+            setupControllerData(kind, controller: vc)
         }
     }
 
