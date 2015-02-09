@@ -136,7 +136,8 @@ class StreamContainerViewController: StreamableViewController {
                 controller.addStreamables(streamables)
                 controller.doneLoading()
             }, failure: { (error, statusCode) in
-                println("failed to load noise stream (reason: \(error))")
+                println("failed to load \(streamKind.name) stream (reason: \(error))")
+                controller.doneLoading()
             }
         )
     }
