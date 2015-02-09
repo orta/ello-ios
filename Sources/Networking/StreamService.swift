@@ -66,7 +66,11 @@ class StreamService: NSObject {
             failure: failure
         )
     }
-    
+
+    func loadNotificationsStream(success: StreamSuccessCompletion, failure: StreamFailureCompletion?) {
+        loadStream(.NotificationsStream, success: success, failure: failure)
+    }
+
     func loadMoreCommentsForPost(postID:String, success: CommentsSuccessCompletion, failure: CommentsFailureCompletion?) {
         let endpoint: ElloAPI = .PostComments(postId: postID)
         ElloProvider.sharedProvider.elloRequest(endpoint,
