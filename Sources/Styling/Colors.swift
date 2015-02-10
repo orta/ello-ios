@@ -14,6 +14,7 @@ extension UIColor {
     public class func elloDarkGray() -> UIColor { return UIColor(hex:0x333333) }
     public class func elloButtonLightGray() -> UIColor { return UIColor(hex:0xAAAAAA) }
     public class func elloLightGray() -> UIColor { return UIColor(hex:0xA9A9A9) }
+    public class func elloUnselectedGray() -> UIColor { return UIColor(hex:0xABABAB) }
     public class func elloTextFieldGray() -> UIColor { return UIColor(hex:0xE4E4E4) }
 }
 
