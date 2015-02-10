@@ -10,7 +10,7 @@
 import UIKit
 import WebKit
 
-class NotificationsViewController: BaseElloViewController {
+class NotificationsViewController: StreamableViewController {
 
     @IBOutlet var containerView : UIView! = nil
     var webView: WKWebView!
@@ -28,13 +28,13 @@ class NotificationsViewController: BaseElloViewController {
         controller.postTappedDelegate = self
 
         let streamService = StreamService()
-        streamService.loadloadNotificationsStream(
+        streamService.loadStream(StreamKind.Notifications.endpoint,
             success: { (streamables) -> () in
                 controller.addStreamables(streamables)
                 controller.doneLoading()
             },
             failure: { (error, statusCode) -> () in
-                println("failed to load notifications")
+                println("failed to load notifications (reason: \(error))")
                 controller.doneLoading()
             }
         )

@@ -45,7 +45,7 @@ class PostDetailViewController: StreamableViewController {
                 controller.doneLoading()
             },
             failure: { (error, statusCode) -> () in
-                println("failed to load comments")
+                println("failed to load comments (reason: \(error))")
                 controller.doneLoading()
             }
         )
