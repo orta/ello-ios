@@ -90,4 +90,11 @@ class User: JSONAble {
         }
         return user
     }
+
+    class func fake(username: String) -> User {
+        return User(name: "Unknown", userId: "42", username: username,
+            avatarURL: nil, experimentalFeatures: false,
+            href: "/api/edge/users/42", relationshipPriority: "self",
+            followersCount: 1, postsCount: 2, followingCount: 3)
+    }
 }

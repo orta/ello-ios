@@ -13,14 +13,10 @@ import Nimble
 class NotificationsViewControllerSpec: QuickSpec {
     override func spec() {
 
-        var controller = NotificationsViewController.instantiateFromStoryboard()
+        var controller = NotificationsViewController()
         describe("initialization", {
 
-            beforeEach({
-                controller = NotificationsViewController.instantiateFromStoryboard()
-            })
-
-            it("can be instantiated from storyboard") {
+            it("can be instantiated") {
                 expect(controller).notTo(beNil())
             }
 
@@ -30,14 +26,6 @@ class NotificationsViewControllerSpec: QuickSpec {
 
             it("is a NotificationsViewController", {
                 expect(controller).to(beAKindOf(NotificationsViewController.self))
-            })
-
-            it("has a tab bar item", {
-                expect(controller.tabBarItem).notTo(beNil())
-
-                let selectedImage:UIImage = controller.tabBarItem.valueForKey("selectedImage") as UIImage
-
-                expect(selectedImage).notTo(beNil())
             })
 
         })

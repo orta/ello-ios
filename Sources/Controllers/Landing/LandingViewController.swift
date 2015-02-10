@@ -42,6 +42,7 @@ class LandingViewController: BaseElloViewController {
         let authToken = AuthToken()
         if authToken.isValid {
             let vc = ElloTabBarController.instantiateFromStoryboard()
+            vc.currentUser = User.fake("ello")
             self.presentViewController(vc, animated: true, completion: nil)
         }
         else {
@@ -51,14 +52,9 @@ class LandingViewController: BaseElloViewController {
 
     private func showButtons() {
         signInButton.hidden = false
-//        signUpButton.hidden = false
-
         signInButton.enabled = true
-//        signUpButton.enabled = true
-
         UIView.animateWithDuration(0.2, animations: {
             self.signInButton.alpha = 1.0
-//            self.signUpButton.alpha = 1.0
         })
     }
 
@@ -85,7 +81,7 @@ class LandingViewController: BaseElloViewController {
         let signInController = SignInViewController.instantiateFromStoryboard()
         self.presentViewController(signInController, animated:true, completion:nil)
     }
-    
+
     @IBAction func signUpTapped(sender: ElloButton) {
         let createAccountController = CreateAccountViewController.instantiateFromStoryboard()
         self.presentViewController(createAccountController, animated:true, completion:nil)
