@@ -20,7 +20,7 @@ class DiscoverViewControllerSpec: QuickSpec {
                 controller = DiscoverViewController.instantiateFromStoryboard()
             })
 
-            it("can be instatiated from storyboard") {
+            it("can be instantiated from storyboard") {
                 expect(controller).notTo(beNil())
             }
 
@@ -31,12 +31,12 @@ class DiscoverViewControllerSpec: QuickSpec {
             it("is a DiscoverViewController", {
                 expect(controller).to(beAKindOf(DiscoverViewController.self))
             })
-            
+
             it("has a tab bar item", {
                 expect(controller.tabBarItem).notTo(beNil())
-                
+
                 let selectedImage:UIImage = controller.tabBarItem.valueForKey("selectedImage") as UIImage
-                
+
                 expect(selectedImage).notTo(beNil())
             })
         })

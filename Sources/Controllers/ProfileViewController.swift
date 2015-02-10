@@ -11,28 +11,40 @@ import UIKit
 class ProfileViewController: StreamableViewController {
 
     let user: User
+    @IBOutlet weak var logOutButton : UIButton!
+
+    required init(user : User) {
+        self.user = user
+
+        super.init(nibName: "ProfileViewController", bundle: nil)
+
+        self.title = user.atName ?? "Profile"
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let item = UIBarButtonItem.backChevronWithTarget(self, action: "backTapped:")
-        self.navigationItem.leftBarButtonItem = item
+        if user.userId == currentUser?.userId {
+            setupForCurrentUser()
+        }
+        else {
+            let item = UIBarButtonItem.backChevronWithTarget(self, action: "backTapped:")
+            self.navigationItem.leftBarButtonItem = item
+        }
 
         setupStreamController()
     }
+
+    func setupForCurrentUser() {
+        self.logOutButton.hidden = false
+        self.navigationController?.navigationBarHidden = true
+    }
+
 
     @IBAction func logOutTapped(sender: ElloTextButton) {
         NSNotificationCenter.defaultCenter().postNotificationName(AccessManager.Notifications.LoggedOut.rawValue, object: nil)
     }
 
-
-    required init(user : User) {
-        self.user = user
-
-        super.init(nibName: nil, bundle: nil)
-
-        self.title = user.atName ?? "Profile"
-    }
 
     private func setupStreamController() {
         let controller = StreamViewController.instantiateFromStoryboard()

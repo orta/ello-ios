@@ -8,28 +8,32 @@
 let externalWebNotification = Notification<String>(name: "externalWebNotification")
 
 class ElloNavigationController: UINavigationController, UIGestureRecognizerDelegate {
-    
+
     var interactionController: UIPercentDrivenInteractiveTransition?
     var externalWebObserver: NotificationObserver?
     let externalWebController: UINavigationController = KINWebBrowserViewController.navigationControllerWithWebBrowser()
     var rootViewControllerName : String?
+    var currentUser : User? {
+        didSet { assignCurrentUser() }
+    }
 
     enum ViewControllers: String {
         case Notifications = "NotificationsViewController"
+        case Profile = "ProfileViewController"
 
-        var controllerInstance: UIViewController {
+        func controllerInstance(user : User) -> BaseElloViewController {
             switch self {
             case Notifications: return NotificationsViewController()
+            case Profile: return ProfileViewController(user: user)
             }
         }
     }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-
+    func assignCurrentUser() {
         if self.viewControllers.count == 0 {
             if let rootViewControllerName = rootViewControllerName {
-                if let controller = ViewControllers(rawValue:rootViewControllerName)?.controllerInstance {
+                if let controller = ViewControllers(rawValue:rootViewControllerName)?.controllerInstance(currentUser!) {
+                    controller.currentUser = self.currentUser
                     self.viewControllers = [controller]
                 }
             }
@@ -40,7 +44,7 @@ class ElloNavigationController: UINavigationController, UIGestureRecognizerDeleg
         super.viewDidLoad()
         transitioningDelegate = self
         delegate = self
-        
+
         let left = UIScreenEdgePanGestureRecognizer(target: self, action: "handleSwipeFromLeft:")
         left.edges = .Left
         self.view.addGestureRecognizer(left);
@@ -56,10 +60,10 @@ class ElloNavigationController: UINavigationController, UIGestureRecognizerDeleg
             externalWebView.loadURLString(url)
         }
     }
-    
+
     func handleSwipeFromLeft(gesture: UIScreenEdgePanGestureRecognizer) {
         let percent = gesture.translationInView(gesture.view!).x / gesture.view!.bounds.size.width
-        
+
         switch gesture.state {
         case .Began:
             interactionController = UIPercentDrivenInteractiveTransition()
@@ -129,15 +133,15 @@ extension ElloNavigationController: UINavigationControllerDelegate {
 }
 
 class ForwardAnimator : NSObject, UIViewControllerAnimatedTransitioning {
-    
+
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
         return 0.25
     }
-    
+
     func animateTransition(context: UIViewControllerContextTransitioning) {
         let toView = context.viewControllerForKey(UITransitionContextToViewControllerKey)?.view
         let fromView = context.viewControllerForKey(UITransitionContextFromViewControllerKey)?.view
-        
+
         if let toView = toView {
             if let fromView = fromView {
                 let from = fromView.frame
@@ -161,24 +165,24 @@ class ForwardAnimator : NSObject, UIViewControllerAnimatedTransitioning {
 }
 
 class BackAnimator : NSObject, UIViewControllerAnimatedTransitioning {
-    
+
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
         return 0.25
     }
-    
+
     func animateTransition(context: UIViewControllerContextTransitioning) {
         let toView = context.viewControllerForKey(UITransitionContextToViewControllerKey)?.view
         let fromView = context.viewControllerForKey(UITransitionContextFromViewControllerKey)?.view
-        
+
         context.containerView().insertSubview(toView!, belowSubview: fromView!)
-        
+
         if let toView = toView {
             if let fromView = fromView {
                 let from = fromView.frame
                 let to = toView.frame
                 toView.frame = CGRect(x: from.origin.x - from.size.width, y: from.origin.y, width: to.size.width, height: to.size.height)
                 context.containerView().addSubview(toView)
-                
+
                 UIView.animateWithDuration(transitionDuration(context),
                     delay: 0.0,
                     options: UIViewAnimationOptions.CurveEaseIn,
