@@ -24,6 +24,7 @@ class User: JSONAble {
     let postsCount: Int?
     let followingCount: Int?
     var posts: [Post]
+    var isCurrentUser : Bool
 
     init(name: String,
         userId: String,
@@ -35,7 +36,8 @@ class User: JSONAble {
         followersCount:Int?,
         postsCount:Int?,
         followingCount:Int?,
-        posts: [Post] = [Post]())
+        posts: [Post] = [Post](),
+        isCurrentUser: Bool = false)
     {
         self.name = name
         self.userId = userId
@@ -48,6 +50,7 @@ class User: JSONAble {
         self.followingCount = followingCount
         self.postsCount = postsCount
         self.posts = posts
+        self.isCurrentUser = isCurrentUser
     }
 
     override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
@@ -91,10 +94,11 @@ class User: JSONAble {
         return user
     }
 
-    class func fake(username: String) -> User {
+    class func fakeCurrentUser(username: String) -> User {
         return User(name: "Unknown", userId: "42", username: username,
             avatarURL: nil, experimentalFeatures: false,
             href: "/api/edge/users/42", relationshipPriority: "self",
-            followersCount: 1, postsCount: 2, followingCount: 3)
+            followersCount: 1, postsCount: 2, followingCount: 3, posts: [],
+            isCurrentUser: true)
     }
 }

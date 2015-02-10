@@ -24,7 +24,7 @@ class ProfileViewController: StreamableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if user.userId == currentUser?.userId {
+        if user.isCurrentUser {
             setupForCurrentUser()
         }
         else {
