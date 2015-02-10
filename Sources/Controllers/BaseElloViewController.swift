@@ -11,7 +11,7 @@ import UIKit
 class BaseElloViewController: UIViewController {
 
     var currentUser : User? {
-        didSet { assignCurrentUser() }
+        didSet { didSetCurrentUser() }
     }
 
     override func viewDidLoad() {
@@ -20,7 +20,7 @@ class BaseElloViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
-    func assignCurrentUser() {
+    func didSetCurrentUser() {
     }
 
     private func fixNavBarItemPadding() {

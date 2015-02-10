@@ -14,7 +14,7 @@ class ElloNavigationController: UINavigationController, UIGestureRecognizerDeleg
     let externalWebController: UINavigationController = KINWebBrowserViewController.navigationControllerWithWebBrowser()
     var rootViewControllerName : String?
     var currentUser : User? {
-        didSet { assignCurrentUser() }
+        didSet { didSetCurrentUser() }
     }
 
     enum ViewControllers: String {
@@ -29,7 +29,7 @@ class ElloNavigationController: UINavigationController, UIGestureRecognizerDeleg
         }
     }
 
-    func assignCurrentUser() {
+    func didSetCurrentUser() {
         if self.viewControllers.count == 0 {
             if let rootViewControllerName = rootViewControllerName {
                 if let controller = ViewControllers(rawValue:rootViewControllerName)?.controllerInstance(currentUser!) {
