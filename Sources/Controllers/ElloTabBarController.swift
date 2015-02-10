@@ -11,7 +11,7 @@ import UIKit
 class ElloTabBarController: UITabBarController {
 
     var currentUser : User? {
-        didSet { assignCurrentUser() }
+        didSet { didSetCurrentUser() }
     }
 
     override func viewDidLoad() {
@@ -20,7 +20,7 @@ class ElloTabBarController: UITabBarController {
         modalTransitionStyle = .CrossDissolve
     }
 
-    func assignCurrentUser() {
+    func didSetCurrentUser() {
         for controller in self.childViewControllers {
             if let controller = controller as? BaseElloViewController {
                 controller.currentUser = self.currentUser

@@ -22,7 +22,6 @@ extension StreamableViewController : PostTappedDelegate {
     func postTapped(post: Post, initialItems: [StreamCellItem]) {
         let vc = PostDetailViewController(post: post, items: initialItems)
         vc.currentUser = currentUser
-        vc.post = post
         self.navigationController?.pushViewController(vc, animated: true)
     }
 

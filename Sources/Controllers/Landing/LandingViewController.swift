@@ -42,6 +42,7 @@ class LandingViewController: BaseElloViewController {
         let authToken = AuthToken()
         if authToken.isValid {
             let vc = ElloTabBarController.instantiateFromStoryboard()
+            println("Creating fake dummy user in \(__FILE__.lastPathComponent) line \(__LINE__ + 1)")
             vc.currentUser = User.fake("ello")
             self.presentViewController(vc, animated: true, completion: nil)
         }
