@@ -49,16 +49,16 @@ class Post: JSONAble, Streamable {
         let commentsCount = json["comments_count"].int
         let repostsCount = json["reposts_count"].int
 
-        let assets = json["assets"].object as? [String: AnyObject]
-        
-
         let post = Post(postId: postId, createdAt: createdAt, href: href, collapsed: collapsed, content: nil, token: token, commentsCount: commentsCount, viewsCount: viewsCount, repostsCount: repostsCount)
 
         if let links = data["links"] as? [String: AnyObject] {
             parseLinks(links, model: post)
             post.author = post.links["author"] as? User
-            post.content = Block.blocks(json, assets: post.links["assets"] as? [String: AnyObject])
+            println("assets")
         }
+
+        post.content = Block.blocks(json, assets: post.links["assets"] as? [String: AnyObject])
+
         return post
     }
     override var description : String {
