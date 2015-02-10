@@ -20,7 +20,7 @@ class ProfileViewController: StreamableViewController {
 
         setupStreamController()
     }
-    
+
     @IBAction func logOutTapped(sender: ElloTextButton) {
         NSNotificationCenter.defaultCenter().postNotificationName(AccessManager.Notifications.LoggedOut.rawValue, object: nil)
     }
@@ -44,7 +44,8 @@ class ProfileViewController: StreamableViewController {
                 controller.addStreamables(streamables)
                 controller.doneLoading()
             }) { (error, statusCode) -> () in
-                println("failed to load user")
+                println("failed to load user (reason: \(error))")
+                controller.doneLoading()
         }
 
         controller.willMoveToParentViewController(self)
