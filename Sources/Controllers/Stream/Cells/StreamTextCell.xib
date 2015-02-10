@@ -6,32 +6,35 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="StreamTextCell" customModule="Ello" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="100"/>
-            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-            <subviews>
-                <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Szt-NQ-P9k" userLabel="webView">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="100"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <connections>
-                        <outlet property="delegate" destination="iN0-l3-epB" id="u8n-MC-DGb"/>
-                    </connections>
-                </webView>
-            </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="24S-Yh-BNz" customClass="StreamTextCell" customModule="Ello" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="610" height="50"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="610" height="50"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kqv-DZ-gE5" userLabel="webView">
+                        <rect key="frame" x="0.0" y="0.0" width="610" height="50"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="delegate" destination="24S-Yh-BNz" id="3vg-yS-xwV"/>
+                        </connections>
+                    </webView>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="Szt-NQ-P9k" secondAttribute="bottom" id="3Pz-jO-E7p" userLabel="webView Bottom"/>
-                <constraint firstItem="Szt-NQ-P9k" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="dwh-or-rmV" userLabel="webView Top"/>
-                <constraint firstItem="Szt-NQ-P9k" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" priority="999" id="qSl-wA-SZf" userLabel="leadingConstraint"/>
-                <constraint firstAttribute="trailing" secondItem="Szt-NQ-P9k" secondAttribute="trailing" id="zIV-42-GEN" userLabel="webView Right"/>
+                <constraint firstAttribute="bottom" secondItem="Kqv-DZ-gE5" secondAttribute="bottom" id="94r-IZ-f7E" userLabel="webView Bottom"/>
+                <constraint firstAttribute="trailing" secondItem="Kqv-DZ-gE5" secondAttribute="trailing" id="9X6-RE-Dlv" userLabel="webView Right"/>
+                <constraint firstItem="Kqv-DZ-gE5" firstAttribute="leading" secondItem="24S-Yh-BNz" secondAttribute="leading" priority="999" id="S8x-pG-FYW" userLabel="leadingConstraint"/>
+                <constraint firstItem="Kqv-DZ-gE5" firstAttribute="top" secondItem="24S-Yh-BNz" secondAttribute="top" id="sB9-Su-Tbg" userLabel="webView Top"/>
             </constraints>
-            <nil key="simulatedStatusBarMetrics"/>
-            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <size key="customSize" width="610" height="50"/>
             <connections>
-                <outlet property="leadingConstraint" destination="qSl-wA-SZf" id="1rc-zI-FVD"/>
-                <outlet property="webView" destination="Szt-NQ-P9k" id="aKn-qk-pFf"/>
+                <outlet property="leadingConstraint" destination="S8x-pG-FYW" id="7ME-Fn-j9m"/>
+                <outlet property="webView" destination="Kqv-DZ-gE5" id="IUU-Zf-nAk"/>
             </connections>
-            <point key="canvasLocation" x="748" y="398"/>
-        </view>
+            <point key="canvasLocation" x="572" y="723"/>
+        </collectionViewCell>
     </objects>
 </document>

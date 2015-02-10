@@ -138,19 +138,19 @@ class StreamViewController: BaseElloViewController {
     }
 
     private func registerCells() {
-        let streamHeaderCellNib = UINib(nibName: StreamCellType.Header.name, bundle: nil)
+        let streamHeaderCellNib = UINib(nibName: StreamCellType.Header.name, bundle: NSBundle(forClass: StreamHeaderCell.self))
         collectionView.registerNib(streamHeaderCellNib, forCellWithReuseIdentifier: StreamCellType.Header.name)
 
-        let streamImageCellNib = UINib(nibName: StreamCellType.Image.name, bundle: nil)
+        let streamImageCellNib = UINib(nibName: StreamCellType.Image.name, bundle: NSBundle(forClass: StreamImageCell.self))
         collectionView.registerNib(streamImageCellNib, forCellWithReuseIdentifier: StreamCellType.Image.name)
 
-        let streamTextCellNib = UINib(nibName: StreamCellType.Text.name, bundle: nil)
+        let streamTextCellNib = UINib(nibName: StreamCellType.Text.name, bundle: NSBundle(forClass: StreamTextCell.self))
         collectionView.registerNib(streamTextCellNib, forCellWithReuseIdentifier: StreamCellType.Text.name)
 
-        let streamFooterCellNib = UINib(nibName: StreamCellType.Footer.name, bundle: nil)
+        let streamFooterCellNib = UINib(nibName: StreamCellType.Footer.name, bundle: NSBundle(forClass: StreamFooterCell.self))
         collectionView.registerNib(streamFooterCellNib, forCellWithReuseIdentifier: StreamCellType.Footer.name)
 
-        let streamCommentHeaderCellNib = UINib(nibName: StreamCellType.CommentHeader.name, bundle: nil)
+        let streamCommentHeaderCellNib = UINib(nibName: StreamCellType.CommentHeader.name, bundle: NSBundle(forClass: StreamCommentHeaderCell.self))
         collectionView.registerNib(streamCommentHeaderCellNib, forCellWithReuseIdentifier: StreamCellType.CommentHeader.name)
 
         collectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: StreamCellType.Unknown.name)
