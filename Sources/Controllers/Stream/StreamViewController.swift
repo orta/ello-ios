@@ -185,8 +185,7 @@ class StreamViewController: BaseElloViewController {
     }
 
     private func presentProfile(username: String) {
-        let controller = ProfileViewController.instantiateFromStoryboard()
-        self.navigationController?.pushViewController(controller, animated: true)
+        println("load username: \(username)")
     }
 }
 
