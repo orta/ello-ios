@@ -13,33 +13,33 @@ import Nimble
 class ProfileViewControllerSpec: QuickSpec {
     override func spec() {
 
-        var controller = ProfileViewController.instantiateFromStoryboard()
-        describe("initialization", {
-
-            beforeEach({
-                controller = ProfileViewController.instantiateFromStoryboard()
-            })
-
-            it("can be instatiated from storyboard") {
-                expect(controller).notTo(beNil())
-            }
-
-            it("is a BaseElloViewController", {
-                expect(controller).to(beAKindOf(BaseElloViewController.self))
-            })
-
-            it("is a ProfileViewController", {
-                expect(controller).to(beAKindOf(ProfileViewController.self))
-            })
-            
-            it("has a tab bar item", {
-                expect(controller.tabBarItem).notTo(beNil())
-                
-                let selectedImage:UIImage = controller.tabBarItem.valueForKey("selectedImage") as UIImage
-                
-                expect(selectedImage).notTo(beNil())
-            })
-        })
+//        var controller = ProfileViewController.instantiateFromStoryboard()
+//        describe("initialization", {
+//
+//            beforeEach({
+//                controller = ProfileViewController.instantiateFromStoryboard()
+//            })
+//
+//            it("can be instatiated from storyboard") {
+//                expect(controller).notTo(beNil())
+//            }
+//
+//            it("is a BaseElloViewController", {
+//                expect(controller).to(beAKindOf(BaseElloViewController.self))
+//            })
+//
+//            it("is a ProfileViewController", {
+//                expect(controller).to(beAKindOf(ProfileViewController.self))
+//            })
+//            
+//            it("has a tab bar item", {
+//                expect(controller.tabBarItem).notTo(beNil())
+//                
+//                let selectedImage:UIImage = controller.tabBarItem.valueForKey("selectedImage") as UIImage
+//                
+//                expect(selectedImage).notTo(beNil())
+//            })
+//        })
     }
 }
 

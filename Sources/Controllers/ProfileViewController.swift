@@ -20,11 +20,7 @@ class ProfileViewController: StreamableViewController {
 
         setupStreamController()
     }
-
-    class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> ProfileViewController {
-        return storyboard.controllerWithID(.Profile) as ProfileViewController
-    }
-
+    
     @IBAction func logOutTapped(sender: ElloTextButton) {
         NSNotificationCenter.defaultCenter().postNotificationName(AccessManager.Notifications.LoggedOut.rawValue, object: nil)
     }
@@ -35,7 +31,7 @@ class ProfileViewController: StreamableViewController {
 
         super.init(nibName: nil, bundle: nil)
 
-        self.title = user.at_name ?? "Profile"
+        self.title = user.atName ?? "Profile"
     }
 
     private func setupStreamController() {
@@ -45,11 +41,10 @@ class ProfileViewController: StreamableViewController {
         let streamService = StreamService()
         streamService.loadStream(controller.streamKind.endpoint,
             success: { (streamables) -> () in
-                println("success streamable load: \(streamables)")
                 controller.addStreamables(streamables)
                 controller.doneLoading()
             }) { (error, statusCode) -> () in
-                println("failed to load comments")
+                println("failed to load user")
         }
 
         controller.willMoveToParentViewController(self)
