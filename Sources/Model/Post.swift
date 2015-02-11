@@ -54,7 +54,6 @@ class Post: JSONAble, Streamable {
         if let links = data["links"] as? [String: AnyObject] {
             parseLinks(links, model: post)
             post.author = post.links["author"] as? User
-            println("assets")
         }
 
         post.content = Block.blocks(json, assets: post.links["assets"] as? [String: AnyObject])
