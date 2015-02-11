@@ -14,14 +14,6 @@ class ElloLinkedStoreSpec: QuickSpec {
 
         describe("-parseLinked:") {
 
-            beforeEach {
-                Store.store.removeAll(keepCapacity: false)
-            }
-
-            afterEach {
-                Store.store.removeAll(keepCapacity: false)
-            }
-
             it("parses 'linked' and adds objects to Store") {
                 expect(Store.store).to(beEmpty())
                 let linked = [
