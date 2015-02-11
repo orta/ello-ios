@@ -46,14 +46,14 @@ class StreamCellItemParserSpec: QuickSpec {
                 expect(self.parser.streamCellItems(streamables).count) == 0
             }
 
-            it("returns an array of 87 stream cell items when parsing friends.json's posts") {
+            it("returns an array with the proper count of stream cell items when parsing friends.json's posts") {
                 var loadedStreamables:[Streamable]?
 
                 StreamService().loadStream(ElloAPI.FriendStream, { streamables in
                     loadedStreamables = streamables
                 }, failure: nil)
 
-                expect(self.parser.streamCellItems(loadedStreamables!).count) == 87
+                expect(self.parser.streamCellItems(loadedStreamables!).count) == 11
             }
         }
     }
