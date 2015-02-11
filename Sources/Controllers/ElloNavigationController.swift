@@ -38,6 +38,12 @@ class ElloNavigationController: UINavigationController, UIGestureRecognizerDeleg
                 }
             }
         }
+        else {
+            var controllers = self.viewControllers as [BaseElloViewController]
+            for controller in controllers {
+                controller.currentUser = self.currentUser
+            }
+        }
     }
 
     override func viewDidLoad() {
