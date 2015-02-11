@@ -16,7 +16,11 @@ class NotificationsViewControllerSpec: QuickSpec {
         var controller = NotificationsViewController()
         describe("initialization", {
 
-            it("can be instantiated") {
+            beforeEach({
+                controller = NotificationsViewController.instantiateFromStoryboard()
+            })
+
+            it("can be instantiated from storyboard") {
                 expect(controller).notTo(beNil())
             }
 
@@ -26,6 +30,14 @@ class NotificationsViewControllerSpec: QuickSpec {
 
             it("is a NotificationsViewController", {
                 expect(controller).to(beAKindOf(NotificationsViewController.self))
+            })
+
+            it("has a tab bar item", {
+                expect(controller.tabBarItem).notTo(beNil())
+
+                let selectedImage:UIImage = controller.tabBarItem.valueForKey("selectedImage") as UIImage
+
+                expect(selectedImage).notTo(beNil())
             })
 
         })
