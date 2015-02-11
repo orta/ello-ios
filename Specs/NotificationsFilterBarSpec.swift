@@ -35,20 +35,12 @@ class NotificationsFilterBarSpec: QuickSpec {
                 button2 = UIButton(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
                 button3 = UIButton(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
                 buttons = [button1, button2, button3]
-            }
-            it("-setButtons") {
-                subject.buttons = buttons
-                expect(subject.buttons.count).to(equal(3))
-                expect(subject.buttons).to(equal(buttons))
-                expect(button1.superview).to(equal(subject))
-                expect(button2.superview).to(equal(subject))
-                expect(button3.superview).to(equal(subject))
+                for button in buttons {
+                    subject.addSubview(button)
+                }
+                subject.layoutIfNeeded()
             }
             describe("-layoutSubviews") {
-                beforeEach() {
-                    subject.buttons = buttons
-                    subject.layoutIfNeeded()
-                }
                 describe("should layout button1") {
                     beforeEach() {
                         rect = CGRect(x: 0, y: 0, width: 30, height: 30)
@@ -101,18 +93,7 @@ class NotificationsFilterBarSpec: QuickSpec {
                     }
                 }
             }
-            it("-addButton") {
-                subject.addButton(button1)
-                subject.addButton(button2)
-                subject.addButton(button3)
-                expect(subject.buttons.count).to(equal(3))
-                expect(subject.buttons).to(equal(buttons))
-                expect(button1.superview).to(equal(subject))
-                expect(button2.superview).to(equal(subject))
-                expect(button3.superview).to(equal(subject))
-            }
             it("selectButton") {
-                subject.buttons = buttons
                 subject.selectButton(button1)
                 expect(button1.selected).to(equal(true))
                 expect(button2.selected).to(equal(false))
