@@ -31,12 +31,12 @@ class ProfileViewControllerSpec: QuickSpec {
 //            it("is a ProfileViewController", {
 //                expect(controller).to(beAKindOf(ProfileViewController.self))
 //            })
-//            
+//
 //            it("has a tab bar item", {
 //                expect(controller.tabBarItem).notTo(beNil())
-//                
+//
 //                let selectedImage:UIImage = controller.tabBarItem.valueForKey("selectedImage") as UIImage
-//                
+//
 //                expect(selectedImage).notTo(beNil())
 //            })
 //        })

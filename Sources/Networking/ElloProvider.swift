@@ -44,7 +44,7 @@ struct ElloProvider {
     }
 
     static var errorEndpointsClosure = { (target: ElloAPI, method: Moya.Method, parameters: [String: AnyObject]) -> Endpoint<ElloAPI> in
- 
+
         let sampleResponse = { () -> (EndpointSampleResponse) in
             return .Error(ElloProvider.errorStatusCode.rawValue, NSError(domain: ElloErrorDomain, code: 0, userInfo: [NSLocalizedFailureReasonErrorKey: "failure"]), ElloProvider.errorStatusCode.defaultData)
         }()
@@ -154,7 +154,7 @@ extension MoyaProvider {
 
     func handleNetworkSuccess(data:NSData, mappingType: MappingType, success:ElloSuccessCompletion, failure:ElloFailureCompletion?) {
         let (mappedJSON: AnyObject?, error) = mapJSON(data)
-        
+
         var mappedObjects: AnyObject?
         if mappedJSON != nil && error == nil {
             if let dict = mappedJSON as? [String:AnyObject] {
@@ -221,7 +221,7 @@ extension MoyaProvider {
 
     func generateElloError(data:NSData?, error: NSError?, statusCode: Int?) -> NSError {
         var elloNetworkError:ElloNetworkError?
-        
+
         if let data = data {
             let (mappedJSON: AnyObject?, error) = mapJSON(data)
             var mappedObjects: AnyObject?
@@ -247,7 +247,7 @@ extension MoyaProvider {
 
         var error: NSError?
         var json: AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &error)
-        
+
         if json == nil && error != nil {
             var userInfo: [NSObject : AnyObject]? = ["data": data]
             error = NSError(domain: ElloErrorDomain, code: ElloErrorCode.JSONMapping.rawValue, userInfo: userInfo)
@@ -267,7 +267,7 @@ extension MoyaProvider {
     }
 
     func mapToObject(object:AnyObject?, classType: JSONAble.Type, linked:ElloLinkedStore) -> JSONAble? {
-    
+
         if let dict = object as? [String:AnyObject] {
             return classType.fromJSON(dict)
         }

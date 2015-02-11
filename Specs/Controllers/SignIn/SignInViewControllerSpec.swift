@@ -49,19 +49,19 @@ class SignInViewControllerSpec: QuickSpec {
 
                 it("IBActions are wired up", {
                     let enterActions = controller.enterButton.actionsForTarget(controller, forControlEvent: UIControlEvents.TouchUpInside)
-                    
+
                     expect(enterActions).to(contain("enterTapped:"))
-                    
+
                     expect(enterActions?.count) == 1
-                    
+
                     let forgotPasswordActions = controller.forgotPasswordButton.actionsForTarget(controller, forControlEvent: UIControlEvents.TouchUpInside)
                     expect(forgotPasswordActions).to(contain("forgotPasswordTapped:"))
-                    
+
                     expect(forgotPasswordActions?.count) == 1
 
                     let createAccountActions = controller.createAccountButton.actionsForTarget(controller, forControlEvent: UIControlEvents.TouchUpInside)
                     expect(createAccountActions).to(contain("createAccountTapped:"))
-                    
+
                     expect(createAccountActions?.count) == 1
                 });
             })
@@ -98,7 +98,7 @@ class SignInViewControllerSpec: QuickSpec {
                 it("has controller as delegate", {
                     expect(controller.emailTextField.delegate) === controller
                 })
-                
+
             })
 
             context("passwordTextField", {
@@ -112,7 +112,7 @@ class SignInViewControllerSpec: QuickSpec {
                 it("has controller as delegate", {
                     expect(controller.passwordTextField.delegate) === controller
                 })
-                
+
             })
         })
 
@@ -163,7 +163,7 @@ class SignInViewControllerSpec: QuickSpec {
                         let notification = NSNotification(name: UIKeyboardWillShowNotification, object: nil, userInfo: [UIKeyboardFrameEndUserInfoKey : NSValue(CGRect: keyboardRect)])
 
                         NSNotificationCenter.defaultCenter().postNotification(notification)
-                        
+
                         expect(controller.scrollView.contentInset.bottom) == 0
                     })
                 })

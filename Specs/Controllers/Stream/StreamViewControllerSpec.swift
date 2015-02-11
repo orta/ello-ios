@@ -14,7 +14,7 @@ class StreamViewControllerSpec: QuickSpec {
     override func spec() {
 
         var controller = StreamViewController.instantiateFromStoryboard()
-        
+
         beforeSuite {
             ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
         }
@@ -22,7 +22,7 @@ class StreamViewControllerSpec: QuickSpec {
         afterSuite {
             ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
         }
-        
+
         describe("initialization", {
 
             beforeEach({
@@ -52,17 +52,17 @@ class StreamViewControllerSpec: QuickSpec {
             it("is a StreamViewController", {
                 expect(controller).to(beAKindOf(StreamViewController.self))
             })
-        
+
         })
-        
+
         describe("-viewDidLoad:", {
-            
+
             beforeEach({
                 controller = StreamViewController.instantiateFromStoryboard()
                 controller.loadView()
                 controller.viewDidLoad()
             })
-            
+
             it("properly configures dataSource") {
                 expect(controller.dataSource).to(beAnInstanceOf(StreamDataSource.self))
             }
@@ -73,9 +73,9 @@ class StreamViewControllerSpec: QuickSpec {
                 expect(controller.collectionView.alwaysBounceHorizontal) == false
                 expect(controller.collectionView.alwaysBounceVertical) == true
             }
-            
+
             it("adds notification observers") {
-                
+
             }
         })
     }
