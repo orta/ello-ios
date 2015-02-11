@@ -17,10 +17,10 @@ class NotificationsViewControllerSpec: QuickSpec {
         describe("initialization", {
 
             beforeEach({
-                controller = NotificationsViewController.instantiateFromStoryboard()
+                controller = NotificationsViewController()
             })
 
-            it("can be instantiated from storyboard") {
+            it("can be instantiated") {
                 expect(controller).notTo(beNil())
             }
 
