@@ -61,7 +61,7 @@ class ForgotPasswordViewControllerSpec: QuickSpec {
                 controller = ForgotPasswordViewController.instantiateFromStoryboard()
             })
 
-            it("can be instatiated from storyboard") {
+            it("can be instantiated from storyboard") {
                 expect(controller).notTo(beNil())
             }
 
