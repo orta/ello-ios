@@ -50,7 +50,7 @@ class StreamDataSourceSpec: QuickSpec {
             describe("-collectionView:numberOfItemsInSection:", {
 
                 it("returns 87", {
-                    expect(dataSource.collectionView(vc.collectionView, numberOfItemsInSection: 0)).toEventually(equal(87), timeout:13)
+                    expect(dataSource.collectionView(vc.collectionView, numberOfItemsInSection: 0)).toEventually(equal(87), timeout:30)
                 })
             })
 
