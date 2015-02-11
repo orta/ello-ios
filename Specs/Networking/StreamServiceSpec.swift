@@ -32,7 +32,7 @@ class StreamServiceSpec: QuickSpec {
                             loadedStreamables = streamables
                         }, failure: nil)
 
-                        expect(countElements(loadedStreamables!)) == 24
+                        expect(countElements(loadedStreamables!)) == 3
 
                         let post0:Post = loadedStreamables![0] as Post
 

@@ -13,7 +13,7 @@ class CommentSpec: QuickSpec {
     override func spec() {
         
         it("converts from JSON") {
-            let parsedComment = stubbedJSONDataWithLinked("comments", "comments")
+            let parsedComment = stubbedJSONData("comments", "comments")
 
             let createdAtString = "2014-06-02T00:00:00.000Z"
             let comment = Comment.fromJSON(parsedComment) as Comment

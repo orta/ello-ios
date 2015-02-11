@@ -12,7 +12,7 @@ import Nimble
 class ActivitySpec: QuickSpec {
     override func spec() {
         it("converts Post activities from JSON") {
-            let parsedActivity = stubbedJSONDataWithLinked("activity-own-post", "activity")
+            let parsedActivity = stubbedJSONData("activity-own-post", "activity")
             let activity = Activity.fromJSON(parsedActivity) as Activity
 
             var createdAtString = "2014-06-03T00:00:00.000Z"
