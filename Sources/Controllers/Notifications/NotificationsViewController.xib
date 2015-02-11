@@ -8,9 +8,6 @@
             <string>AtlasTypewriter-Regular</string>
             <string>AtlasTypewriter-Regular</string>
             <string>AtlasTypewriter-Regular</string>
-            <string>AtlasTypewriter-Regular</string>
-            <string>AtlasTypewriter-Regular</string>
-            <string>AtlasTypewriter-Regular</string>
         </mutableArray>
     </customFonts>
     <objects>
@@ -35,7 +32,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cxz-59-Q5O" userLabel="Filter bar" customClass="NotificationsFilterBar" customModule="Ello" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="30"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="is6-JX-uoI" customClass="ElloNotificationFilterButton" customModule="Ello" customModuleProvider="target">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="is6-JX-uoI" customClass="NotificationFilterButton" customModule="Ello" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="0.0" width="100" height="30"/>
                             <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="12"/>
                             <state key="normal" title="All">
@@ -46,7 +43,7 @@
                                 <action selector="allButtonTapped:" destination="-1" eventType="touchUpInside" id="gCX-G5-xjX"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ssf-xV-yNr" customClass="ElloNotificationFilterButton" customModule="Ello" customModuleProvider="target">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ssf-xV-yNr" customClass="NotificationFilterButton" customModule="Ello" customModuleProvider="target">
                             <rect key="frame" x="100" y="0.0" width="100" height="30"/>
                             <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="12"/>
                             <state key="normal" title="…">
@@ -57,7 +54,7 @@
                                 <action selector="miscButtonTapped:" destination="-1" eventType="touchUpInside" id="4ue-oJ-vB8"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r4G-mQ-Rac" customClass="ElloNotificationFilterButton" customModule="Ello" customModuleProvider="target">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r4G-mQ-Rac" customClass="NotificationFilterButton" customModule="Ello" customModuleProvider="target">
                             <rect key="frame" x="200" y="0.0" width="100" height="30"/>
                             <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="12"/>
                             <state key="normal" title="@">
@@ -68,10 +65,9 @@
                                 <action selector="mentionButtonTapped:" destination="-1" eventType="touchUpInside" id="lXY-zV-fFF"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cdB-B5-YHs" customClass="ElloNotificationFilterButton" customModule="Ello" customModuleProvider="target">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cdB-B5-YHs" userLabel="❤︎" customClass="NotificationFilterButton" customModule="Ello" customModuleProvider="target">
                             <rect key="frame" x="300" y="0.0" width="100" height="30"/>
-                            <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="12"/>
-                            <state key="normal" title="❤">
+                            <state key="normal" image="heart-icon">
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -79,10 +75,9 @@
                                 <action selector="heartButtonTapped:" destination="-1" eventType="touchUpInside" id="SbY-0K-Ab0"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oRo-WS-1eG" customClass="ElloNotificationFilterButton" customModule="Ello" customModuleProvider="target">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oRo-WS-1eG" userLabel="↻" customClass="NotificationFilterButton" customModule="Ello" customModuleProvider="target">
                             <rect key="frame" x="400" y="0.0" width="100" height="30"/>
-                            <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="12"/>
-                            <state key="normal" title="↻">
+                            <state key="normal" image="repost-icon">
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -90,10 +85,9 @@
                                 <action selector="repostButtonTapped:" destination="-1" eventType="touchUpInside" id="XU4-ZE-Ees"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Eo-rT-kza" customClass="ElloNotificationFilterButton" customModule="Ello" customModuleProvider="target">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Eo-rT-kza" userLabel="+" customClass="NotificationFilterButton" customModule="Ello" customModuleProvider="target">
                             <rect key="frame" x="500" y="0.0" width="100" height="30"/>
-                            <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="12"/>
-                            <state key="normal" title="+">
+                            <state key="normal" image="profile-icon">
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -104,7 +98,31 @@
                     </subviews>
                     <color key="backgroundColor" red="0.42238794191919193" green="0.42238794191919193" blue="0.42238794191919193" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
+                        <constraint firstAttribute="trailing" secondItem="7Eo-rT-kza" secondAttribute="trailing" id="2tT-OF-nFv"/>
+                        <constraint firstItem="cdB-B5-YHs" firstAttribute="height" secondItem="cxz-59-Q5O" secondAttribute="height" id="6gz-iC-Wwg"/>
                         <constraint firstAttribute="height" constant="30" id="703-qq-GDm"/>
+                        <constraint firstItem="7Eo-rT-kza" firstAttribute="top" secondItem="cxz-59-Q5O" secondAttribute="top" id="AgA-L9-8YY"/>
+                        <constraint firstAttribute="height" secondItem="Ssf-xV-yNr" secondAttribute="height" id="Bex-17-9LJ"/>
+                        <constraint firstItem="cdB-B5-YHs" firstAttribute="top" secondItem="cxz-59-Q5O" secondAttribute="top" id="Dxe-hg-yzH"/>
+                        <constraint firstItem="r4G-mQ-Rac" firstAttribute="leading" secondItem="Ssf-xV-yNr" secondAttribute="trailing" id="Fe6-KL-rWx"/>
+                        <constraint firstItem="is6-JX-uoI" firstAttribute="top" secondItem="cxz-59-Q5O" secondAttribute="top" id="HNf-36-82r"/>
+                        <constraint firstItem="cdB-B5-YHs" firstAttribute="leading" secondItem="r4G-mQ-Rac" secondAttribute="trailing" id="Nar-tO-tnv"/>
+                        <constraint firstItem="cdB-B5-YHs" firstAttribute="width" secondItem="oRo-WS-1eG" secondAttribute="width" id="Ni0-OO-YWW"/>
+                        <constraint firstItem="is6-JX-uoI" firstAttribute="width" secondItem="Ssf-xV-yNr" secondAttribute="width" id="OEF-uc-CuX"/>
+                        <constraint firstItem="7Eo-rT-kza" firstAttribute="width" secondItem="oRo-WS-1eG" secondAttribute="width" id="UIo-RC-u4j"/>
+                        <constraint firstAttribute="height" secondItem="7Eo-rT-kza" secondAttribute="height" id="ZYh-LP-H2B"/>
+                        <constraint firstAttribute="height" secondItem="r4G-mQ-Rac" secondAttribute="height" id="bEh-VR-pFB"/>
+                        <constraint firstAttribute="height" secondItem="oRo-WS-1eG" secondAttribute="height" id="cxV-oZ-iMx"/>
+                        <constraint firstItem="is6-JX-uoI" firstAttribute="leading" secondItem="cxz-59-Q5O" secondAttribute="leading" id="eNF-gy-urJ"/>
+                        <constraint firstItem="r4G-mQ-Rac" firstAttribute="top" secondItem="cxz-59-Q5O" secondAttribute="top" id="ema-5d-tDU"/>
+                        <constraint firstItem="7Eo-rT-kza" firstAttribute="leading" secondItem="oRo-WS-1eG" secondAttribute="trailing" id="jGT-GM-a8c"/>
+                        <constraint firstItem="cdB-B5-YHs" firstAttribute="width" secondItem="r4G-mQ-Rac" secondAttribute="width" id="m2O-hl-VSq"/>
+                        <constraint firstItem="oRo-WS-1eG" firstAttribute="leading" secondItem="cdB-B5-YHs" secondAttribute="trailing" id="nHT-qp-Wvi"/>
+                        <constraint firstItem="Ssf-xV-yNr" firstAttribute="top" secondItem="cxz-59-Q5O" secondAttribute="top" id="uUv-qM-qI4"/>
+                        <constraint firstItem="is6-JX-uoI" firstAttribute="height" secondItem="cxz-59-Q5O" secondAttribute="height" id="wDk-N4-tYH"/>
+                        <constraint firstItem="oRo-WS-1eG" firstAttribute="top" secondItem="cxz-59-Q5O" secondAttribute="top" id="xMs-0p-MJC"/>
+                        <constraint firstItem="Ssf-xV-yNr" firstAttribute="leading" secondItem="is6-JX-uoI" secondAttribute="trailing" id="xeO-gC-6uZ"/>
+                        <constraint firstItem="r4G-mQ-Rac" firstAttribute="width" secondItem="Ssf-xV-yNr" secondAttribute="width" id="zdo-29-3r6"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ztx-63-4xe" userLabel="Stream View Container">
@@ -128,4 +146,9 @@
             <point key="canvasLocation" x="261" y="243"/>
         </view>
     </objects>
+    <resources>
+        <image name="heart-icon" width="22" height="13"/>
+        <image name="profile-icon" width="49" height="49"/>
+        <image name="repost-icon" width="19" height="13"/>
+    </resources>
 </document>

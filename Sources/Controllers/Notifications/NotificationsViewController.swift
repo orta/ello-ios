@@ -19,12 +19,12 @@ class NotificationsViewController: StreamableViewController {
     @IBOutlet var contentView : UIView!
     @IBOutlet var filterBar : NotificationsFilterBar!
 
-    @IBOutlet var filterAllButton : ElloNotificationFilterButton!
-    @IBOutlet var filterMiscButton : ElloNotificationFilterButton!
-    @IBOutlet var filterMentionButton : ElloNotificationFilterButton!
-    @IBOutlet var filterHeartButton : ElloNotificationFilterButton!
-    @IBOutlet var filterRepostButton : ElloNotificationFilterButton!
-    @IBOutlet var filterInviteButton : ElloNotificationFilterButton!
+    @IBOutlet var filterAllButton : NotificationFilterButton!
+    @IBOutlet var filterMiscButton : NotificationFilterButton!
+    @IBOutlet var filterMentionButton : NotificationFilterButton!
+    @IBOutlet var filterHeartButton : NotificationFilterButton!
+    @IBOutlet var filterRepostButton : NotificationFilterButton!
+    @IBOutlet var filterInviteButton : NotificationFilterButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,27 +69,27 @@ class NotificationsViewController: StreamableViewController {
         filterBar.selectButton(self.filterAllButton)
     }
 
-    @IBAction func allButtonTapped(sender : ElloNotificationFilterButton) {
+    @IBAction func allButtonTapped(sender : NotificationFilterButton) {
         filterBar.selectButton(sender)
     }
 
-    @IBAction func miscButtonTapped(sender : ElloNotificationFilterButton) {
+    @IBAction func miscButtonTapped(sender : NotificationFilterButton) {
         filterBar.selectButton(sender)
     }
 
-    @IBAction func mentionButtonTapped(sender : ElloNotificationFilterButton) {
+    @IBAction func mentionButtonTapped(sender : NotificationFilterButton) {
         filterBar.selectButton(sender)
     }
 
-    @IBAction func heartButtonTapped(sender : ElloNotificationFilterButton) {
+    @IBAction func heartButtonTapped(sender : NotificationFilterButton) {
         filterBar.selectButton(sender)
     }
 
-    @IBAction func repostButtonTapped(sender : ElloNotificationFilterButton) {
+    @IBAction func repostButtonTapped(sender : NotificationFilterButton) {
         filterBar.selectButton(sender)
     }
 
-    @IBAction func inviteButtonTapped(sender : ElloNotificationFilterButton) {
+    @IBAction func inviteButtonTapped(sender : NotificationFilterButton) {
         filterBar.selectButton(sender)
     }
 

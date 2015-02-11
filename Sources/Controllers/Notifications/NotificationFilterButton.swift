@@ -1,5 +1,5 @@
 //
-//  ElloNotificationFilterButton.swift
+//  NotificationFilterButton.swift
 //  Ello
 //
 //  Created by Colin Gray on 2/11/15.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ElloNotificationFilterButton: UIButton {
+class NotificationFilterButton: UIButton {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
