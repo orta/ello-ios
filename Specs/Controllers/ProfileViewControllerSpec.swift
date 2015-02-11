@@ -13,33 +13,27 @@ import Nimble
 class ProfileViewControllerSpec: QuickSpec {
     override func spec() {
 
-//        var controller = ProfileViewController.instantiateFromStoryboard()
-//        describe("initialization", {
-//
-//            beforeEach({
-//                controller = ProfileViewController.instantiateFromStoryboard()
-//            })
-//
-//            it("can be instantiated from storyboard") {
-//                expect(controller).notTo(beNil())
-//            }
-//
-//            it("is a BaseElloViewController", {
-//                expect(controller).to(beAKindOf(BaseElloViewController.self))
-//            })
-//
-//            it("is a ProfileViewController", {
-//                expect(controller).to(beAKindOf(ProfileViewController.self))
-//            })
-//
-//            it("has a tab bar item", {
-//                expect(controller.tabBarItem).notTo(beNil())
-//
-//                let selectedImage:UIImage = controller.tabBarItem.valueForKey("selectedImage") as UIImage
-//
-//                expect(selectedImage).notTo(beNil())
-//            })
-//        })
+        var user = User(name: "Ello", userId: "42", username: "ello", avatarURL: nil,
+            experimentalFeatures: false, href: "/api/edge/users/42",
+            relationshipPriority: "self", followersCount: 1, postsCount: 2,
+            followingCount: 3, posts: [])
+        var controller = ProfileViewController(user: user)
+
+        describe("initialization", {
+
+            it("can be instantiated") {
+                expect(controller).notTo(beNil())
+            }
+
+            it("is a BaseElloViewController", {
+                expect(controller).to(beAKindOf(BaseElloViewController.self))
+            })
+
+            it("is a ProfileViewController", {
+                expect(controller).to(beAKindOf(ProfileViewController.self))
+            })
+
+        })
     }
 }
 

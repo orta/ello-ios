@@ -60,7 +60,7 @@ struct ElloProvider {
     }
 
     static var endpointsClosure = { (target: ElloAPI, method: Moya.Method, parameters: [String: AnyObject]) -> Endpoint<ElloAPI> in
-        var endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponse: .Success(200, target.sampleData), method: method, parameters: parameters)
+        var endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponse: .Lazy({return .Success(200, target.sampleData)}), method: method, parameters: parameters)
 
         switch target {
         case .Auth, .ReAuth:

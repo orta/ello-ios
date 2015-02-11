@@ -43,13 +43,27 @@ class PostDetailViewController: StreamableViewController {
             success: { (streamables) -> () in
                 controller.addStreamables(streamables)
                 controller.doneLoading()
-            }) { (error, statusCode) -> () in
-                println("failed to load comments")
-        }
+            },
+            failure: { (error, statusCode) -> () in
+                println("failed to load comments (reason: \(error))")
+                controller.doneLoading()
+            }
+        )
 
         controller.willMoveToParentViewController(self)
         self.view.addSubview(controller.view)
         self.addChildViewController(controller)
+    }
+
+}
+
+// MARK: PostDetailViewController : PostTappedDelegate
+extension PostDetailViewController : PostTappedDelegate {
+
+    override func postTapped(post: Post, initialItems: [StreamCellItem]) {
+        if post.postId != self.post.postId {
+            super.postTapped(post, initialItems: initialItems)
+        }
     }
 
 }

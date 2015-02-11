@@ -11,28 +11,40 @@ import UIKit
 class ProfileViewController: StreamableViewController {
 
     let user: User
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        let item = UIBarButtonItem.backChevronWithTarget(self, action: "backTapped:")
-        self.navigationItem.leftBarButtonItem = item
-
-        setupStreamController()
-    }
-    
-    @IBAction func logOutTapped(sender: ElloTextButton) {
-        NSNotificationCenter.defaultCenter().postNotificationName(AccessManager.Notifications.LoggedOut.rawValue, object: nil)
-    }
-
+    @IBOutlet weak var logOutButton : UIButton!
 
     required init(user : User) {
         self.user = user
 
-        super.init(nibName: nil, bundle: nil)
+        super.init(nibName: "ProfileViewController", bundle: nil)
 
         self.title = user.atName ?? "Profile"
     }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        if user.isCurrentUser {
+            setupForCurrentUser()
+        }
+        else {
+            let item = UIBarButtonItem.backChevronWithTarget(self, action: "backTapped:")
+            self.navigationItem.leftBarButtonItem = item
+        }
+
+        setupStreamController()
+    }
+
+    func setupForCurrentUser() {
+        self.logOutButton.hidden = false
+        self.navigationController?.navigationBarHidden = true
+    }
+
+
+    @IBAction func logOutTapped(sender: ElloTextButton) {
+        NSNotificationCenter.defaultCenter().postNotificationName(AccessManager.Notifications.LoggedOut.rawValue, object: nil)
+    }
+
 
     private func setupStreamController() {
         let controller = StreamViewController.instantiateFromStoryboard()
@@ -44,7 +56,8 @@ class ProfileViewController: StreamableViewController {
                 controller.addStreamables(streamables)
                 controller.doneLoading()
             }) { (error, statusCode) -> () in
-                println("failed to load user")
+                println("failed to load user (reason: \(error))")
+                controller.doneLoading()
         }
 
         controller.willMoveToParentViewController(self)

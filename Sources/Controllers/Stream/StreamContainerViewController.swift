@@ -17,11 +17,13 @@ enum StreamKind {
     case Noise
     case PostDetail(post: Post)
     case Profile(user: User)
+    case Notifications
 
     var name:String {
         switch self {
         case .Friend: return "Friends"
         case .Noise: return "Noise"
+        case .Notifications: return "Notifications"
         case .PostDetail: return "Post Detail"
         case .Profile(let user): return "@\((user as User).username)"
         }
@@ -38,6 +40,7 @@ enum StreamKind {
         switch self {
         case .Friend: return .FriendStream
         case .Noise: return .NoiseStream
+        case .Notifications: return .NotificationsStream
         case .PostDetail: return .NoiseStream // never use
         case .Profile(let user): return .UserStream(userId: (user as User).userId)
         }
@@ -136,7 +139,8 @@ class StreamContainerViewController: StreamableViewController {
                 controller.addStreamables(streamables)
                 controller.doneLoading()
             }, failure: { (error, statusCode) in
-                println("failed to load noise stream (reason: \(error))")
+                println("failed to load \(streamKind.name) stream (reason: \(error))")
+                controller.doneLoading()
             }
         )
     }

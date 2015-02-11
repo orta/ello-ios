@@ -53,47 +53,6 @@
             </objects>
             <point key="canvasLocation" x="774" y="-992"/>
         </scene>
-        <!--Notifications-->
-        <scene sceneID="wg7-f3-ORb">
-            <objects>
-                <viewController storyboardIdentifier="NotificationsViewController" title="Notifications" id="8rJ-Kc-sve" customClass="NotificationsViewController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="L7p-HK-0SC"/>
-                        <viewControllerLayoutGuide type="bottom" id="Djb-ko-YwX"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="QS5-Rx-YEW">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Notifications" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="zEq-FU-wV5">
-                                <rect key="frame" x="202" y="255" width="197" height="42"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="36"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="centerX" secondItem="zEq-FU-wV5" secondAttribute="centerX" id="qqM-NS-xev"/>
-                            <constraint firstAttribute="centerY" secondItem="zEq-FU-wV5" secondAttribute="centerY" id="qzY-Ky-pLD"/>
-                        </constraints>
-                    </view>
-                    <extendedEdge key="edgesForExtendedLayout"/>
-                    <tabBarItem key="tabBarItem" title="" image="notifications-icon" id="cPa-gy-q4n">
-                        <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="notifications-icon-selected"/>
-                        </userDefinedRuntimeAttributes>
-                    </tabBarItem>
-                    <connections>
-                        <outlet property="containerView" destination="QS5-Rx-YEW" id="ZEu-a6-98Y"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="774" y="-318"/>
-        </scene>
         <!--Ello Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
             <objects>
@@ -108,9 +67,9 @@
                     </tabBar>
                     <connections>
                         <segue destination="9pv-A4-QxB" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
-                        <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
+                        <segue destination="OLo-wM-vov" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
                         <segue destination="6gB-P3-Psq" kind="relationship" relationship="viewControllers" id="2P8-zn-3Fb"/>
-                        <segue destination="pfO-53-D6h" kind="relationship" relationship="viewControllers" id="t8D-oN-sU8"/>
+                        <segue destination="HTb-EB-4Yn" kind="relationship" relationship="viewControllers" id="t8D-oN-sU8"/>
                         <segue destination="5zO-Gn-gCb" kind="relationship" relationship="viewControllers" id="kjL-AW-Qkk"/>
                     </connections>
                 </tabBarController>
@@ -196,7 +155,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yZW-gK-AYq" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2477" y="62"/>
+            <point key="canvasLocation" x="3289" y="62"/>
         </scene>
         <!--Landing View Controller-->
         <scene sceneID="YOJ-27-8ul">
@@ -289,59 +248,6 @@
             </objects>
             <point key="canvasLocation" x="-1276" y="0.0"/>
         </scene>
-        <!--Profile-->
-        <scene sceneID="g5m-Pl-KDJ">
-            <objects>
-                <viewController title="Profile" id="pfO-53-D6h" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="dNe-YE-ehL"/>
-                        <viewControllerLayoutGuide type="bottom" id="s7Y-oa-bk3"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="uok-3Q-60o">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Profile" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="FuP-qN-aM0">
-                                <rect key="frame" x="249" y="255" width="103" height="42"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="36"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WgW-c8-5do" customClass="ElloButton" customModule="Ello" customModuleProvider="target">
-                                <rect key="frame" x="200" y="311" width="200" height="60"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="XPp-4b-03W"/>
-                                    <constraint firstAttribute="width" constant="200" id="dQV-B0-079"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <state key="normal" title="Log Out">
-                                    <color key="titleColor" red="0.99989169840000003" green="1" blue="0.99988096950000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="centerX" secondItem="WgW-c8-5do" secondAttribute="centerX" id="5cX-EA-pXF"/>
-                            <constraint firstItem="WgW-c8-5do" firstAttribute="top" secondItem="FuP-qN-aM0" secondAttribute="bottom" constant="14" id="CFd-AD-Yw4"/>
-                            <constraint firstAttribute="centerY" secondItem="FuP-qN-aM0" secondAttribute="centerY" id="jOW-pc-Uz7"/>
-                            <constraint firstAttribute="centerX" secondItem="FuP-qN-aM0" secondAttribute="centerX" id="vUP-ua-Diw"/>
-                        </constraints>
-                    </view>
-                    <extendedEdge key="edgesForExtendedLayout"/>
-                    <tabBarItem key="tabBarItem" title="" image="profile-icon" id="6NF-g8-Kfc">
-                        <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="profile-icon-selected"/>
-                        </userDefinedRuntimeAttributes>
-                    </tabBarItem>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="NZn-Ke-ysC" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="774" y="1054"/>
-        </scene>
         <!--Omnibar-->
         <scene sceneID="pVx-hA-a7f">
             <objects>
@@ -401,6 +307,9 @@
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Qz1-hz-MJ9">
                         <autoresizingMask key="autoresizingMask"/>
                     </toolbar>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="rootViewControllerName" value="StreamContainerViewController"/>
+                    </userDefinedRuntimeAttributes>
                     <connections>
                         <segue destination="hkH-y2-vf2" kind="relationship" relationship="rootViewController" id="BUA-Mh-BWR"/>
                     </connections>
@@ -873,6 +782,54 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mBC-SI-3HZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-636" y="1037"/>
+        </scene>
+        <!--Notifications Navigation Controller-->
+        <scene sceneID="hm1-Di-XPS">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="OLo-wM-vov" userLabel="Notifications Navigation Controller" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="" image="notifications-icon" id="cPa-gy-q4n">
+                        <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="notifications-icon-selected"/>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Lwj-gZ-4Ny">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="rootViewControllerName" value="NotificationsViewController"/>
+                    </userDefinedRuntimeAttributes>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Uru-wq-4pV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="774" y="-318"/>
+        </scene>
+        <!--Profile View Controller-->
+        <scene sceneID="hfY-Uc-rBK">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="HTb-EB-4Yn" userLabel="Profile View Controller" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="" image="profile-icon" id="6NF-g8-Kfc">
+                        <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="profile-icon-selected"/>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Hgb-rg-okC">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="rootViewControllerName" value="ProfileViewController"/>
+                    </userDefinedRuntimeAttributes>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Bc7-5a-gBY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="774" y="1054"/>
         </scene>
     </scenes>
     <resources>
