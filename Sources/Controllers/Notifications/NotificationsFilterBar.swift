@@ -18,13 +18,15 @@ class NotificationsFilterBar : UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        let buttons : [UIButton] = self.subviews().filter { $0 as? UIButton != nil }
-        if buttons.count > 0 {
-            var x : CGFloat = 0
-            var w : CGFloat = (self.frame.size.width - padding * CGFloat(buttons.count - 1)) / CGFloat(buttons.count)
-            for button in self.subviews() {
-                button.frame = CGRect(x: x, y: 0, width: w, height: self.frame.size.height)
-                x += w + padding
+        let buttons = self.subviews.filter { $0 as? UIButton != nil }
+        if let buttons = buttons as? [UIButton] {
+            if buttons.count > 0 {
+                var x : CGFloat = 0
+                var w : CGFloat = (self.frame.size.width - padding * CGFloat(buttons.count - 1)) / CGFloat(buttons.count)
+                for button : UIButton in self.subviews {
+                    button.frame = CGRect(x: x, y: 0, width: w, height: self.frame.size.height)
+                    x += w + padding
+                }
             }
         }
     }
