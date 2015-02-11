@@ -32,14 +32,6 @@ class NotificationsViewControllerSpec: QuickSpec {
                 expect(controller).to(beAKindOf(NotificationsViewController.self))
             })
 
-            it("has a tab bar item", {
-                expect(controller.tabBarItem).notTo(beNil())
-
-                let selectedImage:UIImage = controller.tabBarItem.valueForKey("selectedImage") as UIImage
-
-                expect(selectedImage).notTo(beNil())
-            })
-
         })
     }
 }
