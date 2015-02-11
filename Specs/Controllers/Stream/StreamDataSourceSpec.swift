@@ -18,6 +18,7 @@ class StreamDataSourceSpec: QuickSpec {
 
         beforeEach({
             vc = StreamViewController.instantiateFromStoryboard()
+            vc.streamKind = StreamKind.Friend
             let keyWindow = UIWindow(frame: UIScreen.mainScreen().bounds)
             keyWindow.makeKeyAndVisible()
             keyWindow.rootViewController = vc
@@ -27,7 +28,6 @@ class StreamDataSourceSpec: QuickSpec {
 
 
         var dataSource: StreamDataSource!
-        let collectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: UICollectionViewFlowLayout())
         let webView = UIWebView(frame: CGRectMake(0, 0, 320, 640))
         ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.endpointsClosure, stubResponses: true)
         var loadedStreamables:[Streamable]?
