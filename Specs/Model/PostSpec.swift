@@ -33,7 +33,7 @@ class PostSpec: QuickSpec {
             expect(post.token) == "ibLWX5p5fPBfzE8GmfOG6w"
             expect(post.postId) == "526"
 
-            expect(post.author).to(beAnInstanceOf(User.self))
+//            expect(post.author).to(beAnInstanceOf(User.self))
             expect(post.author!.name) == "Cyril Figgis"
             expect(post.author!.userId) == "666"
             expect(post.author!.username) == "cfiggis"
@@ -54,7 +54,8 @@ class PostSpec: QuickSpec {
             expect(imageBlock.hdpi!.width) == 750
             expect(imageBlock.hdpi!.height) == 321
             expect(imageBlock.hdpi!.size) == 77464
-            expect(imageBlock.hdpi!.imageType) == "image/jpeg"        }
+            expect(imageBlock.hdpi!.imageType) == "image/jpeg"
+        }
         
     }
 }

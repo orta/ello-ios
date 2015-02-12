@@ -12,9 +12,9 @@ struct StreamCellItemParser {
 
     // MARK: - Static
 
-    static func aspectRatioForImageBlock(imageBlock: ImageBlock) -> CGFloat {
-        let width = imageBlock.hdpi?.width
-        let height = imageBlock.hdpi?.height
+    static func aspectRatioForImageBlock(imageBlock: ImageRegion) -> CGFloat {
+        let width = imageBlock.asset?.hdpi?.width
+        let height = imageBlock.asset?.hdpi?.height
         if width != nil && height != nil {
             return CGFloat(width!)/CGFloat(height!)
         }
@@ -59,23 +59,23 @@ struct StreamCellItemParser {
     private func regionStreamCellItems(streamable:Streamable) -> [StreamCellItem] {
         var cellArray:[StreamCellItem] = []
         if let content = streamable.content {
-            for block in content {
+            for region in content {
                 var oneColumnHeight:CGFloat
                 var multiColumnHeight:CGFloat
 
-                switch block.kind {
-                case Block.Kind.Image:
-                    oneColumnHeight = self.oneColumnImageHeight(block as ImageBlock)
-                    multiColumnHeight = self.twoColumnImageHeight(block as ImageBlock)
-                case Block.Kind.Text:
+                switch region.kind {
+                case .Image:
+                    oneColumnHeight = self.oneColumnImageHeight(region as ImageRegion)
+                    multiColumnHeight = self.twoColumnImageHeight(region as ImageRegion)
+                case .Text:
                     oneColumnHeight = 0.0
                     multiColumnHeight = 0.0
-                case Block.Kind.Unknown:
+                case .Unknown:
                     oneColumnHeight = 0.0
                     multiColumnHeight = 0.0
                 }
                 
-                let body:StreamCellItem = StreamCellItem(streamable: streamable, type: StreamCellItem.CellType.BodyElement, data: block, oneColumnCellHeight: oneColumnHeight, multiColumnCellHeight: multiColumnHeight)
+                let body:StreamCellItem = StreamCellItem(streamable: streamable, type: StreamCellItem.CellType.BodyElement, data: region, oneColumnCellHeight: oneColumnHeight, multiColumnCellHeight: multiColumnHeight)
 
                 cellArray.append(body)
             }
@@ -83,11 +83,11 @@ struct StreamCellItemParser {
         return cellArray
     }
 
-    private func oneColumnImageHeight(imageBlock: ImageBlock) -> CGFloat {
+    private func oneColumnImageHeight(imageBlock: ImageRegion) -> CGFloat {
         return UIScreen.screenWidth() / StreamCellItemParser.aspectRatioForImageBlock(imageBlock)
     }
 
-    private func twoColumnImageHeight(imageBlock: ImageBlock) -> CGFloat {
+    private func twoColumnImageHeight(imageBlock: ImageRegion) -> CGFloat {
         return ((UIScreen.screenWidth() - 10.0) / 2) / StreamCellItemParser.aspectRatioForImageBlock(imageBlock)
     }
 

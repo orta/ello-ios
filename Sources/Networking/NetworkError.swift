@@ -20,12 +20,20 @@ public enum ElloErrorCode: Int {
 
 extension NSError {
 
+    class func networkError(error:Any?, code:ElloErrorCode) -> NSError {
+        var userInfo:[NSObject : Any]?
+        if let error: Any = error {
+            userInfo = [NSLocalizedFailureReasonErrorKey: error]
+        }
+        return NSError(domain: ElloErrorDomain, code: code.rawValue, userInfo: nil)
+    }
+
     class func networkError(error:AnyObject?, code:ElloErrorCode) -> NSError {
         var userInfo:[NSObject : AnyObject]?
         if let error: AnyObject = error {
             userInfo = [NSLocalizedFailureReasonErrorKey: error]
         }
-        return NSError(domain: ElloErrorDomain, code: code.rawValue, userInfo: userInfo)
+        return NSError(domain: ElloErrorDomain, code: code.rawValue, userInfo: nil)
     }
 
 }

@@ -11,9 +11,7 @@ import Foundation
 import UIKit
 import SwiftyJSON
 
-
-
-class Activity: JSONAble {
+struct Activity {
 
     enum Kind: String {
         case OwnPost = "own_post" // main feed
@@ -38,40 +36,10 @@ class Activity: JSONAble {
         case User = "User"
         case Unknown = "Unknown"
     }
-
-    dynamic let createdAt: NSDate
-    dynamic let activityId: String
+    
+    let activityId: String
     let kind: Kind
     let subjectType: SubjectType
-    var subject: AnyObject?
-
-
-    init(kind: Kind, activityId: String, createdAt: NSDate, subject:AnyObject?, subjectType: SubjectType) {
-        self.kind = kind
-        self.activityId = activityId
-        self.createdAt = createdAt
-        self.subject = subject
-        self.subjectType = subjectType
-    }
-
-    override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
-        let json = JSON(data)
-        let sub = json["subject"]
-        let kind = Kind(rawValue: json["kind"].stringValue) ?? Kind.Unknown
-        let activityId = json["created_at"].stringValue
-        let subjectType = SubjectType(rawValue: json["subject_type"].stringValue) ?? SubjectType.Unknown
-        var createdAt = json["created_at"].stringValue.toNSDate() ?? NSDate()
-
-        var activity = Activity(kind: kind, activityId: activityId, createdAt: createdAt, subject: nil, subjectType: subjectType)
-
-        if let links = data["links"] as? [String: AnyObject] {
-            parseLinks(links, model: activity)
-            activity.subject = activity.links["subject"]
-        }
-        return activity
-    }
-
-    override var description : String {
-        return "\nActivity:\n\tsubjectType: \(self.subjectType.rawValue)\n\tsubject: \(subject)"
-    }
+    var subject: Any?
+    let createdAt: NSDate
 }

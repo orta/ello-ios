@@ -11,83 +11,17 @@ import Foundation
 import UIKit
 import SwiftyJSON
 
-class User: JSONAble {
+struct User {
+    var atName : String { return "@\(username)"}
+    let avatarURL: NSURL?
+    let experimentalFeatures: Bool
+    let followersCount: Int?
+    let followingCount: Int?
+    let href: String
     let name: String
+    var posts: [Post]
+    let postsCount: Int?
+    let relationshipPriority: String
     let userId: String
     let username: String
-    var atName : String { return "@\(username)"}
-    let href: String
-    let experimentalFeatures: Bool
-    let relationshipPriority: String
-    let avatarURL: NSURL?
-    let followersCount: Int?
-    let postsCount: Int?
-    let followingCount: Int?
-    var posts: [Post]
-
-    init(name: String,
-        userId: String,
-        username: String,
-        avatarURL: NSURL?,
-        experimentalFeatures: Bool,
-        href:String,
-        relationshipPriority:String,
-        followersCount:Int?,
-        postsCount:Int?,
-        followingCount:Int?,
-        posts: [Post] = [Post]())
-    {
-        self.name = name
-        self.userId = userId
-        self.username = username
-        self.avatarURL = avatarURL
-        self.experimentalFeatures = experimentalFeatures
-        self.href = href
-        self.relationshipPriority = relationshipPriority
-        self.followersCount = followersCount
-        self.followingCount = followingCount
-        self.postsCount = postsCount
-        self.posts = posts
-    }
-
-    override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
-        let json = JSON(data)
-        let name = json["name"].stringValue
-        let userId = json["id"].stringValue
-        let username = json["username"].stringValue
-
-
-        let experimentalFeatures = json["experimental_features"].boolValue
-        let href = json["href"].stringValue
-        let relationshipPriority = json["relationship_priority"].stringValue
-
-        var avatarURL:NSURL?
-
-        if var avatar = json["avatar"].object as? [String:[String:AnyObject]] {
-            if let avatarPath = avatar["large"]?["url"] as? String {
-                avatarURL = NSURL(string: avatarPath, relativeToURL: NSURL(string: "https://ello.co"))
-            }
-        }
-
-        let postsCount = json["posts_count"].int
-        let followersCount = json["followers_count"].int
-        let followingCount = json["following_count"].int
-
-        let user = User(name: name,
-            userId: userId,
-            username: username,
-            avatarURL:avatarURL,
-            experimentalFeatures: experimentalFeatures,
-            href:href,
-            relationshipPriority:relationshipPriority,
-            followersCount: followersCount,
-            postsCount: postsCount,
-            followingCount:followingCount)
-
-        if let links = data["links"] as? [String: AnyObject] {
-            parseLinks(links, model: user)
-            user.posts = user.links["posts"] as [Post]
-        }
-        return user
-    }
 }

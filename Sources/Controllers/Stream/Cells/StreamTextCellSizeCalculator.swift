@@ -30,7 +30,7 @@ class StreamTextCellSizeCalculator: NSObject, UIWebViewDelegate {
 
     private func loadNext() {
         if !self.cellItems.isEmpty {
-            let textElement = self.cellItems[0].data as? TextBlock
+            let textElement = self.cellItems[0].data as? TextRegion
 
             if let textElement = textElement {
                 self.webView.loadHTMLString(StreamTextCellHTML.postHTML(textElement.content), baseURL: NSURL(string: "/"))

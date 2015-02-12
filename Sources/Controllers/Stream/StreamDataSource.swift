@@ -91,7 +91,8 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     func maintainAspectRatioForItemAtIndexPath(indexPath:NSIndexPath) -> Bool {
-        return streamCellItems[indexPath.item].data?.kind == Block.Kind.Image ?? false
+        return false
+//        return streamCellItems[indexPath.item].data?.kind == .Image ?? false
     }
 
     func groupForIndexPath(indexPath:NSIndexPath) -> String {
@@ -147,11 +148,11 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     private func bodyCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> UICollectionViewCell {
 
         switch streamCellItem.data!.kind {
-        case Block.Kind.Image:
+        case .Image:
             return imageCell(streamCellItem, collectionView: collectionView, indexPath: indexPath)
-        case Block.Kind.Text:
+        case .Text:
             return textCell(streamCellItem, collectionView: collectionView, indexPath: indexPath)
-        case Block.Kind.Unknown:
+        case .Unknown:
             return collectionView.dequeueReusableCellWithReuseIdentifier(StreamCellType.Unknown.name, forIndexPath: indexPath) as UICollectionViewCell
         }
     }
@@ -159,8 +160,8 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     private func imageCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> StreamImageCell {
         let imageCell = collectionView.dequeueReusableCellWithReuseIdentifier(StreamCellType.Image.name, forIndexPath: indexPath) as StreamImageCell
 
-        if let photoData = streamCellItem.data as ImageBlock? {
-            if let photoURL = photoData.hdpi?.url? {
+        if let photoData = streamCellItem.data as ImageRegion? {
+            if let photoURL = photoData.asset?.hdpi?.url? {
                 imageCell.serverProvidedAspectRatio = StreamCellItemParser.aspectRatioForImageBlock(photoData)
                 imageCell.setImageURL(photoURL)
             }
@@ -177,7 +178,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         var textCell:StreamTextCell = collectionView.dequeueReusableCellWithReuseIdentifier(StreamCellType.Text.name, forIndexPath: indexPath) as StreamTextCell
 
         textCell.contentView.alpha = 0.0
-        if let textData = streamCellItem.data as TextBlock? {
+        if let textData = streamCellItem.data as TextRegion? {
             textCell.webView.loadHTMLString(StreamTextCellHTML.postHTML(textData.content), baseURL: NSURL(string: "/"))
         }
 
@@ -215,7 +216,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         var cellItems = StreamCellItemParser().streamCellItems(streamables)
 
         let textElements = cellItems.filter {
-            return $0.data as? TextBlock != nil
+            return $0.data as? TextRegion != nil
         }
 
         self.sizeCalculator.processCells(textElements) {

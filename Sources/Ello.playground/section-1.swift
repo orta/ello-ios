@@ -1,33 +1,17 @@
 // Playground - noun: a place where people can play
 
+import Foundation
 import UIKit
-import QuartzCore
 
-var sean:[String:AnyObject] = ["name" : "sean", "id" : 5]
-var jim:[String:AnyObject] = ["name" : "jim", "id" : 10]
-var people = [sean, jim]
-
-
-//find(people, "playground") == 1
-
-
-//UIView *view = [[UIView alloc] initWithFrame:CGRectMake ];  view.backgroundColor = [UIColor blueColor];  view.layer.cornerRadius = 50;    [self.view addSubview:view];    CABasicAnimation *scaleAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];  scaleAnimation.duration = 0.2;  scaleAnimation.repeatCount = HUGE_VAL;  scaleAnimation.autoreverses = YES;  scaleAnimation.fromValue = [NSNumber numberWithFloat:1.2];  scaleAnimation.toValue = [NSNumber numberWithFloat:0.8];    [view.layer addAnimation:scaleAnimation forKey:@"scale"];
-
-
-
-
-class PulsingCircle: UIView {
-
-    override func drawRect(rect: CGRect) {
-        super.drawRect(rect)
-        self.layer.cornerRadius = rect.width/2
-        self.backgroundColor = UIColor.grayColor()
-    }
+func isGreater(a:Int, b:Int) -> Bool {
+    return a > b
 }
 
-let container = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-container.backgroundColor = UIColor.whiteColor()
+isGreater(8,6)
 
-let circle = PulsingCircle(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
 
-container.addSubview(circle)
+var ages = [6,2,9,1,10]
+
+sort(&ages) { (a:Int, b:Int) in
+    return a > b
+}

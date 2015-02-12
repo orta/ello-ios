@@ -21,11 +21,11 @@ class StreamCellItem {
 //    let comment:Comment?
     let streamable:Streamable
     let type:StreamCellItem.CellType
-    let data:Block?
+    let data:Regionable?
     var oneColumnCellHeight:CGFloat = 0
     var multiColumnCellHeight:CGFloat = 0
 
-    init(streamable:Streamable, type:StreamCellItem.CellType, data:Block?, oneColumnCellHeight:CGFloat, multiColumnCellHeight:CGFloat) {
+    init(streamable:Streamable, type:StreamCellItem.CellType, data:Regionable?, oneColumnCellHeight:CGFloat, multiColumnCellHeight:CGFloat) {
         self.streamable = streamable
         self.type = type
         self.data = data

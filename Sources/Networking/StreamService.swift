@@ -52,12 +52,17 @@ class StreamService: NSObject {
             parameters: endpoint.defaultParameters,
             mappingType:MappingType.ActivitiesType,
             success: { (data) -> () in
-                if let activities:[Activity] = data as? [Activity] {
-                    var filteredActivities = activities.filter({$0.subject as? Post != nil})
-                    var streamables:[Streamable] = filteredActivities.map({ activity -> Streamable in
-                        return activity.subject as Post
-                    })
-                    success(streamables: streamables)
+                println(data)
+                if let activities:[JSONAble] = data as? [JSONAble] {
+                    var posts : [Streamable] = []
+                    for jsonable in activities {
+                        if let activity:Activity = jsonable as? Activity {
+                            if let post = activity.subject as? Post {
+                                posts.append(post)
+                            }
+                        }
+                    }
+                    success(streamables: posts)
                 }
                 else {
                     ElloProvider.unCastableJSONAble(failure)
