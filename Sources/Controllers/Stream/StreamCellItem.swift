@@ -10,25 +10,18 @@ import Foundation
 
 class StreamCellItem {
 
-    enum CellType {
-        case Header
-        case CommentHeader
-        case Footer
-        case BodyElement
-        case CommentBodyElement
-    }
+    let jsonable: JSONAble
+    let type: StreamCellType
+    let data: Block?
+    let isFullWidth: Bool
+    var oneColumnCellHeight: CGFloat = 0
+    var multiColumnCellHeight: CGFloat = 0
 
-//    let comment:Comment?
-    let streamable:Streamable
-    let type:StreamCellItem.CellType
-    let data:Block?
-    var oneColumnCellHeight:CGFloat = 0
-    var multiColumnCellHeight:CGFloat = 0
-
-    init(streamable:Streamable, type:StreamCellItem.CellType, data:Block?, oneColumnCellHeight:CGFloat, multiColumnCellHeight:CGFloat) {
-        self.streamable = streamable
+    init(jsonable: JSONAble, type:StreamCellType, data:Block?, oneColumnCellHeight:CGFloat, multiColumnCellHeight:CGFloat, isFullWidth: Bool) {
+        self.jsonable = jsonable
         self.type = type
         self.data = data
+        self.isFullWidth = isFullWidth
         self.oneColumnCellHeight = oneColumnCellHeight
         self.multiColumnCellHeight = multiColumnCellHeight
     }

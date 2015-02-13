@@ -29,8 +29,10 @@ class NotificationsViewController: StreamableViewController {
 
         let streamService = StreamService()
         streamService.loadStream(StreamKind.Notifications.endpoint,
-            success: { (streamables) -> () in
-                controller.addStreamables(streamables)
+            success: { notifications in
+                // var parser = NotificationCellItemParser()
+                // parser.cellItems(notications)
+                // controller.addStreamables(streamables)
                 controller.doneLoading()
             },
             failure: { (error, statusCode) -> () in

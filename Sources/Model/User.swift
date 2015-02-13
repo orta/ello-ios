@@ -20,6 +20,7 @@ class User: JSONAble {
     let experimentalFeatures: Bool
     let relationshipPriority: String
     let avatarURL: NSURL?
+    let coverImageURL: NSURL?
     let followersCount: Int?
     let postsCount: Int?
     let followingCount: Int?
@@ -30,6 +31,7 @@ class User: JSONAble {
         userId: String,
         username: String,
         avatarURL: NSURL?,
+        coverImageURL: NSURL?,
         experimentalFeatures: Bool,
         href:String,
         relationshipPriority:String,
@@ -43,6 +45,7 @@ class User: JSONAble {
         self.userId = userId
         self.username = username
         self.avatarURL = avatarURL
+        self.coverImageURL = coverImageURL
         self.experimentalFeatures = experimentalFeatures
         self.href = href
         self.relationshipPriority = relationshipPriority
@@ -65,12 +68,20 @@ class User: JSONAble {
         let relationshipPriority = json["relationship_priority"].stringValue
 
         var avatarURL:NSURL?
+        var coverImageURL:NSURL?
 
         if var avatar = json["avatar"].object as? [String:[String:AnyObject]] {
             if let avatarPath = avatar["large"]?["url"] as? String {
-                avatarURL = NSURL(string: avatarPath, relativeToURL: NSURL(string: "https://ello.co"))
+                avatarURL = NSURL(string: avatarPath, relativeToURL: NSURL(string: ElloURI.baseURL))
             }
         }
+
+        if var coverImage = json["cover_image"].object as? [String:[String:AnyObject]] {
+            if let coverPath = coverImage["optimized"]?["url"] as? String {
+                coverImageURL = NSURL(string: coverPath, relativeToURL: NSURL(string: ElloURI.baseURL))
+            }
+        }
+
 
         let postsCount = json["posts_count"].int
         let followersCount = json["followers_count"].int
@@ -79,10 +90,11 @@ class User: JSONAble {
         let user = User(name: name,
             userId: userId,
             username: username,
-            avatarURL:avatarURL,
+            avatarURL: avatarURL,
+            coverImageURL: coverImageURL,
             experimentalFeatures: experimentalFeatures,
             href:href,
-            relationshipPriority:relationshipPriority,
+            relationshipPriority: relationshipPriority,
             followersCount: followersCount,
             postsCount: postsCount,
             followingCount:followingCount)
@@ -96,7 +108,7 @@ class User: JSONAble {
 
     class func fakeCurrentUser(username: String) -> User {
         return User(name: "Unknown", userId: "42", username: username,
-            avatarURL: nil, experimentalFeatures: false,
+            avatarURL: nil, coverImageURL: nil, experimentalFeatures: false,
             href: "/api/edge/users/42", relationshipPriority: "self",
             followersCount: 1, postsCount: 2, followingCount: 3, posts: [],
             isCurrentUser: true)

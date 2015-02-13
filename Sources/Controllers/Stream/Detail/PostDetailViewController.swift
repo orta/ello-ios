@@ -40,8 +40,9 @@ class PostDetailViewController: StreamableViewController {
 
         let streamService = StreamService()
         streamService.loadMoreCommentsForPost(post.postId,
-            success: { (streamables) -> () in
-                controller.addStreamables(streamables)
+            success: { jsonables in
+                var parser = StreamCellItemParser()
+                controller.addUnsizedCellItems(parser.commentCellItems(jsonables as [Comment]))
                 controller.doneLoading()
             },
             failure: { (error, statusCode) -> () in

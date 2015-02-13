@@ -6,12 +6,10 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
-import Foundation
-
-import UIKit
 import SwiftyJSON
 
-class Comment: JSONAble, Streamable {
+
+class Comment: JSONAble, Authorable {
     
     let commentId: String
     var createdAt: NSDate

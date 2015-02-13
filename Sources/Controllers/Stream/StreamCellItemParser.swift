@@ -25,57 +25,84 @@ struct StreamCellItemParser {
 
     // MARK: - public
 
-    func streamCellItems(streamables:[Streamable]) -> [StreamCellItem] {
+    func postCellItems(posts:[Post]) -> [StreamCellItem] {
         var cellItems:[StreamCellItem] = []
-        for streamable in streamables {
-            cellItems += headerStreamCellItems(streamable)
-            cellItems += regionStreamCellItems(streamable)
-            if streamable.kind == StreamableKind.Post {
-                cellItems += footerStreamCellItems(streamable)
-            }
+        for post in posts {
+            cellItems += [StreamCellItem(jsonable: post, type: StreamCellType.Header, data: nil, oneColumnCellHeight: 80.0, multiColumnCellHeight: 49.0, isFullWidth: false)]
+            cellItems += postRegionItems(post)
+            cellItems += footerStreamCellItems(post)
+        }
+        return cellItems
+    }
+
+    func commentCellItems(comments:[Comment]) -> [StreamCellItem] {
+        var cellItems:[StreamCellItem] = []
+        for comment in comments {
+            cellItems += [StreamCellItem(jsonable: comment, type: StreamCellType.CommentHeader, data: nil, oneColumnCellHeight: 50.0, multiColumnCellHeight: 50.0, isFullWidth: false)]
+            cellItems += commentRegionItems(comment)
         }
         return cellItems
     }
 
     // MARK: - Private
-
-    private func headerStreamCellItems(streamable:Streamable) -> [StreamCellItem] {
-        var type = StreamCellItem.CellType.Header
-        var oneColumnHeight:CGFloat
-        var multiColumnHeight:CGFloat
-        switch streamable.kind {
-        case .Comment:
-            type = StreamCellItem.CellType.CommentHeader
-            oneColumnHeight = 50.0
-            multiColumnHeight = 50.0
-        default:
-            oneColumnHeight = 80.0
-            multiColumnHeight = 49.0
-        }
-        
-        return [StreamCellItem(streamable: streamable, type: type, data: nil, oneColumnCellHeight: oneColumnHeight, multiColumnCellHeight: multiColumnHeight)]
-    }
-
-    private func regionStreamCellItems(streamable:Streamable) -> [StreamCellItem] {
+    private func postRegionItems(post: Post) -> [StreamCellItem] {
         var cellArray:[StreamCellItem] = []
-        if let content = streamable.content {
+        if let content = post.content {
             for block in content {
                 var oneColumnHeight:CGFloat
                 var multiColumnHeight:CGFloat
+                var type : StreamCellType
+
+                switch block.kind {
+                case .Image:
+                    oneColumnHeight = self.oneColumnImageHeight(block as ImageBlock)
+                    multiColumnHeight = self.twoColumnImageHeight(block as ImageBlock)
+                    type = .Image
+                case .Text:
+                    oneColumnHeight = 0.0
+                    multiColumnHeight = 0.0
+                    type = .Text
+                case .Unknown:
+                    oneColumnHeight = 0.0
+                    multiColumnHeight = 0.0
+                    type = .Unknown
+                }
+
+                if type != .Unknown {
+                    let body:StreamCellItem = StreamCellItem(jsonable: post, type: type, data: block, oneColumnCellHeight: oneColumnHeight, multiColumnCellHeight: multiColumnHeight, isFullWidth: false)
+
+                    cellArray.append(body)
+                }
+            }
+        }
+        return cellArray
+    }
+
+
+    private func commentRegionItems(comment: Comment) -> [StreamCellItem] {
+        var cellArray:[StreamCellItem] = []
+        if let content = comment.content {
+            for block in content {
+                var oneColumnHeight:CGFloat
+                var multiColumnHeight:CGFloat
+                var type : StreamCellType
 
                 switch block.kind {
                 case Block.Kind.Image:
                     oneColumnHeight = self.oneColumnImageHeight(block as ImageBlock)
                     multiColumnHeight = self.twoColumnImageHeight(block as ImageBlock)
+                    type = .Image
                 case Block.Kind.Text:
                     oneColumnHeight = 0.0
                     multiColumnHeight = 0.0
+                    type = .Text
                 case Block.Kind.Unknown:
                     oneColumnHeight = 0.0
                     multiColumnHeight = 0.0
+                    type = .Unknown
                 }
-                
-                let body:StreamCellItem = StreamCellItem(streamable: streamable, type: StreamCellItem.CellType.BodyElement, data: block, oneColumnCellHeight: oneColumnHeight, multiColumnCellHeight: multiColumnHeight)
+
+                let body:StreamCellItem = StreamCellItem(jsonable: comment, type: type, data: block, oneColumnCellHeight: oneColumnHeight, multiColumnCellHeight: multiColumnHeight, isFullWidth: false)
 
                 cellArray.append(body)
             }
@@ -91,7 +118,7 @@ struct StreamCellItemParser {
         return ((UIScreen.screenWidth() - 10.0) / 2) / StreamCellItemParser.aspectRatioForImageBlock(imageBlock)
     }
 
-    private func footerStreamCellItems(streamable:Streamable) -> [StreamCellItem] {
-        return [StreamCellItem(streamable: streamable, type: StreamCellItem.CellType.Footer, data: nil, oneColumnCellHeight: 54.0, multiColumnCellHeight: 54.0)]
+    private func footerStreamCellItems(post: Post) -> [StreamCellItem] {
+        return [StreamCellItem(jsonable: post, type: StreamCellType.Footer, data: nil, oneColumnCellHeight: 54.0, multiColumnCellHeight: 54.0, isFullWidth: false)]
     }
 }

@@ -6,10 +6,17 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
-import UIKit
 import SwiftyJSON
 
-class Post: JSONAble, Streamable {
+
+@objc protocol Authorable {
+    var author : User? { get }
+    var createdAt : NSDate { get }
+    var groupId: String { get }
+}
+
+
+class Post: JSONAble, Authorable {
 
     let postId: String
     var createdAt: NSDate

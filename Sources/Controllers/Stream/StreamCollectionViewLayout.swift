@@ -11,7 +11,7 @@ import Foundation
 import UIKit
 
 @objc protocol StreamCollectionViewLayoutDelegate: UICollectionViewDelegate {
-    
+
     func collectionView (collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize
 
@@ -29,6 +29,9 @@ import UIKit
 
     optional func colletionView (collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
         minimumInteritemSpacingForSectionAtIndex section: NSInteger) -> CGFloat
+
+    optional func collectionView (collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+        isFullWidthAtIndexPath indexPath: NSIndexPath) -> Bool
 }
 
 class StreamCollectionViewLayout : UICollectionViewLayout {
@@ -99,6 +102,8 @@ class StreamCollectionViewLayout : UICollectionViewLayout {
     
     override func prepareLayout(){
         super.prepareLayout()
+
+
         
         let numberOfSections = self.collectionView!.numberOfSections()
         if numberOfSections == 0 {
@@ -130,6 +135,7 @@ class StreamCollectionViewLayout : UICollectionViewLayout {
     }
 
     private func addAttributesForSection(section:Int) {
+
         var attributes = UICollectionViewLayoutAttributes()
 
         let minimumSpacing = delegate?.colletionView?(collectionView!, layout: self, minimumInteritemSpacingForSectionAtIndex: section)
@@ -150,6 +156,7 @@ class StreamCollectionViewLayout : UICollectionViewLayout {
         var currentColumIndex = 0
         for index in 0..<itemCount {
             let indexPath = NSIndexPath(forItem: index, inSection: section)
+            let isFullWidth = delegate?.collectionView?(collectionView!, layout: self, isFullWidthAtIndexPath: indexPath)
             let itemGroup:String? = self.delegate?.collectionView?(self.collectionView!, layout: self, groupForItemAtIndexPath: indexPath)
             if let itemGroup = itemGroup {
                 if itemGroup != groupIndex {
@@ -232,6 +239,10 @@ class StreamCollectionViewLayout : UICollectionViewLayout {
         }
             
         return attrs
+    }
+
+    override func layoutAttributesForSupplementaryViewOfKind(elementKind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes! {
+        return UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: "profileHeader", withIndexPath: indexPath)
     }
     
     override func shouldInvalidateLayoutForBoundsChange (newBounds : CGRect) -> Bool {
