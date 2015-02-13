@@ -23,6 +23,7 @@
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="Kqv-DZ-gE5" secondAttribute="bottom" id="94r-IZ-f7E" userLabel="webView Bottom"/>
                 <constraint firstAttribute="trailing" secondItem="Kqv-DZ-gE5" secondAttribute="trailing" id="9X6-RE-Dlv" userLabel="webView Right"/>

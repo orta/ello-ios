@@ -13,7 +13,7 @@ class ProfileViewController: StreamableViewController {
     let user: User
     let streamViewController: StreamViewController
     @IBOutlet weak var viewContainer: UIView!
-
+    @IBOutlet weak var coverImage: UIImageView!
 
     required init(user : User) {
         self.user = user
@@ -44,10 +44,6 @@ class ProfileViewController: StreamableViewController {
 
 
     private func setupStreamController() {
-
-//        let profileHeaderCellItem = StreamCellItem(streamable: <#Streamable#>, type: <#StreamCellItem.CellType#>, data: <#Block?#>, oneColumnCellHeight: <#CGFloat#>, multiColumnCellHeight: <#CGFloat#>, isFullWidth: <#Bool#>)
-//        streamViewController.addStreamCellItems(self.detailCellItems)
-
         StreamService().loadUser(streamViewController.streamKind.endpoint,
             success: userLoaded,
             failure: { (error, statusCode) in
@@ -64,8 +60,13 @@ class ProfileViewController: StreamableViewController {
     }
 
     private func userLoaded(user: User) {
-        println("got a user: \(user)")
-        println("cover image: \(user.coverImageURL)")
+        if let cover = user.coverImageURL {
+            coverImage.sd_setImageWithURL(cover)
+        }
+        
+        let profileHeaderCellItem = StreamCellItem(jsonable: user, type: StreamCellType.ProfileHeader, data: nil, oneColumnCellHeight: 320.0, multiColumnCellHeight: 0.0, isFullWidth: true)
+        streamViewController.addStreamCellItems([profileHeaderCellItem])
+
         var parser = StreamCellItemParser()
         streamViewController.addUnsizedCellItems(parser.postCellItems(user.posts))
         streamViewController.doneLoading()

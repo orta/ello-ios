@@ -10,7 +10,13 @@ import UIKit
 import Foundation
 
 class ProfileHeaderCell: UICollectionViewCell {
-    @IBOutlet weak var avatarImageView: UIImageView!
+
+    @IBOutlet weak var avatarButton: AvatarButton!
     @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var nameLabel: UILabel!
+
+    func setAvatarURL(url:NSURL) {
+        avatarButton.setAvatarURL(url)
+    }
 }
 
