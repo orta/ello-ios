@@ -92,8 +92,8 @@ class StreamViewController: BaseElloViewController {
         self.collectionView.reloadData()
     }
 
-    func addStreamables(streamables:[Streamable]) {
-        self.dataSource.addStreamables(streamables, startingIndexPath:nil) { (cellCount) -> () in
+    func addUnsizedCellItems(items:[StreamCellItem]) {
+        self.dataSource.addUnsizedCellItems(items, startingIndexPath:nil) { indexPaths in
             self.collectionView.reloadData()
         }
     }
@@ -133,27 +133,8 @@ class StreamViewController: BaseElloViewController {
         collectionView.alwaysBounceHorizontal = false
         collectionView.alwaysBounceVertical = true
         collectionView.directionalLockEnabled = true
-        registerCells()
+        StreamCellType.registerAll(collectionView)
         setupCollectionViewLayout()
-    }
-
-    private func registerCells() {
-        let streamHeaderCellNib = UINib(nibName: StreamCellType.Header.name, bundle: NSBundle(forClass: StreamHeaderCell.self))
-        collectionView.registerNib(streamHeaderCellNib, forCellWithReuseIdentifier: StreamCellType.Header.name)
-
-        let streamImageCellNib = UINib(nibName: StreamCellType.Image.name, bundle: NSBundle(forClass: StreamImageCell.self))
-        collectionView.registerNib(streamImageCellNib, forCellWithReuseIdentifier: StreamCellType.Image.name)
-
-        let streamTextCellNib = UINib(nibName: StreamCellType.Text.name, bundle: NSBundle(forClass: StreamTextCell.self))
-        collectionView.registerNib(streamTextCellNib, forCellWithReuseIdentifier: StreamCellType.Text.name)
-
-        let streamFooterCellNib = UINib(nibName: StreamCellType.Footer.name, bundle: NSBundle(forClass: StreamFooterCell.self))
-        collectionView.registerNib(streamFooterCellNib, forCellWithReuseIdentifier: StreamCellType.Footer.name)
-
-        let streamCommentHeaderCellNib = UINib(nibName: StreamCellType.CommentHeader.name, bundle: NSBundle(forClass: StreamCommentHeaderCell.self))
-        collectionView.registerNib(streamCommentHeaderCellNib, forCellWithReuseIdentifier: StreamCellType.CommentHeader.name)
-
-        collectionView.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: StreamCellType.Unknown.name)
     }
 
     // this gets reset whenever the streamKind changes
@@ -229,7 +210,7 @@ extension StreamViewController : UICollectionViewDelegate {
 
     func collectionView(collectionView: UICollectionView,
         shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-            return self.dataSource.streamCellItems[indexPath.item].type == StreamCellItem.CellType.Header
+            return self.dataSource.streamCellItems[indexPath.item].type == StreamCellType.Header
     }
 }
 
@@ -254,6 +235,11 @@ extension StreamViewController : StreamCollectionViewLayoutDelegate {
     func collectionView(collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
         maintainAspectRatioForItemAtIndexPath indexPath: NSIndexPath) -> Bool {
             return dataSource.maintainAspectRatioForItemAtIndexPath(indexPath)
+    }
+
+    func collectionView (collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+        isFullWidthAtIndexPath indexPath: NSIndexPath) -> Bool {
+            return dataSource.isFullWidthAtIndexPath(indexPath)
     }
 }
 

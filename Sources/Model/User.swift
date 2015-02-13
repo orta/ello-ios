@@ -11,46 +11,52 @@ import Foundation
 import UIKit
 import SwiftyJSON
 
+
 class User: JSONAble {
+    var atName : String { return "@\(username)"}
+    let avatarURL: NSURL?
+    let coverImageURL: NSURL?
+    let experimentalFeatures: Bool
+    let followersCount: Int?
+    let followingCount: Int?
+    let href: String
     let name: String
+    var posts: [Post]
+    let postsCount: Int?
+    let relationshipPriority: String
     let userId: String
     let username: String
-    var atName : String { return "@\(username)"}
-    let href: String
-    let experimentalFeatures: Bool
-    let relationshipPriority: String
-    let avatarURL: NSURL?
-    let followersCount: Int?
-    let postsCount: Int?
-    let followingCount: Int?
-    var posts: [Post]
+
+    // only set from 
     var isCurrentUser : Bool
 
-    init(name: String,
+    init(avatarURL: NSURL?,
+        coverImageURL: NSURL?,
+        experimentalFeatures: Bool,
+        followersCount: Int?,
+        followingCount: Int?,
+        href: String,
+        name: String,
+        posts: [Post],
+        postsCount: Int?,
+        relationshipPriority: String,
         userId: String,
         username: String,
-        avatarURL: NSURL?,
-        experimentalFeatures: Bool,
-        href:String,
-        relationshipPriority:String,
-        followersCount:Int?,
-        postsCount:Int?,
-        followingCount:Int?,
-        posts: [Post] = [Post](),
         isCurrentUser: Bool = false)
     {
-        self.name = name
-        self.userId = userId
-        self.username = username
         self.avatarURL = avatarURL
+        self.coverImageURL = coverImageURL
         self.experimentalFeatures = experimentalFeatures
-        self.href = href
-        self.relationshipPriority = relationshipPriority
         self.followersCount = followersCount
         self.followingCount = followingCount
-        self.postsCount = postsCount
+        self.href = href
+        self.name = name
         self.posts = posts
         self.isCurrentUser = isCurrentUser
+        self.postsCount = postsCount
+        self.relationshipPriority = relationshipPriority
+        self.userId = userId
+        self.username = username
     }
 
     override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
@@ -65,40 +71,63 @@ class User: JSONAble {
         let relationshipPriority = json["relationship_priority"].stringValue
 
         var avatarURL:NSURL?
+        var coverImageURL:NSURL?
 
         if var avatar = json["avatar"].object as? [String:[String:AnyObject]] {
             if let avatarPath = avatar["large"]?["url"] as? String {
-                avatarURL = NSURL(string: avatarPath, relativeToURL: NSURL(string: "https://ello.co"))
+                avatarURL = NSURL(string: avatarPath, relativeToURL: NSURL(string: ElloURI.baseURL))
             }
         }
+
+        if var coverImage = json["cover_image"].object as? [String:[String:AnyObject]] {
+            if let coverPath = coverImage["optimized"]?["url"] as? String {
+                coverImageURL = NSURL(string: coverPath, relativeToURL: NSURL(string: ElloURI.baseURL))
+            }
+        }
+
 
         let postsCount = json["posts_count"].int
         let followersCount = json["followers_count"].int
         let followingCount = json["following_count"].int
 
-        let user = User(name: name,
-            userId: userId,
-            username: username,
-            avatarURL:avatarURL,
-            experimentalFeatures: experimentalFeatures,
-            href:href,
-            relationshipPriority:relationshipPriority,
-            followersCount: followersCount,
-            postsCount: postsCount,
-            followingCount:followingCount)
-
-        if let links = data["links"] as? [String: AnyObject] {
-            parseLinks(links, model: user)
-            user.posts = user.links["posts"] as [Post]
+        var links = [String: AnyObject]()
+        var posts = [Post]()
+        if let linksNode = data["links"] as? [String: AnyObject] {
+            links = ElloLinkedStore.parseLinks(linksNode)
+            // posts = links["posts"] as [Post]
         }
-        return user
+
+        return User(
+            avatarURL: avatarURL,
+            coverImageURL: coverImageURL,
+            experimentalFeatures: experimentalFeatures,
+            followersCount: followersCount,
+            followingCount: followingCount,
+            href: href,
+            name: name,
+            posts: posts,
+            postsCount: postsCount,
+            relationshipPriority: relationshipPriority,
+            userId: userId,
+            username: username
+        )
     }
 
     class func fakeCurrentUser(username: String) -> User {
-        return User(name: "Unknown", userId: "42", username: username,
-            avatarURL: nil, experimentalFeatures: false,
-            href: "/api/edge/users/42", relationshipPriority: "self",
-            followersCount: 1, postsCount: 2, followingCount: 3, posts: [],
-            isCurrentUser: true)
+        return User(
+            avatarURL: nil,
+            coverImageURL: nil,
+            experimentalFeatures: false,
+            followersCount: 1,
+            followingCount: 3,
+            href: "/api/edge/users/42",
+            name: "Unknown",
+            posts: [],
+            postsCount: 2,
+            relationshipPriority: "self",
+            userId: "42",
+            username: username
+        )
+
     }
 }

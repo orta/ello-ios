@@ -26,12 +26,12 @@ class PostSpec: QuickSpec {
                 let postContent0:ImageBlock = post.content![0] as ImageBlock
                 expect(postContent0.kind) == Block.Kind.Image
                 expect(postContent0.alt) == "ello-15c97681-b4a6-496f-8c5f-0096fd215703.jpeg"
-                
+
                 let postContent1:TextBlock = post.content![1] as TextBlock
                 expect(postContent1.kind) == Block.Kind.Text
                 expect(postContent1.content) == "test text content"
-                
-                
+
+
                 expect(post.token) == "ibLWX5p5fPBfzE8GmfOG6w"
                 expect(post.postId) == "526"
 
@@ -64,5 +64,6 @@ class PostSpec: QuickSpec {
                 expect(assets["85"]).notTo(beNil())
             }
         }
+
     }
 }

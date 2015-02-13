@@ -84,7 +84,7 @@ struct ElloProvider {
 
     static var sharedProvider: MoyaProvider<ElloAPI> {
         get {
-        return SharedProvider.instance
+            return SharedProvider.instance
         }
 
         set (newSharedProvider) {
@@ -100,6 +100,7 @@ struct ElloProvider {
     }
 }
 
+// MARK: elloRequest implementation
 extension MoyaProvider {
 
     func elloRequest(token: T, method: Moya.Method, parameters: [String: AnyObject], mappingType: MappingType, success: ElloSuccessCompletion, failure: ElloFailureCompletion?) {
@@ -165,10 +166,10 @@ extension MoyaProvider {
                 }
 
                 if let node = dict[mappingType.rawValue] as? [[String:AnyObject]] {
-                    mappedObjects = mapToObjectArray(node, classType: mappingType.jsonableType, linked: Store)
+                    mappedObjects = mapToObjectArray(node, fromJSON: mappingType.fromJSON, linked: Store)
                 }
                 else if let node = dict[mappingType.rawValue] as? [String:AnyObject] {
-                    mappedObjects = mapToObject(node, classType: mappingType.jsonableType, linked: Store)
+                    mappedObjects = mapToObject(node, fromJSON: mappingType.fromJSON, linked: Store)
                 }
             }
 
@@ -186,7 +187,7 @@ extension MoyaProvider {
     }
 
     func failedToMapObjects(failure:ElloFailureCompletion?) {
-        let jsonMappingError = ElloNetworkError(title: "Unknown Error", code: ElloNetworkError.CodeType.unknown.rawValue, detail: "NEED DEFAULT HERE", status: nil, messages: nil, attrs: nil)
+        let jsonMappingError = ElloNetworkError(attrs: nil, code: ElloNetworkError.CodeType.unknown, detail: "NEED DEFAULT HERE", messages: nil, status: nil, title: "Unknown Error")
 
         let elloError = NSError.networkError(jsonMappingError, code: ElloErrorCode.JSONMapping)
         if let failure = failure {
@@ -228,13 +229,13 @@ extension MoyaProvider {
 
             if mappedJSON != nil && error == nil {
                 if let node = mappedJSON?[MappingType.ErrorsType.rawValue] as? [String:AnyObject] {
-                    elloNetworkError = mapToObject(node, classType: ElloNetworkError.self, linked: Store) as? ElloNetworkError
+                    elloNetworkError = mapToObject(node, fromJSON: MappingType.ErrorType.fromJSON, linked: Store) as? ElloNetworkError
                 }
             }
         }
         else {
             let detail = error?.localizedDescription ?? "NEED DEFAULT HERE"
-            elloNetworkError = ElloNetworkError(title: "Error", code: ElloNetworkError.CodeType.unknown.rawValue, detail: detail, status: nil, messages: nil, attrs: nil)
+            let jsonMappingError = ElloNetworkError(attrs: nil, code: ElloNetworkError.CodeType.unknown, detail: detail,messages: nil, status: nil, title: "Error")
         }
 
         var errorCodeType = (statusCode == nil) ? ElloErrorCode.Data : ElloErrorCode.StatusCode
@@ -256,20 +257,19 @@ extension MoyaProvider {
         return (json, error)
     }
 
-    func mapToObjectArray(object: AnyObject?, classType: JSONAble.Type, linked:ElloLinkedStore) -> [JSONAble]? {
+    func mapToObjectArray(object: AnyObject?, fromJSON: FromJSONClosure, linked:ElloLinkedStore) -> [JSONAble]? {
 
         if let dicts = object as? [[String:AnyObject]] {
-            let jsonables:[JSONAble] =  dicts.map({ return classType.fromJSON($0) })
+            let jsonables:[JSONAble] =  dicts.map({ return fromJSON(data: $0) })
             return jsonables
         }
 
         return nil
     }
 
-    func mapToObject(object:AnyObject?, classType: JSONAble.Type, linked:ElloLinkedStore) -> JSONAble? {
-
+    func mapToObject(object:AnyObject?, fromJSON: FromJSONClosure, linked:ElloLinkedStore) -> JSONAble? {
         if let dict = object as? [String:AnyObject] {
-            return classType.fromJSON(dict)
+            return fromJSON(data: dict)
         }
         else {
             return nil

@@ -16,6 +16,7 @@ class PostbarController:NSObject, PostbarDelegate {
     init(collectionView:UICollectionView, dataSource:StreamDataSource) {
         self.collectionView = collectionView
         self.dataSource = dataSource
+        self.collectionView.dataSource = dataSource
     }
 
     // MARK:
@@ -33,7 +34,6 @@ class PostbarController:NSObject, PostbarDelegate {
                     if let first = indexPaths.first {
                         let range = Range(start: first.item,  end: first.item + countElements(indexPaths))
                         self.dataSource.streamCellItems.removeRange(range)
-                        // self.collectionView.dataSource = self.dataSource
                         self.collectionView.deleteItemsAtIndexPaths(indexPaths)
                     }
                     cell.commentsButton.enabled = true
@@ -58,9 +58,9 @@ class PostbarController:NSObject, PostbarDelegate {
 
     // MARK: - Private
 
-    private func commentLoadSuccess(streamables:[Streamable], indexPath:NSIndexPath, cell:StreamFooterCell) {
-        self.dataSource.addStreamables(streamables, startingIndexPath:indexPath) { (indexPaths) -> () in
-            self.collectionView.dataSource = self.dataSource
+    private func commentLoadSuccess(jsonables:[JSONAble], indexPath:NSIndexPath, cell:StreamFooterCell) {
+        var parser = StreamCellItemParser()
+        self.dataSource.addUnsizedCellItems(parser.commentCellItems(jsonables as [Comment]), startingIndexPath:indexPath) { (indexPaths) -> () in
             self.collectionView.insertItemsAtIndexPaths(indexPaths)
         }
         cell.commentsButton.enabled = true

@@ -13,7 +13,7 @@ protocol StreamImageCellDelegate : NSObjectProtocol {
     func imageTapped(imageView:UIImageView)
 }
 
-let updateStreamImageCellHeightNotification = Notification<StreamImageCell>(name: "updateStreamImageCellHeightNotification")
+let updateStreamImageCellHeightNotification = TypedNotification<StreamImageCell>(name: "updateStreamImageCellHeightNotification")
 
 class StreamImageCell: UICollectionViewCell {
 
@@ -33,7 +33,7 @@ class StreamImageCell: UICollectionViewCell {
     }
 
     var calculatedHeight:CGFloat {
-        get { return UIScreen.screenWidth() / self.aspectRatio }
+        return UIScreen.screenWidth() / self.aspectRatio
     }
 
     func setImageURL(url:NSURL) {

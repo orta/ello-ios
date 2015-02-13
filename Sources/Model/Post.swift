@@ -6,39 +6,62 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
-import UIKit
 import SwiftyJSON
 
-class Post: JSONAble, Streamable {
 
-    let postId: String
-    var createdAt: NSDate
-    let href: String
-    let collapsed: Bool
-    var content: [Block]?
-    var kind = StreamableKind.Post
-    let token: String
+@objc protocol Authorable {
+    var createdAt : NSDate { get }
+    var groupId: String { get }
+    var author : User? { get }
+}
+
+
+class Post: JSONAble, Authorable {
+
+    var assets: [String:Asset]?
     var author: User?
+    let collapsed: Bool
     let commentsCount: Int?
-    let viewsCount: Int?
-    let repostsCount: Int?
+    var content: [Regionable]?
+    var createdAt: NSDate
     var groupId:String {
         get { return postId }
     }
+    let href: String
+    let postId: String
+    let repostsCount: Int?
+    var summary: [Regionable]?
+    let token: String
+    let viewsCount: Int?
 
-    init(postId: String, createdAt: NSDate, href: String, collapsed:Bool, content: [Block]?, token: String, commentsCount: Int?, viewsCount: Int?, repostsCount: Int?) {
-        self.postId = postId
+    init(assets: [String:Asset]?,
+        author: User?,
+        collapsed: Bool,
+        commentsCount: Int?,
+        content: [Regionable]?,
+        createdAt: NSDate,
+        href: String,
+        postId: String,
+        repostsCount: Int?,
+        summary: [Regionable]?,
+        token: String,
+        viewsCount: Int?)
+    {
+        self.assets = assets
+        self.author = author
+        self.collapsed = collapsed
+        self.commentsCount = commentsCount
+        self.content = content
         self.createdAt = createdAt
         self.href = href
-        self.collapsed = collapsed
-        self.content = content
-        self.token = token
-        self.commentsCount = commentsCount
-        self.viewsCount = viewsCount
+        self.postId = postId
         self.repostsCount = repostsCount
+        self.summary = summary
+        self.token = token
+        self.viewsCount = viewsCount
     }
 
-    override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
+     override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
         let json = JSON(data)
         let postId = json["id"].stringValue
         var createdAt:NSDate = json["created_at"].stringValue.toNSDate() ?? NSDate()
@@ -48,18 +71,34 @@ class Post: JSONAble, Streamable {
         let viewsCount = json["views_count"].int
         let commentsCount = json["comments_count"].int
         let repostsCount = json["reposts_count"].int
-
-        let post = Post(postId: postId, createdAt: createdAt, href: href, collapsed: collapsed, content: nil, token: token, commentsCount: commentsCount, viewsCount: viewsCount, repostsCount: repostsCount)
-
-        if let links = data["links"] as? [String: AnyObject] {
-            parseLinks(links, model: post)
-            post.author = post.links["author"] as? User
+        var links = [String: AnyObject]()
+        var author: User?
+        var content: [Regionable]?
+        var summary: [Regionable]?
+        if let linksNode = data["links"] as? [String: AnyObject] {
+            links = ElloLinkedStore.parseLinks(linksNode)
+            author = links["author"] as? User
+//            var assets = links["assets"] as? [String:JSONAble]
+            content = RegionParser.regions("content", json: json)
+            summary = RegionParser.regions("summary", json: json)
         }
 
-        post.content = Block.blocks(json, assets: post.links["assets"] as? [String: AnyObject])
-
-        return post
+        return Post(
+            assets: nil,
+            author: author,
+            collapsed: collapsed,
+            commentsCount: commentsCount,
+            content: content,
+            createdAt: createdAt,
+            href: href,
+            postId: postId,
+            repostsCount: repostsCount,
+            summary: summary,
+            token: token,
+            viewsCount: viewsCount
+        )
     }
+
     override var description : String {
         return "Post:\n\tpostId:\(self.postId)"
     }

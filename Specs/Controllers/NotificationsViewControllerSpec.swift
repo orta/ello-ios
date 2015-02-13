@@ -16,6 +16,10 @@ class NotificationsViewControllerSpec: QuickSpec {
         var controller = NotificationsViewController()
         describe("initialization", {
 
+            beforeEach({
+                controller = NotificationsViewController()
+            })
+
             it("can be instantiated") {
                 expect(controller).notTo(beNil())
             }

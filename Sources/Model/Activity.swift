@@ -6,11 +6,7 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
-import Foundation
-
-import UIKit
 import SwiftyJSON
-
 
 
 class Activity: JSONAble {
@@ -39,19 +35,23 @@ class Activity: JSONAble {
         case Unknown = "Unknown"
     }
 
-    dynamic let createdAt: NSDate
-    dynamic let activityId: String
+    let activityId: String
     let kind: Kind
     let subjectType: SubjectType
     var subject: AnyObject?
+    let createdAt: NSDate
 
-
-    init(kind: Kind, activityId: String, createdAt: NSDate, subject:AnyObject?, subjectType: SubjectType) {
-        self.kind = kind
+    init(activityId: String,
+        kind: Kind,
+        subjectType: SubjectType,
+        subject: AnyObject?,
+        createdAt: NSDate )
+    {
         self.activityId = activityId
-        self.createdAt = createdAt
-        self.subject = subject
+        self.kind = kind
         self.subjectType = subjectType
+        self.subject = subject
+        self.createdAt = createdAt
     }
 
     override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
@@ -62,16 +62,19 @@ class Activity: JSONAble {
         let subjectType = SubjectType(rawValue: json["subject_type"].stringValue) ?? SubjectType.Unknown
         var createdAt = json["created_at"].stringValue.toNSDate() ?? NSDate()
 
-        var activity = Activity(kind: kind, activityId: activityId, createdAt: createdAt, subject: nil, subjectType: subjectType)
-
-        if let links = data["links"] as? [String: AnyObject] {
-            parseLinks(links, model: activity)
-            activity.subject = activity.links["subject"]
+        var links = [String: AnyObject]()
+        var subject:AnyObject?
+        if let linksNode = data["links"] as? [String: AnyObject] {
+            links = ElloLinkedStore.parseLinks(linksNode)
+            subject = links["subject"]
         }
-        return activity
-    }
 
-    override var description : String {
-        return "\nActivity:\n\tsubjectType: \(self.subjectType.rawValue)\n\tsubject: \(subject)"
+        return Activity(
+            activityId: activityId,
+            kind: kind,
+            subjectType: subjectType,
+            subject: subject,
+            createdAt: createdAt
+        )
     }
 }

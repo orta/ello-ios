@@ -14,39 +14,45 @@ class ElloNetworkError: JSONAble {
     
     enum CodeType: String {
         case blacklisted = "blacklisted"
-        case rateLimited = "rate_limited"
-        case timeout = "timeout"
-        case unavailable = "unavailable"
-        case noEndpoint = "no_endpoint"
+        case invalidRequest = "invalid_request"
+        case invalidResource = "invalid_resource"
         case invalidVersion = "invalid_version"
+        case lockedOut = "locked_out"
+        case missingParam = "missing_param"
+        case noEndpoint = "no_endpoint"
+        case notFound = "not_found"
+        case notValid = "not_valid"
+        case rateLimited = "rate_limited"
+        case serverError = "server_error"
+        case timeout = "timeout"
         case unauthenticated = "unauthenticated"
         case unauthorized = "unauthorized"
-        case notFound = "not_found"
-        case missingParam = "missing_param"
-        case invalidResource = "invalid_resource"
-        case serverError = "server_error"
-        case lockedOut = "locked_out"
-        case notValid = "not_valid"
-        case invalidRequest = "invalid_request"
+        case unavailable = "unavailable"
         case unknown = "unknown"
     }
 
-    let title: String
+    let attrs: [String:[String]]?
     let code: CodeType
     let detail: String?
-    let status: String?
     let messages: [String]?
-    let attrs: [String:[String]]?
+    let status: String?
+    let title: String
 
-    init(title:String, code:String, detail:String?, status:String?, messages:[String]?, attrs:[String:[String]]?) {
-        self.code = CodeType(rawValue: code) ?? CodeType.unknown
-        self.title = title
-        self.detail = detail
-        self.status = status
-        self.messages = messages
+    init(attrs: [String:[String]]?,
+        code: CodeType,
+        detail: String?,
+        messages: [String]?,
+        status: String?,
+        title: String )
+    {
         self.attrs = attrs
+        self.code = code
+        self.detail = detail
+        self.messages = messages
+        self.status = status
+        self.title = title
     }
-    
+
     override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
         let json = JSON(data)
         let title = json["title"].stringValue
@@ -55,7 +61,15 @@ class ElloNetworkError: JSONAble {
         let status = json["status"].string
         let messages = json["messages"].object as? [String]
         let attrs = json["attrs"].object as? [String:[String]]
-        
-        return ElloNetworkError(title:title, code: code, detail: detail, status: status, messages: messages, attrs: attrs)
+
+        return ElloNetworkError(
+            attrs: attrs,
+            code: ElloNetworkError.CodeType(rawValue:code)!,
+            detail: detail,
+            messages: messages,
+            status: status,
+            title: title
+        )
     }
+
 }

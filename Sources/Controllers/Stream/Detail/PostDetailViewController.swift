@@ -36,12 +36,18 @@ class PostDetailViewController: StreamableViewController {
         controller.streamKind = .PostDetail(post: self.post)
         controller.postTappedDelegate = self
 
+        controller.willMoveToParentViewController(self)
+        self.view.addSubview(controller.view)
+        self.addChildViewController(controller)
+        controller.didMoveToParentViewController(self)
+
         controller.addStreamCellItems(self.detailCellItems)
 
         let streamService = StreamService()
         streamService.loadMoreCommentsForPost(post.postId,
-            success: { (streamables) -> () in
-                controller.addStreamables(streamables)
+            success: { jsonables in
+                var parser = StreamCellItemParser()
+                controller.addUnsizedCellItems(parser.commentCellItems(jsonables as [Comment]))
                 controller.doneLoading()
             },
             failure: { (error, statusCode) -> () in
@@ -49,21 +55,11 @@ class PostDetailViewController: StreamableViewController {
                 controller.doneLoading()
             }
         )
-
-        controller.willMoveToParentViewController(self)
-        self.view.addSubview(controller.view)
-        self.addChildViewController(controller)
     }
-
-}
-
-// MARK: PostDetailViewController : PostTappedDelegate
-extension PostDetailViewController : PostTappedDelegate {
 
     override func postTapped(post: Post, initialItems: [StreamCellItem]) {
         if post.postId != self.post.postId {
             super.postTapped(post, initialItems: initialItems)
         }
     }
-
 }
