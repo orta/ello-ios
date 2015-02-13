@@ -30,8 +30,8 @@ class CreateAccountViewController: BaseElloViewController, UITextFieldDelegate {
         removeNotificationObservers()
     }
 
-    class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> CreateAccountViewController {
-        return storyboard.controllerWithID(.CreateAccount) as CreateAccountViewController
+    class func instantiateFromStoryboard() -> CreateAccountViewController {
+        return UIStoryboard.storyboardWithId(.CreateAccount) as CreateAccountViewController
     }
 
     // MARK: - Private

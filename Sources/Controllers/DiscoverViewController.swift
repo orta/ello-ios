@@ -20,8 +20,8 @@ class DiscoverViewController: BaseElloViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> DiscoverViewController {
-        return storyboard.controllerWithID(.Discover) as DiscoverViewController
+    class func instantiateFromStoryboard() -> DiscoverViewController {
+        return UIStoryboard.storyboardWithId(.Discover) as DiscoverViewController
     }
 
 }

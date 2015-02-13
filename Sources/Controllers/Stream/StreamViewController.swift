@@ -66,8 +66,8 @@ class StreamViewController: BaseElloViewController {
         }
     }
 
-    class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> StreamViewController {
-        return storyboard.controllerWithID(.Stream) as StreamViewController
+    class func instantiateFromStoryboard() -> StreamViewController {
+        return UIStoryboard.storyboardWithId(.Stream) as StreamViewController
     }
 
 // MARK: Public Functions

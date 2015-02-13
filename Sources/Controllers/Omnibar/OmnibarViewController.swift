@@ -20,8 +20,8 @@ class OmnibarViewController: BaseElloViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> OmnibarViewController {
-        return storyboard.controllerWithID(.Omnibar) as OmnibarViewController
+    class func instantiateFromStoryboard() -> OmnibarViewController {
+        return UIStoryboard.storyboardWithId(.Omnibar) as OmnibarViewController
     }
     
 }

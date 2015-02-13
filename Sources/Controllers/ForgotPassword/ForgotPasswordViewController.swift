@@ -27,8 +27,8 @@ class ForgotPasswordViewController: BaseElloViewController, UITextFieldDelegate 
         removeNotificationObservers()
     }
 
-    class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> ForgotPasswordViewController {
-        return storyboard.controllerWithID(.ForgotPassword) as ForgotPasswordViewController
+    class func instantiateFromStoryboard() -> ForgotPasswordViewController {
+        return UIStoryboard.storyboardWithId(.ForgotPassword) as ForgotPasswordViewController
     }
 
     // MARK: - Private

@@ -86,8 +86,8 @@ class StreamContainerViewController: StreamableViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> StreamContainerViewController {
-        let navController = storyboard.controllerWithID(.StreamContainer) as UINavigationController
+    class func instantiateFromStoryboard() -> StreamContainerViewController {
+        let navController = UIStoryboard.storyboardWithId(.StreamContainer) as UINavigationController
         let streamsController = navController.topViewController
         return streamsController as StreamContainerViewController
     }

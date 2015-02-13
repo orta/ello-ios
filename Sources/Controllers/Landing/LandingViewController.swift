@@ -26,8 +26,8 @@ class LandingViewController: BaseElloViewController {
         checkIfLoggedIn()
     }
 
-    class func instantiateFromStoryboard(storyboard: UIStoryboard = UIStoryboard.iPhone()) -> LandingViewController {
-        return storyboard.controllerWithID(.Landing) as LandingViewController
+    class func instantiateFromStoryboard() -> LandingViewController {
+        return UIStoryboard.storyboardWithId(.Landing) as LandingViewController
     }
 
 // MARK: - Private
@@ -41,7 +41,7 @@ class LandingViewController: BaseElloViewController {
     private func checkIfLoggedIn() {
         let authToken = AuthToken()
         if authToken.isValid {
-            let vc = ElloTabBarController.instantiateFromStoryboard()
+            var vc = UIStoryboard.storyboardWithId(.ElloTabBar) as ElloTabBarController
             println("Creating fake current user in \(__FILE__.lastPathComponent) line \(__LINE__ + 1)")
             vc.currentUser = User.fakeCurrentUser("ello")
             self.presentViewController(vc, animated: true, completion: nil)
