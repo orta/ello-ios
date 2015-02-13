@@ -15,7 +15,6 @@ class Comment: JSONAble, Authorable {
     var createdAt: NSDate
     var content: [Block]?
     var author: User?
-    var kind = StreamableKind.Comment
     var parentPost: Post?
     var groupId:String {
         get {

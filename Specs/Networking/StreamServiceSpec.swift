@@ -26,15 +26,21 @@ class StreamServiceSpec: QuickSpec {
                 describe("-loadStream") {
                     
                     it("Calls success with an array of Activity objects") {
-                        var loadedStreamables:[Streamable]?
+                        var loadedPosts:[Post]?
 
-                        streamService.loadStream(ElloAPI.FriendStream, { (streamables) -> () in
-                            loadedStreamables = streamables
+                        streamService.loadStream(ElloAPI.FriendStream, { jsonables in
+                            var posts:[Post] = []
+                            for activity in jsonables {
+                                if let post = (activity as Activity).subject as? Post {
+                                    posts.append(post)
+                                }
+                            }
+                            loadedPosts = posts
                         }, failure: nil)
 
-                        expect(countElements(loadedStreamables!)) == 3
+                        expect(countElements(loadedPosts!)) == 3
 
-                        let post0:Post = loadedStreamables![0] as Post
+                        let post0:Post = loadedPosts![0] as Post
 
                         expect(post0.postId) == "4718"
                         expect(post0.href) == "/api/edge/posts/4718"
@@ -59,13 +65,19 @@ class StreamServiceSpec: QuickSpec {
                     }
 
                     it("handles assets") {
-                        var loadedStreamables:[Streamable]?
+                        var loadedPosts:[Post]?
 
-                        streamService.loadStream(ElloAPI.FriendStream, { streamables in
-                            loadedStreamables = streamables
-                        }, failure: nil)
+                        streamService.loadStream(ElloAPI.FriendStream, { jsonables in
+                            var posts:[Post] = []
+                            for activity in jsonables {
+                                if let post = (activity as Activity).subject as? Post {
+                                    posts.append(post)
+                                }
+                            }
+                            loadedPosts = posts
+                            }, failure: nil)
 
-                        let post2:Post = loadedStreamables![2] as Post
+                        let post2:Post = loadedPosts![2] as Post
 
                         expect(post2.postId) == "4707"
 
@@ -82,16 +94,16 @@ class StreamServiceSpec: QuickSpec {
                 describe("-loadMoreCommentsForPost") {
                     
                     it("calls success with an array of Comment objects", {
-                        var loadedStreamables:[Streamable]?
+                        var loadedComments:[Comment]?
 
-                        streamService.loadMoreCommentsForPost("111", success: { (streamables) -> () in
-                            loadedStreamables = streamables
+                        streamService.loadMoreCommentsForPost("111", success: { comments in
+                            loadedComments = comments as? [Comment]
                         }, failure:nil)
 
-                        expect(countElements(loadedStreamables!)) == 1
+                        expect(countElements(loadedComments!)) == 1
 
                         let expectedCreatedAt = "2014-06-02T00:00:00.000Z".toNSDate()!
-                        let comment:Comment = loadedStreamables![0] as Comment
+                        let comment:Comment = loadedComments![0] as Comment
 
                         expect(comment.commentId) == "112"
                         expect(comment.createdAt) == expectedCreatedAt
@@ -128,18 +140,18 @@ class StreamServiceSpec: QuickSpec {
 
                     it("Calls failure with an error and statusCode") {
 
-                        var loadedStreamables:[Streamable]?
+                        var loadedJsonables:[JSONAble]?
                         var loadedStatusCode:Int?
                         var loadedError:NSError?
 
-                        streamService.loadStream(ElloAPI.FriendStream, { (streamables) -> () in
-                            loadedStreamables = streamables
+                        streamService.loadStream(ElloAPI.FriendStream, { jsonables in
+                            loadedJsonables = jsonables
                         }, failure: { (error, statusCode) -> () in
                             loadedError = error
                             loadedStatusCode = statusCode
                         })
 
-                        expect(loadedStreamables).to(beNil())
+                        expect(loadedJsonables).to(beNil())
                         expect(loadedStatusCode!) == 404
                         expect(loadedError!).notTo(beNil())
 

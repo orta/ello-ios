@@ -23,7 +23,6 @@ class Post: JSONAble, Authorable {
     let href: String
     let collapsed: Bool
     var content: [Block]?
-    var kind = StreamableKind.Post
     let token: String
     var author: User?
     let commentsCount: Int?

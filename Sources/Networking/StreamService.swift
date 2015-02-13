@@ -18,26 +18,6 @@ typealias ProfileSuccessCompletion = (user: User) -> ()
 class StreamService: NSObject {
 
     func loadStream(endpoint:ElloAPI, success: StreamSuccessCompletion, failure: ElloFailureCompletion?) {
-        switch endpoint {
-        default: parseActivities(endpoint, success: success, failure: failure)
-        }
-    }
-
-    func loadUser(endpoint: ElloAPI, success: ProfileSuccessCompletion, failure: ElloFailureCompletion?) {
-        ElloProvider.sharedProvider.elloRequest(endpoint,
-            method: .GET,
-            parameters: endpoint.defaultParameters,
-            mappingType:MappingType.UsersType,
-            success: { data in
-                if let user = data as? User {
-                    success(user: user)
-                }
-            },
-            failure: failure
-        )
-    }
-
-    func parseActivities(endpoint: ElloAPI, success: StreamSuccessCompletion, failure: ElloFailureCompletion?) {
         ElloProvider.sharedProvider.elloRequest(endpoint,
             method: .GET,
             parameters: endpoint.defaultParameters,
@@ -48,6 +28,20 @@ class StreamService: NSObject {
                 }
                 else {
                     ElloProvider.unCastableJSONAble(failure)
+                }
+            },
+            failure: failure
+        )
+    }
+
+    func loadUser(endpoint: ElloAPI, success: ProfileSuccessCompletion, failure: ElloFailureCompletion?) {
+        ElloProvider.sharedProvider.elloRequest(endpoint,
+            method: .GET,
+            parameters: endpoint.defaultParameters,
+            mappingType:MappingType.UsersType,
+            success: { data in
+                if let user = data as? User {
+                    success(user: user)
                 }
             },
             failure: failure
