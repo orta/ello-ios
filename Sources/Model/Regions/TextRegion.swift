@@ -7,7 +7,18 @@
 //
 
 import Foundation
+import SwiftyJSON
 
-struct TextRegion {
+class TextRegion: JSONAble {
     let content:String
+
+    init(content: String) {
+        self.content = content
+    }
+
+    override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
+        let json = JSON(data)
+        let content = json["data"].stringValue
+        return TextRegion(content: content)
+    }
 }

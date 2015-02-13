@@ -42,11 +42,8 @@ enum MappingType: String {
 
 }
 
-struct UnknownJSONAble : JSONAble {
-    mutating func updateLinks(links: [String: JSONAble]) {
-        
-    }
-    static func fromJSON(data: [String : AnyObject]) -> JSONAble {
+class UnknownJSONAble : JSONAble {
+     override class func fromJSON(data: [String : AnyObject]) -> JSONAble {
         return UnknownJSONAble()
     }
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct UnknownRegion: Regionable {
+class UnknownRegion: NSObject, Regionable {
 
     var kind:RegionKind {
         get { return RegionKind.Unknown }

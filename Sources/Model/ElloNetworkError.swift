@@ -10,7 +10,7 @@ import UIKit
 import SwiftyJSON
 
 
-struct ElloNetworkError {
+class ElloNetworkError: JSONAble {
     
     enum CodeType: String {
         case blacklisted = "blacklisted"
@@ -37,5 +37,39 @@ struct ElloNetworkError {
     let messages: [String]?
     let status: String?
     let title: String
+
+    init(attrs: [String:[String]]?,
+        code: CodeType,
+        detail: String?,
+        messages: [String]?,
+        status: String?,
+        title: String )
+    {
+        self.attrs = attrs
+        self.code = code
+        self.detail = detail
+        self.messages = messages
+        self.status = status
+        self.title = title
+    }
+
+    override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
+        let json = JSON(data)
+        let title = json["title"].stringValue
+        let code = json["code"].string ?? CodeType.unknown.rawValue
+        let detail = json["detail"].string
+        let status = json["status"].string
+        let messages = json["messages"].object as? [String]
+        let attrs = json["attrs"].object as? [String:[String]]
+
+        return ElloNetworkError(
+            attrs: attrs,
+            code: ElloNetworkError.CodeType(rawValue:code)!,
+            detail: detail,
+            messages: messages,
+            status: status,
+            title: title
+        )
+    }
 
 }

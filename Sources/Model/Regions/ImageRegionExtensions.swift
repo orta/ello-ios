@@ -14,22 +14,3 @@ extension ImageRegion: Regionable {
         get { return RegionKind.Image }
     }
 }
-
-extension ImageRegion: JSONAble {
-
-    static func fromJSON(data:[String: AnyObject]) -> JSONAble {
-        let json = JSON(data)
-        let alt = json["data"].object["alt"] as String
-        let url = json["data"].object["url"] as String
-        var links = [String: Any]()
-        var asset:Asset?
-        if let linksNode = data["links"] as? [String: AnyObject] {
-            links = ElloLinkedStore.parseLinks(linksNode)
-            asset = links["assets"] as? Asset
-            println("asset = \(asset)")
-        }
-
-        return ImageRegion(asset: asset, alt: alt, url: NSURL(string: url))
-    }
-
-}

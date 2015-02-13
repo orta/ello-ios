@@ -12,13 +12,3 @@ import SwiftyJSON
 extension TextRegion: Regionable {
     var kind:RegionKind { return RegionKind.Text }
 }
-
-extension TextRegion : JSONAble {
-
-    static func fromJSON(data:[String: AnyObject]) -> JSONAble {
-        let json = JSON(data)
-        let content = json["data"].stringValue
-        return TextRegion(content: content)
-    }
-    
-}

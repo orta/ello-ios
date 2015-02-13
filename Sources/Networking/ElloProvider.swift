@@ -9,7 +9,7 @@
 import Foundation
 import Moya
 
-typealias ElloSuccessCompletion = (data: Any) -> ()
+typealias ElloSuccessCompletion = (data: AnyObject) -> ()
 typealias ElloFailureCompletion = (error: NSError, statusCode:Int?) -> ()
 
 
@@ -155,7 +155,7 @@ extension MoyaProvider {
     func handleNetworkSuccess(data:NSData, mappingType: MappingType, success:ElloSuccessCompletion, failure:ElloFailureCompletion?) {
         let (mappedJSON: AnyObject?, error) = mapJSON(data)
         
-        var mappedObjects: Any?
+        var mappedObjects: AnyObject?
         if mappedJSON != nil && error == nil {
             if let dict = mappedJSON as? [String:AnyObject] {
                 let linked = dict["linked"] as? [String:[[String:AnyObject]]]
@@ -172,7 +172,7 @@ extension MoyaProvider {
                 }
             }
 
-            if let mappedObjects: Any = mappedObjects {
+            if let mappedObjects: AnyObject = mappedObjects {
                 success(data:mappedObjects)
             }
             else {

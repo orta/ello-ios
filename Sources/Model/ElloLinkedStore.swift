@@ -25,8 +25,8 @@ struct ElloLinkedStore {
         }
     }
 
-     static func parseLinks(links: [String: AnyObject]) -> [String: Any] {
-        var modelLinks = [String: Any]()
+     static func parseLinks(links: [String: AnyObject]) -> [String: AnyObject] {
+        var modelLinks = [String: AnyObject]()
         for (key, value) in links {
             if let link:String = value["type"] as? String {
                 if let mappingType = MappingType(rawValue: value["type"] as String) {
