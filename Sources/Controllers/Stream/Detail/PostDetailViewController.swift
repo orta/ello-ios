@@ -36,6 +36,11 @@ class PostDetailViewController: StreamableViewController {
         controller.streamKind = .PostDetail(post: self.post)
         controller.postTappedDelegate = self
 
+        controller.willMoveToParentViewController(self)
+        self.view.addSubview(controller.view)
+        self.addChildViewController(controller)
+        controller.didMoveToParentViewController(self)
+
         controller.addStreamCellItems(self.detailCellItems)
 
         let streamService = StreamService()
@@ -50,10 +55,6 @@ class PostDetailViewController: StreamableViewController {
                 controller.doneLoading()
             }
         )
-
-        controller.willMoveToParentViewController(self)
-        self.view.addSubview(controller.view)
-        self.addChildViewController(controller)
     }
 
 }

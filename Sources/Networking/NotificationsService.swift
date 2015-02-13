@@ -6,15 +6,12 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import UIKit
-import Moya
-import SwiftyJSON
-
 typealias NotificationsSuccessCompletion = (notifications: [Activity]) -> ()
-typealias NotificationsFailureCompletion = (error: NSError, statusCode:Int?) -> ()
+
 
 class NotificationsService: NSObject {
-    class func loadStream(endpoint: ElloAPI, success: NotificationsSuccessCompletion, failure: NotificationsFailureCompletion?) {
+    func load(# success: NotificationsSuccessCompletion, failure: ElloFailureCompletion?) {
+        let endpoint = StreamKind.Notifications.endpoint
         ElloProvider.sharedProvider.elloRequest(endpoint,
             method: .GET,
             parameters: endpoint.defaultParameters,

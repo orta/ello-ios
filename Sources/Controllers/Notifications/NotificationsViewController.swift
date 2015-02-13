@@ -44,12 +44,18 @@ class NotificationsViewController: StreamableViewController {
         controller.streamKind = .Notifications
         controller.postTappedDelegate = self
 
-        let streamService = StreamService()
-        streamService.loadStream(StreamKind.Notifications.endpoint,
+        controller.willMoveToParentViewController(self)
+        contentView.insertSubview(controller.view, atIndex: 0)
+        controller.view.frame = contentView.bounds
+        controller.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        self.addChildViewController(controller)
+
+        let streamService = NotificationsService()
+        ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
+        streamService.load(
             success: { notifications in
                 var parser = NotificationCellItemParser()
-                parser.cellItems(notications)
-                controller.addStreamables(streamables)
+                controller.addUnsizedCellItems(parser.cellItems(notifications))
                 controller.doneLoading()
             },
             failure: { (error, statusCode) -> () in
@@ -58,12 +64,6 @@ class NotificationsViewController: StreamableViewController {
             }
         )
         ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
-
-        controller.willMoveToParentViewController(self)
-        contentView.insertSubview(controller.view, atIndex: 0)
-        controller.view.frame = contentView.bounds
-        controller.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
-        self.addChildViewController(controller)
     }
 
     private func setupFilterBar() {
