@@ -36,6 +36,14 @@ struct ElloLinkedStore {
                     }
                 }
             }
+            else if let link:String = value as? String {
+                if let mappingType = MappingType(rawValue: key) {
+                    if let linkJSON = Store.store[key]?[link] as? [String: AnyObject] {
+                        var jsonable: JSONAble = mappingType.fromJSON(data: linkJSON)
+                        modelLinks[key] = jsonable
+                    }
+                }
+            }
             else if let strArray = links[key] as? [String] {
                 if let mappingType = MappingType(rawValue: key) {
                     if mappingType.isOrdered {

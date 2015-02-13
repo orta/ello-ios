@@ -21,12 +21,14 @@ extension Comment: JSONAble {
         var parentPost:Post?
         var author: User?
         var content: [Regionable]?
+        var summary: [Regionable]?
         if let linksNode = data["links"] as? [String: AnyObject] {
             links = ElloLinkedStore.parseLinks(linksNode)
             author = links["author"] as? User
             parentPost = links["parent_post"] as? Post
             var assets = links["assets"] as? [String:JSONAble]
-            content = RegionParser.regions(json, assets:assets)
+            content = RegionParser.regions("content", json: json, assets: assets)
+            summary = RegionParser.regions("summary", json: json, assets: assets)
         }
         
         return Comment(
@@ -35,7 +37,8 @@ extension Comment: JSONAble {
             content: content,
             createdAt: createdAt,
             kind: StreamableKind.Comment,
-            parentPost: parentPost
+            parentPost: parentPost,
+            summary: summary
         )
     }
 

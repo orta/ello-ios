@@ -8,12 +8,6 @@
 
 import Foundation
 
-struct TextRegion: Regionable {
-
+struct TextRegion {
     let content:String
-
-    var kind:RegionKind {
-        get { return RegionKind.Text }
-    }
-    
 }

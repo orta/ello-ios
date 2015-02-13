@@ -11,33 +11,18 @@ import SwiftyJSON
 
 struct RegionParser {
 
-    static func regions(json: JSON, assets: [String:JSONAble]?) -> [Regionable] {
-        let content = json["content"].object as [AnyObject]
+    static func regions(key:String, json: JSON, assets: [String:JSONAble]?) -> [Regionable] {
+        let content = json[key].object as [[String:AnyObject]]
         return content.map { (contentDict) -> Regionable in
             let kind = RegionKind(rawValue: contentDict["kind"] as String) ?? RegionKind.Unknown
-            let data = contentDict["data"]
             switch kind {
             case .Text:
-                let data = data as String
-                return TextRegion(content: data)
+                return TextRegion.fromJSON(contentDict) as TextRegion
             case .Image:
-                let data = data as [String:AnyObject]
-                let alt = data["alt"] as? String ?? ""
-                let url = data["url"] as String
-                let assetId = data["asset_id"] as? String
-
-                var asset:Asset?
-                if let (assetId, assets) = unwrap(assetId, assets) {
-                    asset = assets[assetId] as? Asset
-                }
-                return ImageRegion(asset:asset, assetId: assetId, alt: alt, url: NSURL(string: url)!)
-
+                return ImageRegion.fromJSON(contentDict) as ImageRegion
             case .Unknown:
                 return UnknownRegion()
             }
         }
     }
-
-
-
 }

@@ -28,12 +28,13 @@ extension Post: JSONAble {
         var links = [String: Any]()
         var author: User?
         var content: [Regionable]?
+        var summary: [Regionable]?
         if let linksNode = data["links"] as? [String: AnyObject] {
             links = ElloLinkedStore.parseLinks(linksNode)
             author = links["author"] as? User
             var assets = links["assets"] as? [String:JSONAble]
-
-            content = RegionParser.regions(json, assets:assets)
+            content = RegionParser.regions("content", json: json, assets: assets)
+            summary = RegionParser.regions("summary", json: json, assets: assets)
         }
 
         return Post(
@@ -46,6 +47,7 @@ extension Post: JSONAble {
             href: href, kind: StreamableKind.Post,
             postId: postId,
             repostsCount: repostsCount,
+            summary: summary,
             token: token,
             viewsCount: viewsCount
         )

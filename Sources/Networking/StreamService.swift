@@ -52,7 +52,6 @@ class StreamService: NSObject {
             parameters: endpoint.defaultParameters,
             mappingType:MappingType.ActivitiesType,
             success: { (data) -> () in
-                println(data)
                 if let activities:[JSONAble] = data as? [JSONAble] {
                     var posts : [Streamable] = []
                     for jsonable in activities {

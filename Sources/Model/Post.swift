@@ -23,6 +23,7 @@ struct Post: Streamable {
     var kind = StreamableKind.Post
     let postId: String
     let repostsCount: Int?
+    var summary: [Regionable]?
     let token: String
     let viewsCount: Int?
 }

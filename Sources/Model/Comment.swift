@@ -24,4 +24,5 @@ struct Comment: Streamable {
     }
     var kind = StreamableKind.Comment
     var parentPost: Post?
+    var summary: [Regionable]?
 }

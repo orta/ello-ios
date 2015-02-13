@@ -8,14 +8,8 @@
 
 import Foundation
 
-struct ImageRegion: Regionable {
-
-    var kind:RegionKind {
-        get { return RegionKind.Image }
-    }
-
+struct ImageRegion {
     let asset:Asset?
-    let assetId:String?
     let alt:String
     let url:NSURL?
 }
