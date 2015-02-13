@@ -6,18 +6,15 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
-import Foundation
-
-import UIKit
 import SwiftyJSON
 
-class Comment: JSONAble, Streamable {
+
+class Comment: JSONAble, Authorable {
     
     let commentId: String
     var createdAt: NSDate
     var content: [Block]?
     var author: User?
-    var kind = StreamableKind.Comment
     var parentPost: Post?
     var groupId:String {
         get {

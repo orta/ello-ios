@@ -37,13 +37,13 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         if indexPath.item >= streamCellItems.count {
             return nil
         }
-        return streamCellItems[indexPath.item].streamable as? Post
+        return streamCellItems[indexPath.item].jsonable as? Post
     }
 
     // TODO: also grab out comment cells for the detail view
     func cellItemsForPost(post:Post) -> [StreamCellItem] {
         return streamCellItems.filter({ (item) -> Bool in
-            if let cellPost = item.streamable as? Post {
+            if let cellPost = item.jsonable as? Post {
                 return post.postId == cellPost.postId
             }
             else {
@@ -57,7 +57,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
 
         for (index,value) in enumerate(streamCellItems) {
 
-            if let comment = value.streamable as? Comment {
+            if let comment = value.jsonable as? Comment {
                 if comment.parentPost?.postId == post.postId {
                     indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
                 }
@@ -68,10 +68,6 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     func addStreamCellItems(items:[StreamCellItem]) {
         self.streamCellItems += items
-    }
-
-    func addStreamables(streamables:[Streamable], startingIndexPath:NSIndexPath?, completion:StreamContentReady) {
-        self.createStreamCellItems(streamables, startingIndexPath: startingIndexPath, completion: completion)
     }
 
     func updateHeightForIndexPath(indexPath:NSIndexPath?, height:CGFloat) {
@@ -90,12 +86,16 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         }
     }
 
+    func isFullWidthAtIndexPath(indexPath:NSIndexPath) -> Bool {
+        return streamCellItems[indexPath.item].isFullWidth
+    }
+
     func maintainAspectRatioForItemAtIndexPath(indexPath:NSIndexPath) -> Bool {
         return streamCellItems[indexPath.item].data?.kind == Block.Kind.Image ?? false
     }
 
     func groupForIndexPath(indexPath:NSIndexPath) -> String {
-        return streamCellItems[indexPath.item].streamable.groupId
+        return (streamCellItems[indexPath.item].jsonable as Authorable).groupId
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -109,10 +109,16 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
             switch streamCellItem.type {
             case .Header, .CommentHeader:
                 return headerCell(streamCellItem, collectionView: collectionView, indexPath: indexPath)
-            case .BodyElement, .CommentBodyElement:
-                return bodyCell(streamCellItem, collectionView: collectionView, indexPath: indexPath)
+            case .Image:
+                return imageCell(streamCellItem, collectionView: collectionView, indexPath: indexPath)
+            case .Text:
+                return textCell(streamCellItem, collectionView: collectionView, indexPath: indexPath)
             case .Footer:
                 return footerCell(streamCellItem, collectionView: collectionView, indexPath: indexPath)
+//            case .Notification:
+//                return UICollectionViewCell()
+//            case .ProfileHeader:
+
             default:
                 return UICollectionViewCell()
             }
@@ -125,35 +131,19 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     private func headerCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        var headerCell:StreamHeaderCell
-        switch streamCellItem.streamable.kind {
-        case .Comment:
-            headerCell = collectionView.dequeueReusableCellWithReuseIdentifier(StreamCellType.CommentHeader.name, forIndexPath: indexPath) as StreamCommentHeaderCell
-        default:
-            headerCell = collectionView.dequeueReusableCellWithReuseIdentifier(StreamCellType.Header.name, forIndexPath: indexPath) as StreamHeaderCell
+        var headerCell: StreamHeaderCell = collectionView.dequeueReusableCellWithReuseIdentifier(streamCellItem.type.name, forIndexPath: indexPath) as StreamHeaderCell
+        if streamCellItem.type == .Header {
             headerCell.streamKind = streamKind
         }
 
-        if let avatarURL = streamCellItem.streamable.author?.avatarURL? {
+        if let avatarURL = (streamCellItem.jsonable as Authorable).author?.avatarURL? {
             headerCell.setAvatarURL(avatarURL)
         }
 
-        headerCell.timestampLabel.text = NSDate().distanceOfTimeInWords(streamCellItem.streamable.createdAt)
-        headerCell.usernameLabel.text = (streamCellItem.streamable.author?.atName ?? "@meow")
+        headerCell.timestampLabel.text = NSDate().distanceOfTimeInWords((streamCellItem.jsonable as Authorable).createdAt)
+        headerCell.usernameLabel.text = ((streamCellItem.jsonable as Authorable).author?.atName ?? "@meow")
         headerCell.userDelegate = userDelegate
         return headerCell
-    }
-
-    private func bodyCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> UICollectionViewCell {
-
-        switch streamCellItem.data!.kind {
-        case Block.Kind.Image:
-            return imageCell(streamCellItem, collectionView: collectionView, indexPath: indexPath)
-        case Block.Kind.Text:
-            return textCell(streamCellItem, collectionView: collectionView, indexPath: indexPath)
-        case Block.Kind.Unknown:
-            return collectionView.dequeueReusableCellWithReuseIdentifier(StreamCellType.Unknown.name, forIndexPath: indexPath) as UICollectionViewCell
-        }
     }
 
     private func imageCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> StreamImageCell {
@@ -181,7 +171,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
             textCell.webView.loadHTMLString(StreamTextCellHTML.postHTML(textData.content), baseURL: NSURL(string: "/"))
         }
 
-        if let comment = streamCellItem.streamable as? Comment {
+        if let comment = streamCellItem.jsonable as? Comment {
             textCell.leadingConstraint.constant = 58.0
         }
         else {
@@ -194,7 +184,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     private func footerCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> StreamFooterCell {
         let footerCell = collectionView.dequeueReusableCellWithReuseIdentifier(StreamCellType.Footer.name, forIndexPath: indexPath) as StreamFooterCell
-        if let post = streamCellItem.streamable as? Post {
+        if let post = streamCellItem.jsonable as? Post {
             footerCell.comments = post.commentsCount?.localizedStringFromNumber()
             if self.streamKind.isGridLayout {
                 footerCell.views = ""
@@ -211,9 +201,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         return footerCell
     }
 
-    private func createStreamCellItems(streamables:[Streamable], startingIndexPath:NSIndexPath?, completion:StreamContentReady) {
-        var cellItems = StreamCellItemParser().streamCellItems(streamables)
-
+    func addUnsizedCellItems(cellItems:[StreamCellItem], startingIndexPath:NSIndexPath?, completion:StreamContentReady) {
         let textElements = cellItems.filter {
             return $0.data as? TextBlock != nil
         }

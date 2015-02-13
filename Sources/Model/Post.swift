@@ -5,17 +5,24 @@
 //  Created by Sean Dougherty on 11/21/14.
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
+
 import SwiftyJSON
 
 
-class Post: JSONAble, Streamable {
+@objc protocol Authorable {
+    var author : User? { get }
+    var createdAt : NSDate { get }
+    var groupId: String { get }
+}
+
+
+class Post: JSONAble, Authorable {
 
     let postId: String
     var createdAt: NSDate
     let href: String
     let collapsed: Bool
     var content: [Block]?
-    var kind = StreamableKind.Post
     let token: String
     var author: User?
     let commentsCount: Int?

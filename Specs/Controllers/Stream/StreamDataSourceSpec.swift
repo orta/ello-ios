@@ -30,18 +30,26 @@ class StreamDataSourceSpec: QuickSpec {
         var dataSource: StreamDataSource!
         let webView = UIWebView(frame: CGRectMake(0, 0, 320, 640))
         ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.endpointsClosure, stubResponses: true)
-        var loadedStreamables:[Streamable]?
+        var loadedPosts:[Post]?
 
         describe("initialization", {
 
             beforeEach({
                 dataSource = StreamDataSource(testWebView: webView, streamKind: StreamKind.Friend)
                 vc.dataSource = dataSource
-                StreamService().loadStream(ElloAPI.FriendStream, { (streamables) -> () in
-                    loadedStreamables = streamables
+                StreamService().loadStream(ElloAPI.FriendStream, { jsonables in
+                    var posts:[Post] = []
+                    for activity in jsonables {
+                        if let post = (activity as Activity).subject as? Post {
+                            posts.append(post)
+                        }
+                    }
+
+                    loadedPosts = posts
                 }, failure: nil)
 
-                dataSource.addStreamables(loadedStreamables!, startingIndexPath:nil) { (cellCount) -> () in
+                var parser = StreamCellItemParser()
+                dataSource.addUnsizedCellItems(parser.postCellItems(loadedPosts!), startingIndexPath:nil) { (cellCount) -> () in
                     vc.collectionView.dataSource = dataSource
                     vc.collectionView.reloadData()
                 }

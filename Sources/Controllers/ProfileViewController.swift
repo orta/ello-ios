@@ -11,10 +11,14 @@ import UIKit
 class ProfileViewController: StreamableViewController {
 
     let user: User
-    @IBOutlet weak var logOutButton : UIButton!
+    let streamViewController: StreamViewController
+    @IBOutlet weak var viewContainer: UIView!
+
 
     required init(user : User) {
         self.user = user
+        self.streamViewController = StreamViewController.instantiateFromStoryboard()
+        self.streamViewController.streamKind = .Profile(user: user)
 
         super.init(nibName: "ProfileViewController", bundle: nil)
 
@@ -25,21 +29,14 @@ class ProfileViewController: StreamableViewController {
         super.viewDidLoad()
 
         if user.isCurrentUser {
-            setupForCurrentUser()
+            // do stuff
         }
-        else {
-            let item = UIBarButtonItem.backChevronWithTarget(self, action: "backTapped:")
-            self.navigationItem.leftBarButtonItem = item
-        }
+
+        let item = UIBarButtonItem.backChevronWithTarget(self, action: "backTapped:")
+        navigationItem.leftBarButtonItem = item
 
         setupStreamController()
     }
-
-    func setupForCurrentUser() {
-        self.logOutButton.hidden = false
-        self.navigationController?.navigationBarHidden = true
-    }
-
 
     @IBAction func logOutTapped(sender: ElloTextButton) {
         NSNotificationCenter.defaultCenter().postNotificationName(AccessManager.Notifications.LoggedOut.rawValue, object: nil)
@@ -47,21 +44,30 @@ class ProfileViewController: StreamableViewController {
 
 
     private func setupStreamController() {
-        let controller = StreamViewController.instantiateFromStoryboard()
-        controller.streamKind = .Profile(user: user)
 
-        let streamService = StreamService()
-        streamService.loadStream(controller.streamKind.endpoint,
-            success: { (streamables) -> () in
-                controller.addStreamables(streamables)
-                controller.doneLoading()
-            }) { (error, statusCode) -> () in
+//        let profileHeaderCellItem = StreamCellItem(streamable: <#Streamable#>, type: <#StreamCellItem.CellType#>, data: <#Block?#>, oneColumnCellHeight: <#CGFloat#>, multiColumnCellHeight: <#CGFloat#>, isFullWidth: <#Bool#>)
+//        streamViewController.addStreamCellItems(self.detailCellItems)
+
+        StreamService().loadUser(streamViewController.streamKind.endpoint,
+            success: userLoaded,
+            failure: { (error, statusCode) in
                 println("failed to load user (reason: \(error))")
-                controller.doneLoading()
-        }
+                self.streamViewController.doneLoading()
+            })
 
-        controller.willMoveToParentViewController(self)
-        self.view.addSubview(controller.view)
-        self.addChildViewController(controller)
+        streamViewController.willMoveToParentViewController(self)
+        viewContainer.addSubview(streamViewController.view)
+        streamViewController.view.frame = viewContainer.bounds
+        streamViewController.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        addChildViewController(streamViewController)
+        streamViewController.didMoveToParentViewController(self)
+    }
+
+    private func userLoaded(user: User) {
+        println("got a user: \(user)")
+        println("cover image: \(user.coverImageURL)")
+        var parser = StreamCellItemParser()
+        streamViewController.addUnsizedCellItems(parser.postCellItems(user.posts))
+        streamViewController.doneLoading()
     }
 }

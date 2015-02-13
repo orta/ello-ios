@@ -135,8 +135,16 @@ class StreamContainerViewController: StreamableViewController {
     private func setupControllerData(streamKind: StreamKind, controller: StreamViewController) {
         let streamService = StreamService()
         streamService.loadStream(streamKind.endpoint,
-            success: { (streamables) in
-                controller.addStreamables(streamables)
+            success: { jsonables in
+                var posts:[Post] = []
+                for activity in jsonables {
+                    if let post = (activity as Activity).subject as? Post {
+                        posts.append(post)
+                    }
+                }
+
+                let parser = StreamCellItemParser()
+                controller.addUnsizedCellItems(parser.postCellItems(posts))
                 controller.doneLoading()
             }, failure: { (error, statusCode) in
                 println("failed to load \(streamKind.name) stream (reason: \(error))")
