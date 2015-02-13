@@ -10,17 +10,6 @@ import UIKit
 
 extension UIImage {
 
-//    + (UIImage *)imageWithColor:(UIColor *)color {
-//    CGRect rect = CGRectMake(0, 0, 1, 1);
-//    // Create a 1 by 1 pixel context
-//    UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0);
-//    [color setFill];
-//    UIRectFill(rect);   // Fill it with your color
-//    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-//    UIGraphicsEndImageContext();
-//    
-//    return image;
-//    }
     class func imageWithColor(color:UIColor) -> UIImage {
         let rect = CGRect(x: 0, y: 0, width: 1, height: 1)
         UIGraphicsBeginImageContextWithOptions(rect.size, false, 0);
@@ -30,7 +19,11 @@ extension UIImage {
         UIGraphicsEndImageContext()
         return image
     }
-    
+
+    class func imageWithHex(hex: Int) -> UIImage {
+        return imageWithColor(UIColor(hex: hex))
+    }
+
     func squareImageToSize(size: CGSize) -> UIImage? {
         return self.squareImage()?.resizeToSize(size)
     }
@@ -77,7 +70,7 @@ extension UIImage {
         self.drawInRect(rect)
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        
+
         return newImage
     }
 
@@ -90,7 +83,7 @@ extension UIImage {
         UIGraphicsEndImageContext()
         return newImage
     }
-    
+
 }
 
 

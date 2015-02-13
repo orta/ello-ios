@@ -51,7 +51,7 @@ class StreamService: NSObject {
             method: .GET,
             parameters: endpoint.defaultParameters,
             mappingType:MappingType.ActivitiesType,
-            success: { (data) -> () in
+            success: { data in
                 if let activities:[Activity] = data as? [Activity] {
                     var filteredActivities = activities.filter({$0.subject as? Post != nil})
                     var streamables:[Streamable] = filteredActivities.map({ activity -> Streamable in

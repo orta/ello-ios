@@ -6,11 +6,7 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
-import Foundation
-
-import UIKit
 import SwiftyJSON
-
 
 
 class Activity: JSONAble {

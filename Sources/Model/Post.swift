@@ -5,9 +5,8 @@
 //  Created by Sean Dougherty on 11/21/14.
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
-
-import UIKit
 import SwiftyJSON
+
 
 class Post: JSONAble, Streamable {
 
@@ -22,9 +21,7 @@ class Post: JSONAble, Streamable {
     let commentsCount: Int?
     let viewsCount: Int?
     let repostsCount: Int?
-    var groupId:String {
-        get { return postId }
-    }
+    var groupId:String { return postId }
 
     init(postId: String, createdAt: NSDate, href: String, collapsed:Bool, content: [Block]?, token: String, commentsCount: Int?, viewsCount: Int?, repostsCount: Int?) {
         self.postId = postId

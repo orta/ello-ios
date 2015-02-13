@@ -11,6 +11,7 @@ import Foundation
 enum StreamableKind {
     case Comment
     case Post
+    case Notification
     case WelcomePost
 }
 

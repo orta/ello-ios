@@ -44,11 +44,10 @@ class NotificationsViewController: StreamableViewController {
         controller.streamKind = .Notifications
         controller.postTappedDelegate = self
 
-        let streamService = StreamService()
         ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
-        streamService.loadStream(StreamKind.Notifications.endpoint,
-            success: { (streamables) -> () in
-                controller.addStreamables(streamables)
+        NotificationsService.loadStream(StreamKind.Notifications.endpoint,
+            success: { activities in
+                controller.addStreamables(activities)
                 controller.doneLoading()
             },
             failure: { (error, statusCode) -> () in

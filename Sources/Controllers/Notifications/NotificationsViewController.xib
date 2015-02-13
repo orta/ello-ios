@@ -137,7 +137,6 @@
                 <constraint firstAttribute="bottom" secondItem="Ztx-63-4xe" secondAttribute="bottom" id="Jfz-8O-ZzN" userLabel="contentView bottom == 0"/>
                 <constraint firstItem="Ztx-63-4xe" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Tqy-kk-NSZ" userLabel="contentView left == 0"/>
                 <constraint firstAttribute="trailing" secondItem="cxz-59-Q5O" secondAttribute="trailing" id="Xbs-28-zFS" userLabel="filter right == 0"/>
-                <constraint firstAttribute="centerX" secondItem="Ztx-63-4xe" secondAttribute="centerX" id="euG-81-88p" userLabel="center content view"/>
                 <constraint firstAttribute="trailing" secondItem="Ztx-63-4xe" secondAttribute="trailing" id="qfJ-uh-Ye8" userLabel="contentView right == 0"/>
                 <constraint firstItem="cxz-59-Q5O" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="qqT-3c-PuH" userLabel="filter left == 0"/>
                 <constraint firstItem="Ztx-63-4xe" firstAttribute="top" secondItem="cxz-59-Q5O" secondAttribute="bottom" id="to9-4d-f5Z" userLabel="contentView top == filter bottom"/>

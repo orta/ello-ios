@@ -5,7 +5,7 @@
 //  Created by Sean on 1/19/15.
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
-let externalWebNotification = Notification<String>(name: "externalWebNotification")
+let externalWebNotification = TypedNotification<String>(name: "externalWebNotification")
 
 class ElloNavigationController: UINavigationController, UIGestureRecognizerDelegate {
 

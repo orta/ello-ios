@@ -84,7 +84,7 @@ struct ElloProvider {
 
     static var sharedProvider: MoyaProvider<ElloAPI> {
         get {
-        return SharedProvider.instance
+            return SharedProvider.instance
         }
 
         set (newSharedProvider) {
@@ -100,6 +100,7 @@ struct ElloProvider {
     }
 }
 
+// MARK: elloRequest implementation
 extension MoyaProvider {
 
     func elloRequest(token: T, method: Moya.Method, parameters: [String: AnyObject], mappingType: MappingType, success: ElloSuccessCompletion, failure: ElloFailureCompletion?) {

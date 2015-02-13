@@ -15,11 +15,11 @@ class Box<T> {
     init(_ value: T) { self.unbox = value }
 }
 
-struct Notification<A> {
+struct TypedNotification<A> {
     let name: String
 }
 
-func postNotification<A>(note: Notification<A>, value: A) {
+func postNotification<A>(note: TypedNotification<A>, value: A) {
     let userInfo = ["value": Box(value)]
     NSNotificationCenter.defaultCenter().postNotificationName(note.name, object: nil, userInfo: userInfo)
 }
@@ -27,7 +27,7 @@ func postNotification<A>(note: Notification<A>, value: A) {
 class NotificationObserver {
     let observer: NSObjectProtocol
 
-    init<A>(notification: Notification<A>, block aBlock: A -> ()) {
+    init<A>(notification: TypedNotification<A>, block aBlock: A -> ()) {
         observer = NSNotificationCenter.defaultCenter().addObserverForName(notification.name, object: nil, queue: nil) { note in
             if let value = (note.userInfo?["value"] as? Box<A>)?.unbox {
                 aBlock(value)

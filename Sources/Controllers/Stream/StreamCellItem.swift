@@ -18,7 +18,7 @@ class StreamCellItem {
         case CommentBodyElement
     }
 
-//    let comment:Comment?
+    // let comment:Comment?
     let streamable:Streamable
     let type:StreamCellItem.CellType
     let data:Block?

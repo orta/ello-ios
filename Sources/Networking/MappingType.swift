@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import Foundation
 
 enum MappingType: String {
     case CommentsType = "comments"
