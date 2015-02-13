@@ -51,7 +51,7 @@ class NotificationsViewController: StreamableViewController {
         self.addChildViewController(controller)
 
         let streamService = NotificationsService()
-        ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
+//        ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
         streamService.load(
             success: { notifications in
                 var parser = NotificationCellItemParser()
@@ -63,7 +63,7 @@ class NotificationsViewController: StreamableViewController {
                 controller.doneLoading()
             }
         )
-        ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
+//        ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
     }
 
     private func setupFilterBar() {

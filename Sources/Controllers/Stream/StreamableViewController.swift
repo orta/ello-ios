@@ -8,16 +8,11 @@
 
 import UIKit
 
-class StreamableViewController : BaseElloViewController {
+class StreamableViewController : BaseElloViewController, PostTappedDelegate {
 
     @IBAction func backTapped(sender: UIButton) {
         self.navigationController?.popViewControllerAnimated(true)
     }
-
-}
-
-// MARK: StreamableViewController : PostTappedDelegate
-extension StreamableViewController : PostTappedDelegate {
 
     func postTapped(post: Post, initialItems: [StreamCellItem]) {
         let vc = PostDetailViewController(post: post, items: initialItems)

@@ -8,26 +8,27 @@
 
 
 enum MappingType: String {
-    case CommentsType = "comments"
-    case CommentType = "comment"
-    case PostsType = "posts"
-    case PostType = "post"
-    case ActivitiesType = "activities"
-    case ActivityType = "activity"
-    case UsersType = "users"
-    case UserType = "user"
-    case ErrorsType = "errors"
-    case ErrorType = "error"
-    case AssetsType = "assets"
+    case CommentsType =     "comments"
+    case CommentType =      "comment"
+    case PostsType =        "posts"
+    case PostType =         "post"
+    case ActivitiesType =   "activities"
+    case ActivityType =     "activity"
+    case UsersType =        "users"
+    case UserType =         "user"
+    case ErrorsType =       "errors"
+    case ErrorType =        "error"
+    case AssetsType =       "assets"
 
-    var jsonableType: JSONAble.Type {
+    var fromJSON: FromJSONClosure {
         switch self {
-        case CommentsType, CommentType: return Comment.self
-        case PostsType, PostType: return Post.self
-        case ActivitiesType, ActivityType: return Activity.self
-        case UsersType, UserType: return User.self
-        case ErrorsType, ErrorType: return ElloNetworkError.self
-        default: return JSONAble.self
+        case CommentsType, CommentType:     return Comment.fromJSON
+        case PostsType, PostType:           return Post.fromJSON
+        case ActivitiesType, ActivityType:  return Activity.fromJSON
+        case UsersType, UserType:           return User.fromJSON
+        case ErrorsType, ErrorType:         return ElloNetworkError.fromJSON
+        case AssetsType:                    return Asset.fromJSON
+        default:                            return UnknownJSONAble.fromJSON
         }
     }
 
@@ -38,4 +39,10 @@ enum MappingType: String {
         }
     }
 
+}
+
+class UnknownJSONAble : JSONAble {
+     override class func fromJSON(data: [String : AnyObject]) -> JSONAble {
+        return UnknownJSONAble()
+    }
 }

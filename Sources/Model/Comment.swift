@@ -10,39 +10,61 @@ import SwiftyJSON
 
 
 class Comment: JSONAble, Authorable {
-    
-    let commentId: String
-    var createdAt: NSDate
-    var content: [Block]?
+
     var author: User?
-    var parentPost: Post?
+    let commentId: String
+    var content: [Regionable]?
+    var createdAt: NSDate
     var groupId:String {
         get {
             return parentPost?.postId ?? ""
         }
     }
-    
-    init(commentId: String, createdAt: NSDate, content: [Block]?, author: User?, parentPost: Post?) {
-        self.commentId = commentId
-        self.createdAt = createdAt
-        self.content = content
+    var parentPost: Post?
+    var summary: [Regionable]?
+
+    init(author: User?,
+        commentId: String,
+        content: [Regionable]?,
+        createdAt: NSDate,
+        parentPost: Post?,
+        summary: [Regionable]? )
+    {
         self.author = author
+        self.commentId = commentId
+        self.content = content
+        self.createdAt = createdAt
         self.parentPost = parentPost
+        self.summary = summary
     }
-    
-    override class func fromJSON(data: [String: AnyObject]) -> JSONAble {
+
+    override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
         let json = JSON(data)
-        
+
         var commentId = json["id"].stringValue
         var createdAt = json["created_at"].stringValue.toNSDate()!
 
-        var comment = Comment(commentId: commentId, createdAt: createdAt, content: Block.blocks(json, assets:nil), author: nil, parentPost: nil)
-
-        if let links = data["links"] as? [String: AnyObject] {
-            parseLinks(links, model: comment)
-            comment.author = comment.links["author"] as? User
-            comment.parentPost = comment.links["parent_post"] as? Post
+        var links = [String: AnyObject]()
+        var parentPost:Post?
+        var author: User?
+        var content: [Regionable]?
+        var summary: [Regionable]?
+        if let linksNode = data["links"] as? [String: AnyObject] {
+            links = ElloLinkedStore.parseLinks(linksNode)
+            author = links["author"] as? User
+            parentPost = links["parent_post"] as? Post
+            //            var assets = links["assets"] as? [String:JSONAble]
+            content = RegionParser.regions("content", json: json)
+            summary = RegionParser.regions("summary", json: json)
         }
-        return comment
+
+        return Comment(
+            author: author,
+            commentId: commentId,
+            content: content,
+            createdAt: createdAt,
+            parentPost: parentPost,
+            summary: summary
+        )
     }
 }
