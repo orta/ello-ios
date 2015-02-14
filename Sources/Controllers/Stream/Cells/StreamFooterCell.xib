@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="591" height="50"/>
                         <items/>
                     </toolbar>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5pv-U4-t1W" userLabel="chevronButton" customClass="StreamFooterButton" customModule="Ello" customModuleProvider="target">
+                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5pv-U4-t1W" userLabel="chevronButton" customClass="StreamFooterButton" customModule="Ello" customModuleProvider="target">
                         <rect key="frame" x="567" y="14" width="19" height="22"/>
                         <state key="normal" image="chevron-icon">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -29,6 +29,7 @@
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="U8O-k9-JF4" secondAttribute="trailing" id="1y9-A3-1xH" userLabel="toolBar Right"/>
                 <constraint firstAttribute="bottom" secondItem="U8O-k9-JF4" secondAttribute="bottom" id="EP9-7h-4Ji" userLabel="toolBar Bottom"/>

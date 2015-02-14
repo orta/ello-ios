@@ -118,13 +118,12 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
                 return footerCell(streamCellItem, collectionView: collectionView, indexPath: indexPath)
             case .Notification:
                 return notificationCell(streamCellItem, collectionView: collectionView, indexPath: indexPath)
-//            case .ProfileHeader:
-
+            case .ProfileHeader:
+                return profileHeaderCell(streamCellItem, collectionView: collectionView, indexPath: indexPath)
             default:
                 return UICollectionViewCell()
             }
         }
-
         return UICollectionViewCell()
     }
 
@@ -212,6 +211,20 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         notificationCell.avatarURL = post.author?.avatarURL
 
         return notificationCell
+    }
+
+    func profileHeaderCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> ProfileHeaderCell {
+        let profileHeader = collectionView.dequeueReusableCellWithReuseIdentifier(streamCellItem.type.name, forIndexPath: indexPath) as ProfileHeaderCell
+        let user = streamCellItem.jsonable as User
+
+        if let avatarURL = user.avatarURL? {
+            profileHeader.setAvatarURL(avatarURL)
+        }
+
+        profileHeader.usernameLabel.text = user.atName
+        profileHeader.nameLabel.text = user.name
+
+        return profileHeader
     }
 
     func addUnsizedCellItems(cellItems:[StreamCellItem], startingIndexPath:NSIndexPath?, completion:StreamContentReady) {

@@ -21,6 +21,7 @@ class User: JSONAble {
     let followingCount: Int?
     let href: String
     let name: String
+    let formattedShortBio: String
     var posts: [Post]
     let postsCount: Int?
     let relationshipPriority: String
@@ -42,6 +43,7 @@ class User: JSONAble {
         relationshipPriority: String,
         userId: String,
         username: String,
+        formattedShortBio: String,
         isCurrentUser: Bool = false)
     {
         self.avatarURL = avatarURL
@@ -57,6 +59,7 @@ class User: JSONAble {
         self.relationshipPriority = relationshipPriority
         self.userId = userId
         self.username = username
+        self.formattedShortBio = formattedShortBio
     }
 
     override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
@@ -64,6 +67,7 @@ class User: JSONAble {
         let name = json["name"].stringValue
         let userId = json["id"].stringValue
         let username = json["username"].stringValue
+        let formattedShortBio = json["formatted_short_bio"].stringValue
 
 
         let experimentalFeatures = json["experimental_features"].boolValue
@@ -90,14 +94,16 @@ class User: JSONAble {
         let followersCount = json["followers_count"].int
         let followingCount = json["following_count"].int
 
-        var links = [String: AnyObject]()
-        var posts = [Post]()
+        var links: [String: AnyObject]
+        var userPosts = [Post]()
         if let linksNode = data["links"] as? [String: AnyObject] {
             links = ElloLinkedStore.parseLinks(linksNode)
-            // posts = links["posts"] as [Post]
+            if let posts = links["posts"] as? [Post] {
+                userPosts = posts
+            }
         }
 
-        return User(
+        let user = User(
             avatarURL: avatarURL,
             coverImageURL: coverImageURL,
             experimentalFeatures: experimentalFeatures,
@@ -105,12 +111,20 @@ class User: JSONAble {
             followingCount: followingCount,
             href: href,
             name: name,
-            posts: posts,
+            posts: userPosts,
             postsCount: postsCount,
             relationshipPriority: relationshipPriority,
             userId: userId,
-            username: username
+            username: username,
+            formattedShortBio: formattedShortBio
         )
+
+        // hack back in author
+        for post in user.posts {
+            post.author = user
+        }
+
+        return user
     }
 
     class func fakeCurrentUser(username: String) -> User {
@@ -126,7 +140,8 @@ class User: JSONAble {
             postsCount: 2,
             relationshipPriority: "self",
             userId: "42",
-            username: username
+            username: username,
+            formattedShortBio: "bio"
         )
 
     }

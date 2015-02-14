@@ -2,28 +2,78 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="AtlasGrotesk-Bold.otf">
+            <string>AtlasGrotesk-Bold</string>
+        </mutableArray>
+        <mutableArray key="AtlasTypewriter-Regular.otf">
+            <string>AtlasTypewriter-Regular</string>
+        </mutableArray>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="OE9-ll-CIs" customClass="ProfileHeaderCell" customModule="Ello" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="763" height="208"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="763" height="208"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Profile Header" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6nJ-r0-lN7">
-                        <rect key="frame" x="8" y="8" width="109" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aTa-Wh-QBe" userLabel="background">
+                        <rect key="frame" x="0.0" y="170" width="320" height="290"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="@username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6nJ-r0-lN7" userLabel="usernameLabel">
+                        <rect key="frame" x="10" y="260" width="109" height="18"/>
+                        <fontDescription key="fontDescription" name="AtlasGrotesk-Bold" family="Atlas Grotesk" pointSize="18"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="User Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4sI-yA-gkk" userLabel="nameLabel">
+                        <rect key="frame" x="10" y="285" width="70" height="12"/>
+                        <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="12"/>
+                        <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GKO-1x-QWx" userLabel="avatarButton" customClass="AvatarButton" customModule="Ello" customModuleProvider="target">
+                        <rect key="frame" x="10" y="130" width="122" height="122"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="122" id="3aZ-xd-avL" userLabel="avatarButton - height"/>
+                            <constraint firstAttribute="width" constant="122" id="7G6-ms-sEZ" userLabel="avatarButton - width"/>
+                            <constraint firstAttribute="width" secondItem="GKO-1x-QWx" secondAttribute="height" multiplier="1:1" id="Ph8-FR-olc" userLabel="avatarButton - ratio"/>
+                        </constraints>
+                        <state key="normal">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                    </button>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
-            <size key="customSize" width="763" height="208"/>
-            <point key="canvasLocation" x="1043.5" y="358"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="4sI-yA-gkk" firstAttribute="leading" secondItem="OE9-ll-CIs" secondAttribute="leading" constant="10" id="4l1-xt-TCg" userLabel="nameLabel - left"/>
+                <constraint firstItem="4sI-yA-gkk" firstAttribute="top" secondItem="OE9-ll-CIs" secondAttribute="top" constant="285" id="9Ch-zP-JZd" userLabel="nameLabel - top"/>
+                <constraint firstItem="GKO-1x-QWx" firstAttribute="leading" secondItem="OE9-ll-CIs" secondAttribute="leading" constant="10" id="FPm-Rd-irh" userLabel="avatarButton - left"/>
+                <constraint firstAttribute="trailing" secondItem="aTa-Wh-QBe" secondAttribute="trailing" id="Lvo-YM-hQR" userLabel="background - right"/>
+                <constraint firstItem="6nJ-r0-lN7" firstAttribute="leading" secondItem="OE9-ll-CIs" secondAttribute="leading" constant="10" id="Ob5-IE-wSQ" userLabel="usernameLabel - left"/>
+                <constraint firstItem="6nJ-r0-lN7" firstAttribute="top" secondItem="OE9-ll-CIs" secondAttribute="top" constant="260" id="PLH-9w-wmF" userLabel="usernameLabel - top"/>
+                <constraint firstItem="GKO-1x-QWx" firstAttribute="top" secondItem="OE9-ll-CIs" secondAttribute="top" constant="130" id="bFS-WO-pS9" userLabel="avatarButton - top"/>
+                <constraint firstItem="aTa-Wh-QBe" firstAttribute="leading" secondItem="OE9-ll-CIs" secondAttribute="leading" id="gf3-Ox-oMG" userLabel="background - left"/>
+                <constraint firstAttribute="bottom" secondItem="aTa-Wh-QBe" secondAttribute="bottom" id="kxL-bl-4nY" userLabel="background - bottom"/>
+                <constraint firstItem="aTa-Wh-QBe" firstAttribute="top" secondItem="OE9-ll-CIs" secondAttribute="top" constant="170" id="m8n-EY-34s" userLabel="background - top"/>
+            </constraints>
+            <size key="customSize" width="320" height="460"/>
+            <connections>
+                <outlet property="avatarButton" destination="GKO-1x-QWx" id="dbf-G3-Qty"/>
+                <outlet property="nameLabel" destination="4sI-yA-gkk" id="I9n-2e-2mB"/>
+                <outlet property="usernameLabel" destination="6nJ-r0-lN7" id="l3X-Xg-ciD"/>
+            </connections>
+            <point key="canvasLocation" x="822" y="484"/>
         </collectionViewCell>
     </objects>
 </document>
