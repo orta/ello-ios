@@ -66,7 +66,18 @@ class NotificationsViewController: StreamableViewController {
         )
         var activity = Activity(activityId: "123", kind: .RepostNotification, subjectType: .Post, subject: post, createdAt: NSDate())
         var cellItems = [
-            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false)
+            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
+            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
+            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
+            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
+            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
+            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
+            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
+            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
+            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
+            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
+            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
+            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
         ]
         controller.addUnsizedCellItems(cellItems)
         controller.doneLoading()
