@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProfileViewController" customModule="Ello" customModuleProvider="target">
             <connections>
                 <outlet property="coverImage" destination="A2p-8r-avy" id="rSd-eN-nHc"/>
+                <outlet property="coverImageHeight" destination="Uoo-CU-1JR" id="c4J-Uw-hAx"/>
                 <outlet property="view" destination="iN0-l3-epB" id="6s2-PA-CIX"/>
                 <outlet property="viewContainer" destination="wlf-zL-93E" id="IUa-jv-6Wt"/>
             </connections>
@@ -17,9 +18,10 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="A2p-8r-avy" userLabel="coverImage">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="A2p-8r-avy" userLabel="coverImage">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="338"/>
                     <constraints>
+                        <constraint firstAttribute="height" constant="338" id="Uoo-CU-1JR" userLabel="coverImageHeight"/>
                         <constraint firstAttribute="width" secondItem="A2p-8r-avy" secondAttribute="height" multiplier="16:9" id="kN1-ds-Pba" userLabel="coverImage - ratio"/>
                     </constraints>
                 </imageView>
@@ -30,13 +32,12 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="A2p-8r-avy" secondAttribute="trailing" id="CXb-Ay-vF3" userLabel="coverImage - right"/>
                 <constraint firstItem="A2p-8r-avy" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="H7O-Hs-eL8" userLabel="coverImage - top"/>
                 <constraint firstItem="wlf-zL-93E" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="K3x-o1-2W5" userLabel="viewContainer - left"/>
                 <constraint firstAttribute="bottom" secondItem="wlf-zL-93E" secondAttribute="bottom" id="Kzz-uf-eqd" userLabel="viewContainer - bottom"/>
                 <constraint firstAttribute="trailing" secondItem="wlf-zL-93E" secondAttribute="trailing" id="Rwp-mf-G91" userLabel="viewContainer - right"/>
                 <constraint firstItem="wlf-zL-93E" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="bvT-a5-23U" userLabel="viewContainer - top"/>
-                <constraint firstItem="A2p-8r-avy" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="tmj-XY-7ls" userLabel="coverImage - left"/>
+                <constraint firstAttribute="centerX" secondItem="A2p-8r-avy" secondAttribute="centerX" id="naz-Ui-54x"/>
             </constraints>
         </view>
     </objects>
