@@ -43,18 +43,19 @@ enum StreamCellType {
         case Image: return StreamImageCell.self
         case Text: return StreamTextCell.self
         case Comment: return StreamCommentCell.self
-        case Unknown: return UICollectionViewCell.self
         case ProfileHeader: return ProfileHeaderCell.self
-        case Notification: return UICollectionViewCell.self
+        case Notification: return NotificationCell.self
+        case Unknown: return UICollectionViewCell.self
         }
     }
 
     static func registerAll(collectionView: UICollectionView) {
         for type in all {
-            if type == self.Unknown || type == self.Notification {
+            if type == self.Unknown {
                 collectionView.registerClass(type.classType, forCellWithReuseIdentifier: type.name)
             } else {
                 let nib = UINib(nibName: type.name, bundle: NSBundle(forClass: type.classType))
+                println("nib: \(nib) for cell type \(type.name)")
                 collectionView.registerNib(nib, forCellWithReuseIdentifier: type.name)
             }
         }

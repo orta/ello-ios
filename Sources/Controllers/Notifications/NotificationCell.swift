@@ -11,6 +11,11 @@ import UIKit
 
 class NotificationCell : UICollectionViewCell {
 
+    @IBOutlet var avatarButton : AvatarButton!
+    @IBOutlet var notificationTitleLabel : UILabel!
+    @IBOutlet var messageWebView : UIWebView!
+    @IBOutlet var notificationImageView : UIImageView!
+
     @IBOutlet var collapsableImageMargin : NSLayoutConstraint!
     @IBOutlet var collapsableMessageMargin : NSLayoutConstraint!
 
@@ -22,6 +27,7 @@ class NotificationCell : UICollectionViewCell {
             else {
                 collapsableMessageMargin.constant = 0
             }
+            messageWebView.loadHTMLString(StreamTextCellHTML.postHTML(newValue!), baseURL: NSURL(string: "/"))
         }
     }
     var image : UIImage? {
@@ -31,6 +37,22 @@ class NotificationCell : UICollectionViewCell {
             }
             else {
                 collapsableImageMargin.constant = 0
+            }
+            notificationImageView.image = newValue
+        }
+    }
+    var title: NSAttributedString? {
+        willSet(newValue) {
+            notificationTitleLabel.attributedText = newValue
+        }
+    }
+    var avatarURL: NSURL? {
+        willSet(newValue) {
+            if let url = newValue {
+                avatarButton.setAvatarURL(url)
+            }
+            else {
+                avatarButton.setImage(nil, forState: .Normal)
             }
         }
     }

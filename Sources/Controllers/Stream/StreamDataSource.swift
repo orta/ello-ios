@@ -96,7 +96,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     func groupForIndexPath(indexPath:NSIndexPath) -> String {
-        return (streamCellItems[indexPath.item].jsonable as Authorable).groupId
+        return (streamCellItems[indexPath.item].jsonable as? Authorable)?.groupId ?? "0"
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -116,8 +116,8 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
                 return textCell(streamCellItem, collectionView: collectionView, indexPath: indexPath)
             case .Footer:
                 return footerCell(streamCellItem, collectionView: collectionView, indexPath: indexPath)
-//            case .Notification:
-//                return UICollectionViewCell()
+            case .Notification:
+                return notificationCell(streamCellItem, collectionView: collectionView, indexPath: indexPath)
 //            case .ProfileHeader:
 
             default:
@@ -200,6 +200,18 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         }
 
         return footerCell
+    }
+
+    private func notificationCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> NotificationCell {
+        let notificationCell = collectionView.dequeueReusableCellWithReuseIdentifier(StreamCellType.Notification.name, forIndexPath: indexPath) as NotificationCell
+        var activity = streamCellItem.jsonable as Activity
+        var post = activity.subject as Post
+
+        notificationCell.title = NSAttributedString(string: "\(post.author!.atName) reposted your post.")
+        notificationCell.messageHtml = "<b>HOPE</b> this <i>works</i>!"
+        notificationCell.avatarURL = post.author?.avatarURL
+
+        return notificationCell
     }
 
     func addUnsizedCellItems(cellItems:[StreamCellItem], startingIndexPath:NSIndexPath?, completion:StreamContentReady) {

@@ -27,7 +27,7 @@ class User: JSONAble {
     let userId: String
     let username: String
 
-    // only set from 
+    // only set from
     var isCurrentUser : Bool
 
     init(avatarURL: NSURL?,
@@ -115,7 +115,7 @@ class User: JSONAble {
 
     class func fakeCurrentUser(username: String) -> User {
         return User(
-            avatarURL: nil,
+            avatarURL: NSURL(string: "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/27/large_ello-09fd7088-2e4f-4781-87db-433d5dbc88a5.png"),
             coverImageURL: nil,
             experimentalFeatures: false,
             followersCount: 1,

@@ -20,7 +20,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JLc-ye-vc7" userLabel="ContentView">
                     <rect key="frame" x="0.0" y="0.0" width="535" height="50"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2m" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cPb-Po-Y5F" userLabel="timestampLabel">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="2m" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cPb-Po-Y5F" userLabel="timestampLabel">
                             <rect key="frame" x="485" y="17" width="50" height="17"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="50" id="V3c-fc-wv4"/>
@@ -29,7 +29,7 @@
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FFx-yh-Yb1" userLabel="usernameLabel">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="@username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FFx-yh-Yb1" userLabel="usernameLabel">
                             <rect key="frame" x="76" y="17" width="68" height="16"/>
                             <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="13"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
