@@ -25,17 +25,17 @@ struct StreamCellItemParser {
 
     // MARK: - public
 
-    func postCellItems(posts:[Post]) -> [StreamCellItem] {
+    func postCellItems(posts: [Post], streamKind: StreamKind) -> [StreamCellItem] {
         var cellItems:[StreamCellItem] = []
         for post in posts {
             cellItems += [StreamCellItem(jsonable: post, type: StreamCellType.Header, data: nil, oneColumnCellHeight: 80.0, multiColumnCellHeight: 49.0, isFullWidth: false)]
-            cellItems += postRegionItems(post)
+            cellItems += postRegionItems(post, streamKind: streamKind)
             cellItems += footerStreamCellItems(post)
         }
         return cellItems
     }
 
-    func commentCellItems(comments:[Comment]) -> [StreamCellItem] {
+    func commentCellItems(comments: [Comment]) -> [StreamCellItem] {
         var cellItems:[StreamCellItem] = []
         for comment in comments {
             cellItems += [StreamCellItem(jsonable: comment, type: StreamCellType.CommentHeader, data: nil, oneColumnCellHeight: 50.0, multiColumnCellHeight: 50.0, isFullWidth: false)]
@@ -45,18 +45,19 @@ struct StreamCellItemParser {
     }
 
     // MARK: - Private
-    private func postRegionItems(post: Post) -> [StreamCellItem] {
+    private func postRegionItems(post: Post, streamKind: StreamKind) -> [StreamCellItem] {
         var cellArray:[StreamCellItem] = []
-        if let content = post.content {
-            for block in content {
+        let contentKind = streamKind.isGridLayout ? post.summary : post.content
+        if let content = contentKind {
+            for region in content {
                 var oneColumnHeight:CGFloat
                 var multiColumnHeight:CGFloat
                 var type : StreamCellType
 
-                switch block.kind {
+                switch region.kind {
                 case .Image:
-                    oneColumnHeight = self.oneColumnImageHeight(block as ImageRegion)
-                    multiColumnHeight = self.twoColumnImageHeight(block as ImageRegion)
+                    oneColumnHeight = self.oneColumnImageHeight(region as ImageRegion)
+                    multiColumnHeight = self.twoColumnImageHeight(region as ImageRegion)
                     type = .Image
                 case .Text:
                     oneColumnHeight = 0.0
@@ -69,7 +70,7 @@ struct StreamCellItemParser {
                 }
 
                 if type != .Unknown {
-                    let body:StreamCellItem = StreamCellItem(jsonable: post, type: type, data: block, oneColumnCellHeight: oneColumnHeight, multiColumnCellHeight: multiColumnHeight, isFullWidth: false)
+                    let body:StreamCellItem = StreamCellItem(jsonable: post, type: type, data: region, oneColumnCellHeight: oneColumnHeight, multiColumnCellHeight: multiColumnHeight, isFullWidth: false)
 
                     cellArray.append(body)
                 }

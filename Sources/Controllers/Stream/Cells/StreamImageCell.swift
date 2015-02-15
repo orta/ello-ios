@@ -19,6 +19,7 @@ class StreamImageCell: UICollectionViewCell {
 
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var imageButton: UIButton!
+    @IBOutlet weak var errorLabel: ElloErrorLabel!
 
     weak var delegate: StreamImageCellDelegate?
     var serverProvidedAspectRatio:CGFloat?
@@ -38,7 +39,10 @@ class StreamImageCell: UICollectionViewCell {
 
     func setImageURL(url:NSURL) {
         circle.pulse()
-
+        self.errorLabel.hidden = true
+        self.errorLabel.alpha = 1.0
+        self.imageView.backgroundColor = UIColor.whiteColor()
+        self.errorLabel.alpha = 0
         self.imageView.sd_setImageWithURL(url, completed: {
             (image, error, type, url) in
 
@@ -61,8 +65,13 @@ class StreamImageCell: UICollectionViewCell {
                     })
             }
             else {
+                self.errorLabel.hidden = false
+                self.errorLabel.setLabelText("Failed to load image")
+                self.circle.stopPulse()
                 UIView.animateWithDuration(0.15, animations: {
                     self.aspectRatio = self.defaultAspectRatio
+                    self.errorLabel.alpha = 1.0
+                    self.imageView.backgroundColor = UIColor.elloLightGray()
                     self.contentView.alpha = 0.5
                     self.imageView.alpha = 1.0
                 })

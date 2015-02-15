@@ -85,7 +85,7 @@ class ProfileViewController: StreamableViewController {
         streamViewController.addStreamCellItems([profileHeaderCellItem])
 
         var parser = StreamCellItemParser()
-        streamViewController.addUnsizedCellItems(parser.postCellItems(user.posts))
+        streamViewController.addUnsizedCellItems(parser.postCellItems(user.posts, streamKind: streamViewController.streamKind))
         streamViewController.doneLoading()
     }
 }

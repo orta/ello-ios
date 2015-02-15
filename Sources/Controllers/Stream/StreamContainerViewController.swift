@@ -70,7 +70,7 @@ class StreamContainerViewController: StreamableViewController {
 
     var streamsSegmentedControl: UISegmentedControl!
     var streamControllerViews:[UIView] = []
-    var streamControllers:[BaseElloViewController] = []
+    var streamControllers:[StreamViewController] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -144,7 +144,7 @@ class StreamContainerViewController: StreamableViewController {
                 }
 
                 let parser = StreamCellItemParser()
-                controller.addUnsizedCellItems(parser.postCellItems(posts))
+                controller.addUnsizedCellItems(parser.postCellItems(posts, streamKind: streamKind))
                 controller.doneLoading()
             }, failure: { (error, statusCode) in
                 println("failed to load \(streamKind.name) stream (reason: \(error))")
@@ -174,5 +174,6 @@ class StreamContainerViewController: StreamableViewController {
         let x:CGFloat = CGFloat(sender.selectedSegmentIndex) * width
         let rect = CGRect(x: x, y: 0, width: width, height: height)
         scrollView.scrollRectToVisible(rect, animated: true)
+//        streamControllers[sender.selectedSegmentIndex].collectionView.reloadData()
     }
 }
