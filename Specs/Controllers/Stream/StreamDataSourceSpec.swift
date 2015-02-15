@@ -35,7 +35,7 @@ class StreamDataSourceSpec: QuickSpec {
         describe("initialization", {
 
             beforeEach({
-                dataSource = StreamDataSource(testWebView: webView, streamKind: StreamKind.Friend)
+                dataSource = StreamDataSource(testWebView: webView, streamKind: .Friend)
                 vc.dataSource = dataSource
                 StreamService().loadStream(ElloAPI.FriendStream, { jsonables in
                     var posts:[Post] = []
@@ -49,7 +49,7 @@ class StreamDataSourceSpec: QuickSpec {
                 }, failure: nil)
 
                 var parser = StreamCellItemParser()
-                dataSource.addUnsizedCellItems(parser.postCellItems(loadedPosts!), startingIndexPath:nil) { (cellCount) -> () in
+                dataSource.addUnsizedCellItems(parser.postCellItems(loadedPosts!, streamKind: .Friend), startingIndexPath:nil) { (cellCount) -> () in
                     vc.collectionView.dataSource = dataSource
                     vc.collectionView.reloadData()
                 }

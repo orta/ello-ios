@@ -23,12 +23,12 @@ class PostSpec: QuickSpec {
 
                 expect(post.createdAt) == createdAt
 
-                let postContent0:ImageBlock = post.content![0] as ImageBlock
-                expect(postContent0.kind) == Block.Kind.Image
+                let postContent0:ImageRegion = post.content![0] as ImageRegion
+                expect(postContent0.kind) == RegionKind.Image
                 expect(postContent0.alt) == "ello-15c97681-b4a6-496f-8c5f-0096fd215703.jpeg"
 
-                let postContent1:TextBlock = post.content![1] as TextBlock
-                expect(postContent1.kind) == Block.Kind.Text
+                let postContent1:TextRegion = post.content![1] as TextRegion
+                expect(postContent1.kind) == RegionKind.Text
                 expect(postContent1.content) == "test text content"
 
 
@@ -44,24 +44,22 @@ class PostSpec: QuickSpec {
                 expect(post.author!.href) == "/api/edge/users/666"
                 expect(post.author!.avatarURL!.absoluteString) == "https://abc123.cloudfront.net/uploads/user/avatar/666/avatar.png"
 
-                let imageBlock:ImageBlock = post.content![0] as ImageBlock
+                let imageRegion:ImageRegion = post.content![0] as ImageRegion
 
-                expect(imageBlock.xxhdpi).notTo(beNil())
-                expect(imageBlock.xxhdpi!.width) == 2560
-                expect(imageBlock.xxhdpi!.height) == 1094
-                expect(imageBlock.xxhdpi!.size) == 728689
-                expect(imageBlock.xxhdpi!.imageType) == "image/jpeg"
+                expect(imageRegion.asset!.xxhdpi).notTo(beNil())
+                expect(imageRegion.asset!.xxhdpi!.width) == 2560
+                expect(imageRegion.asset!.xxhdpi!.height) == 1094
+                expect(imageRegion.asset!.xxhdpi!.size) == 728689
+                expect(imageRegion.asset!.xxhdpi!.imageType) == "image/jpeg"
 
-                expect(imageBlock.hdpi).notTo(beNil())
-                expect(imageBlock.hdpi!.width) == 750
-                expect(imageBlock.hdpi!.height) == 321
-                expect(imageBlock.hdpi!.size) == 77464
-                expect(imageBlock.hdpi!.imageType) == "image/jpeg"
+                expect(imageRegion.asset!.hdpi).notTo(beNil())
+                expect(imageRegion.asset!.hdpi!.width) == 750
+                expect(imageRegion.asset!.hdpi!.height) == 321
+                expect(imageRegion.asset!.hdpi!.size) == 77464
+                expect(imageRegion.asset!.hdpi!.imageType) == "image/jpeg"
 
                 // test "links"
                 expect(post.author).to(beAKindOf(User.self))
-                let assets = post.links["assets"] as [String: AnyObject]
-                expect(assets["85"]).notTo(beNil())
             }
         }
 

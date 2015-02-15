@@ -108,11 +108,31 @@
                         "kind": "image",
                         "data": {
                             "url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/5381/optimized.jpg",
-                            "alt": "optimized.jpg",
-                            "asset_id": "5381"
+                            "alt": "optimized.jpg"
+                        },
+                        "links": {
+                          "assets": "5381"
                         }
                     }
                 ],
+                "summary": [
+                    {
+                        "kind": "text",
+                        "readonly": false,
+                        "data": "yo mang"
+                    },
+                    {
+                        "kind": "image",
+                        "data": {
+                            "url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/5381/optimized.jpg",
+                            "alt": "optimized.jpg"
+                        },
+                        "links": {
+                          "assets": "5381"
+                        }
+                    }
+                ],
+                  
                 "created_at": "2014-12-23T22:27:47.341Z",
                 "views_count": 0,
                 "comments_count": 0,

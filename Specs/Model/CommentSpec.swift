@@ -22,8 +22,8 @@ class CommentSpec: QuickSpec {
             
             expect(comment.createdAt) == createdAt
             
-            let commentContent0:TextBlock = comment.content![0] as TextBlock
-            expect(commentContent0.kind) == Block.Kind.Text
+            let commentContent0:TextRegion = comment.content![0] as TextRegion
+            expect(commentContent0.kind) == RegionKind.Text
             expect(commentContent0.content) == "Hello, I am a comment with awesome content!"
 
             expect(comment.commentId) == "30"

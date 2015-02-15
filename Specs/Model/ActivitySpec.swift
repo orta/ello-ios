@@ -27,8 +27,8 @@ class ActivitySpec: QuickSpec {
             var postCreatedAt:NSDate = "2014-12-23T22:27:47.341Z".toNSDate()!
             expect(post.createdAt) == postCreatedAt
 
-            let postContent0:TextBlock = post.content![0] as TextBlock
-            expect(postContent0.kind) == Block.Kind.Text
+            let postContent0:TextRegion = post.content![0] as TextRegion
+            expect(postContent0.kind) == RegionKind.Text
             expect(postContent0.content) == "yo mang"
             
             expect(post.token) == "KVNldSWCvfPkjsbWcvB4mA"
@@ -43,19 +43,19 @@ class ActivitySpec: QuickSpec {
             expect(postAuthor.href) == "/api/edge/users/42"
             expect(postAuthor.avatarURL!.absoluteString) == "https://abc123.cloudfront.net/uploads/user/avatar/420/large_pam.png"
 
-            let imageBlock:ImageBlock = post.content![1] as ImageBlock
+            let imageRegion:ImageRegion = post.content![1] as ImageRegion
 
-            expect(imageBlock.xxhdpi).notTo(beNil())
-            expect(imageBlock.xxhdpi!.width) == 2560
-            expect(imageBlock.xxhdpi!.height) == 1094
-            expect(imageBlock.xxhdpi!.size) == 728689
-            expect(imageBlock.xxhdpi!.imageType) == "image/jpeg"
+            expect(imageRegion.asset!.xxhdpi).notTo(beNil())
+            expect(imageRegion.asset!.xxhdpi!.width) == 2560
+            expect(imageRegion.asset!.xxhdpi!.height) == 1094
+            expect(imageRegion.asset!.xxhdpi!.size) == 728689
+            expect(imageRegion.asset!.xxhdpi!.imageType) == "image/jpeg"
 
-            expect(imageBlock.hdpi).notTo(beNil())
-            expect(imageBlock.hdpi!.width) == 750
-            expect(imageBlock.hdpi!.height) == 321
-            expect(imageBlock.hdpi!.size) == 77464
-            expect(imageBlock.hdpi!.imageType) == "image/jpeg"
+            expect(imageRegion.asset!.hdpi).notTo(beNil())
+            expect(imageRegion.asset!.hdpi!.width) == 750
+            expect(imageRegion.asset!.hdpi!.height) == 321
+            expect(imageRegion.asset!.hdpi!.size) == 77464
+            expect(imageRegion.asset!.hdpi!.imageType) == "image/jpeg"
 
         }
     }

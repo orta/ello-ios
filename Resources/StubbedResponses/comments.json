@@ -8,6 +8,12 @@
                 "data": "Hello, I am a comment with awesome content!"
             }
         ],
+        "summary": [
+            {
+                "kind": "text",
+                "data": "Hello, I am a comment with awesome content!"
+            }
+        ],
         "links": {
             "author": {
                 "type": "users",
@@ -88,6 +94,13 @@
                 "collapsed": false,
                 "allow_comments": true,
                 "content": [
+                    {
+                        "kind": "text",
+                        "readonly": false,
+                        "data": "test text content"
+                    }
+                ],
+                "summary": [
                     {
                         "kind": "text",
                         "readonly": false,

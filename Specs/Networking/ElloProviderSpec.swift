@@ -71,7 +71,7 @@ class ElloProviderSpec: QuickSpec {
 
                             let systemError = testObserver.object as NSError
                             let elloNetworkError = systemError.userInfo![NSLocalizedFailureReasonErrorKey] as ElloNetworkError
-                            
+
                             expect(elloNetworkError).to(beAnInstanceOf(ElloNetworkError.self))
                             expect(elloNetworkError.status) == "401"
                             expect(elloNetworkError.title) == "You are not authenticated for this request."

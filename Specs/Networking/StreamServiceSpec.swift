@@ -50,9 +50,9 @@ class StreamServiceSpec: QuickSpec {
                         expect(post0.commentsCount) == 50
                         expect(post0.repostsCount) == 3
 
-                        let textBlock:TextBlock = post0.content![0] as TextBlock
+                        let textRegion:TextRegion = post0.content![0] as TextRegion
 
-                        expect(textBlock.content) == "etest post to determine what happens when someone sees this for the first time as a repost from someone they follow. dcdoran will repost this."
+                        expect(textRegion.content) == "etest post to determine what happens when someone sees this for the first time as a repost from someone they follow. dcdoran will repost this."
 
                         let post0Author:User = post0.author!
                         expect(post0Author.userId) == "27"
@@ -81,13 +81,13 @@ class StreamServiceSpec: QuickSpec {
 
                         expect(post2.postId) == "4707"
 
-                        let imageBlock:ImageBlock = post2.content![0] as ImageBlock
+                        let imageRegion:ImageRegion = post2.content![0] as ImageRegion
 
-                        expect(imageBlock.hdpi).notTo(beNil())
-                        expect(imageBlock.hdpi!.width) == 750
-                        expect(imageBlock.hdpi!.height) == 321
-                        expect(imageBlock.hdpi!.size) == 77464
-                        expect(imageBlock.hdpi!.imageType) == "image/jpeg"
+                        expect(imageRegion.asset?.hdpi).notTo(beNil())
+                        expect(imageRegion.asset?.hdpi!.width) == 750
+                        expect(imageRegion.asset?.hdpi!.height) == 321
+                        expect(imageRegion.asset?.hdpi!.size) == 77464
+                        expect(imageRegion.asset?.hdpi!.imageType) == "image/jpeg"
                     }
                 }
 
@@ -108,8 +108,8 @@ class StreamServiceSpec: QuickSpec {
                         expect(comment.commentId) == "112"
                         expect(comment.createdAt) == expectedCreatedAt
 
-                        let contentBlock0:TextBlock = comment.content![0] as TextBlock
-                        expect(contentBlock0.content) == "<p>Hello, I am a comment with awesome content!</p>"
+                        let contentRegion0:TextRegion = comment.content![0] as TextRegion
+                        expect(contentRegion0.content) == "<p>Hello, I am a comment with awesome content!</p>"
 
                         let commentAuthor:User = comment.author!
 

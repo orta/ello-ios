@@ -13,10 +13,20 @@ import Nimble
 class ProfileViewControllerSpec: QuickSpec {
     override func spec() {
 
-        var user = User(name: "Ello", userId: "42", username: "ello", avatarURL: nil, coverImageURL: nil,
-            experimentalFeatures: false, href: "/api/edge/users/42",
-            relationshipPriority: "self", followersCount: 1, postsCount: 2,
-            followingCount: 3, posts: [])
+        var user = User(avatarURL: nil,
+            coverImageURL: nil,
+            experimentalFeatures: false,
+            followersCount: 1,
+            followingCount: 3,
+            href: "/api/edge/users/42",
+            name:  "Ello",
+            posts: [],
+            postsCount: 2,
+            relationshipPriority: "self",
+            userId: "42",
+            username: "ello",
+            formattedShortBio: "formatted test bio")
+
         var controller = ProfileViewController(user: user)
 
         describe("initialization", {
