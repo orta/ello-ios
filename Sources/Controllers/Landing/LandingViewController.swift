@@ -41,14 +41,23 @@ class LandingViewController: BaseElloViewController {
     private func checkIfLoggedIn() {
         let authToken = AuthToken()
         if authToken.isValid {
-            var vc = UIStoryboard.storyboardWithId(.ElloTabBar) as ElloTabBarController
-//            println("Creating fake current user in \(__FILE__.lastPathComponent) line \(__LINE__ + 1)")
-            vc.currentUser = User.fakeCurrentUser("ello")
-            self.presentViewController(vc, animated: true, completion: nil)
+            self.loadCurrentUser()
         }
         else {
             showButtons()
         }
+    }
+
+    private func loadCurrentUser() {
+        let profileService = ProfileService()
+        profileService.loadCurrentUser({ (user) -> () in
+            var vc = UIStoryboard.storyboardWithId(.ElloTabBar) as ElloTabBarController
+            vc.currentUser = user
+            self.presentViewController(vc, animated: true, completion: nil)
+        }, failure: nil)
+
+        //TODO: Need to get failure back to LandingViewController when loading the current user fails
+        // Currently "ElloProviderNotification401" is posted but that doesn't feel right here
     }
 
     private func showButtons() {

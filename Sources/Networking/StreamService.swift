@@ -43,6 +43,9 @@ class StreamService: NSObject {
                 if let user = data as? User {
                     success(user: user)
                 }
+                else {
+                    ElloProvider.unCastableJSONAble(failure)
+                }
             },
             failure: failure
         )

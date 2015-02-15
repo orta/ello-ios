@@ -1,0 +1,58 @@
+{
+  "users": {
+    "id": "42",
+    "href": "/api/edge/profile",
+    "username": "archer",
+    "name": "Sterling",
+    "experimental_features": false,
+    "relationship_priority": "self",
+    "posts_count": 0,
+    "followers_count": 0,
+    "following_count": 0,
+    "formatted_short_bio": "<p>Have been <strong>spying</strong> for a while now.</p>",
+    "external_links": "http://isisagency.com http://ello.co",
+    "background_position": "50% 100%",
+    "avatar": {
+      "large": {
+        "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/large_archer.png",
+        "metadata": null
+      },
+      "regular": {
+        "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/regular_archer.png",
+        "metadata": null
+      },
+      "small": {
+        "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/small_archer.png",
+        "metadata": null
+      }
+    },
+    "cover_image": {
+      "optimized": {
+        "url": "https://abc123.cloudfront.net/uploads/user/cover_image/42/optimized_cover-ello.png",
+        "metadata": null
+      }
+    },
+    "short_bio": "Have been **spying** for a while now.",
+    "external_links_list": [
+      "http://isisagency.com",
+      "http://ello.co"
+    ],
+    "email": "sterling@isisagency.com",
+    "created_at": "2015-02-11T00:34:08.360Z",
+    "confirmed_at": "2015-02-11T00:34:08.337Z",
+    "ga_unique_id": "eb62f1c48ff87127c3120e4b5eee7a78a00cb42c",
+    "is_public": false,
+    "has_commenting_enabled": true,
+    "has_sharing_enabled": true,
+    "has_reposting_enabled": true,
+    "has_ad_notifications_enabled": false,
+    "allows_analytics": true,
+    "posts_adult_content": true,
+    "views_adult_content": true,
+    "notify_of_comments_via_email": true,
+    "notify_of_mentions_via_email": true,
+    "notify_of_new_followers_via_email": true,
+    "notify_of_invitation_acceptances_via_email": true,
+    "subscribe_to_users_email_list": true
+  }
+}
