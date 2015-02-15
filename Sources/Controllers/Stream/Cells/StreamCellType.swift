@@ -55,7 +55,6 @@ enum StreamCellType {
                 collectionView.registerClass(type.classType, forCellWithReuseIdentifier: type.name)
             } else {
                 let nib = UINib(nibName: type.name, bundle: NSBundle(forClass: type.classType))
-                println("nib: \(nib) for cell type \(type.name)")
                 collectionView.registerNib(nib, forCellWithReuseIdentifier: type.name)
             }
         }

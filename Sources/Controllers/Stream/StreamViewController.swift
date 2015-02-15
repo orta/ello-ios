@@ -17,6 +17,10 @@ protocol UserDelegate: NSObjectProtocol {
     func userTapped(cell: UICollectionViewCell) -> Void
 }
 
+protocol StreamScrollDelegate: NSObjectProtocol {
+    func scrollViewDidScroll(scrollView : UIScrollView)
+}
+
 class StreamViewController: BaseElloViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
@@ -32,6 +36,7 @@ class StreamViewController: BaseElloViewController {
     var imageViewerDelegate:StreamImageViewer?
     var updatedStreamImageCellHeightNotification:NotificationObserver?
     weak var postTappedDelegate : PostTappedDelegate?
+    weak var streamScrollDelegate : StreamScrollDelegate?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -247,6 +252,8 @@ extension StreamViewController : StreamCollectionViewLayoutDelegate {
 extension StreamViewController : UIScrollViewDelegate {
 
     func scrollViewDidScroll(scrollView : UIScrollView) {
+        self.streamScrollDelegate?.scrollViewDidScroll(scrollView)
+        
         let shouldHideTabBar : ()->Bool = { return false }
         if !shouldHideTabBar() {
             return
