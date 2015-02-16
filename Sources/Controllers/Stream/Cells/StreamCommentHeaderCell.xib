@@ -18,10 +18,10 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JLc-ye-vc7" userLabel="ContentView">
-                    <rect key="frame" x="0.0" y="0.0" width="535" height="50"/>
+                    <rect key="frame" x="12" y="10" width="511" height="28"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="2m" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cPb-Po-Y5F" userLabel="timestampLabel">
-                            <rect key="frame" x="485" y="17" width="50" height="17"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2m" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cPb-Po-Y5F" userLabel="timestampLabel">
+                            <rect key="frame" x="461" y="7" width="50" height="14"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="50" id="V3c-fc-wv4"/>
                             </constraints>
@@ -29,17 +29,19 @@
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="@username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FFx-yh-Yb1" userLabel="usernameLabel">
-                            <rect key="frame" x="76" y="17" width="68" height="16"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FFx-yh-Yb1" userLabel="usernameLabel">
+                            <rect key="frame" x="56" y="8" width="75" height="13"/>
                             <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="13"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Umg-6r-jUz" userLabel="avatarButton" customClass="AvatarButton" customModule="Ello" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                            <rect key="frame" x="0.0" y="-1" width="30" height="30"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
+                                <constraint firstAttribute="width" constant="30" id="CMg-8D-zAi"/>
                                 <constraint firstAttribute="width" secondItem="Umg-6r-jUz" secondAttribute="height" multiplier="1:1" id="WC9-5n-0xq"/>
+                                <constraint firstAttribute="height" constant="30" id="cXt-Bl-ykd"/>
                             </constraints>
                             <state key="normal">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -50,10 +52,9 @@
                         </button>
                     </subviews>
                     <constraints>
-                        <constraint firstItem="Umg-6r-jUz" firstAttribute="top" secondItem="JLc-ye-vc7" secondAttribute="top" id="84T-wz-gVF"/>
                         <constraint firstAttribute="trailing" secondItem="cPb-Po-Y5F" secondAttribute="trailing" id="ig4-xI-xbn" userLabel="timestampLabel Right"/>
                         <constraint firstItem="FFx-yh-Yb1" firstAttribute="leading" secondItem="Umg-6r-jUz" secondAttribute="trailing" constant="26" id="npk-A0-zlf" userLabel="userNameLeadingContraint"/>
-                        <constraint firstAttribute="bottom" secondItem="Umg-6r-jUz" secondAttribute="bottom" id="q3W-mD-j6s"/>
+                        <constraint firstAttribute="centerY" secondItem="Umg-6r-jUz" secondAttribute="centerY" id="p65-Cd-0eA"/>
                         <constraint firstAttribute="centerY" secondItem="FFx-yh-Yb1" secondAttribute="centerY" id="rvX-JK-kvH" userLabel="usernameLabel Vert Center"/>
                         <constraint firstItem="Umg-6r-jUz" firstAttribute="leading" secondItem="JLc-ye-vc7" secondAttribute="leading" id="tHy-NM-Clu"/>
                         <constraint firstAttribute="centerY" secondItem="cPb-Po-Y5F" secondAttribute="centerY" id="yHj-HO-lav" userLabel="timestampLabel Vert Center"/>
@@ -62,10 +63,10 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="JLc-ye-vc7" firstAttribute="leading" secondItem="Kq6-3v-Gqu" secondAttribute="leading" id="4o2-ve-FzR" userLabel="ContentView Left"/>
-                <constraint firstItem="JLc-ye-vc7" firstAttribute="top" secondItem="Kq6-3v-Gqu" secondAttribute="top" id="PLE-hL-EBg" userLabel="ContentView Top"/>
-                <constraint firstAttribute="trailing" secondItem="JLc-ye-vc7" secondAttribute="trailing" id="SKB-eK-Jdz" userLabel="ContentView Right"/>
-                <constraint firstAttribute="bottom" secondItem="JLc-ye-vc7" secondAttribute="bottom" id="y1C-6I-Fny" userLabel="ContentView Bottom"/>
+                <constraint firstItem="JLc-ye-vc7" firstAttribute="leading" secondItem="Kq6-3v-Gqu" secondAttribute="leading" constant="12" id="4o2-ve-FzR" userLabel="ContentView Left"/>
+                <constraint firstItem="JLc-ye-vc7" firstAttribute="top" secondItem="Kq6-3v-Gqu" secondAttribute="top" constant="10" id="PLE-hL-EBg" userLabel="ContentView Top"/>
+                <constraint firstAttribute="trailing" secondItem="JLc-ye-vc7" secondAttribute="trailing" constant="12" id="SKB-eK-Jdz" userLabel="ContentView Right"/>
+                <constraint firstAttribute="bottom" secondItem="JLc-ye-vc7" secondAttribute="bottom" constant="12" id="y1C-6I-Fny" userLabel="ContentView Bottom"/>
             </constraints>
             <connections>
                 <outlet property="avatarButton" destination="Umg-6r-jUz" id="lod-gK-TAd"/>
