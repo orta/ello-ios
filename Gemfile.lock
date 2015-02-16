@@ -449,6 +449,7 @@ DEPENDENCIES
   cocoapods!
   cocoapods-keys!
   pivotal-tracker
+  plist
   rugged
   sbconstants
   shenzhen
