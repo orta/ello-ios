@@ -71,11 +71,18 @@ class LandingViewController: BaseElloViewController {
     private func setupNotificationObservers() {
         let center = NSNotificationCenter.defaultCenter()
         center.addObserver(self, selector: Selector("loggedOut:"), name: AccessManager.Notifications.LoggedOut.rawValue, object: nil)
+        center.addObserver(self, selector: Selector("failedToLoadCurrentUser:"), name: "ElloProviderNotification401", object: nil)
     }
 
     private func removeNotificationObservers() {
         let center = NSNotificationCenter.defaultCenter()
         center.removeObserver(self)
+    }
+
+    func failedToLoadCurrentUser(notification: NSNotification) {
+        let authToken = AuthToken()
+        authToken.reset()
+        showButtons()
     }
 
     func loggedOut(notification: NSNotification) {
