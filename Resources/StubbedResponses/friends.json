@@ -13,6 +13,13 @@
                 "kind": "text",
                 "data": "\u003cp\u003ethis should not be collapsed in noise for someone that doesn't follow testtesttest - edit.\u003c/p\u003e"
             }],
+            "summary": [{
+                "kind": "text",
+                "data": "etest post to determine what happens when someone sees this for the first time as a repost from someone they follow. dcdoran will repost this."
+            }, {
+                "kind": "text",
+                "data": "\u003cp\u003ethis should not be collapsed in noise for someone that doesn't follow testtesttest - edit.\u003c/p\u003e"
+            }],
             "created_at": "2015-02-04T20:40:35.289Z",
             "views_count": 6,
             "comments_count": 50,
@@ -32,6 +39,10 @@
             "collapsed": false,
             "allow_comments": true,
             "content": [{
+                "kind": "text",
+                "data": "\u003cp\u003e\u003ca href=\"https://ello-staging.herokuapp.com/666\" rel=\"nofollow\" target=\"_blank\"\u003e666\u003c/a\u003e check \u003ca href=\"https://ello-staging.herokuapp.com/cacheflowez/post/B9yjFAKbuhVNhPRZxyRUDg\" rel=\"nofollow\" target=\"_blank\"\u003eit\u003c/a\u003e \u003c/p\u003e"
+            }],
+            "summary": [{
                 "kind": "text",
                 "data": "\u003cp\u003e\u003ca href=\"https://ello-staging.herokuapp.com/666\" rel=\"nofollow\" target=\"_blank\"\u003e666\u003c/a\u003e check \u003ca href=\"https://ello-staging.herokuapp.com/cacheflowez/post/B9yjFAKbuhVNhPRZxyRUDg\" rel=\"nofollow\" target=\"_blank\"\u003eit\u003c/a\u003e \u003c/p\u003e"
             }],
@@ -57,8 +68,23 @@
                 "kind": "image",
                 "data": {
                     "url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/5381/optimized.jpg",
-                    "alt": "optimized.jpg",
-                    "asset_id": "5381"
+                    "alt": "optimized.jpg"                
+                },
+                "links": {
+                    "assets": "5381"
+                }
+            }, {
+                "kind": "text",
+                "data": "\u003cp\u003eoptimization test\u003c/p\u003e"
+            }],
+            "summary": [{
+                "kind": "image",
+                "data": {
+                    "url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/asset/attachment/5381/optimized.jpg",
+                    "alt": "optimized.jpg"
+                },
+                "links": {
+                    "assets": "5381"
                 }
             }, {
                 "kind": "text",

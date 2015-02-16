@@ -20,15 +20,16 @@ class StreamCellItemParserSpec: QuickSpec {
         describe("-aspectRatioForImageBlock:") {
 
             it("returns 4/3 if width or height not present") {
-                let imageBlock = ImageBlock(alt: "alt text", assetId: "123", url:NSURL(string: "http://www.ello.com"))
+                let imageBlock = ImageRegion(asset:nil, alt: "alt text", url:NSURL(string: "http://www.ello.com"))
                 let aspectRatio = StreamCellItemParser.aspectRatioForImageBlock(imageBlock)
 
                 expect(aspectRatio) == 4.0/3.0
             }
 
             it("returns the correct aspect ratio") {
-                var imageBlock = ImageBlock(alt: "alt text", assetId: "123", url:NSURL(string: "http://www.ello.com"))
-                imageBlock.hdpi = ImageAttachment(url: NSURL(string: "http://www.ello.com"), height: 1600, width: 900, imageType: "jpeg", size: 894578)
+                let hdpi = ImageAttachment(url: NSURL(string: "http://www.ello.com"), height: 1600, width: 900, imageType: "jpeg", size: 894578)
+                var asset = Asset(assetId: "123", hdpi: hdpi, xxhdpi: nil)
+                var imageBlock = ImageRegion(asset:asset, alt: "alt text", url:NSURL(string: "http://www.ello.com"))
                 let aspectRatio = StreamCellItemParser.aspectRatioForImageBlock(imageBlock)
 
                 expect(aspectRatio) == 900.0/1600.0
@@ -43,7 +44,7 @@ class StreamCellItemParserSpec: QuickSpec {
 
             it("returns an empty array if an empty array of Posts is passed in") {
                 let posts = [Post]()
-                expect(self.parser.postCellItems(posts).count) == 0
+                expect(self.parser.postCellItems(posts, streamKind: .Friend).count) == 0
             }
 
             it("returns an empty array if an empty array of Comments is passed in") {
@@ -64,7 +65,7 @@ class StreamCellItemParserSpec: QuickSpec {
                     loadedPosts = posts
                 }, failure: nil)
 
-                expect(self.parser.postCellItems(loadedPosts!).count) == 11
+                expect(self.parser.postCellItems(loadedPosts!, streamKind: .Friend).count) == 11
             }
         }
     }

@@ -40,6 +40,12 @@
                     "data": "<p>Hello, I am a comment with awesome content!</p>"
                 }
             ],
+            "summary": [
+                {
+                    "kind": "text",
+                    "data": "<p>Hello, I am a comment with awesome content!</p>"
+                }
+            ],
             "created_at": "2014-06-02T00:00:00.000Z",
             "links": {
                 "author": {

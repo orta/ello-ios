@@ -197,16 +197,20 @@ extension MoyaProvider {
 
     func postNetworkFailureNotification(data:NSData?, error: NSError?, statusCode: Int?) {
         let elloError = generateElloError(data, error: error, statusCode: statusCode)
-        var notificationCase:ElloProvider.ErrorStatusCode?
+        var notificationCase:ElloProvider.ErrorStatusCode
         if let statusCode = statusCode {
-            notificationCase = ElloProvider.ErrorStatusCode(rawValue: statusCode)
+            if let noteCase = ElloProvider.ErrorStatusCode(rawValue: statusCode) {
+                notificationCase = noteCase
+            }
+            else {
+                notificationCase = ElloProvider.ErrorStatusCode.StatusUnknown
+            }
         }
-
-        if notificationCase == nil {
+        else {
             notificationCase = ElloProvider.ErrorStatusCode.StatusUnknown
         }
 
-        NSNotificationCenter.defaultCenter().postNotificationName(notificationCase!.notificationName, object: elloError)
+        NSNotificationCenter.defaultCenter().postNotificationName(notificationCase.notificationName, object: elloError)
     }
 
     func handleNetworkFailure(failure:ElloFailureCompletion?, data:NSData?, error: NSError?, statusCode: Int?) {
