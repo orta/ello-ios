@@ -24,9 +24,7 @@ class ProfileViewController: StreamableViewController {
         self.user = user
         self.streamViewController = StreamViewController.instantiateFromStoryboard()
         self.streamViewController.streamKind = .Profile(user: user)
-
         super.init(nibName: "ProfileViewController", bundle: nil)
-
         self.title = user.atName ?? "Profile"
     }
 
@@ -36,9 +34,12 @@ class ProfileViewController: StreamableViewController {
         if user.isCurrentUser {
             // do stuff
         }
-
-        let item = UIBarButtonItem.backChevronWithTarget(self, action: "backTapped:")
-        navigationItem.leftBarButtonItem = item
+        if let viewControllers = self.navigationController?.viewControllers {
+            if countElements(viewControllers) > 1 {
+                let item = UIBarButtonItem.backChevronWithTarget(self, action: "backTapped:")
+                navigationItem.leftBarButtonItem = item
+            }
+        }
         setupStreamController()
     }
 
