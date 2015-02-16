@@ -14,7 +14,7 @@ import Nimble
 
 class StreamServiceSpec: QuickSpec {
     override func spec() {
-        describe("-loadStream") {
+        describe("StreamServiceSpec") {
 
             var streamService = StreamService()
 
