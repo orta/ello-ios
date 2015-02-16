@@ -11,6 +11,9 @@ import Foundation
 extension Int {
 
     func localizedStringFromNumber() -> NSString {
+        if self == 0 {
+            return ""
+        }
         return NSNumberFormatter.localizedStringFromNumber(NSNumber(integer:self), numberStyle: NSNumberFormatterStyle.DecimalStyle)
     }
 
