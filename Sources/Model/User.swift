@@ -84,7 +84,7 @@ class User: JSONAble {
         }
 
         if var coverImage = json["cover_image"].object as? [String:[String:AnyObject]] {
-            if let coverPath = coverImage["optimized"]?["url"] as? String {
+            if let coverPath = coverImage["hdpi"]?["url"] as? String {
                 coverImageURL = NSURL(string: coverPath, relativeToURL: NSURL(string: ElloURI.baseURL))
             }
         }
