@@ -10,8 +10,6 @@
             <string>AtlasTypewriter-Regular</string>
             <string>AtlasTypewriter-Regular</string>
             <string>AtlasTypewriter-Regular</string>
-            <string>AtlasTypewriter-Regular</string>
-            <string>AtlasTypewriter-Regular</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -318,162 +316,6 @@
             </objects>
             <point key="canvasLocation" x="774" y="354"/>
         </scene>
-        <!--Sign In View Controller-->
-        <scene sceneID="VSf-J3-5ZL">
-            <objects>
-                <viewController storyboardIdentifier="SignInViewController" id="1E8-65-vmf" customClass="SignInViewController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="6pQ-AE-iiJ"/>
-                        <viewControllerLayoutGuide type="bottom" id="L1w-mG-MKi"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Ee3-ut-kbw">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rKd-87-4ed">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OGh-YU-zox" userLabel="Container">
-                                        <rect key="frame" x="113" y="0.0" width="374" height="550"/>
-                                        <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ello-logo" translatesAutoresizingMaskIntoConstraints="NO" id="sTi-2Z-i06">
-                                                <rect key="frame" x="157" y="50" width="60" height="60"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="60" id="Qba-K9-mGK"/>
-                                                    <constraint firstAttribute="width" constant="60" id="pHn-S3-s5W"/>
-                                                </constraints>
-                                            </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Simple, beautiful &amp; ad-free." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oWE-Ad-ZNk">
-                                                <rect key="frame" x="0.0" y="150" width="374" height="14"/>
-                                                <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="14"/>
-                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter your password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="C9D-14-Tzq" customClass="ElloTextField" customModule="Ello" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="299" width="374" height="60"/>
-                                                <color key="backgroundColor" red="0.78030639889999998" green="0.78044152259999999" blue="0.78029787539999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="60" id="yiu-uO-3JF"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="go" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
-                                            </textField>
-                                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cw6-Pt-meS" userLabel="Error" customClass="ElloErrorLabel" customModule="Ello" customModuleProvider="target">
-                                                <rect key="frame" x="2" y="379" width="370" height="13"/>
-                                                <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="13"/>
-                                                <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nvr-ta-RoO" customClass="ElloButton" customModule="Ello" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="389" width="374" height="60"/>
-                                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="60" id="Tek-3L-uxn"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                <state key="normal" title="Enter Ello">
-                                                    <color key="titleColor" red="0.99989169836044312" green="1" blue="0.99988096952438354" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="enterTapped:" destination="1E8-65-vmf" eventType="touchUpInside" id="HjL-I0-OPK"/>
-                                                </connections>
-                                            </button>
-                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jrq-Pl-YPY" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="469" width="159" height="30"/>
-                                                <state key="normal" title="Forgot your password?">
-                                                    <color key="titleColor" red="0.99650349650000003" green="0.99300699299999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="forgotPasswordTapped:" destination="1E8-65-vmf" eventType="touchUpInside" id="ahS-lr-Q4F"/>
-                                                </connections>
-                                            </button>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter your email address" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Web-5r-2bE" customClass="ElloTextField" customModule="Ello" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="219" width="374" height="60"/>
-                                                <color key="backgroundColor" red="0.78030639886856079" green="0.7804415225982666" blue="0.78029787540435791" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="374" id="0AJ-Qr-hr7"/>
-                                                    <constraint firstAttribute="height" constant="60" id="meH-6e-9vy"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
-                                            </textField>
-                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DMb-4a-gz1" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="507" width="135" height="30"/>
-                                                <state key="normal" title="Create an account?">
-                                                    <color key="titleColor" red="0.99650349650000003" green="0.99300699299999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="createAccountTapped:" destination="1E8-65-vmf" eventType="touchUpInside" id="kHD-EF-PAa"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstItem="DMb-4a-gz1" firstAttribute="leading" secondItem="OGh-YU-zox" secondAttribute="leading" id="0Jc-vX-80c"/>
-                                            <constraint firstItem="Cw6-Pt-meS" firstAttribute="leading" secondItem="OGh-YU-zox" secondAttribute="leading" constant="2" id="6KD-oh-yhk"/>
-                                            <constraint firstItem="oWE-Ad-ZNk" firstAttribute="leading" secondItem="OGh-YU-zox" secondAttribute="leading" id="7qX-Pn-vXM"/>
-                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="374" id="BbQ-3B-KRZ"/>
-                                            <constraint firstItem="Cw6-Pt-meS" firstAttribute="top" secondItem="C9D-14-Tzq" secondAttribute="bottom" constant="20" id="L6G-NR-0w7"/>
-                                            <constraint firstItem="sTi-2Z-i06" firstAttribute="top" secondItem="OGh-YU-zox" secondAttribute="top" constant="50" id="LKf-CP-r1O"/>
-                                            <constraint firstAttribute="centerX" secondItem="sTi-2Z-i06" secondAttribute="centerX" id="OVl-l6-cxD"/>
-                                            <constraint firstItem="jrq-Pl-YPY" firstAttribute="leading" secondItem="OGh-YU-zox" secondAttribute="leading" id="PSN-cJ-9XU"/>
-                                            <constraint firstItem="Web-5r-2bE" firstAttribute="leading" secondItem="OGh-YU-zox" secondAttribute="leading" id="YCV-Qh-cjO"/>
-                                            <constraint firstAttribute="trailing" secondItem="Nvr-ta-RoO" secondAttribute="trailing" id="a7J-3P-8Db"/>
-                                            <constraint firstItem="DMb-4a-gz1" firstAttribute="top" secondItem="jrq-Pl-YPY" secondAttribute="bottom" constant="8" id="b32-Zi-amJ"/>
-                                            <constraint firstItem="oWE-Ad-ZNk" firstAttribute="top" secondItem="sTi-2Z-i06" secondAttribute="bottom" constant="40" id="cZd-pG-5XB"/>
-                                            <constraint firstItem="C9D-14-Tzq" firstAttribute="leading" secondItem="OGh-YU-zox" secondAttribute="leading" id="fgi-8V-zmx"/>
-                                            <constraint firstAttribute="trailing" secondItem="Web-5r-2bE" secondAttribute="trailing" id="hbU-zA-Sn1"/>
-                                            <constraint firstItem="jrq-Pl-YPY" firstAttribute="top" secondItem="Nvr-ta-RoO" secondAttribute="bottom" constant="20" id="jIO-SL-FH1"/>
-                                            <constraint firstItem="C9D-14-Tzq" firstAttribute="top" secondItem="Web-5r-2bE" secondAttribute="bottom" constant="20" id="kNW-T1-QWh"/>
-                                            <constraint firstAttribute="trailing" secondItem="oWE-Ad-ZNk" secondAttribute="trailing" id="nIB-su-nN6"/>
-                                            <constraint firstItem="Web-5r-2bE" firstAttribute="top" secondItem="oWE-Ad-ZNk" secondAttribute="bottom" constant="55" id="p3i-X7-ybH"/>
-                                            <constraint firstItem="Nvr-ta-RoO" firstAttribute="top" secondItem="C9D-14-Tzq" secondAttribute="bottom" constant="30" id="t0m-3A-wyJ"/>
-                                            <constraint firstAttribute="trailing" secondItem="C9D-14-Tzq" secondAttribute="trailing" id="unk-Uo-hut"/>
-                                            <constraint firstItem="Nvr-ta-RoO" firstAttribute="leading" secondItem="OGh-YU-zox" secondAttribute="leading" id="vga-ec-pwJ"/>
-                                            <constraint firstAttribute="height" constant="550" id="xZR-jT-NvU"/>
-                                            <constraint firstAttribute="trailing" secondItem="Cw6-Pt-meS" secondAttribute="trailing" constant="2" id="z1m-Ke-g2T"/>
-                                        </constraints>
-                                    </view>
-                                </subviews>
-                                <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstItem="OGh-YU-zox" firstAttribute="top" secondItem="rKd-87-4ed" secondAttribute="top" id="3dp-mO-Ws9"/>
-                                    <constraint firstAttribute="trailing" secondItem="OGh-YU-zox" secondAttribute="trailing" constant="113" placeholder="YES" id="6JA-BK-GjG"/>
-                                    <constraint firstItem="OGh-YU-zox" firstAttribute="leading" secondItem="rKd-87-4ed" secondAttribute="leading" constant="113" placeholder="YES" id="FWA-Kd-0dH"/>
-                                    <constraint firstAttribute="bottom" secondItem="OGh-YU-zox" secondAttribute="bottom" id="fEW-px-7eu"/>
-                                    <constraint firstItem="OGh-YU-zox" firstAttribute="width" secondItem="rKd-87-4ed" secondAttribute="width" priority="999" constant="-40" id="gip-fa-Gfj"/>
-                                    <constraint firstAttribute="centerX" secondItem="OGh-YU-zox" secondAttribute="centerX" id="hR2-VH-SSk"/>
-                                    <constraint firstItem="OGh-YU-zox" firstAttribute="top" secondItem="rKd-87-4ed" secondAttribute="top" id="iyw-ka-Agj"/>
-                                    <constraint firstAttribute="bottom" secondItem="OGh-YU-zox" secondAttribute="bottom" id="qQ5-6R-bb9"/>
-                                </constraints>
-                            </scrollView>
-                        </subviews>
-                        <color key="backgroundColor" red="0.14901960784313725" green="0.14901960784313725" blue="0.14901960784313725" alpha="1" colorSpace="calibratedRGB"/>
-                        <constraints>
-                            <constraint firstItem="rKd-87-4ed" firstAttribute="top" secondItem="Ee3-ut-kbw" secondAttribute="top" id="S3Q-IL-v5C"/>
-                            <constraint firstAttribute="trailing" secondItem="rKd-87-4ed" secondAttribute="trailing" id="gX7-bK-Wpe"/>
-                            <constraint firstItem="rKd-87-4ed" firstAttribute="leading" secondItem="Ee3-ut-kbw" secondAttribute="leading" id="qg2-63-MwU"/>
-                            <constraint firstAttribute="bottom" secondItem="rKd-87-4ed" secondAttribute="bottom" id="r08-bh-9AY"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="createAccountButton" destination="DMb-4a-gz1" id="fgb-AK-zx0"/>
-                        <outlet property="emailTextField" destination="Web-5r-2bE" id="0ga-jD-SI7"/>
-                        <outlet property="enterButton" destination="Nvr-ta-RoO" id="6xf-MI-ErC"/>
-                        <outlet property="enterButtonTopContraint" destination="t0m-3A-wyJ" id="Q0k-PJ-kHN"/>
-                        <outlet property="errorLabel" destination="Cw6-Pt-meS" id="s8l-u7-NpX"/>
-                        <outlet property="forgotPasswordButton" destination="jrq-Pl-YPY" id="5TT-oU-K8F"/>
-                        <outlet property="passwordTextField" destination="C9D-14-Tzq" id="KEk-hb-sNp"/>
-                        <outlet property="scrollView" destination="rKd-87-4ed" id="4Zc-NV-qhO"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kVt-Bc-o7M" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-636" y="-318"/>
-        </scene>
         <!--Forgot Password View Controller-->
         <scene sceneID="nFA-NK-wdG">
             <objects>
@@ -500,13 +342,13 @@
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Simple, beautiful &amp; ad-free." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ypc-OR-8Wd">
-                                                <rect key="frame" x="0.0" y="150" width="374" height="14"/>
+                                                <rect key="frame" x="0.0" y="150" width="374" height="17"/>
                                                 <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="14"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SLT-dy-F7g" customClass="ElloButton" customModule="Ello" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="299" width="374" height="60"/>
+                                                <rect key="frame" x="0.0" y="302" width="374" height="60"/>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="60" id="euT-Bd-rDx"/>
@@ -521,7 +363,7 @@
                                                 </connections>
                                             </button>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter your email address" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="N1z-oh-CYd" customClass="ElloTextField" customModule="Ello" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="219" width="374" height="60"/>
+                                                <rect key="frame" x="0.0" y="222" width="374" height="60"/>
                                                 <color key="backgroundColor" red="0.78030639889999998" green="0.78044152259999999" blue="0.78029787539999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="374" id="OV4-0d-Ae2"/>
@@ -531,7 +373,7 @@
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
                                             </textField>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Efs-kF-Dyf" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="379" width="48" height="30"/>
+                                                <rect key="frame" x="0.0" y="382" width="48" height="30"/>
                                                 <state key="normal" title="Sign In">
                                                     <color key="titleColor" red="0.99650349650000003" green="0.99300699299999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -619,7 +461,7 @@
                                                 </constraints>
                                             </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Cb-Tk-L4F" customClass="ElloButton" customModule="Ello" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="481" width="374" height="60"/>
+                                                <rect key="frame" x="0.0" y="490" width="374" height="60"/>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="60" id="wZz-Mg-1hB"/>
@@ -644,7 +486,7 @@
                                                 </connections>
                                             </button>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vNG-ju-sOC" customClass="ElloTextField" customModule="Ello" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="167" width="374" height="60"/>
+                                                <rect key="frame" x="0.0" y="170" width="374" height="60"/>
                                                 <color key="backgroundColor" red="0.78030639889999998" green="0.78044152259999999" blue="0.78029787539999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="374" id="Ggh-C5-8HG"/>
@@ -654,7 +496,7 @@
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
                                             </textField>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Create username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="t2j-i8-Gdt" customClass="ElloTextField" customModule="Ello" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="282" width="374" height="60"/>
+                                                <rect key="frame" x="0.0" y="288" width="374" height="60"/>
                                                 <color key="backgroundColor" red="0.78030639889999998" green="0.78044152259999999" blue="0.78029787539999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="60" id="T7J-BA-TpC"/>
@@ -664,7 +506,7 @@
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
                                             </textField>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Set password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="M6K-4m-ofH" customClass="ElloTextField" customModule="Ello" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="395" width="374" height="60"/>
+                                                <rect key="frame" x="0.0" y="404" width="374" height="60"/>
                                                 <color key="backgroundColor" red="0.78030639889999998" green="0.78044152259999999" blue="0.78029787539999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="60" id="4CS-dK-7bu"/>
@@ -674,25 +516,25 @@
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
                                             </textField>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ES-1d-J1r">
-                                                <rect key="frame" x="0.0" y="140" width="374" height="14"/>
+                                                <rect key="frame" x="0.0" y="140" width="374" height="17"/>
                                                 <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="14"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gu8-6U-Qdg">
-                                                <rect key="frame" x="0.0" y="253" width="72" height="14"/>
+                                                <rect key="frame" x="0.0" y="256" width="65" height="17"/>
                                                 <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="14"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rFw-HN-JVK">
-                                                <rect key="frame" x="0.0" y="368" width="374" height="14"/>
+                                                <rect key="frame" x="0.0" y="374" width="374" height="17"/>
                                                 <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="14"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By Clicking Create Account you are agreeing to our Terms." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0IZ-T3-H9g">
-                                                <rect key="frame" x="0.0" y="559" width="374" height="30"/>
+                                                <rect key="frame" x="0.0" y="568" width="374" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="Pi8-ya-FO0"/>
                                                 </constraints>

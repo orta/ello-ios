@@ -140,7 +140,7 @@ class CreateAccountViewController: BaseElloViewController, UITextFieldDelegate {
 
     @IBAction func loginTapped(sender: ElloTextButton) {
         println("login tapped")
-        let signInController = SignInViewController.instantiateFromStoryboard()
+        let signInController = SignInViewController()
         self.presentViewController(signInController, animated:true, completion:nil)
     }
     
