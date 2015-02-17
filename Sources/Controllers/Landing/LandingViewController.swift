@@ -33,8 +33,8 @@ class LandingViewController: BaseElloViewController {
 // MARK: - Private
 
     private func setupStyles() {
-        scrollView.backgroundColor = UIColor.elloDarkGray()
-        view.backgroundColor = UIColor.elloDarkGray()
+        scrollView.backgroundColor = UIColor.grey3()
+        view.backgroundColor = UIColor.grey3()
         view.setNeedsDisplay()
     }
 

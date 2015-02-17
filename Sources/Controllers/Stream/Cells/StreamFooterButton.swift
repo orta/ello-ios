@@ -12,7 +12,7 @@ class StreamFooterButton: UIButton {
 
     func setButtonTitle(title:String?) {
         if let title = title {
-            setButtonTitle(title, color: UIColor.elloLightGray(), forState: .Normal)
+            setButtonTitle(title, color: UIColor.greyA(), forState: .Normal)
             setButtonTitle(title, color: UIColor.blackColor(), forState: .Highlighted)
             setButtonTitle(title, color: UIColor.blackColor(), forState: .Selected)
         }
