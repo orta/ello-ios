@@ -32,15 +32,13 @@ class RelationshipView: UIView {
     var blockButton: UIButton?
     weak var relationshipDelegate: RelationshipDelegate?
     var userId: String
+    let backgroundColorNormal = UIColor.whiteColor()
+    let backgroundColorSelected = UIColor(hex:0xAAAAAA)
+    let backgroundColorBlock = UIColor.redColor()
 
-    var relationship:Relationship {
-        get {
-            return self.relationship
-        }
-        set(relationship) {
-            switch relationship {
-            default: println(relationship)
-            }
+    var relationship:Relationship? {
+        didSet {
+            selectButton(relationship!)
         }
     }
 
@@ -50,55 +48,109 @@ class RelationshipView: UIView {
         self.userId = ""
         super.init(coder: coder)
         buildLargeButtons()
+        addTargets()
     }
 
     @IBAction func friendTapped(sender: UIButton) {
-        println("friendTapped")
+        if sender.selected == true { return }
+        selectButton(Relationship.Friend)
         relationshipDelegate?.relationshipTapped(userId, relationship: Relationship.Friend)
     }
 
     @IBAction func noiseTapped(sender: UIButton) {
-        println("noiseTapped")
+        if sender.selected == true { return }
+        selectButton(Relationship.Noise)
         relationshipDelegate?.relationshipTapped(userId, relationship: Relationship.Noise)
     }
 
     @IBAction func blockTapped(sender: UIButton) {
-        println("blockTapped, launch block modal")
+        if sender.selected == true { return }
+        selectButton(Relationship.Block)
+        relationshipDelegate?.relationshipTapped(userId, relationship: Relationship.Noise)
     }
 
 // MARK: Internal
 
+    private func resetButtons() {
+        friendButton.selected = false
+        friendButton.backgroundColor = backgroundColorNormal
+        noiseButton.selected = false
+        noiseButton.backgroundColor = backgroundColorNormal
+        blockButton?.selected = false
+        blockButton?.backgroundColor = backgroundColorNormal
+        blockButton?.layer.borderColor = backgroundColorSelected.CGColor
+    }
+
+    private func selectButton(relationship: Relationship) {
+        resetButtons()
+        switch relationship {
+        case .Friend:
+            friendButton.selected = true
+            friendButton.backgroundColor = backgroundColorSelected
+        case .Noise:
+            noiseButton.selected = true
+            noiseButton.backgroundColor = backgroundColorSelected
+        case .Mute, .Block:
+            blockButton?.selected = true
+            blockButton?.backgroundColor = backgroundColorBlock
+            blockButton?.layer.borderColor = backgroundColorBlock.CGColor
+        default: println("relationship: \(relationship.rawValue)")
+        }
+    }
+
     private func buildLargeButtons() {
         let wv = 68
-        styleButton(friendButton, label: "Friend", action: "friendTapped:")
+        // friend
+        styleTitleButton(friendButton, label: "Friend")
         friendButton.frame = CGRect(x: 0, y: 0, width: wv, height: 30)
-        styleButton(noiseButton, label: "Noise", action: "noiseTapped:")
+        // noise
+        styleTitleButton(noiseButton, label: "Noise")
         noiseButton.frame = CGRect(x: wv - 1, y: 0, width: wv, height: 30)
+        // block/mute
+        blockButton = UIButton()
+        styleIconButton(blockButton!)
+        blockButton!.frame = CGRect(x: wv * 2 - 2, y: 0, width: 30, height: 30)
+    }
+
+    private func addTargets() {
+        friendButton.addTarget(self, action: "friendTapped:", forControlEvents: UIControlEvents.TouchUpInside)
+        noiseButton.addTarget(self, action: "noiseTapped:", forControlEvents: UIControlEvents.TouchUpInside)
+        blockButton?.addTarget(self, action: "blockTapped:", forControlEvents: UIControlEvents.TouchUpInside)
+        addSubview(friendButton)
+        addSubview(noiseButton)
+        if let blockButton = blockButton {
+            addSubview(blockButton)
+        }
     }
 
     private func buildSmallButtons() {
         let wv = 30
-        styleButton(friendButton, label: "F", action: "friendTapped:")
+        // friend
+        styleTitleButton(friendButton, label: "F")
         friendButton.frame = CGRect(x: 0, y: 0, width: wv, height: 30)
-        styleButton(noiseButton, label: "N", action: "noiseTapped:")
+
+        // noise
+        styleTitleButton(noiseButton, label: "N")
         noiseButton.frame = CGRect(x: wv - 1, y: 0, width: wv, height: 30)
     }
 
-    private func styleButton(button: UIButton, label: String, action: Selector, state: UIControlState = UIControlState.Normal) {
+    private func styleBaseButton(button: UIButton) {
         button.layer.borderWidth = 1
-        button.setTitle(label, forState: state)
-        button.layer.borderColor = UIColor.grayColor().CGColor
+        button.layer.borderColor = backgroundColorSelected.CGColor
+        button.backgroundColor = backgroundColorNormal
+    }
+
+    private func styleTitleButton(button: UIButton, label: String) {
+        styleBaseButton(button)
         button.titleLabel?.font = UIFont.typewriterFont(12.0)
-        if state == UIControlState.Normal {
-            button.setTitleColor(UIColor.grayColor(), forState: state)
-            button.backgroundColor = UIColor.whiteColor()
-        }
-        else {
-            button.setTitleColor(UIColor.whiteColor(), forState: state)
-            button.backgroundColor = UIColor.grayColor()
-        }
-        button.addTarget(self, action: action, forControlEvents: UIControlEvents.TouchUpInside)
-        addSubview(button)
+        button.setTitle(label, forState: UIControlState.Normal)
+        button.setTitle(label, forState: UIControlState.Selected)
+        button.setTitleColor(backgroundColorSelected, forState: UIControlState.Normal)
+        button.setTitleColor(backgroundColorNormal, forState: UIControlState.Selected)
+    }
+
+    private func styleIconButton(button: UIButton) {
+        styleBaseButton(button)
     }
 }
 
