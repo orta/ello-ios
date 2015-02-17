@@ -77,6 +77,7 @@
             <connections>
                 <outlet property="avatarButton" destination="QoI-VW-bga" id="njY-KN-2af"/>
                 <outlet property="collapsableImageMargin" destination="Suy-Cf-yj1" id="Yzb-XH-bC4"/>
+                <outlet property="collapsableImageWidth" destination="Zxm-g0-m1Q" id="4jk-Tn-9BV"/>
                 <outlet property="collapsableMessageMargin" destination="tHS-w2-gog" id="GPF-ZI-3j8"/>
                 <outlet property="messageWebView" destination="oex-0i-P4p" id="nd5-QI-v4J"/>
                 <outlet property="notificationImageView" destination="olr-d9-xuT" id="Bh4-s5-KOb"/>

@@ -16,6 +16,7 @@ class NotificationCell : UICollectionViewCell {
     @IBOutlet var messageWebView : UIWebView!
     @IBOutlet var notificationImageView : UIImageView!
 
+    @IBOutlet var collapsableImageWidth : NSLayoutConstraint!
     @IBOutlet var collapsableImageMargin : NSLayoutConstraint!
     @IBOutlet var collapsableMessageMargin : NSLayoutConstraint!
 
@@ -23,22 +24,26 @@ class NotificationCell : UICollectionViewCell {
         willSet(newValue) {
             if let value = newValue {
                 collapsableMessageMargin.constant = 10
+                messageWebView.loadHTMLString(StreamTextCellHTML.postHTML(newValue!), baseURL: NSURL(string: "/"))
             }
             else {
                 collapsableMessageMargin.constant = 0
+                messageWebView.loadHTMLString("", baseURL: NSURL(string: "/"))
             }
-            messageWebView.loadHTMLString(StreamTextCellHTML.postHTML(newValue!), baseURL: NSURL(string: "/"))
         }
     }
     var image : UIImage? {
         willSet(newValue) {
             if let image = newValue {
+                collapsableImageWidth.constant = 87
                 collapsableImageMargin.constant = 10
             }
             else {
+                collapsableImageWidth.constant = 0
                 collapsableImageMargin.constant = 0
             }
             notificationImageView.image = newValue
+            self.setNeedsLayout()
         }
     }
     var title: NSAttributedString? {

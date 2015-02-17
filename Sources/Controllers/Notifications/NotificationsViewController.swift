@@ -50,51 +50,21 @@ class NotificationsViewController: StreamableViewController {
         controller.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
         self.addChildViewController(controller)
 
-        var post = Post(
-            assets: nil,
-            author: currentUser,
-            collapsed: false,
-            commentsCount: 0,
-            content: [TextRegion(content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit")],
-            createdAt: NSDate(),
-            href: "",
-            postId: "123",
-            repostsCount: 0,
-            summary: [TextRegion(content: "LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT")],
-            token: "not used",
-            viewsCount: 0
+        let streamService = NotificationsService()
+        ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
+        streamService.load(
+            success: { notifications in
+                let parser = NotificationCellItemParser()
+                let items = parser.cellItems(notifications)
+                controller.addUnsizedCellItems(items)
+                controller.doneLoading()
+            },
+            failure: { (error, statusCode) -> () in
+                println("failed to load notifications (reason: \(error))")
+                controller.doneLoading()
+            }
         )
-        var activity = Activity(activityId: "123", kind: .RepostNotification, subjectType: .Post, subject: post, createdAt: NSDate())
-        var cellItems = [
-            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
-            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
-            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
-            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
-            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
-            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
-            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
-            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
-            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
-            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
-            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
-            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
-        ]
-        controller.addUnsizedCellItems(cellItems)
-        controller.doneLoading()
-        // let streamService = NotificationsService()
-        // ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
-        // streamService.load(
-        //     success: { notifications in
-        //         var parser = NotificationCellItemParser()
-        //         controller.addUnsizedCellItems(parser.cellItems(notifications))
-        //         controller.doneLoading()
-        //     },
-        //     failure: { (error, statusCode) -> () in
-        //         println("failed to load notifications (reason: \(error))")
-        //         controller.doneLoading()
-        //     }
-        // )
-        // ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
+        ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
     }
 
     private func setupFilterBar() {
