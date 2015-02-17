@@ -18,7 +18,7 @@ public extension String {
     }
 
     func isValidPassword() -> Bool {
-        return countElements(self) > 0
+        return countElements(self) >= 8
     }
 
 }
