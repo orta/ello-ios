@@ -164,8 +164,8 @@ class StreamFooterCell: UICollectionViewCell {
     }
 
     @IBAction func commentsButtonTapped(sender: StreamFooterButton) {
-        commentsOpened = !commentsOpened
         delegate?.commentsButtonTapped(self)
+        commentsOpened = !commentsOpened
     }
 
     @IBAction func lovesButtonTapped(sender: StreamFooterButton) {
