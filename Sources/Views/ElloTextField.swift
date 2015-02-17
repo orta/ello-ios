@@ -45,6 +45,12 @@ class ElloTextField: UITextField {
         return rectForBounds(bounds)
     }
 
+    override func clearButtonRectForBounds(bounds: CGRect) -> CGRect {
+        var rect = super.clearButtonRectForBounds(bounds)
+        rect.origin.x -= 10
+        return rect
+    }
+
     private func rectForBounds(bounds: CGRect) -> CGRect {
         return CGRectInset( bounds , 30 , 10 );
     }

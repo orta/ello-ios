@@ -95,7 +95,7 @@ class LandingViewController: BaseElloViewController {
 // MARK: - IBActions
 
     @IBAction func signInTapped(sender: ElloButton) {
-        let signInController = SignInViewController.instantiateFromStoryboard()
+        let signInController = SignInViewController()
         self.presentViewController(signInController, animated:true, completion:nil)
     }
 
