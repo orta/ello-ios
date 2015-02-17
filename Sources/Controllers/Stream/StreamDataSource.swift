@@ -24,6 +24,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     weak var webLinkDelegate:WebLinkDelegate?
     weak var imageDelegate:StreamImageCellDelegate?
     weak var userDelegate:UserDelegate?
+    weak var relationshipDelegate: RelationshipDelegate?
 
     init(testWebView: UIWebView, streamKind:StreamKind) {
         self.streamKind = streamKind
@@ -157,5 +158,3 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         }
    }
 }
-
-
