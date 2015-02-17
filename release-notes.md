@@ -279,3 +279,11 @@
 * Ello 0.1 build 1 to testflight
 
 -----------------
+
+-----------------
+###Ello 0.1 Build 3
+####Commit notes:
+
+* Ello iOS Build 2
+
+-----------------
