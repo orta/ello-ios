@@ -299,3 +299,13 @@
 * Adds crashlytics and beta distribution.
 
 -----------------
+
+-----------------
+###Ello 0.1 Build 5
+####Commit notes:
+
+* Add rake tasks for distributing to testers/devs.
+* Add Crashlytics.framework to the Specs target.
+* Initial release build to testers group.
+
+-----------------
