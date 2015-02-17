@@ -42,7 +42,7 @@ class PostbarController:NSObject, PostbarDelegate {
                     let streamService = StreamService()
                     streamService.loadMoreCommentsForPost(post.postId, success: {
                         self.commentLoadSuccess($0, indexPath: indexPath, cell: cell)
-                        }, failure: commentLoadFailure)
+                    }, failure: commentLoadFailure)
                 }
             }
         }
