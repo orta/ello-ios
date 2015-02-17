@@ -279,3 +279,33 @@
 * Ello 0.1 build 1 to testflight
 
 -----------------
+
+-----------------
+###Ello 0.1 Build 3
+####Commit notes:
+
+* Ello iOS Build 2
+
+-----------------
+
+-----------------
+###Ello 0.1 Build 4
+
+####Tracker stories:
+* [88521390](https://www.pivotaltracker.com/story/show/88521390) Investigate our next beta deployment process
+
+####Commit notes:
+
+* Adds crashlytics and beta distribution.
+
+-----------------
+
+-----------------
+###Ello 0.1 Build 5
+####Commit notes:
+
+* Add rake tasks for distributing to testers/devs.
+* Add Crashlytics.framework to the Specs target.
+* Initial release build to testers group.
+
+-----------------
