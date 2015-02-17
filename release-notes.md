@@ -287,3 +287,15 @@
 * Ello iOS Build 2
 
 -----------------
+
+-----------------
+###Ello 0.1 Build 4
+
+####Tracker stories:
+* [88521390](https://www.pivotaltracker.com/story/show/88521390) Investigate our next beta deployment process
+
+####Commit notes:
+
+* Adds crashlytics and beta distribution.
+
+-----------------
