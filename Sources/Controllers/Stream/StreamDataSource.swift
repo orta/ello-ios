@@ -18,7 +18,8 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     var indexFile:String?
     var streamCellItems:[StreamCellItem] = []
-    let sizeCalculator:StreamTextCellSizeCalculator
+    let textSizeCalculator:StreamTextCellSizeCalculator
+    let notificationSizeCalculator:StreamNotificationCellSizeCalculator
     weak var postbarDelegate:PostbarDelegate?
     weak var webLinkDelegate:WebLinkDelegate?
     weak var imageDelegate:StreamImageCellDelegate?
@@ -27,7 +28,8 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     init(testWebView: UIWebView, streamKind:StreamKind) {
         self.streamKind = streamKind
         self.testWebView = testWebView
-        self.sizeCalculator = StreamTextCellSizeCalculator(webView: testWebView)
+        self.textSizeCalculator = StreamTextCellSizeCalculator(webView: UIWebView(frame: testWebView.frame))
+        self.notificationSizeCalculator = StreamNotificationCellSizeCalculator(webView: UIWebView(frame: testWebView.frame))
         super.init()
     }
 
@@ -203,28 +205,31 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     private func notificationCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> NotificationCell {
         let notificationCell = collectionView.dequeueReusableCellWithReuseIdentifier(StreamCellType.Notification.name, forIndexPath: indexPath) as NotificationCell
-        var activity = streamCellItem.jsonable as Activity
+        var notification = streamCellItem.jsonable as Notification
+        var user = notification.author!
 
-        switch activity.kind {
-        case .RepostNotification:
-            return repostNotificationCell(streamCellItem, notificationCell: notificationCell)
-        case .NewFollowedUserPost:
-            return newFollowedUserNotificationCell(streamCellItem, notificationCell: notificationCell)
-        case .NewFollowerPost:
-            return newFollowerNotificationCell(streamCellItem, notificationCell: notificationCell)
-        case .PostMentionNotification:
-            return postMentionNotificationCell(streamCellItem, notificationCell: notificationCell)
-        case .CommentMentionNotification:
-            return commentMentionNotificationCell(streamCellItem, notificationCell: notificationCell)
-        case .InvitationAcceptedPost:
-            return invitationAcceptedNotificationCell(streamCellItem, notificationCell: notificationCell)
-        case .CommentNotification:
-            return commentNotificationCell(streamCellItem, notificationCell: notificationCell)
-        case .WelcomeNotification:
-            return welcomeNotificationCell(streamCellItem, notificationCell: notificationCell)
-        default:
-            return notificationCell
+        notificationCell.title = notification.attributedTitle
+        notificationCell.avatarURL = user.avatarURL
+        notificationCell.imageURL = nil
+        notificationCell.messageHtml = nil
+
+        if let textRegion = notification.textRegion {
+            notificationCell.messageHtml = textRegion.content
         }
+
+        if let imageRegion = notification.imageRegion {
+            var aspectRatio = StreamCellItemParser.aspectRatioForImageBlock(imageRegion)
+            if let photoURL = imageRegion.asset?.hdpi?.url? {
+                notificationCell.aspectRatio = aspectRatio
+                notificationCell.imageURL = photoURL
+            }
+            else if let photoURL = imageRegion.url {
+                notificationCell.aspectRatio = aspectRatio
+                notificationCell.imageURL = photoURL
+            }
+        }
+
+        return notificationCell
     }
 
     func profileHeaderCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> ProfileHeaderCell {
@@ -245,8 +250,11 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         let textElements = cellItems.filter {
             return $0.data as? TextRegion != nil
         }
+        let notificationElements = cellItems.filter {
+            return $0.type == .Notification
+        }
 
-        self.sizeCalculator.processCells(textElements) {
+        let afterBoth = Funky.after(2) {
             var indexPaths:[NSIndexPath] = []
 
             var indexPath:NSIndexPath = startingIndexPath ?? NSIndexPath(forItem: countElements(self.streamCellItems) - 1, inSection: 0)
@@ -259,104 +267,8 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
 
             completion(indexPaths: indexPaths)
         }
+
+        self.notificationSizeCalculator.processCells(notificationElements, afterBoth)
+        self.textSizeCalculator.processCells(textElements, afterBoth)
    }
-}
-
-
-extension StreamDataSource {
-    private func repostNotificationCell(streamCellItem:StreamCellItem, notificationCell: NotificationCell) -> NotificationCell {
-        var activity = streamCellItem.jsonable as Activity
-        var post = activity.subject as Post
-
-        notificationCell.title = NSAttributedString(string: "\(post.author!.atName) reposted your post.")
-        notificationCell.image = nil
-        notificationCell.messageHtml = "<b>HOPE</b> this <i>works</i>!"
-        notificationCell.avatarURL = post.author?.avatarURL
-
-        return notificationCell
-    }
-
-    private func newFollowedUserNotificationCell(streamCellItem:StreamCellItem, notificationCell: NotificationCell) -> NotificationCell {
-        var activity = streamCellItem.jsonable as Activity
-        var user = activity.subject as User
-
-        notificationCell.title = NSAttributedString(string: "Your started following \(user.atName).")
-        notificationCell.image = nil
-        notificationCell.messageHtml = nil
-        notificationCell.avatarURL = user.avatarURL
-
-        return notificationCell
-    }
-
-    private func newFollowerNotificationCell(streamCellItem:StreamCellItem, notificationCell: NotificationCell) -> NotificationCell {
-        var activity = streamCellItem.jsonable as Activity
-        var user = activity.subject as User
-
-        notificationCell.title = NSAttributedString(string: "\(user.atName) started following you.")
-        notificationCell.image = nil
-        notificationCell.messageHtml = nil
-        notificationCell.avatarURL = user.avatarURL
-
-        return notificationCell
-    }
-
-    private func postMentionNotificationCell(streamCellItem:StreamCellItem, notificationCell: NotificationCell) -> NotificationCell {
-        var activity = streamCellItem.jsonable as Activity
-        var post = activity.subject as Post
-
-        notificationCell.title = NSAttributedString(string: "\(post.author!.atName) mentioned you in a post.")
-        notificationCell.image = nil
-        notificationCell.messageHtml = ""
-        notificationCell.avatarURL = post.author?.avatarURL
-
-        return notificationCell
-    }
-
-    private func commentMentionNotificationCell(streamCellItem:StreamCellItem, notificationCell: NotificationCell) -> NotificationCell {
-        var activity = streamCellItem.jsonable as Activity
-        var comment = activity.subject as Comment
-
-        notificationCell.title = NSAttributedString(string: "\(comment.author!.atName) mentioned you in a comment.")
-        notificationCell.image = nil
-        notificationCell.messageHtml = ""
-        notificationCell.avatarURL = comment.author?.avatarURL
-
-        return notificationCell
-    }
-
-    private func invitationAcceptedNotificationCell(streamCellItem:StreamCellItem, notificationCell: NotificationCell) -> NotificationCell {
-        var activity = streamCellItem.jsonable as Activity
-        var user = activity.subject as User
-
-        notificationCell.title = NSAttributedString(string: "\(user.atName) accepted your invitation.")
-        notificationCell.image = nil
-        notificationCell.messageHtml = nil
-        notificationCell.avatarURL = user.avatarURL
-
-        return notificationCell
-    }
-
-    private func commentNotificationCell(streamCellItem:StreamCellItem, notificationCell: NotificationCell) -> NotificationCell {
-        var activity = streamCellItem.jsonable as Activity
-        var comment = activity.subject as Comment
-
-        notificationCell.title = NSAttributedString(string: "\(comment.author!.atName) commented on your post.")
-        notificationCell.image = nil
-        notificationCell.messageHtml = ""
-        notificationCell.avatarURL = comment.author?.avatarURL
-
-        return notificationCell
-    }
-
-    private func welcomeNotificationCell(streamCellItem:StreamCellItem, notificationCell: NotificationCell) -> NotificationCell {
-        var activity = streamCellItem.jsonable as Activity
-        var user = activity.subject as User
-
-        notificationCell.title = NSAttributedString(string: "Welcome to Ello!")
-        notificationCell.image = nil
-        notificationCell.messageHtml = nil
-        notificationCell.avatarURL = user.avatarURL
-
-        return notificationCell
-    }
 }

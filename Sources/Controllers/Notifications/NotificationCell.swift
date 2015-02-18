@@ -10,6 +10,12 @@ import UIKit
 
 
 class NotificationCell : UICollectionViewCell {
+    class func imageWidth() -> CGFloat {
+        return CGFloat(87)
+    }
+    class func topBottomMargins() -> CGFloat {
+        return CGFloat(30)
+    }
 
     @IBOutlet var avatarButton : AvatarButton!
     @IBOutlet var notificationTitleLabel : UILabel!
@@ -17,8 +23,11 @@ class NotificationCell : UICollectionViewCell {
     @IBOutlet var notificationImageView : UIImageView!
 
     @IBOutlet var collapsableImageWidth : NSLayoutConstraint!
+    @IBOutlet var collapsableImageHeight : NSLayoutConstraint!
     @IBOutlet var collapsableImageMargin : NSLayoutConstraint!
     @IBOutlet var collapsableMessageMargin : NSLayoutConstraint!
+
+    var aspectRatio:CGFloat = 4.0/3.0
 
     var messageHtml : String? {
         willSet(newValue) {
@@ -32,25 +41,31 @@ class NotificationCell : UICollectionViewCell {
             }
         }
     }
-    var image : UIImage? {
+
+    var imageURL : NSURL? {
         willSet(newValue) {
             if let image = newValue {
-                collapsableImageWidth.constant = 87
+                collapsableImageWidth.constant = NotificationCell.imageWidth()
+                collapsableImageHeight.constant = CGFloat(NotificationCell.imageWidth()) / aspectRatio
                 collapsableImageMargin.constant = 10
             }
             else {
                 collapsableImageWidth.constant = 0
+                collapsableImageHeight.constant = 0
                 collapsableImageMargin.constant = 0
             }
-            notificationImageView.image = newValue
-            self.setNeedsLayout()
+            self.notificationImageView.sd_setImageWithURL(newValue, completed: { (image, error, type, url) in
+                self.setNeedsLayout()
+            })
         }
     }
+
     var title: NSAttributedString? {
         willSet(newValue) {
             notificationTitleLabel.attributedText = newValue
         }
     }
+
     var avatarURL: NSURL? {
         willSet(newValue) {
             if let url = newValue {
@@ -59,6 +74,25 @@ class NotificationCell : UICollectionViewCell {
             else {
                 avatarButton.setImage(nil, forState: .Normal)
             }
+        }
+    }
+
+    class func messageHtmlWidth(#forCellWidth: CGFloat, hasImage: Bool) -> CGFloat {
+        let messageLeftMargin : CGFloat = 55
+        var messageRightMargin : CGFloat = 107
+        if !hasImage {
+            messageRightMargin = messageRightMargin - CGFloat(10) - self.imageWidth()
+        }
+        return forCellWidth - messageLeftMargin - messageRightMargin
+    }
+
+    class func imageHeight(#imageRegion: ImageRegion?) -> CGFloat {
+        if let imageRegion = imageRegion {
+            var aspectRatio = StreamCellItemParser.aspectRatioForImageBlock(imageRegion)
+            return self.imageWidth() * aspectRatio
+        }
+        else {
+            return 0
         }
     }
 

@@ -35,7 +35,7 @@
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="olr-d9-xuT" userLabel="image">
                         <rect key="frame" x="503" y="15" width="87" height="77"/>
                         <constraints>
-                            <constraint firstAttribute="height" priority="750" constant="77" placeholder="YES" id="7Gx-4q-9iX" userLabel="(tmp height)"/>
+                            <constraint firstAttribute="height" priority="750" constant="77" id="7Gx-4q-9iX" userLabel="calculated height"/>
                             <constraint firstAttribute="width" constant="87" id="Zxm-g0-m1Q" userLabel="fixed width"/>
                         </constraints>
                     </imageView>
@@ -76,6 +76,7 @@
             <size key="customSize" width="777" height="215"/>
             <connections>
                 <outlet property="avatarButton" destination="QoI-VW-bga" id="njY-KN-2af"/>
+                <outlet property="collapsableImageHeight" destination="7Gx-4q-9iX" id="hFU-7K-nh2"/>
                 <outlet property="collapsableImageMargin" destination="Suy-Cf-yj1" id="Yzb-XH-bC4"/>
                 <outlet property="collapsableImageWidth" destination="Zxm-g0-m1Q" id="4jk-Tn-9BV"/>
                 <outlet property="collapsableMessageMargin" destination="tHS-w2-gog" id="GPF-ZI-3j8"/>
