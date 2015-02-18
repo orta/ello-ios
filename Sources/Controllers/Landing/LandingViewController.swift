@@ -33,8 +33,8 @@ class LandingViewController: BaseElloViewController {
 // MARK: - Private
 
     private func setupStyles() {
-        scrollView.backgroundColor = UIColor.elloDarkGray()
-        view.backgroundColor = UIColor.elloDarkGray()
+        scrollView.backgroundColor = UIColor.grey3()
+        view.backgroundColor = UIColor.grey3()
         view.setNeedsDisplay()
     }
 
@@ -95,7 +95,7 @@ class LandingViewController: BaseElloViewController {
 // MARK: - IBActions
 
     @IBAction func signInTapped(sender: ElloButton) {
-        let signInController = SignInViewController.instantiateFromStoryboard()
+        let signInController = SignInViewController()
         self.presentViewController(signInController, animated:true, completion:nil)
     }
 

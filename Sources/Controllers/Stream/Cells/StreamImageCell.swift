@@ -71,7 +71,7 @@ class StreamImageCell: UICollectionViewCell {
                 UIView.animateWithDuration(0.15, animations: {
                     self.aspectRatio = self.defaultAspectRatio
                     self.errorLabel.alpha = 1.0
-                    self.imageView.backgroundColor = UIColor.elloLightGray()
+                    self.imageView.backgroundColor = UIColor.greyA()
                     self.contentView.alpha = 0.5
                     self.imageView.alpha = 1.0
                 })

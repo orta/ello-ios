@@ -14,10 +14,10 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gia-lK-VuN" userLabel="imageView">
-                        <rect key="frame" x="0.0" y="0.0" width="587" height="119"/>
+                        <rect key="frame" x="0.0" y="0.0" width="587" height="109"/>
                     </imageView>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cba-zi-ctG" userLabel="imageButton">
-                        <rect key="frame" x="0.0" y="0.0" width="587" height="119"/>
+                        <rect key="frame" x="0.0" y="0.0" width="587" height="109"/>
                         <state key="normal">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
@@ -40,13 +40,13 @@
                 <constraint firstItem="Et8-CY-fvV" firstAttribute="leading" secondItem="miB-hg-eZF" secondAttribute="leading" constant="15" id="KzB-F5-3Zo" userLabel="ErrorLabel - Left"/>
                 <constraint firstAttribute="trailing" secondItem="Et8-CY-fvV" secondAttribute="trailing" constant="15" id="Lwl-qa-J46" userLabel="ErrorLabel - Right"/>
                 <constraint firstItem="cba-zi-ctG" firstAttribute="top" secondItem="miB-hg-eZF" secondAttribute="top" id="NiB-iX-BJq" userLabel="imageButton Top"/>
-                <constraint firstAttribute="bottom" secondItem="gia-lK-VuN" secondAttribute="bottom" id="Oan-UI-8ly" userLabel="imageView Bottom"/>
+                <constraint firstAttribute="bottom" secondItem="gia-lK-VuN" secondAttribute="bottom" constant="10" id="Oan-UI-8ly" userLabel="imageView Bottom"/>
                 <constraint firstAttribute="centerY" secondItem="Et8-CY-fvV" secondAttribute="centerY" id="RP1-WU-CpR" userLabel="ErrorLabel - Vert Center"/>
                 <constraint firstItem="gia-lK-VuN" firstAttribute="leading" secondItem="miB-hg-eZF" secondAttribute="leading" id="fgY-B3-cIH" userLabel="imageView Left"/>
                 <constraint firstAttribute="trailing" secondItem="cba-zi-ctG" secondAttribute="trailing" id="hZc-Jx-yHS" userLabel="imageButton Right"/>
                 <constraint firstAttribute="trailing" secondItem="gia-lK-VuN" secondAttribute="trailing" id="hhW-aX-ev5" userLabel="imageView Right"/>
                 <constraint firstItem="gia-lK-VuN" firstAttribute="top" secondItem="miB-hg-eZF" secondAttribute="top" id="k2F-Aw-sEU" userLabel="imageView Top"/>
-                <constraint firstAttribute="bottom" secondItem="cba-zi-ctG" secondAttribute="bottom" id="laR-DL-WFc" userLabel="imageButton Bottom"/>
+                <constraint firstAttribute="bottom" secondItem="cba-zi-ctG" secondAttribute="bottom" constant="10" id="laR-DL-WFc" userLabel="imageButton Bottom"/>
             </constraints>
             <size key="customSize" width="587" height="119"/>
             <connections>

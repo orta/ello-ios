@@ -40,8 +40,8 @@ class CreateAccountViewController: BaseElloViewController, UITextFieldDelegate {
         UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .Slide)
         scrollView.contentSize = view.bounds.size
         modalTransitionStyle = .CrossDissolve
-        scrollView.backgroundColor = UIColor.elloDarkGray()
-        view.backgroundColor = UIColor.elloDarkGray()
+        scrollView.backgroundColor = UIColor.grey3()
+        view.backgroundColor = UIColor.grey3()
         view.setNeedsDisplay()
     }
 
@@ -131,22 +131,20 @@ class CreateAccountViewController: BaseElloViewController, UITextFieldDelegate {
     @IBAction func createAccountTapped(sender: ElloButton) {
         println("create account tapped")
         if isValid(emailTextField.text, usernameTextField.text, passwordTextField.text) {
-//            ElloHUD.showLoadingHud()
         }
         else {
-            
         }
     }
 
     @IBAction func loginTapped(sender: ElloTextButton) {
         println("login tapped")
-        let signInController = SignInViewController.instantiateFromStoryboard()
+        let signInController = SignInViewController()
         self.presentViewController(signInController, animated:true, completion:nil)
     }
-    
+
     @IBAction func aboutTapped(sender: ElloTextButton) {
         //TODO: show about screen
         println("about tapped")
     }
-    
+
 }

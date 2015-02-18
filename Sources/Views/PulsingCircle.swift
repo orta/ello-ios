@@ -51,7 +51,7 @@ class PulsingCircle: UIView {
             circle!.center = CGPoint(x: self.frame.size.width / 2, y: self.frame.size.height / 2)
             circle!.autoresizingMask = .FlexibleTopMargin | .FlexibleBottomMargin | .FlexibleLeftMargin | .FlexibleRightMargin
             circle!.layer.cornerRadius = size / 2
-            circle!.backgroundColor = UIColor.elloLightGray()
+            circle!.backgroundColor = UIColor.greyA()
             circle!.clipsToBounds = true
             self.addSubview(circle!)
 

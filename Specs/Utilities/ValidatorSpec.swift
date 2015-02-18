@@ -56,10 +56,10 @@ class ValidatorSpec: QuickSpec {
         context("password validation", {
 
             it("returns true for a valid password") {
-                var password = "asdf"
+                var password = "asdfasdf"
                 expect(password.isValidPassword()) == true
 
-                password = "a"
+                password = "123456789"
                 expect(password.isValidPassword()) == true
             }
 

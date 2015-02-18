@@ -24,5 +24,4 @@ enum ViewControllerStoryboardIdentifier : String {
     case Landing = "LandingViewController"
     case CreateAccount = "CreateAccountViewController"
     case ForgotPassword = "ForgotPasswordViewController"
-    case SignIn = "SignInViewController"
 }

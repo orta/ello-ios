@@ -37,8 +37,8 @@ class ForgotPasswordViewController: BaseElloViewController, UITextFieldDelegate 
         UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .Slide)
         scrollView.contentSize = view.bounds.size
         modalTransitionStyle = .CrossDissolve
-        scrollView.backgroundColor = UIColor.elloDarkGray()
-        view.backgroundColor = UIColor.elloDarkGray()
+        scrollView.backgroundColor = UIColor.grey3()
+        view.backgroundColor = UIColor.grey3()
         view.setNeedsDisplay()
     }
 
@@ -123,18 +123,15 @@ class ForgotPasswordViewController: BaseElloViewController, UITextFieldDelegate 
     // MARK: - IBActions
 
     @IBAction func resetPasswordTapped(sender: ElloButton) {
-
         if isValid(emailTextField.text) {
-            //            ElloHUD.showLoadingHud()
         }
         else {
-
         }
     }
 
     @IBAction func signInTapped(sender: ElloTextButton) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
-    
+
 }
 

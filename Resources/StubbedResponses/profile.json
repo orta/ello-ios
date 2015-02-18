@@ -27,10 +27,58 @@
       }
     },
     "cover_image": {
-      "optimized": {
-        "url": "https://abc123.cloudfront.net/uploads/user/cover_image/42/optimized_cover-ello.png",
-        "metadata": null
-      }
+        "original": {
+            "url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/cover_image/565/ello-01a00ddc-d4c7-4ed6-be87-202928a421d1.jpeg"
+        },
+        "optimized": {
+            "url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/cover_image/565/ello-optimized-768defd5.jpg",
+            "metadata": {
+                "size": 959167,
+                "type": "image/jpeg",
+                "width": 2560,
+                "height": 575
+            }
+        },
+        "xhdpi": {
+            "url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/cover_image/565/ello-xhdpi-768defd5.jpg",
+            "metadata": {
+                "size": 343362,
+                "type": "image/jpeg",
+                "width": 1500,
+                "height": 337
+            }
+        },
+        "hdpi": {
+            "url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/cover_image/565/ello-hdpi-768defd5.jpg",
+            "metadata": {
+                "size": 91036,
+                "type": "image/jpeg",
+                "width": 750,
+                "height": 168
+            }
+        },
+        "mdpi": {
+            "url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/cover_image/565/ello-mdpi-768defd5.jpg",
+            "metadata": {
+                "size": 26309,
+                "type": "image/jpeg",
+                "width": 375,
+                "height": 84
+            }
+        },
+        "ldpi": {
+            "url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/cover_image/565/ello-ldpi-768defd5.jpg",
+            "metadata": {
+                "size": 7134,
+                "type": "image/jpeg",
+                "width": 180,
+                "height": 40
+            }
+        },
+        "pixellated": {
+            "url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/cover_image/565/ello-pixellated-768defd5.jpg",
+            "metadata": null
+        }
     },
     "short_bio": "Have been **spying** for a while now.",
     "external_links_list": [

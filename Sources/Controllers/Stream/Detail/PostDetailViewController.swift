@@ -20,6 +20,7 @@ class PostDetailViewController: StreamableViewController {
         super.init(nibName: nil, bundle: nil)
 
         self.title = post.author?.atName ?? "Profile"
+        self.view.backgroundColor = UIColor.whiteColor()
     }
 
     override func viewDidLoad() {

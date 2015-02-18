@@ -13,6 +13,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     typealias StreamContentReady = (indexPaths:[NSIndexPath]) -> ()
 
+    let imageBottomPadding:CGFloat = 10.0
     let testWebView:UIWebView
     let streamKind:StreamKind
 
@@ -74,17 +75,17 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     func updateHeightForIndexPath(indexPath:NSIndexPath?, height:CGFloat) {
         if let indexPath = indexPath {
-            streamCellItems[indexPath.item].oneColumnCellHeight = height
-            streamCellItems[indexPath.item].multiColumnCellHeight = height
+            streamCellItems[indexPath.item].oneColumnCellHeight = height + imageBottomPadding
+            streamCellItems[indexPath.item].multiColumnCellHeight = height + imageBottomPadding
         }
     }
 
     func heightForIndexPath(indexPath:NSIndexPath, numberOfColumns:NSInteger) -> CGFloat {
         if numberOfColumns == 1 {
-            return streamCellItems[indexPath.item].oneColumnCellHeight ?? 0.0
+            return streamCellItems[indexPath.item].oneColumnCellHeight + imageBottomPadding ?? 0.0
         }
         else {
-            return streamCellItems[indexPath.item].multiColumnCellHeight ?? 0.0
+            return streamCellItems[indexPath.item].multiColumnCellHeight + imageBottomPadding ?? 0.0
         }
     }
 

@@ -29,6 +29,7 @@ class StreamViewController: BaseElloViewController {
     var streamables:[Streamable]?
     var dataSource:StreamDataSource!
     var navBarShowing = true
+    var postbarController:PostbarController?
 
     var streamKind:StreamKind = StreamKind.Friend {
         didSet { setupCollectionViewLayout() }
@@ -163,7 +164,8 @@ class StreamViewController: BaseElloViewController {
         let webView = UIWebView(frame: self.view.bounds)
 
         self.dataSource = StreamDataSource(testWebView: webView, streamKind: streamKind)
-        self.dataSource.postbarDelegate = PostbarController(collectionView: collectionView, dataSource: self.dataSource)
+        self.postbarController = PostbarController(collectionView: collectionView, dataSource: self.dataSource)
+        self.dataSource.postbarDelegate = postbarController
         if let imageViewer = imageViewerDelegate {
             self.dataSource.imageDelegate = imageViewer
         }

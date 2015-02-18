@@ -21,17 +21,17 @@ class SignInViewControllerSpec: QuickSpec {
             ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
         }
 
-        var controller = SignInViewController.instantiateFromStoryboard()
+        var controller = SignInViewController()
         let screenHeight = controller.view.bounds.size.height
         let screenWidth = controller.view.bounds.size.width
 
         describe("initialization", {
 
             beforeEach({
-                controller = SignInViewController.instantiateFromStoryboard()
+                controller = SignInViewController()
             })
 
-            describe("storyboard", {
+            describe("nib", {
 
                 beforeEach({
                     controller.loadView()
@@ -66,7 +66,7 @@ class SignInViewControllerSpec: QuickSpec {
                 });
             })
 
-            it("can be instantiated from storyboard") {
+            it("can be instantiated from nib") {
                 expect(controller).notTo(beNil())
             }
 
@@ -83,7 +83,7 @@ class SignInViewControllerSpec: QuickSpec {
         describe("text fields", {
 
             beforeEach({
-                controller = SignInViewController.instantiateFromStoryboard()
+                controller = SignInViewController()
                 controller.loadView()
                 controller.viewDidLoad()
             })
@@ -119,7 +119,7 @@ class SignInViewControllerSpec: QuickSpec {
         describe("-viewDidLoad", {
 
             beforeEach({
-                controller = SignInViewController.instantiateFromStoryboard()
+                controller = SignInViewController()
                 controller.loadView()
                 controller.viewDidLoad()
             })
@@ -136,7 +136,7 @@ class SignInViewControllerSpec: QuickSpec {
         describe("notifications", {
 
             beforeEach({
-                controller = SignInViewController.instantiateFromStoryboard()
+                controller = SignInViewController()
                 controller.loadView()
                 controller.viewDidLoad()
             })
