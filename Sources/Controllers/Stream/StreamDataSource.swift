@@ -9,6 +9,10 @@
 import UIKit
 import WebKit
 
+protocol ConfigurableCell {
+    func configure(streamCellItem:StreamCellItem, streamKind: StreamKind, indexPath: NSIndexPath)
+}
+
 class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     typealias StreamContentReady = (indexPaths:[NSIndexPath]) -> ()
@@ -108,126 +112,48 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         if indexPath.item < countElements(streamCellItems) {
             let streamCellItem = streamCellItems[indexPath.item]
 
+//            var cell = collectionView.dequeueReusableCellWithReuseIdentifier(streamCellItem.type.name, forIndexPath: indexPath) as ConfigurableCell
+//            cell.configure(streamCellItem, streamKind: streamKind, indexPath: indexPath)
+
             switch streamCellItem.type {
             case .Header, .CommentHeader:
-                return headerCell(streamCellItem, collectionView: collectionView, indexPath: indexPath)
+                var headerCell: StreamHeaderCell = collectionView.dequeueReusableCellWithReuseIdentifier(streamCellItem.type.name, forIndexPath: indexPath) as StreamHeaderCell
+                headerCell.configure(streamCellItem, streamKind: streamKind, indexPath: indexPath)
+                headerCell.userDelegate = userDelegate
+                return headerCell
             case .Image:
-                return imageCell(streamCellItem, collectionView: collectionView, indexPath: indexPath)
+                let imageCell = collectionView.dequeueReusableCellWithReuseIdentifier(StreamCellType.Image.name, forIndexPath: indexPath) as StreamImageCell
+                imageCell.configure(streamCellItem, streamKind: streamKind, indexPath: indexPath)
+                imageCell.delegate = imageDelegate
+                return imageCell
             case .Text:
-                return textCell(streamCellItem, collectionView: collectionView, indexPath: indexPath)
+                var textCell:StreamTextCell = collectionView.dequeueReusableCellWithReuseIdentifier(StreamCellType.Text.name, forIndexPath: indexPath) as StreamTextCell
+                textCell.configure(streamCellItem, streamKind: streamKind, indexPath: indexPath)
+                textCell.webLinkDelegate = webLinkDelegate
+                return textCell
             case .Footer:
-                return footerCell(streamCellItem, collectionView: collectionView, indexPath: indexPath)
+                let footerCell = collectionView.dequeueReusableCellWithReuseIdentifier(StreamCellType.Footer.name, forIndexPath: indexPath) as StreamFooterCell
+                footerCell.configure(streamCellItem, streamKind: streamKind, indexPath: indexPath)
+                footerCell.delegate = postbarDelegate
+                return footerCell
             case .Notification:
-                return notificationCell(streamCellItem, collectionView: collectionView, indexPath: indexPath)
+                let notificationCell = collectionView.dequeueReusableCellWithReuseIdentifier(StreamCellType.Notification.name, forIndexPath: indexPath) as NotificationCell
+                notificationCell.configure(streamCellItem, streamKind: streamKind, indexPath: indexPath)
+                return notificationCell
             case .ProfileHeader:
-                return profileHeaderCell(streamCellItem, collectionView: collectionView, indexPath: indexPath)
+                let profileHeader = collectionView.dequeueReusableCellWithReuseIdentifier(streamCellItem.type.name, forIndexPath: indexPath) as ProfileHeaderCell
+
+                profileHeader.configure(streamCellItem, streamKind: streamKind, indexPath: indexPath)
+                return profileHeader
             default:
-                return UICollectionViewCell()
+                cell = UICollectionViewCell()
             }
+
         }
         return UICollectionViewCell()
     }
 
     // MARK: - Private
-
-    private func headerCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> UICollectionViewCell {
-
-        var headerCell: StreamHeaderCell = collectionView.dequeueReusableCellWithReuseIdentifier(streamCellItem.type.name, forIndexPath: indexPath) as StreamHeaderCell
-        if streamCellItem.type == .Header {
-            headerCell.streamKind = streamKind
-        }
-
-        if let avatarURL = (streamCellItem.jsonable as Authorable).author?.avatarURL? {
-            headerCell.setAvatarURL(avatarURL)
-        }
-
-        headerCell.timestampLabel.text = NSDate().distanceOfTimeInWords((streamCellItem.jsonable as Authorable).createdAt)
-        headerCell.usernameLabel.text = ((streamCellItem.jsonable as Authorable).author?.atName ?? "@meow")
-        headerCell.userDelegate = userDelegate
-        return headerCell
-    }
-
-    private func imageCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> StreamImageCell {
-        let imageCell = collectionView.dequeueReusableCellWithReuseIdentifier(StreamCellType.Image.name, forIndexPath: indexPath) as StreamImageCell
-
-        if let photoData = streamCellItem.data as ImageRegion? {
-            if let photoURL = photoData.asset?.hdpi?.url? {
-                imageCell.serverProvidedAspectRatio = StreamCellItemParser.aspectRatioForImageBlock(photoData)
-                imageCell.setImageURL(photoURL)
-            }
-            else if let photoURL = photoData.url? {
-                imageCell.setImageURL(photoURL)
-            }
-        }
-
-        imageCell.delegate = imageDelegate
-        return imageCell
-    }
-
-    private func textCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> StreamTextCell {
-        var textCell:StreamTextCell = collectionView.dequeueReusableCellWithReuseIdentifier(StreamCellType.Text.name, forIndexPath: indexPath) as StreamTextCell
-
-        textCell.contentView.alpha = 0.0
-        if let textData = streamCellItem.data as TextRegion? {
-            textCell.webView.loadHTMLString(StreamTextCellHTML.postHTML(textData.content), baseURL: NSURL(string: "/"))
-        }
-
-        if let comment = streamCellItem.jsonable as? Comment {
-            textCell.leadingConstraint.constant = 58.0
-        }
-        else {
-            textCell.leadingConstraint.constant = 0.0
-        }
-
-        textCell.webLinkDelegate = webLinkDelegate
-        return textCell
-    }
-
-    private func footerCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> StreamFooterCell {
-        let footerCell = collectionView.dequeueReusableCellWithReuseIdentifier(StreamCellType.Footer.name, forIndexPath: indexPath) as StreamFooterCell
-        if let post = streamCellItem.jsonable as? Post {
-            footerCell.comments = post.commentsCount?.localizedStringFromNumber()
-            if self.streamKind.isGridLayout {
-                footerCell.views = ""
-                footerCell.reposts = ""
-            }
-            else {
-                footerCell.views = post.viewsCount?.localizedStringFromNumber()
-                footerCell.reposts = post.repostsCount?.localizedStringFromNumber()
-            }
-            footerCell.streamKind = streamKind
-            footerCell.delegate = postbarDelegate
-        }
-
-        return footerCell
-    }
-
-    private func notificationCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> NotificationCell {
-        let notificationCell = collectionView.dequeueReusableCellWithReuseIdentifier(StreamCellType.Notification.name, forIndexPath: indexPath) as NotificationCell
-        var activity = streamCellItem.jsonable as Activity
-        var post = activity.subject as Post
-
-        notificationCell.title = NSAttributedString(string: "\(post.author!.atName) reposted your post.")
-        notificationCell.messageHtml = "<b>HOPE</b> this <i>works</i>!"
-        notificationCell.avatarURL = post.author?.avatarURL
-
-        return notificationCell
-    }
-
-    func profileHeaderCell(streamCellItem:StreamCellItem, collectionView: UICollectionView, indexPath: NSIndexPath) -> ProfileHeaderCell {
-        let profileHeader = collectionView.dequeueReusableCellWithReuseIdentifier(streamCellItem.type.name, forIndexPath: indexPath) as ProfileHeaderCell
-        let user = streamCellItem.jsonable as User
-
-        if let avatarURL = user.avatarURL? {
-            profileHeader.setAvatarURL(avatarURL)
-        }
-
-        profileHeader.usernameLabel.text = user.atName
-        profileHeader.nameLabel.text = user.name
-
-        return profileHeader
-    }
-
     func addUnsizedCellItems(cellItems:[StreamCellItem], startingIndexPath:NSIndexPath?, completion:StreamContentReady) {
         let textElements = cellItems.filter {
             return $0.data as? TextRegion != nil
@@ -248,3 +174,5 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         }
    }
 }
+
+
