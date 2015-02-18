@@ -309,3 +309,38 @@
 * Initial release build to testers group.
 
 -----------------
+
+-----------------
+###Ello 0.1 Build 5
+####Commit notes:
+
+* more specs
+* Merge branch 'master' into cg-notifications-api
+* update prev commit
+* Add devices to mobile provision file.
+* refactors and fixed notification text
+* building NotificationCell in code
+* Merge branch 'master' into cg-notifications-api
+* using layoutSubviews instead
+* Merge pull request #26 from ello/sd-comment-tap-fixes
+* Remove references to UIColor.elloLightGray()
+* Merge branch 'master' into sd-comment-tap-fixes
+* Animate comment dots and highlight count.
+* cell sizing - uiwebviews are broken?
+* Merge pull request #25 from ello/rb-update-colors
+* notifcation cell sizes
+* Update app colors to match style guide.
+* Merge pull request #24 from ello/sd-load-smaller-cover-image
+* whitespace fix
+* Tapping the comment button once opens comments in a stream.
+* Add multiple version of cover image image to stubbed spec data
+* load HDPI version of the cover image in a user's profile
+* Merge pull request #23 from ello/sd-fix-login-errors
+* Oops, make the specs pass.
+* Merge branch 'master' into sd-fix-login-errors
+* passwords must be at least 8 characters long
+* Add clear button to input text fields on login.
+* Fix sign in error feedback.
+* dynamic cells, with resizinge, based on activity kind
+
+-----------------
