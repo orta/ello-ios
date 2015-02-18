@@ -182,7 +182,7 @@ class StreamViewController: BaseElloViewController {
         self.postbarController = PostbarController(collectionView: collectionView, dataSource: self.dataSource)
         self.dataSource.postbarDelegate = postbarController
 
-        self.relationshipController = RelationshipController()
+        self.relationshipController = RelationshipController(controller: self)
         self.dataSource.relationshipDelegate = relationshipController
 
         if let imageViewer = imageViewerDelegate {

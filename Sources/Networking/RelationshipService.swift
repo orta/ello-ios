@@ -12,14 +12,12 @@ import SwiftyJSON
 
 class RelationshipService: NSObject {
 
-    func updateRelationship(endpoint:ElloAPI, success: StreamSuccessCompletion, failure: ElloFailureCompletion?) {
+    func updateRelationship(endpoint:ElloAPI, success: (data: AnyObject) -> (), failure: ElloFailureCompletion?) {
         ElloProvider.sharedProvider.elloRequest(endpoint,
-            method: .GET,
+            method: .POST,
             parameters: endpoint.defaultParameters,
             mappingType: MappingType.RelationshipsType,
-            success: { data in
-                println("relationship loaded: \(data)")
-            },
+            success: success,
             failure: failure
         )
     }

@@ -23,6 +23,7 @@ enum Relationship: String {
 
 protocol RelationshipDelegate: NSObjectProtocol {
     func relationshipTapped(userId: String, relationship: Relationship)
+    func launchBlockModal(userId: String, relationship: Relationship)
 }
 
 class RelationshipView: UIView {
@@ -60,7 +61,7 @@ class RelationshipView: UIView {
     }
 
     @IBAction func blockTapped(sender: UIButton) {
-        handleTapped(sender, newRelationship: Relationship.Block)
+        relationshipDelegate?.launchBlockModal(userId, relationship: relationship!)
     }
 
 // MARK: Internal
@@ -159,14 +160,31 @@ class RelationshipView: UIView {
 
 class RelationshipController: NSObject, RelationshipDelegate {
 
+    let controller: UIViewController
+
+    required init(controller: UIViewController) {
+        self.controller = controller
+    }
+
     func relationshipTapped(userId: String, relationship: Relationship) {
         println("userId: \(userId) relationship: \(relationship.rawValue)")
         RelationshipService().updateRelationship(ElloAPI.Relationship(userId: userId, relationship: relationship.rawValue),
             success: { data in
                 println("relationship loaded: \(data)")
             },
-            failure: nil
+            failure: { (error, statusCode) in
+                println("relationship failed(\(statusCode)): \(error)")
+            }
         )
+    }
+
+    func launchBlockModal(userId: String, relationship: Relationship) {
+//        let user = Store.store["users"]?[userId] as User
+        let vc = BlockUserModalViewController(relationship: relationship)
+        vc.userId = userId
+        controller.presentViewController(vc, animated: true) {
+            println("presented")
+        }
     }
 
 }

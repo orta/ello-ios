@@ -36,7 +36,15 @@ class ElloButton: UIButton {
 }
 
 class LightElloButton: ElloButton {
-    
+
+    required init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+
+    required init(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+
     override var enabled: Bool {
         didSet {
             self.backgroundColor = enabled ? UIColor.greyA() : UIColor.greyA()
@@ -50,4 +58,27 @@ class LightElloButton: ElloButton {
         self.setTitleColor(UIColor.blackColor(), forState: UIControlState.Disabled)
     }
     
+}
+
+class WhiteElloButton: LightElloButton {
+
+    required init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    required init(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+
+    override var enabled: Bool {
+        didSet {
+            self.backgroundColor = enabled ? UIColor.whiteColor() : UIColor.greyA()
+        }
+    }
+
+    override var selected: Bool {
+        didSet {
+            self.backgroundColor = selected ? UIColor.greyA() : UIColor.whiteColor()
+        }
+    }
 }
