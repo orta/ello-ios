@@ -52,24 +52,27 @@ class RelationshipView: UIView {
     }
 
     @IBAction func friendTapped(sender: UIButton) {
-        if sender.selected == true { return }
-        selectButton(Relationship.Friend)
-        relationshipDelegate?.relationshipTapped(userId, relationship: Relationship.Friend)
+        handleTapped(sender, newRelationship: Relationship.Friend)
     }
 
     @IBAction func noiseTapped(sender: UIButton) {
-        if sender.selected == true { return }
-        selectButton(Relationship.Noise)
-        relationshipDelegate?.relationshipTapped(userId, relationship: Relationship.Noise)
+        handleTapped(sender, newRelationship: Relationship.Noise)
     }
 
     @IBAction func blockTapped(sender: UIButton) {
-        if sender.selected == true { return }
-        selectButton(Relationship.Block)
-        relationshipDelegate?.relationshipTapped(userId, relationship: Relationship.Noise)
+        handleTapped(sender, newRelationship: Relationship.Block)
     }
 
 // MARK: Internal
+
+    private func handleTapped(sender: UIButton, newRelationship: Relationship) {
+        if sender.selected == true {
+            relationship = Relationship.Inactive
+        } else {
+            relationship = newRelationship
+        }
+        relationshipDelegate?.relationshipTapped(userId, relationship: relationship!)
+    }
 
     private func resetButtons() {
         friendButton.selected = false
@@ -94,7 +97,7 @@ class RelationshipView: UIView {
             blockButton?.selected = true
             blockButton?.backgroundColor = backgroundColorBlock
             blockButton?.layer.borderColor = backgroundColorBlock.CGColor
-        default: println("relationship: \(relationship.rawValue)")
+        default: resetButtons()
         }
     }
 
@@ -112,17 +115,6 @@ class RelationshipView: UIView {
         blockButton!.frame = CGRect(x: wv * 2 - 2, y: 0, width: 30, height: 30)
     }
 
-    private func addTargets() {
-        friendButton.addTarget(self, action: "friendTapped:", forControlEvents: UIControlEvents.TouchUpInside)
-        noiseButton.addTarget(self, action: "noiseTapped:", forControlEvents: UIControlEvents.TouchUpInside)
-        blockButton?.addTarget(self, action: "blockTapped:", forControlEvents: UIControlEvents.TouchUpInside)
-        addSubview(friendButton)
-        addSubview(noiseButton)
-        if let blockButton = blockButton {
-            addSubview(blockButton)
-        }
-    }
-
     private func buildSmallButtons() {
         let wv = 30
         // friend
@@ -132,6 +124,17 @@ class RelationshipView: UIView {
         // noise
         styleTitleButton(noiseButton, label: "N")
         noiseButton.frame = CGRect(x: wv - 1, y: 0, width: wv, height: 30)
+    }
+
+    private func addTargets() {
+        friendButton.addTarget(self, action: "friendTapped:", forControlEvents: UIControlEvents.TouchUpInside)
+        noiseButton.addTarget(self, action: "noiseTapped:", forControlEvents: UIControlEvents.TouchUpInside)
+        blockButton?.addTarget(self, action: "blockTapped:", forControlEvents: UIControlEvents.TouchUpInside)
+        addSubview(friendButton)
+        addSubview(noiseButton)
+        if let blockButton = blockButton {
+            addSubview(blockButton)
+        }
     }
 
     private func styleBaseButton(button: UIButton) {
