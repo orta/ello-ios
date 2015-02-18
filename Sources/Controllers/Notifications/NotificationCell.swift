@@ -13,8 +13,21 @@ class NotificationCell : UICollectionViewCell {
     class func imageWidth() -> CGFloat {
         return CGFloat(87)
     }
+    // total height of top/bottom margins
     class func topBottomMargins() -> CGFloat {
         return CGFloat(30)
+    }
+    // height of created at and title labels
+    class func topBottomFixedHeight(#attributedTitle: NSAttributedString, forCellWidth cellWidth: CGFloat, hasImage: Bool) -> CGFloat {
+        let textWidth = messageHtmlWidth(forCellWidth: cellWidth, hasImage: hasImage)
+        let size = attributedTitle.boundingRectWithSize(CGSize(width: textWidth, height: 1_000), options: .UsesLineFragmentOrigin, context: nil).size
+        let createdAtHeight = CGFloat(12)
+        let titleHeight = ceil(size.height)
+        let innerMargin = self.innerTextMargin()
+        return createdAtHeight + titleHeight + innerMargin
+    }
+    class func innerTextMargin() -> CGFloat {
+        return CGFloat(10)
     }
 
     @IBOutlet var avatarButton : AvatarButton!

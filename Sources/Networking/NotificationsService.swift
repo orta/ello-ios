@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-typealias NotificationsSuccessCompletion = (notifications: [Activity]) -> ()
+typealias NotificationsSuccessCompletion = (notifications: [Notification]) -> ()
 
 
 class NotificationsService: NSObject {
@@ -18,7 +18,8 @@ class NotificationsService: NSObject {
             mappingType:MappingType.ActivitiesType,
             success: { data in
                 if let activities:[Activity] = data as? [Activity] {
-                    success(notifications: activities)
+                    let notifications : [Notification] = activities.map { return Notification(activity: $0) }
+                    success(notifications: notifications)
                 }
                 else {
                     ElloProvider.unCastableJSONAble(failure)

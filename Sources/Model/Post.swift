@@ -24,9 +24,7 @@ class Post: JSONAble, Authorable {
     let commentsCount: Int?
     var content: [Regionable]?
     var createdAt: NSDate
-    var groupId:String {
-        get { return postId }
-    }
+    var groupId:String { return postId }
     let href: String
     let postId: String
     let repostsCount: Int?

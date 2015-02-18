@@ -61,18 +61,23 @@ class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
         var cellItem = self.cellItems.removeAtIndex(0)
         let notification = cellItem.jsonable as Notification
         let imageHeight = NotificationCell.imageHeight(imageRegion: notification.imageRegion)
-        var margins = NotificationCell.topBottomMargins()
+        var totalTextHeight = NotificationCell.topBottomFixedHeight(attributedTitle: notification.attributedTitle, forCellWidth: originalWidth, hasImage: notification.hasImage())
+        if textHeight > 0 {
+            totalTextHeight += textHeight + NotificationCell.innerTextMargin()
+        }
 
         var height : CGFloat
-        if textHeight > imageHeight {
-            height = textHeight
+        if totalTextHeight > imageHeight {
+            height = totalTextHeight
         }
         else {
             height = imageHeight
         }
 
-        cellItem.multiColumnCellHeight = height + margins
-        cellItem.oneColumnCellHeight = height + margins
+        var margins = NotificationCell.topBottomMargins()
+        height += margins
+        cellItem.multiColumnCellHeight = height
+        cellItem.oneColumnCellHeight = height
         loadNext()
     }
 
