@@ -84,11 +84,11 @@ extension CGRect {
 
 // MARK: shrinkXxx
     func shrinkLeft(amt:CGFloat) -> CGRect {
-        return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: 0, left: amt, bottom: 0, right: 0))
+        return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: 0, left: 0, bottom: 0, right: amt))
     }
 
     func shrinkRight(amt:CGFloat) -> CGRect {
-        return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: 0, left: 0, bottom: 0, right: amt))
+        return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: 0, left: amt, bottom: 0, right: 0))
     }
 
     func shrinkDown(amt:CGFloat) -> CGRect {
@@ -108,11 +108,11 @@ extension CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -amt))
     }
 
-    func growDown(amt:CGFloat) -> CGRect {
+    func growUp(amt:CGFloat) -> CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: -amt, left: 0, bottom: 0, right: 0))
     }
 
-    func growUp(amt:CGFloat) -> CGRect {
+    func growDown(amt:CGFloat) -> CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: 0, left: 0, bottom: -amt, right: 0))
     }
 
