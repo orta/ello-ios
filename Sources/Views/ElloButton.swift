@@ -12,7 +12,7 @@ class ElloButton: UIButton {
 
     override var enabled: Bool {
         didSet {
-            self.backgroundColor = enabled ? UIColor.blackColor() : UIColor.elloAlmostBlack()
+            self.backgroundColor = enabled ? UIColor.blackColor() : UIColor.grey231F20()
         }
     }
 
@@ -30,7 +30,7 @@ class ElloButton: UIButton {
         self.titleLabel?.font = UIFont.typewriterFont(14.0)
         self.titleLabel?.numberOfLines = 1
         self.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        self.setTitleColor(UIColor.elloLightGray(), forState: UIControlState.Disabled)
+        self.setTitleColor(UIColor.greyA(), forState: UIControlState.Disabled)
     }
 
 }
@@ -39,7 +39,7 @@ class LightElloButton: ElloButton {
     
     override var enabled: Bool {
         didSet {
-            self.backgroundColor = enabled ? UIColor.elloButtonLightGray() : UIColor.elloButtonLightGray()
+            self.backgroundColor = enabled ? UIColor.greyA() : UIColor.greyA()
         }
     }
    

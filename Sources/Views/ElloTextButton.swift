@@ -23,7 +23,7 @@ class ElloTextButton: UIButton {
     private func sharedSetup() {
         self.backgroundColor = UIColor.clearColor()
         self.titleLabel?.numberOfLines = 1
-        self.setTitleColor(UIColor.elloLightGray(), forState: UIControlState.Normal)
+        self.setTitleColor(UIColor.greyA(), forState: UIControlState.Normal)
 
 
         if let title = self.titleLabel?.text {

@@ -40,8 +40,8 @@ class CreateAccountViewController: BaseElloViewController, UITextFieldDelegate {
         UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .Slide)
         scrollView.contentSize = view.bounds.size
         modalTransitionStyle = .CrossDissolve
-        scrollView.backgroundColor = UIColor.elloDarkGray()
-        view.backgroundColor = UIColor.elloDarkGray()
+        scrollView.backgroundColor = UIColor.grey3()
+        view.backgroundColor = UIColor.grey3()
         view.setNeedsDisplay()
     }
 
