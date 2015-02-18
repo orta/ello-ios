@@ -20,21 +20,21 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oex-0i-P4p" userLabel="message">
-                        <rect key="frame" x="55" y="37" width="438" height="33"/>
+                        <rect key="frame" x="55" y="37" width="433" height="33"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="33" placeholder="YES" id="TWU-ek-1e6" userLabel="(tmp height)"/>
                         </constraints>
                     </webView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="olr-d9-xuT" userLabel="image">
-                        <rect key="frame" x="503" y="15" width="87" height="77"/>
+                        <rect key="frame" x="498" y="15" width="87" height="77"/>
                         <constraints>
-                            <constraint firstAttribute="height" priority="750" constant="77" id="7Gx-4q-9iX" userLabel="calculated height"/>
-                            <constraint firstAttribute="width" constant="87" id="Zxm-g0-m1Q" userLabel="fixed width"/>
+                            <constraint firstAttribute="height" priority="750" constant="77" placeholder="YES" id="7Gx-4q-9iX" userLabel="calculated height"/>
+                            <constraint firstAttribute="width" constant="87" placeholder="YES" id="Zxm-g0-m1Q" userLabel="fixed width"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10m" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="52Z-0R-Rp4" userLabel="created at">
-                        <rect key="frame" x="55" y="80" width="438" height="12"/>
+                        <rect key="frame" x="55" y="80" width="433" height="12"/>
                         <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="12"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
@@ -42,15 +42,15 @@
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QoI-VW-bga" userLabel="avatarButton" customClass="AvatarButton" customModule="Ello" customModuleProvider="target">
                         <rect key="frame" x="15" y="15" width="30" height="30"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="30" id="IYp-MP-Cnn"/>
-                            <constraint firstAttribute="width" constant="30" id="r9N-jH-szm"/>
+                            <constraint firstAttribute="height" constant="30" placeholder="YES" id="IYp-MP-Cnn"/>
+                            <constraint firstAttribute="width" constant="30" placeholder="YES" id="r9N-jH-szm"/>
                         </constraints>
                         <state key="normal" title="A">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="titleLabel" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6iT-aD-VRF" userLabel="titleLabel">
-                        <rect key="frame" x="55" y="15" width="438" height="12"/>
+                        <rect key="frame" x="55" y="15" width="433" height="12"/>
                         <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="12"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
@@ -59,19 +59,19 @@
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
-                <constraint firstItem="6iT-aD-VRF" firstAttribute="leading" secondItem="QoI-VW-bga" secondAttribute="trailing" constant="10" id="ACB-Iq-49v" userLabel="label left of avatar"/>
-                <constraint firstItem="olr-d9-xuT" firstAttribute="leading" secondItem="6iT-aD-VRF" secondAttribute="trailing" constant="10" id="FDZ-Np-R2t" userLabel="label to image"/>
-                <constraint firstItem="oex-0i-P4p" firstAttribute="leading" secondItem="52Z-0R-Rp4" secondAttribute="leading" id="LYE-MN-Xn1" userLabel="created left == label"/>
-                <constraint firstItem="6iT-aD-VRF" firstAttribute="top" secondItem="D6v-YA-Kx7" secondAttribute="top" constant="15" id="Ova-7R-mOM" userLabel="label top"/>
-                <constraint firstItem="6iT-aD-VRF" firstAttribute="width" secondItem="52Z-0R-Rp4" secondAttribute="width" id="PeL-ve-PYM" userLabel="created width == label"/>
-                <constraint firstAttribute="trailing" secondItem="olr-d9-xuT" secondAttribute="trailing" constant="10" id="Suy-Cf-yj1" userLabel="image right"/>
-                <constraint firstItem="olr-d9-xuT" firstAttribute="top" secondItem="D6v-YA-Kx7" secondAttribute="top" constant="15" id="T77-jC-iPk" userLabel="image top"/>
-                <constraint firstItem="oex-0i-P4p" firstAttribute="top" secondItem="6iT-aD-VRF" secondAttribute="bottom" constant="10" id="TU3-r0-93W" userLabel="label to message margin"/>
-                <constraint firstItem="QoI-VW-bga" firstAttribute="top" secondItem="D6v-YA-Kx7" secondAttribute="top" constant="15" id="Yec-Vu-Zw2" userLabel="avatar top"/>
-                <constraint firstItem="oex-0i-P4p" firstAttribute="width" secondItem="6iT-aD-VRF" secondAttribute="width" id="bar-TR-E5U" userLabel="message width == label"/>
-                <constraint firstItem="QoI-VW-bga" firstAttribute="leading" secondItem="D6v-YA-Kx7" secondAttribute="leading" constant="15" id="ghH-n8-NN3" userLabel="avatar left"/>
-                <constraint firstItem="oex-0i-P4p" firstAttribute="leading" secondItem="6iT-aD-VRF" secondAttribute="leading" id="hgQ-0j-Pzl" userLabel="message left == label"/>
-                <constraint firstItem="52Z-0R-Rp4" firstAttribute="top" secondItem="oex-0i-P4p" secondAttribute="bottom" constant="10" id="tHS-w2-gog" userLabel="message to created margin"/>
+                <constraint firstItem="6iT-aD-VRF" firstAttribute="leading" secondItem="QoI-VW-bga" secondAttribute="trailing" constant="10" placeholder="YES" id="ACB-Iq-49v" userLabel="label left of avatar"/>
+                <constraint firstItem="olr-d9-xuT" firstAttribute="leading" secondItem="6iT-aD-VRF" secondAttribute="trailing" constant="10" placeholder="YES" id="FDZ-Np-R2t" userLabel="label to image"/>
+                <constraint firstItem="oex-0i-P4p" firstAttribute="leading" secondItem="52Z-0R-Rp4" secondAttribute="leading" placeholder="YES" id="LYE-MN-Xn1" userLabel="created left == label"/>
+                <constraint firstItem="6iT-aD-VRF" firstAttribute="top" secondItem="D6v-YA-Kx7" secondAttribute="top" constant="15" placeholder="YES" id="Ova-7R-mOM" userLabel="label top"/>
+                <constraint firstItem="6iT-aD-VRF" firstAttribute="width" secondItem="52Z-0R-Rp4" secondAttribute="width" placeholder="YES" id="PeL-ve-PYM" userLabel="created width == label"/>
+                <constraint firstAttribute="trailing" secondItem="olr-d9-xuT" secondAttribute="trailing" constant="15" placeholder="YES" id="Suy-Cf-yj1" userLabel="image right"/>
+                <constraint firstItem="olr-d9-xuT" firstAttribute="top" secondItem="D6v-YA-Kx7" secondAttribute="top" constant="15" placeholder="YES" id="T77-jC-iPk" userLabel="image top"/>
+                <constraint firstItem="oex-0i-P4p" firstAttribute="top" secondItem="6iT-aD-VRF" secondAttribute="bottom" constant="10" placeholder="YES" id="TU3-r0-93W" userLabel="label to message margin"/>
+                <constraint firstItem="QoI-VW-bga" firstAttribute="top" secondItem="D6v-YA-Kx7" secondAttribute="top" constant="15" placeholder="YES" id="Yec-Vu-Zw2" userLabel="avatar top"/>
+                <constraint firstItem="oex-0i-P4p" firstAttribute="width" secondItem="6iT-aD-VRF" secondAttribute="width" placeholder="YES" id="bar-TR-E5U" userLabel="message width == label"/>
+                <constraint firstItem="QoI-VW-bga" firstAttribute="leading" secondItem="D6v-YA-Kx7" secondAttribute="leading" constant="15" placeholder="YES" id="ghH-n8-NN3" userLabel="avatar left"/>
+                <constraint firstItem="oex-0i-P4p" firstAttribute="leading" secondItem="6iT-aD-VRF" secondAttribute="leading" placeholder="YES" id="hgQ-0j-Pzl" userLabel="message left == label"/>
+                <constraint firstItem="52Z-0R-Rp4" firstAttribute="top" secondItem="oex-0i-P4p" secondAttribute="bottom" constant="10" placeholder="YES" id="tHS-w2-gog" userLabel="message to created margin"/>
             </constraints>
             <size key="customSize" width="777" height="215"/>
             <connections>

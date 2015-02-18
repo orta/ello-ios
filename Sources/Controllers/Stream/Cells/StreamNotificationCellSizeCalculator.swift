@@ -34,7 +34,7 @@ class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
 
             if let textElement = notification.textRegion {
                 var f = self.webView.frame
-                f.size.width = NotificationCell.messageHtmlWidth(forCellWidth: originalWidth, hasImage: notification.hasImage())
+                f.size.width = NotificationCell.Size.messageHtmlWidth(forCellWidth: originalWidth, hasImage: notification.hasImage())
                 self.webView.frame = f
                 self.webView.loadHTMLString(StreamTextCellHTML.postHTML(textElement.content), baseURL: NSURL(string: "/"))
             }
@@ -60,10 +60,10 @@ class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
     func calculateWithTextHeight(textHeight : CGFloat) {
         var cellItem = self.cellItems.removeAtIndex(0)
         let notification = cellItem.jsonable as Notification
-        let imageHeight = NotificationCell.imageHeight(imageRegion: notification.imageRegion)
-        var totalTextHeight = NotificationCell.topBottomFixedHeight(attributedTitle: notification.attributedTitle, forCellWidth: originalWidth, hasImage: notification.hasImage())
+        let imageHeight = NotificationCell.Size.imageHeight(imageRegion: notification.imageRegion)
+        var totalTextHeight = NotificationCell.Size.topBottomFixedHeight(attributedTitle: notification.attributedTitle, forCellWidth: originalWidth, hasImage: notification.hasImage())
         if textHeight > 0 {
-            totalTextHeight += textHeight + NotificationCell.innerTextMargin()
+            totalTextHeight += textHeight + NotificationCell.Size.innerTextMargin
         }
 
         var height : CGFloat
@@ -74,7 +74,7 @@ class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
             height = imageHeight
         }
 
-        var margins = NotificationCell.topBottomMargins()
+        var margins = NotificationCell.Size.topBottomMargins
         height += margins
         cellItem.multiColumnCellHeight = height
         cellItem.oneColumnCellHeight = height

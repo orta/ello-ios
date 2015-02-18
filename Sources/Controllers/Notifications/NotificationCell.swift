@@ -10,28 +10,56 @@ import UIKit
 
 
 class NotificationCell : UICollectionViewCell {
-    class func imageWidth() -> CGFloat {
-        return CGFloat(87)
-    }
-    // total height of top/bottom margins
-    class func topBottomMargins() -> CGFloat {
-        return CGFloat(30)
-    }
-    // height of created at and title labels
-    class func topBottomFixedHeight(#attributedTitle: NSAttributedString, forCellWidth cellWidth: CGFloat, hasImage: Bool) -> CGFloat {
-        let textWidth = messageHtmlWidth(forCellWidth: cellWidth, hasImage: hasImage)
-        let size = attributedTitle.boundingRectWithSize(CGSize(width: textWidth, height: 1_000), options: .UsesLineFragmentOrigin, context: nil).size
-        let createdAtHeight = CGFloat(12)
-        let titleHeight = ceil(size.height)
-        let innerMargin = self.innerTextMargin()
-        return createdAtHeight + titleHeight + innerMargin
-    }
-    class func innerTextMargin() -> CGFloat {
-        return CGFloat(10)
+    struct Size {
+        static let sideMargins = CGFloat(15)
+        static let avatarSide = CGFloat(30)
+        static let leftTextMargin = CGFloat(10)
+        static let imageWidth = CGFloat(87)
+        static let topBottomMargins = CGFloat(30)
+        static let innerTextMargin = CGFloat(10)
+
+        static func titleHeight(#attributedTitle: NSAttributedString?, forCellWidth cellWidth: CGFloat, hasImage: Bool) -> CGFloat {
+            if let attributedTitle = attributedTitle {
+                let textWidth = messageHtmlWidth(forCellWidth: cellWidth, hasImage: hasImage)
+                let size = attributedTitle.boundingRectWithSize(CGSize(width: textWidth, height: 1_000), options: .UsesLineFragmentOrigin, context: nil).size
+                return ceil(size.height)
+            }
+            else {
+                return CGFloat(0)
+            }
+        }
+
+        // height of created at and title labels
+        static func topBottomFixedHeight(#attributedTitle: NSAttributedString?, forCellWidth cellWidth: CGFloat, hasImage: Bool) -> CGFloat {
+            let titleHeight = Size.titleHeight(attributedTitle: attributedTitle, forCellWidth: cellWidth, hasImage: hasImage)
+            let createdAtHeight = CGFloat(12)
+            let innerMargin = self.innerTextMargin
+            return createdAtHeight + titleHeight + innerMargin
+        }
+
+        static func messageHtmlWidth(#forCellWidth: CGFloat, hasImage: Bool) -> CGFloat {
+            let messageLeftMargin : CGFloat = 55
+            var messageRightMargin : CGFloat = 107
+            if !hasImage {
+                messageRightMargin = messageRightMargin - CGFloat(10) - self.imageWidth
+            }
+            return forCellWidth - messageLeftMargin - messageRightMargin
+        }
+
+        static func imageHeight(#imageRegion: ImageRegion?) -> CGFloat {
+            if let imageRegion = imageRegion {
+                var aspectRatio = StreamCellItemParser.aspectRatioForImageBlock(imageRegion)
+                return self.imageWidth * aspectRatio
+            }
+            else {
+                return 0
+            }
+        }
     }
 
     @IBOutlet var avatarButton : AvatarButton!
     @IBOutlet var notificationTitleLabel : UILabel!
+    @IBOutlet var createdAtLabel : UILabel!
     @IBOutlet var messageWebView : UIWebView!
     @IBOutlet var notificationImageView : UIImageView!
 
@@ -58,8 +86,8 @@ class NotificationCell : UICollectionViewCell {
     var imageURL : NSURL? {
         willSet(newValue) {
             if let image = newValue {
-                collapsableImageWidth.constant = NotificationCell.imageWidth()
-                collapsableImageHeight.constant = CGFloat(NotificationCell.imageWidth()) / aspectRatio
+                collapsableImageWidth.constant = NotificationCell.Size.imageWidth
+                collapsableImageHeight.constant = CGFloat(NotificationCell.Size.imageWidth) / aspectRatio
                 collapsableImageMargin.constant = 10
             }
             else {
@@ -90,22 +118,34 @@ class NotificationCell : UICollectionViewCell {
         }
     }
 
-    class func messageHtmlWidth(#forCellWidth: CGFloat, hasImage: Bool) -> CGFloat {
-        let messageLeftMargin : CGFloat = 55
-        var messageRightMargin : CGFloat = 107
-        if !hasImage {
-            messageRightMargin = messageRightMargin - CGFloat(10) - self.imageWidth()
-        }
-        return forCellWidth - messageLeftMargin - messageRightMargin
-    }
+    override func layoutSubviews() {
+        let outerFrame = self.bounds.inset(all: Size.sideMargins)
+        let titleWidth = Size.messageHtmlWidth(forCellWidth: self.frame.width, hasImage: imageURL != nil)
+        let titleHeight = Size.titleHeight(attributedTitle: title, forCellWidth: self.frame.width, hasImage: imageURL != nil)
 
-    class func imageHeight(#imageRegion: ImageRegion?) -> CGFloat {
-        if let imageRegion = imageRegion {
-            var aspectRatio = StreamCellItemParser.aspectRatioForImageBlock(imageRegion)
-            return self.imageWidth() * aspectRatio
+        avatarButton.frame = outerFrame.withSize(CGSize(width: Size.avatarSide, height: Size.avatarSide))
+        if imageURL == nil {
+            notificationImageView.frame = CGRectZero
         }
         else {
-            return 0
+            notificationImageView.frame = outerFrame.fromRight()
+                .growLeft(Size.imageWidth)
+                .withHeight(Size.imageWidth / aspectRatio)
+        }
+        notificationTitleLabel.frame = avatarButton.frame.fromRight()
+            .shiftRight(Size.innerTextMargin)
+            .withSize(CGSize(width: titleWidth, height: titleHeight))
+        createdAtLabel.frame = avatarButton.frame.fromRight()
+            .shiftRight(Size.innerTextMargin)
+
+        if messageHtml == nil {
+            messageWebView.frame = CGRectZero
+        }
+        else {
+            let remainingHeight = outerFrame.height - Size.innerTextMargin * 2 - notificationTitleLabel.frame.height - createdAtLabel.frame.height
+            messageWebView.frame = notificationTitleLabel.frame.fromBottom()
+                .shiftDown(Size.innerTextMargin)
+                .withHeight(remainingHeight)
         }
     }
 
