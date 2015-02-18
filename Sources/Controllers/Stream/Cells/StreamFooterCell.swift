@@ -11,7 +11,7 @@ import Foundation
 
 protocol PostbarDelegate : NSObjectProtocol {
     func viewsButtonTapped(cell:StreamFooterCell)
-    func commentsButtonTapped(cell:StreamFooterCell)
+    func commentsButtonTapped(cell:StreamFooterCell, commentsButton: CommentButton)
     func lovesButtonTapped(cell:StreamFooterCell)
     func repostButtonTapped(cell:StreamFooterCell)
 }
@@ -30,7 +30,7 @@ enum ElloPostToolBar {
         case .Views:
             return normalButton("eye-icon")
         case .Comments:
-            return normalButton("dots-icon")
+            return commentButon()
         case .Loves:
             return normalButton("heart-icon")
         case .Repost:
@@ -56,6 +56,16 @@ enum ElloPostToolBar {
             button.setButtonTitle(String(count))
         }
         button.setImage(image, forState: .Normal)
+        button.contentMode = .Center
+        return button
+    }
+
+    private func commentButon(count: Int? = nil) -> UIButton {
+        let button = CommentButton()
+        button.sizeToFit()
+        if let count = count {
+            button.setButtonTitle(String(count))
+        }
         button.contentMode = .Center
         return button
     }
@@ -91,6 +101,7 @@ class StreamFooterCell: UICollectionViewCell {
         get {
             let button = self.commentsItem.customView as StreamFooterButton
             button.addTarget(self, action: "commentsButtonTapped:", forControlEvents: .TouchUpInside)
+            button.addTarget(self, action: "commentsButtonTouchDown:", forControlEvents: .TouchDown)
             return button
         }
     }
@@ -114,7 +125,7 @@ class StreamFooterCell: UICollectionViewCell {
                 }
                 else {
                     self.toolBar.items = [
-                        viewsItem, self.fixedItem(10), commentsItem, self.fixedItem(10), lovesItem, self.fixedItem(10), repostItem
+                        viewsItem, commentsItem, lovesItem, repostItem
                     ]
                 }
             }
@@ -163,9 +174,17 @@ class StreamFooterCell: UICollectionViewCell {
         delegate?.viewsButtonTapped(self)
     }
 
-    @IBAction func commentsButtonTapped(sender: StreamFooterButton) {
-        delegate?.commentsButtonTapped(self)
+    @IBAction func commentsButtonTapped(sender: CommentButton) {
+        if !commentsOpened {
+            sender.animate()
+        }
+        sender.selected = !commentsOpened
+        delegate?.commentsButtonTapped(self, commentsButton: sender)
         commentsOpened = !commentsOpened
+    }
+
+    @IBAction func commentsButtonTouchDown(sender: CommentButton) {
+        sender.highlighted = true
     }
 
     @IBAction func lovesButtonTapped(sender: StreamFooterButton) {
