@@ -13,6 +13,8 @@ extension CGRect {
 // MARK: helpers
     var x:CGFloat { return self.origin.x }
     var y:CGFloat { return self.origin.y }
+    var width:CGFloat { return self.size.width }
+    var height:CGFloat { return self.size.height }
 
 // MARK: absolute dimensions
     var minX:CGFloat { return CGRectGetMinX(self) }
@@ -23,8 +25,8 @@ extension CGRect {
     var midY:CGFloat { return CGRectGetMidY(self) }
     var maxY:CGFloat { return CGRectGetMaxY(self) }
 
-    var width:CGFloat { return CGRectGetWidth(self) }
-    var height:CGFloat { return CGRectGetHeight(self) }
+    var absWidth:CGFloat { return CGRectGetWidth(self) }
+    var absHeight:CGFloat { return CGRectGetHeight(self) }
 
 // MARK: dimension setters
     func atOrigin(amt:CGPoint) -> CGRect {
