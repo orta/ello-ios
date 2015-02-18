@@ -17,6 +17,7 @@ class NotificationCell : UICollectionViewCell {
         static let imageWidth = CGFloat(87)
         static let topBottomMargins = CGFloat(30)
         static let innerTextMargin = CGFloat(10)
+        static let createdAtHeight = CGFloat(12)
 
         static func titleHeight(#attributedTitle: NSAttributedString?, forCellWidth cellWidth: CGFloat, hasImage: Bool) -> CGFloat {
             if let attributedTitle = attributedTitle {
@@ -57,27 +58,43 @@ class NotificationCell : UICollectionViewCell {
         }
     }
 
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        avatarButton = AvatarButton()
+        notificationTitleLabel = UILabel()
+        notificationImageView = UIImageView()
+        messageWebView = UIWebView()
+        createdAtLabel = UILabel()
+
+        notificationTitleLabel.textColor = UIColor.blackColor()
+        notificationTitleLabel.font = UIFont.typewriterFont(12)
+        createdAtLabel.textColor = UIColor.blackColor()
+        createdAtLabel.font = UIFont.typewriterFont(12)
+        createdAtLabel.text = "10m"
+
+        for view in [avatarButton, notificationTitleLabel, notificationImageView, messageWebView, createdAtLabel] {
+            self.contentView.addSubview(view)
+        }
+    }
+
+    required init(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+
     @IBOutlet var avatarButton : AvatarButton!
     @IBOutlet var notificationTitleLabel : UILabel!
     @IBOutlet var createdAtLabel : UILabel!
     @IBOutlet var messageWebView : UIWebView!
     @IBOutlet var notificationImageView : UIImageView!
 
-    @IBOutlet var collapsableImageWidth : NSLayoutConstraint!
-    @IBOutlet var collapsableImageHeight : NSLayoutConstraint!
-    @IBOutlet var collapsableImageMargin : NSLayoutConstraint!
-    @IBOutlet var collapsableMessageMargin : NSLayoutConstraint!
-
     var aspectRatio:CGFloat = 4.0/3.0
 
     var messageHtml : String? {
         willSet(newValue) {
             if let value = newValue {
-                collapsableMessageMargin.constant = 10
                 messageWebView.loadHTMLString(StreamTextCellHTML.postHTML(newValue!), baseURL: NSURL(string: "/"))
             }
             else {
-                collapsableMessageMargin.constant = 0
                 messageWebView.loadHTMLString("", baseURL: NSURL(string: "/"))
             }
         }
@@ -85,16 +102,6 @@ class NotificationCell : UICollectionViewCell {
 
     var imageURL : NSURL? {
         willSet(newValue) {
-            if let image = newValue {
-                collapsableImageWidth.constant = NotificationCell.Size.imageWidth
-                collapsableImageHeight.constant = CGFloat(NotificationCell.Size.imageWidth) / aspectRatio
-                collapsableImageMargin.constant = 10
-            }
-            else {
-                collapsableImageWidth.constant = 0
-                collapsableImageHeight.constant = 0
-                collapsableImageMargin.constant = 0
-            }
             self.notificationImageView.sd_setImageWithURL(newValue, completed: { (image, error, type, url) in
                 self.setNeedsLayout()
             })
@@ -119,7 +126,9 @@ class NotificationCell : UICollectionViewCell {
     }
 
     override func layoutSubviews() {
-        let outerFrame = self.bounds.inset(all: Size.sideMargins)
+        super.layoutSubviews()
+
+        let outerFrame = self.contentView.bounds.inset(all: Size.sideMargins)
         let titleWidth = Size.messageHtmlWidth(forCellWidth: self.frame.width, hasImage: imageURL != nil)
         let titleHeight = Size.titleHeight(attributedTitle: title, forCellWidth: self.frame.width, hasImage: imageURL != nil)
 
@@ -135,14 +144,17 @@ class NotificationCell : UICollectionViewCell {
         notificationTitleLabel.frame = avatarButton.frame.fromRight()
             .shiftRight(Size.innerTextMargin)
             .withSize(CGSize(width: titleWidth, height: titleHeight))
-        createdAtLabel.frame = avatarButton.frame.fromRight()
-            .shiftRight(Size.innerTextMargin)
+        let createdAtHeight = Size.createdAtHeight
+        createdAtLabel.frame = avatarButton.frame.fromRight().tap("fromRight")
+            .shiftRight(Size.innerTextMargin).tap("shiftRight")
+            .atY(outerFrame.maxY - Size.innerTextMargin - createdAtHeight).tap("atY")
+            .withSize(CGSize(width: titleWidth, height: createdAtHeight)).tap("withSize")
 
         if messageHtml == nil {
             messageWebView.frame = CGRectZero
         }
         else {
-            let remainingHeight = outerFrame.height - Size.innerTextMargin * 2 - notificationTitleLabel.frame.height - createdAtLabel.frame.height
+            let remainingHeight = outerFrame.height - Size.innerTextMargin - notificationTitleLabel.frame.height
             messageWebView.frame = notificationTitleLabel.frame.fromBottom()
                 .shiftDown(Size.innerTextMargin)
                 .withHeight(remainingHeight)

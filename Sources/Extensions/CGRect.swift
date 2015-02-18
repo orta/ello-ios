@@ -4,6 +4,12 @@
 
 extension CGRect {
 
+// MARK: debug
+    func tap(_ name:String = "frame") -> CGRect {
+        println("\(name): \(self)")
+        return self
+    }
+
 // MARK: helpers
     var x:CGFloat { return self.origin.x }
     var y:CGFloat { return self.origin.y }
