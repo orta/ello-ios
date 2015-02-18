@@ -25,7 +25,7 @@ class PostbarController:NSObject, PostbarDelegate {
         println("viewsButtonTapped")
     }
 
-    func commentsButtonTapped(cell:StreamFooterCell) {
+    func commentsButtonTapped(cell:StreamFooterCell, commentsButton: CommentButton) {
         cell.commentsButton.enabled = false
         if let indexPath = collectionView.indexPathForCell(cell) {
             if let post = dataSource.postForIndexPath(indexPath) {
@@ -41,8 +41,11 @@ class PostbarController:NSObject, PostbarDelegate {
                 else {
                     let streamService = StreamService()
                     streamService.loadMoreCommentsForPost(post.postId, success: {
+                        commentsButton.finishAnimation()
                         self.commentLoadSuccess($0, indexPath: indexPath, cell: cell)
-                        }, failure: commentLoadFailure)
+                    }, failure: { (error, statusCode) -> () in
+                        println("comment load failure")
+                    })
                 }
             }
         }

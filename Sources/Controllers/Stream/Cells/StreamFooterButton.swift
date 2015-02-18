@@ -29,9 +29,4 @@ class StreamFooterButton: UIButton {
         self.setAttributedTitle(attributedString, forState: state)
     }
 
-    private func sharedSetup() {
-        self.backgroundColor = UIColor.clearColor()
-        self.titleLabel?.numberOfLines = 1
-        setButtonTitle(self.titleForState(.Normal))
-    }
 }
