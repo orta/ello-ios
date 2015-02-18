@@ -42,12 +42,12 @@ class StreamHeaderCell: UICollectionViewCell {
     }
 
     private func styleUsernameLabel() {
-        usernameLabel.textColor = UIColor.elloLightGray()
+        usernameLabel.textColor = UIColor.greyA()
         usernameLabel.font = UIFont.typewriterFont(14.0)
     }
 
     private func styleTimestampLabel() {
-        timestampLabel.textColor = UIColor.elloLightGray()
+        timestampLabel.textColor = UIColor.greyA()
         timestampLabel.font = UIFont.typewriterFont(14.0)
     }
 
