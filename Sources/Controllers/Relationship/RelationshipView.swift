@@ -158,6 +158,12 @@ class RelationshipController: NSObject, RelationshipDelegate {
 
     func relationshipTapped(userId: String, relationship: Relationship) {
         println("userId: \(userId) relationship: \(relationship.rawValue)")
+        RelationshipService().updateRelationship(ElloAPI.Relationship(userId: userId, relationship: relationship.rawValue),
+            success: { data in
+                println("relationship loaded: \(data)")
+            },
+            failure: nil
+        )
     }
 
 }

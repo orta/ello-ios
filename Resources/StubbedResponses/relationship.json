@@ -1,0 +1,72 @@
+{
+relationships: {
+id: "50",
+created_at: "2015-02-16T18:53:40.728Z",
+links: {
+owner: {
+type: "users",
+href: "/api/edge/users/42",
+id: "42"
+},
+subject: {
+type: "users",
+href: "/api/edge/users/666",
+id: "666"
+}
+}
+},
+linked: {
+users: [
+        {
+        id: "42",
+        href: "/api/edge/users/42",
+        username: "archer",
+        name: "Sterling",
+        experimental_features: false,
+        relationship_priority: "self",
+        posts_count: 0,
+        followers_count: 0,
+        following_count: 1,
+        avatar: {
+        large: {
+        url: "https://abc123.cloudfront.net/uploads/user/avatar/42/ello-large-97fbdf62.png",
+        metadata: null
+        },
+        regular: {
+        url: "https://abc123.cloudfront.net/uploads/user/avatar/42/ello-regular-97fbdf62.png",
+        metadata: null
+        },
+        small: {
+        url: "https://abc123.cloudfront.net/uploads/user/avatar/42/ello-small-97fbdf62.png",
+        metadata: null
+        }
+        }
+        },
+        {
+        id: "666",
+        href: "/api/edge/users/666",
+        username: "cfiggis",
+        name: "Cyril Figgis",
+        experimental_features: true,
+        relationship_priority: "friend",
+        posts_count: 0,
+        followers_count: 1,
+        following_count: 0,
+        avatar: {
+        large: {
+        url: "https://abc123.cloudfront.net/uploads/user/avatar/666/ello-large-9b22e8ac.png",
+        metadata: null
+        },
+        regular: {
+        url: "https://abc123.cloudfront.net/uploads/user/avatar/666/ello-regular-9b22e8ac.png",
+        metadata: null
+        },
+        small: {
+        url: "https://abc123.cloudfront.net/uploads/user/avatar/666/ello-small-9b22e8ac.png",
+        metadata: null
+        }
+        }
+        }
+        ]
+}
+}
