@@ -21,7 +21,7 @@ class CommentButton: StreamFooterButton {
 
     override var selected: Bool {
         didSet {
-            let color:CGColor = selected ? UIColor.blackColor().CGColor : UIColor.elloLightGray().CGColor
+            let color:CGColor = selected ? UIColor.blackColor().CGColor : UIColor.greyA().CGColor
             dot1.fillColor = color
             dot2.fillColor = color
             dot3.fillColor = color
@@ -105,7 +105,7 @@ class CommentButton: StreamFooterButton {
         let dot = CAShapeLayer()
         dot.path = circlePath(inFrame)
         dot.bounds = CGPathGetBoundingBox(dot.path)
-        dot.fillColor = UIColor.elloLightGray().CGColor
+        dot.fillColor = UIColor.greyA().CGColor
         dot.position = CGPoint(x: CGRectGetMinX(inFrame), y: CGRectGetMinY(inFrame))
         dot.opacity = 1.0
         return dot
