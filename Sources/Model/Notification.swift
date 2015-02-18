@@ -21,7 +21,7 @@ class Notification : JSONAble, Authorable {
     var attributedTitle: NSAttributedString {
         switch kind {
             case .RepostNotification:         return NSAttributedString(string: "\(author!.atName) reposted your post.")
-            case .NewFollowedUserPost:        return NSAttributedString(string: "Your started following \(author!.atName).")
+            case .NewFollowedUserPost:        return NSAttributedString(string: "You started following \(author!.atName).")
             case .NewFollowerPost:            return NSAttributedString(string: "\(author!.atName) started following you.")
             case .PostMentionNotification:    return NSAttributedString(string: "\(author!.atName) mentioned you in a post.")
             case .CommentMentionNotification: return NSAttributedString(string: "\(author!.atName) mentioned you in a comment.")

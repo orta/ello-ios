@@ -60,16 +60,17 @@ class NotificationCell : UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+
         avatarButton = AvatarButton()
         notificationTitleLabel = UILabel()
         notificationImageView = UIImageView()
         messageWebView = UIWebView()
         createdAtLabel = UILabel()
 
-        notificationTitleLabel.textColor = UIColor.blackColor()
-        notificationTitleLabel.font = UIFont.typewriterFont(12)
-        createdAtLabel.textColor = UIColor.blackColor()
-        createdAtLabel.font = UIFont.typewriterFont(12)
+        for label in [notificationTitleLabel, createdAtLabel] {
+            label.textColor = UIColor.blackColor()
+            label.font = UIFont.typewriterFont(12)
+        }
         createdAtLabel.text = "10m"
 
         for view in [avatarButton, notificationTitleLabel, notificationImageView, messageWebView, createdAtLabel] {
@@ -81,11 +82,11 @@ class NotificationCell : UICollectionViewCell {
         super.init(coder: coder)
     }
 
-    @IBOutlet var avatarButton : AvatarButton!
-    @IBOutlet var notificationTitleLabel : UILabel!
-    @IBOutlet var createdAtLabel : UILabel!
-    @IBOutlet var messageWebView : UIWebView!
-    @IBOutlet var notificationImageView : UIImageView!
+    var avatarButton : AvatarButton!
+    var notificationTitleLabel : UILabel!
+    var createdAtLabel : UILabel!
+    var messageWebView : UIWebView!
+    var notificationImageView : UIImageView!
 
     var aspectRatio:CGFloat = 4.0/3.0
 
@@ -133,6 +134,7 @@ class NotificationCell : UICollectionViewCell {
         let titleHeight = Size.titleHeight(attributedTitle: title, forCellWidth: self.frame.width, hasImage: imageURL != nil)
 
         avatarButton.frame = outerFrame.withSize(CGSize(width: Size.avatarSide, height: Size.avatarSide))
+
         if imageURL == nil {
             notificationImageView.frame = CGRectZero
         }
@@ -141,14 +143,16 @@ class NotificationCell : UICollectionViewCell {
                 .growLeft(Size.imageWidth)
                 .withHeight(Size.imageWidth / aspectRatio)
         }
+
         notificationTitleLabel.frame = avatarButton.frame.fromRight()
             .shiftRight(Size.innerTextMargin)
             .withSize(CGSize(width: titleWidth, height: titleHeight))
+
         let createdAtHeight = Size.createdAtHeight
-        createdAtLabel.frame = avatarButton.frame.fromRight().tap("fromRight")
-            .shiftRight(Size.innerTextMargin).tap("shiftRight")
-            .atY(outerFrame.maxY - Size.innerTextMargin - createdAtHeight).tap("atY")
-            .withSize(CGSize(width: titleWidth, height: createdAtHeight)).tap("withSize")
+        createdAtLabel.frame = avatarButton.frame.fromRight()
+            .shiftRight(Size.innerTextMargin)
+            .atY(outerFrame.maxY - createdAtHeight)
+            .withSize(CGSize(width: titleWidth, height: createdAtHeight))
 
         if messageHtml == nil {
             messageWebView.frame = CGRectZero
