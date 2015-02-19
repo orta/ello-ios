@@ -9,67 +9,8 @@
 import UIKit
 import Foundation
 
-protocol PostbarDelegate : NSObjectProtocol {
-    func viewsButtonTapped(cell:StreamFooterCell)
-    func commentsButtonTapped(cell:StreamFooterCell, commentsButton: CommentButton)
-    func lovesButtonTapped(cell:StreamFooterCell)
-    func repostButtonTapped(cell:StreamFooterCell)
-}
 
-enum ElloPostToolBar {
-    case Views
-    case Comments
-    case Loves
-    case Repost
-    case Share
-    case Delete
-    case Edit
 
-    func button() -> UIButton {
-        switch self {
-        case .Views:
-            return normalButton("eye-icon")
-        case .Comments:
-            return commentButon()
-        case .Loves:
-            return normalButton("heart-icon")
-        case .Repost:
-            return normalButton("repost-icon")
-        case .Share:
-            return normalButton("eye-icon")
-        case .Delete:
-            return normalButton("eye-icon")
-        case .Edit:
-            return normalButton("eye-icon")
-        }
-    }
-
-    func barButtonItem() -> UIBarButtonItem {
-        return UIBarButtonItem(customView: self.button())
-    }
-
-    private func normalButton(imageName: String, count: Int? = nil) -> UIButton {
-        let image = UIImage(named: imageName)
-        let button = StreamFooterButton()
-        button.sizeToFit()
-        if let count = count {
-            button.setButtonTitle(String(count))
-        }
-        button.setImage(image, forState: .Normal)
-        button.contentMode = .Center
-        return button
-    }
-
-    private func commentButon(count: Int? = nil) -> UIButton {
-        let button = CommentButton()
-        button.sizeToFit()
-        if let count = count {
-            button.setButtonTitle(String(count))
-        }
-        button.contentMode = .Center
-        return button
-    }
-}
 
 class StreamFooterCell: UICollectionViewCell {
 
@@ -78,7 +19,7 @@ class StreamFooterCell: UICollectionViewCell {
     var commentsOpened = false
     weak var delegate: PostbarDelegate?
 
-    let viewsItem:UIBarButtonItem = ElloPostToolBar.Views.barButtonItem()
+    let viewsItem:UIBarButtonItem = ElloPostToolBarOption.Views.barButtonItem()
     var viewsButton:StreamFooterButton {
         get {
             let button = self.viewsItem.customView as StreamFooterButton
@@ -87,7 +28,7 @@ class StreamFooterCell: UICollectionViewCell {
         }
     }
 
-    let lovesItem:UIBarButtonItem = ElloPostToolBar.Loves.barButtonItem()
+    let lovesItem:UIBarButtonItem = ElloPostToolBarOption.Loves.barButtonItem()
     var lovesButton:StreamFooterButton {
         get {
             let button = self.lovesItem.customView as StreamFooterButton
@@ -96,7 +37,7 @@ class StreamFooterCell: UICollectionViewCell {
         }
     }
 
-    let commentsItem:UIBarButtonItem = ElloPostToolBar.Comments.barButtonItem()
+    let commentsItem:UIBarButtonItem = ElloPostToolBarOption.Comments.barButtonItem()
     var commentsButton:StreamFooterButton {
         get {
             let button = self.commentsItem.customView as StreamFooterButton
@@ -106,7 +47,7 @@ class StreamFooterCell: UICollectionViewCell {
         }
     }
 
-    let repostItem:UIBarButtonItem = ElloPostToolBar.Repost.barButtonItem()
+    let repostItem:UIBarButtonItem = ElloPostToolBarOption.Repost.barButtonItem()
     var repostButton:StreamFooterButton {
         get {
             let button = self.repostItem.customView as StreamFooterButton
@@ -125,7 +66,7 @@ class StreamFooterCell: UICollectionViewCell {
                 }
                 else {
                     self.toolBar.items = [
-                        viewsItem, commentsItem, lovesItem, repostItem
+                        viewsItem, commentsItem, repostItem
                     ]
                 }
             }

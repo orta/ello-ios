@@ -8,7 +8,7 @@
 
 import Foundation
 
-class StreamCellItem {
+class StreamCellItem:NSObject {
 
     let jsonable: JSONAble
     let type: StreamCellType
