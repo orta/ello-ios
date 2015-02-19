@@ -25,7 +25,7 @@ class Notification : JSONAble, Authorable {
             return NSAttributedString(string: text, attributes: attrs())
         }
         static func profile(text : String, _ id : String) -> NSAttributedString {
-            return NSAttributedString(string: text, attributes: attrs([
+            return NSAttributedString(string: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur molestie faucibus. Phasellus iaculis pellentesque felis eu fringilla. Ut in sollicitudin nisi. Praesent in mauris tortor. Nam interdum, magna eu pellentesque scelerisque, dui ipsum adipiscing ante, vel ullamcorper nisl sapien id arcu. Nullam egestas diam eu felis mollis sit amet cursus enim vehicula. Quisque eu tellus id erat pellentesque consequat. Maecenas fermentum faucibus magna, eget dictum nisi congue sed. Quisque a justo a nisi eleifend facilisis sit amet at augue. Sed a sapien vitae augue hendrerit porta vel eu ligula. Proin enim urna, faucibus in vestibulum tincidunt, commodo sit amet orci. Vestibulum ac sem urna, quis mattis urna. Nam eget ullamcorper ligula. Nam volutpat, arcu vel auctor dignissim, tortor nisi sodales enim, et vestibulum nulla dui id ligula. Nam ullamcorper, augue ut interdum vulputate, eros mauris lobortis sapien, ac sodales dui eros ac elit.", attributes: attrs([
                 Attributed.Link : "profile/\(id)",
                 NSUnderlineStyleAttributeName : NSUnderlineStyle.StyleSingle.rawValue,
             ]))
@@ -48,47 +48,72 @@ class Notification : JSONAble, Authorable {
     typealias Kind = Activity.Kind
     typealias SubjectType = Activity.SubjectType
 
-    var author: User?
+    let author: User?
     var createdAt: NSDate
     var groupId:String { return notificationId }
     let notificationId: String
     let kind: Kind
     let subjectType: SubjectType
-    var subject: AnyObject?
+    var subject: AnyObject? { willSet { attributedTitleStore = nil } }
 
+    private var attributedTitleStore: NSAttributedString?
     var attributedTitle: NSAttributedString {
-        switch kind {
-            case .RepostNotification:         return TitleStyles.profile(author!.atName, author!.userId).append(TitleStyles.text(" reposted your ")).append(TitleStyles.post("post", "id")).append(TitleStyles.text("."))
-            case .NewFollowedUserPost:        return TitleStyles.text("You started following ").append(TitleStyles.profile(author!.atName, author!.userId)).append(TitleStyles.text("."))
-            case .NewFollowerPost:            return TitleStyles.profile(author!.atName, author!.userId).append(TitleStyles.text(" started following you."))
-            case .PostMentionNotification:    return TitleStyles.profile(author!.atName, author!.userId).append(TitleStyles.text(" mentioned you in a ")).append(TitleStyles.post("post", "id")).append(TitleStyles.text("."))
-            case .CommentMentionNotification: return TitleStyles.profile(author!.atName, author!.userId).append(TitleStyles.text(" mentioned you in a ")).append(TitleStyles.comment("comment", "id")).append(TitleStyles.text("."))
-            case .InvitationAcceptedPost:     return TitleStyles.profile(author!.atName, author!.userId).append(TitleStyles.text(" accepted your invitation."))
-            case .CommentNotification:        return TitleStyles.profile(author!.atName, author!.userId).append(TitleStyles.text(" commented on your ")).append(TitleStyles.post("post", "id")).append(TitleStyles.text("."))
-            case .WelcomeNotification:        return TitleStyles.text("Welcome to Ello!")
-            default: return NSAttributedString(string: "")
+        if let attributedTitle = attributedTitleStore {
+            return attributedTitle
         }
+
+        switch kind {
+            case .RepostNotification:
+                attributedTitleStore = TitleStyles.profile(author!.atName, author!.userId).append(TitleStyles.text(" reposted your ")).append(TitleStyles.post("post", (subject! as Post).postId)).append(TitleStyles.text("."))
+            case .NewFollowedUserPost:
+                attributedTitleStore = TitleStyles.text("You started following ").append(TitleStyles.profile(author!.atName, author!.userId)).append(TitleStyles.text("."))
+            case .NewFollowerPost:
+                attributedTitleStore = TitleStyles.profile(author!.atName, author!.userId).append(TitleStyles.text(" started following you."))
+            case .PostMentionNotification:
+                attributedTitleStore = TitleStyles.profile(author!.atName, author!.userId).append(TitleStyles.text(" mentioned you in a ")).append(TitleStyles.post("post", (subject! as Post).postId)).append(TitleStyles.text("."))
+            case .CommentMentionNotification:
+                attributedTitleStore = TitleStyles.profile(author!.atName, author!.userId).append(TitleStyles.text(" mentioned you in a ")).append(TitleStyles.comment("comment", (subject! as Comment).commentId)).append(TitleStyles.text("."))
+            case .InvitationAcceptedPost:
+                attributedTitleStore = TitleStyles.profile(author!.atName, author!.userId).append(TitleStyles.text(" accepted your invitation."))
+            case .CommentNotification:
+                println("subject: \(subject)")
+                attributedTitleStore = TitleStyles.profile(author!.atName, author!.userId).append(TitleStyles.text(" commented on your ")).append(TitleStyles.post("post", (subject! as Comment).commentId)).append(TitleStyles.text("."))
+            case .WelcomeNotification:
+                attributedTitleStore = TitleStyles.text("Welcome to Ello!")
+            default:
+                attributedTitleStore = NSAttributedString(string: "")
+        }
+
+        return attributedTitleStore!
     }
     var textRegion: TextRegion?
     var imageRegion: ImageRegion?
 
     convenience init(activity: Activity) {
-        self.init(createdAt: activity.createdAt, kind: activity.kind, notificationId: activity.activityId, subjectType: activity.subjectType)
+        var author : User? = nil
         if let post = activity.subject as? Post {
-            self.author = post.author
+            author = post.author
+        }
+        else if let comment = activity.subject as? Comment {
+            author = comment.author
+        }
+        else if let user = activity.subject as? User {
+            author = user
+        }
+
+        self.init(author: author, createdAt: activity.createdAt, kind: activity.kind, notificationId: activity.activityId, subjectType: activity.subjectType)
+        if let post = activity.subject as? Post {
             self.assignRegionsFromContent(post.summary!)
         }
         else if let comment = activity.subject as? Comment {
-            self.author = comment.author
             self.assignRegionsFromContent(comment.summary!)
-        }
-        else if let user = activity.subject as? User {
-            self.author = user
         }
         self.subject = activity.subject
     }
 
-    required init(createdAt: NSDate, kind: Kind, notificationId: String, subjectType: SubjectType) {
+    required init(author: User?, createdAt: NSDate, kind: Kind, notificationId: String, subjectType: SubjectType) {
+        self.author = author
+        self.attributedTitleStore = nil
         self.createdAt = createdAt
         self.kind = kind
         self.notificationId = notificationId

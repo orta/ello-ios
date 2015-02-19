@@ -58,33 +58,8 @@ class NotificationCell : UICollectionViewCell {
         }
     }
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-
-        avatarButton = AvatarButton()
-        notificationTitleLabel = UILabel()
-        notificationImageView = UIImageView()
-        messageWebView = UIWebView()
-        createdAtLabel = UILabel()
-
-        notificationTitleLabel.numberOfLines = 0
-        for label in [notificationTitleLabel, createdAtLabel] {
-            label.textColor = UIColor.blackColor()
-            label.font = UIFont.typewriterFont(12)
-        }
-        createdAtLabel.text = "10m"
-
-        for view in [avatarButton, notificationTitleLabel, notificationImageView, messageWebView, createdAtLabel] {
-            self.contentView.addSubview(view)
-        }
-    }
-
-    required init(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-
     var avatarButton : AvatarButton!
-    var notificationTitleLabel : UILabel!
+    var notificationTitleLabel : UITextView!
     var createdAtLabel : UILabel!
     var messageWebView : UIWebView!
     var notificationImageView : UIImageView!
@@ -125,6 +100,47 @@ class NotificationCell : UICollectionViewCell {
                 avatarButton.setImage(nil, forState: .Normal)
             }
         }
+    }
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+
+        avatarButton = AvatarButton()
+        notificationTitleLabel = UITextView()
+        notificationImageView = UIImageView()
+        messageWebView = UIWebView()
+        createdAtLabel = UILabel()
+
+        notificationTitleLabel.editable = false
+        notificationTitleLabel.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        notificationTitleLabel.textColor = UIColor.blackColor()
+        notificationTitleLabel.font = UIFont.typewriterFont(12)
+        let recognizer = UITapGestureRecognizer(target: self, action: "titleTapped:")
+        recognizer.numberOfTapsRequired = 1
+        recognizer.numberOfTouchesRequired = 1
+        notificationTitleLabel.addGestureRecognizer(recognizer)
+
+        createdAtLabel.textColor = UIColor.blackColor()
+        createdAtLabel.font = UIFont.typewriterFont(12)
+        createdAtLabel.text = "10m"
+
+        for view in [avatarButton, notificationTitleLabel, notificationImageView, messageWebView, createdAtLabel] {
+            self.contentView.addSubview(view)
+        }
+    }
+
+    required init(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+
+    @objc
+    func titleTapped(gesture : UITapGestureRecognizer) {
+        let lbl = notificationTitleLabel
+        let location = gesture.locationInView(lbl)
+        let range = lbl.characterRangeAtPoint(location)
+        let pos = lbl.closestPositionToPoint(location, withinRange: range)
+        let style = lbl.textStylingAtPosition(pos, inDirection: .Forward)
+        println(style)
     }
 
     override func layoutSubviews() {
