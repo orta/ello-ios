@@ -78,7 +78,13 @@ class WhiteElloButton: LightElloButton {
 
     override var selected: Bool {
         didSet {
-            self.backgroundColor = selected ? UIColor.greyA() : UIColor.whiteColor()
+            self.backgroundColor = selected ? UIColor.blackColor() : UIColor.whiteColor()
         }
+    }
+
+    override func sharedSetup() {
+        super.sharedSetup()
+        self.titleLabel?.font = UIFont.typewriterFont(12.0)
+        self.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
     }
 }

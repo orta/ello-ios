@@ -21,22 +21,16 @@ enum Relationship: String {
     static let all = [Friend, Noise, Block, Mute, Inactive, None, Null, Me]
 }
 
-protocol RelationshipDelegate: NSObjectProtocol {
-    func relationshipTapped(userId: String, relationship: Relationship)
-    func launchBlockModal(userId: String, relationship: Relationship)
-}
-
 class RelationshipView: UIView {
-
+    var userId: String
+    var userAtName: String
+    let backgroundColorNormal = UIColor.whiteColor()
+    let backgroundColorSelected = UIColor(hex:0xAAAAAA)
+    let backgroundColorBlock = UIColor.redColor()
     var friendButton: UIButton
     var noiseButton: UIButton
     var blockButton: UIButton?
     weak var relationshipDelegate: RelationshipDelegate?
-    var userId: String
-    let backgroundColorNormal = UIColor.whiteColor()
-    let backgroundColorSelected = UIColor(hex:0xAAAAAA)
-    let backgroundColorBlock = UIColor.redColor()
-
     var relationship:Relationship? {
         didSet {
             selectButton(relationship!)
@@ -47,6 +41,7 @@ class RelationshipView: UIView {
         self.friendButton = UIButton()
         self.noiseButton = UIButton()
         self.userId = ""
+        self.userAtName = ""
         super.init(coder: coder)
         buildLargeButtons()
         addTargets()
@@ -61,18 +56,27 @@ class RelationshipView: UIView {
     }
 
     @IBAction func blockTapped(sender: UIButton) {
-        relationshipDelegate?.launchBlockModal(userId, relationship: relationship!)
+        relationshipDelegate?.launchBlockModal(userId, userAtName: userAtName, relationship: relationship!) {
+            [unowned self] relationship in
+            self.relationship = relationship
+        }
     }
 
 // MARK: Internal
 
     private func handleTapped(sender: UIButton, newRelationship: Relationship) {
+        let prevRelationship = relationship
         if sender.selected == true {
             relationship = Relationship.Inactive
         } else {
             relationship = newRelationship
         }
-        relationshipDelegate?.relationshipTapped(userId, relationship: relationship!)
+        relationshipDelegate?.relationshipTapped(userId, relationship: relationship!) {
+            [unowned self] status in
+            if status == .Failure {
+                self.relationship = prevRelationship
+            }
+        }
     }
 
     private func resetButtons() {
@@ -156,35 +160,4 @@ class RelationshipView: UIView {
     private func styleIconButton(button: UIButton) {
         styleBaseButton(button)
     }
-}
-
-class RelationshipController: NSObject, RelationshipDelegate {
-
-    let controller: UIViewController
-
-    required init(controller: UIViewController) {
-        self.controller = controller
-    }
-
-    func relationshipTapped(userId: String, relationship: Relationship) {
-        println("userId: \(userId) relationship: \(relationship.rawValue)")
-        RelationshipService().updateRelationship(ElloAPI.Relationship(userId: userId, relationship: relationship.rawValue),
-            success: { data in
-                println("relationship loaded: \(data)")
-            },
-            failure: { (error, statusCode) in
-                println("relationship failed(\(statusCode)): \(error)")
-            }
-        )
-    }
-
-    func launchBlockModal(userId: String, relationship: Relationship) {
-//        let user = Store.store["users"]?[userId] as User
-        let vc = BlockUserModalViewController(relationship: relationship)
-        vc.userId = userId
-        controller.presentViewController(vc, animated: true) {
-            println("presented")
-        }
-    }
-
 }
