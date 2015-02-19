@@ -6,7 +6,45 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import UIKit
+
+
+struct Attributed {
+    static let Link : NSString = "ElloLinkAttributedString"
+}
+
 class Notification : JSONAble, Authorable {
+    struct TitleStyles {
+        static func attrs(_ addl : [String : AnyObject] = [:]) -> [NSObject : AnyObject] {
+            var attrs : [String : AnyObject] = [
+                NSFontAttributeName : UIFont.typewriterFont(12),
+            ]
+            return attrs + addl
+        }
+        static func text(text : String) -> NSAttributedString {
+            return NSAttributedString(string: text, attributes: attrs())
+        }
+        static func profile(text : String, _ id : String) -> NSAttributedString {
+            return NSAttributedString(string: text, attributes: attrs([
+                Attributed.Link : "profile/\(id)",
+                NSUnderlineStyleAttributeName : NSUnderlineStyle.StyleSingle.rawValue,
+            ]))
+        }
+        static func post(text : String, _ id : String) -> NSAttributedString {
+            var attrs = TitleStyles.attrs([
+                Attributed.Link : "post/\(id)",
+                NSUnderlineStyleAttributeName : NSUnderlineStyle.StyleSingle.rawValue,
+            ])
+            return NSAttributedString(string: text, attributes: attrs)
+        }
+        static func comment(text : String, _ id : String) -> NSAttributedString {
+            var attrs = TitleStyles.attrs([
+                Attributed.Link : "comment/\(id)",
+                NSUnderlineStyleAttributeName : NSUnderlineStyle.StyleSingle.rawValue,
+            ])
+            return NSAttributedString(string: text, attributes: attrs)
+        }
+    }
     typealias Kind = Activity.Kind
     typealias SubjectType = Activity.SubjectType
 
@@ -20,14 +58,14 @@ class Notification : JSONAble, Authorable {
 
     var attributedTitle: NSAttributedString {
         switch kind {
-            case .RepostNotification:         return NSAttributedString(string: "\(author!.atName) reposted your post.")
-            case .NewFollowedUserPost:        return NSAttributedString(string: "You started following \(author!.atName).")
-            case .NewFollowerPost:            return NSAttributedString(string: "\(author!.atName) started following you.")
-            case .PostMentionNotification:    return NSAttributedString(string: "\(author!.atName) mentioned you in a post.")
-            case .CommentMentionNotification: return NSAttributedString(string: "\(author!.atName) mentioned you in a comment.")
-            case .InvitationAcceptedPost:     return NSAttributedString(string: "\(author!.atName) accepted your invitation.")
-            case .CommentNotification:        return NSAttributedString(string: "\(author!.atName) commented on your post.")
-            case .WelcomeNotification:        return NSAttributedString(string: "Welcome to Ello!")
+            case .RepostNotification:         return TitleStyles.profile(author!.atName, author!.userId).append(TitleStyles.text(" reposted your ")).append(TitleStyles.post("post", "id")).append(TitleStyles.text("."))
+            case .NewFollowedUserPost:        return TitleStyles.text("You started following ").append(TitleStyles.profile(author!.atName, author!.userId)).append(TitleStyles.text("."))
+            case .NewFollowerPost:            return TitleStyles.profile(author!.atName, author!.userId).append(TitleStyles.text(" started following you."))
+            case .PostMentionNotification:    return TitleStyles.profile(author!.atName, author!.userId).append(TitleStyles.text(" mentioned you in a ")).append(TitleStyles.post("post", "id")).append(TitleStyles.text("."))
+            case .CommentMentionNotification: return TitleStyles.profile(author!.atName, author!.userId).append(TitleStyles.text(" mentioned you in a ")).append(TitleStyles.comment("comment", "id")).append(TitleStyles.text("."))
+            case .InvitationAcceptedPost:     return TitleStyles.profile(author!.atName, author!.userId).append(TitleStyles.text(" accepted your invitation."))
+            case .CommentNotification:        return TitleStyles.profile(author!.atName, author!.userId).append(TitleStyles.text(" commented on your ")).append(TitleStyles.post("post", "id")).append(TitleStyles.text("."))
+            case .WelcomeNotification:        return TitleStyles.text("Welcome to Ello!")
             default: return NSAttributedString(string: "")
         }
     }

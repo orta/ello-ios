@@ -67,6 +67,7 @@ class NotificationCell : UICollectionViewCell {
         messageWebView = UIWebView()
         createdAtLabel = UILabel()
 
+        notificationTitleLabel.numberOfLines = 0
         for label in [notificationTitleLabel, createdAtLabel] {
             label.textColor = UIColor.blackColor()
             label.font = UIFont.typewriterFont(12)
