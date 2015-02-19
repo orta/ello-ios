@@ -38,11 +38,11 @@ class Notification : JSONAble, Authorable {
         self.init(createdAt: activity.createdAt, kind: activity.kind, notificationId: activity.activityId, subjectType: activity.subjectType)
         if let post = activity.subject as? Post {
             self.author = post.author
-            self.assignRegionsFromContent(post.content!)
+            self.assignRegionsFromContent(post.summary!)
         }
         else if let comment = activity.subject as? Comment {
             self.author = comment.author
-            self.assignRegionsFromContent(comment.content!)
+            self.assignRegionsFromContent(comment.summary!)
         }
         else if let user = activity.subject as? User {
             self.author = user

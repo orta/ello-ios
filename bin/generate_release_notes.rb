@@ -84,7 +84,7 @@ open('release-notes.md', 'a') { |f|
  f.puts "-----------------\n"
 }
 
-if ARGV[0] && ARGV[0] == "testers"
+if ARGV[0] && ARGV[0].split(',').include?("testers")
   open('crashlytics-release-notes.md', 'w') { |f|
    f.puts crashlytics_release_notes
   }

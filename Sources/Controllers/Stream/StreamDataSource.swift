@@ -255,7 +255,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
             return $0.type == .Notification
         }
 
-        let afterBoth = Funky.after(2) {
+        let afterBoth = Functional.after(2) {
             var indexPaths:[NSIndexPath] = []
 
             var indexPath:NSIndexPath = startingIndexPath ?? NSIndexPath(forItem: countElements(self.streamCellItems) - 1, inSection: 0)
@@ -272,4 +272,5 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         self.notificationSizeCalculator.processCells(notificationElements, afterBoth)
         self.textSizeCalculator.processCells(textElements, afterBoth)
    }
+
 }
