@@ -9,10 +9,6 @@
 import UIKit
 import WebKit
 
-protocol ConfigurableCell {
-    func configure(streamCellItem:StreamCellItem, streamKind: StreamKind, indexPath: NSIndexPath)
-}
-
 class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     typealias StreamContentReady = (indexPaths:[NSIndexPath]) -> ()
@@ -112,42 +108,29 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         if indexPath.item < countElements(streamCellItems) {
             let streamCellItem = streamCellItems[indexPath.item]
 
-//            var cell = collectionView.dequeueReusableCellWithReuseIdentifier(streamCellItem.type.name, forIndexPath: indexPath) as ConfigurableCell
-//            cell.configure(streamCellItem, streamKind: streamKind, indexPath: indexPath)
+            var cell = collectionView.dequeueReusableCellWithReuseIdentifier(streamCellItem.type.name, forIndexPath: indexPath) as UICollectionViewCell
 
             switch streamCellItem.type {
             case .Header, .CommentHeader:
-                var headerCell: StreamHeaderCell = collectionView.dequeueReusableCellWithReuseIdentifier(streamCellItem.type.name, forIndexPath: indexPath) as StreamHeaderCell
-                headerCell.configure(streamCellItem, streamKind: streamKind, indexPath: indexPath)
-                headerCell.userDelegate = userDelegate
-                return headerCell
+                (cell as StreamHeaderCell).userDelegate = userDelegate
             case .Image:
-                let imageCell = collectionView.dequeueReusableCellWithReuseIdentifier(StreamCellType.Image.name, forIndexPath: indexPath) as StreamImageCell
-                imageCell.configure(streamCellItem, streamKind: streamKind, indexPath: indexPath)
-                imageCell.delegate = imageDelegate
-                return imageCell
+                (cell as StreamImageCell).delegate = imageDelegate
             case .Text:
-                var textCell:StreamTextCell = collectionView.dequeueReusableCellWithReuseIdentifier(StreamCellType.Text.name, forIndexPath: indexPath) as StreamTextCell
-                textCell.configure(streamCellItem, streamKind: streamKind, indexPath: indexPath)
-                textCell.webLinkDelegate = webLinkDelegate
-                return textCell
+                (cell as StreamTextCell).webLinkDelegate = webLinkDelegate
             case .Footer:
-                let footerCell = collectionView.dequeueReusableCellWithReuseIdentifier(StreamCellType.Footer.name, forIndexPath: indexPath) as StreamFooterCell
-                footerCell.configure(streamCellItem, streamKind: streamKind, indexPath: indexPath)
-                footerCell.delegate = postbarDelegate
-                return footerCell
-            case .Notification:
-                let notificationCell = collectionView.dequeueReusableCellWithReuseIdentifier(StreamCellType.Notification.name, forIndexPath: indexPath) as NotificationCell
-                notificationCell.configure(streamCellItem, streamKind: streamKind, indexPath: indexPath)
-                return notificationCell
-            case .ProfileHeader:
-                let profileHeader = collectionView.dequeueReusableCellWithReuseIdentifier(streamCellItem.type.name, forIndexPath: indexPath) as ProfileHeaderCell
-
-                profileHeader.configure(streamCellItem, streamKind: streamKind, indexPath: indexPath)
-                return profileHeader
+                (cell as StreamFooterCell).delegate = postbarDelegate
             default:
-                cell = UICollectionViewCell()
+                println("nothing to see here")
             }
+
+            streamCellItem.type.configure(
+                cell: cell,
+                streamCellItem: streamCellItem,
+                streamKind: streamKind,
+                indexPath: indexPath
+            )
+
+            return cell
 
         }
         return UICollectionViewCell()

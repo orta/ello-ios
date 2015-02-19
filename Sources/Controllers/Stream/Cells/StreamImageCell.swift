@@ -9,9 +9,7 @@
 import UIKit
 import Foundation
 
-protocol StreamImageCellDelegate : NSObjectProtocol {
-    func imageTapped(imageView:UIImageView)
-}
+
 
 let updateStreamImageCellHeightNotification = TypedNotification<StreamImageCell>(name: "updateStreamImageCellHeightNotification")
 

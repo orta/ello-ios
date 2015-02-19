@@ -9,12 +9,7 @@
 import UIKit
 import Foundation
 
-protocol PostbarDelegate : NSObjectProtocol {
-    func viewsButtonTapped(cell:StreamFooterCell)
-    func commentsButtonTapped(cell:StreamFooterCell, commentsButton: CommentButton)
-    func lovesButtonTapped(cell:StreamFooterCell)
-    func repostButtonTapped(cell:StreamFooterCell)
-}
+
 
 
 class StreamFooterCell: UICollectionViewCell {
