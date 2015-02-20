@@ -27,6 +27,16 @@ class Post: JSONAble, Authorable {
     var groupId:String {
         get { return postId }
     }
+    var shareLink:String? {
+        get {
+            if let author = self.author {
+                return "\(ElloURI.baseURL)/\(author.username)/post/\(self.token)"
+            }
+            else {
+                return nil
+            }
+        }
+    }
     let href: String
     let postId: String
     let repostsCount: Int?
