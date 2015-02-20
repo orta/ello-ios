@@ -10,7 +10,7 @@ import UIKit
 
 
 class NotificationCell : UICollectionViewCell {
-    class func generateTextView(#frame: CGRect) -> UITextView {
+    class func generateTextView(frame: CGRect = CGRectZero) -> UITextView {
         let textView = UITextView(frame: frame)
         textView.editable = false
         textView.allowsEditingTextAttributes = false

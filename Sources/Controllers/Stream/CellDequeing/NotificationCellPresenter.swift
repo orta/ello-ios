@@ -20,25 +20,25 @@ struct NotificationCellPresenter {
             var notification = streamCellItem.jsonable as Notification
             var user = notification.author!
 
-            notificationCell.title = notification.attributedTitle
-            notificationCell.createdAt = notification.createdAt
-            notificationCell.avatarURL = user.avatarURL
-            notificationCell.imageURL = nil
-            notificationCell.messageHtml = nil
+            cell.title = notification.attributedTitle
+            cell.createdAt = notification.createdAt
+            cell.avatarURL = user.avatarURL
+            cell.imageURL = nil
+            cell.messageHtml = nil
 
             if let textRegion = notification.textRegion {
-                notificationCell.messageHtml = textRegion.content
+                cell.messageHtml = textRegion.content
             }
 
             if let imageRegion = notification.imageRegion {
                 var aspectRatio = StreamCellItemParser.aspectRatioForImageBlock(imageRegion)
                 if let photoURL = imageRegion.asset?.hdpi?.url? {
-                    notificationCell.aspectRatio = aspectRatio
-                    notificationCell.imageURL = photoURL
+                    cell.aspectRatio = aspectRatio
+                    cell.imageURL = photoURL
                 }
                 else if let photoURL = imageRegion.url {
-                    notificationCell.aspectRatio = aspectRatio
-                    notificationCell.imageURL = photoURL
+                    cell.aspectRatio = aspectRatio
+                    cell.imageURL = photoURL
                 }
             }
         }
