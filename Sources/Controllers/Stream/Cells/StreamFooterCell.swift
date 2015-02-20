@@ -12,10 +12,16 @@ import Foundation
 
 
 
-class StreamFooterCell: UICollectionViewCell {
+class StreamFooterCell: UICollectionViewCell, UIScrollViewDelegate {
+
+    let revealWidth:CGFloat = 160.0
+    var isOpen = false
 
     @IBOutlet weak var toolBar: UIToolbar!
     @IBOutlet weak var chevronButton: StreamFooterButton!
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var innerContentView: UIView!
     var commentsOpened = false
     weak var delegate: PostbarDelegate?
 
@@ -73,12 +79,43 @@ class StreamFooterCell: UICollectionViewCell {
         }
     }
 
+    override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
+        super.touchesEnded(touches, withEvent: event)
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.toolBar.translucent = false
-        self.toolBar.barTintColor = UIColor.whiteColor()
-        self.toolBar.clipsToBounds = true
-        self.toolBar.layer.borderColor = UIColor.whiteColor().CGColor
+        toolBar.translucent = false
+        toolBar.barTintColor = UIColor.whiteColor()
+        toolBar.clipsToBounds = true
+        toolBar.layer.borderColor = UIColor.whiteColor().CGColor
+
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.showsVerticalScrollIndicator = false
+
+//        self.moreButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//        self.moreButton.titleLabel.font = [UIFont systemFontOfSize:14.0];
+//        self.moreButton.backgroundColor = [UIColor colorWithWhite:0.76 alpha:1.0];
+//        self.moreButton.frame = CGRectMake(0, 0, kRevealWidth / 2.0, self.contentView.frame.size.height);
+//        [self.moreButton setTitle:@"More..." forState:UIControlStateNormal];
+//
+//        self.deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//        self.deleteButton.titleLabel.font = [UIFont systemFontOfSize:14.0];
+//        self.deleteButton.backgroundColor = [UIColor redColor];
+//        self.deleteButton.frame = CGRectMake(self.moreButton.frame.size.width, 0, kRevealWidth / 2.0, self.contentView.frame.size.height);
+//        [self.deleteButton setTitle:@"Delete" forState:UIControlStateNormal];
+//
+//        self.buttonContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kRevealWidth, self.deleteButton.frame.size.height)];
+//        [self.buttonContainerView addSubview:self.moreButton];
+//        [self.buttonContainerView addSubview:self.deleteButton];
+//
+//        [self.scrollView insertSubview:self.buttonContainerView
+//        belowSubview:self.innerContentView];
+//
+//        [[NSNotificationCenter defaultCenter] addObserver:self
+//        selector:@selector(onOpen:)
+//        name:RevealCellDidOpenNotification
+//        object:nil];
     }
 
     var views:String? {
@@ -138,4 +175,46 @@ class StreamFooterCell: UICollectionViewCell {
 
     @IBAction func chevronButtonTapped(sender: StreamFooterButton) {
     }
+
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        contentView.frame = bounds
+        innerContentView.frame = bounds
+        containerView.frame = bounds
+        scrollView.contentSize = CGSizeMake(contentView.frame.size.width + revealWidth, scrollView.frame.size.height)
+        repositionButtonContent()
+    }
+
+
+
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        repositionButtonContent()
+
+        if (scrollView.contentOffset.x < 0) {
+            scrollView.contentOffset = CGPointZero;
+        }
+
+        if (scrollView.contentOffset.x >= revealWidth) {
+            isOpen = true
+//            [[NSNotificationCenter defaultCenter] postNotificationName:RevealCellDidOpenNotificationobject:self];
+        } else {
+            isOpen = false
+        }
+
+    }
+
+    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        if (velocity.x > 0) {
+            targetContentOffset.memory.x = revealWidth
+        }
+        else {
+            targetContentOffset.memory.x = 0
+        }
+    }
+
+    func repositionButtonContent() {
+
+    }
+
 }
