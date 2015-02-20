@@ -210,6 +210,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         var user = notification.author!
 
         notificationCell.title = notification.attributedTitle
+        notificationCell.createdAt = notification.createdAt
         notificationCell.avatarURL = user.avatarURL
         notificationCell.imageURL = nil
         notificationCell.messageHtml = nil

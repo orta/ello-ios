@@ -11,12 +11,13 @@ import UIKit
 
 struct Attributed {
     static let Link : NSString = "ElloLinkAttributedString"
+    static let Object : NSString = "ElloObjectAttributedString"
 }
 
 class Notification : JSONAble, Authorable {
     struct TitleStyles {
         static func attrs(_ addl : [String : AnyObject] = [:]) -> [NSObject : AnyObject] {
-            var attrs : [String : AnyObject] = [
+            let attrs : [String : AnyObject] = [
                 NSFontAttributeName : UIFont.typewriterFont(12),
             ]
             return attrs + addl
@@ -24,22 +25,25 @@ class Notification : JSONAble, Authorable {
         static func text(text : String) -> NSAttributedString {
             return NSAttributedString(string: text, attributes: attrs())
         }
-        static func profile(text : String, _ id : String) -> NSAttributedString {
-            return NSAttributedString(string: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc consectetur molestie faucibus. Phasellus iaculis pellentesque felis eu fringilla. Ut in sollicitudin nisi. Praesent in mauris tortor. Nam interdum, magna eu pellentesque scelerisque, dui ipsum adipiscing ante, vel ullamcorper nisl sapien id arcu. Nullam egestas diam eu felis mollis sit amet cursus enim vehicula. Quisque eu tellus id erat pellentesque consequat. Maecenas fermentum faucibus magna, eget dictum nisi congue sed. Quisque a justo a nisi eleifend facilisis sit amet at augue. Sed a sapien vitae augue hendrerit porta vel eu ligula. Proin enim urna, faucibus in vestibulum tincidunt, commodo sit amet orci. Vestibulum ac sem urna, quis mattis urna. Nam eget ullamcorper ligula. Nam volutpat, arcu vel auctor dignissim, tortor nisi sodales enim, et vestibulum nulla dui id ligula. Nam ullamcorper, augue ut interdum vulputate, eros mauris lobortis sapien, ac sodales dui eros ac elit.", attributes: attrs([
-                Attributed.Link : "profile/\(id)",
+        static func profile(text : String, _ user : User) -> NSAttributedString {
+            return NSAttributedString(string: text, attributes: attrs([
+                Attributed.Link : "user",
+                Attributed.Object : user,
                 NSUnderlineStyleAttributeName : NSUnderlineStyle.StyleSingle.rawValue,
             ]))
         }
-        static func post(text : String, _ id : String) -> NSAttributedString {
+        static func post(text : String, _ post : Post) -> NSAttributedString {
             var attrs = TitleStyles.attrs([
-                Attributed.Link : "post/\(id)",
+                Attributed.Link : "post",
+                Attributed.Object : post,
                 NSUnderlineStyleAttributeName : NSUnderlineStyle.StyleSingle.rawValue,
             ])
             return NSAttributedString(string: text, attributes: attrs)
         }
-        static func comment(text : String, _ id : String) -> NSAttributedString {
+        static func comment(text : String, _ comment : Comment) -> NSAttributedString {
             var attrs = TitleStyles.attrs([
-                Attributed.Link : "comment/\(id)",
+                Attributed.Link : "comment",
+                Attributed.Object : comment,
                 NSUnderlineStyleAttributeName : NSUnderlineStyle.StyleSingle.rawValue,
             ])
             return NSAttributedString(string: text, attributes: attrs)
@@ -64,20 +68,20 @@ class Notification : JSONAble, Authorable {
 
         switch kind {
             case .RepostNotification:
-                attributedTitleStore = TitleStyles.profile(author!.atName, author!.userId).append(TitleStyles.text(" reposted your ")).append(TitleStyles.post("post", (subject! as Post).postId)).append(TitleStyles.text("."))
+                attributedTitleStore = TitleStyles.profile(author!.atName, author!).append(TitleStyles.text(" reposted your ")).append(TitleStyles.post("post", subject! as Post)).append(TitleStyles.text("."))
             case .NewFollowedUserPost:
-                attributedTitleStore = TitleStyles.text("You started following ").append(TitleStyles.profile(author!.atName, author!.userId)).append(TitleStyles.text("."))
+                attributedTitleStore = TitleStyles.text("You started following ").append(TitleStyles.profile(author!.atName, author!)).append(TitleStyles.text("."))
             case .NewFollowerPost:
-                attributedTitleStore = TitleStyles.profile(author!.atName, author!.userId).append(TitleStyles.text(" started following you."))
+                attributedTitleStore = TitleStyles.profile(author!.atName, author!).append(TitleStyles.text(" started following you."))
             case .PostMentionNotification:
-                attributedTitleStore = TitleStyles.profile(author!.atName, author!.userId).append(TitleStyles.text(" mentioned you in a ")).append(TitleStyles.post("post", (subject! as Post).postId)).append(TitleStyles.text("."))
+                attributedTitleStore = TitleStyles.profile(author!.atName, author!).append(TitleStyles.text(" mentioned you in a ")).append(TitleStyles.post("post", subject! as Post)).append(TitleStyles.text("."))
             case .CommentMentionNotification:
-                attributedTitleStore = TitleStyles.profile(author!.atName, author!.userId).append(TitleStyles.text(" mentioned you in a ")).append(TitleStyles.comment("comment", (subject! as Comment).commentId)).append(TitleStyles.text("."))
+                attributedTitleStore = TitleStyles.profile(author!.atName, author!).append(TitleStyles.text(" mentioned you in a ")).append(TitleStyles.comment("comment", subject! as Comment)).append(TitleStyles.text("."))
             case .InvitationAcceptedPost:
-                attributedTitleStore = TitleStyles.profile(author!.atName, author!.userId).append(TitleStyles.text(" accepted your invitation."))
+                attributedTitleStore = TitleStyles.profile(author!.atName, author!).append(TitleStyles.text(" accepted your invitation."))
             case .CommentNotification:
                 println("subject: \(subject)")
-                attributedTitleStore = TitleStyles.profile(author!.atName, author!.userId).append(TitleStyles.text(" commented on your ")).append(TitleStyles.post("post", (subject! as Comment).commentId)).append(TitleStyles.text("."))
+                attributedTitleStore = TitleStyles.profile(author!.atName, author!).append(TitleStyles.text(" commented on your ")).append(TitleStyles.comment("post", subject! as Comment)).append(TitleStyles.text("."))
             case .WelcomeNotification:
                 attributedTitleStore = TitleStyles.text("Welcome to Ello!")
             default:

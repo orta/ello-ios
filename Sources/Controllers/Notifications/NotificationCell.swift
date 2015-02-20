@@ -19,23 +19,11 @@ class NotificationCell : UICollectionViewCell {
         static let innerTextMargin = CGFloat(10)
         static let createdAtHeight = CGFloat(12)
 
-        static func titleHeight(#attributedTitle: NSAttributedString?, forCellWidth cellWidth: CGFloat, hasImage: Bool) -> CGFloat {
-            if let attributedTitle = attributedTitle {
-                let textWidth = messageHtmlWidth(forCellWidth: cellWidth, hasImage: hasImage)
-                let size = attributedTitle.boundingRectWithSize(CGSize(width: textWidth, height: 1_000), options: .UsesLineFragmentOrigin, context: nil).size
-                return ceil(size.height)
-            }
-            else {
-                return CGFloat(0)
-            }
-        }
-
         // height of created at and title labels
-        static func topBottomFixedHeight(#attributedTitle: NSAttributedString?, forCellWidth cellWidth: CGFloat, hasImage: Bool) -> CGFloat {
-            let titleHeight = Size.titleHeight(attributedTitle: attributedTitle, forCellWidth: cellWidth, hasImage: hasImage)
+        static func topBottomFixedHeight() -> CGFloat {
             let createdAtHeight = CGFloat(12)
             let innerMargin = self.innerTextMargin
-            return createdAtHeight + titleHeight + innerMargin
+            return createdAtHeight + innerMargin
         }
 
         static func messageHtmlWidth(#forCellWidth: CGFloat, hasImage: Bool) -> CGFloat {
@@ -91,6 +79,12 @@ class NotificationCell : UICollectionViewCell {
         }
     }
 
+    var createdAt: NSDate? {
+        willSet(newValue) {
+            createdAtLabel.text = "20m"
+        }
+    }
+
     var avatarURL: NSURL? {
         willSet(newValue) {
             if let url = newValue {
@@ -139,8 +133,23 @@ class NotificationCell : UICollectionViewCell {
         let location = gesture.locationInView(lbl)
         let range = lbl.characterRangeAtPoint(location)
         let pos = lbl.closestPositionToPoint(location, withinRange: range)
-        let style = lbl.textStylingAtPosition(pos, inDirection: .Forward)
-        println(style)
+        let style = lbl.textStylingAtPosition(pos, inDirection: .Forward) as [String : AnyObject]
+        let linkType = style[Attributed.Link] as String?
+        if let linkType = linkType {
+            switch linkType {
+                case "post":
+                    let post = style[Attributed.Object] as Post
+                    println("post: \(post)")
+                case "comment":
+                    let comment = style[Attributed.Object] as Comment
+                    println("comment: \(comment)")
+                case "user":
+                    let user = style[Attributed.Object] as User
+                    println("user: \(user)")
+                default:
+                    println("")
+            }
+        }
     }
 
     override func layoutSubviews() {
@@ -148,7 +157,6 @@ class NotificationCell : UICollectionViewCell {
 
         let outerFrame = self.contentView.bounds.inset(all: Size.sideMargins)
         let titleWidth = Size.messageHtmlWidth(forCellWidth: self.frame.width, hasImage: imageURL != nil)
-        let titleHeight = Size.titleHeight(attributedTitle: title, forCellWidth: self.frame.width, hasImage: imageURL != nil)
 
         avatarButton.frame = outerFrame.withSize(CGSize(width: Size.avatarSide, height: Size.avatarSide))
 
@@ -163,7 +171,8 @@ class NotificationCell : UICollectionViewCell {
 
         notificationTitleLabel.frame = avatarButton.frame.fromRight()
             .shiftRight(Size.innerTextMargin)
-            .withSize(CGSize(width: titleWidth, height: titleHeight))
+            .withWidth(titleWidth)
+        notificationTitleLabel.sizeToFit()
 
         let createdAtHeight = Size.createdAtHeight
         createdAtLabel.frame = avatarButton.frame.fromRight()

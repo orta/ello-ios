@@ -11,13 +11,19 @@ class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
     typealias StreamTextCellSizeCalculated = () -> ()
 
     let webView:UIWebView
+    let textView:UITextView
     let originalWidth:CGFloat
     var cellItems:[StreamCellItem] = []
     var completion:StreamTextCellSizeCalculated = {}
 
     init(webView:UIWebView) {
         self.webView = webView
-        self.originalWidth = self.webView.frame.size.width
+        originalWidth = self.webView.frame.size.width
+        textView = UITextView(frame: CGRectZero.withWidth(originalWidth))
+        textView.editable = false
+        textView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        textView.textColor = UIColor.blackColor()
+        textView.font = UIFont.typewriterFont(12)
         super.init()
         self.webView.delegate = self
     }
@@ -61,7 +67,15 @@ class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
         var cellItem = self.cellItems.removeAtIndex(0)
         let notification = cellItem.jsonable as Notification
         let imageHeight = NotificationCell.Size.imageHeight(imageRegion: notification.imageRegion)
-        var totalTextHeight = NotificationCell.Size.topBottomFixedHeight(attributedTitle: notification.attributedTitle, forCellWidth: originalWidth, hasImage: notification.hasImage())
+        let titleWidth = NotificationCell.Size.messageHtmlWidth(forCellWidth: originalWidth, hasImage: notification.hasImage())
+        textView.frame = textView.frame.withWidth(titleWidth)
+        textView.attributedText = notification.attributedTitle
+        textView.sizeToFit()
+        let titleHeight = textView.frame.height
+
+        var totalTextHeight = NotificationCell.Size.topBottomFixedHeight()
+        totalTextHeight += titleHeight
+
         if textHeight > 0 {
             totalTextHeight += textHeight + NotificationCell.Size.innerTextMargin
         }
