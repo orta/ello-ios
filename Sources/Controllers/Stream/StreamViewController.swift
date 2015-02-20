@@ -25,10 +25,8 @@ class StreamViewController: BaseElloViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
     var pulsingCircle : PulsingCircle?
-    var scrolling = false
     var streamables:[Streamable]?
     var dataSource:StreamDataSource!
-    var navBarShowing = true
     var postbarController:PostbarController?
 
     var streamKind:StreamKind = StreamKind.Friend {
@@ -203,7 +201,7 @@ extension StreamViewController : UserDelegate {
             }
         }
     }
-    
+
 }
 
 // MARK: StreamViewController : UICollectionViewDelegate
@@ -257,7 +255,7 @@ extension StreamViewController : UIScrollViewDelegate {
 
     func scrollViewDidScroll(scrollView : UIScrollView) {
         self.streamScrollDelegate?.scrollViewDidScroll(scrollView)
-        
+
         let shouldHideTabBar : ()->Bool = { return false }
         if !shouldHideTabBar() {
             return
