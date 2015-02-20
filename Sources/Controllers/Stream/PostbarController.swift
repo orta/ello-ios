@@ -8,15 +8,17 @@
 
 import Foundation
 
-class PostbarController:NSObject, PostbarDelegate {
+class PostbarController: NSObject, PostbarDelegate {
 
-    let collectionView:UICollectionView
-    let dataSource:StreamDataSource
+    let presentingController: UIViewController?
+    let collectionView: UICollectionView
+    let dataSource: StreamDataSource
 
-    init(collectionView:UICollectionView, dataSource:StreamDataSource) {
+    init(collectionView: UICollectionView, dataSource: StreamDataSource, presentingController: UIViewController?) {
         self.collectionView = collectionView
         self.dataSource = dataSource
         self.collectionView.dataSource = dataSource
+        self.presentingController = presentingController
     }
 
     // MARK:

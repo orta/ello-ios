@@ -46,7 +46,10 @@ class StreamViewController: BaseElloViewController {
     var postbarController:PostbarController?
 
     var streamKind:StreamKind = StreamKind.Friend {
-        didSet { setupCollectionViewLayout() }
+        didSet {
+            dataSource.streamKind = streamKind
+            setupCollectionViewLayout()
+        }
     }
     var imageViewerDelegate:StreamImageViewer?
     var updatedStreamImageCellHeightNotification:NotificationObserver?
@@ -140,7 +143,6 @@ class StreamViewController: BaseElloViewController {
     }
 
     private func updateCellHeight(indexPath:NSIndexPath, height:CGFloat) {
-//        println("update indexPath:\(indexPath) height:\(height)")
         collectionView.performBatchUpdates({
             self.dataSource.updateHeightForIndexPath(indexPath, height: height)
         }, completion: { (finished) in

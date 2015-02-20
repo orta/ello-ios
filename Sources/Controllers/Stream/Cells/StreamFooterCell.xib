@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
@@ -13,19 +13,37 @@
                 <rect key="frame" x="0.0" y="0.0" width="591" height="50"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GrK-zA-eIR" userLabel="ContentView">
+                    <view contentMode="scaleToFill" id="GrK-zA-eIR" userLabel="contentView">
                         <rect key="frame" x="0.0" y="0.0" width="591" height="50"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ozo-eU-Inx">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="ozo-eU-Inx" userLabel="scrollView">
                                 <rect key="frame" x="0.0" y="0.0" width="591" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZlJ-XS-hLi" userLabel="InnerContentView">
+                                    <view contentMode="scaleToFill" id="lKI-TT-jQD" userLabel="bottomContentView">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="U8O-k9-JF4" userLabel="toolBar">
+                                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="utw-r9-MvC" userLabel="bottomToolbar">
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" red="1" green="0.0" blue="0.010051519910000001" alpha="1" colorSpace="calibratedRGB"/>
                                                 <items/>
                                             </toolbar>
-                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5pv-U4-t1W" userLabel="chevronButton" customClass="StreamFooterButton" customModule="Ello" customModuleProvider="target">
-                                                <rect key="frame" x="-44" y="11" width="19" height="22"/>
+                                        </subviews>
+                                        <color key="backgroundColor" red="1" green="0.00083137051919999995" blue="0.69331204690000003" alpha="1" colorSpace="calibratedRGB"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" id="ZlJ-XS-hLi" userLabel="innerContentView">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="U8O-k9-JF4" userLabel="toolBar">
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                                <items/>
+                                            </toolbar>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="5pv-U4-t1W" userLabel="chevronButton" customClass="StreamFooterButton" customModule="Ello" customModuleProvider="target">
+                                                <rect key="frame" x="550" y="11" width="19" height="22"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <state key="normal" image="chevron-icon">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
@@ -35,16 +53,6 @@
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="centerY" secondItem="5pv-U4-t1W" secondAttribute="centerY" id="1CS-7b-0ku"/>
-                                            <constraint firstAttribute="width" constant="600" id="9Pl-7T-agB"/>
-                                            <constraint firstAttribute="height" constant="44" id="Blh-63-gXd"/>
-                                            <constraint firstAttribute="trailing" secondItem="U8O-k9-JF4" secondAttribute="trailing" id="Hcq-VS-wZr" userLabel="toolBar - Right"/>
-                                            <constraint firstAttribute="trailing" secondItem="5pv-U4-t1W" secondAttribute="trailing" constant="25" id="PWb-hV-vCg"/>
-                                            <constraint firstItem="U8O-k9-JF4" firstAttribute="top" secondItem="ZlJ-XS-hLi" secondAttribute="top" id="PXm-KN-tHX" userLabel="toolBar - Top"/>
-                                            <constraint firstItem="U8O-k9-JF4" firstAttribute="leading" secondItem="ZlJ-XS-hLi" secondAttribute="leading" id="jSR-6b-8Ve" userLabel="toolBar - Left"/>
-                                            <constraint firstAttribute="bottom" secondItem="U8O-k9-JF4" secondAttribute="bottom" id="pMI-nG-KGj" userLabel="toolBar - Bottom"/>
-                                        </constraints>
                                     </view>
                                 </subviews>
                                 <connections>
@@ -53,25 +61,15 @@
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="ozo-eU-Inx" firstAttribute="top" secondItem="GrK-zA-eIR" secondAttribute="top" id="Plv-Lg-PGc" userLabel="ScrollView - Top"/>
-                            <constraint firstItem="ozo-eU-Inx" firstAttribute="leading" secondItem="GrK-zA-eIR" secondAttribute="leading" id="Q2p-VL-bvJ" userLabel="ScrollView - Left"/>
-                            <constraint firstAttribute="bottom" secondItem="ozo-eU-Inx" secondAttribute="bottom" id="fVl-Lu-VFL" userLabel="ScrollView - Bottom"/>
-                            <constraint firstAttribute="trailing" secondItem="ozo-eU-Inx" secondAttribute="trailing" id="pUo-4T-DSq" userLabel="ScrollView - Right"/>
-                        </constraints>
                     </view>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-            <constraints>
-                <constraint firstItem="GrK-zA-eIR" firstAttribute="leading" secondItem="9FS-aP-wX8" secondAttribute="leading" id="5af-er-uil" userLabel="ContentView - Left"/>
-                <constraint firstAttribute="bottom" secondItem="GrK-zA-eIR" secondAttribute="bottom" id="LYl-Ag-nlg" userLabel="ContentView - Bottom"/>
-                <constraint firstAttribute="trailing" secondItem="GrK-zA-eIR" secondAttribute="trailing" id="Tje-cI-oWp" userLabel="ContentView - Right"/>
-                <constraint firstItem="GrK-zA-eIR" firstAttribute="top" secondItem="9FS-aP-wX8" secondAttribute="top" id="cob-CJ-eOP" userLabel="ContentView - Top"/>
-            </constraints>
             <size key="customSize" width="591" height="50"/>
             <connections>
+                <outlet property="bottomContentView" destination="lKI-TT-jQD" id="SdJ-p3-qeE"/>
+                <outlet property="bottomToolBar" destination="utw-r9-MvC" id="Qv7-1b-d2g"/>
                 <outlet property="chevronButton" destination="5pv-U4-t1W" id="cSQ-tj-rPg"/>
                 <outlet property="containerView" destination="GrK-zA-eIR" id="WUk-fP-qzm"/>
                 <outlet property="innerContentView" destination="ZlJ-XS-hLi" id="TvP-9o-9ya"/>
@@ -84,4 +82,9 @@
     <resources>
         <image name="chevron-icon" width="19" height="13"/>
     </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
 </document>

@@ -15,7 +15,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     let imageBottomPadding:CGFloat = 10.0
     let testWebView:UIWebView
-    let streamKind:StreamKind
+    var streamKind:StreamKind
 
     var indexFile:String?
     var streamCellItems:[StreamCellItem] = []

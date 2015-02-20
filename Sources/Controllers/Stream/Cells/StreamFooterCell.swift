@@ -9,58 +9,59 @@
 import UIKit
 import Foundation
 
+let streamFooterCellDidOpenNotification = TypedNotification<StreamFooterCell>(name: "StreamFooterCellDidOpenNotification")
 
-
-
-class StreamFooterCell: UICollectionViewCell, UIScrollViewDelegate {
+class StreamFooterCell: UICollectionViewCell {
 
     let revealWidth:CGFloat = 160.0
+    var cellOpenObserver: NotificationObserver?
     var isOpen = false
 
     @IBOutlet weak var toolBar: UIToolbar!
+    @IBOutlet weak var bottomToolBar: UIToolbar!
     @IBOutlet weak var chevronButton: StreamFooterButton!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var innerContentView: UIView!
+    @IBOutlet weak var bottomContentView: UIView!
     var commentsOpened = false
     weak var delegate: PostbarDelegate?
 
     let viewsItem:UIBarButtonItem = ElloPostToolBarOption.Views.barButtonItem()
     var viewsButton:StreamFooterButton {
-        get {
-            let button = self.viewsItem.customView as StreamFooterButton
-            button.addTarget(self, action: "viewsButtonTapped:", forControlEvents: .TouchUpInside)
-            return button
-        }
+        get { return self.viewsItem.customView as StreamFooterButton }
     }
 
     let lovesItem:UIBarButtonItem = ElloPostToolBarOption.Loves.barButtonItem()
     var lovesButton:StreamFooterButton {
-        get {
-            let button = self.lovesItem.customView as StreamFooterButton
-            button.addTarget(self, action: "lovesButtonTapped:", forControlEvents: .TouchUpInside)
-            return button
-        }
+        get { return self.lovesItem.customView as StreamFooterButton }
     }
 
     let commentsItem:UIBarButtonItem = ElloPostToolBarOption.Comments.barButtonItem()
     var commentsButton:StreamFooterButton {
-        get {
-            let button = self.commentsItem.customView as StreamFooterButton
-            button.addTarget(self, action: "commentsButtonTapped:", forControlEvents: .TouchUpInside)
-            button.addTarget(self, action: "commentsButtonTouchDown:", forControlEvents: .TouchDown)
-            return button
-        }
+        get { return self.commentsItem.customView as StreamFooterButton }
     }
 
     let repostItem:UIBarButtonItem = ElloPostToolBarOption.Repost.barButtonItem()
     var repostButton:StreamFooterButton {
-        get {
-            let button = self.repostItem.customView as StreamFooterButton
-            button.addTarget(self, action: "repostButtonTapped:", forControlEvents: .TouchUpInside)
-            return button
-        }
+        get { return self.repostItem.customView as StreamFooterButton }
     }
+
+    let blockItem:UIBarButtonItem = ElloPostToolBarOption.Block.barButtonItem()
+    var blockButton:StreamFooterButton {
+        get { return self.blockItem.customView as StreamFooterButton }
+    }
+
+    let shareItem:UIBarButtonItem = ElloPostToolBarOption.Share.barButtonItem()
+    var shareButton:StreamFooterButton {
+        get { return self.shareItem.customView as StreamFooterButton }
+    }
+
+    let replyItem:UIBarButtonItem = ElloPostToolBarOption.Reply.barButtonItem()
+    var replyButton:StreamFooterButton {
+        get { return self.replyItem.customView as StreamFooterButton }
+    }
+
 
     var streamKind:StreamKind? {
         didSet {
@@ -69,10 +70,15 @@ class StreamFooterCell: UICollectionViewCell, UIScrollViewDelegate {
                     self.toolBar.items = [
                         commentsItem, lovesItem, repostItem
                     ]
+                    self.bottomToolBar.items = [
+                    ]
                 }
                 else {
                     self.toolBar.items = [
                         viewsItem, commentsItem, repostItem
+                    ]
+                    self.bottomToolBar.items = [
+                        flexibleItem(), repostItem, blockItem
                     ]
                 }
             }
@@ -90,32 +96,17 @@ class StreamFooterCell: UICollectionViewCell, UIScrollViewDelegate {
         toolBar.clipsToBounds = true
         toolBar.layer.borderColor = UIColor.whiteColor().CGColor
 
+
+        bottomToolBar.translucent = false
+        bottomToolBar.barTintColor = UIColor.whiteColor()
+        bottomToolBar.clipsToBounds = true
+        bottomToolBar.layer.borderColor = UIColor.whiteColor().CGColor
+
+
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = false
-
-//        self.moreButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//        self.moreButton.titleLabel.font = [UIFont systemFontOfSize:14.0];
-//        self.moreButton.backgroundColor = [UIColor colorWithWhite:0.76 alpha:1.0];
-//        self.moreButton.frame = CGRectMake(0, 0, kRevealWidth / 2.0, self.contentView.frame.size.height);
-//        [self.moreButton setTitle:@"More..." forState:UIControlStateNormal];
-//
-//        self.deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//        self.deleteButton.titleLabel.font = [UIFont systemFontOfSize:14.0];
-//        self.deleteButton.backgroundColor = [UIColor redColor];
-//        self.deleteButton.frame = CGRectMake(self.moreButton.frame.size.width, 0, kRevealWidth / 2.0, self.contentView.frame.size.height);
-//        [self.deleteButton setTitle:@"Delete" forState:UIControlStateNormal];
-//
-//        self.buttonContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kRevealWidth, self.deleteButton.frame.size.height)];
-//        [self.buttonContainerView addSubview:self.moreButton];
-//        [self.buttonContainerView addSubview:self.deleteButton];
-//
-//        [self.scrollView insertSubview:self.buttonContainerView
-//        belowSubview:self.innerContentView];
-//
-//        [[NSNotificationCenter defaultCenter] addObserver:self
-//        selector:@selector(onOpen:)
-//        name:RevealCellDidOpenNotification
-//        object:nil];
+        addObservers()
+        addButtonHandlers()
     }
 
     var views:String? {
@@ -125,7 +116,10 @@ class StreamFooterCell: UICollectionViewCell, UIScrollViewDelegate {
 
     var comments:String? {
         get { return commentsButton.titleForState(.Normal) }
-        set { commentsButton.setButtonTitle(newValue) }
+        set {
+            commentsButton.setButtonTitle(newValue, titlePadding: 13.0, contentPadding: 15.0)
+            commentsButton.titleLabel?.sizeToFit()
+        }
     }
 
     var loves:String? {
@@ -138,7 +132,7 @@ class StreamFooterCell: UICollectionViewCell, UIScrollViewDelegate {
         set { repostButton.setButtonTitle(newValue) }
     }
 
-    // MARK: - Private
+// MARK: - Private
 
     private func fixedItem(width:CGFloat) -> UIBarButtonItem {
         let item = UIBarButtonItem()
@@ -146,7 +140,36 @@ class StreamFooterCell: UICollectionViewCell, UIScrollViewDelegate {
         return item
     }
 
-    // MARK: - IBActions
+    private func flexibleItem() -> UIBarButtonItem {
+        return UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: "")
+    }
+
+    private func addObservers() {
+        cellOpenObserver = NotificationObserver(notification: streamFooterCellDidOpenNotification) { cell in
+            if (cell != self) {
+                if self.isOpen {
+                    dispatch_async(dispatch_get_main_queue(), {
+                        UIView.animateWithDuration(0.25, animations: {
+                            self.scrollView.contentOffset = CGPointZero
+                        })
+                    })
+                }
+            }
+        }
+    }
+
+    private func addButtonHandlers() {
+        blockButton.addTarget(self, action: "blockButtonTapped:", forControlEvents: .TouchUpInside)
+        commentsButton.addTarget(self, action: "commentsButtonTapped:", forControlEvents: .TouchUpInside)
+        commentsButton.addTarget(self, action: "commentsButtonTouchDown:", forControlEvents: .TouchDown)
+        lovesButton.addTarget(self, action: "lovesButtonTapped:", forControlEvents: .TouchUpInside)
+        replyButton.addTarget(self, action: "replyButtonTapped:", forControlEvents: .TouchUpInside)
+        repostButton.addTarget(self, action: "repostButtonTapped:", forControlEvents: .TouchUpInside)
+        shareButton.addTarget(self, action: "shareButtonTapped:", forControlEvents: .TouchUpInside)
+        viewsButton.addTarget(self, action: "viewsButtonTapped:", forControlEvents: .TouchUpInside)
+    }
+
+// MARK: - IBActions
 
     @IBAction func viewsButtonTapped(sender: StreamFooterButton) {
         delegate?.viewsButtonTapped(self)
@@ -173,23 +196,52 @@ class StreamFooterCell: UICollectionViewCell, UIScrollViewDelegate {
         delegate?.repostButtonTapped(self)
     }
 
-    @IBAction func chevronButtonTapped(sender: StreamFooterButton) {
+    @IBAction func blockButtonTapped(sender: StreamFooterButton) {
+        println("block tapped")
     }
 
+    @IBAction func shareButtonTapped(sender: StreamFooterButton) {
+        println("share tapped")
+    }
+
+    @IBAction func replyButtonTapped(sender: StreamFooterButton) {
+        println("reply tapped")
+    }
+
+    @IBAction func chevronButtonTapped(sender: StreamFooterButton) {
+    }
 
     override func layoutSubviews() {
         super.layoutSubviews()
         contentView.frame = bounds
         innerContentView.frame = bounds
         containerView.frame = bounds
+        scrollView.frame = bounds
+        toolBar.frame = bounds
+        bottomToolBar.frame = bounds
+        chevronButton.frame = CGRectMake(bounds.width - chevronButton.bounds.width - 10, bounds.height/2 - chevronButton.bounds.height/2, chevronButton.bounds.size.width, chevronButton.bounds.size.height)
         scrollView.contentSize = CGSizeMake(contentView.frame.size.width + revealWidth, scrollView.frame.size.height)
-        repositionButtonContent()
+        repositionBottomContent()
     }
 
+    private func repositionBottomContent() {
+        var frame = bottomContentView.frame
+        frame.size.height = innerContentView.bounds.height
+        frame.size.width = innerContentView.bounds.width
+        frame.origin.y = innerContentView.frame.origin.y
+        frame.origin.x = scrollView.contentOffset.x
+        bottomContentView.frame = frame
+        println("bottomContentView.frame = \(bottomContentView.frame)")
+        println("bottomToolBar.frame = \(bottomToolBar.frame)")
+    }
 
+}
+
+// MARK: UIScrollViewDelegate
+extension StreamFooterCell: UIScrollViewDelegate {
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        repositionButtonContent()
+        repositionBottomContent()
 
         if (scrollView.contentOffset.x < 0) {
             scrollView.contentOffset = CGPointZero;
@@ -197,7 +249,7 @@ class StreamFooterCell: UICollectionViewCell, UIScrollViewDelegate {
 
         if (scrollView.contentOffset.x >= revealWidth) {
             isOpen = true
-//            [[NSNotificationCenter defaultCenter] postNotificationName:RevealCellDidOpenNotificationobject:self];
+            postNotification(streamFooterCellDidOpenNotification, self)
         } else {
             isOpen = false
         }
@@ -211,10 +263,6 @@ class StreamFooterCell: UICollectionViewCell, UIScrollViewDelegate {
         else {
             targetContentOffset.memory.x = 0
         }
-    }
-
-    func repositionButtonContent() {
-
     }
 
 }
