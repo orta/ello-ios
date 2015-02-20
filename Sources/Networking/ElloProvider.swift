@@ -71,7 +71,7 @@ struct ElloProvider {
     }
 
     static func DefaultProvider() -> MoyaProvider<ElloAPI> {
-        return MoyaProvider(endpointsClosure: endpointsClosure, stubResponses: true)
+        return MoyaProvider(endpointsClosure: endpointsClosure, stubResponses: false)
     }
 
     static func StubbingProvider() -> MoyaProvider<ElloAPI> {
