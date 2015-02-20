@@ -17,7 +17,7 @@ class BlockUserModalViewControllerSpec: QuickSpec {
         var subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationship: Relationship.Friend) {
             relationship in
         }
-        let relationshipController = RelationshipController(controller: UIViewController())
+        let relationshipController = RelationshipController(presentingController: UIViewController())
 
 
         describe("initialization") {

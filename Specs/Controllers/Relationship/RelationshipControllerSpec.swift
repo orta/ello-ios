@@ -12,16 +12,16 @@ import Moya
 
 class RelationshipControllerSpec: QuickSpec {
     override func spec() {
-        var subject = RelationshipController(controller: UIViewController())
+        var subject = RelationshipController(presentingController: UIViewController())
 
         beforeEach({
-            var controller = UIViewController()
+            var presentingController = UIViewController()
             let keyWindow = UIWindow(frame: UIScreen.mainScreen().bounds)
             keyWindow.makeKeyAndVisible()
-            keyWindow.rootViewController = controller
-            controller.loadView()
-            controller.viewDidLoad()
-            subject = RelationshipController(controller: controller)
+            keyWindow.rootViewController = presentingController
+            presentingController.loadView()
+            presentingController.viewDidLoad()
+            subject = RelationshipController(presentingController: presentingController)
 
         })
 
@@ -59,7 +59,7 @@ class RelationshipControllerSpec: QuickSpec {
                     subject.launchBlockModal("user-id", userAtName: "@666", relationship: Relationship.Friend) {
                         relationship in
                     }
-                    let presentedVC = subject.controller.presentedViewController as BlockUserModalViewController
+                    let presentedVC = subject.presentingController.presentedViewController as BlockUserModalViewController
                     // TODO: figure this out
 //                    expect(presentedVC.relationshipDelegate).to(beIdenticalTo(subject))
                     expect(presentedVC).to(beAKindOf(BlockUserModalViewController.self))

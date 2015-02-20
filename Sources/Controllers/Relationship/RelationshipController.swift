@@ -22,10 +22,10 @@ protocol RelationshipDelegate: NSObjectProtocol {
 
 class RelationshipController: NSObject, RelationshipDelegate {
 
-    let controller: UIViewController
+    let presentingController: UIViewController
 
-    required init(controller: UIViewController) {
-        self.controller = controller
+    required init(presentingController: UIViewController) {
+        self.presentingController = presentingController
     }
 
     func relationshipTapped(userId: String, relationship: Relationship, complete: (status: RelationshipRequestStatus) -> ()) {
@@ -45,7 +45,7 @@ class RelationshipController: NSObject, RelationshipDelegate {
     func launchBlockModal(userId: String, userAtName: String, relationship: Relationship, changeClosure: RelationshipChangeClosure) {
         let vc = BlockUserModalViewController(userId: userId, userAtName: userAtName, relationship: relationship, changeClosure: changeClosure)
         vc.relationshipDelegate = self
-        controller.presentViewController(vc, animated: true, completion: nil)
+        presentingController.presentViewController(vc, animated: true, completion: nil)
     }
     
 }
