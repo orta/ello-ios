@@ -32,7 +32,7 @@ class StreamDataSourceSpec: QuickSpec {
         ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.endpointsClosure, stubResponses: true)
         var loadedPosts:[Post]?
 
-        describe("initialization", {
+        xdescribe("initialization", {
 
             beforeEach({
                 dataSource = StreamDataSource(testWebView: webView, streamKind: .Friend)
@@ -55,7 +55,7 @@ class StreamDataSourceSpec: QuickSpec {
                 }
             })
 
-            xdescribe("-collectionView:numberOfItemsInSection:", {
+            describe("-collectionView:numberOfItemsInSection:", {
 
                 it("returns the correct number of rows", {
                     expect(dataSource.collectionView(vc.collectionView, numberOfItemsInSection: 0)).toEventually(equal(11), timeout:30)
