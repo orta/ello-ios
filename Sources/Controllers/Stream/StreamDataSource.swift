@@ -120,6 +120,8 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
                 (cell as StreamTextCell).webLinkDelegate = webLinkDelegate
             case .Footer:
                 (cell as StreamFooterCell).delegate = postbarDelegate
+            case .ProfileHeader:
+                (cell as ProfileHeaderCell).relationshipView.relationshipDelegate = relationshipDelegate
             default:
                 println("nothing to see here")
             }
