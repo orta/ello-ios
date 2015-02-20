@@ -23,6 +23,7 @@ protocol PostbarDelegate : NSObjectProtocol {
     func commentsButtonTapped(cell:StreamFooterCell, commentsButton: CommentButton)
     func lovesButtonTapped(cell:StreamFooterCell)
     func repostButtonTapped(cell:StreamFooterCell)
+    func shareButtonTapped(cell:StreamFooterCell)
 }
 
 protocol StreamImageCellDelegate : NSObjectProtocol {
@@ -181,7 +182,7 @@ class StreamViewController: BaseElloViewController {
         let webView = UIWebView(frame: self.view.bounds)
 
         self.dataSource = StreamDataSource(testWebView: webView, streamKind: streamKind)
-        self.postbarController = PostbarController(collectionView: collectionView, dataSource: self.dataSource)
+        self.postbarController = PostbarController(collectionView: collectionView, dataSource: self.dataSource, presentingController: self)
         self.dataSource.postbarDelegate = postbarController
 
         self.relationshipController = RelationshipController(presentingController: self)

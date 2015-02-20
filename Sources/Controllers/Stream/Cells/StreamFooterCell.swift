@@ -13,7 +13,7 @@ let streamFooterCellDidOpenNotification = TypedNotification<StreamFooterCell>(na
 
 class StreamFooterCell: UICollectionViewCell {
 
-    let revealWidth:CGFloat = 160.0
+    let revealWidth:CGFloat = 85.0
     var cellOpenObserver: NotificationObserver?
     var isOpen = false
 
@@ -78,7 +78,7 @@ class StreamFooterCell: UICollectionViewCell {
                         viewsItem, commentsItem, repostItem
                     ]
                     self.bottomToolBar.items = [
-                        flexibleItem(), repostItem, blockItem
+                        flexibleItem(), shareItem, blockItem
                     ]
                 }
             }
@@ -201,7 +201,7 @@ class StreamFooterCell: UICollectionViewCell {
     }
 
     @IBAction func shareButtonTapped(sender: StreamFooterButton) {
-        println("share tapped")
+        delegate?.shareButtonTapped(self)
     }
 
     @IBAction func replyButtonTapped(sender: StreamFooterButton) {
@@ -209,6 +209,12 @@ class StreamFooterCell: UICollectionViewCell {
     }
 
     @IBAction func chevronButtonTapped(sender: StreamFooterButton) {
+        let contentOffset = isOpen ? CGPointZero : CGPointMake(revealWidth, 0)
+        dispatch_async(dispatch_get_main_queue(), {
+            UIView.animateWithDuration(0.25, animations: {
+                self.scrollView.contentOffset = contentOffset
+            })
+        })
     }
 
     override func layoutSubviews() {
@@ -231,8 +237,6 @@ class StreamFooterCell: UICollectionViewCell {
         frame.origin.y = innerContentView.frame.origin.y
         frame.origin.x = scrollView.contentOffset.x
         bottomContentView.frame = frame
-        println("bottomContentView.frame = \(bottomContentView.frame)")
-        println("bottomToolBar.frame = \(bottomToolBar.frame)")
     }
 
 }

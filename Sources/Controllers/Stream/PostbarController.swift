@@ -61,7 +61,19 @@ class PostbarController: NSObject, PostbarDelegate {
         println("repostButtonTapped")
     }
 
-    // MARK: - Private
+    func shareButtonTapped(cell: StreamFooterCell) {
+        if let indexPath = collectionView.indexPathForCell(cell) {
+            if let post = dataSource.postForIndexPath(indexPath) {
+                if let shareLink = post.shareLink {
+                    println("shareLink = \(shareLink)")
+                    let activityVC = UIActivityViewController(activityItems: [shareLink], applicationActivities:nil)
+                    presentingController?.presentViewController(activityVC, animated: true) { }
+                }
+            }
+        }
+    }
+
+// MARK: - Private
 
     private func commentLoadSuccess(jsonables:[JSONAble], indexPath:NSIndexPath, cell:StreamFooterCell) {
         var parser = StreamCellItemParser()
