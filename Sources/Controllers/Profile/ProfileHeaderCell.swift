@@ -14,6 +14,7 @@ class ProfileHeaderCell: UICollectionViewCell {
     @IBOutlet weak var avatarButton: AvatarButton!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var relationshipView: RelationshipView!
 
     func setAvatarURL(url:NSURL) {
         avatarButton.setAvatarURL(url)

@@ -44,6 +44,7 @@ class StreamViewController: BaseElloViewController {
     var dataSource:StreamDataSource!
     var navBarShowing = true
     var postbarController:PostbarController?
+    var relationshipController: RelationshipController?
 
     var streamKind:StreamKind = StreamKind.Friend {
         didSet { setupCollectionViewLayout() }
@@ -180,6 +181,10 @@ class StreamViewController: BaseElloViewController {
         self.dataSource = StreamDataSource(testWebView: webView, streamKind: streamKind)
         self.postbarController = PostbarController(collectionView: collectionView, dataSource: self.dataSource)
         self.dataSource.postbarDelegate = postbarController
+
+        self.relationshipController = RelationshipController(presentingController: self)
+        self.dataSource.relationshipDelegate = relationshipController
+
         if let imageViewer = imageViewerDelegate {
             self.dataSource.imageDelegate = imageViewer
         }

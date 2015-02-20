@@ -15,6 +15,7 @@ class ProfileViewController: StreamableViewController {
     var coverImageHeightStart: CGFloat?
     var coverWidthSet = false
     let ratio:CGFloat = 16.0/9.0
+    var relationshipController: RelationshipController?
 
     @IBOutlet weak var viewContainer: UIView!
     @IBOutlet weak var coverImage: UIImageView!
@@ -81,7 +82,7 @@ class ProfileViewController: StreamableViewController {
                 })
             })
         }
-        
+
         let profileHeaderCellItem = StreamCellItem(jsonable: user, type: StreamCellType.ProfileHeader, data: nil, oneColumnCellHeight: 320.0, multiColumnCellHeight: 0.0, isFullWidth: true)
         streamViewController.addStreamCellItems([profileHeaderCellItem])
 
