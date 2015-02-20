@@ -16,11 +16,12 @@ struct Attributed {
 
 class Notification : JSONAble, Authorable {
     struct TitleStyles {
-        static func attrs(_ addl : [String : AnyObject] = [:]) -> [NSObject : AnyObject] {
+        static func attrs(_ addlAttrs : [String : AnyObject] = [:]) -> [NSObject : AnyObject] {
             let attrs : [String : AnyObject] = [
                 NSFontAttributeName : UIFont.typewriterFont(12),
+                NSForegroundColorAttributeName : UIColor.greyA(),
             ]
-            return attrs + addl
+            return attrs + addlAttrs
         }
         static func text(text : String) -> NSAttributedString {
             return NSAttributedString(string: text, attributes: attrs())
@@ -80,7 +81,6 @@ class Notification : JSONAble, Authorable {
             case .InvitationAcceptedPost:
                 attributedTitleStore = TitleStyles.profile(author!.atName, author!).append(TitleStyles.text(" accepted your invitation."))
             case .CommentNotification:
-                println("subject: \(subject)")
                 attributedTitleStore = TitleStyles.profile(author!.atName, author!).append(TitleStyles.text(" commented on your ")).append(TitleStyles.comment("post", subject! as Comment)).append(TitleStyles.text("."))
             case .WelcomeNotification:
                 attributedTitleStore = TitleStyles.text("Welcome to Ello!")

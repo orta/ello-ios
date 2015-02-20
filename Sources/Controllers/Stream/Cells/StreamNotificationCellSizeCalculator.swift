@@ -19,11 +19,7 @@ class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
     init(webView:UIWebView) {
         self.webView = webView
         originalWidth = self.webView.frame.size.width
-        textView = UITextView(frame: CGRectZero.withWidth(originalWidth))
-        textView.editable = false
-        textView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        textView.textColor = UIColor.blackColor()
-        textView.font = UIFont.typewriterFont(12)
+        textView = NotificationCell.generateTextView(frame: CGRectZero.withWidth(originalWidth))
         super.init()
         self.webView.delegate = self
     }

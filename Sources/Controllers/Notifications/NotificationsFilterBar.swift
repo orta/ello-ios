@@ -9,6 +9,10 @@
 import UIKit
 
 class NotificationsFilterBar : UIView {
+    struct Size {
+        static let height : CGFloat = 30
+    }
+
     var buttons : [UIButton] {
         return self.subviews.filter { $0 as? UIButton != nil } as [UIButton]
     }

@@ -10,6 +10,18 @@ import UIKit
 
 
 class NotificationCell : UICollectionViewCell {
+    class func generateTextView(#frame: CGRect) -> UITextView {
+        let textView = UITextView(frame: frame)
+        textView.editable = false
+        textView.allowsEditingTextAttributes = false
+        textView.selectable = false
+        textView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        textView.textColor = UIColor.blackColor()
+        textView.font = UIFont.typewriterFont(12)
+        textView.textContainer.lineFragmentPadding = 0
+        return textView
+    }
+
     struct Size {
         static let sideMargins = CGFloat(15)
         static let avatarSide = CGFloat(30)
@@ -47,11 +59,10 @@ class NotificationCell : UICollectionViewCell {
     }
 
     var avatarButton : AvatarButton!
-    var notificationTitleLabel : UITextView!
+    var titleTextView : UITextView!
     var createdAtLabel : UILabel!
     var messageWebView : UIWebView!
     var notificationImageView : UIImageView!
-
     var aspectRatio:CGFloat = 4.0/3.0
 
     var messageHtml : String? {
@@ -75,13 +86,15 @@ class NotificationCell : UICollectionViewCell {
 
     var title: NSAttributedString? {
         willSet(newValue) {
-            notificationTitleLabel.attributedText = newValue
+            titleTextView.attributedText = newValue
         }
     }
 
     var createdAt: NSDate? {
         willSet(newValue) {
-            createdAtLabel.text = "20m"
+            if let date = newValue {
+                createdAtLabel.text = NSDate().distanceOfTimeInWords(date)
+            }
         }
     }
 
@@ -100,25 +113,30 @@ class NotificationCell : UICollectionViewCell {
         super.init(frame: frame)
 
         avatarButton = AvatarButton()
-        notificationTitleLabel = UITextView()
+        titleTextView = NotificationCell.generateTextView()
         notificationImageView = UIImageView()
         messageWebView = UIWebView()
         createdAtLabel = UILabel()
 
-        notificationTitleLabel.editable = false
-        notificationTitleLabel.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        notificationTitleLabel.textColor = UIColor.blackColor()
-        notificationTitleLabel.font = UIFont.typewriterFont(12)
+        titleTextView.editable = false
+        titleTextView.allowsEditingTextAttributes = false
+        titleTextView.selectable = false
+        titleTextView.scrollEnabled = false
+        titleTextView.textContainerInset = UIEdgeInsetsZero
+        titleTextView.textColor = UIColor.blackColor()
+        titleTextView.font = UIFont.typewriterFont(12)
+        titleTextView.textContainer.lineFragmentPadding = 0
+
         let recognizer = UITapGestureRecognizer(target: self, action: "titleTapped:")
         recognizer.numberOfTapsRequired = 1
         recognizer.numberOfTouchesRequired = 1
-        notificationTitleLabel.addGestureRecognizer(recognizer)
+        titleTextView.addGestureRecognizer(recognizer)
 
-        createdAtLabel.textColor = UIColor.blackColor()
+        createdAtLabel.textColor = UIColor.greyA()
         createdAtLabel.font = UIFont.typewriterFont(12)
         createdAtLabel.text = "10m"
 
-        for view in [avatarButton, notificationTitleLabel, notificationImageView, messageWebView, createdAtLabel] {
+        for view in [avatarButton, titleTextView, notificationImageView, messageWebView, createdAtLabel] {
             self.contentView.addSubview(view)
         }
     }
@@ -129,7 +147,7 @@ class NotificationCell : UICollectionViewCell {
 
     @objc
     func titleTapped(gesture : UITapGestureRecognizer) {
-        let lbl = notificationTitleLabel
+        let lbl = titleTextView
         let location = gesture.locationInView(lbl)
         let range = lbl.characterRangeAtPoint(location)
         let pos = lbl.closestPositionToPoint(location, withinRange: range)
@@ -169,10 +187,10 @@ class NotificationCell : UICollectionViewCell {
                 .withHeight(Size.imageWidth / aspectRatio)
         }
 
-        notificationTitleLabel.frame = avatarButton.frame.fromRight()
+        titleTextView.frame = avatarButton.frame.fromRight()
             .shiftRight(Size.innerTextMargin)
             .withWidth(titleWidth)
-        notificationTitleLabel.sizeToFit()
+        titleTextView.sizeToFit()
 
         let createdAtHeight = Size.createdAtHeight
         createdAtLabel.frame = avatarButton.frame.fromRight()
@@ -184,8 +202,8 @@ class NotificationCell : UICollectionViewCell {
             messageWebView.frame = CGRectZero
         }
         else {
-            let remainingHeight = outerFrame.height - Size.innerTextMargin - notificationTitleLabel.frame.height
-            messageWebView.frame = notificationTitleLabel.frame.fromBottom()
+            let remainingHeight = outerFrame.height - Size.innerTextMargin - titleTextView.frame.height
+            messageWebView.frame = titleTextView.frame.fromBottom()
                 .shiftDown(Size.innerTextMargin)
                 .withHeight(remainingHeight)
         }
