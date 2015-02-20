@@ -1,72 +1,129 @@
 {
-relationships: {
-id: "50",
-created_at: "2015-02-16T18:53:40.728Z",
-links: {
-owner: {
-type: "users",
-href: "/api/edge/users/42",
-id: "42"
-},
-subject: {
-type: "users",
-href: "/api/edge/users/666",
-id: "666"
-}
-}
-},
-linked: {
-users: [
-        {
-        id: "42",
-        href: "/api/edge/users/42",
-        username: "archer",
-        name: "Sterling",
-        experimental_features: false,
-        relationship_priority: "self",
-        posts_count: 0,
-        followers_count: 0,
-        following_count: 1,
-        avatar: {
-        large: {
-        url: "https://abc123.cloudfront.net/uploads/user/avatar/42/ello-large-97fbdf62.png",
-        metadata: null
-        },
-        regular: {
-        url: "https://abc123.cloudfront.net/uploads/user/avatar/42/ello-regular-97fbdf62.png",
-        metadata: null
-        },
-        small: {
-        url: "https://abc123.cloudfront.net/uploads/user/avatar/42/ello-small-97fbdf62.png",
-        metadata: null
-        }
-        }
-        },
-        {
-        id: "666",
-        href: "/api/edge/users/666",
-        username: "cfiggis",
-        name: "Cyril Figgis",
-        experimental_features: true,
-        relationship_priority: "friend",
-        posts_count: 0,
-        followers_count: 1,
-        following_count: 0,
-        avatar: {
-        large: {
-        url: "https://abc123.cloudfront.net/uploads/user/avatar/666/ello-large-9b22e8ac.png",
-        metadata: null
-        },
-        regular: {
-        url: "https://abc123.cloudfront.net/uploads/user/avatar/666/ello-regular-9b22e8ac.png",
-        metadata: null
-        },
-        small: {
-        url: "https://abc123.cloudfront.net/uploads/user/avatar/666/ello-small-9b22e8ac.png",
-        metadata: null
-        }
-        }
-        }
-        ]
-}
+	"relationships": {
+		"id": "82",
+		"created_at": "2014-10-14T22:23:47.689Z",
+		"links": {
+			"owner": {
+				"type": "users",
+				"href": "/api/edge/users/9",
+				"id": "9"
+			},
+			"subject": {
+				"type": "users",
+				"href": "/api/edge/users/15",
+				"id": "15"
+			}
+		}
+	},
+	"linked": {
+		"users": [{
+			"id": "9",
+			"href": "/api/edge/users/9",
+			"username": "666",
+			"name": "Staging",
+			"experimental_features": true,
+			"relationship_priority": "self",
+			"posts_count": 59,
+			"followers_count": 92,
+			"following_count": 11,
+			"avatar": {
+				"original": {
+					"url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/9/ello-d0a1da51-9326-42cf-8257-077446c3043d.png"
+				},
+				"large": {
+					"url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/9/ello-large-c94b7068.png",
+					"metadata": {
+						"size": 195041,
+						"type": "image/png",
+						"width": 360,
+						"height": 360
+					}
+				},
+				"regular": {
+					"url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/9/ello-regular-c94b7068.png",
+					"metadata": {
+						"size": 26530,
+						"type": "image/png",
+						"width": 120,
+						"height": 120
+					}
+				},
+				"small": {
+					"url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/9/ello-small-c94b7068.png",
+					"metadata": {
+						"size": 8232,
+						"type": "image/png",
+						"width": 60,
+						"height": 60
+					}
+				},
+				"pixellated_large": {
+					"url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/9/ello-pixellated-large-c94b7068.png",
+					"metadata": null
+				},
+				"pixellated_regular": {
+					"url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/9/ello-pixellated-regular-c94b7068.png",
+					"metadata": null
+				},
+				"pixellated_small": {
+					"url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/9/ello-pixellated-small-c94b7068.png",
+					"metadata": null
+				}
+			}
+		}, {
+			"id": "15",
+			"href": "/api/edge/users/15",
+			"username": "cacheflowez",
+			"name": null,
+			"experimental_features": true,
+			"relationship_priority": "noise",
+			"posts_count": 48,
+			"followers_count": 87,
+			"following_count": 22,
+			"avatar": {
+				"original": {
+					"url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/15/372c6dd5-cd19-4905-a620-294c44c0020f.png"
+				},
+				"large": {
+					"url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/15/ello-large-8dc305e5.png",
+					"metadata": {
+						"size": 65372,
+						"type": "image/png",
+						"width": 360,
+						"height": 360
+					}
+				},
+				"regular": {
+					"url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/15/ello-regular-8dc305e5.png",
+					"metadata": {
+						"size": 11177,
+						"type": "image/png",
+						"width": 120,
+						"height": 120
+					}
+				},
+				"small": {
+					"url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/15/ello-small-8dc305e5.png",
+					"metadata": {
+						"size": 3963,
+						"type": "image/png",
+						"width": 60,
+						"height": 60
+					}
+				},
+				"pixellated_large": {
+					"url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/15/ello-pixellated-large-8dc305e5.png",
+					"metadata": null
+				},
+				"pixellated_regular": {
+					"url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/15/ello-pixellated-regular-8dc305e5.png",
+					"metadata": null
+				},
+				"pixellated_small": {
+					"url": "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/15/ello-pixellated-small-8dc305e5.png",
+					"metadata": null
+				}
+			}
+		}]
+	}
 }
