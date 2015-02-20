@@ -8,6 +8,13 @@
 
 import Foundation
 
+typealias CellConfigClosure = (
+    cell:UICollectionViewCell,
+    streamCellItem:StreamCellItem,
+    streamKind: StreamKind,
+    indexPath: NSIndexPath
+) -> ()
+
 enum StreamCellType {
     case CommentHeader
     case Header
@@ -32,6 +39,20 @@ enum StreamCellType {
         case Unknown: return "StreamUnknownCell"
         case ProfileHeader: return "ProfileHeaderCell"
         case Notification: return "NotificationCell"
+        }
+    }
+
+    var configure: CellConfigClosure {
+        switch self {
+        case CommentHeader: return StreamHeaderCellPresenter.configure
+        case Header: return StreamHeaderCellPresenter.configure
+        case Footer: return StreamFooterCellPresenter.configure
+        case Image: return StreamImageCellPresenter.configure
+        case Text: return StreamTextCellPresenter.configure
+        case Comment: return ProfileHeaderCellPresenter.configure
+        case ProfileHeader: return ProfileHeaderCellPresenter.configure
+        case Notification: return NotificationCellPresenter.configure
+        case Unknown: return ProfileHeaderCellPresenter.configure
         }
     }
 
