@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+
 protocol WebLinkDelegate: NSObjectProtocol {
     func webLinkTapped(type: ElloURI, data: String)
 }
@@ -17,9 +18,22 @@ protocol UserDelegate: NSObjectProtocol {
     func userTapped(cell: UICollectionViewCell) -> Void
 }
 
-protocol StreamScrollDelegate: NSObjectProtocol {
+protocol PostbarDelegate : NSObjectProtocol {
+    func viewsButtonTapped(cell:StreamFooterCell)
+    func commentsButtonTapped(cell:StreamFooterCell, commentsButton: CommentButton)
+    func lovesButtonTapped(cell:StreamFooterCell)
+    func repostButtonTapped(cell:StreamFooterCell)
+}
+
+protocol StreamImageCellDelegate : NSObjectProtocol {
+    func imageTapped(imageView:UIImageView)
+}
+
+@objc protocol StreamScrollDelegate: NSObjectProtocol {
     func scrollViewDidScroll(scrollView : UIScrollView)
 }
+
+
 
 class StreamViewController: BaseElloViewController {
 
