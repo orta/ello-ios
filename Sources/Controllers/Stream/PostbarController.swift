@@ -10,11 +10,11 @@ import Foundation
 
 class PostbarController: NSObject, PostbarDelegate {
 
-    let presentingController: UIViewController?
+    let presentingController: StreamViewController?
     let collectionView: UICollectionView
     let dataSource: StreamDataSource
 
-    init(collectionView: UICollectionView, dataSource: StreamDataSource, presentingController: UIViewController?) {
+    init(collectionView: UICollectionView, dataSource: StreamDataSource, presentingController: StreamViewController?) {
         self.collectionView = collectionView
         self.dataSource = dataSource
         self.collectionView.dataSource = dataSource
@@ -24,7 +24,12 @@ class PostbarController: NSObject, PostbarDelegate {
     // MARK:
 
     func viewsButtonTapped(cell:StreamFooterCell) {
-        println("viewsButtonTapped")
+        if let indexPath = collectionView.indexPathForCell(cell) {
+            if let post = dataSource.postForIndexPath(indexPath) {
+                let items = self.dataSource.cellItemsForPost(post)
+                presentingController?.postTappedDelegate?.postTapped(post, initialItems: items)
+            }
+        }
     }
 
     func commentsButtonTapped(cell:StreamFooterCell, commentsButton: CommentButton) {
