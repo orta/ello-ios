@@ -17,6 +17,7 @@ class BlockUserModalViewControllerSpec: QuickSpec {
         var subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationship: Relationship.Friend) {
             relationship in
         }
+        let relationshipController = RelationshipController(controller: UIViewController())
 
 
         describe("initialization") {
@@ -130,7 +131,6 @@ class BlockUserModalViewControllerSpec: QuickSpec {
         describe("button targets") {
 
             beforeEach {
-                var relationshipController = RelationshipController(controller: UIViewController())
                 subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationship: Relationship.Friend) {
                     relationship in
                 }
