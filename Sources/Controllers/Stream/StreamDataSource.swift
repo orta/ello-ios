@@ -24,6 +24,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     weak var webLinkDelegate:WebLinkDelegate?
     weak var imageDelegate:StreamImageCellDelegate?
     weak var userDelegate:UserDelegate?
+    weak var relationshipDelegate: RelationshipDelegate?
 
     init(testWebView: UIWebView, streamKind:StreamKind) {
         self.streamKind = streamKind
@@ -119,6 +120,8 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
                 (cell as StreamTextCell).webLinkDelegate = webLinkDelegate
             case .Footer:
                 (cell as StreamFooterCell).delegate = postbarDelegate
+            case .ProfileHeader:
+                (cell as ProfileHeaderCell).relationshipView.relationshipDelegate = relationshipDelegate
             default:
                 println("nothing to see here")
             }
@@ -157,5 +160,3 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         }
    }
 }
-
-
