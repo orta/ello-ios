@@ -10,28 +10,25 @@
 import UIKit
 import WebKit
 
-class NotificationsViewController: StreamableViewController {
 
-    required override init() {
-        super.init(nibName: "NotificationsViewController", bundle: NSBundle(forClass: NotificationsViewController.self))
-    }
+class NotificationsViewController: StreamableViewController, NotificationsScreenDelegate {
 
     @IBOutlet var contentView : UIView!
     @IBOutlet var filterBar : NotificationsFilterBar!
 
-    @IBOutlet var filterAllButton : NotificationFilterButton!
-    @IBOutlet var filterMiscButton : NotificationFilterButton!
-    @IBOutlet var filterMentionButton : NotificationFilterButton!
-    @IBOutlet var filterHeartButton : NotificationFilterButton!
-    @IBOutlet var filterRepostButton : NotificationFilterButton!
-    @IBOutlet var filterInviteButton : NotificationFilterButton!
+    override func loadView() {
+        self.view = NotificationsScreen(frame: UIScreen.mainScreen().bounds)
+    }
+
+    var screen : NotificationsScreen {
+        return self.view as NotificationsScreen
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBarHidden = true
 
         setupStreamController()
-        setupFilterBar()
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -45,13 +42,10 @@ class NotificationsViewController: StreamableViewController {
         controller.postTappedDelegate = self
 
         controller.willMoveToParentViewController(self)
-        contentView.insertSubview(controller.view, atIndex: 0)
-        controller.view.frame = contentView.bounds
-        controller.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        self.screen.insertStreamView(controller.view)
         self.addChildViewController(controller)
 
         let streamService = NotificationsService()
-        ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
         streamService.load(
             success: { notifications in
                 let parser = NotificationCellItemParser()
@@ -64,40 +58,18 @@ class NotificationsViewController: StreamableViewController {
                 controller.doneLoading()
             }
         )
-        ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
-    }
-
-    private func setupFilterBar() {
-        filterBar.selectButton(self.filterAllButton)
-    }
-
-    @IBAction func allButtonTapped(sender : NotificationFilterButton) {
-        filterBar.selectButton(sender)
-    }
-
-    @IBAction func miscButtonTapped(sender : NotificationFilterButton) {
-        filterBar.selectButton(sender)
-    }
-
-    @IBAction func mentionButtonTapped(sender : NotificationFilterButton) {
-        filterBar.selectButton(sender)
-    }
-
-    @IBAction func heartButtonTapped(sender : NotificationFilterButton) {
-        filterBar.selectButton(sender)
-    }
-
-    @IBAction func repostButtonTapped(sender : NotificationFilterButton) {
-        filterBar.selectButton(sender)
-    }
-
-    @IBAction func inviteButtonTapped(sender : NotificationFilterButton) {
-        filterBar.selectButton(sender)
     }
 
     override func postTapped(post: Post, initialItems: [StreamCellItem]) {
         super.postTapped(post, initialItems: initialItems)
         self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
+
+    func allButtonTapped() {}
+    func miscButtonTapped() {}
+    func mentionButtonTapped() {}
+    func heartButtonTapped() {}
+    func repostButtonTapped() {}
+    func inviteButtonTapped() {}
 
 }
