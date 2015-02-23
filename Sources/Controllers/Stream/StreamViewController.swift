@@ -15,7 +15,7 @@ protocol WebLinkDelegate: NSObjectProtocol {
 }
 
 protocol UserDelegate: NSObjectProtocol {
-    func userTapped(cell: UICollectionViewCell) -> Void
+    func userTappedCell(cell: UICollectionViewCell)
 }
 
 protocol PostbarDelegate : NSObjectProtocol {
@@ -50,6 +50,18 @@ class StreamViewController: BaseElloViewController {
     var updatedStreamImageCellHeightNotification:NotificationObserver?
     weak var postTappedDelegate : PostTappedDelegate?
     weak var streamScrollDelegate : StreamScrollDelegate?
+    var notificationDelegate:NotificationDelegate? {
+        get { return dataSource.notificationDelegate }
+        set { dataSource.notificationDelegate = newValue }
+    }
+
+    var streamFilter:StreamDataSource.StreamFilter {
+        get { return dataSource.streamFilter }
+        set {
+            dataSource.streamFilter = newValue
+            collectionView.reloadData()
+        }
+    }
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -205,7 +217,7 @@ extension StreamViewController : WebLinkDelegate {
 // MARK: StreamViewController : UserDelegate
 extension StreamViewController : UserDelegate {
 
-    func userTapped(cell: UICollectionViewCell) {
+    func userTappedCell(cell: UICollectionViewCell) {
         if let indexPath = collectionView.indexPathForCell(cell) {
             if let post = dataSource.postForIndexPath(indexPath) {
                 if let user = post.author {

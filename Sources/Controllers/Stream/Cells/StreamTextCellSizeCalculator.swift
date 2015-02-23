@@ -33,6 +33,7 @@ class StreamTextCellSizeCalculator: NSObject, UIWebViewDelegate {
             let textElement = self.cellItems[0].data as? TextRegion
 
             if let textElement = textElement {
+                // needs to use the same width as the post text region
                 self.webView.loadHTMLString(StreamTextCellHTML.postHTML(textElement.content), baseURL: NSURL(string: "/"))
             }
             else {

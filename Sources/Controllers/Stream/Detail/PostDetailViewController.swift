@@ -12,10 +12,20 @@ class PostDetailViewController: StreamableViewController {
 
     var post : Post
     var detailCellItems : [StreamCellItem]
+    var unsizedCellItems : [StreamCellItem]
 
-    required init(post : Post, items: [StreamCellItem]) {
+    convenience init(post : Post, items: [StreamCellItem]) {
+        self.init(post: post, items: items, unsized: [])
+    }
+
+    convenience init(post : Post, unsized: [StreamCellItem]) {
+        self.init(post: post, items: [], unsized: unsized)
+    }
+
+    required init(post : Post, items: [StreamCellItem], unsized: [StreamCellItem]) {
         self.post = post
         self.detailCellItems = items
+        self.unsizedCellItems = unsized
 
         super.init(nibName: nil, bundle: nil)
 
@@ -43,6 +53,7 @@ class PostDetailViewController: StreamableViewController {
         controller.didMoveToParentViewController(self)
 
         controller.addStreamCellItems(self.detailCellItems)
+        controller.addUnsizedCellItems(self.unsizedCellItems)
 
         let streamService = StreamService()
         streamService.loadMoreCommentsForPost(post.postId,

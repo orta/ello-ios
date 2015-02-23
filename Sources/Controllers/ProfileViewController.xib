@@ -9,6 +9,7 @@
             <connections>
                 <outlet property="coverImage" destination="A2p-8r-avy" id="rSd-eN-nHc"/>
                 <outlet property="coverImageHeight" destination="Uoo-CU-1JR" id="c4J-Uw-hAx"/>
+                <outlet property="coverImageTopConstraint" destination="H7O-Hs-eL8" id="rN8-et-74C"/>
                 <outlet property="view" destination="iN0-l3-epB" id="6s2-PA-CIX"/>
                 <outlet property="viewContainer" destination="wlf-zL-93E" id="IUa-jv-6Wt"/>
             </connections>

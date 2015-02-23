@@ -19,6 +19,7 @@ class ProfileViewController: StreamableViewController {
     @IBOutlet weak var viewContainer: UIView!
     @IBOutlet weak var coverImage: UIImageView!
     @IBOutlet weak var coverImageHeight: NSLayoutConstraint!
+    @IBOutlet weak var coverImageTopConstraint : NSLayoutConstraint!
 
     required init(user : User) {
         self.user = user
@@ -81,7 +82,7 @@ class ProfileViewController: StreamableViewController {
                 })
             })
         }
-        
+
         let profileHeaderCellItem = StreamCellItem(jsonable: user, type: StreamCellType.ProfileHeader, data: nil, oneColumnCellHeight: 320.0, multiColumnCellHeight: 0.0, isFullWidth: true)
         streamViewController.addStreamCellItems([profileHeaderCellItem])
 

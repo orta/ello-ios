@@ -8,8 +8,15 @@
 
 import UIKit
 
+@objc
+protocol NotificationDelegate {
+    func userTapped(user: User)
+    func commentTapped(comment: Comment)
+    func postTapped(post: Post)
+}
 
-class NotificationCell : UICollectionViewCell {
+
+class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
     class func generateTextView(frame: CGRect = CGRectZero) -> UITextView {
         let textView = UITextView(frame: frame)
         textView.editable = false
@@ -58,6 +65,9 @@ class NotificationCell : UICollectionViewCell {
         }
     }
 
+    var webLinkDelegate: WebLinkDelegate?
+    var delegate: NotificationDelegate?
+
     var avatarButton : AvatarButton!
     var titleTextView : UITextView!
     var createdAtLabel : UILabel!
@@ -67,6 +77,7 @@ class NotificationCell : UICollectionViewCell {
 
     var messageHtml : String? {
         willSet(newValue) {
+            messageWebView.alpha = 0.0
             if let value = newValue {
                 messageWebView.loadHTMLString(StreamTextCellHTML.postHTML(newValue!), baseURL: NSURL(string: "/"))
             }
@@ -132,6 +143,8 @@ class NotificationCell : UICollectionViewCell {
         recognizer.numberOfTouchesRequired = 1
         titleTextView.addGestureRecognizer(recognizer)
 
+        messageWebView.delegate = self
+
         createdAtLabel.textColor = UIColor.greyA()
         createdAtLabel.font = UIFont.typewriterFont(12)
         createdAtLabel.text = "10m"
@@ -157,15 +170,19 @@ class NotificationCell : UICollectionViewCell {
             switch linkType {
                 case "post":
                     let post = style[Attributed.Object] as Post
-                    println("post: \(post)")
+                    delegate?.postTapped(post)
                 case "comment":
                     let comment = style[Attributed.Object] as Comment
                     println("comment: \(comment)")
+                    if let post = comment.parentPost {
+                        println("post: \(post)")
+                    }
                 case "user":
                     let user = style[Attributed.Object] as User
                     println("user: \(user)")
+                    delegate?.userTapped(user)
                 default:
-                    println("")
+                    break
             }
         }
     }
@@ -209,4 +226,13 @@ class NotificationCell : UICollectionViewCell {
         }
     }
 
+    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+        return ElloWebViewHelper.handleRequest(request, webLinkDelegate: webLinkDelegate)
+    }
+
+    func webViewDidFinishLoad(webView: UIWebView) {
+        UIView.animateWithDuration(0.15, animations: {
+            self.messageWebView.alpha = 1.0
+        })
+    }
 }

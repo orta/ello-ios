@@ -8,12 +8,7 @@
 
 @objc
 protocol NotificationsScreenDelegate {
-    func allButtonTapped()
-    func miscButtonTapped()
-    func mentionButtonTapped()
-    func heartButtonTapped()
-    func repostButtonTapped()
-    func inviteButtonTapped()
+    func activatedFilter(filter : String)
 }
 
 
@@ -61,7 +56,7 @@ class NotificationsScreen : UIView {
             (filterAllButton, "allButtonTapped:"),
             (filterMiscButton, "miscButtonTapped:"),
             (filterMentionButton, "mentionButtonTapped:"),
-            (filterHeartButton, "heartButtonTapped:"),
+            // (filterHeartButton, "heartButtonTapped:"),
             (filterRepostButton, "repostButtonTapped:"),
             (filterInviteButton, "inviteButtonTapped:"),
         ] {
@@ -96,31 +91,31 @@ class NotificationsScreen : UIView {
 
     @IBAction func allButtonTapped(sender : NotificationFilterButton) {
         filterBar.selectButton(sender)
-        delegate?.allButtonTapped()
+        delegate?.activatedFilter(NotificationFilterType.All.rawValue)
     }
 
     @IBAction func miscButtonTapped(sender : NotificationFilterButton) {
         filterBar.selectButton(sender)
-        delegate?.miscButtonTapped()
+        delegate?.activatedFilter(NotificationFilterType.Misc.rawValue)
     }
 
     @IBAction func mentionButtonTapped(sender : NotificationFilterButton) {
         filterBar.selectButton(sender)
-        delegate?.mentionButtonTapped()
+        delegate?.activatedFilter(NotificationFilterType.Mention.rawValue)
     }
 
     @IBAction func heartButtonTapped(sender : NotificationFilterButton) {
         filterBar.selectButton(sender)
-        delegate?.heartButtonTapped()
+        delegate?.activatedFilter(NotificationFilterType.Heart.rawValue)
     }
 
     @IBAction func repostButtonTapped(sender : NotificationFilterButton) {
         filterBar.selectButton(sender)
-        delegate?.repostButtonTapped()
+        delegate?.activatedFilter(NotificationFilterType.Repost.rawValue)
     }
 
     @IBAction func inviteButtonTapped(sender : NotificationFilterButton) {
         filterBar.selectButton(sender)
-        delegate?.inviteButtonTapped()
+        delegate?.activatedFilter(NotificationFilterType.Relationship.rawValue)
     }
 }

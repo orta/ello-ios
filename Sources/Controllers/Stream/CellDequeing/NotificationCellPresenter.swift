@@ -18,11 +18,15 @@ struct NotificationCellPresenter {
     {
         if let cell = cell as? NotificationCell {
             var notification = streamCellItem.jsonable as Notification
-            var user = notification.author!
 
             cell.title = notification.attributedTitle
             cell.createdAt = notification.createdAt
-            cell.avatarURL = user.avatarURL
+            if let user = notification.author {
+                cell.avatarURL = user.avatarURL
+            }
+            else {
+                cell.avatarURL = nil
+            }
             cell.imageURL = nil
             cell.messageHtml = nil
 
