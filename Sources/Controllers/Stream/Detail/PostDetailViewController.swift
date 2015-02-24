@@ -13,6 +13,7 @@ class PostDetailViewController: StreamableViewController {
     var post : Post
     var detailCellItems : [StreamCellItem]
     var unsizedCellItems : [StreamCellItem]
+    var navigationBar : ElloNavigationBar!
 
     convenience init(post : Post, items: [StreamCellItem]) {
         self.init(post: post, items: items, unsized: [])
@@ -36,10 +37,17 @@ class PostDetailViewController: StreamableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupNavigationBar()
+        setupStreamController()
+    }
+
+    private func setupNavigationBar() {
+        navigationBar = ElloNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: ElloNavigationBar.Size.height))
+        navigationBar.autoresizingMask = .FlexibleBottomMargin | .FlexibleWidth
+        self.view.addSubview(navigationBar)
         let item = UIBarButtonItem.backChevronWithTarget(self, action: "backTapped:")
         self.navigationItem.leftBarButtonItem = item
-
-        setupStreamController()
+        navigationBar.items = [self.navigationItem]
     }
 
     private func setupStreamController() {
@@ -48,7 +56,9 @@ class PostDetailViewController: StreamableViewController {
         controller.postTappedDelegate = self
 
         controller.willMoveToParentViewController(self)
-        self.view.addSubview(controller.view)
+        self.view.insertSubview(controller.view, belowSubview: navigationBar)
+        controller.view.frame = navigationBar.frame.fromBottom().withHeight(self.view.frame.height - navigationBar.frame.height)
+        controller.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
         self.addChildViewController(controller)
         controller.didMoveToParentViewController(self)
 

@@ -88,9 +88,6 @@ class NotificationsViewController: StreamableViewController, NotificationDelegat
 
     func userTapped(user: User) {
         let vc = ProfileViewController(user: user)
-        self.navigationController?.navigationBar.translucent = false
-        self.navigationController?.automaticallyAdjustsScrollViewInsets = false
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
         self.navigationController?.pushViewController(vc, animated: true)
     }
 

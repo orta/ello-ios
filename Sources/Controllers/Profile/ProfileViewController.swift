@@ -18,6 +18,7 @@ class ProfileViewController: StreamableViewController {
     var relationshipController: RelationshipController?
 
     @IBOutlet weak var viewContainer: UIView!
+    @IBOutlet weak var navigationBar: ElloNavigationBar!
     @IBOutlet weak var coverImage: UIImageView!
     @IBOutlet weak var coverImageHeight: NSLayoutConstraint!
 
@@ -35,12 +36,15 @@ class ProfileViewController: StreamableViewController {
         if user.isCurrentUser {
             // do stuff
         }
+
+        navigationItem.title = self.title
         if let viewControllers = self.navigationController?.viewControllers {
             if countElements(viewControllers) > 1 {
                 let item = UIBarButtonItem.backChevronWithTarget(self, action: "backTapped:")
                 navigationItem.leftBarButtonItem = item
             }
         }
+        navigationBar.items = [navigationItem]
         setupStreamController()
     }
 

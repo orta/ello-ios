@@ -19,7 +19,7 @@ class StreamContainerViewController: StreamableViewController {
     }
 
     @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var navigationBar: UINavigationBar!
+    @IBOutlet weak var navigationBar: ElloNavigationBar!
 
     var streamsSegmentedControl: UISegmentedControl!
     var streamControllerViews:[UIView] = []
@@ -47,9 +47,24 @@ class StreamContainerViewController: StreamableViewController {
         return streamsController as StreamContainerViewController
     }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        let width:CGFloat = scrollView.frame.size.width
+        let height:CGFloat = scrollView.frame.size.height
+        var x : CGFloat = 0
+
+        for view in streamControllerViews {
+            view.frame = CGRect(x: x, y: 0, width: width, height: height)
+            x += width
+        }
+
+        scrollView.contentSize = CGSize(width: width * CGFloat(countElements(StreamKind.streamValues)), height: height)
+    }
+
     private func setupChildViewControllerContainers() {
-        let width:CGFloat = self.view.bounds.size.width
-        let height:CGFloat = self.view.bounds.size.height
+        let width:CGFloat = scrollView.frame.size.width
+        let height:CGFloat = scrollView.frame.size.height
 
         for (index, _) in enumerate(StreamKind.streamValues) {
             let x:CGFloat = CGFloat(index) * width
@@ -70,15 +85,17 @@ class StreamContainerViewController: StreamableViewController {
             vc.willMoveToParentViewController(self)
             let childView = streamControllerViews[index]
             childView.addSubview(vc.view)
+            vc.view.frame = childView.bounds
+            vc.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
             self.addChildViewController(vc)
 
-            vc.view.setTranslatesAutoresizingMaskIntoConstraints(false)
-            let views = ["view": vc.view]
-            let verticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[view]-49-|", options: NSLayoutFormatOptions.AlignAllLeft, metrics: nil, views: views)
-            childView.addConstraints(verticalConstraints)
+            // vc.view.setTranslatesAutoresizingMaskIntoConstraints(false)
+            // let views = ["view": vc.view]
+            // let verticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[view]-49-|", options: NSLayoutFormatOptions.AlignAllLeft, metrics: nil, views: views)
+            // childView.addConstraints(verticalConstraints)
 
-            let horizontalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[view]-0-|", options: NSLayoutFormatOptions.AlignAllLeft, metrics: nil, views: views)
-            childView.addConstraints(horizontalConstraints)
+            // let horizontalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[view]-0-|", options: NSLayoutFormatOptions.AlignAllLeft, metrics: nil, views: views)
+            // childView.addConstraints(horizontalConstraints)
 
             vc.didMoveToParentViewController(self)
             streamControllers.append(vc)
