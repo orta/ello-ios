@@ -25,6 +25,7 @@ class NotificationsScreen : UIView {
     private class func filterButton(image: UIImage) -> UIButton {
         let button = filterButton()
         button.setImage(image, forState: .Normal)
+        button.imageView!.contentMode = .ScaleAspectFit
         return button
     }
     private class func filterButton(title: String) -> UIButton {
@@ -44,7 +45,8 @@ class NotificationsScreen : UIView {
         let filterAllButton = NotificationsScreen.filterButton("All")
         let filterMiscButton = NotificationsScreen.filterButton("…")
         let filterMentionButton = NotificationsScreen.filterButton("@")
-        let filterHeartButton = NotificationsScreen.filterButton(UIImage(named: "heart-icon")!)
+        // no loves yet!
+        // let filterHeartButton = NotificationsScreen.filterButton(UIImage(named: "heart-icon")!)
         let filterRepostButton = NotificationsScreen.filterButton(UIImage(named: "repost-icon")!)
         let filterInviteButton = NotificationsScreen.filterButton(UIImage(named: "profile-icon")!)
 
