@@ -48,6 +48,8 @@ class ElloNavigationController: UINavigationController, UIGestureRecognizerDeleg
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.setNavigationBarHidden(true, animated: false)
+
         transitioningDelegate = self
         delegate = self
 

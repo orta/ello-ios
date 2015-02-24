@@ -31,13 +31,6 @@ class NotificationsViewController: StreamableViewController, NotificationDelegat
         setupStreamController()
     }
 
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.navigationBar.translucent = true
-        self.navigationController?.automaticallyAdjustsScrollViewInsets = true
-        self.navigationController?.setNavigationBarHidden(true, animated: true)
-    }
-
     private func setupStreamController() {
         streamController = StreamViewController.instantiateFromStoryboard()
         streamController.streamKind = .Notifications

@@ -19,6 +19,7 @@ class StreamContainerViewController: StreamableViewController {
     }
 
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var navigationBar: UINavigationBar!
 
     var streamsSegmentedControl: UISegmentedControl!
     var streamControllerViews:[UIView] = []
@@ -26,10 +27,12 @@ class StreamContainerViewController: StreamableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupNavigationBar()
         setupStreamsSegmentedControl()
         setupChildViewControllerContainers()
         setupChildViewControllers()
         navigationItem.titleView = streamsSegmentedControl
+        navigationBar.items = [navigationItem]
         // Do any additional setup after loading the view.
     }
 
@@ -70,7 +73,7 @@ class StreamContainerViewController: StreamableViewController {
             self.addChildViewController(vc)
 
             vc.view.setTranslatesAutoresizingMaskIntoConstraints(false)
-            let views = ["view":vc.view]
+            let views = ["view": vc.view]
             let verticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[view]-49-|", options: NSLayoutFormatOptions.AlignAllLeft, metrics: nil, views: views)
             childView.addConstraints(verticalConstraints)
 
@@ -103,6 +106,10 @@ class StreamContainerViewController: StreamableViewController {
                 controller.doneLoading()
             }
         )
+    }
+
+    private func setupNavigationBar() {
+        navigationBar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 30)
     }
 
     private func setupStreamsSegmentedControl() {
