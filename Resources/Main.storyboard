@@ -100,13 +100,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="BcZ-aZ-i5r" firstAttribute="leading" secondItem="Sxq-dN-l1X" secondAttribute="leading" id="1LZ-hk-UmC"/>
-                            <constraint firstItem="Sxq-dN-l1X" firstAttribute="top" secondItem="BcZ-aZ-i5r" secondAttribute="bottom" id="4cm-4c-YRi"/>
-                            <constraint firstItem="yLi-cj-Iz8" firstAttribute="top" secondItem="BcZ-aZ-i5r" secondAttribute="top" id="5XO-kR-FiI"/>
-                            <constraint firstItem="Sxq-dN-l1X" firstAttribute="leading" secondItem="b3f-dm-11N" secondAttribute="leading" id="Gfr-6R-MUN"/>
-                            <constraint firstItem="Cu5-ro-RnE" firstAttribute="top" secondItem="Sxq-dN-l1X" secondAttribute="bottom" id="eDu-5J-ZZS"/>
-                            <constraint firstAttribute="trailing" secondItem="Sxq-dN-l1X" secondAttribute="trailing" id="hew-hv-gFc"/>
-                            <constraint firstItem="BcZ-aZ-i5r" firstAttribute="trailing" secondItem="Sxq-dN-l1X" secondAttribute="trailing" id="vc2-E3-nAJ"/>
+                            <constraint firstAttribute="centerX" secondItem="BcZ-aZ-i5r" secondAttribute="centerX" id="4cK-kW-zHF" userLabel="navBarCentered"/>
+                            <constraint firstItem="Sxq-dN-l1X" firstAttribute="top" secondItem="BcZ-aZ-i5r" secondAttribute="bottom" id="4cm-4c-YRi" userLabel="scrollViewTop"/>
+                            <constraint firstItem="yLi-cj-Iz8" firstAttribute="top" secondItem="BcZ-aZ-i5r" secondAttribute="top" id="5XO-kR-FiI" userLabel="navBarTop"/>
+                            <constraint firstItem="Sxq-dN-l1X" firstAttribute="leading" secondItem="b3f-dm-11N" secondAttribute="leading" id="Gfr-6R-MUN" userLabel="scrollViewLeft"/>
+                            <constraint firstItem="BcZ-aZ-i5r" firstAttribute="width" secondItem="b3f-dm-11N" secondAttribute="width" id="Qdp-1k-5Ko" userLabel="navBarWidth"/>
+                            <constraint firstItem="Cu5-ro-RnE" firstAttribute="top" secondItem="Sxq-dN-l1X" secondAttribute="bottom" id="eDu-5J-ZZS" userLabel="scrollViewBottom"/>
+                            <constraint firstAttribute="trailing" secondItem="Sxq-dN-l1X" secondAttribute="trailing" id="hew-hv-gFc" userLabel="scrollviewRight"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
@@ -120,6 +120,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="navigationBar" destination="BcZ-aZ-i5r" id="nZ6-1J-SlE"/>
+                        <outlet property="navigationBarTopConstraint" destination="5XO-kR-FiI" id="KY4-37-Wuv"/>
                         <outlet property="scrollView" destination="Sxq-dN-l1X" id="xVF-3i-MrH"/>
                     </connections>
                 </viewController>

@@ -8,7 +8,8 @@
 
 class ElloNavigationBar : UINavigationBar {
     struct Size {
-        static let height : CGFloat = 30
+        static let height : CGFloat = 44
+        static let titleViewHeight : CGFloat = 20
     }
 
     override init(frame: CGRect) {
@@ -37,8 +38,9 @@ class ElloNavigationBar : UINavigationBar {
         super.layoutSubviews()
         if let topItem = self.topItem {
             if let view = topItem.titleView {
-                view.frame = view.frame.atY(0).withHeight(self.frame.height)
-                println("titleView: \(view.frame)")
+                view.frame = view.frame
+                    .withHeight(Size.titleViewHeight)
+                    .atY((self.frame.height - Size.titleViewHeight) / 2)
             }
         }
     }

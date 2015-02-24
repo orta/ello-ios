@@ -99,7 +99,7 @@ class ProfileViewController: StreamableViewController {
 // MARK: ProfileViewController: StreamScrollDelegate
 extension ProfileViewController: StreamScrollDelegate {
 
-    func scrollViewDidScroll(scrollView : UIScrollView) {
+    func streamViewDidScroll(scrollView : UIScrollView) {
         if let (start, width) = unwrap(coverImageHeightStart, coverImage.image?.size.width) {
             coverImageHeight.constant = max(start - scrollView.contentOffset.y, start)
         }

@@ -30,7 +30,9 @@ protocol StreamImageCellDelegate : NSObjectProtocol {
 }
 
 @objc protocol StreamScrollDelegate: NSObjectProtocol {
-    func scrollViewDidScroll(scrollView : UIScrollView)
+    func streamViewDidScroll(scrollView : UIScrollView)
+    optional func streamViewWillBeginDragging(scrollView: UIScrollView)
+    optional func streamViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool)
 }
 
 
@@ -285,38 +287,21 @@ extension StreamViewController : StreamCollectionViewLayoutDelegate {
 extension StreamViewController : UIScrollViewDelegate {
 
     func scrollViewDidScroll(scrollView : UIScrollView) {
-        self.streamScrollDelegate?.scrollViewDidScroll(scrollView)
-
-        let shouldHideTabBar : ()->Bool = { return false }
-        if !shouldHideTabBar() {
-            return
-        }
-
-        let tabBar_ = findTabBar(self.tabBarController!.view)
-        if let tabBar = tabBar_ {
-            if let tabBarView = self.tabBarController?.view {
-                UIView.animateWithDuration(0.5,
-                    animations: {
-                        var frame = tabBar.frame
-                        frame.origin.y = tabBarView.frame.size.height
-                        tabBar.frame = frame
-                    },
-                    completion: nil)
-            }
+        if let delegate = self.streamScrollDelegate {
+            delegate.streamViewDidScroll(scrollView)
         }
     }
 
-    private func findTabBar(view: UIView) -> UITabBar? {
-        if view.isKindOfClass(UITabBar.self) {
-            return view as? UITabBar
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        if let delegate = self.streamScrollDelegate {
+            delegate.streamViewWillBeginDragging?(scrollView)
         }
-
-        var foundTabBar : UITabBar? = nil
-        for subview : UIView in view.subviews as [UIView] {
-            if foundTabBar == nil {
-                foundTabBar = findTabBar(subview)
-            }
-        }
-        return foundTabBar
     }
+
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate: Bool) {
+        if let delegate = self.streamScrollDelegate {
+            delegate.streamViewDidEndDragging?(scrollView, willDecelerate: willDecelerate)
+        }
+    }
+
 }

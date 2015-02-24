@@ -20,25 +20,51 @@ class StreamContainerViewController: StreamableViewController {
 
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var navigationBar: ElloNavigationBar!
+    @IBOutlet weak var navigationBarTopConstraint: NSLayoutConstraint!
 
     var streamsSegmentedControl: UISegmentedControl!
     var streamControllerViews:[UIView] = []
-    var streamControllers:[StreamViewController] = []
+    var scrollLogic: ElloScrollLogic!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         setupNavigationBar()
         setupStreamsSegmentedControl()
-        setupChildViewControllerContainers()
         setupChildViewControllers()
         navigationItem.titleView = streamsSegmentedControl
         navigationBar.items = [navigationItem]
-        // Do any additional setup after loading the view.
+
+        let tabBar = findTabBar(self.tabBarController!.view)
+        scrollLogic = ElloScrollLogic(navigationBar: navigationBar, tabBar: tabBar!)
+        scrollLogic.onShow(self.showNavBars)
+        scrollLogic.onHide(self.hideNavBars)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    private func findTabBar(view: UIView) -> UITabBar? {
+        if view.isKindOfClass(UITabBar.self) {
+            return view as? UITabBar
+        }
+
+        var foundTabBar : UITabBar? = nil
+        for subview : UIView in view.subviews as [UIView] {
+            if foundTabBar == nil {
+                foundTabBar = findTabBar(subview)
+            }
+        }
+        return foundTabBar
+    }
+
+    func showNavBars() {
+        navigationBarTopConstraint.constant = 0
+        scrollView.setNeedsUpdateConstraints()
+        self.view.layoutIfNeeded()
+    }
+
+    func hideNavBars() {
+        navigationBarTopConstraint.constant = navigationBar.frame.height
+        scrollView.setNeedsUpdateConstraints()
+        self.view.layoutIfNeeded()
     }
 
     class func instantiateFromStoryboard() -> StreamContainerViewController {
@@ -62,43 +88,27 @@ class StreamContainerViewController: StreamableViewController {
         scrollView.contentSize = CGSize(width: width * CGFloat(countElements(StreamKind.streamValues)), height: height)
     }
 
-    private func setupChildViewControllerContainers() {
+    private func setupChildViewControllers() {
+        scrollView.scrollEnabled = false
         let width:CGFloat = scrollView.frame.size.width
         let height:CGFloat = scrollView.frame.size.height
 
-        for (index, _) in enumerate(StreamKind.streamValues) {
-            let x:CGFloat = CGFloat(index) * width
-            let frame = CGRect(x: x, y: 0, width: width, height: height)
-            let view = UIView(frame: frame)
-            scrollView.addSubview(view)
-            streamControllerViews.append(view)
-        }
-        scrollView.contentSize = CGSize(width: width * CGFloat(countElements(StreamKind.streamValues)), height: height)
-        scrollView.scrollEnabled = false
-    }
-
-    private func setupChildViewControllers() {
         for (index, kind) in enumerate(StreamKind.streamValues) {
             let vc = StreamViewController.instantiateFromStoryboard()
             vc.streamKind = kind
             vc.postTappedDelegate = self
+            vc.streamScrollDelegate = self
+
             vc.willMoveToParentViewController(self)
-            let childView = streamControllerViews[index]
-            childView.addSubview(vc.view)
-            vc.view.frame = childView.bounds
-            vc.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+
+            let x:CGFloat = CGFloat(index) * width
+            let frame = CGRect(x: x, y: 0, width: width, height: height)
+            vc.view.frame = frame
+            scrollView.addSubview(vc.view)
+            streamControllerViews.append(vc.view)
+
             self.addChildViewController(vc)
-
-            // vc.view.setTranslatesAutoresizingMaskIntoConstraints(false)
-            // let views = ["view": vc.view]
-            // let verticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[view]-49-|", options: NSLayoutFormatOptions.AlignAllLeft, metrics: nil, views: views)
-            // childView.addConstraints(verticalConstraints)
-
-            // let horizontalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[view]-0-|", options: NSLayoutFormatOptions.AlignAllLeft, metrics: nil, views: views)
-            // childView.addConstraints(horizontalConstraints)
-
             vc.didMoveToParentViewController(self)
-            streamControllers.append(vc)
 
             setupControllerData(kind, controller: vc)
         }
@@ -150,6 +160,24 @@ class StreamContainerViewController: StreamableViewController {
         let x:CGFloat = CGFloat(sender.selectedSegmentIndex) * width
         let rect = CGRect(x: x, y: 0, width: width, height: height)
         scrollView.scrollRectToVisible(rect, animated: true)
-//        streamControllers[sender.selectedSegmentIndex].collectionView.reloadData()
     }
+
+}
+
+
+// MARK: StreamContainerViewController: StreamScrollDelegate
+extension StreamContainerViewController : StreamScrollDelegate {
+
+    func streamViewDidScroll(scrollView : UIScrollView) {
+        scrollLogic.scrollViewDidScroll(scrollView)
+    }
+
+    func streamViewWillBeginDragging(scrollView: UIScrollView) {
+        scrollLogic.scrollViewWillBeginDragging(scrollView)
+    }
+
+    func streamViewDidEndDragging(scrollView: UIScrollView, willDecelerate: Bool) {
+        scrollLogic.scrollViewDidEndDragging(scrollView, willDecelerate: willDecelerate)
+    }
+
 }
