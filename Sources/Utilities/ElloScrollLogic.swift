@@ -8,22 +8,21 @@
 
 class ElloScrollLogic : NSObject, UIScrollViewDelegate {
     var prevOffset : CGPoint?
-    let navigationBar : UINavigationBar
-    let tabBar : UIView
     var shouldIgnoreScroll:Bool = false
     var isShowing:Bool = true
 
     private var onShow: (()->())!
     private var onHide: (()->())!
 
-    init(navigationBar: UINavigationBar, tabBar: UIView) {
-        self.navigationBar = navigationBar
-        self.tabBar = tabBar
+    init(onShow: ()->(), onHide: ()->()) {
+        self.onShow = onShow
+        self.onHide = onHide
     }
 
     func onShow(handler: ()->()) {
         self.onShow = handler
     }
+
     func onHide(handler: ()->()) {
         self.onHide = handler
     }
@@ -33,17 +32,13 @@ class ElloScrollLogic : NSObject, UIScrollViewDelegate {
             if let prevOffset = prevOffset {
                 if scrollView.contentOffset.y > prevOffset.y {
                     if isShowing {
-                        UIView.animateWithDuration(0.2, animations: {
-                            self.onHide()
-                        })
+                        UIView.animateWithDuration(0.2, animations: self.onHide)
                     }
                     isShowing = false
                 }
                 else {
                     if !isShowing {
-                        UIView.animateWithDuration(0.2, animations: {
-                            self.onShow()
-                        })
+                        UIView.animateWithDuration(0.2, animations: self.onShow)
                     }
                     isShowing = true
                 }

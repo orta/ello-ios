@@ -36,9 +36,10 @@ class StreamContainerViewController: StreamableViewController {
         navigationBar.items = [navigationItem]
 
         let tabBar = findTabBar(self.tabBarController!.view)
-        scrollLogic = ElloScrollLogic(navigationBar: navigationBar, tabBar: tabBar!)
-        scrollLogic.onShow(self.showNavBars)
-        scrollLogic.onHide(self.hideNavBars)
+        scrollLogic = ElloScrollLogic(
+            onShow: self.showNavBars,
+            onHide: self.hideNavBars
+        )
     }
 
     private func findTabBar(view: UIView) -> UITabBar? {
@@ -58,12 +59,18 @@ class StreamContainerViewController: StreamableViewController {
     func showNavBars() {
         navigationBarTopConstraint.constant = 0
         scrollView.setNeedsUpdateConstraints()
+        if let tabBarController = self.tabBarController {
+            tabBarController.tabBarHidden = false
+        }
         self.view.layoutIfNeeded()
     }
 
     func hideNavBars() {
-        navigationBarTopConstraint.constant = navigationBar.frame.height
+        navigationBarTopConstraint.constant = navigationBar.frame.height + 1
         scrollView.setNeedsUpdateConstraints()
+        if let tabBarController = self.tabBarController {
+            tabBarController.tabBarHidden = true
+        }
         self.view.layoutIfNeeded()
     }
 
