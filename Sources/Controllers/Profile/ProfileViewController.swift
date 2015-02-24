@@ -20,7 +20,6 @@ class ProfileViewController: StreamableViewController {
     @IBOutlet weak var viewContainer: UIView!
     @IBOutlet weak var coverImage: UIImageView!
     @IBOutlet weak var coverImageHeight: NSLayoutConstraint!
-    @IBOutlet weak var coverImageTopConstraint : NSLayoutConstraint!
 
     required init(user : User) {
         self.user = user
