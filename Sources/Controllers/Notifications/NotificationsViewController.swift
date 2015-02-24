@@ -33,6 +33,8 @@ class NotificationsViewController: StreamableViewController, NotificationDelegat
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.translucent = true
+        self.navigationController?.automaticallyAdjustsScrollViewInsets = true
         self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
 
@@ -93,8 +95,10 @@ class NotificationsViewController: StreamableViewController, NotificationDelegat
 
     func userTapped(user: User) {
         let vc = ProfileViewController(user: user)
-        self.navigationController?.pushViewController(vc, animated: true)
+        self.navigationController?.navigationBar.translucent = false
+        self.navigationController?.automaticallyAdjustsScrollViewInsets = false
         self.navigationController?.setNavigationBarHidden(false, animated: true)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 
     func commentTapped(comment: Comment) {}

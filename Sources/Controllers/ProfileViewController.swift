@@ -92,6 +92,7 @@ class ProfileViewController: StreamableViewController {
     }
 }
 
+// MARK: ProfileViewController: StreamScrollDelegate
 extension ProfileViewController: StreamScrollDelegate {
 
     func scrollViewDidScroll(scrollView : UIScrollView) {
