@@ -8,17 +8,18 @@
 
 
 enum MappingType: String {
-    case CommentsType =     "comments"
-    case CommentType =      "comment"
-    case PostsType =        "posts"
-    case PostType =         "post"
-    case ActivitiesType =   "activities"
-    case ActivityType =     "activity"
-    case UsersType =        "users"
-    case UserType =         "user"
-    case ErrorsType =       "errors"
-    case ErrorType =        "error"
-    case AssetsType =       "assets"
+    case CommentsType =         "comments"
+    case CommentType =          "comment"
+    case PostsType =            "posts"
+    case PostType =             "post"
+    case ActivitiesType =       "activities"
+    case ActivityType =         "activity"
+    case UsersType =            "users"
+    case UserType =             "user"
+    case ErrorsType =           "errors"
+    case ErrorType =            "error"
+    case AssetsType =           "assets"
+    case RelationshipsType =    "relationships"
 
     var fromJSON: FromJSONClosure {
         switch self {
