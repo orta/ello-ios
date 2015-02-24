@@ -35,25 +35,10 @@ class StreamContainerViewController: StreamableViewController {
         navigationItem.titleView = streamsSegmentedControl
         navigationBar.items = [navigationItem]
 
-        let tabBar = findTabBar(self.tabBarController!.view)
         scrollLogic = ElloScrollLogic(
             onShow: self.showNavBars,
             onHide: self.hideNavBars
         )
-    }
-
-    private func findTabBar(view: UIView) -> UITabBar? {
-        if view.isKindOfClass(UITabBar.self) {
-            return view as? UITabBar
-        }
-
-        var foundTabBar : UITabBar? = nil
-        for subview : UIView in view.subviews as [UIView] {
-            if foundTabBar == nil {
-                foundTabBar = findTabBar(subview)
-            }
-        }
-        return foundTabBar
     }
 
     func showNavBars() {
