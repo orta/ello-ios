@@ -17,7 +17,7 @@ class ElloNavigationControllerSpec: QuickSpec {
         describe("NotificationsViewController") {
             beforeEach() {
                 controller = ElloNavigationController()
-                controller.rootViewControllerName = ElloNavigationController.ViewControllers.Notifications.rawValue
+                controller.rootViewControllerName = ElloNavigationController.RootViewControllers.Notifications.rawValue
             }
 
             it("has a tab bar item", {
@@ -31,7 +31,7 @@ class ElloNavigationControllerSpec: QuickSpec {
         describe("ProfileViewController") {
             beforeEach() {
                 controller = ElloNavigationController()
-                controller.rootViewControllerName = ElloNavigationController.ViewControllers.Profile.rawValue
+                controller.rootViewControllerName = ElloNavigationController.RootViewControllers.Profile.rawValue
             }
 
             it("has a tab bar item", {
