@@ -10,6 +10,9 @@ class ElloScrollLogic : NSObject, UIScrollViewDelegate {
     var prevOffset : CGPoint?
     var shouldIgnoreScroll:Bool = false
     var isShowing:Bool = true
+    var navBarHeight:CGFloat = 44
+    var tabBarHeight:CGFloat = 49
+    var barHeights:CGFloat { return navBarHeight + tabBarHeight }
 
     private var onShow: ((Bool)->())!
     private var onHide: (()->())!
@@ -52,12 +55,11 @@ class ElloScrollLogic : NSObject, UIScrollViewDelegate {
     }
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        let nearBottom = self.nearBottom(scrollView)
         var nextOffset = scrollView.contentOffset
+        let shouldAcceptScroll = self.shouldAcceptScroll(scrollView)
 
-        if !shouldIgnoreScroll && !nearBottom {
+        if shouldAcceptScroll {
             if let prevOffset = prevOffset {
-                let shouldAcceptScroll = self.shouldAcceptScroll(scrollView)
                 let didScrollUp = shouldAcceptScroll && self.didScrollUp(scrollView.contentOffset, prevOffset)
                 let isAtTop = self.isAtTop(scrollView)
 
@@ -87,16 +89,21 @@ class ElloScrollLogic : NSObject, UIScrollViewDelegate {
         shouldIgnoreScroll = true
     }
 
+    private func shouldAcceptScroll(scrollView : UIScrollView) -> Bool {
+        let nearBottom = self.nearBottom(scrollView)
+        if shouldIgnoreScroll || nearBottom {
+            return false
+        }
+
+        let contentSizeHeight = scrollView.contentSize.height
+        let scrollViewHeight = scrollView.frame.size.height
+        return scrollViewHeight + barHeights < contentSizeHeight
+    }
+
     private func nearBottom(scrollView : UIScrollView) -> Bool {
         let contentOffsetBottom = scrollView.contentOffset.y + scrollView.frame.size.height
         let contentSizeHeight = scrollView.contentSize.height
         return contentSizeHeight - contentOffsetBottom < 50
-    }
-
-    private func shouldAcceptScroll(scrollView : UIScrollView) -> Bool {
-        let contentSizeHeight = scrollView.contentSize.height
-        let scrollViewHeight = scrollView.frame.size.height
-        return scrollViewHeight < contentSizeHeight
     }
 
     private func didScrollUp(contentOffset : CGPoint, _ prevOffset : CGPoint) -> Bool {

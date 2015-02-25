@@ -37,10 +37,12 @@ class NotificationsScreen : UIView {
 
     weak var delegate : NotificationsScreenDelegate?
     let filterBar : NotificationsFilterBar
+    var filterBarVisible : Bool
     let streamContainer : UIView
 
     override init(frame: CGRect) {
         filterBar = NotificationsFilterBar()
+        filterBarVisible = true
 
         let filterAllButton = NotificationsScreen.filterButton("All")
         let filterMiscButton = NotificationsScreen.filterButton("…")
@@ -72,17 +74,34 @@ class NotificationsScreen : UIView {
 
     required init(coder: NSCoder) {
         filterBar = NotificationsFilterBar()
+        filterBarVisible = true
         streamContainer = UIView()
         super.init(coder: coder)
+    }
+
+    func showFilterBar() {
+        filterBarVisible = true
+        self.setNeedsLayout()
+    }
+
+    func hideFilterBar() {
+        filterBarVisible = false
+        self.setNeedsLayout()
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        filterBar.frame = self.bounds.fromTop().withHeight(NotificationsFilterBar.Size.height)
+        filterBar.frame = self.bounds.withHeight(NotificationsFilterBar.Size.height)
+        if filterBarVisible {
+            filterBar.frame = filterBar.frame.atY(0)
+        }
+        else {
+            filterBar.frame = filterBar.frame.atY(-NotificationsFilterBar.Size.height)
+        }
         streamContainer.frame = self.bounds.fromTop()
             .withHeight(self.frame.height)
-            .shrinkDown(filterBar.frame.height)
+            .shrinkDown(filterBar.frame.maxY)
     }
 
     func insertStreamView(streamView : UIView) {
