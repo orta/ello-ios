@@ -8,9 +8,6 @@
 
 import UIKit
 
-protocol PostTappedDelegate : NSObjectProtocol {
-    func postTapped(post : Post, initialItems: [StreamCellItem])
-}
 
 class StreamContainerViewController: StreamableViewController {
 
@@ -24,7 +21,6 @@ class StreamContainerViewController: StreamableViewController {
 
     var streamsSegmentedControl: UISegmentedControl!
     var streamControllerViews:[UIView] = []
-    var scrollLogic: ElloScrollLogic!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,38 +31,31 @@ class StreamContainerViewController: StreamableViewController {
         navigationItem.titleView = streamsSegmentedControl
         navigationBar.items = [navigationItem]
 
-        scrollLogic = ElloScrollLogic(
-            onShow: self.showNavBars,
-            onHide: self.hideNavBars
-        )
+        scrollLogic.prevOffset = (childViewControllers[0] as StreamViewController).collectionView.contentOffset
     }
 
-    func showNavBars(scrollToBottom : Bool) {
+    override func showNavBars(scrollToBottom : Bool) {
+        super.showNavBars(scrollToBottom)
         navigationBarTopConstraint.constant = 0
-        scrollView.setNeedsUpdateConstraints()
-        if let tabBarController = self.tabBarController {
-            tabBarController.tabBarHidden = false
-        }
         self.view.layoutIfNeeded()
 
         if scrollToBottom {
             for controller in childViewControllers as [StreamViewController] {
                 if let scrollView = controller.collectionView {
-                    if scrollView.frame.size.height > scrollView.contentSize.height {
-                        let y : CGFloat = scrollView.contentSize.height - scrollView.frame.size.height
-                        scrollView.setContentOffset(CGPoint(x: 0, y: y), animated: true)
+                    let contentOffsetY : CGFloat = scrollView.contentSize.height - scrollView.frame.size.height
+                    if contentOffsetY > 0 {
+                        scrollView.scrollEnabled = false
+                        scrollView.setContentOffset(CGPoint(x: 0, y: contentOffsetY), animated: true)
+                        scrollView.scrollEnabled = true
                     }
                 }
             }
         }
     }
 
-    func hideNavBars() {
+    override func hideNavBars() {
+        super.hideNavBars()
         navigationBarTopConstraint.constant = navigationBar.frame.height + 1
-        scrollView.setNeedsUpdateConstraints()
-        if let tabBarController = self.tabBarController {
-            tabBarController.tabBarHidden = true
-        }
         self.view.layoutIfNeeded()
     }
 
@@ -100,6 +89,7 @@ class StreamContainerViewController: StreamableViewController {
             let vc = StreamViewController.instantiateFromStoryboard()
             vc.streamKind = kind
             vc.postTappedDelegate = self
+            vc.userTappedDelegate = self
             vc.streamScrollDelegate = self
 
             vc.willMoveToParentViewController(self)
@@ -163,24 +153,6 @@ class StreamContainerViewController: StreamableViewController {
         let x:CGFloat = CGFloat(sender.selectedSegmentIndex) * width
         let rect = CGRect(x: x, y: 0, width: width, height: height)
         scrollView.scrollRectToVisible(rect, animated: true)
-    }
-
-}
-
-
-// MARK: StreamContainerViewController: StreamScrollDelegate
-extension StreamContainerViewController : StreamScrollDelegate {
-
-    func streamViewDidScroll(scrollView : UIScrollView) {
-        scrollLogic.scrollViewDidScroll(scrollView)
-    }
-
-    func streamViewWillBeginDragging(scrollView: UIScrollView) {
-        scrollLogic.scrollViewWillBeginDragging(scrollView)
-    }
-
-    func streamViewDidEndDragging(scrollView: UIScrollView, willDecelerate: Bool) {
-        scrollLogic.scrollViewDidEndDragging(scrollView, willDecelerate: willDecelerate)
     }
 
 }

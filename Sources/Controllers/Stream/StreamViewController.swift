@@ -52,6 +52,7 @@ class StreamViewController: BaseElloViewController {
     var imageViewerDelegate:StreamImageViewer?
     var updatedStreamImageCellHeightNotification:NotificationObserver?
     weak var postTappedDelegate : PostTappedDelegate?
+    weak var userTappedDelegate : UserTappedDelegate?
     weak var streamScrollDelegate : StreamScrollDelegate?
     var notificationDelegate:NotificationDelegate? {
         get { return dataSource.notificationDelegate }
@@ -228,8 +229,7 @@ extension StreamViewController : UserDelegate {
         if let indexPath = collectionView.indexPathForCell(cell) {
             if let post = dataSource.postForIndexPath(indexPath) {
                 if let user = post.author {
-                    let vc = ProfileViewController(user: user)
-                    self.navigationController?.pushViewController(vc, animated: true)
+                    userTappedDelegate?.userTapped(user)
                 }
             }
         }

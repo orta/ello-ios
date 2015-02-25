@@ -10,6 +10,7 @@
                 <outlet property="coverImage" destination="A2p-8r-avy" id="rSd-eN-nHc"/>
                 <outlet property="coverImageHeight" destination="Uoo-CU-1JR" id="c4J-Uw-hAx"/>
                 <outlet property="navigationBar" destination="Dl8-ha-LxN" id="bbX-bK-6CN"/>
+                <outlet property="navigationBarTopConstraint" destination="HAg-hv-aOW" id="jh6-WX-a9E"/>
                 <outlet property="view" destination="iN0-l3-epB" id="6s2-PA-CIX"/>
                 <outlet property="viewContainer" destination="wlf-zL-93E" id="IUa-jv-6Wt"/>
             </connections>
@@ -39,15 +40,15 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="Dl8-ha-LxN" secondAttribute="trailing" id="4VW-hR-wV5"/>
-                <constraint firstItem="Dl8-ha-LxN" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="HAg-hv-aOW"/>
+                <constraint firstAttribute="trailing" secondItem="Dl8-ha-LxN" secondAttribute="trailing" id="4VW-hR-wV5" userLabel="navigationBar - right"/>
+                <constraint firstAttribute="top" secondItem="Dl8-ha-LxN" secondAttribute="top" id="HAg-hv-aOW" userLabel="navigationBar - top"/>
                 <constraint firstItem="wlf-zL-93E" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="K3x-o1-2W5" userLabel="viewContainer - left"/>
                 <constraint firstAttribute="bottom" secondItem="wlf-zL-93E" secondAttribute="bottom" id="Kzz-uf-eqd" userLabel="viewContainer - bottom"/>
                 <constraint firstAttribute="trailing" secondItem="wlf-zL-93E" secondAttribute="trailing" id="Rwp-mf-G91" userLabel="viewContainer - right"/>
-                <constraint firstItem="wlf-zL-93E" firstAttribute="top" secondItem="Dl8-ha-LxN" secondAttribute="bottom" id="aZg-M0-wHe"/>
-                <constraint firstAttribute="centerX" secondItem="A2p-8r-avy" secondAttribute="centerX" id="naz-Ui-54x"/>
-                <constraint firstItem="Dl8-ha-LxN" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="sky-eS-kcB"/>
-                <constraint firstItem="A2p-8r-avy" firstAttribute="top" secondItem="wlf-zL-93E" secondAttribute="top" id="wz7-ye-x4t"/>
+                <constraint firstItem="wlf-zL-93E" firstAttribute="top" secondItem="Dl8-ha-LxN" secondAttribute="bottom" id="aZg-M0-wHe" userLabel="viewContainer - top"/>
+                <constraint firstAttribute="centerX" secondItem="A2p-8r-avy" secondAttribute="centerX" id="naz-Ui-54x" userLabel="coverImage - centerX"/>
+                <constraint firstItem="Dl8-ha-LxN" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="sky-eS-kcB" userLabel="navigationBar - left"/>
+                <constraint firstItem="A2p-8r-avy" firstAttribute="top" secondItem="wlf-zL-93E" secondAttribute="top" id="wz7-ye-x4t" userLabel="coverImage - top"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
         </view>

@@ -13,7 +13,6 @@ import WebKit
 
 class NotificationsViewController: StreamableViewController, NotificationDelegate, NotificationsScreenDelegate {
     var streamController : StreamViewController!
-    var scrollLogic: ElloScrollLogic!
 
     override func loadView() {
         self.view = NotificationsScreen(frame: UIScreen.mainScreen().bounds)
@@ -30,17 +29,13 @@ class NotificationsViewController: StreamableViewController, NotificationDelegat
         self.navigationController?.navigationBarHidden = true
 
         setupStreamController()
-
-        // scrollLogic = ElloScrollLogic(
-        //     onShow: self.showNavBars,
-        //     onHide: self.hideNavBars
-        // )
     }
 
     private func setupStreamController() {
         streamController = StreamViewController.instantiateFromStoryboard()
         streamController.streamKind = .Notifications
         streamController.postTappedDelegate = self
+        streamController.userTappedDelegate = self
         streamController.notificationDelegate = self
 
         streamController.willMoveToParentViewController(self)
@@ -90,11 +85,6 @@ class NotificationsViewController: StreamableViewController, NotificationDelegat
         else {
             streamController.streamFilter = nil
         }
-    }
-
-    func userTapped(user: User) {
-        let vc = ProfileViewController(user: user)
-        self.navigationController?.pushViewController(vc, animated: true)
     }
 
     func commentTapped(comment: Comment) {}

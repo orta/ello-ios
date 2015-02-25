@@ -8,16 +8,100 @@
 
 import UIKit
 
-class StreamableViewController : BaseElloViewController, PostTappedDelegate {
+protocol PostTappedDelegate : NSObjectProtocol {
+    func postTapped(post : Post, initialItems: [StreamCellItem])
+}
+
+protocol UserTappedDelegate : NSObjectProtocol {
+    func userTapped(user : User)
+}
+
+
+class StreamableViewController : BaseElloViewController, PostTappedDelegate, UserTappedDelegate {
+
+    var scrollLogic: ElloScrollLogic!
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        scrollLogic = ElloScrollLogic(
+            onShow: self.showNavBars,
+            onHide: self.hideNavBars
+        )
+    }
+
+    func willPresentStreamable(navBarsVisible : Bool) {
+        let view = self.view
+
+        if navBarsVisible {
+            showNavBars(false)
+        }
+        else {
+            hideNavBars()
+        }
+        scrollLogic.isShowing = navBarsVisible
+    }
+
+    func didPresentStreamable() {}
+
+    func showNavBars(scrollToBottom : Bool) {
+        if let tabBarController = self.tabBarController {
+            tabBarController.tabBarHidden = false
+        }
+    }
+
+    func hideNavBars() {
+        if let tabBarController = self.tabBarController {
+            tabBarController.tabBarHidden = true
+        }
+    }
 
     @IBAction func backTapped(sender: UIButton) {
-        self.navigationController?.popViewControllerAnimated(true)
+        if let controllers = self.navigationController?.childViewControllers {
+            if controllers.count > 1 {
+                if let prev = controllers[controllers.count - 2] as? StreamableViewController {
+                    prev.willPresentStreamable(scrollLogic.isShowing)
+                    self.navigationController?.popViewControllerAnimated(true)
+                    prev.didPresentStreamable()
+                }
+                else {
+                    self.navigationController?.popViewControllerAnimated(true)
+                }
+            }
+        }
     }
 
     func postTapped(post: Post, initialItems: [StreamCellItem]) {
         let vc = PostDetailViewController(post: post, items: initialItems)
         vc.currentUser = currentUser
+        vc.willPresentStreamable(scrollLogic.isShowing)
         self.navigationController?.pushViewController(vc, animated: true)
+        vc.didPresentStreamable()
+    }
+
+    func userTapped(user: User) {
+        let vc = ProfileViewController(user: user)
+        vc.willPresentStreamable(scrollLogic.isShowing)
+        self.navigationController?.pushViewController(vc, animated: true)
+        vc.didPresentStreamable()
+    }
+
+}
+
+
+// MARK: StreamableViewController: StreamScrollDelegate
+extension StreamableViewController : StreamScrollDelegate {
+
+    func streamViewDidScroll(scrollView : UIScrollView) {
+        scrollLogic.scrollViewDidScroll(scrollView)
+    }
+
+    func streamViewWillBeginDragging(scrollView: UIScrollView) {
+        scrollLogic.scrollViewWillBeginDragging(scrollView)
+    }
+
+    func streamViewDidEndDragging(scrollView: UIScrollView, willDecelerate: Bool) {
+        scrollLogic.scrollViewDidEndDragging(scrollView, willDecelerate: willDecelerate)
     }
 
 }

@@ -14,7 +14,7 @@ class PostDetailViewController: StreamableViewController {
     var detailCellItems : [StreamCellItem]
     var unsizedCellItems : [StreamCellItem]
     var navigationBar : ElloNavigationBar!
-    var scrollLogic: ElloScrollLogic!
+    var streamViewController : StreamViewController!
 
     convenience init(post : Post, items: [StreamCellItem]) {
         self.init(post: post, items: items, unsized: [])
@@ -41,41 +41,30 @@ class PostDetailViewController: StreamableViewController {
         setupNavigationBar()
         setupStreamController()
 
-        scrollLogic = ElloScrollLogic(
-            onShow: self.showNavBars,
-            onHide: self.hideNavBars
-        )
+        scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
     }
 
-    func showNavBars(scrollToBottom : Bool) {
+    override func showNavBars(scrollToBottom : Bool) {
+        super.showNavBars(scrollToBottom)
         navigationBar.frame = navigationBar.frame.atY(0)
-        if let tabBarController = self.tabBarController {
-            tabBarController.tabBarHidden = false
-        }
+        streamViewController.view.frame = navigationBar.frame.fromBottom().withHeight(self.view.frame.height - navigationBar.frame.height)
 
-        for controller in childViewControllers as [StreamViewController] {
-            controller.view.frame = navigationBar.frame.fromBottom().withHeight(self.view.frame.height - navigationBar.frame.height)
-
-            if scrollToBottom {
-                if let scrollView = controller.collectionView {
-                    if scrollView.frame.size.height > scrollView.contentSize.height {
-                        let y : CGFloat = scrollView.contentSize.height - scrollView.frame.size.height
-                        scrollView.setContentOffset(CGPoint(x: 0, y: y), animated: true)
-                    }
+        if scrollToBottom {
+            if let scrollView = streamViewController.collectionView {
+                let contentOffsetY : CGFloat = scrollView.contentSize.height - scrollView.frame.size.height
+                if contentOffsetY > 0 {
+                    scrollView.scrollEnabled = false
+                    scrollView.setContentOffset(CGPoint(x: 0, y: contentOffsetY), animated: true)
+                    scrollView.scrollEnabled = true
                 }
             }
         }
     }
 
-    func hideNavBars() {
+    override func hideNavBars() {
+        super.hideNavBars()
         navigationBar.frame = navigationBar.frame.atY(-navigationBar.frame.height - 1)
-        if let tabBarController = self.tabBarController {
-            tabBarController.tabBarHidden = true
-        }
-
-        for controller in childViewControllers as [StreamViewController] {
-            controller.view.frame = navigationBar.frame.fromBottom().withHeight(self.view.frame.height)
-        }
+        streamViewController.view.frame = navigationBar.frame.fromBottom().withHeight(self.view.frame.height)
     }
 
     private func setupNavigationBar() {
@@ -115,6 +104,8 @@ class PostDetailViewController: StreamableViewController {
                 controller.doneLoading()
             }
         )
+
+        streamViewController = controller
     }
 
     override func postTapped(post: Post, initialItems: [StreamCellItem]) {
@@ -122,22 +113,4 @@ class PostDetailViewController: StreamableViewController {
             super.postTapped(post, initialItems: initialItems)
         }
     }
-}
-
-
-// MARK: PostDetailViewController: StreamScrollDelegate
-extension PostDetailViewController : StreamScrollDelegate {
-
-    func streamViewDidScroll(scrollView : UIScrollView) {
-        scrollLogic.scrollViewDidScroll(scrollView)
-    }
-
-    func streamViewWillBeginDragging(scrollView: UIScrollView) {
-        scrollLogic.scrollViewWillBeginDragging(scrollView)
-    }
-
-    func streamViewDidEndDragging(scrollView: UIScrollView, willDecelerate: Bool) {
-        scrollLogic.scrollViewDidEndDragging(scrollView, willDecelerate: willDecelerate)
-    }
-
 }
