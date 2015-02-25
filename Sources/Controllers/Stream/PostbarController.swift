@@ -80,6 +80,15 @@ class PostbarController: NSObject, PostbarDelegate {
         }
     }
 
+    func flagButtonTapped(cell: StreamFooterCell) {
+        if let indexPath = collectionView.indexPathForCell(cell) {
+            if let post = dataSource.postForIndexPath(indexPath) {
+
+
+            }
+        }
+    }
+
 // MARK: - Private
 
     private func commentLoadSuccess(jsonables:[JSONAble], indexPath:NSIndexPath, cell:StreamFooterCell) {

@@ -47,9 +47,9 @@ class StreamFooterCell: UICollectionViewCell {
         get { return self.repostItem.customView as StreamFooterButton }
     }
 
-    let blockItem:UIBarButtonItem = ElloPostToolBarOption.Block.barButtonItem()
-    var blockButton:StreamFooterButton {
-        get { return self.blockItem.customView as StreamFooterButton }
+    let flagItem:UIBarButtonItem = ElloPostToolBarOption.Flag.barButtonItem()
+    var flagButton:StreamFooterButton {
+        get { return self.flagItem.customView as StreamFooterButton }
     }
 
     let shareItem:UIBarButtonItem = ElloPostToolBarOption.Share.barButtonItem()
@@ -78,7 +78,7 @@ class StreamFooterCell: UICollectionViewCell {
                         viewsItem, commentsItem, repostItem
                     ]
                     self.bottomToolBar.items = [
-                        flexibleItem(), shareItem, blockItem
+                        flexibleItem(), shareItem, flagItem
                     ]
                 }
             }
@@ -159,7 +159,7 @@ class StreamFooterCell: UICollectionViewCell {
     }
 
     private func addButtonHandlers() {
-        blockButton.addTarget(self, action: "blockButtonTapped:", forControlEvents: .TouchUpInside)
+        flagButton.addTarget(self, action: "flagButtonTapped:", forControlEvents: .TouchUpInside)
         commentsButton.addTarget(self, action: "commentsButtonTapped:", forControlEvents: .TouchUpInside)
         commentsButton.addTarget(self, action: "commentsButtonTouchDown:", forControlEvents: .TouchDown)
         lovesButton.addTarget(self, action: "lovesButtonTapped:", forControlEvents: .TouchUpInside)
@@ -196,8 +196,8 @@ class StreamFooterCell: UICollectionViewCell {
         delegate?.repostButtonTapped(self)
     }
 
-    @IBAction func blockButtonTapped(sender: StreamFooterButton) {
-        println("block tapped")
+    @IBAction func flagButtonTapped(sender: StreamFooterButton) {
+        delegate?.flagButtonTapped(self)
     }
 
     @IBAction func shareButtonTapped(sender: StreamFooterButton) {

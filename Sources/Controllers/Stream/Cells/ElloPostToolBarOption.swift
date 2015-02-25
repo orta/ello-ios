@@ -17,7 +17,7 @@ enum ElloPostToolBarOption {
     case Delete
     case Edit
     case Reply
-    case Block
+    case Flag
 
     func button() -> UIButton {
         switch self {
@@ -37,8 +37,8 @@ enum ElloPostToolBarOption {
             return normalButton("eye-icon")
         case .Reply:
             return normalButton("reply-icon")
-        case .Block:
-            return normalButton("block-icon")
+        case .Flag:
+            return normalButton("flag-icon")
         }
     }
 
