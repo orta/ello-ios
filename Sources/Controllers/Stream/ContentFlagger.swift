@@ -8,14 +8,25 @@
 
 import Foundation
 
+enum FlaggableContentType {
+    case Post
+    case Comment
+}
+
 class ContentFlagger {
 
-    let presentingController: UIViewController
-    let post: Post
+    var contentFlagged:Bool?
 
-    init(presentingController: UIViewController, post: Post) {
+    let presentingController: UIViewController
+    let flaggableId: String
+    let flaggableContentType: FlaggableContentType
+    var commentPostId: String?
+
+    init(presentingController: UIViewController, flaggableId: String, flaggableContentType: FlaggableContentType, commentPostId:String?) {
         self.presentingController = presentingController
-        self.post = post
+        self.flaggableId = flaggableId
+        self.flaggableContentType = flaggableContentType
+        self.commentPostId = commentPostId
     }
 
     enum AlertOption: String {
@@ -33,21 +44,38 @@ class ContentFlagger {
 
         var kind: String {
             switch self {
-            case Spam: return "Spam"
+            case Spam: return "spam"
             case Violence: return "violence"
-            default: return "Mah"
-
+            case Copyright: return "copyright"
+            case Threatening: return "threatening"
+            case Hate: return "hate_speech"
+            case Adult: return "adult"
+            case DontLike: return "offensive"
             }
         }
 
         static let all = [Spam, Violence, Copyright, Threatening, Hate, Adult, DontLike]
-
     }
 
     func handler(action: UIAlertAction!) {
         let option = AlertOption(rawValue: action.title)
         if let option = option {
-            println(option.name)
+
+            var endPoint:ElloAPI
+            switch flaggableContentType {
+            case .Post:
+                endPoint = ElloAPI.FlagPost(postId: flaggableId, kind: option.kind)
+            case .Comment:
+                endPoint = ElloAPI.FlagComment(postId: commentPostId!, commentId: flaggableId, kind: option.kind)
+            }
+
+            let service = ContentFlaggingService()
+            service.flagContent(endPoint, success: {
+                self.contentFlagged = true
+            }, failure: { (error, statusCode) in
+                self.contentFlagged = false
+            })
+
         }
     }
 

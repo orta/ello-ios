@@ -83,8 +83,14 @@ class PostbarController: NSObject, PostbarDelegate {
     func flagButtonTapped(cell: StreamFooterCell) {
         if let indexPath = collectionView.indexPathForCell(cell) {
             if let post = dataSource.postForIndexPath(indexPath) {
+                if let presentingController = presentingController? {
+                    let flagger = ContentFlagger(presentingController: presentingController,
+                        flaggableId: post.postId,
+                        flaggableContentType: .Post,
+                        commentPostId: nil)
 
-
+                    flagger.displayFlaggingSheet()
+                }
             }
         }
     }
