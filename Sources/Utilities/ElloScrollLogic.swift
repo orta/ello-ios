@@ -11,15 +11,15 @@ class ElloScrollLogic : NSObject, UIScrollViewDelegate {
     var shouldIgnoreScroll:Bool = false
     var isShowing:Bool = true
 
-    private var onShow: (()->())!
+    private var onShow: ((Bool)->())!
     private var onHide: (()->())!
 
-    init(onShow: ()->(), onHide: ()->()) {
+    init(onShow: (Bool)->(), onHide: ()->()) {
         self.onShow = onShow
         self.onHide = onHide
     }
 
-    func onShow(handler: ()->()) {
+    func onShow(handler: (Bool)->()) {
         self.onShow = handler
     }
 
@@ -27,20 +27,30 @@ class ElloScrollLogic : NSObject, UIScrollViewDelegate {
         self.onHide = handler
     }
 
+    private func show(scrollToBottom : Bool = false) {
+        if !isShowing {
+            UIView.animateWithDuration(0.2, animations: { self.onShow(scrollToBottom) })
+        }
+        isShowing = true
+    }
+
+    private func hide() {
+        if isShowing {
+            UIView.animateWithDuration(0.2, animations: self.onHide)
+        }
+        isShowing = false
+    }
+
     func scrollViewDidScroll(scrollView: UIScrollView) {
         if !shouldIgnoreScroll {
             if let prevOffset = prevOffset {
-                if scrollView.contentOffset.y > prevOffset.y {
-                    if isShowing {
-                        UIView.animateWithDuration(0.2, animations: self.onHide)
-                    }
-                    isShowing = false
+                let didScrollUp = self.didScrollUp(scrollView.contentOffset.y, prevOffset.y)
+
+                if didScrollUp {
+                    hide()
                 }
                 else {
-                    if !isShowing {
-                        UIView.animateWithDuration(0.2, animations: self.onShow)
-                    }
-                    isShowing = true
+                    show()
                 }
             }
         }
@@ -53,7 +63,19 @@ class ElloScrollLogic : NSObject, UIScrollViewDelegate {
     }
 
     func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate: Bool) {
+        let isAtBottom = self.isAtBottom(scrollView.contentOffset.y + scrollView.frame.size.height, scrollView.contentSize.height)
+        if isAtBottom {
+            show(scrollToBottom: true)
+        }
         shouldIgnoreScroll = true
+    }
+
+    private func didScrollUp(contentOffsetY : CGFloat, _ prevOffsetY : CGFloat) -> Bool {
+        return contentOffsetY > prevOffsetY
+    }
+
+    private func isAtBottom(contentOffsetBottom : CGFloat, _ contentSizeHeight : CGFloat) -> Bool {
+        return contentOffsetBottom > contentSizeHeight
     }
 
 }

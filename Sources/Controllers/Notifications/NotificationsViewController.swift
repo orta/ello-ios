@@ -13,6 +13,7 @@ import WebKit
 
 class NotificationsViewController: StreamableViewController, NotificationDelegate, NotificationsScreenDelegate {
     var streamController : StreamViewController!
+    var scrollLogic: ElloScrollLogic!
 
     override func loadView() {
         self.view = NotificationsScreen(frame: UIScreen.mainScreen().bounds)
@@ -29,6 +30,11 @@ class NotificationsViewController: StreamableViewController, NotificationDelegat
         self.navigationController?.navigationBarHidden = true
 
         setupStreamController()
+
+        // scrollLogic = ElloScrollLogic(
+        //     onShow: self.showNavBars,
+        //     onHide: self.hideNavBars
+        // )
     }
 
     private func setupStreamController() {

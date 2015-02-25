@@ -41,13 +41,24 @@ class StreamContainerViewController: StreamableViewController {
         )
     }
 
-    func showNavBars() {
+    func showNavBars(scrollToBottom : Bool) {
         navigationBarTopConstraint.constant = 0
         scrollView.setNeedsUpdateConstraints()
         if let tabBarController = self.tabBarController {
             tabBarController.tabBarHidden = false
         }
         self.view.layoutIfNeeded()
+
+        if scrollToBottom {
+            for controller in childViewControllers as [StreamViewController] {
+                if let scrollView = controller.collectionView {
+                    if scrollView.frame.size.height > scrollView.contentSize.height {
+                        let y : CGFloat = scrollView.contentSize.height - scrollView.frame.size.height
+                        scrollView.setContentOffset(CGPoint(x: 0, y: y), animated: true)
+                    }
+                }
+            }
+        }
     }
 
     func hideNavBars() {

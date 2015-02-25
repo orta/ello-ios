@@ -16,6 +16,7 @@ class ProfileViewController: StreamableViewController {
     var coverWidthSet = false
     let ratio:CGFloat = 16.0/9.0
     var relationshipController: RelationshipController?
+    var scrollLogic: ElloScrollLogic!
 
     @IBOutlet weak var viewContainer: UIView!
     @IBOutlet weak var navigationBar: ElloNavigationBar!
@@ -46,6 +47,11 @@ class ProfileViewController: StreamableViewController {
         }
         navigationBar.items = [navigationItem]
         setupStreamController()
+
+//        scrollLogic = ElloScrollLogic(
+//            onShow: self.showNavBars,
+//            onHide: self.hideNavBars
+//        )
     }
 
     @IBAction func logOutTapped(sender: ElloTextButton) {
