@@ -12,17 +12,28 @@ class AvatarButton: UIButton {
 
     weak var userDelegate: UserDelegate?
 
-    func setAvatarURL(url:NSURL) {
-        var state = UIControlState.Normal
-        self.sd_setImageWithURL(url, forState: state) {
-            (image, error, type, url) in
-            if error == nil && image != nil {
-                let size = self.bounds.size
-                self.setImage(image.squareImageToSize(size)?.roundCorners(), forState: state)
+    func setAvatarURL(url:NSURL?) {
+        let state = UIControlState.Normal
+        if let url = url {
+            self.sd_setImageWithURL(url, forState: state) { (image, error, type, url) in
+                if image == nil {
+                    self.setDefaultImage()
+                }
             }
-            else {
-                self.setImage(nil, forState: state)
-            }
+        }
+        else {
+            setDefaultImage()
+        }
+    }
+
+    func setDefaultImage() {
+        self.setImage(nil, forState: state)
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if let imageView = self.imageView {
+            imageView.layer.cornerRadius = self.bounds.size.height / CGFloat(2)
         }
     }
 

@@ -22,15 +22,18 @@ class StreamHeaderCell: UICollectionViewCell {
     var streamKind:StreamKind?
     weak var userDelegate: UserDelegate?
 
-    func setAvatarURL(url:NSURL) {
+    func setAvatarURL(url:NSURL?) {
         avatarButton.setAvatarURL(url)
     }
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
+    override func awakeFromNib() {
+        super.awakeFromNib()
+
         styleUsernameLabel()
         styleTimestampLabel()
+    }
 
+    override func updateConstraints() {
         if let streamKind = streamKind {
             if streamKind.isGridLayout {
                 self.userNameLeadingConstraint.constant = 14.0
@@ -39,6 +42,8 @@ class StreamHeaderCell: UICollectionViewCell {
                 self.userNameLeadingConstraint.constant = 20.0
             }
         }
+
+        super.updateConstraints()
     }
 
     private func styleUsernameLabel() {
