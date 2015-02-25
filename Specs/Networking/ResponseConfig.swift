@@ -14,8 +14,8 @@ class ResponseConfig: Printable {
     }
     var nextQueryItems: [AnyObject]?
     var prevQueryItems: [AnyObject]?
-    var totalPages: String?
     var totalCount: String?
+    var totalPages: String?
     var totalPagesRemaining: String?
 
     init() {}
