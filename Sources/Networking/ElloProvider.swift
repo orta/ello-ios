@@ -13,17 +13,6 @@ import WebLinking
 typealias ElloSuccessCompletion = (data: AnyObject, responseConfig: ResponseConfig) -> ()
 typealias ElloFailureCompletion = (error: NSError, statusCode:Int?) -> ()
 
-class ResponseConfig: Printable {
-    var description: String {
-        return "ResponseConfig: \r\tnextQueryItems: \(nextQueryItems) \r\tprevQueryItems: \(prevQueryItems) \r\ttotalPages: \(totalPages) \r\ttotalCount: \(totalCount) \r\ttotalPagesRemaining: \(totalPagesRemaining)"
-    }
-    var nextQueryItems: [AnyObject]?
-    var prevQueryItems: [AnyObject]?
-    var totalPages: String?
-    var totalCount: String?
-    var totalPagesRemaining: String?
-}
-
 struct ElloProvider {
 
     static var errorStatusCode:ErrorStatusCode = .Status404
