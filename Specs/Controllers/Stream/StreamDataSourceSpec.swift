@@ -37,7 +37,7 @@ class StreamDataSourceSpec: QuickSpec {
             beforeEach({
                 dataSource = StreamDataSource(testWebView: webView, streamKind: .Friend)
                 vc.dataSource = dataSource
-                StreamService().loadStream(ElloAPI.FriendStream, { jsonables in
+                StreamService().loadStream(ElloAPI.FriendStream, { (jsonables, responseConfig) in
                     var posts:[Post] = []
                     for activity in jsonables {
                         if let post = (activity as Activity).subject as? Post {

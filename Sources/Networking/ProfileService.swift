@@ -20,7 +20,7 @@ struct ProfileService {
             method: .GET,
             parameters: ElloAPI.Profile.defaultParameters,
             mappingType:MappingType.UsersType,
-            success: { (data) -> () in
+            success: { (data, responseConfig) in
                 if let user = data as? User {
                     success(user: user)
                 }

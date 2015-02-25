@@ -28,7 +28,7 @@ class StreamServiceSpec: QuickSpec {
                     it("Calls success with an array of Activity objects") {
                         var loadedPosts:[Post]?
 
-                        streamService.loadStream(ElloAPI.FriendStream, { jsonables in
+                        streamService.loadStream(ElloAPI.FriendStream, { (jsonables, responseConfig) in
                             var posts:[Post] = []
                             for activity in jsonables {
                                 if let post = (activity as Activity).subject as? Post {
@@ -67,7 +67,7 @@ class StreamServiceSpec: QuickSpec {
                     it("handles assets") {
                         var loadedPosts:[Post]?
 
-                        streamService.loadStream(ElloAPI.FriendStream, { jsonables in
+                        streamService.loadStream(ElloAPI.FriendStream, { (jsonables, responseConfig) in
                             var posts:[Post] = []
                             for activity in jsonables {
                                 if let post = (activity as Activity).subject as? Post {
@@ -96,7 +96,7 @@ class StreamServiceSpec: QuickSpec {
                     it("calls success with an array of Comment objects", {
                         var loadedComments:[Comment]?
 
-                        streamService.loadMoreCommentsForPost("111", success: { comments in
+                        streamService.loadMoreCommentsForPost("111", success: { (comments, responseConfig) in
                             loadedComments = comments as? [Comment]
                         }, failure:nil)
 
@@ -144,7 +144,7 @@ class StreamServiceSpec: QuickSpec {
                         var loadedStatusCode:Int?
                         var loadedError:NSError?
 
-                        streamService.loadStream(ElloAPI.FriendStream, { jsonables in
+                        streamService.loadStream(ElloAPI.FriendStream, { (jsonables, responseConfig) in
                             loadedJsonables = jsonables
                         }, failure: { (error, statusCode) -> () in
                             loadedError = error

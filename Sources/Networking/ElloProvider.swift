@@ -9,9 +9,19 @@
 import Foundation
 import Moya
 
-typealias ElloSuccessCompletion = (data: AnyObject) -> ()
+typealias ElloSuccessCompletion = (data: AnyObject, responseConfig: ResponseConfig) -> ()
 typealias ElloFailureCompletion = (error: NSError, statusCode:Int?) -> ()
 
+class ResponseConfig: Printable {
+    var description: String {
+        return "ResponseConfig: \r\tnextQueryItems: \(nextQueryItems) \r\tprevQueryItems: \(prevQueryItems) \r\ttotalPages: \(totalPages) \r\ttotalCount: \(totalCount) \r\ttotalPagesRemaining: \(totalPagesRemaining)"
+    }
+    var nextQueryItems: [AnyObject]?
+    var prevQueryItems: [AnyObject]?
+    var totalPages: String?
+    var totalCount: String?
+    var totalPagesRemaining: String?
+}
 
 struct ElloProvider {
 
@@ -106,24 +116,24 @@ extension MoyaProvider {
     func elloRequest(token: T, method: Moya.Method, parameters: [String: AnyObject], mappingType: MappingType, success: ElloSuccessCompletion, failure: ElloFailureCompletion?) {
         self.request(token, method: method, parameters: parameters, completion: {
             (data, statusCode, response, error) in
-            self.handleRequest(token, method: method, parameters: parameters, data: data, statusCode: statusCode, success: success, failure: failure, isRetry: false, mappingType: mappingType, error: error, response: response)
+            self.handleRequest(token, method: method, parameters: parameters, data: data, response: response as? NSHTTPURLResponse, statusCode: statusCode, success: success, failure: failure, isRetry: false, mappingType: mappingType, error: error)
         })
     }
 
-    func handleRequest(token: T, method: Moya.Method, parameters: [String: AnyObject], data:NSData?, var statusCode:Int?, success: ElloSuccessCompletion, failure: ElloFailureCompletion?, isRetry: Bool, mappingType: MappingType, error:NSError?, response: NSURLResponse?) {
+    func handleRequest(token: T, method: Moya.Method, parameters: [String: AnyObject], data:NSData?, response: NSHTTPURLResponse?, var statusCode:Int?, success: ElloSuccessCompletion, failure: ElloFailureCompletion?, isRetry: Bool, mappingType: MappingType, error:NSError?) {
         if data != nil && statusCode != nil {
             switch statusCode! {
             case 200...299:
-                self.handleNetworkSuccess(data!, mappingType: mappingType, success: success, failure: failure, response: response)
+                self.handleNetworkSuccess(data!, response: response, mappingType: mappingType, success: success, failure: failure)
             case 300...399:
-                self.handleNetworkSuccess(data!, mappingType: mappingType, success: success, failure: failure, response: response)
+                self.handleNetworkSuccess(data!, response: response, mappingType: mappingType, success: success, failure: failure)
             case 401:
                 if !isRetry {
                     let authService = AuthService()
                     authService.reAuthenticate({
                         // now retry the previous request that generated the original 401
                         self.request(token, method: method, parameters: parameters, completion: { (data, statusCode, response, error) in
-                            self.handleRequest(token, method: method, parameters: parameters, data: data, statusCode: statusCode, success: success, failure: failure, isRetry: true, mappingType: mappingType, error: error, response: response)
+                            self.handleRequest(token, method: method, parameters: parameters, data: data, response: response as? NSHTTPURLResponse, statusCode: statusCode, success: success, failure: failure, isRetry: true, mappingType: mappingType, error: error)
                         })
                     },
                     failure: { (_,_) in
@@ -151,7 +161,7 @@ extension MoyaProvider {
         }
     }
 
-    func handleNetworkSuccess(data:NSData, mappingType: MappingType, success:ElloSuccessCompletion, failure:ElloFailureCompletion?, response: NSURLResponse?) {
+    func handleNetworkSuccess(data:NSData, response: NSHTTPURLResponse?, mappingType: MappingType, success:ElloSuccessCompletion, failure:ElloFailureCompletion?) {
         let (mappedJSON: AnyObject?, error) = mapJSON(data)
 
         var mappedObjects: AnyObject?
@@ -164,15 +174,15 @@ extension MoyaProvider {
                 }
 
                 if let node = dict[mappingType.rawValue] as? [[String:AnyObject]] {
-                    mappedObjects = mapToObjectArray(node, fromJSON: mappingType.fromJSON, response: response)
+                    mappedObjects = mapToObjectArray(node, fromJSON: mappingType.fromJSON)
                 }
                 else if let node = dict[mappingType.rawValue] as? [String:AnyObject] {
-                    mappedObjects = mapToObject(node, fromJSON: mappingType.fromJSON, response: response)
+                    mappedObjects = mapToObject(node, fromJSON: mappingType.fromJSON)
                 }
             }
 
             if let mappedObjects: AnyObject = mappedObjects {
-                success(data:mappedObjects)
+                success(data: mappedObjects, responseConfig: parseResponse(response))
             }
             else {
                 failedToMapObjects(failure)
@@ -231,7 +241,7 @@ extension MoyaProvider {
 
             if mappedJSON != nil && error == nil {
                 if let node = mappedJSON?[MappingType.ErrorsType.rawValue] as? [String:AnyObject] {
-                    elloNetworkError = mapToObject(node, fromJSON: MappingType.ErrorType.fromJSON, response: nil) as? ElloNetworkError
+                    elloNetworkError = mapToObject(node, fromJSON: MappingType.ErrorType.fromJSON) as? ElloNetworkError
                 }
             }
         }
@@ -259,12 +269,11 @@ extension MoyaProvider {
         return (json, error)
     }
 
-    func mapToObjectArray(object: AnyObject?, fromJSON: FromJSONClosure, response: NSURLResponse?) -> [JSONAble]? {
+    func mapToObjectArray(object: AnyObject?, fromJSON: FromJSONClosure) -> [JSONAble]? {
 
         if let dicts = object as? [[String:AnyObject]] {
             let jsonables:[JSONAble] =  dicts.map {
                 let jsonable = fromJSON(data: $0)
-                jsonable.parseResponse(response)
                 return jsonable
             }
             return jsonables
@@ -273,14 +282,36 @@ extension MoyaProvider {
         return nil
     }
 
-    func mapToObject(object:AnyObject?, fromJSON: FromJSONClosure, response: NSURLResponse?) -> JSONAble? {
+    func mapToObject(object:AnyObject?, fromJSON: FromJSONClosure) -> JSONAble? {
         if let dict = object as? [String:AnyObject] {
             let jsonable = fromJSON(data: dict)
-            jsonable.parseResponse(response)
             return jsonable
         }
         else {
             return nil
         }
     }
+<<<<<<< HEAD
 }
+=======
+
+    func parseResponse(response: NSHTTPURLResponse?) -> ResponseConfig {
+        var config = ResponseConfig()
+        config.totalPages = response?.allHeaderFields["X-Total-Pages"] as? String
+        config.totalCount = response?.allHeaderFields["X-Total-Count"] as? String
+        config.totalPagesRemaining = response?.allHeaderFields["X-Total-Pages-Remaining"] as? String
+        if let nextLink = response?.findLink(relation: "next") {
+            if let comps = NSURLComponents(string: nextLink.uri) {
+                config.nextQueryItems = comps.queryItems
+            }
+        }
+        if let prevLink = response?.findLink(relation: "prev") {
+            if let comps = NSURLComponents(string: prevLink.uri) {
+                config.prevQueryItems = comps.queryItems
+            }
+        }
+        println(config)
+        return config
+    }
+}
+>>>>>>> Adds paging to friend and noise streams.

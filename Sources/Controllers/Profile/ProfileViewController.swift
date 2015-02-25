@@ -81,7 +81,7 @@ class ProfileViewController: StreamableViewController {
     }
 
     private func setupStreamController() {
-        StreamService().loadUser(streamViewController.streamKind.endpoint,
+        streamViewController.streamService.loadUser(streamViewController.streamKind.endpoint,
             success: userLoaded,
             failure: { (error, statusCode) in
                 println("failed to load user (reason: \(error))")

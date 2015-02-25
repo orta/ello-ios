@@ -16,7 +16,7 @@ class NotificationsService: NSObject {
             method: .GET,
             parameters: endpoint.defaultParameters,
             mappingType:MappingType.ActivitiesType,
-            success: { data in
+            success: { (data, responseConfig) in
                 if let activities:[Activity] = data as? [Activity] {
                     let notifications : [Notification] = activities.map { return Notification(activity: $0) }
                     success(notifications: notifications)

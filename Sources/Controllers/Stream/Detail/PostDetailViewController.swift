@@ -92,9 +92,8 @@ class PostDetailViewController: StreamableViewController {
         controller.addStreamCellItems(self.detailCellItems)
         controller.addUnsizedCellItems(self.unsizedCellItems)
 
-        let streamService = StreamService()
-        streamService.loadMoreCommentsForPost(post.postId,
-            success: { jsonables in
+        controller.streamService.loadMoreCommentsForPost(post.postId,
+            success: { (jsonables, responseConfig) in
                 var parser = StreamCellItemParser()
                 controller.addUnsizedCellItems(parser.commentCellItems(jsonables as [Comment]))
                 controller.doneLoading()
