@@ -8,6 +8,7 @@
 
 import Foundation
 import Moya
+import WebLinking
 
 typealias ElloSuccessCompletion = (data: AnyObject, responseConfig: ResponseConfig) -> ()
 typealias ElloFailureCompletion = (error: NSError, statusCode:Int?) -> ()

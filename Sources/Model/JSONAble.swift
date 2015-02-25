@@ -7,10 +7,8 @@
 //
 
 import UIKit
-import WebLinking
 
-typealias FromJSONClosure = (data: [String:AnyObject]) -> JSONAble
-
+typealias FromJSONClosure = (data: [String: AnyObject]) -> JSONAble
 
 class JSONAble: NSObject {
     class func fromJSON(data:[String: AnyObject]) -> JSONAble {
