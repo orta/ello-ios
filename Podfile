@@ -12,7 +12,7 @@ pod 'SDWebImage', '~> 3.7'
 pod 'SwiftyJSON', :git => "https://github.com/orta/SwiftyJSON", :branch => "podspec"
 pod 'Alamofire', :git => "https://github.com/Alamofire/Alamofire.git"
 pod 'LlamaKit', :git => "https://github.com/AshFurrow/LlamaKit", :branch => "rac_podspec"
-pod 'Moya', :git => "https://github.com/colinta/Moya"
+pod 'Moya', :git => "https://github.com/ello/Moya"
 pod 'WebLinking', '~> 0.1'
 
 target 'Specs' do
