@@ -17,4 +17,6 @@ class ResponseConfig: Printable {
     var totalPages: String?
     var totalCount: String?
     var totalPagesRemaining: String?
+
+    init() {}
 }
