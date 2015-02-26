@@ -147,7 +147,7 @@ class StreamViewControllerSpec: QuickSpec {
 
                     xit("presents a ProfileViewController") {
                         let cell = controller.collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0))
-                        controller.userTapped(cell!)
+                        controller.userTappedCell(cell!)
 
                         expect(controller.navigationController?.topViewController).to(beAKindOf(ProfileViewController.self))
                     }
