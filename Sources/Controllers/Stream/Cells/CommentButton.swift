@@ -41,8 +41,8 @@ class CommentButton: StreamFooterButton {
         createLayersIfNeeded()
     }
 
-    override func setButtonTitle(title: String?, titlePadding: CGFloat, contentPadding: CGFloat) {
-        super.setButtonTitle(title, titlePadding: titlePadding, contentPadding: contentPadding)
+    override func setButtonTitleWithPadding(title: String?, titlePadding: CGFloat, contentPadding: CGFloat) {
+        super.setButtonTitleWithPadding(title, titlePadding: titlePadding, contentPadding: contentPadding)
     }
 
 // MARK: Public

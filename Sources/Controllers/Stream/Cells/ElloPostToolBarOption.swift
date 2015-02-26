@@ -54,7 +54,7 @@ enum ElloPostToolBarOption {
             title = String(count)
         }
         button.setImage(image, forState: .Normal)
-        button.setButtonTitle(title)
+        button.setButtonTitleWithPadding(title)
         return button
     }
 
@@ -65,7 +65,7 @@ enum ElloPostToolBarOption {
         if let count = count {
             title = String(count)
         }
-        button.setButtonTitle(title, titlePadding: 13.0, contentPadding: 15.0)
+        button.setButtonTitleWithPadding(title, titlePadding: 13.0, contentPadding: 15.0)
         return button
     }
 }

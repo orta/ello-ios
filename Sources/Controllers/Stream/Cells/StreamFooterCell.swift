@@ -111,25 +111,25 @@ class StreamFooterCell: UICollectionViewCell {
 
     var views:String? {
         get { return viewsButton.titleForState(.Normal) }
-        set { viewsButton.setButtonTitle(newValue) }
+        set { viewsButton.setButtonTitleWithPadding(newValue) }
     }
 
     var comments:String? {
         get { return commentsButton.titleForState(.Normal) }
         set {
-            commentsButton.setButtonTitle(newValue, titlePadding: 13.0, contentPadding: 15.0)
+            commentsButton.setButtonTitleWithPadding(newValue, titlePadding: 13.0, contentPadding: 15.0)
             commentsButton.titleLabel?.sizeToFit()
         }
     }
 
     var loves:String? {
         get { return lovesButton.titleForState(.Normal) }
-        set { lovesButton.setButtonTitle(newValue) }
+        set { lovesButton.setButtonTitleWithPadding(newValue) }
     }
 
     var reposts:String? {
         get { return repostButton.titleForState(.Normal) }
-        set { repostButton.setButtonTitle(newValue) }
+        set { repostButton.setButtonTitleWithPadding(newValue) }
     }
 
 // MARK: - Private
