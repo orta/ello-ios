@@ -129,7 +129,7 @@ class ElloScrollLogic : NSObject, UIScrollViewDelegate {
     }
 
     private func movedALot(contentOffset : CGPoint, _ prevOffset : CGPoint) -> Bool {
-        return prevOffset.y - contentOffset.y > 15
+        return prevOffset.y - contentOffset.y > 10
     }
 
 }
