@@ -11,11 +11,11 @@ import SwiftyJSON
 
 class ImageRegion: JSONAble {
     let asset:Asset?
-    let alt:String
+    let alt:String?
     let url:NSURL?
 
     init(asset: Asset?,
-        alt: String,
+        alt: String?,
         url: NSURL?) {
             self.asset = asset
             self.alt = alt
@@ -24,7 +24,7 @@ class ImageRegion: JSONAble {
 
     override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
         let json = JSON(data)
-        let alt = json["data"].object["alt"] as String
+        let alt = json["data"].object["alt"] as? String
         let url = json["data"].object["url"] as String
         var links = [String: AnyObject]()
         var asset:Asset?

@@ -31,9 +31,10 @@ class PostSpec: QuickSpec {
                 expect(postContent1.kind) == RegionKind.Text
                 expect(postContent1.content) == "test text content"
 
-
                 expect(post.token) == "ibLWX5p5fPBfzE8GmfOG6w"
                 expect(post.postId) == "526"
+                expect(post.shareLink) == "https://ello-staging.herokuapp.com/cfiggis/post/ibLWX5p5fPBfzE8GmfOG6w"
+                expect(post.groupId) == "526"
 
                 expect(post.author).to(beAnInstanceOf(User.self))
                 expect(post.author!.name) == "Cyril Figgis"
@@ -62,6 +63,5 @@ class PostSpec: QuickSpec {
                 expect(post.author).to(beAKindOf(User.self))
             }
         }
-
     }
 }
