@@ -97,7 +97,8 @@ class ElloScrollLogic : NSObject, UIScrollViewDelegate {
 
         let contentSizeHeight = scrollView.contentSize.height
         let scrollViewHeight = scrollView.frame.size.height
-        return scrollViewHeight + barHeights < contentSizeHeight
+        let buffer = CGFloat(10)
+        return scrollViewHeight + barHeights + buffer < contentSizeHeight
     }
 
     private func nearBottom(scrollView : UIScrollView) -> Bool {

@@ -104,10 +104,8 @@ struct ElloProvider {
 extension MoyaProvider {
 
     func elloRequest(token: T, method: Moya.Method, parameters: [String: AnyObject], mappingType: MappingType, success: ElloSuccessCompletion, failure: ElloFailureCompletion?) {
-
         self.request(token, method: method, parameters: parameters, completion: {
             (data, statusCode, response, error) in
-
             self.handleRequest(token, method: method, parameters: parameters, data: data, statusCode: statusCode, success: success, failure: failure, isRetry: false, mappingType: mappingType, error: error)
         })
     }
