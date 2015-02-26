@@ -82,42 +82,28 @@ class ContentFlaggerSpec: QuickSpec {
                 let hateAction = actions[4] as UIAlertAction
                 let adultAction = actions[5] as UIAlertAction
                 let dontLikeAction = actions[6] as UIAlertAction
-                let cancelAction = actions[7] as UIAlertAction
 
-                expect(spamAction.kind) == "Spam"
-                expect(violenceAction.title) == "Violence"
-                expect(copyrightAction.title) == "Copyright infringement"
-                expect(threateningAction.title) == "Threatening"
-                expect(hateAction.title) == "Hate Speech"
-                expect(adultAction.title) == "Adult content that isn't marked NSFW*"
-                expect(dontLikeAction.title) == "I don't like it"
-                expect(cancelAction.title) == "Cancel"
+                expect(ContentFlagger.AlertOption(rawValue: spamAction.title)) == ContentFlagger.AlertOption.Spam
+                expect(ContentFlagger.AlertOption(rawValue: violenceAction.title)) == ContentFlagger.AlertOption.Violence
+                expect(ContentFlagger.AlertOption(rawValue: copyrightAction.title)) == ContentFlagger.AlertOption.Copyright
+                expect(ContentFlagger.AlertOption(rawValue: threateningAction.title)) == ContentFlagger.AlertOption.Threatening
+                expect(ContentFlagger.AlertOption(rawValue: hateAction.title)) == ContentFlagger.AlertOption.Hate
+                expect(ContentFlagger.AlertOption(rawValue: adultAction.title)) == ContentFlagger.AlertOption.Adult
+                expect(ContentFlagger.AlertOption(rawValue: dontLikeAction.title)) == ContentFlagger.AlertOption.DontLike
             }
-            
+
+            xit("flags a post with the appropriate flag") {
+                // it appears that it is not possible to simulate taps on a UIAlertController
+            }
 
         }
 
         context("comment flagging") {
 
-            beforeEach({
-                subject = ContentFlagger(presentingController: presentingController,
-                    flaggableId: "123",
-                    flaggableContentType: .Comment,
-                    commentPostId: "5")
-            })
-
-            it("presents a UIAlertController in ActionSheet mode") {
-
-                subject.displayFlaggingSheet()
-                let presentedVC = subject.presentingController.presentedViewController as UIAlertController
-
-                expect(presentedVC).to(beAKindOf(UIAlertController.self))
-                expect(presentedVC.preferredStyle) == UIAlertControllerStyle.ActionSheet
+            xit("flags a comment with the appropriate flag") {
+                // it appears that it is not possible to simulate taps on a UIAlertController
             }
-
-
         }
-
     }
 
 }
