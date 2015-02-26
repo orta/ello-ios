@@ -21,6 +21,7 @@ class NotificationAttributedTitleSpec: QuickSpec {
             xit("supports InvitationAcceptedPost") {}
             xit("supports CommentNotification") {}
             xit("supports WelcomeNotification") {}
+            xit("supports missing author") {}
         }
     }
 }
