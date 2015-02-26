@@ -78,11 +78,13 @@ class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
     var messageHtml : String? {
         willSet(newValue) {
             messageWebView.alpha = 0.0
-            if let value = newValue {
-                messageWebView.loadHTMLString(StreamTextCellHTML.postHTML(newValue!), baseURL: NSURL(string: "/"))
-            }
-            else {
-                messageWebView.loadHTMLString("", baseURL: NSURL(string: "/"))
+            if newValue != messageHtml {
+                if let value = newValue {
+                    messageWebView.loadHTMLString(StreamTextCellHTML.postHTML(newValue!), baseURL: NSURL(string: "/"))
+                }
+                else {
+                    messageWebView.loadHTMLString("", baseURL: NSURL(string: "/"))
+                }
             }
         }
     }
@@ -231,6 +233,8 @@ class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
     }
 
     func webViewDidFinishLoad(webView: UIWebView) {
+        webView.stringByEvaluatingJavaScriptFromString("document.documentElement.style.webkitUserSelect='none';")
+        webView.stringByEvaluatingJavaScriptFromString("document.documentElement.style.webkitTouchCallout='none';")
         UIView.animateWithDuration(0.15, animations: {
             self.messageWebView.alpha = 1.0
         })

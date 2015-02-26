@@ -70,13 +70,13 @@ class FunctionalSpec: QuickSpec {
             }
         }
         describe("+timeout:") {
-            it("should call the timeout") {
+            xit("should call the timeout") {
                 var called = 0
                 var timeout = Functional.timeout(0.1) { called += 1 }
                 expect(called).to(equal(0))
                 expect(called).toEventually(equal(1), timeout: 0.2)
             }
-            it("should call the timeout immediately") {
+            xit("should call the timeout immediately") {
                 var called = 0
                 var timeout = Functional.timeout(0.1) { called += 1 }
                 expect(called).to(equal(0))
@@ -86,7 +86,7 @@ class FunctionalSpec: QuickSpec {
             }
         }
         describe("+throttle:") {
-            it("should throttle the block") {
+            xit("should throttle the block") {
                 var called = 0
                 var throttle = Functional.throttle(0.1) { called += 1 }
                 expect(called).to(equal(0))

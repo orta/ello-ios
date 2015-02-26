@@ -16,6 +16,8 @@ enum ElloPostToolBarOption {
     case Share
     case Delete
     case Edit
+    case Reply
+    case Flag
 
     func button() -> UIButton {
         switch self {
@@ -28,11 +30,15 @@ enum ElloPostToolBarOption {
         case .Repost:
             return normalButton("repost-icon")
         case .Share:
-            return normalButton("eye-icon")
+            return normalButton("share-icon")
         case .Delete:
             return normalButton("eye-icon")
         case .Edit:
             return normalButton("eye-icon")
+        case .Reply:
+            return normalButton("reply-icon")
+        case .Flag:
+            return normalButton("flag-icon")
         }
     }
 
@@ -43,22 +49,23 @@ enum ElloPostToolBarOption {
     private func normalButton(imageName: String, count: Int? = nil) -> UIButton {
         let image = UIImage(named: imageName)
         let button = StreamFooterButton()
-        button.sizeToFit()
+        var title = ""
         if let count = count {
-            button.setButtonTitle(String(count))
+            title = String(count)
         }
         button.setImage(image, forState: .Normal)
-        button.contentMode = .Center
+        button.setButtonTitleWithPadding(title)
         return button
     }
 
     private func commentButon(count: Int? = nil) -> UIButton {
         let button = CommentButton()
-        button.sizeToFit()
+
+        var title = ""
         if let count = count {
-            button.setButtonTitle(String(count))
+            title = String(count)
         }
-        button.contentMode = .Center
+        button.setButtonTitleWithPadding(title, titlePadding: 13.0, contentPadding: 15.0)
         return button
     }
 }

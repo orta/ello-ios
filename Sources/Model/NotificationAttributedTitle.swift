@@ -26,12 +26,17 @@ struct NotificationAttributedTitle {
         return NSAttributedString(string: text, attributes: attrs())
     }
 
-    static func profile(user : User) -> NSAttributedString {
-        return NSAttributedString(string: user.atName, attributes: attrs([
-            Attributed.Link : "user",
-            Attributed.Object : user,
-            NSUnderlineStyleAttributeName : NSUnderlineStyle.StyleSingle.rawValue,
-        ]))
+    static func profile(user : User?) -> NSAttributedString {
+        if let user = user {
+            return NSAttributedString(string: user.atName, attributes: attrs([
+                Attributed.Link : "user",
+                Attributed.Object : user,
+                NSUnderlineStyleAttributeName : NSUnderlineStyle.StyleSingle.rawValue,
+            ]))
+        }
+        else {
+            return text("Someone")
+        }
     }
 
     static func post(text : String, _ post : Post) -> NSAttributedString {
@@ -55,32 +60,32 @@ struct NotificationAttributedTitle {
     static func attributedTitle(kind: Activity.Kind, author: User?, subject: AnyObject?) -> NSAttributedString {
         switch kind {
             case .RepostNotification:
-                return self.profile(author!)
+                return self.profile(author)
                     .append(self.text(" reposted your "))
                     .append(self.post("post", subject! as Post))
                     .append(self.text("."))
             case .NewFollowedUserPost:
                 return self.text("You started following ")
-                    .append(self.profile(author!))
+                    .append(self.profile(author))
                     .append(self.text("."))
             case .NewFollowerPost:
-                return self.profile(author!)
+                return self.profile(author)
                     .append(self.text(" started following you."))
             case .PostMentionNotification:
-                return self.profile(author!)
+                return self.profile(author)
                     .append(self.text(" mentioned you in a "))
                     .append(self.post("post", subject! as Post))
                     .append(self.text("."))
             case .CommentMentionNotification:
-                return self.profile(author!)
+                return self.profile(author)
                     .append(self.text(" mentioned you in a "))
                     .append(self.comment("comment", subject! as Comment))
                     .append(self.text("."))
             case .InvitationAcceptedPost:
-                return self.profile(author!)
+                return self.profile(author)
                     .append(self.text(" accepted your invitation."))
             case .CommentNotification:
-                return self.profile(author!)
+                return self.profile(author)
                     .append(self.text(" commented on your "))
                     .append(self.comment("post", subject! as Comment))
                     .append(self.text("."))

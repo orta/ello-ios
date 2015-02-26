@@ -28,6 +28,8 @@ class StreamTextCell: UICollectionViewCell, UIWebViewDelegate {
     }
 
     func webViewDidFinishLoad(webView: UIWebView) {
+        webView.stringByEvaluatingJavaScriptFromString("document.documentElement.style.webkitUserSelect='none';")
+        webView.stringByEvaluatingJavaScriptFromString("document.documentElement.style.webkitTouchCallout='none';")
         UIView.animateWithDuration(0.15, animations: {
             self.contentView.alpha = 1.0
         })
