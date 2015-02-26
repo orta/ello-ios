@@ -123,18 +123,15 @@ class ForgotPasswordViewController: BaseElloViewController, UITextFieldDelegate 
     // MARK: - IBActions
 
     @IBAction func resetPasswordTapped(sender: ElloButton) {
-
         if isValid(emailTextField.text) {
-            //            ElloHUD.showLoadingHud()
         }
         else {
-
         }
     }
 
     @IBAction func signInTapped(sender: ElloTextButton) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
-    
+
 }
 

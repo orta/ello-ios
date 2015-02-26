@@ -22,30 +22,20 @@ class NotificationCellItemParserSpec: QuickSpec {
             }
 
             it("returns an empty array if an empty array of Activities is passed in") {
-                let activities = [Activity]()
-                expect(self.parser.postCellItems(activities).count) == 0
-            }
-
-            it("returns an empty array if an empty array of Comments is passed in") {
-                let comments = [Comment]()
-                expect(self.parser.commentCellItems(comments).count) == 0
+                let activities = [Notification]()
+                expect(self.parser.cellItems(activities).count) == 0
             }
 
             it("returns an array with the proper count of stream cell items when parsing friends.json's activities") {
-                var loadedActivities:[Activity]?
+                var loadedNotifications:[Notification]?
 
-                StreamService().loadStream(ElloAPI.FriendStream, { jsonables in
-                    var activities:[Activity] = []
-                    for activity in jsonables {
-                        if let post = (activity as Activity).subject as? Activity {
-                            activities.append(post)
-                        }
-                    }
-                    loadedActivities = activities
+                NotificationsService().load(success: { notifications in
+                    loadedNotifications = notifications
                 }, failure: nil)
 
-                expect(self.parser.postCellItems(loadedActivities!).count) == 11
+                expect(self.parser.cellItems(loadedNotifications!).count) == loadedNotifications!.count
             }
+
         }
     }
 

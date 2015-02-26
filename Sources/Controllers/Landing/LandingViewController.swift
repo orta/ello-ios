@@ -50,11 +50,14 @@ class LandingViewController: BaseElloViewController {
 
     private func loadCurrentUser() {
         let profileService = ProfileService()
-        profileService.loadCurrentUser({ (user) -> () in
+        profileService.loadCurrentUser({ user in
             var vc = UIStoryboard.storyboardWithId(.ElloTabBar) as ElloTabBarController
             vc.currentUser = user
             self.presentViewController(vc, animated: true, completion: nil)
-        }, failure: nil)
+        }, failure: { error in
+            println("error: \(error)")
+            self.showButtons()
+        })
 
         //TODO: Need to get failure back to LandingViewController when loading the current user fails
         // Currently "ElloProviderNotification401" is posted but that doesn't feel right here

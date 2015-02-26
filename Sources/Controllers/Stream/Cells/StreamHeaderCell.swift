@@ -54,7 +54,7 @@ class StreamHeaderCell: UICollectionViewCell {
     // MARK: - IBActions
 
     @IBAction func userTapped(sender: AvatarButton) {
-        userDelegate?.userTapped(self)
+        userDelegate?.userTappedCell(self)
     }
 
 }

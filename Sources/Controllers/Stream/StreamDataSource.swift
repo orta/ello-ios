@@ -12,15 +12,27 @@ import WebKit
 class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     typealias StreamContentReady = (indexPaths:[NSIndexPath]) -> ()
+    typealias StreamFilter = (StreamCellItem -> Bool)?
 
     let imageBottomPadding:CGFloat = 10.0
     let testWebView:UIWebView
     var streamKind:StreamKind
 
-    var indexFile:String?
+    // these are assigned from the parent controller
+    var sourceCellItems:[StreamCellItem] = []
+    // these are either the same as sourceCellItems (no filter) or if a filter
+    // is applied this stores the "visible" items
     var streamCellItems:[StreamCellItem] = []
-    let sizeCalculator:StreamTextCellSizeCalculator
+    // if a filter is added or removed, we update the items
+    var streamFilter: StreamFilter {
+        didSet { updateFilteredItems() }
+    }
+
+    let textSizeCalculator:StreamTextCellSizeCalculator
+    let notificationSizeCalculator:StreamNotificationCellSizeCalculator
+
     weak var postbarDelegate:PostbarDelegate?
+    weak var notificationDelegate:NotificationDelegate?
     weak var webLinkDelegate:WebLinkDelegate?
     weak var imageDelegate:StreamImageCellDelegate?
     weak var userDelegate:UserDelegate?
@@ -29,7 +41,8 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     init(testWebView: UIWebView, streamKind:StreamKind) {
         self.streamKind = streamKind
         self.testWebView = testWebView
-        self.sizeCalculator = StreamTextCellSizeCalculator(webView: testWebView)
+        self.textSizeCalculator = StreamTextCellSizeCalculator(webView: UIWebView(frame: testWebView.frame))
+        self.notificationSizeCalculator = StreamNotificationCellSizeCalculator(webView: UIWebView(frame: testWebView.frame))
         super.init()
     }
 
@@ -66,10 +79,6 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
             }
         }
         return indexPaths
-    }
-
-    func addStreamCellItems(items:[StreamCellItem]) {
-        self.streamCellItems += items
     }
 
     func updateHeightForIndexPath(indexPath:NSIndexPath?, height:CGFloat) {
@@ -112,6 +121,9 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
             var cell = collectionView.dequeueReusableCellWithReuseIdentifier(streamCellItem.type.name, forIndexPath: indexPath) as UICollectionViewCell
 
             switch streamCellItem.type {
+            case .Notification:
+                (cell as NotificationCell).webLinkDelegate = webLinkDelegate
+                (cell as NotificationCell).delegate = notificationDelegate
             case .Header, .CommentHeader:
                 (cell as StreamHeaderCell).userDelegate = userDelegate
             case .Image:
@@ -123,7 +135,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
             case .ProfileHeader:
                 (cell as ProfileHeaderCell).relationshipView.relationshipDelegate = relationshipDelegate
             default:
-                println("nothing to see here")
+                break
             }
 
             streamCellItem.type.configure(
@@ -139,24 +151,45 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         return UICollectionViewCell()
     }
 
-    // MARK: - Private
+    // MARK: Adding items
+    func addStreamCellItems(items:[StreamCellItem]) {
+        self.sourceCellItems += items
+        self.updateFilteredItems()
+    }
+
     func addUnsizedCellItems(cellItems:[StreamCellItem], startingIndexPath:NSIndexPath?, completion:StreamContentReady) {
         let textElements = cellItems.filter {
             return $0.data as? TextRegion != nil
         }
+        let notificationElements = cellItems.filter {
+            return $0.type == .Notification
+        }
 
-        self.sizeCalculator.processCells(textElements) {
+        let afterBoth = Functional.after(2) {
             var indexPaths:[NSIndexPath] = []
 
-            var indexPath:NSIndexPath = startingIndexPath ?? NSIndexPath(forItem: countElements(self.streamCellItems) - 1, inSection: 0)
+            var indexPath:NSIndexPath = startingIndexPath ?? NSIndexPath(forItem: countElements(self.sourceCellItems) - 1, inSection: 0)
 
             for (index, cellItem) in enumerate(cellItems) {
                 var index = indexPath.item + index + 1
                 indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
-                self.streamCellItems.insert(cellItem, atIndex: index)
+                self.sourceCellItems.insert(cellItem, atIndex: index)
             }
 
+            self.updateFilteredItems()
             completion(indexPaths: indexPaths)
         }
-   }
+
+        self.notificationSizeCalculator.processCells(notificationElements, afterBoth)
+        self.textSizeCalculator.processCells(textElements, afterBoth)
+    }
+
+    private func updateFilteredItems() {
+        if let streamFilter = streamFilter {
+            self.streamCellItems = self.sourceCellItems.filter(streamFilter)
+        }
+        else {
+            self.streamCellItems = self.sourceCellItems
+        }
+    }
 }

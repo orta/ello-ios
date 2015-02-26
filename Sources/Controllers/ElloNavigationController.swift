@@ -17,7 +17,7 @@ class ElloNavigationController: UINavigationController, UIGestureRecognizerDeleg
         didSet { didSetCurrentUser() }
     }
 
-    enum ViewControllers: String {
+    enum RootViewControllers: String {
         case Notifications = "NotificationsViewController"
         case Profile = "ProfileViewController"
 
@@ -32,7 +32,7 @@ class ElloNavigationController: UINavigationController, UIGestureRecognizerDeleg
     func didSetCurrentUser() {
         if self.viewControllers.count == 0 {
             if let rootViewControllerName = rootViewControllerName {
-                if let controller = ViewControllers(rawValue:rootViewControllerName)?.controllerInstance(currentUser!) {
+                if let controller = RootViewControllers(rawValue:rootViewControllerName)?.controllerInstance(currentUser!) {
                     controller.currentUser = self.currentUser
                     self.viewControllers = [controller]
                 }

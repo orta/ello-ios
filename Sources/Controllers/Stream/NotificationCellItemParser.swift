@@ -8,8 +8,17 @@
 
 struct NotificationCellItemParser {
 
-    func cellItems(activities:[Activity]) -> [StreamCellItem] {
-        return []
+    func cellItems(notifications:[Notification]) -> [StreamCellItem] {
+        return map(notifications) { notification in
+            return StreamCellItem(
+                jsonable: notification,
+                type: .Notification,
+                data: nil,
+                oneColumnCellHeight: 107.0,
+                multiColumnCellHeight: 49.0,
+                isFullWidth: false
+            )
+        }
     }
 
 }

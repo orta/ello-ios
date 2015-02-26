@@ -27,6 +27,12 @@ class Activity: JSONAble {
         case CommentNotification = "comment_notification" // main feed
         case WelcomeNotification = "welcome_notification"
         case Unknown = "Unknown"
+
+        static func allNotifications() -> [Kind] { return [.RepostNotification, .NewFollowedUserPost, .NewFollowerPost, .PostMentionNotification, .CommentMentionNotification, .InvitationAcceptedPost, .CommentNotification, .WelcomeNotification]}
+        static func commentNotifications() -> [Kind] { return [.CommentNotification]}
+        static func mentionNotifications() -> [Kind] { return [.PostMentionNotification, .CommentMentionNotification]}
+        static func repostNotifications() -> [Kind] { return [.RepostNotification]}
+        static func relationshipNotifications() -> [Kind] { return [.NewFollowerPost, .NewFollowedUserPost]}
     }
 
     enum SubjectType: String {

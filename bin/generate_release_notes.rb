@@ -65,6 +65,8 @@ release_note_message << <<-EOF
 EOF
 end
 
+crashlytics_release_notes = release_note_message.dup
+
 commit_notes = `git log --format=%s #{commit_range}`
 formatted_commit_notes = %(#{commit_notes}).split(/\n/).map { |s| "* #{s}" } * "\n"
 
@@ -82,6 +84,11 @@ open('release-notes.md', 'a') { |f|
  f.puts "-----------------\n"
 }
 
-config["previous-commit"] = "#{latest_commit}"
-File.open('bin/release-notes-config.yml', 'w') {|f| f.write config.to_yaml }
+if ARGV[0] && ARGV[0].split(',').include?("testers")
+  open('crashlytics-release-notes.md', 'w') { |f|
+   f.puts crashlytics_release_notes
+  }
 
+  config["previous-commit"] = "#{latest_commit}"
+  File.open('bin/release-notes-config.yml', 'w') {|f| f.write config.to_yaml }
+end

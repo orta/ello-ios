@@ -72,7 +72,7 @@ enum StreamCellType {
 
     static func registerAll(collectionView: UICollectionView) {
         for type in all {
-            if type == self.Unknown {
+            if type == .Unknown || type == .Notification {
                 collectionView.registerClass(type.classType, forCellWithReuseIdentifier: type.name)
             } else {
                 let nib = UINib(nibName: type.name, bundle: NSBundle(forClass: type.classType))

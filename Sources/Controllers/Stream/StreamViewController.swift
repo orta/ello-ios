@@ -15,7 +15,7 @@ protocol WebLinkDelegate: NSObjectProtocol {
 }
 
 protocol UserDelegate: NSObjectProtocol {
-    func userTapped(cell: UICollectionViewCell) -> Void
+    func userTappedCell(cell: UICollectionViewCell)
 }
 
 protocol PostbarDelegate : NSObjectProtocol {
@@ -41,10 +41,8 @@ class StreamViewController: BaseElloViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
     var pulsingCircle : PulsingCircle?
-    var scrolling = false
     var streamables:[Streamable]?
     var dataSource:StreamDataSource!
-    var navBarShowing = true
     var postbarController:PostbarController?
     var relationshipController: RelationshipController?
 
@@ -58,6 +56,18 @@ class StreamViewController: BaseElloViewController {
     var updatedStreamImageCellHeightNotification:NotificationObserver?
     weak var postTappedDelegate : PostTappedDelegate?
     weak var streamScrollDelegate : StreamScrollDelegate?
+    var notificationDelegate:NotificationDelegate? {
+        get { return dataSource.notificationDelegate }
+        set { dataSource.notificationDelegate = newValue }
+    }
+
+    var streamFilter:StreamDataSource.StreamFilter {
+        get { return dataSource.streamFilter }
+        set {
+            dataSource.streamFilter = newValue
+            collectionView.reloadData()
+        }
+    }
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -220,7 +230,7 @@ extension StreamViewController : WebLinkDelegate {
 // MARK: StreamViewController : UserDelegate
 extension StreamViewController : UserDelegate {
 
-    func userTapped(cell: UICollectionViewCell) {
+    func userTappedCell(cell: UICollectionViewCell) {
         if let indexPath = collectionView.indexPathForCell(cell) {
             if let user = dataSource.postForIndexPath(indexPath)?.author {
                 let vc = ProfileViewController(user: user)
@@ -228,7 +238,7 @@ extension StreamViewController : UserDelegate {
             }
         }
     }
-    
+
 }
 
 // MARK: StreamViewController : UICollectionViewDelegate
@@ -282,7 +292,7 @@ extension StreamViewController : UIScrollViewDelegate {
 
     func scrollViewDidScroll(scrollView : UIScrollView) {
         self.streamScrollDelegate?.scrollViewDidScroll(scrollView)
-        
+
         let shouldHideTabBar : ()->Bool = { return false }
         if !shouldHideTabBar() {
             return

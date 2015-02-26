@@ -17,13 +17,35 @@ struct NotificationCellPresenter {
         indexPath: NSIndexPath)
     {
         if let cell = cell as? NotificationCell {
-            var activity = streamCellItem.jsonable as Activity
-            var post = activity.subject as Post
+            var notification = streamCellItem.jsonable as Notification
 
-            cell.title = NSAttributedString(string: "\(post.author!.atName) reposted your post.")
-            cell.messageHtml = "<b>HOPE</b> this <i>works</i>!"
-            cell.avatarURL = post.author?.avatarURL
+            cell.title = notification.attributedTitle
+            cell.createdAt = notification.createdAt
+            if let user = notification.author {
+                cell.avatarURL = user.avatarURL
+            }
+            else {
+                cell.avatarURL = nil
+            }
+            cell.imageURL = nil
+            cell.messageHtml = nil
+
+            if let textRegion = notification.textRegion {
+                cell.messageHtml = textRegion.content
+            }
+
+            if let imageRegion = notification.imageRegion {
+                var aspectRatio = StreamCellItemParser.aspectRatioForImageBlock(imageRegion)
+                if let photoURL = imageRegion.asset?.hdpi?.url? {
+                    cell.aspectRatio = aspectRatio
+                    cell.imageURL = photoURL
+                }
+                else if let photoURL = imageRegion.url {
+                    cell.aspectRatio = aspectRatio
+                    cell.imageURL = photoURL
+                }
+            }
         }
     }
-    
+
 }

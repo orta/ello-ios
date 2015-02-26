@@ -131,10 +131,8 @@ class CreateAccountViewController: BaseElloViewController, UITextFieldDelegate {
     @IBAction func createAccountTapped(sender: ElloButton) {
         println("create account tapped")
         if isValid(emailTextField.text, usernameTextField.text, passwordTextField.text) {
-//            ElloHUD.showLoadingHud()
         }
         else {
-            
         }
     }
 
@@ -143,10 +141,10 @@ class CreateAccountViewController: BaseElloViewController, UITextFieldDelegate {
         let signInController = SignInViewController()
         self.presentViewController(signInController, animated:true, completion:nil)
     }
-    
+
     @IBAction func aboutTapped(sender: ElloTextButton) {
         //TODO: show about screen
         println("about tapped")
     }
-    
+
 }

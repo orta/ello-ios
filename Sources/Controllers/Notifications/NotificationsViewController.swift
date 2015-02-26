@@ -10,124 +10,116 @@
 import UIKit
 import WebKit
 
-class NotificationsViewController: StreamableViewController {
 
-    required override init() {
-        super.init(nibName: "NotificationsViewController", bundle: NSBundle(forClass: NotificationsViewController.self))
+class NotificationsViewController: StreamableViewController, NotificationDelegate, NotificationsScreenDelegate {
+    var streamController : StreamViewController!
+
+    override func loadView() {
+        self.view = NotificationsScreen(frame: UIScreen.mainScreen().bounds)
     }
 
-    @IBOutlet var contentView : UIView!
-    @IBOutlet var filterBar : NotificationsFilterBar!
-
-    @IBOutlet var filterAllButton : NotificationFilterButton!
-    @IBOutlet var filterMiscButton : NotificationFilterButton!
-    @IBOutlet var filterMentionButton : NotificationFilterButton!
-    @IBOutlet var filterHeartButton : NotificationFilterButton!
-    @IBOutlet var filterRepostButton : NotificationFilterButton!
-    @IBOutlet var filterInviteButton : NotificationFilterButton!
+    var screen : NotificationsScreen {
+        return self.view as NotificationsScreen
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        self.screen.delegate = self
         self.navigationController?.navigationBarHidden = true
 
         setupStreamController()
-        setupFilterBar()
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.translucent = true
+        self.navigationController?.automaticallyAdjustsScrollViewInsets = true
         self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
 
     private func setupStreamController() {
-        let controller = StreamViewController.instantiateFromStoryboard()
-        controller.streamKind = .Notifications
-        controller.postTappedDelegate = self
+        streamController = StreamViewController.instantiateFromStoryboard()
+        streamController.streamKind = .Notifications
+        streamController.postTappedDelegate = self
+        streamController.notificationDelegate = self
 
-        controller.willMoveToParentViewController(self)
-        contentView.insertSubview(controller.view, atIndex: 0)
-        controller.view.frame = contentView.bounds
-        controller.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
-        self.addChildViewController(controller)
+        streamController.willMoveToParentViewController(self)
+        self.screen.insertStreamView(streamController.view)
+        self.addChildViewController(streamController)
 
-        var post = Post(
-            assets: nil,
-            author: currentUser,
-            collapsed: false,
-            commentsCount: 0,
-            content: [TextRegion(content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit")],
-            createdAt: NSDate(),
-            href: "",
-            postId: "123",
-            repostsCount: 0,
-            summary: [TextRegion(content: "LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT")],
-            token: "not used",
-            viewsCount: 0
+        let streamService = NotificationsService()
+        streamService.load(
+            success: { notifications in
+                let parser = NotificationCellItemParser()
+                let items = parser.cellItems(notifications)
+                self.streamController.addUnsizedCellItems(items)
+                self.streamController.doneLoading()
+            },
+            failure: { (error, statusCode) -> () in
+                println("failed to load notifications (reason: \(error))")
+                self.streamController.doneLoading()
+            }
         )
-        var activity = Activity(activityId: "123", kind: .RepostNotification, subjectType: .Post, subject: post, createdAt: NSDate())
-        var cellItems = [
-            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
-            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
-            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
-            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
-            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
-            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
-            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
-            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
-            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
-            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
-            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
-            StreamCellItem(jsonable: activity, type: .Notification, data: nil, oneColumnCellHeight: 107.0, multiColumnCellHeight: 49.0, isFullWidth: false),
-        ]
-        controller.addUnsizedCellItems(cellItems)
-        controller.doneLoading()
-        // let streamService = NotificationsService()
-        // ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
-        // streamService.load(
-        //     success: { notifications in
-        //         var parser = NotificationCellItemParser()
-        //         controller.addUnsizedCellItems(parser.cellItems(notifications))
-        //         controller.doneLoading()
-        //     },
-        //     failure: { (error, statusCode) -> () in
-        //         println("failed to load notifications (reason: \(error))")
-        //         controller.doneLoading()
-        //     }
-        // )
-        // ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
     }
 
-    private func setupFilterBar() {
-        filterBar.selectButton(self.filterAllButton)
+    func activatedFilter(filterTypeStr: String) {
+        let filterType = NotificationFilterType(rawValue: filterTypeStr)!
+        var notificationKinds: [Activity.Kind]?
+
+        switch filterType {
+            case .All:
+                notificationKinds = nil
+            case .Misc:  // …
+                notificationKinds = Activity.Kind.commentNotifications()
+            case .Mention:  // @
+                notificationKinds = Activity.Kind.mentionNotifications()
+            case .Heart:
+                notificationKinds = nil
+            case .Repost:
+                notificationKinds = Activity.Kind.repostNotifications()
+            case .Relationship:
+                notificationKinds = Activity.Kind.relationshipNotifications()
+        }
+
+        if let notificationKinds = notificationKinds {
+            streamController.streamFilter = { item in
+                let notification = item.jsonable as Notification
+                return contains(notificationKinds, notification.kind)
+            }
+        }
+        else {
+            streamController.streamFilter = nil
+        }
     }
 
-    @IBAction func allButtonTapped(sender : NotificationFilterButton) {
-        filterBar.selectButton(sender)
-    }
-
-    @IBAction func miscButtonTapped(sender : NotificationFilterButton) {
-        filterBar.selectButton(sender)
-    }
-
-    @IBAction func mentionButtonTapped(sender : NotificationFilterButton) {
-        filterBar.selectButton(sender)
-    }
-
-    @IBAction func heartButtonTapped(sender : NotificationFilterButton) {
-        filterBar.selectButton(sender)
-    }
-
-    @IBAction func repostButtonTapped(sender : NotificationFilterButton) {
-        filterBar.selectButton(sender)
-    }
-
-    @IBAction func inviteButtonTapped(sender : NotificationFilterButton) {
-        filterBar.selectButton(sender)
-    }
-
-    override func postTapped(post: Post, initialItems: [StreamCellItem]) {
-        super.postTapped(post, initialItems: initialItems)
+    func userTapped(user: User) {
+        let vc = ProfileViewController(user: user)
+        self.navigationController?.navigationBar.translucent = false
+        self.navigationController?.automaticallyAdjustsScrollViewInsets = false
         self.navigationController?.setNavigationBarHidden(false, animated: true)
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+
+    func commentTapped(comment: Comment) {}
+
+    var sizer : StreamTextCellSizeCalculator?
+    func postTapped(post: Post) {
+        if let sizer = sizer {
+            return
+        }
+        else {
+            sizer = StreamTextCellSizeCalculator(webView: UIWebView(frame: self.view.bounds))
+            var parser = StreamCellItemParser()
+            let initialItems = parser.postCellItems([post], streamKind: .PostDetail(post: post))
+            ElloHUD.showLoadingHud()
+            sizer!.processCells(initialItems) {
+                ElloHUD.hideLoadingHud()
+                self.postTapped(post, initialItems: initialItems)
+                self.navigationController?.setNavigationBarHidden(false, animated: true)
+                self.sizer = nil
+            }
+        }
     }
 
 }
