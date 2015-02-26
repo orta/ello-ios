@@ -78,11 +78,13 @@ class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
     var messageHtml : String? {
         willSet(newValue) {
             messageWebView.alpha = 0.0
-            if let value = newValue {
-                messageWebView.loadHTMLString(StreamTextCellHTML.postHTML(newValue!), baseURL: NSURL(string: "/"))
-            }
-            else {
-                messageWebView.loadHTMLString("", baseURL: NSURL(string: "/"))
+            if newValue != messageHtml {
+                if let value = newValue {
+                    messageWebView.loadHTMLString(StreamTextCellHTML.postHTML(newValue!), baseURL: NSURL(string: "/"))
+                }
+                else {
+                    messageWebView.loadHTMLString("", baseURL: NSURL(string: "/"))
+                }
             }
         }
     }
