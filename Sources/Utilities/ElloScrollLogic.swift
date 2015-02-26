@@ -9,10 +9,15 @@
 class ElloScrollLogic : NSObject, UIScrollViewDelegate {
     var prevOffset : CGPoint?
     var shouldIgnoreScroll:Bool = false
-    var isShowing:Bool = true
+    private var showingState:Bool?
     var navBarHeight:CGFloat = 44
     var tabBarHeight:CGFloat = 49
     var barHeights:CGFloat { return navBarHeight + tabBarHeight }
+
+    var isShowing : Bool {
+        get { return self.isShowing ?? true }
+        set { showingState = newValue }
+    }
 
     private var onShow: ((Bool)->())!
     private var onHide: (()->())!
@@ -31,7 +36,12 @@ class ElloScrollLogic : NSObject, UIScrollViewDelegate {
     }
 
     private func show(scrollToBottom : Bool = false) {
-        if !isShowing {
+        if self.showingState == nil {
+            println("setting showingState to false")
+        }
+        let wasShowing = self.showingState ?? false
+
+        if !wasShowing {
             let prevIgnore = self.shouldIgnoreScroll
             self.shouldIgnoreScroll = true
             UIView.animateWithDuration(0.2, animations: {
@@ -39,11 +49,13 @@ class ElloScrollLogic : NSObject, UIScrollViewDelegate {
                 self.shouldIgnoreScroll = prevIgnore
             })
         }
-        isShowing = true
+        showingState = true
     }
 
     private func hide() {
-        if isShowing {
+        let wasShowing = self.showingState ?? true
+
+        if wasShowing {
             let prevIgnore = self.shouldIgnoreScroll
             self.shouldIgnoreScroll = true
             UIView.animateWithDuration(0.2, animations: {
@@ -51,7 +63,7 @@ class ElloScrollLogic : NSObject, UIScrollViewDelegate {
                 self.shouldIgnoreScroll = prevIgnore
             })
         }
-        isShowing = false
+        showingState = false
     }
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
@@ -60,14 +72,17 @@ class ElloScrollLogic : NSObject, UIScrollViewDelegate {
 
         if shouldAcceptScroll {
             if let prevOffset = prevOffset {
-                let didScrollUp = shouldAcceptScroll && self.didScrollUp(scrollView.contentOffset, prevOffset)
-                let isAtTop = self.isAtTop(scrollView)
+                let didScrollDown = self.didScrollDown(scrollView.contentOffset, prevOffset)
 
-                if didScrollUp {
+                if didScrollDown {
                     hide()
                 }
                 else {
-                    if isAtTop || !movedALittle(scrollView.contentOffset, prevOffset) && !movedALot(scrollView.contentOffset, prevOffset) {
+                    let isAtTop = self.isAtTop(scrollView)
+                    let movedALittle = self.movedALittle(scrollView.contentOffset, prevOffset)
+                    let movedALot = self.movedALot(scrollView.contentOffset, prevOffset)
+
+                    if isAtTop || !movedALittle && !movedALot {
                         show()
                     }
                 }
@@ -82,9 +97,11 @@ class ElloScrollLogic : NSObject, UIScrollViewDelegate {
     }
 
     func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate: Bool) {
-        let shouldShow = self.isAtBottom(scrollView) || self.isAtTop(scrollView)
-        if shouldShow {
+        if self.isAtBottom(scrollView) {
             show(scrollToBottom: true)
+        }
+        else if self.isAtTop(scrollView) {
+            show(scrollToBottom: false)
         }
         shouldIgnoreScroll = true
     }
@@ -107,7 +124,7 @@ class ElloScrollLogic : NSObject, UIScrollViewDelegate {
         return contentSizeHeight - contentOffsetBottom < 50
     }
 
-    private func didScrollUp(contentOffset : CGPoint, _ prevOffset : CGPoint) -> Bool {
+    private func didScrollDown(contentOffset : CGPoint, _ prevOffset : CGPoint) -> Bool {
         let contentOffsetY = contentOffset.y
         let prevOffsetY = prevOffset.y
         return contentOffsetY > prevOffsetY
