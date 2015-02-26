@@ -8,9 +8,6 @@
 
 import UIKit
 
-protocol PostTappedDelegate : NSObjectProtocol {
-    func postTapped(post : Post, initialItems: [StreamCellItem])
-}
 
 class StreamContainerViewController: StreamableViewController {
 
@@ -19,23 +16,47 @@ class StreamContainerViewController: StreamableViewController {
     }
 
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var navigationBar: ElloNavigationBar!
+    @IBOutlet weak var navigationBarTopConstraint: NSLayoutConstraint!
 
     var streamsSegmentedControl: UISegmentedControl!
     var streamControllerViews:[UIView] = []
-    var streamControllers:[StreamViewController] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        setupNavigationBar()
         setupStreamsSegmentedControl()
-        setupChildViewControllerContainers()
         setupChildViewControllers()
         navigationItem.titleView = streamsSegmentedControl
-        // Do any additional setup after loading the view.
+        navigationBar.items = [navigationItem]
+
+        scrollLogic.prevOffset = (childViewControllers[0] as StreamViewController).collectionView.contentOffset
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func showNavBars(scrollToBottom : Bool) {
+        super.showNavBars(scrollToBottom)
+        navigationBarTopConstraint.constant = 0
+        self.view.layoutIfNeeded()
+
+        if scrollToBottom {
+            for controller in childViewControllers as [StreamViewController] {
+                if let scrollView = controller.collectionView {
+                    let contentOffsetY : CGFloat = scrollView.contentSize.height - scrollView.frame.size.height
+                    if contentOffsetY > 0 {
+                        scrollView.scrollEnabled = false
+                        scrollView.setContentOffset(CGPoint(x: 0, y: contentOffsetY), animated: true)
+                        scrollView.scrollEnabled = true
+                    }
+                }
+            }
+        }
+    }
+
+    override func hideNavBars() {
+        super.hideNavBars()
+        navigationBarTopConstraint.constant = navigationBar.frame.height + 1
+        self.view.layoutIfNeeded()
     }
 
     class func instantiateFromStoryboard() -> StreamContainerViewController {
@@ -44,41 +65,43 @@ class StreamContainerViewController: StreamableViewController {
         return streamsController as StreamContainerViewController
     }
 
-    private func setupChildViewControllerContainers() {
-        let width:CGFloat = self.view.bounds.size.width
-        let height:CGFloat = self.view.bounds.size.height
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
 
-        for (index, _) in enumerate(StreamKind.streamValues) {
-            let x:CGFloat = CGFloat(index) * width
-            let frame = CGRect(x: x, y: 0, width: width, height: height)
-            let view = UIView(frame: frame)
-            scrollView.addSubview(view)
-            streamControllerViews.append(view)
+        let width:CGFloat = scrollView.frame.size.width
+        let height:CGFloat = scrollView.frame.size.height
+        var x : CGFloat = 0
+
+        for view in streamControllerViews {
+            view.frame = CGRect(x: x, y: 0, width: width, height: height)
+            x += width
         }
+
         scrollView.contentSize = CGSize(width: width * CGFloat(countElements(StreamKind.streamValues)), height: height)
-        scrollView.scrollEnabled = false
     }
 
     private func setupChildViewControllers() {
+        scrollView.scrollEnabled = false
+        let width:CGFloat = scrollView.frame.size.width
+        let height:CGFloat = scrollView.frame.size.height
+
         for (index, kind) in enumerate(StreamKind.streamValues) {
             let vc = StreamViewController.instantiateFromStoryboard()
             vc.streamKind = kind
             vc.postTappedDelegate = self
+            vc.userTappedDelegate = self
+            vc.streamScrollDelegate = self
+
             vc.willMoveToParentViewController(self)
-            let childView = streamControllerViews[index]
-            childView.addSubview(vc.view)
+
+            let x:CGFloat = CGFloat(index) * width
+            let frame = CGRect(x: x, y: 0, width: width, height: height)
+            vc.view.frame = frame
+            scrollView.addSubview(vc.view)
+            streamControllerViews.append(vc.view)
+
             self.addChildViewController(vc)
-
-            vc.view.setTranslatesAutoresizingMaskIntoConstraints(false)
-            let views = ["view":vc.view]
-            let verticalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[view]-49-|", options: NSLayoutFormatOptions.AlignAllLeft, metrics: nil, views: views)
-            childView.addConstraints(verticalConstraints)
-
-            let horizontalConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[view]-0-|", options: NSLayoutFormatOptions.AlignAllLeft, metrics: nil, views: views)
-            childView.addConstraints(horizontalConstraints)
-
             vc.didMoveToParentViewController(self)
-            streamControllers.append(vc)
 
             setupControllerData(kind, controller: vc)
         }
@@ -105,6 +128,10 @@ class StreamContainerViewController: StreamableViewController {
         )
     }
 
+    private func setupNavigationBar() {
+        navigationBar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 30)
+    }
+
     private func setupStreamsSegmentedControl() {
         let control = UISegmentedControl(items: StreamKind.streamValues.map{ $0.name })
         control.addTarget(self, action: "streamSegmentTapped:", forControlEvents: .ValueChanged)
@@ -126,6 +153,6 @@ class StreamContainerViewController: StreamableViewController {
         let x:CGFloat = CGFloat(sender.selectedSegmentIndex) * width
         let rect = CGRect(x: x, y: 0, width: width, height: height)
         scrollView.scrollRectToVisible(rect, animated: true)
-//        streamControllers[sender.selectedSegmentIndex].collectionView.reloadData()
     }
+
 }

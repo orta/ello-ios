@@ -21,12 +21,9 @@ struct StreamHeaderCellPresenter {
                 cell.streamKind = streamKind
             }
 
-            if let avatarURL = (streamCellItem.jsonable as Authorable).author?.avatarURL? {
-                cell.setAvatarURL(avatarURL)
-            }
-
+            cell.setAvatarURL((streamCellItem.jsonable as Authorable).author?.avatarURL)
             cell.timestampLabel.text = NSDate().distanceOfTimeInWords((streamCellItem.jsonable as Authorable).createdAt)
-            cell.usernameLabel.text = ((streamCellItem.jsonable as Authorable).author?.atName ?? "@meow")
+            cell.usernameLabel.text = ((streamCellItem.jsonable as Authorable).author?.atName ?? "")
 
         }
     }

@@ -64,12 +64,7 @@ class StreamContainerViewControllerSpec: QuickSpec {
 
             it("has streams", {
                 expect(countElements(controller.streamControllerViews)) == 2
-                expect(countElements(controller.streamControllers)) == 2
             })
-
-            it("hides the nav bar on swipe") {
-                expect(controller.navigationController?.hidesBarsOnSwipe) == true
-            }
 
             it("IBActions are wired up", {
                 let streamsSegmentedControlActions = controller.streamsSegmentedControl.actionsForTarget(controller, forControlEvent: UIControlEvents.ValueChanged)

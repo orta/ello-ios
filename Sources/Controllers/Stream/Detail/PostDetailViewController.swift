@@ -13,6 +13,8 @@ class PostDetailViewController: StreamableViewController {
     var post : Post
     var detailCellItems : [StreamCellItem]
     var unsizedCellItems : [StreamCellItem]
+    var navigationBar : ElloNavigationBar!
+    var streamViewController : StreamViewController!
 
     convenience init(post : Post, items: [StreamCellItem]) {
         self.init(post: post, items: items, unsized: [])
@@ -36,19 +38,54 @@ class PostDetailViewController: StreamableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupNavigationBar()
+        setupStreamController()
+
+        scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
+    }
+
+    override func showNavBars(scrollToBottom : Bool) {
+        super.showNavBars(scrollToBottom)
+        navigationBar.frame = navigationBar.frame.atY(0)
+        streamViewController.view.frame = navigationBar.frame.fromBottom().withHeight(self.view.frame.height - navigationBar.frame.height)
+
+        if scrollToBottom {
+            if let scrollView = streamViewController.collectionView {
+                let contentOffsetY : CGFloat = scrollView.contentSize.height - scrollView.frame.size.height
+                if contentOffsetY > 0 {
+                    scrollView.scrollEnabled = false
+                    scrollView.setContentOffset(CGPoint(x: 0, y: contentOffsetY), animated: true)
+                    scrollView.scrollEnabled = true
+                }
+            }
+        }
+    }
+
+    override func hideNavBars() {
+        super.hideNavBars()
+        navigationBar.frame = navigationBar.frame.atY(-navigationBar.frame.height - 1)
+        streamViewController.view.frame = navigationBar.frame.fromBottom().withHeight(self.view.frame.height)
+    }
+
+    private func setupNavigationBar() {
+        navigationBar = ElloNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: ElloNavigationBar.Size.height))
+        navigationBar.autoresizingMask = .FlexibleBottomMargin | .FlexibleWidth
+        self.view.addSubview(navigationBar)
         let item = UIBarButtonItem.backChevronWithTarget(self, action: "backTapped:")
         self.navigationItem.leftBarButtonItem = item
-
-        setupStreamController()
+        navigationBar.items = [self.navigationItem]
     }
 
     private func setupStreamController() {
         let controller = StreamViewController.instantiateFromStoryboard()
         controller.streamKind = .PostDetail(post: self.post)
         controller.postTappedDelegate = self
+        controller.streamScrollDelegate = self
 
         controller.willMoveToParentViewController(self)
-        self.view.addSubview(controller.view)
+        self.view.insertSubview(controller.view, belowSubview: navigationBar)
+        controller.view.frame = navigationBar.frame.fromBottom().withHeight(self.view.frame.height - navigationBar.frame.height)
+        controller.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
         self.addChildViewController(controller)
         controller.didMoveToParentViewController(self)
 
@@ -67,6 +104,8 @@ class PostDetailViewController: StreamableViewController {
                 controller.doneLoading()
             }
         )
+
+        streamViewController = controller
     }
 
     override func postTapped(post: Post, initialItems: [StreamCellItem]) {
