@@ -20,6 +20,7 @@ enum MappingType: String {
     case ErrorType =            "error"
     case AssetsType =           "assets"
     case RelationshipsType =    "relationships"
+    case NoContentType =        "204"
 
     var fromJSON: FromJSONClosure {
         switch self {

@@ -23,6 +23,8 @@ protocol PostbarDelegate : NSObjectProtocol {
     func commentsButtonTapped(cell:StreamFooterCell, commentsButton: CommentButton)
     func lovesButtonTapped(cell:StreamFooterCell)
     func repostButtonTapped(cell:StreamFooterCell)
+    func shareButtonTapped(cell:StreamFooterCell)
+    func flagButtonTapped(cell:StreamFooterCell)
 }
 
 protocol StreamImageCellDelegate : NSObjectProtocol {
@@ -45,7 +47,10 @@ class StreamViewController: BaseElloViewController {
     var relationshipController: RelationshipController?
 
     var streamKind:StreamKind = StreamKind.Friend {
-        didSet { setupCollectionViewLayout() }
+        didSet {
+            dataSource.streamKind = streamKind
+            setupCollectionViewLayout()
+        }
     }
     var imageViewerDelegate:StreamImageViewer?
     var updatedStreamImageCellHeightNotification:NotificationObserver?
@@ -114,17 +119,17 @@ class StreamViewController: BaseElloViewController {
 
     func imageCellHeightUpdated(cell:StreamImageCell) {
         if let indexPath = collectionView.indexPathForCell(cell) {
-            self.updateCellHeight(indexPath, height: cell.calculatedHeight)
+            updateCellHeight(indexPath, height: cell.calculatedHeight)
         }
     }
 
     func addStreamCellItems(items: [StreamCellItem]) {
-        self.dataSource.addStreamCellItems(items)
-        self.collectionView.reloadData()
+        dataSource.addStreamCellItems(items)
+        collectionView.reloadData()
     }
 
     func addUnsizedCellItems(items:[StreamCellItem]) {
-        self.dataSource.addUnsizedCellItems(items, startingIndexPath:nil) { indexPaths in
+        dataSource.addUnsizedCellItems(items, startingIndexPath:nil) { indexPaths in
             self.collectionView.reloadData()
         }
     }
@@ -133,7 +138,7 @@ class StreamViewController: BaseElloViewController {
 
     private func setupPulsingCircle() {
         pulsingCircle = PulsingCircle.fill(self.view)
-        self.view.addSubview(pulsingCircle!)
+        view.addSubview(pulsingCircle!)
         pulsingCircle!.pulse()
     }
 
@@ -151,7 +156,6 @@ class StreamViewController: BaseElloViewController {
     }
 
     private func updateCellHeight(indexPath:NSIndexPath, height:CGFloat) {
-//        println("update indexPath:\(indexPath) height:\(height)")
         collectionView.performBatchUpdates({
             self.dataSource.updateHeightForIndexPath(indexPath, height: height)
         }, completion: { (finished) in
@@ -188,23 +192,27 @@ class StreamViewController: BaseElloViewController {
     private func setupDataSource() {
         let webView = UIWebView(frame: self.view.bounds)
 
-        self.dataSource = StreamDataSource(testWebView: webView, streamKind: streamKind)
-        self.postbarController = PostbarController(collectionView: collectionView, dataSource: self.dataSource)
-        self.dataSource.postbarDelegate = postbarController
+        dataSource = StreamDataSource(testWebView: webView, streamKind: streamKind)
+        postbarController = PostbarController(collectionView: collectionView, dataSource: self.dataSource, presentingController: self)
+        dataSource.postbarDelegate = postbarController
 
-        self.relationshipController = RelationshipController(presentingController: self)
-        self.dataSource.relationshipDelegate = relationshipController
+        relationshipController = RelationshipController(presentingController: self)
+        dataSource.relationshipDelegate = relationshipController
 
         if let imageViewer = imageViewerDelegate {
-            self.dataSource.imageDelegate = imageViewer
+            dataSource.imageDelegate = imageViewer
         }
-        self.dataSource.webLinkDelegate = self
-        self.dataSource.userDelegate = self
+        dataSource.webLinkDelegate = self
+        dataSource.userDelegate = self
         collectionView.dataSource = self.dataSource
     }
 
     private func presentProfile(username: String) {
         println("load username: \(username)")
+    }
+
+    private func showPostDetail(token: String) {
+        println("show post detail: \(token)")
     }
 }
 
@@ -214,7 +222,7 @@ extension StreamViewController : WebLinkDelegate {
         switch type {
         case .External: postNotification(externalWebNotification, data)
         case .Profile: presentProfile(data)
-        case .Post: println("showPostDetail: \(data)")
+        case .Post: showPostDetail(data)
         }
     }
 }
@@ -224,11 +232,9 @@ extension StreamViewController : UserDelegate {
 
     func userTappedCell(cell: UICollectionViewCell) {
         if let indexPath = collectionView.indexPathForCell(cell) {
-            if let post = dataSource.postForIndexPath(indexPath) {
-                if let user = post.author {
-                    let vc = ProfileViewController(user: user)
-                    self.navigationController?.pushViewController(vc, animated: true)
-                }
+            if let user = dataSource.postForIndexPath(indexPath)?.author {
+                let vc = ProfileViewController(user: user)
+                navigationController?.pushViewController(vc, animated: true)
             }
         }
     }
@@ -241,14 +247,14 @@ extension StreamViewController : UICollectionViewDelegate {
     func collectionView(collectionView: UICollectionView,
         didSelectItemAtIndexPath indexPath: NSIndexPath) {
             if let post = dataSource.postForIndexPath(indexPath) {
-                let items = self.dataSource.cellItemsForPost(post)
+                let items = dataSource.cellItemsForPost(post)
                 postTappedDelegate?.postTapped(post, initialItems: items)
             }
     }
 
     func collectionView(collectionView: UICollectionView,
         shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-            return self.dataSource.streamCellItems[indexPath.item].type == StreamCellType.Header
+            return dataSource.streamCellItems[indexPath.item].type == StreamCellType.Header
     }
 }
 

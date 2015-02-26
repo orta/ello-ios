@@ -11,13 +11,13 @@ import QuartzCore
 
 class CommentButton: StreamFooterButton {
 
-    let duration:CFTimeInterval = 0.5
+    private let duration:CFTimeInterval = 0.5
+    private let dotSize = CGSizeMake(3.5, 3.5)
+    private let dotSpace:CGFloat = 1.5
+    private let dotStart:CGFloat = 10.0
     private var dot1: CAShapeLayer!
     private var dot2: CAShapeLayer!
     private var dot3: CAShapeLayer!
-    let dotSize = CGSizeMake(3.5, 3.5)
-    let dotSpace:CGFloat = 1.5
-    let dotStart:CGFloat = 10.0
 
     override var selected: Bool {
         didSet {
@@ -38,9 +38,28 @@ class CommentButton: StreamFooterButton {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.titleEdgeInsets = UIEdgeInsetsMake(0, self.dotStart + 15.0, 0, 0);
         createLayersIfNeeded()
     }
+
+    override func setButtonTitleWithPadding(title: String?, titlePadding: CGFloat, contentPadding: CGFloat) {
+        super.setButtonTitleWithPadding(title, titlePadding: titlePadding, contentPadding: contentPadding)
+    }
+
+// MARK: Public
+
+    func animate() {
+        fadeUpDown(dot1, delay: 0.0)
+        fadeUpDown(dot2, delay: 0.25)
+        fadeUpDown(dot3, delay: 0.50)
+    }
+
+    func finishAnimation() {
+        fadeUp(dot1)
+        fadeUp(dot2)
+        fadeUp(dot3)
+    }
+
+// MARK: Private
 
     private func fadeUpDown(dot:CAShapeLayer, delay: NSTimeInterval) {
         let dotFadeUpOpacity = CABasicAnimation(keyPath: "opacity")
@@ -59,23 +78,6 @@ class CommentButton: StreamFooterButton {
         dot.addAnimation(group, forKey: "Show fill circle \(dot)")
     }
 
-    func animate() {
-        fadeUpDown(dot1, delay: 0.0)
-        fadeUpDown(dot2, delay: 0.25)
-        fadeUpDown(dot3, delay: 0.50)
-    }
-
-    func finishAnimation() {
-        fadeUp(dot1)
-        fadeUp(dot2)
-        fadeUp(dot3)
-    }
-
-    override func sizeThatFits(size: CGSize) -> CGSize {
-        var size = super.sizeThatFits(size)
-        return CGSizeMake(size.width + self.dotStart, size.height)
-    }
-
     private func fadeUp(dot:CAShapeLayer) {
         dot.removeAllAnimations()
         let up = CABasicAnimation(keyPath: "opacity")
@@ -85,7 +87,8 @@ class CommentButton: StreamFooterButton {
     }
 
     private func createLayersIfNeeded() {
-        if dot1 == nil {
+
+       if dot1 == nil {
             dot1 = circleShape(CGRectMake(dotStart, self.bounds.height/2  - dotSize.height/2, dotSize.width, dotSize.height))
             self.layer.addSublayer(dot1)
         }
@@ -106,7 +109,7 @@ class CommentButton: StreamFooterButton {
         dot.path = circlePath(inFrame)
         dot.bounds = CGPathGetBoundingBox(dot.path)
         dot.fillColor = UIColor.greyA().CGColor
-        dot.position = CGPoint(x: CGRectGetMinX(inFrame), y: CGRectGetMinY(inFrame))
+        dot.position = CGPoint(x: CGRectGetMinX(inFrame), y: CGRectGetMidY(inFrame))
         dot.opacity = 1.0
         return dot
     }
