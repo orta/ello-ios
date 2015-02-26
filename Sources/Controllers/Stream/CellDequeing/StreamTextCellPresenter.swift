@@ -18,6 +18,8 @@ struct StreamTextCellPresenter {
     {
         if let cell = cell as? StreamTextCell {
             cell.contentView.alpha = 0.0
+            cell.webView.scrollView.scrollEnabled = false
+
             if let textData = streamCellItem.data as TextRegion? {
                 cell.webView.loadHTMLString(StreamTextCellHTML.postHTML(textData.content), baseURL: NSURL(string: "/"))
             }
@@ -27,8 +29,8 @@ struct StreamTextCellPresenter {
             }
             else {
                 cell.leadingConstraint.constant = 0.0
-            }            
+            }
         }
     }
-    
+
 }
