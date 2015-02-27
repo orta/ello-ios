@@ -35,7 +35,6 @@ class OmnibarScreen : UIView, UITextViewDelegate {
     var avatarView : UIImageView!
     var cameraButton : UIButton!
     var cancelButton : UIButton!
-    var didConfirmCancelation : Bool
     var submitButton : UIButton!
     var buttonContainer : ElloEquallySpacedLayout!
 
@@ -68,7 +67,6 @@ class OmnibarScreen : UIView, UITextViewDelegate {
 
         cancelButton = UIButton()
         cancelButton.setImage(ElloDrawable.imageOfCancelIcon, forState: .Normal)
-        didConfirmCancelation = false
 
         submitButton = UIButton()
         submitButton.setImage(ElloDrawable.imageOfSubmitIcon, forState: .Normal)
@@ -180,32 +178,11 @@ class OmnibarScreen : UIView, UITextViewDelegate {
     }
 
     func cancelEditing() {
-        if didConfirmCancelation {
-            sayElloOverlay.hidden = false
-            textView.text = ""
-            resetConfirm()
-        }
-        else {
-            textView.resignFirstResponder()
-            prepareToConfirm()
-        }
-    }
-
-    private func resetConfirm() {
-        didConfirmCancelation = false
-        cancelButton.backgroundColor = UIColor.clearColor()
-        cancelButton.setImage(ElloDrawable.imageOfCancelIcon, forState: .Normal)
-    }
-
-    private func prepareToConfirm() {
-        didConfirmCancelation = true
-        cancelButton.backgroundColor = UIColor.redColor()
-        cancelButton.setImage(ElloDrawable.imageOfCancelConfirmationIcon, forState: .Normal)
+        sayElloOverlay.hidden = false
+        textView.text = ""
     }
 
     func textViewShouldBeginEditing(textView : UITextView) -> Bool {
-        resetConfirm()
-
         return true
     }
 
