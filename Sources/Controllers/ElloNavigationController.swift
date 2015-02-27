@@ -20,11 +20,13 @@ class ElloNavigationController: UINavigationController, UIGestureRecognizerDeleg
     enum RootViewControllers: String {
         case Notifications = "NotificationsViewController"
         case Profile = "ProfileViewController"
+        case Omnibar = "OmnibarViewController"
 
         func controllerInstance(user : User) -> BaseElloViewController {
             switch self {
             case Notifications: return NotificationsViewController()
             case Profile: return ProfileViewController(user: user)
+            case Omnibar: return OmnibarViewController()
             }
         }
     }

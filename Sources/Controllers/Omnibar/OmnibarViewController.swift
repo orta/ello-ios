@@ -9,20 +9,44 @@
 import UIKit
 
 class OmnibarViewController: BaseElloViewController {
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    class func instantiateFromStoryboard() -> OmnibarViewController {
-        return UIStoryboard.storyboardWithId(.Omnibar) as OmnibarViewController
-    }
-    
-}
 
+    override func loadView() {
+        self.view = OmnibarScreen(frame: UIScreen.mainScreen().bounds)
+    }
+
+    var screen : OmnibarScreen {
+        return self.view as OmnibarScreen
+    }
+
+    override func viewWillAppear(animated : Bool) {
+        super.viewWillAppear(animated)
+
+        let center : NSNotificationCenter = NSNotificationCenter.defaultCenter()
+        center.addObserver(self, selector: Selector("willShow:"), name: Keyboard.Notifications.KeyboardWillShow, object: nil)
+        center.addObserver(self, selector: Selector("willHide:"), name: Keyboard.Notifications.KeyboardWillHide, object: nil)
+    }
+
+    override func viewWillDisappear(animated : Bool) {
+        super.viewWillDisappear(animated)
+
+        let center : NSNotificationCenter = NSNotificationCenter.defaultCenter()
+        center.removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
+        center.removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
+    }
+
+    @objc
+    func willShow(notification : NSNotification) {
+        screen.keyboardWillShow()
+    }
+
+    @objc
+    func willHide(notification : NSNotification) {
+        screen.keyboardWillHide()
+    }
+
+    override func didSetCurrentUser() {
+        super.didSetCurrentUser()
+        self.screen.avatarURL = self.currentUser?.avatarURL
+    }
+
+}

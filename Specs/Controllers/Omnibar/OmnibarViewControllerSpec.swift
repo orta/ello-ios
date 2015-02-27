@@ -13,7 +13,7 @@ import Nimble
 class OmnibarViewControllerSpec: QuickSpec {
     override func spec() {
 
-        var controller = OmnibarViewController.instantiateFromStoryboard()
+        var controller = OmnibarViewController()
 
         beforeSuite {
             ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
@@ -26,21 +26,10 @@ class OmnibarViewControllerSpec: QuickSpec {
         describe("initialization", {
 
             beforeEach({
-                controller = OmnibarViewController.instantiateFromStoryboard()
+                controller = OmnibarViewController()
             })
 
-            describe("storyboard", {
-
-                beforeEach({
-                    controller.loadView()
-                    controller.viewDidLoad()
-                })
-
-                it("IBOutlets are  not nil", {
-                })
-            })
-
-            it("can be instantiated from storyboard") {
+            it("can be instantiated") {
                 expect(controller).notTo(beNil())
             }
 
@@ -51,31 +40,6 @@ class OmnibarViewControllerSpec: QuickSpec {
             it("is a OmnibarViewController", {
                 expect(controller).to(beAKindOf(OmnibarViewController.self))
             })
-
-            it("has a tab bar item", {
-                expect(controller.tabBarItem).notTo(beNil())
-
-                let selectedImage:UIImage = controller.tabBarItem.valueForKey("selectedImage") as UIImage
-
-                expect(selectedImage).notTo(beNil())
-            })
-        })
-
-        describe("-viewDidLoad:", {
-
-            beforeEach({
-                controller = OmnibarViewController.instantiateFromStoryboard()
-                controller.loadView()
-                controller.viewDidLoad()
-            })
-
-            it("configures tableView") {
-
-            }
-
-            it("adds notification observers") {
-
-            }
         })
     }
 }

@@ -20,8 +20,7 @@ class BaseElloViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
-    func didSetCurrentUser() {
-    }
+    func didSetCurrentUser() {}
 
     private func fixNavBarItemPadding() {
         let negativeSpacer = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)

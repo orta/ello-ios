@@ -10,6 +10,11 @@ extension CGRect {
         return self
     }
 
+// MARK: convenience
+    static func make(#x: CGFloat, y: CGFloat, right: CGFloat, bottom: CGFloat) -> CGRect {
+        return CGRect(x: x, y: y, width: right - x, height: bottom - y)
+    }
+
 // MARK: helpers
     var x:CGFloat { return self.origin.x }
     var y:CGFloat { return self.origin.y }
