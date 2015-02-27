@@ -9,11 +9,14 @@
 class ElloScrollLogic : NSObject, UIScrollViewDelegate {
     var prevOffset : CGPoint?
     var shouldIgnoreScroll:Bool = false
-    private var showingState:Bool?
     var navBarHeight:CGFloat = 44
     var tabBarHeight:CGFloat = 49
     var barHeights:CGFloat { return navBarHeight + tabBarHeight }
 
+    // showingState starts as "indeterminate".  That means that the first time
+    // 'show' or 'hide' is called, it will call the appropriate handler no
+    // matter what.
+    private var showingState:Bool?
     var isShowing : Bool {
         get { return self.showingState ?? true }
         set { showingState = newValue }
