@@ -280,9 +280,6 @@ extension MoyaProvider {
             return nil
         }
     }
-<<<<<<< HEAD
-}
-=======
 
     func parseResponse(response: NSHTTPURLResponse?) -> ResponseConfig {
         var config = ResponseConfig()
@@ -301,4 +298,4 @@ extension MoyaProvider {
         }
         return config
     }
-}>>>>>>> Adds paging to friend and noise streams.
+}

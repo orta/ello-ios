@@ -293,7 +293,7 @@ extension StreamViewController : StreamCollectionViewLayoutDelegate {
 extension StreamViewController : UIScrollViewDelegate {
 
     func scrollViewDidScroll(scrollView : UIScrollView) {
-        self.streamScrollDelegate?.scrollViewDidScroll(scrollView)
+        self.streamScrollDelegate?.streamViewDidScroll(scrollView)
         self.loadNextPage(scrollView)
     }
 
