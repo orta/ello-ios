@@ -31,6 +31,8 @@ public class ElloDrawable : NSObject {
         static var cancelIconTargets: [AnyObject]?
         static var imageOfCancelIconSelected: UIImage?
         static var cancelIconSelectedTargets: [AnyObject]?
+        static var imageOfCancelConfirmationIcon: UIImage?
+        static var cancelConfirmationIconTargets: [AnyObject]?
         static var imageOfSubmitIcon: UIImage?
         static var submitIconTargets: [AnyObject]?
         static var imageOfSubmitIconSelected: UIImage?
@@ -187,6 +189,29 @@ public class ElloDrawable : NSObject {
         CGContextRestoreGState(context)
     }
 
+    public class func drawCancelConfirmationIcon() {
+        //// General Declarations
+        let context = UIGraphicsGetCurrentContext()
+
+        //// Color Declarations
+        let red = UIColor(red: 1.000, green: 0.000, blue: 0.000, alpha: 1.000)
+
+        //// Rectangle Drawing
+        let rectanglePath = UIBezierPath(rect: CGRectMake(0, 0, 10, 10))
+        red.setFill()
+        rectanglePath.fill()
+
+
+        //// Symbol Drawing
+        let symbolRect = CGRectMake(0, 0, 10, 10)
+        CGContextSaveGState(context)
+        UIRectClip(symbolRect)
+        CGContextTranslateCTM(context, symbolRect.origin.x, symbolRect.origin.y)
+
+        ElloDrawable.drawCancelTemplate(stroke: ElloDrawable.white)
+        CGContextRestoreGState(context)
+    }
+
     public class func drawSubmitIconTemplate(#stroke: UIColor) {
 
         //// Bezier Drawing
@@ -330,6 +355,20 @@ public class ElloDrawable : NSObject {
         return Cache.imageOfCancelIconSelected!
     }
 
+    public class var imageOfCancelConfirmationIcon: UIImage {
+        if Cache.imageOfCancelConfirmationIcon != nil {
+            return Cache.imageOfCancelConfirmationIcon!
+        }
+
+        UIGraphicsBeginImageContextWithOptions(CGSizeMake(10, 10), false, 0)
+            ElloDrawable.drawCancelConfirmationIcon()
+
+        Cache.imageOfCancelConfirmationIcon = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+
+        return Cache.imageOfCancelConfirmationIcon!
+    }
+
     public class var imageOfSubmitIcon: UIImage {
         if Cache.imageOfSubmitIcon != nil {
             return Cache.imageOfSubmitIcon!
@@ -416,6 +455,16 @@ public class ElloDrawable : NSObject {
             Cache.cancelIconSelectedTargets = newValue
             for target: AnyObject in newValue {
                 target.setImage(ElloDrawable.imageOfCancelIconSelected)
+            }
+        }
+    }
+
+    @IBOutlet var cancelConfirmationIconTargets: [AnyObject]! {
+        get { return Cache.cancelConfirmationIconTargets }
+        set {
+            Cache.cancelConfirmationIconTargets = newValue
+            for target: AnyObject in newValue {
+                target.setImage(ElloDrawable.imageOfCancelConfirmationIcon)
             }
         }
     }
