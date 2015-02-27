@@ -8,7 +8,7 @@
 
 import UIKit
 
-class OmnibarViewController: BaseElloViewController {
+class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
 
     override func loadView() {
         self.view = OmnibarScreen(frame: UIScreen.mainScreen().bounds)
@@ -20,6 +20,7 @@ class OmnibarViewController: BaseElloViewController {
 
     override func viewWillAppear(animated : Bool) {
         super.viewWillAppear(animated)
+        self.screen.delegate = self
 
         let center : NSNotificationCenter = NSNotificationCenter.defaultCenter()
         center.addObserver(self, selector: Selector("willShow:"), name: Keyboard.Notifications.KeyboardWillShow, object: nil)
@@ -47,6 +48,14 @@ class OmnibarViewController: BaseElloViewController {
     override func didSetCurrentUser() {
         super.didSetCurrentUser()
         self.screen.avatarURL = self.currentUser?.avatarURL
+    }
+
+    func omnibarCanceled() {
+        //
+    }
+
+    func omnibarSubmitted() {
+        //
     }
 
 }
