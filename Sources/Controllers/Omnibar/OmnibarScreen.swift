@@ -16,7 +16,7 @@ protocol OmnibarScreenDelegate {
 }
 
 
-class OmnibarScreen : UIView {
+class OmnibarScreen : UIView, UITextViewDelegate {
     struct Size {
         static let margins = CGFloat(10)
         static let textMargins = CGFloat(10)
@@ -35,6 +35,7 @@ class OmnibarScreen : UIView {
     var avatarView : UIImageView!
     var cameraButton : UIButton!
     var cancelButton : UIButton!
+    var didConfirmCancelation : Bool
     var submitButton : UIButton!
     var buttonContainer : ElloEquallySpacedLayout!
 
@@ -64,15 +65,13 @@ class OmnibarScreen : UIView {
 
         cameraButton = UIButton()
         cameraButton.setImage(ElloDrawable.imageOfCameraIcon, forState: .Normal)
-        cameraButton.setImage(ElloDrawable.imageOfCameraIconSelected, forState: .Selected)
 
         cancelButton = UIButton()
         cancelButton.setImage(ElloDrawable.imageOfCancelIcon, forState: .Normal)
-        cancelButton.setImage(ElloDrawable.imageOfCancelIconSelected, forState: .Selected)
+        didConfirmCancelation = false
 
         submitButton = UIButton()
         submitButton.setImage(ElloDrawable.imageOfSubmitIcon, forState: .Normal)
-        submitButton.setImage(ElloDrawable.imageOfSubmitIconSelected, forState: .Selected)
 
         textView = UITextView()
         textView.textColor = UIColor.blackColor()
@@ -95,6 +94,7 @@ class OmnibarScreen : UIView {
         sayElloOverlay.addSubview(sayElloLabel)
         sayElloOverlay.addTarget(self, action: Selector("startEditing"), forControlEvents: .TouchUpInside)
 
+        textView.delegate = self
         textView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
         textContainer.addSubview(textView)
     }
@@ -180,9 +180,33 @@ class OmnibarScreen : UIView {
     }
 
     func cancelEditing() {
-        sayElloOverlay.hidden = false
-        textView.text = ""
-        textView.resignFirstResponder()
+        if didConfirmCancelation {
+            sayElloOverlay.hidden = false
+            textView.text = ""
+            resetConfirm()
+        }
+        else {
+            textView.resignFirstResponder()
+            prepareToConfirm()
+        }
+    }
+
+    private func resetConfirm() {
+        didConfirmCancelation = false
+        cancelButton.backgroundColor = UIColor.clearColor()
+        cancelButton.setImage(ElloDrawable.imageOfCancelIcon, forState: .Normal)
+    }
+
+    private func prepareToConfirm() {
+        didConfirmCancelation = true
+        cancelButton.backgroundColor = UIColor.redColor()
+        cancelButton.setImage(ElloDrawable.imageOfCancelConfirmationIcon, forState: .Normal)
+    }
+
+    func textViewShouldBeginEditing(textView : UITextView) -> Bool {
+        resetConfirm()
+
+        return true
     }
 
 }
