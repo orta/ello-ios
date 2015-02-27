@@ -15,7 +15,7 @@ class ElloScrollLogic : NSObject, UIScrollViewDelegate {
     var barHeights:CGFloat { return navBarHeight + tabBarHeight }
 
     var isShowing : Bool {
-        get { return self.isShowing ?? true }
+        get { return self.showingState ?? true }
         set { showingState = newValue }
     }
 
