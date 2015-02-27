@@ -37,8 +37,6 @@ protocol StreamImageCellDelegate : NSObjectProtocol {
     optional func streamViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool)
 }
 
-
-
 class StreamViewController: BaseElloViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
@@ -47,6 +45,8 @@ class StreamViewController: BaseElloViewController {
     var dataSource:StreamDataSource!
     var postbarController:PostbarController?
     var relationshipController: RelationshipController?
+    var responseConfig: ResponseConfig?
+    let streamService = StreamService()
 
     var streamKind:StreamKind = StreamKind.Friend {
         didSet {
@@ -293,9 +293,8 @@ extension StreamViewController : StreamCollectionViewLayoutDelegate {
 extension StreamViewController : UIScrollViewDelegate {
 
     func scrollViewDidScroll(scrollView : UIScrollView) {
-        if let delegate = self.streamScrollDelegate {
-            delegate.streamViewDidScroll(scrollView)
-        }
+        self.streamScrollDelegate?.streamViewDidScroll(scrollView)
+        self.loadNextPage(scrollView)
     }
 
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
@@ -310,4 +309,29 @@ extension StreamViewController : UIScrollViewDelegate {
         }
     }
 
+    private func loadNextPage(scrollView: UIScrollView) {
+        if scrollView.contentOffset.y + self.view.frame.height + 300 > scrollView.contentSize.height {
+
+            if let nextQueryItems = self.responseConfig?.nextQueryItems {
+                let scrollAPI = ElloAPI.InfiniteScroll(path: streamKind.endpoint.path, queryItems: nextQueryItems)
+                streamService.loadStream(scrollAPI,
+                    success: {
+                        (jsonables, responseConfig) in
+                        var posts:[Post] = []
+                        for activity in jsonables {
+                            if let post = (activity as Activity).subject as? Post {
+                                posts.append(post)
+                            }
+                        }
+                        self.responseConfig = responseConfig
+                        self.addUnsizedCellItems(StreamCellItemParser().postCellItems(posts, streamKind: self.streamKind))
+                        self.doneLoading()
+                    },
+                    failure: { (error, statusCode) in
+                        println("failed to load stream (reason: \(error))")
+                        self.doneLoading()
+                })
+            }
+        }
+    }
 }

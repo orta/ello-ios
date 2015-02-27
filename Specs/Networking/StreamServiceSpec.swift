@@ -25,10 +25,11 @@ class StreamServiceSpec: QuickSpec {
                 
                 describe("-loadStream") {
                     
-                    it("Calls success with an array of Activity objects") {
+                    it("Calls success with an array of Activity objects and responseConfig") {
                         var loadedPosts:[Post]?
+                        var config: ResponseConfig?
 
-                        streamService.loadStream(ElloAPI.FriendStream, { jsonables in
+                        streamService.loadStream(ElloAPI.FriendStream, { (jsonables, responseConfig) in
                             var posts:[Post] = []
                             for activity in jsonables {
                                 if let post = (activity as Activity).subject as? Post {
@@ -36,7 +37,11 @@ class StreamServiceSpec: QuickSpec {
                                 }
                             }
                             loadedPosts = posts
+                            config = responseConfig
                         }, failure: nil)
+
+                        expect(config?.prevQueryItems?.count) == 2
+                        expect(config?.nextQueryItems?.count) == 2
 
                         expect(countElements(loadedPosts!)) == 3
 
@@ -67,7 +72,7 @@ class StreamServiceSpec: QuickSpec {
                     it("handles assets") {
                         var loadedPosts:[Post]?
 
-                        streamService.loadStream(ElloAPI.FriendStream, { jsonables in
+                        streamService.loadStream(ElloAPI.FriendStream, { (jsonables, responseConfig) in
                             var posts:[Post] = []
                             for activity in jsonables {
                                 if let post = (activity as Activity).subject as? Post {
@@ -96,7 +101,7 @@ class StreamServiceSpec: QuickSpec {
                     it("calls success with an array of Comment objects", {
                         var loadedComments:[Comment]?
 
-                        streamService.loadMoreCommentsForPost("111", success: { comments in
+                        streamService.loadMoreCommentsForPost("111", success: { (comments, responseConfig) in
                             loadedComments = comments as? [Comment]
                         }, failure:nil)
 
@@ -144,7 +149,7 @@ class StreamServiceSpec: QuickSpec {
                         var loadedStatusCode:Int?
                         var loadedError:NSError?
 
-                        streamService.loadStream(ElloAPI.FriendStream, { jsonables in
+                        streamService.loadStream(ElloAPI.FriendStream, { (jsonables, responseConfig) in
                             loadedJsonables = jsonables
                         }, failure: { (error, statusCode) -> () in
                             loadedError = error

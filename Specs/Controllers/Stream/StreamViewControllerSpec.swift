@@ -91,6 +91,41 @@ class StreamViewControllerSpec: QuickSpec {
             }
         })
 
+        xdescribe("loading more posts on scrolling") {
+
+            beforeEach {
+                controller = StreamViewController.instantiateFromStoryboard()
+                controller.streamKind = StreamKind.Friend
+                controller.loadView()
+                controller.viewDidLoad()
+                controller.streamService.loadStream(controller.streamKind.endpoint,
+                    success: { (jsonables, responseConfig) in
+                        var posts:[Post] = []
+                        for activity in jsonables {
+                            if let post = (activity as Activity).subject as? Post {
+                                posts.append(post)
+                            }
+                        }
+                        controller.responseConfig = responseConfig
+                        controller.addUnsizedCellItems(StreamCellItemParser().postCellItems(posts, streamKind: controller.streamKind))
+                        controller.doneLoading()
+                    }, failure: { (error, statusCode) in
+                        controller.doneLoading()
+                    }
+                )
+            }
+
+            it("loads the next page of results when scrolled within 300 of the bottom") {
+                expect(controller.collectionView.numberOfItemsInSection(0)).toEventually(equal(3))
+                //                controller.collectionView.contentOffset = CGPoint(x: 0, y: 0)
+                //                expect(controller.collectionView.numberOfItemsInSection(0)) == 6
+            }
+
+            it("does not load the next page of results when not scrolled within 300 of the bottom") {
+                expect(controller.collectionView.numberOfItemsInSection(0)).toEventually(equal(3))
+            }
+        }
+
         context("protocol conformance") {
 
             beforeEach({

@@ -32,7 +32,7 @@ class RelationshipController: NSObject, RelationshipDelegate {
         RelationshipService().updateRelationship(ElloAPI.Relationship(userId: userId,
             relationship: relationship.rawValue),
             success: {
-                data in
+                (data, responseConfig) in
                 complete(status: .Success)
             },
             failure: {

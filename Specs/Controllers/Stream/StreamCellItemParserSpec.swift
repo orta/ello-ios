@@ -55,7 +55,7 @@ class StreamCellItemParserSpec: QuickSpec {
             it("returns an array with the proper count of stream cell items when parsing friends.json's posts") {
                 var loadedPosts:[Post]?
 
-                StreamService().loadStream(ElloAPI.FriendStream, { jsonables in
+                StreamService().loadStream(ElloAPI.FriendStream, { (jsonables, responseConfig) in
                     var posts:[Post] = []
                     for activity in jsonables {
                         if let post = (activity as Activity).subject as? Post {

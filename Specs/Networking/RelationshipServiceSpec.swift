@@ -23,7 +23,7 @@ class RelationshipServiceSpec: QuickSpec {
                 var loadedSuccessfully = false
                 subject.updateRelationship(ElloAPI.Relationship(userId: "42", relationship: Relationship.Friend.rawValue),
                     success: {
-                        data in
+                        (data, responseConfig) in
                         loadedSuccessfully = true
                     },
                     failure: nil
@@ -36,7 +36,7 @@ class RelationshipServiceSpec: QuickSpec {
                 var loadedSuccessfully = true
                 subject.updateRelationship(ElloAPI.Relationship(userId: "42", relationship: Relationship.Friend.rawValue),
                     success: {
-                        data in
+                        (data, responseConfig) in
                         loadedSuccessfully = true
                     },
                     failure: {
