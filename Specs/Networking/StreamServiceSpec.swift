@@ -40,9 +40,8 @@ class StreamServiceSpec: QuickSpec {
                             config = responseConfig
                         }, failure: nil)
 
-                        println("\r\r\(config?.prevQueryItems)\r\r")
-                        expect(config?.prevQueryItems?.count).to(equal(2))
-                        expect(config?.nextQueryItems?.count).to(equal(2))
+                        expect(config?.prevQueryItems?.count) == 2
+                        expect(config?.nextQueryItems?.count) == 2
 
                         expect(countElements(loadedPosts!)) == 3
 
