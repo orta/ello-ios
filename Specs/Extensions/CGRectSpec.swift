@@ -31,6 +31,22 @@ class CGRectExtensionSpec: QuickSpec {
                 expect(badFrame.absHeight).to(equal(CGFloat(2)))
             }
         }
+        describe("factories") {
+            describe("CGRect.make") {
+                let newFrame = CGRect.make(x: 1, y: 2, right: 4, bottom: 6)
+                it("should set x")      { expect(newFrame.origin.x).to(equal(CGFloat(1)))}
+                it("should set y")      { expect(newFrame.origin.y).to(equal(CGFloat(2)))}
+                it("should set width")     { expect(newFrame.size.width).to(equal(CGFloat(3)))}
+                it("should set height") { expect(newFrame.size.height).to(equal(CGFloat(4)))}
+            }
+            describe("CGRect.at") {
+                let newFrame = CGRect.at(x: 1, y: 2)
+                it("should set x")      { expect(newFrame.origin.x).to(equal(CGFloat(1)))}
+                it("should set y")      { expect(newFrame.origin.y).to(equal(CGFloat(2)))}
+                it("should set width")     { expect(newFrame.size.width).to(equal(CGFloat(0)))}
+                it("should set height") { expect(newFrame.size.height).to(equal(CGFloat(0)))}
+            }
+        }
         describe("setters") {
             let frame = CGRect(x: 1, y: 2, width: 3, height: 4)
             it("-atOrigin:") {
@@ -112,6 +128,25 @@ class CGRectExtensionSpec: QuickSpec {
             it("-shrinkUp:") {
                 let newFrame = frame.shrinkUp(1)
                 expect(newFrame).to(equal(CGRect(x: 5, y: 7, width: 10, height: 13)))
+            }
+        }
+        describe("grow(Xyz:)") {
+            let frame = CGRect(x: 5, y: 7, width: 10, height: 14)
+            it("-grow(all:)") {
+                let newFrame = frame.grow(all: 1)
+                expect(newFrame).to(equal(CGRect(x: 4, y: 6, width: 12, height: 16)))
+            }
+            it("-grow(topBottom:sides:)") {
+                let newFrame = frame.grow(topBottom: 1, sides: 2)
+                expect(newFrame).to(equal(CGRect(x: 3, y: 6, width: 10, height: 16)))
+            }
+            it("-grow(top:sides:bottom:)") {
+                let newFrame = frame.grow(top: 1, sides: 2, bottom: 3)
+                expect(newFrame).to(equal(CGRect(x: 3, y: 6, width: 10, height: 17)))
+            }
+            it("-grow(top:left:bottom:right:)") {
+                let newFrame = frame.grow(top: 1, left: 2, bottom: 3, right: 4)
+                expect(newFrame).to(equal(CGRect(x: 3, y: 6, width: 11, height: 17)))
             }
         }
         describe("growXyz") {

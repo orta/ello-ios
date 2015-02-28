@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
 
     override func loadView() {
@@ -51,11 +52,18 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
     }
 
     func omnibarCanceled() {
+    }
+
+    func omnibarSubmitted(text : String) {
         //
     }
 
-    func omnibarSubmitted() {
-        //
+    func omnibarPresentPicker(controller : UIViewController) {
+        self.presentViewController(controller, animated: true, completion: nil)
+    }
+
+    func omnibarDismissPicker(controller : UIViewController) {
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
 
 }
