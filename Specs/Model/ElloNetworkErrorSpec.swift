@@ -22,5 +22,15 @@ class ElloNetworkErrorSpec: QuickSpec {
             expect(elloNetworkError.messages) == ["Name can't be blank"]
             expect(elloNetworkError.attrs!["name"]!) == ["can't be blank"]
         }
+
+        it("defaults code to unknown if json code string isn't supported") {
+            let errors = stubbedJSONData("0", "errors")
+            let elloNetworkError = ElloNetworkError.fromJSON(errors) as ElloNetworkError
+
+            expect(elloNetworkError.code) == ElloNetworkError.CodeType.unknown
+            expect(elloNetworkError.title) == "Something went wrong"
+            expect(elloNetworkError.status) == "0"
+            expect(elloNetworkError.detail).to(beNil())
+        }
     }
 }
