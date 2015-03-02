@@ -6,6 +6,9 @@ platform :ios, '8.0'
 # Yep.
 inhibit_all_warnings!
 
+# Opt into framework support (required for Swift support in CocoaPods RC1)
+use_frameworks!
+
 pod 'SDWebImage', '~> 3.7'
 
 # swift pods
