@@ -16,40 +16,46 @@
         <!--Discover-->
         <scene sceneID="hNz-n2-bh7">
             <objects>
-                <viewController storyboardIdentifier="DiscoverViewController" title="Discover" id="9pv-A4-QxB" customClass="DiscoverViewController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Discover" id="9pv-A4-QxB" customClass="DiscoverViewController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ia1-K6-d13"/>
                         <viewControllerLayoutGuide type="bottom" id="4ug-Mw-9AY"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="tsR-hK-woN">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="487"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Discover" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="KQZ-1w-vlD">
-                                <rect key="frame" x="230" y="255" width="141" height="42"/>
+                                <rect key="frame" x="230" y="223" width="141" height="42"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="36"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ywc-O4-uIv">
+                                <rect key="frame" x="233" y="280" width="134" height="30"/>
+                                <state key="normal" title="Import my contacts">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="importMyContactsTapped:" destination="9pv-A4-QxB" eventType="touchUpInside" id="wXF-KM-lg8"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="KQZ-1w-vlD" secondAttribute="centerX" id="6BV-lF-sBN"/>
+                            <constraint firstItem="ywc-O4-uIv" firstAttribute="top" secondItem="KQZ-1w-vlD" secondAttribute="bottom" constant="15" id="G1H-uG-efl"/>
+                            <constraint firstAttribute="centerX" secondItem="ywc-O4-uIv" secondAttribute="centerX" id="efp-ZO-E9c"/>
                             <constraint firstAttribute="centerY" secondItem="KQZ-1w-vlD" secondAttribute="centerY" id="exm-UA-ej4"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <tabBarItem key="tabBarItem" title="" image="discover-icon" id="acW-dT-cKf">
-                        <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="discover-icon-selected"/>
-                        </userDefinedRuntimeAttributes>
-                    </tabBarItem>
+                    <navigationItem key="navigationItem" title="Discover" id="K10-fC-aLz"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="774" y="-992"/>
+            <point key="canvasLocation" x="1586" y="-992"/>
         </scene>
         <!--Ello Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
@@ -64,7 +70,7 @@
                         <color key="barTintColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
                     </tabBar>
                     <connections>
-                        <segue destination="9pv-A4-QxB" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
+                        <segue destination="rfd-p2-XSV" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
                         <segue destination="OLo-wM-vov" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
                         <segue destination="6gB-P3-Psq" kind="relationship" relationship="viewControllers" id="2P8-zn-3Fb"/>
                         <segue destination="HTb-EB-4Yn" kind="relationship" relationship="viewControllers" id="t8D-oN-sU8"/>
@@ -352,13 +358,13 @@
                                                     <constraint firstAttribute="height" constant="60" id="P6M-0g-f5T"/>
                                                 </constraints>
                                             </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Simple, beautiful &amp; ad-free." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ypc-OR-8Wd">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Simple, beautiful &amp; ad-free." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ypc-OR-8Wd">
                                                 <rect key="frame" x="0.0" y="150" width="374" height="14"/>
                                                 <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="14"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SLT-dy-F7g" customClass="ElloButton" customModule="Ello" customModuleProvider="target">
+                                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SLT-dy-F7g" customClass="ElloButton" customModule="Ello" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="299" width="374" height="60"/>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
@@ -373,7 +379,7 @@
                                                     <action selector="resetPasswordTapped:" destination="6Zr-7u-54d" eventType="touchUpInside" id="2Hx-L2-h2c"/>
                                                 </connections>
                                             </button>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter your email address" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="N1z-oh-CYd" customClass="ElloTextField" customModule="Ello" customModuleProvider="target">
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter your email address" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="N1z-oh-CYd" customClass="ElloTextField" customModule="Ello" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="219" width="374" height="60"/>
                                                 <color key="backgroundColor" red="0.78030639889999998" green="0.78044152259999999" blue="0.78029787539999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
@@ -383,7 +389,7 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
                                             </textField>
-                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Efs-kF-Dyf" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Efs-kF-Dyf" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="379" width="48" height="30"/>
                                                 <state key="normal" title="Sign In">
                                                     <color key="titleColor" red="0.99650349650000003" green="0.99300699299999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -471,7 +477,7 @@
                                                     <constraint firstAttribute="width" constant="60" id="R4D-Fq-FaW"/>
                                                 </constraints>
                                             </imageView>
-                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Cb-Tk-L4F" customClass="ElloButton" customModule="Ello" customModuleProvider="target">
+                                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Cb-Tk-L4F" customClass="ElloButton" customModule="Ello" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="481" width="374" height="60"/>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
@@ -496,7 +502,7 @@
                                                     <action selector="loginTapped:" destination="0XF-kY-W1y" eventType="touchUpInside" id="FYz-hW-Dst"/>
                                                 </connections>
                                             </button>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vNG-ju-sOC" customClass="ElloTextField" customModule="Ello" customModuleProvider="target">
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vNG-ju-sOC" customClass="ElloTextField" customModule="Ello" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="167" width="374" height="60"/>
                                                 <color key="backgroundColor" red="0.78030639889999998" green="0.78044152259999999" blue="0.78029787539999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
@@ -506,7 +512,7 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
                                             </textField>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Create username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="t2j-i8-Gdt" customClass="ElloTextField" customModule="Ello" customModuleProvider="target">
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Create username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="t2j-i8-Gdt" customClass="ElloTextField" customModule="Ello" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="282" width="374" height="60"/>
                                                 <color key="backgroundColor" red="0.78030639889999998" green="0.78044152259999999" blue="0.78029787539999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
@@ -516,7 +522,7 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
                                             </textField>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Set password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="M6K-4m-ofH" customClass="ElloTextField" customModule="Ello" customModuleProvider="target">
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Set password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="M6K-4m-ofH" customClass="ElloTextField" customModule="Ello" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="395" width="374" height="60"/>
                                                 <color key="backgroundColor" red="0.78030639889999998" green="0.78044152259999999" blue="0.78029787539999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
@@ -526,25 +532,25 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
                                             </textField>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Email" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ES-1d-J1r">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ES-1d-J1r">
                                                 <rect key="frame" x="0.0" y="140" width="374" height="14"/>
                                                 <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="14"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gu8-6U-Qdg">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gu8-6U-Qdg">
                                                 <rect key="frame" x="0.0" y="253" width="72" height="14"/>
                                                 <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="14"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Password" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rFw-HN-JVK">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rFw-HN-JVK">
                                                 <rect key="frame" x="0.0" y="368" width="374" height="14"/>
                                                 <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="14"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="By Clicking Create Account you are agreeing to our Terms." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0IZ-T3-H9g">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By Clicking Create Account you are agreeing to our Terms." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0IZ-T3-H9g">
                                                 <rect key="frame" x="0.0" y="559" width="374" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="Pi8-ya-FO0"/>
@@ -683,6 +689,34 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bc7-5a-gBY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="774" y="1054"/>
+        </scene>
+        <!--Ello Navigation Controller-->
+        <scene sceneID="N4e-A4-BeS">
+            <objects>
+                <navigationController storyboardIdentifier="DiscoverViewController" id="rfd-p2-XSV" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <tabBarItem key="tabBarItem" title="" image="discover-icon" id="acW-dT-cKf">
+                        <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="discover-icon-selected"/>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="F8U-89-LVE">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="rootViewControllerName" value="DiscoverViewController"/>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <segue destination="9pv-A4-QxB" kind="relationship" relationship="rootViewController" id="m58-Sh-LRP"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ogf-9W-7zG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="774" y="-992"/>
         </scene>
     </scenes>
     <resources>

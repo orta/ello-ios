@@ -32,13 +32,6 @@ class DiscoverViewControllerSpec: QuickSpec {
                 expect(controller).to(beAKindOf(DiscoverViewController.self))
             })
 
-            it("has a tab bar item", {
-                expect(controller.tabBarItem).notTo(beNil())
-
-                let selectedImage:UIImage = controller.tabBarItem.valueForKey("selectedImage") as UIImage
-
-                expect(selectedImage).notTo(beNil())
-            })
         })
     }
 }

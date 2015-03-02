@@ -22,6 +22,8 @@ enum ElloURI {
     static let usernameRegex = "[\\w\\-]+"
     static var userPathRegex: String { return "(w{3}\\.)?\(ElloURI.domain)\\/\(ElloURI.usernameRegex)" }
 
+
+
     static func match(url: String) -> (type: ElloURI, data: String) {
         for type in self.all {
             if let match = url.rangeOfString(type.regexPattern, options: .RegularExpressionSearch) {
