@@ -43,8 +43,6 @@ class RelationshipView: UIView {
         self.userId = ""
         self.userAtName = ""
         super.init(coder: coder)
-        buildLargeButtons()
-        addTargets()
     }
 
     @IBAction func friendTapped(sender: UIButton) {
@@ -106,7 +104,7 @@ class RelationshipView: UIView {
         }
     }
 
-    private func buildLargeButtons() {
+    func buildLargeButtons() {
         let wv = 68
         // friend
         styleTitleButton(friendButton, label: "Friend")
@@ -118,9 +116,10 @@ class RelationshipView: UIView {
         blockButton = UIButton()
         styleIconButton(blockButton!)
         blockButton!.frame = CGRect(x: wv * 2 - 2, y: 0, width: 30, height: 30)
+        addTargets()
     }
 
-    private func buildSmallButtons() {
+    func buildSmallButtons() {
         let wv = 30
         // friend
         styleTitleButton(friendButton, label: "F")
@@ -129,6 +128,7 @@ class RelationshipView: UIView {
         // noise
         styleTitleButton(noiseButton, label: "N")
         noiseButton.frame = CGRect(x: wv - 1, y: 0, width: wv, height: 30)
+        addTargets()
     }
 
     private func addTargets() {

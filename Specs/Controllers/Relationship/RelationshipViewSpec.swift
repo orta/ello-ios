@@ -15,6 +15,7 @@ class RelationshipViewSpec: QuickSpec {
     override func spec() {
 
         let subject = RelationshipView(coder: NSKeyedUnarchiver(forReadingWithData: NSData()))
+        subject.buildLargeButtons()
         var presentingController = UIViewController()
         var keyWindow = UIWindow(frame: UIScreen.mainScreen().bounds)
         keyWindow.makeKeyAndVisible()
