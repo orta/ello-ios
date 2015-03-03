@@ -42,11 +42,16 @@ class DiscoverViewController: BaseElloViewController {
     }
 
     private func askForContactPermission(action: UIAlertAction!) {
-        // ask for permission to the contacts
-        // once granted, show the import screens
-
-        let vc = AddFriendsContainerViewController()
-        navigationController?.pushViewController(vc, animated: true)
+        AddressBook.getAddressBook { result in
+            switch result {
+            case let .Success(box):
+                let vc = AddFriendsContainerViewController(addressBook: box.unbox)
+                self.navigationController?.pushViewController(vc, animated: true)
+            default:
+                // throw some kind of alert messaging
+                return
+            }
+        }
     }
 
 }

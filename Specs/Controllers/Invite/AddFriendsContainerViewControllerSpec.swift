@@ -9,11 +9,17 @@
 import Quick
 import Nimble
 
+struct FakeAddressBook: ContactList {
+    var localPeople: [LocalPerson] {
+        return []
+    }
+}
+
 
 class AddFriendsContainerViewControllerSpec: QuickSpec {
     override func spec() {
 
-        var subject = AddFriendsContainerViewController()
+        var subject = AddFriendsContainerViewController(addressBook: FakeAddressBook())
 
         beforeSuite {
             ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
@@ -26,7 +32,7 @@ class AddFriendsContainerViewControllerSpec: QuickSpec {
         describe("initialization", {
 
             beforeEach({
-                subject = AddFriendsContainerViewController()
+                subject = AddFriendsContainerViewController(addressBook: FakeAddressBook())
             })
 
             describe("nib", {
@@ -75,7 +81,7 @@ class AddFriendsContainerViewControllerSpec: QuickSpec {
         describe("-viewDidLoad:", {
 
             beforeEach({
-                subject = AddFriendsContainerViewController()
+                subject = AddFriendsContainerViewController(addressBook: FakeAddressBook())
                 subject.loadView()
                 subject.viewDidLoad()
             })

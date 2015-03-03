@@ -17,12 +17,14 @@ class AddFriendsContainerViewController: StreamableViewController {
     let findFriendsViewController: FindFriendsViewController
     let inviteFriendsViewController: InviteFriendsViewController
     let controllers: [UIViewController]
+    let addressBook: ContactList
 
-    required override init() {
+    required init(addressBook: ContactList) {
         self.pageViewController = UIPageViewController(transitionStyle: .Scroll, navigationOrientation: .Horizontal, options: nil)
         self.findFriendsViewController = FindFriendsViewController()
         self.inviteFriendsViewController = InviteFriendsViewController()
         self.controllers = [self.findFriendsViewController, self.inviteFriendsViewController]
+        self.addressBook = addressBook
         super.init(nibName: "AddFriendsContainerViewController", bundle: NSBundle(forClass: FindFriendsViewController.self))
         self.title = "Add Friends"
     }
