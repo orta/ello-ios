@@ -137,6 +137,19 @@ class StreamViewController: BaseElloViewController {
         }
     }
 
+    func loadInitialPage() {
+        streamService.loadStream(streamKind.endpoint,
+            success: { (jsonables, responseConfig) in
+                self.addUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind))
+                self.responseConfig = responseConfig
+                self.doneLoading()
+            }, failure: { (error, statusCode) in
+                println("failed to load \(self.streamKind.name) stream (reason: \(error))")
+                self.doneLoading()
+            }
+        )
+    }
+
 // MARK: Private Functions
 
     private func setupPulsingCircle() {
@@ -311,20 +324,14 @@ extension StreamViewController : UIScrollViewDelegate {
 
     private func loadNextPage(scrollView: UIScrollView) {
         if scrollView.contentOffset.y + self.view.frame.height + 300 > scrollView.contentSize.height {
-
+            if self.responseConfig?.totalPagesRemaining == "0" { return }
             if let nextQueryItems = self.responseConfig?.nextQueryItems {
                 let scrollAPI = ElloAPI.InfiniteScroll(path: streamKind.endpoint.path, queryItems: nextQueryItems)
                 streamService.loadStream(scrollAPI,
                     success: {
                         (jsonables, responseConfig) in
-                        var posts:[Post] = []
-                        for activity in jsonables {
-                            if let post = (activity as Activity).subject as? Post {
-                                posts.append(post)
-                            }
-                        }
+                        self.addUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind))
                         self.responseConfig = responseConfig
-                        self.addUnsizedCellItems(StreamCellItemParser().postCellItems(posts, streamKind: self.streamKind))
                         self.doneLoading()
                     },
                     failure: { (error, statusCode) in

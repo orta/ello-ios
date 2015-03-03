@@ -57,19 +57,7 @@ class NotificationsViewController: StreamableViewController, NotificationDelegat
         self.screen.insertStreamView(streamViewController.view)
         self.addChildViewController(streamViewController)
 
-        let streamService = NotificationsService()
-        streamService.load(
-            success: { notifications in
-                let parser = NotificationCellItemParser()
-                let items = parser.cellItems(notifications)
-                self.streamViewController.addUnsizedCellItems(items)
-                self.streamViewController.doneLoading()
-            },
-            failure: { (error, statusCode) -> () in
-                println("failed to load notifications (reason: \(error))")
-                self.streamViewController.doneLoading()
-            }
-        )
+        streamViewController.loadInitialPage()
     }
 
     func activatedFilter(filterTypeStr: String) {
@@ -111,8 +99,7 @@ class NotificationsViewController: StreamableViewController, NotificationDelegat
         }
         else {
             sizer = StreamTextCellSizeCalculator(webView: UIWebView(frame: self.view.bounds))
-            var parser = StreamCellItemParser()
-            let initialItems = parser.postCellItems([post], streamKind: .PostDetail(post: post))
+            let initialItems = StreamCellItemParser().parse([post], streamKind: streamViewController.streamKind)
             ElloHUD.showLoadingHud()
             sizer!.processCells(initialItems) {
                 ElloHUD.hideLoadingHud()
