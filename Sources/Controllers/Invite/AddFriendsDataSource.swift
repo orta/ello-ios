@@ -9,11 +9,18 @@
 import UIKit
 
 struct AddFriendsCellItem {
-
     let cellType: CellType
+    let user: User?
+    let name: String?
 
-    init(cellType: CellType) {
-        self.cellType = cellType
+    init(user: User) {
+        cellType = .Find
+        self.user = user
+    }
+
+    init(name: String) {
+        cellType = .Invite
+        self.name = name
     }
 
     enum CellType {
@@ -32,6 +39,7 @@ struct AddFriendsCellItem {
 class AddFriendsDataSource: NSObject, UITableViewDataSource {
 
     var items = [AddFriendsCellItem]()
+    var relationshipDelegate: RelationshipDelegate?
 
     // MARK: Public
 
@@ -53,12 +61,7 @@ class AddFriendsDataSource: NSObject, UITableViewDataSource {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if let item: AddFriendsCellItem = itemAtIndexPath(indexPath) {
             var cell = tableView.dequeueReusableCellWithIdentifier(item.cellType.identifier, forIndexPath: indexPath) as UITableViewCell
-            switch item.cellType {
-            case .Find:
-                println("configure the find cell here")
-            case .Invite:
-                println("configure the invite cell here")
-            }
+            AddFriendsCellPresenter.configure(cell, addFriendsCellItem: item, relationshipDelegate: relationshipDelegate)
             return cell
         }
         return UITableViewCell()

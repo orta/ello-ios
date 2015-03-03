@@ -13,6 +13,7 @@ class FindFriendsViewController: BaseElloViewController {
     @IBOutlet weak var tableView: UITableView!
     var dataSource: AddFriendsDataSource!
     let inviteService = InviteService()
+    var relationshipController: RelationshipController?
 
     required override init() {
         super.init(nibName: "FindFriendsViewController", bundle: NSBundle(forClass: FindFriendsViewController.self))
@@ -28,6 +29,9 @@ class FindFriendsViewController: BaseElloViewController {
     private func setupTableView() {
         registerCells()
         dataSource = AddFriendsDataSource()
+
+        relationshipController = RelationshipController(presentingController: self)
+        dataSource.relationshipDelegate = relationshipController
 
         tableView.dataSource = dataSource
         tableView.delegate = self

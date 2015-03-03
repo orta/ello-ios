@@ -15,23 +15,15 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="nE4-rJ-wOO" userLabel="tableView">
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="nE4-rJ-wOO" userLabel="tableView">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </tableView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Find Friends View Controller" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jcW-dd-0qm">
-                    <rect key="frame" x="192" y="290" width="216" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="nE4-rJ-wOO" secondAttribute="trailing" id="5v5-1q-Snc" userLabel="tableView - Right"/>
-                <constraint firstAttribute="centerX" secondItem="jcW-dd-0qm" secondAttribute="centerX" id="BRG-tK-fsg"/>
                 <constraint firstItem="nE4-rJ-wOO" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Nff-OR-dYx" userLabel="tableView - Top"/>
-                <constraint firstAttribute="centerY" secondItem="jcW-dd-0qm" secondAttribute="centerY" id="STD-et-EU4"/>
                 <constraint firstAttribute="bottom" secondItem="nE4-rJ-wOO" secondAttribute="bottom" id="YDT-Ci-0on" userLabel="tableView - Bottom"/>
                 <constraint firstItem="nE4-rJ-wOO" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="rh7-dK-ni4" userLabel="tableView - Left"/>
             </constraints>

@@ -1,0 +1,39 @@
+import Quick
+import Nimble
+
+class InviteFriendsCellSpec: QuickSpec {
+    override func spec() {
+        var subject = InviteFriendsCell()
+        
+        beforeSuite {
+            ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
+        }
+        
+        afterSuite {
+            ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
+        }
+        
+        describe("initialization", {
+            
+            beforeEach({
+                subject = InviteFriendsCell.loadFromNib()
+            })
+            
+            describe("nib", {
+                
+                beforeEach({
+                    
+                })
+                
+                it("IBOutlets are not nil", {
+                    expect(subject.selectedImageView).notTo(beNil())
+                    expect(subject.nameLabel).notTo(beNil())
+                })
+                
+                it("IBActions are wired up", {
+                    
+                })
+            })
+        })
+    }
+}
