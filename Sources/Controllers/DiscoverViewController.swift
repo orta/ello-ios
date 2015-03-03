@@ -9,18 +9,6 @@
 import UIKit
 
 class DiscoverViewController: BaseElloViewController {
-
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     class func instantiateFromStoryboard() -> DiscoverViewController {
         let navController = UIStoryboard.storyboardWithId(.Discover) as UINavigationController
         let discoverViewController = navController.topViewController
