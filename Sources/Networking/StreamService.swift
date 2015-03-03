@@ -26,8 +26,8 @@ class StreamService: NSObject {
             parameters: endpoint.defaultParameters,
             mappingType:MappingType.ActivitiesType,
             success: { (data, responseConfig) in
-                if let activities:[Activity] = data as? [Activity] {
-                    success(jsonables: activities, responseConfig: responseConfig)
+                if let jsonables:[JSONAble] = data as? [JSONAble] {
+                    success(jsonables: jsonables, responseConfig: responseConfig)
                 }
                 else {
                     ElloProvider.unCastableJSONAble(failure)
