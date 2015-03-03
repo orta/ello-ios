@@ -67,6 +67,19 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         })
     }
 
+    func authorForIndexPath(indexPath: NSIndexPath) -> User? {
+        if indexPath.item >= streamCellItems.count {
+            return nil
+        }
+        if let post = streamCellItems[indexPath.item].jsonable as? Post {
+            return post.author
+        }
+        else if let comment = streamCellItems[indexPath.item].jsonable as? Comment {
+            return comment.author
+        }
+        return nil
+    }
+
     func commentIndexPathsForPost(post: Post) -> [NSIndexPath] {
         var indexPaths:[NSIndexPath] = []
 

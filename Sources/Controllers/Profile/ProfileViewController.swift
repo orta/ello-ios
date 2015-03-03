@@ -28,6 +28,7 @@ class ProfileViewController: StreamableViewController {
         self.streamViewController = StreamViewController.instantiateFromStoryboard()
         self.streamViewController.streamKind = .Profile(user: user)
         super.init(nibName: "ProfileViewController", bundle: nil)
+        self.streamViewController.userTappedDelegate = self
         self.title = user.atName ?? "Profile"
     }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6750" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6735"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -54,8 +54,8 @@
                             <constraint firstItem="xgh-dM-cqB" firstAttribute="leading" secondItem="3xt-dC-FN7" secondAttribute="leading" id="Ox8-8D-odY"/>
                             <constraint firstAttribute="centerY" secondItem="zST-5M-mHb" secondAttribute="centerY" id="Pl6-og-xEM" userLabel="timestampLabel Vert Center"/>
                             <constraint firstAttribute="centerY" secondItem="4B4-Cr-EQI" secondAttribute="centerY" id="ecs-Mk-YdH" userLabel="usernameLabel Vert Center"/>
-                            <constraint firstItem="xgh-dM-cqB" firstAttribute="top" secondItem="3xt-dC-FN7" secondAttribute="top" id="epZ-e2-UvQ"/>
-                            <constraint firstAttribute="bottom" secondItem="xgh-dM-cqB" secondAttribute="bottom" id="p5n-uu-4tx"/>
+                            <constraint firstItem="xgh-dM-cqB" firstAttribute="top" secondItem="3xt-dC-FN7" secondAttribute="top" id="epZ-e2-UvQ" userLabel="avatarTopConstraint"/>
+                            <constraint firstAttribute="bottom" secondItem="xgh-dM-cqB" secondAttribute="bottom" id="p5n-uu-4tx" userLabel="avatarBottomConstraint"/>
                             <constraint firstItem="4B4-Cr-EQI" firstAttribute="leading" secondItem="xgh-dM-cqB" secondAttribute="trailing" constant="26" id="ujo-qe-50o" userLabel="userNameLeadingContraint"/>
                         </constraints>
                     </view>
@@ -71,7 +71,9 @@
             </constraints>
             <size key="customSize" width="517" height="50"/>
             <connections>
+                <outlet property="avatarBottomConstraint" destination="p5n-uu-4tx" id="ZXm-s6-CYB"/>
                 <outlet property="avatarButton" destination="xgh-dM-cqB" id="osM-tD-Nz0"/>
+                <outlet property="avatarTopConstraint" destination="epZ-e2-UvQ" id="zBe-9E-NtU"/>
                 <outlet property="timestampLabel" destination="zST-5M-mHb" id="rz7-sL-nBo"/>
                 <outlet property="userNameLeadingConstraint" destination="ujo-qe-50o" id="dSu-FI-7d3"/>
                 <outlet property="usernameLabel" destination="4B4-Cr-EQI" id="x0u-T6-ZJN"/>

@@ -81,6 +81,7 @@ class PostDetailViewController: StreamableViewController {
         controller.streamKind = .PostDetail(post: self.post)
         controller.postTappedDelegate = self
         controller.streamScrollDelegate = self
+        controller.userTappedDelegate = self
 
         controller.willMoveToParentViewController(self)
         self.view.insertSubview(controller.view, belowSubview: navigationBar)
