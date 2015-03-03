@@ -29,11 +29,11 @@ struct AddressBook: ContactList {
 }
 
 extension AddressBook {
-    static func getAddressBook(completion: Result<AddressBook, ()> -> ()) {
+    static func getAddressBook(completion: Result<AddressBook, AddressBookError> -> ()) {
         var error: Unmanaged<CFError>?
         let ab = ABAddressBookCreateWithOptions(nil, &error)
 
-        if error != nil { completion(failure()); return }
+        if error != nil { completion(failure(.Unauthorized)); return }
 
         let book = AddressBook(addressBook: ab.takeRetainedValue())
 
@@ -41,10 +41,10 @@ extension AddressBook {
         case .NotDetermined:
             ABAddressBookRequestAccessWithCompletion(book.addressBook) { granted, _ in
                 if granted { completion(success(book)) }
-                else { completion(failure()) }
+                else { completion(failure(.Unauthorized)) }
             }
         case .Authorized: completion(success(book))
-        default: completion(failure())
+        default: completion(failure(.Unauthorized))
         }
     }
 }
