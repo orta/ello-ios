@@ -47,6 +47,12 @@ extension AddressBook {
         default: completion(failure(.Unauthorized))
         }
     }
+
+    static func needsAuthentication() -> Bool {
+        switch ABAddressBookGetAuthorizationStatus() {
+        case .NotDetermined: return true
+        default: return falsse
+    }
 }
 
 private func getAllPeople(addressBook: ABAddressBook) -> [LocalPerson] {
