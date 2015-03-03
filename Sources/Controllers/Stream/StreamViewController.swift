@@ -236,7 +236,6 @@ extension StreamViewController : UserDelegate {
     func userTappedCell(cell: UICollectionViewCell) {
         if let indexPath = collectionView.indexPathForCell(cell) {
             if let user = dataSource.authorForIndexPath(indexPath) {
-                println("userTappedDelegate = \(userTappedDelegate)")
                 userTappedDelegate?.userTapped(user)
             }
         }
