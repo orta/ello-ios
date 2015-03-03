@@ -9,12 +9,16 @@
 import AddressBook
 import LlamaKit
 
+protocol ContactList {
+    var localPeople: [LocalPerson] { get }
+}
+
 struct LocalPerson {
     let name: String
     let emails: [String]
 }
 
-struct AddressBook {
+struct AddressBook: ContactList {
     private let addressBook: ABAddressBook
     let localPeople: [LocalPerson]
 
