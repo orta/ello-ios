@@ -18,28 +18,31 @@ class DiscoverViewController: BaseElloViewController {
     // MARK: - IBActions
 
     @IBAction func importMyContactsTapped(sender: UIButton) {
-        displayContactActionSheet()
+        if AddressBook.needsAuthentication() {
+            displayContactActionSheet()
+        } else {
+            getAddressBook(.None)
+        }
     }
 
     // MARK: - Private
 
     private func displayContactActionSheet() {
-
         let alertController = UIAlertController(
             title: "Import your contacts fo find your friends on Ello.",
-            message: "Ello does not sell user data and never conatcs anyone without your permission.",
+            message: "Ello does not sell user data and never contacts anyone without your permission.",
             preferredStyle: .ActionSheet)
 
-        let action = UIAlertAction(title: "Import my contacts", style: .Default, handler: askForContactPermission)
+        let action = UIAlertAction(title: "Import my contacts", style: .Default, handler: getAddressBook)
         alertController.addAction(action)
 
-        let cancelAction = UIAlertAction(title: "Not now", style: .Cancel) { action in /** no op **/ }
+        let cancelAction = UIAlertAction(title: "Not now", style: .Cancel, handler: .None)
         alertController.addAction(cancelAction)
 
         presentViewController(alertController, animated: true, completion: .None)
     }
 
-    private func askForContactPermission(action: UIAlertAction!) {
+    private func getAddressBook(action: UIAlertAction?) {
         AddressBook.getAddressBook { result in
             switch result {
             case let .Success(box):
