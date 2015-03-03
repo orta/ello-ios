@@ -45,22 +45,21 @@ enum StreamKind {
     func filter(jsonables: [JSONAble]) -> [JSONAble] {
         switch self {
         case .Notifications:
-            if let activities:[Activity] = jsonables as? [Activity] {
+            if let activities = jsonables as? [Activity] {
                 let notifications: [Notification] = activities.map { return Notification(activity: $0) }
                 return notifications
             }
         default:
-            if let activities:[Activity] = jsonables as? [Activity] {
-                var posts = [Post]()
-                for activity in activities {
-                    if let post = (activity as Activity).subject as? Post {
-                        posts.append(post)
+            if let activities = jsonables as? [Activity] {
+                return activities.reduce([]) { accum, activity in
+                    if let post = activity.subject as? Post {
+                        return accum + [post]
                     }
+                    return accum
                 }
-                return posts
             }
         }
-        return [JSONAble]()
+        return []
     }
 
     var isGridLayout:Bool {
