@@ -36,9 +36,7 @@ class DiscoverViewController: BaseElloViewController {
         let cancelAction = UIAlertAction(title: "Not now", style: .Cancel) { action in /** no op **/ }
         alertController.addAction(cancelAction)
 
-        presentViewController(alertController, animated: true) {
-            // ...
-        }
+        presentViewController(alertController, animated: true, completion: .None)
     }
 
     private func askForContactPermission(action: UIAlertAction!) {
@@ -47,12 +45,24 @@ class DiscoverViewController: BaseElloViewController {
             case let .Success(box):
                 let vc = AddFriendsContainerViewController(addressBook: box.unbox)
                 self.navigationController?.pushViewController(vc, animated: true)
-            default:
-                // throw some kind of alert messaging
+            case let .Failure(box):
+                self.displayAddressBookAlert(box.unbox.rawValue)
                 return
             }
         }
     }
 
+    private func displayAddressBookAlert(message: String) {
+        let alertController = UIAlertController(
+            title: "We were unable to access your address book",
+            message: message,
+            preferredStyle: .Alert
+        )
+
+        let action = UIAlertAction(title: "OK", style: .Default, handler: .None)
+        alertController.addAction(action)
+
+        presentViewController(alertController, animated: true, completion: .None)
+    }
 }
 
