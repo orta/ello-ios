@@ -10,6 +10,20 @@ import Foundation
 
 struct StreamCellItemParser {
 
+    func parse(items: [JSONAble], streamKind: StreamKind) -> [StreamCellItem] {
+        var filteredItems = streamKind.filter(items)
+        if let posts = filteredItems as? [Post] {
+            return postCellItems(posts, streamKind: streamKind)
+        }
+        if let comments = filteredItems as? [Comment] {
+            return commentCellItems(comments)
+        }
+        if let notifications = filteredItems as? [Notification] {
+            return notificationCellItems(notifications)
+        }
+        return []
+    }
+
     // MARK: - Static
 
     static func aspectRatioForImageBlock(imageBlock: ImageRegion) -> CGFloat {
@@ -25,7 +39,20 @@ struct StreamCellItemParser {
 
     // MARK: - public
 
-    func postCellItems(posts: [Post], streamKind: StreamKind) -> [StreamCellItem] {
+    private func notificationCellItems(notifications:[Notification]) -> [StreamCellItem] {
+        return map(notifications) { notification in
+            return StreamCellItem(
+                jsonable: notification,
+                type: .Notification,
+                data: nil,
+                oneColumnCellHeight: 107.0,
+                multiColumnCellHeight: 49.0,
+                isFullWidth: false
+            )
+        }
+    }
+
+    private func postCellItems(posts: [Post], streamKind: StreamKind) -> [StreamCellItem] {
         var cellItems:[StreamCellItem] = []
         for post in posts {
             cellItems += [StreamCellItem(jsonable: post, type: StreamCellType.Header, data: nil, oneColumnCellHeight: 80.0, multiColumnCellHeight: 49.0, isFullWidth: false)]
@@ -35,7 +62,7 @@ struct StreamCellItemParser {
         return cellItems
     }
 
-    func commentCellItems(comments: [Comment]) -> [StreamCellItem] {
+    private func commentCellItems(comments: [Comment]) -> [StreamCellItem] {
         var cellItems:[StreamCellItem] = []
         for comment in comments {
             cellItems += [StreamCellItem(jsonable: comment, type: StreamCellType.CommentHeader, data: nil, oneColumnCellHeight: 50.0, multiColumnCellHeight: 50.0, isFullWidth: false)]

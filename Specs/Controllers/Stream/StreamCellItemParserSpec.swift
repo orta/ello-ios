@@ -44,28 +44,39 @@ class StreamCellItemParserSpec: QuickSpec {
 
             it("returns an empty array if an empty array of Posts is passed in") {
                 let posts = [Post]()
-                expect(self.parser.postCellItems(posts, streamKind: .Friend).count) == 0
+                expect(self.parser.parse(posts, streamKind: .Friend).count) == 0
             }
 
             it("returns an empty array if an empty array of Comments is passed in") {
                 let comments = [Comment]()
-                expect(self.parser.commentCellItems(comments).count) == 0
+                expect(self.parser.parse(comments, streamKind: .Friend).count) == 0
             }
 
             it("returns an array with the proper count of stream cell items when parsing friends.json's posts") {
-                var loadedPosts:[Post]?
+                var loadedPosts = [StreamCellItem]()
+                StreamService().loadStream(ElloAPI.FriendStream,
+                    success: { (jsonables, responseConfig) in
+                        loadedPosts = self.parser.parse(jsonables, streamKind: .Friend)
+                    },
+                    failure: nil
+                )
+                expect(loadedPosts.count) == 11
+            }
 
-                StreamService().loadStream(ElloAPI.FriendStream, { (jsonables, responseConfig) in
-                    var posts:[Post] = []
-                    for activity in jsonables {
-                        if let post = (activity as Activity).subject as? Post {
-                            posts.append(post)
-                        }
-                    }
-                    loadedPosts = posts
-                }, failure: nil)
+            it("returns an empty array if an empty array of Activities is passed in") {
+                let activities = [Notification]()
+                expect(self.parser.parse(activities, streamKind: .Notifications).count) == 0
+            }
 
-                expect(self.parser.postCellItems(loadedPosts!, streamKind: .Friend).count) == 11
+            it("returns an array with the proper count of stream cell items when parsing friends.json's activities") {
+                var loadedNotifications = [StreamCellItem]()
+                StreamService().loadStream(ElloAPI.NotificationsStream,
+                    success: { (jsonables, responseConfig) in
+                        loadedNotifications = self.parser.parse(jsonables, streamKind: .Notifications)
+                    },
+                    failure: nil
+                )
+                expect(loadedNotifications.count) == 9
             }
         }
     }

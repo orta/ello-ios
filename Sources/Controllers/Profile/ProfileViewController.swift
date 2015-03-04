@@ -122,9 +122,7 @@ class ProfileViewController: StreamableViewController {
 
         let profileHeaderCellItem = StreamCellItem(jsonable: user, type: StreamCellType.ProfileHeader, data: nil, oneColumnCellHeight: 320.0, multiColumnCellHeight: 0.0, isFullWidth: true)
         streamViewController.addStreamCellItems([profileHeaderCellItem])
-
-        var parser = StreamCellItemParser()
-        streamViewController.addUnsizedCellItems(parser.postCellItems(user.posts, streamKind: streamViewController.streamKind))
+        streamViewController.addUnsizedCellItems(StreamCellItemParser().parse(user.posts, streamKind: streamViewController.streamKind))
         streamViewController.doneLoading()
     }
 }
