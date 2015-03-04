@@ -51,7 +51,8 @@ extension AddressBook {
     static func needsAuthentication() -> Bool {
         switch ABAddressBookGetAuthorizationStatus() {
         case .NotDetermined: return true
-        default: return falsse
+        default: return false
+        }
     }
 }
 
