@@ -66,7 +66,7 @@ private func getAllPeople(addressBook: ABAddressBook) -> [LocalPerson] {
 
 private func getEmails(record: ABRecordRef) -> [String] {
     let multiEmails: ABMultiValueRef = ABRecordCopyValue(record, kABPersonEmailProperty).takeUnretainedValue()
-    let emails = ABMultiValueCopyArrayOfAllValues(multiEmails).takeUnretainedValue() as? [String]
+    let emails = ABMultiValueCopyArrayOfAllValues(multiEmails)?.takeUnretainedValue() as? [String]
     return emails ?? []
 }
 
