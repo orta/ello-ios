@@ -24,7 +24,7 @@ struct AddressBook: ContactList {
 
     init(addressBook: ABAddressBook) {
         self.addressBook = addressBook
-        localPeople = getAllPeople(addressBook)
+        localPeople = getAllPeopleWithEmailAddresses(addressBook)
     }
 }
 
@@ -56,17 +56,17 @@ extension AddressBook {
     }
 }
 
-private func getAllPeople(addressBook: ABAddressBook) -> [LocalPerson] {
+private func getAllPeopleWithEmailAddresses(addressBook: ABAddressBook) -> [LocalPerson] {
     return records(addressBook).map { person in
         let name = ABRecordCopyCompositeName(person).takeUnretainedValue()
         let emails = getEmails(person)
         return LocalPerson(name: name, emails: emails)
-    }
+    }.filter { $0.emails.count > 0 }
 }
 
 private func getEmails(record: ABRecordRef) -> [String] {
     let multiEmails: ABMultiValueRef = ABRecordCopyValue(record, kABPersonEmailProperty).takeUnretainedValue()
-    let emails = ABMultiValueCopyArrayOfAllValues(multiEmails).takeUnretainedValue() as? [String]
+    let emails = ABMultiValueCopyArrayOfAllValues(multiEmails)?.takeUnretainedValue() as? [String]
     return emails ?? []
 }
 
