@@ -10,6 +10,7 @@
         </mutableArray>
         <mutableArray key="AtlasTypewriter-Regular.otf">
             <string>AtlasTypewriter-Regular</string>
+            <string>AtlasTypewriter-Regular</string>
         </mutableArray>
     </customFonts>
     <objects>
@@ -26,26 +27,6 @@
                         <rect key="frame" x="0.0" y="170" width="320" height="290"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z1n-fe-u7L" userLabel="relationshipView" customClass="RelationshipView" customModule="Ello" customModuleProvider="target">
-                        <rect key="frame" x="146" y="180" width="164" height="30"/>
-                        <color key="backgroundColor" red="1" green="0.059496439829999997" blue="0.93599406699999999" alpha="1" colorSpace="calibratedRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="30" id="oBw-7f-KbN" userLabel="relationshipView - height"/>
-                            <constraint firstAttribute="width" constant="164" id="wma-r6-TlU" userLabel="relationshipView - width"/>
-                        </constraints>
-                    </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6nJ-r0-lN7" userLabel="usernameLabel">
-                        <rect key="frame" x="10" y="260" width="109" height="18"/>
-                        <fontDescription key="fontDescription" name="AtlasGrotesk-Bold" family="Atlas Grotesk" pointSize="18"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4sI-yA-gkk" userLabel="nameLabel">
-                        <rect key="frame" x="10" y="285" width="70" height="12"/>
-                        <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="12"/>
-                        <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <button opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GKO-1x-QWx" userLabel="avatarButton" customClass="AvatarButton" customModule="Ello" customModuleProvider="target">
                         <rect key="frame" x="10" y="130" width="122" height="122"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -59,6 +40,36 @@
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                     </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6nJ-r0-lN7" userLabel="usernameLabel">
+                        <rect key="frame" x="10" y="260" width="109" height="18"/>
+                        <fontDescription key="fontDescription" name="AtlasGrotesk-Bold" family="Atlas Grotesk" pointSize="18"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4sI-yA-gkk" userLabel="nameLabel">
+                        <rect key="frame" x="10" y="285" width="70" height="12"/>
+                        <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="12"/>
+                        <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="posts / following / followers" translatesAutoresizingMaskIntoConstraints="NO" id="L0b-tg-J5z" userLabel="countsTextView" customClass="ElloTextView" customModule="Ello" customModuleProvider="target">
+                        <rect key="frame" x="10" y="302" width="300" height="20"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="qdi-Lt-8AP" userLabel="countsTextView - height"/>
+                        </constraints>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="12"/>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    </textView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z1n-fe-u7L" userLabel="relationshipView" customClass="RelationshipView" customModule="Ello" customModuleProvider="target">
+                        <rect key="frame" x="146" y="180" width="164" height="30"/>
+                        <color key="backgroundColor" red="1" green="0.059496439829999997" blue="0.93599406699999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="oBw-7f-KbN" userLabel="relationshipView - height"/>
+                            <constraint firstAttribute="width" constant="164" id="wma-r6-TlU" userLabel="relationshipView - width"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
@@ -71,15 +82,19 @@
                 <constraint firstItem="z1n-fe-u7L" firstAttribute="top" secondItem="OE9-ll-CIs" secondAttribute="top" constant="180" id="Nms-wR-gZQ" userLabel="relationshipView - top"/>
                 <constraint firstItem="6nJ-r0-lN7" firstAttribute="leading" secondItem="OE9-ll-CIs" secondAttribute="leading" constant="10" id="Ob5-IE-wSQ" userLabel="usernameLabel - left"/>
                 <constraint firstItem="6nJ-r0-lN7" firstAttribute="top" secondItem="OE9-ll-CIs" secondAttribute="top" constant="260" id="PLH-9w-wmF" userLabel="usernameLabel - top"/>
+                <constraint firstAttribute="trailing" secondItem="L0b-tg-J5z" secondAttribute="trailing" constant="10" id="Psq-Fc-58m" userLabel="countsTextView - right"/>
                 <constraint firstItem="GKO-1x-QWx" firstAttribute="top" secondItem="OE9-ll-CIs" secondAttribute="top" constant="130" id="bFS-WO-pS9" userLabel="avatarButton - top"/>
+                <constraint firstItem="L0b-tg-J5z" firstAttribute="leading" secondItem="OE9-ll-CIs" secondAttribute="leading" constant="10" id="cem-gl-pQ3" userLabel="countsTextView - left"/>
                 <constraint firstAttribute="trailing" secondItem="z1n-fe-u7L" secondAttribute="trailing" constant="10" id="eZZ-TF-cps" userLabel="relationshipView - right"/>
                 <constraint firstItem="aTa-Wh-QBe" firstAttribute="leading" secondItem="OE9-ll-CIs" secondAttribute="leading" id="gf3-Ox-oMG" userLabel="background - left"/>
                 <constraint firstAttribute="bottom" secondItem="aTa-Wh-QBe" secondAttribute="bottom" id="kxL-bl-4nY" userLabel="background - bottom"/>
                 <constraint firstItem="aTa-Wh-QBe" firstAttribute="top" secondItem="OE9-ll-CIs" secondAttribute="top" constant="170" id="m8n-EY-34s" userLabel="background - top"/>
+                <constraint firstItem="L0b-tg-J5z" firstAttribute="top" secondItem="4sI-yA-gkk" secondAttribute="bottom" constant="5" id="nK0-fv-NXH" userLabel="countsTextView - nameLabel - vert"/>
             </constraints>
             <size key="customSize" width="320" height="460"/>
             <connections>
                 <outlet property="avatarButton" destination="GKO-1x-QWx" id="dbf-G3-Qty"/>
+                <outlet property="countsTextView" destination="L0b-tg-J5z" id="ozw-Ib-Oij"/>
                 <outlet property="nameLabel" destination="4sI-yA-gkk" id="I9n-2e-2mB"/>
                 <outlet property="relationshipView" destination="z1n-fe-u7L" id="x1H-nI-qZz"/>
                 <outlet property="usernameLabel" destination="6nJ-r0-lN7" id="l3X-Xg-ciD"/>
