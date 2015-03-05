@@ -19,6 +19,6 @@ pod 'Moya', :git => "https://github.com/ello/Moya"
 pod 'WebLinking', '~> 0.1'
 
 target 'Specs' do
-    pod 'Quick', :git => "https://github.com/orta/Quick", :branch => "podspec"
-    pod 'Nimble', :git => "https://github.com/ashfurrow/Nimble", :branch => "podspec"
+    pod 'Quick', '~> 0.2.2'
+    pod 'Nimble', '~> 0.3.0'
 end
