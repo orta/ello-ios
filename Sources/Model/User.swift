@@ -27,6 +27,7 @@ class User: JSONAble {
     let relationshipPriority: String
     let userId: String
     let username: String
+    let identifiableBy: String?
 
     // only set from
     var isCurrentUser : Bool
@@ -43,6 +44,7 @@ class User: JSONAble {
         relationshipPriority: String,
         userId: String,
         username: String,
+        identifiableBy: String?,
         formattedShortBio: String,
         isCurrentUser: Bool = false)
     {
@@ -59,6 +61,7 @@ class User: JSONAble {
         self.relationshipPriority = relationshipPriority
         self.userId = userId
         self.username = username
+        self.identifiableBy = identifiableBy
         self.formattedShortBio = formattedShortBio
     }
 
@@ -103,6 +106,8 @@ class User: JSONAble {
             }
         }
 
+        let identifiableBy = json["identifiable_by"].string
+
         let user = User(
             avatarURL: avatarURL,
             coverImageURL: coverImageURL,
@@ -116,6 +121,7 @@ class User: JSONAble {
             relationshipPriority: relationshipPriority,
             userId: userId,
             username: username,
+            identifiableBy: identifiableBy,
             formattedShortBio: formattedShortBio
         )
 
@@ -141,6 +147,7 @@ class User: JSONAble {
             relationshipPriority: "self",
             userId: "42",
             username: username,
+            identifiableBy: .None,
             formattedShortBio: "bio"
         )
 

@@ -50,19 +50,19 @@ class InviteServiceSpec: QuickSpec {
                 ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.endpointsClosure, stubResponses: true)
                 var loadedSuccessfully = false
                 var expectedUsers = [User]()
-                subject.find([["1":"blah"], ["2":"blah"]], success: {
+                subject.find(["contacts": ["1":["blah"], "2":["blah"]]], success: {
                     users in
                     expectedUsers = users
                 }, failure: nil)
 
-                expect(countElements(expectedUsers)) == 2
+                expect(countElements(expectedUsers)) == 3
             }
 
             it("fails") {
                 ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.errorEndpointsClosure, stubResponses: true)
                 var loadedSuccessfully = true
 
-                subject.find([["1":"blah"], ["2":"blah"]], success: {
+                subject.find(["contacts": ["1":["blah"], "2":["blah"]]], success: {
                     users in
                     loadedSuccessfully = true
                 }, failure: { (error, statusCode) -> () in

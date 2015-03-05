@@ -26,7 +26,7 @@ struct InviteService {
             }, failure: failure)
     }
 
-    func find(contacts:[[String: AnyObject]], success: FindFriendsSuccessCompletion, failure: ElloFailureCompletion?) {
+    func find(contacts:[String: AnyObject], success: FindFriendsSuccessCompletion, failure: ElloFailureCompletion?) {
         let endpoint = ElloAPI.FindFriends(contacts: contacts)
         ElloProvider.sharedProvider.elloRequest(endpoint,
             method: .POST,

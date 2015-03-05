@@ -25,6 +25,7 @@ class ProfileViewControllerSpec: QuickSpec {
             relationshipPriority: "self",
             userId: "42",
             username: "ello",
+            identifiableBy: .None,
             formattedShortBio: "formatted test bio")
 
         var controller = ProfileViewController(user: user)
