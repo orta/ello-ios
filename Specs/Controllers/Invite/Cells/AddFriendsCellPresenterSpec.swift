@@ -20,7 +20,7 @@ class AddFriendsCellPresenterSpec: QuickSpec {
             context("invite item") {
                 it("should configure a find friends cell") {
                     var cell: InviteFriendsCell = InviteFriendsCell.loadFromNib()
-                    var item: AddFriendsCellItem = AddFriendsCellItem(person: LocalPerson(name: "Test", emails: []))
+                    var item: AddFriendsCellItem = AddFriendsCellItem(person: LocalPerson(name: "Test", emails: [], id: 123))
 
                     AddFriendsCellPresenter.configure(cell, addFriendsCellItem: item, relationshipDelegate: .None)
 

@@ -3,17 +3,17 @@ import Nimble
 
 class LocalPersonSpec: QuickSpec {
     override func spec() {
-        describe("nameHash") {
-            it("should return a sha1 hash of the name") {
-                let person = LocalPerson(name: "Test", emails: [])
-                expect(person.nameHash) == person.name.SHA1String
+        describe("identifier") {
+            it("should return the id string") {
+                let person = LocalPerson(name: "Test", emails: [], id: 123)
+                expect(person.identifier) == "123"
             }
         }
 
         describe("emailHashes") {
             it("should return an array of hashed emails") {
                 let emails = ["tester@test.com", "coolemail@bro.com"]
-                let person = LocalPerson(name: "", emails: emails)
+                let person = LocalPerson(name: "", emails: emails, id: 123)
                 expect(person.emailHashes) == emails.map { $0.SHA1String! }
             }
         }

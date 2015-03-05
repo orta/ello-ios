@@ -86,7 +86,7 @@ class InviteFriendsViewControllerSpec: QuickSpec {
 
         describe("setUsers") {
             it("should set the given array of users to the datasource") {
-                let localPeople = [LocalPerson(name: "name", emails: ["test@testing.com"])]
+                let localPeople = [LocalPerson(name: "name", emails: ["test@testing.com"], id: 123)]
 
                 subject.setContacts(localPeople)
                 expect(subject.dataSource.items.count) == 1
