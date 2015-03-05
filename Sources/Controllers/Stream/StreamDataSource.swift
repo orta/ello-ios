@@ -36,6 +36,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     weak var imageDelegate:StreamImageCellDelegate?
     weak var userDelegate:UserDelegate?
     weak var relationshipDelegate: RelationshipDelegate?
+    weak var userListDelegate: UserListDelegate?
 
     init(streamKind:StreamKind,
         textSizeCalculator: StreamTextCellSizeCalculator,
@@ -67,10 +68,13 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         })
     }
 
-    func authorForIndexPath(indexPath: NSIndexPath) -> User? {
+    func userForIndexPath(indexPath: NSIndexPath) -> User? {
         if !isValidIndexPath(indexPath) { return nil }
 
-        if let authorable = streamCellItems[indexPath.item].jsonable as? Authorable {
+        if let user = streamCellItems[indexPath.item].jsonable as? User {
+            return user
+        }
+        else if let authorable = streamCellItems[indexPath.item].jsonable as? Authorable {
             return authorable.author
         }
         return nil
@@ -151,6 +155,10 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
                 (cell as StreamFooterCell).delegate = postbarDelegate
             case .ProfileHeader:
                 (cell as ProfileHeaderCell).relationshipView.relationshipDelegate = relationshipDelegate
+                (cell as ProfileHeaderCell).userListDelegate = userListDelegate
+            case .UserListItem:
+                (cell as UserListItemCell).relationshipView.relationshipDelegate = relationshipDelegate
+                (cell as UserListItemCell).userDelegate = userDelegate
             default:
                 break
             }

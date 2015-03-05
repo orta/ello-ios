@@ -150,18 +150,18 @@ class StreamDataSourceSpec: QuickSpec {
             
         }
 
-        describe("-authorForIndexPath:") {
+        describe("-userForIndexPath:") {
 
             it("returns a User") {
-                expect(subject.authorForIndexPath(indexPath0)).to(beAKindOf(User.self))
+                expect(subject.userForIndexPath(indexPath0)).to(beAKindOf(User.self))
             }
 
             it("returns nil when out of bounds") {
-                expect(subject.authorForIndexPath(indexPathOutOfBounds)).to(beNil())
+                expect(subject.userForIndexPath(indexPathOutOfBounds)).to(beNil())
             }
 
             it("returns nil when invalid section") {
-                expect(subject.authorForIndexPath(indexPathInvalidSection)).to(beNil())
+                expect(subject.userForIndexPath(indexPathInvalidSection)).to(beNil())
             }
 
             xit("returns nil when the indexPath does not have an author") {
