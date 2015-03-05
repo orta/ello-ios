@@ -15,19 +15,7 @@ protocol NotificationDelegate {
     func postTapped(post: Post)
 }
 
-
 class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
-    class func generateTextView(frame: CGRect = CGRectZero) -> UITextView {
-        let textView = UITextView(frame: frame)
-        textView.editable = false
-        textView.allowsEditingTextAttributes = false
-        textView.selectable = false
-        textView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        textView.textColor = UIColor.blackColor()
-        textView.font = UIFont.typewriterFont(12)
-        textView.textContainer.lineFragmentPadding = 0
-        return textView
-    }
 
     struct Size {
         static let sideMargins = CGFloat(15)
@@ -69,7 +57,7 @@ class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
     var delegate: NotificationDelegate?
 
     var avatarButton : AvatarButton!
-    var titleTextView : UITextView!
+    var titleTextView : ElloTextView!
     var createdAtLabel : UILabel!
     var messageWebView : UIWebView!
     var notificationImageView : UIImageView!
@@ -126,24 +114,12 @@ class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
         super.init(frame: frame)
 
         avatarButton = AvatarButton()
-        titleTextView = NotificationCell.generateTextView()
+        titleTextView = ElloTextView(frame: CGRectZero, textContainer: nil)
+        titleTextView.textViewDelegate = self
+
         notificationImageView = UIImageView()
         messageWebView = UIWebView()
         createdAtLabel = UILabel()
-
-        titleTextView.editable = false
-        titleTextView.allowsEditingTextAttributes = false
-        titleTextView.selectable = false
-        titleTextView.scrollEnabled = false
-        titleTextView.textContainerInset = UIEdgeInsetsZero
-        titleTextView.textColor = UIColor.blackColor()
-        titleTextView.font = UIFont.typewriterFont(12)
-        titleTextView.textContainer.lineFragmentPadding = 0
-
-        let recognizer = UITapGestureRecognizer(target: self, action: "titleTapped:")
-        recognizer.numberOfTapsRequired = 1
-        recognizer.numberOfTouchesRequired = 1
-        titleTextView.addGestureRecognizer(recognizer)
 
         messageWebView.delegate = self
 
@@ -158,35 +134,6 @@ class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
 
     required init(coder: NSCoder) {
         super.init(coder: coder)
-    }
-
-    @objc
-    func titleTapped(gesture : UITapGestureRecognizer) {
-        let lbl = titleTextView
-        let location = gesture.locationInView(lbl)
-        let range = lbl.characterRangeAtPoint(location)
-        let pos = lbl.closestPositionToPoint(location, withinRange: range)
-        let style = lbl.textStylingAtPosition(pos, inDirection: .Forward) as [String : AnyObject]
-        let linkType = style[Attributed.Link] as String?
-        if let linkType = linkType {
-            switch linkType {
-                case "post":
-                    let post = style[Attributed.Object] as Post
-                    delegate?.postTapped(post)
-                case "comment":
-                    let comment = style[Attributed.Object] as Comment
-                    println("comment: \(comment)")
-                    if let post = comment.parentPost {
-                        println("post: \(post)")
-                    }
-                case "user":
-                    let user = style[Attributed.Object] as User
-                    println("user: \(user)")
-                    delegate?.userTapped(user)
-                default:
-                    break
-            }
-        }
     }
 
     override func layoutSubviews() {
@@ -238,5 +185,25 @@ class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
         UIView.animateWithDuration(0.15, animations: {
             self.messageWebView.alpha = 1.0
         })
+    }
+}
+
+extension NotificationCell: ElloTextViewDelegate {
+    func textViewTapped(link: String, object: AnyObject?) {
+        switch link {
+        case "post":
+            delegate?.postTapped(object as Post)
+        case "comment":
+            let comment = object as Comment
+            println("comment: \(comment)")
+            if let post = comment.parentPost {
+                println("post: \(post)")
+            }
+        case "user":
+            let user = object as User
+            println("user: \(user)")
+            delegate?.userTapped(user)
+        default: break
+        }
     }
 }

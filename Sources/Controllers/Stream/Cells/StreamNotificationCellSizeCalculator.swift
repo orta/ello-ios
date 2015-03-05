@@ -11,7 +11,7 @@ class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
     typealias StreamTextCellSizeCalculated = () -> ()
 
     let webView:UIWebView
-    let textView:UITextView
+    let textView:ElloTextView
     let originalWidth:CGFloat
     var cellItems:[StreamCellItem] = []
     var completion:StreamTextCellSizeCalculated = {}
@@ -19,7 +19,7 @@ class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
     init(webView:UIWebView) {
         self.webView = webView
         originalWidth = self.webView.frame.size.width
-        textView = NotificationCell.generateTextView(frame: CGRectZero.withWidth(originalWidth))
+        textView = ElloTextView(frame: CGRectZero.withWidth(originalWidth), textContainer: nil)
         super.init()
         self.webView.delegate = self
     }
