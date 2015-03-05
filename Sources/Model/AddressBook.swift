@@ -13,12 +13,6 @@ protocol ContactList {
     var localPeople: [LocalPerson] { get }
 }
 
-struct LocalPerson {
-    let name: String
-    let emails: [String]
-    let id: Int32
-}
-
 struct AddressBook: ContactList {
     private let addressBook: ABAddressBook
     let localPeople: [LocalPerson]
