@@ -87,14 +87,14 @@ class AddFriendsContainerViewController: StreamableViewController {
     }
 
     private func findFriendsFromContacts() {
-        let hashedEmails = addressBook.localPeople.map { [$0.nameHash: $0.emailHashes] }
+        let hashedEmails = addressBook.localPeople.map { [$0.identifier: $0.emailHashes] }
 
         ElloHUD.showLoadingHud()
         InviteService().find(["contacts": hashedEmails], success: { users in
             self.findFriendsViewController.setUsers(users)
 
             let matched = users.map { $0.identifiableBy ?? "" }
-            let nonUsers = self.addressBook.localPeople.filter { !contains(matched, $0.nameHash) }
+            let nonUsers = self.addressBook.localPeople.filter { !contains(matched, $0.identifier) }
             self.inviteFriendsViewController.setContacts(nonUsers)
             ElloHUD.hideLoadingHud()
         }, failure: { _ in

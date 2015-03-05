@@ -5,8 +5,8 @@ struct LocalPerson {
 }
 
 extension LocalPerson {
-    var nameHash: String {
-        return name.SHA1String ?? ""
+    var identifier: String {
+        return "\(id)"
     }
 
     var emailHashes: [String] {
