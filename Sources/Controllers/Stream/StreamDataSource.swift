@@ -50,9 +50,8 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     // MARK: - Public
 
     func postForIndexPath(indexPath:NSIndexPath) -> Post? {
-        if indexPath.item >= streamCellItems.count {
-            return nil
-        }
+        if !isValidIndexPath(indexPath) { return nil }
+
         return streamCellItems[indexPath.item].jsonable as? Post
     }
 
@@ -69,9 +68,8 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     func authorForIndexPath(indexPath: NSIndexPath) -> User? {
-        if indexPath.item >= streamCellItems.count {
-            return nil
-        }
+        if !isValidIndexPath(indexPath) { return nil }
+
         if let authorable = streamCellItems[indexPath.item].jsonable as? Authorable {
             return authorable.author
         }
@@ -102,6 +100,8 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     func heightForIndexPath(indexPath:NSIndexPath, numberOfColumns:NSInteger) -> CGFloat {
+        if !isValidIndexPath(indexPath) { return 0 }
+
         if numberOfColumns == 1 {
             return streamCellItems[indexPath.item].oneColumnCellHeight + imageBottomPadding ?? 0.0
         }
@@ -111,6 +111,8 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     func isFullWidthAtIndexPath(indexPath:NSIndexPath) -> Bool {
+        if !isValidIndexPath(indexPath) { return true }
+
         return streamCellItems[indexPath.item].isFullWidth
     }
 
@@ -120,6 +122,8 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     func groupForIndexPath(indexPath:NSIndexPath) -> String {
+        if !isValidIndexPath(indexPath) { return "0" }
+
         return (streamCellItems[indexPath.item].jsonable as? Authorable)?.groupId ?? "0"
     }
 
@@ -204,5 +208,9 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         else {
             self.streamCellItems = self.sourceCellItems
         }
+    }
+
+    private func isValidIndexPath(indexPath: NSIndexPath) -> Bool {
+        return indexPath.item < countElements(streamCellItems) && indexPath.section == 0
     }
 }
