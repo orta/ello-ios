@@ -24,6 +24,11 @@ class FindFriendsViewController: BaseElloViewController {
         setupTableView()
     }
 
+    func setUsers(users: [User]) {
+        dataSource.items = users.map { AddFriendsCellItem(user: $0) }
+        dispatch_async(dispatch_get_main_queue()) { self.tableView.reloadData() }
+    }
+
     // MARK: - Private
 
     private func setupTableView() {

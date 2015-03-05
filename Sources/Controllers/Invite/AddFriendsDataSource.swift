@@ -11,16 +11,16 @@ import UIKit
 struct AddFriendsCellItem {
     let cellType: CellType
     let user: User?
-    let name: String?
+    let person: LocalPerson?
 
     init(user: User) {
         cellType = .Find
         self.user = user
     }
 
-    init(name: String) {
+    init(person: LocalPerson) {
         cellType = .Invite
-        self.name = name
+        self.person = person
     }
 
     enum CellType {

@@ -24,6 +24,10 @@ class InviteFriendsViewController: BaseElloViewController {
         setupTableView()
     }
 
+    func setContacts(contacts: [LocalPerson]) {
+        dataSource.items = contacts.map { AddFriendsCellItem(person: $0) }
+    }
+
     private func setupTableView() {
         registerCells()
         dataSource = AddFriendsDataSource()

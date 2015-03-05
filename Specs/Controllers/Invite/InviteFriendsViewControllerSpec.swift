@@ -83,5 +83,15 @@ class InviteFriendsViewControllerSpec: QuickSpec {
             }
             
         })
+
+        describe("setUsers") {
+            it("should set the given array of users to the datasource") {
+                let localPeople = [LocalPerson(name: "name", emails: ["test@testing.com"])]
+
+                subject.setContacts(localPeople)
+                expect(subject.dataSource.items.count) == 1
+                expect(subject.dataSource.items.first?.person?.name) == localPeople.first?.name
+            }
+        }
     }
 }

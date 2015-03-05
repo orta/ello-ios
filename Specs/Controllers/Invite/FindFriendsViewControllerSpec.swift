@@ -82,5 +82,16 @@ class FindFriendsViewControllerSpec: QuickSpec {
                 expect(dataSource) == subject.dataSource
             }
         }
+
+        describe("setUsers") {
+            it("should set the given array of users to the datasource") {
+                let data = stubbedJSONData("user", "users")
+                let user = User.fromJSON(data) as User
+
+                subject.setUsers([user])
+                expect(subject.dataSource.items.count) == 1
+                expect(subject.dataSource.items.first?.user) == user
+            }
+        }
     }
 }

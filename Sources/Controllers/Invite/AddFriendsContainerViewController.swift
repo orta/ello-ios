@@ -36,6 +36,11 @@ class AddFriendsContainerViewController: StreamableViewController {
         setupSegmentedControl()
     }
 
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        findFriendsFromContacts()
+    }
+
     // MARK: - Private
 
     private func setupNavBar() {
@@ -79,6 +84,18 @@ class AddFriendsContainerViewController: StreamableViewController {
         segmentedControl.setBackgroundImage(UIImage.imageWithColor(UIColor.greyA()), forState: .Selected, barMetrics: .Default)
 
         segmentedControl.addTarget(self, action: "addFriendsSegmentTapped:", forControlEvents: .ValueChanged)
+    }
+
+    private func findFriendsFromContacts() {
+        let hashedEmails: [[String: AnyObject]] = addressBook.localPeople.map { ["name": $0.nameHash, "emails": $0.emailHashes] }
+
+        InviteService().find(hashedEmails, success: { users in
+            self.findFriendsViewController.setUsers(users)
+
+            let matched = users.map { $0.username }
+            let nonUsers = self.addressBook.localPeople.filter { !contains(matched, $0.nameHash) }
+            self.inviteFriendsViewController.setContacts(nonUsers)
+        }, failure: .None)
     }
 
     // MARK: - IBActions

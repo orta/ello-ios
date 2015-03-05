@@ -38,7 +38,7 @@ struct AddFriendsCellPresenter {
         addFriendsCellItem:AddFriendsCellItem)
     {
         if let cell = cell as? InviteFriendsCell {
-            cell.nameLabel?.text = addFriendsCellItem.name
+            cell.nameLabel?.text = addFriendsCellItem.person?.name
         }
     }
 }
