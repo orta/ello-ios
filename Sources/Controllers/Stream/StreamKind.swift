@@ -58,6 +58,12 @@ enum StreamKind {
                     return accum
                 }
             }
+            else if let comments = jsonables as? [Comment] {
+                return comments
+            }
+            else if let posts = jsonables as? [Post] {
+                return posts
+            }
         }
         return []
     }

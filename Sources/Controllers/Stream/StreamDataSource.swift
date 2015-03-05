@@ -15,7 +15,6 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     typealias StreamFilter = (StreamCellItem -> Bool)?
 
     let imageBottomPadding:CGFloat = 10.0
-    let testWebView:UIWebView
     var streamKind:StreamKind
 
     // these are assigned from the parent controller
@@ -38,11 +37,13 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     weak var userDelegate:UserDelegate?
     weak var relationshipDelegate: RelationshipDelegate?
 
-    init(testWebView: UIWebView, streamKind:StreamKind) {
+    init(streamKind:StreamKind,
+        textSizeCalculator: StreamTextCellSizeCalculator,
+        notificationSizeCalculator: StreamNotificationCellSizeCalculator)
+    {
         self.streamKind = streamKind
-        self.testWebView = testWebView
-        self.textSizeCalculator = StreamTextCellSizeCalculator(webView: UIWebView(frame: testWebView.frame))
-        self.notificationSizeCalculator = StreamNotificationCellSizeCalculator(webView: UIWebView(frame: testWebView.frame))
+        self.textSizeCalculator = textSizeCalculator
+        self.notificationSizeCalculator = notificationSizeCalculator
         super.init()
     }
 
@@ -71,11 +72,8 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         if indexPath.item >= streamCellItems.count {
             return nil
         }
-        if let post = streamCellItems[indexPath.item].jsonable as? Post {
-            return post.author
-        }
-        else if let comment = streamCellItems[indexPath.item].jsonable as? Comment {
-            return comment.author
+        if let authorable = streamCellItems[indexPath.item].jsonable as? Authorable {
+            return authorable.author
         }
         return nil
     }
@@ -96,8 +94,10 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     func updateHeightForIndexPath(indexPath:NSIndexPath?, height:CGFloat) {
         if let indexPath = indexPath {
-            streamCellItems[indexPath.item].oneColumnCellHeight = height + imageBottomPadding
-            streamCellItems[indexPath.item].multiColumnCellHeight = height + imageBottomPadding
+            if indexPath.item < countElements(streamCellItems) {
+                streamCellItems[indexPath.item].oneColumnCellHeight = height + imageBottomPadding
+                streamCellItems[indexPath.item].multiColumnCellHeight = height + imageBottomPadding
+            }
         }
     }
 

@@ -59,7 +59,7 @@ class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
         }
     }
 
-    func calculateWithTextHeight(textHeight : CGFloat) {
+    private func calculateWithTextHeight(textHeight : CGFloat) {
         var cellItem = self.cellItems.removeAtIndex(0)
         let notification = cellItem.jsonable as Notification
         let imageHeight = NotificationCell.Size.imageHeight(imageRegion: notification.imageRegion)
