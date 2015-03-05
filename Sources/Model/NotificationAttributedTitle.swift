@@ -6,12 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-struct Attributed {
-    static let Link : NSString = "ElloLinkAttributedString"
-    static let Object : NSString = "ElloObjectAttributedString"
-}
-
-
 struct NotificationAttributedTitle {
 
     static func attrs(_ addlAttrs : [String : AnyObject] = [:]) -> [NSObject : AnyObject] {
@@ -29,8 +23,8 @@ struct NotificationAttributedTitle {
     static func profile(user : User?) -> NSAttributedString {
         if let user = user {
             return NSAttributedString(string: user.atName, attributes: attrs([
-                Attributed.Link : "user",
-                Attributed.Object : user,
+                ElloAttributedText.Link : "user",
+                ElloAttributedText.Object : user,
                 NSUnderlineStyleAttributeName : NSUnderlineStyle.StyleSingle.rawValue,
             ]))
         }
@@ -41,8 +35,8 @@ struct NotificationAttributedTitle {
 
     static func post(text : String, _ post : Post) -> NSAttributedString {
         var attrs = self.attrs([
-            Attributed.Link : "post",
-            Attributed.Object : post,
+            ElloAttributedText.Link : "post",
+            ElloAttributedText.Object : post,
             NSUnderlineStyleAttributeName : NSUnderlineStyle.StyleSingle.rawValue,
         ])
         return NSAttributedString(string: text, attributes: attrs)
@@ -50,8 +44,8 @@ struct NotificationAttributedTitle {
 
     static func comment(text : String, _ comment : Comment) -> NSAttributedString {
         var attrs = self.attrs([
-            Attributed.Link : "comment",
-            Attributed.Object : comment,
+            ElloAttributedText.Link : "comment",
+            ElloAttributedText.Object : comment,
             NSUnderlineStyleAttributeName : NSUnderlineStyle.StyleSingle.rawValue,
         ])
         return NSAttributedString(string: text, attributes: attrs)
