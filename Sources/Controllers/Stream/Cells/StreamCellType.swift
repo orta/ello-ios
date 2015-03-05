@@ -30,7 +30,7 @@ enum StreamCellType {
 
     var name: String {
         switch self {
-        case CommentHeader: return "StreamCommentHeaderCell"
+        case CommentHeader: return "StreamHeaderCell"
         case Header: return "StreamHeaderCell"
         case Footer: return "StreamFooterCell"
         case Image: return "StreamImageCell"
@@ -58,7 +58,7 @@ enum StreamCellType {
 
     var classType: UICollectionViewCell.Type {
         switch self {
-        case CommentHeader: return StreamCommentHeaderCell.self
+        case CommentHeader: return StreamHeaderCell.self
         case Header: return StreamHeaderCell.self
         case Footer: return StreamFooterCell.self
         case Image: return StreamImageCell.self

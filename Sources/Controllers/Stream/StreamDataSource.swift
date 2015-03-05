@@ -15,7 +15,6 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     typealias StreamFilter = (StreamCellItem -> Bool)?
 
     let imageBottomPadding:CGFloat = 10.0
-    let testWebView:UIWebView
     var streamKind:StreamKind
 
     // these are assigned from the parent controller
@@ -38,20 +37,21 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     weak var userDelegate:UserDelegate?
     weak var relationshipDelegate: RelationshipDelegate?
 
-    init(testWebView: UIWebView, streamKind:StreamKind) {
+    init(streamKind:StreamKind,
+        textSizeCalculator: StreamTextCellSizeCalculator,
+        notificationSizeCalculator: StreamNotificationCellSizeCalculator)
+    {
         self.streamKind = streamKind
-        self.testWebView = testWebView
-        self.textSizeCalculator = StreamTextCellSizeCalculator(webView: UIWebView(frame: testWebView.frame))
-        self.notificationSizeCalculator = StreamNotificationCellSizeCalculator(webView: UIWebView(frame: testWebView.frame))
+        self.textSizeCalculator = textSizeCalculator
+        self.notificationSizeCalculator = notificationSizeCalculator
         super.init()
     }
 
     // MARK: - Public
 
     func postForIndexPath(indexPath:NSIndexPath) -> Post? {
-        if indexPath.item >= streamCellItems.count {
-            return nil
-        }
+        if !isValidIndexPath(indexPath) { return nil }
+
         return streamCellItems[indexPath.item].jsonable as? Post
     }
 
@@ -65,6 +65,15 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
                 return false
             }
         })
+    }
+
+    func authorForIndexPath(indexPath: NSIndexPath) -> User? {
+        if !isValidIndexPath(indexPath) { return nil }
+
+        if let authorable = streamCellItems[indexPath.item].jsonable as? Authorable {
+            return authorable.author
+        }
+        return nil
     }
 
     func commentIndexPathsForPost(post: Post) -> [NSIndexPath] {
@@ -83,12 +92,16 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     func updateHeightForIndexPath(indexPath:NSIndexPath?, height:CGFloat) {
         if let indexPath = indexPath {
-            streamCellItems[indexPath.item].oneColumnCellHeight = height + imageBottomPadding
-            streamCellItems[indexPath.item].multiColumnCellHeight = height + imageBottomPadding
+            if indexPath.item < countElements(streamCellItems) {
+                streamCellItems[indexPath.item].oneColumnCellHeight = height + imageBottomPadding
+                streamCellItems[indexPath.item].multiColumnCellHeight = height + imageBottomPadding
+            }
         }
     }
 
     func heightForIndexPath(indexPath:NSIndexPath, numberOfColumns:NSInteger) -> CGFloat {
+        if !isValidIndexPath(indexPath) { return 0 }
+
         if numberOfColumns == 1 {
             return streamCellItems[indexPath.item].oneColumnCellHeight + imageBottomPadding ?? 0.0
         }
@@ -98,6 +111,8 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     func isFullWidthAtIndexPath(indexPath:NSIndexPath) -> Bool {
+        if !isValidIndexPath(indexPath) { return true }
+
         return streamCellItems[indexPath.item].isFullWidth
     }
 
@@ -107,6 +122,8 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     func groupForIndexPath(indexPath:NSIndexPath) -> String {
+        if !isValidIndexPath(indexPath) { return "0" }
+
         return (streamCellItems[indexPath.item].jsonable as? Authorable)?.groupId ?? "0"
     }
 
@@ -191,5 +208,9 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         else {
             self.streamCellItems = self.sourceCellItems
         }
+    }
+
+    private func isValidIndexPath(indexPath: NSIndexPath) -> Bool {
+        return indexPath.item < countElements(streamCellItems) && indexPath.section == 0
     }
 }
