@@ -16,6 +16,7 @@ protocol ContactList {
 struct LocalPerson {
     let name: String
     let emails: [String]
+    let id: Int32
 }
 
 struct AddressBook: ContactList {
@@ -60,7 +61,8 @@ private func getAllPeopleWithEmailAddresses(addressBook: ABAddressBook) -> [Loca
     return records(addressBook).map { person in
         let name = ABRecordCopyCompositeName(person).takeUnretainedValue()
         let emails = getEmails(person)
-        return LocalPerson(name: name, emails: emails)
+        let id = ABRecordGetRecordID(person)
+        return LocalPerson(name: name, emails: emails, id: id)
     }.filter { $0.emails.count > 0 }
 }
 
