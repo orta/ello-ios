@@ -10,10 +10,10 @@ private let sharedKeyboard = Keyboard()
 
 class Keyboard {
     struct Notifications {
-        static let KeyboardWillShow = "com.Ello.Keyboard.KeyboardWillShow"
-        static let KeyboardDidShow = "com.Ello.Keyboard.KeyboardDidShow"
-        static let KeyboardWillHide = "com.Ello.Keyboard.KeyboardWillHide"
-        static let KeyboardDidHide = "com.Ello.Keyboard.KeyboardDidHide"
+        static let KeyboardWillShow = TypedNotification<Keyboard>(name: "com.Ello.Keyboard.KeyboardWillShow")
+        static let KeyboardDidShow = TypedNotification<Keyboard>(name: "com.Ello.Keyboard.KeyboardDidShow")
+        static let KeyboardWillHide = TypedNotification<Keyboard>(name: "com.Ello.Keyboard.KeyboardWillHide")
+        static let KeyboardDidHide = TypedNotification<Keyboard>(name: "com.Ello.Keyboard.KeyboardDidHide")
     }
 
     class func shared() -> Keyboard {
@@ -61,12 +61,12 @@ class Keyboard {
         setFromNotification(notification)
         height = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as NSValue).CGRectValue().size.height
 
-        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.KeyboardWillShow, object: nil)
+        postNotification(Notifications.KeyboardWillShow, self)
     }
 
     @objc
     func didShow(notification : NSNotification) {
-        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.KeyboardDidShow, object: nil)
+        postNotification(Notifications.KeyboardDidShow, self)
     }
 
     @objc
@@ -75,12 +75,12 @@ class Keyboard {
         setFromNotification(notification)
         height = 0
 
-        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.KeyboardWillHide, object: nil)
+        postNotification(Notifications.KeyboardWillHide, self)
     }
 
     @objc
     func didHide(notification : NSNotification) {
-        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.KeyboardDidHide, object: nil)
+        postNotification(Notifications.KeyboardDidHide, self)
     }
 
     private func setFromNotification(notification : NSNotification) {
