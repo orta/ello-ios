@@ -66,8 +66,6 @@ class ElloNetworkError: JSONAble {
         let messages = json["messages"].object as? [String]
         let attrs = json["attrs"].object as? [String:[String]]
 
-        var codeType : CodeType = CodeType(rawValue: code) ?? CodeType.unknown
-
         return ElloNetworkError(
             attrs: attrs,
             code: codeType,
