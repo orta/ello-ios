@@ -114,7 +114,7 @@ extension CGRect {
     }
 
     func grow(#topBottom:CGFloat, sides: CGFloat) -> CGRect {
-        return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: -topBottom, left: sides, bottom: -topBottom, right: sides))
+        return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: -topBottom, left: -sides, bottom: -topBottom, right: -sides))
     }
 
     func grow(#top:CGFloat, sides: CGFloat, bottom: CGFloat) -> CGRect {

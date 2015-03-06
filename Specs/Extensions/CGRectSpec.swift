@@ -138,15 +138,15 @@ class CGRectExtensionSpec: QuickSpec {
             }
             it("-grow(topBottom:sides:)") {
                 let newFrame = frame.grow(topBottom: 1, sides: 2)
-                expect(newFrame).to(equal(CGRect(x: 3, y: 6, width: 10, height: 16)))
+                expect(newFrame).to(equal(CGRect(x: 3, y: 6, width: 14, height: 16)))
             }
             it("-grow(top:sides:bottom:)") {
                 let newFrame = frame.grow(top: 1, sides: 2, bottom: 3)
-                expect(newFrame).to(equal(CGRect(x: 3, y: 6, width: 10, height: 17)))
+                expect(newFrame).to(equal(CGRect(x: 3, y: 6, width: 14, height: 18)))
             }
             it("-grow(top:left:bottom:right:)") {
                 let newFrame = frame.grow(top: 1, left: 2, bottom: 3, right: 4)
-                expect(newFrame).to(equal(CGRect(x: 3, y: 6, width: 11, height: 17)))
+                expect(newFrame).to(equal(CGRect(x: 3, y: 6, width: 16, height: 18)))
             }
         }
         describe("growXyz") {
