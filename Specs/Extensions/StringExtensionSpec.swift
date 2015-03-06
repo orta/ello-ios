@@ -12,7 +12,7 @@ import Nimble
 
 class StringExtensionSpec: QuickSpec {
     override func spec() {
-        fdescribe("encoding URL strings") {
+        describe("encoding URL strings") {
             it("should encode 'asdf' to 'asdf'") {
                 expect("asdf".urlEncoded()).to(equal("asdf"))
             }
@@ -23,7 +23,7 @@ class StringExtensionSpec: QuickSpec {
                 expect("…".urlEncoded()).to(equal("%E2%80%A6"))
             }
         }
-        fdescribe("decoding URL strings") {
+        describe("decoding URL strings") {
             it("should decode 'asdf' to 'asdf'") {
                 expect("asdf".urlDecoded()).to(equal("asdf"))
             }
@@ -34,7 +34,7 @@ class StringExtensionSpec: QuickSpec {
                 expect("%E2%80%A6".urlDecoded()).to(equal("…"))
             }
         }
-        fdescribe("adding entities") {
+        describe("adding entities") {
             it("should handle 1-char length strings") {
                 expect("&".entitiesEncoded()).to(equal("&amp;"))
             }
@@ -48,7 +48,7 @@ class StringExtensionSpec: QuickSpec {
                 expect("a & < c > π == pi".entitiesEncoded()).to(equal("a &amp; &lt; c &gt; &pi; == pi"))
             }
         }
-        fdescribe("removing entities") {
+        describe("removing entities") {
             it("should handle 1-char length strings") {
                 expect("&amp;".entitiesDecoded()).to(equal("&"))
             }
