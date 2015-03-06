@@ -13,6 +13,7 @@ import Nimble
 class KeyboardSpec: QuickSpec {
     override func spec() {
         var keyboard : Keyboard = Keyboard.shared()
+        var textView : UITextView!
 
         describe("Sanity checks") {
             it("has a 'visible' property") {
@@ -36,7 +37,7 @@ class KeyboardSpec: QuickSpec {
             beforeEach() {
                 let window = UIWindow(frame: UIScreen.mainScreen().bounds)
                 window.makeKeyAndVisible()
-                let textView = UITextView(frame: window.bounds)
+                textView = UITextView(frame: window.bounds)
                 window.addSubview(textView)
                 textView.becomeFirstResponder()
             }
@@ -54,6 +55,13 @@ class KeyboardSpec: QuickSpec {
             }
             it("sets the 'height' property") {
                 expect(keyboard.height).toNot(equal(0))
+            }
+            it("can calculate the location of the top of the keyboard") {
+                let height = textView.frame.size.height
+                let calculatedKeyboardTop = height - keyboard.height
+                expect(calculatedKeyboardTop) > 0
+                expect(calculatedKeyboardTop) < height
+                expect(keyboard.keyboardTop(inView: textView)).to(equal(calculatedKeyboardTop))
             }
         }
     }

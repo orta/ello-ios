@@ -48,6 +48,13 @@ class Keyboard {
         center.removeObserver(self)
     }
 
+    func keyboardTop(#inView: UIView) -> CGFloat {
+        let kbdHeight = Keyboard.shared().height
+        let window : UIView = inView.window ?? inView
+        let bottom = window.convertPoint(CGPoint(x: 0, y: window.bounds.size.height), toView: inView).y
+        return bottom - kbdHeight
+    }
+
     @objc
     func willShow(notification : NSNotification) {
         visible = true
