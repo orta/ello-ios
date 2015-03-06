@@ -372,29 +372,52 @@ class StreamDataSourceSpec: QuickSpec {
                     textSizeCalculator: textSizeCalculator,
                     notificationSizeCalculator: notificationSizeCalculator)
 
-                let cellItems = ModelHelper.cellsForTwoPostsWithComments()
-                subject.addUnsizedCellItems(cellItems, startingIndexPath:nil) { cellCount in
+                subject.addUnsizedCellItems(ModelHelper.allCellTypes(), startingIndexPath:nil) { cellCount in
                     vc.collectionView.dataSource = subject
                     vc.collectionView.reloadData()
                 }
             }
 
-            it("returns a StreamHeaderCell") {
-                let cell = subject.collectionView(vc.collectionView, cellForItemAtIndexPath: indexPath0)
-                expect(cell).to(beAnInstanceOf(StreamHeaderCell.self))
+            describe("with posts") {
+                it("returns a StreamHeaderCell") {
+                    let cell = subject.collectionView(vc.collectionView, cellForItemAtIndexPath: NSIndexPath(forItem: 0, inSection: 0))
+                    expect(cell).to(beAnInstanceOf(StreamHeaderCell.self))
+                }
+
+                it("returns a StreamTextCell") {
+                    let cell = subject.collectionView(vc.collectionView, cellForItemAtIndexPath: NSIndexPath(forItem: 1, inSection: 0))
+                    expect(cell).to(beAnInstanceOf(StreamTextCell.self))
+                }
+
+                it("returns a StreamFooterCell") {
+                    let cell = subject.collectionView(vc.collectionView, cellForItemAtIndexPath: NSIndexPath(forItem: 2, inSection: 0))
+                    expect(cell).to(beAnInstanceOf(StreamFooterCell.self))
+                }
             }
 
-            it("returns a StreamTextCell") {
-                let cell = subject.collectionView(vc.collectionView, cellForItemAtIndexPath: NSIndexPath(forItem: 1, inSection: 0))
-                expect(cell).to(beAnInstanceOf(StreamTextCell.self))
+            describe("with comments") {
+                it("returns a StreamHeaderCell") {
+                    let cell = subject.collectionView(vc.collectionView, cellForItemAtIndexPath: NSIndexPath(forItem: 3, inSection: 0))
+                    expect(cell).to(beAnInstanceOf(StreamHeaderCell.self))
+                }
+
+                it("returns a StreamTextCell") {
+                    let cell = subject.collectionView(vc.collectionView, cellForItemAtIndexPath: NSIndexPath(forItem: 4, inSection: 0))
+                    expect(cell).to(beAnInstanceOf(StreamTextCell.self))
+                }
             }
 
-            it("returns a StreamFooterCell") {
-                let cell = subject.collectionView(vc.collectionView, cellForItemAtIndexPath: NSIndexPath(forItem: 6, inSection: 0))
-                expect(cell).to(beAnInstanceOf(StreamFooterCell.self))
-            }
+            describe("with users") {
+                it("returns a ProfileHeaderCell") {
+                    let cell = subject.collectionView(vc.collectionView, cellForItemAtIndexPath: NSIndexPath(forItem: 5, inSection: 0))
+                    expect(cell).to(beAnInstanceOf(ProfileHeaderCell.self))
+                }
 
-            xit("returns a ProfileHeaderCell") {}
+                it("returns a UserListItemCell") {
+                    let cell = subject.collectionView(vc.collectionView, cellForItemAtIndexPath: NSIndexPath(forItem: 6, inSection: 0))
+                    expect(cell).to(beAnInstanceOf(UserListItemCell.self))
+                }
+            }
 
             xit("returns a NotificationCell") {}
 
