@@ -15,34 +15,44 @@ class ElloTabBarControllerSpec: QuickSpec {
 
         var controller = ElloTabBarController.instantiateFromStoryboard()
 
-        describe("initialization", {
+        describe("initialization") {
 
-            beforeEach({
+            beforeEach() {
                 controller = ElloTabBarController.instantiateFromStoryboard()
-            })
+            }
 
             it("can be instantiated from storyboard") {
                 expect(controller).notTo(beNil())
             }
 
-            it("is a ElloTabBarController", {
+            it("is a ElloTabBarController") {
                 expect(controller).to(beAKindOf(ElloTabBarController.self))
-            })
+            }
 
-        })
+        }
 
-        describe("-viewDidLoad", {
+        describe("-viewDidLoad") {
 
-            beforeEach({
+            beforeEach() {
                 controller = ElloTabBarController.instantiateFromStoryboard()
-            })
+                let view = controller.view
+            }
 
-            it("sets friends as the selected tab", {
-                controller.viewDidLoad()
+            it("sets friends as the selected tab") {
+                if let navigationController = controller.selectedViewController as? ElloNavigationController {
+                    navigationController.currentUser = User.fakeCurrentUser("foo")
+                    if let firstController = navigationController.topViewController as? BaseElloViewController {
+                        expect(firstController).to(beAKindOf(StreamContainerViewController.self))
+                    }
+                    else {
+                        fail("navigation controller doesn't have a topViewController, or it isn't a BaseElloViewController")
+                    }
+                }
+                else {
+                    fail("tab bar controller does not have a selectedViewController, or it isn't a ElloNavigationController")
+                }
+            }
 
-                expect(controller.selectedIndex).to(equal(2))
-            })
-
-        });
+        }
     }
 }
