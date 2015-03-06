@@ -15,7 +15,7 @@ struct ModelHelper {
         // models
         let post = ModelHelper.stubPost("555", contentCount: 1, summaryCount: 1)
         let comment = ModelHelper.stubComment("456", contentCount: 1, summaryCount: 1, parentPost: post)
-        let user = ModelHelper.stubUser(["userId": "420"])
+        let user: User = stub(["userId": "420"])
         // cell items
         let postCellItems = parser.parse([post], streamKind: .Friend)
         let commentCellItems = parser.parse([comment], streamKind: .Friend)
@@ -87,23 +87,5 @@ struct ModelHelper {
             summary: summary,
             token: "bar",
             viewsCount: nil)
-    }
-
-    static func stubUser(values: [String: AnyObject]) -> User {
-        return User(
-            avatarURL: (values["avatarURL"] as? NSURL) ?? nil,
-            coverImageURL: (values["coverImageURL"] as? NSURL) ?? nil,
-            experimentalFeatures: (values["experimentalFeatures"] as? Bool) ?? false,
-            followersCount: (values["followersCount"] as? Int) ?? 0,
-            followingCount: (values["followingCount"] as? Int) ?? 0,
-            href: (values["href"] as? String) ?? "href",
-            name: (values["name"] as? String) ?? "name",
-            posts: (values["posts"] as? [Post]) ?? [],
-            postsCount: (values["postsCount"] as? Int) ?? 0,
-            relationshipPriority: (values["relationshipPriority"] as? String) ?? "none",
-            userId: (values["userId"] as? String) ?? "1",
-            username: (values["username"] as? String) ?? "username",
-            formattedShortBio: (values["formattedShortBio"] as? String) ?? "formattedShortBio"
-        )
     }
 }
