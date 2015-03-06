@@ -24,7 +24,7 @@ class StreamService: NSObject {
         ElloProvider.sharedProvider.elloRequest(endpoint,
             method: .GET,
             parameters: endpoint.defaultParameters,
-            mappingType:MappingType.ActivitiesType,
+            mappingType: endpoint.mappingType,
             success: { (data, responseConfig) in
                 if let jsonables:[JSONAble] = data as? [JSONAble] {
                     success(jsonables: jsonables, responseConfig: responseConfig)

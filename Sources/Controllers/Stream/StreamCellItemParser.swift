@@ -21,6 +21,9 @@ struct StreamCellItemParser {
         if let notifications = filteredItems as? [Notification] {
             return notificationCellItems(notifications)
         }
+        if let users = filteredItems as? [User] {
+            return userCellItems(users)
+        }
         return []
     }
 
@@ -136,6 +139,19 @@ struct StreamCellItemParser {
             }
         }
         return cellArray
+    }
+
+    private func userCellItems(users: [User]) -> [StreamCellItem] {
+        return map(users) { user in
+            return StreamCellItem(
+                jsonable: user,
+                type: .UserListItem,
+                data: nil,
+                oneColumnCellHeight: 70.0,
+                multiColumnCellHeight: 70.0,
+                isFullWidth: true
+            )
+        }
     }
 
     private func oneColumnImageHeight(imageBlock: ImageRegion) -> CGFloat {
