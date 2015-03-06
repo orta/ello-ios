@@ -1,0 +1,66 @@
+//
+//  StringExtensionSpec.swift
+//  Ello
+//
+//  Created by Colin Gray on 3/4/2015.
+//  Copyright (c) 2015 Ello. All rights reserved.
+//
+
+import Quick
+import Nimble
+
+
+class StringExtensionSpec: QuickSpec {
+    override func spec() {
+        fdescribe("encoding URL strings") {
+            it("should encode 'asdf' to 'asdf'") {
+                expect("asdf".urlEncoded()).to(equal("asdf"))
+            }
+            it("should encode 'a&/=' to 'a%26%2F%3D'") {
+                expect("a&/=".urlEncoded()).to(equal("a%26%2F%3D"))
+            }
+            it("should encode '…' to '%E2%80%A6'") {
+                expect("…".urlEncoded()).to(equal("%E2%80%A6"))
+            }
+        }
+        fdescribe("decoding URL strings") {
+            it("should decode 'asdf' to 'asdf'") {
+                expect("asdf".urlDecoded()).to(equal("asdf"))
+            }
+            it("should decode 'a%26%2F%3D' to 'a&/='") {
+                expect("a%26%2F%3D".urlDecoded()).to(equal("a&/="))
+            }
+            it("should decode '%E2%80%A6' to '…'") {
+                expect("%E2%80%A6".urlDecoded()).to(equal("…"))
+            }
+        }
+        fdescribe("adding entities") {
+            it("should handle 1-char length strings") {
+                expect("&".entitiesEncoded()).to(equal("&amp;"))
+            }
+            it("should handle longer length strings") {
+                expect("black & blue".entitiesEncoded()).to(equal("black &amp; blue"))
+            }
+            it("should handle many entities") {
+                expect("& <> π".entitiesEncoded()).to(equal("&amp; &lt;&gt; &pi;"))
+            }
+            it("should handle many entities with strings") {
+                expect("a & < c > π == pi".entitiesEncoded()).to(equal("a &amp; &lt; c &gt; &pi; == pi"))
+            }
+        }
+        fdescribe("removing entities") {
+            it("should handle 1-char length strings") {
+                expect("&amp;".entitiesDecoded()).to(equal("&"))
+            }
+            it("should handle longer length strings") {
+                expect("black &amp; blue".entitiesDecoded()).to(equal("black & blue"))
+            }
+            it("should handle many entities") {
+                expect("&amp; &lt;&gt; &pi;".entitiesDecoded()).to(equal("& <> π"))
+            }
+            it("should handle many entities with strings") {
+                expect("a &amp; &lt; c &gt; &pi; == pi".entitiesDecoded()).to(equal("a & < c > π == pi"))
+            }
+        }
+    }
+}
