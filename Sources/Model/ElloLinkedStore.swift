@@ -54,7 +54,7 @@ struct ElloLinkedStore {
         return modelLinks
     }
 
-    static func parseArray(key: String, strArray: [String], modelLinks: [String: AnyObject]) -> [String: AnyObject] {
+    private static func parseArray(key: String, strArray: [String], modelLinks: [String: AnyObject]) -> [String: AnyObject] {
         var modelLinksCopy = modelLinks
         if let mappingType = MappingType(rawValue: key) {
             if mappingType.isOrdered {
@@ -80,5 +80,4 @@ struct ElloLinkedStore {
         }
         return modelLinksCopy
     }
-
 }
