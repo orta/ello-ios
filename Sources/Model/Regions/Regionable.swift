@@ -10,6 +10,7 @@ import UIKit
 
 protocol Regionable {
     var kind:RegionKind { get }
+    func toJSON() -> [String: AnyObject]
 }
 
 enum RegionKind: String {

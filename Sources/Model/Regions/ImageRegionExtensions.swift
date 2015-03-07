@@ -13,4 +13,23 @@ extension ImageRegion: Regionable {
     var kind:RegionKind {
         get { return RegionKind.Image }
     }
+
+    func toJSON() -> [String: AnyObject] {
+        if let url : String = self.url?.absoluteString {
+            return [
+                "kind": self.kind.rawValue,
+                "data": [
+                    "alt": alt ?? "",
+                    "via": "direct",
+                    "url": url
+                ],
+            ]
+        }
+        else {
+            return [
+                "kind": self.kind.rawValue,
+                "data": [:]
+            ]
+        }
+    }
 }
