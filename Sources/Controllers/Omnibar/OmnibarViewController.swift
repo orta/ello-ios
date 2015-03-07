@@ -10,39 +10,46 @@ import UIKit
 
 
 class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
+    var keyboardWillShowObserver: NotificationObserver?
+    var keyboardWillHideObserver: NotificationObserver?
 
     override func loadView() {
         self.view = OmnibarScreen(frame: UIScreen.mainScreen().bounds)
     }
 
-    var screen : OmnibarScreen {
-        return self.view as OmnibarScreen
+    // for testing, add a fake screen
+    var _mockScreen : OmnibarScreenProtocol?
+    var screen : OmnibarScreenProtocol {
+        set { _mockScreen = screen }
+        get { return _mockScreen ?? self.view as OmnibarScreen }
     }
 
     override func viewWillAppear(animated : Bool) {
         super.viewWillAppear(animated)
         self.screen.delegate = self
 
-        let center : NSNotificationCenter = NSNotificationCenter.defaultCenter()
-        center.addObserver(self, selector: Selector("willShow:"), name: Keyboard.Notifications.KeyboardWillShow, object: nil)
-        center.addObserver(self, selector: Selector("willHide:"), name: Keyboard.Notifications.KeyboardWillHide, object: nil)
+        keyboardWillShowObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillShow, block: self.willShow)
+        keyboardWillHideObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillHide, block: self.willHide)
     }
 
     override func viewWillDisappear(animated : Bool) {
         super.viewWillDisappear(animated)
 
-        let center : NSNotificationCenter = NSNotificationCenter.defaultCenter()
-        center.removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
-        center.removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
+        if let keyboardWillShowObserver = keyboardWillShowObserver {
+            keyboardWillShowObserver.removeObserver()
+            self.keyboardWillShowObserver = nil
+        }
+        if let keyboardWillHideObserver = keyboardWillHideObserver {
+            keyboardWillHideObserver.removeObserver()
+            self.keyboardWillHideObserver = nil
+        }
     }
 
-    @objc
-    func willShow(notification : NSNotification) {
+    func willShow(keyboard : Keyboard) {
         screen.keyboardWillShow()
     }
 
-    @objc
-    func willHide(notification : NSNotification) {
+    func willHide(keyboard : Keyboard) {
         screen.keyboardWillHide()
     }
 
@@ -51,18 +58,40 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
         self.screen.avatarURL = self.currentUser?.avatarURL
     }
 
-    func omnibarCanceled() {
+    func omnibarSubmitted(text : NSAttributedString?, image: UIImage?) {
+        var content = [AnyObject]()
+        if let text = text?.string {
+            if countElements(text) > 0 {
+                content.append(text)
+            }
+        }
+
+        if let image = image {
+            content.append(image)
+        }
+
+        let service = PostEditingService()
+
+        if countElements(content) > 0 {
+            ElloHUD.showLoadingHud()
+            service.create(content: content, success: {
+                ElloHUD.hideLoadingHud()
+                self.screen.resetAfterSuccessfulPost()
+            }, failure: { error, statusCode in
+                ElloHUD.hideLoadingHud()
+                self.screen.reportError("Could not create post", error: error)
+            })
+        }
+        else {
+            self.screen.reportError("Could not create post", error: "No content was submitted")
+        }
     }
 
-    func omnibarSubmitted(text : String) {
-        //
-    }
-
-    func omnibarPresentPicker(controller : UIViewController) {
+    func omnibarPresentController(controller : UIViewController) {
         self.presentViewController(controller, animated: true, completion: nil)
     }
 
-    func omnibarDismissPicker(controller : UIViewController) {
+    func omnibarDismissController(controller : UIViewController) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 

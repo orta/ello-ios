@@ -5,20 +5,48 @@
 //  Created by Colin Gray on 2/26/2015.
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
+// This screen tracks two sets of "changes": the attributed text of the
+// textView, and the image uploaded by the image picker.
+//
+// When the cancel button is tapped, the editor is reset, but if the text or
+// image was set, they go into `undoText` and `undoImage`, and the cancel button
+// changes to the "undo" icon.  The logic for when the button is undo vs cancel
+// is stored in `canUndo()`.  To update the button state, call
+// `updateUndoState()`.  To reset the views to initial editing state call
+// `resetEditor()`.  (This method does not affect the undo variables)
+//
+// In layoutSubviews(), the avatar, buttons, and text editor are placed
+// according to the keyboard state (using the custom Keyboard class to get the
+// height and animation properties).
+//
+// The events that are sent back to the controller: presenting and dismissing
+// the UIImagePickerController, and submitting the text and image.
 
 import UIKit
+import MobileCoreServices
 
 
 @objc
 protocol OmnibarScreenDelegate {
-    func omnibarCanceled()
-    func omnibarPresentPicker(controller : UIViewController)
-    func omnibarDismissPicker(controller : UIViewController)
-    func omnibarSubmitted(text : String)
+    func omnibarPresentController(controller : UIViewController)
+    func omnibarDismissController(controller : UIViewController)
+    func omnibarSubmitted(text : NSAttributedString?, image: UIImage?)
 }
 
 
-class OmnibarScreen : UIView, UITextViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+@objc
+protocol OmnibarScreenProtocol {
+    var delegate : OmnibarScreenDelegate? { get set }
+    var avatarURL : NSURL? { get set }
+    func resetAfterSuccessfulPost()
+    func reportError(title : String, error : NSError)
+    func reportError(title : String, error : String)
+    func keyboardWillShow()
+    func keyboardWillHide()
+}
+
+
+class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     struct Size {
         static let margins = CGFloat(10)
         static let textMargins = CGFloat(9)
@@ -78,6 +106,7 @@ class OmnibarScreen : UIView, UITextViewDelegate, UINavigationControllerDelegate
         // this rect will be adjusted by ElloEquallySpacedLayout, but I need it
         // set to *something* so that autoresizingMask is calculated correctly
         imageSelectedButton = UIButton(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
+        imageSelectedButton.contentMode = .ScaleAspectFit
         imageSelectedOverlay = UIImageView()
         imageSelectedOverlay.contentMode = .Center
         imageSelectedOverlay.layer.cornerRadius = 13
@@ -95,7 +124,7 @@ class OmnibarScreen : UIView, UITextViewDelegate, UINavigationControllerDelegate
 
         textView = UITextView()
         textView.editable = true
-        textView.allowsEditingTextAttributes = true
+        textView.allowsEditingTextAttributes = false  // TEMP
         textView.selectable = true
         textView.textColor = UIColor.blackColor()
         textView.font = UIFont.typewriterFont(12)
@@ -143,70 +172,23 @@ class OmnibarScreen : UIView, UITextViewDelegate, UINavigationControllerDelegate
         }
     }
 
-// MARK: Layout and update views
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-        scrollView.frame = self.bounds
-        avatarView.frame = CGRect(x: Size.margins, y: Size.margins, width: Size.toolbarHeight, height: Size.toolbarHeight)
-        avatarView.layer.cornerRadius = Size.toolbarHeight / CGFloat(2)
-
-        let buttonContainerWidth = Size.buttonWidth * CGFloat(buttonContainer.subviews.count)
-        buttonContainer.frame = CGRect(x: self.bounds.width - Size.buttonRightMargin, y: Size.margins, width: 0, height: Size.toolbarHeight)
-            .growLeft(buttonContainerWidth)
-
-        // make sure the textContainer is above the keboard, with a 1pt line
-        // margin at the bottom.
-        // size the textContainer and sayElloOverlay to be identical.
-        let kbdHeight = Keyboard.shared().height
-        let window : UIView = self.window ?? self
-        let bottom = self.convertPoint(CGPoint(x: 0, y: self.bounds.height), toView: window).y
-        let bottomHeight = self.window!.frame.height - bottom
-        var localKbdHeight = kbdHeight - bottomHeight
-        if localKbdHeight < 0 {
-            localKbdHeight = 0
-        }
-        else {
-            localKbdHeight += Size.bottomTextMargin
-        }
-        textContainer.frame = CGRect.make(x: Size.margins, y: avatarView.frame.maxY + Size.innerTextMargin,
-            right: self.bounds.size.width - Size.margins, bottom: self.bounds.size.height - localKbdHeight)
-        sayElloOverlay.frame = textContainer.frame
-        sayElloLabel.frame = CGRect(x: Size.textMargins, y: Size.textMargins + Size.labelCorrection, width: 0, height: 0)
-        sayElloLabel.sizeToFit()
-
-        // size so that it is offset from the textContainer
-        textView.frame = textContainer.bounds.inset(top: 0, left: Size.textMargins, bottom: 0, right: 0)
-        textView.contentInset = UIEdgeInsets(top: Size.textMargins, left: 0, bottom: Size.textMargins, right: 0)
-
-        // size according to the bottom of the text view
-        // this scrollview is current pointless... need to double check on smaller devices whether it's necessary
-        scrollView.contentSize = CGSize(width: scrollView.frame.size.width, height: textContainer.frame.maxY)
-        let scrollInsets = UIEdgeInsets(top: 0, left: 0, bottom: localKbdHeight, right: 0)
-        scrollView.contentInset = scrollInsets
-        scrollView.scrollIndicatorInsets = scrollInsets
+    func resetAfterSuccessfulPost() {
+        resetUndoState()
+        resetEditor()
     }
 
-    func resetEditor() {
-        sayElloOverlay.hidden = false
-        textView.resignFirstResponder()
-        textView.text = ""
-        currentText = nil
-        setCurrentImage(nil)
+    func reportError(title : String, error : NSError) {
+        let errorMessage = error.localizedDescription
+        reportError(title, error: errorMessage)
     }
 
-    func updateUndoState() {
-        if canUndo() {
-            cancelButton.setImage(ElloDrawable.imageOfUndoIcon, forState: .Normal)
-            cancelButton.removeTarget(self, action: Selector("cancelEditingAction"), forControlEvents: .TouchUpInside)
-            cancelButton.addTarget(self, action: Selector("undoCancelAction"), forControlEvents: .TouchUpInside)
-        }
-        else {
-            cancelButton.setImage(ElloDrawable.imageOfCancelIcon, forState: .Normal)
-            cancelButton.removeTarget(self, action: Selector("undoCancelAction"), forControlEvents: .TouchUpInside)
-            cancelButton.addTarget(self, action: Selector("cancelEditingAction"), forControlEvents: .TouchUpInside)
-        }
+    func reportError(title : String, error message : String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .ActionSheet)
+
+        let cancelAction = UIAlertAction(title: "OK", style: .Cancel) { (action) in }
+        alertController.addAction(cancelAction)
+
+        delegate?.omnibarPresentController(alertController)
     }
 
 // MARK: Keyboard events - animate layout update in conjunction with keyboard animation
@@ -232,6 +214,72 @@ class OmnibarScreen : UIView, UITextViewDelegate, UINavigationControllerDelegate
             },
             completion: nil)
     }
+// MARK: Layout and update views
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        scrollView.frame = self.bounds
+        avatarView.frame = CGRect(x: Size.margins, y: Size.margins, width: Size.toolbarHeight, height: Size.toolbarHeight)
+        avatarView.layer.cornerRadius = Size.toolbarHeight / CGFloat(2)
+
+        let buttonContainerWidth = Size.buttonWidth * CGFloat(buttonContainer.subviews.count)
+        buttonContainer.frame = CGRect(x: self.bounds.width - Size.buttonRightMargin, y: Size.margins, width: 0, height: Size.toolbarHeight)
+            .growLeft(buttonContainerWidth)
+
+        // make sure the textContainer is above the keboard, with a 1pt line
+        // margin at the bottom.
+        // size the textContainer and sayElloOverlay to be identical.
+        let kbdHeight = Keyboard.shared().height
+        let window : UIView = self.window ?? self
+        let bottom = self.convertPoint(CGPoint(x: 0, y: self.bounds.height), toView: window).y
+        let bottomHeight = window.frame.height - bottom
+        var localKbdHeight = kbdHeight - bottomHeight
+        if localKbdHeight < 0 {
+            localKbdHeight = 0
+        }
+        else {
+            localKbdHeight += Size.bottomTextMargin
+        }
+        textContainer.frame = CGRect.make(x: Size.margins, y: avatarView.frame.maxY + Size.innerTextMargin,
+            right: self.bounds.size.width - Size.margins, bottom: self.bounds.size.height - localKbdHeight)
+        sayElloOverlay.frame = textContainer.frame
+        sayElloLabel.frame = CGRect(x: Size.textMargins, y: Size.textMargins + Size.labelCorrection, width: 0, height: 0)
+        sayElloLabel.sizeToFit()
+
+        // size so that it is offset from the textContainer
+        textView.frame = textContainer.bounds.inset(top: 0, left: Size.textMargins, bottom: 0, right: 0)
+        textView.contentInset = UIEdgeInsets(top: Size.textMargins, left: 0, bottom: Size.textMargins, right: 0)
+
+        // size according to the bottom of the text view
+        // this scrollview is current pointless... need to double check on smaller devices whether it's necessary
+        scrollView.contentSize = CGSize(width: scrollView.frame.size.width, height: textContainer.frame.maxY)
+        let scrollInsets = UIEdgeInsets(top: 0, left: 0, bottom: localKbdHeight, right: 0)
+        scrollView.contentInset = scrollInsets
+        scrollView.scrollIndicatorInsets = scrollInsets
+    }
+
+    private func resetEditor() {
+        sayElloOverlay.hidden = false
+        textView.resignFirstResponder()
+        textView.text = ""
+        currentText = nil
+        setCurrentImage(nil)
+        updateUndoState()
+    }
+
+    private func updateUndoState() {
+        if canUndo() {
+            cancelButton.setImage(ElloDrawable.imageOfUndoIcon, forState: .Normal)
+            cancelButton.removeTarget(self, action: Selector("cancelEditingAction"), forControlEvents: .TouchUpInside)
+            cancelButton.addTarget(self, action: Selector("undoCancelAction"), forControlEvents: .TouchUpInside)
+        }
+        else {
+            cancelButton.setImage(ElloDrawable.imageOfCancelIcon, forState: .Normal)
+            cancelButton.removeTarget(self, action: Selector("undoCancelAction"), forControlEvents: .TouchUpInside)
+            cancelButton.addTarget(self, action: Selector("cancelEditingAction"), forControlEvents: .TouchUpInside)
+        }
+    }
 
 // MARK: Button Actions
 
@@ -243,7 +291,6 @@ class OmnibarScreen : UIView, UITextViewDelegate, UINavigationControllerDelegate
     func cancelEditingAction() {
         takeUndoSnapshot()
         resetEditor()
-        updateUndoState()
     }
 
     func undoCancelAction() {
@@ -254,14 +301,18 @@ class OmnibarScreen : UIView, UITextViewDelegate, UINavigationControllerDelegate
             startEditingAction()
         }
 
-        undoText = nil
-        undoImage = nil
-        updateUndoState()
+        resetUndoState()
     }
 
     func submitAction() {
-        let text = textView.text
-        delegate?.omnibarSubmitted(text)
+        if currentTextIsPresent() || currentImageIsPresent() {
+            textView.resignFirstResponder()
+            var submittedText : NSAttributedString?
+            if currentTextIsPresent() {
+                submittedText = currentText
+            }
+            delegate?.omnibarSubmitted(submittedText, image: currentImage)
+        }
     }
 
     func removeButtonAction() {
@@ -286,7 +337,13 @@ class OmnibarScreen : UIView, UITextViewDelegate, UINavigationControllerDelegate
         return undoImage != nil
     }
 
-    private func canUndo() -> Bool {
+    private func resetUndoState() {
+        undoText = nil
+        undoImage = nil
+        updateUndoState()
+    }
+
+    func canUndo() -> Bool {
         if currentTextIsPresent() || currentImageIsPresent() {
             return false
         }
@@ -309,18 +366,30 @@ class OmnibarScreen : UIView, UITextViewDelegate, UINavigationControllerDelegate
     func userSetCurrentImage(image : UIImage?) {
         undoImage = nil
         setCurrentImage(image)
+        updateUndoState()
     }
 
     // this updates the currentImage and buttons, but doesn't mess with undo
-    func setCurrentImage(image : UIImage?) {
+    private func setCurrentImage(image : UIImage?) {
         currentImage = image
 
         if let image = image {
             cameraButton.removeFromSuperview()
-            imageSelectedButton.setBackgroundImage(image, forState: .Normal)
-            self.imageSelectedButton.transform = CGAffineTransformIdentity
-            imageSelectedButton.alpha = 1
+            imageSelectedButton.setImage(image, forState: .Normal)
+            if let imageSelectedImageView = imageSelectedButton.imageView {
+                imageSelectedImageView.contentMode = .ScaleAspectFit
+            }
             buttonContainer.insertSubview(imageSelectedButton, atIndex: 0)
+            buttonContainer.layoutIfNeeded()
+
+            self.imageSelectedButton.transform = CGAffineTransformMakeScale(1.3, 1.3)
+            imageSelectedButton.alpha = 0
+            UIView.animateWithDuration(0.3) {
+                self.imageSelectedButton.transform = CGAffineTransformIdentity
+            }
+            UIView.animateWithDuration(0.2) {
+                self.imageSelectedButton.alpha = 1
+            }
         }
         else {
             if imageSelectedButton.superview != nil {
@@ -338,8 +407,11 @@ class OmnibarScreen : UIView, UITextViewDelegate, UINavigationControllerDelegate
             buttonContainer.insertSubview(cameraButton, atIndex: 0)
         }
 
-        updateUndoState()
-        setNeedsLayout()
+        // disable the cancel button during animations (fixes weird scaling bug in iOS 8)
+        cancelButton.userInteractionEnabled = false
+        Functional.later(0.3) {
+            self.cancelButton.userInteractionEnabled = true
+        }
     }
 
 // MARK: Camera / Image Picker
@@ -348,11 +420,19 @@ class OmnibarScreen : UIView, UITextViewDelegate, UINavigationControllerDelegate
         if UIImagePickerController.isSourceTypeAvailable(.SavedPhotosAlbum) {
             let controller = UIImagePickerController()
             controller.sourceType = .SavedPhotosAlbum
-            controller.mediaTypes = UIImagePickerController.availableMediaTypesForSourceType(.SavedPhotosAlbum)!
+            controller.mediaTypes = [kUTTypeImage]
             controller.allowsEditing = false
             controller.delegate = self
             controller.modalPresentationStyle = .FullScreen
-            delegate?.omnibarPresentPicker(controller)
+            delegate?.omnibarPresentController(controller)
+        }
+        else {
+            let alertController = UIAlertController(title: "No photo library", message: "Sorry, but your device doesn’t have a photo library!", preferredStyle: .ActionSheet)
+
+            let cancelAction = UIAlertAction(title: "OK", style: .Cancel) { (action) in }
+            alertController.addAction(cancelAction)
+
+            delegate?.omnibarPresentController(alertController)
         }
     }
 
@@ -365,11 +445,11 @@ class OmnibarScreen : UIView, UITextViewDelegate, UINavigationControllerDelegate
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             userSetCurrentImage(image)
         }
-        delegate?.omnibarDismissPicker(controller)
+        delegate?.omnibarDismissController(controller)
     }
 
     func imagePickerControllerDidCancel(controller: UIImagePickerController) {
-        delegate?.omnibarDismissPicker(controller)
+        delegate?.omnibarDismissController(controller)
     }
 
 // MARK: Text View editing

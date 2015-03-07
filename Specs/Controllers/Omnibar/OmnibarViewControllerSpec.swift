@@ -13,7 +13,7 @@ import Nimble
 class OmnibarViewControllerSpec: QuickSpec {
     override func spec() {
 
-        var controller = OmnibarViewController()
+        var controller : OmnibarViewController?
 
         beforeSuite {
             ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
@@ -23,23 +23,43 @@ class OmnibarViewControllerSpec: QuickSpec {
             ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
         }
 
-        describe("initialization", {
+        describe("initialization") {
 
-            beforeEach({
+            beforeEach() {
                 controller = OmnibarViewController()
-            })
+            }
 
             it("can be instantiated") {
                 expect(controller).notTo(beNil())
             }
 
-            it("is a BaseElloViewController", {
+            it("is a BaseElloViewController") {
                 expect(controller).to(beAKindOf(BaseElloViewController.self))
-            })
+            }
 
-            it("is a OmnibarViewController", {
+            it("is a OmnibarViewController") {
                 expect(controller).to(beAKindOf(OmnibarViewController.self))
-            })
-        })
+            }
+
+            it("uses the OmnibarScreen as its view") {
+                if let controller = controller {
+                    expect(controller.view).to(beAKindOf(OmnibarScreen.self))
+                }
+                else {
+                    fail("No OmnibarViewController")
+                }
+            }
+        }
+
+        describe("setting up the Screen") {
+            xit("assigns the currentUser.avatarURL to the screen") {}
+        }
+
+        describe("posting content") {
+            xit("should ignore empty content") {}
+            xit("should post some text") {}
+            xit("should post an image") {}
+            xit("should post text and image") {}
+        }
     }
 }
