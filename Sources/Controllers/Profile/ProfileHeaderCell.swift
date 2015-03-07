@@ -16,6 +16,7 @@ class ProfileHeaderCell: UICollectionViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var countsTextView: ElloTextView!
     @IBOutlet weak var relationshipView: RelationshipView!
+    weak var userListDelegate: UserListDelegate?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -42,8 +43,14 @@ class ProfileHeaderCell: UICollectionViewCell {
 extension ProfileHeaderCell: ElloTextViewDelegate {
     func textViewTapped(link: String, object: AnyObject?) {
         switch link {
-        case "followers": println("FOLLOWERS \(object)")
-        case "following": println("FOLLOWING: \(object)")
+        case "followers":
+            if let user = object as? User {
+                userListDelegate?.show(.UserStreamFollowers(userId: user.userId), title: "Followers")
+            }
+        case "following":
+            if let user = object as? User {
+                userListDelegate?.show(.UserStreamFollowing(userId: user.userId), title: "Following")
+            }
         default: break
         }
     }

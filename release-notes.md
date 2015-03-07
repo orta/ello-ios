@@ -348,3 +348,153 @@
 * dynamic cells, with resizinge, based on activity kind
 
 -----------------
+
+-----------------
+###Ello 0.1 Build 7
+####Commit notes:
+
+* Merge pull request #54 from ello/rb-load-following-followers
+* Add Stubs file to make user stubbing easier.
+* Update stream data source tests.
+* Adds following/followers views.
+* Merge pull request #59 from ello/cg-string-extensions
+* rm fdescribe
+* Merge pull request #58 from ello/rb-fix-profile-posts
+* adds more string extensions, to encode/decode URLs and HTML entities.
+* Make `parseArray` private.
+* Fixes post loading for users.
+* Merge pull request #53 from ello/td-update-quick-numble
+* Update Quick and Nimble
+* Update quick and nimble in podfile
+* Merge pull request #46 from ello/sd-tapping-on-avatar-loads-profile
+* Merge branch 'master' into sd-tapping-on-avatar-loads-profile
+* Merge pull request #49 from ello/rb-posts-following-followers
+* Add a bunch more test coverage to StreamDataSource
+* Handle invalid index paths
+* Add specs for some StreamDataSource functions.
+* Forgot to add ElloTextView to Specs.
+* Default relationship to None if none present.
+* Factors out an ElloTextView for handling taps.
+* Merge branch 'master' into sd-tapping-on-avatar-loads-profile
+* Merge pull request #43 from ello/rb-paginate-notifications
+* Do not load a profile if we're already viewing it.
+* Tapping on comment avatars loads profile.
+* Removing types and using reduce.
+* Refactors parser and stream view controller.
+* Merge pull request #41 from ello/gf-disable-extra-schemes
+* Remove extra pod schemes
+* Merge pull request #38 from ello/td-set-project-indentation
+* Set indentation at the project level
+* Merge pull request #35 from ello/rb-error-userinfo
+* Add test for unknown code coming back from JSON.
+* Default code to unknown to prevent crashes.
+* Merge pull request #37 from ello/gf-update-cocoapods
+* Update CocoaPods version to RC 1
+* Merge pull request #34 from ello/rb-crasylytics-answers
+* Add debugMode = true for Crashlytics Answers.
+* Merge pull request #32 from ello/rb-stream-pagination
+* xdescribe scroll tests for streamviewcontroller.
+* Update stubbed headers to pass test.
+* Update client secret and id for staging.
+* Fixes issues with last merge.
+* Fix the api methods
+* WIP: Adding tests for pagination.
+* Split stubbedData and stubbedResponse into two methods.
+* fixed merge conflicts
+* xit out the the timeout spec as it is brittle.
+* Moving a class to its own file requires an init()
+* Move response config to it’s own file.
+* Move weblinking import to correct class.
+* Adds paging to friend and noise streams.
+* Adds WebLinking pod
+* WIP Adding header link parsing for pagination.
+* explanation of benefits
+* fixes 'isShowing' getter
+* Merge pull request #33 from ello/cg-navbar
+* these vars were removed
+* ElloScrollLogic Specs - defines behavior of 'scroll to show/hide'
+* 'rake test' is wrong - should be 'rake spec'
+* will need this spec
+* scroll tweaks
+* Merge branch 'master' into cg-navbar
+* Merge branch 'master' of github.com:ello/ello-ios
+* misc fixes: no more `author!` and disables webkit text selection
+* only set HTML if value changed
+* scroll updates
+* Merge pull request #31 from ello/sd-add-reveal-buttons-to-postbar
+* Need to comment out another FunctionalSpec test.
+* Had to comment out two of the Functional specs that don't pass on Travis
+* Change setButtonTitle to setButtonTitleWithPadding on SteramFooterButton
+* Fixed renamed function reference in StreamViewControllerSpec.
+* resolve merge conflicts
+* Added specs for ContentFlagger.
+* better default
+* fixes to avatar button
+* I stopped using this long ago!
+* not misplaced anymore
+* notifications += hideable bars
+* Content Flagging specs
+* aww yeah, scrolling shows/hides all tabbar/navbars (except notifications, i just remembered)
+* working on post detail
+* WIP: content flagging
+* Update Crashlytics files.
+* don't need this anymore
+* tabbar hides too now!
+* cool!  scrolling hides the nav bar... just like it did this morning... heehee
+* longer timeout for functional test
+* custom class here
+* nav bars are no longer universal - screen specific!
+* StreamContainerController has its own nav bar
+* fixes specs
+* crashlytics updates
+* include PaintCode source files
+* rm unused code
+* drawables, playing with paintcode
+* Merge branch 'master' into cg-notifications-api
+* messing with navigation bars
+* added code comments to PostbarController
+* ImageRegions no longer require alt.
+* refactors to PostDetail and ProfileView, plus fixes and features in Notifications
+* deal with 'no current user' error
+* Load a post detail when tapping the views icon
+* share posts from share button in postbar
+* do not stub responses
+* Add shareLink to Post
+* Merge branch 'master' into sd-add-reveal-buttons-to-postbar
+* Merge pull request #29 from ello/rb-relationships
+* Add swipe to reveal to postbar in streamfootercell
+* Add block, reply and share icons
+* Rename controller to presentingController.
+* xdescribe the whole stream data source spec.
+* xdescribe our most brittle test.
+* Rewire up the relationship view in profile header.
+* Finish up testing relationship toggles.
+* WIP: Adding specs
+* Polish off the relationship view and controller.
+* Adding the mute/block modal view.
+* Couple refactors in the relationship view.
+* Add relationship service.
+* Update styling of the relationship buttons.
+* WIP: adding relationship view.
+* use default value and variable name fix
+* Merge pull request #30 from ello/cg-colors
+* Merge branch 'master' into cg-notifications-api
+* Merge branch 'master' into cg-colors
+* Merge branch 'master' of github.com:ello/ello-ios
+* and dead simple specs
+* refactored Colors to memoize values and added some notes
+* added NotificationsScreen
+* remove uneeded code
+* notification refactors
+* WIP: move content into scrollview
+* fixes to notifications - and title 'links' are tappable!  they just output debug code
+* convert notificationTitleLabel to UITextView
+* spec fixes and notification titles are now beautiful
+* Merge pull request #28 from ello/sd-move-cell-config-to-extensions
+* with specs!
+* use static presenters to configure stream cells
+* build 6
+* update release notes generator
+* Cell config in UITableViewCell extensions
+
+-----------------

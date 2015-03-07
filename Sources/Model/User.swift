@@ -12,7 +12,7 @@ import UIKit
 import SwiftyJSON
 
 
-class User: JSONAble {
+final class User: JSONAble {
     var atName : String { return "@\(username)"}
     let avatarURL: NSURL?
     let coverImageURL: NSURL?

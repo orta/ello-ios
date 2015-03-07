@@ -45,6 +45,7 @@ class StreamViewController: BaseElloViewController {
     var dataSource:StreamDataSource!
     var postbarController:PostbarController?
     var relationshipController: RelationshipController?
+    var userListController: UserListController?
     var responseConfig: ResponseConfig?
     let streamService = StreamService()
 
@@ -220,6 +221,9 @@ class StreamViewController: BaseElloViewController {
         relationshipController = RelationshipController(presentingController: self)
         dataSource.relationshipDelegate = relationshipController
 
+        userListController = UserListController(presentingController: self)
+        dataSource.userListDelegate = userListController
+
         if let imageViewer = imageViewerDelegate {
             dataSource.imageDelegate = imageViewer
         }
@@ -253,7 +257,7 @@ extension StreamViewController : UserDelegate {
 
     func userTappedCell(cell: UICollectionViewCell) {
         if let indexPath = collectionView.indexPathForCell(cell) {
-            if let user = dataSource.authorForIndexPath(indexPath) {
+            if let user = dataSource.userForIndexPath(indexPath) {
                 userTappedDelegate?.userTapped(user)
             }
         }
