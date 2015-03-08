@@ -10,6 +10,38 @@ import Quick
 import Nimble
 
 
+class OmnibarMockScreen : OmnibarScreenProtocol {
+    var delegate : OmnibarScreenDelegate?
+    var avatarURL : NSURL?
+    var text : String?
+    var image : UIImage?
+    var attributedText : NSAttributedString?
+
+    var didResetAfterSuccessfulPost = false
+    var didReportError = false
+    var didReportError = false
+    var didKeyboardWillShow = false
+    var didKeyboardWillHide = false
+
+    func resetAfterSuccessfulPost() {
+        didResetAfterSuccessfulPost = true
+    }
+    func reportError(title : String, error : NSError) {
+        didReportError = true
+    }
+    func reportError(title : String, error : String) {
+        didReportError = true
+    }
+    func keyboardWillShow() {
+        didKeyboardWillShow = true
+    }
+    func keyboardWillHide() {
+        didKeyboardWillHide = true
+    }
+
+}
+
+
 class OmnibarViewControllerSpec: QuickSpec {
     override func spec() {
 
@@ -52,14 +84,18 @@ class OmnibarViewControllerSpec: QuickSpec {
         }
 
         describe("setting up the Screen") {
-            xit("assigns the currentUser.avatarURL to the screen") {}
-        }
-
-        describe("posting content") {
-            xit("should ignore empty content") {}
-            xit("should post some text") {}
-            xit("should post an image") {}
-            xit("should post text and image") {}
+            beforeEach() {
+                controller = OmnibarViewController()
+                screen = OmnibarMockScreen()
+                controller.screen = screen
+            }
+            it("assigns the currentUser.avatarURL to the screen") {
+                let user = User.fakeCurrentUser(username: "foo")
+                let url = NSURL(string: "http://ello.co/avatar.png")!
+                user.avatarURL = url
+                controller.currentUser = user
+                expect(screen.avatarURL) == url
+            }
         }
     }
 }

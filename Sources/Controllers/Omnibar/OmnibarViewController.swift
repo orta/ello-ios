@@ -17,7 +17,8 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
         self.view = OmnibarScreen(frame: UIScreen.mainScreen().bounds)
     }
 
-    // for testing, add a fake screen
+    // the _mockScreen is only for testing - otherwise `self.screen` is always
+    // just an appropriately typed accessor for `self.view`
     var _mockScreen : OmnibarScreenProtocol?
     var screen : OmnibarScreenProtocol {
         set { _mockScreen = screen }
