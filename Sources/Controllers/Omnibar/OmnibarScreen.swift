@@ -5,15 +5,19 @@
 //  Created by Colin Gray on 2/26/2015.
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
-// This screen tracks two sets of "changes": the attributed text of the
-// textView, and the image uploaded by the image picker.
+// This screen tracks two sets of "changes": the attributed text of the textView
+// (`currentText : NSAttributedString`), and the image uploaded by the image
+// picker (`currentImage`).  Both have a corresponding 'undo' state (`undoText` and
+// `undoImage`).
 //
-// When the cancel button is tapped, the editor is reset, but if the text or
-// image was set, they go into `undoText` and `undoImage`, and the cancel button
-// changes to the "undo" icon.  The logic for when the button is undo vs cancel
-// is stored in `canUndo()`.  To update the button state, call
-// `updateUndoState()`.  To reset the views to initial editing state call
-// `resetEditor()`.  (This method does not affect the undo variables)
+// When the cancel button is tapped, the editor is reset and they keyboard is
+// dismissed, but if the text or image was set, they go into `undoText` and
+// `undoImage`, and the cancel button changes to the "undo" icon.  The logic for
+// when the button is undo vs cancel is stored in `canUndo()`.  To update the
+// button state, call `updateUndoState()`.  To reset the views to initial
+// (empty) editing state call `resetAfterSuccessfulPost()`.
+//
+// Lots of views and actions are exposed, this is for testing.
 //
 // In layoutSubviews(), the avatar, buttons, and text editor are placed
 // according to the keyboard state (using the custom Keyboard class to get the
@@ -38,6 +42,9 @@ protocol OmnibarScreenDelegate {
 protocol OmnibarScreenProtocol {
     var delegate : OmnibarScreenDelegate? { get set }
     var avatarURL : NSURL? { get set }
+    var text : String? { get set }
+    var image : UIImage? { get set }
+    var attributedText : NSAttributedString? { get set }
     func resetAfterSuccessfulPost()
     func reportError(title : String, error : NSError)
     func reportError(title : String, error : String)
@@ -58,9 +65,61 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
         static let buttonRightMargin = CGFloat(5)
     }
 
-    weak var delegate : OmnibarScreenDelegate?
+// MARK: public access to text and image
 
-    var scrollView : UIScrollView!
+    // Styles the text and assigns it as an NSAttributedString to
+    // `attributedText`
+    var text : String? {
+        set(newValue) {
+            if let value = newValue {
+                self.attributedText = ElloAttributedString.style(value)
+            }
+            else {
+                self.attributedText = nil
+            }
+        }
+        get {
+            return attributedText?.string
+        }
+    }
+
+    // assigns the NSAttributedString to the UITextView and assigns
+    // `currentText`
+    var attributedText : NSAttributedString? {
+        set(newValue) {
+            userSetCurrentText(newValue)
+        }
+        get {
+            return currentText
+        }
+    }
+
+    var image : UIImage? {
+        set(newValue) {
+            userSetCurrentImage(newValue)
+        }
+        get {
+            return currentImage
+        }
+    }
+
+    var avatarURL : NSURL? {
+        willSet(newValue) {
+            if avatarURL != newValue {
+                if let avatarURL = newValue {
+                    self.avatarView.sd_setImageWithURL(avatarURL)
+                }
+                else {
+                    // TODO: Ello default
+                    self.avatarView.image = nil
+                }
+            }
+        }
+    }
+
+// MARK: internal and/or private vars
+
+    weak var delegate : OmnibarScreenDelegate?
 
     var avatarView : UIImageView!
     var cameraButton : UIButton!
@@ -76,16 +135,15 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
     var textContainer : UIView!
     var textView : UITextView!
 
-    var currentText : NSAttributedString?
-    var currentImage : UIImage?
+    private var currentText : NSAttributedString?
+    private var currentImage : UIImage?
 
-    var undoText : NSAttributedString?
-    var undoImage : UIImage?
+    private var undoText : NSAttributedString?
+    private var undoImage : UIImage?
+
+// MARK: init
 
     override init(frame: CGRect) {
-        scrollView = UIScrollView()
-        scrollView.backgroundColor = UIColor.whiteColor()
-
         avatarView = UIImageView(frame: CGRectZero)
         avatarView.backgroundColor = UIColor.blackColor()
         avatarView.clipsToBounds = true
@@ -132,17 +190,17 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
         textView.backgroundColor = UIColor.greyE5()
 
         super.init(frame: frame)
+        self.backgroundColor = UIColor.whiteColor()
 
-        self.addSubview(scrollView)
         for view in [avatarView, buttonContainer, textContainer, sayElloOverlay] as [UIView] {
-            scrollView.addSubview(view)
+            self.addSubview(view)
         }
 
         for view in [cameraButton, cancelButton, submitButton] as [UIView] {
             buttonContainer.addSubview(view)
         }
         submitButton.addTarget(self, action: Selector("submitAction"), forControlEvents: .TouchUpInside)
-        cameraButton.addTarget(self, action: Selector("cameraAction"), forControlEvents: .TouchUpInside)
+        cameraButton.addTarget(self, action: Selector("addImageAction"), forControlEvents: .TouchUpInside)
         cancelButton.addTarget(self, action: Selector("cancelEditingAction"), forControlEvents: .TouchUpInside)
         imageSelectedButton.addTarget(self, action: Selector("removeButtonAction"), forControlEvents: .TouchUpInside)
 
@@ -158,18 +216,23 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
         fatalError("init(coder:) has not been implemented")
     }
 
-    var avatarURL : NSURL? {
-        willSet(newValue) {
-            if self.avatarURL != newValue {
-                if let avatarURL = newValue {
-                    self.avatarView.sd_setImageWithURL(avatarURL)
-                }
-                else {
-                    // TODO: Ello default
-                    self.avatarView.image = nil
-                }
+    // Removes the undo state, and updates the text view, including the overlay
+    // and first responder state.  This method is meant to be used during
+    // initialization.
+    private func userSetCurrentText(value : NSAttributedString?) {
+        if currentText != value {
+            if let text = value {
+                textView.attributedText = text
+                sayElloOverlay.hidden = true
+            }
+            else {
+                textView.text = ""
+                sayElloOverlay.hidden = false
             }
         }
+
+        textView.resignFirstResponder()
+        resetUndoState()
     }
 
     func resetAfterSuccessfulPost() {
@@ -219,7 +282,6 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        scrollView.frame = self.bounds
         avatarView.frame = CGRect(x: Size.margins, y: Size.margins, width: Size.toolbarHeight, height: Size.toolbarHeight)
         avatarView.layer.cornerRadius = Size.toolbarHeight / CGFloat(2)
 
@@ -250,13 +312,6 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
         // size so that it is offset from the textContainer
         textView.frame = textContainer.bounds.inset(top: 0, left: Size.textMargins, bottom: 0, right: 0)
         textView.contentInset = UIEdgeInsets(top: Size.textMargins, left: 0, bottom: Size.textMargins, right: 0)
-
-        // size according to the bottom of the text view
-        // this scrollview is current pointless... need to double check on smaller devices whether it's necessary
-        scrollView.contentSize = CGSize(width: scrollView.frame.size.width, height: textContainer.frame.maxY)
-        let scrollInsets = UIEdgeInsets(top: 0, left: 0, bottom: localKbdHeight, right: 0)
-        scrollView.contentInset = scrollInsets
-        scrollView.scrollIndicatorInsets = scrollInsets
     }
 
     private func resetEditor() {
@@ -371,7 +426,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
 
     // this updates the currentImage and buttons, but doesn't mess with undo
     private func setCurrentImage(image : UIImage?) {
-        currentImage = image
+        self.currentImage = image
 
         if let image = image {
             cameraButton.removeFromSuperview()
@@ -416,15 +471,20 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
 
 // MARK: Camera / Image Picker
 
-    func cameraAction() {
-        if UIImagePickerController.isSourceTypeAvailable(.SavedPhotosAlbum) {
-            let controller = UIImagePickerController()
-            controller.sourceType = .SavedPhotosAlbum
-            controller.mediaTypes = [kUTTypeImage]
-            controller.allowsEditing = false
-            controller.delegate = self
-            controller.modalPresentationStyle = .FullScreen
-            delegate?.omnibarPresentController(controller)
+    func addImageAction() {
+        if UIImagePickerController.isSourceTypeAvailable(.Camera) {
+            let alertController = UIAlertController(title: "", message: "", preferredStyle: .ActionSheet)
+
+            let cameraAction = UIAlertAction(title: "Camera", style: .Cancel) { (action) in }
+            alertController.addAction(cameraAction)
+
+            let libraryAction = UIAlertAction(title: "Library", style: .Cancel) { (action) in }
+            alertController.addAction(libraryAction)
+
+            delegate?.omnibarPresentController(alertController)
+        }
+        else if UIImagePickerController.isSourceTypeAvailable(.PhotoLibrary) {
+            openLibrary()
         }
         else {
             let alertController = UIAlertController(title: "No photo library", message: "Sorry, but your device doesn’t have a photo library!", preferredStyle: .ActionSheet)
@@ -434,6 +494,27 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
 
             delegate?.omnibarPresentController(alertController)
         }
+    }
+
+    func openLibrary() {
+        let imageController = UIImagePickerController()
+        imageController.sourceType = .PhotoLibrary
+        openImagePicker(imageController)
+    }
+
+    func openCamera() {
+        let imageController = UIImagePickerController()
+        imageController.sourceType = .Camera
+        openImagePicker(imageController)
+    }
+
+    private func openImagePicker(imageController : UIImagePickerController) {
+        imageController.mediaTypes = [kUTTypeImage]
+        imageController.allowsEditing = false
+        imageController.delegate = self
+        imageController.modalPresentationStyle = .FullScreen
+        imageController.navigationBar.tintColor = UIColor.greyA()
+        delegate?.omnibarPresentController(imageController)
     }
 
     func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
@@ -450,6 +531,12 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
 
     func imagePickerControllerDidCancel(controller: UIImagePickerController) {
         delegate?.omnibarDismissController(controller)
+    }
+
+    func showCamera() {
+    }
+
+    func showLibrary() {
     }
 
 // MARK: Text View editing
