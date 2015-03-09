@@ -33,7 +33,7 @@ class KeyboardSpec: QuickSpec {
             }
         }
 
-        describe("Responds to keyboard being shown") {
+        xdescribe("Responds to keyboard being shown") {
             beforeEach() {
                 let window = UIWindow(frame: UIScreen.mainScreen().bounds)
                 let controller = UIViewController()
