@@ -236,7 +236,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
     }
 
     func reportSuccess(title : String) {
-        let alertController = UIAlertController(title: title, message: "", preferredStyle: .ActionSheet)
+        let alertController = UIAlertController(title: title, message: "", preferredStyle: .Alert)
 
         let cancelAction = UIAlertAction(title: "OK", style: .Cancel) { (action) in }
         alertController.addAction(cancelAction)
@@ -256,7 +256,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
     }
 
     func reportError(title : String, error message : String) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .ActionSheet)
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
 
         let cancelAction = UIAlertAction(title: "OK", style: .Cancel) { (action) in }
         alertController.addAction(cancelAction)
@@ -497,7 +497,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
             openLibrary()
         }
         else {
-            let alertController = UIAlertController(title: "No photo library", message: "Sorry, but your device doesn’t have a photo library!", preferredStyle: .ActionSheet)
+            let alertController = UIAlertController(title: "No photo library", message: "Sorry, but your device doesn’t have a photo library!", preferredStyle: .Alert)
 
             let cancelAction = UIAlertAction(title: "OK", style: .Cancel) { (action) in }
             alertController.addAction(cancelAction)
