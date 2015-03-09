@@ -77,7 +77,7 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
             ElloHUD.showLoadingHud()
             service.create(content: content, success: {
                 ElloHUD.hideLoadingHud()
-                self.screen.resetAfterSuccessfulPost()
+                self.screen.reportSuccess("Post successfully created!")
             }, failure: { error, statusCode in
                 ElloHUD.hideLoadingHud()
                 self.screen.reportError("Could not create post", error: error)

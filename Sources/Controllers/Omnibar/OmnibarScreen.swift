@@ -14,8 +14,7 @@
 // dismissed, but if the text or image was set, they go into `undoText` and
 // `undoImage`, and the cancel button changes to the "undo" icon.  The logic for
 // when the button is undo vs cancel is stored in `canUndo()`.  To update the
-// button state, call `updateUndoState()`.  To reset the views to initial
-// (empty) editing state call `resetAfterSuccessfulPost()`.
+// button state, call `updateUndoState()`.
 //
 // Lots of views and actions are exposed, this is for testing.
 //
@@ -45,7 +44,7 @@ protocol OmnibarScreenProtocol {
     var text : String? { get set }
     var image : UIImage? { get set }
     var attributedText : NSAttributedString? { get set }
-    func resetAfterSuccessfulPost()
+    func reportSuccess(title : String)
     func reportError(title : String, error : NSError)
     func reportError(title : String, error : String)
     func keyboardWillShow()
@@ -236,7 +235,17 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
         resetUndoState()
     }
 
-    func resetAfterSuccessfulPost() {
+    func reportSuccess(title : String) {
+        let alertController = UIAlertController(title: title, message: "", preferredStyle: .ActionSheet)
+
+        let cancelAction = UIAlertAction(title: "OK", style: .Cancel) { (action) in }
+        alertController.addAction(cancelAction)
+
+        delegate?.omnibarPresentController(alertController)
+        self.resetAfterSuccessfulPost()
+    }
+
+    private func resetAfterSuccessfulPost() {
         resetUndoState()
         resetEditor()
     }

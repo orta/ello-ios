@@ -17,13 +17,11 @@ class OmnibarMockScreen : OmnibarScreenProtocol {
     var image : UIImage?
     var attributedText : NSAttributedString?
 
-    var didResetAfterSuccessfulPost = false
     var didReportError = false
     var didKeyboardWillShow = false
     var didKeyboardWillHide = false
 
-    func resetAfterSuccessfulPost() {
-        didResetAfterSuccessfulPost = true
+    func reportSuccess(title : String) {
     }
     func reportError(title : String, error : NSError) {
         didReportError = true
