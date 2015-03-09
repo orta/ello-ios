@@ -16,10 +16,7 @@ class InviteServiceSpec: QuickSpec {
 
             var subject = InviteService()
 
-            // TODO: handle no content 204 responses when mapping
-            // they are currently misidentified as a failed response due
-            // to no content being present in the json
-            xit("succeeds") {
+            it("succeeds") {
                 ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.endpointsClosure, stubResponses: true)
                 var loadedSuccessfully = false
                 subject.invite(["1", "2", "3"], success: {

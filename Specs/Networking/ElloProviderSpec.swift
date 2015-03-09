@@ -27,14 +27,7 @@ class ElloProviderSpec: QuickSpec {
         beforeEach {
             provider = MoyaProvider(endpointsClosure: ElloProvider.endpointsClosure, stubResponses: true)
         }
-        
-        describe("-mapToObject:propertyName:") {
-            
-            it("maps the correct type") {
-                let testDict = ["users":["name":"Sean", "id":"testid"]]
-            }
-        }
-        
+               
         describe("error responses") {
             describe("with stubbed responses") {
                 describe("a provider") {
