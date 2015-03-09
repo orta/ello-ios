@@ -76,10 +76,9 @@ class OmnibarScreenSpec: QuickSpec {
                 expect(screen.sayElloOverlay.hidden) == true
             }
             it("should focus on the text view") {
-                // these have been verified, both programmatically (using
-                // println) and in the app.  Thes specs don't seem to reflect
-                // reality, so i'm skipping them.
-                xexpect(screen.textView.isFirstResponder()) == true
+                // This test fails when a hardware keyboard is attached, which
+                // is common in the sim.
+                expect(screen.textView.isFirstResponder()) == true
             }
         }
         describe("pressing cancel") {
@@ -98,11 +97,8 @@ class OmnibarScreenSpec: QuickSpec {
                 expect(screen.image).to(beNil())
             }
             it("should clear the image view") {
-                // these have been verified, both programmatically (using
-                // println) and in the app.  Thes specs don't seem to reflect
-                // reality, so i'm skipping them.
-                xexpect(screen.imageSelectedButton.superview).to(beNil())
-                xexpect(screen.cameraButton.superview).toNot(beNil())
+                expect(screen.imageSelectedButton.superview) != screen.buttonContainer
+                expect(screen.cameraButton.superview) == screen.buttonContainer
             }
             it("should show the overlay") {
                 expect(screen.sayElloOverlay.hidden) == false
