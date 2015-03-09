@@ -1,15 +1,14 @@
 //
-//  ProfileHeaderCellPresenter.swift
+//  UserListItemCellPresenter.swift
 //  Ello
 //
-//  Created by Sean on 2/18/15.
+//  Created by Ryan Boyajian on 3/5/15.
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
 import Foundation
 
-
-struct ProfileHeaderCellPresenter {
+struct UserListItemCellPresenter {
 
     static func configure(
         cell:UICollectionViewCell,
@@ -17,14 +16,13 @@ struct ProfileHeaderCellPresenter {
         streamKind: StreamKind,
         indexPath: NSIndexPath)
     {
-        if let cell = cell as? ProfileHeaderCell {
+        if let cell = cell as? UserListItemCell {
             let user = streamCellItem.jsonable as User
 
             if let avatarURL = user.avatarURL? {
                 cell.setAvatarURL(avatarURL)
             }
 
-            cell.relationshipView.buildLargeButtons()
             cell.relationshipView.userId = user.userId
             cell.relationshipView.userAtName = user.atName
             if let relationship = Relationship(rawValue: user.relationshipPriority) {
@@ -35,12 +33,6 @@ struct ProfileHeaderCellPresenter {
             }
             cell.relationshipView.hidden = user.isCurrentUser
             cell.usernameLabel.text = user.atName
-            cell.nameLabel.text = user.name
-            cell.countsTextView.appendTextWithAction("Posts \(user.postsCount? ?? 0) / ")
-            cell.countsTextView.appendTextWithAction("Following \(user.followingCount? ?? 0) / ", link: "following", object: user)
-            cell.countsTextView.appendTextWithAction("Followers \(user.followersCount? ?? 0)", link: "followers", object: user)
         }
     }
 }
-
-

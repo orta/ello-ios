@@ -100,14 +100,8 @@ class StreamViewControllerSpec: QuickSpec {
                 controller.viewDidLoad()
                 controller.streamService.loadStream(controller.streamKind.endpoint,
                     success: { (jsonables, responseConfig) in
-                        var posts:[Post] = []
-                        for activity in jsonables {
-                            if let post = (activity as Activity).subject as? Post {
-                                posts.append(post)
-                            }
-                        }
+                        controller.addUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: controller.streamKind))
                         controller.responseConfig = responseConfig
-                        controller.addUnsizedCellItems(StreamCellItemParser().postCellItems(posts, streamKind: controller.streamKind))
                         controller.doneLoading()
                     }, failure: { (error, statusCode) in
                         controller.doneLoading()
@@ -169,8 +163,7 @@ class StreamViewControllerSpec: QuickSpec {
                 beforeEach {
                     let service = StreamService()
                     service.loadUser(ElloAPI.FriendStream, success: { user in
-                        var parser = StreamCellItemParser()
-                        controller.addUnsizedCellItems(parser.postCellItems(user.posts, streamKind: .Friend))
+                        controller.addUnsizedCellItems(StreamCellItemParser().parse(user.posts, streamKind: .Friend))
                     }, failure: nil)
                 }
 

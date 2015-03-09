@@ -103,27 +103,8 @@ class StreamContainerViewController: StreamableViewController {
             self.addChildViewController(vc)
             vc.didMoveToParentViewController(self)
 
-            setupControllerData(kind, controller: vc)
+            vc.loadInitialPage()
         }
-    }
-
-    private func setupControllerData(streamKind: StreamKind, controller: StreamViewController) {
-        controller.streamService.loadStream(streamKind.endpoint,
-            success: { (jsonables, responseConfig) in
-                var posts:[Post] = []
-                for activity in jsonables {
-                    if let post = (activity as Activity).subject as? Post {
-                        posts.append(post)
-                    }
-                }
-                controller.responseConfig = responseConfig
-                controller.addUnsizedCellItems(StreamCellItemParser().postCellItems(posts, streamKind: streamKind))
-                controller.doneLoading()
-            }, failure: { (error, statusCode) in
-                println("failed to load \(streamKind.name) stream (reason: \(error))")
-                controller.doneLoading()
-            }
-        )
     }
 
     private func setupNavigationBar() {
