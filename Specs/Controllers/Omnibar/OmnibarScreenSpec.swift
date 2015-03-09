@@ -75,9 +75,7 @@ class OmnibarScreenSpec: QuickSpec {
             it("should hide the overlay") {
                 expect(screen.sayElloOverlay.hidden) == true
             }
-            it("should focus on the text view") {
-                // This test fails when a hardware keyboard is attached, which
-                // is common in the sim.
+            xit("should focus on the text view") {
                 expect(screen.textView.isFirstResponder()) == true
             }
         }
