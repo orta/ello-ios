@@ -25,7 +25,7 @@ class RelationshipView: UIView {
     var userId: String
     var userAtName: String
     let backgroundColorNormal = UIColor.whiteColor()
-    let backgroundColorSelected = UIColor(hex:0xAAAAAA)
+    let backgroundColorSelected = UIColor.greyA()
     let backgroundColorBlock = UIColor.redColor()
     var friendButton: UIButton
     var noiseButton: UIButton

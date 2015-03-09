@@ -30,13 +30,7 @@ class StreamServiceSpec: QuickSpec {
                         var config: ResponseConfig?
 
                         streamService.loadStream(ElloAPI.FriendStream, { (jsonables, responseConfig) in
-                            var posts:[Post] = []
-                            for activity in jsonables {
-                                if let post = (activity as Activity).subject as? Post {
-                                    posts.append(post)
-                                }
-                            }
-                            loadedPosts = posts
+                            loadedPosts = (StreamKind.Friend.filter(jsonables) as [Post])
                             config = responseConfig
                         }, failure: nil)
 
@@ -72,15 +66,12 @@ class StreamServiceSpec: QuickSpec {
                     it("handles assets") {
                         var loadedPosts:[Post]?
 
-                        streamService.loadStream(ElloAPI.FriendStream, { (jsonables, responseConfig) in
-                            var posts:[Post] = []
-                            for activity in jsonables {
-                                if let post = (activity as Activity).subject as? Post {
-                                    posts.append(post)
-                                }
-                            }
-                            loadedPosts = posts
-                            }, failure: nil)
+                        streamService.loadStream(ElloAPI.FriendStream,
+                            success: { (jsonables, responseConfig) in
+                                loadedPosts = (StreamKind.Friend.filter(jsonables) as [Post])
+                            },
+                            failure: nil
+                        )
 
                         let post2:Post = loadedPosts![2] as Post
 

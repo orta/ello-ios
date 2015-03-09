@@ -81,6 +81,7 @@ class PostDetailViewController: StreamableViewController {
         controller.streamKind = .PostDetail(post: self.post)
         controller.postTappedDelegate = self
         controller.streamScrollDelegate = self
+        controller.userTappedDelegate = self
 
         controller.willMoveToParentViewController(self)
         self.view.insertSubview(controller.view, belowSubview: navigationBar)
@@ -94,8 +95,7 @@ class PostDetailViewController: StreamableViewController {
 
         controller.streamService.loadMoreCommentsForPost(post.postId,
             success: { (jsonables, responseConfig) in
-                var parser = StreamCellItemParser()
-                controller.addUnsizedCellItems(parser.commentCellItems(jsonables as [Comment]))
+                controller.addUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: controller.streamKind))
                 controller.doneLoading()
             },
             failure: { (error, statusCode) -> () in

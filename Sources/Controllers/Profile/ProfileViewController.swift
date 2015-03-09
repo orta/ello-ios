@@ -28,6 +28,7 @@ class ProfileViewController: StreamableViewController {
         self.streamViewController = StreamViewController.instantiateFromStoryboard()
         self.streamViewController.streamKind = .Profile(user: user)
         super.init(nibName: "ProfileViewController", bundle: nil)
+        self.streamViewController.userTappedDelegate = self
         self.title = user.atName ?? "Profile"
     }
 
@@ -121,9 +122,7 @@ class ProfileViewController: StreamableViewController {
 
         let profileHeaderCellItem = StreamCellItem(jsonable: user, type: StreamCellType.ProfileHeader, data: nil, oneColumnCellHeight: 320.0, multiColumnCellHeight: 0.0, isFullWidth: true)
         streamViewController.addStreamCellItems([profileHeaderCellItem])
-
-        var parser = StreamCellItemParser()
-        streamViewController.addUnsizedCellItems(parser.postCellItems(user.posts, streamKind: streamViewController.streamKind))
+        streamViewController.addUnsizedCellItems(StreamCellItemParser().parse(user.posts, streamKind: streamViewController.streamKind))
         streamViewController.doneLoading()
     }
 }

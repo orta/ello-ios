@@ -21,6 +21,11 @@ struct StreamHeaderCellPresenter {
                 cell.streamKind = streamKind
             }
 
+            if streamCellItem.type == .CommentHeader {
+                cell.avatarBottomConstraint.constant = 6.0
+                cell.avatarTopConstraint.constant = 6.0
+            }
+
             cell.setAvatarURL((streamCellItem.jsonable as Authorable).author?.avatarURL)
             cell.timestampLabel.text = NSDate().distanceOfTimeInWords((streamCellItem.jsonable as Authorable).createdAt)
             cell.usernameLabel.text = ((streamCellItem.jsonable as Authorable).author?.atName ?? "")
