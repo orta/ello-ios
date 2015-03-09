@@ -26,7 +26,13 @@ class ImageRegionSpec: QuickSpec {
                     ]
                 ]
                 expect(actual["kind"] as? String).to(equal(expected["kind"] as? String))
-                expect(actual["data"] as? [String : String]).to(equal(expected["data"] as? [String : String]))
+
+                let actualData = actual["data"] as [String : AnyObject]
+                let expectedData = expected["data"] as [String : AnyObject]
+
+                expect(actualData["alt"] as? String).to(equal(expectedData["alt"] as? String))
+                expect(actualData["via"] as? String).to(equal(expectedData["via"] as? String))
+                expect(actualData["url"] as? String).to(equal(url.absoluteString))
             }
             it("returns json even if there's no url") {
                 let region = ImageRegion(asset: nil, alt: nil, url: nil)
