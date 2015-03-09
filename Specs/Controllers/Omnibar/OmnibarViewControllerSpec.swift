@@ -19,7 +19,6 @@ class OmnibarMockScreen : OmnibarScreenProtocol {
 
     var didResetAfterSuccessfulPost = false
     var didReportError = false
-    var didReportError = false
     var didKeyboardWillShow = false
     var didKeyboardWillHide = false
 
@@ -45,7 +44,8 @@ class OmnibarMockScreen : OmnibarScreenProtocol {
 class OmnibarViewControllerSpec: QuickSpec {
     override func spec() {
 
-        var controller : OmnibarViewController?
+        var controller : OmnibarViewController!
+        var screen : OmnibarMockScreen!
 
         beforeSuite {
             ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
@@ -74,12 +74,7 @@ class OmnibarViewControllerSpec: QuickSpec {
             }
 
             it("uses the OmnibarScreen as its view") {
-                if let controller = controller {
-                    expect(controller.view).to(beAKindOf(OmnibarScreen.self))
-                }
-                else {
-                    fail("No OmnibarViewController")
-                }
+                expect(controller.view).to(beAKindOf(OmnibarScreen.self))
             }
         }
 
@@ -90,9 +85,8 @@ class OmnibarViewControllerSpec: QuickSpec {
                 controller.screen = screen
             }
             it("assigns the currentUser.avatarURL to the screen") {
-                let user = User.fakeCurrentUser(username: "foo")
-                let url = NSURL(string: "http://ello.co/avatar.png")!
-                user.avatarURL = url
+                let url = NSURL(string: "http://ello.co/avatar.png")
+                let user = User.fakeCurrentUser("foo", avatarURL: url)
                 controller.currentUser = user
                 expect(screen.avatarURL) == url
             }

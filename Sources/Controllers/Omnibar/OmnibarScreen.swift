@@ -231,6 +231,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
             }
         }
 
+        currentText = value
         textView.resignFirstResponder()
         resetUndoState()
     }

@@ -127,9 +127,10 @@ final class User: JSONAble {
         return user
     }
 
-    class func fakeCurrentUser(username: String) -> User {
+    class func fakeCurrentUser(username: String, avatarURL optlUrl : NSURL? = nil) -> User {
+        let url = optlUrl ?? NSURL(string: "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/27/large_ello-09fd7088-2e4f-4781-87db-433d5dbc88a5.png")
         return User(
-            avatarURL: NSURL(string: "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/27/large_ello-09fd7088-2e4f-4781-87db-433d5dbc88a5.png"),
+            avatarURL: url,
             coverImageURL: nil,
             experimentalFeatures: false,
             followersCount: 1,

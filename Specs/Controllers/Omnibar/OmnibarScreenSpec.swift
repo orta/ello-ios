@@ -33,19 +33,21 @@ class OmnibarScreenSpec: QuickSpec {
         var delegate : OmnibarScreenMockDelegate!
 
         beforeEach {
+            let controller = UIViewController()
             screen = OmnibarScreen(frame: UIScreen.mainScreen().bounds)
             delegate = OmnibarScreenMockDelegate()
             screen.delegate = delegate
+            controller.view.addSubview(screen)
 
             let window = UIWindow(frame: UIScreen.mainScreen().bounds)
+            window.rootViewController = UIViewController()
             window.makeKeyAndVisible()
-            window.addSubview(screen)
         }
 
         fdescribe("setting text") {
             it("should hide the overlay") {
                 screen.text = "text"
-                expect(screen.sayElloOverlay.hidden) == false
+                expect(screen.sayElloOverlay.hidden) == true
             }
             it("should set the text view") {
                 screen.text = "text"
@@ -54,12 +56,14 @@ class OmnibarScreenSpec: QuickSpec {
             it("should set the text view with attributed string") {
                 let attrd = NSAttributedString(string: "text")
                 screen.attributedText = attrd
-                expect(screen.textView.attributedText) == attrd
+                expect(screen.textView.attributedText?.string) == attrd.string
             }
         }
-        fdescribe("setting avatar url") {
+        describe("setting avatar url") {
             it("should set the avatar image") {
                 let avatarURL = NSBundle.mainBundle().URLForResource("specs-avatar", withExtension: "png")
+                expect(avatarURL).toNot(beNil())
+
                 screen.avatarURL = avatarURL
                 expect(screen.avatarView.image).toEventuallyNot(beNil())
             }
@@ -72,13 +76,13 @@ class OmnibarScreenSpec: QuickSpec {
                 expect(screen.sayElloOverlay.hidden) == true
             }
             it("should focus on the text view") {
-                expect(screen.textView.isFirstResponder) == true
+                expect(screen.textView.isFirstResponder()) == true
             }
         }
         fdescribe("pressing cancel") {
             beforeEach {
                 screen.text = "text"
-                screen.image = UIImage(named: "specs-avatar")
+                screen.image = UIImage(named: "specs-avatar")!
                 screen.cancelEditingAction()
             }
             it("should clear the text") {
@@ -91,13 +95,14 @@ class OmnibarScreenSpec: QuickSpec {
                 expect(screen.image).to(beNil())
             }
             it("should clear the image view") {
-                expect(screen.imageSelectedButton.currentImage) == nil
+                expect(screen.imageSelectedButton.superview).to(beNil())
+                expect(screen.cameraButton.superview).toNot(beNil())
             }
             it("should show the overlay") {
                 expect(screen.sayElloOverlay.hidden) == false
             }
             it("should resign the keyboard") {
-                expect(screen.textView.isFirstResponder) == false
+                expect(screen.textView.isFirstResponder()) == false
             }
             it("should be undoable") {
                 expect(screen.canUndo()) == true
@@ -106,7 +111,7 @@ class OmnibarScreenSpec: QuickSpec {
         fdescribe("pressing undo") {
             beforeEach {
                 screen.text = "text"
-                screen.image = UIImage(named: "specs-avatar")
+                screen.image = UIImage(named: "specs-avatar")!
                 screen.cancelEditingAction()
                 screen.undoCancelAction()
             }
@@ -114,7 +119,7 @@ class OmnibarScreenSpec: QuickSpec {
                 expect(screen.text) == "text"
             }
             it("should assign the image") {
-                expect(screen.image) == UIImage(named: "specs-avatar")
+                expect(screen.image) == UIImage(named: "specs-avatar")!
             }
             it("should hide the overlay") {
                 expect(screen.sayElloOverlay.hidden) == true
@@ -132,13 +137,13 @@ class OmnibarScreenSpec: QuickSpec {
             }
             it("should respond if there is an image (no text)") {
                 screen.text = nil
-                screen.image = UIImage(named: "specs-avatar")
+                screen.image = UIImage(named: "specs-avatar")!
                 screen.submitAction()
                 expect(delegate.submitted) == true
             }
             it("should respond if there is text and image") {
                 screen.text = "text"
-                screen.image = UIImage(named: "specs-avatar")
+                screen.image = UIImage(named: "specs-avatar")!
                 screen.submitAction()
                 expect(delegate.submitted) == true
             }
@@ -151,7 +156,7 @@ class OmnibarScreenSpec: QuickSpec {
         }
         fdescribe("pressing remove image") {
             beforeEach {
-                screen.image = UIImage(named: "specs-avatar")
+                screen.image = UIImage(named: "specs-avatar")!
                 screen.removeButtonAction()
             }
             it("should clear the image") {
@@ -168,7 +173,7 @@ class OmnibarScreenSpec: QuickSpec {
         }
         fdescribe("reporting an error") {
             it("should report an error (NSError)") {
-                screen.reportError("title", error: NSError())
+                screen.reportError("title", error: NSError(domain: ElloErrorDomain, code: 0, userInfo: [NSLocalizedFailureReasonErrorKey: "failure"]))
                 expect(delegate.didPresentController) == true
             }
             it("should report an error (String)") {
@@ -184,7 +189,7 @@ class OmnibarScreenSpec: QuickSpec {
                     }
                     it("should be false (after setting text and image)") {
                         screen.text = "text"
-                        screen.image = UIImage(named: "specs-avatar")
+                        screen.image = UIImage(named: "specs-avatar")!
                         expect(screen.canUndo()) == false
                     }
                 }
@@ -198,14 +203,14 @@ class OmnibarScreenSpec: QuickSpec {
                     }
                     it("should be true (image only)") {
                         screen.text = nil
-                        screen.image = UIImage(named: "specs-avatar")
+                        screen.image = UIImage(named: "specs-avatar")!
                         expect(screen.canUndo()) == false
                         screen.cancelEditingAction()
                         expect(screen.canUndo()) == true
                     }
                     it("should be true (text and image)") {
                         screen.text = "text"
-                        screen.image = UIImage(named: "specs-avatar")
+                        screen.image = UIImage(named: "specs-avatar")!
                         expect(screen.canUndo()) == false
                         screen.cancelEditingAction()
                         expect(screen.canUndo()) == true
