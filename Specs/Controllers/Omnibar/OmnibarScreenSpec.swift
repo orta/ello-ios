@@ -44,7 +44,7 @@ class OmnibarScreenSpec: QuickSpec {
             window.makeKeyAndVisible()
         }
 
-        fdescribe("setting text") {
+        describe("setting text") {
             it("should hide the overlay") {
                 screen.text = "text"
                 expect(screen.sayElloOverlay.hidden) == true
@@ -68,7 +68,7 @@ class OmnibarScreenSpec: QuickSpec {
                 expect(screen.avatarView.image).toEventuallyNot(beNil())
             }
         }
-        fdescribe("start editing") {
+        describe("start editing") {
             beforeEach {
                 screen.startEditingAction()
             }
@@ -79,7 +79,7 @@ class OmnibarScreenSpec: QuickSpec {
                 expect(screen.textView.isFirstResponder()) == true
             }
         }
-        fdescribe("pressing cancel") {
+        describe("pressing cancel") {
             beforeEach {
                 screen.text = "text"
                 screen.image = UIImage(named: "specs-avatar")!
@@ -108,7 +108,7 @@ class OmnibarScreenSpec: QuickSpec {
                 expect(screen.canUndo()) == true
             }
         }
-        fdescribe("pressing undo") {
+        describe("pressing undo") {
             beforeEach {
                 screen.text = "text"
                 screen.image = UIImage(named: "specs-avatar")!
@@ -128,7 +128,7 @@ class OmnibarScreenSpec: QuickSpec {
                 expect(screen.canUndo()) == false
             }
         }
-        fdescribe("submitting") {
+        describe("submitting") {
             it("should respond if there is text (no image)") {
                 screen.text = "text"
                 screen.image = nil
@@ -154,7 +154,7 @@ class OmnibarScreenSpec: QuickSpec {
                 expect(delegate.submitted) == false
             }
         }
-        fdescribe("pressing remove image") {
+        describe("pressing remove image") {
             beforeEach {
                 screen.image = UIImage(named: "specs-avatar")!
                 screen.removeButtonAction()
@@ -163,7 +163,7 @@ class OmnibarScreenSpec: QuickSpec {
                 expect(screen.image).to(beNil())
             }
         }
-        fdescribe("pressing add image") {
+        describe("pressing add image") {
             beforeEach {
                 screen.addImageAction()
             }
@@ -171,7 +171,7 @@ class OmnibarScreenSpec: QuickSpec {
                 expect(delegate.didPresentController) == true
             }
         }
-        fdescribe("reporting an error") {
+        describe("reporting an error") {
             it("should report an error (NSError)") {
                 screen.reportError("title", error: NSError(domain: ElloErrorDomain, code: 0, userInfo: [NSLocalizedFailureReasonErrorKey: "failure"]))
                 expect(delegate.didPresentController) == true
@@ -181,9 +181,9 @@ class OmnibarScreenSpec: QuickSpec {
                 expect(delegate.didPresentController) == true
             }
         }
-        fdescribe("determining undo state") {
-            fdescribe("if there is text or image") {
-                fdescribe("after initialization") {
+        describe("determining undo state") {
+            describe("if there is text or image") {
+                describe("after initialization") {
                     it("should be false (default)") {
                         expect(screen.canUndo()) == false
                     }
@@ -193,7 +193,7 @@ class OmnibarScreenSpec: QuickSpec {
                         expect(screen.canUndo()) == false
                     }
                 }
-                fdescribe("after canceling") {
+                describe("after canceling") {
                     it("should be true (text only)") {
                         screen.text = "text"
                         screen.image = nil
