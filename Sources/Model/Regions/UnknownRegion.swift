@@ -14,4 +14,8 @@ class UnknownRegion: NSObject, Regionable {
         get { return RegionKind.Unknown }
     }
 
+    func toJSON() -> [String: AnyObject] {
+        return [:]
+    }
+
 }

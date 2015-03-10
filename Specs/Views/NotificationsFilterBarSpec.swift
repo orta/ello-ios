@@ -80,16 +80,16 @@ class NotificationsFilterBarSpec: QuickSpec {
                         rect = CGRect(x: 62, y: 0, width: 30, height: 30)
                     }
                     it("should set x") {
-                        expect(button3.frame.origin.x).to(equal(button3.frame.origin.x))
+                        expect(button3.frame.origin.x).to(equal(rect.origin.x))
                     }
                     it("should set y") {
-                        expect(button3.frame.origin.y).to(equal(button3.frame.origin.y))
+                        expect(button3.frame.origin.y).to(equal(rect.origin.y))
                     }
                     it("should set width") {
-                        expect(button3.frame.size.width).to(equal(button3.frame.size.width))
+                        expect(button3.frame.size.width).to(equal(rect.size.width))
                     }
                     it("should set height") {
-                        expect(button3.frame.size.height).to(equal(button3.frame.size.height))
+                        expect(button3.frame.size.height).to(equal(rect.size.height))
                     }
                 }
             }
