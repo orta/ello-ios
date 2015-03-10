@@ -58,7 +58,7 @@ struct StreamCellItemParser {
     private func postCellItems(posts: [Post], streamKind: StreamKind) -> [StreamCellItem] {
         var cellItems:[StreamCellItem] = []
         for post in posts {
-            cellItems += [StreamCellItem(jsonable: post, type: StreamCellType.Header, data: nil, oneColumnCellHeight: 80.0, multiColumnCellHeight: 49.0, isFullWidth: false)]
+            cellItems.append(StreamCellItem(jsonable: post, type: StreamCellType.Header, data: nil, oneColumnCellHeight: 80.0, multiColumnCellHeight: 49.0, isFullWidth: false))
             cellItems += postRegionItems(post, streamKind: streamKind)
             cellItems += footerStreamCellItems(post)
         }
@@ -68,7 +68,7 @@ struct StreamCellItemParser {
     private func commentCellItems(comments: [Comment]) -> [StreamCellItem] {
         var cellItems:[StreamCellItem] = []
         for comment in comments {
-            cellItems += [StreamCellItem(jsonable: comment, type: StreamCellType.CommentHeader, data: nil, oneColumnCellHeight: 50.0, multiColumnCellHeight: 50.0, isFullWidth: false)]
+            cellItems.append(StreamCellItem(jsonable: comment, type: StreamCellType.CommentHeader, data: nil, oneColumnCellHeight: 50.0, multiColumnCellHeight: 50.0, isFullWidth: false))
             cellItems += commentRegionItems(comment)
         }
         return cellItems

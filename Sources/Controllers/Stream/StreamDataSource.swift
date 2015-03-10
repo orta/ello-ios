@@ -168,6 +168,9 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
             case .Notification:
                 (cell as NotificationCell).webLinkDelegate = webLinkDelegate
                 (cell as NotificationCell).delegate = notificationDelegate
+            case .CreateComment:
+                // (cell as StreamCreateCommentCell)
+                break
             case .Header, .CommentHeader:
                 (cell as StreamHeaderCell).postbarDelegate = postbarDelegate
                 (cell as StreamHeaderCell).userDelegate = userDelegate

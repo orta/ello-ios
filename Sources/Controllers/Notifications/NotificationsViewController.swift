@@ -50,6 +50,7 @@ class NotificationsViewController: StreamableViewController, NotificationDelegat
         streamViewController.currentUser = currentUser
         streamViewController.streamKind = .Notifications
         streamViewController.streamScrollDelegate = self
+        streamViewController.createCommentDelegate = self
         streamViewController.postTappedDelegate = self
         streamViewController.userTappedDelegate = self
         streamViewController.notificationDelegate = self
@@ -93,6 +94,8 @@ class NotificationsViewController: StreamableViewController, NotificationDelegat
 
     func commentTapped(comment: Comment) {}
 
+    // the presence of this variable is being hijacked to determine if a post
+    // was tapped, and is being displayed
     var sizer : StreamTextCellSizeCalculator?
     func postTapped(post: Post) {
         if let sizer = sizer {

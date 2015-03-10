@@ -62,6 +62,7 @@ class StreamViewController: BaseElloViewController {
     }
     var imageViewerDelegate:StreamImageViewer?
     var updatedStreamImageCellHeightNotification:NotificationObserver?
+    weak var createCommentDelegate : CreateCommentDelegate?
     weak var postTappedDelegate : PostTappedDelegate?
     weak var userTappedDelegate : UserTappedDelegate?
     weak var streamScrollDelegate : StreamScrollDelegate?
@@ -217,7 +218,7 @@ class StreamViewController: BaseElloViewController {
         dataSource = StreamDataSource(streamKind: streamKind,
             textSizeCalculator: textSizeCalculator,
             notificationSizeCalculator: notificationSizeCalculator)
-        
+
         postbarController = PostbarController(collectionView: collectionView, dataSource: dataSource, presentingController: self)
         dataSource.postbarDelegate = postbarController
 
@@ -288,11 +289,22 @@ extension StreamViewController : UICollectionViewDelegate {
                 let items = dataSource.cellItemsForPost(post)
                 postTappedDelegate?.postTapped(post, initialItems: items)
             }
+            else {
+                let comment = dataSource.streamCellItems[indexPath.item].jsonable as Comment
+                let post = comment.parentPost!
+                createCommentDelegate?.createComment(post)
+            }
     }
 
     func collectionView(collectionView: UICollectionView,
         shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-            return dataSource.streamCellItems[indexPath.item].type == StreamCellType.Header
+            if dataSource.streamCellItems[indexPath.item].type == StreamCellType.Header {
+                return true
+            }
+            else if dataSource.streamCellItems[indexPath.item].type == StreamCellType.CreateComment {
+                return true
+            }
+            return false
     }
 }
 

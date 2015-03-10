@@ -89,6 +89,7 @@ class StreamContainerViewController: StreamableViewController {
             let vc = StreamViewController.instantiateFromStoryboard()
             vc.currentUser = currentUser
             vc.streamKind = kind
+            vc.createCommentDelegate = self
             vc.postTappedDelegate = self
             vc.userTappedDelegate = self
             vc.streamScrollDelegate = self

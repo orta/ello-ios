@@ -26,8 +26,9 @@ enum StreamCellType {
     case ProfileHeader
     case Notification
     case UserListItem
+    case CreateComment
 
-    static let all = [CommentHeader, Header, Footer, Image, Text, Comment, Unknown, ProfileHeader, Notification, UserListItem]
+    static let all = [CommentHeader, Header, Footer, Image, Text, Comment, Unknown, ProfileHeader, Notification, UserListItem, CreateComment]
 
     var name: String {
         switch self {
@@ -41,6 +42,7 @@ enum StreamCellType {
         case ProfileHeader: return "ProfileHeaderCell"
         case Notification: return "NotificationCell"
         case UserListItem: return "UserListItemCell"
+        case CreateComment: return "StreamCreateCommentCell"
         }
     }
 
@@ -56,6 +58,7 @@ enum StreamCellType {
         case Notification: return NotificationCellPresenter.configure
         case Unknown: return ProfileHeaderCellPresenter.configure
         case UserListItem: return UserListItemCellPresenter.configure
+        case CreateComment: return StreamCreateCommentCellPresenter.configure
         }
     }
 
@@ -71,12 +74,13 @@ enum StreamCellType {
         case Notification: return NotificationCell.self
         case Unknown: return UICollectionViewCell.self
         case UserListItem: return UserListItemCell.self
+        case CreateComment: return StreamCreateCommentCell.self
         }
     }
 
     static func registerAll(collectionView: UICollectionView) {
         for type in all {
-            if type == .Unknown || type == .Notification {
+            if type == .Unknown || type == .Notification || type == .CreateComment {
                 collectionView.registerClass(type.classType, forCellWithReuseIdentifier: type.name)
             } else {
                 let nib = UINib(nibName: type.name, bundle: NSBundle(forClass: type.classType))

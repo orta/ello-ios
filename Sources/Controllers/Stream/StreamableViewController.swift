@@ -16,8 +16,12 @@ protocol UserTappedDelegate : NSObjectProtocol {
     func userTapped(user : User)
 }
 
+protocol CreateCommentDelegate: NSObjectProtocol {
+    func createComment(post : Post)
+}
 
-class StreamableViewController : BaseElloViewController, PostTappedDelegate, UserTappedDelegate {
+
+class StreamableViewController : BaseElloViewController, PostTappedDelegate, UserTappedDelegate, CreateCommentDelegate {
 
     var scrollLogic: ElloScrollLogic!
 
@@ -90,6 +94,28 @@ class StreamableViewController : BaseElloViewController, PostTappedDelegate, Use
         self.navigationController?.pushViewController(vc, animated: true)
         vc.didPresentStreamable()
     }
+
+    private func alreadyOnUserProfile(user: User) -> Bool {
+        if let profileVC = self.navigationController?.topViewController as? ProfileViewController {
+            if profileVC.userParam[param.startIndex] == "~" {
+                let param = profileVC.userParam
+                let usernamePart = param[advance(param.startIndex, 1)..<param.endIndex]
+                return user.username == usernamePart
+            }
+            else {
+                return user.userId == profileVC.userParam
+            }
+        }
+        return false
+    }
+
+    func createComment(post : Post) {
+        println("createComment(post: \(post))")
+
+        let vc = OmnibarViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+
 }
 
 

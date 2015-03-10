@@ -120,20 +120,20 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
 
     weak var delegate : OmnibarScreenDelegate?
 
-    var avatarView = UIImageView()
-    var cameraButton = UIButton()
+    let avatarView = UIImageView()
+    let cameraButton = UIButton()
 
-    var imageSelectedButton = UIButton()
-    var imageSelectedOverlay = UIImageView()
-    var cancelButton = UIButton()
-    var submitButton = UIButton()
-    var buttonContainer = ElloEquallySpacedLayout()
+    let imageSelectedButton = UIButton()
+    let imageSelectedOverlay = UIImageView()
+    let cancelButton = UIButton()
+    let submitButton = UIButton()
+    let buttonContainer = ElloEquallySpacedLayout()
 
-    var sayElloOverlay = UIControl()
-    var sayElloLabel = UILabel()
+    let sayElloOverlay = UIControl()
+    let sayElloLabel = UILabel()
 
-    var textContainer = UIView()
-    var textView = UITextView()
+    let textContainer = UIView()
+    let textView = UITextView()
 
     private var currentText : NSAttributedString?
     private var currentImage : UIImage?

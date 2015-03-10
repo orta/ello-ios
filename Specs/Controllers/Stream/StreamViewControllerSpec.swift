@@ -206,16 +206,23 @@ class StreamViewControllerSpec: QuickSpec {
             }
 
             context("UICollectionViewDelegate") {
-                
+
                 it("is a UICollectionViewDelegate") {
                     expect(controller as UICollectionViewDelegate).notTo(beNil())
                 }
-                
+
                 describe("-collectionView:didSelectItemAtIndexPath:") {
 
                     context("a post is found for the given indexPath") {
 
                         xit("calls postTapped: on the postTappedDelegate") {
+                            // need to wire up a collectionview and datasource
+                        }
+                    }
+
+                    context("a create-comment cell is found for the given indexPath") {
+
+                        xit("calls createComment: on the createCommentDelegate") {
                             // need to wire up a collectionview and datasource
                         }
                     }
@@ -303,15 +310,15 @@ class StreamViewControllerSpec: QuickSpec {
                         }
 
                         xit("returns the correct size for a Comment Cell") {
-                            
+
                         }
-                        
+
                         xit("returns the correct size for a Profile Header Cell") {
-                            
+
                         }
-                        
+
                         xit("returns the correct size for a Notification Cell") {
-                            
+
                         }
                     }
 
@@ -380,23 +387,23 @@ class StreamViewControllerSpec: QuickSpec {
                         }
 
                         xit("returns the correct height for an Image Cell") {
-                            
+
                         }
-                        
+
                         xit("returns the correct height for a Text Cell") {
-                            
+
                         }
-                        
+
                         xit("returns the correct height for a Comment Cell") {
-                            
+
                         }
-                        
+
                         xit("returns the correct height for a Profile Header Cell") {
-                            
+
                         }
-                        
+
                         xit("returns the correct height for a Notification Cell") {
-                            
+
                         }
                     }
                 }
@@ -459,15 +466,15 @@ class StreamViewControllerSpec: QuickSpec {
                     }
 
                     xit("returns false for a Comment Cell") {
-                        
+
                     }
-                    
+
                     xit("returns true for a Profile Header Cell") {
-                        
+
                     }
-                    
+
                     xit("returns false for a Notification Cell") {
-                        
+
                     }
                 }
             }

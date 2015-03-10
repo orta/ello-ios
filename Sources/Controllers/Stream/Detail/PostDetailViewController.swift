@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PostDetailViewController: StreamableViewController {
+class PostDetailViewController: StreamableViewController, CreateCommentDelegate {
 
     var post : Post?
     var detailCellItems : [StreamCellItem]?
@@ -109,10 +109,10 @@ class PostDetailViewController: StreamableViewController {
         streamViewController = StreamViewController.instantiateFromStoryboard()
         streamViewController.streamKind = streamKind!
         streamViewController.currentUser = currentUser
+        streamViewController.createCommentDelegate = self
         streamViewController.postTappedDelegate = self
         streamViewController.streamScrollDelegate = self
         streamViewController.userTappedDelegate = self
-
         streamViewController.willMoveToParentViewController(self)
         self.view.insertSubview(streamViewController.view, belowSubview: navigationBar)
         streamViewController.view.frame = navigationBar.frame.fromBottom().withHeight(self.view.frame.height - navigationBar.frame.height)
@@ -132,16 +132,25 @@ class PostDetailViewController: StreamableViewController {
         if let post = post {
             streamViewController.streamService.loadMoreCommentsForPost(post.postId,
                 success: { (jsonables, responseConfig) in
+                    self.addCreateCommentItem(controller)
                     self.streamViewController.addUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamViewController.streamKind))
                     self.streamViewController.doneLoading()
                 },
                 failure: { (error, statusCode) in
+                    self.addCreateCommentItem(controller)
                     println("failed to load comments (reason: \(error))")
                     self.streamViewController.doneLoading()
                 }
             )
 
         }
+    }
+
+    private func addCreateCommentItem(controller : StreamViewController) {
+        let comment = Comment.newCommentForPost(self.post, currentUser: self.currentUser!)
+        let createCommentItem = StreamCellItem(jsonable: comment, type: .CreateComment, data: nil, oneColumnCellHeight: StreamCreateCommentCell.Size.Height, multiColumnCellHeight: StreamCreateCommentCell.Size.Height, isFullWidth: true)
+
+        controller.addStreamCellItems([createCommentItem])
     }
 
     override func postTapped(post: Post, initialItems: [StreamCellItem]) {
@@ -151,4 +160,5 @@ class PostDetailViewController: StreamableViewController {
             }
         }
     }
+
 }
