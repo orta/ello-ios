@@ -17,6 +17,8 @@ class StreamHeaderCell: UICollectionViewCell {
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var userNameLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var avatarTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var avatarBottomConstraint: NSLayoutConstraint!
 
     var calculatedHeight:CGFloat = 80.0
     var streamKind:StreamKind?

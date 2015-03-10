@@ -14,6 +14,7 @@ enum StreamKind {
     case PostDetail(post: Post)
     case Profile(user: User)
     case Notifications
+    case UserList(endpoint: ElloAPI, title: String)
 
     var name:String {
         switch self {
@@ -22,6 +23,7 @@ enum StreamKind {
         case .Notifications: return "Notifications"
         case .PostDetail: return "Post Detail"
         case .Profile(let user): return "@\((user as User).username)"
+        case .UserList(let title): return "\(title)"
         }
     }
 
@@ -39,11 +41,13 @@ enum StreamKind {
         case .Notifications: return .NotificationsStream
         case .PostDetail: return .NoiseStream // never use
         case .Profile(let user): return .UserStream(userId: (user as User).userId)
+        case .UserList(let endpoint, let title): return endpoint
         }
     }
 
     func filter(jsonables: [JSONAble]) -> [JSONAble] {
         switch self {
+        case .UserList(let endpoint, let title): return jsonables
         case .Notifications:
             if let activities = jsonables as? [Activity] {
                 let notifications: [Notification] = activities.map { return Notification(activity: $0) }
@@ -57,6 +61,12 @@ enum StreamKind {
                     }
                     return accum
                 }
+            }
+            else if let comments = jsonables as? [Comment] {
+                return comments
+            }
+            else if let posts = jsonables as? [Post] {
+                return posts
             }
         }
         return []

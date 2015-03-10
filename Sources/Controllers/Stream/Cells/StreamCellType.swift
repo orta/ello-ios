@@ -25,12 +25,13 @@ enum StreamCellType {
     case Unknown
     case ProfileHeader
     case Notification
+    case UserListItem
 
-    static let all = [CommentHeader, Header, Footer, Image, Text, Comment, Unknown, ProfileHeader, Notification]
+    static let all = [CommentHeader, Header, Footer, Image, Text, Comment, Unknown, ProfileHeader, Notification, UserListItem]
 
     var name: String {
         switch self {
-        case CommentHeader: return "StreamCommentHeaderCell"
+        case CommentHeader: return "StreamHeaderCell"
         case Header: return "StreamHeaderCell"
         case Footer: return "StreamFooterCell"
         case Image: return "StreamImageCell"
@@ -39,6 +40,7 @@ enum StreamCellType {
         case Unknown: return "StreamUnknownCell"
         case ProfileHeader: return "ProfileHeaderCell"
         case Notification: return "NotificationCell"
+        case UserListItem: return "UserListItemCell"
         }
     }
 
@@ -53,12 +55,13 @@ enum StreamCellType {
         case ProfileHeader: return ProfileHeaderCellPresenter.configure
         case Notification: return NotificationCellPresenter.configure
         case Unknown: return ProfileHeaderCellPresenter.configure
+        case UserListItem: return UserListItemCellPresenter.configure
         }
     }
 
     var classType: UICollectionViewCell.Type {
         switch self {
-        case CommentHeader: return StreamCommentHeaderCell.self
+        case CommentHeader: return StreamHeaderCell.self
         case Header: return StreamHeaderCell.self
         case Footer: return StreamFooterCell.self
         case Image: return StreamImageCell.self
@@ -67,6 +70,7 @@ enum StreamCellType {
         case ProfileHeader: return ProfileHeaderCell.self
         case Notification: return NotificationCell.self
         case Unknown: return UICollectionViewCell.self
+        case UserListItem: return UserListItemCell.self
         }
     }
 

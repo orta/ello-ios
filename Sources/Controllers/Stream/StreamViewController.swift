@@ -45,6 +45,7 @@ class StreamViewController: BaseElloViewController {
     var dataSource:StreamDataSource!
     var postbarController:PostbarController?
     var relationshipController: RelationshipController?
+    var userListController: UserListController?
     var responseConfig: ResponseConfig?
     let streamService = StreamService()
 
@@ -207,13 +208,21 @@ class StreamViewController: BaseElloViewController {
 
     private func setupDataSource() {
         let webView = UIWebView(frame: self.view.bounds)
+        let textSizeCalculator = StreamTextCellSizeCalculator(webView: UIWebView(frame: webView.frame))
+        let notificationSizeCalculator = StreamNotificationCellSizeCalculator(webView: UIWebView(frame: webView.frame))
 
-        dataSource = StreamDataSource(testWebView: webView, streamKind: streamKind)
+        dataSource = StreamDataSource(streamKind: streamKind,
+            textSizeCalculator: textSizeCalculator,
+            notificationSizeCalculator: notificationSizeCalculator)
+        
         postbarController = PostbarController(collectionView: collectionView, dataSource: self.dataSource, presentingController: self)
         dataSource.postbarDelegate = postbarController
 
         relationshipController = RelationshipController(presentingController: self)
         dataSource.relationshipDelegate = relationshipController
+
+        userListController = UserListController(presentingController: self)
+        dataSource.userListDelegate = userListController
 
         if let imageViewer = imageViewerDelegate {
             dataSource.imageDelegate = imageViewer
@@ -248,7 +257,7 @@ extension StreamViewController : UserDelegate {
 
     func userTappedCell(cell: UICollectionViewCell) {
         if let indexPath = collectionView.indexPathForCell(cell) {
-            if let user = dataSource.postForIndexPath(indexPath)?.author {
+            if let user = dataSource.userForIndexPath(indexPath) {
                 userTappedDelegate?.userTapped(user)
             }
         }
