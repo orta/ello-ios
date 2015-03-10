@@ -86,11 +86,11 @@ class InviteFriendsViewControllerSpec: QuickSpec {
 
         describe("setContacts") {
             it("sets the given array of contacts to the datasource") {
-                let localPeople = [LocalPerson(name: "name", emails: ["test@testing.com"], id: 123)]
+                let localPeople: [(LocalPerson, User?)] = [(LocalPerson(name: "name", emails: ["test@testing.com"], id: 123), .None)]
 
                 subject.setContacts(localPeople)
                 expect(subject.dataSource.items.count) == 1
-                expect(subject.dataSource.items.first?.person?.name) == localPeople.first?.name
+                expect(subject.dataSource.items.first?.person?.name) == localPeople.first?.0.name
             }
         }
     }

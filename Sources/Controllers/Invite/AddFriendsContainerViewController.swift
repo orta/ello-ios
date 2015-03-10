@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Moya
 
 class AddFriendsContainerViewController: StreamableViewController {
 
@@ -91,11 +92,17 @@ class AddFriendsContainerViewController: StreamableViewController {
 
         ElloHUD.showLoadingHud()
         InviteService().find(["contacts": hashedEmails], success: { users in
+            println(users)
             self.findFriendsViewController.setUsers(users)
 
             let matched = users.map { $0.identifiableBy ?? "" }
-            let nonUsers = self.addressBook.localPeople.filter { !contains(matched, $0.identifier) }
-            self.inviteFriendsViewController.setContacts(nonUsers)
+            let mixed: [(LocalPerson, User?)] = self.addressBook.localPeople.map {
+                if let index = find(matched, $0.identifier) {
+                    return ($0, users[index])
+                }
+                return ($0, .None)
+            }
+            self.inviteFriendsViewController.setContacts(mixed)
             ElloHUD.hideLoadingHud()
         }, failure: { _ in
             ElloHUD.hideLoadingHud()

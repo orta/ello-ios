@@ -11,9 +11,9 @@ import UIKit
 class InviteFriendsViewController: BaseElloViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var inviteButton: ElloButton!
     var dataSource:AddFriendsDataSource!
     let inviteService = InviteService()
+    var relationshipController: RelationshipController?
 
     required override init() {
         super.init(nibName: "InviteFriendsViewController", bundle: NSBundle(forClass: InviteFriendsViewController.self))
@@ -24,13 +24,18 @@ class InviteFriendsViewController: BaseElloViewController {
         setupTableView()
     }
 
-    func setContacts(contacts: [LocalPerson]) {
-        dataSource.items = contacts.map { AddFriendsCellItem(person: $0) }
+    func setContacts(contacts: [(LocalPerson, User?)]) {
+        dataSource.items = contacts.map { AddFriendsCellItem(person: $0.0, user: $0.1) }
+        dispatch_async(dispatch_get_main_queue()) { self.tableView.reloadData() }
     }
 
     private func setupTableView() {
         registerCells()
         dataSource = AddFriendsDataSource()
+
+        relationshipController = RelationshipController(presentingController: self)
+        dataSource.relationshipDelegate = relationshipController
+
         tableView.dataSource = dataSource
         tableView.delegate = self
     }
@@ -42,30 +47,11 @@ class InviteFriendsViewController: BaseElloViewController {
         let inviteCellNib = UINib(nibName: AddFriendsCellItem.CellType.Invite.identifier, bundle: NSBundle(forClass: InviteFriendsCell.self))
         tableView.registerNib(inviteCellNib, forCellReuseIdentifier: AddFriendsCellItem.CellType.Invite.identifier)
     }
-
-    // MARK: - IBActions
-
-    @IBAction func inviteTapped(sender: UIButton) {
-        // send off the selected email addresses
-    }
 }
 
 // MARK: InviteFriendsViewController : UITableViewDelegate
 extension InviteFriendsViewController : UITableViewDelegate {
-
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 50.0
-    }
-
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if let cell = tableView.cellForRowAtIndexPath(indexPath) as? InviteFriendsCell {
-            cell.didSelect()
-        }
-    }
-
-    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        if let cell = tableView.cellForRowAtIndexPath(indexPath) as? InviteFriendsCell {
-            cell.didDeselect()
-        }
     }
 }

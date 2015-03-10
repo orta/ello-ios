@@ -26,7 +26,7 @@ class InviteFriendsCellSpec: QuickSpec {
                 })
                 
                 it("IBOutlets are not nil", {
-                    expect(subject.selectedImageView).notTo(beNil())
+                    expect(subject.inviteButton).notTo(beNil())
                     expect(subject.nameLabel).notTo(beNil())
                 })
                 

@@ -23,14 +23,26 @@ struct AddFriendsCellItem {
         self.person = person
     }
 
+    init(person: LocalPerson, user: User?) {
+        if let user = user {
+            cellType = .FindContact
+            self.person = person
+            self.user = user
+        } else {
+            self = AddFriendsCellItem(person: person)
+        }
+    }
+
     enum CellType {
         case Find
         case Invite
+        case FindContact
 
         var identifier: String {
             switch self {
             case Find: return "FindFriendsCell"
             case Invite: return "InviteFriendsCell"
+            case FindContact: return "FindFriendsCell"
             }
         }
     }

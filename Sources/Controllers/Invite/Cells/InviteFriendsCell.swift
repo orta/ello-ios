@@ -9,26 +9,18 @@
 import UIKit
 
 class InviteFriendsCell: UITableViewCell {
-    @IBOutlet weak var selectedImageView: UIImageView?
     @IBOutlet weak var nameLabel: UILabel?
+    @IBOutlet weak var inviteButton: UIButton?
 
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        selectedImageView?.layer.cornerRadius = 10.0
-        selectedImageView?.backgroundColor = UIColor.greyE5()
-
         nameLabel?.font = UIFont.typewriterFont(14)
         nameLabel?.textColor = UIColor.greyA()
-    }
 
-    func didSelect() {
-        selectedImageView?.image = UIImage(named: "friends-icon-selected")
-        nameLabel?.textColor = UIColor.blackColor()
-    }
-
-    func didDeselect() {
-        selectedImageView?.image = .None
-        nameLabel?.textColor = UIColor.greyA()
+        inviteButton?.titleLabel?.font = UIFont.typewriterFont(14)
+        inviteButton?.titleLabel?.textColor = UIColor.greyA()
+        inviteButton?.layer.borderColor = UIColor.greyA().CGColor
+        inviteButton?.layer.borderWidth = 1.0
     }
 }
