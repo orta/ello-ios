@@ -22,3 +22,11 @@ target 'Specs' do
     pod 'Quick', '~> 0.2.2'
     pod 'Nimble', '~> 0.3.0'
 end
+
+plugin 'cocoapods-keys', {
+  :project => "Ello",
+  :target => "Ello",
+  :keys => [
+    "Salt",
+  ]
+}

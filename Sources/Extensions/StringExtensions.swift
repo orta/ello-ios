@@ -8,8 +8,6 @@
 
 import Foundation
 
-private let salt = "***REMOVED***"
-
 // static variables, to store HTML entities
 private var entityReverseLookup : [Character : String]!
 private var entityLookup : [String : String]!
@@ -314,6 +312,7 @@ extension String {
     }
 
     var SHA1String: String? {
+        let salt = ElloKeys().salt()
         if let data = (salt + self).dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
             
             var digest = [UInt8](count: Int(CC_SHA1_DIGEST_LENGTH), repeatedValue: 0)

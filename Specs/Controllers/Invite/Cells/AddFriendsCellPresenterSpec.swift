@@ -5,7 +5,7 @@ class AddFriendsCellPresenterSpec: QuickSpec {
     override func spec() {
         describe("configure") {
             context("find item") {
-                it("should configure a find friends cell") {
+                it("configures a find friends cell") {
                     let data = stubbedJSONData("user", "users")
                     let user = User.fromJSON(data) as User
                     var cell: FindFriendsCell = FindFriendsCell.loadFromNib()
@@ -18,7 +18,7 @@ class AddFriendsCellPresenterSpec: QuickSpec {
             }
 
             context("invite item") {
-                it("should configure a find friends cell") {
+                it("configures a find friends cell") {
                     var cell: InviteFriendsCell = InviteFriendsCell.loadFromNib()
                     var item: AddFriendsCellItem = AddFriendsCellItem(person: LocalPerson(name: "Test", emails: [], id: 123))
 

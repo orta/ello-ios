@@ -84,7 +84,7 @@ class FindFriendsViewControllerSpec: QuickSpec {
         }
 
         describe("setUsers") {
-            it("should set the given array of users to the datasource") {
+            it("sets the given array of users to the datasource") {
                 let data = stubbedJSONData("user", "users")
                 let user = User.fromJSON(data) as User
 
