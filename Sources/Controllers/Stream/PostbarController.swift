@@ -23,7 +23,7 @@ class PostbarController: NSObject, PostbarDelegate {
 
     // MARK:
 
-    func viewsButtonTapped(cell:StreamFooterCell) {
+    func viewsButtonTapped(cell:UICollectionViewCell) {
         if let indexPath = collectionView.indexPathForCell(cell) {
             if let post = dataSource.postForIndexPath(indexPath) {
                 let items = self.dataSource.cellItemsForPost(post)
@@ -60,15 +60,15 @@ class PostbarController: NSObject, PostbarDelegate {
         }
     }
 
-    func lovesButtonTapped(cell:StreamFooterCell) {
+    func lovesButtonTapped(cell:UICollectionViewCell) {
         println("lovesButtonTapped")
     }
 
-    func repostButtonTapped(cell:StreamFooterCell) {
+    func repostButtonTapped(cell:UICollectionViewCell) {
         println("repostButtonTapped")
     }
 
-    func shareButtonTapped(cell: StreamFooterCell) {
+    func shareButtonTapped(cell: UICollectionViewCell) {
         if let indexPath = collectionView.indexPathForCell(cell) {
             if let post = dataSource.postForIndexPath(indexPath) {
                 if let shareLink = post.shareLink {
@@ -80,7 +80,7 @@ class PostbarController: NSObject, PostbarDelegate {
         }
     }
 
-    func flagButtonTapped(cell: StreamFooterCell) {
+    func flagPostButtonTapped(cell: UICollectionViewCell) {
         if let indexPath = collectionView.indexPathForCell(cell) {
             if let post = dataSource.postForIndexPath(indexPath) {
                 if let presentingController = presentingController? {
@@ -93,6 +93,29 @@ class PostbarController: NSObject, PostbarDelegate {
                 }
             }
         }
+    }
+
+    func flagCommentButtonTapped(cell: UICollectionViewCell) {
+        if let indexPath = collectionView.indexPathForCell(cell) {
+            if let comment = dataSource.commentForIndexPath(indexPath) {
+                if let presentingController = presentingController? {
+                    let flagger = ContentFlagger(presentingController: presentingController,
+                        flaggableId: comment.commentId,
+                        flaggableContentType: .Comment,
+                        commentPostId: comment.parentPost?.postId)
+
+                    flagger.displayFlaggingSheet()
+                }
+            }
+        }
+    }
+
+    func replyToPostButtonTapped(cell:UICollectionViewCell) {
+        println("reply to post button tapped")
+    }
+
+    func replyToCommentButtonTapped(cell:UICollectionViewCell) {
+        println("reply to comment button tapped")
     }
 
 // MARK: - Private
