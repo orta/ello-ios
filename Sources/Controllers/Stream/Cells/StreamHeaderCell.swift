@@ -151,12 +151,12 @@ class StreamHeaderCell: UICollectionViewCell {
 
     private func addObservers() {
         cellOpenObserver = NotificationObserver(notification: streamCellDidOpenNotification) { cell in
-            if (cell != self && self.isOpen) {
-                dispatch_async(dispatch_get_main_queue(), {
-                    UIView.animateWithDuration(0.25, animations: {
+            if cell != self && self.isOpen {
+                dispatch_async(dispatch_get_main_queue()) {
+                    UIView.animateWithDuration(0.25) {
                         self.scrollView.contentOffset = CGPointZero
-                    })
-                })
+                    }
+                }
             }
         }
     }
