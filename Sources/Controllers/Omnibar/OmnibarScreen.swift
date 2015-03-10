@@ -120,19 +120,20 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
 
     weak var delegate : OmnibarScreenDelegate?
 
-    var avatarView : UIImageView!
-    var cameraButton : UIButton!
-    var imageSelectedButton : UIButton!
-    var imageSelectedOverlay : UIImageView!
-    var cancelButton : UIButton!
-    var submitButton : UIButton!
-    var buttonContainer : ElloEquallySpacedLayout!
+    var avatarView = UIImageView()
+    var cameraButton = UIButton()
 
-    var sayElloOverlay : UIControl!
-    var sayElloLabel : UILabel!
+    var imageSelectedButton = UIButton()
+    var imageSelectedOverlay = UIImageView()
+    var cancelButton = UIButton()
+    var submitButton = UIButton()
+    var buttonContainer = ElloEquallySpacedLayout()
 
-    var textContainer : UIView!
-    var textView : UITextView!
+    var sayElloOverlay = UIControl()
+    var sayElloLabel = UILabel()
+
+    var textContainer = UIView()
+    var textView = UITextView()
 
     private var currentText : NSAttributedString?
     private var currentImage : UIImage?
@@ -143,28 +144,49 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
 // MARK: init
 
     override init(frame: CGRect) {
-        avatarView = UIImageView(frame: CGRectZero)
+        super.init(frame: frame)
+        self.backgroundColor = UIColor.whiteColor()
+
+        setupAvatarView()
+        setupSayElloViews()
+        setupImageSelectedViews()
+        setupButtons()
+        setupTextViews()
+        setupViewHierarchy()
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+// MARK: View setup code
+
+    // Avatar view (in the upper right corner) just needs to round its corners,
+    // which is done in layoutSubviews.
+    private func setupAvatarView() {
         avatarView.backgroundColor = UIColor.blackColor()
         avatarView.clipsToBounds = true
-
-        textContainer = UIView()
-        textContainer.backgroundColor = UIColor.greyE5()
-        buttonContainer = ElloEquallySpacedLayout()
-
-        sayElloOverlay = UIControl()
-        sayElloLabel = UILabel()
+    }
+    // the label and overlay cover the text view; on tap they are hidden and the
+    // textView is given first responder status.  This is basically a workaround
+    // for UITextView not having a `placeholder` property.
+    private func setupSayElloViews() {
         sayElloLabel.text = "Say Ello…"
         sayElloLabel.textColor = UIColor.greyA()
         sayElloLabel.font = UIFont.typewriterFont(12)
 
-        cameraButton = UIButton()
-        cameraButton.setImage(ElloDrawable.imageOfCameraIcon, forState: .Normal)
-
+        sayElloOverlay.addTarget(self, action: Selector("startEditingAction"), forControlEvents: .TouchUpInside)
+    }
+    // This is the button, image, and icon that appear in lieu of the camera
+    // button after an image is selected.  Tapping this button removes the
+    // selected image.
+    private func setupImageSelectedViews() {
         // this rect will be adjusted by ElloEquallySpacedLayout, but I need it
         // set to *something* so that autoresizingMask is calculated correctly
-        imageSelectedButton = UIButton(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
+        imageSelectedButton.frame = CGRect(x: 0, y: 0, width: 10, height: 10)
         imageSelectedButton.contentMode = .ScaleAspectFit
-        imageSelectedOverlay = UIImageView()
+        imageSelectedButton.addTarget(self, action: Selector("removeButtonAction"), forControlEvents: .TouchUpInside)
+
         imageSelectedOverlay.contentMode = .Center
         imageSelectedOverlay.layer.cornerRadius = 13
         imageSelectedOverlay.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.7)
@@ -172,14 +194,23 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
         imageSelectedOverlay.frame = CGRect.at(x: imageSelectedButton.frame.width / 2, y: imageSelectedButton.frame.height / 2).grow(all: imageSelectedOverlay.layer.cornerRadius)
         imageSelectedOverlay.autoresizingMask = .FlexibleBottomMargin | .FlexibleTopMargin | .FlexibleLeftMargin | .FlexibleRightMargin
         imageSelectedButton.addSubview(imageSelectedOverlay)
+    }
+    // buttons that make up the "toolbar"
+    private func setupButtons() {
+        cameraButton.setImage(ElloDrawable.imageOfCameraIcon, forState: .Normal)
+        cameraButton.addTarget(self, action: Selector("addImageAction"), forControlEvents: .TouchUpInside)
 
-        cancelButton = UIButton()
         cancelButton.setImage(ElloDrawable.imageOfCancelIcon, forState: .Normal)
+        cancelButton.addTarget(self, action: Selector("cancelEditingAction"), forControlEvents: .TouchUpInside)
 
-        submitButton = UIButton()
         submitButton.setImage(ElloDrawable.imageOfSubmitIcon, forState: .Normal)
-
-        textView = UITextView()
+        submitButton.addTarget(self, action: Selector("submitAction"), forControlEvents: .TouchUpInside)
+    }
+    // The textContainer is the outetr gray background.  The text view is
+    // configured to fill that container (only the container and the text view
+    // insets are modified in layoutSubviews)
+    private func setupTextViews() {
+        textContainer.backgroundColor = UIColor.greyE5()
         textView.editable = true
         textView.allowsEditingTextAttributes = false  // TEMP
         textView.selectable = true
@@ -187,33 +218,21 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
         textView.font = UIFont.typewriterFont(12)
         textView.textContainer.lineFragmentPadding = 0
         textView.backgroundColor = UIColor.greyE5()
-
-        super.init(frame: frame)
-        self.backgroundColor = UIColor.whiteColor()
-
+        textView.delegate = self
+        textView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+    }
+    private func setupViewHierarchy() {
         for view in [avatarView, buttonContainer, textContainer, sayElloOverlay] as [UIView] {
             self.addSubview(view)
         }
-
         for view in [cameraButton, cancelButton, submitButton] as [UIView] {
             buttonContainer.addSubview(view)
         }
-        submitButton.addTarget(self, action: Selector("submitAction"), forControlEvents: .TouchUpInside)
-        cameraButton.addTarget(self, action: Selector("addImageAction"), forControlEvents: .TouchUpInside)
-        cancelButton.addTarget(self, action: Selector("cancelEditingAction"), forControlEvents: .TouchUpInside)
-        imageSelectedButton.addTarget(self, action: Selector("removeButtonAction"), forControlEvents: .TouchUpInside)
-
         sayElloOverlay.addSubview(sayElloLabel)
-        sayElloOverlay.addTarget(self, action: Selector("startEditingAction"), forControlEvents: .TouchUpInside)
-
-        textView.delegate = self
-        textView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
         textContainer.addSubview(textView)
     }
 
-    required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+// MARK: Public interface
 
     // Removes the undo state, and updates the text view, including the overlay
     // and first responder state.  This method is meant to be used during
