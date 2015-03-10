@@ -126,6 +126,11 @@ class StreamContainerViewController: StreamableViewController {
 
     // MARK: - IBActions
 
+    @IBAction func hamburgerButtonTapped(sender: UIBarButtonItem) {
+        let drawer = DrawerViewController()
+        self.navigationController?.pushViewController(drawer, animated: true)
+    }
+
     @IBAction func streamSegmentTapped(sender: UISegmentedControl) {
         let width:CGFloat = view.bounds.size.width
         let height:CGFloat = view.bounds.size.height
