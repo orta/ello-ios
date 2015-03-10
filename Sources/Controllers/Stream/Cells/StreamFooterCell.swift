@@ -197,7 +197,7 @@ class StreamFooterCell: UICollectionViewCell {
     }
 
     @IBAction func flagButtonTapped(sender: StreamFooterButton) {
-        delegate?.flagButtonTapped(self)
+        delegate?.flagPostButtonTapped(self)
     }
 
     @IBAction func shareButtonTapped(sender: StreamFooterButton) {

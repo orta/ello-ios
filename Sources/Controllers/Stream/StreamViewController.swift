@@ -19,12 +19,15 @@ protocol UserDelegate: NSObjectProtocol {
 }
 
 protocol PostbarDelegate : NSObjectProtocol {
-    func viewsButtonTapped(cell:StreamFooterCell)
+    func viewsButtonTapped(cell:UICollectionViewCell)
     func commentsButtonTapped(cell:StreamFooterCell, commentsButton: CommentButton)
-    func lovesButtonTapped(cell:StreamFooterCell)
-    func repostButtonTapped(cell:StreamFooterCell)
-    func shareButtonTapped(cell:StreamFooterCell)
-    func flagButtonTapped(cell:StreamFooterCell)
+    func lovesButtonTapped(cell:UICollectionViewCell)
+    func repostButtonTapped(cell:UICollectionViewCell)
+    func shareButtonTapped(cell:UICollectionViewCell)
+    func flagPostButtonTapped(cell:UICollectionViewCell)
+    func flagCommentButtonTapped(cell:UICollectionViewCell)
+    func replyToPostButtonTapped(cell:UICollectionViewCell)
+    func replyToCommentButtonTapped(cell:UICollectionViewCell)
 }
 
 protocol StreamImageCellDelegate : NSObjectProtocol {
