@@ -1,98 +1,215 @@
+###Ello 0.1 Build 7
+####Commit notes:
+
+* Merge pull request #54 from ello/rb-load-following-followers
+* Add Stubs file to make user stubbing easier.
+* Update stream data source tests.
+* Adds following/followers views.
+* Merge pull request #59 from ello/cg-string-extensions
+* rm fdescribe
+* Merge pull request #58 from ello/rb-fix-profile-posts
+* adds more string extensions, to encode/decode URLs and HTML entities.
+* Make `parseArray` private.
+* Fixes post loading for users.
+* Merge pull request #53 from ello/td-update-quick-numble
+* Update Quick and Nimble
+* Update quick and nimble in podfile
+* Merge pull request #46 from ello/sd-tapping-on-avatar-loads-profile
+* Merge branch 'master' into sd-tapping-on-avatar-loads-profile
+* Merge pull request #49 from ello/rb-posts-following-followers
+* Add a bunch more test coverage to StreamDataSource
+* Handle invalid index paths
+* Add specs for some StreamDataSource functions.
+* Forgot to add ElloTextView to Specs.
+* Default relationship to None if none present.
+* Factors out an ElloTextView for handling taps.
+* Merge branch 'master' into sd-tapping-on-avatar-loads-profile
+* Merge pull request #43 from ello/rb-paginate-notifications
+* Do not load a profile if we're already viewing it.
+* Tapping on comment avatars loads profile.
+* Removing types and using reduce.
+* Refactors parser and stream view controller.
+* Merge pull request #41 from ello/gf-disable-extra-schemes
+* Remove extra pod schemes
+* Merge pull request #38 from ello/td-set-project-indentation
+* Set indentation at the project level
+* Merge pull request #35 from ello/rb-error-userinfo
+* Add test for unknown code coming back from JSON.
+* Default code to unknown to prevent crashes.
+* Merge pull request #37 from ello/gf-update-cocoapods
+* Update CocoaPods version to RC 1
+* Merge pull request #34 from ello/rb-crasylytics-answers
+* Add debugMode = true for Crashlytics Answers.
+* Merge pull request #32 from ello/rb-stream-pagination
+* xdescribe scroll tests for streamviewcontroller.
+* Update stubbed headers to pass test.
+* Update client secret and id for staging.
+* Fixes issues with last merge.
+* Fix the api methods
+* WIP: Adding tests for pagination.
+* Split stubbedData and stubbedResponse into two methods.
+* fixed merge conflicts
+* xit out the the timeout spec as it is brittle.
+* Moving a class to its own file requires an init()
+* Move response config to it’s own file.
+* Move weblinking import to correct class.
+* Adds paging to friend and noise streams.
+* Adds WebLinking pod
+* WIP Adding header link parsing for pagination.
+* explanation of benefits
+* fixes 'isShowing' getter
+* Merge pull request #33 from ello/cg-navbar
+* these vars were removed
+* ElloScrollLogic Specs - defines behavior of 'scroll to show/hide'
+* 'rake test' is wrong - should be 'rake spec'
+* will need this spec
+* scroll tweaks
+* Merge branch 'master' into cg-navbar
+* Merge branch 'master' of github.com:ello/ello-ios
+* misc fixes: no more `author!` and disables webkit text selection
+* only set HTML if value changed
+* scroll updates
+* Merge pull request #31 from ello/sd-add-reveal-buttons-to-postbar
+* Need to comment out another FunctionalSpec test.
+* Had to comment out two of the Functional specs that don't pass on Travis
+* Change setButtonTitle to setButtonTitleWithPadding on SteramFooterButton
+* Fixed renamed function reference in StreamViewControllerSpec.
+* resolve merge conflicts
+* Added specs for ContentFlagger.
+* better default
+* fixes to avatar button
+* I stopped using this long ago!
+* not misplaced anymore
+* notifications += hideable bars
+* Content Flagging specs
+* aww yeah, scrolling shows/hides all tabbar/navbars (except notifications, i just remembered)
+* working on post detail
+* WIP: content flagging
+* Update Crashlytics files.
+* don't need this anymore
+* tabbar hides too now!
+* cool!  scrolling hides the nav bar... just like it did this morning... heehee
+* longer timeout for functional test
+* custom class here
+* nav bars are no longer universal - screen specific!
+* StreamContainerController has its own nav bar
+* fixes specs
+* crashlytics updates
+* include PaintCode source files
+* rm unused code
+* drawables, playing with paintcode
+* Merge branch 'master' into cg-notifications-api
+* messing with navigation bars
+* added code comments to PostbarController
+* ImageRegions no longer require alt.
+* refactors to PostDetail and ProfileView, plus fixes and features in Notifications
+* deal with 'no current user' error
+* Load a post detail when tapping the views icon
+* share posts from share button in postbar
+* do not stub responses
+* Add shareLink to Post
+* Merge branch 'master' into sd-add-reveal-buttons-to-postbar
+* Merge pull request #29 from ello/rb-relationships
+* Add swipe to reveal to postbar in streamfootercell
+* Add block, reply and share icons
+* Rename controller to presentingController.
+* xdescribe the whole stream data source spec.
+* xdescribe our most brittle test.
+* Rewire up the relationship view in profile header.
+* Finish up testing relationship toggles.
+* WIP: Adding specs
+* Polish off the relationship view and controller.
+* Adding the mute/block modal view.
+* Couple refactors in the relationship view.
+* Add relationship service.
+* Update styling of the relationship buttons.
+* WIP: adding relationship view.
+* use default value and variable name fix
+* Merge pull request #30 from ello/cg-colors
+* Merge branch 'master' into cg-notifications-api
+* Merge branch 'master' into cg-colors
+* Merge branch 'master' of github.com:ello/ello-ios
+* and dead simple specs
+* refactored Colors to memoize values and added some notes
+* added NotificationsScreen
+* remove uneeded code
+* notification refactors
+* WIP: move content into scrollview
+* fixes to notifications - and title 'links' are tappable!  they just output debug code
+* convert notificationTitleLabel to UITextView
+* spec fixes and notification titles are now beautiful
+* Merge pull request #28 from ello/sd-move-cell-config-to-extensions
+* with specs!
+* use static presenters to configure stream cells
+* build 6
+* update release notes generator
+* Cell config in UITableViewCell extensions
 
 -----------------
-###Ello 0.1 Build 1
+
+###Ello 0.1 Build 6
+####Commit notes:
+
+* Revert "release notes"
+* add NotificationCellItemParser to Specs target
+* release notes
+* fixes to CGRect and more specs
+* more specs
+* Merge branch 'master' into cg-notifications-api
+* update prev commit
+* Add devices to mobile provision file.
+* refactors and fixed notification text
+* building NotificationCell in code
+* Merge branch 'master' into cg-notifications-api
+* using layoutSubviews instead
+* Merge pull request #26 from ello/sd-comment-tap-fixes
+* Remove references to UIColor.elloLightGray()
+* Merge branch 'master' into sd-comment-tap-fixes
+* Animate comment dots and highlight count.
+* cell sizing - uiwebviews are broken?
+* Merge pull request #25 from ello/rb-update-colors
+* notifcation cell sizes
+* Update app colors to match style guide.
+* Merge pull request #24 from ello/sd-load-smaller-cover-image
+* whitespace fix
+* Tapping the comment button once opens comments in a stream.
+* Add multiple version of cover image image to stubbed spec data
+* load HDPI version of the cover image in a user's profile
+* Merge pull request #23 from ello/sd-fix-login-errors
+* Oops, make the specs pass.
+* Merge branch 'master' into sd-fix-login-errors
+* passwords must be at least 8 characters long
+* Add clear button to input text fields on login.
+* Fix sign in error feedback.
+* dynamic cells, with resizinge, based on activity kind
+
+-----------------
+
+###Ello 0.1 Build 5
+####Commit notes:
+
+* Add rake tasks for distributing to testers/devs.
+* Add Crashlytics.framework to the Specs target.
+* Initial release build to testers group.
+
+-----------------
+
+###Ello 0.1 Build 4
 
 ####Tracker stories:
-* [83332054](https://www.pivotaltracker.com/story/show/83332054) As a user I should be able to view a Post Detail Page
-* [86546548](https://www.pivotaltracker.com/story/show/86546548) As the application I should transition between screens without parallax.
-* [86461652](https://www.pivotaltracker.com/story/show/86461652) As a user I should be able to toggle between my friends and noise feed.
-* [85836946](https://www.pivotaltracker.com/story/show/85836946) As the application, I should parse JSON Comments from the server.
-* [85621420](https://www.pivotaltracker.com/story/show/85621420) Refactor existing api parsing to handle the new JSONAPI style responses.
-* [83165978](https://www.pivotaltracker.com/story/show/83165978) As a user, I should be able to log in and log out of my account
-* [83968706](https://www.pivotaltracker.com/story/show/83968706) Uniformly handle all api endpoint failure responses.
-* [83141594](https://www.pivotaltracker.com/story/show/83141594) Setup Ello to run on Travis.
-* [83141574](https://www.pivotaltracker.com/story/show/83141574) Setup Ello iOS app in Xcode and make first commit.
+* [88521390](https://www.pivotaltracker.com/story/show/88521390) Investigate our next beta deployment process
 
 ####Commit notes:
 
-* Prep for alpha build.
-* Update naming to more accurately reflect the web app.
-* Cache linked data in ElloLinkedStore
-* Pull linked out of fromJSON
-* Fix the linked object parsing.
-* Updating the linked parsing for better data.
-* working on mapping linked items for lookup
-* Converted NSUserDefaults to SwiftyUserDefaults.
-* Altered specs to work for streamables.
-* Fix crash for posts with embeds.
-* Connect app to staging server live data.
-* Load comments into the stream
-* Adds release notes and increment build to builder.
-* Move travis-build into bin folder.
-* Adds rake task for distributing to TestFlight.
-* Update pods.
-* Update ruby version to match ello web project.
-* Load comments on a post detail.
-* Add real image url to comments-for-a-post json
-* As the application I should transition between screens without parallax.
-* Load Post detail screen
-* Retrieve post and cells from Friends Data Source
-* Shrink navigation title font size.
-* Add custom navigation push/pop animation.
-* Add streams controller and segmented control to toggle between friends/noise.
-* Cleanup main nav icons and add a couple new ones.
-* Fix FriendsDataSourceSpec for xctool to run on Travis
-* Adding osx_image config to Travis
-* try xcodebuild
-* Getting closer.
-* take 6?
-* Take 5?
-* Another stab.
-* Add blank install: config to travis.yml with hopes of bypassing bundler and cocoa pods
-* Travis removes .ruby-version
-* Attempting to prevent Travis from bundling and pod installing.
-* Add v7 tab bar icons.
-* First attempt to get travis building again.
-* Comments now parsed like Posts
-* Added a few smoke tests to the friends stream parsing
-* Refactor existing api parsing to handle the new JSONAPI style responses.
-* As the application, I should parse JSON Comments from the server.
-* Refactor existing api Error parsing to handle the new JSONAPI style responses.
-* Add Post Vie Controller and Create Account View Controller, add missing specs
-* Add all schemes to shared data
-* Rebuild project for testflight deployment
-* WIP: Render Friends Stream Smoothly
-* WIP: attempting to implement WKWebView for the stream, time to bail as it doesn't work
-* WIP: Friends stream
-* User can logout from the profile screen once signed in.
-* Automatically log the user in when they have an access token.
-* Add fading focus and unfocus background color to text fields.
-* Create Forgot Password Screen
-* Uniformly handle all api endpoint failure responses.
-* WIP: Store access token
-* Added a loading progress hud to the app.
-* WIP: Sign in screen layout and keyboard interaction
-* WIP: Sign in screen layout and keyboard interaction
-* WIP: As a user, I should be able to log in and log out of my account
-* Stub out sections and networking layer.
-* Keep a copy of a potential ElloAPI for use down the road.
-* Stub out the main sections, main storyboard and specs.
-* Add all pods to the spec target.
-* adds slack hook.
-* Remove build step from Travis, run tests only for now.
-* Travis now works, moving back to separate travis build script.
-* Added Colors extension for UIColor
-* Moved schemes into shared data.
-* Giving xctool a try. Come on Travis!
-* Attempting to build on travis by targeting iOS 8.0.
-* Another Travis run.
-* Tweaks to Travis
-* Setup Ello to run on Travis.
-* Initial commit of Ello iOS!
+* Adds crashlytics and beta distribution.
 
 -----------------
 
+###Ello 0.1 Build 3
+####Commit notes:
+
 -----------------
+
 ###Ello 0.1 Build 2
 
 ####Tracker stories:
@@ -280,221 +397,95 @@
 
 -----------------
 
------------------
-###Ello 0.1 Build 3
-####Commit notes:
-
-* Ello iOS Build 2
-
------------------
-
------------------
-###Ello 0.1 Build 4
+###Ello 0.1 Build 1
 
 ####Tracker stories:
-* [88521390](https://www.pivotaltracker.com/story/show/88521390) Investigate our next beta deployment process
+* [83332054](https://www.pivotaltracker.com/story/show/83332054) As a user I should be able to view a Post Detail Page
+* [86546548](https://www.pivotaltracker.com/story/show/86546548) As the application I should transition between screens without parallax.
+* [86461652](https://www.pivotaltracker.com/story/show/86461652) As a user I should be able to toggle between my friends and noise feed.
+* [85836946](https://www.pivotaltracker.com/story/show/85836946) As the application, I should parse JSON Comments from the server.
+* [85621420](https://www.pivotaltracker.com/story/show/85621420) Refactor existing api parsing to handle the new JSONAPI style responses.
+* [83165978](https://www.pivotaltracker.com/story/show/83165978) As a user, I should be able to log in and log out of my account
+* [83968706](https://www.pivotaltracker.com/story/show/83968706) Uniformly handle all api endpoint failure responses.
+* [83141594](https://www.pivotaltracker.com/story/show/83141594) Setup Ello to run on Travis.
+* [83141574](https://www.pivotaltracker.com/story/show/83141574) Setup Ello iOS app in Xcode and make first commit.
 
 ####Commit notes:
 
-* Adds crashlytics and beta distribution.
+* Prep for alpha build.
+* Update naming to more accurately reflect the web app.
+* Cache linked data in ElloLinkedStore
+* Pull linked out of fromJSON
+* Fix the linked object parsing.
+* Updating the linked parsing for better data.
+* working on mapping linked items for lookup
+* Converted NSUserDefaults to SwiftyUserDefaults.
+* Altered specs to work for streamables.
+* Fix crash for posts with embeds.
+* Connect app to staging server live data.
+* Load comments into the stream
+* Adds release notes and increment build to builder.
+* Move travis-build into bin folder.
+* Adds rake task for distributing to TestFlight.
+* Update pods.
+* Update ruby version to match ello web project.
+* Load comments on a post detail.
+* Add real image url to comments-for-a-post json
+* As the application I should transition between screens without parallax.
+* Load Post detail screen
+* Retrieve post and cells from Friends Data Source
+* Shrink navigation title font size.
+* Add custom navigation push/pop animation.
+* Add streams controller and segmented control to toggle between friends/noise.
+* Cleanup main nav icons and add a couple new ones.
+* Fix FriendsDataSourceSpec for xctool to run on Travis
+* Adding osx_image config to Travis
+* try xcodebuild
+* Getting closer.
+* take 6?
+* Take 5?
+* Another stab.
+* Add blank install: config to travis.yml with hopes of bypassing bundler and cocoa pods
+* Travis removes .ruby-version
+* Attempting to prevent Travis from bundling and pod installing.
+* Add v7 tab bar icons.
+* First attempt to get travis building again.
+* Comments now parsed like Posts
+* Added a few smoke tests to the friends stream parsing
+* Refactor existing api parsing to handle the new JSONAPI style responses.
+* As the application, I should parse JSON Comments from the server.
+* Refactor existing api Error parsing to handle the new JSONAPI style responses.
+* Add Post Vie Controller and Create Account View Controller, add missing specs
+* Add all schemes to shared data
+* Rebuild project for testflight deployment
+* WIP: Render Friends Stream Smoothly
+* WIP: attempting to implement WKWebView for the stream, time to bail as it doesn't work
+* WIP: Friends stream
+* User can logout from the profile screen once signed in.
+* Automatically log the user in when they have an access token.
+* Add fading focus and unfocus background color to text fields.
+* Create Forgot Password Screen
+* Uniformly handle all api endpoint failure responses.
+* WIP: Store access token
+* Added a loading progress hud to the app.
+* WIP: Sign in screen layout and keyboard interaction
+* WIP: Sign in screen layout and keyboard interaction
+* WIP: As a user, I should be able to log in and log out of my account
+* Stub out sections and networking layer.
+* Keep a copy of a potential ElloAPI for use down the road.
+* Stub out the main sections, main storyboard and specs.
+* Add all pods to the spec target.
+* adds slack hook.
+* Remove build step from Travis, run tests only for now.
+* Travis now works, moving back to separate travis build script.
+* Added Colors extension for UIColor
+* Moved schemes into shared data.
+* Giving xctool a try. Come on Travis!
+* Attempting to build on travis by targeting iOS 8.0.
+* Another Travis run.
+* Tweaks to Travis
+* Setup Ello to run on Travis.
+* Initial commit of Ello iOS!
 
 -----------------
 
------------------
-###Ello 0.1 Build 5
-####Commit notes:
-
-* Add rake tasks for distributing to testers/devs.
-* Add Crashlytics.framework to the Specs target.
-* Initial release build to testers group.
-
------------------
-
------------------
-###Ello 0.1 Build 6
-####Commit notes:
-
-* Revert "release notes"
-* add NotificationCellItemParser to Specs target
-* release notes
-* fixes to CGRect and more specs
-* more specs
-* Merge branch 'master' into cg-notifications-api
-* update prev commit
-* Add devices to mobile provision file.
-* refactors and fixed notification text
-* building NotificationCell in code
-* Merge branch 'master' into cg-notifications-api
-* using layoutSubviews instead
-* Merge pull request #26 from ello/sd-comment-tap-fixes
-* Remove references to UIColor.elloLightGray()
-* Merge branch 'master' into sd-comment-tap-fixes
-* Animate comment dots and highlight count.
-* cell sizing - uiwebviews are broken?
-* Merge pull request #25 from ello/rb-update-colors
-* notifcation cell sizes
-* Update app colors to match style guide.
-* Merge pull request #24 from ello/sd-load-smaller-cover-image
-* whitespace fix
-* Tapping the comment button once opens comments in a stream.
-* Add multiple version of cover image image to stubbed spec data
-* load HDPI version of the cover image in a user's profile
-* Merge pull request #23 from ello/sd-fix-login-errors
-* Oops, make the specs pass.
-* Merge branch 'master' into sd-fix-login-errors
-* passwords must be at least 8 characters long
-* Add clear button to input text fields on login.
-* Fix sign in error feedback.
-* dynamic cells, with resizinge, based on activity kind
-
------------------
-
------------------
-###Ello 0.1 Build 7
-####Commit notes:
-
-* Merge pull request #54 from ello/rb-load-following-followers
-* Add Stubs file to make user stubbing easier.
-* Update stream data source tests.
-* Adds following/followers views.
-* Merge pull request #59 from ello/cg-string-extensions
-* rm fdescribe
-* Merge pull request #58 from ello/rb-fix-profile-posts
-* adds more string extensions, to encode/decode URLs and HTML entities.
-* Make `parseArray` private.
-* Fixes post loading for users.
-* Merge pull request #53 from ello/td-update-quick-numble
-* Update Quick and Nimble
-* Update quick and nimble in podfile
-* Merge pull request #46 from ello/sd-tapping-on-avatar-loads-profile
-* Merge branch 'master' into sd-tapping-on-avatar-loads-profile
-* Merge pull request #49 from ello/rb-posts-following-followers
-* Add a bunch more test coverage to StreamDataSource
-* Handle invalid index paths
-* Add specs for some StreamDataSource functions.
-* Forgot to add ElloTextView to Specs.
-* Default relationship to None if none present.
-* Factors out an ElloTextView for handling taps.
-* Merge branch 'master' into sd-tapping-on-avatar-loads-profile
-* Merge pull request #43 from ello/rb-paginate-notifications
-* Do not load a profile if we're already viewing it.
-* Tapping on comment avatars loads profile.
-* Removing types and using reduce.
-* Refactors parser and stream view controller.
-* Merge pull request #41 from ello/gf-disable-extra-schemes
-* Remove extra pod schemes
-* Merge pull request #38 from ello/td-set-project-indentation
-* Set indentation at the project level
-* Merge pull request #35 from ello/rb-error-userinfo
-* Add test for unknown code coming back from JSON.
-* Default code to unknown to prevent crashes.
-* Merge pull request #37 from ello/gf-update-cocoapods
-* Update CocoaPods version to RC 1
-* Merge pull request #34 from ello/rb-crasylytics-answers
-* Add debugMode = true for Crashlytics Answers.
-* Merge pull request #32 from ello/rb-stream-pagination
-* xdescribe scroll tests for streamviewcontroller.
-* Update stubbed headers to pass test.
-* Update client secret and id for staging.
-* Fixes issues with last merge.
-* Fix the api methods
-* WIP: Adding tests for pagination.
-* Split stubbedData and stubbedResponse into two methods.
-* fixed merge conflicts
-* xit out the the timeout spec as it is brittle.
-* Moving a class to its own file requires an init()
-* Move response config to it’s own file.
-* Move weblinking import to correct class.
-* Adds paging to friend and noise streams.
-* Adds WebLinking pod
-* WIP Adding header link parsing for pagination.
-* explanation of benefits
-* fixes 'isShowing' getter
-* Merge pull request #33 from ello/cg-navbar
-* these vars were removed
-* ElloScrollLogic Specs - defines behavior of 'scroll to show/hide'
-* 'rake test' is wrong - should be 'rake spec'
-* will need this spec
-* scroll tweaks
-* Merge branch 'master' into cg-navbar
-* Merge branch 'master' of github.com:ello/ello-ios
-* misc fixes: no more `author!` and disables webkit text selection
-* only set HTML if value changed
-* scroll updates
-* Merge pull request #31 from ello/sd-add-reveal-buttons-to-postbar
-* Need to comment out another FunctionalSpec test.
-* Had to comment out two of the Functional specs that don't pass on Travis
-* Change setButtonTitle to setButtonTitleWithPadding on SteramFooterButton
-* Fixed renamed function reference in StreamViewControllerSpec.
-* resolve merge conflicts
-* Added specs for ContentFlagger.
-* better default
-* fixes to avatar button
-* I stopped using this long ago!
-* not misplaced anymore
-* notifications += hideable bars
-* Content Flagging specs
-* aww yeah, scrolling shows/hides all tabbar/navbars (except notifications, i just remembered)
-* working on post detail
-* WIP: content flagging
-* Update Crashlytics files.
-* don't need this anymore
-* tabbar hides too now!
-* cool!  scrolling hides the nav bar... just like it did this morning... heehee
-* longer timeout for functional test
-* custom class here
-* nav bars are no longer universal - screen specific!
-* StreamContainerController has its own nav bar
-* fixes specs
-* crashlytics updates
-* include PaintCode source files
-* rm unused code
-* drawables, playing with paintcode
-* Merge branch 'master' into cg-notifications-api
-* messing with navigation bars
-* added code comments to PostbarController
-* ImageRegions no longer require alt.
-* refactors to PostDetail and ProfileView, plus fixes and features in Notifications
-* deal with 'no current user' error
-* Load a post detail when tapping the views icon
-* share posts from share button in postbar
-* do not stub responses
-* Add shareLink to Post
-* Merge branch 'master' into sd-add-reveal-buttons-to-postbar
-* Merge pull request #29 from ello/rb-relationships
-* Add swipe to reveal to postbar in streamfootercell
-* Add block, reply and share icons
-* Rename controller to presentingController.
-* xdescribe the whole stream data source spec.
-* xdescribe our most brittle test.
-* Rewire up the relationship view in profile header.
-* Finish up testing relationship toggles.
-* WIP: Adding specs
-* Polish off the relationship view and controller.
-* Adding the mute/block modal view.
-* Couple refactors in the relationship view.
-* Add relationship service.
-* Update styling of the relationship buttons.
-* WIP: adding relationship view.
-* use default value and variable name fix
-* Merge pull request #30 from ello/cg-colors
-* Merge branch 'master' into cg-notifications-api
-* Merge branch 'master' into cg-colors
-* Merge branch 'master' of github.com:ello/ello-ios
-* and dead simple specs
-* refactored Colors to memoize values and added some notes
-* added NotificationsScreen
-* remove uneeded code
-* notification refactors
-* WIP: move content into scrollview
-* fixes to notifications - and title 'links' are tappable!  they just output debug code
-* convert notificationTitleLabel to UITextView
-* spec fixes and notification titles are now beautiful
-* Merge pull request #28 from ello/sd-move-cell-config-to-extensions
-* with specs!
-* use static presenters to configure stream cells
-* build 6
-* update release notes generator
-* Cell config in UITableViewCell extensions
-
------------------

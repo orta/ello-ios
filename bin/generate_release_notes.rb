@@ -1,97 +1,69 @@
 #!/usr/bin/env ruby
 
-require 'rubygems'
 require 'bundler/setup'
-require 'pivotal-tracker'
+require 'dotenv'
+require 'octokit'
 require 'yaml'
-require 'rugged'
 
+# load .env vars
+Dotenv.load
 
-def what_version
+# grab out build verion info
+def build_version
  output = `agvtool what-version -terse`
  output.length > 0 ? output : nil
 end
 
-def what_marketing_version
+def marketing_version
  output = `agvtool what-marketing-version -terse`
  output.scan(/\=(.+)$/).flatten.first
 end
 
-config = YAML::load_file('bin/release-notes-config.yml')
+current_notes = ""
 
-# read the previous commit
-last_commit = config["previous-commit"]
-# open the repo
-repo = Rugged::Repository.new('.git')
-repo.branches.each do |branch|
-  print "\r\rBRANCH\r"
-  print branch
+# Grab out pull request info within range
+repo_name = 'ello/ello-ios'
+previous_sha = YAML::load_file('bin/previous-sha.yml')
+client = Octokit::Client.new(access_token: ENV['GITHUB_API_TOKEN'])
+# These are grabbed from newest to oldest by 30
+# TODO: figure out how to get more..
+commits = client.commits(repo_name, 'master')
+commits.each do |commit|
+  break if previous_sha["previous-sha"] == commit[:sha]
+  match = commit[:commit][:message].match(/pull request #(\d+) from/)
+  if match
+    pr_num = match.captures[0]
+    pr = client.pull_request(repo_name, pr_num)
+    if pr[:state] == 'closed'
+      current_notes << "##{pr_num} - #{pr[:title]}"
+      current_notes << pr[:body]
+      current_notes << "\n\n---\n"
+    end
+  end
 end
 
-# # read the latest commit from head
-# latest_commit = repo.head.target.oid
-
-# # Parse out story IDs from the current commit
-# commit_range = "#{last_commit}..#{latest_commit}"
-# story_ids = `git log --format=%B #{commit_range}`.scan(/\[\#(\d+)\]/).map(&:first)
-
-# PivotalTracker::Client.token = "fc826e4f5dd2622f519e09c62f32b982"
-# PivotalTracker::Client.use_ssl = true
-# project = PivotalTracker::Project.find("1214202")
-# stories = story_ids.uniq.map { |story_id| project.stories.find(story_id) }.compact
-
-# build_number = what_version
-# marketing_version = what_marketing_version
-# testflight_message = "Ello #{marketing_version} Build #{build_number}"
-
-# # Append story notes
-# if stories.size > 0
-# testflight_message << <<-EOF
-
-# Tracker stories:
-# #{stories.map { |s| "[#{s.id}] #{s.name}" } * "\n"}
-
-# EOF
-# end
-
-# puts testflight_message
-
-# release_note_message = "###Ello #{marketing_version} Build #{build_number}"
-
-# # Append story notes
-# if stories.size > 0
-# release_note_message << <<-EOF
-
-# ####Tracker stories:
-# #{stories.map { |s| "* [#{s.id}](#{s.url}) #{s.name}" } * "\n"}
-
-# EOF
-# end
-
-# crashlytics_release_notes = release_note_message.dup
-
-# commit_notes = `git log --format=%s #{commit_range}`
-# formatted_commit_notes = %(#{commit_notes}).split(/\n/).map { |s| "* #{s}" } * "\n"
-
-# # Append commit notes
-# release_note_message << <<-EOF
-# ####Commit notes:
-
-# #{formatted_commit_notes}
-
-# EOF
-
-# open('release-notes.md', 'a') { |f|
-#  f.puts "\n-----------------"
-#  f.puts "#{release_note_message}"
-#  f.puts "-----------------\n"
-# }
+# new release notes
+release_notes = "### Ello #{marketing_version} Build #{build_version} #{Time.now.strftime("%B %-d, %Y")}\n\n"
+release_notes << <<-EOF
+#{current_notes.length ? current_notes : 'No completed pull requests since last distribution.'}
+#{"\n-----------------\n"}
+EOF
 
 # if ARGV[0] && ARGV[0].split(',').include?("testers")
-#   open('crashlytics-release-notes.md', 'w') { |f|
-#    f.puts crashlytics_release_notes
-#   }
+  # prepend new contents into release-notes
+  old = File.open('release-notes.md', 'a')
+  new = File.open('release-notes.new.md', 'w')
+  File.open(new, 'w') { |f|
+    f.write release_notes
+    f.puts File.read(old)
+  }
+  File.rename(new, old)
 
-#   config["previous-commit"] = "#{latest_commit}"
-#   File.open('bin/release-notes-config.yml', 'w') {|f| f.write config.to_yaml }
+  # add release_notes to crashlytics-release-notes
+  File.open('Build/crashlytics-release-notes.md', 'w') { |f| f.write release_notes }
+
+  # update the latest commit from here
+  previous_sha["previous-sha"] = "#{commits.first[:sha]}"
+  File.open('bin/previous-sha.yml', 'w') {|f| f.write previous_sha.to_yaml }
 # end
+
