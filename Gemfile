@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-gem 'cocoapods', :git => 'https://github.com/CocoaPods/CocoaPods.git', :tag => '0.36.0.rc.1'
+gem 'cocoapods', '~> 0.36.0'
 
-gem 'cocoapods-keys', :git => 'https://github.com/orta/cocoapods-keys.git'
+gem 'cocoapods-keys', '~> 1.0.1'
 
 gem 'xcpretty'
 gem 'shenzhen'
