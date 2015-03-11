@@ -8,19 +8,6 @@
 
 import Foundation
 
-enum Relationship: String {
-    case Friend = "friend"
-    case Noise = "noise"
-    case Block = "block"
-    case Mute = "mute"
-    case Inactive = "inactive"
-    case None = "none"
-    case Null = "null"
-    case Me = "self"
-
-    static let all = [Friend, Noise, Block, Mute, Inactive, None, Null, Me]
-}
-
 class RelationshipView: UIView {
     var userId: String
     var userAtName: String

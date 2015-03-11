@@ -18,6 +18,11 @@ protocol Stubbable: NSObjectProtocol {
 
 extension User: Stubbable {
     class func stub(values: [String: AnyObject]) -> User {
+
+        let relationship: Relationship = (values["relationshipPriority"] as? String).map {
+            return Relationship(stringValue: $0)
+        } ?? Relationship.None
+
         return User(
             avatarURL: (values["avatarURL"] as? NSURL) ?? nil,
             coverImageURL: (values["coverImageURL"] as? NSURL) ?? nil,
@@ -28,7 +33,7 @@ extension User: Stubbable {
             name: (values["name"] as? String) ?? "name",
             posts: (values["posts"] as? [Post]) ?? [],
             postsCount: (values["postsCount"] as? Int) ?? 0,
-            relationshipPriority: (values["relationshipPriority"] as? String) ?? "none",
+            relationshipPriority: relationship,
             userId: (values["userId"] as? String) ?? "1",
             username: (values["username"] as? String) ?? "username",
             formattedShortBio: (values["formattedShortBio"] as? String) ?? "formattedShortBio"
