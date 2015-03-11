@@ -26,15 +26,12 @@ struct ProfileHeaderCellPresenter {
 
             cell.relationshipView.userId = user.userId
             cell.relationshipView.userAtName = user.atName
-            if let relationship = Relationship(rawValue: user.relationshipPriority) {
-                cell.relationshipView.relationship = relationship
-            }
-            else {
-                cell.relationshipView.relationship = Relationship.None
-            }
+            cell.relationshipView.relationship = user.relationshipPriority
             cell.relationshipView.hidden = user.isCurrentUser
             cell.usernameLabel.text = user.atName
             cell.nameLabel.text = user.name
+
+            cell.countsTextView.clearText()
             cell.countsTextView.appendTextWithAction("Posts \(user.postsCount? ?? 0) / ")
             cell.countsTextView.appendTextWithAction("Following \(user.followingCount? ?? 0) / ", link: "following", object: user)
             cell.countsTextView.appendTextWithAction("Followers \(user.followersCount? ?? 0)", link: "followers", object: user)

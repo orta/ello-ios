@@ -41,7 +41,7 @@ class PostSpec: QuickSpec {
                 expect(post.author!.userId) == "666"
                 expect(post.author!.username) == "cfiggis"
                 expect(post.author!.experimentalFeatures) == true
-                expect(post.author!.relationshipPriority) == "friend"
+                expect(post.author!.relationshipPriority) == Relationship.Friend
                 expect(post.author!.href) == "/api/edge/users/666"
                 expect(post.author!.avatarURL!.absoluteString) == "https://abc123.cloudfront.net/uploads/user/avatar/666/avatar.png"
 

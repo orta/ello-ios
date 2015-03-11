@@ -35,7 +35,7 @@ class CommentSpec: QuickSpec {
             expect(commentAuthor.userId) == "420"
             expect(commentAuthor.username) == "bigE"
             expect(commentAuthor.href) == "/api/edge/users/420"
-            expect(commentAuthor.relationshipPriority) == "friend"
+            expect(commentAuthor.relationshipPriority) == Relationship.Friend
             expect(commentAuthor.experimentalFeatures) == true
             expect(commentAuthor.avatarURL!.absoluteString) == "https://abc123.cloudfront.net/uploads/user/avatar/420/avatar.png"
 
@@ -58,7 +58,7 @@ class CommentSpec: QuickSpec {
             expect(postAuthor.userId) == "666"
             expect(postAuthor.username) == "cfiggis"
             expect(postAuthor.href) == "/api/edge/users/666"
-            expect(postAuthor.relationshipPriority) == "friend"
+            expect(postAuthor.relationshipPriority) == Relationship.Friend
             expect(postAuthor.experimentalFeatures) == true
             expect(postAuthor.avatarURL!.absoluteString) == "https://abc123.cloudfront.net/uploads/user/avatar/666/avatar.png"
 

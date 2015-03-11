@@ -45,8 +45,8 @@ class ProfileViewController: StreamableViewController {
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
     }
 
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         if !coverWidthSet {
             coverWidthSet = true
             coverImageHeight.constant = view.frame.width / ratio
@@ -120,7 +120,7 @@ class ProfileViewController: StreamableViewController {
             })
         }
 
-        let profileHeaderCellItem = StreamCellItem(jsonable: user, type: StreamCellType.ProfileHeader, data: nil, oneColumnCellHeight: 320.0, multiColumnCellHeight: 0.0, isFullWidth: true)
+        let profileHeaderCellItem = StreamCellItem(jsonable: user, type: StreamCellType.ProfileHeader, data: nil, oneColumnCellHeight: 340.0, multiColumnCellHeight: 0.0, isFullWidth: true)
         streamViewController.addStreamCellItems([profileHeaderCellItem])
         streamViewController.addUnsizedCellItems(StreamCellItemParser().parse(user.posts, streamKind: streamViewController.streamKind))
         streamViewController.doneLoading()
