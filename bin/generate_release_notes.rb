@@ -69,13 +69,13 @@ class GenerateReleaseNotes
       File.rename(new, old)
 
       # add release_notes to crashlytics-release-notes
-      File.open('Build/crashlytics-release-notes.md', 'w') { |f| f.write release_notes }
+      File.open('Build/crashlytics-release-notes.md', 'w') { |f| f.write release_notes.gsub(/(#+ )/, "") }
 
       # update the latest commit from here
       @previous_sha_yaml["previous-sha"] = @newest_sha
       File.open(@previous_sha_file, 'w') {|f| f.write @previous_sha_yaml.to_yaml }
     else
-      puts release_notes
+      puts release_notes.gsub(/(#+ )/, "")
     end
   end
 
