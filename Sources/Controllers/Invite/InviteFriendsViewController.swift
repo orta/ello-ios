@@ -11,6 +11,8 @@ import UIKit
 class InviteFriendsViewController: BaseElloViewController {
 
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var filterField: UITextField!
+
     var dataSource:AddFriendsDataSource!
     let inviteService = InviteService()
     var relationshipController: RelationshipController?
@@ -22,6 +24,7 @@ class InviteFriendsViewController: BaseElloViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
+        setupFilterField()
     }
 
     func setContacts(contacts: [(LocalPerson, User?)]) {
@@ -38,6 +41,11 @@ class InviteFriendsViewController: BaseElloViewController {
 
         tableView.dataSource = dataSource
         tableView.delegate = self
+    }
+
+    private func setupFilterField() {
+        filterField.font = UIFont.regularBoldFont(18)
+        filterField.textColor = UIColor.greyA()
     }
 
     private func registerCells() {

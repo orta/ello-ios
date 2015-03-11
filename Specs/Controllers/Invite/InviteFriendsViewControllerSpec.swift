@@ -38,6 +38,7 @@ class InviteFriendsViewControllerSpec: QuickSpec {
 
                 it("IBOutlets are  not nil", {
                     expect(subject.tableView).notTo(beNil())
+                    expect(subject.filterField).notTo(beNil())
                 })
 
                 it("IBActions are wired up", {
