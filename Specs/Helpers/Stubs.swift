@@ -19,13 +19,13 @@ protocol Stubbable: NSObjectProtocol {
 extension User: Stubbable {
     class func stub(values: [String: AnyObject]) -> User {
 
-        let relationship: Relationship = (values["relationshipPriority"] as? String).map {
-            return Relationship(stringValue: $0)
+        let relationship = (values["relationshipPriority"] as? String).map {
+            Relationship(stringValue: $0)
         } ?? Relationship.None
 
         return User(
-            avatarURL: (values["avatarURL"] as? NSURL) ?? nil,
-            coverImageURL: (values["coverImageURL"] as? NSURL) ?? nil,
+            avatarURL: values["avatarURL"] as? NSURL,
+            coverImageURL: values["coverImageURL"] as? NSURL,
             experimentalFeatures: (values["experimentalFeatures"] as? Bool) ?? false,
             followersCount: (values["followersCount"] as? Int) ?? 0,
             followingCount: (values["followingCount"] as? Int) ?? 0,
