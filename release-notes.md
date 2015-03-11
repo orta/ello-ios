@@ -1,3 +1,63 @@
+### Ello Build 504
+(90fcc74384c5cf946c52ff58f590258552d55014
+) March 11, 2015
+
+    #### #70 - Make profile header images scale properly.
+* Sets profile header cell top constraint to ratio
+* Sets the cover image to the correct size
+
+[Fixes #89832918]
+
+------
+
+#### #69 - Clear out counts text in profile header cell.
+[Fixes #89836112]
+
+------
+
+#### #65 - Update Crashlytics release notes
+To get this working locally you will need to add a github api token to a .env file within the project. I included a `.env-example` file which you should copy to `.env` and add your personal github API token which you can create in your github settings -> applications and just needs the scope of 'repo'
+
+------
+
+#### #66 - Update to release version of CocoaPods
+CocoaPods 0.36 is (finally) officially released with support for Swift
+and dynamic frameworks.
+
+------
+
+#### #61 - Add content flagging to comments
+* StreamHeaderCell supports swipe to reveal
+* Generalize PostbarController to support header and footer actions
+* Flag comments
+* Tap on @name to go to user's profile page (this will need to change to populate the omnibar with that user's @name
+* write lots of frame manipulation code
+
+[Finished #88807304]
+[Fixes #89439554]
+
+![giphy-2](http://media.giphy.com/media/12jx8hmIkI3hra/giphy.gif)
+
+------
+
+#### #60 - Omnibar!
+I tried to break this up into more branches, but the git history is kind of a mess, so oh well.
+
+- TabBarItems, the selectedImage was not working, got that back in. (b3fa5e4)
+- Functional specs and features (added `Functional.timer`) (2fe504a)
+- Added specs for TypedNotifications, and added `removeObservers()` (064c8e7)
+  The OmnibarViewController reuses the observer, so relying on `deinit` didn't feel reliable.
+- Amazon services, this is broken up into a few parts: (ee607ab)
+    - S3UploadingService
+    - ElloS3
+    - AmazonCredentials
+    - MultipartRequestBuilder
+- Added `toJSON` to `TextRegion,ImageRegion`, so that those can be sent to the `CreatePost` endpoint (ee2306d)
+- `Keyboard` is a global object that monitors the keyboard state, and stores the height and animation properties (81e45c6)
+
+    
+------------
+
 ###Ello 0.1 Build 7
 ####Commit notes:
 
