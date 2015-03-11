@@ -11,17 +11,25 @@ import Foundation
 
 class ProfileHeaderCell: UICollectionViewCell {
 
+    var coverWidthSet: Bool = false
+    let ratio:CGFloat = 16.0/9.0
+
     @IBOutlet weak var avatarButton: AvatarButton!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var countsTextView: ElloTextView!
     @IBOutlet weak var relationshipView: RelationshipView!
+    @IBOutlet weak var viewTopConstraint: NSLayoutConstraint!
     weak var userListDelegate: UserListDelegate?
 
     override func awakeFromNib() {
         super.awakeFromNib()
         styleLabels()
         countsTextView.textViewDelegate = self
+        if !coverWidthSet {
+            coverWidthSet = true
+            viewTopConstraint.constant = frame.width / ratio
+        }
     }
 
     func setAvatarURL(url:NSURL) {
