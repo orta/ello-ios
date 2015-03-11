@@ -636,5 +636,9 @@ extension String {
 
         return entitiesDecoded
     }
+
+    func contains(string: String) -> Bool {
+        return self.rangeOfString(string, options: .CaseInsensitiveSearch) != .None
+    }
 }
 

@@ -93,6 +93,68 @@ class InviteFriendsViewControllerSpec: QuickSpec {
                 expect(subject.dataSource.items.count) == 1
                 expect(subject.dataSource.items.first?.person?.name) == localPeople.first?.0.name
             }
+
+            it("sets the internal list of contacts") {
+                let localPeople: [(LocalPerson, User?)] = [(LocalPerson(name: "name", emails: ["test@testing.com"], id: 123), .None)]
+
+                subject.setContacts(localPeople)
+                expect(subject.allContacts.count) == 1
+                expect(subject.allContacts.first?.0.name) == localPeople.first?.0.name
+            }
+        }
+
+        describe("filterFieldDidChange") {
+            beforeEach({
+                subject = InviteFriendsViewController()
+                subject.loadView()
+                subject.viewDidLoad()
+            })
+
+            context("empty filter field") {
+                it("sets the full list of contacts to the dataSource") {
+                    let localPeople: [(LocalPerson, User?)] = [
+                        (LocalPerson(name: "name", emails: ["test@testing.com"], id: 123), .None),
+                        (LocalPerson(name: "that guy", emails: ["another@email.com"], id: 124), .None)
+                    ]
+                    subject.allContacts = localPeople
+                    let filterText = UITextField()
+                    filterText.text = ""
+                    subject.filterFieldDidChange(filterText)
+                    expect(subject.dataSource.items.count) == 2
+                }
+            }
+
+            context("non empty filter field") {
+                context("name matching") {
+                    it("sets the filtered list of contacts to the dataSource") {
+                        let localPeople: [(LocalPerson, User?)] = [
+                            (LocalPerson(name: "name", emails: ["test@testing.com"], id: 123), .None),
+                            (LocalPerson(name: "that guy", emails: ["another@email.com"], id: 124), .None)
+                        ]
+                        subject.allContacts = localPeople
+                        let filterText = UITextField()
+                        filterText.text = "at"
+                        subject.filterFieldDidChange(filterText)
+                        expect(subject.dataSource.items.count) == 1
+                        expect(subject.dataSource.items.first?.person?.name) == localPeople[1].0.name
+                    }
+                }
+
+                context("email matching") {
+                    it("sets the filtered list of contacts to the dataSource") {
+                        let localPeople: [(LocalPerson, User?)] = [
+                            (LocalPerson(name: "name", emails: ["test@testing.com"], id: 123), .None),
+                            (LocalPerson(name: "that guy", emails: ["another@email.com"], id: 124), .None)
+                        ]
+                        subject.allContacts = localPeople
+                        let filterText = UITextField()
+                        filterText.text = "test"
+                        subject.filterFieldDidChange(filterText)
+                        expect(subject.dataSource.items.count) == 1
+                        expect(subject.dataSource.items.first?.person?.name) == localPeople.first?.0.name
+                    }
+                }
+            }
         }
     }
 }

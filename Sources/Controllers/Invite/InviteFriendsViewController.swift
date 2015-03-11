@@ -16,6 +16,7 @@ class InviteFriendsViewController: BaseElloViewController {
     var dataSource:AddFriendsDataSource!
     let inviteService = InviteService()
     var relationshipController: RelationshipController?
+    var allContacts: [(LocalPerson, User?)] = []
 
     required override init() {
         super.init(nibName: "InviteFriendsViewController", bundle: NSBundle(forClass: InviteFriendsViewController.self))
@@ -28,8 +29,13 @@ class InviteFriendsViewController: BaseElloViewController {
     }
 
     func setContacts(contacts: [(LocalPerson, User?)]) {
-        dataSource.items = contacts.map { AddFriendsCellItem(person: $0.0, user: $0.1) }
+        allContacts = contacts
+        setDataSource(allContacts)
         dispatch_async(dispatch_get_main_queue()) { self.tableView.reloadData() }
+    }
+
+    private func setDataSource(contacts: [(LocalPerson, User?)]) {
+        dataSource.items = contacts.map { AddFriendsCellItem(person: $0.0, user: $0.1) }
     }
 
     private func setupTableView() {
@@ -54,6 +60,18 @@ class InviteFriendsViewController: BaseElloViewController {
 
         let inviteCellNib = UINib(nibName: AddFriendsCellItem.CellType.Invite.identifier, bundle: NSBundle(forClass: InviteFriendsCell.self))
         tableView.registerNib(inviteCellNib, forCellReuseIdentifier: AddFriendsCellItem.CellType.Invite.identifier)
+    }
+
+    @IBAction func filterFieldDidChange(sender: UITextField) {
+        if sender.text.isEmpty {
+            setDataSource(allContacts)
+        } else {
+            let filtered = allContacts.filter {
+                $0.0.name.contains(sender.text) || $0.0.emails.reduce(false) { $0 || $1.contains(sender.text) }
+            }
+            setDataSource(filtered)
+        }
+        tableView.reloadData()
     }
 }
 

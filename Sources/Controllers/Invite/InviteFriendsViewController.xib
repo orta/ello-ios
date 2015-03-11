@@ -34,6 +34,9 @@
                             <rect key="frame" x="8" y="8" width="584" height="33"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <action selector="filterFieldDidChange:" destination="-1" eventType="editingChanged" id="mZw-nM-Ot3"/>
+                            </connections>
                         </textField>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
