@@ -323,6 +323,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
             },
             completion: nil)
     }
+
 // MARK: Layout and update views
 
     override func layoutSubviews() {

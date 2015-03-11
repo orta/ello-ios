@@ -84,7 +84,13 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
             content.append(image)
         }
 
-        let service = PostEditingService()
+        var service : PostEditingService
+        if let parentPost = parentPost {
+            service = PostEditingService(parentPost: parentPost)
+        }
+        else {
+            service = PostEditingService()
+        }
 
         if countElements(content) > 0 {
             ElloHUD.showLoadingHud()

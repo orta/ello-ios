@@ -17,7 +17,14 @@ class PostEditingService: NSObject {
     typealias CreatePostSuccessCompletion = () -> ()
     typealias UploadImagesSuccessCompletion = ([(Int, ImageRegion)]) -> ()
 
-    private var retainUploaders : [S3UploadingService]?
+    private var retainUploaders: [S3UploadingService]?
+
+    var parentPost: Post?
+
+    convenience init(parentPost post: Post) {
+        self.init()
+        parentPost = post
+    }
 
     // rawSections is String or UIImage objects
     func create(content rawContent: [AnyObject], success: CreatePostSuccessCompletion, failure: ElloFailureCompletion?) {
@@ -63,7 +70,15 @@ class PostEditingService: NSObject {
             body.addObject(region.toJSON())
         }
         let params = ["body" : body]
-        let endpoint = ElloAPI.CreatePost
+
+        var endpoint : ElloAPI
+        if let parentPost = parentPost {
+            endpoint = ElloAPI.CreateComment(parentPostId: parentPost.postId)
+        }
+        else {
+            endpoint = ElloAPI.CreatePost
+        }
+
         ElloProvider.sharedProvider.elloRequest(endpoint,
             method: .POST,
             parameters: params,
