@@ -31,6 +31,7 @@ import MobileCoreServices
 
 @objc
 protocol OmnibarScreenDelegate {
+    func omnibarBack()
     func omnibarPresentController(controller : UIViewController)
     func omnibarDismissController(controller : UIViewController)
     func omnibarSubmitted(text : NSAttributedString?, image: UIImage?)
@@ -41,6 +42,7 @@ protocol OmnibarScreenDelegate {
 protocol OmnibarScreenProtocol {
     var delegate : OmnibarScreenDelegate? { get set }
     var avatarURL : NSURL? { get set }
+    var hasParentPost : Bool { get set }
     var text : String? { get set }
     var image : UIImage? { get set }
     var attributedText : NSAttributedString? { get set }
@@ -116,6 +118,13 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
         }
     }
 
+    var hasParentPost : Bool = false {
+        didSet {
+            backButton.hidden = !hasParentPost
+            setNeedsLayout()
+        }
+    }
+
 // MARK: internal and/or private vars
 
     weak var delegate : OmnibarScreenDelegate?
@@ -125,6 +134,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
 
     let imageSelectedButton = UIButton()
     let imageSelectedOverlay = UIImageView()
+    let backButton = UIButton()
     let cancelButton = UIButton()
     let submitButton = UIButton()
     let buttonContainer = ElloEquallySpacedLayout()
@@ -150,7 +160,8 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
         setupAvatarView()
         setupSayElloViews()
         setupImageSelectedViews()
-        setupButtons()
+        setupBackButton()
+        setupToolbarButtons()
         setupTextViews()
         setupViewHierarchy()
     }
@@ -195,8 +206,14 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
         imageSelectedOverlay.autoresizingMask = .FlexibleBottomMargin | .FlexibleTopMargin | .FlexibleLeftMargin | .FlexibleRightMargin
         imageSelectedButton.addSubview(imageSelectedOverlay)
     }
+    private func setupBackButton() {
+        backButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
+        let image = UIImage(named: "chevron-back-icon")
+        backButton.setImage(image, forState: .Normal)
+        backButton.addTarget(self, action: Selector("backAction"), forControlEvents: .TouchUpInside)
+    }
     // buttons that make up the "toolbar"
-    private func setupButtons() {
+    private func setupToolbarButtons() {
         cameraButton.setImage(ElloDrawable.imageOfCameraIcon, forState: .Normal)
         cameraButton.addTarget(self, action: Selector("addImageAction"), forControlEvents: .TouchUpInside)
 
@@ -222,7 +239,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
         textView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
     }
     private func setupViewHierarchy() {
-        for view in [avatarView, buttonContainer, textContainer, sayElloOverlay] as [UIView] {
+        for view in [backButton, avatarView, buttonContainer, textContainer, sayElloOverlay] as [UIView] {
             self.addSubview(view)
         }
         for view in [cameraButton, cancelButton, submitButton] as [UIView] {
@@ -311,7 +328,13 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        avatarView.frame = CGRect(x: Size.margins, y: Size.margins, width: Size.toolbarHeight, height: Size.toolbarHeight)
+        var avatarViewLeft = Size.margins
+        if hasParentPost {
+            backButton.frame = CGRect(x: Size.margins, y: Size.margins, width: 29.0, height: Size.toolbarHeight)
+            avatarViewLeft += backButton.frame.maxX
+        }
+
+        avatarView.frame = CGRect(x: avatarViewLeft, y: Size.margins, width: Size.toolbarHeight, height: Size.toolbarHeight)
         avatarView.layer.cornerRadius = Size.toolbarHeight / CGFloat(2)
 
         let buttonContainerWidth = Size.buttonWidth * CGFloat(buttonContainer.subviews.count)
@@ -366,6 +389,10 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
     }
 
 // MARK: Button Actions
+
+    func backAction() {
+        self.delegate?.omnibarBack()
+    }
 
     func startEditingAction() {
         sayElloOverlay.hidden = true

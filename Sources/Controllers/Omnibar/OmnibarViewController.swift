@@ -13,8 +13,17 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
     var keyboardWillShowObserver: NotificationObserver?
     var keyboardWillHideObserver: NotificationObserver?
 
+    var parentPost: Post?
+
+    convenience init(parentPost post: Post) {
+        self.init(nibName: nil, bundle: nil)
+        parentPost = post
+    }
+
     override func loadView() {
-        self.view = OmnibarScreen(frame: UIScreen.mainScreen().bounds)
+        var screen = OmnibarScreen(frame: UIScreen.mainScreen().bounds)
+        self.view = screen
+        screen.hasParentPost = parentPost != nil
     }
 
     // the _mockScreen is only for testing - otherwise `self.screen` is always
@@ -57,6 +66,10 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
     override func didSetCurrentUser() {
         super.didSetCurrentUser()
         self.screen.avatarURL = currentUser?.avatarURL
+    }
+
+    func omnibarBack() {
+        self.navigationController?.popViewControllerAnimated(true)
     }
 
     func omnibarSubmitted(text: NSAttributedString?, image: UIImage?) {

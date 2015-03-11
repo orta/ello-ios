@@ -112,7 +112,7 @@ class StreamableViewController : BaseElloViewController, PostTappedDelegate, Use
     func createComment(post : Post) {
         println("createComment(post: \(post))")
 
-        let vc = OmnibarViewController()
+        let vc = OmnibarViewController(parentPost: post)
         self.navigationController?.pushViewController(vc, animated: true)
     }
 
