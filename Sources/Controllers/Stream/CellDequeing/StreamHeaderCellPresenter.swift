@@ -17,19 +17,31 @@ struct StreamHeaderCellPresenter {
         indexPath: NSIndexPath)
     {
         if let cell = cell as? StreamHeaderCell {
+            let authorable = streamCellItem.jsonable as Authorable
             if streamCellItem.type == .Header {
                 cell.streamKind = streamKind
+                cell.avatarHeight = streamKind.isGridLayout ? 30.0 : 60.0
+                cell.scrollView.scrollEnabled = false
+                cell.chevronHidden = true
+                cell.goToPostView.hidden = false
             }
+
+            cell.setAvatarURL(authorable.author?.avatarURL)
+            cell.timeStamp = NSDate().distanceOfTimeInWords(authorable.createdAt)
 
             if streamCellItem.type == .CommentHeader {
-                cell.avatarBottomConstraint.constant = 6.0
-                cell.avatarTopConstraint.constant = 6.0
+                cell.avatarHeight = 30.0
+                cell.scrollView.scrollEnabled = true
+                cell.chevronHidden = false
+                cell.goToPostView.hidden = true
             }
-
-            cell.setAvatarURL((streamCellItem.jsonable as Authorable).author?.avatarURL)
-            cell.timestampLabel.text = NSDate().distanceOfTimeInWords((streamCellItem.jsonable as Authorable).createdAt)
-            cell.usernameLabel.text = ((streamCellItem.jsonable as Authorable).author?.atName ?? "")
-
+            let usernameText = authorable.author?.atName ?? ""
+            cell.usernameTextView.text = ""
+            cell.usernameTextView.appendTextWithAction(usernameText, link: "author", object: authorable.author?)
+            cell.resetUsernameTextView()
+            cell.usernameTextView.sizeToFit()
+            cell.setNeedsLayout()
+            cell.layoutIfNeeded()
         }
     }
 

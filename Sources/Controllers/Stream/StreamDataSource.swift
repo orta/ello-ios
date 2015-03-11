@@ -56,6 +56,12 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         return streamCellItems[indexPath.item].jsonable as? Post
     }
 
+    func commentForIndexPath(indexPath:NSIndexPath) -> Comment? {
+        if !isValidIndexPath(indexPath) { return nil }
+
+        return streamCellItems[indexPath.item].jsonable as? Comment
+    }
+
     // TODO: also grab out comment cells for the detail view
     func cellItemsForPost(post:Post) -> [StreamCellItem] {
         return streamCellItems.filter({ (item) -> Bool in
@@ -146,6 +152,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
                 (cell as NotificationCell).webLinkDelegate = webLinkDelegate
                 (cell as NotificationCell).delegate = notificationDelegate
             case .Header, .CommentHeader:
+                (cell as StreamHeaderCell).postbarDelegate = postbarDelegate
                 (cell as StreamHeaderCell).userDelegate = userDelegate
             case .Image:
                 (cell as StreamImageCell).delegate = imageDelegate
