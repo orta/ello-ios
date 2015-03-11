@@ -50,7 +50,6 @@ class ElloTextView: UITextView {
     }
 
     func clearText() {
-        text = ""
         attributedText = NSAttributedString(string: "")
     }
 
