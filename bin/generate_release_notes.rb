@@ -11,6 +11,7 @@ Dotenv.load
 class GenerateReleaseNotes
 
   def initialize(repo_name, previous_sha_file, access_token)
+    return puts 'You must supply a valid github API token' unless access_token.length > 0
     @repo_name = repo_name
     @pull_request_notes = []
     # Grab out previous sha
