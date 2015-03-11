@@ -37,8 +37,12 @@ class NotificationObserver {
         }
     }
 
-    deinit {
+    func removeObserver() {
         NSNotificationCenter.defaultCenter().removeObserver(observer)
+    }
+
+    deinit {
+        removeObserver()
     }
 
 }

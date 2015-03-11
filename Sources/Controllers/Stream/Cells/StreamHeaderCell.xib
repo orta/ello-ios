@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6750" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6735"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="AtlasTypewriter-Regular.otf">
-            <string>AtlasTypewriter-Regular</string>
             <string>AtlasTypewriter-Regular</string>
         </mutableArray>
     </customFonts>
@@ -14,71 +12,117 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="drA-zU-V9q" customClass="StreamHeaderCell" customModule="Ello" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="517" height="50"/>
+            <rect key="frame" x="0.0" y="0.0" width="591" height="50"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="517" height="50"/>
+                <rect key="frame" x="0.0" y="0.0" width="591" height="50"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3xt-dC-FN7" userLabel="ContentView">
-                        <rect key="frame" x="8" y="10" width="497" height="30"/>
+                    <view contentMode="scaleToFill" id="3xt-dC-FN7" userLabel="containerView">
+                        <rect key="frame" x="0.0" y="0.0" width="591" height="50"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2m" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zST-5M-mHb" userLabel="timestampLabel">
-                                <rect key="frame" x="447" y="8" width="50" height="14"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="nCt-6p-LIy"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="14"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4B4-Cr-EQI" userLabel="usernameLabel">
-                                <rect key="frame" x="56" y="9" width="75" height="13"/>
-                                <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="13"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xgh-dM-cqB" userLabel="avatarButton" customClass="AvatarButton" customModule="Ello" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="xgh-dM-cqB" secondAttribute="height" multiplier="1:1" id="Lxi-LY-cix"/>
-                                </constraints>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" id="wSf-I7-82o" userLabel="scrollView">
+                                <rect key="frame" x="0.0" y="0.0" width="591" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" id="ksw-W9-asc" userLabel="bottomContentView">
+                                        <rect key="frame" x="0.0" y="0.0" width="591" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="YYm-0T-f6n" userLabel="bottomToolbar">
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <items/>
+                                            </toolbar>
+                                        </subviews>
+                                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" id="GaF-Tx-YnB" userLabel="innerContentView">
+                                        <rect key="frame" x="0.0" y="0.0" width="591" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="xgh-dM-cqB" userLabel="avatarButton" customClass="AvatarButton" customModule="Ello" customModuleProvider="target">
+                                                <rect key="frame" x="8" y="8" width="30" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <connections>
+                                                    <action selector="userTapped:" destination="drA-zU-V9q" eventType="touchUpInside" id="yia-2S-jH7"/>
+                                                </connections>
+                                            </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2m" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zST-5M-mHb" userLabel="timestampLabel">
+                                                <rect key="frame" x="513" y="17" width="50" height="14"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="14"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <view contentMode="scaleToFill" id="JtJ-e8-xTH" userLabel="goToPostView">
+                                                <rect key="frame" x="342" y="0.0" width="248" height="50"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            </view>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="imV-Ww-GEq" userLabel="chevronButton" customClass="StreamFooterButton" customModule="Ello" customModuleProvider="target">
+                                                <rect key="frame" x="571" y="14" width="19" height="22"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" image="chevron-icon">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="chevronButtonTapped:" destination="drA-zU-V9q" eventType="touchUpInside" id="3ku-Y7-iVI"/>
+                                                </connections>
+                                            </button>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" usesAttributedText="YES" id="Ajy-cg-Zmz" userLabel="usernameTextView" customClass="ElloTextView" customModule="Ello" customModuleProvider="target">
+                                                <rect key="frame" x="46" y="17" width="296" height="13"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <attributedString key="attributedText">
+                                                    <fragment content="@username">
+                                                        <attributes>
+                                                            <font key="NSFont" size="14" name="HelveticaNeue"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" red="0.23333450010000001" green="1" blue="0.38296981530000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
-                                    <action selector="userTapped:" destination="drA-zU-V9q" eventType="touchUpInside" id="yia-2S-jH7"/>
+                                    <outlet property="delegate" destination="drA-zU-V9q" id="2EA-ck-dXk"/>
                                 </connections>
-                            </button>
+                            </scrollView>
                         </subviews>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="zST-5M-mHb" secondAttribute="trailing" id="382-3z-acZ" userLabel="timestampLabel Right"/>
-                            <constraint firstItem="xgh-dM-cqB" firstAttribute="leading" secondItem="3xt-dC-FN7" secondAttribute="leading" id="Ox8-8D-odY"/>
-                            <constraint firstAttribute="centerY" secondItem="zST-5M-mHb" secondAttribute="centerY" id="Pl6-og-xEM" userLabel="timestampLabel Vert Center"/>
-                            <constraint firstAttribute="centerY" secondItem="4B4-Cr-EQI" secondAttribute="centerY" id="ecs-Mk-YdH" userLabel="usernameLabel Vert Center"/>
-                            <constraint firstItem="xgh-dM-cqB" firstAttribute="top" secondItem="3xt-dC-FN7" secondAttribute="top" id="epZ-e2-UvQ" userLabel="avatarTopConstraint"/>
-                            <constraint firstAttribute="bottom" secondItem="xgh-dM-cqB" secondAttribute="bottom" id="p5n-uu-4tx" userLabel="avatarBottomConstraint"/>
-                            <constraint firstItem="4B4-Cr-EQI" firstAttribute="leading" secondItem="xgh-dM-cqB" secondAttribute="trailing" constant="26" id="ujo-qe-50o" userLabel="userNameLeadingContraint"/>
-                        </constraints>
                     </view>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-            <constraints>
-                <constraint firstAttribute="trailing" secondItem="3xt-dC-FN7" secondAttribute="trailing" constant="12" id="Mhc-nR-t38" userLabel="ContentView Right"/>
-                <constraint firstItem="3xt-dC-FN7" firstAttribute="leading" secondItem="drA-zU-V9q" secondAttribute="leading" constant="8" id="YTW-Qw-QJy" userLabel="ContentView Left"/>
-                <constraint firstItem="3xt-dC-FN7" firstAttribute="top" secondItem="drA-zU-V9q" secondAttribute="top" constant="10" id="a9z-nG-Mpt" userLabel="ContentView Top"/>
-                <constraint firstAttribute="bottom" secondItem="3xt-dC-FN7" secondAttribute="bottom" constant="10" id="nbX-bh-URl" userLabel="ContentView Bottom"/>
-            </constraints>
-            <size key="customSize" width="517" height="50"/>
+            <size key="customSize" width="591" height="50"/>
             <connections>
-                <outlet property="avatarBottomConstraint" destination="p5n-uu-4tx" id="ZXm-s6-CYB"/>
                 <outlet property="avatarButton" destination="xgh-dM-cqB" id="osM-tD-Nz0"/>
-                <outlet property="avatarTopConstraint" destination="epZ-e2-UvQ" id="zBe-9E-NtU"/>
+                <outlet property="bottomContentView" destination="ksw-W9-asc" id="Vh3-6x-aVT"/>
+                <outlet property="bottomToolBar" destination="YYm-0T-f6n" id="48X-3t-cxK"/>
+                <outlet property="chevronButton" destination="imV-Ww-GEq" id="gAf-z8-PWU"/>
+                <outlet property="containerView" destination="3xt-dC-FN7" id="6OH-eC-0ir"/>
+                <outlet property="goToPostView" destination="JtJ-e8-xTH" id="d3f-SA-Fpq"/>
+                <outlet property="innerContentView" destination="GaF-Tx-YnB" id="MaJ-m3-eBU"/>
+                <outlet property="scrollView" destination="wSf-I7-82o" id="Hrm-Me-eV1"/>
                 <outlet property="timestampLabel" destination="zST-5M-mHb" id="rz7-sL-nBo"/>
-                <outlet property="userNameLeadingConstraint" destination="ujo-qe-50o" id="dSu-FI-7d3"/>
-                <outlet property="usernameLabel" destination="4B4-Cr-EQI" id="x0u-T6-ZJN"/>
+                <outlet property="usernameTextView" destination="Ajy-cg-Zmz" id="qhu-gt-zVn"/>
             </connections>
-            <point key="canvasLocation" x="94.5" y="663"/>
+            <point key="canvasLocation" x="131.5" y="663"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="chevron-icon" width="19" height="13"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
 </document>

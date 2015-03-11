@@ -109,7 +109,41 @@ class StreamDataSourceSpec: QuickSpec {
                 // the loaded stream is all posts, need to tweak the data
                 expect(subject.postForIndexPath(NSIndexPath(forItem: 8, inSection: 0))).to(beNil())
             }
+            
+        }
 
+        describe("-commentForIndexPath:") {
+
+            beforeEach {
+                subject = StreamDataSource(streamKind: .Friend,
+                    textSizeCalculator: textSizeCalculator,
+                    notificationSizeCalculator: notificationSizeCalculator)
+
+                let cellItems = ModelHelper.cellsForTwoPostsWithComments()
+                subject.addUnsizedCellItems(cellItems, startingIndexPath:nil) { cellCount in
+                    vc.collectionView.dataSource = subject
+                    vc.collectionView.reloadData()
+                }
+            }
+
+            it("returns a comment") {
+                let commentIndexPath = NSIndexPath(forItem: 8, inSection: 0)
+                expect(subject.commentForIndexPath(commentIndexPath)).to(beAKindOf(Comment.self))
+            }
+
+            it("returns nil when out of bounds") {
+                expect(subject.commentForIndexPath(indexPathOutOfBounds)).to(beNil())
+            }
+
+            it("returns nil when invalid section") {
+                expect(subject.commentForIndexPath(indexPathInvalidSection)).to(beNil())
+            }
+
+            it("returns nil when the subject is not a comment") {
+                // the loaded stream is all posts, need to tweak the data
+                expect(subject.commentForIndexPath(NSIndexPath(forItem: 0, inSection: 0))).to(beNil())
+            }
+            
         }
 
         describe("-cellItemsForPost:") {

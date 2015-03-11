@@ -13,10 +13,11 @@ class NotificationsFilterBar : UIView {
         static let height : CGFloat = 30
     }
 
+
     var buttons : [UIButton] {
         return self.subviews.filter { $0 as? UIButton != nil } as [UIButton]
     }
-    var padding : CGFloat = 1
+    var buttonPadding : CGFloat = 1
 
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -24,18 +25,12 @@ class NotificationsFilterBar : UIView {
         let buttons = self.buttons
         if buttons.count > 0 {
             var x : CGFloat = 0
-            var w : CGFloat = (self.frame.size.width - padding * CGFloat(buttons.count - 1)) / CGFloat(buttons.count)
+            var w : CGFloat = (self.frame.size.width - buttonPadding * CGFloat(buttons.count - 1)) / CGFloat(buttons.count)
             for button in buttons {
                 let frame = CGRect(x: x, y: 0, width: w, height: self.frame.size.height)
                 button.frame = frame
-                x += w + padding
+                x += w + buttonPadding
             }
-        }
-    }
-
-    private func addButtonViews(newButtons : [UIButton]) {
-        for b in newButtons {
-            self.addSubview(b)
         }
     }
 
@@ -44,5 +39,4 @@ class NotificationsFilterBar : UIView {
             button.selected = button == selectedButton
         }
     }
-
 }

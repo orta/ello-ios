@@ -11,4 +11,11 @@ import SwiftyJSON
 
 extension TextRegion: Regionable {
     var kind:RegionKind { return RegionKind.Text }
+
+    func toJSON() -> [String: AnyObject] {
+        return [
+            "kind": self.kind.rawValue,
+            "data": self.content
+        ]
+    }
 }
