@@ -39,7 +39,7 @@ class ActivitySpec: QuickSpec {
             expect(postAuthor.username) == "archer"
             expect(postAuthor.name) == "Sterling"
             expect(postAuthor.experimentalFeatures) == false
-            expect(postAuthor.relationshipPriority) == "self"
+            expect(postAuthor.relationshipPriority) == Relationship.Me
             expect(postAuthor.href) == "/api/edge/users/42"
             expect(postAuthor.avatarURL!.absoluteString) == "https://abc123.cloudfront.net/uploads/user/avatar/420/large_pam.png"
 

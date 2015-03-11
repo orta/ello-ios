@@ -24,7 +24,7 @@ class UserSpec: QuickSpec {
                 expect(user.username) == "archer"
                 expect(user.href) == "/api/edge/users/42"
                 expect(user.experimentalFeatures) == false
-                expect(user.relationshipPriority) == "self"
+                expect(user.relationshipPriority) == Relationship.Me
                 expect(user.postsCount!) == 58
                 expect(user.followersCount!) == 93
                 expect(user.followingCount!) == 10
