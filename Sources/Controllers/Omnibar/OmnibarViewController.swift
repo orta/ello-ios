@@ -19,13 +19,13 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
 
     // the _mockScreen is only for testing - otherwise `self.screen` is always
     // just an appropriately typed accessor for `self.view`
-    var _mockScreen : OmnibarScreenProtocol?
-    var screen : OmnibarScreenProtocol {
+    var _mockScreen: OmnibarScreenProtocol?
+    var screen: OmnibarScreenProtocol {
         set { _mockScreen = screen }
         get { return _mockScreen ?? self.view as OmnibarScreen }
     }
 
-    override func viewWillAppear(animated : Bool) {
+    override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.screen.delegate = self
 
@@ -33,7 +33,7 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
         keyboardWillHideObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillHide, block: self.willHide)
     }
 
-    override func viewWillDisappear(animated : Bool) {
+    override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
 
         if let keyboardWillShowObserver = keyboardWillShowObserver {
@@ -46,11 +46,11 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
         }
     }
 
-    func willShow(keyboard : Keyboard) {
+    func willShow(keyboard: Keyboard) {
         screen.keyboardWillShow()
     }
 
-    func willHide(keyboard : Keyboard) {
+    func willHide(keyboard: Keyboard) {
         screen.keyboardWillHide()
     }
 
@@ -59,7 +59,7 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
         self.screen.avatarURL = currentUser?.avatarURL
     }
 
-    func omnibarSubmitted(text : NSAttributedString?, image: UIImage?) {
+    func omnibarSubmitted(text: NSAttributedString?, image: UIImage?) {
         var content = [AnyObject]()
         if let text = text?.string {
             if countElements(text) > 0 {
@@ -88,11 +88,11 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
         }
     }
 
-    func omnibarPresentController(controller : UIViewController) {
+    func omnibarPresentController(controller: UIViewController) {
         self.presentViewController(controller, animated: true, completion: nil)
     }
 
-    func omnibarDismissController(controller : UIViewController) {
+    func omnibarDismissController(controller: UIViewController) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 

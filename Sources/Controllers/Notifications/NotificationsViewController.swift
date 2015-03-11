@@ -12,13 +12,13 @@ import WebKit
 
 
 class NotificationsViewController: StreamableViewController, NotificationDelegate, NotificationsScreenDelegate {
-    var streamViewController : StreamViewController!
+    var streamViewController: StreamViewController!
 
     override func loadView() {
         self.view = NotificationsScreen(frame: UIScreen.mainScreen().bounds)
     }
 
-    var screen : NotificationsScreen {
+    var screen: NotificationsScreen {
         return self.view as NotificationsScreen
     }
 
@@ -33,7 +33,7 @@ class NotificationsViewController: StreamableViewController, NotificationDelegat
         scrollLogic.navBarHeight = 30
     }
 
-    override func showNavBars(scrollToBottom : Bool) {
+    override func showNavBars(scrollToBottom: Bool) {
         super.showNavBars(scrollToBottom)
         self.screen.showFilterBar()
         self.screen.layoutIfNeeded()
@@ -96,7 +96,7 @@ class NotificationsViewController: StreamableViewController, NotificationDelegat
 
     // the presence of this variable is being hijacked to determine if a post
     // was tapped, and is being displayed
-    var sizer : StreamTextCellSizeCalculator?
+    var sizer: StreamTextCellSizeCalculator?
     func postTapped(post: Post) {
         if let sizer = sizer {
             return
