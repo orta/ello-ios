@@ -49,6 +49,11 @@ class ElloTextView: UITextView {
         attributedText = attributedText.append(NSAttributedString(string: text, attributes: attrs))
     }
 
+    func clearText() {
+        text = ""
+        attributedText = NSAttributedString(string: "")
+    }
+
 // MARK: Private
 
     private func internalInit() {
