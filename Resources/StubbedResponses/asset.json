@@ -1,0 +1,79 @@
+{
+    "assets": {
+        "id": "5381",
+        "attachment": {
+            "optimized": {
+                "url": "https://example.com/5381/optimized.jpg",
+                "metadata": {
+                    "size": 728689,
+                    "type": "image/jpeg",
+                    "width": 2560,
+                    "height": 1094
+                }
+            },
+            "small_screen": {
+                "url": "https://example.com/5381/small_screen.jpg",
+                "metadata": {
+                    "size": 58160,
+                    "type": "image/jpeg",
+                    "width": 640,
+                    "height": 274
+                }
+            },
+            "ldpi": {
+                "url": "https://example.com/5381/ldpi.jpg",
+                "metadata": {
+                    "size": 4437,
+                    "type": "image/jpeg",
+                    "width": 150,
+                    "height": 64
+                }
+            },
+            "mdpi": {
+                "url": "https://example.com/5381/mdpi.jpg",
+                "metadata": {
+                    "size": 21813,
+                    "type": "image/jpeg",
+                    "width": 375,
+                    "height": 160
+                }
+            },
+            "hdpi": {
+                "url": "https://example.com/5381/hdpi.jpg",
+                "metadata": {
+                    "size": 77464,
+                    "type": "image/jpeg",
+                    "width": 750,
+                    "height": 321
+                }
+            },
+            "xhdpi": {
+                "url": "https://example.com/5381/xhdpi.jpg",
+                "metadata": {
+                    "size": 274363,
+                    "type": "image/jpeg",
+                    "width": 1500,
+                    "height": 641
+                }
+            },
+            "xxhdpi": {
+                "url": "https://example.com/5381/xxhdpi.jpg",
+                "metadata": {
+                    "size": 728689,
+                    "type": "image/jpeg",
+                    "width": 2560,
+                    "height": 1094
+                }
+            },
+            "xxxhdpi": {
+                "url": "https://example.com/5381/xxxhdpi.jpg",
+                "metadata": {
+                    "size": 728687,
+                    "type": "image/jpeg",
+                    "width": 2560,
+                    "height": 1094
+                }
+            }
+        }
+    }
+}

@@ -15,9 +15,10 @@ import SwiftyJSON
     var author : User? { get }
 }
 
+let PostVersion = 1
 
-class Post: JSONAble, Authorable {
-
+final class Post: JSONAble, Authorable, NSCoding {
+    let version: Int = PostVersion
     var assets: [String:Asset]?
     var author: User?
     let collapsed: Bool
@@ -43,6 +44,8 @@ class Post: JSONAble, Authorable {
     var summary: [Regionable]?
     let token: String
     let viewsCount: Int?
+
+// MARK: Initialization
 
     init(assets: [String:Asset]?,
         author: User?,
@@ -70,6 +73,78 @@ class Post: JSONAble, Authorable {
         self.token = token
         self.viewsCount = viewsCount
     }
+
+// MARK: NSCoding
+
+    required init(coder decoder: NSCoder) {
+        self.assets = decoder.decodeObjectForKey("assets") as? [String:Asset]
+        self.author = decoder.decodeObjectForKey("author") as? User
+        if decoder.containsValueForKey("collapsed") {
+            self.collapsed = decoder.decodeBoolForKey("collapsed")
+        }
+        else {
+            self.collapsed = false
+        }
+
+        if decoder.containsValueForKey("commentsCount") {
+            self.commentsCount = Int(decoder.decodeIntForKey("commentsCount"))
+        }
+
+        if let content = decoder.decodeObjectForKey("content") as? [Regionable] {
+            self.content = content
+        }
+
+        self.createdAt = decoder.decodeObjectForKey("createdAt") as NSDate
+        self.href = decoder.decodeObjectForKey("href") as String
+        self.postId = decoder.decodeObjectForKey("postId") as String
+
+        if decoder.containsValueForKey("repostsCount") {
+            self.repostsCount = Int(decoder.decodeIntForKey("repostsCount"))
+        }
+
+        if let summary = decoder.decodeObjectForKey("summary") as? [Regionable] {
+            self.summary = summary
+        }
+
+        self.token = decoder.decodeObjectForKey("token") as String
+
+        if decoder.containsValueForKey("viewsCount") {
+            self.viewsCount = Int(decoder.decodeIntForKey("viewsCount"))
+        }
+    }
+
+    func encodeWithCoder(encoder: NSCoder) {
+        if let assets = self.assets {
+            encoder.encodeObject(assets, forKey: "assets")
+        }
+        if let author = self.author {
+            encoder.encodeObject(author, forKey: "author")
+        }
+        encoder.encodeBool(self.collapsed, forKey: "collapsed")
+        if let commentsCount = self.commentsCount {
+            encoder.encodeInt64(Int64(commentsCount), forKey: "commentsCount")
+        }
+        encoder.encodeObject(self.createdAt, forKey: "createdAt")
+        encoder.encodeObject(self.href, forKey: "href")
+        encoder.encodeObject(self.postId, forKey: "postId")
+        if let repostsCount = self.repostsCount {
+            encoder.encodeInt64(Int64(repostsCount), forKey: "repostsCount")
+        }
+        encoder.encodeObject(self.token, forKey: "token")
+        if let viewsCount = self.viewsCount {
+            encoder.encodeInt64(Int64(viewsCount), forKey: "viewsCount")
+        }
+
+        if let content = self.content {
+            encoder.encodeObject(content, forKey: "content")
+        }
+
+        if let summary = self.summary {
+            encoder.encodeObject(summary, forKey: "summary")
+        }
+    }
+
+// MARK: JSONAble
 
      override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
         let json = JSON(data)
@@ -113,3 +188,4 @@ class Post: JSONAble, Authorable {
         return "Post:\n\tpostId:\(self.postId)"
     }
 }
+

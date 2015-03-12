@@ -8,9 +8,10 @@
 
 import UIKit
 
-protocol Regionable {
-    var kind:RegionKind { get }
+@objc protocol Regionable {
+    var kind:String { get }
     func toJSON() -> [String: AnyObject]
+    func coding() -> NSCoding
 }
 
 enum RegionKind: String {
