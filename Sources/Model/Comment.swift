@@ -8,8 +8,11 @@
 
 import SwiftyJSON
 
+let CommentVersion = 1
 
-class Comment: JSONAble, Authorable {
+final class Comment: JSONAble, Authorable, NSCoding {
+
+    let version: Int = CommentVersion
 
     var author: User?
     let commentId: String
@@ -22,6 +25,8 @@ class Comment: JSONAble, Authorable {
     }
     var parentPost: Post?
     var summary: [Regionable]?
+
+// MARK: Initialization
 
     init(author: User?,
         commentId: String,
@@ -37,6 +42,37 @@ class Comment: JSONAble, Authorable {
         self.parentPost = parentPost
         self.summary = summary
     }
+
+
+// MARK: NSCoding
+
+    required init(coder decoder: NSCoder) {
+        self.author = decoder.decodeObjectForKey("author") as? User
+        self.commentId = decoder.decodeObjectForKey("commentId") as String
+        self.createdAt = decoder.decodeObjectForKey("createdAt") as NSDate
+        self.parentPost = decoder.decodeObjectForKey("parentPost") as Post?
+        if let summary = decoder.decodeObjectForKey("summary") as? [Regionable] {
+            self.summary = summary
+        }
+        if let content = decoder.decodeObjectForKey("content") as? [Regionable] {
+            self.content = content
+        }
+    }
+
+    func encodeWithCoder(encoder: NSCoder) {
+        encoder.encodeObject(self.author, forKey: "author")
+        encoder.encodeObject(self.commentId, forKey: "commentId")
+        if let content = self.content {
+            encoder.encodeObject(content, forKey: "content")
+        }
+        encoder.encodeObject(self.createdAt, forKey: "createdAt")
+        encoder.encodeObject(self.parentPost, forKey: "parentPost")
+        if let summary = self.summary {
+            encoder.encodeObject(summary, forKey: "summary")
+        }
+    }
+
+// MARK: JSONAble
 
     override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
         let json = JSON(data)

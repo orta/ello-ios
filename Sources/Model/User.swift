@@ -11,7 +11,12 @@ import Foundation
 import UIKit
 import SwiftyJSON
 
-final class User: JSONAble {
+let UserVersion = 1
+
+final class User: JSONAble, NSCoding {
+
+    let version: Int = UserVersion
+
     var atName : String { return "@\(username)"}
     let avatarURL: NSURL?
     let coverImageURL: NSURL?
@@ -27,7 +32,6 @@ final class User: JSONAble {
     let userId: String
     let username: String
 
-    // only set from
     var isCurrentUser : Bool
 
     init(avatarURL: NSURL?,
@@ -61,6 +65,81 @@ final class User: JSONAble {
         self.formattedShortBio = formattedShortBio
     }
 
+// MARK: NSCoding
+
+    required init(coder decoder: NSCoder) {
+        self.avatarURL = decoder.decodeObjectForKey("avatarURL") as? NSURL
+        self.coverImageURL = decoder.decodeObjectForKey("coverImageURL") as? NSURL
+
+        if decoder.containsValueForKey("experimentalFeatures") {
+            self.experimentalFeatures = decoder.decodeBoolForKey("experimentalFeatures")
+        }
+        else {
+            self.experimentalFeatures = false
+        }
+
+        if decoder.containsValueForKey("followersCount") {
+            self.followersCount = Int(decoder.decodeIntForKey("followersCount"))
+        }
+
+        if decoder.containsValueForKey("followingCount") {
+            self.followingCount = Int(decoder.decodeIntForKey("followingCount"))
+        }
+
+        self.href = decoder.decodeObjectForKey("href") as String
+        self.name = decoder.decodeObjectForKey("name") as String
+
+        if decoder.containsValueForKey("posts") {
+            self.posts = decoder.decodeObjectForKey("posts") as [Post]
+        }
+        else {
+            self.posts = [Post]()
+        }
+
+        if decoder.containsValueForKey("isCurrentUser") {
+            self.isCurrentUser = decoder.decodeBoolForKey("isCurrentUser")
+        }
+        else {
+            self.isCurrentUser = false
+        }
+
+        if decoder.containsValueForKey("postsCount") {
+            self.postsCount = Int(decoder.decodeIntForKey("postsCount"))
+        }
+        self.relationshipPriority = decoder.decodeObjectForKey("relationshipPriority") as String
+        self.userId = decoder.decodeObjectForKey("userId") as String
+        self.username = decoder.decodeObjectForKey("username") as String
+        self.formattedShortBio = decoder.decodeObjectForKey("formattedShortBio") as String
+    }
+
+    func encodeWithCoder(encoder: NSCoder) {
+
+        encoder.encodeObject(self.avatarURL, forKey: "avatarURL")
+        encoder.encodeObject(self.coverImageURL, forKey: "coverImageURL")
+        encoder.encodeBool(self.experimentalFeatures, forKey: "experimentalFeatures")
+        if let followersCount = self.followersCount {
+            encoder.encodeInt64(Int64(followersCount), forKey: "followersCount")
+        }
+
+        if let followersCount = self.followingCount {
+            encoder.encodeInt64(Int64(followersCount), forKey: "followingCount")
+        }
+        encoder.encodeObject(self.href, forKey: "href")
+        encoder.encodeObject(self.name, forKey: "name")
+        encoder.encodeObject(self.posts, forKey: "posts")
+        encoder.encodeBool(self.isCurrentUser, forKey: "isCurrentUser")
+        if let postsCount = self.postsCount {
+            encoder.encodeInt64(Int64(postsCount), forKey: "postsCount")
+        }
+        encoder.encodeObject(self.relationshipPriority, forKey: "relationshipPriority")
+        encoder.encodeObject(self.userId, forKey: "userId")
+        encoder.encodeObject(self.username, forKey: "username")
+        encoder.encodeObject(self.formattedShortBio, forKey: "formattedShortBio")
+
+    }
+    
+// MARK: JSONAble
+
     override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
         let json = JSON(data)
         let name = json["name"].stringValue
@@ -87,7 +166,6 @@ final class User: JSONAble {
                 coverImageURL = NSURL(string: coverPath, relativeToURL: NSURL(string: ElloURI.baseURL))
             }
         }
-
 
         let postsCount = json["posts_count"].int
         let followersCount = json["followers_count"].int

@@ -9,9 +9,12 @@
 import UIKit
 import SwiftyJSON
 
+let ElloNetworkErrorVersion = 1
 
 class ElloNetworkError: JSONAble {
-    
+
+    let version: Int = ElloNetworkErrorVersion
+
     enum CodeType: String {
         case blacklisted = "blacklisted"
         case invalidRequest = "invalid_request"

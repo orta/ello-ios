@@ -34,6 +34,80 @@ class UserSpec: QuickSpec {
                 expect(user.posts[0]).to(beAKindOf(Post.self))
             }
         }
+
+        context("NSCoding") {
+
+            var filePath = ""
+
+            beforeEach {
+                filePath = NSFileManager.ElloDocumentsDir().stringByAppendingPathComponent("UserSpec")
+            }
+
+            afterEach {
+                var error:NSError?
+                NSFileManager.defaultManager().removeItemAtPath(filePath, error: &error)
+            }
+
+            context("encoding") {
+
+                it("encodes successfully") {
+                    let user: User = stub(nil)
+
+                    let wasSuccessfulArchived = NSKeyedArchiver.archiveRootObject(user, toFile: filePath)
+
+                    expect(wasSuccessfulArchived).to(beTrue())
+                }
+            }
+
+            context("decoding") {
+
+                it("decodes successfully") {
+                    let expectedCreatedAt = NSDate()
+
+                    let post: Post = stub(["postId" : "sample-post-id"])
+
+                    let user: User = stub([
+                        "avatarURL" : NSURL(string: "http://www.example.com")!,
+                        "coverImageURL" : NSURL(string: "http://www.example2.com")!,
+                        "experimentalFeatures" : true,
+                        "followersCount" : 6,
+                        "followingCount" : 8,
+                        "href" : "sample-href",
+                        "name" : "sample-name",
+                        "posts" : [post],
+                        "postsCount" : 9,
+                        "relationshipPriority" : "self",
+                        "userId" : "sample-userId",
+                        "username" : "sample-username",
+                        "formattedShortBio" : "sample-short-bio",
+                        "isCurrentUser" : true
+                    ])
+
+                    NSKeyedArchiver.archiveRootObject(user, toFile: filePath)
+                    let unArchivedUser = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as User
+
+                    expect(unArchivedUser).toNot(beNil())
+                    expect(unArchivedUser.version) == 1
+
+                    expect(unArchivedUser.avatarURL?.absoluteString) == "http://www.example.com"
+                    expect(unArchivedUser.coverImageURL?.absoluteString) == "http://www.example2.com"
+                    expect(unArchivedUser.experimentalFeatures).to(beTrue())
+                    expect(unArchivedUser.followersCount) == 6
+                    expect(unArchivedUser.followingCount) == 8
+                    expect(unArchivedUser.href) == "sample-href"
+                    expect(unArchivedUser.name) == "sample-name"
+
+                    let firstPost = unArchivedUser.posts.first!
+                    expect(firstPost.postId) == "sample-post-id"
+
+                    expect(unArchivedUser.relationshipPriority) == "self"
+                    expect(unArchivedUser.userId) == "sample-userId"
+                    expect(unArchivedUser.username) == "sample-username"
+                    expect(unArchivedUser.formattedShortBio) == "sample-short-bio"
+                    expect(unArchivedUser.isCurrentUser).to(beTrue())
+                }
+            }
+        }
     }
 }
 

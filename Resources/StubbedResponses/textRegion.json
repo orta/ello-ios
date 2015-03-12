@@ -1,0 +1,7 @@
+{
+	"region" : {
+ 	   "kind": "text",
+	    "readonly": false,
+	    "data": "test text content"
+	}
+}

@@ -10,8 +10,10 @@ import Foundation
 import SwiftyJSON
 
 extension ImageRegion: Regionable {
-    var kind:RegionKind {
-        get { return RegionKind.Image }
+    var kind:String { return RegionKind.Image.rawValue }
+
+    func coding() -> NSCoding {
+        return self
     }
 
     func toJSON() -> [String: AnyObject] {

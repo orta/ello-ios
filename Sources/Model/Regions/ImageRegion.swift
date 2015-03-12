@@ -9,10 +9,17 @@
 import Foundation
 import SwiftyJSON
 
-class ImageRegion: JSONAble {
+let ImageRegionVersion = 1
+
+final class ImageRegion: JSONAble, NSCoding {
+
+    let version: Int = ImageRegionVersion
+
     let asset:Asset?
     var alt:String?
     let url:NSURL?
+
+// MARK: Initialization
 
     init(asset: Asset?,
         alt: String?,
@@ -21,6 +28,30 @@ class ImageRegion: JSONAble {
             self.alt = alt
             self.url = url
     }
+
+// MARK: NSCoding
+
+    func encodeWithCoder(encoder: NSCoder) {
+        if let asset = self.asset {
+            encoder.encodeObject(asset, forKey: "asset")
+        }
+
+        if let alt = self.alt {
+            encoder.encodeObject(alt, forKey: "alt")
+        }
+
+        if let url = self.url {
+            encoder.encodeObject(url, forKey: "url")
+        }
+    }
+
+    required init(coder decoder: NSCoder) {
+        self.asset = decoder.decodeObjectForKey("asset") as? Asset
+        self.alt = decoder.decodeObjectForKey("alt") as? String
+        self.url = decoder.decodeObjectForKey("url") as? NSURL
+    }
+
+// MARK: JSONAble
 
     override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
         let json = JSON(data)

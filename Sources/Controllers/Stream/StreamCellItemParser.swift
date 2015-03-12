@@ -84,7 +84,9 @@ struct StreamCellItemParser {
                 var multiColumnHeight:CGFloat
                 var type : StreamCellType
 
-                switch region.kind {
+                let kind = RegionKind(rawValue: region.kind) ?? RegionKind.Unknown
+
+                switch kind {
                 case .Image:
                     oneColumnHeight = self.oneColumnImageHeight(region as ImageRegion)
                     multiColumnHeight = self.twoColumnImageHeight(region as ImageRegion)
@@ -118,7 +120,9 @@ struct StreamCellItemParser {
                 var multiColumnHeight:CGFloat
                 var type : StreamCellType
 
-                switch region.kind {
+                let kind = RegionKind(rawValue: region.kind) ?? RegionKind.Unknown
+
+                switch kind {
                 case .Image:
                     oneColumnHeight = self.oneColumnImageHeight(region as ImageRegion)
                     multiColumnHeight = self.twoColumnImageHeight(region as ImageRegion)
