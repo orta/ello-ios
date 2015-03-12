@@ -246,5 +246,5 @@ extension StreamHeaderCell: UIScrollViewDelegate {
             targetContentOffset.memory.x = 0
         }
     }
-    
+
 }
