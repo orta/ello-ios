@@ -82,7 +82,7 @@ class PostEditingService: NSObject {
         ElloProvider.sharedProvider.elloRequest(endpoint,
             method: .POST,
             parameters: params,
-            mappingType: .PostsType,
+            mappingType: endpoint.mappingType,
             success: { data in
                 success()
             },
