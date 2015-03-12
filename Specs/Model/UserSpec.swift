@@ -100,7 +100,7 @@ class UserSpec: QuickSpec {
                     let firstPost = unArchivedUser.posts.first!
                     expect(firstPost.postId) == "sample-post-id"
 
-                    expect(unArchivedUser.relationshipPriority) == "self"
+                    expect(unArchivedUser.relationshipPriority.rawValue) == "self"
                     expect(unArchivedUser.userId) == "sample-userId"
                     expect(unArchivedUser.username) == "sample-username"
                     expect(unArchivedUser.formattedShortBio) == "sample-short-bio"

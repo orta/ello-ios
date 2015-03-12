@@ -106,7 +106,10 @@ final class User: JSONAble, NSCoding {
         if decoder.containsValueForKey("postsCount") {
             self.postsCount = Int(decoder.decodeIntForKey("postsCount"))
         }
-        self.relationshipPriority = decoder.decodeObjectForKey("relationshipPriority") as String
+
+        let relationshipPriorityString = decoder.decodeObjectForKey("relationshipPriority") as String
+        self.relationshipPriority = Relationship(stringValue: relationshipPriorityString) ?? .None
+
         self.userId = decoder.decodeObjectForKey("userId") as String
         self.username = decoder.decodeObjectForKey("username") as String
         self.formattedShortBio = decoder.decodeObjectForKey("formattedShortBio") as String
@@ -131,7 +134,7 @@ final class User: JSONAble, NSCoding {
         if let postsCount = self.postsCount {
             encoder.encodeInt64(Int64(postsCount), forKey: "postsCount")
         }
-        encoder.encodeObject(self.relationshipPriority, forKey: "relationshipPriority")
+        encoder.encodeObject(self.relationshipPriority.rawValue, forKey: "relationshipPriority")
         encoder.encodeObject(self.userId, forKey: "userId")
         encoder.encodeObject(self.username, forKey: "username")
         encoder.encodeObject(self.formattedShortBio, forKey: "formattedShortBio")

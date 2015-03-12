@@ -19,7 +19,7 @@ extension ImageRegion: Regionable {
     func toJSON() -> [String: AnyObject] {
         if let url : String = self.url?.absoluteString {
             return [
-                "kind": self.kind.rawValue,
+                "kind": self.kind,
                 "data": [
                     "alt": alt ?? "",
                     "via": "direct",
@@ -29,7 +29,7 @@ extension ImageRegion: Regionable {
         }
         else {
             return [
-                "kind": self.kind.rawValue,
+                "kind": self.kind,
                 "data": [:]
             ]
         }

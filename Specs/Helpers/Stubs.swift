@@ -19,9 +19,9 @@ protocol Stubbable: NSObjectProtocol {
 }
 
 extension User: Stubbable {
-    class func stub(values: [String: AnyObject]) -> User {
+    class func stub(values: [String: AnyObject]?) -> User {
 
-        let relationship = (values["relationshipPriority"] as? String).map {
+        let relationship = (values?["relationshipPriority"] as? String).map {
             Relationship(stringValue: $0)
         } ?? Relationship.None
 
