@@ -54,7 +54,7 @@ class AssetSpec: QuickSpec {
             context("encoding") {
 
                 it("encodes successfully") {
-                    let asset: Asset = stub(nil)
+                    let asset: Asset = stub([:])
 
                     let wasSuccessfulArchived = NSKeyedArchiver.archiveRootObject(asset, toFile: filePath)
 

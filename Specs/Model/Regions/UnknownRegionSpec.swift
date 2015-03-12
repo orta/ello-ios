@@ -28,7 +28,7 @@ class UnknownRegionSpec: QuickSpec {
             context("encoding") {
 
                 it("encodes successfully") {
-                    let region: UnknownRegion = stub(nil)
+                    let region: UnknownRegion = stub([:])
 
                     let wasSuccessfulArchived = NSKeyedArchiver.archiveRootObject(region, toFile: filePath)
 
@@ -40,7 +40,7 @@ class UnknownRegionSpec: QuickSpec {
 
                 it("decodes successfully") {
 
-                    let region: UnknownRegion = stub(nil)
+                    let region: UnknownRegion = stub([:])
 
                     NSKeyedArchiver.archiveRootObject(region, toFile: filePath)
                     let unArchivedRegion = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as UnknownRegion

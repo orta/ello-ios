@@ -28,7 +28,7 @@ class ImageAttachmentSpec: QuickSpec {
             context("encoding") {
 
                 it("encodes successfully") {
-                    let imageAttachment: ImageAttachment = stub(nil)
+                    let imageAttachment: ImageAttachment = stub([:])
 
                     let wasSuccessfulArchived = NSKeyedArchiver.archiveRootObject(imageAttachment, toFile: filePath)
 

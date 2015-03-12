@@ -51,7 +51,7 @@ class UserSpec: QuickSpec {
             context("encoding") {
 
                 it("encodes successfully") {
-                    let user: User = stub(nil)
+                    let user: User = stub([:])
 
                     let wasSuccessfulArchived = NSKeyedArchiver.archiveRootObject(user, toFile: filePath)
 

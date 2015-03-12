@@ -39,7 +39,7 @@ class TextRegionSpec: QuickSpec {
             context("encoding") {
 
                 it("encodes successfully") {
-                    let region: TextRegion = stub(nil)
+                    let region: TextRegion = stub([:])
 
                     let wasSuccessfulArchived = NSKeyedArchiver.archiveRootObject(region, toFile: filePath)
 

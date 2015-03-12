@@ -80,7 +80,7 @@ class CommentSpec: QuickSpec {
             context("encoding") {
 
                 it("encodes successfully") {
-                    let comment: Comment = stub(nil)
+                    let comment: Comment = stub([:])
 
                     let wasSuccessfulArchived = NSKeyedArchiver.archiveRootObject(comment, toFile: filePath)
 

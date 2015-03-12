@@ -59,7 +59,7 @@ class ImageRegionSpec: QuickSpec {
             context("encoding") {
 
                 it("encodes successfully") {
-                    let region: ImageRegion = stub(nil)
+                    let region: ImageRegion = stub([:])
 
                     let wasSuccessfulArchived = NSKeyedArchiver.archiveRootObject(region, toFile: filePath)
 

@@ -60,7 +60,7 @@ class NotificationSpec: QuickSpec {
             context("encoding") {
 
                 it("encodes successfully") {
-                    let notification: Notification = stub(nil)
+                    let notification: Notification = stub([:])
 
                     let wasSuccessfulArchived = NSKeyedArchiver.archiveRootObject(notification, toFile: filePath)
 
