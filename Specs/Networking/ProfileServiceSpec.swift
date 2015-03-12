@@ -41,6 +41,30 @@ class ProfileServiceSpec: QuickSpec {
             }
 
         }
+
+        describe("loadCurrentUserFollowing") {
+            context("success") {
+                beforeEach {
+                    ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.endpointsClosure, stubResponses: true)
+                }
+
+                it("calls success with a list of Users") {
+                    let profileService = ProfileService()
+                    var loadedUsers: [User]?
+
+                    profileService.loadCurrentUserFollowing(forRelationship: Relationship.Friend, success: { users in
+                        loadedUsers = users
+                    }, failure: .None)
+
+                    expect(loadedUsers!.count).to(equal(2))
+
+                    //smoke test the user
+                    expect(loadedUsers!.first!.userId) == "666"
+                    expect(loadedUsers!.first!.username) == "cfiggis"
+                }
+            }
+
+        }
     }
 }
 
