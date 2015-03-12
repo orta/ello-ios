@@ -75,5 +75,4 @@ final class ImageAttachment: NSObject, NSCoding {
 
         self.imageType = decoder.decodeObjectForKey("imageType") as? NSString
     }
-
 }

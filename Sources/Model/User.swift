@@ -224,6 +224,5 @@ final class User: JSONAble, NSCoding {
             username: username,
             formattedShortBio: "bio"
         )
-
     }
 }

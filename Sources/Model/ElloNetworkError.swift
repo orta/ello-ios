@@ -78,5 +78,4 @@ class ElloNetworkError: JSONAble {
             title: title
         )
     }
-
 }

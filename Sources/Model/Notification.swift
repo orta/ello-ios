@@ -131,5 +131,4 @@ final class Notification : JSONAble, Authorable, NSCoding {
             }
         }
     }
-
 }

@@ -15,11 +15,10 @@ extension TextRegion: Regionable {
         return self
     }
 	
-	func toJSON() -> [String: AnyObject] {
+    func toJSON() -> [String: AnyObject] {
         return [
             "kind": self.kind,
             "data": self.content
         ]
     }
 }
-

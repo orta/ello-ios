@@ -89,5 +89,4 @@ struct NotificationAttributedTitle {
                 return NSAttributedString(string: "")
         }
     }
-
 }

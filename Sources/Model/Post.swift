@@ -188,3 +188,4 @@ final class Post: JSONAble, Authorable, NSCoding {
         return "Post:\n\tpostId:\(self.postId)"
     }
 }
+

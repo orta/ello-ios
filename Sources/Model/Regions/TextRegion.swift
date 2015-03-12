@@ -40,5 +40,4 @@ final class TextRegion: JSONAble, NSCoding {
         let content = json["data"].stringValue
         return TextRegion(content: content)
     }
-
 }

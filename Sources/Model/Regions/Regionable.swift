@@ -8,12 +8,9 @@
 
 import UIKit
 
-
 @objc protocol Regionable {
-
     var kind:String { get }
-
-	func toJSON() -> [String: AnyObject]
+    func toJSON() -> [String: AnyObject]
     func coding() -> NSCoding
 }
 
