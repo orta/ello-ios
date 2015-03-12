@@ -110,32 +110,32 @@ class NotificationsScreen : UIView {
         streamView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
     }
 
-    @IBAction func allButtonTapped(sender : NotificationFilterButton) {
+    func allButtonTapped(sender : NotificationFilterButton) {
         filterBar.selectButton(sender)
         delegate?.activatedFilter(NotificationFilterType.All.rawValue)
     }
 
-    @IBAction func miscButtonTapped(sender : NotificationFilterButton) {
+    func miscButtonTapped(sender : NotificationFilterButton) {
         filterBar.selectButton(sender)
         delegate?.activatedFilter(NotificationFilterType.Misc.rawValue)
     }
 
-    @IBAction func mentionButtonTapped(sender : NotificationFilterButton) {
+    func mentionButtonTapped(sender : NotificationFilterButton) {
         filterBar.selectButton(sender)
         delegate?.activatedFilter(NotificationFilterType.Mention.rawValue)
     }
 
-    @IBAction func heartButtonTapped(sender : NotificationFilterButton) {
+    func heartButtonTapped(sender : NotificationFilterButton) {
         filterBar.selectButton(sender)
         delegate?.activatedFilter(NotificationFilterType.Heart.rawValue)
     }
 
-    @IBAction func repostButtonTapped(sender : NotificationFilterButton) {
+    func repostButtonTapped(sender : NotificationFilterButton) {
         filterBar.selectButton(sender)
         delegate?.activatedFilter(NotificationFilterType.Repost.rawValue)
     }
 
-    @IBAction func inviteButtonTapped(sender : NotificationFilterButton) {
+    func inviteButtonTapped(sender : NotificationFilterButton) {
         filterBar.selectButton(sender)
         delegate?.activatedFilter(NotificationFilterType.Relationship.rawValue)
     }

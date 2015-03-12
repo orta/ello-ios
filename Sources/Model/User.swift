@@ -11,7 +11,6 @@ import Foundation
 import UIKit
 import SwiftyJSON
 
-
 final class User: JSONAble {
     var atName : String { return "@\(username)"}
     let avatarURL: NSURL?
@@ -24,7 +23,7 @@ final class User: JSONAble {
     let formattedShortBio: String
     var posts: [Post]
     let postsCount: Int?
-    let relationshipPriority: String
+    let relationshipPriority: Relationship
     let userId: String
     let username: String
     let identifiableBy: String?
@@ -41,7 +40,7 @@ final class User: JSONAble {
         name: String,
         posts: [Post],
         postsCount: Int?,
-        relationshipPriority: String,
+        relationshipPriority: Relationship,
         userId: String,
         username: String,
         identifiableBy: String?,
@@ -75,7 +74,7 @@ final class User: JSONAble {
 
         let experimentalFeatures = json["experimental_features"].boolValue
         let href = json["href"].stringValue
-        let relationshipPriority = json["relationship_priority"].stringValue
+        let relationshipPriority = Relationship(stringValue: json["relationship_priority"].stringValue)
 
         var avatarURL:NSURL?
         var coverImageURL:NSURL?
@@ -133,9 +132,10 @@ final class User: JSONAble {
         return user
     }
 
-    class func fakeCurrentUser(username: String) -> User {
+    class func fakeCurrentUser(username: String, avatarURL optlUrl : NSURL? = nil) -> User {
+        let url = optlUrl ?? NSURL(string: "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/27/large_ello-09fd7088-2e4f-4781-87db-433d5dbc88a5.png")
         return User(
-            avatarURL: NSURL(string: "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/27/large_ello-09fd7088-2e4f-4781-87db-433d5dbc88a5.png"),
+            avatarURL: url,
             coverImageURL: nil,
             experimentalFeatures: false,
             followersCount: 1,
@@ -144,7 +144,7 @@ final class User: JSONAble {
             name: "Unknown",
             posts: [],
             postsCount: 2,
-            relationshipPriority: "self",
+            relationshipPriority: .Me,
             userId: "42",
             username: username,
             identifiableBy: .None,

@@ -22,7 +22,7 @@ class ProfileViewControllerSpec: QuickSpec {
             name:  "Ello",
             posts: [],
             postsCount: 2,
-            relationshipPriority: "self",
+            relationshipPriority: .Me,
             userId: "42",
             username: "ello",
             identifiableBy: .None,

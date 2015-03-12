@@ -20,7 +20,7 @@ struct ContentFlaggingService {
             method: .POST,
             parameters: endpoint.defaultParameters,
             mappingType: MappingType.NoContentType,
-            success: { (data) -> () in
+            success: { data in
                 success()
         }, failure: failure)
     }

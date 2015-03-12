@@ -96,6 +96,9 @@ class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
             if let date = newValue {
                 createdAtLabel.text = NSDate().distanceOfTimeInWords(date)
             }
+            else {
+                createdAtLabel.text = ""
+            }
         }
     }
 
@@ -125,7 +128,7 @@ class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
 
         createdAtLabel.textColor = UIColor.greyA()
         createdAtLabel.font = UIFont.typewriterFont(12)
-        createdAtLabel.text = "10m"
+        createdAtLabel.text = ""
 
         for view in [avatarButton, titleTextView, notificationImageView, messageWebView, createdAtLabel] {
             self.contentView.addSubview(view)

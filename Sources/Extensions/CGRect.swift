@@ -10,6 +10,15 @@ extension CGRect {
         return self
     }
 
+// MARK: convenience
+    static func make(#x: CGFloat, y: CGFloat, right: CGFloat, bottom: CGFloat) -> CGRect {
+        return CGRect(x: x, y: y, width: right - x, height: bottom - y)
+    }
+
+    static func at(#x: CGFloat, y: CGFloat) -> CGRect {
+        return CGRect(x: x, y: y, width: 0, height: 0)
+    }
+
 // MARK: helpers
     var x:CGFloat { return self.origin.x }
     var y:CGFloat { return self.origin.y }
@@ -100,6 +109,22 @@ extension CGRect {
     }
 
 // MARK: growXxx
+    func grow(#all:CGFloat) -> CGRect {
+        return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: -all, left: -all, bottom: -all, right: -all))
+    }
+
+    func grow(#topBottom:CGFloat, sides: CGFloat) -> CGRect {
+        return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: -topBottom, left: -sides, bottom: -topBottom, right: -sides))
+    }
+
+    func grow(#top:CGFloat, sides: CGFloat, bottom: CGFloat) -> CGRect {
+        return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: -top, left: -sides, bottom: -bottom, right: -sides))
+    }
+
+    func grow(#top:CGFloat, left:CGFloat, bottom:CGFloat, right:CGFloat) -> CGRect {
+        return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: -top, left: -left, bottom: -bottom, right: -right))
+    }
+
     func growLeft(amt:CGFloat) -> CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: 0, left: -amt, bottom: 0, right: 0))
     }

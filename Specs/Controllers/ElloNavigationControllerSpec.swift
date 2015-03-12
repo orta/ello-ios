@@ -14,32 +14,46 @@ class ElloNavigationControllerSpec: QuickSpec {
     override func spec() {
         var controller = ElloNavigationController()
 
-        describe("NotificationsViewController") {
+        describe("NotificationsViewController NavigationController") {
             beforeEach() {
-                controller = ElloNavigationController()
-                controller.rootViewControllerName = ElloNavigationController.RootViewControllers.Notifications.rawValue
+                controller = UIStoryboard.storyboardWithId(.Notifications) as ElloNavigationController
             }
 
-            it("has a tab bar item", {
+            it("has a tab bar item") {
                 expect(controller.tabBarItem).notTo(beNil())
+            }
 
-//                let selectedImage:UIImage = controller.tabBarItem.valueForKey("selectedImage") as UIImage
-//                expect(selectedImage).notTo(beNil())
-            })
+            it("has a selected tab bar item") {
+               expect(controller.tabBarItem.selectedImage).notTo(beNil())
+            }
         }
 
-        describe("ProfileViewController") {
+        describe("ProfileViewController NavigationController") {
             beforeEach() {
-                controller = ElloNavigationController()
-                controller.rootViewControllerName = ElloNavigationController.RootViewControllers.Profile.rawValue
+                controller = UIStoryboard.storyboardWithId(.Profile) as ElloNavigationController
             }
 
-            it("has a tab bar item", {
+            it("has a tab bar item") {
                 expect(controller.tabBarItem).notTo(beNil())
+            }
 
-//                let selectedImage:UIImage = controller.tabBarItem.valueForKey("selectedImage") as UIImage
-//                expect(selectedImage).notTo(beNil())
-            })
+            it("has a selected tab bar item") {
+               expect(controller.tabBarItem.selectedImage).notTo(beNil())
+            }
+        }
+
+        describe("OmnibarViewController NavigationController") {
+            beforeEach() {
+                controller = UIStoryboard.storyboardWithId(.Omnibar) as ElloNavigationController
+            }
+
+            it("has a tab bar item") {
+                expect(controller.tabBarItem).notTo(beNil())
+            }
+
+            it("has a selected tab bar item") {
+               expect(controller.tabBarItem.selectedImage).notTo(beNil())
+            }
         }
     }
 }

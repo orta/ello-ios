@@ -11,6 +11,22 @@ import Nimble
 
 class FunctionalSpec: QuickSpec {
     override func spec() {
+        describe("+times:") {
+            it("calls the block 5 times") {
+                var counter = 0
+                Functional.times(5) {
+                    counter += 1
+                }
+                expect(counter).to(equal(5))
+            }
+            it("calls the block 5 times, passing in the index") {
+                var counter = 0
+                Functional.times(5) { index in
+                    counter += index
+                }
+                expect(counter).to(equal(10))
+            }
+        }
         describe("+after:") {
             it("gets called after(2)") {
                 var called = 0
@@ -71,13 +87,13 @@ class FunctionalSpec: QuickSpec {
         }
         // TODO: figure out why this fails on Travis
         xdescribe("+timeout:") {
-            it("should call the timeout") {
+            it("should call the timeout after a delay") {
                 var called = 0
                 var timeout = Functional.timeout(0.1) { called += 1 }
                 expect(called).to(equal(0))
                 expect(called).toEventually(equal(1), timeout: 0.2)
             }
-            it("should call the timeout immediately") {
+            it("should call the timeout immediately, and only call the timeout once") {
                 var called = 0
                 var timeout = Functional.timeout(0.1) { called += 1 }
                 expect(called).to(equal(0))
@@ -98,6 +114,14 @@ class FunctionalSpec: QuickSpec {
                 expect(called).toEventually(equal(0), timeout: 0.1)
                 var timeout = Functional.timeout(0.05) { throttle() }
 
+                expect(called).toEventually(equal(1), timeout: 0.2)
+            }
+        }
+        xdescribe("+later:") {
+            it("should call the block after a delay") {
+                var called = 0
+                Functional.later(0.1) { called += 1 }
+                expect(called).to(equal(0))
                 expect(called).toEventually(equal(1), timeout: 0.2)
             }
         }

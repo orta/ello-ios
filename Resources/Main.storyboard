@@ -74,7 +74,7 @@
                         <segue destination="OLo-wM-vov" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
                         <segue destination="6gB-P3-Psq" kind="relationship" relationship="viewControllers" id="2P8-zn-3Fb"/>
                         <segue destination="HTb-EB-4Yn" kind="relationship" relationship="viewControllers" id="t8D-oN-sU8"/>
-                        <segue destination="5zO-Gn-gCb" kind="relationship" relationship="viewControllers" id="kjL-AW-Qkk"/>
+                        <segue destination="jRU-db-VFH" kind="relationship" relationship="viewControllers" id="kjL-AW-Qkk"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
@@ -262,44 +262,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jjg-AH-34k" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1276" y="0.0"/>
-        </scene>
-        <!--Omnibar-->
-        <scene sceneID="pVx-hA-a7f">
-            <objects>
-                <viewController storyboardIdentifier="OmnibarViewController" title="Omnibar" id="5zO-Gn-gCb" userLabel="Omnibar" customClass="OmnibarViewController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="zV5-5Z-Hpe"/>
-                        <viewControllerLayoutGuide type="bottom" id="dG7-qq-kmF"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="pm7-7r-12S">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Omnibar" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="dyL-5B-210">
-                                <rect key="frame" x="231" y="255" width="139" height="42"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="36"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="centerX" secondItem="dyL-5B-210" secondAttribute="centerX" id="WnL-TG-b5j"/>
-                            <constraint firstAttribute="centerY" secondItem="dyL-5B-210" secondAttribute="centerY" id="zCc-hW-JML"/>
-                        </constraints>
-                    </view>
-                    <extendedEdge key="edgesForExtendedLayout"/>
-                    <tabBarItem key="tabBarItem" title="" image="post-icon" id="kAH-dT-zG0">
-                        <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="post-icon-selected"/>
-                        </userDefinedRuntimeAttributes>
-                    </tabBarItem>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="x3N-Wb-S1S" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="774" y="1752"/>
         </scene>
         <!--Ello Navigation Controller-->
         <scene sceneID="c48-ys-FOn">
@@ -645,7 +607,7 @@
         <!--Notifications Navigation Controller-->
         <scene sceneID="hm1-Di-XPS">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="OLo-wM-vov" userLabel="Notifications Navigation Controller" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="NotificationsViewController" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="OLo-wM-vov" userLabel="Notifications Navigation Controller" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="notifications-icon" id="cPa-gy-q4n">
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
                         <userDefinedRuntimeAttributes>
@@ -669,7 +631,7 @@
         <!--Profile View Controller-->
         <scene sceneID="hfY-Uc-rBK">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" hidesBarsOnSwipe="YES" id="HTb-EB-4Yn" userLabel="Profile View Controller" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="ProfileViewController" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" hidesBarsOnSwipe="YES" id="HTb-EB-4Yn" userLabel="Profile View Controller" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="profile-icon" id="6NF-g8-Kfc">
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
                         <userDefinedRuntimeAttributes>
@@ -717,6 +679,29 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ogf-9W-7zG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="774" y="-992"/>
+        </scene>
+        <scene sceneID="3Vb-Rm-HKL">
+            <objects>
+                <navigationController storyboardIdentifier="OmnibarViewController" automaticallyAdjustsScrollViewInsets="NO" id="jRU-db-VFH" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="" image="post-icon" id="kAH-dT-zG0">
+                        <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="post-icon-selected"/>
+                        </userDefinedRuntimeAttributes>
+                    </tabBarItem>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="4Of-Xc-qiM">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="rootViewControllerName" value="OmnibarViewController"/>
+                    </userDefinedRuntimeAttributes>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aiz-7O-HFB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="422" y="1776"/>
         </scene>
     </scenes>
     <resources>

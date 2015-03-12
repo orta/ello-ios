@@ -26,6 +26,9 @@ test-reports/*
 *.dat
 *.dep
 
+# .env variables
+.env
+
 # cocoapods ignores
 Pods/Keys
 

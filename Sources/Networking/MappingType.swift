@@ -8,19 +8,22 @@
 
 
 enum MappingType: String {
-    case CommentsType =         "comments"
-    case CommentType =          "comment"
-    case PostsType =            "posts"
-    case PostType =             "post"
-    case ActivitiesType =       "activities"
-    case ActivityType =         "activity"
-    case UsersType =            "users"
-    case UserType =             "user"
-    case ErrorsType =           "errors"
-    case ErrorType =            "error"
-    case AssetsType =           "assets"
-    case RelationshipsType =    "relationships"
-    case NoContentType =        "204"
+    // these keys define the place in the JSON response where the ElloProvider
+    // should look for the response data.
+    case CommentsType =          "comments"
+    case CommentType =           "comment"
+    case PostsType =             "posts"
+    case PostType =              "post"
+    case ActivitiesType =        "activities"
+    case ActivityType =          "activity"
+    case UsersType =             "users"
+    case UserType =              "user"
+    case ErrorsType =            "errors"
+    case ErrorType =             "error"
+    case AssetsType =            "assets"
+    case RelationshipsType =     "relationships"
+    case AmazonCredentialsType = "credentials"
+    case NoContentType =         "204"
 
     var fromJSON: FromJSONClosure {
         switch self {
@@ -30,6 +33,7 @@ enum MappingType: String {
         case UsersType, UserType:           return User.fromJSON
         case ErrorsType, ErrorType:         return ElloNetworkError.fromJSON
         case AssetsType:                    return Asset.fromJSON
+        case AmazonCredentialsType:         return AmazonCredentials.fromJSON
         default:                            return UnknownJSONAble.fromJSON
         }
     }

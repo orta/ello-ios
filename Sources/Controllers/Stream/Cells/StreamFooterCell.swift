@@ -9,7 +9,7 @@
 import UIKit
 import Foundation
 
-let streamFooterCellDidOpenNotification = TypedNotification<StreamFooterCell>(name: "StreamFooterCellDidOpenNotification")
+let streamCellDidOpenNotification = TypedNotification<UICollectionViewCell>(name: "StreamCellDidOpenNotification")
 
 class StreamFooterCell: UICollectionViewCell {
 
@@ -145,14 +145,12 @@ class StreamFooterCell: UICollectionViewCell {
     }
 
     private func addObservers() {
-        cellOpenObserver = NotificationObserver(notification: streamFooterCellDidOpenNotification) { cell in
-            if (cell != self) {
-                if self.isOpen {
-                    dispatch_async(dispatch_get_main_queue(), {
-                        UIView.animateWithDuration(0.25, animations: {
-                            self.scrollView.contentOffset = CGPointZero
-                        })
-                    })
+        cellOpenObserver = NotificationObserver(notification: streamCellDidOpenNotification) { cell in
+            if cell != self && self.isOpen {
+                dispatch_async(dispatch_get_main_queue()) {
+                    UIView.animateWithDuration(0.25) {
+                        self.scrollView.contentOffset = CGPointZero
+                    }
                 }
             }
         }
@@ -197,7 +195,7 @@ class StreamFooterCell: UICollectionViewCell {
     }
 
     @IBAction func flagButtonTapped(sender: StreamFooterButton) {
-        delegate?.flagButtonTapped(self)
+        delegate?.flagPostButtonTapped(self)
     }
 
     @IBAction func shareButtonTapped(sender: StreamFooterButton) {
@@ -253,7 +251,7 @@ extension StreamFooterCell: UIScrollViewDelegate {
 
         if (scrollView.contentOffset.x >= revealWidth) {
             isOpen = true
-            postNotification(streamFooterCellDidOpenNotification, self)
+            postNotification(streamCellDidOpenNotification, self)
         } else {
             isOpen = false
         }

@@ -1,14 +1,9 @@
 source 'https://rubygems.org'
 
-gem 'cocoapods', :git => 'https://github.com/CocoaPods/CocoaPods.git', :tag => '0.36.0.rc.1'
-
-gem 'cocoapods-keys', :git => 'https://github.com/orta/cocoapods-keys.git'
-
-gem 'xcpretty'
-gem 'shenzhen'
-gem 'sbconstants'
+gem 'cocoapods', '~> 0.36.0'
+gem 'cocoapods-keys', '~> 1.0.1'
+gem 'plist'
 
 # used for automated release notes
-gem 'pivotal-tracker'
-gem 'rugged'
-gem 'plist'
+gem 'octokit', '~> 3.0'
+gem 'dotenv'

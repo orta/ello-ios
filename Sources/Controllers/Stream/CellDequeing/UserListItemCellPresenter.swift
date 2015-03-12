@@ -25,12 +25,7 @@ struct UserListItemCellPresenter {
 
             cell.relationshipView.userId = user.userId
             cell.relationshipView.userAtName = user.atName
-            if let relationship = Relationship(rawValue: user.relationshipPriority) {
-                cell.relationshipView.relationship = relationship
-            }
-            else {
-                cell.relationshipView.relationship = Relationship.None
-            }
+            cell.relationshipView.relationship = user.relationshipPriority
             cell.relationshipView.hidden = user.isCurrentUser
             cell.usernameLabel.text = user.atName
         }
