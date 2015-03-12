@@ -510,7 +510,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
             let libraryAction = UIAlertAction(title: "📱 Library", style: .Default) { (action) in self.openLibrary() }
             alertController.addAction(libraryAction)
 
-            let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in }
+            let cancelAction = UIAlertAction(title: "🚫 Cancel", style: .Cancel) { (action) in }
             alertController.addAction(cancelAction)
 
             delegate?.omnibarPresentController(alertController)
