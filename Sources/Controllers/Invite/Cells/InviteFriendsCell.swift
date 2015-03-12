@@ -12,6 +12,8 @@ class InviteFriendsCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel?
     @IBOutlet weak var inviteButton: UIButton?
 
+    var delegate: InviteDelegate?
+
     override func layoutSubviews() {
         super.layoutSubviews()
 
@@ -22,5 +24,9 @@ class InviteFriendsCell: UITableViewCell {
         inviteButton?.titleLabel?.textColor = UIColor.greyA()
         inviteButton?.layer.borderColor = UIColor.greyA().CGColor
         inviteButton?.layer.borderWidth = 1.0
+    }
+
+    @IBAction func invite() {
+        delegate?.sendInvite()
     }
 }

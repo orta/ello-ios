@@ -11,7 +11,7 @@ class AddFriendsCellPresenterSpec: QuickSpec {
                     var cell: FindFriendsCell = FindFriendsCell.loadFromNib()
                     var item: AddFriendsCellItem = AddFriendsCellItem(user: user)
 
-                    AddFriendsCellPresenter.configure(cell, addFriendsCellItem: item, relationshipDelegate: .None)
+                    AddFriendsCellPresenter.configure(cell, addFriendsCellItem: item, relationshipDelegate: .None, inviteCache:InviteCache())
 
                     expect(cell.nameLabel?.text) == item.user?.atName
                 }
@@ -22,7 +22,7 @@ class AddFriendsCellPresenterSpec: QuickSpec {
                     var cell: InviteFriendsCell = InviteFriendsCell.loadFromNib()
                     var item: AddFriendsCellItem = AddFriendsCellItem(person: LocalPerson(name: "Test", emails: [], id: 123))
 
-                    AddFriendsCellPresenter.configure(cell, addFriendsCellItem: item, relationshipDelegate: .None)
+                    AddFriendsCellPresenter.configure(cell, addFriendsCellItem: item, relationshipDelegate: .None, inviteCache: InviteCache())
 
                     expect(cell.nameLabel?.text) == item.person?.name
                 }
@@ -35,7 +35,7 @@ class AddFriendsCellPresenterSpec: QuickSpec {
                     var cell: FindFriendsCell = FindFriendsCell.loadFromNib()
                     var item: AddFriendsCellItem = AddFriendsCellItem(person: LocalPerson(name: "Test", emails: [], id: 123), user: user)
 
-                    AddFriendsCellPresenter.configure(cell, addFriendsCellItem: item, relationshipDelegate: .None)
+                    AddFriendsCellPresenter.configure(cell, addFriendsCellItem: item, relationshipDelegate: .None, inviteCache: InviteCache())
 
                     expect(cell.nameLabel?.text) == item.person?.name
                 }

@@ -52,6 +52,7 @@ class AddFriendsDataSource: NSObject, UITableViewDataSource {
 
     var items = [AddFriendsCellItem]()
     var relationshipDelegate: RelationshipDelegate?
+    var inviteCache = InviteCache()
 
     // MARK: Public
 
@@ -73,7 +74,11 @@ class AddFriendsDataSource: NSObject, UITableViewDataSource {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if let item: AddFriendsCellItem = itemAtIndexPath(indexPath) {
             var cell = tableView.dequeueReusableCellWithIdentifier(item.cellType.identifier, forIndexPath: indexPath) as UITableViewCell
-            AddFriendsCellPresenter.configure(cell, addFriendsCellItem: item, relationshipDelegate: relationshipDelegate)
+            AddFriendsCellPresenter.configure(cell, addFriendsCellItem: item, relationshipDelegate: relationshipDelegate, inviteCache: inviteCache)
+
+            if let cell = cell as? InviteFriendsCell {
+                item.person.map { cell.delegate = InviteController(person: $0) { tableView.reloadData() } }
+            }
             return cell
         }
         return UITableViewCell()

@@ -9,11 +9,11 @@
 import Foundation
 
 struct AddFriendsCellPresenter {
-    static func configure(cell: UITableViewCell, addFriendsCellItem: AddFriendsCellItem, relationshipDelegate: RelationshipDelegate?) {
+    static func configure(cell: UITableViewCell, addFriendsCellItem: AddFriendsCellItem, relationshipDelegate: RelationshipDelegate?, inviteCache: InviteCache) {
         switch addFriendsCellItem.cellType {
         case .Find: return configureFindFriendsCell(cell, relationshipDelegate: relationshipDelegate, addFriendsCellItem: addFriendsCellItem)
-        case .Invite: return configureInviteFriendsCell(cell, relationshipDelegate: relationshipDelegate, addFriendsCellItem: addFriendsCellItem)
-        case .FindContact: return configureInviteFriendsCell(cell, relationshipDelegate: relationshipDelegate, addFriendsCellItem: addFriendsCellItem)
+        case .Invite: return configureInviteFriendsCell(cell, relationshipDelegate: relationshipDelegate, addFriendsCellItem: addFriendsCellItem, inviteCache: inviteCache)
+        case .FindContact: return configureInviteFriendsCell(cell, relationshipDelegate: relationshipDelegate, addFriendsCellItem: addFriendsCellItem, inviteCache: inviteCache)
         }
     }
 
@@ -32,10 +32,20 @@ struct AddFriendsCellPresenter {
     static func configureInviteFriendsCell(
         cell:UITableViewCell,
         relationshipDelegate: RelationshipDelegate?,
-        addFriendsCellItem:AddFriendsCellItem)
+        addFriendsCellItem:AddFriendsCellItem,
+        inviteCache: InviteCache)
     {
         if let cell = cell as? InviteFriendsCell {
             cell.nameLabel?.text = addFriendsCellItem.person?.name
+
+            cell.selected = addFriendsCellItem.person.map { inviteCache.has($0.identifier) ?? false } ?? false
+            if cell.selected {
+                cell.inviteButton?.titleLabel?.textColor = UIColor.whiteColor()
+                cell.inviteButton?.backgroundColor = UIColor.greyA()
+            } else {
+                cell.inviteButton?.titleLabel?.textColor = UIColor.greyA()
+                cell.inviteButton?.backgroundColor = UIColor.whiteColor()
+            }
         } else if let cell = cell as? FindFriendsCell {
             cell.nameLabel?.text = addFriendsCellItem.person?.name
             let user = addFriendsCellItem.user

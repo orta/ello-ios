@@ -22,6 +22,9 @@
                         <state key="normal" title="Invite">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
+                        <connections>
+                            <action selector="invite" destination="TaQ-yK-3CX" eventType="touchUpInside" id="Dqw-yL-Uts"/>
+                        </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fhb-H5-uO3">
                         <rect key="frame" x="8" y="14" width="236" height="21"/>
