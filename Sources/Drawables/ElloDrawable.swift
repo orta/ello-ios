@@ -56,7 +56,7 @@ public class ElloDrawable : NSObject {
 
     //// Drawing Methods
 
-    public class func drawProfileIconTemplate(#stroke: UIColor) {
+    public class func drawProfileIconTemplate(#color: UIColor) {
 
         //// Body Drawing
         var bodyPath = UIBezierPath()
@@ -67,14 +67,14 @@ public class ElloDrawable : NSObject {
         bodyPath.addCurveToPoint(CGPointMake(16.51, 32.5), controlPoint1: CGPointMake(31.5, 47.7), controlPoint2: CGPointMake(31.5, 32.5))
         bodyPath.addCurveToPoint(CGPointMake(2.51, 47.7), controlPoint1: CGPointMake(1.51, 32.5), controlPoint2: CGPointMake(2.51, 47.7))
         bodyPath.closePath()
-        stroke.setStroke()
+        color.setStroke()
         bodyPath.lineWidth = 1
         bodyPath.stroke()
 
 
         //// Head Drawing
         var headPath = UIBezierPath(ovalInRect: CGRectMake(4.5, 3.5, 24, 24))
-        stroke.setStroke()
+        color.setStroke()
         headPath.lineWidth = 1
         headPath.stroke()
     }
@@ -89,7 +89,7 @@ public class ElloDrawable : NSObject {
         UIRectClip(symbolRect)
         CGContextTranslateCTM(context, symbolRect.origin.x, symbolRect.origin.y)
 
-        ElloDrawable.drawProfileIconTemplate(stroke: ElloDrawable.white)
+        ElloDrawable.drawProfileIconTemplate(color: ElloDrawable.white)
         CGContextRestoreGState(context)
     }
 
@@ -103,22 +103,22 @@ public class ElloDrawable : NSObject {
         UIRectClip(symbolRect)
         CGContextTranslateCTM(context, symbolRect.origin.x, symbolRect.origin.y)
 
-        ElloDrawable.drawProfileIconTemplate(stroke: ElloDrawable.greyA)
+        ElloDrawable.drawProfileIconTemplate(color: ElloDrawable.greyA)
         CGContextRestoreGState(context)
     }
 
-    public class func drawCameraIconTemplate(#stroke: UIColor) {
+    public class func drawCameraIconTemplate(#color: UIColor) {
 
         //// Rectangle Drawing
         let rectanglePath = UIBezierPath(rect: CGRectMake(0.5, 0.5, 13, 10))
-        stroke.setStroke()
+        color.setStroke()
         rectanglePath.lineWidth = 1
         rectanglePath.stroke()
 
 
         //// Oval Drawing
         var ovalPath = UIBezierPath(ovalInRect: CGRectMake(4, 2.5, 6, 6))
-        stroke.setStroke()
+        color.setStroke()
         ovalPath.lineWidth = 1
         ovalPath.stroke()
     }
@@ -133,7 +133,7 @@ public class ElloDrawable : NSObject {
         UIRectClip(symbolRect)
         CGContextTranslateCTM(context, symbolRect.origin.x, symbolRect.origin.y)
 
-        ElloDrawable.drawCameraIconTemplate(stroke: ElloDrawable.white)
+        ElloDrawable.drawCameraIconTemplate(color: ElloDrawable.white)
         CGContextRestoreGState(context)
     }
 
@@ -147,17 +147,17 @@ public class ElloDrawable : NSObject {
         UIRectClip(symbolRect)
         CGContextTranslateCTM(context, symbolRect.origin.x, symbolRect.origin.y)
 
-        ElloDrawable.drawCameraIconTemplate(stroke: ElloDrawable.greyA)
+        ElloDrawable.drawCameraIconTemplate(color: ElloDrawable.greyA)
         CGContextRestoreGState(context)
     }
 
-    public class func drawCancelTemplate(#stroke: UIColor) {
+    public class func drawCancelTemplate(#color: UIColor) {
 
         //// Bezier Drawing
         var bezierPath = UIBezierPath()
         bezierPath.moveToPoint(CGPointMake(1, 1))
         bezierPath.addCurveToPoint(CGPointMake(9, 9), controlPoint1: CGPointMake(9, 9), controlPoint2: CGPointMake(9, 9))
-        stroke.setStroke()
+        color.setStroke()
         bezierPath.lineWidth = 1
         bezierPath.stroke()
 
@@ -166,7 +166,7 @@ public class ElloDrawable : NSObject {
         var bezier2Path = UIBezierPath()
         bezier2Path.moveToPoint(CGPointMake(9, 1))
         bezier2Path.addLineToPoint(CGPointMake(1, 9))
-        stroke.setStroke()
+        color.setStroke()
         bezier2Path.lineWidth = 1
         bezier2Path.stroke()
     }
@@ -181,7 +181,7 @@ public class ElloDrawable : NSObject {
         UIRectClip(symbolRect)
         CGContextTranslateCTM(context, symbolRect.origin.x, symbolRect.origin.y)
 
-        ElloDrawable.drawCancelTemplate(stroke: ElloDrawable.greyA)
+        ElloDrawable.drawCancelTemplate(color: ElloDrawable.greyA)
         CGContextRestoreGState(context)
     }
 
@@ -195,7 +195,7 @@ public class ElloDrawable : NSObject {
         UIRectClip(symbolRect)
         CGContextTranslateCTM(context, symbolRect.origin.x, symbolRect.origin.y)
 
-        ElloDrawable.drawCancelTemplate(stroke: ElloDrawable.white)
+        ElloDrawable.drawCancelTemplate(color: ElloDrawable.white)
         CGContextRestoreGState(context)
     }
 
@@ -205,7 +205,7 @@ public class ElloDrawable : NSObject {
         var bezierPath = UIBezierPath()
         bezierPath.moveToPoint(CGPointMake(0.5, 5))
         bezierPath.addCurveToPoint(CGPointMake(10.5, 5), controlPoint1: CGPointMake(10.55, 5), controlPoint2: CGPointMake(10.5, 5))
-        stroke.setStroke()
+        color.setStroke()
         bezierPath.lineWidth = 1
         bezierPath.stroke()
 
@@ -214,7 +214,7 @@ public class ElloDrawable : NSObject {
         var bezier2Path = UIBezierPath()
         bezier2Path.moveToPoint(CGPointMake(10.5, 5))
         bezier2Path.addCurveToPoint(CGPointMake(6.02, 0.52), controlPoint1: CGPointMake(5.43, -0.07), controlPoint2: CGPointMake(6.02, 0.52))
-        stroke.setStroke()
+        color.setStroke()
         bezier2Path.lineWidth = 1
         bezier2Path.stroke()
 
@@ -223,7 +223,7 @@ public class ElloDrawable : NSObject {
         var bezier3Path = UIBezierPath()
         bezier3Path.moveToPoint(CGPointMake(10.5, 5))
         bezier3Path.addCurveToPoint(CGPointMake(6, 9.5), controlPoint1: CGPointMake(6, 9.5), controlPoint2: CGPointMake(6, 9.5))
-        stroke.setStroke()
+        color.setStroke()
         bezier3Path.lineWidth = 1
         bezier3Path.stroke()
     }
@@ -238,7 +238,7 @@ public class ElloDrawable : NSObject {
         UIRectClip(symbolRect)
         CGContextTranslateCTM(context, symbolRect.origin.x, symbolRect.origin.y)
 
-        ElloDrawable.drawSubmitIconTemplate(stroke: ElloDrawable.greyA)
+        ElloDrawable.drawSubmitIconTemplate(color: ElloDrawable.greyA)
         CGContextRestoreGState(context)
     }
 
@@ -252,11 +252,11 @@ public class ElloDrawable : NSObject {
         UIRectClip(symbolRect)
         CGContextTranslateCTM(context, symbolRect.origin.x, symbolRect.origin.y)
 
-        ElloDrawable.drawSubmitIconTemplate(stroke: ElloDrawable.white)
+        ElloDrawable.drawSubmitIconTemplate(color: ElloDrawable.white)
         CGContextRestoreGState(context)
     }
 
-    public class func drawUndoIconTemplate(#stroke: UIColor) {
+    public class func drawUndoIconTemplate(#color: UIColor) {
 
         //// Bezier Drawing
         var bezierPath = UIBezierPath()
@@ -265,7 +265,7 @@ public class ElloDrawable : NSObject {
         bezierPath.addCurveToPoint(CGPointMake(12.5, 7), controlPoint1: CGPointMake(9.5, 10.5), controlPoint2: CGPointMake(12.5, 10.5))
         bezierPath.addCurveToPoint(CGPointMake(9.5, 3.5), controlPoint1: CGPointMake(12.5, 3.5), controlPoint2: CGPointMake(9.5, 3.5))
         bezierPath.addLineToPoint(CGPointMake(0.5, 3.5))
-        stroke.setStroke()
+        color.setStroke()
         bezierPath.lineWidth = 1
         bezierPath.stroke()
 
@@ -274,7 +274,7 @@ public class ElloDrawable : NSObject {
         var bezier2Path = UIBezierPath()
         bezier2Path.moveToPoint(CGPointMake(3, 6))
         bezier2Path.addCurveToPoint(CGPointMake(0.5, 3.5), controlPoint1: CGPointMake(0.5, 3.5), controlPoint2: CGPointMake(0.5, 3.5))
-        stroke.setStroke()
+        color.setStroke()
         bezier2Path.lineWidth = 1
         bezier2Path.stroke()
 
@@ -283,7 +283,7 @@ public class ElloDrawable : NSObject {
         var bezier3Path = UIBezierPath()
         bezier3Path.moveToPoint(CGPointMake(0.5, 3.5))
         bezier3Path.addCurveToPoint(CGPointMake(3, 1), controlPoint1: CGPointMake(3, 1), controlPoint2: CGPointMake(3, 1))
-        stroke.setStroke()
+        color.setStroke()
         bezier3Path.lineWidth = 1
         bezier3Path.stroke()
     }
@@ -298,7 +298,7 @@ public class ElloDrawable : NSObject {
         UIRectClip(symbolRect)
         CGContextTranslateCTM(context, symbolRect.origin.x, symbolRect.origin.y)
 
-        ElloDrawable.drawUndoIconTemplate(stroke: ElloDrawable.greyA)
+        ElloDrawable.drawUndoIconTemplate(color: ElloDrawable.greyA)
         CGContextRestoreGState(context)
     }
 
@@ -312,17 +312,17 @@ public class ElloDrawable : NSObject {
         UIRectClip(symbolRect)
         CGContextTranslateCTM(context, symbolRect.origin.x, symbolRect.origin.y)
 
-        ElloDrawable.drawUndoIconTemplate(stroke: ElloDrawable.white)
+        ElloDrawable.drawUndoIconTemplate(color: ElloDrawable.white)
         CGContextRestoreGState(context)
     }
 
-    public class func drawTrashIconTemplate(#stroke: UIColor) {
+    public class func drawTrashIconTemplate(#color: UIColor) {
 
         //// Bezier Drawing
         var bezierPath = UIBezierPath()
         bezierPath.moveToPoint(CGPointMake(1, 6.5))
         bezierPath.addCurveToPoint(CGPointMake(19, 6.5), controlPoint1: CGPointMake(19, 6.5), controlPoint2: CGPointMake(19, 6.5))
-        stroke.setStroke()
+        color.setStroke()
         bezierPath.lineWidth = 2
         bezierPath.stroke()
 
@@ -333,7 +333,7 @@ public class ElloDrawable : NSObject {
         bezier3Path.addLineToPoint(CGPointMake(13.5, 2.5))
         bezier3Path.addLineToPoint(CGPointMake(6.5, 2.5))
         bezier3Path.addLineToPoint(CGPointMake(6.5, 6.5))
-        stroke.setStroke()
+        color.setStroke()
         bezier3Path.lineWidth = 2
         bezier3Path.stroke()
 
@@ -346,7 +346,7 @@ public class ElloDrawable : NSObject {
         bezier5Path.addLineToPoint(CGPointMake(3, 10.25))
         bezier5Path.addLineToPoint(CGPointMake(5, 20.5))
         bezier5Path.closePath()
-        stroke.setStroke()
+        color.setStroke()
         bezier5Path.lineWidth = 2
         bezier5Path.stroke()
     }
@@ -362,7 +362,7 @@ public class ElloDrawable : NSObject {
         CGContextTranslateCTM(context, symbolRect.origin.x, symbolRect.origin.y)
         CGContextScaleCTM(context, symbolRect.size.width / 20, symbolRect.size.height / 23)
 
-        ElloDrawable.drawTrashIconTemplate(stroke: ElloDrawable.greyA)
+        ElloDrawable.drawTrashIconTemplate(color: ElloDrawable.greyA)
         CGContextRestoreGState(context)
     }
 
@@ -377,7 +377,7 @@ public class ElloDrawable : NSObject {
         CGContextTranslateCTM(context, symbolRect.origin.x, symbolRect.origin.y)
         CGContextScaleCTM(context, symbolRect.size.width / 20, symbolRect.size.height / 23)
 
-        ElloDrawable.drawTrashIconTemplate(stroke: ElloDrawable.white)
+        ElloDrawable.drawTrashIconTemplate(color: ElloDrawable.white)
         CGContextRestoreGState(context)
     }
 
