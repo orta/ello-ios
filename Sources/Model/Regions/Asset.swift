@@ -9,11 +9,18 @@
 import Foundation
 import SwiftyJSON
 
-class Asset: JSONAble {
+let AssetVersion = 1
+
+final class Asset: JSONAble {
+
+    let version: Int = AssetVersion
+
     let assetId: String
     let hdpi: ImageAttachment?
     let xxhdpi: ImageAttachment?
 
+// MARK: Initialization
+    
     init(assetId: String,
         hdpi: ImageAttachment?,
         xxhdpi: ImageAttachment?) {
@@ -22,13 +29,33 @@ class Asset: JSONAble {
             self.xxhdpi = xxhdpi
     }
 
+// MARK: NSCoding
+
+    required init(coder decoder: NSCoder) {
+        self.assetId = decoder.decodeObjectForKey("assetId") as String
+        self.hdpi = decoder.decodeObjectForKey("hdpi") as? ImageAttachment
+        self.xxhdpi = decoder.decodeObjectForKey("xxhdpi") as? ImageAttachment
+    }
+
+    func encodeWithCoder(encoder: NSCoder) {
+
+        encoder.encodeObject(self.assetId, forKey: "assetId")
+
+        if let hdpi = self.hdpi {
+            encoder.encodeObject(hdpi, forKey: "hdpi")
+        }
+
+        if let xxhdpi = self.xxhdpi {
+            encoder.encodeObject(xxhdpi, forKey: "xxhdpi")
+        }
+    }
+    
+// MARK: JSONAble
+
     override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
         let json = JSON(data)
-
         let assetId = data["id"] as? String ?? ""
-
         let attachment = data["attachment"] as? [String:AnyObject]
-
         let hdpi = Asset.createImageAttachment("hdpi", attachment: attachment)
         let xxhdpi = Asset.createImageAttachment("xxhdpi", attachment: attachment)
 
@@ -38,6 +65,8 @@ class Asset: JSONAble {
             xxhdpi: xxhdpi
         )
     }
+
+// MARK: Private
 
     private class func createImageAttachment(sizeKey:String, attachment:[String: AnyObject]?) -> ImageAttachment? {
 

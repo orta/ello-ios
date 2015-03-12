@@ -8,14 +8,32 @@
 
 import Foundation
 
-class UnknownRegion: NSObject, Regionable {
+let UnknownRegionVersion = 1
 
-    var kind:RegionKind {
-        get { return RegionKind.Unknown }
+final class UnknownRegion: NSObject, Regionable, NSCoding {
+
+    let version: Int = UnknownRegionVersion
+
+    var kind:String { return RegionKind.Unknown.rawValue }
+
+    func coding() -> NSCoding {
+        return self
+    }
+
+    // no-op initializer to allow stubbing
+    init(name: String) {}
+
+
+// MARK: NSCoding
+
+    func encodeWithCoder(encoder: NSCoder) {
+    }
+
+    required init(coder decoder: NSCoder) {
+
     }
 
     func toJSON() -> [String: AnyObject] {
         return [:]
     }
-
 }

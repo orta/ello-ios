@@ -21,7 +21,7 @@ struct RegionParser {
                 case .Image:
                     return ImageRegion.fromJSON(contentDict) as ImageRegion
                 case .Unknown:
-                    return UnknownRegion()
+                    return UnknownRegion(name: "Unknown")
                 }
             }
         }
