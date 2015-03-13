@@ -4,4 +4,5 @@
 #import "JTSImageInfo.h"
 #import "UITabBarController+NBUAdditions.h"
 #import "KINWebBrowserViewController.h"
+#import <SSPullToRefresh/SSPullToRefresh.h>
 //#import <Pods/ElloKeys.h>
