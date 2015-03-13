@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SVGKit
 
 class RelationshipView: UIView {
     var userId: String
@@ -105,6 +106,7 @@ class RelationshipView: UIView {
         blockButton = UIButton()
         styleIconButton(blockButton!)
         blockButton!.frame = CGRect(x: wv * 2 - 2, y: 0, width: 30, height: 30)
+        blockButton!.setImage(SVGKImage(named: "xcirc.svg").UIImage!, forState: UIControlState.Normal)
     }
 
     private func buildSmallButtons() {
