@@ -3,4 +3,4 @@
 #import "JTSImageViewController.h"
 #import "JTSImageInfo.h"
 #import "UITabBarController+NBUAdditions.h"
-#import <SSPullToRefresh/SSPullToRefresh.h>s
+#import <SSPullToRefresh/SSPullToRefresh.h>
