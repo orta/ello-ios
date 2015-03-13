@@ -134,7 +134,6 @@ class StreamHeaderCell: UICollectionViewCell {
         maxUsernameWidth = timestampX - usernameX
         let usernameWidth = max(minimumUsernameWidth, min(usernameTextView.frame.width, maxUsernameWidth))
 
-        println(usernameWidth)
         usernameTextView.frame = CGRectMake(usernameX, 0, usernameWidth, innerContentView.frame.height)
 
         var topoffset = (usernameTextView.frame.height - originalUsernameFrame.height) / 2.0
