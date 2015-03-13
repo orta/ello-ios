@@ -18,6 +18,7 @@ pod 'Alamofire', :git => "https://github.com/Alamofire/Alamofire.git"
 pod 'LlamaKit', :git => "https://github.com/AshFurrow/LlamaKit", :branch => "rac_podspec"
 pod 'Moya', :git => "https://github.com/ello/Moya"
 pod 'WebLinking', '~> 0.1'
+pod 'SVGKit', '~> 1.2'
 
 target 'Specs' do
     pod 'Quick', '~> 0.2.2'
