@@ -8,7 +8,7 @@
 
 import Quick
 import Nimble
-
+import SSPullToRefresh
 
 class StreamViewControllerSpec: QuickSpec {
     override func spec() {
@@ -154,7 +154,30 @@ class StreamViewControllerSpec: QuickSpec {
                     xit("shows a post detail if type .Post") {
                         // not yet implemented
                     }
+                    
+                }
+            }
 
+            context("SSPullToRefreshViewDelegate") {
+
+                it("is a SSPullToRefreshViewDelegate") {
+                    expect(controller as SSPullToRefreshViewDelegate).notTo(beNil())
+                }
+
+                describe("-pullToRefreshViewShouldStartLoading:") {
+
+                    it("returns true") {
+                        let shouldStartLoading = controller.pullToRefreshViewShouldStartLoading(controller.pullToRefreshView)
+
+                        expect(shouldStartLoading).to(beTrue())
+                    }
+                }
+
+                describe("-pullToRefreshViewDidStartLoading:") {
+
+                    //TODO: verify data
+                    xit("reloads the collectionview") {
+                    }
                 }
             }
 
