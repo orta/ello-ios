@@ -63,7 +63,7 @@ struct AddFriendsCellPresenter {
         cell.relationshipView?.buildSmallButtons()
         cell.relationshipView?.userId = user?.userId ?? ""
         cell.relationshipView?.userAtName = user?.atName ?? ""
-        cell.relationshipView?.relationship = Relationship(rawValue: user?.relationshipPriority ?? "null")!
+        cell.relationshipView?.relationship = user?.relationshipPriority ?? .Null
         cell.relationshipView?.hidden = user?.isCurrentUser ?? false
     }
 }

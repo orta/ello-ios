@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Keys
 
 // static variables, to store HTML entities
 private var entityReverseLookup : [Character : String]!

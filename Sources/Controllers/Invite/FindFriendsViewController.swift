@@ -10,8 +10,8 @@ import UIKit
 
 class FindFriendsViewController: BaseElloViewController {
 
-    @IBOutlet weak var tableView: UITableView!
-    var dataSource: AddFriendsDataSource!
+    @IBOutlet weak var tableView: UITableView?
+    let dataSource = AddFriendsDataSource()
     let inviteService = InviteService()
     var relationshipController: RelationshipController?
 
@@ -26,28 +26,27 @@ class FindFriendsViewController: BaseElloViewController {
 
     func setUsers(users: [User]) {
         dataSource.items = users.map { AddFriendsCellItem(user: $0) }
-        dispatch_async(dispatch_get_main_queue()) { self.tableView.reloadData() }
+        dispatch_async(dispatch_get_main_queue()) { _ = self.tableView?.reloadData() }
     }
 
     // MARK: - Private
 
     private func setupTableView() {
         registerCells()
-        dataSource = AddFriendsDataSource()
 
         relationshipController = RelationshipController(presentingController: self)
         dataSource.relationshipDelegate = relationshipController
 
-        tableView.dataSource = dataSource
-        tableView.delegate = self
+        tableView?.dataSource = dataSource
+        tableView?.delegate = self
     }
 
     private func registerCells() {
         let findCellNib = UINib(nibName: AddFriendsCellItem.CellType.Find.identifier, bundle: NSBundle(forClass: FindFriendsCell.self))
-        tableView.registerNib(findCellNib, forCellReuseIdentifier: AddFriendsCellItem.CellType.Find.identifier)
+        tableView?.registerNib(findCellNib, forCellReuseIdentifier: AddFriendsCellItem.CellType.Find.identifier)
 
         let inviteCellNib = UINib(nibName: AddFriendsCellItem.CellType.Invite.identifier, bundle: NSBundle(forClass: InviteFriendsCell.self))
-        tableView.registerNib(inviteCellNib, forCellReuseIdentifier: AddFriendsCellItem.CellType.Invite.identifier)
+        tableView?.registerNib(inviteCellNib, forCellReuseIdentifier: AddFriendsCellItem.CellType.Invite.identifier)
     }
 }
 

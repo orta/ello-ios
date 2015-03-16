@@ -27,10 +27,10 @@ struct InviteService {
     }
 
     func find(contacts:[String: AnyObject], success: FindFriendsSuccessCompletion, failure: ElloFailureCompletion?) {
-        let endpoint = ElloAPI.FindFriends(contacts: contacts)
+        let endpoint = ElloAPI.FindFriends
         ElloProvider.sharedProvider.elloRequest(endpoint,
             method: .POST,
-            parameters: endpoint.defaultParameters,
+            parameters: contacts,
             mappingType: MappingType.UsersType,
             success: { (data, responseConfig) -> () in
                 if let data = data as? [User] {

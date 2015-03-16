@@ -55,8 +55,8 @@ class AddFriendsContainerViewController: StreamableViewController {
         pageViewController.delegate = self
         pageViewController.view.frame = pageView.bounds
 
-        let findController = FindFriendsViewController()
-        let inviteController = InviteFriendsViewController()
+        let findController = self.findFriendsViewController
+        let inviteController = self.inviteFriendsViewController
 
         pageViewController.setViewControllers([findController],
             direction: .Forward,
@@ -88,11 +88,13 @@ class AddFriendsContainerViewController: StreamableViewController {
     }
 
     private func findFriendsFromContacts() {
-        let hashedEmails = addressBook.localPeople.map { [$0.identifier: $0.emailHashes] }
+        let hashedEmails: [String: [String]] = addressBook.localPeople.reduce([:]) { (var accum, person) in
+            accum[person.identifier] = person.emailHashes
+            return accum
+        }
 
         ElloHUD.showLoadingHud()
         InviteService().find(["contacts": hashedEmails], success: { users in
-            println(users)
             self.findFriendsViewController.setUsers(users)
 
             let matched = users.map { $0.identifiableBy ?? "" }

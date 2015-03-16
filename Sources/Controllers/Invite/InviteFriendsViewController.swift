@@ -10,10 +10,10 @@ import UIKit
 
 class InviteFriendsViewController: BaseElloViewController {
 
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var filterField: UITextField!
+    @IBOutlet weak var tableView: UITableView?
+    @IBOutlet weak var filterField: UITextField?
 
-    var dataSource:AddFriendsDataSource!
+    let dataSource = AddFriendsDataSource()
     let inviteService = InviteService()
     var relationshipController: RelationshipController?
     var allContacts: [(LocalPerson, User?)] = []
@@ -31,7 +31,7 @@ class InviteFriendsViewController: BaseElloViewController {
     func setContacts(contacts: [(LocalPerson, User?)]) {
         allContacts = contacts
         setDataSource(allContacts)
-        dispatch_async(dispatch_get_main_queue()) { self.tableView.reloadData() }
+        dispatch_async(dispatch_get_main_queue()) { _ = self.tableView?.reloadData() }
     }
 
     private func setDataSource(contacts: [(LocalPerson, User?)]) {
@@ -40,26 +40,25 @@ class InviteFriendsViewController: BaseElloViewController {
 
     private func setupTableView() {
         registerCells()
-        dataSource = AddFriendsDataSource()
 
         relationshipController = RelationshipController(presentingController: self)
         dataSource.relationshipDelegate = relationshipController
 
-        tableView.dataSource = dataSource
-        tableView.delegate = self
+        tableView?.dataSource = dataSource
+        tableView?.delegate = self
     }
 
     private func setupFilterField() {
-        filterField.font = UIFont.regularBoldFont(18)
-        filterField.textColor = UIColor.greyA()
+        filterField?.font = UIFont.regularBoldFont(18)
+        filterField?.textColor = UIColor.greyA()
     }
 
     private func registerCells() {
         let findCellNib = UINib(nibName: AddFriendsCellItem.CellType.Find.identifier, bundle: NSBundle(forClass: FindFriendsCell.self))
-        tableView.registerNib(findCellNib, forCellReuseIdentifier: AddFriendsCellItem.CellType.Find.identifier)
+        tableView?.registerNib(findCellNib, forCellReuseIdentifier: AddFriendsCellItem.CellType.Find.identifier)
 
         let inviteCellNib = UINib(nibName: AddFriendsCellItem.CellType.Invite.identifier, bundle: NSBundle(forClass: InviteFriendsCell.self))
-        tableView.registerNib(inviteCellNib, forCellReuseIdentifier: AddFriendsCellItem.CellType.Invite.identifier)
+        tableView?.registerNib(inviteCellNib, forCellReuseIdentifier: AddFriendsCellItem.CellType.Invite.identifier)
     }
 
     @IBAction func filterFieldDidChange(sender: UITextField) {
@@ -71,7 +70,7 @@ class InviteFriendsViewController: BaseElloViewController {
             }
             setDataSource(filtered)
         }
-        tableView.reloadData()
+        tableView?.reloadData()
     }
 }
 
