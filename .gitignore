@@ -30,5 +30,5 @@ test-reports/*
 .env
 
 # cocoapods ignores
-Pods/Keys
+Pods/*
 
