@@ -11,6 +11,7 @@ use_frameworks!
 
 pod 'SDWebImage', '~> 3.7'
 pod 'SSPullToRefresh', '~> 1.2'
+pod 'SVGKit', '= 1.2'
 
 # swift pods
 pod 'SwiftyJSON', :git => "https://github.com/orta/SwiftyJSON", :branch => "podspec"
@@ -23,3 +24,4 @@ target 'Specs' do
     pod 'Quick', '~> 0.2.2'
     pod 'Nimble', '~> 0.3.0'
 end
+
