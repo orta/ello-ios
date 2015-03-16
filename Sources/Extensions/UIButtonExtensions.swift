@@ -16,3 +16,4 @@ extension UIButton {
         self.setImage(SVGKImage(named: "\(named)_selected.svg").UIImage!, forState: UIControlState.Selected)
     }
 }
+
