@@ -11,7 +11,10 @@ import Foundation
 class DrawerViewController: BaseElloViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     @IBOutlet weak var collectionView: UICollectionView!
 
-    required override init() {
+    let dataSource: DrawerViewDataSource
+
+    required init(relationship: Relationship) {
+        dataSource = DrawerViewDataSource(relationship: relationship)
         super.init(nibName: "DrawerViewController", bundle: .None)
     }
 
@@ -20,15 +23,22 @@ class DrawerViewController: BaseElloViewController, UICollectionViewDataSource, 
         collectionView.registerNib(AvatarCell.nib(), forCellWithReuseIdentifier: AvatarCell.reuseIdentifier())
     }
 
+    override func viewWillAppear(animated: Bool) {
+        dataSource.refreshUsers {
+           self.collectionView.reloadData()
+        }
+    }
+
     // MARK: UICollectionViewDataSource
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return dataSource.numberOfUsers
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(AvatarCell.reuseIdentifier(), forIndexPath: indexPath) as AvatarCell
-        cell.setAvatar(NSURL(string: "http://www.businessinsider.com/image/4f3433986bb3f7b67a00003c/cute-cat.jpg"))
+        let user = dataSource.userForIndexPath(indexPath)
+        AvatarCellPresenter.configure(cell, user: user)
         return cell
     }
 

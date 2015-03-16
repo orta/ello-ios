@@ -127,7 +127,7 @@ class StreamContainerViewController: StreamableViewController {
     // MARK: - IBActions
 
     @IBAction func hamburgerButtonTapped(sender: UIBarButtonItem) {
-        let drawer = DrawerViewController()
+        let drawer = DrawerViewController(relationship: .Friend)
         self.navigationController?.pushViewController(drawer, animated: true)
     }
 
