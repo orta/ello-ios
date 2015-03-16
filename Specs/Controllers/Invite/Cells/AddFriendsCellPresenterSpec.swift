@@ -11,7 +11,7 @@ class AddFriendsCellPresenterSpec: QuickSpec {
                     var cell: FindFriendsCell = FindFriendsCell.loadFromNib()
                     var item: AddFriendsCellItem = AddFriendsCellItem(user: user)
 
-                    AddFriendsCellPresenter.configure(cell, addFriendsCellItem: item, relationshipDelegate: .None, inviteCache:InviteCache())
+                    AddFriendsCellPresenter.configure(cell, addFriendsCellItem: item, relationshipDelegate: .None, inviteCache: InviteCache())
 
                     expect(cell.nameLabel?.text) == item.user?.atName
                 }

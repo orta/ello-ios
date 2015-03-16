@@ -13,31 +13,28 @@ class ObjectCacheSpec: QuickSpec {
     override func spec() {
         describe("init") {
             it("sets the name of the cache") {
-                var layer = FakePersistentLayer()
-                layer.object = ["something", "else"]
                 var cache = ObjectCache<NSString>(name: "test")
                 expect(cache.name) == "test"
             }
 
             it("sets NSUserDefaults as the default persistent layer") {
                 var cache = ObjectCache<NSString>(name: "test")
-                expect(cache.persistentLayer as? NSUserDefaults).to(beAKindOf(NSUserDefaults))
+                cache.append("hello")
+                expect(NSUserDefaults.standardUserDefaults().objectForKey("test") as? [String]) == ["hello"]
             }
         }
 
         describe("append") {
             it("appends a value to the cache") {
                 var layer = FakePersistentLayer()
-                var cache = ObjectCache<NSString>(name: "test")
-                cache.persistentLayer = layer
+                var cache = ObjectCache<NSString>(name: "test", persistentLayer: layer)
                 cache.append("something")
                 expect(cache.cache.first) == "something"
             }
 
             it("persists the value to the persistent layer") {
                 var layer = FakePersistentLayer()
-                var cache = ObjectCache<NSString>(name: "test")
-                cache.persistentLayer = layer
+                var cache = ObjectCache<NSString>(name: "test", persistentLayer: layer)
                 cache.append("something")
                 expect(layer.object?.first) == "something"
             }
@@ -55,8 +52,7 @@ class ObjectCacheSpec: QuickSpec {
             it("loads the cache from the persistent layer") {
                 var layer = FakePersistentLayer()
                 layer.object = ["something", "else"]
-                var cache = ObjectCache<NSString>(name: "test")
-                cache.persistentLayer = layer
+                var cache = ObjectCache<NSString>(name: "test", persistentLayer: layer)
                 cache.load()
                 expect(cache.cache) == layer.object
             }

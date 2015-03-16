@@ -77,7 +77,12 @@ class AddFriendsDataSource: NSObject, UITableViewDataSource {
             AddFriendsCellPresenter.configure(cell, addFriendsCellItem: item, relationshipDelegate: relationshipDelegate, inviteCache: inviteCache)
 
             if let cell = cell as? InviteFriendsCell {
-                item.person.map { cell.delegate = InviteController(person: $0) { tableView.reloadData() } }
+                item.person.map { person in
+                    cell.delegate = InviteController(person: person) {
+                        self.inviteCache.saveInvite(person.identifier)
+                        tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                    }
+                }
             }
             return cell
         }

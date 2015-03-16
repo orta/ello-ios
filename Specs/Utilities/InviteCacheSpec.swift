@@ -13,33 +13,28 @@ class InviteCacheSpec: QuickSpec {
     override func spec() {
         describe("saveInvite") {
             it("saves the contact id to the cache") {
-                let inviteCache = InviteCache()
                 let layer = FakePersistentLayer()
-                inviteCache.cache.persistentLayer = layer
+                var inviteCache = InviteCache(persistentLayer: layer)
                 inviteCache.saveInvite("contact id")
-                expect(layer.object?.first) == "contact id"
+                expect(layer.object?.last) == "contact id"
             }
         }
 
         describe("has") {
             context("contact has been saved") {
                 it("returns true") {
-                    let inviteCache = InviteCache()
                     let layer = FakePersistentLayer()
                     layer.object = ["something", "else"]
-                    inviteCache.cache.persistentLayer = layer
-                    inviteCache.cache.load()
+                    let inviteCache = InviteCache(persistentLayer: layer)
                     expect(inviteCache.has("else")).to(beTrue())
                 }
             }
 
             context("contact has not been saved") {
                 it("returns false") {
-                    let inviteCache = InviteCache()
                     let layer = FakePersistentLayer()
                     layer.object = ["something", "else"]
-                    inviteCache.cache.persistentLayer = layer
-                    inviteCache.cache.load()
+                    let inviteCache = InviteCache(persistentLayer: layer)
                     expect(inviteCache.has("something else")).to(beFalse())
                 }
             }

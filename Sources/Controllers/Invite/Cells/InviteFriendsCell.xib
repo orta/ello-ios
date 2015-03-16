@@ -19,9 +19,7 @@
                             <constraint firstAttribute="height" constant="30" id="rGv-Zh-dSk"/>
                             <constraint firstAttribute="width" constant="60" id="su7-B0-ga3"/>
                         </constraints>
-                        <state key="normal" title="Invite">
-                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                        </state>
+                        <state key="normal" title="Invite"/>
                         <connections>
                             <action selector="invite" destination="TaQ-yK-3CX" eventType="touchUpInside" id="Dqw-yL-Uts"/>
                         </connections>

@@ -9,9 +9,15 @@
 import Foundation
 
 struct InviteCache {
-    var cache = ObjectCache<NSString>(name: "ElloInviteCache")
+    var cache: ObjectCache<NSString>
 
     init() {
+        cache = ObjectCache<NSString>(name: "ElloInviteCache")
+        cache.load()
+    }
+
+    init(persistentLayer: PersistentLayer) {
+        cache = ObjectCache<NSString>(name: "ElloInviteCache", persistentLayer: persistentLayer)
         cache.load()
     }
 
@@ -21,7 +27,6 @@ struct InviteCache {
     }
 
     func has(contactID: String) -> Bool {
-        println(cache.getAll())
         return contains(cache.getAll(), contactID)
     }
 }

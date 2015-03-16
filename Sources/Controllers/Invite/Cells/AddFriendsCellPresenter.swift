@@ -37,20 +37,25 @@ struct AddFriendsCellPresenter {
     {
         if let cell = cell as? InviteFriendsCell {
             cell.nameLabel?.text = addFriendsCellItem.person?.name
-
-            cell.selected = addFriendsCellItem.person.map { inviteCache.has($0.identifier) ?? false } ?? false
-            if cell.selected {
-                cell.inviteButton?.titleLabel?.textColor = UIColor.whiteColor()
-                cell.inviteButton?.backgroundColor = UIColor.greyA()
-            } else {
-                cell.inviteButton?.titleLabel?.textColor = UIColor.greyA()
-                cell.inviteButton?.backgroundColor = UIColor.whiteColor()
-            }
+            let hasInvited = addFriendsCellItem.person.map { inviteCache.has($0.identifier) } ?? false
+            hasInvited ? configureCellAfterInvited(cell) : configureCellBeforeInvited(cell)
         } else if let cell = cell as? FindFriendsCell {
             cell.nameLabel?.text = addFriendsCellItem.person?.name
             let user = addFriendsCellItem.user
             configureCellWithUser(cell, relationshipDelegate: relationshipDelegate, user: user)
         }
+    }
+
+    private static func configureCellAfterInvited(cell: InviteFriendsCell) {
+        cell.inviteButton?.backgroundColor = UIColor.greyA()
+        cell.inviteButton?.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        cell.inviteButton?.setTitle("Resend", forState: .Normal)
+    }
+
+    private static func configureCellBeforeInvited(cell: InviteFriendsCell) {
+        cell.inviteButton?.backgroundColor = UIColor.whiteColor()
+        cell.inviteButton?.setTitleColor(UIColor.greyA(), forState: .Normal)
+        cell.inviteButton?.setTitle("Invite", forState: .Normal)
     }
 
     private static func configureCellWithUser(

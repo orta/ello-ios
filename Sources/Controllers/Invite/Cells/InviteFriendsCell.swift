@@ -14,14 +14,13 @@ class InviteFriendsCell: UITableViewCell {
 
     var delegate: InviteDelegate?
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
+    override func awakeFromNib() {
+        super.awakeFromNib()
 
         nameLabel?.font = UIFont.typewriterFont(14)
         nameLabel?.textColor = UIColor.greyA()
 
         inviteButton?.titleLabel?.font = UIFont.typewriterFont(14)
-        inviteButton?.titleLabel?.textColor = UIColor.greyA()
         inviteButton?.layer.borderColor = UIColor.greyA().CGColor
         inviteButton?.layer.borderWidth = 1.0
     }

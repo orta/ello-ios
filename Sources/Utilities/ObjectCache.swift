@@ -16,12 +16,18 @@ protocol PersistentLayer {
 extension NSUserDefaults: PersistentLayer { }
 
 class ObjectCache<T: AnyObject> {
-    var persistentLayer: PersistentLayer = NSUserDefaults.standardUserDefaults()
+    private let persistentLayer: PersistentLayer
     var cache: [T] = []
     let name: String
 
     init(name: String) {
         self.name = name
+        persistentLayer = NSUserDefaults.standardUserDefaults()
+    }
+
+    init(name: String, persistentLayer: PersistentLayer) {
+        self.name = name
+        self.persistentLayer = persistentLayer
     }
 
     func append(item: T) {

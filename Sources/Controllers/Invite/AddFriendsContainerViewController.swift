@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Moya
 
 class AddFriendsContainerViewController: StreamableViewController {
 
@@ -55,13 +54,10 @@ class AddFriendsContainerViewController: StreamableViewController {
         pageViewController.delegate = self
         pageViewController.view.frame = pageView.bounds
 
-        let findController = self.findFriendsViewController
-        let inviteController = self.inviteFriendsViewController
-
-        pageViewController.setViewControllers([findController],
+        pageViewController.setViewControllers([self.findFriendsViewController],
             direction: .Forward,
-            animated: true) { finished in
-        }
+            animated: true,
+            completion: .None)
 
         pageViewController.willMoveToParentViewController(self)
         addChildViewController(pageViewController)

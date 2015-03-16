@@ -19,7 +19,7 @@ class InviteServiceSpec: QuickSpec {
             it("succeeds") {
                 ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.endpointsClosure, stubResponses: true)
                 var loadedSuccessfully = false
-                subject.invite(["1", "2", "3"], success: {
+                subject.invite("test@nowhere.test", success: {
                     loadedSuccessfully = true
                 }, failure: nil)
 
@@ -29,7 +29,7 @@ class InviteServiceSpec: QuickSpec {
             it("fails") {
                 ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.errorEndpointsClosure, stubResponses: true)
                 var loadedSuccessfully = true
-                subject.invite(["1", "2", "3"], success: {
+                subject.invite("test@nowhere.test", success: {
                     loadedSuccessfully = true
                 }, failure: { (error, statusCode) -> () in
                     loadedSuccessfully = false

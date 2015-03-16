@@ -67,6 +67,8 @@ struct ElloProvider {
             endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponse: .Lazy({ return .Success(200, target.sampleData, target.sampleResponse) }), method: method, parameters: parameters, parameterEncoding: .JSON)
         case .FindFriends:
             endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponse: .Lazy({ return .Success(200, target.sampleData, target.sampleResponse) }), method: method, parameters: parameters, parameterEncoding: .JSON)
+        case .InviteFriends:
+            endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponse: .Lazy({ return .Success(200, target.sampleData, target.sampleResponse) }), method: method, parameters: parameters, parameterEncoding: .JSON)
         default:
             endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponse: .Lazy({ return .Success(200, target.sampleData, target.sampleResponse) }), method: method, parameters: parameters)
         }

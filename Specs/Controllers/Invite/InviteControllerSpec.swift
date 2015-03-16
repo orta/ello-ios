@@ -28,7 +28,7 @@ class InviteControllerSpec: QuickSpec {
                 }
                 controller.sendInvite()
 
-                expect(didUpdate).toEventually(beTrue())
+                expect(didUpdate).to(beTrue())
             }
         }
     }

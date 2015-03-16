@@ -19,7 +19,7 @@ struct InviteController: InviteDelegate {
     func sendInvite() {
         if let email = person.emails.first {
             ElloHUD.showLoadingHud()
-            InviteService().invite([email], success: {
+            InviteService().invite(email, success: {
                 ElloHUD.hideLoadingHud()
                 self.didUpdate()
             }, failure: { _ in
