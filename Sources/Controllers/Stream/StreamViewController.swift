@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-
+import SSPullToRefresh
 
 protocol WebLinkDelegate: NSObjectProtocol {
     func webLinkTapped(type: ElloURI, data: String)
@@ -51,6 +51,7 @@ class StreamViewController: BaseElloViewController {
     var userListController: UserListController?
     var responseConfig: ResponseConfig?
     let streamService = StreamService()
+    var pullToRefreshView: SSPullToRefreshView?
 
     var streamKind:StreamKind = StreamKind.Friend {
         didSet {
@@ -95,18 +96,9 @@ class StreamViewController: BaseElloViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        pullToRefreshView = SSPullToRefreshView(scrollView:collectionView, delegate: self)
+        pullToRefreshView?.contentView = ElloPullToRefreshView(frame:CGRectZero)
         setupCollectionView()
-        setupPulsingCircle()
-    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-        if let pulsingCircle = self.pulsingCircle {
-            let (width, height) = (self.view.frame.size.width, self.view.frame.size.height)
-            let center = CGPoint(x: width / 2, y: height / 2)
-            pulsingCircle.center = center
-        }
     }
 
     class func instantiateFromStoryboard() -> StreamViewController {
@@ -116,12 +108,7 @@ class StreamViewController: BaseElloViewController {
 // MARK: Public Functions
 
     func doneLoading() {
-        if let circle = pulsingCircle {
-            circle.stopPulse() { finished in
-                circle.removeFromSuperview()
-            }
-            pulsingCircle = nil
-        }
+        pullToRefreshView?.finishLoading()
     }
 
     func imageCellHeightUpdated(cell:StreamImageCell) {
@@ -142,6 +129,7 @@ class StreamViewController: BaseElloViewController {
     }
 
     func loadInitialPage() {
+        self.pullToRefreshView?.startLoading()
         streamService.loadStream(streamKind.endpoint,
             success: { (jsonables, responseConfig) in
                 self.addUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind))
@@ -155,12 +143,6 @@ class StreamViewController: BaseElloViewController {
     }
 
 // MARK: Private Functions
-
-    private func setupPulsingCircle() {
-        pulsingCircle = PulsingCircle.fill(self.view)
-        view.addSubview(pulsingCircle!)
-        pulsingCircle!.pulse()
-    }
 
     private func addNotificationObservers() {
         updatedStreamImageCellHeightNotification = NotificationObserver(notification: updateStreamImageCellHeightNotification) { streamTextCell in
@@ -352,5 +334,26 @@ extension StreamViewController : UIScrollViewDelegate {
                 })
             }
         }
+    }
+}
+
+extension StreamViewController: SSPullToRefreshViewDelegate {
+    func pullToRefreshViewShouldStartLoading(view: SSPullToRefreshView!) -> Bool {
+        return true
+    }
+
+    func pullToRefreshViewDidStartLoading(view: SSPullToRefreshView!) {
+        self.streamService.loadStream(streamKind.endpoint,
+            success: { (jsonables, responseConfig) in
+                self.dataSource.streamCellItems.removeAll(keepCapacity: false)
+                self.collectionView.reloadData()
+                self.addUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind))
+                self.responseConfig = responseConfig
+                view.finishLoading()
+            }, failure: { (error, statusCode) in
+                println("failed to load \(self.streamKind.name) stream (reason: \(error))")
+                view.finishLoading()
+            }
+        )
     }
 }

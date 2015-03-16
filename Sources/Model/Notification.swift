@@ -18,8 +18,12 @@ enum NotificationFilterType: String {
     case Relationship = "NotificationFilterTypeRelationship"
 }
 
+let NotificationVersion = 1
 
-class Notification : JSONAble, Authorable {
+final class Notification : JSONAble, Authorable, NSCoding {
+
+    let version: Int = NotificationVersion
+
     typealias Kind = Activity.Kind
     typealias SubjectType = Activity.SubjectType
 
@@ -43,6 +47,8 @@ class Notification : JSONAble, Authorable {
         attributedTitleStore = NotificationAttributedTitle.attributedTitle(kind, author: author, subject: subject)
         return attributedTitleStore!
     }
+
+// MARK: Initialization
 
     convenience init(activity: Activity) {
         var author : User? = nil
@@ -76,9 +82,35 @@ class Notification : JSONAble, Authorable {
         super.init()
     }
 
+// MARK: NSCoding
+
+    required init(coder decoder: NSCoder) {
+        self.author = decoder.decodeObjectForKey("author") as? User
+        self.createdAt = decoder.decodeObjectForKey("createdAt") as NSDate
+        let kindString = decoder.decodeObjectForKey("kind") as String
+        self.kind = Kind(rawValue: kindString) ?? Kind.Unknown
+        self.notificationId = decoder.decodeObjectForKey("notificationId") as String
+        let subjectTypeString = decoder.decodeObjectForKey("subjectType") as String
+        self.subjectType = SubjectType(rawValue: subjectTypeString) ?? SubjectType.Unknown
+    }
+
+    func encodeWithCoder(encoder: NSCoder) {
+        if let author = self.author {
+            encoder.encodeObject(author, forKey: "author")
+        }
+        encoder.encodeObject(self.createdAt, forKey: "createdAt")
+        encoder.encodeObject(self.kind.rawValue, forKey: "kind")
+        encoder.encodeObject(self.notificationId, forKey: "notificationId")
+        encoder.encodeObject(self.subjectType.rawValue, forKey: "subjectType")
+    }
+
+// MARK: Public
+
     func hasImage() -> Bool {
         return self.imageRegion != nil
     }
+
+// MARK: Private
 
     private func assignRegionsFromContent(content : [Regionable]) {
         // assign textRegion and imageRegion from the post content - finds
@@ -99,5 +131,4 @@ class Notification : JSONAble, Authorable {
             }
         }
     }
-
 }

@@ -28,7 +28,7 @@ class ActivitySpec: QuickSpec {
             expect(post.createdAt) == postCreatedAt
 
             let postContent0:TextRegion = post.content![0] as TextRegion
-            expect(postContent0.kind) == RegionKind.Text
+            expect(postContent0.kind) == RegionKind.Text.rawValue
             expect(postContent0.content) == "yo mang"
             
             expect(post.token) == "KVNldSWCvfPkjsbWcvB4mA"
@@ -57,6 +57,62 @@ class ActivitySpec: QuickSpec {
             expect(imageRegion.asset!.hdpi!.size) == 77464
             expect(imageRegion.asset!.hdpi!.imageType) == "image/jpeg"
 
+        }
+
+        context("NSCoding") {
+
+            var filePath = ""
+
+            beforeEach {
+                filePath = NSFileManager.ElloDocumentsDir().stringByAppendingPathComponent("ActivitySpec")
+            }
+
+            afterEach {
+                var error:NSError?
+                NSFileManager.defaultManager().removeItemAtPath(filePath, error: &error)
+            }
+
+            context("encoding") {
+
+                it("encodes successfully") {
+                    let post: Post = stub(["postId" : "768"])
+                    let activity: Activity = stub(["subject" : post, "activityId" : "456"])
+
+                    let wasSuccessfulArchived = NSKeyedArchiver.archiveRootObject(activity, toFile: filePath)
+
+                    expect(wasSuccessfulArchived).to(beTrue())
+                }
+            }
+
+            context("decoding") {
+
+                it("decodes successfully") {
+                    let expectedCreatedAt = NSDate()
+                    let post: Post = stub(["postId" : "768"])
+                    let activity: Activity = stub([
+                        "subject" : post,
+                        "activityId" : "456",
+                        "kind" : "noise_post",
+                        "subjectType" : "Post",
+                        "createdAt" : expectedCreatedAt
+                    ])
+
+                    NSKeyedArchiver.archiveRootObject(activity, toFile: filePath)
+                    let unArchivedActivity = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as Activity
+
+                    expect(unArchivedActivity).toNot(beNil())
+                    expect(unArchivedActivity.version) == 1
+
+                    expect(unArchivedActivity.activityId) == "456"
+                    expect(unArchivedActivity.kind.rawValue) == Activity.Kind.NoisePost.rawValue
+                    expect(unArchivedActivity.subjectType.rawValue) == Activity.SubjectType.Post.rawValue
+                    expect(unArchivedActivity.createdAt) == expectedCreatedAt
+
+                    let unArchivedPost = unArchivedActivity.subject as Post
+                    expect(unArchivedPost).to(beAKindOf(Post.self))
+                    expect(unArchivedPost.postId) == "768"
+                }
+            }
         }
     }
 }

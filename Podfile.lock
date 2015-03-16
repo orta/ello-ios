@@ -11,6 +11,7 @@ PODS:
   - SDWebImage (3.7.1):
     - SDWebImage/Core (= 3.7.1)
   - SDWebImage/Core (3.7.1)
+  - SSPullToRefresh (1.2.3)
   - SwiftyJSON (2.1.1)
   - WebLinking (0.1.0)
 
@@ -22,6 +23,7 @@ DEPENDENCIES:
   - Nimble (~> 0.3.0)
   - Quick (~> 0.2.2)
   - SDWebImage (~> 3.7)
+  - SSPullToRefresh (~> 1.2)
   - SwiftyJSON (from `https://github.com/orta/SwiftyJSON`, branch `podspec`)
   - WebLinking (~> 0.1)
 
@@ -41,7 +43,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   Alamofire:
-    :commit: 3b3d4db0afc112227941976aee723a5923fd8d90
+    :commit: c6a1190651f408c9b5f08664c49b9fca1fcc41ef
     :git: https://github.com/Alamofire/Alamofire.git
   Keys:
     :commit: 6ac34c01bbb02fa5069187081135b6c108657018
@@ -64,6 +66,7 @@ SPEC CHECKSUMS:
   Nimble: a4d9d978129e83d73e33b7d8bce57443bd556068
   Quick: 7b89ff625e72ef931c2a9ef2f25ac3a9d2457763
   SDWebImage: 116e88633b5b416ea0ca4b334a4ac59cf72dd38d
+  SSPullToRefresh: 2f7f33b16ceeaee43afc7c6d97462fa17bd36a25
   SwiftyJSON: 626bbe0ede796bf69e849b7aa7473778b03fe44c
   WebLinking: 68a11e861fa4826c7791e44b91040cb0794c9ea5
 

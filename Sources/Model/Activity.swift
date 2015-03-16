@@ -8,8 +8,9 @@
 
 import SwiftyJSON
 
+let ActivityVersion = 1
 
-class Activity: JSONAble {
+final class Activity: JSONAble, NSCoding {
 
     enum Kind: String {
         case OwnPost = "own_post" // main feed
@@ -41,11 +42,14 @@ class Activity: JSONAble {
         case Unknown = "Unknown"
     }
 
+    let version: Int = ActivityVersion
     let activityId: String
     let kind: Kind
     let subjectType: SubjectType
     var subject: AnyObject?
     let createdAt: NSDate
+
+// MARK: Initialization
 
     init(activityId: String,
         kind: Kind,
@@ -59,6 +63,30 @@ class Activity: JSONAble {
         self.subject = subject
         self.createdAt = createdAt
     }
+
+// MARK: NSCoding
+
+    required init(coder decoder: NSCoder) {
+        let kindString = decoder.decodeObjectForKey("kind") as String
+        self.kind = Kind(rawValue: kindString) ?? Kind.Unknown
+        self.activityId = decoder.decodeObjectForKey("activityId") as String
+        let subjectTypeString = decoder.decodeObjectForKey("subjectType") as String
+        self.subjectType = SubjectType(rawValue: subjectTypeString) ?? SubjectType.Unknown
+        self.subject = decoder.decodeObjectForKey("subject") as AnyObject?
+        self.createdAt = decoder.decodeObjectForKey("createdAt") as NSDate
+    }
+
+    func encodeWithCoder(encoder: NSCoder) {
+        encoder.encodeObject(self.kind.rawValue, forKey: "kind")
+        encoder.encodeObject(self.activityId, forKey: "activityId")
+        encoder.encodeObject(self.subjectType.rawValue, forKey: "subjectType")
+        if let subject: AnyObject = self.subject {
+            encoder.encodeObject(subject, forKey: "subject")
+        }
+        encoder.encodeObject(self.createdAt, forKey: "createdAt")
+    }
+
+// MARK: JSONAble
 
     override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
         let json = JSON(data)

@@ -33,5 +33,4 @@ class ElloLogoView: UIImageView {
         self.layer.removeAllAnimations()
         self.layer.addAnimation(endAnimation, forKey: "logo-finish")
     }
-
 }

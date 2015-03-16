@@ -10,6 +10,7 @@ inhibit_all_warnings!
 use_frameworks!
 
 pod 'SDWebImage', '~> 3.7'
+pod 'SSPullToRefresh', '~> 1.2'
 
 # swift pods
 pod 'SwiftyJSON', :git => "https://github.com/orta/SwiftyJSON", :branch => "podspec"
