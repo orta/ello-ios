@@ -32,6 +32,10 @@ class UserSpec: QuickSpec {
                 // test "links"
                 expect(user.posts.count) >= 1
                 expect(user.posts[0]).to(beAKindOf(Post.self))
+
+                expect(user.mostRecentPost).toNot(beNil())
+                expect(user.mostRecentPost?.postId) == "4721"
+                expect(user.mostRecentPost?.author) == user
             }
         }
 
@@ -65,6 +69,7 @@ class UserSpec: QuickSpec {
                     let expectedCreatedAt = NSDate()
 
                     let post: Post = stub(["postId" : "sample-post-id"])
+                    let stubbedMostRecentPost: Post = stub(["postId" : "another-sample-post-id"])
 
                     let user: User = stub([
                         "avatarURL" : NSURL(string: "http://www.example.com")!,
@@ -76,12 +81,15 @@ class UserSpec: QuickSpec {
                         "name" : "sample-name",
                         "posts" : [post],
                         "postsCount" : 9,
+                        "mostRecentPost" : stubbedMostRecentPost,
                         "relationshipPriority" : "self",
                         "userId" : "sample-userId",
                         "username" : "sample-username",
                         "formattedShortBio" : "sample-short-bio",
                         "isCurrentUser" : true
                     ])
+
+                    user.mostRecentPost?.author = user
 
                     NSKeyedArchiver.archiveRootObject(user, toFile: filePath)
                     let unArchivedUser = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as User
@@ -105,6 +113,10 @@ class UserSpec: QuickSpec {
                     expect(unArchivedUser.username) == "sample-username"
                     expect(unArchivedUser.formattedShortBio) == "sample-short-bio"
                     expect(unArchivedUser.isCurrentUser).to(beTrue())
+
+                    expect(unArchivedUser.mostRecentPost).toNot(beNil())
+                    expect(unArchivedUser.mostRecentPost?.postId) == "another-sample-post-id"
+                    expect(unArchivedUser.mostRecentPost?.author) == unArchivedUser
                 }
             }
         }

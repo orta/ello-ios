@@ -31,7 +31,8 @@ final class User: JSONAble, NSCoding {
     let relationshipPriority: Relationship
     let userId: String
     let username: String
-    let identifiableBy: String?
+    let mostRecentPost: Post?
+	let identifiableBy: String?
 
     var isCurrentUser : Bool
 
@@ -43,6 +44,7 @@ final class User: JSONAble, NSCoding {
         href: String,
         name: String,
         posts: [Post],
+        mostRecentPost: Post?,
         postsCount: Int?,
         relationshipPriority: Relationship,
         userId: String,
@@ -59,6 +61,7 @@ final class User: JSONAble, NSCoding {
         self.href = href
         self.name = name
         self.posts = posts
+        self.mostRecentPost = mostRecentPost
         self.isCurrentUser = isCurrentUser
         self.postsCount = postsCount
         self.relationshipPriority = relationshipPriority
@@ -106,6 +109,10 @@ final class User: JSONAble, NSCoding {
             self.isCurrentUser = false
         }
 
+        if decoder.containsValueForKey("mostRecentPost") {
+            self.mostRecentPost = decoder.decodeObjectForKey("mostRecentPost") as? Post
+        }
+
         if decoder.containsValueForKey("postsCount") {
             self.postsCount = Int(decoder.decodeIntForKey("postsCount"))
         }
@@ -133,6 +140,9 @@ final class User: JSONAble, NSCoding {
         encoder.encodeObject(self.href, forKey: "href")
         encoder.encodeObject(self.name, forKey: "name")
         encoder.encodeObject(self.posts, forKey: "posts")
+        if let mostRecentPost = self.mostRecentPost {
+            encoder.encodeObject(mostRecentPost, forKey: "mostRecentPost")
+        }
         encoder.encodeBool(self.isCurrentUser, forKey: "isCurrentUser")
         if let postsCount = self.postsCount {
             encoder.encodeInt64(Int64(postsCount), forKey: "postsCount")
@@ -179,11 +189,13 @@ final class User: JSONAble, NSCoding {
 
         var links: [String: AnyObject]
         var userPosts = [Post]()
+        var mostRecentPost: Post?
         if let linksNode = data["links"] as? [String: AnyObject] {
             links = ElloLinkedStore.parseLinks(linksNode)
             if let posts = links["posts"] as? [Post] {
                 userPosts = posts
             }
+            mostRecentPost = links["most_recent_post"] as? Post
         }
 
         let identifiableBy = json["identifiable_by"].string
@@ -197,6 +209,7 @@ final class User: JSONAble, NSCoding {
             href: href,
             name: name,
             posts: userPosts,
+            mostRecentPost: mostRecentPost,
             postsCount: postsCount,
             relationshipPriority: relationshipPriority,
             userId: userId,
@@ -208,6 +221,10 @@ final class User: JSONAble, NSCoding {
         // hack back in author
         for post in user.posts {
             post.author = user
+        }
+
+        if let recentPost = user.mostRecentPost {
+            recentPost.author = user
         }
 
         return user
@@ -224,6 +241,7 @@ final class User: JSONAble, NSCoding {
             href: "/api/edge/users/42",
             name: "Unknown",
             posts: [],
+            mostRecentPost: nil,
             postsCount: 2,
             relationshipPriority: .Me,
             userId: "42",
