@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 class BlockUserModalViewController: BaseElloViewController {
 
     weak var relationshipDelegate: RelationshipDelegate?
@@ -90,6 +89,7 @@ class BlockUserModalViewController: BaseElloViewController {
             label.lineBreakMode = .ByWordWrapping
             label.numberOfLines = 0
         }
+        closeButton.setSVGImage("x_white")
     }
 
     private func setText() {
