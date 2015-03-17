@@ -13,6 +13,7 @@ class PostDetailViewController: StreamableViewController, CreateCommentDelegate 
     var post : Post?
     var detailCellItems : [StreamCellItem]?
     var unsizedCellItems : [StreamCellItem]?
+    var startOfComments : Int
     var navigationBar : ElloNavigationBar!
     var streamViewController : StreamViewController!
     var streamKind: StreamKind?
@@ -28,6 +29,7 @@ class PostDetailViewController: StreamableViewController, CreateCommentDelegate 
 
     required init(postParam: String) {
         self.postParam = postParam
+        self.startOfComments = 0
         super.init(nibName: nil, bundle: nil)
         PostService.loadPost(postParam,
             success: postLoaded,
@@ -40,6 +42,7 @@ class PostDetailViewController: StreamableViewController, CreateCommentDelegate 
         self.postParam = post.postId
         self.detailCellItems = items
         self.unsizedCellItems = unsized
+        self.startOfComments = items.count
 
         super.init(nibName: nil, bundle: nil)
         self.streamKind = StreamKind.PostDetail(postParam: post.postId)
@@ -84,7 +87,9 @@ class PostDetailViewController: StreamableViewController, CreateCommentDelegate 
         self.post = post
         streamKind = StreamKind.PostDetail(postParam: post.postId)
         let parser = StreamCellItemParser()
-        self.unsizedCellItems = parser.parse([post], streamKind: streamKind!) + parser.parse(post.comments, streamKind: streamKind!)
+        let items = parser.parse([post], streamKind: streamKind!) + parser.parse(post.comments, streamKind: streamKind!)
+        self.unsizedCellItems = items
+        self.startOfComments += items.count
         self.title = post.author?.atName ?? "Post Detail"
         postDidLoad()
     }
@@ -134,7 +139,9 @@ class PostDetailViewController: StreamableViewController, CreateCommentDelegate 
             streamViewController.streamService.loadMoreCommentsForPost(post.postId,
                 success: { (jsonables, responseConfig) in
                     self.appendCreateCommentItem()
-                    self.streamViewController.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind!))
+
+                    let newCommentItems = StreamCellItemParser().parse(jsonables, streamKind: self.streamKind!)
+                    self.streamViewController.appendUnsizedCellItems(newCommentItems)
                     self.streamViewController.doneLoading()
                 },
                 failure: { (error, statusCode) in
@@ -154,6 +161,7 @@ class PostDetailViewController: StreamableViewController, CreateCommentDelegate 
             let createCommentItem = StreamCellItem(jsonable: comment, type: .CreateComment, data: nil, oneColumnCellHeight: StreamCreateCommentCell.Size.Height, multiColumnCellHeight: StreamCreateCommentCell.Size.Height, isFullWidth: true)
 
             controller.appendStreamCellItems([createCommentItem])
+            self.startOfComments += 1
         }
     }
 
