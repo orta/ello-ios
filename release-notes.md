@@ -1,3 +1,29 @@
+### Ello Build 530
+(0247fdc6f9923367c3b32163c99238fcabce3b33
+) March 13, 2015
+
+    #### #71 - Use automatic provisioning profile
+
+
+------
+
+#### #74 - Pull to refresh
+* uses SSPullToRefresh cocoapod
+* custom animated ello logo
+* added to StreamViewController
+
+![Refresh](http://i.imgur.com/L18IsaE.gif)
+
+------
+
+#### #72 - Add NSCoding to models
+* all models we'd want to serialize are NSCoding
+* specs and specs and specs
+* add version to models for future NSCoding migration
+
+    
+------------
+
 ### Ello Build 504
 (90fcc74384c5cf946c52ff58f590258552d55014
 ) March 11, 2015
