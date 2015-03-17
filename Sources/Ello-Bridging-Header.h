@@ -7,3 +7,4 @@
 #import <CommonCrypto/CommonCrypto.h>
 #import <SSPullToRefresh/SSPullToRefresh.h>
 #import <Keys/ElloKeys.h>
+#import <SVGKit/SVGKit.h>

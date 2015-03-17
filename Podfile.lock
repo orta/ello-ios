@@ -1,6 +1,11 @@
 PODS:
   - Alamofire (1.1.4)
   - Keys (1.0.2)
+  - CocoaLumberjack (1.9.2):
+    - CocoaLumberjack/Extensions (= 1.9.2)
+  - CocoaLumberjack/Core (1.9.2)
+  - CocoaLumberjack/Extensions (1.9.2):
+    - CocoaLumberjack/Core
   - LlamaKit (0.5.0)
   - Moya (0.6.1):
     - Moya/Core (= 0.6.1)
@@ -8,22 +13,26 @@ PODS:
     - Alamofire (~> 1.1.0)
   - Nimble (0.3.0)
   - Quick (0.2.2)
-  - SDWebImage (3.7.1):
-    - SDWebImage/Core (= 3.7.1)
-  - SDWebImage/Core (3.7.1)
+  - SDWebImage (3.7.2):
+    - SDWebImage/Core (= 3.7.2)
+  - SDWebImage/Core (3.7.2)
   - SSPullToRefresh (1.2.3)
+  - SVGKit (2.x):
+    - CocoaLumberjack
   - SwiftyJSON (2.1.1)
   - WebLinking (0.1.0)
 
 DEPENDENCIES:
   - Alamofire (from `https://github.com/Alamofire/Alamofire.git`)
   - Keys (from `https://github.com/ashfurrow/empty-podspec.git`)
+  - CocoaLumberjack (~> 1.9)
   - LlamaKit (from `https://github.com/AshFurrow/LlamaKit`, branch `rac_podspec`)
   - Moya (from `https://github.com/ello/Moya`)
   - Nimble (~> 0.3.0)
   - Quick (~> 0.2.2)
   - SDWebImage (~> 3.7)
   - SSPullToRefresh (~> 1.2)
+  - SVGKit (from `https://github.com/SVGKit/SVGKit`, branch `2.x`)
   - SwiftyJSON (from `https://github.com/orta/SwiftyJSON`, branch `podspec`)
   - WebLinking (~> 0.1)
 
@@ -37,13 +46,16 @@ EXTERNAL SOURCES:
     :git: https://github.com/AshFurrow/LlamaKit
   Moya:
     :git: https://github.com/ello/Moya
+  SVGKit:
+    :branch: 2.x
+    :git: https://github.com/SVGKit/SVGKit
   SwiftyJSON:
     :branch: podspec
     :git: https://github.com/orta/SwiftyJSON
 
 CHECKOUT OPTIONS:
   Alamofire:
-    :commit: c6a1190651f408c9b5f08664c49b9fca1fcc41ef
+    :commit: 90c4d77be8af79fba58f276bc8f6bbc30e35c8d3
     :git: https://github.com/Alamofire/Alamofire.git
   Keys:
     :commit: 6ac34c01bbb02fa5069187081135b6c108657018
@@ -54,6 +66,9 @@ CHECKOUT OPTIONS:
   Moya:
     :commit: b756aa204dae140af72b66e62067d171150dcddc
     :git: https://github.com/ello/Moya
+  SVGKit:
+    :commit: 4a52de63638fb4cbf9f0593357808f042c8e0233
+    :git: https://github.com/SVGKit/SVGKit
   SwiftyJSON:
     :commit: 252838693668023571c46f56d7ea8347e6948d1b
     :git: https://github.com/orta/SwiftyJSON
@@ -61,12 +76,14 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Alamofire: 6a2cbaebe78a6d469bc55ee37f0a24ba22af76ac
   Keys: 9a0258f6629755b9686c0821fa97cf659de68347
+  CocoaLumberjack: 205769c032b5fef85b92472046bcc8b7e7c8a817
   LlamaKit: 6110b5eb82c3286ee0a5bbd2157e736ab9822c44
   Moya: 6589de6c52d9d8e5ab0d9630b4cd5c4b7f898019
   Nimble: a4d9d978129e83d73e33b7d8bce57443bd556068
   Quick: 7b89ff625e72ef931c2a9ef2f25ac3a9d2457763
-  SDWebImage: 116e88633b5b416ea0ca4b334a4ac59cf72dd38d
+  SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
   SSPullToRefresh: 2f7f33b16ceeaee43afc7c6d97462fa17bd36a25
+  SVGKit: ad429d65c72c8d84115a504208a9fa097ee7fdbb
   SwiftyJSON: 626bbe0ede796bf69e849b7aa7473778b03fe44c
   WebLinking: 68a11e861fa4826c7791e44b91040cb0794c9ea5
 
