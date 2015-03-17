@@ -98,15 +98,15 @@ class ProfileViewController: StreamableViewController {
     }
 
     private func setupNavigationBar() {
+        navigationController?.navigationBarHidden = true
         navigationItem.title = self.title
-        if let viewControllers = self.navigationController?.viewControllers {
+        navigationBar.items = [navigationItem]
+        if let viewControllers = navigationController?.viewControllers {
             if countElements(viewControllers) > 1 {
                 let item = UIBarButtonItem.backChevronWithTarget(self, action: "backTapped:")
                 navigationItem.leftBarButtonItem = item
             }
         }
-        let item = UIBarButtonItem.backChevronWithTarget(self, action: "backTapped:")
-        navigationItem.leftBarButtonItem = item
         navigationBar.items = [navigationItem]
     }
 
