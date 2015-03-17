@@ -5,5 +5,4 @@
 #import "UITabBarController+NBUAdditions.h"
 #import "KINWebBrowserViewController.h"
 #import <SSPullToRefresh/SSPullToRefresh.h>
-#import "SVGKit/SVGKit.h"
-
+#import <SVGKit/SVGKit.h>
