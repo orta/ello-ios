@@ -206,26 +206,24 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     // MARK: Adding items
-    func addStreamCellItems(items:[StreamCellItem]) {
+    func appendStreamCellItems(items: [StreamCellItem]) {
         self.sourceCellItems += items
         self.updateFilteredItems()
     }
 
-    func addUnsizedCellItems(cellItems:[StreamCellItem], startingIndexPath:NSIndexPath?, completion:StreamContentReady) {
-        let textElements = cellItems.filter {
-            return $0.data as? TextRegion != nil
-        }
-        let notificationElements = cellItems.filter {
-            return $0.type == .Notification
-        }
+    func appendUnsizedCellItems(cellItems: [StreamCellItem], completion: StreamContentReady) {
+        let startingIndexPath = NSIndexPath(forItem: countElements(self.sourceCellItems), inSection: 0)
+        insertUnsizedCellItems(cellItems, startingIndexPath: startingIndexPath, completion: completion)
+    }
 
-        let afterBoth = Functional.after(2) {
+    func insertUnsizedCellItems(cellItems: [StreamCellItem], startingIndexPath: NSIndexPath, completion: StreamContentReady) {
+        self.calculateCellItems(cellItems) {
             var indexPaths:[NSIndexPath] = []
 
-            var indexPath:NSIndexPath = startingIndexPath ?? NSIndexPath(forItem: countElements(self.sourceCellItems) - 1, inSection: 0)
+            var startingIndex:Int = startingIndexPath.item
 
             for (index, cellItem) in enumerate(cellItems) {
-                var index = indexPath.item + index + 1
+                var index = startingIndex + index
                 indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
                 self.sourceCellItems.insert(cellItem, atIndex: index)
             }
@@ -233,6 +231,17 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
             self.updateFilteredItems()
             completion(indexPaths: indexPaths)
         }
+    }
+
+    private func calculateCellItems(cellItems:[StreamCellItem], completion: ()->()) {
+        let textElements = cellItems.filter {
+            return $0.data as? TextRegion != nil
+        }
+        let notificationElements = cellItems.filter {
+            return $0.type == .Notification
+        }
+
+        let afterBoth = Functional.after(2, completion)
 
         self.notificationSizeCalculator.processCells(notificationElements, afterBoth)
         self.textSizeCalculator.processCells(textElements, afterBoth)

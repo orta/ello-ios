@@ -48,7 +48,7 @@ class StreamDataSourceSpec: QuickSpec {
                 failure: nil
             )
 
-            subject.addUnsizedCellItems(StreamCellItemParser().parse(cellItems, streamKind: .Friend), startingIndexPath:nil) { cellCount in
+            subject.appendUnsizedCellItems(StreamCellItemParser().parse(cellItems, streamKind: .Friend)) { cellCount in
                 vc.collectionView.dataSource = subject
                 vc.collectionView.reloadData()
             }
@@ -87,7 +87,7 @@ class StreamDataSourceSpec: QuickSpec {
                     notificationSizeCalculator: notificationSizeCalculator)
 
                 let cellItems = ModelHelper.cellsForTwoPostsWithComments()
-                subject.addUnsizedCellItems(cellItems, startingIndexPath:nil) { cellCount in
+                subject.appendUnsizedCellItems(cellItems) { cellCount in
                     vc.collectionView.dataSource = subject
                     vc.collectionView.reloadData()
                 }
@@ -109,7 +109,7 @@ class StreamDataSourceSpec: QuickSpec {
                 // the loaded stream is all posts, need to tweak the data
                 expect(subject.postForIndexPath(NSIndexPath(forItem: 8, inSection: 0))).to(beNil())
             }
-            
+
         }
 
         describe("-commentForIndexPath:") {
@@ -120,7 +120,7 @@ class StreamDataSourceSpec: QuickSpec {
                     notificationSizeCalculator: notificationSizeCalculator)
 
                 let cellItems = ModelHelper.cellsForTwoPostsWithComments()
-                subject.addUnsizedCellItems(cellItems, startingIndexPath:nil) { cellCount in
+                subject.appendUnsizedCellItems(cellItems) { cellCount in
                     vc.collectionView.dataSource = subject
                     vc.collectionView.reloadData()
                 }
@@ -143,7 +143,7 @@ class StreamDataSourceSpec: QuickSpec {
                 // the loaded stream is all posts, need to tweak the data
                 expect(subject.commentForIndexPath(NSIndexPath(forItem: 0, inSection: 0))).to(beNil())
             }
-            
+
         }
 
         describe("-cellItemsForPost:") {
@@ -154,7 +154,7 @@ class StreamDataSourceSpec: QuickSpec {
                     notificationSizeCalculator: notificationSizeCalculator)
 
                 let cellItems = ModelHelper.cellsForTwoPostsWithComments()
-                subject.addUnsizedCellItems(cellItems, startingIndexPath:nil) { cellCount in
+                subject.appendUnsizedCellItems(cellItems) { cellCount in
                     vc.collectionView.dataSource = subject
                     vc.collectionView.reloadData()
                 }
@@ -181,7 +181,7 @@ class StreamDataSourceSpec: QuickSpec {
 
                 expect(countElements(items)) == 7
             }
-            
+
         }
 
         describe("-userForIndexPath:") {
@@ -201,7 +201,7 @@ class StreamDataSourceSpec: QuickSpec {
             xit("returns nil when the indexPath does not have an author") {
                 // the loaded stream does not have any non-author content yet
             }
-            
+
         }
 
         describe("-commentIndexPathsForPost:") {
@@ -212,7 +212,7 @@ class StreamDataSourceSpec: QuickSpec {
                     notificationSizeCalculator: notificationSizeCalculator)
 
                 let cellItems = ModelHelper.cellsForPostWithComments("123")
-                subject.addUnsizedCellItems(cellItems, startingIndexPath:nil) { cellCount in
+                subject.appendUnsizedCellItems(cellItems) { cellCount in
                     vc.collectionView.dataSource = subject
                     vc.collectionView.reloadData()
                 }
@@ -236,7 +236,7 @@ class StreamDataSourceSpec: QuickSpec {
                     notificationSizeCalculator: notificationSizeCalculator)
 
                 let cellItems = ModelHelper.cellsForTwoPostsWithComments()
-                subject.addUnsizedCellItems(cellItems, startingIndexPath:nil) { cellCount in
+                subject.appendUnsizedCellItems(cellItems) { cellCount in
                     vc.collectionView.dataSource = subject
                     vc.collectionView.reloadData()
                 }
@@ -293,7 +293,7 @@ class StreamDataSourceSpec: QuickSpec {
                     notificationSizeCalculator: notificationSizeCalculator)
 
                 let cellItems = ModelHelper.cellsForTwoPostsWithComments()
-                subject.addUnsizedCellItems(cellItems, startingIndexPath:nil) { cellCount in
+                subject.appendUnsizedCellItems(cellItems) { cellCount in
                     vc.collectionView.dataSource = subject
                     vc.collectionView.reloadData()
                 }
@@ -305,14 +305,14 @@ class StreamDataSourceSpec: QuickSpec {
             xit("returns false for all other cells") {
             }
 
-            it("returns true when out of bounds") {                
+            it("returns true when out of bounds") {
                 expect(subject.isFullWidthAtIndexPath(indexPathOutOfBounds)) == true
             }
 
             it("returns true when invalid section") {
                 expect(subject.isFullWidthAtIndexPath(indexPathInvalidSection)) == true
             }
-            
+
         }
 
         describe("-maintainAspectRatioForItemAtIndexPath:") {
@@ -323,7 +323,7 @@ class StreamDataSourceSpec: QuickSpec {
                     notificationSizeCalculator: notificationSizeCalculator)
 
                 let cellItems = ModelHelper.cellsForTwoPostsWithComments()
-                subject.addUnsizedCellItems(cellItems, startingIndexPath:nil) { cellCount in
+                subject.appendUnsizedCellItems(cellItems) { cellCount in
                     vc.collectionView.dataSource = subject
                     vc.collectionView.reloadData()
                 }
@@ -346,7 +346,7 @@ class StreamDataSourceSpec: QuickSpec {
                     notificationSizeCalculator: notificationSizeCalculator)
 
                 let cellItems = ModelHelper.cellsForTwoPostsWithComments()
-                subject.addUnsizedCellItems(cellItems, startingIndexPath:nil) { cellCount in
+                subject.appendUnsizedCellItems(cellItems) { cellCount in
                     vc.collectionView.dataSource = subject
                     vc.collectionView.reloadData()
                 }
@@ -390,7 +390,7 @@ class StreamDataSourceSpec: QuickSpec {
                 let nonAuthorable = Asset(assetId: "123", hdpi: nil, xxhdpi: nil)
                 let cellItem = StreamCellItem(jsonable: nonAuthorable, type: .Image, data: nil, oneColumnCellHeight: 0, multiColumnCellHeight: 0, isFullWidth: false)
 
-                subject.addUnsizedCellItems([cellItem], startingIndexPath:nil) { cellCount in
+                subject.appendUnsizedCellItems([cellItem]) { cellCount in
                     vc.collectionView.dataSource = subject
                     vc.collectionView.reloadData()
                 }
@@ -406,7 +406,7 @@ class StreamDataSourceSpec: QuickSpec {
                     textSizeCalculator: textSizeCalculator,
                     notificationSizeCalculator: notificationSizeCalculator)
 
-                subject.addUnsizedCellItems(ModelHelper.allCellTypes(), startingIndexPath:nil) { cellCount in
+                subject.appendUnsizedCellItems(ModelHelper.allCellTypes()) { cellCount in
                     vc.collectionView.dataSource = subject
                     vc.collectionView.reloadData()
                 }

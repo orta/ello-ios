@@ -97,8 +97,8 @@ class StreamableViewController : BaseElloViewController, PostTappedDelegate, Use
 
     private func alreadyOnUserProfile(user: User) -> Bool {
         if let profileVC = self.navigationController?.topViewController as? ProfileViewController {
-            if profileVC.userParam[param.startIndex] == "~" {
-                let param = profileVC.userParam
+            let param = profileVC.userParam
+            if param[param.startIndex] == "~" {
                 let usernamePart = param[advance(param.startIndex, 1)..<param.endIndex]
                 return user.username == usernamePart
             }

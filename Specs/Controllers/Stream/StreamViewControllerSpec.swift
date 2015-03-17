@@ -67,8 +67,8 @@ class StreamViewControllerSpec: QuickSpec {
                 expect(controller.dataSource).to(beAnInstanceOf(StreamDataSource.self))
 
                 // FAILS for some reason
-//                let dataSource = controller.collectionView.dataSource! as StreamDataSource
-//                expect(dataSource) == controller.dataSource
+                // let dataSource = controller.collectionView.dataSource! as StreamDataSource
+                // expect(dataSource) == controller.dataSource
             }
 
             it("sets up a postbar controller and assigns it to the datasource") {
@@ -100,7 +100,7 @@ class StreamViewControllerSpec: QuickSpec {
                 controller.viewDidLoad()
                 controller.streamService.loadStream(controller.streamKind.endpoint,
                     success: { (jsonables, responseConfig) in
-                        controller.addUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: controller.streamKind))
+                        controller.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: controller.streamKind))
                         controller.responseConfig = responseConfig
                         controller.doneLoading()
                     }, failure: { (error, statusCode) in
@@ -111,8 +111,8 @@ class StreamViewControllerSpec: QuickSpec {
 
             it("loads the next page of results when scrolled within 300 of the bottom") {
                 expect(controller.collectionView.numberOfItemsInSection(0)).toEventually(equal(3))
-                //                controller.collectionView.contentOffset = CGPoint(x: 0, y: 0)
-                //                expect(controller.collectionView.numberOfItemsInSection(0)) == 6
+                // controller.collectionView.contentOffset = CGPoint(x: 0, y: 0)
+                // expect(controller.collectionView.numberOfItemsInSection(0)) == 6
             }
 
             it("does not load the next page of results when not scrolled within 300 of the bottom") {
@@ -186,7 +186,7 @@ class StreamViewControllerSpec: QuickSpec {
                 beforeEach {
                     let service = StreamService()
                     service.loadUser(ElloAPI.FriendStream, success: { user in
-                        controller.addUnsizedCellItems(StreamCellItemParser().parse(user.posts, streamKind: .Friend))
+                        controller.appendUnsizedCellItems(StreamCellItemParser().parse(user.posts, streamKind: .Friend))
                     }, failure: nil)
                 }
 

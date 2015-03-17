@@ -113,6 +113,7 @@ class PostDetailViewController: StreamableViewController, CreateCommentDelegate 
         streamViewController.postTappedDelegate = self
         streamViewController.streamScrollDelegate = self
         streamViewController.userTappedDelegate = self
+
         streamViewController.willMoveToParentViewController(self)
         self.view.insertSubview(streamViewController.view, belowSubview: navigationBar)
         streamViewController.view.frame = navigationBar.frame.fromBottom().withHeight(self.view.frame.height - navigationBar.frame.height)
@@ -121,10 +122,10 @@ class PostDetailViewController: StreamableViewController, CreateCommentDelegate 
         streamViewController.didMoveToParentViewController(self)
 
         if let detailCellItems = detailCellItems {
-            streamViewController.addStreamCellItems(detailCellItems)
+            streamViewController.appendStreamCellItems(detailCellItems)
         }
         if let unsizedCellItems = unsizedCellItems {
-            streamViewController.addUnsizedCellItems(unsizedCellItems)
+            streamViewController.appendUnsizedCellItems(unsizedCellItems)
         }
     }
 
@@ -132,12 +133,12 @@ class PostDetailViewController: StreamableViewController, CreateCommentDelegate 
         if let post = post {
             streamViewController.streamService.loadMoreCommentsForPost(post.postId,
                 success: { (jsonables, responseConfig) in
-                    self.addCreateCommentItem(controller)
-                    self.streamViewController.addUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamViewController.streamKind))
+                    self.appendCreateCommentItem()
+                    self.streamViewController.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind!))
                     self.streamViewController.doneLoading()
                 },
                 failure: { (error, statusCode) in
-                    self.addCreateCommentItem(controller)
+                    self.appendCreateCommentItem()
                     println("failed to load comments (reason: \(error))")
                     self.streamViewController.doneLoading()
                 }
@@ -146,11 +147,14 @@ class PostDetailViewController: StreamableViewController, CreateCommentDelegate 
         }
     }
 
-    private func addCreateCommentItem(controller : StreamViewController) {
-        let comment = Comment.newCommentForPost(self.post, currentUser: self.currentUser!)
-        let createCommentItem = StreamCellItem(jsonable: comment, type: .CreateComment, data: nil, oneColumnCellHeight: StreamCreateCommentCell.Size.Height, multiColumnCellHeight: StreamCreateCommentCell.Size.Height, isFullWidth: true)
+    private func appendCreateCommentItem() {
+        if let post = post {
+            let controller = self.streamViewController
+            let comment = Comment.newCommentForPost(post, currentUser: self.currentUser!)
+            let createCommentItem = StreamCellItem(jsonable: comment, type: .CreateComment, data: nil, oneColumnCellHeight: StreamCreateCommentCell.Size.Height, multiColumnCellHeight: StreamCreateCommentCell.Size.Height, isFullWidth: true)
 
-        controller.addStreamCellItems([createCommentItem])
+            controller.appendStreamCellItems([createCommentItem])
+        }
     }
 
     override func postTapped(post: Post, initialItems: [StreamCellItem]) {

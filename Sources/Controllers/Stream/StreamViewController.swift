@@ -136,13 +136,19 @@ class StreamViewController: BaseElloViewController {
         }
     }
 
-    func addStreamCellItems(items: [StreamCellItem]) {
-        dataSource.addStreamCellItems(items)
+    func appendStreamCellItems(items: [StreamCellItem]) {
+        dataSource.appendStreamCellItems(items)
         collectionView.reloadData()
     }
 
-    func addUnsizedCellItems(items:[StreamCellItem]) {
-        dataSource.addUnsizedCellItems(items, startingIndexPath:nil) { indexPaths in
+    func appendUnsizedCellItems(items: [StreamCellItem]) {
+        dataSource.appendUnsizedCellItems(items) { indexPaths in
+            self.collectionView.reloadData()
+        }
+    }
+
+    func insertUnsizedCellItems(cellItems: [StreamCellItem], startingIndexPath: NSIndexPath) {
+        dataSource.insertUnsizedCellItems(cellItems, startingIndexPath: startingIndexPath) { indexPaths in
             self.collectionView.reloadData()
         }
     }
@@ -151,7 +157,7 @@ class StreamViewController: BaseElloViewController {
         self.pullToRefreshView?.startLoading()
         streamService.loadStream(streamKind.endpoint,
             success: { (jsonables, responseConfig) in
-                self.addUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind))
+                self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind))
                 self.responseConfig = responseConfig
                 self.doneLoading()
             }, failure: { (error, statusCode) in
@@ -365,7 +371,7 @@ extension StreamViewController : UIScrollViewDelegate {
                 streamService.loadStream(scrollAPI,
                     success: {
                         (jsonables, responseConfig) in
-                        self.addUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind))
+                        self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind))
                         self.responseConfig = responseConfig
                         self.doneLoading()
                     },
@@ -389,7 +395,7 @@ extension StreamViewController: SSPullToRefreshViewDelegate {
                 let index = self.refreshableIndex ?? 0
                 self.dataSource.removeCellItemsBelow(index)
                 self.collectionView.reloadData()
-                self.addUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind))
+                self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind))
                 self.responseConfig = responseConfig
                 view.finishLoading()
             }, failure: { (error, statusCode) in
