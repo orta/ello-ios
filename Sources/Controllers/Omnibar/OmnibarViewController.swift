@@ -15,9 +15,21 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
 
     var parentPost: Post?
 
+    typealias PostSuccessListener = (post : Post)->()
+    typealias CommentSuccessListener = (comment : Comment)->()
+    var postSuccessListeners = [PostSuccessListener]()
+    var commentSuccessListeners = [CommentSuccessListener]()
+
     convenience init(parentPost post: Post) {
         self.init(nibName: nil, bundle: nil)
         parentPost = post
+    }
+
+    func onPostSuccess(block: PostSuccessListener) {
+        postSuccessListeners.append(block)
+    }
+    func onCommentSuccess(block: CommentSuccessListener) {
+        commentSuccessListeners.append(block)
     }
 
     override func loadView() {
@@ -94,9 +106,24 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
 
         if countElements(content) > 0 {
             ElloHUD.showLoadingHud()
-            service.create(content: content, success: {
+            service.create(content: content, success: { postOrComment in
                 ElloHUD.hideLoadingHud()
-                self.screen.reportSuccess("Post successfully created!")
+                var createdThing : String
+                if let parentPost = self.parentPost {
+                    createdThing = "Comment"
+                    var comment = postOrComment as Comment
+                    for listener in self.commentSuccessListeners {
+                        listener(comment: comment)
+                    }
+                }
+                else {
+                    createdThing = "Post"
+                    var post = postOrComment as Post
+                    for listener in self.postSuccessListeners {
+                        listener(post: post)
+                    }
+                }
+                self.screen.reportSuccess("\(createdThing) successfully created!")
             }, failure: { error, statusCode in
                 ElloHUD.hideLoadingHud()
                 self.screen.reportError("Could not create post", error: error)

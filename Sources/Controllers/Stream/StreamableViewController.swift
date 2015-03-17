@@ -111,8 +111,16 @@ class StreamableViewController : BaseElloViewController, PostTappedDelegate, Use
 
     func createComment(post : Post) {
         let vc = OmnibarViewController(parentPost: post)
+        vc.onCommentSuccess() { (comment: Comment) in
+            self.navigationController?.popViewControllerAnimated(true)
+            self.commentCreated(comment)
+        }
         self.navigationController?.pushViewController(vc, animated: true)
     }
+
+    // child classes should override this method and add the comment to their
+    // datasource.
+    func commentCreated(comment: Comment) {}
 
 }
 

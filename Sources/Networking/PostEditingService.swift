@@ -14,7 +14,8 @@
 // refers to the tuple of (index, Region) or (index, String/UIImage)
 
 class PostEditingService: NSObject {
-    typealias CreatePostSuccessCompletion = () -> ()
+    // this can return either a Post or Comment
+    typealias CreatePostSuccessCompletion = (post : AnyObject) -> ()
     typealias UploadImagesSuccessCompletion = ([(Int, ImageRegion)]) -> ()
 
     private var retainUploaders: [S3UploadingService]?
@@ -83,8 +84,8 @@ class PostEditingService: NSObject {
             method: .POST,
             parameters: params,
             mappingType: endpoint.mappingType,
-            success: { data in
-                success()
+            success: { data, responseConfig in
+                success(post: data as AnyObject)
             },
             failure: failure
         )
