@@ -15,7 +15,6 @@ class ProfileViewController: StreamableViewController {
     var coverImageHeightStart: CGFloat?
     var coverWidthSet = false
     let ratio:CGFloat = 16.0/9.0
-    var relationshipController: RelationshipController?
 
     @IBOutlet weak var viewContainer: UIView!
     @IBOutlet weak var navigationBar: ElloNavigationBar!
