@@ -35,8 +35,8 @@ class ProfileViewController: StreamableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         coverImage.alpha = 0
-        if user.isCurrentUser {
-            // do stuff
+        if isRootViewController() {
+            hideNavBar()
         }
 
         setupStreamController()
@@ -56,8 +56,9 @@ class ProfileViewController: StreamableViewController {
 
     override func showNavBars(scrollToBottom : Bool) {
         super.showNavBars(scrollToBottom)
-        navigationBarTopConstraint.constant = 0
-        self.view.layoutIfNeeded()
+        if !isRootViewController() {
+            showNavBar()
+        }
 
         if scrollToBottom {
             if let scrollView = streamViewController.collectionView {
@@ -71,8 +72,17 @@ class ProfileViewController: StreamableViewController {
         }
     }
 
+    func showNavBar() {
+        navigationBarTopConstraint.constant = 0
+        self.view.layoutIfNeeded()
+    }
+
     override func hideNavBars() {
         super.hideNavBars()
+        hideNavBar()
+    }
+
+    func hideNavBar() {
         navigationBarTopConstraint.constant = navigationBar.frame.height + 1
         self.view.layoutIfNeeded()
     }
@@ -101,13 +111,10 @@ class ProfileViewController: StreamableViewController {
         navigationController?.navigationBarHidden = true
         navigationItem.title = self.title
         navigationBar.items = [navigationItem]
-        if let viewControllers = navigationController?.viewControllers {
-            if countElements(viewControllers) > 1 {
-                let item = UIBarButtonItem.backChevronWithTarget(self, action: "backTapped:")
-                navigationItem.leftBarButtonItem = item
-            }
+        if !isRootViewController() {
+            let item = UIBarButtonItem.backChevronWithTarget(self, action: "backTapped:")
+            navigationItem.leftBarButtonItem = item
         }
-        navigationBar.items = [navigationItem]
     }
 
     private func userLoaded(user: User) {
