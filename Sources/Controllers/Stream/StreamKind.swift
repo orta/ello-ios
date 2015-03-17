@@ -45,6 +45,14 @@ enum StreamKind {
         }
     }
 
+    var relationship: Relationship {
+        switch self {
+        case .Friend: return .Friend
+        case .Noise: return .Noise
+        default: return .Null
+        }
+    }
+
     func filter(jsonables: [JSONAble]) -> [JSONAble] {
         switch self {
         case .UserList(let endpoint, let title): return jsonables
