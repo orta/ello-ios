@@ -7,10 +7,10 @@ cache:
   - Pods
 install:
   - bundle install
+  - bundle exec pod keys set Salt "$(ELLO_SALT)" Ello
   - bundle exec pod install
 before_script:
   - export LANG=en_US.UTF-8
-  - bundle exec pod keys set Salt "$(ELLO_SALT)" Ello
 script: "./bin/travis-build.sh"
 branches:
   only:
