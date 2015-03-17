@@ -39,12 +39,8 @@ class PostbarController: NSObject, PostbarDelegate {
         if let indexPath = collectionView.indexPathForCell(cell) {
             if let post = dataSource.postForIndexPath(indexPath) {
                 if cell.commentsOpened {
-                    let indexPaths = self.dataSource.commentIndexPathsForPost(post)
-                    if let first = indexPaths.first {
-                        let range = Range(start: first.item,  end: first.item + countElements(indexPaths))
-                        self.dataSource.streamCellItems.removeRange(range)
-                        self.collectionView.deleteItemsAtIndexPaths(indexPaths)
-                    }
+                    let indexPaths = self.dataSource.removeCommentsForPost(post)
+                    self.collectionView.deleteItemsAtIndexPaths(indexPaths)
                     cell.commentsButton.enabled = true
                 }
                 else {

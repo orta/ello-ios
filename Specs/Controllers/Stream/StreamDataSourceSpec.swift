@@ -252,6 +252,32 @@ class StreamDataSourceSpec: QuickSpec {
             }
         }
 
+        describe("-removeCommentsForPost:") {
+
+            beforeEach {
+                subject = StreamDataSource(streamKind: .Friend,
+                    textSizeCalculator: textSizeCalculator,
+                    notificationSizeCalculator: notificationSizeCalculator)
+
+                let cellItems = ModelHelper.cellsForPostWithComments("123")
+                subject.appendUnsizedCellItems(cellItems) { cellCount in
+                    vc.collectionView.dataSource = subject
+                }
+            }
+
+            it("removes comment index paths") {
+                var post = subject.postForIndexPath(indexPath0)
+                let indexPaths = subject.removeCommentsForPost(post!)
+
+                expect(countElements(indexPaths)) == 4
+                expect(indexPaths[0].item) == 7
+                expect(indexPaths[1].item) == 8
+                expect(indexPaths[2].item) == 9
+                expect(indexPaths[3].item) == 10
+            }
+
+        }
+
         describe("-updateHeightForIndexPath:") {
 
             it("updates the height of an existing StreamCellItem") {

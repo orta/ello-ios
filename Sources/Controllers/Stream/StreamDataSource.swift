@@ -116,6 +116,14 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         return indexPaths
     }
 
+    func removeCommentsForPost(post: Post) -> [NSIndexPath] {
+        let indexPaths = self.commentIndexPathsForPost(post)
+        for path in indexPaths {
+            self.streamCellItems.removeAtIndex(path.item)
+        }
+        return indexPaths
+    }
+
     func updateHeightForIndexPath(indexPath:NSIndexPath?, height:CGFloat) {
         if let indexPath = indexPath {
             if indexPath.item < countElements(streamCellItems) {
