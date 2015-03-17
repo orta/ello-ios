@@ -20,9 +20,10 @@ struct ModelHelper {
         let postCellItems = parser.parse([post], streamKind: .Friend)
         let commentCellItems = parser.parse([comment], streamKind: .Friend)
         let profileHeaderCellItem = StreamCellItem(jsonable: user, type: StreamCellType.ProfileHeader, data: nil, oneColumnCellHeight: 320.0, multiColumnCellHeight: 0.0, isFullWidth: true)
-        let userListItemCell = parser.parse([user], streamKind: StreamKind.UserList(endpoint: ElloAPI.UserStreamFollowers(userId:"420"), title: "Followers"))
+        let userListCellItems = parser.parse([user], streamKind: StreamKind.UserList(endpoint: ElloAPI.UserStreamFollowers(userId:"420"), title: "Followers"))
+        let createCommentCellItem = StreamCellItem(jsonable: comment, type: .CreateComment, data: nil, oneColumnCellHeight: StreamCreateCommentCell.Size.Height, multiColumnCellHeight: StreamCreateCommentCell.Size.Height, isFullWidth: true)
 
-        return postCellItems + commentCellItems + [profileHeaderCellItem] + userListItemCell
+        return postCellItems + commentCellItems + [profileHeaderCellItem] + userListCellItems + [createCommentCellItem]
     }
 
     static func cellsForTwoPostsWithComments() -> [StreamCellItem] {
@@ -75,7 +76,7 @@ struct ModelHelper {
         }
 
         return Post(
-            assets: nil, 
+            assets: nil,
             author: nil,
             collapsed: false,
             commentsCount: nil,
