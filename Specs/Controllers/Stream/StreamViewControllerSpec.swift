@@ -131,7 +131,7 @@ class StreamViewControllerSpec: QuickSpec {
             context("WebLinkDelegate") {
 
                 it("is a weblinkdelegate") {
-                    expect(controller as WebLinkDelegate).notTo(beNil())
+                    expect(controller as? WebLinkDelegate).notTo(beNil())
                 }
 
                 describe("-webLinkTapped:data:") {
@@ -191,7 +191,7 @@ class StreamViewControllerSpec: QuickSpec {
                 }
 
                 it("is a UserDelegate") {
-                    expect(controller as UserDelegate).notTo(beNil())
+                    expect(controller as? UserDelegate).notTo(beNil())
                 }
 
                 describe("-userTapped:") {
@@ -208,7 +208,7 @@ class StreamViewControllerSpec: QuickSpec {
             context("UICollectionViewDelegate") {
 
                 it("is a UICollectionViewDelegate") {
-                    expect(controller as UICollectionViewDelegate).notTo(beNil())
+                    expect(controller as? UICollectionViewDelegate).notTo(beNil())
                 }
 
                 describe("-collectionView:didSelectItemAtIndexPath:") {
@@ -247,7 +247,7 @@ class StreamViewControllerSpec: QuickSpec {
             context("StreamCollectionViewLayoutDelegate") {
 
                 it("is a StreamCollectionViewLayoutDelegate") {
-                    expect(controller as StreamCollectionViewLayoutDelegate).notTo(beNil())
+                    expect(controller as? StreamCollectionViewLayoutDelegate).notTo(beNil())
                 }
 
                 describe("-collectionView:sizeForItemAtIndexPath:") {
@@ -482,7 +482,7 @@ class StreamViewControllerSpec: QuickSpec {
             context("UIScrollViewDelegate") {
 
                 it("is a UIScrollViewDelegate") {
-                    expect(controller as UIScrollViewDelegate).notTo(beNil())
+                    expect(controller as? UIScrollViewDelegate).notTo(beNil())
                 }
 
                 describe("-scrollViewDidScroll:") {
