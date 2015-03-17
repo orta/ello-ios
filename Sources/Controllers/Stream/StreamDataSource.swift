@@ -18,11 +18,11 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     var streamKind:StreamKind
     var currentUser: User?
 
-    // these are assigned from the parent controller
-    var sourceCellItems:[StreamCellItem] = []
-    // these are either the same as sourceCellItems (no filter) or if a filter
-    // is applied this stores the "visible" items
+    // these are the items assigned from the parent controller
     var streamCellItems:[StreamCellItem] = []
+    // these are either the same as streamCellItems (no filter) or if a filter
+    // is applied this stores the filtered items
+    var visibleCellItems:[StreamCellItem] = []
     // if a filter is added or removed, we update the items
     var streamFilter: StreamFilter {
         didSet { updateFilteredItems() }
@@ -52,39 +52,39 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     // MARK: - Public
 
     func removeAllCellItems() {
-        sourceCellItems = []
+        streamCellItems = []
         updateFilteredItems()
     }
 
     func removeCellItemsBelow(index: Int) {
         var belowIndex = index
-        if index > sourceCellItems.count {
-            belowIndex = sourceCellItems.count
+        if index > streamCellItems.count {
+            belowIndex = streamCellItems.count
         }
-        let remainingCellItems = sourceCellItems[0 ..< belowIndex]
-        sourceCellItems = Array(remainingCellItems)
+        let remainingCellItems = streamCellItems[0 ..< belowIndex]
+        streamCellItems = Array(remainingCellItems)
         updateFilteredItems()
     }
 
     func postForIndexPath(indexPath: NSIndexPath) -> Post? {
         if !isValidIndexPath(indexPath) { return nil }
 
-        return streamCellItems[indexPath.item].jsonable as? Post
+        return visibleCellItems[indexPath.item].jsonable as? Post
     }
 
     func commentForIndexPath(indexPath: NSIndexPath) -> Comment? {
         if !isValidIndexPath(indexPath) { return nil }
 
-        return streamCellItems[indexPath.item].jsonable as? Comment
+        return visibleCellItems[indexPath.item].jsonable as? Comment
     }
 
     func streamCellItem(at indexPath: NSIndexPath) -> StreamCellItem? {
-        return streamCellItems[indexPath.item]
+        return visibleCellItems[indexPath.item]
     }
 
     // TODO: also grab out comment cells for the detail view
     func cellItemsForPost(post:Post) -> [StreamCellItem] {
-        return streamCellItems.filter({ (item) -> Bool in
+        return visibleCellItems.filter({ (item) -> Bool in
             if let cellPost = item.jsonable as? Post {
                 return post.postId == cellPost.postId
             }
@@ -97,10 +97,10 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     func userForIndexPath(indexPath: NSIndexPath) -> User? {
         if !isValidIndexPath(indexPath) { return nil }
 
-        if let user = streamCellItems[indexPath.item].jsonable as? User {
+        if let user = visibleCellItems[indexPath.item].jsonable as? User {
             return user
         }
-        else if let authorable = streamCellItems[indexPath.item].jsonable as? Authorable {
+        else if let authorable = visibleCellItems[indexPath.item].jsonable as? Authorable {
             return authorable.author
         }
         return nil
@@ -109,7 +109,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     func commentIndexPathsForPost(post: Post) -> [NSIndexPath] {
         var indexPaths:[NSIndexPath] = []
 
-        for (index,value) in enumerate(streamCellItems) {
+        for (index,value) in enumerate(visibleCellItems) {
 
             if let comment = value.jsonable as? Comment {
                 if comment.parentPost?.postId == post.postId {
@@ -123,16 +123,16 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     func removeCommentsForPost(post: Post) -> [NSIndexPath] {
         let indexPaths = self.commentIndexPathsForPost(post)
         for path in indexPaths {
-            self.streamCellItems.removeAtIndex(path.item)
+            self.visibleCellItems.removeAtIndex(path.item)
         }
         return indexPaths
     }
 
     func updateHeightForIndexPath(indexPath:NSIndexPath?, height:CGFloat) {
         if let indexPath = indexPath {
-            if indexPath.item < countElements(streamCellItems) {
-                streamCellItems[indexPath.item].oneColumnCellHeight = height + imageBottomPadding
-                streamCellItems[indexPath.item].multiColumnCellHeight = height + imageBottomPadding
+            if indexPath.item < countElements(visibleCellItems) {
+                visibleCellItems[indexPath.item].oneColumnCellHeight = height + imageBottomPadding
+                visibleCellItems[indexPath.item].multiColumnCellHeight = height + imageBottomPadding
             }
         }
     }
@@ -142,37 +142,37 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
 
         // @seand: why does this always add padding? UserListItemCell is a fixed height, but this always adds an extra 10
         if numberOfColumns == 1 {
-            return streamCellItems[indexPath.item].oneColumnCellHeight + imageBottomPadding ?? 0.0
+            return visibleCellItems[indexPath.item].oneColumnCellHeight + imageBottomPadding ?? 0.0
         }
         else {
-            return streamCellItems[indexPath.item].multiColumnCellHeight + imageBottomPadding ?? 0.0
+            return visibleCellItems[indexPath.item].multiColumnCellHeight + imageBottomPadding ?? 0.0
         }
     }
 
     func isFullWidthAtIndexPath(indexPath:NSIndexPath) -> Bool {
         if !isValidIndexPath(indexPath) { return true }
 
-        return streamCellItems[indexPath.item].isFullWidth
+        return visibleCellItems[indexPath.item].isFullWidth
     }
 
     func maintainAspectRatioForItemAtIndexPath(indexPath:NSIndexPath) -> Bool {
         return false
-//        return streamCellItems[indexPath.item].data?.kind == .Image ?? false
+//        return visibleCellItems[indexPath.item].data?.kind == .Image ?? false
     }
 
     func groupForIndexPath(indexPath:NSIndexPath) -> String {
         if !isValidIndexPath(indexPath) { return "0" }
 
-        return (streamCellItems[indexPath.item].jsonable as? Authorable)?.groupId ?? "0"
+        return (visibleCellItems[indexPath.item].jsonable as? Authorable)?.groupId ?? "0"
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return streamCellItems.count ?? 0
+        return visibleCellItems.count ?? 0
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        if indexPath.item < countElements(streamCellItems) {
-            let streamCellItem = streamCellItems[indexPath.item]
+        if indexPath.item < countElements(visibleCellItems) {
+            let streamCellItem = visibleCellItems[indexPath.item]
 
             var cell = collectionView.dequeueReusableCellWithReuseIdentifier(streamCellItem.type.name, forIndexPath: indexPath) as UICollectionViewCell
 
@@ -219,12 +219,12 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     // MARK: Adding items
     func appendStreamCellItems(items: [StreamCellItem]) {
-        self.sourceCellItems += items
+        self.streamCellItems += items
         self.updateFilteredItems()
     }
 
     func appendUnsizedCellItems(cellItems: [StreamCellItem], completion: StreamContentReady) {
-        let startingIndexPath = NSIndexPath(forItem: countElements(self.sourceCellItems), inSection: 0)
+        let startingIndexPath = NSIndexPath(forItem: countElements(self.streamCellItems), inSection: 0)
         insertUnsizedCellItems(cellItems, startingIndexPath: startingIndexPath, completion: completion)
     }
 
@@ -237,7 +237,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
             for (index, cellItem) in enumerate(cellItems) {
                 var index = startingIndex + index
                 indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
-                self.sourceCellItems.insert(cellItem, atIndex: index)
+                self.streamCellItems.insert(cellItem, atIndex: index)
             }
 
             self.updateFilteredItems()
@@ -261,14 +261,14 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     private func updateFilteredItems() {
         if let streamFilter = streamFilter {
-            self.streamCellItems = self.sourceCellItems.filter(streamFilter)
+            self.visibleCellItems = self.streamCellItems.filter(streamFilter)
         }
         else {
-            self.streamCellItems = self.sourceCellItems
+            self.visibleCellItems = self.streamCellItems
         }
     }
 
     private func isValidIndexPath(indexPath: NSIndexPath) -> Bool {
-        return indexPath.item < countElements(streamCellItems) && indexPath.section == 0
+        return indexPath.item < countElements(visibleCellItems) && indexPath.section == 0
     }
 }
