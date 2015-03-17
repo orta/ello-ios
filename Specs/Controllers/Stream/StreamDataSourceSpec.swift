@@ -283,8 +283,8 @@ class StreamDataSourceSpec: QuickSpec {
             it("updates the height of an existing StreamCellItem") {
                 subject.updateHeightForIndexPath(indexPath0, height: 256)
 
-                expect(subject.streamCellItems[0].oneColumnCellHeight) == 266
-                expect(subject.streamCellItems[0].multiColumnCellHeight) == 266
+                expect(subject.streamCellItem(at: NSIndexPath(row: 0, section: 0)).oneColumnCellHeight) == 266
+                expect(subject.streamCellItem(at: NSIndexPath(row: 0, section: 0)).multiColumnCellHeight) == 266
             }
 
             it("handles non-existent index paths") {

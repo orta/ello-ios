@@ -303,11 +303,13 @@ extension StreamViewController : UICollectionViewDelegate {
 
     func collectionView(collectionView: UICollectionView,
         shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-            if dataSource.streamCellItems[indexPath.item].type == StreamCellType.Header {
-                return true
-            }
-            else if dataSource.streamCellItems[indexPath.item].type == StreamCellType.CreateComment {
-                return true
+            if let cellItemType = dataSource.streamCellItem(at: indexPath)?.type {
+                if cellItemType == StreamCellType.Header {
+                    return true
+                }
+                else if cellItemType == StreamCellType.CreateComment {
+                    return true
+                }
             }
             return false
     }

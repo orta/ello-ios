@@ -66,16 +66,20 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         updateFilteredItems()
     }
 
-    func postForIndexPath(indexPath:NSIndexPath) -> Post? {
+    func postForIndexPath(indexPath: NSIndexPath) -> Post? {
         if !isValidIndexPath(indexPath) { return nil }
 
         return streamCellItems[indexPath.item].jsonable as? Post
     }
 
-    func commentForIndexPath(indexPath:NSIndexPath) -> Comment? {
+    func commentForIndexPath(indexPath: NSIndexPath) -> Comment? {
         if !isValidIndexPath(indexPath) { return nil }
 
         return streamCellItems[indexPath.item].jsonable as? Comment
+    }
+
+    func streamCellItem(at indexPath: NSIndexPath) -> StreamCellItem? {
+        return streamCellItems[indexPath.item]
     }
 
     // TODO: also grab out comment cells for the detail view

@@ -47,7 +47,8 @@ class PostbarController: NSObject, PostbarDelegate {
                     let streamService = StreamService()
                     streamService.loadMoreCommentsForPost(post.postId, success: { (data, responseConfig) in
                         commentsButton.finishAnimation()
-                        self.commentLoadSuccess(data, indexPath: indexPath, cell: cell)
+                        let nextIndexPath = NSIndexPath(forRow: indexPath.row + 1, inSection: indexPath.section)
+                        self.commentLoadSuccess(data, indexPath: nextIndexPath, cell: cell)
                     }, failure: { (error, statusCode) -> () in
                         println("comment load failure")
                     })
