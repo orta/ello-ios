@@ -22,23 +22,23 @@ enum ElloPostToolBarOption {
     func button() -> UIButton {
         switch self {
         case .Views:
-            return normalButton("eye-icon")
+            return normalButton("eye")
         case .Comments:
             return commentButon()
         case .Loves:
-            return normalButton("heart-icon")
+            return normalButton("hearts")
         case .Repost:
-            return normalButton("repost-icon")
+            return normalButton("repost")
         case .Share:
-            return normalButton("share-icon")
+            return normalButton("share")
         case .Delete:
-            return normalButton("eye-icon")
+            return normalButton("xbox")
         case .Edit:
-            return normalButton("eye-icon")
+            return normalButton("pencil")
         case .Reply:
-            return normalButton("reply-icon")
+            return normalButton("reply")
         case .Flag:
-            return normalButton("flag-icon")
+            return normalButton("danger")
         }
     }
 
@@ -53,7 +53,7 @@ enum ElloPostToolBarOption {
         if let count = count {
             title = String(count)
         }
-        button.setImage(image, forState: .Normal)
+        button.setSVGImage(imageName)
         button.setButtonTitleWithPadding(title)
         return button
     }
