@@ -103,7 +103,7 @@ class RelationshipView: UIView {
         noiseButton.frame = CGRect(x: wv - 1, y: 0, width: wv, height: 30)
         // block/mute
         blockButton = UIButton()
-        styleIconButton(blockButton!)
+        styleIconButton(blockButton!, named: "danger")
         blockButton!.frame = CGRect(x: wv * 2 - 2, y: 0, width: 30, height: 30)
     }
 
@@ -144,7 +144,8 @@ class RelationshipView: UIView {
         button.setTitleColor(backgroundColorNormal, forState: UIControlState.Selected)
     }
 
-    private func styleIconButton(button: UIButton) {
+    private func styleIconButton(button: UIButton, named: String) {
         styleBaseButton(button)
+        button.setSVGImage(named)
     }
 }
