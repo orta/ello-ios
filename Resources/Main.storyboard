@@ -657,7 +657,7 @@
             <objects>
                 <navigationController storyboardIdentifier="DiscoverViewController" id="rfd-p2-XSV" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <tabBarItem key="tabBarItem" title="" image="discover-icon" id="acW-dT-cKf">
+                    <tabBarItem key="tabBarItem" enabled="NO" title="" image="discover-icon" id="acW-dT-cKf">
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="discover-icon-selected"/>
@@ -680,6 +680,7 @@
             </objects>
             <point key="canvasLocation" x="774" y="-992"/>
         </scene>
+        <!--Ello Navigation Controller-->
         <scene sceneID="3Vb-Rm-HKL">
             <objects>
                 <navigationController storyboardIdentifier="OmnibarViewController" automaticallyAdjustsScrollViewInsets="NO" id="jRU-db-VFH" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
