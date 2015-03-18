@@ -19,7 +19,8 @@ class DiscoverViewController: StreamableViewController {
 
     required override init() {
         self.streamViewController = StreamViewController.instantiateFromStoryboard()
-        self.streamViewController.streamKind = .Noise
+        let seed = Int(NSDate().timeIntervalSince1970)
+        self.streamViewController.streamKind = StreamKind.Discover(type: .Random, seed: seed, perPage: 50)
         super.init(nibName: "DiscoverViewController", bundle: nil)
         self.streamViewController.userTappedDelegate = self
         self.title = "Discover"
@@ -75,10 +76,5 @@ class DiscoverViewController: StreamableViewController {
         navigationItem.title = self.title
         navigationBar.items = [navigationItem]
     }
-
-    class func instantiateFromStoryboard() -> DiscoverViewController {
-        return UIStoryboard.storyboardWithId(.Discover) as DiscoverViewController
-    }
-
 }
 
