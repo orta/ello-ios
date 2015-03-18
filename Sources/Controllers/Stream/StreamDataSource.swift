@@ -57,10 +57,11 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     func removeCellItemsBelow(index: Int) {
+        var belowIndex = index
         if index > sourceCellItems.count {
-            index = sourceCellItems.count
+            belowIndex = sourceCellItems.count
         }
-        let remainingCellItems = sourceCellItems[0 ..< index]
+        let remainingCellItems = sourceCellItems[0 ..< belowIndex]
         sourceCellItems = Array(remainingCellItems)
         updateFilteredItems()
     }
