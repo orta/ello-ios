@@ -146,6 +146,6 @@ class RelationshipView: UIView {
 
     private func styleIconButton(button: UIButton, named: String) {
         styleBaseButton(button)
-        button.setSVGImage(named)
+        button.setSVGImages(named)
     }
 }

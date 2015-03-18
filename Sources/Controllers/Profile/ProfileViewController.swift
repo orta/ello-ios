@@ -15,7 +15,6 @@ class ProfileViewController: StreamableViewController {
     var coverImageHeightStart: CGFloat?
     var coverWidthSet = false
     let ratio:CGFloat = 16.0/9.0
-    var relationshipController: RelationshipController?
 
     @IBOutlet weak var viewContainer: UIView!
     @IBOutlet weak var navigationBar: ElloNavigationBar!
@@ -35,8 +34,8 @@ class ProfileViewController: StreamableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         coverImage.alpha = 0
-        if user.isCurrentUser {
-            // do stuff
+        if isRootViewController() {
+            hideNavBar()
         }
 
         setupStreamController()
@@ -56,8 +55,9 @@ class ProfileViewController: StreamableViewController {
 
     override func showNavBars(scrollToBottom : Bool) {
         super.showNavBars(scrollToBottom)
-        navigationBarTopConstraint.constant = 0
-        self.view.layoutIfNeeded()
+        if !isRootViewController() {
+            showNavBar()
+        }
 
         if scrollToBottom {
             if let scrollView = streamViewController.collectionView {
@@ -71,8 +71,17 @@ class ProfileViewController: StreamableViewController {
         }
     }
 
+    func showNavBar() {
+        navigationBarTopConstraint.constant = 0
+        self.view.layoutIfNeeded()
+    }
+
     override func hideNavBars() {
         super.hideNavBars()
+        hideNavBar()
+    }
+
+    func hideNavBar() {
         navigationBarTopConstraint.constant = navigationBar.frame.height + 1
         self.view.layoutIfNeeded()
     }
@@ -98,16 +107,13 @@ class ProfileViewController: StreamableViewController {
     }
 
     private func setupNavigationBar() {
+        navigationController?.navigationBarHidden = true
         navigationItem.title = self.title
-        if let viewControllers = self.navigationController?.viewControllers {
-            if countElements(viewControllers) > 1 {
-                let item = UIBarButtonItem.backChevronWithTarget(self, action: "backTapped:")
-                navigationItem.leftBarButtonItem = item
-            }
-        }
-        let item = UIBarButtonItem.backChevronWithTarget(self, action: "backTapped:")
-        navigationItem.leftBarButtonItem = item
         navigationBar.items = [navigationItem]
+        if !isRootViewController() {
+            let item = UIBarButtonItem.backChevronWithTarget(self, action: "backTapped:")
+            navigationItem.leftBarButtonItem = item
+        }
     }
 
     private func userLoaded(user: User) {
