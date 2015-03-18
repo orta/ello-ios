@@ -12,7 +12,7 @@ import Nimble
 
 class BaseElloViewControllerSpec: QuickSpec {
     override func spec() {
-        fdescribe("-isRootViewController") {
+        describe("-isRootViewController") {
             it("should return 'true'") {
                 let controller = NotificationsViewController()
                 let navController = UINavigationController(rootViewController: controller)

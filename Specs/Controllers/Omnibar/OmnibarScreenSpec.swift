@@ -11,10 +11,14 @@ import Nimble
 
 
 class OmnibarScreenMockDelegate : OmnibarScreenDelegate {
+    var didGoBack = false
     var didPresentController = false
     var didDismissController = false
     var submitted = false
 
+    func omnibarBack() {
+        didGoBack = true
+    }
     func omnibarPresentController(controller : UIViewController) {
         didPresentController = true
     }
