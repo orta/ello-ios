@@ -14,7 +14,8 @@ class DiscoverViewController: StreamableViewController {
 
 
     @IBOutlet weak var viewContainer: UIView!
-    @IBOutlet weak var navigationBar: ElloNavigationBar!
+    @IBOutlet weak var navigationBar: UIView!
+    @IBOutlet weak var inviteButton: UIButton!
     @IBOutlet weak var navigationBarTopConstraint: NSLayoutConstraint!
 
     required override init() {
@@ -31,7 +32,6 @@ class DiscoverViewController: StreamableViewController {
         self.navigationController?.navigationBarHidden = true
 
         setupStreamController()
-        setupNavigationBar()
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
     }
 
@@ -54,7 +54,7 @@ class DiscoverViewController: StreamableViewController {
 
     override func hideNavBars() {
         super.hideNavBars()
-        navigationBarTopConstraint.constant = navigationBar.frame.height + 1
+        navigationBarTopConstraint.constant = -navigationBar.frame.height - 1
         self.view.layoutIfNeeded()
     }
 
@@ -72,9 +72,57 @@ class DiscoverViewController: StreamableViewController {
         streamViewController.loadInitialPage()
     }
 
-    private func setupNavigationBar() {
-        navigationItem.title = self.title
-        navigationBar.items = [navigationItem]
+    // MARK: - IBActions
+
+    @IBAction func importMyContactsTapped(sender: UIButton) {
+        if AddressBook.needsAuthentication() {
+            displayContactActionSheet()
+        } else {
+            getAddressBook(.None)
+        }
+    }
+
+    // MARK: - Private
+
+    private func displayContactActionSheet() {
+        let alertController = UIAlertController(
+            title: "Import your contacts fo find your friends on Ello.",
+            message: "Ello does not sell user data and never contacts anyone without your permission.",
+            preferredStyle: .ActionSheet)
+
+        let action = UIAlertAction(title: "Import my contacts", style: .Default, handler: getAddressBook)
+        alertController.addAction(action)
+
+        let cancelAction = UIAlertAction(title: "Not now", style: .Cancel, handler: .None)
+        alertController.addAction(cancelAction)
+
+        presentViewController(alertController, animated: true, completion: .None)
+    }
+
+    private func getAddressBook(action: UIAlertAction?) {
+        AddressBook.getAddressBook { result in
+            switch result {
+            case let .Success(box):
+                let vc = AddFriendsContainerViewController(addressBook: box.unbox)
+                self.navigationController?.pushViewController(vc, animated: true)
+            case let .Failure(box):
+                self.displayAddressBookAlert(box.unbox.rawValue)
+                return
+            }
+        }
+    }
+
+    private func displayAddressBookAlert(message: String) {
+        let alertController = UIAlertController(
+            title: "We were unable to access your address book",
+            message: message,
+            preferredStyle: .Alert
+        )
+
+        let action = UIAlertAction(title: "OK", style: .Default, handler: .None)
+        alertController.addAction(action)
+
+        presentViewController(alertController, animated: true, completion: .None)
     }
 }
 
