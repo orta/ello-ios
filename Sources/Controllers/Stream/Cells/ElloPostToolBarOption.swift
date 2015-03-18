@@ -53,7 +53,7 @@ enum ElloPostToolBarOption {
         if let count = count {
             title = String(count)
         }
-        button.setSVGImage(imageName)
+        button.setSVGImages(imageName)
         button.setButtonTitleWithPadding(title)
         return button
     }

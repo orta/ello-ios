@@ -62,5 +62,22 @@ class StringExtensionSpec: QuickSpec {
                 expect("a &amp; &lt; c &gt; &pi; == pi".entitiesDecoded()).to(equal("a & < c > π == pi"))
             }
         }
+        describe("sha1 hashing") {
+            it("hashes the string using the sha1 algorithm") {
+                expect("test".SHA1String) == "5bb3e61a51e40b8074716d2a30549c5b7b55cf63"
+            }
+        }
+        describe("contains") {
+            context("contains string") {
+                it("returns true") {
+                    expect("test".contains("est")).to(beTrue())
+                }
+            }
+            context("does not contain string") {
+                it("returns false") {
+                    expect("test".contains("set")).to(beFalse())
+                }
+            }
+        }
     }
 }

@@ -9,20 +9,63 @@
 import UIKit
 
 class DiscoverViewController: BaseElloViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     class func instantiateFromStoryboard() -> DiscoverViewController {
-        return UIStoryboard.storyboardWithId(.Discover) as DiscoverViewController
+        let navController = UIStoryboard.storyboardWithId(.Discover) as UINavigationController
+        let discoverViewController = navController.topViewController
+        return discoverViewController as DiscoverViewController
     }
 
+    // MARK: - IBActions
+
+    @IBAction func importMyContactsTapped(sender: UIButton) {
+        if AddressBook.needsAuthentication() {
+            displayContactActionSheet()
+        } else {
+            getAddressBook(.None)
+        }
+    }
+
+    // MARK: - Private
+
+    private func displayContactActionSheet() {
+        let alertController = UIAlertController(
+            title: "Import your contacts fo find your friends on Ello.",
+            message: "Ello does not sell user data and never contacts anyone without your permission.",
+            preferredStyle: .ActionSheet)
+
+        let action = UIAlertAction(title: "Import my contacts", style: .Default, handler: getAddressBook)
+        alertController.addAction(action)
+
+        let cancelAction = UIAlertAction(title: "Not now", style: .Cancel, handler: .None)
+        alertController.addAction(cancelAction)
+
+        presentViewController(alertController, animated: true, completion: .None)
+    }
+
+    private func getAddressBook(action: UIAlertAction?) {
+        AddressBook.getAddressBook { result in
+            switch result {
+            case let .Success(box):
+                let vc = AddFriendsContainerViewController(addressBook: box.unbox)
+                self.navigationController?.pushViewController(vc, animated: true)
+            case let .Failure(box):
+                self.displayAddressBookAlert(box.unbox.rawValue)
+                return
+            }
+        }
+    }
+
+    private func displayAddressBookAlert(message: String) {
+        let alertController = UIAlertController(
+            title: "We were unable to access your address book",
+            message: message,
+            preferredStyle: .Alert
+        )
+
+        let action = UIAlertAction(title: "OK", style: .Default, handler: .None)
+        alertController.addAction(action)
+
+        presentViewController(alertController, animated: true, completion: .None)
+    }
 }
 

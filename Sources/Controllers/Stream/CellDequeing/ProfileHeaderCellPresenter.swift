@@ -24,6 +24,7 @@ struct ProfileHeaderCellPresenter {
                 cell.setAvatarURL(avatarURL)
             }
 
+            cell.relationshipView.buildLargeButtons()
             cell.relationshipView.userId = user.userId
             cell.relationshipView.userAtName = user.atName
             cell.relationshipView.relationship = user.relationshipPriority

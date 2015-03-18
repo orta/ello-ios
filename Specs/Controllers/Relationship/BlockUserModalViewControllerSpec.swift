@@ -33,7 +33,7 @@ class BlockUserModalViewControllerSpec: QuickSpec {
             it("sets IBOutlets") {
                 expect(subject.backgroundButton).notTo(beNil())
                 expect(subject.modalView).notTo(beNil())
-//                expect(subject.closeButton).notTo(beNil())
+                expect(subject.closeButton).notTo(beNil())
                 expect(subject.titleLabel).notTo(beNil())
                 expect(subject.muteButton).notTo(beNil())
                 expect(subject.muteLabel).notTo(beNil())

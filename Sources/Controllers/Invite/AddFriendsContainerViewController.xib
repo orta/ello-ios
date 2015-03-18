@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddFriendsContainerViewController" customModule="Ello" customModuleProvider="target">
+            <connections>
+                <outlet property="pageView" destination="3Od-i1-b4M" id="cQw-sy-zma"/>
+                <outlet property="segmentedControl" destination="9hf-M3-b2t" id="8j4-IJ-j6o"/>
+                <outlet property="view" destination="iN0-l3-epB" id="Suw-ec-Jhy"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Od-i1-b4M" userLabel="pageView">
+                    <rect key="frame" x="0.0" y="85" width="600" height="451"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="9hf-M3-b2t" userLabel="segmentedControl">
+                    <rect key="frame" x="0.0" y="26" width="600" height="45"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="lKA-Io-5vf"/>
+                    </constraints>
+                    <segments>
+                        <segment title="Find"/>
+                        <segment title="Invite"/>
+                    </segments>
+                </segmentedControl>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="9hf-M3-b2t" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="26" id="Ouj-SO-Nfh" userLabel="segmentedControl - Top"/>
+                <constraint firstItem="9hf-M3-b2t" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Xw1-VP-nb6" userLabel="segmentedControl - Left"/>
+                <constraint firstItem="3Od-i1-b4M" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="atF-H3-LsB" userLabel="pageView - Left"/>
+                <constraint firstAttribute="trailing" secondItem="3Od-i1-b4M" secondAttribute="trailing" id="bW2-jf-uFc" userLabel="pageView - Right"/>
+                <constraint firstAttribute="bottom" secondItem="3Od-i1-b4M" secondAttribute="bottom" id="oYi-GT-YUE" userLabel="pageView - Bottom"/>
+                <constraint firstItem="3Od-i1-b4M" firstAttribute="top" secondItem="9hf-M3-b2t" secondAttribute="bottom" constant="15" id="piB-Y5-qPy" userLabel="pageView | segmentedControl vert spacing"/>
+                <constraint firstAttribute="trailing" secondItem="9hf-M3-b2t" secondAttribute="trailing" id="v7i-I3-Rtp" userLabel="segmentedControl - Right"/>
+            </constraints>
+            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+            <point key="canvasLocation" x="771" y="456"/>
+        </view>
+    </objects>
+</document>
