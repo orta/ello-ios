@@ -56,7 +56,7 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
 
     override func didSetCurrentUser() {
         super.didSetCurrentUser()
-        self.screen.avatarURL = self.currentUser?.avatarURL
+        self.screen.avatarURL = currentUser?.avatarURL
     }
 
     func omnibarSubmitted(text : NSAttributedString?, image: UIImage?) {

@@ -85,7 +85,7 @@ class StreamableViewController : BaseElloViewController, PostTappedDelegate, Use
         }
 
         let vc = ProfileViewController(user: user)
-        vc.currentUser = self.currentUser
+        vc.currentUser = currentUser
         vc.willPresentStreamable(scrollLogic.isShowing)
         self.navigationController?.pushViewController(vc, animated: true)
         vc.didPresentStreamable()

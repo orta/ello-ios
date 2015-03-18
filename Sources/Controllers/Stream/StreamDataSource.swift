@@ -164,10 +164,11 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
             case .ProfileHeader:
                 (cell as ProfileHeaderCell).relationshipView.relationshipDelegate = relationshipDelegate
                 (cell as ProfileHeaderCell).userListDelegate = userListDelegate
-                (cell as ProfileHeaderCell).currentUser = self.currentUser
+                (cell as ProfileHeaderCell).currentUser = currentUser
             case .UserListItem:
                 (cell as UserListItemCell).relationshipView.relationshipDelegate = relationshipDelegate
                 (cell as UserListItemCell).userDelegate = userDelegate
+                (cell as UserListItemCell).currentUser = currentUser
             default:
                 break
             }
