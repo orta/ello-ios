@@ -364,7 +364,8 @@ extension StreamViewController: SSPullToRefreshViewDelegate {
     func pullToRefreshViewDidStartLoading(view: SSPullToRefreshView!) {
         self.streamService.loadStream(streamKind.endpoint,
             success: { (jsonables, responseConfig) in
-                self.dataSource.streamCellItems.removeAll(keepCapacity: false)
+                let index = self.refreshableIndex ?? 0
+                self.dataSource.removeCellItemsBelow(index)
                 self.collectionView.reloadData()
                 self.addUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind))
                 self.responseConfig = responseConfig
