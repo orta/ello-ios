@@ -84,7 +84,11 @@ class StreamViewController: BaseElloViewController {
     }
 
     override func didSetCurrentUser() {
-        dataSource.currentUser = self.currentUser
+        dataSource.currentUser = currentUser
+        if let userListController = userListController {
+            userListController.currentUser = currentUser
+        }
+        super.didSetCurrentUser()
     }
 
     // If we ever create an init() method that doesn't use nib/storyboards,
@@ -206,7 +210,7 @@ class StreamViewController: BaseElloViewController {
     }
 
     private func setupDataSource() {
-        let webView = UIWebView(frame: self.view.bounds)
+        let webView = UIWebView(frame: view.bounds)
         let textSizeCalculator = StreamTextCellSizeCalculator(webView: UIWebView(frame: webView.frame))
         let notificationSizeCalculator = StreamNotificationCellSizeCalculator(webView: UIWebView(frame: webView.frame))
 
@@ -214,14 +218,14 @@ class StreamViewController: BaseElloViewController {
             textSizeCalculator: textSizeCalculator,
             notificationSizeCalculator: notificationSizeCalculator)
         
-        postbarController = PostbarController(collectionView: collectionView, dataSource: self.dataSource, presentingController: self)
+        postbarController = PostbarController(collectionView: collectionView, dataSource: dataSource, presentingController: self)
         dataSource.postbarDelegate = postbarController
 
         relationshipController = RelationshipController(presentingController: self)
         dataSource.relationshipDelegate = relationshipController
 
         userListController = UserListController(presentingController: self)
-        userListController!.currentUser = self.currentUser
+        userListController!.currentUser = currentUser
         dataSource.userListDelegate = userListController
 
         if let imageViewer = imageViewerDelegate {
@@ -229,7 +233,7 @@ class StreamViewController: BaseElloViewController {
         }
         dataSource.webLinkDelegate = self
         dataSource.userDelegate = self
-        collectionView.dataSource = self.dataSource
+        collectionView.dataSource = dataSource
     }
 
     private func presentProfile(username: String) {

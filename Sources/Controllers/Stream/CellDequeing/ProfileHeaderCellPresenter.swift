@@ -22,9 +22,7 @@ struct ProfileHeaderCellPresenter {
             cell.relationshipView.hidden = false
 
             if let currentUser = cell.currentUser {
-                if user.userId == currentUser.userId {
-                    cell.relationshipView.hidden = true
-                }
+                cell.relationshipView.hidden = user.userId == currentUser.userId
             }
 
             if let avatarURL = user.avatarURL? {

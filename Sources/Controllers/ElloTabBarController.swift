@@ -23,10 +23,10 @@ class ElloTabBarController: UITabBarController {
     func didSetCurrentUser() {
         for controller in self.childViewControllers {
             if let controller = controller as? BaseElloViewController {
-                controller.currentUser = self.currentUser
+                controller.currentUser = currentUser
             }
             else if let controller = controller as? ElloNavigationController {
-                controller.currentUser = self.currentUser
+                controller.currentUser = currentUser
             }
         }
     }

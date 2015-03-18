@@ -14,6 +14,7 @@ class UserListItemCell: UICollectionViewCell {
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var relationshipView: RelationshipView!
     weak var userDelegate: UserDelegate?
+    var currentUser: User?
 
     override func awakeFromNib() {
         super.awakeFromNib()

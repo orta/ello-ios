@@ -27,6 +27,13 @@ class UserListViewController: StreamableViewController {
         setupStreamController()
     }
 
+    override func didSetCurrentUser() {
+        if self.isViewLoaded() {
+            streamViewController.currentUser = currentUser
+        }
+        super.didSetCurrentUser()
+    }
+
     // MARK: Private
 
     private func setupNavigationBar() {
@@ -40,7 +47,7 @@ class UserListViewController: StreamableViewController {
 
     private func setupStreamController() {
         streamViewController = StreamViewController.instantiateFromStoryboard()
-        streamViewController.currentUser = self.currentUser
+        streamViewController.currentUser = currentUser
         streamViewController.streamKind = .UserList(endpoint: endpoint, title: self.title!)
         streamViewController.userTappedDelegate = self
 
