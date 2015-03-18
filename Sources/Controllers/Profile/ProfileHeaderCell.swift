@@ -21,6 +21,7 @@ class ProfileHeaderCell: UICollectionViewCell {
     @IBOutlet weak var relationshipView: RelationshipView!
     @IBOutlet weak var viewTopConstraint: NSLayoutConstraint!
     weak var userListDelegate: UserListDelegate?
+    var currentUser: User?
 
     override func awakeFromNib() {
         super.awakeFromNib()

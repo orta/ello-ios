@@ -82,6 +82,10 @@ class StreamViewController: BaseElloViewController {
         initialSetup()
     }
 
+    override func didSetCurrentUser() {
+        dataSource.currentUser = self.currentUser
+    }
+
     // If we ever create an init() method that doesn't use nib/storyboards,
     // we'll need to call this.  Called from awakeFromNib and init.
     private func initialSetup() {
@@ -207,6 +211,7 @@ class StreamViewController: BaseElloViewController {
         dataSource.relationshipDelegate = relationshipController
 
         userListController = UserListController(presentingController: self)
+        userListController!.currentUser = self.currentUser
         dataSource.userListDelegate = userListController
 
         if let imageViewer = imageViewerDelegate {
