@@ -14,7 +14,7 @@ protocol UserListDelegate: NSObjectProtocol {
 }
 
 class UserListController: NSObject, UserListDelegate {
-
+    var currentUser : User?
     let presentingController: UIViewController
 
     required init(presentingController: UIViewController) {
@@ -23,9 +23,10 @@ class UserListController: NSObject, UserListDelegate {
 
     func show(endpoint: ElloAPI, title: String) {
         var vc = UserListViewController(endpoint: endpoint, title: title)
+        vc.currentUser = currentUser
         vc.willPresentStreamable(vc.scrollLogic.isShowing)
         presentingController.navigationController?.pushViewController(vc, animated: true)
         vc.didPresentStreamable()
     }
-    
+
 }

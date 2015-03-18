@@ -97,6 +97,7 @@ class ProfileViewController: StreamableViewController {
                 println("failed to load user (reason: \(error))")
                 self.streamViewController.doneLoading()
             })
+        streamViewController.currentUser = self.currentUser
         streamViewController.streamScrollDelegate = self
         streamViewController.willMoveToParentViewController(self)
         viewContainer.addSubview(streamViewController.view)
