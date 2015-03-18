@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Keys
 
 enum ElloURI {
     case Post
@@ -15,7 +16,7 @@ enum ElloURI {
 
     // get the proper domain
     static let httpProtocol: String = "https://"
-    static var domain: String { return AppSetup.sharedState.useStaging ? "ello-staging.herokuapp.com" : "ello.co" }
+    static var domain: String { return ElloKeys().domain() }
     static var baseURL: String { return "\(ElloURI.httpProtocol)\(ElloURI.domain)" }
 
     // this is taken directly from app/models/user.rb

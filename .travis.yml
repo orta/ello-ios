@@ -8,18 +8,21 @@ cache:
   - vendor/bundle
   - Pods
 install:
-  - bundle install
-  - bundle exec pod keys set Salt $ELLO_SALT Ello
-  - bundle exec pod install
+- bundle install
+- bundle exec pod keys set ClientKey $ELLO_CLIENT_KEY Ello
+- bundle exec pod keys set ClientSecret $ELLO_CLIENT_SECRET Ello
+- bundle exec pod keys set Domain $ELLO_DOMAIN Ello
+- bundle exec pod keys set Salt $ELLO_SALT Ello
+- bundle exec pod install
 before_script:
-  - export LANG=en_US.UTF-8
+- export LANG=en_US.UTF-8
 script: "./bin/travis-build.sh"
 branches:
   only:
-    - master
+  - master
 notifications:
   email: false
   slack:
     secure: ZikJQt/R40LMj27fu2ub9Zq87FF6kZXx3fXy9lz/nWFuc7EWcQC8SzVOCizSp+cq/wrsyBPfitkQwVsFpxx/6aJC0r+t4/zIwK21aLIkkHYLzS5qJpifYeTp7kAiQ0eFWLNLxRSwDVEMlfcvgHl7kGmvJQkzHm9mkQaWBJAJayc=
 env:
-  secure: Q2b15MmNOrEEsdLApAEmqdJJi0koC4Id2nYktXlV3yqoZK3KyhyU5wEqS+kWwz/o+uxoOJt4q3khjaF9eUULtxmz+MDvbxjuRoQh4VClZ16Rb4LNkXMJz3pbxEpVkvFnRTJ8Gm1WCLKtPy+s6EpVT5HYWj/cA0q9OJ8pcVJMNB4=
+  secure: TzBIvRqXHf4sB4NNrox108gYrq/AUNYOzbv0MMJ1g65IZiAU4F4hEV4k56esME5tbN6+/smbAQYUQOB1Oy1Y0sRmjM3yx3hkmR9dtlakROslbswiHHFsaVeCm4/qlXB5TEDe/dWwpnV+15HZmtnXIAo9tOejQ8qgDI3avL2cgp4=
