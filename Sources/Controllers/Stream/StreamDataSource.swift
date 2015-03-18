@@ -50,6 +50,20 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     // MARK: - Public
 
+    func removeAllCellItems() {
+        sourceCellItems = []
+        updateFilteredItems()
+    }
+
+    func removeCellItemsBelow(index: Int) {
+        if index > sourceCellItems.count {
+            index = sourceCellItems.count
+        }
+        let remainingCellItems = sourceCellItems[0 ..< index]
+        sourceCellItems = Array(remainingCellItems)
+        updateFilteredItems()
+    }
+
     func postForIndexPath(indexPath:NSIndexPath) -> Post? {
         if !isValidIndexPath(indexPath) { return nil }
 

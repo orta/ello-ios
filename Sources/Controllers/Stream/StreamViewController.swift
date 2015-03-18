@@ -45,6 +45,7 @@ class StreamViewController: BaseElloViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     var pulsingCircle : PulsingCircle?
     var streamables:[Streamable]?
+    var refreshableIndex: Int?
     var dataSource:StreamDataSource!
     var postbarController:PostbarController?
     var relationshipController: RelationshipController?
@@ -109,6 +110,15 @@ class StreamViewController: BaseElloViewController {
 
     func doneLoading() {
         pullToRefreshView?.finishLoading()
+    }
+
+    func removeRefreshables() {
+        if let refreshableIndex = refreshableIndex {
+            dataSource.removeCellItemsBelow(refreshableIndex)
+        }
+        else {
+            dataSource.removeAllCellItems()
+        }
     }
 
     func imageCellHeightUpdated(cell:StreamImageCell) {
