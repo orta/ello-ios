@@ -683,6 +683,7 @@
             </objects>
             <point key="canvasLocation" x="774" y="-992"/>
         </scene>
+        <!--Ello Navigation Controller-->
         <scene sceneID="3Vb-Rm-HKL">
             <objects>
                 <navigationController storyboardIdentifier="OmnibarViewController" automaticallyAdjustsScrollViewInsets="NO" id="jRU-db-VFH" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
