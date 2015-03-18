@@ -11,7 +11,7 @@ import Foundation
 extension UIBarButtonItem {
 
     class func backChevronWithTarget(target:AnyObject, action:Selector) -> UIBarButtonItem {
-        let frame = CGRect(x: 20, y: 0, width: 29.0, height: 44.0)
+        let frame = CGRect(x: 10, y: 0, width: 29.0, height: 44.0)
         let button = UIButton(frame: frame)
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
         let image = UIImage(named: "chevron-back-icon")

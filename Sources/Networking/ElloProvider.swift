@@ -65,6 +65,10 @@ struct ElloProvider {
         switch target {
         case .CreatePost:
             endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponse: .Lazy({ return .Success(200, target.sampleData, target.sampleResponse) }), method: method, parameters: parameters, parameterEncoding: .JSON)
+        case .FindFriends:
+            endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponse: .Lazy({ return .Success(200, target.sampleData, target.sampleResponse) }), method: method, parameters: parameters, parameterEncoding: .JSON)
+        case .InviteFriends:
+            endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponse: .Lazy({ return .Success(200, target.sampleData, target.sampleResponse) }), method: method, parameters: parameters, parameterEncoding: .JSON)
         default:
             endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponse: .Lazy({ return .Success(200, target.sampleData, target.sampleResponse) }), method: method, parameters: parameters)
         }
@@ -90,9 +94,7 @@ struct ElloProvider {
     }
 
     static var sharedProvider: MoyaProvider<ElloAPI> {
-        get {
-            return SharedProvider.instance
-        }
+        get { return SharedProvider.instance }
 
         set (newSharedProvider) {
             SharedProvider.instance = newSharedProvider
@@ -110,6 +112,8 @@ struct ElloProvider {
 // MARK: elloRequest implementation
 extension MoyaProvider {
 
+    // MARK: - Public
+
     func elloRequest(token: T, method: Moya.Method, parameters: [String: AnyObject], mappingType: MappingType, success: ElloSuccessCompletion, failure: ElloFailureCompletion?) {
         self.request(token, method: method, parameters: parameters, completion: {
             (data, statusCode, response, error) in
@@ -117,13 +121,48 @@ extension MoyaProvider {
         })
     }
 
-    func handleRequest(token: T, method: Moya.Method, parameters: [String: AnyObject], data:NSData?, response: NSHTTPURLResponse?, var statusCode:Int?, success: ElloSuccessCompletion, failure: ElloFailureCompletion?, isRetry: Bool, mappingType: MappingType, error:NSError?) {
+    func generateElloError(data:NSData?, error: NSError?, statusCode: Int?) -> NSError {
+        var elloNetworkError:ElloNetworkError?
+
+        if let data = data {
+            let (mappedJSON: AnyObject?, error) = Mapper.mapJSON(data)
+            var mappedObjects: AnyObject?
+
+            if mappedJSON != nil && error == nil {
+                if let node = mappedJSON?[MappingType.ErrorsType.rawValue] as? [String:AnyObject] {
+                    elloNetworkError = Mapper.mapToObject(node, fromJSON: MappingType.ErrorType.fromJSON) as? ElloNetworkError
+                }
+            }
+        }
+        else {
+            let detail = error?.localizedDescription ?? "NEED DEFAULT HERE"
+            let jsonMappingError = ElloNetworkError(attrs: nil, code: ElloNetworkError.CodeType.unknown, detail: detail,messages: nil, status: nil, title: "Error")
+        }
+
+        var errorCodeType = (statusCode == nil) ? ElloErrorCode.Data : ElloErrorCode.StatusCode
+        let elloError = NSError.networkError(elloNetworkError, code: errorCodeType)
+
+        return elloError
+    }
+
+    func failedToMapObjects(failure:ElloFailureCompletion?) {
+        let jsonMappingError = ElloNetworkError(attrs: nil, code: ElloNetworkError.CodeType.unknown, detail: "NEED DEFAULT HERE", messages: nil, status: nil, title: "Unknown Error")
+
+        let elloError = NSError.networkError(jsonMappingError, code: ElloErrorCode.JSONMapping)
+        if let failure = failure {
+            failure(error: elloError, statusCode: nil)
+        }
+    }
+
+    // MARK: - Private
+
+    private func handleRequest(token: T, method: Moya.Method, parameters: [String: AnyObject], data:NSData?, response: NSHTTPURLResponse?, var statusCode:Int?, success: ElloSuccessCompletion, failure: ElloFailureCompletion?, isRetry: Bool, mappingType: MappingType, error:NSError?) {
         if data != nil && statusCode != nil {
             switch statusCode! {
             case 200...299:
-                self.handleNetworkSuccess(data!, response: response, mappingType: mappingType, success: success, failure: failure)
+                self.handleNetworkSuccess(data!, statusCode:statusCode, response: response, mappingType: mappingType, success: success, failure: failure)
             case 300...399:
-                self.handleNetworkSuccess(data!, response: response, mappingType: mappingType, success: success, failure: failure)
+                self.handleNetworkSuccess(data!, statusCode:statusCode, response: response, mappingType: mappingType, success: success, failure: failure)
             case 401:
                 if !isRetry {
                     let authService = AuthService()
@@ -132,9 +171,9 @@ extension MoyaProvider {
                         self.request(token, method: method, parameters: parameters, completion: { (data, statusCode, response, error) in
                             self.handleRequest(token, method: method, parameters: parameters, data: data, response: response as? NSHTTPURLResponse, statusCode: statusCode, success: success, failure: failure, isRetry: true, mappingType: mappingType, error: error)
                         })
-                    },
-                    failure: { (_,_) in
-                        self.postNetworkFailureNotification(data, error: error, statusCode: statusCode)
+                        },
+                        failure: { (_,_) in
+                            self.postNetworkFailureNotification(data, error: error, statusCode: statusCode)
                     })
                 } else {
                     self.postNetworkFailureNotification(data, error: error, statusCode: statusCode)
@@ -158,8 +197,8 @@ extension MoyaProvider {
         }
     }
 
-    func handleNetworkSuccess(data:NSData, response: NSHTTPURLResponse?, mappingType: MappingType, success:ElloSuccessCompletion, failure:ElloFailureCompletion?) {
-        let (mappedJSON: AnyObject?, error) = mapJSON(data)
+    private func handleNetworkSuccess(data:NSData, statusCode: Int?, response: NSHTTPURLResponse?, mappingType: MappingType, success:ElloSuccessCompletion, failure:ElloFailureCompletion?) {
+        let (mappedJSON: AnyObject?, error) = Mapper.mapJSON(data)
 
         var mappedObjects: AnyObject?
         if mappedJSON != nil && error == nil {
@@ -171,10 +210,10 @@ extension MoyaProvider {
                 }
 
                 if let node = dict[mappingType.rawValue] as? [[String:AnyObject]] {
-                    mappedObjects = mapToObjectArray(node, fromJSON: mappingType.fromJSON)
+                    mappedObjects = Mapper.mapToObjectArray(node, fromJSON: mappingType.fromJSON)
                 }
                 else if let node = dict[mappingType.rawValue] as? [String:AnyObject] {
-                    mappedObjects = mapToObject(node, fromJSON: mappingType.fromJSON)
+                    mappedObjects = Mapper.mapToObject(node, fromJSON: mappingType.fromJSON)
                 }
             }
 
@@ -186,21 +225,23 @@ extension MoyaProvider {
             }
 
         }
+        else if isEmptySuccess(data, statusCode: statusCode) {
+            println("200, no content")
+            let emptyString = ""
+            success(data: emptyString, responseConfig: parseResponse(response))
+        }
         else {
             failedToMapObjects(failure)
         }
     }
 
-    func failedToMapObjects(failure:ElloFailureCompletion?) {
-        let jsonMappingError = ElloNetworkError(attrs: nil, code: ElloNetworkError.CodeType.unknown, detail: "NEED DEFAULT HERE", messages: nil, status: nil, title: "Unknown Error")
-
-        let elloError = NSError.networkError(jsonMappingError, code: ElloErrorCode.JSONMapping)
-        if let failure = failure {
-            failure(error: elloError, statusCode: nil)
-        }
+    private func isEmptySuccess(data:NSData, statusCode: Int?) -> Bool {
+        return  NSString(data: data, encoding: NSUTF8StringEncoding) == "" &&
+                statusCode >= 200 &&
+                statusCode < 400
     }
 
-    func postNetworkFailureNotification(data:NSData?, error: NSError?, statusCode: Int?) {
+    private func postNetworkFailureNotification(data:NSData?, error: NSError?, statusCode: Int?) {
         let elloError = generateElloError(data, error: error, statusCode: statusCode)
         var notificationCase:ElloProvider.ErrorStatusCode
         if let statusCode = statusCode {
@@ -218,7 +259,7 @@ extension MoyaProvider {
         NSNotificationCenter.defaultCenter().postNotificationName(notificationCase.notificationName, object: elloError)
     }
 
-    func handleNetworkFailure(failure:ElloFailureCompletion?, data:NSData?, error: NSError?, statusCode: Int?) {
+    private func handleNetworkFailure(failure:ElloFailureCompletion?, data:NSData?, error: NSError?, statusCode: Int?) {
         let elloError = generateElloError(data, error: error, statusCode: statusCode)
 
         if let failure = failure {
@@ -229,67 +270,7 @@ extension MoyaProvider {
         }
     }
 
-    func generateElloError(data:NSData?, error: NSError?, statusCode: Int?) -> NSError {
-        var elloNetworkError:ElloNetworkError?
-
-        if let data = data {
-            let (mappedJSON: AnyObject?, error) = mapJSON(data)
-            var mappedObjects: AnyObject?
-
-            if mappedJSON != nil && error == nil {
-                if let node = mappedJSON?[MappingType.ErrorsType.rawValue] as? [String:AnyObject] {
-                    elloNetworkError = mapToObject(node, fromJSON: MappingType.ErrorType.fromJSON) as? ElloNetworkError
-                }
-            }
-        }
-        else {
-            let detail = error?.localizedDescription ?? "NEED DEFAULT HERE"
-            let jsonMappingError = ElloNetworkError(attrs: nil, code: ElloNetworkError.CodeType.unknown, detail: detail,messages: nil, status: nil, title: "Error")
-        }
-
-        var errorCodeType = (statusCode == nil) ? ElloErrorCode.Data : ElloErrorCode.StatusCode
-        let elloError = NSError.networkError(elloNetworkError, code: errorCodeType)
-
-        return elloError
-    }
-
-    func mapJSON(data: NSData) -> (AnyObject?, NSError?) {
-
-        var error: NSError?
-        var json: AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &error)
-
-        if json == nil && error != nil {
-            var userInfo: [NSObject : AnyObject]? = ["data": data]
-            error = NSError(domain: ElloErrorDomain, code: ElloErrorCode.JSONMapping.rawValue, userInfo: userInfo)
-        }
-
-        return (json, error)
-    }
-
-    func mapToObjectArray(object: AnyObject?, fromJSON: FromJSONClosure) -> [JSONAble]? {
-
-        if let dicts = object as? [[String:AnyObject]] {
-            let jsonables:[JSONAble] =  dicts.map {
-                let jsonable = fromJSON(data: $0)
-                return jsonable
-            }
-            return jsonables
-        }
-
-        return nil
-    }
-
-    func mapToObject(object:AnyObject?, fromJSON: FromJSONClosure) -> JSONAble? {
-        if let dict = object as? [String:AnyObject] {
-            let jsonable = fromJSON(data: dict)
-            return jsonable
-        }
-        else {
-            return nil
-        }
-    }
-
-    func parseResponse(response: NSHTTPURLResponse?) -> ResponseConfig {
+    private func parseResponse(response: NSHTTPURLResponse?) -> ResponseConfig {
         var config = ResponseConfig()
         config.totalPages = response?.allHeaderFields["X-Total-Pages"] as? String
         config.totalCount = response?.allHeaderFields["X-Total-Count"] as? String

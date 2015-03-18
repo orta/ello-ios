@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BlockUserModalViewController" customModule="Ello" customModuleProvider="target">
@@ -9,6 +9,7 @@
                 <outlet property="backgroundButton" destination="SAG-m4-Ldc" id="D9s-Sq-bjv"/>
                 <outlet property="blockButton" destination="sPX-in-Nh1" id="0cm-aq-gy0"/>
                 <outlet property="blockLabel" destination="2Mo-le-PlN" id="4ON-DW-hJf"/>
+                <outlet property="closeButton" destination="Tkk-ye-Yu7" id="UU2-X5-chY"/>
                 <outlet property="modalView" destination="2sg-1v-ill" id="WM9-Rs-0AB"/>
                 <outlet property="muteButton" destination="3Kz-fJ-O4K" id="esL-qH-ulE"/>
                 <outlet property="muteLabel" destination="QIL-mE-mtP" id="8aD-tN-hXE"/>
@@ -36,10 +37,7 @@
                     <rect key="frame" x="10" y="50" width="580" height="323"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="titleLabel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ezQ-12-k3n" userLabel="titleLabel">
-                            <rect key="frame" x="20" y="20" width="175" height="21"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="175" id="6Rw-Sf-zzd" userLabel="titleLabel - width"/>
-                            </constraints>
+                            <rect key="frame" x="20" y="20" width="510" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
@@ -80,6 +78,19 @@
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tkk-ye-Yu7" userLabel="closeButton">
+                            <rect key="frame" x="540" y="10" width="30" height="30"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="30" id="Idl-Gl-6gL" userLabel="closeButton - width"/>
+                                <constraint firstAttribute="height" constant="30" id="TeQ-Uz-ufa" userLabel="closeButton - height"/>
+                            </constraints>
+                            <state key="normal">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="closeModal:" destination="-1" eventType="touchUpInside" id="43U-Jd-MrM"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
@@ -95,7 +106,10 @@
                         <constraint firstItem="ezQ-12-k3n" firstAttribute="top" secondItem="2sg-1v-ill" secondAttribute="top" constant="20" id="S57-ob-lvk" userLabel="titleLabel - top"/>
                         <constraint firstAttribute="bottom" secondItem="2Mo-le-PlN" secondAttribute="bottom" constant="20" id="SUS-A8-tOi" userLabel="blockLabel - bottom"/>
                         <constraint firstItem="3Kz-fJ-O4K" firstAttribute="leading" secondItem="2sg-1v-ill" secondAttribute="leading" constant="20" id="cJ7-wJ-yJ2" userLabel="muteButton - left"/>
+                        <constraint firstItem="Tkk-ye-Yu7" firstAttribute="top" secondItem="2sg-1v-ill" secondAttribute="top" constant="10" id="hVX-fN-LOG" userLabel="closeButton - top"/>
                         <constraint firstItem="2Mo-le-PlN" firstAttribute="leading" secondItem="2sg-1v-ill" secondAttribute="leading" constant="20" id="jB8-BI-M3t" userLabel="blockLabel - left"/>
+                        <constraint firstAttribute="trailing" secondItem="ezQ-12-k3n" secondAttribute="trailing" constant="50" id="lFH-QP-BDw" userLabel="titleLabel - right"/>
+                        <constraint firstAttribute="trailing" secondItem="Tkk-ye-Yu7" secondAttribute="trailing" constant="10" id="oq3-1J-oL7" userLabel="closeButton - right"/>
                         <constraint firstItem="ezQ-12-k3n" firstAttribute="leading" secondItem="2sg-1v-ill" secondAttribute="leading" constant="20" id="qXJ-JA-DiA" userLabel="titleLabel - left"/>
                         <constraint firstAttribute="trailing" secondItem="sPX-in-Nh1" secondAttribute="trailing" constant="20" id="uTv-Vp-rBX" userLabel="blockButton - right"/>
                     </constraints>

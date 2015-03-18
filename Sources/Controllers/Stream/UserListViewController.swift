@@ -40,6 +40,7 @@ class UserListViewController: StreamableViewController {
 
     private func setupStreamController() {
         streamViewController = StreamViewController.instantiateFromStoryboard()
+        streamViewController.currentUser = self.currentUser
         streamViewController.streamKind = .UserList(endpoint: endpoint, title: self.title!)
         streamViewController.userTappedDelegate = self
 

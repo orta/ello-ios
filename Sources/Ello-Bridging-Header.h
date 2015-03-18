@@ -4,5 +4,7 @@
 #import "JTSImageInfo.h"
 #import "UITabBarController+NBUAdditions.h"
 #import "KINWebBrowserViewController.h"
+#import <CommonCrypto/CommonCrypto.h>
 #import <SSPullToRefresh/SSPullToRefresh.h>
+#import <Keys/ElloKeys.h>
 #import <SVGKit/SVGKit.h>

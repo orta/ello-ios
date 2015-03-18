@@ -31,6 +31,7 @@ final class User: JSONAble, NSCoding {
     let relationshipPriority: Relationship
     let userId: String
     let username: String
+    let identifiableBy: String?
 
     var isCurrentUser : Bool
 
@@ -46,6 +47,7 @@ final class User: JSONAble, NSCoding {
         relationshipPriority: Relationship,
         userId: String,
         username: String,
+        identifiableBy: String?,
         formattedShortBio: String,
         isCurrentUser: Bool = false)
     {
@@ -62,6 +64,7 @@ final class User: JSONAble, NSCoding {
         self.relationshipPriority = relationshipPriority
         self.userId = userId
         self.username = username
+        self.identifiableBy = identifiableBy
         self.formattedShortBio = formattedShortBio
     }
 
@@ -183,6 +186,8 @@ final class User: JSONAble, NSCoding {
             }
         }
 
+        let identifiableBy = json["identifiable_by"].string
+
         let user = User(
             avatarURL: avatarURL,
             coverImageURL: coverImageURL,
@@ -196,6 +201,7 @@ final class User: JSONAble, NSCoding {
             relationshipPriority: relationshipPriority,
             userId: userId,
             username: username,
+            identifiableBy: identifiableBy,
             formattedShortBio: formattedShortBio
         )
 
@@ -222,6 +228,7 @@ final class User: JSONAble, NSCoding {
             relationshipPriority: .Me,
             userId: "42",
             username: username,
+            identifiableBy: .None,
             formattedShortBio: "bio"
         )
     }
