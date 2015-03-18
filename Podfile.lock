@@ -67,7 +67,7 @@ CHECKOUT OPTIONS:
     :commit: b756aa204dae140af72b66e62067d171150dcddc
     :git: https://github.com/ello/Moya
   SVGKit:
-    :commit: 4a52de63638fb4cbf9f0593357808f042c8e0233
+    :commit: 880d0704a4e68b566a473062fae4abe5ba1bca54
     :git: https://github.com/SVGKit/SVGKit
   SwiftyJSON:
     :commit: 252838693668023571c46f56d7ea8347e6948d1b
