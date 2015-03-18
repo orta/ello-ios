@@ -1,3 +1,48 @@
+### Ello Build 636
+(348c05d9fae809289b254c2ad40ea65e29dcd99c
+) March 18, 2015
+
+    #### #86 - Disable discover. Pull to refresh should load new content.
+* quick fixes for wednesday beta
+* pull to refresh wipes out the old content before displaying new content
+* discover tab is disabled
+
+------
+
+#### #85 - Make F/N toggles for user lists.
+* Normalize `self.currentUser` to `currentUser`
+
+[Fixes #89836630]
+
+------
+
+#### #82 - Adds keys to cocoapods-keys through Rake tasks.
+* Adds domain, client key and secret for production and staging
+
+[Finishes #90622878]
+
+------
+
+#### #83 - adds 'currentUser' to all controllers
+and checks against it in the ProfileHeaderCell
+
+------
+
+#### #80 - Couple of minor UI tweaks
+
+
+------
+
+#### #75 - Adds SVG images to the app
+`button.setSVGImage("image")` will set the normal and selected states on the button.
+
+------
+
+#### #77 - Ignore all pods
+Ignore the Pods folder to keep the dev dependencies out of the repository.
+    
+------------
+
 ### Ello Build 530
 (0247fdc6f9923367c3b32163c99238fcabce3b33
 ) March 13, 2015
