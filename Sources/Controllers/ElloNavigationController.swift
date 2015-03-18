@@ -128,82 +128,31 @@ extension ElloNavigationController: UINavigationControllerDelegate {
 
     func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
 
-        if operation == .Push {
-            return ForwardAnimator()
-        } else if operation == .Pop {
-            return BackAnimator()
+        switch (toVC, fromVC) {
+        case (is DrawerViewController, _): return drawerAnimatorForOperation(operation)
+        case (_, is DrawerViewController): return drawerAnimatorForOperation(operation)
+        default: return defaultAnimatorForOperation(operation)
         }
-        return nil
     }
 
     func navigationController(navigationController: UINavigationController, interactionControllerForAnimationController animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
         return interactionController
     }
 
-}
-
-class ForwardAnimator : NSObject, UIViewControllerAnimatedTransitioning {
-
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
-        return 0.25
-    }
-
-    func animateTransition(context: UIViewControllerContextTransitioning) {
-        let toView = context.viewControllerForKey(UITransitionContextToViewControllerKey)?.view
-        let fromView = context.viewControllerForKey(UITransitionContextFromViewControllerKey)?.view
-
-        if let toView = toView {
-            if let fromView = fromView {
-                let from = fromView.frame
-                let to = toView.frame
-                toView.frame = CGRect(x: from.origin.x + from.size.width, y: from.origin.y, width: to.size.width, height: to.size.height)
-                context.containerView().addSubview(toView)
-
-                UIView.animateWithDuration(transitionDuration(context),
-                    delay: 0.0,
-                    options: UIViewAnimationOptions.CurveEaseIn,
-                    animations: {
-                        toView.frame = from
-                        fromView.frame = CGRect(x: from.origin.x - from.size.width, y: from.origin.y, width: from.size.width, height: from.size.height)
-                    },
-                    completion: { finished in
-                        context.completeTransition(!context.transitionWasCancelled())
-                    })
-            }
+    func defaultAnimatorForOperation(operation: UINavigationControllerOperation) -> UIViewControllerAnimatedTransitioning? {
+        switch operation {
+        case .Push: return ForwardAnimator()
+        case .Pop: return BackAnimator()
+        default: return .None
         }
     }
-}
 
-class BackAnimator : NSObject, UIViewControllerAnimatedTransitioning {
-
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
-        return 0.25
-    }
-
-    func animateTransition(context: UIViewControllerContextTransitioning) {
-        let toView = context.viewControllerForKey(UITransitionContextToViewControllerKey)?.view
-        let fromView = context.viewControllerForKey(UITransitionContextFromViewControllerKey)?.view
-
-        context.containerView().insertSubview(toView!, belowSubview: fromView!)
-
-        if let toView = toView {
-            if let fromView = fromView {
-                let from = fromView.frame
-                let to = toView.frame
-                toView.frame = CGRect(x: from.origin.x - from.size.width, y: from.origin.y, width: to.size.width, height: to.size.height)
-                context.containerView().addSubview(toView)
-
-                UIView.animateWithDuration(transitionDuration(context),
-                    delay: 0.0,
-                    options: UIViewAnimationOptions.CurveEaseIn,
-                    animations: {
-                        toView.frame = from
-                        fromView.frame = CGRect(x: from.origin.x + from.size.width, y: from.origin.y, width: from.size.width, height: from.size.height)
-                    }, completion: { finished in
-                        context.completeTransition(!context.transitionWasCancelled())
-                    })
-            }
+    func drawerAnimatorForOperation(operation: UINavigationControllerOperation) -> UIViewControllerAnimatedTransitioning? {
+        switch operation {
+        case .Push: return BackAnimator()
+        case .Pop: return ForwardAnimator()
+        default: return .None
         }
     }
-}
 
+}

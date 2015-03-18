@@ -8,6 +8,7 @@ class DrawerViewControllerSpec: QuickSpec {
                 let controller = DrawerViewController(relationship: .Friend)
                 controller.loadView()
                 expect(controller.collectionView).toNot(beNil())
+                expect(controller.navigationBar).toNot(beNil())
             }
 
             it("sets up the collectionView's delegate and dataSource") {
@@ -18,6 +19,17 @@ class DrawerViewControllerSpec: QuickSpec {
 
                 expect(delegate).to(equal(controller))
                 expect(dataSource).to(equal(controller))
+            }
+        }
+
+        describe("viewDidLoad") {
+            it("sets the right bar button item") {
+                let controller = DrawerViewController(relationship: .Friend)
+                controller.loadView()
+                controller.viewDidLoad()
+
+                let button = controller.navigationItem.rightBarButtonItem
+                expect(button).toNot(beNil())
             }
         }
     }

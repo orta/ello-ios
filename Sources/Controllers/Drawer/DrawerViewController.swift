@@ -10,6 +10,7 @@ import Foundation
 
 class DrawerViewController: BaseElloViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var navigationBar: ElloNavigationBar!
 
     let dataSource: DrawerViewDataSource
 
@@ -19,14 +20,33 @@ class DrawerViewController: BaseElloViewController, UICollectionViewDataSource, 
     }
 
     override func viewDidLoad() {
-        super.viewDidLoad()
+        addHamburgerButton()
+        setupNavigationBar()
         collectionView.registerNib(AvatarCell.nib(), forCellWithReuseIdentifier: AvatarCell.reuseIdentifier())
+        super.viewDidLoad()
+    }
+
+    func setupNavigationBar() {
+        navigationBar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 30)
+        navigationBar.items = [navigationItem]
+    }
+
+    func addHamburgerButton() {
+        let button = UIBarButtonItem(image: UIImage(named: "hamburger-icon"), style: .Done, target: self, action: "hamburgerButtonTapped")
+        button.tintColor = UIColor.greyA()
+        self.navigationItem.rightBarButtonItem = button
     }
 
     override func viewWillAppear(animated: Bool) {
         dataSource.refreshUsers {
            self.collectionView.reloadData()
         }
+    }
+
+    // Actions
+
+    func hamburgerButtonTapped() {
+        navigationController?.popViewControllerAnimated(true)
     }
 
     // MARK: UICollectionViewDataSource

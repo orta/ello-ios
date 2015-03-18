@@ -7,25 +7,44 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DrawerViewController" customModule="Ello" customModuleProvider="target">
             <connections>
                 <outlet property="collectionView" destination="cB8-Zp-vgM" id="ubl-UG-Inx"/>
-                <outlet property="view" destination="cB8-Zp-vgM" id="jGL-YT-MFi"/>
+                <outlet property="navigationBar" destination="IY4-CG-Xbd" id="5pI-43-6X1"/>
+                <outlet property="view" destination="zEp-Yx-85T" id="Oj6-9A-eN6"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" id="cB8-Zp-vgM">
+        <view contentMode="scaleToFill" id="zEp-Yx-85T">
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="cB8-Zp-vgM">
+                    <rect key="frame" x="0.0" y="44" width="600" height="556"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="20" minimumInteritemSpacing="10" id="k9o-6x-ySH">
+                        <size key="itemSize" width="60" height="60"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="10" minY="10" maxX="10" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                    <cells/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="H8u-mh-qpz"/>
+                        <outlet property="delegate" destination="-1" id="hKW-IE-C0w"/>
+                    </connections>
+                </collectionView>
+                <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IY4-CG-Xbd" customClass="ElloNavigationBar" customModule="Ello" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                </navigationBar>
+            </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-            <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="k9o-6x-ySH">
-                <size key="itemSize" width="80" height="80"/>
-                <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-            </collectionViewFlowLayout>
-            <cells/>
-            <connections>
-                <outlet property="dataSource" destination="-1" id="H8u-mh-qpz"/>
-                <outlet property="delegate" destination="-1" id="hKW-IE-C0w"/>
-            </connections>
-        </collectionView>
+            <constraints>
+                <constraint firstItem="cB8-Zp-vgM" firstAttribute="top" secondItem="IY4-CG-Xbd" secondAttribute="bottom" id="0ZS-kO-cLc"/>
+                <constraint firstAttribute="bottom" secondItem="cB8-Zp-vgM" secondAttribute="bottom" id="2NT-Z5-8Wf"/>
+                <constraint firstItem="IY4-CG-Xbd" firstAttribute="leading" secondItem="zEp-Yx-85T" secondAttribute="leading" id="LsW-cH-YFK"/>
+                <constraint firstItem="IY4-CG-Xbd" firstAttribute="top" secondItem="zEp-Yx-85T" secondAttribute="top" id="TWk-vu-lsR"/>
+                <constraint firstAttribute="trailing" secondItem="cB8-Zp-vgM" secondAttribute="trailing" id="V8H-TC-tJh"/>
+                <constraint firstAttribute="trailing" secondItem="IY4-CG-Xbd" secondAttribute="trailing" id="Y5s-dF-fer"/>
+                <constraint firstItem="cB8-Zp-vgM" firstAttribute="leading" secondItem="zEp-Yx-85T" secondAttribute="leading" id="eRU-1E-p57"/>
+            </constraints>
+        </view>
     </objects>
 </document>
