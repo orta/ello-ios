@@ -14,6 +14,7 @@ class PostDetailViewController: StreamableViewController, CreateCommentDelegate 
     var detailCellItems : [StreamCellItem]?
     var unsizedCellItems : [StreamCellItem]?
     var startOfComments : Int
+    var hasAddedCommentBar = false
     var navigationBar : ElloNavigationBar!
     var streamViewController : StreamViewController!
     var streamKind: StreamKind?
@@ -155,12 +156,24 @@ class PostDetailViewController: StreamableViewController, CreateCommentDelegate 
     }
 
     private func appendCreateCommentItem() {
+        if hasAddedCommentBar {
+            return
+        }
+
         if let post = post {
+            hasAddedCommentBar = true
+
             let controller = self.streamViewController
             let comment = Comment.newCommentForPost(post, currentUser: self.currentUser!)
-            let createCommentItem = StreamCellItem(jsonable: comment, type: .CreateComment, data: nil, oneColumnCellHeight: StreamCreateCommentCell.Size.Height, multiColumnCellHeight: StreamCreateCommentCell.Size.Height, isFullWidth: true)
+            let createCommentItem = StreamCellItem(jsonable: comment,
+                type: .CreateComment,
+                data: nil,
+                oneColumnCellHeight: StreamCreateCommentCell.Size.Height,
+                multiColumnCellHeight: StreamCreateCommentCell.Size.Height,
+                isFullWidth: true)
 
-            controller.appendStreamCellItems([createCommentItem])
+            let items = [createCommentItem]
+            controller.appendStreamCellItems(items)
             self.startOfComments += 1
         }
     }
@@ -180,6 +193,7 @@ class PostDetailViewController: StreamableViewController, CreateCommentDelegate 
 
         let startingIndexPath = NSIndexPath(forRow: self.startOfComments, inSection: 0)
         streamViewController.insertUnsizedCellItems(newCommentItems, startingIndexPath: startingIndexPath)
+        loadComments()
     }
 
 }
