@@ -1,47 +1,84 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddFriendsContainerViewController" customModule="Ello" customModuleProvider="target">
             <connections>
+                <outlet property="findButton" destination="9hm-XL-DZK" id="cdB-Eb-aGX"/>
+                <outlet property="inviteButton" destination="Udn-tr-B07" id="rkm-53-idu"/>
+                <outlet property="navigationBar" destination="Xh3-0J-IFR" id="tZ7-v5-Cch"/>
+                <outlet property="navigationBarTopConstraint" destination="NX8-sE-6r8" id="SCF-3K-QCI"/>
                 <outlet property="pageView" destination="3Od-i1-b4M" id="cQw-sy-zma"/>
-                <outlet property="segmentedControl" destination="9hf-M3-b2t" id="8j4-IJ-j6o"/>
                 <outlet property="view" destination="iN0-l3-epB" id="Suw-ec-Jhy"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+            <rect key="frame" x="0.0" y="64" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xh3-0J-IFR" userLabel="navigationBar" customClass="ElloNavigationBar" customModule="Ello" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                    <items>
+                        <navigationItem title="Title" id="pxL-Pg-bzT"/>
+                    </items>
+                </navigationBar>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u6X-Hl-eFO" userLabel="Button Container">
+                    <rect key="frame" x="15" y="59" width="570" height="30"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9hm-XL-DZK" userLabel="findButton" customClass="FindInviteButton" customModule="Ello" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="278" height="30"/>
+                            <state key="normal" title="Find">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="findFriendsTapped:" destination="-1" eventType="touchUpInside" id="D19-gw-tfY"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Udn-tr-B07" userLabel="inviteButton" customClass="FindInviteButton" customModule="Ello" customModuleProvider="target">
+                            <rect key="frame" x="293" y="0.0" width="277" height="30"/>
+                            <state key="normal" title="Invite">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="inviteFriendsTapped:" destination="-1" eventType="touchUpInside" id="SVZ-H3-7Bl"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="Udn-tr-B07" secondAttribute="trailing" id="1CU-e3-Y8v" userLabel="inviteButton - Right"/>
+                        <constraint firstItem="9hm-XL-DZK" firstAttribute="leading" secondItem="u6X-Hl-eFO" secondAttribute="leading" id="W1z-z9-Qj8" userLabel="findButton - Left"/>
+                        <constraint firstItem="9hm-XL-DZK" firstAttribute="top" secondItem="u6X-Hl-eFO" secondAttribute="top" id="Y66-Hm-Sa2" userLabel="findButton - Right"/>
+                        <constraint firstItem="Udn-tr-B07" firstAttribute="leading" secondItem="9hm-XL-DZK" secondAttribute="trailing" constant="15" id="dIf-Y0-QGd" userLabel="findButton | inviteButton"/>
+                        <constraint firstAttribute="bottom" secondItem="9hm-XL-DZK" secondAttribute="bottom" id="hm3-Cx-sQz" userLabel="findButton - Bottom"/>
+                        <constraint firstItem="Udn-tr-B07" firstAttribute="top" secondItem="u6X-Hl-eFO" secondAttribute="top" id="k97-Hh-Z36" userLabel="inviteButton - Top"/>
+                        <constraint firstItem="9hm-XL-DZK" firstAttribute="width" secondItem="Udn-tr-B07" secondAttribute="width" id="m0z-NX-Og5"/>
+                        <constraint firstAttribute="bottom" secondItem="Udn-tr-B07" secondAttribute="bottom" id="she-gl-Y4N" userLabel="inviteButton - Bottom"/>
+                        <constraint firstAttribute="height" constant="30" id="wOb-dl-AeW" userLabel="Button Container - Height"/>
+                    </constraints>
+                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Od-i1-b4M" userLabel="pageView">
-                    <rect key="frame" x="0.0" y="85" width="600" height="451"/>
+                    <rect key="frame" x="0.0" y="89" width="600" height="511"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
-                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="9hf-M3-b2t" userLabel="segmentedControl">
-                    <rect key="frame" x="0.0" y="26" width="600" height="45"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="44" id="lKA-Io-5vf"/>
-                    </constraints>
-                    <segments>
-                        <segment title="Find"/>
-                        <segment title="Invite"/>
-                    </segments>
-                </segmentedControl>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="9hf-M3-b2t" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="26" id="Ouj-SO-Nfh" userLabel="segmentedControl - Top"/>
-                <constraint firstItem="9hf-M3-b2t" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Xw1-VP-nb6" userLabel="segmentedControl - Left"/>
+                <constraint firstItem="u6X-Hl-eFO" firstAttribute="top" secondItem="Xh3-0J-IFR" secondAttribute="bottom" constant="15" id="3li-pL-g8a" userLabel="navigationBar | Button Container"/>
+                <constraint firstAttribute="trailing" secondItem="u6X-Hl-eFO" secondAttribute="trailing" constant="15" id="3qc-EE-ZLm" userLabel="Button Container - Right"/>
+                <constraint firstItem="3Od-i1-b4M" firstAttribute="top" secondItem="u6X-Hl-eFO" secondAttribute="bottom" id="Fov-DK-UU6" userLabel="Button Container | pageView"/>
+                <constraint firstItem="u6X-Hl-eFO" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="I5z-MV-F7D" userLabel="Button Container - Left"/>
+                <constraint firstItem="Xh3-0J-IFR" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="NX8-sE-6r8" userLabel="navigationBarTopConstraint"/>
+                <constraint firstItem="Xh3-0J-IFR" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="T25-GF-8oy" userLabel="navigationBar - Left"/>
+                <constraint firstAttribute="trailing" secondItem="Xh3-0J-IFR" secondAttribute="trailing" id="Yhp-le-BeG" userLabel="navigationBar - Right"/>
                 <constraint firstItem="3Od-i1-b4M" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="atF-H3-LsB" userLabel="pageView - Left"/>
                 <constraint firstAttribute="trailing" secondItem="3Od-i1-b4M" secondAttribute="trailing" id="bW2-jf-uFc" userLabel="pageView - Right"/>
                 <constraint firstAttribute="bottom" secondItem="3Od-i1-b4M" secondAttribute="bottom" id="oYi-GT-YUE" userLabel="pageView - Bottom"/>
-                <constraint firstItem="3Od-i1-b4M" firstAttribute="top" secondItem="9hf-M3-b2t" secondAttribute="bottom" constant="15" id="piB-Y5-qPy" userLabel="pageView | segmentedControl vert spacing"/>
-                <constraint firstAttribute="trailing" secondItem="9hf-M3-b2t" secondAttribute="trailing" id="v7i-I3-Rtp" userLabel="segmentedControl - Right"/>
             </constraints>
-            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+            <nil key="simulatedTopBarMetrics"/>
             <point key="canvasLocation" x="771" y="456"/>
         </view>
     </objects>
