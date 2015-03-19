@@ -12,10 +12,10 @@ import Nimble
 
 class ToNSDataSpec: QuickSpec {
     override func spec() {
-        let string = "test"
-        let image = UIImage(named: "specs-avatar")!
         let emptyData = NSData()
         let someData = NSData(base64EncodedString: "dGVzdA==", options: NSDataBase64DecodingOptions())!
+        let string = "test"
+        let image = UIImage(named: "specs-avatar")!
 
         describe("NSData") {
             it("should return self (empty data)") {
