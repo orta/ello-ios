@@ -33,28 +33,17 @@ struct Tmp {
         return NSProcessInfo.processInfo().globallyUniqueString
     }
 
-    static func write(string: String, to fileName: String) -> NSURL {
-        if let data = string.dataUsingEncoding(NSUTF8StringEncoding) {
-            return write(data, to: fileName)
+    static func write(toDataable: ToNSData, to fileName: String) -> NSURL? {
+        if let data = toDataable.toNSData() {
+            let directoryURL = self.directoryURL()
+            NSFileManager.defaultManager().createDirectoryAtURL(directoryURL, withIntermediateDirectories: true, attributes: nil, error: nil)
+
+            let fileURL = self.fileURL(fileName)
+            data.writeToURL(fileURL, atomically: true)
+
+            return fileURL
         }
-        return write(NSData(), to: fileName)
-    }
-
-    static func write(image: UIImage, to fileName: String) -> NSURL {
-        if let data = UIImagePNGRepresentation(image) {
-            return write(data, to: fileName)
-        }
-        return write(NSData(), to: fileName)
-    }
-
-    static func write(data: NSData, to fileName: String) -> NSURL {
-        let directoryURL = self.directoryURL()
-        NSFileManager.defaultManager().createDirectoryAtURL(directoryURL, withIntermediateDirectories: true, attributes: nil, error: nil)
-
-        let fileURL = self.fileURL(fileName)
-        data.writeToURL(fileURL, atomically: true)
-
-        return fileURL
+        return nil
     }
 
     static func read(fileName: String) -> NSData? {
