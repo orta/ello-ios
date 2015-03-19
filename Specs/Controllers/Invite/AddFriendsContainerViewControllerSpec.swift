@@ -29,28 +29,41 @@ class AddFriendsContainerViewControllerSpec: QuickSpec {
             ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
         }
 
-        describe("initialization", {
+        describe("initialization") {
 
-            beforeEach({
+            beforeEach {
                 subject = AddFriendsContainerViewController(addressBook: FakeAddressBook())
-            })
+            }
 
-            describe("nib", {
+            describe("nib") {
 
-                beforeEach({
+                beforeEach {
                     subject.loadView()
                     subject.viewDidLoad()
-                })
+                }
 
-                it("IBOutlets are  not nil", {
+                it("IBOutlets are  not nil") {
                     expect(subject.pageView).notTo(beNil())
-                    expect(subject.segmentedControl).notTo(beNil())
-                })
+                    expect(subject.navigationBar).notTo(beNil())
+                    expect(subject.navigationBarTopConstraint).notTo(beNil())
+                    expect(subject.inviteButton).notTo(beNil())
+                    expect(subject.findButton).notTo(beNil())
+                }
 
-                it("IBActions are wired up", {
+                it("IBActions are wired up") {
+                    let inviteActions = subject.inviteButton.actionsForTarget(subject, forControlEvent: UIControlEvents.TouchUpInside)
 
-                });
-            })
+                    expect(inviteActions).to(contain("inviteFriendsTapped:"))
+
+                    expect(inviteActions?.count) == 1
+
+                    let findActions = subject.findButton.actionsForTarget(subject, forControlEvent: UIControlEvents.TouchUpInside)
+
+                    expect(findActions).to(contain("findFriendsTapped:"))
+
+                    expect(findActions?.count) == 1
+                }
+            }
 
             it("can be instantiated from nib") {
                 expect(subject).notTo(beNil())
@@ -76,28 +89,20 @@ class AddFriendsContainerViewControllerSpec: QuickSpec {
             it("creates a InviteFriendsViewController") {
                 expect(subject.inviteFriendsViewController).to(beAKindOf(InviteFriendsViewController.self))
             }
-        })
+        }
 
-        describe("-viewDidLoad:", {
+        describe("-viewDidLoad:") {
 
-            beforeEach({
+            beforeEach {
                 subject = AddFriendsContainerViewController(addressBook: FakeAddressBook())
                 subject.loadView()
                 subject.viewDidLoad()
-            })
+            }
 
-//            it("configures dataSource") {
-//                expect(subject.dataSource).to(beAnInstanceOf(AddFriendsDataSource.self))
-//            }
-//
-//            it("configures tableView") {
-//                let delegate = subject.tableView.delegate! as InviteFriendsViewController
-//                expect(delegate) == subject
-//                
-//                let dataSource = subject.tableView.dataSource! as AddFriendsDataSource
-//                expect(dataSource) == subject.dataSource
-//            }
-//            
-        })
+            it("configures buttons") {
+                expect(subject.findButton.selected).to(beTrue())
+                expect(subject.inviteButton.selected).to(beFalse())
+            }
+        }
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
@@ -16,24 +16,20 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Phc-ki-KsK">
-                    <rect key="frame" x="0.0" y="50" width="600" height="486"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                </tableView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aze-c9-2YH">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QLn-Qy-Jum">
-                            <rect key="frame" x="8" y="41" width="584" height="1"/>
-                            <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QLn-Qy-Jum" userLabel="Line">
+                            <rect key="frame" x="15" y="49" width="570" height="1"/>
+                            <color key="backgroundColor" red="0.79607843137254897" green="0.79607843137254897" blue="0.79607843137254897" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="BzB-B1-fak"/>
                             </constraints>
                         </view>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="  Name or email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UIM-NJ-xrX">
-                            <rect key="frame" x="8" y="8" width="584" height="33"/>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="  Name or email" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="UIM-NJ-xrX" userLabel="filterField">
+                            <rect key="frame" x="20" y="8" width="565" height="41"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <textInputTraits key="textInputTraits"/>
+                            <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                             <connections>
                                 <action selector="filterFieldDidChange:" destination="-1" eventType="editingChanged" id="mZw-nM-Ot3"/>
                             </connections>
@@ -41,16 +37,21 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="trailing" secondItem="QLn-Qy-Jum" secondAttribute="trailing" constant="8" id="30W-rO-02D"/>
+                        <constraint firstAttribute="trailing" secondItem="QLn-Qy-Jum" secondAttribute="trailing" constant="15" id="30W-rO-02D" userLabel="Line - Right"/>
                         <constraint firstAttribute="height" constant="50" id="4cY-U8-Ygi"/>
-                        <constraint firstItem="QLn-Qy-Jum" firstAttribute="leading" secondItem="aze-c9-2YH" secondAttribute="leading" constant="8" id="9N2-28-8Jp"/>
-                        <constraint firstItem="UIM-NJ-xrX" firstAttribute="leading" secondItem="aze-c9-2YH" secondAttribute="leading" constant="8" id="BWA-8u-nit"/>
-                        <constraint firstItem="QLn-Qy-Jum" firstAttribute="top" secondItem="UIM-NJ-xrX" secondAttribute="bottom" id="M2n-Op-F6l"/>
-                        <constraint firstAttribute="trailing" secondItem="UIM-NJ-xrX" secondAttribute="trailing" constant="8" id="adq-6n-A99"/>
-                        <constraint firstItem="UIM-NJ-xrX" firstAttribute="top" secondItem="aze-c9-2YH" secondAttribute="top" constant="8" id="rHE-rX-1cE"/>
-                        <constraint firstAttribute="bottom" secondItem="QLn-Qy-Jum" secondAttribute="bottom" constant="8" id="tvk-qi-fLc"/>
+                        <constraint firstItem="QLn-Qy-Jum" firstAttribute="leading" secondItem="aze-c9-2YH" secondAttribute="leading" constant="15" id="9N2-28-8Jp" userLabel="Line - Left"/>
+                        <constraint firstItem="UIM-NJ-xrX" firstAttribute="leading" secondItem="aze-c9-2YH" secondAttribute="leading" constant="20" id="BWA-8u-nit" userLabel="filterField - Left"/>
+                        <constraint firstItem="QLn-Qy-Jum" firstAttribute="top" secondItem="UIM-NJ-xrX" secondAttribute="bottom" id="M2n-Op-F6l" userLabel="filterField | Line"/>
+                        <constraint firstAttribute="trailing" secondItem="UIM-NJ-xrX" secondAttribute="trailing" constant="15" id="adq-6n-A99" userLabel="filterField - Right"/>
+                        <constraint firstItem="UIM-NJ-xrX" firstAttribute="top" secondItem="aze-c9-2YH" secondAttribute="top" constant="8" id="rHE-rX-1cE" userLabel="filterField - Top"/>
+                        <constraint firstAttribute="bottom" secondItem="QLn-Qy-Jum" secondAttribute="bottom" id="tvk-qi-fLc" userLabel="Line - Bottom"/>
                     </constraints>
                 </view>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Phc-ki-KsK">
+                    <rect key="frame" x="0.0" y="50" width="600" height="486"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                </tableView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>

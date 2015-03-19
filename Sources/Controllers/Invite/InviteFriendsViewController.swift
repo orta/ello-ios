@@ -77,6 +77,13 @@ class InviteFriendsViewController: BaseElloViewController {
 // MARK: InviteFriendsViewController : UITableViewDelegate
 extension InviteFriendsViewController : UITableViewDelegate {
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 50.0
+        return 60.0
+    }
+}
+
+// MARK: InviteFriendsViewController : UIScrollViewDelegate
+extension InviteFriendsViewController : UIScrollViewDelegate {
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        filterField.resignFirstResponder()
     }
 }
