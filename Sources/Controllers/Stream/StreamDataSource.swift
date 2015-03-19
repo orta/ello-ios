@@ -128,6 +128,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     func heightForIndexPath(indexPath:NSIndexPath, numberOfColumns:NSInteger) -> CGFloat {
         if !isValidIndexPath(indexPath) { return 0 }
 
+        // @seand: why does this always add padding? UserListItemCell is a fixed height, but this always adds an extra 10
         if numberOfColumns == 1 {
             return streamCellItems[indexPath.item].oneColumnCellHeight + imageBottomPadding ?? 0.0
         }
