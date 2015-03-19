@@ -15,6 +15,7 @@ class UserListItemCell: UICollectionViewCell {
     @IBOutlet weak var relationshipView: RelationshipView!
     weak var userDelegate: UserDelegate?
     var currentUser: User?
+    var bottomBorder = CALayer()
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -29,11 +30,15 @@ class UserListItemCell: UICollectionViewCell {
         usernameLabel.font = UIFont.typewriterFont(12.0)
         usernameLabel.textColor = UIColor.greyA()
         // bottom border
-        var bottomBorder = CALayer()
-        bottomBorder.frame = CGRect(x: 0, y: self.bounds.height - 1, width: self.bounds.width, height: 1)
         bottomBorder.backgroundColor = UIColor.greyF1().CGColor
         self.layer.addSublayer(bottomBorder)
     }
+
+    override func layoutSubviews() {
+        bottomBorder.frame = CGRect(x: 0, y: self.bounds.height - 1, width: self.bounds.width, height: 1)
+        super.layoutSubviews()
+    }
+
 
     @IBAction func userTapped(sender: AvatarButton) {
         userDelegate?.userTappedCell(self)
