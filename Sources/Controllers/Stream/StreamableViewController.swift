@@ -84,7 +84,7 @@ class StreamableViewController : BaseElloViewController, PostTappedDelegate, Use
             return
         }
 
-        let vc = ProfileViewController(user: user)
+        let vc = ProfileViewController(userParam: user.userId)
         vc.currentUser = currentUser
         vc.willPresentStreamable(scrollLogic.isShowing)
         self.navigationController?.pushViewController(vc, animated: true)
@@ -93,7 +93,7 @@ class StreamableViewController : BaseElloViewController, PostTappedDelegate, Use
 
     private func alreadyOnUserProfile(user: User) -> Bool {
         if let profileVC = self.navigationController?.topViewController as? ProfileViewController {
-            return user.userId == profileVC.user.userId
+            return user.userId == profileVC.userParam
         }
         return false
     }

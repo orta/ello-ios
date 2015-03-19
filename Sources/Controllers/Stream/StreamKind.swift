@@ -12,7 +12,7 @@ enum StreamKind {
     case Friend
     case Noise
     case PostDetail(post: Post)
-    case Profile(user: User)
+    case Profile(userParam: String)
     case Notifications
     case UserList(endpoint: ElloAPI, title: String)
 
@@ -22,7 +22,7 @@ enum StreamKind {
         case .Noise: return "Noise"
         case .Notifications: return "Notifications"
         case .PostDetail: return "Post Detail"
-        case .Profile(let user): return "@\((user as User).username)"
+        case .Profile: return "Profile"
         case .UserList(let title): return "\(title)"
         }
     }
@@ -40,7 +40,7 @@ enum StreamKind {
         case .Noise: return .NoiseStream
         case .Notifications: return .NotificationsStream
         case .PostDetail: return .NoiseStream // never use
-        case .Profile(let user): return .UserStream(userId: (user as User).userId)
+        case .Profile(let userParam): return .UserStream(userParam: userParam)
         case .UserList(let endpoint, let title): return endpoint
         }
     }

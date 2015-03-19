@@ -10,7 +10,7 @@ import UIKit
 
 class ProfileViewController: StreamableViewController {
 
-    let user: User
+    let userParam: String
     let streamViewController: StreamViewController
     var coverImageHeightStart: CGFloat?
     var coverWidthSet = false
@@ -22,13 +22,12 @@ class ProfileViewController: StreamableViewController {
     @IBOutlet weak var coverImage: UIImageView!
     @IBOutlet weak var coverImageHeight: NSLayoutConstraint!
 
-    required init(user : User) {
-        self.user = user
+    required init(userParam: String) {
+        self.userParam = userParam
         self.streamViewController = StreamViewController.instantiateFromStoryboard()
-        self.streamViewController.streamKind = .Profile(user: user)
+        self.streamViewController.streamKind = .Profile(userParam: userParam)
         super.init(nibName: "ProfileViewController", bundle: nil)
         self.streamViewController.userTappedDelegate = self
-        self.title = user.atName ?? "Profile"
     }
 
     override func viewDidLoad() {
@@ -37,10 +36,8 @@ class ProfileViewController: StreamableViewController {
         if isRootViewController() {
             hideNavBar()
         }
-
         setupStreamController()
         setupNavigationBar()
-
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
     }
 
@@ -118,6 +115,7 @@ class ProfileViewController: StreamableViewController {
     }
 
     private func userLoaded(user: User) {
+        self.title = user.atName ?? "Profile"
         if let cover = user.coverImageURL {
             coverImage.sd_setImageWithURL(cover, completed: {
                 (image, error, type, url) in
