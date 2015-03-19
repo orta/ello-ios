@@ -129,6 +129,8 @@ extension ElloNavigationController: UINavigationControllerDelegate {
     func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
 
         switch (toVC, fromVC) {
+        case (is DrawerViewController, is ProfileViewController): return defaultAnimatorForOperation(operation)
+        case (is ProfileViewController, is DrawerViewController): return defaultAnimatorForOperation(operation)
         case (is DrawerViewController, _): return drawerAnimatorForOperation(operation)
         case (_, is DrawerViewController): return drawerAnimatorForOperation(operation)
         default: return defaultAnimatorForOperation(operation)

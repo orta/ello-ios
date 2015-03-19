@@ -13,8 +13,11 @@
                 <rect key="frame" x="0.0" y="0.0" width="187" height="161"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zS8-v0-opU" customClass="AvatarButton" customModule="Ello" customModuleProvider="target">
+                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zS8-v0-opU" customClass="AvatarButton" customModule="Ello" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="187" height="161"/>
+                        <accessibility key="accessibilityConfiguration">
+                            <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
+                        </accessibility>
                         <state key="normal">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>

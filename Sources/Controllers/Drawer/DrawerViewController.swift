@@ -65,5 +65,9 @@ class DrawerViewController: BaseElloViewController, UICollectionViewDataSource, 
     // MARK: UICollectionViewDelegate
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        let user = dataSource.userForIndexPath(indexPath)
+        let profileViewController = ProfileViewController(user: user)
+
+        navigationController?.pushViewController(profileViewController, animated: true)
     }
 }
