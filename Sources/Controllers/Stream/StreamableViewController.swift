@@ -80,7 +80,7 @@ class StreamableViewController : BaseElloViewController, PostTappedDelegate, Use
     }
 
     func userTapped(user: User) {
-        if alreadyOnUserProfile(user) {
+        if alreadyOnUserProfile(user.userId) {
             return
         }
 
@@ -91,9 +91,9 @@ class StreamableViewController : BaseElloViewController, PostTappedDelegate, Use
         vc.didPresentStreamable()
     }
 
-    private func alreadyOnUserProfile(user: User) -> Bool {
+    private func alreadyOnUserProfile(userParam: String) -> Bool {
         if let profileVC = self.navigationController?.topViewController as? ProfileViewController {
-            return user.userId == profileVC.userParam
+            return userParam == profileVC.userParam
         }
         return false
     }
