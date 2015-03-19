@@ -28,7 +28,7 @@ class ProfileViewControllerSpec: QuickSpec {
             identifiableBy: .None,
             formattedShortBio: "formatted test bio")
 
-        var controller = ProfileViewController(user: user)
+        var controller = ProfileViewController(userParam: user.userId)
 
         describe("initialization", {
 
