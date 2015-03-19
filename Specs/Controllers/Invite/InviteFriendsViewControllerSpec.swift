@@ -23,13 +23,13 @@ class InviteFriendsViewControllerSpec: QuickSpec {
             ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
         }
 
-        describe("initialization", {
+        describe("initialization") {
 
-            beforeEach({
+            beforeEach {
                 subject = InviteFriendsViewController()
-            })
+            }
 
-            describe("nib", {
+            describe("nib") {
 
                 beforeEach({
                     subject.loadView()
@@ -41,10 +41,14 @@ class InviteFriendsViewControllerSpec: QuickSpec {
                     expect(subject.filterField).notTo(beNil())
                 })
 
-                it("IBActions are wired up", {
+                it("IBActions are wired up") {
+                    let filterActions = subject.filterField.actionsForTarget(subject, forControlEvent: UIControlEvents.EditingChanged)
 
-                });
-            })
+                    expect(filterActions).to(contain("filterFieldDidChange:"))
+
+                    expect(filterActions?.count) == 1
+                }
+            }
 
             it("can be instantiated from nib") {
                 expect(subject).notTo(beNil())
@@ -54,22 +58,22 @@ class InviteFriendsViewControllerSpec: QuickSpec {
                 expect(subject).to(beAKindOf(BaseElloViewController.self))
             })
 
-            it("is an InviteFriendsViewController", {
+            it("is an InviteFriendsViewController") {
                 expect(subject).to(beAKindOf(InviteFriendsViewController.self))
-            })
+            }
 
             it("has an invite service") {
                 expect(subject.inviteService).toNot(beNil())
             }
-        })
+        }
 
-        describe("-viewDidLoad:", {
+        describe("-viewDidLoad:") {
 
-            beforeEach({
+            beforeEach {
                 subject = InviteFriendsViewController()
                 subject.loadView()
                 subject.viewDidLoad()
-            })
+            }
 
             it("configures dataSource") {
                 expect(subject.dataSource).to(beAnInstanceOf(AddFriendsDataSource.self))
@@ -83,7 +87,7 @@ class InviteFriendsViewControllerSpec: QuickSpec {
                 expect(dataSource) == subject.dataSource
             }
             
-        })
+        }
 
         describe("setContacts") {
             it("sets the given array of contacts to the datasource") {
@@ -104,11 +108,11 @@ class InviteFriendsViewControllerSpec: QuickSpec {
         }
 
         describe("filterFieldDidChange") {
-            beforeEach({
+            beforeEach {
                 subject = InviteFriendsViewController()
                 subject.loadView()
                 subject.viewDidLoad()
-            })
+            }
 
             context("empty filter field") {
                 it("sets the full list of contacts to the dataSource") {
@@ -156,5 +160,38 @@ class InviteFriendsViewControllerSpec: QuickSpec {
                 }
             }
         }
+
+        context("protocol conformance") {
+            beforeEach({
+                subject = InviteFriendsViewController()
+                subject.loadView()
+                subject.viewDidLoad()
+            })
+
+            context("UITableViewDelegate") {
+
+                it("is a UITableViewDelegate") {
+                    expect(subject as UITableViewDelegate).notTo(beNil())
+                }
+
+                describe("-tableView:heightForRowAtIndexPath:") {
+
+                    it("returns 60") {
+                        let height = subject.tableView(subject.tableView, heightForRowAtIndexPath:NSIndexPath(forRow: 0, inSection: 0))
+
+                        expect(height) == 60
+                    }
+                }
+                
+            }
+
+            context("UIScrollViewDelegate") {
+
+                it("is a UIScrollViewDelegate") {
+                    expect(subject as UIScrollViewDelegate).notTo(beNil())
+                }
+            }
+        }
+
     }
 }

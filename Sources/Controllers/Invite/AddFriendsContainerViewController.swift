@@ -10,8 +10,16 @@ import UIKit
 
 class AddFriendsContainerViewController: StreamableViewController {
 
+    enum FindOption {
+        case Find
+        case Invite
+    }
+
     @IBOutlet weak var pageView: UIView!
-    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    @IBOutlet weak var findButton: FindInviteButton!
+    @IBOutlet weak var inviteButton: FindInviteButton!
+    @IBOutlet weak var navigationBar: UINavigationBar!
+    @IBOutlet weak var navigationBarTopConstraint: NSLayoutConstraint!
 
     let pageViewController: UIPageViewController
     let findFriendsViewController: FindFriendsViewController
@@ -33,7 +41,7 @@ class AddFriendsContainerViewController: StreamableViewController {
         super.viewDidLoad()
         setupNavBar()
         setupPageViewController()
-        setupSegmentedControl()
+        setupButtons()
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -41,12 +49,30 @@ class AddFriendsContainerViewController: StreamableViewController {
         findFriendsFromContacts()
     }
 
+    override func showNavBars(scrollToBottom : Bool) {
+        super.showNavBars(scrollToBottom)
+        navigationBarTopConstraint.constant = 0
+        self.view.layoutIfNeeded()
+    }
+
+    override func hideNavBars() {
+        super.hideNavBars()
+        navigationBarTopConstraint.constant = navigationBar.frame.height + 1
+        self.view.layoutIfNeeded()
+    }
+
     // MARK: - Private
 
     private func setupNavBar() {
-        self.navigationController?.navigationBar.translucent = false
-        let item = UIBarButtonItem.backChevronWithTarget(self, action: "backTapped:")
-        self.navigationItem.leftBarButtonItem = item
+        navigationController?.navigationBarHidden = true
+        navigationItem.title = self.title
+        navigationBar.items = [navigationItem]
+        if !isRootViewController() {
+            let item = UIBarButtonItem.backChevronWithTarget(self, action: "backTapped:")
+            let negativeSpacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FixedSpace, target: nil, action:"")
+            negativeSpacer.width = -15
+            navigationItem.leftBarButtonItems = [negativeSpacer, item]
+        }
     }
 
     private func setupPageViewController() {
@@ -65,22 +91,8 @@ class AddFriendsContainerViewController: StreamableViewController {
         pageViewController.didMoveToParentViewController(self)
     }
 
-    private func setupSegmentedControl() {
-        // TODO: This might need to become two buttons due to styling
-        segmentedControl.layer.borderColor = UIColor.greyA().CGColor
-        segmentedControl.layer.borderWidth = 1.0
-        segmentedControl.layer.cornerRadius = 0.0
-        segmentedControl.selectedSegmentIndex = 0
-        segmentedControl.setDividerImage(UIImage.imageWithColor(UIColor.clearColor()), forLeftSegmentState: .Normal, rightSegmentState: .Normal, barMetrics: .Default)
-
-        let normalTitleTextAttributes = [NSForegroundColorAttributeName:UIColor.greyA(), NSFontAttributeName: UIFont.typewriterFont(11.0)]
-        let selectedTitleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor(), NSFontAttributeName: UIFont.typewriterFont(11.0)]
-        segmentedControl.setTitleTextAttributes(normalTitleTextAttributes, forState: .Normal)
-        segmentedControl.setTitleTextAttributes(selectedTitleTextAttributes, forState: .Selected)
-        segmentedControl.setBackgroundImage(UIImage.imageWithColor(UIColor.whiteColor()), forState: .Normal, barMetrics: .Default)
-        segmentedControl.setBackgroundImage(UIImage.imageWithColor(UIColor.greyA()), forState: .Selected, barMetrics: .Default)
-
-        segmentedControl.addTarget(self, action: "addFriendsSegmentTapped:", forControlEvents: .ValueChanged)
+    private func setupButtons() {
+        findButton.selected = true
     }
 
     private func findFriendsFromContacts() {
@@ -109,14 +121,31 @@ class AddFriendsContainerViewController: StreamableViewController {
         })
     }
 
+    private func selectButton(option: FindOption) {
+        inviteButton.selected = false
+        findButton.selected = false
+        switch option {
+        case .Find:
+            findButton.selected = true
+        case .Invite:
+            inviteButton.selected = true
+        }
+    }
+
     // MARK: - IBActions
 
-    @IBAction func addFriendsSegmentTapped(sender: UISegmentedControl) {
-        let index = sender.selectedSegmentIndex
-        let direction: UIPageViewControllerNavigationDirection = index == 0 ? .Reverse : .Forward;
+    @IBAction func findFriendsTapped(sender: FindInviteButton) {
+        selectButton(.Find)
+        pageViewController.setViewControllers([controllers[0]],
+            direction: .Reverse,
+            animated: true) { finished in
+        }
+    }
 
-        pageViewController.setViewControllers([controllers[index]],
-            direction: direction,
+    @IBAction func inviteFriendsTapped(sender: FindInviteButton) {
+        selectButton(.Invite)
+        pageViewController.setViewControllers([controllers[1]],
+            direction: .Forward,
             animated: true) { finished in
         }
     }
@@ -126,14 +155,15 @@ class AddFriendsContainerViewController: StreamableViewController {
 extension AddFriendsContainerViewController: UIPageViewControllerDelegate {
 
     func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [AnyObject], transitionCompleted completed: Bool) {
+        if completed {
+            let viewController = previousViewControllers.first as? UIViewController
 
-        let viewController = previousViewControllers.first as? UIViewController
-
-        if (viewController as? FindFriendsViewController != nil) {
-            segmentedControl.selectedSegmentIndex = 1
-        }
-        else if (viewController as? InviteFriendsViewController != nil) {
-            segmentedControl.selectedSegmentIndex = 0
+            if (viewController as? FindFriendsViewController != nil) {
+                selectButton(.Invite)
+            }
+            else if (viewController as? InviteFriendsViewController != nil) {
+                selectButton(.Find)
+            }
         }
     }
 }

@@ -24,13 +24,15 @@ class ElloLogoView: UIImageView {
 
     func stopAnimatingLogo() {
         let endAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
-        let layer = self.layer.presentationLayer() as CALayer
-        let angle = layer.valueForKeyPath("transform.rotation.z") as NSNumber
-        endAnimation.fromValue = angle.floatValue
-        endAnimation.toValue = self.toValue
-        endAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
-        endAnimation.duration = 0.25
-        self.layer.removeAllAnimations()
-        self.layer.addAnimation(endAnimation, forKey: "logo-finish")
+
+        if let layer = self.layer.presentationLayer() as? CALayer {
+            let angle = layer.valueForKeyPath("transform.rotation.z") as NSNumber
+            endAnimation.fromValue = angle.floatValue
+            endAnimation.toValue = self.toValue
+            endAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
+            endAnimation.duration = 0.25
+            self.layer.removeAllAnimations()
+            self.layer.addAnimation(endAnimation, forKey: "logo-finish")
+        }
     }
 }

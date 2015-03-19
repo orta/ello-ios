@@ -6,4 +6,30 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import Foundation
+class FindInviteButton: UIButton {
+
+    required override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.sharedSetup()
+    }
+
+    required init(coder: NSCoder) {
+        super.init(coder: coder)
+        self.sharedSetup()
+    }
+
+    func sharedSetup() {
+        self.layer.borderColor = UIColor.greyA().CGColor
+        self.layer.borderWidth = 1.0
+        self.layer.cornerRadius = 0.0
+        self.titleLabel?.font = UIFont.typewriterFont(11.0)
+        self.titleLabel?.numberOfLines = 1
+        self.setTitleColor(UIColor.greyA(), forState: UIControlState.Normal)
+        self.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Highlighted)
+        self.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
+        self.setBackgroundImage(UIImage.imageWithColor(UIColor.whiteColor()), forState: UIControlState.Normal)
+        self.setBackgroundImage(UIImage.imageWithColor(UIColor.greyA()), forState: UIControlState.Highlighted)
+        self.setBackgroundImage(UIImage.imageWithColor(UIColor.greyA()), forState: UIControlState.Selected)
+    }
+    
+}
