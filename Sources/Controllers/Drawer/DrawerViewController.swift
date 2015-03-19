@@ -60,6 +60,18 @@ class DrawerViewController: BaseElloViewController, UICollectionViewDataSource, 
         navigationController?.popViewControllerAnimated(true)
     }
 
+    func wtfButtonTapped() {
+        if let navController = navigationController as? ElloNavigationController {
+            navController.showExternalWebView("https://www.google.com/search?q=wtf")
+        }
+    }
+
+    func storeButtonTapped() {
+        if let navController = navigationController as? ElloNavigationController {
+            navController.showExternalWebView("https://www.google.com/search?q=store")
+        }
+    }
+
     // MARK: UICollectionViewDataSource
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
