@@ -47,4 +47,17 @@ class BaseElloViewController: UIViewController {
         return false
     }
 
+    func alreadyOnUserProfile(userParam: String) -> Bool {
+        if let profileVC = self.navigationController?.topViewController as? ProfileViewController {
+            return userParam == profileVC.userParam
+        }
+        return false
+    }
+
+    func alreadyOnPostDetail(postParam: String) -> Bool {
+        if let postDetailVC = self.navigationController?.topViewController as? PostDetailViewController {
+            return postParam == postDetailVC.postParam
+        }
+        return false
+    }
 }

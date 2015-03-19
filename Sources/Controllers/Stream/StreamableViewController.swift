@@ -90,14 +90,6 @@ class StreamableViewController : BaseElloViewController, PostTappedDelegate, Use
         self.navigationController?.pushViewController(vc, animated: true)
         vc.didPresentStreamable()
     }
-
-    private func alreadyOnUserProfile(userParam: String) -> Bool {
-        if let profileVC = self.navigationController?.topViewController as? ProfileViewController {
-            return userParam == profileVC.userParam
-        }
-        return false
-    }
-
 }
 
 

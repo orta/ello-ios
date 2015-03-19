@@ -11,7 +11,6 @@ import Moya
 import SwiftyJSON
 
 typealias StreamSuccessCompletion = (jsonables: [JSONAble], responseConfig: ResponseConfig) -> ()
-typealias PostSuccessCompletion = (post: Post) -> ()
 typealias ProfileSuccessCompletion = (user: User) -> ()
 
 class StreamService: NSObject {

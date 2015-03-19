@@ -249,10 +249,7 @@ extension StreamViewController : WebLinkDelegate {
 
     private func presentProfile(username: String) {
         let param = "~\(username)"
-        if alreadyOnUserProfile(param) {
-            return
-        }
-
+        if alreadyOnUserProfile(param) { return }
         let vc = ProfileViewController(userParam: param)
         vc.currentUser = currentUser
         self.navigationController?.pushViewController(vc, animated: true)
@@ -260,14 +257,12 @@ extension StreamViewController : WebLinkDelegate {
     }
 
     private func showPostDetail(token: String) {
-        println("show post detail: \(token)")
-    }
-
-    private func alreadyOnUserProfile(userParam: String) -> Bool {
-        if let profileVC = self.navigationController?.topViewController as? ProfileViewController {
-            return userParam == profileVC.userParam
-        }
-        return false
+        let param = "~\(token)"
+        if alreadyOnPostDetail(param) { return }
+        let vc = PostDetailViewController(token: param)
+        vc.currentUser = currentUser
+        self.navigationController?.pushViewController(vc, animated: true)
+        vc.didPresentStreamable()
     }
 }
 

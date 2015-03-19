@@ -11,7 +11,7 @@ import Foundation
 enum StreamKind {
     case Friend
     case Noise
-    case PostDetail(post: Post)
+    case PostDetail(postParam: String)
     case Profile(userParam: String)
     case Notifications
     case UserList(endpoint: ElloAPI, title: String)
@@ -39,7 +39,7 @@ enum StreamKind {
         case .Friend: return .FriendStream
         case .Noise: return .NoiseStream
         case .Notifications: return .NotificationsStream
-        case .PostDetail: return .NoiseStream // never use
+        case .PostDetail(let postParam): return .PostDetail(postParam: postParam)
         case .Profile(let userParam): return .UserStream(userParam: userParam)
         case .UserList(let endpoint, let title): return endpoint
         }
