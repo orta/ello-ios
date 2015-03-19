@@ -26,10 +26,10 @@ class PostDetailViewController: StreamableViewController {
         self.init(post: post, items: [], unsized: unsized)
     }
 
-    required init(token: String) {
-        self.postParam = token
+    required init(postParam: String) {
+        self.postParam = postParam
         super.init(nibName: nil, bundle: nil)
-        PostService.loadPost(token,
+        PostService.loadPost(postParam,
             success: postLoaded,
             failure: nil
         )
@@ -134,7 +134,7 @@ class PostDetailViewController: StreamableViewController {
                     self.streamViewController.addUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamViewController.streamKind))
                     self.streamViewController.doneLoading()
                 },
-                failure: { (error, statusCode) -> () in
+                failure: { (error, statusCode) in
                     println("failed to load comments (reason: \(error))")
                     self.streamViewController.doneLoading()
                 }
