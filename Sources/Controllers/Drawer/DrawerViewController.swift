@@ -32,7 +32,7 @@ class DrawerViewController: BaseElloViewController, UICollectionViewDataSource, 
     }
 
     func addHamburgerButton() {
-        let button = UIBarButtonItem(image: UIImage(named: "hamburger-icon"), style: .Done, target: self, action: "hamburgerButtonTapped")
+        let button = UIBarButtonItem(image: UIImage(named: "hamburger-icon"), style: .Done, target: self, action: Selector("hamburgerButtonTapped"))
         button.tintColor = UIColor.greyA()
         self.navigationItem.rightBarButtonItem = button
     }
