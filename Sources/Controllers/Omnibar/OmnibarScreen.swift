@@ -31,7 +31,7 @@ import MobileCoreServices
 
 @objc
 protocol OmnibarScreenDelegate {
-    func omnibarBack()
+    func omnibarCancel()
     func omnibarPresentController(controller : UIViewController)
     func omnibarDismissController(controller : UIViewController)
     func omnibarSubmitted(text : NSAttributedString?, image: UIImage?)
@@ -134,6 +134,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
 
     let imageSelectedButton = UIButton()
     let imageSelectedOverlay = UIImageView()
+    let navigationBar = ElloNavigationBar(frame: CGRectZero)
     let backButton = UIButton()
     let cancelButton = UIButton()
     let submitButton = UIButton()
@@ -392,7 +393,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
 // MARK: Button Actions
 
     func backAction() {
-        self.delegate?.omnibarBack()
+        self.delegate?.omnibarCancel()
     }
 
     func startEditingAction() {

@@ -23,6 +23,23 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
     convenience init(parentPost post: Post) {
         self.init(nibName: nil, bundle: nil)
         parentPost = post
+
+        let fileName = omnibarDataName()
+        if let data : NSData = Tmp.read(fileName) {
+            if let omnibarData = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? OmnibarData {
+                self.screen.attributedText = omnibarData.attributedText
+                self.screen.image = omnibarData.image
+            }
+        }
+    }
+
+    private func omnibarDataName() -> String {
+        if let post = parentPost {
+            return "omnibar_comment_\(post.postId)"
+        }
+        else {
+            return "omnibar_post"
+        }
     }
 
     func onPostSuccess(block: PostSuccessListener) {
@@ -80,7 +97,13 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
         self.screen.avatarURL = currentUser?.avatarURL
     }
 
-    func omnibarBack() {
+    func omnibarCancel() {
+        if let post = parentPost {
+            let omnibarData = OmnibarData(attributedText: screen.attributedText, image: screen.image)
+            let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
+            Tmp.write(data, to: omnibarDataName())
+        }
+
         self.navigationController?.popViewControllerAnimated(true)
     }
 
@@ -108,22 +131,21 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
             ElloHUD.showLoadingHud()
             service.create(content: content, success: { postOrComment in
                 ElloHUD.hideLoadingHud()
-                var createdThing : String
+                Tmp.remove(self.omnibarDataName())
+
                 if let parentPost = self.parentPost {
-                    createdThing = "Comment"
                     var comment = postOrComment as Comment
                     for listener in self.commentSuccessListeners {
                         listener(comment: comment)
                     }
                 }
                 else {
-                    createdThing = "Post"
                     var post = postOrComment as Post
                     for listener in self.postSuccessListeners {
                         listener(post: post)
                     }
+                    self.screen.reportSuccess("Post successfully created!")
                 }
-                self.screen.reportSuccess("\(createdThing) successfully created!")
             }, failure: { error, statusCode in
                 ElloHUD.hideLoadingHud()
                 self.screen.reportError("Could not create post", error: error)
@@ -140,6 +162,36 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
 
     func omnibarDismissController(controller: UIViewController) {
         self.dismissViewControllerAnimated(true, completion: nil)
+    }
+
+}
+
+
+class OmnibarData : NSObject, NSCoding {
+    let attributedText: NSAttributedString?
+    let image: UIImage?
+
+    required init(attributedText: NSAttributedString?, image: UIImage?) {
+        super.init()
+        self.attributedText = attributedText
+        self.image = image
+    }
+
+// MARK: NSCoding
+
+    func encodeWithCoder(encoder: NSCoder) {
+        if let attributedText = self.attributedText {
+            encoder.encodeObject(attributedText, forKey: "attributedText")
+        }
+
+        if let image = self.image {
+            encoder.encodeObject(image, forKey: "image")
+        }
+    }
+
+    required init(coder decoder: NSCoder) {
+        self.attributedText = decoder.decodeObjectForKey("attributedText") as? NSAttributedString
+        self.image = decoder.decodeObjectForKey("image") as? UIImage
     }
 
 }

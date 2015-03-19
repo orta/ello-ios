@@ -16,7 +16,7 @@ class OmnibarScreenMockDelegate : OmnibarScreenDelegate {
     var didDismissController = false
     var submitted = false
 
-    func omnibarBack() {
+    func omnibarCancel() {
         didGoBack = true
     }
     func omnibarPresentController(controller : UIViewController) {
