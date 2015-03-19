@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="AtlasGrotesk-Bold.otf">
+            <string>AtlasGrotesk-Bold</string>
+            <string>AtlasGrotesk-Bold</string>
+        </mutableArray>
+        <mutableArray key="AtlasTypewriter-Regular.otf">
+            <string>AtlasTypewriter-Regular</string>
+            <string>AtlasTypewriter-Regular</string>
+            <string>AtlasTypewriter-Regular</string>
+            <string>AtlasTypewriter-Regular</string>
+            <string>AtlasTypewriter-Regular</string>
+            <string>AtlasTypewriter-Regular</string>
+            <string>AtlasTypewriter-Regular</string>
+            <string>AtlasTypewriter-Regular</string>
+            <string>AtlasTypewriter-Regular</string>
+            <string>AtlasTypewriter-Regular</string>
+            <string>AtlasTypewriter-Regular</string>
+        </mutableArray>
+    </customFonts>
+    <scenes>
+        <!--Settings-->
+        <scene sceneID="hG7-9w-XAH">
+            <objects>
+                <tableViewController id="co9-Rd-OXG" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="bSl-xt-2XL">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="1400"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <sections>
+                            <tableViewSection id="Syc-4t-DLC">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="150" id="zIv-1h-dPK">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zIv-1h-dPK" id="vQJ-At-aS8">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4f3-Di-kfH">
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="150"/>
+                                                </imageView>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mez-WV-SCz">
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="150"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(tap to edit)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R8R-j4-bAe">
+                                                            <rect key="frame" x="233" y="67" width="134" height="16"/>
+                                                            <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="16"/>
+                                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="centerX" secondItem="R8R-j4-bAe" secondAttribute="centerX" id="3j8-LW-wH3"/>
+                                                        <constraint firstAttribute="centerY" secondItem="R8R-j4-bAe" secondAttribute="centerY" id="Fxb-7W-D64"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="4f3-Di-kfH" firstAttribute="top" secondItem="vQJ-At-aS8" secondAttribute="top" id="8R8-LR-gfo"/>
+                                                <constraint firstItem="mez-WV-SCz" firstAttribute="top" secondItem="vQJ-At-aS8" secondAttribute="top" id="Dyq-8F-vBh"/>
+                                                <constraint firstAttribute="trailing" secondItem="4f3-Di-kfH" secondAttribute="trailing" id="Hmw-XO-dOO"/>
+                                                <constraint firstItem="mez-WV-SCz" firstAttribute="leading" secondItem="vQJ-At-aS8" secondAttribute="leading" id="VDw-Wb-0IG"/>
+                                                <constraint firstAttribute="bottom" secondItem="4f3-Di-kfH" secondAttribute="bottom" id="ZXc-LB-gFd"/>
+                                                <constraint firstAttribute="trailing" secondItem="mez-WV-SCz" secondAttribute="trailing" id="mXN-YB-J2A"/>
+                                                <constraint firstItem="4f3-Di-kfH" firstAttribute="leading" secondItem="vQJ-At-aS8" secondAttribute="leading" id="u9H-TZ-6Mf"/>
+                                                <constraint firstAttribute="bottom" secondItem="mez-WV-SCz" secondAttribute="bottom" id="vEX-hf-dqD"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="217" id="pjY-fM-ktw">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pjY-fM-ktw" id="4t6-6g-XbD">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Logout" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O7y-ZX-S3y">
+                                                    <rect key="frame" x="530" y="32" width="62" height="16"/>
+                                                    <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="16"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yfC-cy-c0C">
+                                                    <rect key="frame" x="8" y="8" width="200" height="201"/>
+                                                    <subviews>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bEB-3t-p7d">
+                                                            <rect key="frame" x="0.0" y="0.0" width="200" height="201"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="200" id="bjs-yx-LRR"/>
+                                                            </constraints>
+                                                        </imageView>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JlU-8X-cmD">
+                                                            <rect key="frame" x="0.0" y="0.0" width="200" height="201"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(tap to edit)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="spU-yZ-sOq">
+                                                                    <rect key="frame" x="33" y="92" width="134" height="16"/>
+                                                                    <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="16"/>
+                                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="centerX" secondItem="spU-yZ-sOq" secondAttribute="centerX" id="gwQ-Nb-EQ7"/>
+                                                                <constraint firstAttribute="centerY" secondItem="spU-yZ-sOq" secondAttribute="centerY" id="pcr-6D-U2q"/>
+                                                            </constraints>
+                                                        </view>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstItem="JlU-8X-cmD" firstAttribute="top" secondItem="yfC-cy-c0C" secondAttribute="top" id="1EY-bR-NM8"/>
+                                                        <constraint firstAttribute="bottom" secondItem="bEB-3t-p7d" secondAttribute="bottom" id="2r0-ql-hpn"/>
+                                                        <constraint firstAttribute="trailing" secondItem="bEB-3t-p7d" secondAttribute="trailing" id="4iT-LI-5d2"/>
+                                                        <constraint firstAttribute="bottom" secondItem="JlU-8X-cmD" secondAttribute="bottom" id="DTz-mj-0JA"/>
+                                                        <constraint firstItem="JlU-8X-cmD" firstAttribute="leading" secondItem="yfC-cy-c0C" secondAttribute="leading" id="GA9-gF-R2N"/>
+                                                        <constraint firstAttribute="trailing" secondItem="JlU-8X-cmD" secondAttribute="trailing" id="Xfj-cv-84J"/>
+                                                        <constraint firstAttribute="width" constant="200" id="Xq1-Ty-xoa"/>
+                                                        <constraint firstItem="bEB-3t-p7d" firstAttribute="leading" secondItem="yfC-cy-c0C" secondAttribute="leading" id="hav-c8-Cji"/>
+                                                        <constraint firstItem="bEB-3t-p7d" firstAttribute="top" secondItem="yfC-cy-c0C" secondAttribute="top" id="oeH-qq-nUN"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="yfC-cy-c0C" firstAttribute="leading" secondItem="4t6-6g-XbD" secondAttribute="leadingMargin" id="2sk-iT-XJW"/>
+                                                <constraint firstItem="O7y-ZX-S3y" firstAttribute="top" secondItem="4t6-6g-XbD" secondAttribute="topMargin" constant="24" id="HtT-ED-Pyw"/>
+                                                <constraint firstItem="yfC-cy-c0C" firstAttribute="top" secondItem="4t6-6g-XbD" secondAttribute="topMargin" id="TkX-nP-4sY"/>
+                                                <constraint firstItem="O7y-ZX-S3y" firstAttribute="trailing" secondItem="4t6-6g-XbD" secondAttribute="trailingMargin" id="eqs-bv-RWi"/>
+                                                <constraint firstItem="yfC-cy-c0C" firstAttribute="bottom" secondItem="4t6-6g-XbD" secondAttribute="bottomMargin" id="fkJ-HT-K6H"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="92" id="qI7-BO-CpZ">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qI7-BO-CpZ" id="pRY-LO-X4I">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Profile" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fsS-Ce-3ei">
+                                                    <rect key="frame" x="8" y="8" width="65" height="22"/>
+                                                    <fontDescription key="fontDescription" name="AtlasGrotesk-Bold" family="Atlas Grotesk" pointSize="20"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your name, username, bio and links appear on your public profile. Your email address remains private." lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2YC-45-ipS">
+                                                    <rect key="frame" x="8" y="38" width="584" height="46"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="46" id="syi-y4-nTM"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="15"/>
+                                                    <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="2YC-45-ipS" firstAttribute="trailing" secondItem="pRY-LO-X4I" secondAttribute="trailingMargin" id="1hR-aa-h7G"/>
+                                                <constraint firstItem="fsS-Ce-3ei" firstAttribute="top" secondItem="pRY-LO-X4I" secondAttribute="topMargin" id="7rE-fu-Wut"/>
+                                                <constraint firstItem="2YC-45-ipS" firstAttribute="leading" secondItem="pRY-LO-X4I" secondAttribute="leadingMargin" id="IrB-Nl-O4D"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="2YC-45-ipS" secondAttribute="bottom" id="bji-hU-Brk"/>
+                                                <constraint firstItem="2YC-45-ipS" firstAttribute="top" secondItem="fsS-Ce-3ei" secondAttribute="bottom" constant="8" id="q7P-sG-m84"/>
+                                                <constraint firstItem="fsS-Ce-3ei" firstAttribute="leading" secondItem="pRY-LO-X4I" secondAttribute="leadingMargin" id="xUY-2z-Uwu"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="300" id="VBR-SE-yxe">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VBR-SE-yxe" id="qL0-Wi-nCi">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hnR-bh-oEh">
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="300"/>
+                                                    <connections>
+                                                        <segue destination="a55-rf-841" kind="embed" id="UlV-Q3-620"/>
+                                                    </connections>
+                                                </containerView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="hnR-bh-oEh" secondAttribute="bottom" id="QNe-9r-syN"/>
+                                                <constraint firstAttribute="trailing" secondItem="hnR-bh-oEh" secondAttribute="trailing" id="b7U-T9-NfW"/>
+                                                <constraint firstItem="hnR-bh-oEh" firstAttribute="top" secondItem="qL0-Wi-nCi" secondAttribute="top" id="l98-8r-JAW"/>
+                                                <constraint firstItem="hnR-bh-oEh" firstAttribute="leading" secondItem="qL0-Wi-nCi" secondAttribute="leading" id="maW-5r-1fY"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="92" id="xce-vt-AjM">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xce-vt-AjM" id="SD5-Hw-68m">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E1Y-Tv-9le">
+                                                    <rect key="frame" x="8" y="8" width="39" height="15"/>
+                                                    <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="15"/>
+                                                    <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="V11-Hj-0hd" customClass="ElloTextField" customModule="Ello" customModuleProvider="target">
+                                                    <rect key="frame" x="8" y="31" width="584" height="45"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="E1Y-Tv-9le" firstAttribute="top" secondItem="SD5-Hw-68m" secondAttribute="topMargin" id="1J5-V2-KU5"/>
+                                                <constraint firstItem="E1Y-Tv-9le" firstAttribute="leading" secondItem="SD5-Hw-68m" secondAttribute="leadingMargin" id="2JQ-QI-IVx"/>
+                                                <constraint firstItem="V11-Hj-0hd" firstAttribute="leading" secondItem="SD5-Hw-68m" secondAttribute="leadingMargin" id="J7c-ME-iqg"/>
+                                                <constraint firstItem="V11-Hj-0hd" firstAttribute="top" secondItem="E1Y-Tv-9le" secondAttribute="bottom" constant="8" id="L6y-wL-Uxr"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="V11-Hj-0hd" secondAttribute="bottom" constant="8" id="iGo-ZY-ouh"/>
+                                                <constraint firstItem="V11-Hj-0hd" firstAttribute="trailing" secondItem="SD5-Hw-68m" secondAttribute="trailingMargin" id="uP8-NL-NDo"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="200" id="pIw-nr-rpN">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pIw-nr-rpN" id="X2J-gF-7y6">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bio" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ByA-mg-wdp">
+                                                    <rect key="frame" x="8" y="8" width="29" height="15"/>
+                                                    <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="15"/>
+                                                    <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8GS-hA-vSR" customClass="ElloTextView" customModule="Ello" customModuleProvider="target">
+                                                    <rect key="frame" x="8" y="31" width="584" height="161"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                </textView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="ByA-mg-wdp" firstAttribute="leading" secondItem="X2J-gF-7y6" secondAttribute="leadingMargin" id="MN5-jc-Ze5"/>
+                                                <constraint firstAttribute="trailing" secondItem="8GS-hA-vSR" secondAttribute="trailing" constant="8" id="i51-SB-xsy"/>
+                                                <constraint firstAttribute="bottom" secondItem="8GS-hA-vSR" secondAttribute="bottom" constant="8" id="jEn-h3-KYq"/>
+                                                <constraint firstItem="ByA-mg-wdp" firstAttribute="top" secondItem="X2J-gF-7y6" secondAttribute="topMargin" id="ktU-Em-Nr4"/>
+                                                <constraint firstItem="8GS-hA-vSR" firstAttribute="leading" secondItem="X2J-gF-7y6" secondAttribute="leading" constant="8" id="xou-fO-kHS"/>
+                                                <constraint firstItem="8GS-hA-vSR" firstAttribute="top" secondItem="ByA-mg-wdp" secondAttribute="bottom" constant="8" id="yyK-Jw-eCP"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="92" id="eDQ-Gb-bxc">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eDQ-Gb-bxc" id="8Eb-Nw-TEY">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Links" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qUd-W4-ozk">
+                                                    <rect key="frame" x="8" y="8" width="48" height="15"/>
+                                                    <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="15"/>
+                                                    <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fRX-Ur-lhn" customClass="ElloTextField" customModule="Ello" customModuleProvider="target">
+                                                    <rect key="frame" x="8" y="31" width="584" height="45"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottomMargin" secondItem="fRX-Ur-lhn" secondAttribute="bottom" constant="8" id="3OI-4H-mpY"/>
+                                                <constraint firstItem="fRX-Ur-lhn" firstAttribute="leading" secondItem="8Eb-Nw-TEY" secondAttribute="leadingMargin" id="I2I-72-IVX"/>
+                                                <constraint firstItem="qUd-W4-ozk" firstAttribute="top" secondItem="8Eb-Nw-TEY" secondAttribute="topMargin" id="Wob-oi-oZH"/>
+                                                <constraint firstItem="fRX-Ur-lhn" firstAttribute="top" secondItem="qUd-W4-ozk" secondAttribute="bottom" constant="8" id="idM-wT-P5h"/>
+                                                <constraint firstItem="fRX-Ur-lhn" firstAttribute="trailing" secondItem="8Eb-Nw-TEY" secondAttribute="trailingMargin" id="kKt-G8-AfD"/>
+                                                <constraint firstItem="qUd-W4-ozk" firstAttribute="leading" secondItem="8Eb-Nw-TEY" secondAttribute="leadingMargin" id="utJ-mj-dKb"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="193" id="4rA-BX-V13">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4rA-BX-V13" id="PzM-Ub-ryx">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="38O-ub-xoA">
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="193"/>
+                                                    <connections>
+                                                        <segue destination="lfd-4D-Kdl" kind="embed" id="zg9-8H-rp1"/>
+                                                    </connections>
+                                                </containerView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="38O-ub-xoA" secondAttribute="bottom" id="3Zj-dg-cr0"/>
+                                                <constraint firstItem="38O-ub-xoA" firstAttribute="leading" secondItem="PzM-Ub-ryx" secondAttribute="leading" id="5yX-NO-vqs"/>
+                                                <constraint firstItem="38O-ub-xoA" firstAttribute="top" secondItem="PzM-Ub-ryx" secondAttribute="top" id="Gqz-3g-v5p"/>
+                                                <constraint firstAttribute="trailing" secondItem="38O-ub-xoA" secondAttribute="trailing" id="uki-WO-sCF"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="co9-Rd-OXG" id="gZU-fY-FqT"/>
+                            <outlet property="delegate" destination="co9-Rd-OXG" id="Px5-Hw-ZWE"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Settings" id="EQo-Gz-b3Y"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="600" height="1400"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0yq-3N-KcF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="628" y="516"/>
+        </scene>
+        <!--Table View Controller-->
+        <scene sceneID="WVL-K4-Ckj">
+            <objects>
+                <tableViewController id="a55-rf-841" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="static" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="80" sectionHeaderHeight="22" sectionFooterHeight="22" id="QLt-tZ-ekt">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="396"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <sections>
+                            <tableViewSection headerTitle="Section-1" id="EhG-FP-wz8">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="84" id="Boz-Zz-k1k">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Boz-Zz-k1k" id="IzT-fl-T2z">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Kp-yh-2jY">
+                                                    <rect key="frame" x="8" y="8" width="77" height="15"/>
+                                                    <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="15"/>
+                                                    <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1GC-aJ-YGZ" customClass="ElloTextField" customModule="Ello" customModuleProvider="target">
+                                                    <rect key="frame" x="8" y="31" width="584" height="45"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="6Kp-yh-2jY" firstAttribute="top" secondItem="IzT-fl-T2z" secondAttribute="topMargin" id="Ggj-Qw-2NY"/>
+                                                <constraint firstItem="1GC-aJ-YGZ" firstAttribute="leading" secondItem="IzT-fl-T2z" secondAttribute="leadingMargin" id="O7L-kk-DBy"/>
+                                                <constraint firstItem="1GC-aJ-YGZ" firstAttribute="top" secondItem="6Kp-yh-2jY" secondAttribute="bottom" constant="8" id="UhZ-gZ-gVy"/>
+                                                <constraint firstItem="1GC-aJ-YGZ" firstAttribute="trailing" secondItem="IzT-fl-T2z" secondAttribute="trailingMargin" id="Y2a-ju-fpy"/>
+                                                <constraint firstItem="6Kp-yh-2jY" firstAttribute="leading" secondItem="IzT-fl-T2z" secondAttribute="leadingMargin" id="YNB-of-oYF"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="1GC-aJ-YGZ" secondAttribute="bottom" id="aBN-o0-8SI"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="84" id="lYK-14-1JW">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lYK-14-1JW" id="JRy-Se-noT">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uxA-ck-uL4">
+                                                    <rect key="frame" x="8" y="8" width="48" height="15"/>
+                                                    <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="15"/>
+                                                    <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BvD-6U-dsz" customClass="ElloTextField" customModule="Ello" customModuleProvider="target">
+                                                    <rect key="frame" x="8" y="31" width="584" height="45"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="BvD-6U-dsz" firstAttribute="trailing" secondItem="JRy-Se-noT" secondAttribute="trailingMargin" id="0Im-ni-QIr"/>
+                                                <constraint firstItem="uxA-ck-uL4" firstAttribute="leading" secondItem="JRy-Se-noT" secondAttribute="leadingMargin" id="0bO-Ze-1Su"/>
+                                                <constraint firstItem="BvD-6U-dsz" firstAttribute="top" secondItem="uxA-ck-uL4" secondAttribute="bottom" constant="8" id="Dhc-Xx-O6J"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="BvD-6U-dsz" secondAttribute="bottom" id="E0y-29-EeN"/>
+                                                <constraint firstItem="BvD-6U-dsz" firstAttribute="leading" secondItem="JRy-Se-noT" secondAttribute="leadingMargin" id="Z0m-AS-rRb"/>
+                                                <constraint firstItem="uxA-ck-uL4" firstAttribute="top" secondItem="JRy-Se-noT" secondAttribute="topMargin" id="un3-Za-9Zc"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="84" id="Cdd-NC-1tD">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Cdd-NC-1tD" id="IW5-fD-Wgd">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I7F-IL-wbd">
+                                                    <rect key="frame" x="8" y="8" width="77" height="15"/>
+                                                    <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="15"/>
+                                                    <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="********" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Kcg-Fa-SRh" customClass="ElloTextField" customModule="Ello" customModuleProvider="target">
+                                                    <rect key="frame" x="8" y="31" width="584" height="45"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="I7F-IL-wbd" firstAttribute="top" secondItem="IW5-fD-Wgd" secondAttribute="topMargin" id="6ex-CD-ddE"/>
+                                                <constraint firstItem="Kcg-Fa-SRh" firstAttribute="top" secondItem="I7F-IL-wbd" secondAttribute="bottom" constant="8" id="8jM-da-bzr"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="Kcg-Fa-SRh" secondAttribute="bottom" id="OZG-Js-efl"/>
+                                                <constraint firstItem="Kcg-Fa-SRh" firstAttribute="trailing" secondItem="IW5-fD-Wgd" secondAttribute="trailingMargin" id="Xgv-Gv-fNN"/>
+                                                <constraint firstItem="I7F-IL-wbd" firstAttribute="leading" secondItem="IW5-fD-Wgd" secondAttribute="leadingMargin" id="etz-AC-Iwr"/>
+                                                <constraint firstItem="Kcg-Fa-SRh" firstAttribute="leading" secondItem="IW5-fD-Wgd" secondAttribute="leadingMargin" id="urv-di-4Sd"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="122" id="hnU-BR-Xdc">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hnU-BR-Xdc" id="Bqj-Gp-r26">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Re-enter your Ello password (8+ characters) to save changes to your account." lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EeE-Bu-dku">
+                                                    <rect key="frame" x="8" y="8" width="260" height="46"/>
+                                                    <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="15"/>
+                                                    <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="********" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Znt-wY-XbZ" customClass="ElloTextField" customModule="Ello" customModuleProvider="target">
+                                                    <rect key="frame" x="8" y="62" width="506" height="44"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                                </textField>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h0e-7m-r6C" customClass="ElloButton" customModule="Ello" customModuleProvider="target">
+                                                    <rect key="frame" x="522" y="62" width="70" height="44"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="70" id="gHW-2S-08U"/>
+                                                        <constraint firstAttribute="height" constant="44" id="vam-ap-oNb"/>
+                                                    </constraints>
+                                                    <state key="normal" title="Save">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Znt-wY-XbZ" firstAttribute="top" secondItem="EeE-Bu-dku" secondAttribute="bottom" constant="8" id="AYE-H4-rwo"/>
+                                                <constraint firstItem="EeE-Bu-dku" firstAttribute="top" secondItem="Bqj-Gp-r26" secondAttribute="topMargin" id="OGN-jG-zAB"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="h0e-7m-r6C" secondAttribute="bottom" constant="8" id="UPd-Ca-9SG"/>
+                                                <constraint firstItem="Znt-wY-XbZ" firstAttribute="centerY" secondItem="h0e-7m-r6C" secondAttribute="centerY" id="Y9n-6G-F4J"/>
+                                                <constraint firstItem="h0e-7m-r6C" firstAttribute="trailing" secondItem="Bqj-Gp-r26" secondAttribute="trailingMargin" id="Z64-bi-iET"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="Znt-wY-XbZ" secondAttribute="bottom" constant="8" id="diS-pg-IjT"/>
+                                                <constraint firstItem="EeE-Bu-dku" firstAttribute="leading" secondItem="Bqj-Gp-r26" secondAttribute="leadingMargin" id="h3L-jE-Uo8"/>
+                                                <constraint firstItem="h0e-7m-r6C" firstAttribute="leading" secondItem="Znt-wY-XbZ" secondAttribute="trailing" constant="8" id="h6Z-Qt-7uS"/>
+                                                <constraint firstItem="Znt-wY-XbZ" firstAttribute="leading" secondItem="Bqj-Gp-r26" secondAttribute="leadingMargin" id="vBF-wr-TQj"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="a55-rf-841" id="mHJ-fM-Hrj"/>
+                            <outlet property="delegate" destination="a55-rf-841" id="Y1g-n6-ugv"/>
+                        </connections>
+                    </tableView>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="600" height="396"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iWJ-Cv-JGS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1342" y="516"/>
+        </scene>
+        <!--Table View Controller-->
+        <scene sceneID="63N-GQ-Lh9">
+            <objects>
+                <tableViewController id="lfd-4D-Kdl" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="qyN-ih-Oly">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="193"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="w5d-yz-I7g" rowHeight="50" style="IBUITableViewCellStyleDefault" id="jld-9f-tZa">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jld-9f-tZa" id="8JH-sZ-wQm">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="w5d-yz-I7g">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" name="AtlasGrotesk-Bold" family="Atlas Grotesk" pointSize="18"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="lfd-4D-Kdl" id="RG9-sz-AIx"/>
+                            <outlet property="delegate" destination="lfd-4D-Kdl" id="Vi2-yx-0NK"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oQY-Xx-tMH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="628" y="1485"/>
+        </scene>
+    </scenes>
+</document>
