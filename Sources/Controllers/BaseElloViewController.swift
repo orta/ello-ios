@@ -30,12 +30,12 @@ class BaseElloViewController: UIViewController {
     private func fixNavBarItemPadding() {
         let negativeSpacer = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
         negativeSpacer.width = -22
-        if let rightBarButtonItem = self.navigationItem.rightBarButtonItem {
-            self.navigationItem.rightBarButtonItems = [negativeSpacer, rightBarButtonItem]
+        if let rightBarButtonItems = self.navigationItem.rightBarButtonItems {
+            self.navigationItem.rightBarButtonItems = [negativeSpacer] + rightBarButtonItems
         }
 
-        if let leftBarButtonItem = self.navigationItem.leftBarButtonItem {
-            self.navigationItem.leftBarButtonItems = [negativeSpacer, leftBarButtonItem]
+        if let leftBarButtonItems = self.navigationItem.leftBarButtonItems {
+            self.navigationItem.leftBarButtonItems = [negativeSpacer] + leftBarButtonItems
         }
 
     }
