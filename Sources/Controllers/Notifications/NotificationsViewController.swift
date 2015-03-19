@@ -47,6 +47,7 @@ class NotificationsViewController: StreamableViewController, NotificationDelegat
 
     private func setupStreamController() {
         streamViewController = StreamViewController.instantiateFromStoryboard()
+        streamViewController.currentUser = currentUser
         streamViewController.streamKind = .Notifications
         streamViewController.streamScrollDelegate = self
         streamViewController.postTappedDelegate = self

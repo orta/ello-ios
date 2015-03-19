@@ -16,6 +16,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     let imageBottomPadding:CGFloat = 10.0
     var streamKind:StreamKind
+    var currentUser: User?
 
     // these are assigned from the parent controller
     var sourceCellItems:[StreamCellItem] = []
@@ -49,6 +50,21 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     // MARK: - Public
+
+    func removeAllCellItems() {
+        sourceCellItems = []
+        updateFilteredItems()
+    }
+
+    func removeCellItemsBelow(index: Int) {
+        var belowIndex = index
+        if index > sourceCellItems.count {
+            belowIndex = sourceCellItems.count
+        }
+        let remainingCellItems = sourceCellItems[0 ..< belowIndex]
+        sourceCellItems = Array(remainingCellItems)
+        updateFilteredItems()
+    }
 
     func postForIndexPath(indexPath:NSIndexPath) -> Post? {
         if !isValidIndexPath(indexPath) { return nil }
@@ -163,9 +179,11 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
             case .ProfileHeader:
                 (cell as ProfileHeaderCell).relationshipView.relationshipDelegate = relationshipDelegate
                 (cell as ProfileHeaderCell).userListDelegate = userListDelegate
+                (cell as ProfileHeaderCell).currentUser = currentUser
             case .UserListItem:
                 (cell as UserListItemCell).relationshipView.relationshipDelegate = relationshipDelegate
                 (cell as UserListItemCell).userDelegate = userDelegate
+                (cell as UserListItemCell).currentUser = currentUser
             default:
                 break
             }

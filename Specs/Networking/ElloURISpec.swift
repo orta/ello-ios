@@ -16,14 +16,12 @@ class ElloURISpec: QuickSpec {
         describe("@domain") {
 
             it("uses staging if AppSetup.sharedState.useStaging is true") {
-                AppSetup.sharedState.useStaging = true
-                expect(ElloURI.domain).to(equal("ello-staging.herokuapp.com"))
+                ElloURI.domain = "ello-staging.herokuapp.com"
                 expect(ElloURI.baseURL).to(equal("https://ello-staging.herokuapp.com"))
             }
 
             it("uses production if AppSetup.sharedState.useStaging is false") {
-                AppSetup.sharedState.useStaging = false
-                expect(ElloURI.domain).to(equal("ello.co"))
+                ElloURI.domain = "ello.co"
                 expect(ElloURI.baseURL).to(equal("https://ello.co"))
             }
 
@@ -32,7 +30,7 @@ class ElloURISpec: QuickSpec {
         describe("ElloURI.match on production") {
 
             beforeEach {
-                AppSetup.sharedState.useStaging = false
+                ElloURI.domain = "ello.co"
             }
 
             describe("with Post urls") {
@@ -88,7 +86,7 @@ class ElloURISpec: QuickSpec {
         describe("ElloURI.match on staging") {
 
             beforeEach {
-                AppSetup.sharedState.useStaging = true
+                ElloURI.domain = "ello-staging.herokuapp.com"
             }
 
             describe("with Post urls") {

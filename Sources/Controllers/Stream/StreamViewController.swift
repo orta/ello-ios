@@ -45,6 +45,7 @@ class StreamViewController: BaseElloViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     var pulsingCircle : PulsingCircle?
     var streamables:[Streamable]?
+    var refreshableIndex: Int?
     var dataSource:StreamDataSource!
     var postbarController:PostbarController?
     var relationshipController: RelationshipController?
@@ -82,6 +83,14 @@ class StreamViewController: BaseElloViewController {
         initialSetup()
     }
 
+    override func didSetCurrentUser() {
+        dataSource.currentUser = currentUser
+        if let userListController = userListController {
+            userListController.currentUser = currentUser
+        }
+        super.didSetCurrentUser()
+    }
+
     // If we ever create an init() method that doesn't use nib/storyboards,
     // we'll need to call this.  Called from awakeFromNib and init.
     private func initialSetup() {
@@ -109,6 +118,15 @@ class StreamViewController: BaseElloViewController {
 
     func doneLoading() {
         pullToRefreshView?.finishLoading()
+    }
+
+    func removeRefreshables() {
+        if let refreshableIndex = refreshableIndex {
+            dataSource.removeCellItemsBelow(refreshableIndex)
+        }
+        else {
+            dataSource.removeAllCellItems()
+        }
     }
 
     func imageCellHeightUpdated(cell:StreamImageCell) {
@@ -192,7 +210,7 @@ class StreamViewController: BaseElloViewController {
     }
 
     private func setupDataSource() {
-        let webView = UIWebView(frame: self.view.bounds)
+        let webView = UIWebView(frame: view.bounds)
         let textSizeCalculator = StreamTextCellSizeCalculator(webView: UIWebView(frame: webView.frame))
         let notificationSizeCalculator = StreamNotificationCellSizeCalculator(webView: UIWebView(frame: webView.frame))
 
@@ -200,13 +218,14 @@ class StreamViewController: BaseElloViewController {
             textSizeCalculator: textSizeCalculator,
             notificationSizeCalculator: notificationSizeCalculator)
         
-        postbarController = PostbarController(collectionView: collectionView, dataSource: self.dataSource, presentingController: self)
+        postbarController = PostbarController(collectionView: collectionView, dataSource: dataSource, presentingController: self)
         dataSource.postbarDelegate = postbarController
 
         relationshipController = RelationshipController(presentingController: self)
         dataSource.relationshipDelegate = relationshipController
 
         userListController = UserListController(presentingController: self)
+        userListController!.currentUser = currentUser
         dataSource.userListDelegate = userListController
 
         if let imageViewer = imageViewerDelegate {
@@ -214,7 +233,7 @@ class StreamViewController: BaseElloViewController {
         }
         dataSource.webLinkDelegate = self
         dataSource.userDelegate = self
-        collectionView.dataSource = self.dataSource
+        collectionView.dataSource = dataSource
     }
 
     private func presentProfile(username: String) {
@@ -345,7 +364,8 @@ extension StreamViewController: SSPullToRefreshViewDelegate {
     func pullToRefreshViewDidStartLoading(view: SSPullToRefreshView!) {
         self.streamService.loadStream(streamKind.endpoint,
             success: { (jsonables, responseConfig) in
-                self.dataSource.streamCellItems.removeAll(keepCapacity: false)
+                let index = self.refreshableIndex ?? 0
+                self.dataSource.removeCellItemsBelow(index)
                 self.collectionView.reloadData()
                 self.addUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind))
                 self.responseConfig = responseConfig

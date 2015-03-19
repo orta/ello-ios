@@ -19,6 +19,11 @@ struct ProfileHeaderCellPresenter {
     {
         if let cell = cell as? ProfileHeaderCell {
             let user = streamCellItem.jsonable as User
+            cell.relationshipView.hidden = false
+
+            if let currentUser = cell.currentUser {
+                cell.relationshipView.hidden = user.userId == currentUser.userId
+            }
 
             if let avatarURL = user.avatarURL? {
                 cell.setAvatarURL(avatarURL)
@@ -28,7 +33,6 @@ struct ProfileHeaderCellPresenter {
             cell.relationshipView.userId = user.userId
             cell.relationshipView.userAtName = user.atName
             cell.relationshipView.relationship = user.relationshipPriority
-            cell.relationshipView.hidden = user.isCurrentUser
             cell.usernameLabel.text = user.atName
             cell.nameLabel.text = user.name
 

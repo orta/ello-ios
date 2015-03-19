@@ -35,7 +35,7 @@ class ElloNavigationController: UINavigationController, UIGestureRecognizerDeleg
         if self.viewControllers.count == 0 {
             if let rootViewControllerName = rootViewControllerName {
                 if let controller = RootViewControllers(rawValue:rootViewControllerName)?.controllerInstance(currentUser!) {
-                    controller.currentUser = self.currentUser
+                    controller.currentUser = currentUser
                     self.viewControllers = [controller]
                 }
             }
@@ -43,7 +43,7 @@ class ElloNavigationController: UINavigationController, UIGestureRecognizerDeleg
         else {
             var controllers = self.viewControllers as [BaseElloViewController]
             for controller in controllers {
-                controller.currentUser = self.currentUser
+                controller.currentUser = currentUser
             }
         }
     }

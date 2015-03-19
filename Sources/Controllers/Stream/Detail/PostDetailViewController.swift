@@ -78,6 +78,7 @@ class PostDetailViewController: StreamableViewController {
 
     private func setupStreamController() {
         let controller = StreamViewController.instantiateFromStoryboard()
+        controller.currentUser = currentUser
         controller.streamKind = .PostDetail(post: self.post)
         controller.postTappedDelegate = self
         controller.streamScrollDelegate = self

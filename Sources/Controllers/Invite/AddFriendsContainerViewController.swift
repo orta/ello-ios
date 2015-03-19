@@ -103,6 +103,8 @@ class AddFriendsContainerViewController: StreamableViewController {
             self.inviteFriendsViewController.setContacts(mixed)
             ElloHUD.hideLoadingHud()
         }, failure: { _ in
+            let contacts: [(LocalPerson, User?)] = self.addressBook.localPeople.map { ($0, .None) }
+            self.inviteFriendsViewController.setContacts(contacts)
             ElloHUD.hideLoadingHud()
         })
     }
