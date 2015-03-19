@@ -21,6 +21,7 @@ class DrawerViewController: BaseElloViewController, UICollectionViewDataSource, 
 
     override func viewDidLoad() {
         addHamburgerButton()
+        addLeftButtons()
         setupNavigationBar()
         collectionView.registerNib(AvatarCell.nib(), forCellWithReuseIdentifier: AvatarCell.reuseIdentifier())
         super.viewDidLoad()
@@ -29,11 +30,21 @@ class DrawerViewController: BaseElloViewController, UICollectionViewDataSource, 
     func setupNavigationBar() {
         navigationBar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 30)
         navigationBar.items = [navigationItem]
+        navigationBar.tintColor = UIColor.greyA()
+    }
+
+    func addLeftButtons() {
+        let counterPadding = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+        counterPadding.width = 24
+        let wtf = UIBarButtonItem(title: "WTF", style: .Done, target: self, action: Selector("wtfButtonTapped"))
+        let padding = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+        padding.width = 17
+        let store = UIBarButtonItem(title: "Store", style: .Done, target: self, action: Selector("storeButtonTapped"))
+        self.navigationItem.leftBarButtonItems = [counterPadding, wtf, padding, store]
     }
 
     func addHamburgerButton() {
         let button = UIBarButtonItem(image: UIImage(named: "hamburger-icon"), style: .Done, target: self, action: Selector("hamburgerButtonTapped"))
-        button.tintColor = UIColor.greyA()
         self.navigationItem.rightBarButtonItem = button
     }
 
