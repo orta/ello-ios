@@ -259,7 +259,7 @@ extension StreamViewController : WebLinkDelegate {
     private func showPostDetail(token: String) {
         let param = "~\(token)"
         if alreadyOnPostDetail(param) { return }
-        let vc = PostDetailViewController(token: param)
+        let vc = PostDetailViewController(postParam: param)
         vc.currentUser = currentUser
         self.navigationController?.pushViewController(vc, animated: true)
         vc.didPresentStreamable()
