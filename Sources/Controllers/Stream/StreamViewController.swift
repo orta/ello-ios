@@ -235,14 +235,6 @@ class StreamViewController: BaseElloViewController {
         dataSource.userDelegate = self
         collectionView.dataSource = dataSource
     }
-
-    private func presentProfile(username: String) {
-        println("load username: \(username)")
-    }
-
-    private func showPostDetail(token: String) {
-        println("show post detail: \(token)")
-    }
 }
 
 // MARK: StreamViewController : WebLinkDelegate
@@ -253,6 +245,24 @@ extension StreamViewController : WebLinkDelegate {
         case .Profile: presentProfile(data)
         case .Post: showPostDetail(data)
         }
+    }
+
+    private func presentProfile(username: String) {
+        let param = "~\(username)"
+        if alreadyOnUserProfile(param) { return }
+        let vc = ProfileViewController(userParam: param)
+        vc.currentUser = currentUser
+        self.navigationController?.pushViewController(vc, animated: true)
+        vc.didPresentStreamable()
+    }
+
+    private func showPostDetail(token: String) {
+        let param = "~\(token)"
+        if alreadyOnPostDetail(param) { return }
+        let vc = PostDetailViewController(postParam: param)
+        vc.currentUser = currentUser
+        self.navigationController?.pushViewController(vc, animated: true)
+        vc.didPresentStreamable()
     }
 }
 

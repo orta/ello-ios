@@ -44,6 +44,7 @@ final class Post: JSONAble, Authorable, NSCoding {
     var summary: [Regionable]?
     let token: String
     let viewsCount: Int?
+    var comments: [Comment]
 
 // MARK: Initialization
 
@@ -58,7 +59,8 @@ final class Post: JSONAble, Authorable, NSCoding {
         repostsCount: Int?,
         summary: [Regionable]?,
         token: String,
-        viewsCount: Int?)
+        viewsCount: Int?,
+        comments: [Comment])
     {
         self.assets = assets
         self.author = author
@@ -72,6 +74,7 @@ final class Post: JSONAble, Authorable, NSCoding {
         self.summary = summary
         self.token = token
         self.viewsCount = viewsCount
+        self.comments = comments
     }
 
 // MARK: NSCoding
@@ -111,6 +114,13 @@ final class Post: JSONAble, Authorable, NSCoding {
         if decoder.containsValueForKey("viewsCount") {
             self.viewsCount = Int(decoder.decodeIntForKey("viewsCount"))
         }
+
+        if decoder.containsValueForKey("comments") {
+            self.comments = decoder.decodeObjectForKey("comments") as [Comment]
+        }
+        else {
+            self.comments = [Comment]()
+        }
     }
 
     func encodeWithCoder(encoder: NSCoder) {
@@ -142,6 +152,7 @@ final class Post: JSONAble, Authorable, NSCoding {
         if let summary = self.summary {
             encoder.encodeObject(summary, forKey: "summary")
         }
+        encoder.encodeObject(self.comments, forKey: "comments")
     }
 
 // MARK: JSONAble
@@ -160,12 +171,16 @@ final class Post: JSONAble, Authorable, NSCoding {
         var author: User?
         var content: [Regionable]?
         var summary: [Regionable]?
+        var postComments = [Comment]()
         if let linksNode = data["links"] as? [String: AnyObject] {
             links = ElloLinkedStore.parseLinks(linksNode)
             author = links["author"] as? User
 //            var assets = links["assets"] as? [String:JSONAble]
             content = RegionParser.regions("content", json: json)
             summary = RegionParser.regions("summary", json: json)
+            if let comments = links["comments"] as? [Comment] {
+                postComments = comments
+            }
         }
 
         return Post(
@@ -180,7 +195,8 @@ final class Post: JSONAble, Authorable, NSCoding {
             repostsCount: repostsCount,
             summary: summary,
             token: token,
-            viewsCount: viewsCount
+            viewsCount: viewsCount,
+            comments: postComments
         )
     }
 

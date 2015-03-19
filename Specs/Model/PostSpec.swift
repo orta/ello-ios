@@ -132,6 +132,10 @@ class PostSpec: QuickSpec {
                         "url" : NSURL(string: "http://www.example5.com")!
                     ])
 
+                    let comment: Comment = stub([
+                        "author": author
+                    ])
+
                     let summary = [textRegion, imageRegion]
                     let content = [textRegion, imageRegion]
 
@@ -147,7 +151,8 @@ class PostSpec: QuickSpec {
                         "token" : "toke-en",
                         "viewsCount" : 78,
                         "summary" : summary,
-                        "content" : content
+                        "content" : content,
+                        "comments" : [comment]
                     ])
 
                     NSKeyedArchiver.archiveRootObject(post, toFile: filePath)
@@ -164,6 +169,7 @@ class PostSpec: QuickSpec {
                     expect(unArchivedPost.repostsCount) == 99
                     expect(unArchivedPost.token) == "toke-en"
                     expect(unArchivedPost.viewsCount) == 78
+                    expect(unArchivedPost.comments[0]).to(beAKindOf(Comment.self)) 
 
                     let postAuthor = unArchivedPost.author!
 

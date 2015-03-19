@@ -168,7 +168,7 @@ class StreamDataSourceSpec: QuickSpec {
             }
 
             it("returns empty array if post not found") {
-                let randomPost = Post(assets: nil, author: nil, collapsed: false, commentsCount: nil, content: nil, createdAt: NSDate(), href: "blah", postId: "notfound", repostsCount: nil, summary: nil, token: "noToken", viewsCount: nil)
+                let randomPost = Post(assets: nil, author: nil, collapsed: false, commentsCount: nil, content: nil, createdAt: NSDate(), href: "blah", postId: "notfound", repostsCount: nil, summary: nil, token: "noToken", viewsCount: nil, comments: [])
                 let items = subject.cellItemsForPost(randomPost)
 
                 expect(countElements(items)) == 0

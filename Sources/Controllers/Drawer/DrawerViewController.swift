@@ -89,7 +89,7 @@ class DrawerViewController: BaseElloViewController, UICollectionViewDataSource, 
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let user = dataSource.userForIndexPath(indexPath)
-        let profileViewController = ProfileViewController(user: user)
+        let profileViewController = ProfileViewController(userParam: user.userId)
 
         navigationController?.pushViewController(profileViewController, animated: true)
     }

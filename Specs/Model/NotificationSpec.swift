@@ -25,7 +25,8 @@ class NotificationSpec: QuickSpec {
                 repostsCount: 0,
                 summary: [TextRegion(content: "LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT")],
                 token: "not used",
-                viewsCount: 0
+                viewsCount: 0,
+                comments: []
             )
             var createdAtDate = NSDate()
             var activity = Activity(activityId: "123", kind: .RepostNotification, subjectType: .Post, subject: post, createdAt: createdAtDate)

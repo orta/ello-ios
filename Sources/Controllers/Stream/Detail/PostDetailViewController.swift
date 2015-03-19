@@ -10,11 +10,13 @@ import UIKit
 
 class PostDetailViewController: StreamableViewController {
 
-    var post : Post
-    var detailCellItems : [StreamCellItem]
-    var unsizedCellItems : [StreamCellItem]
+    var post : Post?
+    var detailCellItems : [StreamCellItem]?
+    var unsizedCellItems : [StreamCellItem]?
     var navigationBar : ElloNavigationBar!
     var streamViewController : StreamViewController!
+    var streamKind: StreamKind?
+    let postParam: String
 
     convenience init(post : Post, items: [StreamCellItem]) {
         self.init(post: post, items: items, unsized: [])
@@ -24,24 +26,33 @@ class PostDetailViewController: StreamableViewController {
         self.init(post: post, items: [], unsized: unsized)
     }
 
+    required init(postParam: String) {
+        self.postParam = postParam
+        super.init(nibName: nil, bundle: nil)
+        PostService.loadPost(postParam,
+            success: postLoaded,
+            failure: nil
+        )
+    }
+
     required init(post : Post, items: [StreamCellItem], unsized: [StreamCellItem]) {
         self.post = post
+        self.postParam = post.postId
         self.detailCellItems = items
         self.unsizedCellItems = unsized
 
         super.init(nibName: nil, bundle: nil)
-
-        self.title = post.author?.atName ?? "Profile"
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.streamKind = StreamKind.PostDetail(postParam: post.postId)
+        self.title = post.author?.atName ?? "Post Detail"
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        setupNavigationBar()
-        setupStreamController()
-
-        scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
+        self.view.backgroundColor = UIColor.whiteColor()
+        if let post = post {
+            postDidLoad()
+            loadComments()
+        }
     }
 
     override func showNavBars(scrollToBottom : Bool) {
@@ -67,6 +78,23 @@ class PostDetailViewController: StreamableViewController {
         streamViewController.view.frame = navigationBar.frame.fromBottom().withHeight(self.view.frame.height)
     }
 
+// MARK : private
+
+    private func postLoaded(post: Post) {
+        self.post = post
+        streamKind = StreamKind.PostDetail(postParam: post.postId)
+        let parser = StreamCellItemParser()
+        self.unsizedCellItems = parser.parse([post], streamKind: streamKind!) + parser.parse(post.comments, streamKind: streamKind!)
+        self.title = post.author?.atName ?? "Post Detail"
+        postDidLoad()
+    }
+
+    private func postDidLoad() {
+        setupNavigationBar()
+        setupStreamController()
+        scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
+    }
+
     private func setupNavigationBar() {
         navigationBar = ElloNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: ElloNavigationBar.Size.height))
         navigationBar.autoresizingMask = .FlexibleBottomMargin | .FlexibleWidth
@@ -77,40 +105,49 @@ class PostDetailViewController: StreamableViewController {
     }
 
     private func setupStreamController() {
-        let controller = StreamViewController.instantiateFromStoryboard()
-        controller.currentUser = currentUser
-        controller.streamKind = .PostDetail(post: self.post)
-        controller.postTappedDelegate = self
-        controller.streamScrollDelegate = self
-        controller.userTappedDelegate = self
+        streamViewController = StreamViewController.instantiateFromStoryboard()
+        streamViewController.streamKind = streamKind!
+        streamViewController.currentUser = currentUser
+        streamViewController.postTappedDelegate = self
+        streamViewController.streamScrollDelegate = self
+        streamViewController.userTappedDelegate = self
 
-        controller.willMoveToParentViewController(self)
-        self.view.insertSubview(controller.view, belowSubview: navigationBar)
-        controller.view.frame = navigationBar.frame.fromBottom().withHeight(self.view.frame.height - navigationBar.frame.height)
-        controller.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
-        self.addChildViewController(controller)
-        controller.didMoveToParentViewController(self)
+        streamViewController.willMoveToParentViewController(self)
+        self.view.insertSubview(streamViewController.view, belowSubview: navigationBar)
+        streamViewController.view.frame = navigationBar.frame.fromBottom().withHeight(self.view.frame.height - navigationBar.frame.height)
+        streamViewController.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        self.addChildViewController(streamViewController)
+        streamViewController.didMoveToParentViewController(self)
 
-        controller.addStreamCellItems(self.detailCellItems)
-        controller.addUnsizedCellItems(self.unsizedCellItems)
+        if let detailCellItems = detailCellItems {
+            streamViewController.addStreamCellItems(detailCellItems)
+        }
+        if let unsizedCellItems = unsizedCellItems {
+            streamViewController.addUnsizedCellItems(unsizedCellItems)
+        }
+    }
 
-        controller.streamService.loadMoreCommentsForPost(post.postId,
-            success: { (jsonables, responseConfig) in
-                controller.addUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: controller.streamKind))
-                controller.doneLoading()
-            },
-            failure: { (error, statusCode) -> () in
-                println("failed to load comments (reason: \(error))")
-                controller.doneLoading()
-            }
-        )
+    private func loadComments() {
+        if let post = post {
+            streamViewController.streamService.loadMoreCommentsForPost(post.postId,
+                success: { (jsonables, responseConfig) in
+                    self.streamViewController.addUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamViewController.streamKind))
+                    self.streamViewController.doneLoading()
+                },
+                failure: { (error, statusCode) in
+                    println("failed to load comments (reason: \(error))")
+                    self.streamViewController.doneLoading()
+                }
+            )
 
-        streamViewController = controller
+        }
     }
 
     override func postTapped(post: Post, initialItems: [StreamCellItem]) {
-        if post.postId != self.post.postId {
-            super.postTapped(post, initialItems: initialItems)
+        if let selfPost = self.post {
+            if post.postId != selfPost.postId {
+                super.postTapped(post, initialItems: initialItems)
+            }
         }
     }
 }

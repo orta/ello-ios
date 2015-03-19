@@ -64,7 +64,8 @@ extension Post: Stubbable {
             repostsCount: (values["repostsCount"] as? Int),
             summary: summary,
             token: (values["token"] as? String) ?? "sample-token",
-            viewsCount: values["viewsCount"] as? Int
+            viewsCount: values["viewsCount"] as? Int,
+            comments: (values["comments"] as? [Comment]) ?? []
         )
 
         return post

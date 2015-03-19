@@ -86,6 +86,7 @@ struct ModelHelper {
             repostsCount: nil,
             summary: summary,
             token: "bar",
-            viewsCount: nil)
+            viewsCount: nil,
+            comments: [])
     }
 }
