@@ -23,17 +23,9 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
     convenience init(parentPost post: Post) {
         self.init(nibName: nil, bundle: nil)
         parentPost = post
-
-        let fileName = omnibarDataName()
-        if let data : NSData = Tmp.read(fileName) {
-            if let omnibarData = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? OmnibarData {
-                self.screen.attributedText = omnibarData.attributedText
-                self.screen.image = omnibarData.image
-            }
-        }
     }
 
-    private func omnibarDataName() -> String {
+    func omnibarDataName() -> String {
         if let post = parentPost {
             return "omnibar_comment_\(post.postId)"
         }
@@ -59,12 +51,21 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
     // just an appropriately typed accessor for `self.view`
     var _mockScreen: OmnibarScreenProtocol?
     var screen: OmnibarScreenProtocol {
-        set { _mockScreen = screen }
+        set(screen) { _mockScreen = screen }
         get { return _mockScreen ?? self.view as OmnibarScreen }
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+
+        let fileName = omnibarDataName()
+        if let data : NSData = Tmp.read(fileName) {
+            if let omnibarData = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? OmnibarData {
+                self.screen.attributedText = omnibarData.attributedText
+                self.screen.image = omnibarData.image
+            }
+        }
+
         self.screen.delegate = self
 
         keyboardWillShowObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillShow, block: self.willShow)
