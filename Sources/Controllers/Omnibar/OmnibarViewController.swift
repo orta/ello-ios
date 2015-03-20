@@ -133,7 +133,6 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
             ElloHUD.showLoadingHud()
             service.create(content: content, success: { postOrComment in
                 ElloHUD.hideLoadingHud()
-                Tmp.remove(self.omnibarDataName())
 
                 if let parentPost = self.parentPost {
                     var comment = postOrComment as Comment
