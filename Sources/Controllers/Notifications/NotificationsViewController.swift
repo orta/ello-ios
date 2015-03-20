@@ -30,7 +30,7 @@ class NotificationsViewController: StreamableViewController, NotificationDelegat
 
         setupStreamController()
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
-        scrollLogic.navBarHeight = 30
+        scrollLogic.navBarHeight = 44
     }
 
     override func showNavBars(scrollToBottom : Bool) {
