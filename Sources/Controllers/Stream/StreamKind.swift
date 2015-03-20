@@ -60,10 +60,8 @@ enum StreamKind {
         switch self {
         case .UserList: return jsonables
         case .Discover:
-            println("jsonables = \(jsonables)")
             if let users = jsonables as? [User] {
                 return users.reduce([]) { accum, user in
-                    println("user.posts = \(user.posts)")
                     if let post = user.mostRecentPost {
                         return accum + [post]
                     }
