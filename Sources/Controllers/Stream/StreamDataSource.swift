@@ -140,11 +140,10 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     func removeItemAtIndexPath(indexPath: NSIndexPath) {
-        if let itemToRemove = self.visibleCellItems[indexPath.item] {
-            temporarilyUnfilter() {
-                if let index = find(self.streamCellItems, itemToRemove) {
-                    self.streamCellItems.removeAtIndex(index)
-                }
+        let itemToRemove = self.visibleCellItems[indexPath.item]
+        temporarilyUnfilter() {
+            if let index = find(self.streamCellItems, itemToRemove) {
+                self.streamCellItems.removeAtIndex(index)
             }
         }
     }
