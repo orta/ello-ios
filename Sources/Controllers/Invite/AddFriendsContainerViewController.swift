@@ -69,9 +69,8 @@ class AddFriendsContainerViewController: StreamableViewController {
         navigationBar.items = [navigationItem]
         if !isRootViewController() {
             let item = UIBarButtonItem.backChevronWithTarget(self, action: "backTapped:")
-            let negativeSpacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FixedSpace, target: nil, action:"")
-            negativeSpacer.width = -15
-            navigationItem.leftBarButtonItems = [negativeSpacer, item]
+            self.navigationItem.leftBarButtonItems = [item]
+            self.fixNavBarItemPadding()
         }
     }
 

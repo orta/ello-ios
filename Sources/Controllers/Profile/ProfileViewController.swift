@@ -110,12 +110,15 @@ class ProfileViewController: StreamableViewController {
         navigationBar.items = [navigationItem]
         if !isRootViewController() {
             let item = UIBarButtonItem.backChevronWithTarget(self, action: "backTapped:")
-            navigationItem.leftBarButtonItem = item
+            self.navigationItem.leftBarButtonItems = [item]
+            self.fixNavBarItemPadding()
         }
     }
 
     private func userLoaded(user: User) {
-        self.title = user.atName ?? "Profile"
+        if !isRootViewController() {
+            self.title = user.atName ?? "Profile"
+        }
         if let cover = user.coverImageURL {
             coverImage.sd_setImageWithURL(cover, completed: {
                 (image, error, type, url) in

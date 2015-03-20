@@ -100,7 +100,8 @@ class PostDetailViewController: StreamableViewController {
         navigationBar.autoresizingMask = .FlexibleBottomMargin | .FlexibleWidth
         self.view.addSubview(navigationBar)
         let item = UIBarButtonItem.backChevronWithTarget(self, action: "backTapped:")
-        self.navigationItem.leftBarButtonItem = item
+        self.navigationItem.leftBarButtonItems = [item]
+        self.fixNavBarItemPadding()
         navigationBar.items = [self.navigationItem]
     }
 
