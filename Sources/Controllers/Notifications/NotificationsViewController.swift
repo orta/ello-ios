@@ -103,7 +103,7 @@ class NotificationsViewController: StreamableViewController, NotificationDelegat
         }
         else {
             sizer = StreamTextCellSizeCalculator(webView: UIWebView(frame: self.view.bounds))
-            let initialItems = StreamCellItemParser().parse([post], streamKind: streamViewController.streamKind)
+            let initialItems = StreamCellItemParser().parse([post], streamKind: .PostDetail(postParam: post.postId))
             ElloHUD.showLoadingHud()
             sizer!.processCells(initialItems) {
                 ElloHUD.hideLoadingHud()
