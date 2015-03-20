@@ -490,7 +490,8 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
             cameraButton.removeFromSuperview()
             imageSelectedButton.setImage(image, forState: .Normal)
             if let imageSelectedImageView = imageSelectedButton.imageView {
-                imageSelectedImageView.contentMode = .ScaleAspectFit
+                imageSelectedImageView.contentMode = .ScaleAspectFill
+                imageSelectedImageView.clipsToBounds = true
             }
             buttonContainer.insertSubview(imageSelectedButton, atIndex: 0)
             buttonContainer.layoutIfNeeded()
