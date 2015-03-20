@@ -273,14 +273,13 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     private func temporarilyUnfilter(block: ()->()) {
         if let cachedStreamFilter = streamFilter {
             self.streamFilter = nil
-            updateFilteredItems()
             block()
             self.streamFilter = cachedStreamFilter
         }
         else {
             block()
+            updateFilteredItems()
         }
-        updateFilteredItems()
     }
 
     private func updateFilteredItems() {
