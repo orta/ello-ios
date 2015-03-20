@@ -20,6 +20,8 @@ struct StreamFooterCellPresenter {
             if let post = streamCellItem.jsonable as? Post {
                 cell.comments = post.commentsCount?.localizedStringFromNumber()
 
+                cell.commentsButton.finishAnimation()
+
                 if streamKind.isDetail {
                     cell.commentsOpened = true
                 }

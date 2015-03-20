@@ -8,37 +8,9 @@
 
 import UIKit
 
-class ElloErrorLabel: UILabel {
+class ElloErrorLabel: ElloLabel {
 
-    func attributes(title:String) -> [NSObject : AnyObject] {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 10
-
-        var attributedString = NSMutableAttributedString(string: title)
-        var range = NSRange(location: 0, length: countElements(title))
-        return [
-            NSFontAttributeName : UIFont.typewriterFont(12.0),
-            NSForegroundColorAttributeName : UIColor.redColor(),
-            NSParagraphStyleAttributeName : paragraphStyle
-        ]
+    override func labelTextColor() -> UIColor {
+        return UIColor.redColor()
     }
-
-    func height() -> CGFloat {
-        if let text = self.text {
-            let nstext:NSString = NSString(string: text)
-            return nstext.boundingRectWithSize(CGSize(width: self.frame.size.width, height: CGFloat.max),
-                options: .UsesLineFragmentOrigin,
-                attributes: attributes(text),
-                context: nil).size.height
-        }
-        return 0.0
-    }
-
-    func setLabelText(title:String) {
-        var attributedString = NSMutableAttributedString(string: title)
-        var range = NSRange(location: 0, length: countElements(title))
-        attributedString.addAttributes(attributes(title), range: range)
-        self.attributedText = attributedString
-    }
-
 }

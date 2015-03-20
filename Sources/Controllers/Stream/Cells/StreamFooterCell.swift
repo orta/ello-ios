@@ -38,8 +38,8 @@ class StreamFooterCell: UICollectionViewCell {
     }
 
     let commentsItem:UIBarButtonItem = ElloPostToolBarOption.Comments.barButtonItem()
-    var commentsButton:StreamFooterButton {
-        get { return self.commentsItem.customView as StreamFooterButton }
+    var commentsButton:CommentButton {
+        get { return self.commentsItem.customView as CommentButton }
     }
 
     let repostItem:UIBarButtonItem = ElloPostToolBarOption.Repost.barButtonItem()
@@ -96,12 +96,10 @@ class StreamFooterCell: UICollectionViewCell {
         toolBar.clipsToBounds = true
         toolBar.layer.borderColor = UIColor.whiteColor().CGColor
 
-
         bottomToolBar.translucent = false
         bottomToolBar.barTintColor = UIColor.whiteColor()
         bottomToolBar.clipsToBounds = true
         bottomToolBar.layer.borderColor = UIColor.whiteColor().CGColor
-
 
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = false
