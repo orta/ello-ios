@@ -104,7 +104,7 @@ class OmnibarViewControllerSpec: QuickSpec {
             }
         }
 
-        fdescribe("restoring a comment") {
+        describe("restoring a comment") {
             beforeEach() {
                 let post = Post.stub([
                     "author": User.stub(["username": "colinta"])
@@ -138,7 +138,7 @@ class OmnibarViewControllerSpec: QuickSpec {
                 expect(screen.image).toNot(beNil())
             }
         }
-        fdescribe("saving a comment") {
+        describe("saving a comment") {
             beforeEach() {
                 let post = Post.stub([
                     "author": User.stub(["username": "colinta"])
