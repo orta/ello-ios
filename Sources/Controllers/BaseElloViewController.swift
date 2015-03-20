@@ -27,7 +27,7 @@ class BaseElloViewController: UIViewController {
 
     func didSetCurrentUser() {}
 
-    private func fixNavBarItemPadding() {
+    func fixNavBarItemPadding() {
         let negativeSpacer = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
         negativeSpacer.width = -22
         if let rightBarButtonItems = self.navigationItem.rightBarButtonItems {
@@ -37,7 +37,6 @@ class BaseElloViewController: UIViewController {
         if let leftBarButtonItems = self.navigationItem.leftBarButtonItems {
             self.navigationItem.leftBarButtonItems = [negativeSpacer] + leftBarButtonItems
         }
-
     }
 
     func isRootViewController() -> Bool {
