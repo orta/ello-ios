@@ -122,8 +122,19 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     func removeCommentsForPost(post: Post) -> [NSIndexPath] {
         let indexPaths = self.commentIndexPathsForPost(post)
-        for path in indexPaths {
-            self.visibleCellItems.removeAtIndex(path.item)
+        temporarilyUnfilter() {
+            // these paths might be different depending on the filter
+            let unfilteredIndexPaths = self.commentIndexPathsForPost(post)
+            var newItems = [StreamCellItem]()
+            for (index, item) in enumerate(self.streamCellItems) {
+                var remove = unfilteredIndexPaths.reduce(false) { remove, path in
+                    return remove || path.item == index
+                }
+                if !remove {
+                    newItems.append(item)
+                }
+            }
+            self.streamCellItems = newItems
         }
         return indexPaths
     }
@@ -257,6 +268,19 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
 
         self.notificationSizeCalculator.processCells(notificationElements, afterBoth)
         self.textSizeCalculator.processCells(textElements, afterBoth)
+    }
+
+    private func temporarilyUnfilter(block: ()->()) {
+        if let cachedStreamFilter = streamFilter {
+            self.streamFilter = nil
+            updateFilteredItems()
+            block()
+            self.streamFilter = cachedStreamFilter
+        }
+        else {
+            block()
+        }
+        updateFilteredItems()
     }
 
     private func updateFilteredItems() {
