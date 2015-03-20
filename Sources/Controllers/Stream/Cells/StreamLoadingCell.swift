@@ -1,0 +1,57 @@
+//
+//  StreamLoadingCell.swift
+//  Ello
+//
+//  Created by Ryan Boyajian on 3/20/15.
+//  Copyright (c) 2015 Ello. All rights reserved.
+//
+
+import Foundation
+import SVGKit
+
+class StreamLoadingCell: UICollectionViewCell {
+
+    lazy var elloLogo: ElloLogoView = {
+        let logo = ElloLogoView(image: SVGKImage(named: "ello_logo.svg").UIImage!)
+        logo.bounds = CGRectMake(0, 0, 30, 30)
+        return logo
+    }()
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.sharedInit()
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        self.sharedInit()
+    }
+
+    func start() {
+        elloLogo.animateLogo()
+    }
+
+    func stop() {
+        elloLogo.stopAnimatingLogo()
+    }
+
+    private func sharedInit() {
+        self.addSubview(elloLogo)
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        elloLogo.center = CGPointMake(self.bounds.size.width / 2.0, self.bounds.size.height / 2.0)
+    }
+
+    class func streamCellItem() -> StreamCellItem {
+        return StreamCellItem(
+            jsonable: JSONAble(),
+            type: .StreamLoading,
+            data: nil,
+            oneColumnCellHeight: 50.0,
+            multiColumnCellHeight: 50.0,
+            isFullWidth: true
+        )
+    }
+}

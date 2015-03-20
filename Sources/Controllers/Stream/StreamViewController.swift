@@ -367,6 +367,10 @@ extension StreamViewController : UIScrollViewDelegate {
     private func loadNextPage(scrollView: UIScrollView) {
         if scrollView.contentOffset.y + self.view.frame.height + 300 > scrollView.contentSize.height {
             if self.responseConfig?.totalPagesRemaining == "0" { return }
+            let lastCellItem: StreamCellItem = self.dataSource.visibleCellItems[self.dataSource.visibleCellItems.count - 1]
+            if lastCellItem.type == .StreamLoading { return }
+            let loadingCellItem = StreamLoadingCell.streamCellItem()
+            self.appendStreamCellItems([loadingCellItem])
             if let nextQueryItems = self.responseConfig?.nextQueryItems {
                 let scrollAPI = ElloAPI.InfiniteScroll(path: streamKind.endpoint.path, queryItems: nextQueryItems)
                 streamService.loadStream(scrollAPI,
@@ -378,10 +382,20 @@ extension StreamViewController : UIScrollViewDelegate {
                     },
                     failure: { (error, statusCode) in
                         println("failed to load stream (reason: \(error))")
+                        self.removeLoadingCell()
                         self.doneLoading()
                 })
             }
         }
+    }
+
+    private func removeLoadingCell() {
+        let indexPath = NSIndexPath(forItem: dataSource.visibleCellItems.count - 1, inSection: 0)
+        if let cell = collectionView.cellForItemAtIndexPath(indexPath) as? StreamLoadingCell {
+            cell.stop()
+        }
+        dataSource.removeItemAtIndexPath(indexPath)
+        collectionView.deleteItemsAtIndexPaths([indexPath])
     }
 }
 
