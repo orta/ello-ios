@@ -32,7 +32,7 @@ final class User: JSONAble, NSCoding {
     let userId: String
     let username: String
     let mostRecentPost: Post?
-	let identifiableBy: String?
+    let identifiableBy: String?
 
     var isCurrentUser : Bool
 

@@ -11,7 +11,7 @@ import Foundation
 enum StreamKind {
     case Friend
     case Noise
-	case Discover(type: DiscoverType, seed: Int, perPage: Int)
+    case Discover(type: DiscoverType, seed: Int, perPage: Int)
     case PostDetail(postParam: String)
     case Profile(userParam: String)
     case Notifications
