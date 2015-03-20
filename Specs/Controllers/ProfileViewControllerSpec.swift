@@ -21,6 +21,7 @@ class ProfileViewControllerSpec: QuickSpec {
             href: "/api/edge/users/42",
             name:  "Ello",
             posts: [],
+            mostRecentPost: nil,
             postsCount: 2,
             relationshipPriority: .Me,
             userId: "42",

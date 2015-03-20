@@ -11,6 +11,7 @@ import Foundation
 enum StreamKind {
     case Friend
     case Noise
+    case Discover(type: DiscoverType, seed: Int, perPage: Int)
     case PostDetail(postParam: String)
     case Profile(userParam: String)
     case Notifications
@@ -21,6 +22,7 @@ enum StreamKind {
         case .Friend: return "Friends"
         case .Noise: return "Noise"
         case .Notifications: return "Notifications"
+        case .Discover: return "Discover"
         case .PostDetail: return "Post Detail"
         case .Profile: return "Profile"
         case .UserList(let title): return "\(title)"
@@ -29,7 +31,7 @@ enum StreamKind {
 
     var columnCount:Int {
         switch self {
-        case .Noise: return 2
+        case .Noise, .Discover: return 2
         default: return 1
         }
     }
@@ -38,6 +40,7 @@ enum StreamKind {
         switch self {
         case .Friend: return .FriendStream
         case .Noise: return .NoiseStream
+        case .Discover(let type, let seed, let perPage): return ElloAPI.Discover(type: type, seed: seed, perPage: perPage)
         case .Notifications: return .NotificationsStream
         case .PostDetail(let postParam): return .PostDetail(postParam: postParam)
         case .Profile(let userParam): return .UserStream(userParam: userParam)
@@ -55,11 +58,26 @@ enum StreamKind {
 
     func filter(jsonables: [JSONAble]) -> [JSONAble] {
         switch self {
-        case .UserList(let endpoint, let title): return jsonables
+        case .UserList: return jsonables
+        case .Discover:
+            if let users = jsonables as? [User] {
+                return users.reduce([]) { accum, user in
+                    if let post = user.mostRecentPost {
+                        return accum + [post]
+                    }
+                    return accum
+                }
+            }
+            else {
+                return []
+            }
         case .Notifications:
             if let activities = jsonables as? [Activity] {
                 let notifications: [Notification] = activities.map { return Notification(activity: $0) }
                 return notifications
+            }
+            else {
+                return []
             }
         default:
             if let activities = jsonables as? [Activity] {

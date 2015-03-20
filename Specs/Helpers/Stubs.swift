@@ -34,6 +34,7 @@ extension User: Stubbable {
             href: (values["href"] as? String) ?? "href",
             name: (values["name"] as? String) ?? "name",
             posts: (values["posts"] as? [Post]) ?? [],
+            mostRecentPost: (values["mostRecentPost"] as? Post),
             postsCount: (values["postsCount"] as? Int) ?? 0,
             relationshipPriority: relationship,
             userId: (values["userId"] as? String) ?? "1",
