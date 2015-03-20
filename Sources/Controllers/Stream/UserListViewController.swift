@@ -42,7 +42,7 @@ class UserListViewController: StreamableViewController {
         self.view.addSubview(navigationBar)
         let item = UIBarButtonItem.backChevronWithTarget(self, action: "backTapped:")
         self.navigationItem.leftBarButtonItems = [item]
-        self.fixNavBarItemPadding()
+        self.navigationItem.fixNavBarItemPadding()
         navigationBar.items = [self.navigationItem]
     }
 

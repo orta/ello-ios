@@ -111,7 +111,7 @@ class ProfileViewController: StreamableViewController {
         if !isRootViewController() {
             let item = UIBarButtonItem.backChevronWithTarget(self, action: "backTapped:")
             self.navigationItem.leftBarButtonItems = [item]
-            self.fixNavBarItemPadding()
+            self.navigationItem.fixNavBarItemPadding()
         }
     }
 

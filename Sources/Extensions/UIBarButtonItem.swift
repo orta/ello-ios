@@ -17,7 +17,7 @@ extension UIBarButtonItem {
         let image = UIImage(named: "chevron-back-icon")
         button.setImage(image, forState: .Normal)
         button.addTarget(target, action: action, forControlEvents: .TouchUpInside)
-        
+
         return UIBarButtonItem(customView: button)
     }
 }
