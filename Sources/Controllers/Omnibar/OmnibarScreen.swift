@@ -120,7 +120,6 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
 
     var hasParentPost : Bool = false {
         didSet {
-            backButton.hidden = !hasParentPost
             setNeedsLayout()
         }
     }
@@ -135,7 +134,6 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
     let imageSelectedButton = UIButton()
     let imageSelectedOverlay = UIImageView()
     let navigationBar = ElloNavigationBar(frame: CGRectZero)
-    let backButton = UIButton()
     let cancelButton = UIButton()
     let submitButton = UIButton()
     let buttonContainer = ElloEquallySpacedLayout()
@@ -161,7 +159,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
         setupAvatarView()
         setupSayElloViews()
         setupImageSelectedViews()
-        setupBackButton()
+        setupNavigationBar()
         setupToolbarButtons()
         setupTextViews()
         setupViewHierarchy()
@@ -207,11 +205,12 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
         imageSelectedOverlay.autoresizingMask = .FlexibleBottomMargin | .FlexibleTopMargin | .FlexibleLeftMargin | .FlexibleRightMargin
         imageSelectedButton.addSubview(imageSelectedOverlay)
     }
-    private func setupBackButton() {
-        backButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
-        let image = UIImage(named: "chevron-back-icon")
-        backButton.setImage(image, forState: .Normal)
-        backButton.addTarget(self, action: Selector("backAction"), forControlEvents: .TouchUpInside)
+    private func setupNavigationBar() {
+        let backItem = UIBarButtonItem.backChevronWithTarget(self, action: "backAction")
+        let item = UINavigationItem()
+        item.leftBarButtonItem = backItem
+        item.title = "Leave a comment"
+        self.navigationBar.items = [item]
     }
     // buttons that make up the "toolbar"
     private func setupToolbarButtons() {
@@ -240,7 +239,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
         textView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
     }
     private func setupViewHierarchy() {
-        for view in [backButton, avatarView, buttonContainer, textContainer, sayElloOverlay] as [UIView] {
+        for view in [navigationBar, avatarView, buttonContainer, textContainer, sayElloOverlay] as [UIView] {
             self.addSubview(view)
         }
         for view in [cameraButton, cancelButton, submitButton] as [UIView] {
@@ -330,17 +329,18 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        var avatarViewLeft = Size.margins
+        var screenTop = CGFloat(0)
         if hasParentPost {
-            backButton.frame = CGRect(x: Size.margins, y: Size.margins, width: 29.0, height: Size.toolbarHeight)
-            avatarViewLeft += backButton.frame.maxX
+            navigationBar.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: ElloNavigationBar.Size.height)
+            screenTop += navigationBar.frame.height
         }
 
-        avatarView.frame = CGRect(x: avatarViewLeft, y: Size.margins, width: Size.toolbarHeight, height: Size.toolbarHeight)
+        var avatarViewLeft = Size.margins
+        avatarView.frame = CGRect(x: avatarViewLeft, y: screenTop + Size.margins, width: Size.toolbarHeight, height: Size.toolbarHeight)
         avatarView.layer.cornerRadius = Size.toolbarHeight / CGFloat(2)
 
         let buttonContainerWidth = Size.buttonWidth * CGFloat(buttonContainer.subviews.count)
-        buttonContainer.frame = CGRect(x: self.bounds.width - Size.buttonRightMargin, y: Size.margins, width: 0, height: Size.toolbarHeight)
+        buttonContainer.frame = CGRect(x: self.bounds.width - Size.buttonRightMargin, y: screenTop + Size.margins, width: 0, height: Size.toolbarHeight)
             .growLeft(buttonContainerWidth)
 
         // make sure the textContainer is above the keboard, with a 1pt line
@@ -357,7 +357,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
         else {
             localKbdHeight += Size.bottomTextMargin
         }
-        textContainer.frame = CGRect.make(x: Size.margins, y: avatarView.frame.maxY + Size.innerTextMargin,
+        textContainer.frame = CGRect.make(x: Size.margins, y: buttonContainer.frame.maxY + Size.innerTextMargin,
             right: self.bounds.size.width - Size.margins, bottom: self.bounds.size.height - localKbdHeight)
         sayElloOverlay.frame = textContainer.frame
         sayElloLabel.frame = CGRect(x: Size.textMargins, y: Size.textMargins + Size.labelCorrection, width: 0, height: 0)

@@ -64,6 +64,7 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
                 self.screen.attributedText = omnibarData.attributedText
                 self.screen.image = omnibarData.image
             }
+            Tmp.remove(fileName)
         }
 
         self.screen.delegate = self

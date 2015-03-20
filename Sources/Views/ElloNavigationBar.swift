@@ -14,8 +14,7 @@ class ElloNavigationBar : UINavigationBar {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.opaque = true
-        self.translucent = false
+        privateInit()
     }
 
     required init(coder: NSCoder) {
@@ -24,8 +23,13 @@ class ElloNavigationBar : UINavigationBar {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+        privateInit()
+    }
+
+    private func privateInit() {
         self.opaque = true
         self.translucent = false
+        self.tintColor = UIColor.greyA()
     }
 
     override func intrinsicContentSize() -> CGSize {
