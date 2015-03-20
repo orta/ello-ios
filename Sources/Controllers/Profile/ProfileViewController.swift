@@ -116,7 +116,9 @@ class ProfileViewController: StreamableViewController {
     }
 
     private func userLoaded(user: User) {
-        self.title = user.atName ?? "Profile"
+        if !isRootViewController() {
+            self.title = user.atName ?? "Profile"
+        }
         if let cover = user.coverImageURL {
             coverImage.sd_setImageWithURL(cover, completed: {
                 (image, error, type, url) in
