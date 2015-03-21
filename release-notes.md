@@ -1,3 +1,62 @@
+### Ello Build 745
+(604c38a86470d59c3a16c7b6d5428e58994e7fa7
+) March 20, 2015
+
+    #### #94 - Discover
+This has the rough plumbing for the Discover tab. 
+* renders random posts in 2 column grid view (same as noise)
+* discover endpoints
+* custom nav bar for importing contacts
+* It has all the rendering issues that the noise stream currently has. 
+
+![discovery](http://media.giphy.com/media/4o2Q94qzasSOI/giphy.gif)
+
+------
+
+#### #96 - Some UI Tweaks
+* Notifications nav bar is 44pt tall
+* Comment dots no longer animate erratically in the wrong cells. 
+
+[Fixes #90707524]
+[Fixes #90467698]
+
+------
+
+#### #93 - Fix some layout issues with the UserListItemCell.
+
+
+------
+
+#### #95 - Fix for back arrow padding
+* chevron is now closer to left edge in all cases (hopefully caught them all)
+* @username no longer shows up on the profile tab icon
+
+------
+
+#### #91 - Link post content for usernames and post tokens
+* Allows a link to a post within a post's content to open in the `PostDetailViewController`
+* Allows a link to a user within a post's content to open in the `ProfileViewController`
+
+------
+
+#### #88 - tmp file helper
+Adds `Tmp.swift`, which can read/write temporary files.  This will be in use in the Omnibar, to cache comments.
+
+------
+
+#### #90 - find/invite UI tweaks
+* add nav bar
+* full width divider lines
+* find and invite buttons match comps
+* Find/Invite swiping between find & invite highlights the correct button
+* Find/Invite friends dismisses the keyboard when scrolling
+* Increase height of Find Friends cells
+* Add FindInviteButton used in find/invite friends
+* wrap ElloLogoView accessing it's presentationLayer for odd spec bad exec
+
+    
+------------
+
 ### Ello Build 636
 (348c05d9fae809289b254c2ad40ea65e29dcd99c
 ) March 18, 2015
