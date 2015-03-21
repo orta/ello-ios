@@ -36,6 +36,7 @@ class GenerateReleaseNotes
 
   # add PRs from commits
   def scan_commits(commits)
+    last_sha = nil
     commits.each do |commit|
       return true if @previous_sha_yaml['previous-sha'] == commit[:sha]
       match = commit[:commit][:message].match(/pull request #(\d+) from/)
@@ -46,8 +47,9 @@ class GenerateReleaseNotes
           @pull_request_notes << "#### ##{pr_num} - #{pr[:title]}\n#{pr[:body]}"
         end
       end
+      last_sha = commit[:sha]
     end
-    scan_commits @client.commits_before(@repo_name, DateTime.parse(commits.last[:commit][:author][:date].to_s))
+    scan_commits @client.commits(@repo_name, sha: last_sha)
   end
 
   def update_release_notes
