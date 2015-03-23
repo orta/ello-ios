@@ -31,5 +31,8 @@ plugin 'cocoapods-keys', {
   project: "Ello",
   keys: [
     "Salt",
+    "ClientKey",
+    "ClientSecret",
+    "Domain",
   ]
 }
