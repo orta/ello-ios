@@ -14,9 +14,10 @@ let AssetVersion = 1
 final class Asset: JSONAble {
 
     let version: Int = AssetVersion
-
     let assetId: String
-
+    var isGif: Bool {
+        return self.optimized?.imageType == "image/gif"
+    }
 
     let optimized: ImageAttachment?
     let smallScreen: ImageAttachment?
@@ -66,7 +67,7 @@ final class Asset: JSONAble {
     func encodeWithCoder(encoder: NSCoder) {
 
         encoder.encodeObject(self.assetId, forKey: "assetId")
-
+                    
         if let optimized = self.optimized {
             encoder.encodeObject(optimized, forKey: "optimized")
         }
