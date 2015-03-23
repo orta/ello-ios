@@ -27,7 +27,7 @@
 
 import UIKit
 import MobileCoreServices
-
+import FLAnimatedImage
 
 @objc
 protocol OmnibarScreenDelegate {
@@ -128,11 +128,11 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
 
     weak var delegate : OmnibarScreenDelegate?
 
-    let avatarView = UIImageView()
+    let avatarView = FLAnimatedImageView()
     let cameraButton = UIButton()
 
     let imageSelectedButton = UIButton()
-    let imageSelectedOverlay = UIImageView()
+    let imageSelectedOverlay = FLAnimatedImageView()
     let navigationBar = ElloNavigationBar(frame: CGRectZero)
     let cancelButton = UIButton()
     let submitButton = UIButton()

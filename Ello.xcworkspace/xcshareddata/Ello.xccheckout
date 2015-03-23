@@ -12,6 +12,8 @@
 	<dict>
 		<key>15ADDC96148D8EC7ABACA3AFDED5D958C5D22840</key>
 		<string>github.com:ello/Moya.git</string>
+		<key>CADC4D1B031AED4FEFB66A1DCF54AE5FF592E1F0</key>
+		<string>github.com:Flipboard/FLAnimatedImage.git</string>
 		<key>CE85FE9109D7F16FB7ECA4B10F7B364BA28396B0</key>
 		<string>github.com:modeset/ello-ios.git</string>
 	</dict>
@@ -21,6 +23,8 @@
 	<dict>
 		<key>15ADDC96148D8EC7ABACA3AFDED5D958C5D22840</key>
 		<string>..-Moya</string>
+		<key>CADC4D1B031AED4FEFB66A1DCF54AE5FF592E1F0</key>
+		<string>../../Libraries/FLAnimatedImage</string>
 		<key>CE85FE9109D7F16FB7ECA4B10F7B364BA28396B0</key>
 		<string>..</string>
 	</dict>
@@ -47,6 +51,14 @@
 			<string>15ADDC96148D8EC7ABACA3AFDED5D958C5D22840</string>
 			<key>IDESourceControlWCCName</key>
 			<string>Ello-Moya</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>CADC4D1B031AED4FEFB66A1DCF54AE5FF592E1F0</string>
+			<key>IDESourceControlWCCName</key>
+			<string>FLAnimatedImage</string>
 		</dict>
 	</array>
 </dict>

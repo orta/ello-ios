@@ -8,14 +8,13 @@
 
 import UIKit
 import Foundation
-
-
+import FLAnimatedImage
 
 let updateStreamImageCellHeightNotification = TypedNotification<StreamImageCell>(name: "updateStreamImageCellHeightNotification")
 
 class StreamImageCell: UICollectionViewCell {
 
-    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var imageView: FLAnimatedImageView!
     @IBOutlet weak var imageButton: UIButton!
     @IBOutlet weak var errorLabel: ElloErrorLabel!
 

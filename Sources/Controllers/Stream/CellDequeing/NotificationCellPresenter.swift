@@ -36,14 +36,14 @@ struct NotificationCellPresenter {
 
             if let imageRegion = notification.imageRegion {
                 var aspectRatio = StreamCellItemParser.aspectRatioForImageBlock(imageRegion)
-                if let photoURL = imageRegion.asset?.hdpi?.url? {
-                    cell.aspectRatio = aspectRatio
-                    cell.imageURL = photoURL
+                var imageURL: NSURL
+                if let isGif = imageRegion.asset?.optimized?.url? {
+                    cell.imageURL = imageRegion.asset?.optimized?.url ?? imageRegion.url
                 }
-                else if let photoURL = imageRegion.url {
-                    cell.aspectRatio = aspectRatio
-                    cell.imageURL = photoURL
+                else {
+                    cell.imageURL = imageRegion.asset?.hdpi?.url ?? imageRegion.url
                 }
+                cell.aspectRatio = aspectRatio
             }
         }
     }

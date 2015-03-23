@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import FLAnimatedImage
 
 class FindFriendsCell: UITableViewCell {
-    @IBOutlet weak var profileImageView: UIImageView?
+    @IBOutlet weak var profileImageView: FLAnimatedImageView?
     @IBOutlet weak var nameLabel: UILabel?
     @IBOutlet weak var relationshipView: RelationshipView?
 

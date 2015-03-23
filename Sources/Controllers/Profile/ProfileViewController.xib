@@ -20,7 +20,7 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="A2p-8r-avy" userLabel="coverImage">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="A2p-8r-avy" userLabel="coverImage" customClass="FLAnimatedImageView">
                     <rect key="frame" x="0.0" y="44" width="600" height="338"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="338" id="Uoo-CU-1JR" userLabel="coverImageHeight"/>
