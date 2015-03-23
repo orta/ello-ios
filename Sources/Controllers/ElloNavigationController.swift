@@ -5,7 +5,12 @@
 //  Created by Sean on 1/19/15.
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
+
 let externalWebNotification = TypedNotification<String>(name: "externalWebNotification")
+
+@objc protocol GestureNavigation {
+    var backGestureEdges: UIRectEdge { get }
+}
 
 class ElloNavigationController: UINavigationController, UIGestureRecognizerDelegate {
 
@@ -16,6 +21,8 @@ class ElloNavigationController: UINavigationController, UIGestureRecognizerDeleg
     var currentUser : User? {
         didSet { didSetCurrentUser() }
     }
+
+    var backGesture: UIScreenEdgePanGestureRecognizer?
 
     enum RootViewControllers: String {
         case Notifications = "NotificationsViewController"
@@ -57,9 +64,8 @@ class ElloNavigationController: UINavigationController, UIGestureRecognizerDeleg
         transitioningDelegate = self
         delegate = self
 
-        let left = UIScreenEdgePanGestureRecognizer(target: self, action: "handleSwipeFromLeft:")
-        left.edges = .Left
-        self.view.addGestureRecognizer(left);
+        backGesture = UIScreenEdgePanGestureRecognizer(target: self, action: Selector("handleBackGesture:"))
+        backGesture.map(self.view.addGestureRecognizer)
 
         externalWebObserver = NotificationObserver(notification: externalWebNotification) { url in
             self.showExternalWebView(url)
@@ -73,9 +79,7 @@ class ElloNavigationController: UINavigationController, UIGestureRecognizerDeleg
         }
     }
 
-    func handleSwipeFromLeft(gesture: UIScreenEdgePanGestureRecognizer) {
-        let percent = gesture.translationInView(gesture.view!).x / gesture.view!.bounds.size.width
-
+    func handleBackGesture(gesture: UIScreenEdgePanGestureRecognizer) {
         switch gesture.state {
         case .Began:
             interactionController = UIPercentDrivenInteractiveTransition()
@@ -83,9 +87,9 @@ class ElloNavigationController: UINavigationController, UIGestureRecognizerDeleg
                 popViewControllerAnimated(true)
             }
         case .Changed:
-            interactionController?.updateInteractiveTransition(percent)
+            interactionController?.updateInteractiveTransition(gesture.percentageThroughView)
         case .Ended, .Cancelled:
-            if percent > 0.5 {
+            if gesture.percentageThroughView > 0.5 {
                 interactionController?.finishInteractiveTransition()
             } else {
                 interactionController?.cancelInteractiveTransition()
@@ -127,6 +131,13 @@ extension ElloNavigationController: UIViewControllerTransitioningDelegate {
 }
 
 extension ElloNavigationController: UINavigationControllerDelegate {
+
+
+    func navigationController(navigationController: UINavigationController, didShowViewController viewController: UIViewController, animated: Bool) {
+        let controller = viewController as? GestureNavigation
+        let edge = controller?.backGestureEdges ?? .Left
+        backGesture?.edges = edge
+    }
 
     func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
 
