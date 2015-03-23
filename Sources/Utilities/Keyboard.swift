@@ -43,9 +43,6 @@ class Keyboard {
     deinit {
         let center : NSNotificationCenter = NSNotificationCenter.defaultCenter()
         center.removeObserver(self)
-        center.removeObserver(self)
-        center.removeObserver(self)
-        center.removeObserver(self)
     }
 
     func keyboardTop(#inView: UIView) -> CGFloat {

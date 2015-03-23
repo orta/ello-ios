@@ -414,7 +414,17 @@ class StreamDataSourceSpec: QuickSpec {
                     textSizeCalculator: textSizeCalculator,
                     notificationSizeCalculator: notificationSizeCalculator)
 
-                let nonAuthorable = Asset(assetId: "123", hdpi: nil, xxhdpi: nil)
+                let nonAuthorable = Asset(
+                    assetId: "123",
+                    optimized: nil,
+                    smallScreen: nil,
+                    ldpi: nil,
+                    mdpi: nil,
+                    hdpi: nil,
+                    xhdpi: nil,
+                    xxhdpi: nil,
+                    xxxhdpi: nil)
+
                 let cellItem = StreamCellItem(jsonable: nonAuthorable, type: .Image, data: nil, oneColumnCellHeight: 0, multiColumnCellHeight: 0, isFullWidth: false)
 
                 subject.appendUnsizedCellItems([cellItem]) { cellCount in

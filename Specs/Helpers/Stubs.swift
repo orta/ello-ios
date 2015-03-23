@@ -143,8 +143,14 @@ extension Asset: Stubbable {
     class func stub(values: [String : AnyObject]) -> Asset {
         return Asset(
             assetId:  (values["assetId"] as? String) ?? "1234",
+            optimized: values["optimized"] as? ImageAttachment,
+            smallScreen: values["smallScreen"] as? ImageAttachment,
+            ldpi: values["ldpi"] as? ImageAttachment,
+            mdpi: values["mdpi"] as? ImageAttachment,
             hdpi: values["hdpi"] as? ImageAttachment,
-            xxhdpi: values["xxhdpi"] as? ImageAttachment
+            xhdpi: values["xhdpi"] as? ImageAttachment,
+            xxhdpi: values["xxhdpi"] as? ImageAttachment,
+            xxxhdpi: values["xxxhdpi"] as? ImageAttachment
         )
     }
 }

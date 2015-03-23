@@ -28,7 +28,16 @@ class StreamCellItemParserSpec: QuickSpec {
 
             it("returns the correct aspect ratio") {
                 let hdpi = ImageAttachment(url: NSURL(string: "http://www.ello.com"), height: 1600, width: 900, imageType: "jpeg", size: 894578)
-                var asset = Asset(assetId: "123", hdpi: hdpi, xxhdpi: nil)
+                var asset = Asset(
+                    assetId: "123",
+                    optimized: nil,
+                    smallScreen: nil,
+                    ldpi: nil,
+                    mdpi: nil,
+                    hdpi: hdpi,
+                    xhdpi: nil,
+                    xxhdpi: nil,
+                    xxxhdpi: nil)
                 var imageBlock = ImageRegion(asset:asset, alt: "alt text", url:NSURL(string: "http://www.ello.com"))
                 let aspectRatio = StreamCellItemParser.aspectRatioForImageBlock(imageBlock)
 
