@@ -12,6 +12,7 @@ import WebLinking
 
 typealias ElloSuccessCompletion = (data: AnyObject, responseConfig: ResponseConfig) -> ()
 typealias ElloFailureCompletion = (error: NSError, statusCode:Int?) -> ()
+typealias ElloEmptyCompletion = () -> ()
 
 struct ElloProvider {
 
