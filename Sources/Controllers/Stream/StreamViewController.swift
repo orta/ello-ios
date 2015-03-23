@@ -378,6 +378,7 @@ extension StreamViewController : UIScrollViewDelegate {
                 streamService.loadStream(scrollAPI,
                     success: {
                         (jsonables, responseConfig) in
+                        self.removeLoadingCell()
                         self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind))
                         self.responseConfig = responseConfig
                         self.doneLoading()
@@ -401,9 +402,9 @@ extension StreamViewController : UIScrollViewDelegate {
         let indexPath = NSIndexPath(forItem: dataSource.visibleCellItems.count - 1, inSection: 0)
         if let cell = collectionView.cellForItemAtIndexPath(indexPath) as? StreamLoadingCell {
             cell.stop()
+            dataSource.removeItemAtIndexPath(indexPath)
+            collectionView.deleteItemsAtIndexPaths([indexPath])
         }
-        dataSource.removeItemAtIndexPath(indexPath)
-        collectionView.deleteItemsAtIndexPaths([indexPath])
     }
 }
 
