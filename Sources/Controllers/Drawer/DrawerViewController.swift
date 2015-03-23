@@ -8,11 +8,11 @@
 
 import Foundation
 
-class DrawerViewController: BaseElloViewController, GestureNavigation, UICollectionViewDataSource, UICollectionViewDelegate {
+class DrawerViewController: BaseElloViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var navigationBar: ElloNavigationBar!
 
-    let backGestureEdges: UIRectEdge = .Right
+    override var backGestureEdges: UIRectEdge { return .Right }
 
     let dataSource: DrawerViewDataSource
 

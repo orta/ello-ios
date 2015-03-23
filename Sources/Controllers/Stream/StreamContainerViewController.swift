@@ -22,6 +22,10 @@ class StreamContainerViewController: StreamableViewController {
     var streamsSegmentedControl: UISegmentedControl!
     var streamControllerViews:[UIView] = []
 
+    override func backGestureAction() {
+        hamburgerButtonTapped()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -128,7 +132,7 @@ class StreamContainerViewController: StreamableViewController {
 
     // MARK: - IBActions
 
-    @IBAction func hamburgerButtonTapped(sender: UIBarButtonItem) {
+    @IBAction func hamburgerButtonTapped() {
         let index = streamsSegmentedControl.selectedSegmentIndex
         let relationship = StreamKind.streamValues[index].relationship
         let drawer = DrawerViewController(relationship: relationship)

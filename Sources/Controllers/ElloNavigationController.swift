@@ -8,10 +8,6 @@
 
 let externalWebNotification = TypedNotification<String>(name: "externalWebNotification")
 
-@objc protocol GestureNavigation {
-    var backGestureEdges: UIRectEdge { get }
-}
-
 class ElloNavigationController: UINavigationController, UIGestureRecognizerDelegate {
 
     var interactionController: UIPercentDrivenInteractiveTransition?
@@ -83,9 +79,7 @@ class ElloNavigationController: UINavigationController, UIGestureRecognizerDeleg
         switch gesture.state {
         case .Began:
             interactionController = UIPercentDrivenInteractiveTransition()
-            if viewControllers.count > 1 {
-                popViewControllerAnimated(true)
-            }
+            topViewController.backGestureAction()
         case .Changed:
             interactionController?.updateInteractiveTransition(gesture.percentageThroughView)
         case .Ended, .Cancelled:
@@ -134,9 +128,7 @@ extension ElloNavigationController: UINavigationControllerDelegate {
 
 
     func navigationController(navigationController: UINavigationController, didShowViewController viewController: UIViewController, animated: Bool) {
-        let controller = viewController as? GestureNavigation
-        let edge = controller?.backGestureEdges ?? .Left
-        backGesture?.edges = edge
+        backGesture?.edges = viewController.backGestureEdges
     }
 
     func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
