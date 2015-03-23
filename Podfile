@@ -14,6 +14,7 @@ pod 'SSPullToRefresh', '~> 1.2'
 # lock this at 1.9 to support SVGKit using `DDLogC` methods
 pod 'CocoaLumberjack', '~> 1.9'
 pod 'SVGKit', git: "https://github.com/SVGKit/SVGKit", branch: "2.x"
+pod 'FLAnimatedImage', git: "https://github.com/ello/FLAnimatedImage.git"
 
 # swift pods
 pod 'SwiftyJSON', git: "https://github.com/orta/SwiftyJSON", branch: "podspec"

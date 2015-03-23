@@ -5,6 +5,7 @@ PODS:
   - CocoaLumberjack/Core (1.9.2)
   - CocoaLumberjack/Extensions (1.9.2):
     - CocoaLumberjack/Core
+  - FLAnimatedImage (1.0.8)
   - Keys (1.0.2)
   - LlamaKit (0.5.0)
   - Moya (0.6.1):
@@ -25,6 +26,7 @@ PODS:
 DEPENDENCIES:
   - Alamofire (from `https://github.com/Alamofire/Alamofire.git`)
   - CocoaLumberjack (~> 1.9)
+  - FLAnimatedImage (from `https://github.com/ello/FLAnimatedImage.git`)
   - Keys (from `https://github.com/ashfurrow/empty-podspec.git`)
   - LlamaKit (from `https://github.com/AshFurrow/LlamaKit`, branch `rac_podspec`)
   - Moya (from `https://github.com/ello/Moya`)
@@ -39,6 +41,8 @@ DEPENDENCIES:
 EXTERNAL SOURCES:
   Alamofire:
     :git: https://github.com/Alamofire/Alamofire.git
+  FLAnimatedImage:
+    :git: https://github.com/ello/FLAnimatedImage.git
   Keys:
     :git: https://github.com/ashfurrow/empty-podspec.git
   LlamaKit:
@@ -57,6 +61,9 @@ CHECKOUT OPTIONS:
   Alamofire:
     :commit: 90c4d77be8af79fba58f276bc8f6bbc30e35c8d3
     :git: https://github.com/Alamofire/Alamofire.git
+  FLAnimatedImage:
+    :commit: 7f1d9a29597b45aef8686da22f33a3634d84c686
+    :git: https://github.com/ello/FLAnimatedImage.git
   Keys:
     :commit: 6ac34c01bbb02fa5069187081135b6c108657018
     :git: https://github.com/ashfurrow/empty-podspec.git
@@ -76,6 +83,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Alamofire: 6a2cbaebe78a6d469bc55ee37f0a24ba22af76ac
   CocoaLumberjack: 205769c032b5fef85b92472046bcc8b7e7c8a817
+  FLAnimatedImage: f9422f796135aff80d8c00b2afc48015bb746e24
   Keys: 9a0258f6629755b9686c0821fa97cf659de68347
   LlamaKit: 6110b5eb82c3286ee0a5bbd2157e736ab9822c44
   Moya: 6589de6c52d9d8e5ab0d9630b4cd5c4b7f898019
