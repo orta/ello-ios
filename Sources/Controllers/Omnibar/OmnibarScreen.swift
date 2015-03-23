@@ -210,6 +210,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
         let item = UINavigationItem()
         item.leftBarButtonItem = backItem
         item.title = "Leave a comment"
+        item.fixNavBarItemPadding()
         self.navigationBar.items = [item]
     }
     // buttons that make up the "toolbar"
@@ -340,7 +341,11 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
         avatarView.layer.cornerRadius = Size.toolbarHeight / CGFloat(2)
 
         let buttonContainerWidth = Size.buttonWidth * CGFloat(buttonContainer.subviews.count)
-        buttonContainer.frame = CGRect(x: self.bounds.width - Size.buttonRightMargin, y: screenTop + Size.margins, width: 0, height: Size.toolbarHeight)
+        buttonContainer.spacing = (buttonContainerWidth - buttonContainer.frame.height * CGFloat(buttonContainer.subviews.count)) / CGFloat(buttonContainer.subviews.count - 1)
+        if buttonContainer.spacing < 0 {
+            buttonContainer.spacing = 0
+        }
+        buttonContainer.frame = CGRect(x: self.frame.width - Size.buttonRightMargin, y: screenTop + Size.margins, width: 0, height: Size.toolbarHeight)
             .growLeft(buttonContainerWidth)
 
         // make sure the textContainer is above the keboard, with a 1pt line
