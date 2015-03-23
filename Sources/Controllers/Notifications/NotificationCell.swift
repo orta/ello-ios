@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FLAnimatedImage
 
 @objc
 protocol NotificationDelegate {
@@ -60,7 +61,7 @@ class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
     var titleTextView : ElloTextView!
     var createdAtLabel : UILabel!
     var messageWebView : UIWebView!
-    var notificationImageView : UIImageView!
+    var notificationImageView : FLAnimatedImageView!
     var aspectRatio:CGFloat = 4.0/3.0
 
     var messageHtml : String? {
@@ -120,7 +121,7 @@ class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
         titleTextView = ElloTextView(frame: CGRectZero, textContainer: nil)
         titleTextView.textViewDelegate = self
 
-        notificationImageView = UIImageView()
+        notificationImageView = FLAnimatedImageView()
         messageWebView = UIWebView()
         createdAtLabel = UILabel()
 

@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import SSPullToRefresh
+import FLAnimatedImage
 
 protocol WebLinkDelegate: NSObjectProtocol {
     func webLinkTapped(type: ElloURI, data: String)
@@ -31,7 +32,7 @@ protocol PostbarDelegate : NSObjectProtocol {
 }
 
 protocol StreamImageCellDelegate : NSObjectProtocol {
-    func imageTapped(imageView:UIImageView)
+    func imageTapped(imageView:FLAnimatedImageView)
 }
 
 @objc protocol StreamScrollDelegate: NSObjectProtocol {

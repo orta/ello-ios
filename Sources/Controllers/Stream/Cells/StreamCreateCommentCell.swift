@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import FLAnimatedImage
 
 class StreamCreateCommentCell : UICollectionViewCell {
     struct Size {
@@ -18,7 +18,7 @@ class StreamCreateCommentCell : UICollectionViewCell {
         static let ImageHeight : CGFloat = 30
     }
 
-    let avatarView = UIImageView()
+    let avatarView = FLAnimatedImageView()
     let createCommentBackground = CreateCommentBackgroundView()
     let createCommentLabel = UILabel()
 

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FLAnimatedImage
 
 class StreamImageViewer: NSObject,
 JTSImageViewControllerOptionsDelegate,
@@ -19,7 +20,7 @@ StreamImageCellDelegate {
         self.controller = controller
     }
 
-    func imageTapped(imageView:UIImageView) {
+    func imageTapped(imageView: FLAnimatedImageView) {
         let imageInfo = JTSImageInfo()
         imageInfo.image = imageView.image
         imageInfo.referenceRect = imageView.frame

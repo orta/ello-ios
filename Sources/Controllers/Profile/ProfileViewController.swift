@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FLAnimatedImage
 
 class ProfileViewController: StreamableViewController, EditProfileResponder {
 
@@ -19,7 +20,7 @@ class ProfileViewController: StreamableViewController, EditProfileResponder {
     @IBOutlet weak var viewContainer: UIView!
     @IBOutlet weak var navigationBar: ElloNavigationBar!
     @IBOutlet weak var navigationBarTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var coverImage: UIImageView!
+    @IBOutlet weak var coverImage: FLAnimatedImageView!
     @IBOutlet weak var coverImageHeight: NSLayoutConstraint!
 
     required init(userParam: String) {
