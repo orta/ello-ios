@@ -210,6 +210,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
         let item = UINavigationItem()
         item.leftBarButtonItem = backItem
         item.title = "Leave a comment"
+        item.fixNavBarItemPadding()
         self.navigationBar.items = [item]
     }
     // buttons that make up the "toolbar"
