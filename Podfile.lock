@@ -11,7 +11,7 @@ PODS:
     - Moya/Core (= 0.6.1)
   - Moya/Core (0.6.1):
     - Alamofire (~> 1.1.0)
-  - Nimble (0.3.0)
+  - Nimble (0.3.1)
   - Quick (0.2.2)
   - SDWebImage (3.7.2):
     - SDWebImage/Core (= 3.7.2)
@@ -79,7 +79,7 @@ SPEC CHECKSUMS:
   Keys: 9a0258f6629755b9686c0821fa97cf659de68347
   LlamaKit: 6110b5eb82c3286ee0a5bbd2157e736ab9822c44
   Moya: 6589de6c52d9d8e5ab0d9630b4cd5c4b7f898019
-  Nimble: a4d9d978129e83d73e33b7d8bce57443bd556068
+  Nimble: 1b3c765852d63b9540a91e528e1e4f8afab79b6f
   Quick: 7b89ff625e72ef931c2a9ef2f25ac3a9d2457763
   SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
   SSPullToRefresh: 2f7f33b16ceeaee43afc7c6d97462fa17bd36a25
