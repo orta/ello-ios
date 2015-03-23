@@ -86,6 +86,7 @@ class UserSpec: QuickSpec {
                         "userId" : "sample-userId",
                         "username" : "sample-username",
                         "formattedShortBio" : "sample-short-bio",
+                        "externalLinks": "sample-external-links",
                         "isCurrentUser" : true
                     ])
 
@@ -112,6 +113,7 @@ class UserSpec: QuickSpec {
                     expect(unArchivedUser.userId) == "sample-userId"
                     expect(unArchivedUser.username) == "sample-username"
                     expect(unArchivedUser.formattedShortBio) == "sample-short-bio"
+                    expect(unArchivedUser.externalLinks) == "sample-external-links"
                     expect(unArchivedUser.isCurrentUser).to(beTrue())
 
                     expect(unArchivedUser.mostRecentPost).toNot(beNil())
