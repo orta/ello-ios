@@ -17,7 +17,7 @@ class StreamService: NSObject {
 
     var isStreamLoading = false
 
-    func loadStream(endpoint:ElloAPI, success: StreamSuccessCompletion, failure: ElloFailureCompletion?) {
+    func loadStream(endpoint:ElloAPI, success: StreamSuccessCompletion, failure: ElloFailureCompletion?, noContent: ElloEmptyCompletion? = nil) {
         if self.isStreamLoading { return }
         self.isStreamLoading = true
         ElloProvider.sharedProvider.elloRequest(endpoint,
@@ -29,7 +29,12 @@ class StreamService: NSObject {
                     success(jsonables: jsonables, responseConfig: responseConfig)
                 }
                 else {
-                    ElloProvider.unCastableJSONAble(failure)
+                    if let noContent = noContent {
+                        noContent()
+                    }
+                    else {
+                        ElloProvider.unCastableJSONAble(failure)
+                    }
                 }
                 self.isStreamLoading = false
             },

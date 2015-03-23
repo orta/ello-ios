@@ -53,6 +53,7 @@ class StreamViewController: BaseElloViewController {
     var responseConfig: ResponseConfig?
     let streamService = StreamService()
     var pullToRefreshView: SSPullToRefreshView?
+    var allOlderPagesLoaded = false
 
     var streamKind:StreamKind = StreamKind.Friend {
         didSet {
@@ -366,6 +367,7 @@ extension StreamViewController : UIScrollViewDelegate {
 
     private func loadNextPage(scrollView: UIScrollView) {
         if scrollView.contentOffset.y + self.view.frame.height + 300 > scrollView.contentSize.height {
+            if self.allOlderPagesLoaded == true { return }
             if self.responseConfig?.totalPagesRemaining == "0" { return }
             let lastCellItem: StreamCellItem = self.dataSource.visibleCellItems[self.dataSource.visibleCellItems.count - 1]
             if lastCellItem.type == .StreamLoading { return }
@@ -384,7 +386,13 @@ extension StreamViewController : UIScrollViewDelegate {
                         println("failed to load stream (reason: \(error))")
                         self.removeLoadingCell()
                         self.doneLoading()
-                })
+                    },
+                    noContent: { _ in
+                        self.allOlderPagesLoaded = true
+                        self.removeLoadingCell()
+                        self.doneLoading()
+                    }
+                )
             }
         }
     }
@@ -408,6 +416,7 @@ extension StreamViewController: SSPullToRefreshViewDelegate {
         self.streamService.loadStream(streamKind.endpoint,
             success: { (jsonables, responseConfig) in
                 let index = self.refreshableIndex ?? 0
+                self.allOlderPagesLoaded = false
                 self.dataSource.removeCellItemsBelow(index)
                 self.collectionView.reloadData()
                 self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind))
