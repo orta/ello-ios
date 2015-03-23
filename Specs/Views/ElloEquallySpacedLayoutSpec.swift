@@ -73,6 +73,7 @@ class ElloEquallySpacedLayoutSpec: QuickSpec {
             describe("-layoutSubviews with spacing") {
                 beforeEach() {
                     subject.spacing = 15
+                    subject.layoutIfNeeded()
                 }
                 describe("should layout view1") {
                     beforeEach() {
@@ -106,6 +107,7 @@ class ElloEquallySpacedLayoutSpec: QuickSpec {
             describe("-layoutSubviews with margins") {
                 beforeEach() {
                     subject.margins = UIEdgeInsets(top: 6, left: 20, bottom: 4, right: 10)
+                    subject.layoutIfNeeded()
                 }
                 describe("should layout view1") {
                     beforeEach() {
@@ -140,6 +142,7 @@ class ElloEquallySpacedLayoutSpec: QuickSpec {
                 beforeEach() {
                     subject.margins = UIEdgeInsets(top: 6, left: 15, bottom: 4, right: 5)
                     subject.spacing = 5
+                    subject.layoutIfNeeded()
                 }
                 describe("should layout view1") {
                     beforeEach() {
@@ -161,7 +164,7 @@ class ElloEquallySpacedLayoutSpec: QuickSpec {
                 }
                 describe("should layout view3") {
                     beforeEach() {
-                        rect = CGRect(x: 60, y: 6, width: 20, height: 20)
+                        rect = CGRect(x: 65, y: 6, width: 20, height: 20)
                     }
                     it("should set x")      { expect(view3.frame.origin.x).to(equal(rect.origin.x)) }
                     it("should set y")      { expect(view3.frame.origin.y).to(equal(rect.origin.y)) }
