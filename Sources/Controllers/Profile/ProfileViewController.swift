@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProfileViewController: StreamableViewController {
+class ProfileViewController: StreamableViewController, EditProfileResponder {
 
     let userParam: String
     let streamViewController: StreamViewController
@@ -85,6 +85,12 @@ class ProfileViewController: StreamableViewController {
 
     @IBAction func logOutTapped(sender: ElloTextButton) {
         NSNotificationCenter.defaultCenter().postNotificationName(AccessManager.Notifications.LoggedOut.rawValue, object: nil)
+    }
+
+    func editProfile() {
+        if let settings = UIStoryboard(name: "Settings", bundle: .None).instantiateInitialViewController() as? SettingsViewController {
+            navigationController?.pushViewController(settings, animated: true)
+        }
     }
 
     private func setupStreamController() {

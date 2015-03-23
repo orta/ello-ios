@@ -9,6 +9,10 @@
 import UIKit
 import Foundation
 
+@objc protocol EditProfileResponder {
+    func editProfile()
+}
+
 class ProfileHeaderCell: UICollectionViewCell {
 
     var coverWidthSet: Bool = false
@@ -46,6 +50,11 @@ class ProfileHeaderCell: UICollectionViewCell {
 
         countsTextView.font = UIFont.typewriterFont(12.0)
         countsTextView.textColor = UIColor.greyA()
+    }
+
+    @IBAction func editProfile() {
+        let responder = targetForAction("editProfile", withSender: self) as? EditProfileResponder
+        responder?.editProfile()
     }
 }
 
