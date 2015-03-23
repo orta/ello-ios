@@ -174,6 +174,7 @@ class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
         else {
             let remainingHeight = outerFrame.height - Size.innerTextMargin - titleTextView.frame.height
             messageWebView.frame = titleTextView.frame.fromBottom()
+                .withWidth(titleWidth)
                 .shiftDown(Size.innerTextMargin)
                 .withHeight(remainingHeight)
         }
