@@ -96,10 +96,6 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
 
     override func didSetCurrentUser() {
         super.didSetCurrentUser()
-        if let avatarURL = currentUser?.avatarURL {
-            println("=============== \(__FILE__.lastPathComponent) line \(__LINE__) ===============\n" +
-                    "avatarURL: \(avatarURL.path)")
-        }
         self.screen.avatarURL = currentUser?.avatarURL
     }
 
