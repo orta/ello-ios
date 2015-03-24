@@ -31,6 +31,7 @@ class ElloButton: UIButton {
         self.titleLabel?.numberOfLines = 1
         self.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         self.setTitleColor(UIColor.greyA(), forState: UIControlState.Disabled)
+        self.backgroundColor = enabled ? UIColor.blackColor() : UIColor.grey231F20()
     }
 
 }
