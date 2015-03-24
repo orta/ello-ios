@@ -16,6 +16,11 @@ class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
     var cellItems:[StreamCellItem] = []
     var completion:StreamTextCellSizeCalculated = {}
 
+    let srcRegex:NSRegularExpression  = NSRegularExpression(
+        pattern: "src=[\"']([^\"']*)[\"']",
+        options: NSRegularExpressionOptions.CaseInsensitive,
+        error: nil)!
+
     init(webView:UIWebView) {
         self.webView = webView
         originalWidth = self.webView.frame.size.width
@@ -37,6 +42,7 @@ class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
 
             if let textRegion = notification.textRegion {
                 let content = textRegion.content
+                // let strippedContent = self.stripImageSrc(content)
                 let html = StreamTextCellHTML.postHTML(content)
                 var f = self.webView.frame
                 f.size.width = NotificationCell.Size.messageHtmlWidth(forCellWidth: originalWidth, hasImage: notification.hasImage())
@@ -92,6 +98,18 @@ class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
         cellItem.multiColumnCellHeight = height
         cellItem.oneColumnCellHeight = height
         loadNext()
+    }
+
+    private func stripImageSrc(html: String) -> String {
+        // finds image tags, replaces them with data:image/png (inlines image data)
+        let range = NSMakeRange(0, countElements(html))
+
+        let strippedHtml :String = srcRegex.stringByReplacingMatchesInString(html,
+            options: NSMatchingOptions.allZeros,
+            range:range,
+            withTemplate: "src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVR4nGNiAAAABgADNjd8qAAAAABJRU5ErkJggg==")
+
+        return strippedHtml
     }
 
 }
