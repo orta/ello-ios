@@ -101,13 +101,15 @@ class DiscoverViewController: StreamableViewController {
 
     private func getAddressBook(action: UIAlertAction?) {
         AddressBook.getAddressBook { result in
-            switch result {
-            case let .Success(box):
-                let vc = AddFriendsContainerViewController(addressBook: box.unbox)
-                self.navigationController?.pushViewController(vc, animated: true)
-            case let .Failure(box):
-                self.displayAddressBookAlert(box.unbox.rawValue)
-                return
+            dispatch_async(dispatch_get_main_queue()) {
+                switch result {
+                case let .Success(box):
+                    let vc = AddFriendsContainerViewController(addressBook: box.unbox)
+                    self.navigationController?.pushViewController(vc, animated: true)
+                case let .Failure(box):
+                    self.displayAddressBookAlert(box.unbox.rawValue)
+                    return
+                }
             }
         }
     }
