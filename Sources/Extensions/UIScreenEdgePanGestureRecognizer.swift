@@ -10,9 +10,9 @@ import UIKit
 
 extension UIScreenEdgePanGestureRecognizer {
     var percentageThroughView: CGFloat {
-        let view = self.view ?? UIView()
+        let view = self.view!
         let x = locationInView(view).x
-        let width = view.bounds.size.width ?? 1
+        let width = view.bounds.size.width
         var percent = x / width
 
         if translationInView(view).x < 0.0 {
