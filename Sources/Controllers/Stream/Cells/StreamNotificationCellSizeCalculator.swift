@@ -24,9 +24,10 @@ class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
         self.webView.delegate = self
     }
 
-    func processCells(cellItems:[StreamCellItem], completion:StreamTextCellSizeCalculated) {
+    func processCells(cellItems:[StreamCellItem], withWidth width: CGFloat, completion:StreamTextCellSizeCalculated) {
         self.completion = completion
         self.cellItems = cellItems
+        self.webView.frame = self.webView.frame.withWidth(width)
         loadNext()
     }
 
@@ -34,11 +35,13 @@ class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
         if !self.cellItems.isEmpty {
             let notification = self.cellItems[0].jsonable as Notification
 
-            if let textElement = notification.textRegion {
+            if let textRegion = notification.textRegion {
+                let content = textRegion.content
+                let html = StreamTextCellHTML.postHTML(content)
                 var f = self.webView.frame
                 f.size.width = NotificationCell.Size.messageHtmlWidth(forCellWidth: originalWidth, hasImage: notification.hasImage())
                 self.webView.frame = f
-                self.webView.loadHTMLString(StreamTextCellHTML.postHTML(textElement.content), baseURL: NSURL(string: "/"))
+                self.webView.loadHTMLString(html, baseURL: NSURL(string: "/"))
             }
             else {
                 calculateWithTextHeight(0)

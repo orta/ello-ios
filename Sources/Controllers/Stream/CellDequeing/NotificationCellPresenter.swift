@@ -31,7 +31,8 @@ struct NotificationCellPresenter {
             cell.messageHtml = nil
 
             if let textRegion = notification.textRegion {
-                cell.messageHtml = textRegion.content
+                let content = textRegion.content
+                cell.messageHtml = content
             }
 
             if let imageRegion = notification.imageRegion {

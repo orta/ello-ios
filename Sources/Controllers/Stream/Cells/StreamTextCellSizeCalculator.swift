@@ -12,29 +12,41 @@ class StreamTextCellSizeCalculator: NSObject, UIWebViewDelegate {
 
     typealias StreamTextCellSizeCalculated = () -> ()
 
-    let webView:UIWebView
-    var cellItems:[StreamCellItem] = []
-    var completion:StreamTextCellSizeCalculated = {}
+    let webView: UIWebView
+    var maxWidth: CGFloat
+    var cellItems: [StreamCellItem] = []
+    var completion: StreamTextCellSizeCalculated = {}
 
     init(webView:UIWebView) {
         self.webView = webView
+        self.maxWidth = 0
         super.init()
         self.webView.delegate = self
     }
 
-    func processCells(cellItems:[StreamCellItem], completion:StreamTextCellSizeCalculated) {
+    func processCells(cellItems:[StreamCellItem], withWidth width: CGFloat, completion:StreamTextCellSizeCalculated) {
         self.completion = completion
         self.cellItems = cellItems
+        self.maxWidth = width
         loadNext()
     }
 
     private func loadNext() {
         if !self.cellItems.isEmpty {
-            let textElement = self.cellItems[0].data as? TextRegion
+            let item = self.cellItems[0]
+            if let comment = item.jsonable as? Comment {
+                self.webView.frame = self.webView.frame.withWidth(maxWidth - StreamTextCellPresenter.commentMargin)
+            }
+            else {
+                self.webView.frame = self.webView.frame.withWidth(maxWidth)
+            }
+            let textElement = item.data as? TextRegion
 
             if let textElement = textElement {
+                let content = textElement.content
+                let html = StreamTextCellHTML.postHTML(content)
                 // needs to use the same width as the post text region
-                self.webView.loadHTMLString(StreamTextCellHTML.postHTML(textElement.content), baseURL: NSURL(string: "/"))
+                self.webView.loadHTMLString(html, baseURL: NSURL(string: "/"))
             }
             else {
                 self.cellItems.removeAtIndex(0)

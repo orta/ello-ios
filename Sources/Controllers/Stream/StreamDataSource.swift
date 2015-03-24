@@ -247,13 +247,13 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         self.updateFilteredItems()
     }
 
-    func appendUnsizedCellItems(cellItems: [StreamCellItem], completion: StreamContentReady) {
+    func appendUnsizedCellItems(cellItems: [StreamCellItem], withWidth: CGFloat, completion: StreamContentReady) {
         let startingIndexPath = NSIndexPath(forItem: countElements(self.streamCellItems), inSection: 0)
-        insertUnsizedCellItems(cellItems, startingIndexPath: startingIndexPath, completion: completion)
+        insertUnsizedCellItems(cellItems, withWidth: withWidth, startingIndexPath: startingIndexPath, completion: completion)
     }
 
-    func insertUnsizedCellItems(cellItems: [StreamCellItem], startingIndexPath: NSIndexPath, completion: StreamContentReady) {
-        self.calculateCellItems(cellItems) {
+    func insertUnsizedCellItems(cellItems: [StreamCellItem], withWidth: CGFloat, startingIndexPath: NSIndexPath, completion: StreamContentReady) {
+        self.calculateCellItems(cellItems, withWidth: withWidth) {
             var indexPaths:[NSIndexPath] = []
 
             var startingIndex:Int = startingIndexPath.item
@@ -269,7 +269,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         }
     }
 
-    private func calculateCellItems(cellItems:[StreamCellItem], completion: ()->()) {
+    private func calculateCellItems(cellItems:[StreamCellItem], withWidth: CGFloat, completion: ()->()) {
         let textElements = cellItems.filter {
             return $0.data as? TextRegion != nil
         }
@@ -281,9 +281,9 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         }
         let afterAll = Functional.after(3, completion)
 
-        self.notificationSizeCalculator.processCells(notificationElements, afterAll)
-        self.textSizeCalculator.processCells(textElements, afterAll)
-        self.profileHeaderSizeCalculator.processCells(profileHeaderItems, afterAll)
+        self.notificationSizeCalculator.processCells(notificationElements, withWidth: withWidth, afterBoth)
+        self.textSizeCalculator.processCells(textElements, withWidth: withWidth, afterBoth)
+        self.profileHeaderSizeCalculator.processCells(profileHeaderItems, withWidth: withWidth, afterAll)
     }
 
     private func temporarilyUnfilter(block: ()->()) {

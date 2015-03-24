@@ -144,13 +144,13 @@ class StreamViewController: BaseElloViewController {
     }
 
     func appendUnsizedCellItems(items: [StreamCellItem]) {
-        dataSource.appendUnsizedCellItems(items) { _ in
+        dataSource.appendUnsizedCellItems(items, withWidth: self.view.frame.width) { _ in
             self.collectionView.reloadData()
         }
     }
 
     func insertUnsizedCellItems(cellItems: [StreamCellItem], startingIndexPath: NSIndexPath) {
-        dataSource.insertUnsizedCellItems(cellItems, startingIndexPath: startingIndexPath) { _ in
+        dataSource.insertUnsizedCellItems(cellItems, withWidth: self.view.frame.width, startingIndexPath: startingIndexPath) { _ in
             self.collectionView.reloadData()
         }
     }
