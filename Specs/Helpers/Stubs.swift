@@ -41,6 +41,7 @@ extension User: Stubbable {
             username: (values["username"] as? String) ?? "username",
             identifiableBy: .None,
             formattedShortBio: (values["formattedShortBio"] as? String) ?? "formattedShortBio",
+            externalLinks: (values["externalLinks"] as? String) ?? "externalLinks",
             isCurrentUser: (values["isCurrentUser"] as? Bool) ?? false
         )
     }

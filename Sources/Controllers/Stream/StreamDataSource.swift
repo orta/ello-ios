@@ -30,6 +30,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     let textSizeCalculator:StreamTextCellSizeCalculator
     let notificationSizeCalculator:StreamNotificationCellSizeCalculator
+    let profileHeaderSizeCalculator: ProfileHeaderCellSizeCalculator
 
     weak var postbarDelegate:PostbarDelegate?
     weak var notificationDelegate:NotificationDelegate?
@@ -41,11 +42,13 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     init(streamKind:StreamKind,
         textSizeCalculator: StreamTextCellSizeCalculator,
-        notificationSizeCalculator: StreamNotificationCellSizeCalculator)
+        notificationSizeCalculator: StreamNotificationCellSizeCalculator,
+        profileHeaderSizeCalculator: ProfileHeaderCellSizeCalculator)
     {
         self.streamKind = streamKind
         self.textSizeCalculator = textSizeCalculator
         self.notificationSizeCalculator = notificationSizeCalculator
+        self.profileHeaderSizeCalculator = profileHeaderSizeCalculator
         super.init()
     }
 
@@ -213,9 +216,10 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
             case .Footer:
                 (cell as StreamFooterCell).delegate = postbarDelegate
             case .ProfileHeader:
+                (cell as ProfileHeaderCell).currentUser = currentUser
                 (cell as ProfileHeaderCell).relationshipView.relationshipDelegate = relationshipDelegate
                 (cell as ProfileHeaderCell).userListDelegate = userListDelegate
-                (cell as ProfileHeaderCell).currentUser = currentUser
+                (cell as ProfileHeaderCell).webLinkDelegate = webLinkDelegate
             case .UserListItem:
                 (cell as UserListItemCell).relationshipView.relationshipDelegate = relationshipDelegate
                 (cell as UserListItemCell).userDelegate = userDelegate
@@ -272,11 +276,14 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         let notificationElements = cellItems.filter {
             return $0.type == .Notification
         }
+        let profileHeaderItems = cellItems.filter {
+            return $0.type == .ProfileHeader
+        }
+        let afterAll = Functional.after(3, completion)
 
-        let afterBoth = Functional.after(2, completion)
-
-        self.notificationSizeCalculator.processCells(notificationElements, afterBoth)
-        self.textSizeCalculator.processCells(textElements, afterBoth)
+        self.notificationSizeCalculator.processCells(notificationElements, afterAll)
+        self.textSizeCalculator.processCells(textElements, afterAll)
+        self.profileHeaderSizeCalculator.processCells(profileHeaderItems, afterAll)
     }
 
     private func temporarilyUnfilter(block: ()->()) {

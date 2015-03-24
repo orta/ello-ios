@@ -26,6 +26,7 @@ final class User: JSONAble, NSCoding {
     let href: String
     let name: String
     let formattedShortBio: String
+    let externalLinks: String
     var posts: [Post]
     let postsCount: Int?
     let relationshipPriority: Relationship
@@ -51,6 +52,7 @@ final class User: JSONAble, NSCoding {
         username: String,
         identifiableBy: String?,
         formattedShortBio: String,
+        externalLinks: String,
         isCurrentUser: Bool = false)
     {
         self.avatarURL = avatarURL
@@ -69,6 +71,7 @@ final class User: JSONAble, NSCoding {
         self.username = username
         self.identifiableBy = identifiableBy
         self.formattedShortBio = formattedShortBio
+        self.externalLinks = externalLinks
     }
 
 // MARK: NSCoding
@@ -123,6 +126,7 @@ final class User: JSONAble, NSCoding {
         self.userId = decoder.decodeObjectForKey("userId") as String
         self.username = decoder.decodeObjectForKey("username") as String
         self.formattedShortBio = decoder.decodeObjectForKey("formattedShortBio") as String
+        self.externalLinks = decoder.decodeObjectForKey("externalLinks") as String
     }
 
     func encodeWithCoder(encoder: NSCoder) {
@@ -151,7 +155,7 @@ final class User: JSONAble, NSCoding {
         encoder.encodeObject(self.userId, forKey: "userId")
         encoder.encodeObject(self.username, forKey: "username")
         encoder.encodeObject(self.formattedShortBio, forKey: "formattedShortBio")
-
+        encoder.encodeObject(self.externalLinks, forKey: "externalLinks")
     }
     
 // MARK: JSONAble
@@ -162,6 +166,7 @@ final class User: JSONAble, NSCoding {
         let userId = json["id"].stringValue
         let username = json["username"].stringValue
         let formattedShortBio = json["formatted_short_bio"].stringValue
+        let externalLinks = json["external_links"].stringValue
 
 
         let experimentalFeatures = json["experimental_features"].boolValue
@@ -215,7 +220,8 @@ final class User: JSONAble, NSCoding {
             userId: userId,
             username: username,
             identifiableBy: identifiableBy,
-            formattedShortBio: formattedShortBio
+            formattedShortBio: formattedShortBio,
+            externalLinks: externalLinks
         )
 
         // hack back in author
@@ -247,7 +253,8 @@ final class User: JSONAble, NSCoding {
             userId: "42",
             username: username,
             identifiableBy: .None,
-            formattedShortBio: "bio"
+            formattedShortBio: "bio",
+            externalLinks: "externalLinks"
         )
     }
 }

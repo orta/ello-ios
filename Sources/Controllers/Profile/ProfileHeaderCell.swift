@@ -24,6 +24,8 @@ class ProfileHeaderCell: UICollectionViewCell {
     @IBOutlet weak var countsTextView: ElloTextView!
     @IBOutlet weak var relationshipView: RelationshipView!
     @IBOutlet weak var viewTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bioWebView: UIWebView!
+    weak var webLinkDelegate: WebLinkDelegate?
     weak var userListDelegate: UserListDelegate?
     var currentUser: User?
 
@@ -31,10 +33,16 @@ class ProfileHeaderCell: UICollectionViewCell {
         super.awakeFromNib()
         styleLabels()
         countsTextView.textViewDelegate = self
+        bioWebView.delegate = self
         if !coverWidthSet {
             coverWidthSet = true
             viewTopConstraint.constant = frame.width / ratio
         }
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        bioWebView.scrollView.scrollEnabled = false
     }
 
     func setAvatarURL(url:NSURL) {
@@ -55,6 +63,22 @@ class ProfileHeaderCell: UICollectionViewCell {
     @IBAction func editProfile() {
         let responder = targetForAction("editProfile", withSender: self) as? EditProfileResponder
         responder?.editProfile()
+    }
+}
+
+extension ProfileHeaderCell: UIWebViewDelegate {
+    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+        return ElloWebViewHelper.handleRequest(request, webLinkDelegate: webLinkDelegate)
+    }
+
+    func webViewDidFinishLoad(webView: UIWebView) {
+        let jsResult = webView.stringByEvaluatingJavaScriptFromString("window.contentHeight()") ?? "0.0"
+        webView.frame.size.height = CGFloat((jsResult as NSString).doubleValue)
+        bioWebView.stringByEvaluatingJavaScriptFromString("document.documentElement.style.webkitUserSelect='none';")
+        bioWebView.stringByEvaluatingJavaScriptFromString("document.documentElement.style.webkitTouchCallout='none';")
+        UIView.animateWithDuration(0.15, animations: {
+            self.contentView.alpha = 1.0
+        })
     }
 }
 

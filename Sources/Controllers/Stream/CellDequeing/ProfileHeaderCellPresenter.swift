@@ -35,6 +35,7 @@ struct ProfileHeaderCellPresenter {
             cell.relationshipView.relationship = user.relationshipPriority
             cell.usernameLabel.text = user.atName
             cell.nameLabel.text = user.name
+            cell.bioWebView.loadHTMLString(StreamTextCellHTML.postHTML(user.formattedShortBio), baseURL: NSURL(string: "/"))
 
             cell.countsTextView.clearText()
             cell.countsTextView.appendTextWithAction("Posts \(user.postsCount? ?? 0) / ")

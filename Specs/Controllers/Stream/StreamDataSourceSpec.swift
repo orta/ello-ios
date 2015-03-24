@@ -23,6 +23,7 @@ class StreamDataSourceSpec: QuickSpec {
         let webView = UIWebView(frame: CGRectMake(0, 0, 320, 640))
         let textSizeCalculator = FakeStreamTextCellSizeCalculator(webView: UIWebView(frame: webView.frame))
         let notificationSizeCalculator = FakeStreamNotificationCellSizeCalculator(webView: UIWebView(frame: webView.frame))
+        let profileHeaderSizeCalculator = FakeProfileHeaderCellSizeCalculator(webView: UIWebView(frame: webView.frame))
 
         beforeEach {
             ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.endpointsClosure, stubResponses: true)
@@ -37,7 +38,8 @@ class StreamDataSourceSpec: QuickSpec {
 
             subject = StreamDataSource(streamKind: .Friend,
                 textSizeCalculator: textSizeCalculator,
-                notificationSizeCalculator: notificationSizeCalculator)
+                notificationSizeCalculator: notificationSizeCalculator,
+                profileHeaderSizeCalculator: profileHeaderSizeCalculator)
 
             vc.dataSource = subject
             var cellItems = [JSONAble]()
@@ -84,7 +86,8 @@ class StreamDataSourceSpec: QuickSpec {
             beforeEach {
                 subject = StreamDataSource(streamKind: .Friend,
                     textSizeCalculator: textSizeCalculator,
-                    notificationSizeCalculator: notificationSizeCalculator)
+                    notificationSizeCalculator: notificationSizeCalculator,
+                    profileHeaderSizeCalculator: profileHeaderSizeCalculator)
 
                 let cellItems = ModelHelper.cellsForTwoPostsWithComments()
                 subject.appendUnsizedCellItems(cellItems) { cellCount in
@@ -117,7 +120,8 @@ class StreamDataSourceSpec: QuickSpec {
             beforeEach {
                 subject = StreamDataSource(streamKind: .Friend,
                     textSizeCalculator: textSizeCalculator,
-                    notificationSizeCalculator: notificationSizeCalculator)
+                    notificationSizeCalculator: notificationSizeCalculator,
+                    profileHeaderSizeCalculator: profileHeaderSizeCalculator)
 
                 let cellItems = ModelHelper.cellsForTwoPostsWithComments()
                 subject.appendUnsizedCellItems(cellItems) { cellCount in
@@ -151,7 +155,8 @@ class StreamDataSourceSpec: QuickSpec {
             beforeEach {
                 subject = StreamDataSource(streamKind: .Friend,
                     textSizeCalculator: textSizeCalculator,
-                    notificationSizeCalculator: notificationSizeCalculator)
+                    notificationSizeCalculator: notificationSizeCalculator,
+                    profileHeaderSizeCalculator: profileHeaderSizeCalculator)
 
                 let cellItems = ModelHelper.cellsForTwoPostsWithComments()
                 subject.appendUnsizedCellItems(cellItems) { cellCount in
@@ -209,7 +214,8 @@ class StreamDataSourceSpec: QuickSpec {
             beforeEach {
                 subject = StreamDataSource(streamKind: .Friend,
                     textSizeCalculator: textSizeCalculator,
-                    notificationSizeCalculator: notificationSizeCalculator)
+                    notificationSizeCalculator: notificationSizeCalculator,
+                    profileHeaderSizeCalculator: profileHeaderSizeCalculator)
 
                 let cellItems = ModelHelper.cellsForPostWithComments("123")
                 subject.appendUnsizedCellItems(cellItems) { cellCount in
@@ -233,7 +239,8 @@ class StreamDataSourceSpec: QuickSpec {
 
                 subject = StreamDataSource(streamKind: .Friend,
                     textSizeCalculator: textSizeCalculator,
-                    notificationSizeCalculator: notificationSizeCalculator)
+                    notificationSizeCalculator: notificationSizeCalculator,
+                    profileHeaderSizeCalculator: profileHeaderSizeCalculator)
 
                 let cellItems = ModelHelper.cellsForTwoPostsWithComments()
                 subject.appendUnsizedCellItems(cellItems) { cellCount in
@@ -257,7 +264,8 @@ class StreamDataSourceSpec: QuickSpec {
             beforeEach {
                 subject = StreamDataSource(streamKind: .Friend,
                     textSizeCalculator: textSizeCalculator,
-                    notificationSizeCalculator: notificationSizeCalculator)
+                    notificationSizeCalculator: notificationSizeCalculator,
+                    profileHeaderSizeCalculator: profileHeaderSizeCalculator)
 
                 let cellItems = ModelHelper.cellsForPostWithComments("123")
                 subject.appendUnsizedCellItems(cellItems) { cellCount in
@@ -317,7 +325,8 @@ class StreamDataSourceSpec: QuickSpec {
             beforeEach {
                 subject = StreamDataSource(streamKind: .Friend,
                     textSizeCalculator: textSizeCalculator,
-                    notificationSizeCalculator: notificationSizeCalculator)
+                    notificationSizeCalculator: notificationSizeCalculator,
+                    profileHeaderSizeCalculator: profileHeaderSizeCalculator)
 
                 let cellItems = ModelHelper.cellsForTwoPostsWithComments()
                 subject.appendUnsizedCellItems(cellItems) { cellCount in
@@ -347,7 +356,8 @@ class StreamDataSourceSpec: QuickSpec {
             beforeEach {
                 subject = StreamDataSource(streamKind: .Friend,
                     textSizeCalculator: textSizeCalculator,
-                    notificationSizeCalculator: notificationSizeCalculator)
+                    notificationSizeCalculator: notificationSizeCalculator,
+                    profileHeaderSizeCalculator: profileHeaderSizeCalculator)
 
                 let cellItems = ModelHelper.cellsForTwoPostsWithComments()
                 subject.appendUnsizedCellItems(cellItems) { cellCount in
@@ -370,7 +380,8 @@ class StreamDataSourceSpec: QuickSpec {
             beforeEach {
                 subject = StreamDataSource(streamKind: .Friend,
                     textSizeCalculator: textSizeCalculator,
-                    notificationSizeCalculator: notificationSizeCalculator)
+                    notificationSizeCalculator: notificationSizeCalculator,
+                    profileHeaderSizeCalculator: profileHeaderSizeCalculator)
 
                 let cellItems = ModelHelper.cellsForTwoPostsWithComments()
                 subject.appendUnsizedCellItems(cellItems) { cellCount in
@@ -412,7 +423,8 @@ class StreamDataSourceSpec: QuickSpec {
 
                 subject = StreamDataSource(streamKind: .Friend,
                     textSizeCalculator: textSizeCalculator,
-                    notificationSizeCalculator: notificationSizeCalculator)
+                    notificationSizeCalculator: notificationSizeCalculator,
+                    profileHeaderSizeCalculator: profileHeaderSizeCalculator)
 
                 let nonAuthorable = Asset(
                     assetId: "123",
@@ -441,7 +453,8 @@ class StreamDataSourceSpec: QuickSpec {
             beforeEach {
                 subject = StreamDataSource(streamKind: .Friend,
                     textSizeCalculator: textSizeCalculator,
-                    notificationSizeCalculator: notificationSizeCalculator)
+                    notificationSizeCalculator: notificationSizeCalculator,
+                    profileHeaderSizeCalculator: profileHeaderSizeCalculator)
 
                 subject.appendUnsizedCellItems(ModelHelper.allCellTypes()) { cellCount in
                     vc.collectionView.dataSource = subject
