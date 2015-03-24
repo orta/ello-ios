@@ -62,12 +62,8 @@ class ProfileHeaderCellSizeCalculator: NSObject {
 extension ProfileHeaderCellSizeCalculator: UIWebViewDelegate {
 
     func webViewDidFinishLoad(webView: UIWebView) {
-        if let jsResult = webView.stringByEvaluatingJavaScriptFromString("window.contentHeight()") {
-            setHeight(CGFloat((jsResult as NSString).doubleValue))
-        }
-        else {
-            setHeight(0.0)
-        }
+        let jsResult = webView.stringByEvaluatingJavaScriptFromString("window.contentHeight()") ?? "0.0"
+        setHeight(CGFloat((jsResult as NSString).doubleValue))
     }
 
 }
