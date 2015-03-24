@@ -8,67 +8,56 @@
 
 private let defaultDuration: NSTimeInterval = 0.25
 
-class ForwardAnimator : NSObject, UIViewControllerAnimatedTransitioning {
-
+class ForwardAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
         return defaultDuration
     }
 
     func animateTransition(context: UIViewControllerContextTransitioning) {
-        let toView = context.viewControllerForKey(UITransitionContextToViewControllerKey)?.view
-        let fromView = context.viewControllerForKey(UITransitionContextFromViewControllerKey)?.view
+        let toView = (context.viewControllerForKey(UITransitionContextToViewControllerKey)?.view)!
+        let fromView = (context.viewControllerForKey(UITransitionContextFromViewControllerKey)?.view)!
 
-        if let toView = toView {
-            if let fromView = fromView {
-                let from = fromView.frame
-                let to = toView.frame
-                toView.frame = CGRect(x: from.origin.x + from.size.width, y: from.origin.y, width: to.size.width, height: to.size.height)
-                context.containerView().addSubview(toView)
+        let from = fromView.frame
+        let to = toView.frame
+        toView.frame.origin.x += toView.frame.size.width
+        context.containerView().addSubview(toView)
 
-                UIView.animateWithDuration(transitionDuration(context),
-                    delay: 0.0,
-                    options: UIViewAnimationOptions.CurveEaseIn,
-                    animations: {
-                        toView.frame = from
-                        fromView.frame = CGRect(x: from.origin.x - from.size.width, y: from.origin.y, width: from.size.width, height: from.size.height)
-                    },
-                    completion: { finished in
-                        context.completeTransition(!context.transitionWasCancelled())
-                    })
-            }
-        }
+        UIView.animateWithDuration(transitionDuration(context),
+            delay: 0.0,
+            options: .CurveEaseIn,
+            animations: {
+                toView.frame = from
+                fromView.frame.origin.x -= fromView.frame.size.width
+            },
+            completion: { _ in
+                context.completeTransition(!context.transitionWasCancelled())
+        })
     }
 }
 
-class BackAnimator : NSObject, UIViewControllerAnimatedTransitioning {
-
+class BackAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
         return defaultDuration
     }
 
     func animateTransition(context: UIViewControllerContextTransitioning) {
-        let toView = context.viewControllerForKey(UITransitionContextToViewControllerKey)?.view
-        let fromView = context.viewControllerForKey(UITransitionContextFromViewControllerKey)?.view
+        let toView = (context.viewControllerForKey(UITransitionContextToViewControllerKey)?.view)!
+        let fromView = (context.viewControllerForKey(UITransitionContextFromViewControllerKey)?.view)!
 
-        context.containerView().insertSubview(toView!, belowSubview: fromView!)
+        let from = fromView.frame
+        let to = toView.frame
+        toView.frame.origin.x -= toView.frame.size.width
+        context.containerView().addSubview(toView)
 
-        if let toView = toView {
-            if let fromView = fromView {
-                let from = fromView.frame
-                let to = toView.frame
-                toView.frame = CGRect(x: from.origin.x - from.size.width, y: from.origin.y, width: to.size.width, height: to.size.height)
-                context.containerView().addSubview(toView)
-
-                UIView.animateWithDuration(transitionDuration(context),
-                    delay: 0.0,
-                    options: UIViewAnimationOptions.CurveEaseIn,
-                    animations: {
-                        toView.frame = from
-                        fromView.frame = CGRect(x: from.origin.x + from.size.width, y: from.origin.y, width: from.size.width, height: from.size.height)
-                    }, completion: { finished in
-                        context.completeTransition(!context.transitionWasCancelled())
-                    })
-            }
-        }
+        UIView.animateWithDuration(transitionDuration(context),
+            delay: 0.0,
+            options: .CurveEaseIn,
+            animations: {
+                toView.frame = from
+                fromView.frame.origin.x += fromView.frame.size.width
+            },
+            completion: { _ in
+                context.completeTransition(!context.transitionWasCancelled())
+        })
     }
 }
