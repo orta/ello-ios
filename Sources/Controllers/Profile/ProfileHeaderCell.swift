@@ -72,9 +72,8 @@ extension ProfileHeaderCell: UIWebViewDelegate {
     }
 
     func webViewDidFinishLoad(webView: UIWebView) {
-        if let jsResult = webView.stringByEvaluatingJavaScriptFromString("window.contentHeight()") {
-            webView.frame = CGRect(x: webView.frame.x, y: webView.frame.y, width: webView.frame.width, height: CGFloat((jsResult as NSString).doubleValue))
-        }
+        let jsResult = webView.stringByEvaluatingJavaScriptFromString("window.contentHeight()") ?? "0.0"
+        webView.frame.size.height = CGFloat((jsResult as NSString).doubleValue)
         bioWebView.stringByEvaluatingJavaScriptFromString("document.documentElement.style.webkitUserSelect='none';")
         bioWebView.stringByEvaluatingJavaScriptFromString("document.documentElement.style.webkitTouchCallout='none';")
         UIView.animateWithDuration(0.15, animations: {
