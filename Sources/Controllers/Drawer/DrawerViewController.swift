@@ -70,7 +70,7 @@ class DrawerViewController: BaseElloViewController, UICollectionViewDataSource, 
 
     func storeButtonTapped() {
         if let navController = navigationController as? ElloNavigationController {
-            navController.showExternalWebView("https://www.google.com/search?q=store")
+            navController.showExternalWebView("http://ello.threadless.com/")
         }
     }
 
