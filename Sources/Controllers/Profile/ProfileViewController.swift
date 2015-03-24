@@ -90,6 +90,7 @@ class ProfileViewController: StreamableViewController, EditProfileResponder {
 
     func editProfile() {
         if let settings = UIStoryboard(name: "Settings", bundle: .None).instantiateInitialViewController() as? SettingsViewController {
+            settings.currentUser = currentUser
             navigationController?.pushViewController(settings, animated: true)
         }
     }
