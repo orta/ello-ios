@@ -78,18 +78,27 @@
                                     <action selector="editProfile" destination="OE9-ll-CIs" eventType="touchUpInside" id="UaY-rp-ext"/>
                                 </connections>
                             </button>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PtF-QI-fk2" userLabel="bioWebView">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" id="8D1-8g-PYc" userLabel="bioWebView - height"/>
+                                </constraints>
+                            </webView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="GKO-1x-QWx" firstAttribute="leading" secondItem="U6M-uB-CWv" secondAttribute="leading" constant="10" id="2QO-Ec-DPT" userLabel="avatarButton - left"/>
                             <constraint firstAttribute="trailing" secondItem="z1n-fe-u7L" secondAttribute="trailing" constant="10" id="9GS-Lt-V2i" userLabel="relationshipView - right"/>
                             <constraint firstItem="6nJ-r0-lN7" firstAttribute="top" secondItem="U6M-uB-CWv" secondAttribute="top" constant="105" id="Ddo-EZ-be4" userLabel="usernameLabel - top"/>
+                            <constraint firstItem="PtF-QI-fk2" firstAttribute="top" secondItem="L0b-tg-J5z" secondAttribute="bottom" constant="15" id="MJg-Bo-Cc3" userLabel="bioWebView - countsTextView - vert"/>
                             <constraint firstItem="L0b-tg-J5z" firstAttribute="top" secondItem="4sI-yA-gkk" secondAttribute="bottom" constant="5" id="Qek-yc-gtw" userLabel="countsTextView - nameLabel - vert"/>
                             <constraint firstItem="4sI-yA-gkk" firstAttribute="top" secondItem="6nJ-r0-lN7" secondAttribute="bottom" constant="7" id="WZA-Td-RU2" userLabel="nameLabel - usernameLabel - vert"/>
                             <constraint firstItem="GKO-1x-QWx" firstAttribute="top" secondItem="U6M-uB-CWv" secondAttribute="top" constant="-35" id="dw5-Cp-ekQ" userLabel="avatarButton - top"/>
                             <constraint firstItem="4sI-yA-gkk" firstAttribute="leading" secondItem="U6M-uB-CWv" secondAttribute="leading" constant="10" id="fOj-SB-PJt" userLabel="nameLabel - left"/>
                             <constraint firstAttribute="trailing" secondItem="L0b-tg-J5z" secondAttribute="trailing" constant="10" id="g8n-GF-d47" userLabel="countsTextView - right"/>
+                            <constraint firstAttribute="trailing" secondItem="PtF-QI-fk2" secondAttribute="trailing" constant="10" id="hke-ib-z8g" userLabel="bioWebView - right"/>
                             <constraint firstItem="6nJ-r0-lN7" firstAttribute="leading" secondItem="U6M-uB-CWv" secondAttribute="leading" constant="10" id="hxF-e7-Mft" userLabel="usernameLabel - left"/>
+                            <constraint firstItem="PtF-QI-fk2" firstAttribute="leading" secondItem="U6M-uB-CWv" secondAttribute="leading" constant="10" id="iXW-yx-3h5" userLabel="bioWebView - left"/>
                             <constraint firstItem="L0b-tg-J5z" firstAttribute="leading" secondItem="U6M-uB-CWv" secondAttribute="leading" constant="10" id="pkt-wJ-638" userLabel="countsTextView - left"/>
                             <constraint firstItem="z1n-fe-u7L" firstAttribute="top" secondItem="U6M-uB-CWv" secondAttribute="top" constant="10" id="qqq-bR-0mq" userLabel="relationshipView - top"/>
                         </constraints>
@@ -107,6 +116,7 @@
             <size key="customSize" width="320" height="460"/>
             <connections>
                 <outlet property="avatarButton" destination="GKO-1x-QWx" id="dbf-G3-Qty"/>
+                <outlet property="bioWebView" destination="PtF-QI-fk2" id="WKn-ZP-Rnw"/>
                 <outlet property="countsTextView" destination="L0b-tg-J5z" id="ozw-Ib-Oij"/>
                 <outlet property="nameLabel" destination="4sI-yA-gkk" id="I9n-2e-2mB"/>
                 <outlet property="relationshipView" destination="z1n-fe-u7L" id="x1H-nI-qZz"/>

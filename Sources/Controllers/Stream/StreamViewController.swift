@@ -144,13 +144,13 @@ class StreamViewController: BaseElloViewController {
     }
 
     func appendUnsizedCellItems(items: [StreamCellItem]) {
-        dataSource.appendUnsizedCellItems(items) { indexPaths in
+        dataSource.appendUnsizedCellItems(items) { _ in
             self.collectionView.reloadData()
         }
     }
 
     func insertUnsizedCellItems(cellItems: [StreamCellItem], startingIndexPath: NSIndexPath) {
-        dataSource.insertUnsizedCellItems(cellItems, startingIndexPath: startingIndexPath) { indexPaths in
+        dataSource.insertUnsizedCellItems(cellItems, startingIndexPath: startingIndexPath) { _ in
             self.collectionView.reloadData()
         }
     }
@@ -222,10 +222,12 @@ class StreamViewController: BaseElloViewController {
         let webView = UIWebView(frame: view.bounds)
         let textSizeCalculator = StreamTextCellSizeCalculator(webView: UIWebView(frame: webView.frame))
         let notificationSizeCalculator = StreamNotificationCellSizeCalculator(webView: UIWebView(frame: webView.frame))
+        let profileHeaderSizeCalculator = ProfileHeaderCellSizeCalculator(webView: UIWebView(frame: webView.frame))
 
         dataSource = StreamDataSource(streamKind: streamKind,
             textSizeCalculator: textSizeCalculator,
-            notificationSizeCalculator: notificationSizeCalculator)
+            notificationSizeCalculator: notificationSizeCalculator,
+            profileHeaderSizeCalculator: profileHeaderSizeCalculator)
 
         postbarController = PostbarController(collectionView: collectionView, dataSource: dataSource, presentingController: self)
         dataSource.postbarDelegate = postbarController
@@ -370,10 +372,11 @@ extension StreamViewController : UIScrollViewDelegate {
         if scrollView.contentOffset.y + self.view.frame.height + 300 > scrollView.contentSize.height {
             if self.allOlderPagesLoaded == true { return }
             if self.responseConfig?.totalPagesRemaining == "0" { return }
-            let lastCellItem: StreamCellItem = self.dataSource.visibleCellItems[self.dataSource.visibleCellItems.count - 1]
-            if lastCellItem.type == .StreamLoading { return }
-            let loadingCellItem = StreamLoadingCell.streamCellItem()
-            self.appendStreamCellItems([loadingCellItem])
+            if self.dataSource.visibleCellItems.count > 0 {
+                let lastCellItem: StreamCellItem = self.dataSource.visibleCellItems[self.dataSource.visibleCellItems.count - 1]
+                if lastCellItem.type == .StreamLoading { return }
+                self.appendStreamCellItems([StreamLoadingCell.streamCellItem()])
+            }
             if let nextQueryItems = self.responseConfig?.nextQueryItems {
                 let scrollAPI = ElloAPI.InfiniteScroll(path: streamKind.endpoint.path, queryItems: nextQueryItems)
                 streamService.loadStream(scrollAPI,
