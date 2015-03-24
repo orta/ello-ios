@@ -63,9 +63,8 @@ class DrawerViewController: BaseElloViewController, UICollectionViewDataSource, 
     }
 
     func wtfButtonTapped() {
-        if let navController = navigationController as? ElloNavigationController {
-            navController.showExternalWebView("https://www.google.com/search?q=wtf")
-        }
+        let wtfProfile = ProfileViewController(userParam: "~wtf")
+        navigationController?.pushViewController(wtfProfile, animated: true)
     }
 
     func storeButtonTapped() {
