@@ -39,6 +39,7 @@ extension User: Stubbable {
             relationshipPriority: relationship,
             userId: (values["userId"] as? String) ?? "1",
             username: (values["username"] as? String) ?? "username",
+            email: (values["email"] as? String) ?? .None,
             identifiableBy: .None,
             formattedShortBio: (values["formattedShortBio"] as? String) ?? "formattedShortBio",
             externalLinks: (values["externalLinks"] as? String) ?? "externalLinks",

@@ -32,6 +32,7 @@ final class User: JSONAble, NSCoding {
     let relationshipPriority: Relationship
     let userId: String
     let username: String
+    let email: String?
     let mostRecentPost: Post?
     let identifiableBy: String?
 
@@ -50,6 +51,7 @@ final class User: JSONAble, NSCoding {
         relationshipPriority: Relationship,
         userId: String,
         username: String,
+        email: String?,
         identifiableBy: String?,
         formattedShortBio: String,
         externalLinks: String,
@@ -69,6 +71,7 @@ final class User: JSONAble, NSCoding {
         self.relationshipPriority = relationshipPriority
         self.userId = userId
         self.username = username
+        self.email = email
         self.identifiableBy = identifiableBy
         self.formattedShortBio = formattedShortBio
         self.externalLinks = externalLinks
@@ -125,6 +128,7 @@ final class User: JSONAble, NSCoding {
 
         self.userId = decoder.decodeObjectForKey("userId") as String
         self.username = decoder.decodeObjectForKey("username") as String
+        self.email = decoder.decodeObjectForKey("email") as? String
         self.formattedShortBio = decoder.decodeObjectForKey("formattedShortBio") as String
         self.externalLinks = decoder.decodeObjectForKey("externalLinks") as String
     }
@@ -154,6 +158,7 @@ final class User: JSONAble, NSCoding {
         encoder.encodeObject(self.relationshipPriority.rawValue, forKey: "relationshipPriority")
         encoder.encodeObject(self.userId, forKey: "userId")
         encoder.encodeObject(self.username, forKey: "username")
+        self.email.map { encoder.encodeObject($0, forKey: "email") }
         encoder.encodeObject(self.formattedShortBio, forKey: "formattedShortBio")
         encoder.encodeObject(self.externalLinks, forKey: "externalLinks")
     }
@@ -165,6 +170,7 @@ final class User: JSONAble, NSCoding {
         let name = json["name"].stringValue
         let userId = json["id"].stringValue
         let username = json["username"].stringValue
+        let email = json["email"].string
         let formattedShortBio = json["formatted_short_bio"].stringValue
         let externalLinks = json["external_links"].stringValue
 
@@ -219,6 +225,7 @@ final class User: JSONAble, NSCoding {
             relationshipPriority: relationshipPriority,
             userId: userId,
             username: username,
+            email: email,
             identifiableBy: identifiableBy,
             formattedShortBio: formattedShortBio,
             externalLinks: externalLinks
@@ -252,6 +259,7 @@ final class User: JSONAble, NSCoding {
             relationshipPriority: .Me,
             userId: "42",
             username: username,
+            email: .None,
             identifiableBy: .None,
             formattedShortBio: "bio",
             externalLinks: "externalLinks"

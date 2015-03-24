@@ -22,6 +22,7 @@ class UserSpec: QuickSpec {
                 expect(user.userId) == "42"
                 expect(user.name) == "Sterling"
                 expect(user.username) == "archer"
+                expect(user.email) == "someguy@fmail.com"
                 expect(user.href) == "/api/edge/users/42"
                 expect(user.experimentalFeatures) == false
                 expect(user.relationshipPriority) == Relationship.Me
@@ -85,6 +86,7 @@ class UserSpec: QuickSpec {
                         "relationshipPriority" : "self",
                         "userId" : "sample-userId",
                         "username" : "sample-username",
+                        "email": "sample@email.com",
                         "formattedShortBio" : "sample-short-bio",
                         "externalLinks": "sample-external-links",
                         "isCurrentUser" : true
@@ -112,6 +114,7 @@ class UserSpec: QuickSpec {
                     expect(unArchivedUser.relationshipPriority.rawValue) == "self"
                     expect(unArchivedUser.userId) == "sample-userId"
                     expect(unArchivedUser.username) == "sample-username"
+                    expect(unArchivedUser.email) == "sample@email.com"
                     expect(unArchivedUser.formattedShortBio) == "sample-short-bio"
                     expect(unArchivedUser.externalLinks) == "sample-external-links"
                     expect(unArchivedUser.isCurrentUser).to(beTrue())
