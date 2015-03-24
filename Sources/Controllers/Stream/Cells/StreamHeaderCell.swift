@@ -29,7 +29,6 @@ class StreamHeaderCell: UICollectionViewCell {
 
     weak var postbarDelegate: PostbarDelegate?
 
-    var calculatedHeight: CGFloat = 80.0
     var avatarHeight: CGFloat = 60.0 {
         didSet { setNeedsDisplay() }
     }

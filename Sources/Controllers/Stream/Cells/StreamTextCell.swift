@@ -15,10 +15,7 @@ class StreamTextCell: UICollectionViewCell, UIWebViewDelegate {
     @IBOutlet weak var leadingConstraint:NSLayoutConstraint!
     weak var webLinkDelegate: WebLinkDelegate?
 
-    var calculatedHeight:CGFloat = 0.0
-
     override func layoutSubviews() {
-        self.webView.frame = self.bounds
         super.layoutSubviews()
         webView.scrollView.scrollEnabled = false
     }
