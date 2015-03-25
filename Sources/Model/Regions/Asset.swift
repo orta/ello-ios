@@ -135,8 +135,12 @@ final class Asset: JSONAble {
 
         if let attachment = attachment {
             if let size = attachment[sizeKey] as? [String:AnyObject] {
+                var uri = size["url"] as String
+                if uri.hasPrefix("//") {
+                    uri = "https:" + uri
+                }
                 return ImageAttachment(
-                    url: NSURL(string: size["url"] as String),
+                    url: NSURL(string: uri),
                     height: size["metadata"]?["height"] as? Int,
                     width: size["metadata"]?["width"] as? Int,
                     imageType: size["metadata"]?["type"] as? String,

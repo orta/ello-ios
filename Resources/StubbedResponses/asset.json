@@ -3,7 +3,7 @@
         "id": "5381",
         "attachment": {
             "optimized": {
-                "url": "https://example.com/5381/optimized.jpg",
+                "url": "//example.com/5381/optimized.jpg",
                 "metadata": {
                     "size": 728689,
                     "type": "image/jpeg",
@@ -12,7 +12,7 @@
                 }
             },
             "small_screen": {
-                "url": "https://example.com/5381/small_screen.jpg",
+                "url": "//example.com/5381/small_screen.jpg",
                 "metadata": {
                     "size": 58160,
                     "type": "image/jpeg",
