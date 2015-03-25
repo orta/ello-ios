@@ -370,15 +370,15 @@ extension StreamViewController : UIScrollViewDelegate {
 
     private func loadNextPage(scrollView: UIScrollView) {
         if scrollView.contentOffset.y + self.view.frame.height + 300 > scrollView.contentSize.height {
-            if self.allOlderPagesLoaded == true { return }
-            if self.responseConfig?.totalPagesRemaining == "0" { return }
-            if self.dataSource.visibleCellItems.count > 0 {
-                let lastCellItem: StreamCellItem = self.dataSource.visibleCellItems[self.dataSource.visibleCellItems.count - 1]
+            if allOlderPagesLoaded == true { return }
+            if responseConfig?.totalPagesRemaining == "0" { return }
+            if dataSource.visibleCellItems.count > 0 {
+                let lastCellItem: StreamCellItem = dataSource.visibleCellItems[dataSource.visibleCellItems.count - 1]
                 if lastCellItem.type == .StreamLoading { return }
-                self.appendStreamCellItems([StreamLoadingCell.streamCellItem()])
+                appendStreamCellItems([StreamLoadingCell.streamCellItem()])
             }
-            if let nextQueryItems = self.responseConfig?.nextQueryItems {
-                let scrollAPI = ElloAPI.InfiniteScroll(path: streamKind.endpoint.path, queryItems: nextQueryItems)
+            if let nextQueryItems = responseConfig?.nextQueryItems {
+                let scrollAPI = ElloAPI.InfiniteScroll(path: streamKind.endpoint.path, defaultParameters: streamKind.endpoint.defaultParameters, queryItems: nextQueryItems)
                 streamService.loadStream(scrollAPI,
                     success: {
                         (jsonables, responseConfig) in
@@ -392,7 +392,7 @@ extension StreamViewController : UIScrollViewDelegate {
                         self.removeLoadingCell()
                         self.doneLoading()
                     },
-                    noContent: { _ in
+                    noContent: {
                         self.allOlderPagesLoaded = true
                         self.removeLoadingCell()
                         self.doneLoading()
