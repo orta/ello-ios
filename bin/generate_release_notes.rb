@@ -30,8 +30,8 @@ class GenerateReleaseNotes
 
   # grab out build verion info
   def set_versions
-    @git_release_version = `git describe --tags --always --abbrev=0`
-    @number_of_commits = `git rev-list master | wc -l | tr -d ' '`
+    @git_release_version = `git describe --tags --always --abbrev=0`.strip()
+    @number_of_commits = `git rev-list master | wc -l | tr -d ' '`.strip()
   end
 
   # add PRs from commits
@@ -44,7 +44,7 @@ class GenerateReleaseNotes
         pr_num = match.captures[0]
         pr = @client.pull_request @repo_name, pr_num
         if pr[:state] == 'closed'
-          @pull_request_notes << "#### ##{pr_num} - #{pr[:title]}\n#{pr[:body]}"
+          @pull_request_notes << "#### ##{pr_num} - #{pr[:title]}\n#{pr[:body]}".strip()
         end
       end
       last_sha = commit[:sha]
@@ -59,6 +59,9 @@ class GenerateReleaseNotes
     #{@pull_request_notes.count > 0 ? @pull_request_notes.join("\n\n------\n\n") : 'No completed pull requests since last distribution.'}
     #{"\n------------\n"}
     EOF
+
+    # add release_notes to crashlytics-release-notes
+    File.open('Build/crashlytics-release-notes.md', 'w') { |f| f.write release_notes.gsub(/(#+ )/, "") }
 
     if ARGV[0] && ARGV[0].split(',').include?("testers")
       # prepend new contents into release-notes
