@@ -66,10 +66,10 @@ class StreamTextCellSizeCalculator: NSObject, UIWebViewDelegate {
 
     func webViewDidFinishLoad(webView: UIWebView) {
         var cellItem = self.cellItems.removeAtIndex(0)
-        if let jsResult = self.webView.stringByEvaluatingJavaScriptFromString("window.contentHeight()") {
-            let height = CGFloat((jsResult as NSString).doubleValue)
-            cellItem.multiColumnCellHeight = height
-            cellItem.oneColumnCellHeight = height
+        if let textHeight = self.webView.windowContentSize()?.height {
+            cellItem.multiColumnCellHeight = textHeight
+            cellItem.oneColumnCellHeight = textHeight
+            cellItem.calculatedWebHeight = textHeight
         }
         loadNext()
     }

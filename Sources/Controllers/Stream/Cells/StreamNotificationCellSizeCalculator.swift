@@ -59,8 +59,7 @@ class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
     }
 
     func webViewDidFinishLoad(webView: UIWebView) {
-        if let jsResult = self.webView.stringByEvaluatingJavaScriptFromString("window.contentHeight()") {
-            let textHeight = CGFloat((jsResult as NSString).doubleValue)
+        if let textHeight = self.webView.windowContentSize()?.height {
             calculateWithTextHeight(textHeight)
         }
         else {
@@ -97,6 +96,7 @@ class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
         height += margins
         cellItem.multiColumnCellHeight = height
         cellItem.oneColumnCellHeight = height
+        cellItem.calculatedWebHeight = textHeight
         loadNext()
     }
 

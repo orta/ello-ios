@@ -10,14 +10,20 @@ import WebKit
 import Foundation
 
 class StreamTextCell: UICollectionViewCell, UIWebViewDelegate {
+    typealias WebContentReady = (webView : UIWebView)->()
 
     @IBOutlet weak var webView:UIWebView!
     @IBOutlet weak var leadingConstraint:NSLayoutConstraint!
     weak var webLinkDelegate: WebLinkDelegate?
+    var webContentReady: WebContentReady?
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
+    override func awakeFromNib() {
+        super.awakeFromNib()
         webView.scrollView.scrollEnabled = false
+    }
+
+    func onWebContentReady(handler: WebContentReady?) {
+        webContentReady = handler
     }
 
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
@@ -30,5 +36,6 @@ class StreamTextCell: UICollectionViewCell, UIWebViewDelegate {
         UIView.animateWithDuration(0.15, animations: {
             self.contentView.alpha = 1.0
         })
+        webContentReady?(webView: webView)
     }
 }

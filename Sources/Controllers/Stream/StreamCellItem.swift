@@ -14,6 +14,7 @@ class StreamCellItem:NSObject {
     let type: StreamCellType
     let data:Regionable?
     let isFullWidth: Bool
+    var calculatedWebHeight: CGFloat = 0
     var oneColumnCellHeight: CGFloat = 0
     var multiColumnCellHeight: CGFloat = 0
 
@@ -22,6 +23,7 @@ class StreamCellItem:NSObject {
         self.type = type
         self.data = data
         self.isFullWidth = isFullWidth
+        self.calculatedWebHeight = 0
         self.oneColumnCellHeight = oneColumnCellHeight
         self.multiColumnCellHeight = multiColumnCellHeight
     }

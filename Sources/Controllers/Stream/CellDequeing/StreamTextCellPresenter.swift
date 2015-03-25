@@ -19,12 +19,19 @@ struct StreamTextCellPresenter {
     {
         if let cell = cell as? StreamTextCell {
             cell.contentView.alpha = 0.0
-            cell.webView.scrollView.scrollEnabled = false
+            cell.webView.stopLoading()
+            cell.onWebContentReady { webView in
+                if let height = webView.windowContentSize()?.height {
+                }
+            }
 
             if let textRegion = streamCellItem.data as TextRegion? {
                 let content = textRegion.content
                 let html = StreamTextCellHTML.postHTML(content)
                 cell.webView.loadHTMLString(html, baseURL: NSURL(string: "/"))
+            }
+            else {
+                cell.webView.loadHTMLString("", baseURL: NSURL(string: "/"))
             }
 
             if let comment = streamCellItem.jsonable as? Comment {
