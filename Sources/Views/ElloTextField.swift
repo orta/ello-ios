@@ -7,8 +7,20 @@
 //
 
 import UIKit
+import SVGKit
+
+enum ValidationState: String {
+    case Loading = "circ_normal.svg"
+    case Error = "x_red.svg"
+    case OK = "check_green.svg"
+
+    var imageView: UIImageView {
+        return UIImageView(image: SVGKImage(named: self.rawValue).UIImage)
+    }
+}
 
 class ElloTextField: UITextField {
+    private var validationState: ValidationState?
 
     required override init(frame: CGRect) {
         super.init(frame: frame)
@@ -25,7 +37,6 @@ class ElloTextField: UITextField {
     }
 
     func sharedSetup() {
-
         let center = NSNotificationCenter.defaultCenter()
         center.addObserver(self, selector: Selector("textDidBeginEditing:"), name: UITextFieldTextDidBeginEditingNotification, object: nil)
         center.addObserver(self, selector: Selector("textDidEndEditing:"), name: UITextFieldTextDidEndEditingNotification, object: nil)
@@ -35,6 +46,12 @@ class ElloTextField: UITextField {
         self.textColor = UIColor.blackColor()
 
         self.setNeedsDisplay()
+    }
+
+    func setValidationState(state: ValidationState?) {
+        validationState = state
+        self.rightViewMode = .Always
+        self.rightView = validationState?.imageView
     }
 
     override func textRectForBounds(bounds: CGRect) -> CGRect {
@@ -47,6 +64,12 @@ class ElloTextField: UITextField {
 
     override func clearButtonRectForBounds(bounds: CGRect) -> CGRect {
         var rect = super.clearButtonRectForBounds(bounds)
+        rect.origin.x -= 10
+        return rect
+    }
+
+    override func rightViewRectForBounds(bounds: CGRect) -> CGRect {
+        var rect = super.rightViewRectForBounds(bounds)
         rect.origin.x -= 10
         return rect
     }
