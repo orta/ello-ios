@@ -25,6 +25,7 @@ class ProfileViewController: StreamableViewController, EditProfileResponder {
 
     required init(userParam: String) {
         self.userParam = userParam
+        self.streamViewController.streamKind = .Profile(userParam: userParam)
         super.init(nibName: "ProfileViewController", bundle: nil)
     }
 
@@ -99,7 +100,6 @@ class ProfileViewController: StreamableViewController, EditProfileResponder {
                 println("failed to load user (reason: \(error))")
                 self.streamViewController.doneLoading()
             })
-        streamViewController.streamKind = .Profile(userParam: userParam)
         streamViewController.currentUser = currentUser
         streamViewController.streamScrollDelegate = self
         streamViewController.userTappedDelegate = self
