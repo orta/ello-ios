@@ -14,7 +14,7 @@ class UIWebViewSpecs: QuickSpec, UIWebViewDelegate {
     var webView: UIWebView!
 
     override func spec() {
-        fdescribe("-windowContentSize") {
+        describe("-windowContentSize") {
             beforeEach() {
                 let html = "<div><img style=\"width: 100pt; height: 100pt;\" width=\"100\" height=\"100\" src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVR4nGNiAAAABgADNjd8qAAAAABJRU5ErkJggg==\" /></div>"
                 self.webView = UIWebView(frame: CGRectZero)
