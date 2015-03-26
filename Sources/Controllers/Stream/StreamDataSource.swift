@@ -281,8 +281,8 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         }
         let afterAll = Functional.after(3, completion)
 
-        self.notificationSizeCalculator.processCells(notificationElements, withWidth: withWidth, afterBoth)
-        self.textSizeCalculator.processCells(textElements, withWidth: withWidth, afterBoth)
+        self.notificationSizeCalculator.processCells(notificationElements, withWidth: withWidth, afterAll)
+        self.textSizeCalculator.processCells(textElements, withWidth: withWidth, afterAll)
         self.profileHeaderSizeCalculator.processCells(profileHeaderItems, withWidth: withWidth, afterAll)
     }
 
