@@ -427,7 +427,7 @@ extension StreamViewController : UIScrollViewDelegate {
                     if lastCellItem.type == .StreamLoading { return }
                     appendStreamCellItems([StreamLoadingCell.streamCellItem()])
                 }
-                let scrollAPI = ElloAPI.InfiniteScroll(path: streamKind.endpoint.path, defaultParameters: streamKind.endpoint.defaultParameters, queryItems: nextQueryItems)
+                let scrollAPI = ElloAPI.InfiniteScroll(path: streamKind.endpoint.path, defaultParameters: streamKind.endpoint.defaultParameters, queryItems: nextQueryItems, mappingType: streamKind.endpoint.mappingType)
                 streamService.loadStream(scrollAPI,
                     success: {
                         (jsonables, responseConfig) in
