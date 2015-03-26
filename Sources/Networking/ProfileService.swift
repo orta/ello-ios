@@ -12,7 +12,7 @@ import UIKit
 import Moya
 import SwiftyJSON
 
-typealias ProfileFollowingSuccessCompletion = (users: [User]) -> ()
+typealias ProfileFollowingSuccessCompletion = (users: [User], responseConfig: ResponseConfig) -> ()
 
 struct ProfileService {
 
@@ -40,7 +40,7 @@ struct ProfileService {
             mappingType: MappingType.UsersType,
             success: { data, responseConfig in
                 if let users = data as? [User] {
-                    success(users: users)
+                    success(users: users, responseConfig: responseConfig)
                 }
                 else {
                     ElloProvider.unCastableJSONAble(failure)

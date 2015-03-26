@@ -8,7 +8,7 @@
 
 import Foundation
 
-class DrawerViewController: BaseElloViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class DrawerViewController: BaseElloViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var navigationBar: ElloNavigationBar!
 
@@ -19,20 +19,105 @@ class DrawerViewController: BaseElloViewController, UICollectionViewDataSource, 
     required init(relationship: Relationship) {
         dataSource = DrawerViewDataSource(relationship: relationship)
         super.init(nibName: "DrawerViewController", bundle: .None)
+        dataSource.delegate = self
     }
 
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
 
+// MARK: View Lifecycle
+extension DrawerViewController {
     override func viewDidLoad() {
         addHamburgerButton()
         addLeftButtons()
         setupNavigationBar()
-        collectionView.registerNib(AvatarCell.nib(), forCellWithReuseIdentifier: AvatarCell.reuseIdentifier())
+        registerCells()
         super.viewDidLoad()
     }
 
+    override func viewWillAppear(animated: Bool) {
+        dataSource.loadUsers()
+    }
+}
+
+// MARK: Actions
+extension DrawerViewController {
+    func hamburgerButtonTapped() {
+        navigationController?.popViewControllerAnimated(true)
+    }
+
+    func wtfButtonTapped() {
+        let wtfProfile = ProfileViewController(userParam: "~wtf")
+        navigationController?.pushViewController(wtfProfile, animated: true)
+    }
+
+    func storeButtonTapped() {
+        if let navController = navigationController as? ElloNavigationController {
+            navController.showExternalWebView("http://ello.threadless.com/")
+        }
+    }
+}
+
+// MARK: DrawerViewDataSourceDelegate
+extension DrawerViewController: DrawerViewDataSourceDelegate {
+    func dataSourceStartedLoadingUsers(dataSource: DrawerViewDataSource) {
+        dispatch_async(dispatch_get_main_queue()) {
+//            let lastCell = dataSource.numberOfUsers - 1
+//            self.collectionView.insertItemsAtIndexPaths([NSIndexPath(forItem: lastCell, inSection: 0)])
+            self.collectionView.reloadData()
+        }
+    }
+
+    func dataSourceFinishedLoadingUsers(dataSource: DrawerViewDataSource) {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.collectionView.reloadData()
+        }
+    }
+}
+
+// MARK: UICollectionViewDataSource
+extension DrawerViewController: UICollectionViewDataSource {
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return dataSource.numberOfUsers
+    }
+
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        var cell: UICollectionViewCell
+        let result = dataSource.objectForIndexPath(indexPath)
+        switch result {
+        case let .Success(userBox):
+            cell = collectionView.dequeueReusableCellWithReuseIdentifier(AvatarCell.reuseIdentifier(), forIndexPath: indexPath) as UICollectionViewCell
+            AvatarCellPresenter.configure(cell as AvatarCell, user: userBox.unbox)
+        case .Failure:
+            cell = collectionView.dequeueReusableCellWithReuseIdentifier("loadingCell", forIndexPath: indexPath) as UICollectionViewCell
+        }
+        return cell
+    }
+}
+
+// MARK: UICollectionViewDelegate
+extension DrawerViewController: UICollectionViewDelegate {
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        let profile = dataSource.objectForIndexPath(indexPath).value.map { ProfileViewController(userParam: $0.userId) }
+
+        if let profileViewController = profile {
+            navigationController?.pushViewController(profileViewController, animated: true)
+        }
+    }
+}
+
+extension DrawerViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if scrollView.contentOffset.y + view.frame.height + 200 > scrollView.contentSize.height {
+            dataSource.loadNextUsers()
+        }
+    }
+}
+
+// MARK: View Helpers
+private extension DrawerViewController {
     func setupNavigationBar() {
         navigationBar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 30)
         navigationBar.items = [navigationItem]
@@ -54,48 +139,8 @@ class DrawerViewController: BaseElloViewController, UICollectionViewDataSource, 
         self.navigationItem.rightBarButtonItem = button
     }
 
-    override func viewWillAppear(animated: Bool) {
-        dataSource.refreshUsers {
-           self.collectionView.reloadData()
-        }
-    }
-
-    // Actions
-
-    func hamburgerButtonTapped() {
-        navigationController?.popViewControllerAnimated(true)
-    }
-
-    func wtfButtonTapped() {
-        let wtfProfile = ProfileViewController(userParam: "~wtf")
-        navigationController?.pushViewController(wtfProfile, animated: true)
-    }
-
-    func storeButtonTapped() {
-        if let navController = navigationController as? ElloNavigationController {
-            navController.showExternalWebView("http://ello.threadless.com/")
-        }
-    }
-
-    // MARK: UICollectionViewDataSource
-
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataSource.numberOfUsers
-    }
-
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(AvatarCell.reuseIdentifier(), forIndexPath: indexPath) as! AvatarCell
-        let user = dataSource.userForIndexPath(indexPath)
-        AvatarCellPresenter.configure(cell, user: user)
-        return cell
-    }
-
-    // MARK: UICollectionViewDelegate
-
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let user = dataSource.userForIndexPath(indexPath)
-        let profileViewController = ProfileViewController(userParam: user.userId)
-
-        navigationController?.pushViewController(profileViewController, animated: true)
+    func registerCells() {
+        collectionView.registerNib(AvatarCell.nib(), forCellWithReuseIdentifier: AvatarCell.reuseIdentifier())
+        collectionView.registerClass(StreamLoadingCell.self, forCellWithReuseIdentifier: "loadingCell")
     }
 }

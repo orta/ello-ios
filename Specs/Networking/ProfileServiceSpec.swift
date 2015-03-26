@@ -52,7 +52,7 @@ class ProfileServiceSpec: QuickSpec {
                     let profileService = ProfileService()
                     var loadedUsers: [User]?
 
-                    profileService.loadCurrentUserFollowing(forRelationship: Relationship.Friend, success: { users in
+                    profileService.loadCurrentUserFollowing(forRelationship: Relationship.Friend, success: { users, _ in
                         loadedUsers = users
                     }, failure: .None)
 
