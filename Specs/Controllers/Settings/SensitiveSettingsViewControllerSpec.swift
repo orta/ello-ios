@@ -33,9 +33,9 @@ class SensitiveSettingsViewControllerSpec: QuickSpec {
                 }
 
                 it("IBOutlets are not nil") {
-                    expect(subject.usernameField).notTo(beNil())
-                    expect(subject.emailField).notTo(beNil())
-                    expect(subject.passwordField).notTo(beNil())
+                    expect(subject.usernameView).notTo(beNil())
+                    expect(subject.emailView).notTo(beNil())
+                    expect(subject.passwordView).notTo(beNil())
                     expect(subject.currentPasswordField).notTo(beNil())
                 }
             }
@@ -47,9 +47,9 @@ class SensitiveSettingsViewControllerSpec: QuickSpec {
                 subject.currentUser = user
                 subject.viewDidLoad()
 
-                expect(subject.usernameField.text) == "TestName"
-                expect(subject.emailField.text) == "some@guy.com"
-                expect(subject.passwordField.text) == ""
+                expect(subject.usernameView.textField.text) == "TestName"
+                expect(subject.emailView.textField.text) == "some@guy.com"
+                expect(subject.passwordView.textField.text) == ""
             }
         }
 
@@ -64,19 +64,16 @@ class SensitiveSettingsViewControllerSpec: QuickSpec {
                 context("is changed") {
                     it("isUpdatable is true") {
                         expect(subject.isUpdatable).to(beFalse())
-                        subject.usernameField.text = "something"
-                        subject.valueChanged()
+                        subject.usernameView.textField.text = "something"
                         expect(subject.isUpdatable).to(beTrue())
                     }
                 }
                 
                 context("is reset") {
                     it("isUpdatable is false") {
-                        subject.usernameField.text = "something"
-                        subject.valueChanged()
+                        subject.usernameView.textField.text = "something"
                         expect(subject.isUpdatable).to(beTrue())
-                        subject.usernameField.text = "TestName"
-                        subject.valueChanged()
+                        subject.usernameView.textField.text = "TestName"
                         expect(subject.isUpdatable).to(beFalse())
                     }
                 }
@@ -86,19 +83,16 @@ class SensitiveSettingsViewControllerSpec: QuickSpec {
                 context("is changed") {
                     it("isUpdatable is true") {
                         expect(subject.isUpdatable).to(beFalse())
-                        subject.emailField.text = "no-one@email.com"
-                        subject.valueChanged()
+                        subject.emailView.textField.text = "no-one@email.com"
                         expect(subject.isUpdatable).to(beTrue())
                     }
                 }
                 
                 context("is reset") {
                     it("isUpdatable is false") {
-                        subject.emailField.text = "no-one@email.com"
-                        subject.valueChanged()
+                        subject.emailView.textField.text = "no-one@email.com"
                         expect(subject.isUpdatable).to(beTrue())
-                        subject.emailField.text = "some@guy.com"
-                        subject.valueChanged()
+                        subject.emailView.textField.text = "some@guy.com"
                         expect(subject.isUpdatable).to(beFalse())
                     }
                 }
@@ -108,19 +102,16 @@ class SensitiveSettingsViewControllerSpec: QuickSpec {
                 context("is set") {
                     it("isUpdatable is true") {
                         expect(subject.isUpdatable).to(beFalse())
-                        subject.passwordField.text = "anything"
-                        subject.valueChanged()
+                        subject.passwordView.textField.text = "anything"
                         expect(subject.isUpdatable).to(beTrue())
                     }
                 }
                 
                 context("is empty") {
                     it("isUpdatable is false") {
-                        subject.passwordField.text = "anything"
-                        subject.valueChanged()
+                        subject.passwordView.textField.text = "anything"
                         expect(subject.isUpdatable).to(beTrue())
-                        subject.passwordField.text = ""
-                        subject.valueChanged()
+                        subject.passwordView.textField.text = ""
                         expect(subject.isUpdatable).to(beFalse())
                     }
                 }
@@ -149,7 +140,7 @@ class SensitiveSettingsViewControllerSpec: QuickSpec {
 
             context("isUpdatable is true") {
                 it("returns 89 * 3 + 128") {
-                    subject.passwordField.text = "anything"
+                    subject.passwordView.textField.text = "anything"
                     expect(subject.isUpdatable).to(beTrue())
                     expect(subject.height) == 89 * 3 + 128
                 }

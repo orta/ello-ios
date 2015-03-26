@@ -14,13 +14,12 @@ enum ValidationState: String {
     case Error = "x_red.svg"
     case OK = "check_green.svg"
 
-    var imageView: UIImageView {
-        return UIImageView(image: SVGKImage(named: self.rawValue).UIImage)
+    var imageRepresentation: UIImage {
+        return SVGKImage(named: self.rawValue).UIImage
     }
 }
 
 class ElloTextField: UITextField {
-    private var validationState: ValidationState?
 
     required override init(frame: CGRect) {
         super.init(frame: frame)
@@ -49,9 +48,8 @@ class ElloTextField: UITextField {
     }
 
     func setValidationState(state: ValidationState?) {
-        validationState = state
         self.rightViewMode = .Always
-        self.rightView = validationState?.imageView
+        self.rightView = state.map { UIImageView(image: $0.imageRepresentation) }
     }
 
     override func textRectForBounds(bounds: CGRect) -> CGRect {

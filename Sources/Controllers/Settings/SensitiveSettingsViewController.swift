@@ -16,18 +16,18 @@ protocol SensitiveSettingsDelegate {
 }
 
 class SensitiveSettingsViewController: UITableViewController {
-    @IBOutlet weak var usernameField: ElloTextField!
-    @IBOutlet weak var emailField: ElloTextField!
-    @IBOutlet weak var passwordField: ElloTextField!
+    @IBOutlet weak var usernameView: ElloTextFieldView!
+    @IBOutlet weak var emailView: ElloTextFieldView!
+    @IBOutlet weak var passwordView: ElloTextFieldView!
     @IBOutlet weak var currentPasswordField: ElloTextField!
 
     var currentUser: User?
     var delegate: SensitiveSettingsDelegate?
 
     var isUpdatable: Bool {
-        return currentUser?.username != usernameField.text
-            || currentUser?.email != emailField.text
-            || !passwordField.text.isEmpty
+        return currentUser?.username != usernameView.textField.text
+            || currentUser?.email != emailView.textField.text
+            || !passwordView.textField.text.isEmpty
     }
 
     var height: CGFloat {
@@ -36,16 +36,53 @@ class SensitiveSettingsViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        usernameField.text = currentUser?.username
-        emailField.text = currentUser?.email
-        setupNotifications()
+        setupViews()
     }
 
-    private func setupNotifications() {
-        usernameField.addTarget(self, action: "valueChanged", forControlEvents: .EditingChanged)
-        emailField.addTarget(self, action: "valueChanged", forControlEvents: .EditingChanged)
-        passwordField.addTarget(self, action: "valueChanged", forControlEvents: .EditingChanged)
+    private func setupViews() {
+        usernameView.label.text = "Username"
+        usernameView.textField.text = currentUser?.username
+        usernameView.textFieldDidChange = { text in
+            self.valueChanged()
+            if text.isEmpty {
+                return .Error
+            } else if text == self.currentUser?.username {
+                return .None
+            } else {
+                return .Loading
+            }
+        }
+
+        emailView.label.text = "Email"
+        emailView.textField.text = currentUser?.email
+        emailView.textFieldDidChange = { text in
+            self.valueChanged()
+            if text.isEmpty {
+                return .Error
+            } else if text == self.currentUser?.username {
+                return .None
+            } else {
+                if text.rangeOfString("^.+@.+\\.[A-Za-z]{2}[A-Za-z]*$", options: .RegularExpressionSearch) != nil {
+                    // send to ello
+                    return .None
+                } else {
+                    return .Error
+                }
+            }
+        }
+
+        passwordView.label.text = "Password"
+        passwordView.textField.secureTextEntry = true
+        passwordView.textFieldDidChange = { text in
+            self.valueChanged()
+            if text.isEmpty {
+                return .None
+            } else if count(text) < 8 {
+                return .Error
+            } else {
+                return .OK
+            }
+        }
     }
 
     func valueChanged() {
