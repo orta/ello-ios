@@ -13,7 +13,7 @@ class GenerateReleaseNotes
   def initialize(repo_name, previous_sha_file, access_token)
     return puts 'You must supply a valid github API token' unless access_token.length > 0
     @repo_name = repo_name
-    @pull_request_notes = []
+    @pull_request_notes = ['RELEASE NOTES']
     # Grab out previous sha
     @previous_sha_file = previous_sha_file
     @previous_sha_yaml = YAML::load_file(@previous_sha_file)
@@ -56,11 +56,12 @@ class GenerateReleaseNotes
     # new release notes
     release_notes = "### Ello Build #{@number_of_commits}(#{@git_release_version}) #{Time.now.strftime("%B %-d, %Y")}\n\n"
     release_notes << <<-EOF
-    #{@pull_request_notes.count > 0 ? @pull_request_notes.join("\n\n------\n\n") : 'No completed pull requests since last distribution.'}
+    #{@pull_request_notes.count > 1 ? @pull_request_notes.join("\n\n------\n\n") : 'No completed pull requests since last distribution.'}
     #{"\n------------\n"}
     EOF
 
     # add release_notes to crashlytics-release-notes
+    `mkdir Build`
     File.open('Build/crashlytics-release-notes.md', 'w') { |f| f.write release_notes.gsub(/(#+ )/, "") }
 
     if ARGV[0] && ARGV[0].split(',').include?("testers")
@@ -72,9 +73,6 @@ class GenerateReleaseNotes
         f.puts File.read(old)
       }
       File.rename(new, old)
-
-      # add release_notes to crashlytics-release-notes
-      File.open('Build/crashlytics-release-notes.md', 'w') { |f| f.write release_notes.gsub(/(#+ )/, "") }
 
       # update the latest commit from here
       @previous_sha_yaml["previous-sha"] = @newest_sha
