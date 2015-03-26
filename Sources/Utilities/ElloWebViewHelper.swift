@@ -8,7 +8,6 @@
 
 struct ElloWebViewHelper {
     static let jsCommandProtocol = "ello://"
-    static let jsCommandPageReady = "ello://page-ready:"
 
     static func handleRequest(request: NSURLRequest, webLinkDelegate: WebLinkDelegate?) -> Bool {
         let requestURL = request.URLString
