@@ -12,7 +12,7 @@ import FLAnimatedImage
 class ProfileViewController: StreamableViewController, EditProfileResponder {
 
     let userParam: String
-    let streamViewController: StreamViewController
+    let streamViewController = StreamViewController.instantiateFromStoryboard()
     var coverImageHeightStart: CGFloat?
     var coverWidthSet = false
     let ratio:CGFloat = 16.0/9.0
@@ -25,10 +25,8 @@ class ProfileViewController: StreamableViewController, EditProfileResponder {
 
     required init(userParam: String) {
         self.userParam = userParam
-        self.streamViewController = StreamViewController.instantiateFromStoryboard()
         self.streamViewController.streamKind = .Profile(userParam: userParam)
         super.init(nibName: "ProfileViewController", bundle: nil)
-        self.streamViewController.userTappedDelegate = self
     }
 
     override func viewDidLoad() {
@@ -104,6 +102,7 @@ class ProfileViewController: StreamableViewController, EditProfileResponder {
             })
         streamViewController.currentUser = currentUser
         streamViewController.streamScrollDelegate = self
+        streamViewController.userTappedDelegate = self
         streamViewController.willMoveToParentViewController(self)
         viewContainer.addSubview(streamViewController.view)
         streamViewController.view.frame = viewContainer.bounds

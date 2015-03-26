@@ -10,7 +10,7 @@ import UIKit
 
 class DiscoverViewController: StreamableViewController {
 
-    let streamViewController: StreamViewController
+    let streamViewController = StreamViewController.instantiateFromStoryboard()
 
 
     @IBOutlet weak var viewContainer: UIView!
@@ -19,12 +19,8 @@ class DiscoverViewController: StreamableViewController {
     @IBOutlet weak var navigationBarTopConstraint: NSLayoutConstraint!
 
     required override init() {
-        self.streamViewController = StreamViewController.instantiateFromStoryboard()
-        let seed = Int(NSDate().timeIntervalSince1970)
-        self.streamViewController.streamKind = StreamKind.Discover(type: .Random, seed: seed, perPage: 50)
         super.init(nibName: "DiscoverViewController", bundle: nil)
-        self.streamViewController.userTappedDelegate = self
-        self.title = "Discover"
+        title = "Discover"
     }
 
     override func viewDidLoad() {
@@ -59,8 +55,9 @@ class DiscoverViewController: StreamableViewController {
     }
 
     private func setupStreamController() {
-        streamViewController.streamScrollDelegate = self
+        streamViewController.streamKind = .Discover(type: .Recommended, seed: Int(NSDate().timeIntervalSince1970), perPage: 50)
         streamViewController.postTappedDelegate = self
+        streamViewController.streamScrollDelegate = self
         streamViewController.userTappedDelegate = self
 
         streamViewController.willMoveToParentViewController(self)
