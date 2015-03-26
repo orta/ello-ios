@@ -26,6 +26,11 @@ class StreamTextCell: UICollectionViewCell, UIWebViewDelegate {
         webContentReady = handler
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        webView.stopLoading()
+    }
+
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         return ElloWebViewHelper.handleRequest(request, webLinkDelegate: webLinkDelegate)
     }

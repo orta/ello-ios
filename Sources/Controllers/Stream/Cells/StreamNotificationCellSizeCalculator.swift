@@ -6,13 +6,15 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+
+private let textViewForSizing = ElloTextView(frame: CGRectZero, textContainer: nil)
+
 class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
 
     typealias StreamTextCellSizeCalculated = () -> ()
 
     let webView:UIWebView
-    let textView:ElloTextView
-    let originalWidth:CGFloat
+    var originalWidth:CGFloat
     var cellItems:[StreamCellItem] = []
     var completion:StreamTextCellSizeCalculated = {}
 
@@ -24,7 +26,6 @@ class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
     init(webView:UIWebView) {
         self.webView = webView
         originalWidth = self.webView.frame.size.width
-        textView = ElloTextView(frame: CGRectZero.withWidth(originalWidth), textContainer: nil)
         super.init()
         self.webView.delegate = self
     }
@@ -32,6 +33,7 @@ class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
     func processCells(cellItems:[StreamCellItem], withWidth width: CGFloat, completion:StreamTextCellSizeCalculated) {
         self.completion = completion
         self.cellItems = cellItems
+        self.originalWidth = width
         self.webView.frame = self.webView.frame.withWidth(width)
         loadNext()
     }
@@ -50,7 +52,7 @@ class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
                 self.webView.loadHTMLString(html, baseURL: NSURL(string: "/"))
             }
             else {
-                calculateWithTextHeight(0)
+                assignCellHeight(0)
             }
         }
         else {
@@ -59,29 +61,34 @@ class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
     }
 
     func webViewDidFinishLoad(webView: UIWebView) {
-        if let textHeight = self.webView.windowContentSize()?.height {
-            calculateWithTextHeight(textHeight)
+        if let webContentHeight = self.webView.windowContentSize()?.height {
+            assignCellHeight(webContentHeight)
         }
         else {
-            calculateWithTextHeight(0)
+            assignCellHeight(0)
         }
     }
 
-    private func calculateWithTextHeight(textHeight : CGFloat) {
+    private func assignCellHeight(webContentHeight : CGFloat) {
         var cellItem = self.cellItems.removeAtIndex(0)
+        StreamNotificationCellSizeCalculator.assignTotalHeight(webContentHeight, cellItem: cellItem, cellWidth: originalWidth)
+        loadNext()
+    }
+
+    class func assignTotalHeight(webContentHeight: CGFloat, cellItem: StreamCellItem, cellWidth: CGFloat) {
         let notification = cellItem.jsonable as Notification
         let imageHeight = NotificationCell.Size.imageHeight(imageRegion: notification.imageRegion)
-        let titleWidth = NotificationCell.Size.messageHtmlWidth(forCellWidth: originalWidth, hasImage: notification.hasImage())
-        textView.frame = textView.frame.withWidth(titleWidth)
-        textView.attributedText = notification.attributedTitle
-        textView.sizeToFit()
-        let titleHeight = textView.frame.height
+        let titleWidth = NotificationCell.Size.messageHtmlWidth(forCellWidth: cellWidth, hasImage: notification.hasImage())
+        textViewForSizing.frame = textViewForSizing.frame.withWidth(titleWidth)
+        textViewForSizing.attributedText = notification.attributedTitle
+        textViewForSizing.sizeToFit()
+        let titleHeight = textViewForSizing.frame.height
 
         var totalTextHeight = NotificationCell.Size.topBottomFixedHeight()
         totalTextHeight += titleHeight
 
-        if textHeight > 0 {
-            totalTextHeight += textHeight + NotificationCell.Size.innerTextMargin
+        if webContentHeight > 0 {
+            totalTextHeight += webContentHeight + NotificationCell.Size.innerTextMargin
         }
 
         var height : CGFloat
@@ -96,8 +103,7 @@ class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
         height += margins
         cellItem.multiColumnCellHeight = height
         cellItem.oneColumnCellHeight = height
-        cellItem.calculatedWebHeight = textHeight
-        loadNext()
+        cellItem.calculatedWebHeight = webContentHeight
     }
 
     private func stripImageSrc(html: String) -> String {

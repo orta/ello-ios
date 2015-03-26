@@ -41,6 +41,10 @@ protocol StreamImageCellDelegate : NSObjectProtocol {
     optional func streamViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool)
 }
 
+
+let RelayoutStreamViewControllerNotification = TypedNotification<UICollectionViewCell>(name: "RelayoutStreamViewControllerNotification")
+
+
 class StreamViewController: BaseElloViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
@@ -64,6 +68,7 @@ class StreamViewController: BaseElloViewController {
     }
     var imageViewerDelegate:StreamImageViewer?
     var updatedStreamImageCellHeightNotification:NotificationObserver?
+    var relayoutNotification:NotificationObserver?
     weak var createCommentDelegate : CreateCommentDelegate?
     weak var postTappedDelegate : PostTappedDelegate?
     weak var userTappedDelegate : UserTappedDelegate?
@@ -175,12 +180,23 @@ class StreamViewController: BaseElloViewController {
         updatedStreamImageCellHeightNotification = NotificationObserver(notification: updateStreamImageCellHeightNotification) { streamTextCell in
             self.imageCellHeightUpdated(streamTextCell)
         }
+        relayoutNotification = NotificationObserver(notification: RelayoutStreamViewControllerNotification) { streamTextCell in
+            self.collectionView.collectionViewLayout.invalidateLayout()
+        }
     }
 
     private func removeNotificationObservers() {
         NSNotificationCenter.defaultCenter().removeObserver(self)
         if let imageViewer = imageViewerDelegate {
             NSNotificationCenter.defaultCenter().removeObserver(imageViewer)
+        }
+        if let updatedStreamImageCellHeightNotification = updatedStreamImageCellHeightNotification {
+            updatedStreamImageCellHeightNotification.removeObserver()
+            self.updatedStreamImageCellHeightNotification = nil
+        }
+        if let relayoutNotification = relayoutNotification {
+            relayoutNotification.removeObserver()
+            self.relayoutNotification = nil
         }
     }
 

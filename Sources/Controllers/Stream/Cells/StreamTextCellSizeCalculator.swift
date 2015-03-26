@@ -9,7 +9,6 @@
 import Foundation
 
 class StreamTextCellSizeCalculator: NSObject, UIWebViewDelegate {
-
     typealias StreamTextCellSizeCalculated = () -> ()
 
     let webView: UIWebView
