@@ -31,7 +31,7 @@ class StreamImageCell: UICollectionViewCell {
     }
 
     var calculatedHeight:CGFloat {
-        return UIScreen.screenWidth() / self.aspectRatio
+        return self.frame.width / self.aspectRatio
     }
 
     func setImageURL(url:NSURL) {
@@ -43,7 +43,7 @@ class StreamImageCell: UICollectionViewCell {
         self.imageView.sd_setImageWithURL(url, completed: {
             (image, error, type, url) in
 
-            if error == nil && image != nil {
+            if let image = image {
 
                 self.aspectRatio = (image.size.width / image.size.height)
 
