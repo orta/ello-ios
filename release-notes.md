@@ -1,3 +1,45 @@
+### Ello Build 807(f1547bd0edc39c12e9e3827939b3945fa0bf8146) March 25, 2015
+
+    #### #110 - Discover pagination and more.
+Also defaults relative images to have the https: prefix for production.
+
+------
+
+#### #108 - Add sizing to profile header cell for the bio.
+
+------
+
+#### #103 - Animated Gifs
+* load animated gif in `NotificationCell` and `StreamImageCell` if asset type is "image/gif"
+* swap `FLAnimatedImage` for `UIImageView` throughout the app
+* party
+
+[Finishes #90953848]
+
+------
+
+#### #102 - Add loading spinner for infinite scroll.
+Also prevents the load of more content from happening after "no content" has been reached which is the result of getting to the last page of content.
+
+------
+
+#### #101 - bug fixes
+commits tell the story.
+
+------
+
+#### #99 - Add all Asset sizes
+optimized, smallScreen, ldpi, mdpi, xhdpi, xxxhdpi are now in Asset
+
+------
+
+#### #98 - Fix crash with sign in controller spec
+* Uses the Keyboard object instead of the native keyboard show/hide notifications
+
+[Fixes #90851868]
+    
+------------
+
 ### Ello Build 745
 (604c38a86470d59c3a16c7b6d5428e58994e7fa7
 ) March 20, 2015
