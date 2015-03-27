@@ -94,6 +94,7 @@ class ProfileViewController: StreamableViewController, EditProfileResponder {
     }
 
     private func setupStreamController() {
+        ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.streamService.loadUser(streamViewController.streamKind.endpoint,
             success: userLoaded,
             failure: { (error, statusCode) in

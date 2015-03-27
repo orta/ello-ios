@@ -120,6 +120,7 @@ class StreamViewController: BaseElloViewController {
 // MARK: Public Functions
 
     func doneLoading() {
+        ElloHUD.hideLoadingHudInView(view)
         pullToRefreshView?.finishLoading()
     }
 
@@ -146,6 +147,7 @@ class StreamViewController: BaseElloViewController {
     func appendUnsizedCellItems(items: [StreamCellItem]) {
         dataSource.appendUnsizedCellItems(items) { _ in
             self.collectionView.reloadData()
+            self.doneLoading()
         }
     }
 
@@ -156,12 +158,11 @@ class StreamViewController: BaseElloViewController {
     }
 
     func loadInitialPage() {
-        self.pullToRefreshView?.startLoading()
+        ElloHUD.showLoadingHudInView(view)
         streamService.loadStream(streamKind.endpoint,
             success: { (jsonables, responseConfig) in
                 self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind))
                 self.responseConfig = responseConfig
-                self.doneLoading()
             }, failure: { (error, statusCode) in
                 println("failed to load \(self.streamKind.name) stream (reason: \(error))")
                 self.doneLoading()
