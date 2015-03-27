@@ -44,8 +44,8 @@ class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
 
             if let textRegion = notification.textRegion {
                 let content = textRegion.content
-                // let strippedContent = self.stripImageSrc(content)
-                let html = StreamTextCellHTML.postHTML(content)
+                let strippedContent = self.stripImageSrc(content)
+                let html = StreamTextCellHTML.postHTML(strippedContent)
                 var f = self.webView.frame
                 f.size.width = NotificationCell.Size.messageHtmlWidth(forCellWidth: originalWidth, hasImage: notification.hasImage())
                 self.webView.frame = f

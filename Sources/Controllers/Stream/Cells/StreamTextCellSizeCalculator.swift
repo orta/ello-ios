@@ -48,8 +48,8 @@ class StreamTextCellSizeCalculator: NSObject, UIWebViewDelegate {
 
             if let textElement = textElement {
                 let content = textElement.content
-                // let strippedContent = self.stripImageSrc(content)
-                let html = StreamTextCellHTML.postHTML(content)
+                let strippedContent = self.stripImageSrc(content)
+                let html = StreamTextCellHTML.postHTML(strippedContent)
                 // needs to use the same width as the post text region
                 self.webView.loadHTMLString(html, baseURL: NSURL(string: "/"))
             }
