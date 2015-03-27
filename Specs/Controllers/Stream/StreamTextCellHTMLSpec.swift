@@ -20,7 +20,7 @@ class StreamTextCellHTMLSpec: QuickSpec {
             it("returns the stub index html file") {
                 let indexFile = StreamTextCellHTML.indexFileAsString()
 
-                expect(indexFile).to(contain("reportContentHeight"))
+                expect(indexFile).to(contain("contentHeight"))
             }
             
         }
