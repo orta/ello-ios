@@ -12,28 +12,26 @@ import Nimble
 
 class UIWebViewSpecs: QuickSpec, UIWebViewDelegate {
     var webView: UIWebView!
+    var size: CGSize = CGSize(width: 0, height: 0)
 
     override func spec() {
         describe("-windowContentSize") {
             beforeEach() {
-                let html = "<div><img style=\"width: 100pt; height: 100pt;\" width=\"100\" height=\"100\" src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVR4nGNiAAAABgADNjd8qAAAAABJRU5ErkJggg==\" /></div>"
+                let html = "<div id=\"post-container\"><img style=\"width: 100pt; height: 100pt;\" width=\"100\" height=\"100\" src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVR4nGNiAAAABgADNjd8qAAAAABJRU5ErkJggg==\" /></div>"
                 self.webView = UIWebView(frame: CGRectZero)
                 self.webView.loadHTMLString(html, baseURL: NSURL(string: "/"))
                 self.webView.delegate = self
             }
             it("should return the size") {
-                if let size = self.webView.windowContentSize() {
-                    expect(size.width).toEventually(beGreaterThanOrEqualTo(CGFloat(100)), timeout: 2)
-                    expect(size.height).toEventually(beGreaterThanOrEqualTo(CGFloat(100)), timeout: 2)
-                }
-                else {
-                    fail("no size returned from windowContentSize")
-                }
+                expect(self.size.width).toEventually(beGreaterThanOrEqualTo(CGFloat(100)), timeout: 2)
+                expect(self.size.height).toEventually(beGreaterThanOrEqualTo(CGFloat(100)), timeout: 2)
             }
         }
     }
 
     func webViewDidFinishLoad(webView: UIWebView) {
-        println("size: \(webView.windowContentSize())")
+        if let size = self.webView.windowContentSize() {
+            self.size = size
+        }
     }
 }
