@@ -54,8 +54,11 @@ class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
         }
     }
 
+    typealias WebContentReady = (webView : UIWebView)->()
+
     var webLinkDelegate: WebLinkDelegate?
     var delegate: NotificationDelegate?
+    var webContentReady: WebContentReady?
 
     var avatarButton : AvatarButton!
     var titleTextView : ElloTextView!
@@ -123,6 +126,7 @@ class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
 
         notificationImageView = FLAnimatedImageView()
         messageWebView = UIWebView()
+        messageWebView.scrollView.scrollEnabled = false
         createdAtLabel = UILabel()
 
         messageWebView.delegate = self
@@ -138,6 +142,10 @@ class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
 
     required init(coder: NSCoder) {
         super.init(coder: coder)
+    }
+
+    func onWebContentReady(handler: WebContentReady?) {
+        webContentReady = handler
     }
 
     override func layoutSubviews() {
@@ -174,9 +182,15 @@ class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
         else {
             let remainingHeight = outerFrame.height - Size.innerTextMargin - titleTextView.frame.height
             messageWebView.frame = titleTextView.frame.fromBottom()
+                .withWidth(titleWidth)
                 .shiftDown(Size.innerTextMargin)
                 .withHeight(remainingHeight)
         }
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        messageWebView.stopLoading()
     }
 
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
@@ -189,6 +203,7 @@ class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
         UIView.animateWithDuration(0.15, animations: {
             self.messageWebView.alpha = 1.0
         })
+        webContentReady?(webView: webView)
     }
 }
 

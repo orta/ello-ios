@@ -58,6 +58,7 @@ GEM
     osx_keychain (1.0.0)
       RubyInline (~> 3)
     plist (3.1.0)
+    rake (10.0.4)
     sawyer (0.6.0)
       addressable (~> 2.3.5)
       faraday (~> 0.8, < 0.10)
@@ -77,3 +78,4 @@ DEPENDENCIES
   dotenv
   octokit (~> 3.0)
   plist
+  rake (~> 10.0.0)

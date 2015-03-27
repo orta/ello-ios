@@ -54,10 +54,16 @@ struct NotificationAttributedTitle {
     static func attributedTitle(kind: Activity.Kind, author: User?, subject: AnyObject?) -> NSAttributedString {
         switch kind {
             case .RepostNotification:
-                return self.profile(author)
-                    .append(self.text(" reposted your "))
-                    .append(self.post("post", subject! as Post))
-                    .append(self.text("."))
+                if let post = subject as? Post {
+                    return self.profile(author)
+                        .append(self.text(" reposted your "))
+                        .append(self.post("post", post))
+                        .append(self.text("."))
+                }
+                else {
+                    return self.profile(author)
+                    .append(self.text(" reposted your post."))
+                }
             case .NewFollowedUserPost:
                 return self.text("You started following ")
                     .append(self.profile(author))
@@ -66,23 +72,41 @@ struct NotificationAttributedTitle {
                 return self.profile(author)
                     .append(self.text(" started following you."))
             case .PostMentionNotification:
-                return self.profile(author)
-                    .append(self.text(" mentioned you in a "))
-                    .append(self.post("post", subject! as Post))
-                    .append(self.text("."))
+                if let post = subject as? Post {
+                    return self.profile(author)
+                        .append(self.text(" mentioned you in a "))
+                        .append(self.post("post", post))
+                        .append(self.text("."))
+                }
+                else {
+                    return self.profile(author)
+                        .append(self.text(" mentioned you in a post."))
+                }
             case .CommentMentionNotification:
-                return self.profile(author)
-                    .append(self.text(" mentioned you in a "))
-                    .append(self.comment("comment", subject! as Comment))
-                    .append(self.text("."))
+                if let comment = subject as? Comment {
+                    return self.profile(author)
+                        .append(self.text(" mentioned you in a "))
+                        .append(self.comment("comment", comment))
+                        .append(self.text("."))
+                }
+                else {
+                    return self.profile(author)
+                        .append(self.text(" mentioned you in a comment."))
+                }
             case .InvitationAcceptedPost:
                 return self.profile(author)
                     .append(self.text(" accepted your invitation."))
             case .CommentNotification:
-                return self.profile(author)
-                    .append(self.text(" commented on your "))
-                    .append(self.comment("post", subject! as Comment))
-                    .append(self.text("."))
+                if let comment = subject as? Comment {
+                    return self.profile(author)
+                        .append(self.text(" commented on your "))
+                        .append(self.comment("post", comment))
+                        .append(self.text("."))
+                }
+                else {
+                    return self.profile(author)
+                        .append(self.text(" commented on a post."))
+                }
             case .WelcomeNotification:
                 return self.text("Welcome to Ello!")
             default:

@@ -50,7 +50,7 @@ class StreamDataSourceSpec: QuickSpec {
                 failure: nil
             )
 
-            subject.appendUnsizedCellItems(StreamCellItemParser().parse(cellItems, streamKind: .Friend)) { cellCount in
+            subject.appendUnsizedCellItems(StreamCellItemParser().parse(cellItems, streamKind: .Friend), withWidth: webView.frame.width) { cellCount in
                 vc.collectionView.dataSource = subject
                 vc.collectionView.reloadData()
             }
@@ -90,7 +90,7 @@ class StreamDataSourceSpec: QuickSpec {
                     profileHeaderSizeCalculator: profileHeaderSizeCalculator)
 
                 let cellItems = ModelHelper.cellsForTwoPostsWithComments()
-                subject.appendUnsizedCellItems(cellItems) { cellCount in
+                subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                     vc.collectionView.dataSource = subject
                     vc.collectionView.reloadData()
                 }
@@ -124,7 +124,7 @@ class StreamDataSourceSpec: QuickSpec {
                     profileHeaderSizeCalculator: profileHeaderSizeCalculator)
 
                 let cellItems = ModelHelper.cellsForTwoPostsWithComments()
-                subject.appendUnsizedCellItems(cellItems) { cellCount in
+                subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                     vc.collectionView.dataSource = subject
                     vc.collectionView.reloadData()
                 }
@@ -159,7 +159,7 @@ class StreamDataSourceSpec: QuickSpec {
                     profileHeaderSizeCalculator: profileHeaderSizeCalculator)
 
                 let cellItems = ModelHelper.cellsForTwoPostsWithComments()
-                subject.appendUnsizedCellItems(cellItems) { cellCount in
+                subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                     vc.collectionView.dataSource = subject
                     vc.collectionView.reloadData()
                 }
@@ -218,7 +218,7 @@ class StreamDataSourceSpec: QuickSpec {
                     profileHeaderSizeCalculator: profileHeaderSizeCalculator)
 
                 let cellItems = ModelHelper.cellsForPostWithComments("123")
-                subject.appendUnsizedCellItems(cellItems) { cellCount in
+                subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                     vc.collectionView.dataSource = subject
                     vc.collectionView.reloadData()
                 }
@@ -243,7 +243,7 @@ class StreamDataSourceSpec: QuickSpec {
                     profileHeaderSizeCalculator: profileHeaderSizeCalculator)
 
                 let cellItems = ModelHelper.cellsForTwoPostsWithComments()
-                subject.appendUnsizedCellItems(cellItems) { cellCount in
+                subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                     vc.collectionView.dataSource = subject
                     vc.collectionView.reloadData()
                 }
@@ -268,7 +268,7 @@ class StreamDataSourceSpec: QuickSpec {
                     profileHeaderSizeCalculator: profileHeaderSizeCalculator)
 
                 let cellItems = ModelHelper.cellsForPostWithComments("123")
-                subject.appendUnsizedCellItems(cellItems) { cellCount in
+                subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                     vc.collectionView.dataSource = subject
                 }
             }
@@ -329,7 +329,7 @@ class StreamDataSourceSpec: QuickSpec {
                     profileHeaderSizeCalculator: profileHeaderSizeCalculator)
 
                 let cellItems = ModelHelper.cellsForTwoPostsWithComments()
-                subject.appendUnsizedCellItems(cellItems) { cellCount in
+                subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                     vc.collectionView.dataSource = subject
                     vc.collectionView.reloadData()
                 }
@@ -360,7 +360,7 @@ class StreamDataSourceSpec: QuickSpec {
                     profileHeaderSizeCalculator: profileHeaderSizeCalculator)
 
                 let cellItems = ModelHelper.cellsForTwoPostsWithComments()
-                subject.appendUnsizedCellItems(cellItems) { cellCount in
+                subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                     vc.collectionView.dataSource = subject
                     vc.collectionView.reloadData()
                 }
@@ -384,7 +384,7 @@ class StreamDataSourceSpec: QuickSpec {
                     profileHeaderSizeCalculator: profileHeaderSizeCalculator)
 
                 let cellItems = ModelHelper.cellsForTwoPostsWithComments()
-                subject.appendUnsizedCellItems(cellItems) { cellCount in
+                subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                     vc.collectionView.dataSource = subject
                     vc.collectionView.reloadData()
                 }
@@ -439,7 +439,7 @@ class StreamDataSourceSpec: QuickSpec {
 
                 let cellItem = StreamCellItem(jsonable: nonAuthorable, type: .Image, data: nil, oneColumnCellHeight: 0, multiColumnCellHeight: 0, isFullWidth: false)
 
-                subject.appendUnsizedCellItems([cellItem]) { cellCount in
+                subject.appendUnsizedCellItems([cellItem], withWidth: webView.frame.width) { cellCount in
                     vc.collectionView.dataSource = subject
                     vc.collectionView.reloadData()
                 }
@@ -456,7 +456,7 @@ class StreamDataSourceSpec: QuickSpec {
                     notificationSizeCalculator: notificationSizeCalculator,
                     profileHeaderSizeCalculator: profileHeaderSizeCalculator)
 
-                subject.appendUnsizedCellItems(ModelHelper.allCellTypes()) { cellCount in
+                subject.appendUnsizedCellItems(ModelHelper.allCellTypes(), withWidth: webView.frame.width) { cellCount in
                     vc.collectionView.dataSource = subject
                     vc.collectionView.reloadData()
                 }

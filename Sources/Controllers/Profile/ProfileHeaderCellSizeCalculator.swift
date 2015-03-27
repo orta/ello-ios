@@ -21,9 +21,10 @@ class ProfileHeaderCellSizeCalculator: NSObject {
         webView.delegate = self
     }
 
-    func processCells(cellItems: [StreamCellItem], completion: ElloEmptyCompletion) {
+    func processCells(cellItems: [StreamCellItem], withWidth width: CGFloat, completion: ElloEmptyCompletion) {
         self.cellItems = cellItems
         self.completion = completion
+        self.webView.frame = self.webView.frame.withWidth(width)
         loadNext()
     }
 

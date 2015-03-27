@@ -105,7 +105,7 @@ class NotificationsViewController: StreamableViewController, NotificationDelegat
             sizer = StreamTextCellSizeCalculator(webView: UIWebView(frame: self.view.bounds))
             let initialItems = StreamCellItemParser().parse([post], streamKind: .PostDetail(postParam: post.postId))
             ElloHUD.showLoadingHud()
-            sizer!.processCells(initialItems) {
+            sizer!.processCells(initialItems, withWidth: self.view.frame.width) {
                 ElloHUD.hideLoadingHud()
                 self.postTapped(post, initialItems: initialItems)
                 self.navigationController?.setNavigationBarHidden(false, animated: true)

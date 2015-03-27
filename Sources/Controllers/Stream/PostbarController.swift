@@ -118,7 +118,8 @@ class PostbarController: NSObject, PostbarDelegate {
 // MARK: - Private
 
     private func commentLoadSuccess(jsonables:[JSONAble], indexPath:NSIndexPath, cell:StreamFooterCell) {
-        self.dataSource.insertUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: StreamKind.Friend), startingIndexPath:indexPath) { (indexPaths) -> () in
+        let items = StreamCellItemParser().parse(jsonables, streamKind: StreamKind.Friend)
+        self.dataSource.insertUnsizedCellItems(items, withWidth: self.collectionView.frame.width, startingIndexPath:indexPath) { (indexPaths) -> () in
             self.collectionView.insertItemsAtIndexPaths(indexPaths)
         }
         cell.commentsButton.enabled = true

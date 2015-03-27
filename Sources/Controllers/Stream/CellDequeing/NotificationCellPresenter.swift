@@ -19,6 +19,15 @@ struct NotificationCellPresenter {
         if let cell = cell as? NotificationCell {
             var notification = streamCellItem.jsonable as Notification
 
+            cell.onWebContentReady { webView in
+                if let actualHeight = webView.windowContentSize()?.height {
+                    if actualHeight != streamCellItem.calculatedWebHeight {
+                        StreamNotificationCellSizeCalculator.assignTotalHeight(actualHeight, cellItem: streamCellItem, cellWidth: cell.frame.width)
+                        postNotification(RelayoutStreamViewControllerNotification, cell)
+                    }
+                }
+            }
+
             cell.title = notification.attributedTitle
             cell.createdAt = notification.createdAt
             if let user = notification.author {
@@ -31,7 +40,8 @@ struct NotificationCellPresenter {
             cell.messageHtml = nil
 
             if let textRegion = notification.textRegion {
-                cell.messageHtml = textRegion.content
+                let content = textRegion.content
+                cell.messageHtml = content
             }
 
             if let imageRegion = notification.imageRegion {

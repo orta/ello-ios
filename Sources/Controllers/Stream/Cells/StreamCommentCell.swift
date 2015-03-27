@@ -15,4 +15,3 @@ class StreamCommentCell: UICollectionViewCell {
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
 }
-
