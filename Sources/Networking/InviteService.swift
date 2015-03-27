@@ -16,21 +16,15 @@ typealias FindFriendsSuccessCompletion = ([User]) -> ()
 struct InviteService {
 
     func invite(contact: String, success: InviteFriendsSuccessCompletion, failure: ElloFailureCompletion?) {
-        let endpoint = ElloAPI.InviteFriends
-        ElloProvider.sharedProvider.elloRequest(endpoint,
+        ElloProvider.sharedProvider.elloRequest(ElloAPI.InviteFriends(contact: contact),
             method: .POST,
-            parameters: ["email": contact],
-            mappingType: MappingType.NoContentType,
             success: { _ in success() },
             failure: failure)
     }
 
     func find(contacts:[String: AnyObject], success: FindFriendsSuccessCompletion, failure: ElloFailureCompletion?) {
-        let endpoint = ElloAPI.FindFriends
-        ElloProvider.sharedProvider.elloRequest(endpoint,
+        ElloProvider.sharedProvider.elloRequest(ElloAPI.FindFriends(contacts: contacts),
             method: .POST,
-            parameters: contacts,
-            mappingType: MappingType.UsersType,
             success: { (data, responseConfig) -> () in
                 if let data = data as? [User] {
                     success(data)

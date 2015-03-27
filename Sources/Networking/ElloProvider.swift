@@ -104,10 +104,10 @@ extension MoyaProvider {
 
     // MARK: - Public
 
-    func elloRequest(token: T, method: Moya.Method, parameters: [String: AnyObject], mappingType: MappingType, success: ElloSuccessCompletion, failure: ElloFailureCompletion?) {
-        self.request(token, method: method, parameters: parameters, completion: {
+    func elloRequest(token: ElloAPI, method: Moya.Method, success: ElloSuccessCompletion, failure: ElloFailureCompletion?) {
+        self.request(token as T, method: method, parameters: token.defaultParameters, completion: {
             (data, statusCode, response, error) in
-            self.handleRequest(token, method: method, parameters: parameters, data: data, response: response as? NSHTTPURLResponse, statusCode: statusCode, success: success, failure: failure, isRetry: false, mappingType: mappingType, error: error)
+            self.handleRequest(token, method: method, data: data, response: response as? NSHTTPURLResponse, statusCode: statusCode, success: success, failure: failure, isRetry: false, error: error)
         })
     }
 
@@ -146,25 +146,25 @@ extension MoyaProvider {
 
     // MARK: - Private
 
-    private func handleRequest(token: T, method: Moya.Method, parameters: [String: AnyObject], data:NSData?, response: NSHTTPURLResponse?, var statusCode:Int?, success: ElloSuccessCompletion, failure: ElloFailureCompletion?, isRetry: Bool, mappingType: MappingType, error:NSError?) {
+    private func handleRequest(token: ElloAPI, method: Moya.Method, data:NSData?, response: NSHTTPURLResponse?, var statusCode:Int?, success: ElloSuccessCompletion, failure: ElloFailureCompletion?, isRetry: Bool, error:NSError?) {
         if data != nil && statusCode != nil {
             switch statusCode! {
             case 200...299:
-                self.handleNetworkSuccess(data!, statusCode:statusCode, response: response, mappingType: mappingType, success: success, failure: failure)
+                self.handleNetworkSuccess(data!, elloAPI: token, statusCode:statusCode, response: response, success: success, failure: failure)
             case 300...399:
-                self.handleNetworkSuccess(data!, statusCode:statusCode, response: response, mappingType: mappingType, success: success, failure: failure)
+                self.handleNetworkSuccess(data!, elloAPI: token, statusCode:statusCode, response: response, success: success, failure: failure)
             case 401:
                 if !isRetry {
                     let authService = AuthService()
                     authService.reAuthenticate({
                         // now retry the previous request that generated the original 401
-                        self.request(token, method: method, parameters: parameters, completion: { (data, statusCode, response, error) in
-                            self.handleRequest(token, method: method, parameters: parameters, data: data, response: response as? NSHTTPURLResponse, statusCode: statusCode, success: success, failure: failure, isRetry: true, mappingType: mappingType, error: error)
+                        self.request(token as T, method: method, parameters: token.defaultParameters, completion: { (data, statusCode, response, error) in
+                            self.handleRequest(token, method: method, data: data, response: response as? NSHTTPURLResponse, statusCode: statusCode, success: success, failure: failure, isRetry: true, error: error)
                         })
-                    },
-                    failure: { (_,_) in
-                        self.postNetworkFailureNotification(data, error: error, statusCode: statusCode)
-                        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.SystemLoggedOut.rawValue, object: nil)
+                        },
+                        failure: { _ in
+                            self.postNetworkFailureNotification(data, error: error, statusCode: statusCode)
+                            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.SystemLoggedOut.rawValue, object: nil)
                     })
                 } else {
                     self.postNetworkFailureNotification(data, error: error, statusCode: statusCode)
@@ -189,10 +189,11 @@ extension MoyaProvider {
         }
     }
 
-    private func handleNetworkSuccess(data:NSData, statusCode: Int?, response: NSHTTPURLResponse?, mappingType: MappingType, success:ElloSuccessCompletion, failure:ElloFailureCompletion?) {
+    private func handleNetworkSuccess(data:NSData, elloAPI: ElloAPI, statusCode: Int?, response: NSHTTPURLResponse?, success:ElloSuccessCompletion, failure:ElloFailureCompletion?) {
         let (mappedJSON: AnyObject?, error) = Mapper.mapJSON(data)
 
         var mappedObjects: AnyObject?
+        var responseConfig = parseResponse(response)
         if mappedJSON != nil && error == nil {
             if let dict = mappedJSON as? [String:AnyObject] {
                 let linked = dict["linked"] as? [String:[[String:AnyObject]]]
@@ -201,16 +202,26 @@ extension MoyaProvider {
                     Store.parseLinked(linked!)
                 }
 
-                if let node = dict[mappingType.rawValue] as? [[String:AnyObject]] {
-                    mappedObjects = Mapper.mapToObjectArray(node, fromJSON: mappingType.fromJSON)
+                if let node = dict[elloAPI.mappingType.rawValue] as? [[String:AnyObject]] {
+                    mappedObjects = Mapper.mapToObjectArray(node, fromJSON: elloAPI.mappingType.fromJSON)
                 }
-                else if let node = dict[mappingType.rawValue] as? [String:AnyObject] {
-                    mappedObjects = Mapper.mapToObject(node, fromJSON: mappingType.fromJSON)
+                else if let node = dict[elloAPI.mappingType.rawValue] as? [String:AnyObject] {
+                    mappedObjects = Mapper.mapToObject(node, fromJSON: elloAPI.mappingType.fromJSON)
+                    if let pagingPath = elloAPI.pagingPath {
+                        if let links = node["links"] as? [String:AnyObject] {
+                            if let pagingPathNode = links[pagingPath] as? [String:AnyObject] {
+                                if let pagination = pagingPathNode["pagination"] as? [String:String] {
+                                    println("PAGING PATH NODE: \(pagination)")
+                                    responseConfig = parsePagination(pagination)
+                                }
+                            }
+                        }
+                    }
                 }
             }
 
             if let mappedObjects: AnyObject = mappedObjects {
-                success(data: mappedObjects, responseConfig: parseResponse(response))
+                success(data: mappedObjects, responseConfig: responseConfig)
             }
             else {
                 failedToMapObjects(failure)
@@ -219,7 +230,7 @@ extension MoyaProvider {
         }
         else if isEmptySuccess(data, statusCode: statusCode) {
             let emptyString = ""
-            success(data: emptyString, responseConfig: parseResponse(response))
+            success(data: emptyString, responseConfig: responseConfig)
         }
         else {
             failedToMapObjects(failure)
@@ -253,6 +264,24 @@ extension MoyaProvider {
     private func handleNetworkFailure(failure:ElloFailureCompletion?, data:NSData?, error: NSError?, statusCode: Int?) {
         let elloError = generateElloError(data, error: error, statusCode: statusCode)
         failure?(error: elloError, statusCode: statusCode)
+    }
+
+    private func parsePagination(node: [String: String]) -> ResponseConfig {
+        var config = ResponseConfig()
+        config.totalPages = node["total_pages"]
+        config.totalCount = node["total_count"]
+        config.totalPagesRemaining = node["total_pages_remaining"]
+        if let next = node["next"] {
+            if let comps = NSURLComponents(string: next) {
+                config.nextQueryItems = comps.queryItems
+            }
+        }
+        if let prev = node["prev"] {
+            if let comps = NSURLComponents(string: prev) {
+                config.prevQueryItems = comps.queryItems
+            }
+        }
+        return config
     }
 
     private func parseResponse(response: NSHTTPURLResponse?) -> ResponseConfig {

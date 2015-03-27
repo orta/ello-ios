@@ -15,8 +15,6 @@ class RelationshipService: NSObject {
     func updateRelationship(endpoint:ElloAPI, success: ElloSuccessCompletion, failure: ElloFailureCompletion?) {
         ElloProvider.sharedProvider.elloRequest(endpoint,
             method: .POST,
-            parameters: endpoint.defaultParameters,
-            mappingType: MappingType.RelationshipsType,
             success: success,
             failure: failure
         )

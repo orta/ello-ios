@@ -22,8 +22,6 @@ class StreamService: NSObject {
         self.isStreamLoading = true
         ElloProvider.sharedProvider.elloRequest(endpoint,
             method: .GET,
-            parameters: endpoint.defaultParameters,
-            mappingType: endpoint.mappingType,
             success: { (data, responseConfig) in
                 if let jsonables:[JSONAble] = data as? [JSONAble] {
                     success(jsonables: jsonables, responseConfig: responseConfig)
@@ -48,8 +46,6 @@ class StreamService: NSObject {
     func loadUser(endpoint: ElloAPI, success: ProfileSuccessCompletion, failure: ElloFailureCompletion?) {
         ElloProvider.sharedProvider.elloRequest(endpoint,
             method: .GET,
-            parameters: endpoint.defaultParameters,
-            mappingType:MappingType.UsersType,
             success: { (data, responseConfig) in
                 if let user = data as? User {
                     success(user: user)
@@ -63,11 +59,8 @@ class StreamService: NSObject {
     }
 
     func loadMoreCommentsForPost(postID:String, success: StreamSuccessCompletion, failure: ElloFailureCompletion?) {
-        let endpoint: ElloAPI = .PostComments(postId: postID)
-        ElloProvider.sharedProvider.elloRequest(endpoint,
+        ElloProvider.sharedProvider.elloRequest(.PostComments(postId: postID),
             method: .GET,
-            parameters: endpoint.defaultParameters,
-            mappingType:MappingType.CommentsType,
             success: { (data, responseConfig) in
                 if let comments:[JSONAble] = data as? [JSONAble] {
                     success(jsonables: comments, responseConfig: responseConfig)
