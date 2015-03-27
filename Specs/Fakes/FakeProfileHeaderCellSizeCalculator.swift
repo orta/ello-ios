@@ -10,10 +10,10 @@ import Foundation
 
 class FakeProfileHeaderCellSizeCalculator: ProfileHeaderCellSizeCalculator {
 
-    override func processCells(cellItems:[StreamCellItem], completion:ElloEmptyCompletion) {
+    override func processCells(cellItems:[StreamCellItem], withWidth: CGFloat, completion:ElloEmptyCompletion) {
         self.completion = completion
         self.cellItems = cellItems
         completion()
     }
-    
+
 }
