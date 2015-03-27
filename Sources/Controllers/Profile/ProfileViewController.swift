@@ -11,6 +11,7 @@ import FLAnimatedImage
 
 class ProfileViewController: StreamableViewController, EditProfileResponder {
 
+    var user: User?
     let userParam: String
     let streamViewController = StreamViewController.instantiateFromStoryboard()
     var coverImageHeightStart: CGFloat?
@@ -27,6 +28,21 @@ class ProfileViewController: StreamableViewController, EditProfileResponder {
         self.userParam = userParam
         self.streamViewController.streamKind = .Profile(userParam: userParam)
         super.init(nibName: "ProfileViewController", bundle: nil)
+        ElloHUD.showLoadingHudInView(streamViewController.view)
+        streamViewController.streamService.loadUser(streamViewController.streamKind.endpoint,
+            success: userLoaded,
+            failure: { (error, statusCode) in
+                println("failed to load user (reason: \(error))")
+                self.streamViewController.doneLoading()
+            }
+        )
+    }
+
+    required init(user: User) {
+        self.user = user
+        self.userParam = self.user!.userId
+        self.streamViewController.streamKind = .Profile(userParam: self.userParam)
+        super.init(nibName: "ProfileViewController", bundle: nil)
     }
 
     override func viewDidLoad() {
@@ -38,6 +54,9 @@ class ProfileViewController: StreamableViewController, EditProfileResponder {
         setupStreamController()
         setupNavigationBar()
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
+        if let user = self.user {
+            userLoaded(user)
+        }
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -93,14 +112,9 @@ class ProfileViewController: StreamableViewController, EditProfileResponder {
         }
     }
 
+// MARK : private
+
     private func setupStreamController() {
-        ElloHUD.showLoadingHudInView(streamViewController.view)
-        streamViewController.streamService.loadUser(streamViewController.streamKind.endpoint,
-            success: userLoaded,
-            failure: { (error, statusCode) in
-                println("failed to load user (reason: \(error))")
-                self.streamViewController.doneLoading()
-            })
         streamViewController.currentUser = currentUser
         streamViewController.streamScrollDelegate = self
         streamViewController.userTappedDelegate = self
@@ -124,6 +138,7 @@ class ProfileViewController: StreamableViewController, EditProfileResponder {
     }
 
     private func userLoaded(user: User) {
+        self.user = user
         if !isRootViewController() {
             self.title = user.atName ?? "Profile"
         }
