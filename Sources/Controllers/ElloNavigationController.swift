@@ -29,7 +29,7 @@ class ElloNavigationController: UINavigationController, UIGestureRecognizerDeleg
         func controllerInstance(user : User) -> BaseElloViewController {
             switch self {
             case Notifications: return NotificationsViewController()
-            case Profile: return ProfileViewController(userParam: user.userId)
+            case Profile: return ProfileViewController(user: user)
             case Omnibar: return OmnibarViewController()
             case Discover: return DiscoverViewController()
             }
