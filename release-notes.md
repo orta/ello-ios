@@ -1,3 +1,26 @@
+### Ello Build 838(0aa14fdf72e574db383a61f824a1a23df296cbc7) March 27, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #113 - Profile loads immediately now.
+Since we already have the current user pulled down from the app launching we can just pass this to the `ProfileViewController` to display immediately. This should not be used for partial user objects that are in `linked` nodes in the json.
+
+[Finishes #91149514]
+
+------
+
+#### #112 - Add ello logo loading hud to stream views.
+[Finishes #91198076]
+
+------
+
+#### #111 - Don’t show the spinning loader if not pageable.
+[Fixes #91196802]
+    
+------------
+
 ### Ello Build 807(f1547bd0edc39c12e9e3827939b3945fa0bf8146) March 25, 2015
 
     #### #110 - Discover pagination and more.
