@@ -35,7 +35,7 @@ class StreamContainerViewController: StreamableViewController {
         navigationItem.titleView = streamsSegmentedControl
         navigationBar.items = [navigationItem]
 
-        scrollLogic.prevOffset = (childViewControllers[0] as StreamViewController).collectionView.contentOffset
+        scrollLogic.prevOffset = (childViewControllers[0] as! StreamViewController).collectionView.contentOffset
     }
 
     override func showNavBars(scrollToBottom : Bool) {
@@ -44,7 +44,7 @@ class StreamContainerViewController: StreamableViewController {
         self.view.layoutIfNeeded()
 
         if scrollToBottom {
-            for controller in childViewControllers as [StreamViewController] {
+            for controller in childViewControllers as! [StreamViewController] {
                 if let scrollView = controller.collectionView {
                     let contentOffsetY : CGFloat = scrollView.contentSize.height - scrollView.frame.size.height
                     if contentOffsetY > 0 {
@@ -64,9 +64,9 @@ class StreamContainerViewController: StreamableViewController {
     }
 
     class func instantiateFromStoryboard() -> StreamContainerViewController {
-        let navController = UIStoryboard.storyboardWithId(.StreamContainer) as UINavigationController
+        let navController = UIStoryboard.storyboardWithId(.StreamContainer) as! UINavigationController
         let streamsController = navController.topViewController
-        return streamsController as StreamContainerViewController
+        return streamsController as! StreamContainerViewController
     }
 
     override func viewDidLayoutSubviews() {
@@ -81,7 +81,7 @@ class StreamContainerViewController: StreamableViewController {
             x += width
         }
 
-        scrollView.contentSize = CGSize(width: width * CGFloat(countElements(StreamKind.streamValues)), height: height)
+        scrollView.contentSize = CGSize(width: width * CGFloat(count(StreamKind.streamValues)), height: height)
     }
 
     private func setupChildViewControllers() {

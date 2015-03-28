@@ -25,23 +25,23 @@ class ForgotPasswordViewControllerSpec: QuickSpec {
         let screenHeight = controller.view.bounds.size.height
         let screenWidth = controller.view.bounds.size.width
 
-        describe("initialization", {
+        describe("initialization") {
 
-            describe("storyboard", {
+            describe("storyboard") {
 
-                beforeEach({
+                beforeEach {
                     controller.loadView()
                     controller.viewDidLoad()
-                })
+                }
 
-                it("IBOutlets are  not nil", {
+                it("IBOutlets are  not nil") {
                     expect(controller.scrollView).notTo(beNil())
                     expect(controller.resetPasswordButton).notTo(beNil())
                     expect(controller.emailTextField).notTo(beNil())
                     expect(controller.signInButton).notTo(beNil())
-                })
+                }
 
-                it("IBActions are wired up", {
+                it("IBActions are wired up") {
                     let resetActions = controller.resetPasswordButton.actionsForTarget(controller, forControlEvent: UIControlEvents.TouchUpInside)
 
                     expect(resetActions).to(contain("resetPasswordTapped:"))
@@ -54,65 +54,65 @@ class ForgotPasswordViewControllerSpec: QuickSpec {
 
                     expect(signInActions?.count) == 1
 
-                });
-            })
+                }
+            }
 
-            beforeEach({
+            beforeEach {
                 controller = ForgotPasswordViewController.instantiateFromStoryboard()
-            })
+            }
 
             it("can be instantiated from storyboard") {
                 expect(controller).notTo(beNil())
             }
 
-            it("is a BaseElloViewController", {
+            it("is a BaseElloViewController") {
                 expect(controller).to(beAKindOf(BaseElloViewController.self))
-            })
+            }
 
-            it("is a ForgotPasswordViewController", {
+            it("is a ForgotPasswordViewController") {
                 expect(controller).to(beAKindOf(ForgotPasswordViewController.self))
-            })
-        })
+            }
+        }
 
-        describe("text fields", {
+        describe("text fields") {
 
-            beforeEach({
+            beforeEach {
                 controller = ForgotPasswordViewController.instantiateFromStoryboard()
                 controller.loadView()
                 controller.viewDidLoad()
-            })
+            }
 
-            context("emailTextField", {
+            context("emailTextField") {
 
-                it("is properly configured", {
+                it("is properly configured") {
                     expect(controller.emailTextField.keyboardType.rawValue) == UIKeyboardType.EmailAddress.rawValue
                     expect(controller.emailTextField.returnKeyType.rawValue) == UIReturnKeyType.Next.rawValue
-                })
+                }
 
-                it("has controller as delegate", {
+                it("has controller as delegate") {
                     expect(controller.emailTextField.delegate) === controller
-                })
+                }
 
-            })
+            }
 
-        })
+        }
 
-        describe("-viewDidLoad", {
+        describe("-viewDidLoad") {
 
-            beforeEach({
+            beforeEach {
                 controller = ForgotPasswordViewController.instantiateFromStoryboard()
                 controller.loadView()
                 controller.viewDidLoad()
-            })
+            }
 
-            it("has a cross dissolve modal transition style", {
+            it("has a cross dissolve modal transition style") {
                 expect(controller.modalTransitionStyle.rawValue) == UIModalTransitionStyle.CrossDissolve.rawValue
-            })
+            }
 
-            it("has a disabled reset password button", {
+            it("has a disabled reset password button") {
                 expect(controller.resetPasswordButton.enabled) == false
-            })
-        })
+            }
+        }
     }
 }
 

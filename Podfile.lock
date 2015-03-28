@@ -12,7 +12,7 @@ PODS:
     - Moya/Core (= 0.6.1)
   - Moya/Core (0.6.1):
     - Alamofire (~> 1.1.0)
-  - Nimble (0.3.1)
+  - Nimble (0.4.0)
   - Quick (0.2.2)
   - SDWebImage (3.7.2):
     - SDWebImage/Core (= 3.7.2)
@@ -20,47 +20,53 @@ PODS:
   - SSPullToRefresh (1.2.3)
   - SVGKit (2.x):
     - CocoaLumberjack
-  - SwiftyJSON (2.1.1)
+  - SwiftyJSON (2.1.3)
   - WebLinking (0.1.0)
 
 DEPENDENCIES:
-  - Alamofire (from `https://github.com/Alamofire/Alamofire.git`)
+  - Alamofire (from `https://github.com/Alamofire/Alamofire.git`, branch `xcode-6.3`)
   - CocoaLumberjack (~> 1.9)
   - FLAnimatedImage (from `https://github.com/ello/FLAnimatedImage.git`)
   - Keys (from `https://github.com/ashfurrow/empty-podspec.git`)
-  - LlamaKit (from `https://github.com/AshFurrow/LlamaKit`, branch `rac_podspec`)
-  - Moya (from `https://github.com/ello/Moya`, branch `cg-hybrid`)
-  - Nimble (~> 0.3.0)
-  - Quick (~> 0.2.2)
+  - LlamaKit (from `https://github.com/LlamaKit/LlamaKit`, commit `e28d7f6e82fbd5dcd5388b36e2acf4eedb44b4e8`)
+  - Moya (from `/Users/s/work/Libraries/Moya`)
+  - Nimble (from `git@github.com:Quick/Nimble.git`, tag `v0.4.1`)
+  - Quick (from `git@github.com:Quick/Quick.git`, tag `v0.3.0`)
   - SDWebImage (~> 3.7)
   - SSPullToRefresh (~> 1.2)
   - SVGKit (from `https://github.com/SVGKit/SVGKit`, branch `2.x`)
-  - SwiftyJSON (from `https://github.com/orta/SwiftyJSON`, branch `podspec`)
+  - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON`, branch `xcode6.3`)
   - WebLinking (~> 0.1)
 
 EXTERNAL SOURCES:
   Alamofire:
+    :branch: xcode-6.3
     :git: https://github.com/Alamofire/Alamofire.git
   FLAnimatedImage:
     :git: https://github.com/ello/FLAnimatedImage.git
   Keys:
     :git: https://github.com/ashfurrow/empty-podspec.git
   LlamaKit:
-    :branch: rac_podspec
-    :git: https://github.com/AshFurrow/LlamaKit
+    :commit: e28d7f6e82fbd5dcd5388b36e2acf4eedb44b4e8
+    :git: https://github.com/LlamaKit/LlamaKit
   Moya:
-    :branch: cg-hybrid
-    :git: https://github.com/ello/Moya
+    :path: "/Users/s/work/Libraries/Moya"
+  Nimble:
+    :git: git@github.com:Quick/Nimble.git
+    :tag: v0.4.1
+  Quick:
+    :git: git@github.com:Quick/Quick.git
+    :tag: v0.3.0
   SVGKit:
     :branch: 2.x
     :git: https://github.com/SVGKit/SVGKit
   SwiftyJSON:
-    :branch: podspec
-    :git: https://github.com/orta/SwiftyJSON
+    :branch: xcode6.3
+    :git: https://github.com/SwiftyJSON/SwiftyJSON
 
 CHECKOUT OPTIONS:
   Alamofire:
-    :commit: cf73688adb02431009c9cf4320c9babad0de8e5e
+    :commit: 2ff5749ffc0425f05a1411b5b6fd2c25241b5b14
     :git: https://github.com/Alamofire/Alamofire.git
   FLAnimatedImage:
     :commit: 7f1d9a29597b45aef8686da22f33a3634d84c686
@@ -69,17 +75,20 @@ CHECKOUT OPTIONS:
     :commit: 6ac34c01bbb02fa5069187081135b6c108657018
     :git: https://github.com/ashfurrow/empty-podspec.git
   LlamaKit:
-    :commit: 5013f7ba575e8ae2e7ed0f51916fe17618e018c5
-    :git: https://github.com/AshFurrow/LlamaKit
-  Moya:
-    :commit: 9dac672ee6f95f45bab89eec4a1227eb7ac1da5e
-    :git: https://github.com/ello/Moya
+    :commit: e28d7f6e82fbd5dcd5388b36e2acf4eedb44b4e8
+    :git: https://github.com/LlamaKit/LlamaKit
+  Nimble:
+    :git: git@github.com:Quick/Nimble.git
+    :tag: v0.4.1
+  Quick:
+    :git: git@github.com:Quick/Quick.git
+    :tag: v0.3.0
   SVGKit:
-    :commit: bdce07f1b4e9708232c48b897ad3fe2992595409
+    :commit: f6ac78f3de423276f94f2ed6c08e292b1a13d81d
     :git: https://github.com/SVGKit/SVGKit
   SwiftyJSON:
-    :commit: 252838693668023571c46f56d7ea8347e6948d1b
-    :git: https://github.com/orta/SwiftyJSON
+    :commit: 008a09d7ea8b13c03fb59b35c01aad339584a5e1
+    :git: https://github.com/SwiftyJSON/SwiftyJSON
 
 SPEC CHECKSUMS:
   Alamofire: 346a8798fe35b993e136041e14f0a3a30065f7a5
@@ -88,12 +97,12 @@ SPEC CHECKSUMS:
   Keys: 9a0258f6629755b9686c0821fa97cf659de68347
   LlamaKit: 6110b5eb82c3286ee0a5bbd2157e736ab9822c44
   Moya: 6589de6c52d9d8e5ab0d9630b4cd5c4b7f898019
-  Nimble: 1b3c765852d63b9540a91e528e1e4f8afab79b6f
+  Nimble: a05c15e0955baec1c94a22e25e4f8dea884fbc5f
   Quick: 1bda8b4c8d43f6b4dd69ca001918b1767b3c9c93
   SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
   SSPullToRefresh: ae69778f6961120bd906e6349602c6918e609368
   SVGKit: ad429d65c72c8d84115a504208a9fa097ee7fdbb
-  SwiftyJSON: 626bbe0ede796bf69e849b7aa7473778b03fe44c
-  WebLinking: a357f877c3537fb15363167e173b5067734889f5
+  SwiftyJSON: a561c2a840121085bec8a2dfeac97a360fc66901
+  WebLinking: 68a11e861fa4826c7791e44b91040cb0794c9ea5
 
 COCOAPODS: 0.36.1

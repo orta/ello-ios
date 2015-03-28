@@ -13,8 +13,8 @@ protocol ElloTextViewDelegate: NSObjectProtocol {
 }
 
 struct ElloAttributedText {
-    static let Link : NSString = "ElloLinkAttributedString"
-    static let Object : NSString = "ElloObjectAttributedString"
+    static let Link : String = "ElloLinkAttributedString"
+    static let Object : String = "ElloObjectAttributedString"
 }
 
 class ElloTextView: UITextView {
@@ -86,7 +86,7 @@ class ElloTextView: UITextView {
         let location = gesture.locationInView(self)
         let range = characterRangeAtPoint(location)
         let pos = closestPositionToPoint(location, withinRange: range)
-        let style = textStylingAtPosition(pos, inDirection: .Forward) as [String : AnyObject]
+        let style = textStylingAtPosition(pos, inDirection: .Forward) as! [String : AnyObject]
         if let link = style[ElloAttributedText.Link] as? String {
             if let object: AnyObject = style[ElloAttributedText.Object] {
                 textViewDelegate?.textViewTapped(link, object: object)

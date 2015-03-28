@@ -19,7 +19,7 @@ class NotificationsViewController: StreamableViewController, NotificationDelegat
     }
 
     var screen: NotificationsScreen {
-        return self.view as NotificationsScreen
+        return self.view as! NotificationsScreen
     }
 
     override func viewDidLoad() {
@@ -87,10 +87,8 @@ class NotificationsViewController: StreamableViewController, NotificationDelegat
 
         if let notificationKinds = notificationKinds {
             streamViewController.streamFilter = { item in
-                if let notification = item.jsonable as? Notification {
-                    return contains(notificationKinds, notification.kind)
-                }
-                return false
+                let notification = item.jsonable as! Notification
+                return contains(notificationKinds, notification.kind)
             }
         }
         else {

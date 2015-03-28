@@ -16,16 +16,16 @@ class OmnibarScreenMockDelegate : OmnibarScreenDelegate {
     var didDismissController = false
     var submitted = false
 
-    func omnibarCancel() {
+    @objc func omnibarCancel() {
         didGoBack = true
     }
-    func omnibarPresentController(controller : UIViewController) {
+    @objc func omnibarPresentController(controller : UIViewController) {
         didPresentController = true
     }
-    func omnibarDismissController(controller : UIViewController) {
+    @objc func omnibarDismissController(controller : UIViewController) {
         didDismissController = true
     }
-    func omnibarSubmitted(text : NSAttributedString?, image: UIImage?) {
+    @objc func omnibarSubmitted(text : NSAttributedString?, image: UIImage?) {
         submitted = true
     }
 }
@@ -183,7 +183,7 @@ class OmnibarScreenSpec: QuickSpec {
                 expect(delegate.didPresentController) == true
             }
             it("should report an error (String)") {
-                screen.reportError("title", error: "error")
+                screen.reportError("title", errorMessage: "error")
                 expect(delegate.didPresentController) == true
             }
         }

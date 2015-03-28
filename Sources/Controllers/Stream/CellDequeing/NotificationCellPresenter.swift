@@ -17,7 +17,7 @@ struct NotificationCellPresenter {
         indexPath: NSIndexPath)
     {
         if let cell = cell as? NotificationCell {
-            var notification = streamCellItem.jsonable as Notification
+            var notification = streamCellItem.jsonable as! Notification
 
             cell.onWebContentReady { webView in
                 if let actualHeight = webView.windowContentSize()?.height {
@@ -47,7 +47,7 @@ struct NotificationCellPresenter {
             if let imageRegion = notification.imageRegion {
                 var aspectRatio = StreamCellItemParser.aspectRatioForImageBlock(imageRegion)
                 var imageURL: NSURL
-                if let isGif = imageRegion.asset?.optimized?.url? {
+                if let isGif = imageRegion.asset?.optimized?.url {
                     cell.imageURL = imageRegion.asset?.optimized?.url ?? imageRegion.url
                 }
                 else {

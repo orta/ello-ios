@@ -24,7 +24,9 @@ struct StreamTextCellHTML {
             var error:NSError?
             let indexAsText = NSString(contentsOfFile: indexHTML, encoding: NSUTF8StringEncoding, error: &error)
             if error == nil && indexAsText != nil {
-                StreamTextCellHTML.indexFile = indexAsText
+                if let indexAsSwiftString = indexAsText as? String {
+                    StreamTextCellHTML.indexFile = indexAsSwiftString
+                }
             }
             else {
                 StreamTextCellHTML.indexFile = ""

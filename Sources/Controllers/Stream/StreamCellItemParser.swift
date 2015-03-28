@@ -88,8 +88,8 @@ struct StreamCellItemParser {
 
                 switch kind {
                 case .Image:
-                    oneColumnHeight = self.oneColumnImageHeight(region as ImageRegion)
-                    multiColumnHeight = self.twoColumnImageHeight(region as ImageRegion)
+                    oneColumnHeight = self.oneColumnImageHeight(region as! ImageRegion)
+                    multiColumnHeight = self.twoColumnImageHeight(region as! ImageRegion)
                     type = .Image
                 case .Text:
                     oneColumnHeight = 0.0
@@ -124,8 +124,8 @@ struct StreamCellItemParser {
 
                 switch kind {
                 case .Image:
-                    oneColumnHeight = self.oneColumnImageHeight(region as ImageRegion)
-                    multiColumnHeight = self.twoColumnImageHeight(region as ImageRegion)
+                    oneColumnHeight = self.oneColumnImageHeight(region as! ImageRegion)
+                    multiColumnHeight = self.twoColumnImageHeight(region as! ImageRegion)
                     type = .Image
                 case .Text:
                     oneColumnHeight = 0.0

@@ -52,7 +52,7 @@ class InviteServiceSpec: QuickSpec {
                     expectedUsers = users
                 }, failure: nil)
 
-                expect(countElements(expectedUsers)) == 3
+                expect(count(expectedUsers)) == 3
             }
 
             it("fails") {

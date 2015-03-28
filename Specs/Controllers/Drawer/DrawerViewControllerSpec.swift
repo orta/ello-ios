@@ -14,8 +14,8 @@ class DrawerViewControllerSpec: QuickSpec {
             it("sets up the collectionView's delegate and dataSource") {
                 let controller = DrawerViewController(relationship: .Friend)
                 controller.loadView()
-                let delegate = controller.collectionView.delegate! as DrawerViewController
-                let dataSource = controller.collectionView.dataSource! as DrawerViewController
+                let delegate = controller.collectionView.delegate! as! DrawerViewController
+                let dataSource = controller.collectionView.dataSource! as! DrawerViewController
 
                 expect(delegate).to(equal(controller))
                 expect(dataSource).to(equal(controller))

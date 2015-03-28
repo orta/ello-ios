@@ -85,7 +85,7 @@ class NotificationSpec: QuickSpec {
                     ])
 
                     NSKeyedArchiver.archiveRootObject(notification, toFile: filePath)
-                    let unArchivedNotification = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as Notification
+                    let unArchivedNotification = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! Notification
 
                     expect(unArchivedNotification).toNot(beNil())
                     expect(unArchivedNotification.version) == 1

@@ -16,11 +16,13 @@ struct AddFriendsCellItem {
     init(user: User) {
         cellType = .Find
         self.user = user
+        self.person = nil
     }
 
     init(person: LocalPerson) {
         cellType = .Invite
         self.person = person
+        self.user = nil
     }
 
     init(person: LocalPerson, user: User?) {
@@ -57,7 +59,7 @@ class AddFriendsDataSource: NSObject, UITableViewDataSource {
     // MARK: Public
 
     func itemAtIndexPath(indexPath: NSIndexPath) -> AddFriendsCellItem? {
-        if indexPath.row < countElements(items) {
+        if indexPath.row < count(items) {
             return items[indexPath.row]
         }
         return nil
@@ -68,12 +70,12 @@ class AddFriendsDataSource: NSObject, UITableViewDataSource {
     // MARK: UITableViewDataSource
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return countElements(items)
+        return count(items)
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if let item: AddFriendsCellItem = itemAtIndexPath(indexPath) {
-            var cell = tableView.dequeueReusableCellWithIdentifier(item.cellType.identifier, forIndexPath: indexPath) as UITableViewCell
+            var cell = tableView.dequeueReusableCellWithIdentifier(item.cellType.identifier, forIndexPath: indexPath) as! UITableViewCell
             AddFriendsCellPresenter.configure(cell, addFriendsCellItem: item, relationshipDelegate: relationshipDelegate, inviteCache: inviteCache)
 
             if let cell = cell as? InviteFriendsCell {

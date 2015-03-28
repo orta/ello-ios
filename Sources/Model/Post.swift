@@ -92,31 +92,46 @@ final class Post: JSONAble, Authorable, NSCoding {
         if decoder.containsValueForKey("commentsCount") {
             self.commentsCount = Int(decoder.decodeIntForKey("commentsCount"))
         }
+        else {
+            self.commentsCount = nil
+        }
 
         if let content = decoder.decodeObjectForKey("content") as? [Regionable] {
             self.content = content
         }
+        else {
+            self.content = nil
+        }
 
-        self.createdAt = decoder.decodeObjectForKey("createdAt") as NSDate
-        self.href = decoder.decodeObjectForKey("href") as String
-        self.postId = decoder.decodeObjectForKey("postId") as String
+        self.createdAt = decoder.decodeObjectForKey("createdAt") as! NSDate
+        self.href = decoder.decodeObjectForKey("href") as! String
+        self.postId = decoder.decodeObjectForKey("postId") as! String
 
         if decoder.containsValueForKey("repostsCount") {
             self.repostsCount = Int(decoder.decodeIntForKey("repostsCount"))
+        }
+        else {
+            self.repostsCount = nil
         }
 
         if let summary = decoder.decodeObjectForKey("summary") as? [Regionable] {
             self.summary = summary
         }
+        else {
+            self.summary = nil
+        }
 
-        self.token = decoder.decodeObjectForKey("token") as String
+        self.token = decoder.decodeObjectForKey("token") as! String
 
         if decoder.containsValueForKey("viewsCount") {
             self.viewsCount = Int(decoder.decodeIntForKey("viewsCount"))
         }
+        else {
+            self.viewsCount = nil
+        }
 
         if decoder.containsValueForKey("comments") {
-            self.comments = decoder.decodeObjectForKey("comments") as [Comment]
+            self.comments = decoder.decodeObjectForKey("comments") as! [Comment]
         }
         else {
             self.comments = [Comment]()

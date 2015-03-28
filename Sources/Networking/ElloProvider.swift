@@ -34,7 +34,7 @@ struct ElloProvider {
             return stubbedData(String(self.rawValue))
         }
 
-        var notificationName: NSString {
+        var notificationName: String {
             switch self {
             case .StatusUnknown:
                 return "ElloProviderNotificationUnknown"
@@ -66,10 +66,18 @@ struct ElloProvider {
         let urlFromTarget = url(target)
         let sampleResponse = EndpointSampleResponse.Closure({ return EndpointSampleResponse.SuccessWithResponse(200, target.sampleData, target.sampleResponse) })
         switch target {
-        case .CreatePost, .CreateComment, .FindFriends, .InviteFriends:
-            endpoint = Endpoint<ElloAPI>(URL: urlFromTarget, sampleResponse: sampleResponse, method: method, parameters: parameters, parameterEncoding: .JSON)
+        case .CreatePost, .CreateComment:
+            endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponse: EndpointSampleResponse.Success(200, target.sampleData), method: method, parameters: parameters)
+//            endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponse: .Success(200, target.sampleData, target.sampleResponse), method: method, parameters: parameters, parameterEncoding: .JSON)
+        case .FindFriends:
+            endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponse: EndpointSampleResponse.Success(200, target.sampleData), method: method, parameters: parameters)
+//            endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponse: .Success(200, target.sampleData, target.sampleResponse), method: method, parameters: parameters, parameterEncoding: .JSON)
+        case .InviteFriends:
+            endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponse: EndpointSampleResponse.Success(200, target.sampleData), method: method, parameters: parameters)
+//            endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponse: .Success(200, target.sampleData, target.sampleResponse), method: method, parameters: parameters, parameterEncoding: .JSON)
         default:
-            endpoint = Endpoint<ElloAPI>(URL: urlFromTarget, sampleResponse: sampleResponse, method: method, parameters: parameters)
+            endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponse: EndpointSampleResponse.Success(200, target.sampleData), method: method, parameters: parameters)
+//            endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponse: .Success(200, target.sampleData, target.sampleResponse), method: method, parameters: parameters)
         }
 
         switch target {

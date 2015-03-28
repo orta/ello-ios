@@ -18,9 +18,13 @@ class DiscoverViewController: StreamableViewController {
     @IBOutlet weak var inviteButton: UIButton!
     @IBOutlet weak var navigationBarTopConstraint: NSLayoutConstraint!
 
-    required override init() {
+    required init() {
         super.init(nibName: "DiscoverViewController", bundle: nil)
         title = "Discover"
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     override func viewDidLoad() {

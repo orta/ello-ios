@@ -37,6 +37,10 @@ class AddFriendsContainerViewController: StreamableViewController {
         self.title = "Add Friends"
     }
 
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavBar()

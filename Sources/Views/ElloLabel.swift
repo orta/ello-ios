@@ -27,7 +27,7 @@ class ElloLabel: UILabel {
         paragraphStyle.lineSpacing = 10
 
         var attributedString = NSMutableAttributedString(string: title)
-        var range = NSRange(location: 0, length: countElements(title))
+        var range = NSRange(location: 0, length: count(title))
         return [
             NSFontAttributeName : UIFont.typewriterFont(12.0),
             NSForegroundColorAttributeName : self.labelTextColor(),
@@ -48,7 +48,7 @@ class ElloLabel: UILabel {
 
     func setLabelText(title:String) {
         var attributedString = NSMutableAttributedString(string: title)
-        var range = NSRange(location: 0, length: countElements(title))
+        var range = NSRange(location: 0, length: count(title))
         attributedString.addAttributes(attributes(title), range: range)
         self.attributedText = attributedString
     }

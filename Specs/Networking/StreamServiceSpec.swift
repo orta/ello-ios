@@ -19,25 +19,29 @@ class StreamServiceSpec: QuickSpec {
             var streamService = StreamService()
 
             context("success") {
+                
                 beforeEach {
                     ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.endpointsClosure, stubResponses: true)
                 }
                 
                 describe("-loadStream") {
                     
-                    it("Calls success with an array of Activity objects and responseConfig") {
+                    fit("Calls success with an array of Activity objects and responseConfig") {
                         var loadedPosts:[Post]?
                         var config: ResponseConfig?
 
-                        streamService.loadStream(ElloAPI.FriendStream, { (jsonables, responseConfig) in
-                            loadedPosts = (StreamKind.Friend.filter(jsonables) as [Post])
+                        streamService.loadStream(ElloAPI.FriendStream, success: { (jsonables, responseConfig) in
+                            loadedPosts = (StreamKind.Friend.filter(jsonables) as! [Post])
                             config = responseConfig
+                            println(responseConfig)
+                            println(loadedPosts)
                         }, failure: nil)
 
+                        println(config)
                         expect(config?.prevQueryItems?.count) == 2
                         expect(config?.nextQueryItems?.count) == 2
 
-                        expect(countElements(loadedPosts!)) == 3
+                        expect(count(loadedPosts!)) == 3
 
                         let post0:Post = loadedPosts![0] as Post
 
@@ -49,7 +53,7 @@ class StreamServiceSpec: QuickSpec {
                         expect(post0.commentsCount) == 50
                         expect(post0.repostsCount) == 3
 
-                        let textRegion:TextRegion = post0.content![0] as TextRegion
+                        let textRegion:TextRegion = post0.content![0] as! TextRegion
 
                         expect(textRegion.content) == "etest post to determine what happens when someone sees this for the first time as a repost from someone they follow. dcdoran will repost this."
 
@@ -68,7 +72,7 @@ class StreamServiceSpec: QuickSpec {
 
                         streamService.loadStream(ElloAPI.FriendStream,
                             success: { (jsonables, responseConfig) in
-                                loadedPosts = (StreamKind.Friend.filter(jsonables) as [Post])
+                                loadedPosts = (StreamKind.Friend.filter(jsonables) as! [Post])
                             },
                             failure: nil
                         )
@@ -77,7 +81,7 @@ class StreamServiceSpec: QuickSpec {
 
                         expect(post2.postId) == "4707"
 
-                        let imageRegion:ImageRegion = post2.content![0] as ImageRegion
+                        let imageRegion:ImageRegion = post2.content![0] as! ImageRegion
 
                         expect(imageRegion.asset?.hdpi).notTo(beNil())
                         expect(imageRegion.asset?.hdpi!.width) == 750
@@ -89,14 +93,14 @@ class StreamServiceSpec: QuickSpec {
 
                 describe("-loadMoreCommentsForPost") {
                     
-                    it("calls success with an array of Comment objects", {
+                    it("calls success with an array of Comment objects") {
                         var loadedComments:[Comment]?
 
                         streamService.loadMoreCommentsForPost("111", success: { (comments, responseConfig) in
                             loadedComments = comments as? [Comment]
                         }, failure:nil)
 
-                        expect(countElements(loadedComments!)) == 1
+                        expect(count(loadedComments!)) == 1
 
                         let expectedCreatedAt = "2014-06-02T00:00:00.000Z".toNSDate()!
                         let comment:Comment = loadedComments![0] as Comment
@@ -104,7 +108,7 @@ class StreamServiceSpec: QuickSpec {
                         expect(comment.commentId) == "112"
                         expect(comment.createdAt) == expectedCreatedAt
 
-                        let contentRegion0:TextRegion = comment.content![0] as TextRegion
+                        let contentRegion0:TextRegion = comment.content![0] as! TextRegion
                         expect(contentRegion0.content) == "<p>Hello, I am a comment with awesome content!</p>"
 
                         let commentAuthor:User = comment.author!
@@ -116,7 +120,7 @@ class StreamServiceSpec: QuickSpec {
                         expect(commentAuthor.href) == "/api/edge/users/345"
                         expect(commentAuthor.experimentalFeatures) == true
                         expect(commentAuthor.avatarURL!.absoluteString) == "https://d324imu86q1bqn.cloudfront.net/uploads/user/avatar/97143/regular_owl.png"
-                    })
+                    }
                 }
             }
 
@@ -140,7 +144,7 @@ class StreamServiceSpec: QuickSpec {
                         var loadedStatusCode:Int?
                         var loadedError:NSError?
 
-                        streamService.loadStream(ElloAPI.FriendStream, { (jsonables, responseConfig) in
+                        streamService.loadStream(ElloAPI.FriendStream, success: { (jsonables, responseConfig) in
                             loadedJsonables = jsonables
                         }, failure: { (error, statusCode) -> () in
                             loadedError = error
@@ -151,7 +155,7 @@ class StreamServiceSpec: QuickSpec {
                         expect(loadedStatusCode!) == 404
                         expect(loadedError!).notTo(beNil())
 
-                        let elloNetworkError = loadedError!.userInfo![NSLocalizedFailureReasonErrorKey] as ElloNetworkError
+                        let elloNetworkError = loadedError!.userInfo![NSLocalizedFailureReasonErrorKey] as! ElloNetworkError
 
                         expect(elloNetworkError).to(beAnInstanceOf(ElloNetworkError.self))
                         expect(elloNetworkError.code) == ElloNetworkError.CodeType.notFound

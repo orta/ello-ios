@@ -20,7 +20,7 @@ struct ElloLinkedStore {
                 store[type] = [String:AnyObject]()
             }
             for object:[String:AnyObject] in typeObjects {
-                store[type]?[object["id"] as String] = object
+                store[type]?[object["id"] as! String] = object
             }
         }
     }
@@ -29,8 +29,8 @@ struct ElloLinkedStore {
         var modelLinks = [String: AnyObject]()
         for (key, value) in links {
             if let link:String = value["type"] as? String {
-                if let mappingType = MappingType(rawValue: value["type"] as String) {
-                    if let linkJSON = Store.store[link]?[value["id"] as String] as? [String: AnyObject] {
+                if let mappingType = MappingType(rawValue: value["type"] as! String) {
+                    if let linkJSON = Store.store[link]?[value["id"] as! String] as? [String: AnyObject] {
                         var jsonable: JSONAble = mappingType.fromJSON(data: linkJSON)
                         modelLinks[key] = jsonable
                     }

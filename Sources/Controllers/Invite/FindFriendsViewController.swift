@@ -15,8 +15,12 @@ class FindFriendsViewController: BaseElloViewController {
     let inviteService = InviteService()
     var relationshipController: RelationshipController?
 
-    required override init() {
+    required init() {
         super.init(nibName: "FindFriendsViewController", bundle: NSBundle(forClass: FindFriendsViewController.self))
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     override func viewDidLoad() {

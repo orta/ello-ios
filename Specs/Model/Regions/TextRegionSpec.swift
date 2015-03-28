@@ -16,7 +16,7 @@ class TextRegionSpec: QuickSpec {
 
             it("parses correctly") {
                 let data = stubbedJSONData("text-region", "region")
-                let region = TextRegion.fromJSON(data) as TextRegion
+                let region = TextRegion.fromJSON(data) as! TextRegion
 
                 expect(region.content) == "test text content"
 
@@ -55,7 +55,7 @@ class TextRegionSpec: QuickSpec {
                     ])
 
                     NSKeyedArchiver.archiveRootObject(region, toFile: filePath)
-                    let unArchivedRegion = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as TextRegion
+                    let unArchivedRegion = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! TextRegion
                     
                     expect(unArchivedRegion).toNot(beNil())
                     expect(unArchivedRegion.version) == 1

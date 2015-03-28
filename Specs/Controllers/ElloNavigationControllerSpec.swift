@@ -16,7 +16,7 @@ class ElloNavigationControllerSpec: QuickSpec {
 
         describe("NotificationsViewController NavigationController") {
             beforeEach() {
-                controller = UIStoryboard.storyboardWithId(.Notifications) as ElloNavigationController
+                controller = UIStoryboard.storyboardWithId(.Notifications) as! ElloNavigationController
             }
 
             it("has a tab bar item") {
@@ -30,7 +30,7 @@ class ElloNavigationControllerSpec: QuickSpec {
 
         describe("ProfileViewController NavigationController") {
             beforeEach() {
-                controller = UIStoryboard.storyboardWithId(.Profile) as ElloNavigationController
+                controller = UIStoryboard.storyboardWithId(.Profile) as! ElloNavigationController
             }
 
             it("has a tab bar item") {
@@ -44,7 +44,7 @@ class ElloNavigationControllerSpec: QuickSpec {
 
         describe("OmnibarViewController NavigationController") {
             beforeEach() {
-                controller = UIStoryboard.storyboardWithId(.Omnibar) as ElloNavigationController
+                controller = UIStoryboard.storyboardWithId(.Omnibar) as! ElloNavigationController
             }
 
             it("has a tab bar item") {

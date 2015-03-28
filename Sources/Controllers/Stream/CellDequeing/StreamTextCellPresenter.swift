@@ -30,7 +30,7 @@ struct StreamTextCellPresenter {
                 }
             }
 
-            if let textRegion = streamCellItem.data as TextRegion? {
+            if let textRegion = streamCellItem.data as? TextRegion {
                 let content = textRegion.content
                 let html = StreamTextCellHTML.postHTML(content)
                 cell.webView.loadHTMLString(html, baseURL: NSURL(string: "/"))

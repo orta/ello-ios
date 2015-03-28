@@ -23,45 +23,45 @@ class StreamViewControllerSpec: QuickSpec {
             ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
         }
 
-        describe("initialization", {
+        describe("initialization") {
 
-            beforeEach({
+            beforeEach {
                 controller = StreamViewController.instantiateFromStoryboard()
-            })
+            }
 
-            describe("storyboard", {
+            describe("storyboard") {
 
                 beforeEach({
                     controller.loadView()
                     controller.viewDidLoad()
                 })
 
-                it("IBOutlets are  not nil", {
+                it("IBOutlets are  not nil") {
                     expect(controller.collectionView).notTo(beNil())
-                })
-            })
+                }
+            }
 
             it("can be instantiated from storyboard") {
                 expect(controller).notTo(beNil())
             }
 
-            it("is a BaseElloViewController", {
+            it("is a BaseElloViewController") {
                 expect(controller).to(beAKindOf(BaseElloViewController.self))
-            })
+            }
 
-            it("is a StreamViewController", {
+            it("is a StreamViewController") {
                 expect(controller).to(beAKindOf(StreamViewController.self))
-            })
+            }
 
-        })
+        }
 
-        describe("-viewDidLoad:", {
+        describe("-viewDidLoad:") {
 
-            beforeEach({
+            beforeEach {
                 controller = StreamViewController.instantiateFromStoryboard()
                 controller.loadView()
                 controller.viewDidLoad()
-            })
+            }
 
             it("properly configures dataSource") {
                 expect(controller.dataSource).to(beAnInstanceOf(StreamDataSource.self))
@@ -75,12 +75,12 @@ class StreamViewControllerSpec: QuickSpec {
                 expect(controller.postbarController).notTo(beNil())
                 expect(controller.dataSource.postbarDelegate).notTo(beNil())
 
-                let delegate = controller.dataSource.postbarDelegate! as PostbarController
+                let delegate = controller.dataSource.postbarDelegate! as! PostbarController
                 expect(delegate) == controller.postbarController
             }
 
             it("configures collectionView") {
-                let delegate = controller.collectionView.delegate! as StreamViewController
+                let delegate = controller.collectionView.delegate! as! StreamViewController
                 expect(delegate) == controller
                 expect(controller.collectionView.alwaysBounceHorizontal) == false
                 expect(controller.collectionView.alwaysBounceVertical) == true
@@ -89,7 +89,7 @@ class StreamViewControllerSpec: QuickSpec {
             it("adds notification observers") {
 
             }
-        })
+        }
 
         xdescribe("loading more posts on scrolling") {
 
@@ -122,11 +122,11 @@ class StreamViewControllerSpec: QuickSpec {
 
         context("protocol conformance") {
 
-            beforeEach({
+            beforeEach {
                 controller = StreamViewController.instantiateFromStoryboard()
                 controller.loadView()
                 controller.viewDidLoad()
-            })
+            }
 
             context("WebLinkDelegate") {
 

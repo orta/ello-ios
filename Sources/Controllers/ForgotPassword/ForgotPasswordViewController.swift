@@ -28,7 +28,7 @@ class ForgotPasswordViewController: BaseElloViewController, UITextFieldDelegate 
     }
 
     class func instantiateFromStoryboard() -> ForgotPasswordViewController {
-        return UIStoryboard.storyboardWithId(.ForgotPassword) as ForgotPasswordViewController
+        return UIStoryboard.storyboardWithId(.ForgotPassword) as! ForgotPasswordViewController
     }
 
     // MARK: - Private
@@ -60,7 +60,7 @@ class ForgotPasswordViewController: BaseElloViewController, UITextFieldDelegate 
 
     private func keyboardWillChangeFrame(notification: NSNotification, showsKeyboard: Bool) {
         if let userInfo = notification.userInfo {
-            let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as NSValue).CGRectValue()
+            let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
             let keyboardViewEndFrame = view.convertRect(keyboardScreenEndFrame, fromView: view.window)
 
             if shouldAdjustScrollViewForKeyboard(keyboardViewEndFrame) || !showsKeyboard {
@@ -113,7 +113,7 @@ class ForgotPasswordViewController: BaseElloViewController, UITextFieldDelegate 
 
         switch textField {
         case emailTextField:
-            resetPasswordButton.enabled = isValid(proposedString)
+            resetPasswordButton.enabled = isValid(proposedString as String)
             return true
         default:
             return true

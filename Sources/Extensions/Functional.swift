@@ -74,20 +74,20 @@ struct Functional {
 
     // Using `until(1)`, this is a simple way to make sure a block is only called one time
     static func once(block : BasicBlock) -> BasicBlock {
-        return until(1, block)
+        return until(1, block: block)
     }
 
     // This block can be called multiple times, but it's guaranteed to be called
     // after the timeout duration
     static func timeout(duration : Double, block : BasicBlock) -> BasicBlock {
         let handler = once(block)
-        later(duration, handler)
+        later(duration, block: handler)
         return handler
     }
 
     // Calls the block after the specified duration.
     static func later(duration : Double, block : BasicBlock) {
-        let proc = Proc(block)
+        let proc = Proc(block: block)
         NSTimer.scheduledTimerWithTimeInterval(duration, target: proc, selector: "run", userInfo: nil, repeats: false)
     }
 
@@ -97,7 +97,7 @@ struct Functional {
     // should wrap the block with Functional.once()
     static func throttle(duration : Double, block : BasicBlock) -> BasicBlock {
         var timer : NSTimer? = nil
-        let proc = Proc(block)
+        let proc = Proc(block: block)
 
         return {
             if let prevTimer = timer {

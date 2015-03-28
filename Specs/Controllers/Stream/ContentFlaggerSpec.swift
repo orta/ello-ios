@@ -38,7 +38,7 @@ class ContentFlaggerSpec: QuickSpec {
             it("presents a UIAlertController in ActionSheet mode") {
 
                 subject.displayFlaggingSheet()
-                let presentedVC = subject.presentingController.presentedViewController as UIAlertController
+                let presentedVC = subject.presentingController.presentedViewController as! UIAlertController
 
                 expect(presentedVC).to(beAKindOf(UIAlertController.self))
                 expect(presentedVC.preferredStyle) == UIAlertControllerStyle.ActionSheet
@@ -46,18 +46,18 @@ class ContentFlaggerSpec: QuickSpec {
 
             it("has actions for all 8 types of flagging") {
                 subject.displayFlaggingSheet()
-                let presentedVC = subject.presentingController.presentedViewController as UIAlertController
+                let presentedVC = subject.presentingController.presentedViewController as! UIAlertController
 
                 let actions = presentedVC.actions
-                expect(countElements(actions)) == 8
-                let spamAction = actions[0] as UIAlertAction
-                let violenceAction = actions[1] as UIAlertAction
-                let copyrightAction = actions[2] as UIAlertAction
-                let threateningAction = actions[3] as UIAlertAction
-                let hateAction = actions[4] as UIAlertAction
-                let adultAction = actions[5] as UIAlertAction
-                let dontLikeAction = actions[6] as UIAlertAction
-                let cancelAction = actions[7] as UIAlertAction
+                expect(count(actions)) == 8
+                let spamAction = actions[0] as! UIAlertAction
+                let violenceAction = actions[1] as! UIAlertAction
+                let copyrightAction = actions[2] as! UIAlertAction
+                let threateningAction = actions[3] as! UIAlertAction
+                let hateAction = actions[4] as! UIAlertAction
+                let adultAction = actions[5] as! UIAlertAction
+                let dontLikeAction = actions[6] as! UIAlertAction
+                let cancelAction = actions[7] as! UIAlertAction
 
                 expect(spamAction.title) == "Spam"
                 expect(violenceAction.title) == "Violence"
@@ -71,17 +71,17 @@ class ContentFlaggerSpec: QuickSpec {
 
             it("the correct kind is associated with each flag type") {
                 subject.displayFlaggingSheet()
-                let presentedVC = subject.presentingController.presentedViewController as UIAlertController
+                let presentedVC = subject.presentingController.presentedViewController as! UIAlertController
 
                 let actions = presentedVC.actions
 
-                let spamAction = actions[0] as UIAlertAction
-                let violenceAction = actions[1] as UIAlertAction
-                let copyrightAction = actions[2] as UIAlertAction
-                let threateningAction = actions[3] as UIAlertAction
-                let hateAction = actions[4] as UIAlertAction
-                let adultAction = actions[5] as UIAlertAction
-                let dontLikeAction = actions[6] as UIAlertAction
+                let spamAction = actions[0] as! UIAlertAction
+                let violenceAction = actions[1] as! UIAlertAction
+                let copyrightAction = actions[2] as! UIAlertAction
+                let threateningAction = actions[3] as! UIAlertAction
+                let hateAction = actions[4] as! UIAlertAction
+                let adultAction = actions[5] as! UIAlertAction
+                let dontLikeAction = actions[6] as! UIAlertAction
 
                 expect(ContentFlagger.AlertOption(rawValue: spamAction.title)) == ContentFlagger.AlertOption.Spam
                 expect(ContentFlagger.AlertOption(rawValue: violenceAction.title)) == ContentFlagger.AlertOption.Violence

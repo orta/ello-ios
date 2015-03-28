@@ -49,12 +49,12 @@ class StreamHeaderCell: UICollectionViewCell {
 
     let flagItem:UIBarButtonItem = ElloPostToolBarOption.Flag.barButtonItem()
     var flagButton:StreamFooterButton {
-        get { return self.flagItem.customView as StreamFooterButton }
+        get { return self.flagItem.customView as! StreamFooterButton }
     }
 
     let replyItem:UIBarButtonItem = ElloPostToolBarOption.Reply.barButtonItem()
     var replyButton:StreamFooterButton {
-        get { return self.replyItem.customView as StreamFooterButton }
+        get { return self.replyItem.customView as! StreamFooterButton }
     }
 
     func setAvatarURL(url:NSURL?) {
@@ -63,7 +63,7 @@ class StreamHeaderCell: UICollectionViewCell {
 
     private var originalUsernameFrame = CGRectZero
 
-    override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
         super.touchesEnded(touches, withEvent: event)
     }
 

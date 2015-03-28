@@ -55,7 +55,7 @@ struct Tmp {
 
     static func read(fileName: String) -> String? {
         if let data : NSData = read(fileName) {
-            return NSString(data: data, encoding: NSUTF8StringEncoding)
+            return NSString(data: data, encoding: NSUTF8StringEncoding) as? String
         }
         return nil
     }

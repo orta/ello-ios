@@ -18,8 +18,12 @@ class InviteFriendsViewController: BaseElloViewController {
     var relationshipController: RelationshipController?
     var allContacts: [(LocalPerson, User?)] = []
 
-    required override init() {
+    required init() {
         super.init(nibName: "InviteFriendsViewController", bundle: NSBundle(forClass: InviteFriendsViewController.self))
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     override func viewDidLoad() {

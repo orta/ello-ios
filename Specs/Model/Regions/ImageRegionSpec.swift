@@ -16,7 +16,7 @@ class ImageRegionSpec: QuickSpec {
 
             it("parses correctly") {
                 let data = stubbedJSONData("image-region", "region")
-                let region = ImageRegion.fromJSON(data) as ImageRegion
+                let region = ImageRegion.fromJSON(data) as! ImageRegion
 
                 expect(region.url!.absoluteString) == "https://example.com/test.jpg"
                 expect(region.alt) == "region-alt.jpeg"
@@ -99,7 +99,7 @@ class ImageRegionSpec: QuickSpec {
                     ])
 
                     NSKeyedArchiver.archiveRootObject(imageRegion, toFile: filePath)
-                    let unArchivedRegion = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as ImageRegion
+                    let unArchivedRegion = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! ImageRegion
 
                     expect(unArchivedRegion).toNot(beNil())
                     expect(unArchivedRegion.version) == 1

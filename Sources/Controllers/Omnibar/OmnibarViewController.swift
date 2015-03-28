@@ -52,7 +52,7 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
     var _mockScreen: OmnibarScreenProtocol?
     var screen: OmnibarScreenProtocol {
         set(screen) { _mockScreen = screen }
-        get { return _mockScreen ?? self.view as OmnibarScreen }
+        get { return _mockScreen ?? self.view as! OmnibarScreen }
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -112,7 +112,7 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
     func omnibarSubmitted(text: NSAttributedString?, image: UIImage?) {
         var content = [AnyObject]()
         if let text = text?.string {
-            if countElements(text) > 0 {
+            if count(text) > 0 {
                 content.append(text)
             }
         }
@@ -129,19 +129,19 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
             service = PostEditingService()
         }
 
-        if countElements(content) > 0 {
+        if count(content) > 0 {
             ElloHUD.showLoadingHud()
             service.create(content: content, success: { postOrComment in
                 ElloHUD.hideLoadingHud()
 
                 if let parentPost = self.parentPost {
-                    var comment = postOrComment as Comment
+                    var comment = postOrComment as! Comment
                     for listener in self.commentSuccessListeners {
                         listener(comment: comment)
                     }
                 }
                 else {
-                    var post = postOrComment as Post
+                    var post = postOrComment as! Post
                     for listener in self.postSuccessListeners {
                         listener(post: post)
                     }
@@ -153,7 +153,7 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
             })
         }
         else {
-            self.screen.reportError("Could not create post", error: "No content was submitted")
+            self.screen.reportError("Could not create post", errorMessage: "No content was submitted")
         }
     }
 
@@ -173,9 +173,9 @@ class OmnibarData : NSObject, NSCoding {
     let image: UIImage?
 
     required init(attributedText: NSAttributedString?, image: UIImage?) {
-        super.init()
         self.attributedText = attributedText
         self.image = image
+        super.init()
     }
 
 // MARK: NSCoding

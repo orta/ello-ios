@@ -56,7 +56,7 @@ class Keyboard {
     func willShow(notification : NSNotification) {
         visible = true
         setFromNotification(notification)
-        height = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as NSValue).CGRectValue().size.height
+        height = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue().size.height
 
         postNotification(Notifications.KeyboardWillShow, self)
     }

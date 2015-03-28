@@ -30,7 +30,7 @@ final class TextRegion: JSONAble, NSCoding {
     }
 
     required init(coder decoder: NSCoder) {
-        self.content = decoder.decodeObjectForKey("content") as String
+        self.content = decoder.decodeObjectForKey("content") as! String
     }
     
 // MARK: JSONAble

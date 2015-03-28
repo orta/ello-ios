@@ -141,7 +141,7 @@ class StreamViewController: BaseElloViewController {
     }
 
     class func instantiateFromStoryboard() -> StreamViewController {
-        return UIStoryboard.storyboardWithId(.Stream) as StreamViewController
+        return UIStoryboard.storyboardWithId(.Stream) as! StreamViewController
     }
 
 // MARK: Public Functions
@@ -244,7 +244,7 @@ class StreamViewController: BaseElloViewController {
 
     // this gets reset whenever the streamKind changes
     private func setupCollectionViewLayout() {
-        let layout:StreamCollectionViewLayout = collectionView.collectionViewLayout as StreamCollectionViewLayout
+        let layout:StreamCollectionViewLayout = collectionView.collectionViewLayout as! StreamCollectionViewLayout
         layout.columnCount = streamKind.columnCount
         layout.sectionInset = UIEdgeInsetsZero
         layout.minimumColumnSpacing = 12

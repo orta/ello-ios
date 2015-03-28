@@ -7,7 +7,7 @@ class AddFriendsCellPresenterSpec: QuickSpec {
             context("find item") {
                 it("configures a find friends cell") {
                     let data = stubbedJSONData("user", "users")
-                    let user = User.fromJSON(data) as User
+                    let user = User.fromJSON(data) as! User
                     var cell: FindFriendsCell = FindFriendsCell.loadFromNib()
                     var item: AddFriendsCellItem = AddFriendsCellItem(user: user)
 
@@ -31,7 +31,7 @@ class AddFriendsCellPresenterSpec: QuickSpec {
             context("invite item with user") {
                 it("configures a find friends cell") {
                     let data = stubbedJSONData("user", "users")
-                    let user = User.fromJSON(data) as User
+                    let user = User.fromJSON(data) as! User
                     var cell: FindFriendsCell = FindFriendsCell.loadFromNib()
                     var item: AddFriendsCellItem = AddFriendsCellItem(person: LocalPerson(name: "Test", emails: [], id: 123), user: user)
 

@@ -26,7 +26,7 @@ class ElloLogoView: FLAnimatedImageView {
     func stopAnimatingLogo() {
         let endAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
         if let layer = self.layer.presentationLayer() as? CALayer {
-            let angle = layer.valueForKeyPath("transform.rotation.z") as NSNumber
+            let angle = layer.valueForKeyPath("transform.rotation.z") as! NSNumber
             endAnimation.fromValue = angle.floatValue
             endAnimation.toValue = self.toValue
             endAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)

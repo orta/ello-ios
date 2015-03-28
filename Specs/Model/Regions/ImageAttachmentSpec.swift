@@ -48,7 +48,7 @@ class ImageAttachmentSpec: QuickSpec {
                     ])
 
                     NSKeyedArchiver.archiveRootObject(imageAttachment, toFile: filePath)
-                    let unArchivedAttachment = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as ImageAttachment
+                    let unArchivedAttachment = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! ImageAttachment
 
                     expect(unArchivedAttachment).toNot(beNil())
                     expect(unArchivedAttachment.version) == 1

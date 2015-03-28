@@ -31,15 +31,15 @@ class InviteFriendsViewControllerSpec: QuickSpec {
 
             describe("nib") {
 
-                beforeEach({
+                beforeEach {
                     subject.loadView()
                     subject.viewDidLoad()
-                })
+                }
 
-                it("IBOutlets are  not nil", {
+                it("IBOutlets are  not nil") {
                     expect(subject.tableView).notTo(beNil())
                     expect(subject.filterField).notTo(beNil())
-                })
+                }
 
                 it("IBActions are wired up") {
                     let filterActions = subject.filterField.actionsForTarget(subject, forControlEvent: UIControlEvents.EditingChanged)
@@ -54,9 +54,9 @@ class InviteFriendsViewControllerSpec: QuickSpec {
                 expect(subject).notTo(beNil())
             }
 
-            it("is a BaseElloViewController", {
+            it("is a BaseElloViewController") {
                 expect(subject).to(beAKindOf(BaseElloViewController.self))
-            })
+            }
 
             it("is an InviteFriendsViewController") {
                 expect(subject).to(beAKindOf(InviteFriendsViewController.self))
@@ -80,10 +80,10 @@ class InviteFriendsViewControllerSpec: QuickSpec {
             }
 
             it("configures tableView") {
-                let delegate = subject.tableView.delegate! as InviteFriendsViewController
+                let delegate = subject.tableView.delegate! as! InviteFriendsViewController
                 expect(delegate) == subject
 
-                let dataSource = subject.tableView.dataSource! as AddFriendsDataSource
+                let dataSource = subject.tableView.dataSource! as! AddFriendsDataSource
                 expect(dataSource) == subject.dataSource
             }
             

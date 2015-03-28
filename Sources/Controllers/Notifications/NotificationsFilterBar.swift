@@ -15,7 +15,7 @@ class NotificationsFilterBar : UIView {
     }
 
     var buttons : [UIButton] {
-        return self.subviews.filter { $0 as? UIButton != nil } as [UIButton]
+        return self.subviews.filter { $0 as? UIButton != nil } as! [UIButton]
     }
     var buttonPadding : CGFloat = 1
 

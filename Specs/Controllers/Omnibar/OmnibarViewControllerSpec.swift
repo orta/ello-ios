@@ -9,7 +9,7 @@
 import Quick
 import Nimble
 
-
+@objc
 class OmnibarMockScreen : OmnibarScreenProtocol {
     var delegate : OmnibarScreenDelegate?
     var avatarURL : NSURL?
@@ -29,7 +29,7 @@ class OmnibarMockScreen : OmnibarScreenProtocol {
     func reportError(title : String, error : NSError) {
         didReportError = true
     }
-    func reportError(title : String, error : String) {
+    func reportError(title : String, errorMessage : String) {
         didReportError = true
     }
     func keyboardWillShow() {
@@ -89,11 +89,13 @@ class OmnibarViewControllerSpec: QuickSpec {
         }
 
         describe("setting up the Screen") {
+
             beforeEach() {
                 controller = OmnibarViewController()
                 screen = OmnibarMockScreen()
                 controller.screen = screen
             }
+
             xit("assigns the currentUser.avatarURL to the screen") {
                 let url = NSURL(string: "http://ello.co/avatar.png")
                 let user = User.fakeCurrentUser("foo", avatarURL: url)
@@ -105,6 +107,7 @@ class OmnibarViewControllerSpec: QuickSpec {
         }
 
         describe("restoring a comment") {
+
             beforeEach() {
                 let post = Post.stub([
                     "author": User.stub(["username": "colinta"])
@@ -122,10 +125,12 @@ class OmnibarViewControllerSpec: QuickSpec {
                 controller.beginAppearanceTransition(true, animated: false)
                 controller.endAppearanceTransition()
             }
+
             afterEach() {
                 Tmp.remove(controller.omnibarDataName())
                 Void()
             }
+
             it("should have text set") {
                 if let attributedText = screen.attributedText {
                     expect(attributedText.string).to(equal("text"))
@@ -134,11 +139,15 @@ class OmnibarViewControllerSpec: QuickSpec {
                     fail("no attributedText on screen")
                 }
             }
+
             it("should have image set") {
                 expect(screen.image).toNot(beNil())
             }
         }
+
+
         describe("saving a comment") {
+
             beforeEach() {
                 let post = Post.stub([
                     "author": User.stub(["username": "colinta"])
@@ -153,10 +162,12 @@ class OmnibarViewControllerSpec: QuickSpec {
                 screen.attributedText = ElloAttributedString.style("text")
                 screen.image = UIImage(named: "specs-avatar")
             }
+
             afterEach() {
                 Tmp.remove(controller.omnibarDataName())
                 Void()
             }
+
             it("should save the data when cancelled") {
                 expect(Tmp.fileExists(controller.omnibarDataName())).to(beFalse())
                 controller.omnibarCancel()

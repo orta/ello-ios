@@ -16,7 +16,7 @@ class UserSpec: QuickSpec {
 
             it("parses correctly") {
                 let data = stubbedJSONData("user", "users")
-                let user = User.fromJSON(data) as User
+                let user = User.fromJSON(data) as! User
                 
     //            expect(user.avatarURL!.absoluteString) == "https://abc123.cloudfront.net/uploads/user/avatar/42/avatar.png"
                 expect(user.userId) == "42"
@@ -95,7 +95,7 @@ class UserSpec: QuickSpec {
                     user.mostRecentPost?.author = user
 
                     NSKeyedArchiver.archiveRootObject(user, toFile: filePath)
-                    let unArchivedUser = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as User
+                    let unArchivedUser = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! User
 
                     expect(unArchivedUser).toNot(beNil())
                     expect(unArchivedUser.version) == 1

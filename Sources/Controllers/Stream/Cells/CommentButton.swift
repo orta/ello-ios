@@ -28,12 +28,12 @@ class CommentButton: StreamFooterButton {
         }
     }
 
-    override init() {
-        super.init()
-    }
-
     override init(frame: CGRect) {
         super.init(frame: frame)
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
 
     override func layoutSubviews() {
@@ -54,9 +54,9 @@ class CommentButton: StreamFooterButton {
     }
 
     func finishAnimation() {
-        fadeUp(dot1)
-        fadeUp(dot2)
-        fadeUp(dot3)
+        if dot1 != nil { fadeUp(dot1) }
+        if dot2 != nil { fadeUp(dot2) }
+        if dot3 != nil { fadeUp(dot3) }
     }
 
 // MARK: Private

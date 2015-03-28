@@ -56,7 +56,7 @@ final class ImageRegion: JSONAble, NSCoding {
     override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
         let json = JSON(data)
         var alt = json["data"].object["alt"] as? String
-        let url = json["data"].object["url"] as String
+        let url = json["data"].object["url"] as! String
         var links = [String: AnyObject]()
         var asset:Asset?
         if let linksNode = data["links"] as? [String: AnyObject] {

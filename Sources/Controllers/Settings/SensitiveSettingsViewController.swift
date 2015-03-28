@@ -55,6 +55,6 @@ class SensitiveSettingsViewController: UITableViewController {
 
 extension SensitiveSettingsViewController {
     class func instantiateFromStoryboard() -> SensitiveSettingsViewController {
-        return UIStoryboard(name: "Settings", bundle: NSBundle(forClass: AppDelegate.self)).instantiateViewControllerWithIdentifier("SensitiveSettingsViewController") as SensitiveSettingsViewController
+        return UIStoryboard(name: "Settings", bundle: NSBundle(forClass: AppDelegate.self)).instantiateViewControllerWithIdentifier("SensitiveSettingsViewController") as! SensitiveSettingsViewController
     }
 }

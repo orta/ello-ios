@@ -169,14 +169,14 @@ class StreamDataSourceSpec: QuickSpec {
                 var post = subject.postForIndexPath(indexPath0)
                 let items = subject.cellItemsForPost(post!)
 
-                expect(countElements(items)) == 7
+                expect(count(items)) == 7
             }
 
             it("returns empty array if post not found") {
                 let randomPost = Post(assets: nil, author: nil, collapsed: false, commentsCount: nil, content: nil, createdAt: NSDate(), href: "blah", postId: "notfound", repostsCount: nil, summary: nil, token: "noToken", viewsCount: nil, comments: [])
                 let items = subject.cellItemsForPost(randomPost)
 
-                expect(countElements(items)) == 0
+                expect(count(items)) == 0
             }
 
             it("does not return cell items for other posts") {
@@ -184,7 +184,7 @@ class StreamDataSourceSpec: QuickSpec {
                 var post = subject.postForIndexPath(NSIndexPath(forItem:11, inSection: 0))
                 let items = subject.cellItemsForPost(post!)
 
-                expect(countElements(items)) == 7
+                expect(count(items)) == 7
             }
 
         }
@@ -228,7 +228,7 @@ class StreamDataSourceSpec: QuickSpec {
                 var post = subject.postForIndexPath(indexPath0)
                 let indexPaths = subject.commentIndexPathsForPost(post!)
 
-                expect(countElements(indexPaths)) == 4
+                expect(count(indexPaths)) == 4
                 expect(indexPaths[0].item) == 7
                 expect(indexPaths[1].item) == 8
                 expect(indexPaths[2].item) == 9
@@ -251,7 +251,7 @@ class StreamDataSourceSpec: QuickSpec {
                 var post = subject.postForIndexPath(NSIndexPath(forItem:11, inSection: 0))
                 let indexPaths = subject.commentIndexPathsForPost(post!)
 
-                expect(countElements(indexPaths)) == 4
+                expect(count(indexPaths)) == 4
                 expect(indexPaths[0].item) == 18
                 expect(indexPaths[1].item) == 19
                 expect(indexPaths[2].item) == 20
@@ -277,7 +277,7 @@ class StreamDataSourceSpec: QuickSpec {
                 var post = subject.postForIndexPath(indexPath0)
                 let indexPaths = subject.removeCommentsForPost(post!)
 
-                expect(countElements(indexPaths)) == 4
+                expect(count(indexPaths)) == 4
                 expect(indexPaths[0].item) == 7
                 expect(indexPaths[1].item) == 8
                 expect(indexPaths[2].item) == 9

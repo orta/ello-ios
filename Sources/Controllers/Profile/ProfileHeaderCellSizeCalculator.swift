@@ -30,7 +30,7 @@ class ProfileHeaderCellSizeCalculator: NSObject {
 
     private func loadNext() {
         if !cellItems.isEmpty {
-            let user = cellItems[0].jsonable as User
+            let user = cellItems[0].jsonable as! User
             if user.formattedShortBio == "" {
                 setHeight(0.0)
             }

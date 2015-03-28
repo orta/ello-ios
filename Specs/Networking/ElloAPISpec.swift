@@ -27,7 +27,7 @@ class ElloAPISpec: QuickSpec {
                         let target: ElloAPI = .Auth(email:"test@example.com", password: "123456")
                         provider.request(target, completion: { (data, statusCode, response, error) in
                             if let data = data {
-                                message = NSString(data: data, encoding: NSUTF8StringEncoding)
+                                message = NSString(data: data, encoding: NSUTF8StringEncoding) as? String
                             }
                         })
 
@@ -41,7 +41,7 @@ class ElloAPISpec: QuickSpec {
                         let target: ElloAPI = .FriendStream
                         provider.request(target, completion: { (data, statusCode, response, error) in
                             if let data = data {
-                                message = NSString(data: data, encoding: NSUTF8StringEncoding)
+                                message = NSString(data: data, encoding: NSUTF8StringEncoding) as? String
                             }
                         })
 

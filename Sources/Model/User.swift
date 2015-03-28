@@ -83,6 +83,8 @@ final class User: JSONAble, NSCoding {
         self.avatarURL = decoder.decodeObjectForKey("avatarURL") as? NSURL
         self.coverImageURL = decoder.decodeObjectForKey("coverImageURL") as? NSURL
 
+        self.identifiableBy = decoder.decodeObjectForKey("identifiableBy") as? String
+
         if decoder.containsValueForKey("experimentalFeatures") {
             self.experimentalFeatures = decoder.decodeBoolForKey("experimentalFeatures")
         }
@@ -93,16 +95,22 @@ final class User: JSONAble, NSCoding {
         if decoder.containsValueForKey("followersCount") {
             self.followersCount = Int(decoder.decodeIntForKey("followersCount"))
         }
+        else {
+            self.followersCount = nil
+        }
 
         if decoder.containsValueForKey("followingCount") {
             self.followingCount = Int(decoder.decodeIntForKey("followingCount"))
         }
+        else {
+            self.followingCount = nil
+        }
 
-        self.href = decoder.decodeObjectForKey("href") as String
-        self.name = decoder.decodeObjectForKey("name") as String
+        self.href = decoder.decodeObjectForKey("href") as! String
+        self.name = decoder.decodeObjectForKey("name") as! String
 
         if decoder.containsValueForKey("posts") {
-            self.posts = decoder.decodeObjectForKey("posts") as [Post]
+            self.posts = decoder.decodeObjectForKey("posts") as! [Post]
         }
         else {
             self.posts = [Post]()
@@ -118,19 +126,25 @@ final class User: JSONAble, NSCoding {
         if decoder.containsValueForKey("mostRecentPost") {
             self.mostRecentPost = decoder.decodeObjectForKey("mostRecentPost") as? Post
         }
+        else {
+            self.mostRecentPost = nil
+        }
 
         if decoder.containsValueForKey("postsCount") {
             self.postsCount = Int(decoder.decodeIntForKey("postsCount"))
         }
+        else {
+            self.postsCount = nil
+        }
 
-        let relationshipPriorityString = decoder.decodeObjectForKey("relationshipPriority") as String
+        let relationshipPriorityString = decoder.decodeObjectForKey("relationshipPriority") as! String
         self.relationshipPriority = Relationship(stringValue: relationshipPriorityString) ?? .None
 
-        self.userId = decoder.decodeObjectForKey("userId") as String
-        self.username = decoder.decodeObjectForKey("username") as String
+        self.userId = decoder.decodeObjectForKey("userId") as! String
+        self.username = decoder.decodeObjectForKey("username") as! String
         self.email = decoder.decodeObjectForKey("email") as? String
-        self.formattedShortBio = decoder.decodeObjectForKey("formattedShortBio") as String
-        self.externalLinks = decoder.decodeObjectForKey("externalLinks") as String
+        self.formattedShortBio = decoder.decodeObjectForKey("formattedShortBio") as! String
+        self.externalLinks = decoder.decodeObjectForKey("externalLinks") as! String
     }
 
     func encodeWithCoder(encoder: NSCoder) {

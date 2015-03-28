@@ -48,7 +48,7 @@ protocol OmnibarScreenProtocol {
     var attributedText : NSAttributedString? { get set }
     func reportSuccess(title : String)
     func reportError(title : String, error : NSError)
-    func reportError(title : String, error : String)
+    func reportError(title : String, errorMessage : String)
     func keyboardWillShow()
     func keyboardWillHide()
 }
@@ -289,11 +289,11 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
 
     func reportError(title : String, error : NSError) {
         let errorMessage = error.localizedDescription
-        reportError(title, error: errorMessage)
+        reportError(title, errorMessage: errorMessage)
     }
 
-    func reportError(title : String, error message : String) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+    func reportError(title : String, errorMessage : String) {
+        let alertController = UIAlertController(title: title, message: errorMessage, preferredStyle: .Alert)
 
         let cancelAction = UIAlertAction(title: "OK", style: .Cancel) { (action) in }
         alertController.addAction(cancelAction)
@@ -440,7 +440,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
 // MARK: Undo logic
 
     private func currentTextIsPresent() -> Bool {
-        return currentText != nil && countElements(currentText!.string) > 0
+        return currentText != nil && count(currentText!.string) > 0
     }
 
     private func currentImageIsPresent() -> Bool {
@@ -448,7 +448,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
     }
 
     private func undoTextIsPresent() -> Bool {
-        return undoText != nil && countElements(undoText!.string) > 0
+        return undoText != nil && count(undoText!.string) > 0
     }
 
     private func undoImageIsPresent() -> Bool {
@@ -589,7 +589,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
     }
 
     func imagePickerController(controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
-        let mediaType = info[UIImagePickerControllerMediaType] as String
+        let mediaType = info[UIImagePickerControllerMediaType] as! String
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             userSetCurrentImage(image)
         }

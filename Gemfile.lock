@@ -73,7 +73,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  cocoapods (~> 0.36.0)
+  cocoapods (~> 0.36.1)
   cocoapods-keys (~> 1.0.0)
   dotenv
   octokit (~> 3.0)

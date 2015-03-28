@@ -27,7 +27,7 @@ class LandingViewController: BaseElloViewController {
     }
 
     class func instantiateFromStoryboard() -> LandingViewController {
-        return UIStoryboard.storyboardWithId(.Landing) as LandingViewController
+        return UIStoryboard.storyboardWithId(.Landing) as! LandingViewController
     }
 
 // MARK: - Private
@@ -51,7 +51,7 @@ class LandingViewController: BaseElloViewController {
     private func loadCurrentUser() {
         let profileService = ProfileService()
         profileService.loadCurrentUser({ user in
-            var vc = UIStoryboard.storyboardWithId(.ElloTabBar) as ElloTabBarController
+            var vc = UIStoryboard.storyboardWithId(.ElloTabBar) as! ElloTabBarController
             vc.currentUser = user
             self.presentViewController(vc, animated: true, completion: nil)
         }, failure: { error in

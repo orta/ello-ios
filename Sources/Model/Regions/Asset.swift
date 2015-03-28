@@ -53,7 +53,7 @@ final class Asset: JSONAble {
 // MARK: NSCoding
 
     required init(coder decoder: NSCoder) {
-        self.assetId = decoder.decodeObjectForKey("assetId") as String
+        self.assetId = decoder.decodeObjectForKey("assetId") as! String
         self.optimized = decoder.decodeObjectForKey("optimized") as? ImageAttachment
         self.smallScreen = decoder.decodeObjectForKey("smallScreen") as? ImageAttachment
         self.ldpi = decoder.decodeObjectForKey("ldpi") as? ImageAttachment
@@ -135,7 +135,7 @@ final class Asset: JSONAble {
 
         if let attachment = attachment {
             if let size = attachment[sizeKey] as? [String:AnyObject] {
-                var uri = size["url"] as String
+                var uri = size["url"] as! String
                 if uri.hasPrefix("//") {
                     uri = "https:" + uri
                 }

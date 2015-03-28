@@ -24,7 +24,7 @@ class MultipartRequestBuilderSpec: QuickSpec {
                 builder.addParam("baz", value: "a\nb\nc")
 
                 request = builder.buildRequest()
-                content = NSString(data: request.HTTPBody!, encoding: NSUTF8StringEncoding) ?? ""
+                content = (NSString(data: request.HTTPBody!, encoding: NSUTF8StringEncoding) ?? "") as String
             }
             it("can build a multipart request") {
                 let boundaryConstant = builder.boundaryConstant

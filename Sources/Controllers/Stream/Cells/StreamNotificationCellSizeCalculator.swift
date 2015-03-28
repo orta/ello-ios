@@ -40,7 +40,7 @@ class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
 
     private func loadNext() {
         if !self.cellItems.isEmpty {
-            let notification = self.cellItems[0].jsonable as Notification
+            let notification = self.cellItems[0].jsonable as! Notification
 
             if let textRegion = notification.textRegion {
                 let content = textRegion.content
@@ -76,7 +76,7 @@ class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
     }
 
     class func assignTotalHeight(webContentHeight: CGFloat, cellItem: StreamCellItem, cellWidth: CGFloat) {
-        let notification = cellItem.jsonable as Notification
+        let notification = cellItem.jsonable as! Notification
         let imageHeight = NotificationCell.Size.imageHeight(imageRegion: notification.imageRegion)
         let titleWidth = NotificationCell.Size.messageHtmlWidth(forCellWidth: cellWidth, hasImage: notification.hasImage())
         textViewForSizing.frame = textViewForSizing.frame.withWidth(titleWidth)

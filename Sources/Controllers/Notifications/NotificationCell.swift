@@ -211,15 +211,15 @@ extension NotificationCell: ElloTextViewDelegate {
     func textViewTapped(link: String, object: AnyObject?) {
         switch link {
         case "post":
-            delegate?.postTapped(object as Post)
+            delegate?.postTapped(object as! Post)
         case "comment":
-            let comment = object as Comment
+            let comment = object as! Comment
             println("comment: \(comment)")
             if let post = comment.parentPost {
                 println("post: \(post)")
             }
         case "user":
-            let user = object as User
+            let user = object as! User
             println("user: \(user)")
             delegate?.userTapped(user)
         default: break

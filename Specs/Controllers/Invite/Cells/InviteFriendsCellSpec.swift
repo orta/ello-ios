@@ -13,27 +13,23 @@ class InviteFriendsCellSpec: QuickSpec {
             ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
         }
         
-        describe("initialization", {
+        describe("initialization") {
             
-            beforeEach({
+            beforeEach {
                 subject = InviteFriendsCell.loadFromNib()
-            })
+            }
             
-            describe("nib", {
-                
-                beforeEach({
-                    
-                })
-                
-                it("IBOutlets are not nil", {
+            describe("nib") {
+
+                it("IBOutlets are not nil") {
                     expect(subject.inviteButton).notTo(beNil())
                     expect(subject.nameLabel).notTo(beNil())
-                })
+                }
                 
-                it("IBActions are wired up", {
+                it("IBActions are wired up") {
                     
-                })
-            })
-        })
+                }
+            }
+        }
     }
 }

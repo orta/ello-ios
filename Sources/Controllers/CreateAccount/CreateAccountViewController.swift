@@ -31,7 +31,7 @@ class CreateAccountViewController: BaseElloViewController, UITextFieldDelegate {
     }
 
     class func instantiateFromStoryboard() -> CreateAccountViewController {
-        return UIStoryboard.storyboardWithId(.CreateAccount) as CreateAccountViewController
+        return UIStoryboard.storyboardWithId(.CreateAccount) as! CreateAccountViewController
     }
 
     // MARK: - Private
@@ -65,7 +65,7 @@ class CreateAccountViewController: BaseElloViewController, UITextFieldDelegate {
 
     private func keyboardWillChangeFrame(notification: NSNotification, showsKeyboard: Bool) {
         if let userInfo = notification.userInfo {
-            let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as NSValue).CGRectValue()
+            let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
             let keyboardViewEndFrame = view.convertRect(keyboardScreenEndFrame, fromView: view.window)
 
             if shouldAdjustScrollViewForKeyboard(keyboardViewEndFrame) || !showsKeyboard {

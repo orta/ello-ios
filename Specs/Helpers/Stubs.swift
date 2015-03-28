@@ -15,7 +15,7 @@ func stub<T: Stubbable>(values: [String : AnyObject]) -> T {
 let stubbedTextRegion: TextRegion = stub([:])
 
 protocol Stubbable: NSObjectProtocol {
-    class func stub(values: [String : AnyObject]) -> Self
+    static func stub(values: [String : AnyObject]) -> Self
 }
 
 extension User: Stubbable {

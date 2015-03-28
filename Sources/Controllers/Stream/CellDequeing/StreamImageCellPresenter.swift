@@ -17,23 +17,23 @@ struct StreamImageCellPresenter {
         indexPath: NSIndexPath)
     {
         if let cell = cell as? StreamImageCell {
-            if let photoData = streamCellItem.data as ImageRegion? {
+            if let photoData = streamCellItem.data as! ImageRegion? {
 
                 if let isGif = photoData.asset?.isGif {
-                    if let photoURL = photoData.asset?.optimized?.url? {
+                    if let photoURL = photoData.asset?.optimized?.url {
                         cell.serverProvidedAspectRatio = StreamCellItemParser.aspectRatioForImageBlock(photoData)
                         cell.setImageURL(photoURL)
                     }
-                    else if let photoURL = photoData.url? {
+                    else if let photoURL = photoData.url {
                         cell.setImageURL(photoURL)
                     }
                 }
                 else {
-                    if let photoURL = photoData.asset?.hdpi?.url? {
+                    if let photoURL = photoData.asset?.hdpi?.url {
                         cell.serverProvidedAspectRatio = StreamCellItemParser.aspectRatioForImageBlock(photoData)
                         cell.setImageURL(photoURL)
                     }
-                    else if let photoURL = photoData.url? {
+                    else if let photoURL = photoData.url {
                         cell.setImageURL(photoURL)
                     }
                 }

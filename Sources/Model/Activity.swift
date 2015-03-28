@@ -67,13 +67,13 @@ final class Activity: JSONAble, NSCoding {
 // MARK: NSCoding
 
     required init(coder decoder: NSCoder) {
-        let kindString = decoder.decodeObjectForKey("kind") as String
+        let kindString = decoder.decodeObjectForKey("kind") as! String
         self.kind = Kind(rawValue: kindString) ?? Kind.Unknown
-        self.activityId = decoder.decodeObjectForKey("activityId") as String
-        let subjectTypeString = decoder.decodeObjectForKey("subjectType") as String
+        self.activityId = decoder.decodeObjectForKey("activityId") as! String
+        let subjectTypeString = decoder.decodeObjectForKey("subjectType") as! String
         self.subjectType = SubjectType(rawValue: subjectTypeString) ?? SubjectType.Unknown
         self.subject = decoder.decodeObjectForKey("subject") as AnyObject?
-        self.createdAt = decoder.decodeObjectForKey("createdAt") as NSDate
+        self.createdAt = decoder.decodeObjectForKey("createdAt") as! NSDate
     }
 
     func encodeWithCoder(encoder: NSCoder) {

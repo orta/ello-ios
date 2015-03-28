@@ -79,6 +79,6 @@ extension SettingsViewController: SensitiveSettingsDelegate {
 
 extension SettingsViewController {
     class func instantiateFromStoryboard() -> SettingsViewController {
-        return UIStoryboard(name: "Settings", bundle: NSBundle(forClass: AppDelegate.self)).instantiateInitialViewController() as SettingsViewController
+        return UIStoryboard(name: "Settings", bundle: NSBundle(forClass: AppDelegate.self)).instantiateInitialViewController() as! SettingsViewController
     }
 }

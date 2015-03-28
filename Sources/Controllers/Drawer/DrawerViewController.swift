@@ -21,6 +21,10 @@ class DrawerViewController: BaseElloViewController, UICollectionViewDataSource, 
         super.init(nibName: "DrawerViewController", bundle: .None)
     }
 
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         addHamburgerButton()
         addLeftButtons()
@@ -80,7 +84,7 @@ class DrawerViewController: BaseElloViewController, UICollectionViewDataSource, 
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(AvatarCell.reuseIdentifier(), forIndexPath: indexPath) as AvatarCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(AvatarCell.reuseIdentifier(), forIndexPath: indexPath) as! AvatarCell
         let user = dataSource.userForIndexPath(indexPath)
         AvatarCellPresenter.configure(cell, user: user)
         return cell

@@ -23,20 +23,20 @@ class CreateAccountViewControllerSpec: QuickSpec {
             ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
         }
 
-        describe("initialization", {
+        describe("initialization") {
 
-            beforeEach({
+            beforeEach {
                 controller = CreateAccountViewController.instantiateFromStoryboard()
-            })
+            }
 
-            describe("storyboard", {
+            describe("storyboard") {
 
-                beforeEach({
+                beforeEach {
                     controller.loadView()
                     controller.viewDidLoad()
-                })
+                }
 
-                it("IBOutlets are  not nil", {
+                it("IBOutlets are  not nil") {
                     expect(controller.scrollView).notTo(beNil())
                     expect(controller.emailTextField).notTo(beNil())
                     expect(controller.usernameTextField).notTo(beNil())
@@ -44,9 +44,9 @@ class CreateAccountViewControllerSpec: QuickSpec {
                     expect(controller.aboutButton).notTo(beNil())
                     expect(controller.loginButton).notTo(beNil())
                     expect(controller.createAccountButton).notTo(beNil())
-                })
+                }
 
-                it("IBActions are wired up", {
+                it("IBActions are wired up") {
                     let aboutActions = controller.aboutButton.actionsForTarget(controller, forControlEvent: UIControlEvents.TouchUpInside)
 
                     expect(aboutActions).to(contain("aboutTapped:"))
@@ -64,33 +64,33 @@ class CreateAccountViewControllerSpec: QuickSpec {
                     expect(createAccountActions).to(contain("createAccountTapped:"))
 
                     expect(createAccountActions?.count) == 1
-                });
-            })
+                }
+            }
 
             it("can be instantiated from storyboard") {
                 expect(controller).notTo(beNil())
             }
 
-            it("is a BaseElloViewController", {
+            it("is a BaseElloViewController") {
                 expect(controller).to(beAKindOf(BaseElloViewController.self))
-            })
+            }
 
-            it("is a CreateAccountViewController", {
+            it("is a CreateAccountViewController") {
                 expect(controller).to(beAKindOf(CreateAccountViewController.self))
-            })
-        })
+            }
+        }
 
-        describe("-viewDidLoad:", {
+        describe("-viewDidLoad:") {
 
-            beforeEach({
+            beforeEach {
                 controller = CreateAccountViewController.instantiateFromStoryboard()
                 controller.loadView()
                 controller.viewDidLoad()
-            })
+            }
 
             it("disables createAccountButton") {
                 expect(controller.createAccountButton.enabled) == false
             }
-        })
+        }
     }
 }

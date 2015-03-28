@@ -29,7 +29,7 @@ class BaseElloViewController: UIViewController {
 
     func isRootViewController() -> Bool {
         if let viewControllers = navigationController?.viewControllers {
-            return (viewControllers[0] as UIViewController) == self
+            return (viewControllers[0] as! UIViewController) == self
         }
         return false
     }

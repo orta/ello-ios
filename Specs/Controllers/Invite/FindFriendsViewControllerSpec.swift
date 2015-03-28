@@ -31,18 +31,18 @@ class FindFriendsViewControllerSpec: QuickSpec {
 
             describe("nib") {
 
-                beforeEach({
+                beforeEach {
                     subject.loadView()
                     subject.viewDidLoad()
-                })
+                }
 
-                it("IBOutlets are  not nil", {
+                it("IBOutlets are  not nil") {
                     expect(subject.tableView).notTo(beNil())
-                })
+                }
 
-                it("IBActions are wired up", {
+                it("IBActions are wired up") {
 
-                });
+                }
             }
 
             it("can be instantiated from nib") {
@@ -75,10 +75,10 @@ class FindFriendsViewControllerSpec: QuickSpec {
             }
 
             it("configures tableView") {
-                let delegate = subject.tableView.delegate! as FindFriendsViewController
+                let delegate = subject.tableView.delegate! as! FindFriendsViewController
                 expect(delegate) == subject
 
-                let dataSource = subject.tableView.dataSource! as AddFriendsDataSource
+                let dataSource = subject.tableView.dataSource! as! AddFriendsDataSource
                 expect(dataSource) == subject.dataSource
             }
         }
@@ -86,7 +86,7 @@ class FindFriendsViewControllerSpec: QuickSpec {
         describe("setUsers") {
             it("sets the given array of users to the datasource") {
                 let data = stubbedJSONData("user", "users")
-                let user = User.fromJSON(data) as User
+                let user = User.fromJSON(data) as! User
 
                 subject.setUsers([user])
                 expect(subject.dataSource.items.count) == 1

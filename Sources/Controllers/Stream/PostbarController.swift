@@ -80,7 +80,7 @@ class PostbarController: NSObject, PostbarDelegate {
     func flagPostButtonTapped(cell: UICollectionViewCell) {
         if let indexPath = collectionView.indexPathForCell(cell) {
             if let post = dataSource.postForIndexPath(indexPath) {
-                if let presentingController = presentingController? {
+                if let presentingController = presentingController {
                     let flagger = ContentFlagger(presentingController: presentingController,
                         flaggableId: post.postId,
                         flaggableContentType: .Post,
@@ -95,7 +95,7 @@ class PostbarController: NSObject, PostbarDelegate {
     func flagCommentButtonTapped(cell: UICollectionViewCell) {
         if let indexPath = collectionView.indexPathForCell(cell) {
             if let comment = dataSource.commentForIndexPath(indexPath) {
-                if let presentingController = presentingController? {
+                if let presentingController = presentingController {
                     let flagger = ContentFlagger(presentingController: presentingController,
                         flaggableId: comment.commentId,
                         flaggableContentType: .Comment,

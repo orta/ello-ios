@@ -69,13 +69,13 @@ class AddFriendsContainerViewControllerSpec: QuickSpec {
                 expect(subject).notTo(beNil())
             }
 
-            it("is a BaseElloViewController", {
+            it("is a BaseElloViewController") {
                 expect(subject).to(beAKindOf(BaseElloViewController.self))
-            })
+            }
 
-            it("is a AddFriendsContainerViewController", {
+            it("is a AddFriendsContainerViewController") {
                 expect(subject).to(beAKindOf(AddFriendsContainerViewController.self))
-            })
+            }
 
             it("properly configures a UIPageViewController") {
                 expect(subject.pageViewController.transitionStyle) == UIPageViewControllerTransitionStyle.Scroll

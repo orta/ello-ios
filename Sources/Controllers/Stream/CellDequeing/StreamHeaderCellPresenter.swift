@@ -17,7 +17,7 @@ struct StreamHeaderCellPresenter {
         indexPath: NSIndexPath)
     {
         if let cell = cell as? StreamHeaderCell {
-            let authorable = streamCellItem.jsonable as Authorable
+            let authorable = streamCellItem.jsonable as! Authorable
             if streamCellItem.type == .Header {
                 cell.streamKind = streamKind
                 cell.avatarHeight = streamKind.isGridLayout ? 30.0 : 60.0
@@ -37,7 +37,7 @@ struct StreamHeaderCellPresenter {
             }
             let usernameText = authorable.author?.atName ?? ""
             cell.usernameTextView.text = ""
-            cell.usernameTextView.appendTextWithAction(usernameText, link: "author", object: authorable.author?)
+            cell.usernameTextView.appendTextWithAction(usernameText, link: "author", object: authorable.author)
             cell.resetUsernameTextView()
             cell.usernameTextView.sizeToFit()
             cell.setNeedsLayout()

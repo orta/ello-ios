@@ -13,7 +13,7 @@ class ElloNetworkErrorSpec: QuickSpec {
     override func spec() {
         it("converts from JSON") {
             let errors = stubbedJSONData("422", "errors")
-            let elloNetworkError = ElloNetworkError.fromJSON(errors) as ElloNetworkError
+            let elloNetworkError = ElloNetworkError.fromJSON(errors) as! ElloNetworkError
 
             expect(elloNetworkError.code) == ElloNetworkError.CodeType.invalidResource
             expect(elloNetworkError.title) == "The current resource was invalid."
@@ -25,7 +25,7 @@ class ElloNetworkErrorSpec: QuickSpec {
 
         it("defaults code to unknown if json code string isn't supported") {
             let errors = stubbedJSONData("0", "errors")
-            let elloNetworkError = ElloNetworkError.fromJSON(errors) as ElloNetworkError
+            let elloNetworkError = ElloNetworkError.fromJSON(errors) as! ElloNetworkError
 
             expect(elloNetworkError.code) == ElloNetworkError.CodeType.unknown
             expect(elloNetworkError.title) == "Something went wrong"

@@ -18,14 +18,14 @@ struct ProfileHeaderCellPresenter {
         indexPath: NSIndexPath)
     {
         if let cell = cell as? ProfileHeaderCell {
-            let user = streamCellItem.jsonable as User
+            let user = streamCellItem.jsonable as! User
             cell.relationshipView.hidden = false
 
             if let currentUser = cell.currentUser {
                 cell.relationshipView.hidden = user.userId == currentUser.userId
             }
 
-            if let avatarURL = user.avatarURL? {
+            if let avatarURL = user.avatarURL {
                 cell.setAvatarURL(avatarURL)
             }
 
@@ -38,9 +38,9 @@ struct ProfileHeaderCellPresenter {
             cell.bioWebView.loadHTMLString(StreamTextCellHTML.postHTML(user.formattedShortBio), baseURL: NSURL(string: "/"))
 
             cell.countsTextView.clearText()
-            cell.countsTextView.appendTextWithAction("Posts \(user.postsCount? ?? 0) / ")
-            cell.countsTextView.appendTextWithAction("Following \(user.followingCount? ?? 0) / ", link: "following", object: user)
-            cell.countsTextView.appendTextWithAction("Followers \(user.followersCount? ?? 0)", link: "followers", object: user)
+            cell.countsTextView.appendTextWithAction("Posts \(user.postsCount ?? 0) / ")
+            cell.countsTextView.appendTextWithAction("Following \(user.followingCount ?? 0) / ", link: "following", object: user)
+            cell.countsTextView.appendTextWithAction("Followers \(user.followersCount ?? 0)", link: "followers", object: user)
         }
     }
 }

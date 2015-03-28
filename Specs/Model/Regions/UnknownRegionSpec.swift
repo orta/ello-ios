@@ -43,7 +43,7 @@ class UnknownRegionSpec: QuickSpec {
                     let region: UnknownRegion = stub([:])
 
                     NSKeyedArchiver.archiveRootObject(region, toFile: filePath)
-                    let unArchivedRegion = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as UnknownRegion
+                    let unArchivedRegion = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! UnknownRegion
 
                     expect(unArchivedRegion).toNot(beNil())
                     expect(unArchivedRegion.version) == 1

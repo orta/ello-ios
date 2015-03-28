@@ -62,8 +62,8 @@ class ElloProviderSpec: QuickSpec {
                             expect(loadedStatusCode).to(beNil())
                             expect(loadedError).to(beNil())
 
-                            let systemError = testObserver.object as NSError
-                            let elloNetworkError = systemError.userInfo![NSLocalizedFailureReasonErrorKey] as ElloNetworkError
+                            let systemError = testObserver.object as! NSError
+                            let elloNetworkError = systemError.userInfo![NSLocalizedFailureReasonErrorKey] as! ElloNetworkError
 
                             expect(elloNetworkError).to(beAnInstanceOf(ElloNetworkError.self))
                             expect(elloNetworkError.status) == "401"
@@ -116,8 +116,8 @@ class ElloProviderSpec: QuickSpec {
                             expect(loadedStatusCode).to(beNil())
                             expect(loadedError).to(beNil())
 
-                            let systemError = testObserver.object as NSError
-                            let elloNetworkError = systemError.userInfo![NSLocalizedFailureReasonErrorKey] as ElloNetworkError
+                            let systemError = testObserver.object as! NSError
+                            let elloNetworkError = systemError.userInfo![NSLocalizedFailureReasonErrorKey] as! ElloNetworkError
 
                             expect(elloNetworkError).to(beAnInstanceOf(ElloNetworkError.self))
                             expect(elloNetworkError.status) == "410"
@@ -160,12 +160,12 @@ class NetworkErrorSharedExamplesConfiguration: QuickConfiguration {
         sharedExamples("network error") { (sharedExampleContext: SharedExampleContext) in
             it("Calls failure with an error and statusCode") {
 
-                let provider: MoyaProvider<ElloAPI>! = sharedExampleContext()["provider"] as MoyaProvider<ElloAPI>
-                let expectedTitle = sharedExampleContext()["title"] as String
+                let provider: MoyaProvider<ElloAPI>! = sharedExampleContext()["provider"] as! MoyaProvider<ElloAPI>
+                let expectedTitle = sharedExampleContext()["title"] as! String
                 let expectedDetail = sharedExampleContext()["detail"] as? String
-                let expectedStatus = sharedExampleContext()["status"] as String
-                let expectedStatusCode = sharedExampleContext()["statusCode"] as Int
-                let expectedCode = sharedExampleContext()["code"] as String
+                let expectedStatus = sharedExampleContext()["status"] as! String
+                let expectedStatusCode = sharedExampleContext()["statusCode"] as! Int
+                let expectedCode = sharedExampleContext()["code"] as! String
                 let expectedCodeType = ElloNetworkError.CodeType(rawValue: expectedCode)!
                 ElloProvider.errorStatusCode = ElloProvider.ErrorStatusCode(rawValue: expectedStatusCode)!
 
@@ -194,7 +194,7 @@ class NetworkErrorSharedExamplesConfiguration: QuickConfiguration {
                 expect(loadedJSONAbles).to(beNil())
                 expect(loadedStatusCode!) == expectedStatusCode
                 expect(loadedError!).notTo(beNil())
-                let elloNetworkError = loadedError!.userInfo![NSLocalizedFailureReasonErrorKey] as ElloNetworkError
+                let elloNetworkError = loadedError!.userInfo![NSLocalizedFailureReasonErrorKey] as! ElloNetworkError
                 
                 expect(elloNetworkError).to(beAnInstanceOf(ElloNetworkError.self))
                 expect(elloNetworkError.status!) == expectedStatus

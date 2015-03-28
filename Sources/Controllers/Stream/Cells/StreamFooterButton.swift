@@ -31,7 +31,7 @@ class StreamFooterButton: UIButton {
 
     private func setButtonTitle(title:String, color:UIColor, forState state:UIControlState) {
         attributedText = NSMutableAttributedString(string: title)
-        var range = NSRange(location: 0, length: countElements(title))
+        var range = NSRange(location: 0, length: count(title))
         contentHorizontalAlignment = .Left
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = NSTextAlignment.Left

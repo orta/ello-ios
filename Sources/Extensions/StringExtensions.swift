@@ -24,14 +24,14 @@ extension String {
                 nil,
                 "!*'();:@&=+$,/?%#[]",
                 CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding)
-                )
+                ) as! String
     }
 
     func urlDecoded() -> String {
         return CFURLCreateStringByReplacingPercentEscapesUsingEncoding(nil,
             self as NSString,
             "",
-            CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding))
+            CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding)) as! String
     }
 
     func entitiesEncoded() -> String {
@@ -296,7 +296,7 @@ extension String {
 
         var entitiesEncoded = ""
 
-        for i in 0 ..< countElements(self) {
+        for i in 0 ..< count(self) {
             let index = advance(self.startIndex, i)
             let oneChar = self[index]
 
@@ -323,7 +323,7 @@ extension String {
                 output.appendFormat("%02x", byte);
             }
             
-            return output
+            return output as String
         }
         return .None
     }
@@ -591,7 +591,7 @@ extension String {
             var scanned : NSString?
 
             if scanner.scanUpToString("&", intoString:&scanned) {
-                entitiesDecoded += scanned!
+                entitiesDecoded += scanned! as String
             }
 
             if scanner.scanString("&", intoString: nil) {
@@ -607,12 +607,12 @@ extension String {
                             }
                             else {
                                 entitiesDecoded += "&"
-                                entitiesDecoded += afterAmpersand
+                                entitiesDecoded += afterAmpersand as String
                                 entitiesDecoded += ";"
                             }
                         }
                         else  {
-                            let converted = entityLookup[afterAmpersand]
+                            let converted = entityLookup[afterAmpersand as String]
 
                             if let converted = converted {
                                 entitiesDecoded += converted
@@ -620,7 +620,7 @@ extension String {
                             else  {
                                 // not a valid sequence
                                 entitiesDecoded += "&"
-                                entitiesDecoded += afterAmpersand
+                                entitiesDecoded += afterAmpersand as String
                                 entitiesDecoded += ";"
                             }
                         }
@@ -629,7 +629,7 @@ extension String {
                     else  {
                         // no semicolon
                         entitiesDecoded += "&"
-                        entitiesDecoded += afterAmpersand
+                        entitiesDecoded += afterAmpersand as String
                     }
                 }
             }

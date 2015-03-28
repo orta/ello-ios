@@ -16,13 +16,13 @@ class CommentSpec: QuickSpec {
             let parsedComment = stubbedJSONData("comments", "comments")
 
             let createdAtString = "2014-06-02T00:00:00.000Z"
-            let comment = Comment.fromJSON(parsedComment) as Comment
+            let comment = Comment.fromJSON(parsedComment) as! Comment
             
             var createdAt:NSDate = createdAtString.toNSDate()!
             
             expect(comment.createdAt) == createdAt
             
-            let commentContent0:TextRegion = comment.content![0] as TextRegion
+            let commentContent0:TextRegion = comment.content![0] as! TextRegion
             expect(commentContent0.kind) == RegionKind.Text.rawValue
             expect(commentContent0.content) == "Hello, I am a comment with awesome content!"
 
@@ -147,7 +147,7 @@ class CommentSpec: QuickSpec {
                     ])
 
                     NSKeyedArchiver.archiveRootObject(comment, toFile: filePath)
-                    let unArchivedComment = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as Comment
+                    let unArchivedComment = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! Comment
 
                     expect(unArchivedComment).toNot(beNil())
                     expect(unArchivedComment.version) == 1
@@ -163,13 +163,13 @@ class CommentSpec: QuickSpec {
 
                     expect(commentParentPost.postId) == "sample-parent-post-id"
 
-                    expect(countElements(unArchivedComment.content!)) == 2
+                    expect(count(unArchivedComment.content!)) == 2
 
-                    let region1 = unArchivedComment.content?[0] as TextRegion
+                    let region1 = unArchivedComment.content?[0] as! TextRegion
 
                     expect(region1.content) == "I am your comment's content"
 
-                    let region2 = unArchivedComment.content?[1] as ImageRegion
+                    let region2 = unArchivedComment.content?[1] as! ImageRegion
 
                     expect(region2.alt) == "sample-alt"
                     expect(region2.url?.absoluteString) == "http://www.example5.com"
@@ -194,13 +194,13 @@ class CommentSpec: QuickSpec {
                     expect(region2AssetHDPI.size) == 666987
                     expect(region2AssetHDPI.imageType) == "jpeg"
 
-                    expect(countElements(unArchivedComment.summary!)) == 2
+                    expect(count(unArchivedComment.summary!)) == 2
 
-                    let region3 = unArchivedComment.summary?[0] as TextRegion
+                    let region3 = unArchivedComment.summary?[0] as! TextRegion
 
                     expect(region3.content) == "I am your comment's content"
 
-                    let region4 = unArchivedComment.summary?[1] as ImageRegion
+                    let region4 = unArchivedComment.summary?[1] as! ImageRegion
 
                     expect(region4.alt) == "sample-alt"
                     expect(region4.url?.absoluteString) == "http://www.example5.com"

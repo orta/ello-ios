@@ -15,7 +15,7 @@ struct StreamCreateCommentCellPresenter {
         indexPath: NSIndexPath)
     {
         if let cell = cell as? StreamCreateCommentCell {
-            let comment = streamCellItem.jsonable as Comment
+            let comment = streamCellItem.jsonable as! Comment
             let user = comment.author
             cell.avatarURL = user?.avatarURL
         }

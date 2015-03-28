@@ -37,7 +37,7 @@ extension NSUserDefaults {
         // MARK: Getters
 
         var object: NSObject? {
-            return defaults.objectForKey(key) as NSObject?
+            return defaults.objectForKey(key) as! NSObject?
         }
 
         var string: String? {
@@ -128,7 +128,7 @@ precedence 90
 /// Note: This isn't the same as `Defaults.registerDefaults`. This method saves the new value to disk, whereas `registerDefaults` only modifies the defaults in memory.
 /// Note: If key already exists, the expression after ?= isn't evaluated
 
-func ?= (proxy: NSUserDefaults.Proxy, expr: @autoclosure () -> Any) {
+func ?= (proxy: NSUserDefaults.Proxy, @autoclosure expr: () -> Any) {
     if !proxy.defaults.hasKey(proxy.key) {
         proxy.defaults[proxy.key] = expr()
     }

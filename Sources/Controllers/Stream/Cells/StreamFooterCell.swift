@@ -29,37 +29,37 @@ class StreamFooterCell: UICollectionViewCell {
 
     let viewsItem:UIBarButtonItem = ElloPostToolBarOption.Views.barButtonItem()
     var viewsButton:StreamFooterButton {
-        get { return self.viewsItem.customView as StreamFooterButton }
+        get { return self.viewsItem.customView as! StreamFooterButton }
     }
 
     let lovesItem:UIBarButtonItem = ElloPostToolBarOption.Loves.barButtonItem()
     var lovesButton:StreamFooterButton {
-        get { return self.lovesItem.customView as StreamFooterButton }
+        get { return self.lovesItem.customView as! StreamFooterButton }
     }
 
     let commentsItem:UIBarButtonItem = ElloPostToolBarOption.Comments.barButtonItem()
     var commentsButton:CommentButton {
-        get { return self.commentsItem.customView as CommentButton }
+        get { return self.commentsItem.customView as! CommentButton }
     }
 
     let repostItem:UIBarButtonItem = ElloPostToolBarOption.Repost.barButtonItem()
     var repostButton:StreamFooterButton {
-        get { return self.repostItem.customView as StreamFooterButton }
+        get { return self.repostItem.customView as! StreamFooterButton }
     }
 
     let flagItem:UIBarButtonItem = ElloPostToolBarOption.Flag.barButtonItem()
     var flagButton:StreamFooterButton {
-        get { return self.flagItem.customView as StreamFooterButton }
+        get { return self.flagItem.customView as! StreamFooterButton }
     }
 
     let shareItem:UIBarButtonItem = ElloPostToolBarOption.Share.barButtonItem()
     var shareButton:StreamFooterButton {
-        get { return self.shareItem.customView as StreamFooterButton }
+        get { return self.shareItem.customView as! StreamFooterButton }
     }
 
     let replyItem:UIBarButtonItem = ElloPostToolBarOption.Reply.barButtonItem()
     var replyButton:StreamFooterButton {
-        get { return self.replyItem.customView as StreamFooterButton }
+        get { return self.replyItem.customView as! StreamFooterButton }
     }
 
 
@@ -85,7 +85,7 @@ class StreamFooterCell: UICollectionViewCell {
         }
     }
 
-    override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
         super.touchesEnded(touches, withEvent: event)
     }
 

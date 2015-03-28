@@ -153,7 +153,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     func updateHeightForIndexPath(indexPath:NSIndexPath?, height:CGFloat) {
         if let indexPath = indexPath {
-            if indexPath.item < countElements(visibleCellItems) {
+            if indexPath.item < count(visibleCellItems) {
                 visibleCellItems[indexPath.item].oneColumnCellHeight = height + imageBottomPadding
                 visibleCellItems[indexPath.item].multiColumnCellHeight = height + imageBottomPadding
             }
@@ -194,36 +194,36 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        if indexPath.item < countElements(visibleCellItems) {
+        if indexPath.item < count(visibleCellItems) {
             let streamCellItem = visibleCellItems[indexPath.item]
 
-            var cell = collectionView.dequeueReusableCellWithReuseIdentifier(streamCellItem.type.name, forIndexPath: indexPath) as UICollectionViewCell
+            var cell = collectionView.dequeueReusableCellWithReuseIdentifier(streamCellItem.type.name, forIndexPath: indexPath) as! UICollectionViewCell
 
             switch streamCellItem.type {
             case .Notification:
-                (cell as NotificationCell).webLinkDelegate = webLinkDelegate
-                (cell as NotificationCell).delegate = notificationDelegate
+                (cell as! NotificationCell).webLinkDelegate = webLinkDelegate
+                (cell as! NotificationCell).delegate = notificationDelegate
             case .CreateComment:
                 // (cell as StreamCreateCommentCell)
                 break
             case .Header, .CommentHeader:
-                (cell as StreamHeaderCell).postbarDelegate = postbarDelegate
-                (cell as StreamHeaderCell).userDelegate = userDelegate
+                (cell as! StreamHeaderCell).postbarDelegate = postbarDelegate
+                (cell as! StreamHeaderCell).userDelegate = userDelegate
             case .Image:
-                (cell as StreamImageCell).delegate = imageDelegate
+                (cell as! StreamImageCell).delegate = imageDelegate
             case .Text:
-                (cell as StreamTextCell).webLinkDelegate = webLinkDelegate
+                (cell as! StreamTextCell).webLinkDelegate = webLinkDelegate
             case .Footer:
-                (cell as StreamFooterCell).delegate = postbarDelegate
+                (cell as! StreamFooterCell).delegate = postbarDelegate
             case .ProfileHeader:
-                (cell as ProfileHeaderCell).currentUser = currentUser
-                (cell as ProfileHeaderCell).relationshipView.relationshipDelegate = relationshipDelegate
-                (cell as ProfileHeaderCell).userListDelegate = userListDelegate
-                (cell as ProfileHeaderCell).webLinkDelegate = webLinkDelegate
+                (cell as! ProfileHeaderCell).currentUser = currentUser
+                (cell as! ProfileHeaderCell).relationshipView.relationshipDelegate = relationshipDelegate
+                (cell as! ProfileHeaderCell).userListDelegate = userListDelegate
+                (cell as! ProfileHeaderCell).webLinkDelegate = webLinkDelegate
             case .UserListItem:
-                (cell as UserListItemCell).relationshipView.relationshipDelegate = relationshipDelegate
-                (cell as UserListItemCell).userDelegate = userDelegate
-                (cell as UserListItemCell).currentUser = currentUser
+                (cell as! UserListItemCell).relationshipView.relationshipDelegate = relationshipDelegate
+                (cell as! UserListItemCell).userDelegate = userDelegate
+                (cell as! UserListItemCell).currentUser = currentUser
             default:
                 break
             }
@@ -248,7 +248,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     func appendUnsizedCellItems(cellItems: [StreamCellItem], withWidth: CGFloat, completion: StreamContentReady) {
-        let startingIndexPath = NSIndexPath(forItem: countElements(self.streamCellItems), inSection: 0)
+        let startingIndexPath = NSIndexPath(forItem: count(self.streamCellItems), inSection: 0)
         insertUnsizedCellItems(cellItems, withWidth: withWidth, startingIndexPath: startingIndexPath, completion: completion)
     }
 
@@ -274,16 +274,16 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
             return $0.data as? TextRegion != nil
         }
         let notificationElements = cellItems.filter {
-            return $0.type == .Notification
+            return $0.type == StreamCellType.Notification
         }
         let profileHeaderItems = cellItems.filter {
-            return $0.type == .ProfileHeader
+            return $0.type == StreamCellType.ProfileHeader
         }
-        let afterAll = Functional.after(3, completion)
+        let afterAll = Functional.after(3, block: completion)
 
-        self.notificationSizeCalculator.processCells(notificationElements, withWidth: withWidth, afterAll)
-        self.textSizeCalculator.processCells(textElements, withWidth: withWidth, afterAll)
-        self.profileHeaderSizeCalculator.processCells(profileHeaderItems, withWidth: withWidth, afterAll)
+        self.notificationSizeCalculator.processCells(notificationElements, withWidth: withWidth, completion: afterAll)
+        self.textSizeCalculator.processCells(textElements, withWidth: withWidth, completion: afterAll)
+        self.profileHeaderSizeCalculator.processCells(profileHeaderItems, withWidth: withWidth, completion: afterAll)
     }
 
     private func temporarilyUnfilter(block: ()->()) {
@@ -308,6 +308,6 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     private func isValidIndexPath(indexPath: NSIndexPath) -> Bool {
-        return indexPath.item < countElements(visibleCellItems) && indexPath.section == 0
+        return indexPath.item < count(visibleCellItems) && indexPath.section == 0
     }
 }

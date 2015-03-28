@@ -28,8 +28,8 @@ class ElloTextButton: UIButton {
 
         if let title = self.titleLabel?.text {
             var attributedString = NSMutableAttributedString(string: title)
-            attributedString.addAttribute(NSFontAttributeName, value:UIFont.typewriterFont(14.0), range: NSRange(location: 0, length: countElements(title)))
-            attributedString.addAttribute(NSUnderlineStyleAttributeName, value:1, range: NSRange(location: 0, length: countElements(title)))
+            attributedString.addAttribute(NSFontAttributeName, value:UIFont.typewriterFont(14.0), range: NSRange(location: 0, length: count(title)))
+            attributedString.addAttribute(NSUnderlineStyleAttributeName, value:1, range: NSRange(location: 0, length: count(title)))
 
             self.setAttributedTitle(attributedString, forState: UIControlState.Normal)
         }

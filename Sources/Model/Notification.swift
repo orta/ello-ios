@@ -86,11 +86,11 @@ final class Notification : JSONAble, Authorable, NSCoding {
 
     required init(coder decoder: NSCoder) {
         self.author = decoder.decodeObjectForKey("author") as? User
-        self.createdAt = decoder.decodeObjectForKey("createdAt") as NSDate
-        let kindString = decoder.decodeObjectForKey("kind") as String
+        self.createdAt = decoder.decodeObjectForKey("createdAt") as! NSDate
+        let kindString = decoder.decodeObjectForKey("kind") as! String
         self.kind = Kind(rawValue: kindString) ?? Kind.Unknown
-        self.notificationId = decoder.decodeObjectForKey("notificationId") as String
-        let subjectTypeString = decoder.decodeObjectForKey("subjectType") as String
+        self.notificationId = decoder.decodeObjectForKey("notificationId") as! String
+        let subjectTypeString = decoder.decodeObjectForKey("subjectType") as! String
         self.subjectType = SubjectType(rawValue: subjectTypeString) ?? SubjectType.Unknown
     }
 

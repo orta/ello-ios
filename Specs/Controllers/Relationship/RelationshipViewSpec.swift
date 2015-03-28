@@ -133,7 +133,7 @@ class RelationshipViewSpec: QuickSpec {
                     it("not selected block") {
                         subject.relationship = Relationship.Inactive
                         subject.blockButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
-                        let presentedVC = relationshipController.presentingController.presentedViewController as BlockUserModalViewController
+                        let presentedVC = relationshipController.presentingController.presentedViewController as! BlockUserModalViewController
                         presentedVC.blockButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
                         expect(subject.relationship).to(equal(Relationship.Block))
                     }
@@ -141,7 +141,7 @@ class RelationshipViewSpec: QuickSpec {
                     it("not selected mute") {
                         subject.relationship = Relationship.Inactive
                         subject.blockButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
-                        let presentedVC = relationshipController.presentingController.presentedViewController as BlockUserModalViewController
+                        let presentedVC = relationshipController.presentingController.presentedViewController as! BlockUserModalViewController
                         presentedVC.muteButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
                         expect(subject.relationship).to(equal(Relationship.Mute))
                     }
@@ -149,7 +149,7 @@ class RelationshipViewSpec: QuickSpec {
                     it("selected block") {
                         subject.relationship = Relationship.Block
                         subject.blockButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
-                        let presentedVC = relationshipController.presentingController.presentedViewController as BlockUserModalViewController
+                        let presentedVC = relationshipController.presentingController.presentedViewController as! BlockUserModalViewController
                         presentedVC.blockButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
                         expect(subject.relationship).to(equal(Relationship.Inactive))
                     }
@@ -157,7 +157,7 @@ class RelationshipViewSpec: QuickSpec {
                     it("selected mute") {
                         subject.relationship = Relationship.Mute
                         subject.blockButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
-                        let presentedVC = relationshipController.presentingController.presentedViewController as BlockUserModalViewController
+                        let presentedVC = relationshipController.presentingController.presentedViewController as! BlockUserModalViewController
                         presentedVC.muteButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
                         expect(subject.relationship).to(equal(Relationship.Inactive))
                     }
@@ -203,7 +203,7 @@ class RelationshipViewSpec: QuickSpec {
                     it("not selected block") {
                         subject.relationship = Relationship.Inactive
                         subject.blockButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
-                        let presentedVC = relationshipController.presentingController.presentedViewController as BlockUserModalViewController
+                        let presentedVC = relationshipController.presentingController.presentedViewController as! BlockUserModalViewController
                         presentedVC.blockButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
                         expect(subject.relationship).to(equal(Relationship.Inactive))
                     }
@@ -211,7 +211,7 @@ class RelationshipViewSpec: QuickSpec {
                     it("not selected mute") {
                         subject.relationship = Relationship.Inactive
                         subject.blockButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
-                        let presentedVC = relationshipController.presentingController.presentedViewController as BlockUserModalViewController
+                        let presentedVC = relationshipController.presentingController.presentedViewController as! BlockUserModalViewController
                         presentedVC.muteButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
                         expect(subject.relationship).to(equal(Relationship.Inactive))
                     }
@@ -219,7 +219,7 @@ class RelationshipViewSpec: QuickSpec {
                     it("selected block") {
                         subject.relationship = Relationship.Block
                         subject.blockButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
-                        let presentedVC = relationshipController.presentingController.presentedViewController as BlockUserModalViewController
+                        let presentedVC = relationshipController.presentingController.presentedViewController as! BlockUserModalViewController
                         presentedVC.blockButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
                         expect(subject.relationship).to(equal(Relationship.Block))
                     }
@@ -227,7 +227,7 @@ class RelationshipViewSpec: QuickSpec {
                     it("selected mute") {
                         subject.relationship = Relationship.Mute
                         subject.blockButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
-                        let presentedVC = relationshipController.presentingController.presentedViewController as BlockUserModalViewController
+                        let presentedVC = relationshipController.presentingController.presentedViewController as! BlockUserModalViewController
                         presentedVC.muteButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
                         expect(subject.relationship).to(equal(Relationship.Mute))
                     }

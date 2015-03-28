@@ -8,11 +8,6 @@
 
 class CreateCommentBackgroundView : UIView {
 
-    required override init() {
-        super.init()
-        self.backgroundColor = UIColor.clearColor()
-    }
-
     required override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = UIColor.clearColor()

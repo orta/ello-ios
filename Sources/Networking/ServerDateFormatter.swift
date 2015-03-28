@@ -15,7 +15,7 @@ extension NSString {
     func toNSDate() -> NSDate? {
         ServerDateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
         ServerDateFormatter.timeZone = NSTimeZone(abbreviation: "UTC")
-        return ServerDateFormatter.dateFromString(self)
+        return ServerDateFormatter.dateFromString(self as String)
     }
 
 }

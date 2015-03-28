@@ -26,7 +26,7 @@ class ElloEquallySpacedLayout : UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        let views = self.subviews as [UIView]
+        let views = self.subviews as! [UIView]
         if views.count > 0 {
             var x = margins.left
             var y = margins.top

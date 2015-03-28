@@ -64,15 +64,24 @@ final class ImageAttachment: NSObject, NSCoding {
         if decoder.containsValueForKey("height") {
             self.height = Int(decoder.decodeIntForKey("height"))
         }
+        else {
+            self.height =  nil
+        }
 
         if decoder.containsValueForKey("width") {
             self.width = Int(decoder.decodeIntForKey("width"))
+        }
+        else {
+            self.width = nil
         }
 
         if decoder.containsValueForKey("size") {
             self.size = Int(decoder.decodeIntForKey("size"))
         }
+        else {
+            self.size = nil
+        }
 
-        self.imageType = decoder.decodeObjectForKey("imageType") as? NSString
+        self.imageType = decoder.decodeObjectForKey("imageType") as? String
     }
 }

@@ -17,7 +17,7 @@ struct UserListItemCellPresenter {
         indexPath: NSIndexPath)
     {
         if let cell = cell as? UserListItemCell {
-            let user = streamCellItem.jsonable as User
+            let user = streamCellItem.jsonable as! User
             
             cell.relationshipView.hidden = false
 
@@ -25,7 +25,7 @@ struct UserListItemCellPresenter {
                 cell.relationshipView.hidden = user.userId == currentUser.userId
             }
 
-            if let avatarURL = user.avatarURL? {
+            if let avatarURL = user.avatarURL {
                 cell.setAvatarURL(avatarURL)
             }
 

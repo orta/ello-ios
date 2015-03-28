@@ -10,7 +10,7 @@ import Foundation
 
 extension Int {
 
-    func localizedStringFromNumber() -> NSString {
+    func localizedStringFromNumber() -> String {
         if self == 0 {
             return ""
         }

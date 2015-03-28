@@ -16,21 +16,21 @@ class ProfileViewControllerSpec: QuickSpec {
         var user: User = stub(["userId": "42"])
         var controller = ProfileViewController(userParam: user.userId)
 
-        describe("initialization", {
+        describe("initialization") {
 
             it("can be instantiated") {
                 expect(controller).notTo(beNil())
             }
 
-            it("is a BaseElloViewController", {
+            it("is a BaseElloViewController") {
                 expect(controller).to(beAKindOf(BaseElloViewController.self))
-            })
+            }
 
-            it("is a ProfileViewController", {
+            it("is a ProfileViewController") {
                 expect(controller).to(beAKindOf(ProfileViewController.self))
-            })
+            }
 
-        })
+        }
     }
 }
 

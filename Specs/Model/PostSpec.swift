@@ -18,16 +18,16 @@ class PostSpec: QuickSpec {
                 let parsedPost = stubbedJSONData("posts", "posts")
 
                 let createdAtString = "2014-12-23T22:27:47.325Z"
-                let post = Post.fromJSON(parsedPost) as Post
+                let post = Post.fromJSON(parsedPost) as! Post
                 var createdAt:NSDate = createdAtString.toNSDate()!
 
                 expect(post.createdAt) == createdAt
 
-                let postContent0:ImageRegion = post.content![0] as ImageRegion
+                let postContent0:ImageRegion = post.content![0] as! ImageRegion
                 expect(postContent0.kind) == RegionKind.Image.rawValue
                 expect(postContent0.alt) == "ello-15c97681-b4a6-496f-8c5f-0096fd215703.jpeg"
 
-                let postContent1:TextRegion = post.content![1] as TextRegion
+                let postContent1:TextRegion = post.content![1] as! TextRegion
                 expect(postContent1.kind) == RegionKind.Text.rawValue
                 expect(postContent1.content) == "test text content"
 
@@ -45,7 +45,7 @@ class PostSpec: QuickSpec {
                 expect(post.author!.href) == "/api/edge/users/666"
                 expect(post.author!.avatarURL!.absoluteString) == "https://abc123.cloudfront.net/uploads/user/avatar/666/avatar.png"
 
-                let imageRegion:ImageRegion = post.content![0] as ImageRegion
+                let imageRegion:ImageRegion = post.content![0] as! ImageRegion
 
                 expect(imageRegion.asset!.xxhdpi).notTo(beNil())
                 expect(imageRegion.asset!.xxhdpi!.width) == 2560
@@ -156,7 +156,7 @@ class PostSpec: QuickSpec {
                     ])
 
                     NSKeyedArchiver.archiveRootObject(post, toFile: filePath)
-                    let unArchivedPost = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as Post
+                    let unArchivedPost = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! Post
 
                     expect(unArchivedPost).toNot(beNil())
                     expect(unArchivedPost.version) == 1
@@ -175,13 +175,13 @@ class PostSpec: QuickSpec {
 
                     expect(postAuthor.userId) == "555"
 
-                    expect(countElements(unArchivedPost.content!)) == 2
+                    expect(count(unArchivedPost.content!)) == 2
 
-                    let region1 = unArchivedPost.content?[0] as TextRegion
+                    let region1 = unArchivedPost.content?[0] as! TextRegion
 
                     expect(region1.content) == "I am your content for sure"
 
-                    let region2 = unArchivedPost.content?[1] as ImageRegion
+                    let region2 = unArchivedPost.content?[1] as! ImageRegion
 
                     expect(region2.alt) == "some-altness"
                     expect(region2.url?.absoluteString) == "http://www.example5.com"
@@ -206,13 +206,13 @@ class PostSpec: QuickSpec {
                     expect(region2AssetHDPI.size) == 445566
                     expect(region2AssetHDPI.imageType) == "jpeg"
 
-                    expect(countElements(unArchivedPost.summary!)) == 2
+                    expect(count(unArchivedPost.summary!)) == 2
 
-                    let region3 = unArchivedPost.summary?[0] as TextRegion
+                    let region3 = unArchivedPost.summary?[0] as! TextRegion
 
                     expect(region3.content) == "I am your content for sure"
 
-                    let region4 = unArchivedPost.summary?[1] as ImageRegion
+                    let region4 = unArchivedPost.summary?[1] as! ImageRegion
 
                     expect(region4.alt) == "some-altness"
                     expect(region4.url?.absoluteString) == "http://www.example5.com"

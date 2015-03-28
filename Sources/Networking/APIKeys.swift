@@ -34,7 +34,7 @@ public struct APIKeys {
     // MARK: Methods
 
     public var stubResponses: Bool {
-        return countElements(key) == 0 || countElements(secret) == 0
+        return count(key) == 0 || count(secret) == 0
     }
 
     // MARK: Initializers

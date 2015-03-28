@@ -16,7 +16,7 @@ class AssetSpec: QuickSpec {
 
             it("parses correctly") {
                 let data = stubbedJSONData("asset", "assets")
-                let asset = Asset.fromJSON(data) as Asset
+                let asset = Asset.fromJSON(data) as! Asset
 
                 expect(asset.assetId) == "5381"
 
@@ -191,7 +191,7 @@ class AssetSpec: QuickSpec {
                     ])
 
                     NSKeyedArchiver.archiveRootObject(asset, toFile: filePath)
-                    let unArchivedAsset = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as Asset
+                    let unArchivedAsset = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! Asset
 
                     expect(unArchivedAsset).toNot(beNil())
                     expect(unArchivedAsset.version) == 1

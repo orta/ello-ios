@@ -56,7 +56,7 @@ private func getAllPeopleWithEmailAddresses(addressBook: ABAddressBook) -> [Loca
         let name = ABRecordCopyCompositeName(person).takeUnretainedValue()
         let emails = getEmails(person)
         let id = ABRecordGetRecordID(person)
-        return LocalPerson(name: name, emails: emails, id: id)
+        return LocalPerson(name: name as String, emails: emails, id: id)
     }.filter { $0.emails.count > 0 }
 }
 
@@ -67,5 +67,5 @@ private func getEmails(record: ABRecordRef) -> [String] {
 }
 
 private func records(addressBook: ABAddressBook) -> [ABRecordRef] {
-    return ABAddressBookCopyArrayOfAllPeople(addressBook).takeUnretainedValue()
+    return ABAddressBookCopyArrayOfAllPeople(addressBook).takeUnretainedValue() as [ABRecordRef]
 }
