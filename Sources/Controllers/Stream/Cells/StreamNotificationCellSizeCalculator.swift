@@ -108,7 +108,7 @@ class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
 
     private func stripImageSrc(html: String) -> String {
         // finds image tags, replaces them with data:image/png (inlines image data)
-        let range = NSMakeRange(0, countElements(html))
+        let range = NSMakeRange(0, count(html))
 
         let strippedHtml :String = srcRegex.stringByReplacingMatchesInString(html,
             options: NSMatchingOptions.allZeros,
