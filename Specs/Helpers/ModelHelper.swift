@@ -25,7 +25,7 @@ struct ModelHelper {
 
         let toggleCellItem = StreamCellItem(jsonable: post, type: .Toggle, data: nil, oneColumnCellHeight: 60.0, multiColumnCellHeight: StreamCreateCommentCell.Size.Height, isFullWidth: true)
 
-        return postCellItems + commentCellItems + [profileHeaderCellItem] + userListCellItems + [createCommentCellItem] + [toggleCellItem]
+        return postCellItems + commentCellItems + [profileHeaderCellItem] + userListCellItems + [createCommentCellItem]
     }
 
     static func cellsForTwoPostsWithComments() -> [StreamCellItem] {
