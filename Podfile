@@ -20,8 +20,7 @@ pod 'FLAnimatedImage', git: 'https://github.com/ello/FLAnimatedImage.git'
 pod 'SwiftyJSON', git: "https://github.com/SwiftyJSON/SwiftyJSON", branch: "xcode6.3"
 pod 'Alamofire', git: "https://github.com/Alamofire/Alamofire.git", branch: "xcode-6.3"
 pod 'LlamaKit', git: "https://github.com/LlamaKit/LlamaKit", commit: "e28d7f6e82fbd5dcd5388b36e2acf4eedb44b4e8"
-# pod 'Moya', git: "https://github.com/ello/Moya"
-pod 'Moya', path: "/Users/s/work/Libraries/Moya"
+pod 'Moya', git: "https://github.com/ello/Moya"
 pod 'WebLinking', '~> 0.1'
 
 target 'Specs' do

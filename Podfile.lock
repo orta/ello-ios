@@ -29,7 +29,7 @@ DEPENDENCIES:
   - FLAnimatedImage (from `https://github.com/ello/FLAnimatedImage.git`)
   - Keys (from `https://github.com/ashfurrow/empty-podspec.git`)
   - LlamaKit (from `https://github.com/LlamaKit/LlamaKit`, commit `e28d7f6e82fbd5dcd5388b36e2acf4eedb44b4e8`)
-  - Moya (from `/Users/s/work/Libraries/Moya`)
+  - Moya (from `https://github.com/ello/Moya`)
   - Nimble (from `git@github.com:Quick/Nimble.git`, tag `v0.4.1`)
   - Quick (from `git@github.com:Quick/Quick.git`, tag `v0.3.0`)
   - SDWebImage (~> 3.7)
@@ -50,7 +50,7 @@ EXTERNAL SOURCES:
     :commit: e28d7f6e82fbd5dcd5388b36e2acf4eedb44b4e8
     :git: https://github.com/LlamaKit/LlamaKit
   Moya:
-    :path: "/Users/s/work/Libraries/Moya"
+    :git: https://github.com/ello/Moya
   Nimble:
     :git: git@github.com:Quick/Nimble.git
     :tag: v0.4.1
@@ -77,6 +77,9 @@ CHECKOUT OPTIONS:
   LlamaKit:
     :commit: e28d7f6e82fbd5dcd5388b36e2acf4eedb44b4e8
     :git: https://github.com/LlamaKit/LlamaKit
+  Moya:
+    :commit: d59533683ae9322500cf835a0a12a30df7587e74
+    :git: https://github.com/ello/Moya
   Nimble:
     :git: git@github.com:Quick/Nimble.git
     :tag: v0.4.1
@@ -84,7 +87,7 @@ CHECKOUT OPTIONS:
     :git: git@github.com:Quick/Quick.git
     :tag: v0.3.0
   SVGKit:
-    :commit: f6ac78f3de423276f94f2ed6c08e292b1a13d81d
+    :commit: bdce07f1b4e9708232c48b897ad3fe2992595409
     :git: https://github.com/SVGKit/SVGKit
   SwiftyJSON:
     :commit: 008a09d7ea8b13c03fb59b35c01aad339584a5e1
