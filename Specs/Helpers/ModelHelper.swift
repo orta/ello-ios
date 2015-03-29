@@ -23,7 +23,9 @@ struct ModelHelper {
         let userListCellItems = parser.parse([user], streamKind: StreamKind.UserList(endpoint: ElloAPI.UserStreamFollowers(userId:"420"), title: "Followers"))
         let createCommentCellItem = StreamCellItem(jsonable: comment, type: .CreateComment, data: nil, oneColumnCellHeight: StreamCreateCommentCell.Size.Height, multiColumnCellHeight: StreamCreateCommentCell.Size.Height, isFullWidth: true)
 
-        return postCellItems + commentCellItems + [profileHeaderCellItem] + userListCellItems + [createCommentCellItem]
+        let toggleCellItem = StreamCellItem(jsonable: post, type: .Toggle, data: nil, oneColumnCellHeight: 60.0, multiColumnCellHeight: StreamCreateCommentCell.Size.Height, isFullWidth: true)
+
+        return postCellItems + commentCellItems + [profileHeaderCellItem] + userListCellItems + [createCommentCellItem] + [toggleCellItem]
     }
 
     static func cellsForTwoPostsWithComments() -> [StreamCellItem] {

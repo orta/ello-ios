@@ -204,7 +204,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
                 (cell as! NotificationCell).webLinkDelegate = webLinkDelegate
                 (cell as! NotificationCell).delegate = notificationDelegate
             case .CreateComment:
-                // (cell as StreamCreateCommentCell)
+                // (cell as! StreamCreateCommentCell)
                 break
             case .Header, .CommentHeader:
                 (cell as! StreamHeaderCell).postbarDelegate = postbarDelegate
@@ -224,6 +224,9 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
                 (cell as! UserListItemCell).relationshipView.relationshipDelegate = relationshipDelegate
                 (cell as! UserListItemCell).userDelegate = userDelegate
                 (cell as! UserListItemCell).currentUser = currentUser
+            case .Toggle:
+                // (cell as! StreamToggleCell)
+                break
             default:
                 break
             }

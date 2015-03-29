@@ -28,8 +28,9 @@ enum StreamCellType {
     case UserListItem
     case CreateComment
     case StreamLoading
+    case Toggle
 
-    static let all = [CommentHeader, Header, Footer, Image, Text, Comment, Unknown, ProfileHeader, Notification, UserListItem, CreateComment, StreamLoading]
+    static let all = [CommentHeader, Header, Footer, Image, Text, Comment, Unknown, ProfileHeader, Notification, UserListItem, CreateComment, StreamLoading, Toggle]
 
     var name: String {
         switch self {
@@ -45,6 +46,7 @@ enum StreamCellType {
         case UserListItem: return "UserListItemCell"
         case CreateComment: return "StreamCreateCommentCell"
         case StreamLoading: return "StreamLoadingCell"
+        case Toggle: return "StreamToggleCell"
         }
     }
 
@@ -62,6 +64,7 @@ enum StreamCellType {
         case UserListItem: return UserListItemCellPresenter.configure
         case CreateComment: return StreamCreateCommentCellPresenter.configure
         case StreamLoading: return StreamLoadingCellPresenter.configure
+        case Toggle: return StreamToggleCellPresenter.configure
         default: return { (cell, streamCellItem, streamKind, indexPath) in }
         }
     }
@@ -80,6 +83,7 @@ enum StreamCellType {
         case UserListItem: return UserListItemCell.self
         case CreateComment: return StreamCreateCommentCell.self
         case StreamLoading: return StreamLoadingCell.self
+        case Toggle: return StreamToggleCell.self
         }
     }
 

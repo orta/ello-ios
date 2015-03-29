@@ -510,6 +510,11 @@ class StreamDataSourceSpec: QuickSpec {
             xit("returns a StreamUnknownCell") {}
 
             xit("returns a StreamCommentCell") {}
+
+            it("returns a StreamToggleCell") {
+                let cell = subject.collectionView(vc.collectionView, cellForItemAtIndexPath: NSIndexPath(forItem: 7, inSection: 0))
+                expect(cell).to(beAnInstanceOf(StreamToggleCell.self))
+            }
         }
     }
 }
