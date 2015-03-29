@@ -31,7 +31,6 @@ class UIWebViewSpecs: QuickSpec, UIWebViewDelegate {
 
     func webViewDidFinishLoad(webView: UIWebView) {
         if let size = self.webView.windowContentSize() {
-            println("size: \(size)")
             self.size = size
         }
     }
