@@ -54,3 +54,11 @@ class ElloLabel: UILabel {
     }
     
 }
+
+class ElloToggleLabel: ElloLabel {
+
+    override func labelTextColor() -> UIColor {
+        return UIColor.greyA()
+    }
+}
+

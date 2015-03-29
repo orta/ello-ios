@@ -87,6 +87,14 @@ enum StreamCellType {
         }
     }
 
+    var collapsable: Bool {
+        switch self {
+        case Image: return true
+        case Text: return true
+        default: return false
+        }
+    }
+
     static func registerAll(collectionView: UICollectionView) {
         for type in all {
             if type == .Unknown || type == .Notification || type == .CreateComment || type == .StreamLoading {

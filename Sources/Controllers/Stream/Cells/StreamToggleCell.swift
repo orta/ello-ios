@@ -10,6 +10,8 @@ import UIKit
 
 class StreamToggleCell: UICollectionViewCell {
 
-    @IBOutlet weak var textView:ElloTextView!
+    let closedMessage = "NSFW: Tap to View."
+    let openedMessage = "NSFW: Tap to Hide."
 
+    @IBOutlet weak var label:ElloToggleLabel!
 }

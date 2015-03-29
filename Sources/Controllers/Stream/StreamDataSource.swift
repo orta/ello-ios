@@ -20,11 +20,18 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     // these are the items assigned from the parent controller
     var streamCellItems:[StreamCellItem] = []
+
     // these are either the same as streamCellItems (no filter) or if a filter
     // is applied this stores the filtered items
     var visibleCellItems:[StreamCellItem] = []
+
     // if a filter is added or removed, we update the items
     var streamFilter: StreamFilter {
+        didSet { updateFilteredItems() }
+    }
+
+    // if a filter is added or removed, we update the items
+    var streamCollapsedFilter: StreamFilter {
         didSet { updateFilteredItems() }
     }
 
@@ -272,6 +279,13 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         }
     }
 
+    func toggleCollapsedForIndexPath(indexPath: NSIndexPath) {
+        if let post = self.postForIndexPath(indexPath) {
+            post.collapsed = !post.collapsed
+            self.updateFilteredItems()
+        }
+    }
+
     private func calculateCellItems(cellItems:[StreamCellItem], withWidth: CGFloat, completion: ()->()) {
         let textElements = cellItems.filter {
             return $0.data as? TextRegion != nil
@@ -307,6 +321,10 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         }
         else {
             self.visibleCellItems = self.streamCellItems
+        }
+
+        if let streamCollapsedFilter = streamCollapsedFilter {
+            self.visibleCellItems = self.streamCellItems.filter(streamCollapsedFilter)
         }
     }
 

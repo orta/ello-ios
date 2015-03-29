@@ -21,7 +21,7 @@ final class Post: JSONAble, Authorable, NSCoding {
     let version: Int = PostVersion
     var assets: [String:Asset]?
     var author: User?
-    let collapsed: Bool
+    var collapsed: Bool
     let commentsCount: Int?
     var content: [Regionable]?
     var createdAt: NSDate

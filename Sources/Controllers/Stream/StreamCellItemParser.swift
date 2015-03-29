@@ -59,6 +59,7 @@ struct StreamCellItemParser {
         var cellItems:[StreamCellItem] = []
         for post in posts {
             cellItems.append(StreamCellItem(jsonable: post, type: StreamCellType.Header, data: nil, oneColumnCellHeight: 80.0, multiColumnCellHeight: 49.0, isFullWidth: false))
+            cellItems += postToggleItems(post, streamKind: streamKind)
             cellItems += postRegionItems(post, streamKind: streamKind)
             cellItems += footerStreamCellItems(post)
         }
@@ -75,6 +76,16 @@ struct StreamCellItemParser {
     }
 
     // MARK: - Private
+
+    private func postToggleItems(post: Post, streamKind: StreamKind) -> [StreamCellItem] {
+        if post.collapsed {
+            return [StreamCellItem(jsonable: post, type: StreamCellType.Toggle, data: nil, oneColumnCellHeight: 30.0, multiColumnCellHeight: 30.0, isFullWidth: false)]
+        }
+        else {
+            return []
+        }
+    }
+
     private func postRegionItems(post: Post, streamKind: StreamKind) -> [StreamCellItem] {
         var cellArray:[StreamCellItem] = []
         let contentKind = streamKind.isGridLayout ? post.summary : post.content

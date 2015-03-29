@@ -268,6 +268,16 @@ class StreamViewController: BaseElloViewController {
             notificationSizeCalculator: notificationSizeCalculator,
             profileHeaderSizeCalculator: profileHeaderSizeCalculator)
 
+        dataSource.streamCollapsedFilter = { item in
+            if !item.type.collapsable {
+                return true
+            }
+            if let post = item.jsonable as? Post {
+                return !post.collapsed
+            }
+            return true
+        }
+
         postbarController = PostbarController(collectionView: collectionView, dataSource: dataSource, presentingController: self)
         dataSource.postbarDelegate = postbarController
 
@@ -332,7 +342,11 @@ extension StreamViewController : UICollectionViewDelegate {
 
     func collectionView(collectionView: UICollectionView,
         didSelectItemAtIndexPath indexPath: NSIndexPath) {
-            if let post = dataSource.postForIndexPath(indexPath) {
+            if let cell = collectionView.cellForItemAtIndexPath(indexPath) as? StreamToggleCell {
+                dataSource.toggleCollapsedForIndexPath(indexPath)
+                collectionView.reloadData()
+            }
+            else if let post = dataSource.postForIndexPath(indexPath) {
                 let items = dataSource.cellItemsForPost(post)
                 postTappedDelegate?.postTapped(post, initialItems: items)
             }
@@ -345,11 +359,9 @@ extension StreamViewController : UICollectionViewDelegate {
     func collectionView(collectionView: UICollectionView,
         shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
             if let cellItemType = dataSource.streamCellItem(at: indexPath)?.type {
-                if cellItemType == StreamCellType.Header {
-                    return true
-                }
-                else if cellItemType == StreamCellType.CreateComment {
-                    return true
+                switch cellItemType {
+                case .Header, .CreateComment, .Toggle: return true
+                default: return false
                 }
             }
             return false

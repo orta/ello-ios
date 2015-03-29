@@ -17,10 +17,10 @@ struct StreamToggleCellPresenter {
         indexPath: NSIndexPath)
     {
         if let cell = cell as? StreamToggleCell {
-            let user = streamCellItem.jsonable as! Post
-            cell.textView.clearText()
-            cell.textView.appendTextWithAction("NSFW: ")
-            cell.textView.appendTextWithAction("Tap to Open", link: "open", object: nil)
+            if let post = streamCellItem.jsonable as? Post {
+                let message = post.collapsed ? cell.closedMessage : cell.openedMessage
+                cell.label.setLabelText(message)
+            }
         }
     }
 }
