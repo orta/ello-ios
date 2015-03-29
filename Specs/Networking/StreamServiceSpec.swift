@@ -26,18 +26,15 @@ class StreamServiceSpec: QuickSpec {
                 
                 describe("-loadStream") {
                     
-                    fit("Calls success with an array of Activity objects and responseConfig") {
+                    it("Calls success with an array of Activity objects and responseConfig") {
                         var loadedPosts:[Post]?
                         var config: ResponseConfig?
 
                         streamService.loadStream(ElloAPI.FriendStream, success: { (jsonables, responseConfig) in
                             loadedPosts = (StreamKind.Friend.filter(jsonables) as! [Post])
                             config = responseConfig
-                            println(responseConfig)
-                            println(loadedPosts)
                         }, failure: nil)
 
-                        println(config)
                         expect(config?.prevQueryItems?.count) == 2
                         expect(config?.nextQueryItems?.count) == 2
 
