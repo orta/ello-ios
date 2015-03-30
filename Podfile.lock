@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (1.1.5)
+  - Alamofire (1.1.4)
   - CocoaLumberjack (1.9.2):
     - CocoaLumberjack/Extensions (= 1.9.2)
   - CocoaLumberjack/Core (1.9.2)
