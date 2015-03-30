@@ -11,7 +11,7 @@ import Moya
 import SwiftyJSON
 
 typealias StreamSuccessCompletion = (jsonables: [JSONAble], responseConfig: ResponseConfig) -> ()
-typealias ProfileSuccessCompletion = (user: User) -> ()
+typealias ProfileSuccessCompletion = (user: User, responseConfig: ResponseConfig) -> ()
 
 class StreamService: NSObject {
 
@@ -48,7 +48,7 @@ class StreamService: NSObject {
             method: .GET,
             success: { (data, responseConfig) in
                 if let user = data as? User {
-                    success(user: user)
+                    success(user: user, responseConfig: responseConfig)
                 }
                 else {
                     ElloProvider.unCastableJSONAble(failure)
