@@ -7,7 +7,7 @@ PODS:
     - CocoaLumberjack/Core
   - FLAnimatedImage (1.0.8)
   - Keys (1.0.2)
-  - LlamaKit (0.5.0)
+  - LlamaKit (0.6.1)
   - Moya (0.6.1):
     - Moya/Core (= 0.6.1)
   - Moya/Core (0.6.1):
@@ -28,7 +28,7 @@ DEPENDENCIES:
   - CocoaLumberjack (~> 1.9)
   - FLAnimatedImage (from `https://github.com/ello/FLAnimatedImage.git`)
   - Keys (from `https://github.com/ashfurrow/empty-podspec.git`)
-  - LlamaKit (from `https://github.com/LlamaKit/LlamaKit`, commit `e28d7f6e82fbd5dcd5388b36e2acf4eedb44b4e8`)
+  - LlamaKit (from `https://github.com/ello/LlamaKit.git`)
   - Moya (from `https://github.com/ello/Moya`)
   - Nimble (from `git@github.com:Quick/Nimble.git`, tag `v0.4.1`)
   - Quick (from `git@github.com:Quick/Quick.git`, tag `v0.3.0`)
@@ -36,7 +36,7 @@ DEPENDENCIES:
   - SSPullToRefresh (~> 1.2)
   - SVGKit (from `https://github.com/SVGKit/SVGKit`, branch `2.x`)
   - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON`, branch `xcode6.3`)
-  - WebLinking (from `https://github.com/ello/WebLinking.swift.git`)
+  - WebLinking (from `https://github.com/kylef/WebLinking.swift.git`, branch `swift-1.2`)
 
 EXTERNAL SOURCES:
   Alamofire:
@@ -47,8 +47,7 @@ EXTERNAL SOURCES:
   Keys:
     :git: https://github.com/ashfurrow/empty-podspec.git
   LlamaKit:
-    :commit: e28d7f6e82fbd5dcd5388b36e2acf4eedb44b4e8
-    :git: https://github.com/LlamaKit/LlamaKit
+    :git: https://github.com/ello/LlamaKit.git
   Moya:
     :git: https://github.com/ello/Moya
   Nimble:
@@ -64,7 +63,8 @@ EXTERNAL SOURCES:
     :branch: xcode6.3
     :git: https://github.com/SwiftyJSON/SwiftyJSON
   WebLinking:
-    :git: https://github.com/ello/WebLinking.swift.git
+    :branch: swift-1.2
+    :git: https://github.com/kylef/WebLinking.swift.git
 
 CHECKOUT OPTIONS:
   Alamofire:
@@ -77,8 +77,8 @@ CHECKOUT OPTIONS:
     :commit: 6ac34c01bbb02fa5069187081135b6c108657018
     :git: https://github.com/ashfurrow/empty-podspec.git
   LlamaKit:
-    :commit: e28d7f6e82fbd5dcd5388b36e2acf4eedb44b4e8
-    :git: https://github.com/LlamaKit/LlamaKit
+    :commit: 17c80a90295419e180234381ab7f787e136918df
+    :git: https://github.com/ello/LlamaKit.git
   Moya:
     :commit: d59533683ae9322500cf835a0a12a30df7587e74
     :git: https://github.com/ello/Moya
@@ -95,15 +95,15 @@ CHECKOUT OPTIONS:
     :commit: 008a09d7ea8b13c03fb59b35c01aad339584a5e1
     :git: https://github.com/SwiftyJSON/SwiftyJSON
   WebLinking:
-    :commit: 598d2e4976ee1175266e268dececeb9b7d2f9f1e
-    :git: https://github.com/ello/WebLinking.swift.git
+    :commit: 6e1a19c399fd5236ed6c376b3a6806af8d1c37c8
+    :git: https://github.com/kylef/WebLinking.swift.git
 
 SPEC CHECKSUMS:
   Alamofire: 6a2cbaebe78a6d469bc55ee37f0a24ba22af76ac
   CocoaLumberjack: 628fca2e88ef06f7cf6817309aa405f325d9a6fa
   FLAnimatedImage: f9422f796135aff80d8c00b2afc48015bb746e24
   Keys: 9a0258f6629755b9686c0821fa97cf659de68347
-  LlamaKit: 6110b5eb82c3286ee0a5bbd2157e736ab9822c44
+  LlamaKit: 2610cffeec508d27caad8449e7d460df914d9212
   Moya: 6589de6c52d9d8e5ab0d9630b4cd5c4b7f898019
   Nimble: a05c15e0955baec1c94a22e25e4f8dea884fbc5f
   Quick: 1bda8b4c8d43f6b4dd69ca001918b1767b3c9c93
