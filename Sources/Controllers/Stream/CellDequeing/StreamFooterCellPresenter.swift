@@ -26,6 +26,9 @@ struct StreamFooterCellPresenter {
                     cell.commentsOpened = true
                 }
 
+                cell.scrollView.scrollEnabled = !streamKind.isGridLayout
+                cell.chevronButton.hidden = streamKind.isGridLayout
+                
                 if streamKind.isGridLayout {
                     cell.views = ""
                     cell.reposts = ""
