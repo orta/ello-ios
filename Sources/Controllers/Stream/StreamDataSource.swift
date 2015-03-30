@@ -88,7 +88,7 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
         return visibleCellItems[indexPath.item].jsonable as? Comment
     }
 
-    func streamCellItem(at indexPath: NSIndexPath) -> StreamCellItem? {
+    func visibleStreamCellItem(at indexPath: NSIndexPath) -> StreamCellItem? {
         if !isValidIndexPath(indexPath) { return nil }
 
         return visibleCellItems[indexPath.item]
@@ -265,10 +265,17 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     func insertUnsizedCellItems(cellItems: [StreamCellItem], withWidth: CGFloat, startingIndexPath: NSIndexPath, completion: StreamContentReady) {
+
+        var startingIndex = startingIndexPath.item
+
+        if let item = self.visibleStreamCellItem(at: startingIndexPath) {
+            if let foundIndex = find(self.streamCellItems, item) {
+                startingIndex = foundIndex
+            }
+        }
+
         self.calculateCellItems(cellItems, withWidth: withWidth) {
             var indexPaths:[NSIndexPath] = []
-
-            var startingIndex:Int = startingIndexPath.item
 
             for (index, cellItem) in enumerate(cellItems) {
                 var index = startingIndex + index
@@ -306,15 +313,17 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     private func temporarilyUnfilter(block: ()->()) {
-        if let cachedStreamFilter = streamFilter {
-            self.streamFilter = nil
-            block()
-            self.streamFilter = cachedStreamFilter
-        }
-        else {
-            block()
-            updateFilteredItems()
-        }
+        let cachedStreamFilter = streamFilter
+        let cachedStreamCollapsedFilter = streamCollapsedFilter
+        self.streamFilter = nil
+        self.streamCollapsedFilter = nil
+        updateFilteredItems()
+
+        block()
+
+        self.streamFilter = cachedStreamFilter
+        self.streamCollapsedFilter = cachedStreamCollapsedFilter
+        updateFilteredItems()
     }
 
     private func updateFilteredItems() {

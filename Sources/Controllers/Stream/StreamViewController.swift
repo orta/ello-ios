@@ -358,7 +358,7 @@ extension StreamViewController : UICollectionViewDelegate {
 
     func collectionView(collectionView: UICollectionView,
         shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-            if let cellItemType = dataSource.streamCellItem(at: indexPath)?.type {
+            if let cellItemType = dataSource.visibleStreamCellItem(at: indexPath)?.type {
                 switch cellItemType {
                 case .Header, .CreateComment, .Toggle: return true
                 default: return false

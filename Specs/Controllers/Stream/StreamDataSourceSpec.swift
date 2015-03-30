@@ -41,6 +41,16 @@ class StreamDataSourceSpec: QuickSpec {
                 notificationSizeCalculator: notificationSizeCalculator,
                 profileHeaderSizeCalculator: profileHeaderSizeCalculator)
 
+            subject.streamCollapsedFilter = { item in
+                if !item.type.collapsable {
+                    return true
+                }
+                if let post = item.jsonable as? Post {
+                    return !post.collapsed
+                }
+                return true
+            }
+
             vc.dataSource = subject
             var cellItems = [JSONAble]()
             StreamService().loadStream(ElloAPI.FriendStream,
@@ -291,7 +301,7 @@ class StreamDataSourceSpec: QuickSpec {
             it("updates the height of an existing StreamCellItem") {
                 subject.updateHeightForIndexPath(indexPath0, height: 256)
 
-                let cellItem = subject.streamCellItem(at: NSIndexPath(forRow: 0, inSection: 0))
+                let cellItem = subject.visibleStreamCellItem(at: NSIndexPath(forRow: 0, inSection: 0))
                 expect(cellItem!.oneColumnCellHeight) == 266
                 expect(cellItem!.multiColumnCellHeight) == 266
             }
@@ -369,7 +379,7 @@ class StreamDataSourceSpec: QuickSpec {
             }
         }
 
-        describe("-streamCellItem:") {
+        describe("-visibleStreamCellItem:") {
 
             beforeEach {
                 subject = StreamDataSource(streamKind: .Friend,
@@ -384,13 +394,13 @@ class StreamDataSourceSpec: QuickSpec {
             }
 
             it("returns the correct stream cell item") {
-                let item = subject.streamCellItem(at: NSIndexPath(forItem: 4, inSection:0))
+                let item = subject.visibleStreamCellItem(at: NSIndexPath(forItem: 4, inSection:0))
 
                 expect(item?.type.name) == "StreamTextCell"
             }
 
             it("returns nil if indexpath does not exist") {
-                let item = subject.streamCellItem(at: NSIndexPath(forItem: 50, inSection:0))
+                let item = subject.visibleStreamCellItem(at: NSIndexPath(forItem: 50, inSection:0))
 
                 expect(item).to(beNil())
             }
@@ -408,10 +418,11 @@ class StreamDataSourceSpec: QuickSpec {
                 let imageCellItem = StreamCellItem(jsonable: post, type: .Image, data: imageRegion, oneColumnCellHeight: 5.0, multiColumnCellHeight: 5.0, isFullWidth: false)
 
                 let anotherPost: Post = stub(["collapsed" : true])
+                let anotherToggleCellItem = StreamCellItem(jsonable: anotherPost, type: .Toggle, data: nil, oneColumnCellHeight: 5.0, multiColumnCellHeight: 5.0, isFullWidth: false)
                 let anotherImageRegion: ImageRegion = stub([:])
                 let anotherImageCellItem = StreamCellItem(jsonable: anotherPost, type: .Image, data: anotherImageRegion, oneColumnCellHeight: 5.0, multiColumnCellHeight: 5.0, isFullWidth: false)
 
-                subject.appendUnsizedCellItems([toggleCellItem, imageCellItem, anotherImageCellItem], withWidth: webView.frame.width) { cellCount in
+                subject.appendUnsizedCellItems([toggleCellItem, imageCellItem, anotherToggleCellItem, anotherImageCellItem], withWidth: webView.frame.width) { cellCount in
                     vc.collectionView.dataSource = subject
                     vc.collectionView.reloadData()
                 }
@@ -432,7 +443,7 @@ class StreamDataSourceSpec: QuickSpec {
                 let indexPathToToggle = NSIndexPath(forItem: 1, inSection: 0)
                 var postToToggle = subject.postForIndexPath(indexPathToToggle)!
 
-                let indexPathNotToToggle = NSIndexPath(forItem: 2, inSection: 0)
+                let indexPathNotToToggle = NSIndexPath(forItem: 0, inSection: 0)
                 var postNotToToggle = subject.postForIndexPath(indexPathNotToToggle)!
 
                 expect(postToToggle.collapsed).to(beTrue())
@@ -570,6 +581,47 @@ class StreamDataSourceSpec: QuickSpec {
                 }
 
                 expect(subject.groupForIndexPath(indexPath0)) == "0"
+            }
+        }
+
+        describe("-insertUnsizedCellItems:withWidth:startingIndexPath:completion:") {
+
+            beforeEach {
+                subject.removeAllCellItems()
+                let post: Post = stub(["collapsed" : true])
+                subject.removeAllCellItems()
+                let toggleCellItem = StreamCellItem(jsonable: post, type: .Toggle, data: nil, oneColumnCellHeight: 5.0, multiColumnCellHeight: 5.0, isFullWidth: false)
+                let imageRegion: ImageRegion = stub([:])
+                let imageCellItem = StreamCellItem(jsonable: post, type: .Image, data: imageRegion, oneColumnCellHeight: 5.0, multiColumnCellHeight: 5.0, isFullWidth: false)
+
+                let anotherPost: Post = stub(["collapsed" : false])
+                let anotherImageRegion: ImageRegion = stub([:])
+                let anotherImageCellItem = StreamCellItem(jsonable: anotherPost, type: .Image, data: anotherImageRegion, oneColumnCellHeight: 5.0, multiColumnCellHeight: 5.0, isFullWidth: false)
+
+                subject.appendUnsizedCellItems([toggleCellItem, imageCellItem, anotherImageCellItem], withWidth: webView.frame.width) { cellCount in
+                    vc.collectionView.dataSource = subject
+                    vc.collectionView.reloadData()
+                }
+            }
+
+            it("inserts the new cellitems in the correct position") {
+                let comment = ModelHelper.stubComment("456", contentCount: 1, summaryCount: 1, parentPost: nil)
+                let createCommentCellItem = StreamCellItem(jsonable: comment, type: .CreateComment, data: nil, oneColumnCellHeight: StreamCreateCommentCell.Size.Height, multiColumnCellHeight: StreamCreateCommentCell.Size.Height, isFullWidth: true)
+
+                expect(count(subject.visibleCellItems)) == 2
+
+                let startingIndexPath = NSIndexPath(forItem: 1, inSection: 0)
+
+                var expectedIndexPaths = [NSIndexPath]()
+                subject.insertUnsizedCellItems([createCommentCellItem], withWidth: 10.0, startingIndexPath: startingIndexPath ){ (indexPaths) in
+                    expectedIndexPaths = indexPaths
+                }
+
+                let insertedCellItem = subject.visibleCellItems[1]
+
+                expect(count(subject.visibleCellItems)) == 3
+
+                expect(insertedCellItem.type.name) == "StreamCreateCommentCell"
             }
         }
 
