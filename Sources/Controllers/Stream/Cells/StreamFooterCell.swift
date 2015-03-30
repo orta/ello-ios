@@ -75,7 +75,7 @@ class StreamFooterCell: UICollectionViewCell {
                 }
                 else {
                     self.toolBar.items = [
-                        viewsItem, commentsItem, repostItem
+                        fixedItem(-15), commentsItem, flexibleItem(), repostItem, shareItem, fixedItem(-17)
                     ]
                     self.bottomToolBar.items = [
                         flexibleItem(), shareItem, flagItem
@@ -133,7 +133,7 @@ class StreamFooterCell: UICollectionViewCell {
 // MARK: - Private
 
     private func fixedItem(width:CGFloat) -> UIBarButtonItem {
-        let item = UIBarButtonItem()
+        let item =  UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
         item.width = width
         return item
     }
@@ -234,7 +234,6 @@ class StreamFooterCell: UICollectionViewCell {
         frame.origin.x = scrollView.contentOffset.x
         bottomContentView.frame = frame
     }
-
 }
 
 // MARK: UIScrollViewDelegate
