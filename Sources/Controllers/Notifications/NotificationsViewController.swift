@@ -87,8 +87,10 @@ class NotificationsViewController: StreamableViewController, NotificationDelegat
 
         if let notificationKinds = notificationKinds {
             streamViewController.streamFilter = { item in
-                let notification = item.jsonable as Notification
-                return contains(notificationKinds, notification.kind)
+                if let notification = item.jsonable as? Notification {
+                    return contains(notificationKinds, notification.kind)
+                }
+                return false
             }
         }
         else {
