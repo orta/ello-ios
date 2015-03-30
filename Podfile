@@ -13,14 +13,14 @@ pod 'SDWebImage', '~> 3.7'
 pod 'SSPullToRefresh', '~> 1.2'
 # lock this at 1.9 to support SVGKit using `DDLogC` methods
 pod 'CocoaLumberjack', '~> 1.9'
-pod 'SVGKit', git: "https://github.com/SVGKit/SVGKit", branch: "2.x"
-pod 'FLAnimatedImage', git: "https://github.com/ello/FLAnimatedImage.git"
+pod 'SVGKit', git: 'https://github.com/SVGKit/SVGKit', branch: '2.x'
+pod 'FLAnimatedImage', git: 'https://github.com/ello/FLAnimatedImage.git'
 
 # swift pods
-pod 'SwiftyJSON', git: "https://github.com/orta/SwiftyJSON", branch: "podspec"
-pod 'Alamofire', git: "https://github.com/Alamofire/Alamofire.git"
-pod 'LlamaKit', git: "https://github.com/AshFurrow/LlamaKit", branch: "rac_podspec"
-pod 'Moya', git: "https://github.com/ello/Moya", branch: 'cg-hybrid'
+pod 'SwiftyJSON', git: 'https://github.com/orta/SwiftyJSON', branch: 'podspec'
+pod 'Alamofire', git: 'https://github.com/Alamofire/Alamofire.git'
+pod 'LlamaKit', git: 'https://github.com/AshFurrow/LlamaKit', branch: 'rac_podspec'
+pod 'Moya', git: 'https://github.com/ello/Moya', branch: 'cg-hybrid'
 pod 'WebLinking', '~> 0.1'
 
 target 'Specs' do
@@ -31,9 +31,9 @@ end
 plugin 'cocoapods-keys', {
   project: "Ello",
   keys: [
-    "Salt",
-    "ClientKey",
-    "ClientSecret",
-    "Domain",
+    'Salt',
+    'ClientKey',
+    'ClientSecret',
+    'Domain',
   ]
 }

@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (1.1.4)
+  - Alamofire (1.1.5)
   - CocoaLumberjack (1.9.2):
     - CocoaLumberjack/Extensions (= 1.9.2)
   - CocoaLumberjack/Core (1.9.2)
@@ -60,7 +60,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   Alamofire:
-    :commit: 90c4d77be8af79fba58f276bc8f6bbc30e35c8d3
+    :commit: cf73688adb02431009c9cf4320c9babad0de8e5e
     :git: https://github.com/Alamofire/Alamofire.git
   FLAnimatedImage:
     :commit: 7f1d9a29597b45aef8686da22f33a3634d84c686
@@ -75,25 +75,25 @@ CHECKOUT OPTIONS:
     :commit: 9dac672ee6f95f45bab89eec4a1227eb7ac1da5e
     :git: https://github.com/ello/Moya
   SVGKit:
-    :commit: 880d0704a4e68b566a473062fae4abe5ba1bca54
+    :commit: bdce07f1b4e9708232c48b897ad3fe2992595409
     :git: https://github.com/SVGKit/SVGKit
   SwiftyJSON:
     :commit: 252838693668023571c46f56d7ea8347e6948d1b
     :git: https://github.com/orta/SwiftyJSON
 
 SPEC CHECKSUMS:
-  Alamofire: 6a2cbaebe78a6d469bc55ee37f0a24ba22af76ac
-  CocoaLumberjack: 205769c032b5fef85b92472046bcc8b7e7c8a817
+  Alamofire: 346a8798fe35b993e136041e14f0a3a30065f7a5
+  CocoaLumberjack: 628fca2e88ef06f7cf6817309aa405f325d9a6fa
   FLAnimatedImage: f9422f796135aff80d8c00b2afc48015bb746e24
   Keys: 9a0258f6629755b9686c0821fa97cf659de68347
   LlamaKit: 6110b5eb82c3286ee0a5bbd2157e736ab9822c44
   Moya: 6589de6c52d9d8e5ab0d9630b4cd5c4b7f898019
   Nimble: 1b3c765852d63b9540a91e528e1e4f8afab79b6f
-  Quick: 7b89ff625e72ef931c2a9ef2f25ac3a9d2457763
+  Quick: 1bda8b4c8d43f6b4dd69ca001918b1767b3c9c93
   SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
-  SSPullToRefresh: 2f7f33b16ceeaee43afc7c6d97462fa17bd36a25
+  SSPullToRefresh: ae69778f6961120bd906e6349602c6918e609368
   SVGKit: ad429d65c72c8d84115a504208a9fa097ee7fdbb
   SwiftyJSON: 626bbe0ede796bf69e849b7aa7473778b03fe44c
-  WebLinking: 68a11e861fa4826c7791e44b91040cb0794c9ea5
+  WebLinking: a357f877c3537fb15363167e173b5067734889f5
 
-COCOAPODS: 0.36.0
+COCOAPODS: 0.36.1
