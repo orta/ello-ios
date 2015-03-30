@@ -79,8 +79,6 @@ class StreamImageCell: UICollectionViewCell {
     }
 
     @IBAction func imageTapped(sender: UIButton) {
-        delegate?.imageTapped(self.imageView)
-//        NSNotificationCenter.defaultCenter().postNotificationName("ImageTappedNotification", object: self.imageView)
+         delegate?.imageTapped(self.imageView, cell: self)
     }
-
 }

@@ -32,7 +32,7 @@ protocol PostbarDelegate : NSObjectProtocol {
 }
 
 protocol StreamImageCellDelegate : NSObjectProtocol {
-    func imageTapped(imageView:FLAnimatedImageView)
+    func imageTapped(imageView: FLAnimatedImageView, cell: UICollectionViewCell)
 }
 
 @objc protocol StreamScrollDelegate: NSObjectProtocol {
@@ -124,8 +124,8 @@ class StreamViewController: BaseElloViewController {
     // If we ever create an init() method that doesn't use nib/storyboards,
     // we'll need to call this.  Called from awakeFromNib and init.
     private func initialSetup() {
-        setupImageViewDelegate()
         setupDataSource()
+        setupImageViewDelegate()
         addNotificationObservers()
     }
 
@@ -253,7 +253,7 @@ class StreamViewController: BaseElloViewController {
 
     private func setupImageViewDelegate() {
         if imageViewerDelegate == nil {
-            imageViewerDelegate = StreamImageViewer(controller:self)
+            imageViewerDelegate = StreamImageViewer(presentingController: self, collectionView: collectionView, dataSource: dataSource)
         }
     }
 
@@ -486,10 +486,10 @@ extension StreamViewController: SSPullToRefreshViewDelegate {
 
 extension StreamViewController: StreamImageCellDelegate {
 
-    func imageTapped(imageView: FLAnimatedImageView) {
+    func imageTapped(imageView: FLAnimatedImageView, cell: UICollectionViewCell) {
         if let imageViewerDelegate = imageViewerDelegate {
             restoreTabBar = self.parentTabBarController?.tabBarHidden
-            imageViewerDelegate.imageTapped(imageView)
+            imageViewerDelegate.imageTapped(imageView, cell: cell)
         }
     }
 
