@@ -172,6 +172,12 @@ class StreamFooterCell: UICollectionViewCell {
     }
 
     @IBAction func commentsButtonTapped(sender: CommentButton) {
+        if let streamKind = streamKind {
+            if streamKind.isGridLayout {
+                delegate?.viewsButtonTapped(self)
+                return
+            }
+        }
         if !commentsOpened {
             sender.animate()
         }
