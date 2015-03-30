@@ -68,14 +68,14 @@ class StreamFooterCell: UICollectionViewCell {
             if let streamKind = streamKind {
                 if streamKind.isGridLayout {
                     self.toolBar.items = [
-                        commentsItem, lovesItem, repostItem
+                        fixedItem(-15), commentsItem, flexibleItem(), repostItem, shareItem, fixedItem(-17)
                     ]
                     self.bottomToolBar.items = [
                     ]
                 }
                 else {
                     self.toolBar.items = [
-                        fixedItem(-15), commentsItem, flexibleItem(), repostItem, shareItem, fixedItem(-17)
+                        viewsItem, commentsItem, repostItem
                     ]
                     self.bottomToolBar.items = [
                         flexibleItem(), shareItem, flagItem
