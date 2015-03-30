@@ -600,12 +600,6 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
         delegate?.omnibarDismissController(controller)
     }
 
-    func showCamera() {
-    }
-
-    func showLibrary() {
-    }
-
 // MARK: Text View editing
 
     func textViewShouldBeginEditing(textView : UITextView) -> Bool {
