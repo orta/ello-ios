@@ -170,9 +170,9 @@ extension MoyaProvider {
                         self.request(token, method: method, parameters: parameters, completion: { (data, statusCode, response, error) in
                             self.handleRequest(token, method: method, parameters: parameters, data: data, response: response as? NSHTTPURLResponse, statusCode: statusCode, success: success, failure: failure, isRetry: true, mappingType: mappingType, error: error)
                         })
-                        },
-                        failure: { (_,_) in
-                            self.postNetworkFailureNotification(data, error: error, statusCode: statusCode)
+                    },
+                    failure: { (_,_) in
+                        self.postNetworkFailureNotification(data, error: error, statusCode: statusCode)
                     })
                 } else {
                     self.postNetworkFailureNotification(data, error: error, statusCode: statusCode)

@@ -44,7 +44,13 @@ class LandingViewController: BaseElloViewController {
             self.loadCurrentUser()
         }
         else {
-            showButtons()
+            let authService = AuthService()
+            authService.reAuthenticate({
+                self.loadCurrentUser()
+            },
+            failure: { (_,_) in
+                self.showButtons()
+            })
         }
     }
 
