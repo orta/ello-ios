@@ -10,9 +10,8 @@ import UIKit
 
 class ElloTabBarController: UITabBarController {
 
-    var currentUser : User? {
-        didSet { didSetCurrentUser() }
-    }
+    var currentUser : User?
+    var profileResponseConfig: ResponseConfig?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,13 +19,15 @@ class ElloTabBarController: UITabBarController {
         modalTransitionStyle = .CrossDissolve
     }
 
-    func didSetCurrentUser() {
+    func setProfileData(currentUser: User, responseConfig: ResponseConfig) {
+        self.currentUser = currentUser
+        self.profileResponseConfig = responseConfig
         for controller in self.childViewControllers {
             if let controller = controller as? BaseElloViewController {
                 controller.currentUser = currentUser
             }
             else if let controller = controller as? ElloNavigationController {
-                controller.currentUser = currentUser
+                controller.setProfileData(currentUser, responseConfig: responseConfig)
             }
         }
     }

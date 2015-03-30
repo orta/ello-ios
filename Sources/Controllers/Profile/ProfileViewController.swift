@@ -12,6 +12,7 @@ import FLAnimatedImage
 class ProfileViewController: StreamableViewController, EditProfileResponder {
 
     var user: User?
+    var responseConfig: ResponseConfig?
     let userParam: String
     let streamViewController = StreamViewController.instantiateFromStoryboard()
     var coverImageHeightStart: CGFloat?
@@ -38,8 +39,11 @@ class ProfileViewController: StreamableViewController, EditProfileResponder {
         )
     }
 
-    required init(user: User) {
+    // this should only be initialized this way for currentUser in tab nav
+    required init(user: User, responseConfig: ResponseConfig) {
+        ElloHUD.showLoadingHudInView(streamViewController.view)
         self.user = user
+        self.responseConfig = responseConfig
         self.userParam = self.user!.userId
         self.streamViewController.streamKind = .Profile(userParam: self.userParam)
         super.init(nibName: "ProfileViewController", bundle: nil)
@@ -59,7 +63,9 @@ class ProfileViewController: StreamableViewController, EditProfileResponder {
         setupNavigationBar()
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
         if let user = self.user {
-            userLoaded(user)
+            if let responseConfig = self.responseConfig {
+                userLoaded(user, responseConfig: responseConfig)
+            }
         }
     }
 
@@ -141,8 +147,9 @@ class ProfileViewController: StreamableViewController, EditProfileResponder {
         }
     }
 
-    private func userLoaded(user: User) {
+    private func userLoaded(user: User, responseConfig: ResponseConfig) {
         self.user = user
+        self.streamViewController.responseConfig = responseConfig
         if !isRootViewController() {
             self.title = user.atName ?? "Profile"
         }

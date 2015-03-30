@@ -21,7 +21,7 @@ struct ProfileService {
             method: .GET,
             success: { (data, responseConfig) in
                 if let user = data as? User {
-                    success(user: user)
+                    success(user: user, responseConfig: responseConfig)
                 }
                 else {
                     ElloProvider.unCastableJSONAble(failure)

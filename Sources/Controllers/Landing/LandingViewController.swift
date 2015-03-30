@@ -56,9 +56,9 @@ class LandingViewController: BaseElloViewController {
 
     private func loadCurrentUser() {
         let profileService = ProfileService()
-        profileService.loadCurrentUser({ user in
+        profileService.loadCurrentUser({ (user, responseConfig) in
             var vc = UIStoryboard.storyboardWithId(.ElloTabBar) as! ElloTabBarController
-            vc.currentUser = user
+            vc.setProfileData(user, responseConfig: responseConfig)
             self.presentViewController(vc, animated: true, completion: nil)
         }, failure: { error in
             self.failedToLoadCurrentUser()
