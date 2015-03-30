@@ -34,7 +34,7 @@ class S3UploadingService: NSObject {
                             success(url: "\(endpoint)/\(prefix)/\(filename)")
                         })
                         .onFailure({ (error : NSError) in
-                            failure?(error: error, statusCode: nil)
+                            _ = failure?(error: error, statusCode: nil)
                         })
                         .start()
                 }
