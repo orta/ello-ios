@@ -26,11 +26,15 @@ class NotificationsViewController: StreamableViewController, NotificationDelegat
         super.viewDidLoad()
 
         self.screen.delegate = self
-        self.navigationController?.navigationBarHidden = true
 
         setupStreamController()
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
         scrollLogic.navBarHeight = 44
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBarHidden = true
     }
 
     override func showNavBars(scrollToBottom: Bool) {
