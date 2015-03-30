@@ -91,7 +91,7 @@ class PostDetailViewController: StreamableViewController, CreateCommentDelegate 
         let items = parser.parse([post], streamKind: streamKind!) + parser.parse(post.comments, streamKind: streamKind!)
         self.unsizedCellItems = items
         self.startOfComments += items.count
-        self.streamViewController.refreshableIndex = items.count
+        self.streamViewController.refreshableIndex = self.startOfComments
         self.title = post.author?.atName ?? "Post Detail"
         postDidLoad()
     }
@@ -130,12 +130,11 @@ class PostDetailViewController: StreamableViewController, CreateCommentDelegate 
 
         if let detailCellItems = detailCellItems {
             streamViewController.appendStreamCellItems(detailCellItems)
-            streamViewController.refreshableIndex = detailCellItems.count
         }
         if let unsizedCellItems = unsizedCellItems {
             streamViewController.appendUnsizedCellItems(unsizedCellItems)
-            streamViewController.refreshableIndex = unsizedCellItems.count
         }
+        streamViewController.refreshableIndex = self.startOfComments
     }
 
     private func loadComments() {
@@ -144,6 +143,7 @@ class PostDetailViewController: StreamableViewController, CreateCommentDelegate 
                 success: { (jsonables, responseConfig) in
                     self.appendCreateCommentItem()
 
+                    self.streamViewController.removeRefreshables()
                     let newCommentItems = StreamCellItemParser().parse(jsonables, streamKind: self.streamKind!)
                     self.streamViewController.appendUnsizedCellItems(newCommentItems)
                     self.streamViewController.doneLoading()
@@ -176,10 +176,8 @@ class PostDetailViewController: StreamableViewController, CreateCommentDelegate 
 
             let items = [createCommentItem]
             controller.appendStreamCellItems(items)
-            if let currentIndex = controller.refreshableIndex {
-                controller.refreshableIndex = currentIndex + items.count
-            }
-            self.startOfComments += 1
+            self.startOfComments += items.count
+            controller.refreshableIndex = self.startOfComments
         }
     }
 
