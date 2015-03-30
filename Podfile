@@ -21,7 +21,7 @@ pod 'SwiftyJSON', git: "https://github.com/SwiftyJSON/SwiftyJSON", branch: "xcod
 pod 'Alamofire', git: "https://github.com/Alamofire/Alamofire.git", branch: "xcode-6.3"
 pod 'LlamaKit', git: "https://github.com/LlamaKit/LlamaKit", commit: "e28d7f6e82fbd5dcd5388b36e2acf4eedb44b4e8"
 pod 'Moya', git: "https://github.com/ello/Moya"
-pod 'WebLinking', '~> 0.1'
+pod 'WebLinking', git: "https://github.com/ello/WebLinking.swift.git"
 
 target 'Specs' do
     pod 'Quick', git: "git@github.com:Quick/Quick.git", tag: "v0.3.0"

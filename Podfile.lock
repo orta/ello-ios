@@ -36,7 +36,7 @@ DEPENDENCIES:
   - SSPullToRefresh (~> 1.2)
   - SVGKit (from `https://github.com/SVGKit/SVGKit`, branch `2.x`)
   - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON`, branch `xcode6.3`)
-  - WebLinking (~> 0.1)
+  - WebLinking (from `https://github.com/ello/WebLinking.swift.git`)
 
 EXTERNAL SOURCES:
   Alamofire:
@@ -63,6 +63,8 @@ EXTERNAL SOURCES:
   SwiftyJSON:
     :branch: xcode6.3
     :git: https://github.com/SwiftyJSON/SwiftyJSON
+  WebLinking:
+    :git: https://github.com/ello/WebLinking.swift.git
 
 CHECKOUT OPTIONS:
   Alamofire:
@@ -92,9 +94,12 @@ CHECKOUT OPTIONS:
   SwiftyJSON:
     :commit: 008a09d7ea8b13c03fb59b35c01aad339584a5e1
     :git: https://github.com/SwiftyJSON/SwiftyJSON
+  WebLinking:
+    :commit: 598d2e4976ee1175266e268dececeb9b7d2f9f1e
+    :git: https://github.com/ello/WebLinking.swift.git
 
 SPEC CHECKSUMS:
-  Alamofire: 346a8798fe35b993e136041e14f0a3a30065f7a5
+  Alamofire: 6a2cbaebe78a6d469bc55ee37f0a24ba22af76ac
   CocoaLumberjack: 628fca2e88ef06f7cf6817309aa405f325d9a6fa
   FLAnimatedImage: f9422f796135aff80d8c00b2afc48015bb746e24
   Keys: 9a0258f6629755b9686c0821fa97cf659de68347
@@ -106,6 +111,6 @@ SPEC CHECKSUMS:
   SSPullToRefresh: ae69778f6961120bd906e6349602c6918e609368
   SVGKit: ad429d65c72c8d84115a504208a9fa097ee7fdbb
   SwiftyJSON: a561c2a840121085bec8a2dfeac97a360fc66901
-  WebLinking: 68a11e861fa4826c7791e44b91040cb0794c9ea5
+  WebLinking: a357f877c3537fb15363167e173b5067734889f5
 
 COCOAPODS: 0.36.1
