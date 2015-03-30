@@ -49,7 +49,7 @@ class PostbarController: NSObject, PostbarDelegate {
                         commentsButton.finishAnimation()
                         let nextIndexPath = NSIndexPath(forRow: indexPath.row + 1, inSection: indexPath.section)
                         self.commentLoadSuccess(data, indexPath: nextIndexPath, cell: cell)
-                    }, failure: { (error, statusCode) in
+                    }, failure: { _ in
                         cell.commentsButton.enabled = true
                         println("comment load failure")
                     })
