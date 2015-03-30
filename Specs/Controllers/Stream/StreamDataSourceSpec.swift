@@ -320,6 +320,55 @@ class StreamDataSourceSpec: QuickSpec {
             }
         }
 
+        describe("-removeAllCellItems") {
+
+            beforeEach {
+                subject = StreamDataSource(streamKind: .Friend,
+                    textSizeCalculator: textSizeCalculator,
+                    notificationSizeCalculator: notificationSizeCalculator,
+                    profileHeaderSizeCalculator: profileHeaderSizeCalculator)
+
+                subject.appendUnsizedCellItems(ModelHelper.allCellTypes(), withWidth: webView.frame.width) { cellCount in
+                    vc.collectionView.dataSource = subject
+                    vc.collectionView.reloadData()
+                }
+            }
+
+            it("sets the number of visible cell items to 0") {
+                expect(count(subject.visibleCellItems)) > 0
+                subject.removeAllCellItems()
+                expect(count(subject.visibleCellItems)) == 0
+            }
+
+            it("sets the number of cell items to 0") {
+                expect(count(subject.streamCellItems)) > 0
+                subject.removeAllCellItems()
+                expect(count(subject.streamCellItems)) == 0
+            }
+        }
+
+        describe("-removeCellItemsBelow:") {
+
+            beforeEach {
+                subject = StreamDataSource(streamKind: .Friend,
+                    textSizeCalculator: textSizeCalculator,
+                    notificationSizeCalculator: notificationSizeCalculator,
+                    profileHeaderSizeCalculator: profileHeaderSizeCalculator)
+
+                subject.appendUnsizedCellItems(ModelHelper.allCellTypes(), withWidth: webView.frame.width) { cellCount in
+                    vc.collectionView.dataSource = subject
+                    vc.collectionView.reloadData()
+                }
+            }
+
+            it("removes items below the supplied index") {
+                expect(count(subject.visibleCellItems)) == 8
+                subject.removeCellItemsBelow(5)
+
+                expect(count(subject.visibleCellItems)) == 5
+            }
+        }
+
         describe("-streamCellItem:") {
 
             beforeEach {
@@ -346,6 +395,54 @@ class StreamDataSourceSpec: QuickSpec {
                 expect(item).to(beNil())
             }
             
+        }
+
+        describe("-toggleCollapsedForIndexPath:") {
+
+            beforeEach {
+                subject.removeAllCellItems()
+                let post: Post = stub(["collapsed" : true])
+                subject.removeAllCellItems()
+                let toggleCellItem = StreamCellItem(jsonable: post, type: .Toggle, data: nil, oneColumnCellHeight: 5.0, multiColumnCellHeight: 5.0, isFullWidth: false)
+                let imageRegion: ImageRegion = stub([:])
+                let imageCellItem = StreamCellItem(jsonable: post, type: .Image, data: imageRegion, oneColumnCellHeight: 5.0, multiColumnCellHeight: 5.0, isFullWidth: false)
+
+                let anotherPost: Post = stub(["collapsed" : true])
+                let anotherImageRegion: ImageRegion = stub([:])
+                let anotherImageCellItem = StreamCellItem(jsonable: anotherPost, type: .Image, data: anotherImageRegion, oneColumnCellHeight: 5.0, multiColumnCellHeight: 5.0, isFullWidth: false)
+
+                subject.appendUnsizedCellItems([toggleCellItem, imageCellItem, anotherImageCellItem], withWidth: webView.frame.width) { cellCount in
+                    vc.collectionView.dataSource = subject
+                    vc.collectionView.reloadData()
+                }
+            }
+
+            it("toggles collapsed on the post at an indexPath") {
+                let indexPath = NSIndexPath(forItem: 0, inSection: 0)
+                var post = subject.postForIndexPath(indexPath)!
+
+                expect(post.collapsed).to(beTrue())
+
+                subject.toggleCollapsedForIndexPath(indexPath)
+
+                expect(post.collapsed).to(beFalse())
+            }
+
+            it("does not toggle collapsed on other posts") {
+                let indexPathToToggle = NSIndexPath(forItem: 1, inSection: 0)
+                var postToToggle = subject.postForIndexPath(indexPathToToggle)!
+
+                let indexPathNotToToggle = NSIndexPath(forItem: 2, inSection: 0)
+                var postNotToToggle = subject.postForIndexPath(indexPathNotToToggle)!
+
+                expect(postToToggle.collapsed).to(beTrue())
+                expect(postNotToToggle.collapsed).to(beTrue())
+
+                subject.toggleCollapsedForIndexPath(indexPathToToggle)
+
+                expect(postToToggle.collapsed).to(beFalse())
+                expect(postNotToToggle.collapsed).to(beTrue())
+            }
         }
 
         describe("-isFullWidthAtIndexPath:") {
