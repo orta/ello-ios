@@ -20,6 +20,7 @@ enum MappingType: String {
     case RelationshipsType =     "relationships"
     case AmazonCredentialsType = "credentials"
     case NoContentType =         "204"
+    case AvailabilityType =      "availability"
 
     var fromJSON: FromJSONClosure {
         switch self {
@@ -31,6 +32,7 @@ enum MappingType: String {
         case ErrorsType:                    return ElloNetworkError.fromJSON
         case AssetsType:                    return Asset.fromJSON
         case AmazonCredentialsType:         return AmazonCredentials.fromJSON
+        case AvailabilityType:              return Availability.fromJSON
         default:                            return UnknownJSONAble.fromJSON
         }
     }
