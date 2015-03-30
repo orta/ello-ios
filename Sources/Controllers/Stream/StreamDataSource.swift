@@ -89,6 +89,8 @@ class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     func streamCellItem(at indexPath: NSIndexPath) -> StreamCellItem? {
+        if !isValidIndexPath(indexPath) { return nil }
+
         return visibleCellItems[indexPath.item]
     }
 
