@@ -45,10 +45,11 @@ final class ImageRegion: JSONAble, NSCoding {
         }
     }
 
-    required init(coder decoder: NSCoder) {
-        self.asset = decoder.decodeObjectForKey("asset") as? Asset
-        self.alt = decoder.decodeObjectForKey("alt") as? String
-        self.url = decoder.decodeObjectForKey("url") as? NSURL
+    required init(coder aDecoder: NSCoder) {
+        let decoder = Decoder(aDecoder)
+        self.asset = decoder.decodeOptionalKey("asset")
+        self.alt = decoder.decodeOptionalKey("alt")
+        self.url = decoder.decodeOptionalKey("url")
     }
 
 // MARK: JSONAble

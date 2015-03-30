@@ -52,16 +52,17 @@ final class Asset: JSONAble {
 
 // MARK: NSCoding
 
-    required init(coder decoder: NSCoder) {
-        self.assetId = decoder.decodeObjectForKey("assetId") as! String
-        self.optimized = decoder.decodeObjectForKey("optimized") as? ImageAttachment
-        self.smallScreen = decoder.decodeObjectForKey("smallScreen") as? ImageAttachment
-        self.ldpi = decoder.decodeObjectForKey("ldpi") as? ImageAttachment
-        self.mdpi = decoder.decodeObjectForKey("mdpi") as? ImageAttachment
-        self.hdpi = decoder.decodeObjectForKey("hdpi") as? ImageAttachment
-        self.xhdpi = decoder.decodeObjectForKey("xhdpi") as? ImageAttachment
-        self.xxhdpi = decoder.decodeObjectForKey("xxhdpi") as? ImageAttachment
-        self.xxxhdpi = decoder.decodeObjectForKey("xxxhdpi") as? ImageAttachment
+    required init(coder aDecoder: NSCoder) {
+        let decoder = Decoder(aDecoder)
+        self.assetId = decoder.decodeKey("assetId")
+        self.optimized = decoder.decodeOptionalKey("optimized")
+        self.smallScreen = decoder.decodeOptionalKey("smallScreen")
+        self.ldpi = decoder.decodeOptionalKey("ldpi")
+        self.mdpi = decoder.decodeOptionalKey("mdpi")
+        self.hdpi = decoder.decodeOptionalKey("hdpi")
+        self.xhdpi = decoder.decodeOptionalKey("xhdpi")
+        self.xxhdpi = decoder.decodeOptionalKey("xxhdpi")
+        self.xxxhdpi = decoder.decodeOptionalKey("xxxhdpi")
     }
 
     func encodeWithCoder(encoder: NSCoder) {

@@ -190,9 +190,10 @@ class OmnibarData : NSObject, NSCoding {
         }
     }
 
-    required init(coder decoder: NSCoder) {
-        self.attributedText = decoder.decodeObjectForKey("attributedText") as? NSAttributedString
-        self.image = decoder.decodeObjectForKey("image") as? UIImage
+    required init(coder aDecoder: NSCoder) {
+        let decoder = Decoder(aDecoder)
+        self.attributedText = decoder.decodeOptionalKey("attributedText")
+        self.image = decoder.decodeOptionalKey("image")
     }
 
 }

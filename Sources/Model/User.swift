@@ -79,72 +79,29 @@ final class User: JSONAble, NSCoding {
 
 // MARK: NSCoding
 
-    required init(coder decoder: NSCoder) {
-        self.avatarURL = decoder.decodeObjectForKey("avatarURL") as? NSURL
-        self.coverImageURL = decoder.decodeObjectForKey("coverImageURL") as? NSURL
+    required init(coder aDecoder: NSCoder) {
+        let decoder = Decoder(aDecoder)
+        self.avatarURL = decoder.decodeOptionalKey("avatarURL")
+        self.coverImageURL = decoder.decodeOptionalKey("coverImageURL")
+        self.identifiableBy = decoder.decodeOptionalKey("identifiableBy")
+        self.experimentalFeatures = decoder.decodeKey("experimentalFeatures")
+        self.followersCount = decoder.decodeOptionalKey("followersCount")
+        self.followingCount = decoder.decodeOptionalKey("followingCount")
+        self.href = decoder.decodeKey("href")
+        self.name = decoder.decodeKey("name")
+        self.posts = decoder.decodeOptionalKey("posts") ?? []
+        self.isCurrentUser = decoder.decodeKey("isCurrentUser")
+        self.mostRecentPost = decoder.decodeOptionalKey("mostRecentPost")
+        self.postsCount = decoder.decodeOptionalKey("postsCount")
 
-        self.identifiableBy = decoder.decodeObjectForKey("identifiableBy") as? String
-
-        if decoder.containsValueForKey("experimentalFeatures") {
-            self.experimentalFeatures = decoder.decodeBoolForKey("experimentalFeatures")
-        }
-        else {
-            self.experimentalFeatures = false
-        }
-
-        if decoder.containsValueForKey("followersCount") {
-            self.followersCount = Int(decoder.decodeIntForKey("followersCount"))
-        }
-        else {
-            self.followersCount = nil
-        }
-
-        if decoder.containsValueForKey("followingCount") {
-            self.followingCount = Int(decoder.decodeIntForKey("followingCount"))
-        }
-        else {
-            self.followingCount = nil
-        }
-
-        self.href = decoder.decodeObjectForKey("href") as! String
-        self.name = decoder.decodeObjectForKey("name") as! String
-
-        if decoder.containsValueForKey("posts") {
-            self.posts = decoder.decodeObjectForKey("posts") as! [Post]
-        }
-        else {
-            self.posts = [Post]()
-        }
-
-        if decoder.containsValueForKey("isCurrentUser") {
-            self.isCurrentUser = decoder.decodeBoolForKey("isCurrentUser")
-        }
-        else {
-            self.isCurrentUser = false
-        }
-
-        if decoder.containsValueForKey("mostRecentPost") {
-            self.mostRecentPost = decoder.decodeObjectForKey("mostRecentPost") as? Post
-        }
-        else {
-            self.mostRecentPost = nil
-        }
-
-        if decoder.containsValueForKey("postsCount") {
-            self.postsCount = Int(decoder.decodeIntForKey("postsCount"))
-        }
-        else {
-            self.postsCount = nil
-        }
-
-        let relationshipPriorityString = decoder.decodeObjectForKey("relationshipPriority") as! String
+        let relationshipPriorityString: String = decoder.decodeKey("relationshipPriority")
         self.relationshipPriority = Relationship(stringValue: relationshipPriorityString) ?? .None
 
-        self.userId = decoder.decodeObjectForKey("userId") as! String
-        self.username = decoder.decodeObjectForKey("username") as! String
-        self.email = decoder.decodeObjectForKey("email") as? String
-        self.formattedShortBio = decoder.decodeObjectForKey("formattedShortBio") as! String
-        self.externalLinks = decoder.decodeObjectForKey("externalLinks") as! String
+        self.userId = decoder.decodeKey("userId")
+        self.username = decoder.decodeKey("username")
+        self.email = decoder.decodeOptionalKey("email")
+        self.formattedShortBio = decoder.decodeKey("formattedShortBio")
+        self.externalLinks = decoder.decodeKey("externalLinks")
     }
 
     func encodeWithCoder(encoder: NSCoder) {

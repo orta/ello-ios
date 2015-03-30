@@ -79,63 +79,21 @@ final class Post: JSONAble, Authorable, NSCoding {
 
 // MARK: NSCoding
 
-    required init(coder decoder: NSCoder) {
-        self.assets = decoder.decodeObjectForKey("assets") as? [String:Asset]
-        self.author = decoder.decodeObjectForKey("author") as? User
-        if decoder.containsValueForKey("collapsed") {
-            self.collapsed = decoder.decodeBoolForKey("collapsed")
-        }
-        else {
-            self.collapsed = false
-        }
-
-        if decoder.containsValueForKey("commentsCount") {
-            self.commentsCount = Int(decoder.decodeIntForKey("commentsCount"))
-        }
-        else {
-            self.commentsCount = nil
-        }
-
-        if let content = decoder.decodeObjectForKey("content") as? [Regionable] {
-            self.content = content
-        }
-        else {
-            self.content = nil
-        }
-
-        self.createdAt = decoder.decodeObjectForKey("createdAt") as! NSDate
-        self.href = decoder.decodeObjectForKey("href") as! String
-        self.postId = decoder.decodeObjectForKey("postId") as! String
-
-        if decoder.containsValueForKey("repostsCount") {
-            self.repostsCount = Int(decoder.decodeIntForKey("repostsCount"))
-        }
-        else {
-            self.repostsCount = nil
-        }
-
-        if let summary = decoder.decodeObjectForKey("summary") as? [Regionable] {
-            self.summary = summary
-        }
-        else {
-            self.summary = nil
-        }
-
-        self.token = decoder.decodeObjectForKey("token") as! String
-
-        if decoder.containsValueForKey("viewsCount") {
-            self.viewsCount = Int(decoder.decodeIntForKey("viewsCount"))
-        }
-        else {
-            self.viewsCount = nil
-        }
-
-        if decoder.containsValueForKey("comments") {
-            self.comments = decoder.decodeObjectForKey("comments") as! [Comment]
-        }
-        else {
-            self.comments = [Comment]()
-        }
+    required init(coder aDecoder: NSCoder) {
+        let decoder = Decoder(aDecoder)
+        self.assets = decoder.decodeOptionalKey("assets")
+        self.author = decoder.decodeOptionalKey("author")
+        self.collapsed = decoder.decodeKey("collapsed")
+        self.commentsCount = decoder.decodeOptionalKey("commentsCount")
+        self.content = decoder.decodeOptionalKey("content")
+        self.createdAt = decoder.decodeKey("createdAt")
+        self.href = decoder.decodeKey("href")
+        self.postId = decoder.decodeKey("postId")
+        self.repostsCount = decoder.decodeOptionalKey("repostsCount")
+        self.summary = decoder.decodeOptionalKey("summary")
+        self.token = decoder.decodeKey("token")
+        self.viewsCount = decoder.decodeOptionalKey("viewsCount")
+        self.comments = decoder.decodeKey("comments")
     }
 
     func encodeWithCoder(encoder: NSCoder) {

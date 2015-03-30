@@ -46,17 +46,14 @@ final class Comment: JSONAble, Authorable, NSCoding {
 
 // MARK: NSCoding
 
-    required init(coder decoder: NSCoder) {
-        self.author = decoder.decodeObjectForKey("author") as? User
-        self.commentId = decoder.decodeObjectForKey("commentId") as! String
-        self.createdAt = decoder.decodeObjectForKey("createdAt") as! NSDate
-        self.parentPost = decoder.decodeObjectForKey("parentPost") as! Post?
-        if let summary = decoder.decodeObjectForKey("summary") as? [Regionable] {
-            self.summary = summary
-        }
-        if let content = decoder.decodeObjectForKey("content") as? [Regionable] {
-            self.content = content
-        }
+    required init(coder aDecoder: NSCoder) {
+        let decoder = Decoder(aDecoder)
+        self.author = decoder.decodeOptionalKey("author")
+        self.commentId = decoder.decodeKey("commentId")
+        self.createdAt = decoder.decodeKey("createdAt")
+        self.parentPost = decoder.decodeOptionalKey("parentPost")
+        self.summary = decoder.decodeOptionalKey("summary")
+        self.content = decoder.decodeOptionalKey("content")
     }
 
     func encodeWithCoder(encoder: NSCoder) {

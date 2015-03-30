@@ -58,30 +58,12 @@ final class ImageAttachment: NSObject, NSCoding {
         }
     }
 
-    required init(coder decoder: NSCoder) {
-        self.url = decoder.decodeObjectForKey("url") as? NSURL
-
-        if decoder.containsValueForKey("height") {
-            self.height = Int(decoder.decodeIntForKey("height"))
-        }
-        else {
-            self.height =  nil
-        }
-
-        if decoder.containsValueForKey("width") {
-            self.width = Int(decoder.decodeIntForKey("width"))
-        }
-        else {
-            self.width = nil
-        }
-
-        if decoder.containsValueForKey("size") {
-            self.size = Int(decoder.decodeIntForKey("size"))
-        }
-        else {
-            self.size = nil
-        }
-
-        self.imageType = decoder.decodeObjectForKey("imageType") as? String
+    required init(coder aDecoder: NSCoder) {
+        let decoder = Decoder(aDecoder)
+        self.url = decoder.decodeOptionalKey("url")
+        self.height = decoder.decodeOptionalKey("height")
+        self.width = decoder.decodeOptionalKey("width")
+        self.size = decoder.decodeOptionalKey("size")
+        self.imageType = decoder.decodeOptionalKey("imageType")
     }
 }

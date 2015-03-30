@@ -29,8 +29,9 @@ final class TextRegion: JSONAble, NSCoding {
         encoder.encodeObject(self.content, forKey: "content")
     }
 
-    required init(coder decoder: NSCoder) {
-        self.content = decoder.decodeObjectForKey("content") as! String
+    required init(coder aDecoder: NSCoder) {
+        let decoder = Decoder(aDecoder)
+        self.content = decoder.decodeKey("content")
     }
     
 // MARK: JSONAble
