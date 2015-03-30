@@ -59,6 +59,13 @@ class StreamViewController: BaseElloViewController {
     let streamService = StreamService()
     var pullToRefreshView: SSPullToRefreshView?
     var allOlderPagesLoaded = false
+    var restoreTabBar: Bool? = nil
+    var parentTabBarController: UITabBarController? {
+        if let parentViewController = self.parentViewController {
+            return parentViewController.tabBarController
+        }
+        return nil
+    }
 
     var streamKind:StreamKind = StreamKind.Friend {
         didSet {
@@ -89,6 +96,21 @@ class StreamViewController: BaseElloViewController {
     override func awakeFromNib() {
         super.awakeFromNib()
         initialSetup()
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        if let restoreTabBar = self.restoreTabBar {
+            self.parentTabBarController?.setTabBarHidden(restoreTabBar, animated: false)
+        }
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        if let restoreTabBar = self.restoreTabBar {
+            self.parentTabBarController?.setTabBarHidden(restoreTabBar, animated: false)
+            self.restoreTabBar = nil
+        }
     }
 
     override func didSetCurrentUser() {
@@ -188,8 +210,8 @@ class StreamViewController: BaseElloViewController {
 
     private func removeNotificationObservers() {
         NSNotificationCenter.defaultCenter().removeObserver(self)
-        if let imageViewer = imageViewerDelegate {
-            NSNotificationCenter.defaultCenter().removeObserver(imageViewer)
+        if let imageViewerDelegate = imageViewerDelegate {
+            NSNotificationCenter.defaultCenter().removeObserver(imageViewerDelegate)
         }
         if let updatedStreamImageCellHeightNotification = updatedStreamImageCellHeightNotification {
             updatedStreamImageCellHeightNotification.removeObserver()
@@ -256,9 +278,7 @@ class StreamViewController: BaseElloViewController {
         userListController!.currentUser = currentUser
         dataSource.userListDelegate = userListController
 
-        if let imageViewer = imageViewerDelegate {
-            dataSource.imageDelegate = imageViewer
-        }
+        dataSource.imageDelegate = self
         dataSource.webLinkDelegate = self
         dataSource.userDelegate = self
         collectionView.dataSource = dataSource
@@ -450,4 +470,15 @@ extension StreamViewController: SSPullToRefreshViewDelegate {
             }
         )
     }
+}
+
+extension StreamViewController: StreamImageCellDelegate {
+
+    func imageTapped(imageView: FLAnimatedImageView) {
+        if let imageViewerDelegate = imageViewerDelegate {
+            restoreTabBar = self.parentTabBarController?.tabBarHidden
+            imageViewerDelegate.imageTapped(imageView)
+        }
+    }
+
 }
