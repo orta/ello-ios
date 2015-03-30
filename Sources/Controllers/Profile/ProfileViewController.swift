@@ -27,7 +27,7 @@ class ProfileViewController: StreamableViewController, EditProfileResponder {
 
     required init(userParam: String) {
         self.userParam = userParam
-        self.streamViewController.streamKind = .Profile(userParam: userParam)
+        self.streamViewController.streamKind = .UserStream(userParam: userParam)
         super.init(nibName: "ProfileViewController", bundle: nil)
         ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.streamService.loadUser(streamViewController.streamKind.endpoint,
@@ -45,7 +45,7 @@ class ProfileViewController: StreamableViewController, EditProfileResponder {
         self.user = user
         self.responseConfig = responseConfig
         self.userParam = self.user!.userId
-        self.streamViewController.streamKind = .Profile(userParam: self.userParam)
+        self.streamViewController.streamKind = .Profile
         super.init(nibName: "ProfileViewController", bundle: nil)
     }
 

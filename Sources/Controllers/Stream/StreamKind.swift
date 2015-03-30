@@ -13,7 +13,8 @@ enum StreamKind {
     case Noise
     case Discover(type: DiscoverType, seed: Int, perPage: Int)
     case PostDetail(postParam: String)
-    case Profile(userParam: String)
+    case Profile
+    case UserStream(userParam: String)
     case Notifications
     case UserList(endpoint: ElloAPI, title: String)
 
@@ -25,6 +26,7 @@ enum StreamKind {
         case .Discover: return "Discover"
         case .PostDetail: return "Post Detail"
         case .Profile: return "Profile"
+        case .UserStream: return "User Stream"
         case .UserList(let title): return "\(title)"
         }
     }
@@ -43,7 +45,8 @@ enum StreamKind {
         case .Discover(let type, let seed, let perPage): return ElloAPI.Discover(type: type, seed: seed, perPage: perPage)
         case .Notifications: return .NotificationsStream
         case .PostDetail(let postParam): return .PostDetail(postParam: postParam)
-        case .Profile(let userParam): return .UserStream(userParam: userParam)
+        case .Profile: return .Profile
+        case .UserStream(let userParam): return .UserStream(userParam: userParam)
         case .UserList(let endpoint, let title): return endpoint
         }
     }
