@@ -61,8 +61,7 @@ class LandingViewController: BaseElloViewController {
             vc.currentUser = user
             self.presentViewController(vc, animated: true, completion: nil)
         }, failure: { error in
-            println("error: \(error)")
-            self.showButtons()
+            self.failedToLoadCurrentUser()
         })
 
         //TODO: Need to get failure back to LandingViewController when loading the current user fails
@@ -79,8 +78,9 @@ class LandingViewController: BaseElloViewController {
 
     private func setupNotificationObservers() {
         let center = NSNotificationCenter.defaultCenter()
-        center.addObserver(self, selector: Selector("loggedOut:"), name: AccessManager.Notifications.LoggedOut.rawValue, object: nil)
-        center.addObserver(self, selector: Selector("failedToLoadCurrentUser:"), name: "ElloProviderNotification401", object: nil)
+        center.addObserver(self, selector: Selector("userLoggedOut:"), name: Notifications.UserLoggedOut.rawValue, object: nil)
+        center.addObserver(self, selector: Selector("systemLoggedOut:"), name: Notifications.SystemLoggedOut.rawValue, object: nil)
+        center.addObserver(self, selector: Selector("failedToLoadCurrentUser"), name: "ElloProviderNotification401", object: nil)
     }
 
     private func removeNotificationObservers() {
@@ -88,17 +88,33 @@ class LandingViewController: BaseElloViewController {
         center.removeObserver(self)
     }
 
-    func failedToLoadCurrentUser(notification: NSNotification) {
+    func failedToLoadCurrentUser() {
         let authToken = AuthToken()
         authToken.reset()
         showButtons()
     }
 
-    func loggedOut(notification: NSNotification) {
+    func userLoggedOut(notification: NSNotification) {
+        let authToken = AuthToken()
+        authToken.reset()
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+
+    func systemLoggedOut(notification: NSNotification) {
         let authToken = AuthToken()
         authToken.reset()
 
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismissViewControllerAnimated(true, completion: {
+            let alertController = UIAlertController(
+                title: "You have been automatically logged out",
+                message: "",
+                preferredStyle: .Alert)
+
+            let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
+            alertController.addAction(action)
+
+            self.presentViewController(alertController, animated: true, completion: nil)
+        })
     }
 
 // MARK: - IBActions

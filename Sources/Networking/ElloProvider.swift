@@ -173,9 +173,11 @@ extension MoyaProvider {
                     },
                     failure: { (_,_) in
                         self.postNetworkFailureNotification(data, error: error, statusCode: statusCode)
+                        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.SystemLoggedOut.rawValue, object: nil)
                     })
                 } else {
                     self.postNetworkFailureNotification(data, error: error, statusCode: statusCode)
+                    NSNotificationCenter.defaultCenter().postNotificationName(Notifications.SystemLoggedOut.rawValue, object: nil)
                 }
             case 410:
                 self.postNetworkFailureNotification(data, error: error, statusCode: statusCode)
@@ -260,13 +262,7 @@ extension MoyaProvider {
 
     private func handleNetworkFailure(failure:ElloFailureCompletion?, data:NSData?, error: NSError?, statusCode: Int?) {
         let elloError = generateElloError(data, error: error, statusCode: statusCode)
-
-        if let failure = failure {
-            failure(error: elloError, statusCode: statusCode)
-        }
-        else {
-            self.postNetworkFailureNotification(data, error: error, statusCode: statusCode)
-        }
+        failure?(error: elloError, statusCode: statusCode)
     }
 
     private func parseResponse(response: NSHTTPURLResponse?) -> ResponseConfig {

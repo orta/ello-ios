@@ -102,7 +102,7 @@ class ProfileViewController: StreamableViewController, EditProfileResponder {
     }
 
     @IBAction func logOutTapped(sender: ElloTextButton) {
-        NSNotificationCenter.defaultCenter().postNotificationName(AccessManager.Notifications.LoggedOut.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.UserLoggedOut.rawValue, object: nil)
     }
 
     func editProfile() {
