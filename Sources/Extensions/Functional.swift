@@ -6,6 +6,7 @@ import Foundation
 
 struct Functional {
     typealias BasicBlock = (()->())
+    typealias CancellableBlock = Bool -> ()
     typealias TakesIndexBlock = ((Int)->())
 
     class Proc {
@@ -81,21 +82,24 @@ struct Functional {
     // after the timeout duration
     static func timeout(duration : Double, block : BasicBlock) -> BasicBlock {
         let handler = once(block)
-        later(duration, block: handler)
+        _ = later(duration, block: handler)
         return handler
     }
 
     // Calls the block after the specified duration.
-    static func later(duration : Double, block : BasicBlock) {
+    static func later(duration : Double, block : BasicBlock) -> BasicBlock {
         let proc = Proc(block: block)
-        NSTimer.scheduledTimerWithTimeInterval(duration, target: proc, selector: "run", userInfo: nil, repeats: false)
+        let timer = NSTimer.scheduledTimerWithTimeInterval(duration, target: proc, selector: "run", userInfo: nil, repeats: false)
+        return {
+            timer.invalidate()
+        }
     }
 
     // calling this method multiple times resets the internal timer.  After
     // the timeout duration has been reached, the block is called.  This cycle
     // can then start over; if you only want the block to be called once, you
     // should wrap the block with Functional.once()
-    static func throttle(duration : Double, block : BasicBlock) -> BasicBlock {
+    static func throttle(duration: Double, block: BasicBlock) -> BasicBlock {
         var timer : NSTimer? = nil
         let proc = Proc(block: block)
 
@@ -106,5 +110,4 @@ struct Functional {
             timer = NSTimer.scheduledTimerWithTimeInterval(duration, target: proc, selector: "run", userInfo: nil, repeats: false)
         }
     }
-
 }
