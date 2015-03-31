@@ -8,7 +8,18 @@
 
 import UIKit
 
-class ElloTabBarController: UITabBarController {
+class ElloTabBarController: UIViewController {
+    var selectedIndex: Int
+
+    required override init() {
+        super.init(nibName: nil, bundle: nil)
+        selectedIndex = 0
+    }
+
+    required override init(coder decoder: NSCoder) {
+        super.init(coder: decoder)
+        selectedIndex = decoder.decodeIntForKey("selectedIndex")
+    }
 
     var currentUser : User? {
         didSet { didSetCurrentUser() }
