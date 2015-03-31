@@ -105,7 +105,7 @@ extension MoyaProvider {
     // MARK: - Public
 
     func elloRequest(token: ElloAPI, method: Moya.Method, success: ElloSuccessCompletion, failure: ElloFailureCompletion?) {
-        self.request(token as T, method: method, parameters: token.defaultParameters, completion: {
+        self.request(token as! T, method: method, parameters: token.defaultParameters, completion: {
             (data, statusCode, response, error) in
             self.handleRequest(token, method: method, data: data, response: response as? NSHTTPURLResponse, statusCode: statusCode, success: success, failure: failure, isRetry: false, error: error)
         })
@@ -158,7 +158,7 @@ extension MoyaProvider {
                     let authService = AuthService()
                     authService.reAuthenticate({
                         // now retry the previous request that generated the original 401
-                        self.request(token as T, method: method, parameters: token.defaultParameters, completion: { (data, statusCode, response, error) in
+                        self.request(token as! T, method: method, parameters: token.defaultParameters, completion: { (data, statusCode, response, error) in
                             self.handleRequest(token, method: method, data: data, response: response as? NSHTTPURLResponse, statusCode: statusCode, success: success, failure: failure, isRetry: true, error: error)
                         })
                         },
@@ -211,7 +211,6 @@ extension MoyaProvider {
                         if let links = node["links"] as? [String:AnyObject] {
                             if let pagingPathNode = links[pagingPath] as? [String:AnyObject] {
                                 if let pagination = pagingPathNode["pagination"] as? [String:String] {
-                                    println("PAGING PATH NODE: \(pagination)")
                                     responseConfig = parsePagination(pagination)
                                 }
                             }
