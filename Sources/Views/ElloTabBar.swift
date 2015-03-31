@@ -16,4 +16,13 @@ public class ElloTabBar: UITabBar {
         self.tintColor = UIColor.blackColor()
         self.clipsToBounds = true
     }
+
+    convenience init() {
+        self.init(frame: CGRectZero)
+    }
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+
 }

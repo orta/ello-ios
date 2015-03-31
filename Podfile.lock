@@ -29,7 +29,7 @@ DEPENDENCIES:
   - FLAnimatedImage (from `https://github.com/ello/FLAnimatedImage.git`)
   - Keys (from `https://github.com/ashfurrow/empty-podspec.git`)
   - LlamaKit (from `https://github.com/ello/LlamaKit.git`)
-  - Moya (from `https://github.com/ello/Moya`)
+  - Moya (from `https://github.com/ello/Moya`, branch `cg-hybrid`)
   - Nimble (from `git@github.com:Quick/Nimble.git`, tag `v0.4.1`)
   - Quick (from `git@github.com:Quick/Quick.git`, tag `v0.3.0`)
   - SDWebImage (~> 3.7)
@@ -49,6 +49,7 @@ EXTERNAL SOURCES:
   LlamaKit:
     :git: https://github.com/ello/LlamaKit.git
   Moya:
+    :branch: cg-hybrid
     :git: https://github.com/ello/Moya
   Nimble:
     :git: git@github.com:Quick/Nimble.git
@@ -80,7 +81,7 @@ CHECKOUT OPTIONS:
     :commit: 17c80a90295419e180234381ab7f787e136918df
     :git: https://github.com/ello/LlamaKit.git
   Moya:
-    :commit: d59533683ae9322500cf835a0a12a30df7587e74
+    :commit: 9dac672ee6f95f45bab89eec4a1227eb7ac1da5e
     :git: https://github.com/ello/Moya
   Nimble:
     :git: git@github.com:Quick/Nimble.git

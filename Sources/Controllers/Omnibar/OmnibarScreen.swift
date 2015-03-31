@@ -357,7 +357,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
         let bottomHeight = window.frame.height - bottom
         var localKbdHeight = kbdHeight - bottomHeight
         if localKbdHeight < 0 {
-            localKbdHeight = 0
+            localKbdHeight = Size.margins
         }
         else {
             localKbdHeight += Size.bottomTextMargin

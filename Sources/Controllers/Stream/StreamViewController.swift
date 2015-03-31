@@ -60,9 +60,11 @@ class StreamViewController: BaseElloViewController {
     var pullToRefreshView: SSPullToRefreshView?
     var allOlderPagesLoaded = false
     var restoreTabBar: Bool? = nil
-    var parentTabBarController: UITabBarController? {
+    var parentTabBarController: ElloTabBarController? {
         if let parentViewController = self.parentViewController {
-            return parentViewController.tabBarController
+            if let elloController = parentViewController as? BaseElloViewController {
+                return elloController.elloTabBarController
+            }
         }
         return nil
     }
