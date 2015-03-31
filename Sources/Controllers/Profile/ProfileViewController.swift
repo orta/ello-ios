@@ -150,6 +150,7 @@ class ProfileViewController: StreamableViewController, EditProfileResponder {
     private func userLoaded(user: User, responseConfig: ResponseConfig) {
         self.user = user
         self.streamViewController.responseConfig = responseConfig
+        self.streamViewController.infiniteScrollClosure = addAuthorToPosts // TODO: this line can be removed when author is added to posts
         if !isRootViewController() {
             self.title = user.atName ?? "Profile"
         }
@@ -166,6 +167,17 @@ class ProfileViewController: StreamableViewController, EditProfileResponder {
         items += StreamCellItemParser().parse(user.posts, streamKind: streamViewController.streamKind)
         streamViewController.appendUnsizedCellItems(items)
         streamViewController.doneLoading()
+    }
+
+    // TODO: this method can be removed when author is added to posts
+    private func addAuthorToPosts(jsonables: [JSONAble]) {
+        if let user = self.user {
+            if let posts = jsonables as? [Post] {
+                for post in posts {
+                    post.author = user
+                }
+            }
+        }
     }
 }
 
