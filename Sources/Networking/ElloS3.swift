@@ -72,26 +72,23 @@ class ElloS3 {
 
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) { (data : NSData?, response : NSURLResponse?, error : NSError?) in
-            var httpResponse = response as? NSHTTPURLResponse
-            if let error = error {
-                self.failureHandler?(error: error)
-            }
-            else if httpResponse?.statusCode >= 200 && httpResponse?.statusCode < 300 {
-                if let data = data {
-                    let message = NSString(data: data, encoding: NSUTF8StringEncoding)!
-                    self.successHandler?(response: data)
+            dispatch_async(dispatch_get_main_queue()) {
+                var httpResponse = response as? NSHTTPURLResponse
+                if let error = error {
+                    self.failureHandler?(error: error)
+                }
+                else if httpResponse?.statusCode >= 200 && httpResponse?.statusCode < 300 {
+                    if let data = data {
+                        let message = NSString(data: data, encoding: NSUTF8StringEncoding)!
+                        self.successHandler?(response: data)
+                    }
+                    else {
+                        self.failureHandler?(error: NSError(domain: ElloErrorDomain, code: 0, userInfo: [NSLocalizedFailureReasonErrorKey: "failure"]))
+                    }
                 }
                 else {
                     self.failureHandler?(error: NSError(domain: ElloErrorDomain, code: 0, userInfo: [NSLocalizedFailureReasonErrorKey: "failure"]))
                 }
-            }
-            else {
-                // debugging code:
-                // if let data = data {
-                //     let message = NSString(data: data, encoding: NSUTF8StringEncoding)!
-                //     println("resp: \(message)")
-                // }
-                self.failureHandler?(error: NSError(domain: ElloErrorDomain, code: 0, userInfo: [NSLocalizedFailureReasonErrorKey: "failure"]))
             }
         }
         task.resume()
