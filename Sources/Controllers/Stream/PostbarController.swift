@@ -24,14 +24,7 @@ class PostbarController: NSObject, PostbarDelegate {
     // MARK:
 
     func viewsButtonTapped(cell:UICollectionViewCell) {
-        if let indexPath = collectionView.indexPathForCell(cell) {
-            if let post = dataSource.postForIndexPath(indexPath) {
-                let items = self.dataSource.cellItemsForPost(post)
-                // This is a bit dirty, we should not call a method on a compositionally held
-                // controller's postTappedDelegate. Need to chat about this with the crew.
-                presentingController?.postTappedDelegate?.postTapped(post, initialItems: items)
-            }
-        }
+        postTappedForCell(cell)
     }
 
     func commentsButtonTapped(cell:StreamFooterCell, commentsButton: CommentButton) {
@@ -118,6 +111,17 @@ class PostbarController: NSObject, PostbarDelegate {
 
 // MARK: - Private
 
+    private func postTappedForCell(cell: UICollectionViewCell) {
+        if let indexPath = collectionView.indexPathForCell(cell) {
+            if let post = dataSource.postForIndexPath(indexPath) {
+                let items = self.dataSource.cellItemsForPost(post)
+                // This is a bit dirty, we should not call a method on a compositionally held
+                // controller's postTappedDelegate. Need to chat about this with the crew.
+                presentingController?.postTappedDelegate?.postTapped(post, initialItems: items)
+            }
+        }
+    }
+    
     private func commentLoadSuccess(jsonables:[JSONAble], indexPath:NSIndexPath, cell:StreamFooterCell) {
         let items = StreamCellItemParser().parse(jsonables, streamKind: StreamKind.Friend)
         self.dataSource.insertUnsizedCellItems(items,
