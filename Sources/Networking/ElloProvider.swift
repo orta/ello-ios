@@ -281,6 +281,16 @@ extension MoyaProvider {
                 config.prevQueryItems = comps.queryItems
             }
         }
+        if let first = node["first"] {
+            if let comps = NSURLComponents(string: first) {
+                config.firstQueryItems = comps.queryItems
+            }
+        }
+        if let last = node["last"] {
+            if let comps = NSURLComponents(string: last) {
+                config.lastQueryItems = comps.queryItems
+            }
+        }
         return config
     }
 
@@ -297,6 +307,16 @@ extension MoyaProvider {
         if let prevLink = response?.findLink(relation: "prev") {
             if let comps = NSURLComponents(string: prevLink.uri) {
                 config.prevQueryItems = comps.queryItems
+            }
+        }
+        if let firstLink = response?.findLink(relation: "first") {
+            if let comps = NSURLComponents(string: firstLink.uri) {
+                config.firstQueryItems = comps.queryItems
+            }
+        }
+        if let lastLink = response?.findLink(relation: "last") {
+            if let comps = NSURLComponents(string: lastLink.uri) {
+                config.lastQueryItems = comps.queryItems
             }
         }
         return config
