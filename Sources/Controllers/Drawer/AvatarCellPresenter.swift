@@ -6,9 +6,12 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-struct AvatarCellPresenter {
-    static func configure(cell: AvatarCell, user: User) {
-        cell.setAvatar(user.avatarURL)
+struct AvatarCellPresenter: CellPresenter {
+    let reuseIdentifier = "AvatarCell"
+    let user: User
+
+    func configureCell(cell: UICollectionViewCell) {
+        let cell = cell as? AvatarCell
+        cell?.setAvatar(user.avatarURL)
     }
 }
-

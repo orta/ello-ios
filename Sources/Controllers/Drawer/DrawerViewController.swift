@@ -64,8 +64,6 @@ extension DrawerViewController {
 extension DrawerViewController: DrawerViewDataSourceDelegate {
     func dataSourceStartedLoadingUsers(dataSource: DrawerViewDataSource) {
         dispatch_async(dispatch_get_main_queue()) {
-//            let lastCell = dataSource.numberOfUsers - 1
-//            self.collectionView.insertItemsAtIndexPaths([NSIndexPath(forItem: lastCell, inSection: 0)])
             self.collectionView.reloadData()
         }
     }
@@ -84,15 +82,9 @@ extension DrawerViewController: UICollectionViewDataSource {
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        var cell: UICollectionViewCell
-        let result = dataSource.objectForIndexPath(indexPath)
-        switch result {
-        case let .Success(userBox):
-            cell = collectionView.dequeueReusableCellWithReuseIdentifier(AvatarCell.reuseIdentifier(), forIndexPath: indexPath) as UICollectionViewCell
-            AvatarCellPresenter.configure(cell as AvatarCell, user: userBox.unbox)
-        case .Failure:
-            cell = collectionView.dequeueReusableCellWithReuseIdentifier("loadingCell", forIndexPath: indexPath) as UICollectionViewCell
-        }
+        let presenter = dataSource.cellPresenterForIndexPath(indexPath)
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(presenter.reuseIdentifier, forIndexPath: indexPath) as! UICollectionViewCell
+        presenter.configureCell(cell)
         return cell
     }
 }
@@ -100,7 +92,7 @@ extension DrawerViewController: UICollectionViewDataSource {
 // MARK: UICollectionViewDelegate
 extension DrawerViewController: UICollectionViewDelegate {
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let profile = dataSource.objectForIndexPath(indexPath).value.map { ProfileViewController(userParam: $0.userId) }
+        let profile = dataSource.userForIndexPath(indexPath).map { ProfileViewController(userParam: $0.userId) }
 
         if let profileViewController = profile {
             navigationController?.pushViewController(profileViewController, animated: true)
@@ -140,7 +132,8 @@ private extension DrawerViewController {
     }
 
     func registerCells() {
-        collectionView.registerNib(AvatarCell.nib(), forCellWithReuseIdentifier: AvatarCell.reuseIdentifier())
-        collectionView.registerClass(StreamLoadingCell.self, forCellWithReuseIdentifier: "loadingCell")
+        let fakeUser = User.fakeCurrentUser("")
+        collectionView.registerNib(AvatarCell.nib(), forCellWithReuseIdentifier: AvatarCellPresenter(user: fakeUser).reuseIdentifier)
+        collectionView.registerClass(StreamLoadingCell.self, forCellWithReuseIdentifier: LoadingCellPresenter().reuseIdentifier)
     }
 }

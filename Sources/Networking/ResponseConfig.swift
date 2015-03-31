@@ -19,4 +19,11 @@ class ResponseConfig: Printable {
     var totalPagesRemaining: String?
 
     init() {}
+
+    func isOutOfData() -> Bool {
+        return totalPagesRemaining == "0"
+            || totalPagesRemaining == nil
+            || nextQueryItems.map(count) == 0
+            || nextQueryItems == nil
+    }
 }
