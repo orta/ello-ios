@@ -24,7 +24,7 @@ protocol InviteResponder: NSObjectProtocol {
     func onInviteFriends()
 }
 
-class StreamableViewController : BaseElloViewController, PostTappedDelegate, UserTappedDelegate, CreateCommentDelegate {
+class StreamableViewController : BaseElloViewController {
 
     var scrollLogic: ElloScrollLogic!
 
@@ -78,26 +78,6 @@ class StreamableViewController : BaseElloViewController, PostTappedDelegate, Use
         }
     }
 
-    func postTapped(post: Post, initialItems: [StreamCellItem]) {
-        let vc = PostDetailViewController(post: post, items: initialItems)
-        vc.currentUser = currentUser
-        vc.willPresentStreamable(scrollLogic.isShowing)
-        self.navigationController?.pushViewController(vc, animated: true)
-        vc.didPresentStreamable()
-    }
-
-    func userTapped(user: User) {
-        if alreadyOnUserProfile(user.userId) {
-            return
-        }
-
-        let vc = ProfileViewController(userParam: user.userId)
-        vc.currentUser = currentUser
-        vc.willPresentStreamable(scrollLogic.isShowing)
-        self.navigationController?.pushViewController(vc, animated: true)
-        vc.didPresentStreamable()
-    }
-
     private func alreadyOnUserProfile(user: User) -> Bool {
         if let profileVC = self.navigationController?.topViewController as? ProfileViewController {
             let param = profileVC.userParam
@@ -111,7 +91,36 @@ class StreamableViewController : BaseElloViewController, PostTappedDelegate, Use
         }
         return false
     }
+}
 
+// MARK: PostTappedDelegate
+extension StreamableViewController: PostTappedDelegate {
+    func postTapped(post: Post, initialItems: [StreamCellItem]) {
+        let vc = PostDetailViewController(post: post, items: initialItems)
+        vc.currentUser = currentUser
+        vc.willPresentStreamable(scrollLogic.isShowing)
+        self.navigationController?.pushViewController(vc, animated: true)
+        vc.didPresentStreamable()
+    }
+}
+
+// MARK: UserTappedDelegate
+extension StreamableViewController: UserTappedDelegate {
+    func userTapped(user: User) {
+        if alreadyOnUserProfile(user.userId) {
+            return
+        }
+
+        let vc = ProfileViewController(userParam: user.userId)
+        vc.currentUser = currentUser
+        vc.willPresentStreamable(scrollLogic.isShowing)
+        self.navigationController?.pushViewController(vc, animated: true)
+        vc.didPresentStreamable()
+    }
+}
+
+// MARK: CreateCommentDelegate
+extension StreamableViewController: CreateCommentDelegate {
     func createComment(post : Post) {
         let vc = OmnibarViewController(parentPost: post)
         vc.currentUser = self.currentUser
@@ -125,13 +134,10 @@ class StreamableViewController : BaseElloViewController, PostTappedDelegate, Use
     // child classes should override this method and add the comment to their
     // datasource.
     func commentCreated(comment: Comment) {}
-
 }
 
-
-// MARK: StreamableViewController: StreamScrollDelegate
+// MARK: StreamScrollDelegate
 extension StreamableViewController : StreamScrollDelegate {
-
     func streamViewDidScroll(scrollView : UIScrollView) {
         scrollLogic.scrollViewDidScroll(scrollView)
     }
@@ -143,11 +149,10 @@ extension StreamableViewController : StreamScrollDelegate {
     func streamViewDidEndDragging(scrollView: UIScrollView, willDecelerate: Bool) {
         scrollLogic.scrollViewDidEndDragging(scrollView, willDecelerate: willDecelerate)
     }
-
 }
 
+// MARK: InviteResponder
 extension StreamableViewController: InviteResponder {
-
     func onInviteFriends() {
         if AddressBook.needsAuthentication() {
             displayContactActionSheet()
@@ -200,5 +205,4 @@ extension StreamableViewController: InviteResponder {
 
         presentViewController(alertController, animated: true, completion: .None)
     }
-
 }
