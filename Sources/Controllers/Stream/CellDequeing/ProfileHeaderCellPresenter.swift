@@ -20,7 +20,6 @@ struct ProfileHeaderCellPresenter {
         if let cell = cell as? ProfileHeaderCell {
             let user = streamCellItem.jsonable as! User
             cell.relationshipView.hidden = false
-            cell.profileButtonsView.hidden = true
 
             if let currentUser = cell.currentUser {
                 cell.relationshipView.hidden = user.userId == currentUser.userId
