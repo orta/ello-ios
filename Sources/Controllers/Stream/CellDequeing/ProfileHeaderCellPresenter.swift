@@ -13,7 +13,7 @@ struct ProfileHeaderCellPresenter {
 
     static func configure(
         cell:UICollectionViewCell,
-        streamCellItem:StreamCellItem,
+        streamCellItem:StreamCellItem,  
         streamKind: StreamKind,
         indexPath: NSIndexPath)
     {

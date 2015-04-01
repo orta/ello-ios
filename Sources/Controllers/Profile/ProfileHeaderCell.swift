@@ -10,7 +10,7 @@ import UIKit
 import Foundation
 
 @objc protocol EditProfileResponder {
-    func editProfile()
+    func onEditProfile()
 }
 
 class ProfileHeaderCell: UICollectionViewCell {
@@ -74,8 +74,8 @@ class ProfileHeaderCell: UICollectionViewCell {
     }
 
     @IBAction func settingsTapped(sender: UIButton) {
-        let responder = targetForAction("editProfile", withSender: self) as? EditProfileResponder
-        responder?.editProfile()
+        let responder = targetForAction("onEditProfile", withSender: self) as? EditProfileResponder
+        responder?.onEditProfile()
     }
 
     @IBAction func inviteTapped(sender: UIButton) {

@@ -115,7 +115,7 @@ class ProfileViewController: StreamableViewController, EditProfileResponder {
         NSNotificationCenter.defaultCenter().postNotificationName(Notifications.UserLoggedOut.rawValue, object: nil)
     }
 
-    func editProfile() {
+    func onEditProfile() {
         if let settings = UIStoryboard(name: "Settings", bundle: .None).instantiateInitialViewController() as? SettingsViewController {
             settings.currentUser = currentUser
             navigationController?.pushViewController(settings, animated: true)
