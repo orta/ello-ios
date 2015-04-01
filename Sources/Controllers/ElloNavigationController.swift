@@ -17,6 +17,7 @@ class ElloNavigationController: UINavigationController, UIGestureRecognizerDeleg
     var currentUser : User? {
         didSet { didSetCurrentUser() }
     }
+    var profileResponseConfig: ResponseConfig?
 
     var backGesture: UIScreenEdgePanGestureRecognizer?
 
@@ -26,26 +27,31 @@ class ElloNavigationController: UINavigationController, UIGestureRecognizerDeleg
         case Omnibar = "OmnibarViewController"
         case Discover = "DiscoverViewController"
 
-        func controllerInstance(user : User) -> BaseElloViewController {
+        func controllerInstance(user: User, responseConfig: ResponseConfig) -> BaseElloViewController {
             switch self {
             case Notifications: return NotificationsViewController()
-            case Profile: return ProfileViewController(user: user)
+            case Profile: return ProfileViewController(user: user, responseConfig: responseConfig)
             case Omnibar: return OmnibarViewController()
             case Discover: return DiscoverViewController()
             }
         }
     }
 
-    func didSetCurrentUser() {
+    func setProfileData(currentUser: User, responseConfig: ResponseConfig) {
+        self.currentUser = currentUser
+        self.profileResponseConfig = responseConfig
         if self.viewControllers.count == 0 {
             if let rootViewControllerName = rootViewControllerName {
-                if let controller = RootViewControllers(rawValue:rootViewControllerName)?.controllerInstance(currentUser!) {
+                if let controller = RootViewControllers(rawValue:rootViewControllerName)?.controllerInstance(currentUser, responseConfig: responseConfig) {
                     controller.currentUser = currentUser
                     self.viewControllers = [controller]
                 }
             }
         }
-        else {
+    }
+
+    func didSetCurrentUser() {
+        if self.viewControllers.count > 0 {
             var controllers = self.viewControllers as! [BaseElloViewController]
             for controller in controllers {
                 controller.currentUser = currentUser

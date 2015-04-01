@@ -50,7 +50,7 @@ class ElloProviderSpec: QuickSpec {
                            NSNotificationCenter.defaultCenter().addObserver(testObserver, selector: "handleNotification:", name: "ElloProviderNotification401", object: nil)
 
                             let endpoint: ElloAPI = .FriendStream
-                            provider.elloRequest(endpoint, method: Moya.Method.GET, parameters: endpoint.defaultParameters, mappingType: MappingType.ActivitiesType, success: { (data, responseConfig) in
+                            provider.elloRequest(endpoint, method: Moya.Method.GET, success: { (data, responseConfig) in
                                     loadedJSONAbles = data as? [JSONAble]
                                 }, failure: { (error, statusCode) -> () in
                                     loadedError = error
@@ -100,8 +100,6 @@ class ElloProviderSpec: QuickSpec {
                             let endpoint: ElloAPI = .FriendStream
                             provider.elloRequest(endpoint,
                                 method: Moya.Method.GET,
-                                parameters: endpoint.defaultParameters,
-                                mappingType: MappingType.ActivitiesType,
                                 success: { (data, responseConfig) in
                                     loadedJSONAbles = data as? [JSONAble]
                                 },
@@ -180,8 +178,6 @@ class NetworkErrorSharedExamplesConfiguration: QuickConfiguration {
                 let endpoint: ElloAPI = .FriendStream
                 provider.elloRequest(endpoint,
                     method: Moya.Method.GET,
-                    parameters: endpoint.defaultParameters,
-                    mappingType: MappingType.ActivitiesType,
                     success: { (data, responseConfig) in
                         loadedJSONAbles = data as? [JSONAble]
                     },

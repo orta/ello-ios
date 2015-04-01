@@ -18,8 +18,6 @@ struct ContentFlaggingService {
     func flagContent(endpoint: ElloAPI, success: ContentFlaggingSuccessCompletion, failure: ElloFailureCompletion?) {
         ElloProvider.sharedProvider.elloRequest(endpoint,
             method: .POST,
-            parameters: endpoint.defaultParameters,
-            mappingType: MappingType.NoContentType,
             success: { data in
                 success()
         }, failure: failure)
