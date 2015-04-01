@@ -51,7 +51,6 @@ let RelayoutStreamViewControllerNotification = TypedNotification<UICollectionVie
 public class StreamViewController: BaseElloViewController {
 
     @IBOutlet weak public var collectionView: UICollectionView!
-    var pulsingCircle : PulsingCircle?
     var streamables:[Streamable]?
     var refreshableIndex: Int?
     public var dataSource:StreamDataSource!
