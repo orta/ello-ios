@@ -18,6 +18,7 @@ StreamImageCellDelegate {
     let presentingController: StreamViewController
     let collectionView: UICollectionView
     let dataSource: StreamDataSource
+    weak var imageView: UIImageView?
 
     public init(presentingController: StreamViewController,
         collectionView: UICollectionView,
@@ -38,6 +39,8 @@ StreamImageCellDelegate {
     }
 
     private func showImageView(imageView: FLAnimatedImageView) {
+        self.imageView = imageView
+        self.imageView?.hidden = true
         let imageInfo = JTSImageInfo()
         imageInfo.image = imageView.image
         imageInfo.referenceRect = imageView.frame
@@ -68,7 +71,10 @@ StreamImageCellDelegate {
 
 // MARK: JTSImageViewControllerDismissalDelegate
 
-    public func imageViewerDidDismiss(imageViewer: JTSImageViewController!) {
+    func imageViewerDidDismiss(imageViewer: JTSImageViewController!) {}
+
+    func imageViewerWillDismiss(imageViewer: JTSImageViewController!) {
+        self.imageView?.hidden = false
     }
 
 }
