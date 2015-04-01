@@ -11,7 +11,20 @@ import QuartzCore
 
 class PulsingCircle: UIView {
 
-    private var circle:UIView?
+    private lazy var pulser: UIView = {
+        var size : CGFloat = 60
+        var view = UIView(frame: CGRect(x: 0, y: 0, width: size, height: size))
+        view.center = CGPoint(x: self.frame.size.width / 2, y: self.frame.size.height / 2)
+        view.autoresizingMask = .FlexibleTopMargin | .FlexibleBottomMargin | .FlexibleLeftMargin | .FlexibleRightMargin
+        view.layer.cornerRadius = size / 2
+        view.backgroundColor = UIColor.greyA()
+        view.clipsToBounds = true
+        self.addSubview(view)
+        return view
+    }()
+
+    private var isPulsing: Bool = false
+    private var shouldReanimate: Bool = false
 
     class func fill(view : UIView) -> PulsingCircle {
         var circle = PulsingCircle(frame: view.bounds)
@@ -19,65 +32,62 @@ class PulsingCircle: UIView {
         return circle
     }
 
+    override func willMoveToWindow(newWindow: UIWindow?) {
+        super.willMoveToWindow(newWindow)
+        if isPulsing && newWindow == nil {
+            shouldReanimate = true
+        }
+    }
+
     override func didMoveToWindow() {
         super.didMoveToWindow()
-        if window != nil && circle != nil {
-            circle = nil
+        self.userInteractionEnabled = false
+        println("didMoveToWindow()")
+        if window != nil && shouldReanimate {
+            shouldReanimate = false
             pulse()
         }
     }
 
     func stopPulse(completion: ((Bool)->())? = nil) {
-        self.userInteractionEnabled = false
-        if let circle = circle {
-            self.circle = nil
-            UIView.animateWithDuration(0.65,
-                delay: 0.0,
-                options: .CurveEaseOut,
-                animations: {
-                    circle.alpha = 0
-                },
-                completion: completion
-            )
-        }
-    }
-
-    func pulse() {
-        self.userInteractionEnabled = true
-
-        if self.circle == nil {
-            var size : CGFloat = 60
-            circle = UIView(frame: CGRect(x: 0, y: 0, width: size, height: size))
-            circle!.center = CGPoint(x: self.frame.size.width / 2, y: self.frame.size.height / 2)
-            circle!.autoresizingMask = .FlexibleTopMargin | .FlexibleBottomMargin | .FlexibleLeftMargin | .FlexibleRightMargin
-            circle!.layer.cornerRadius = size / 2
-            circle!.backgroundColor = UIColor.greyA()
-            circle!.clipsToBounds = true
-            self.addSubview(circle!)
-
-            self.keepPulsing(circle!)
-        }
-    }
-
-    private func keepPulsing(circle : UIView) {
+        shouldReanimate = false
+        isPulsing = false
         UIView.animateWithDuration(0.65,
             delay: 0.0,
             options: .CurveEaseOut,
             animations: {
-                self.alpha = 1
-                circle.transform = CGAffineTransformMakeScale(0.8, 0.8)
+                self.pulser.alpha = 0
+            },
+            completion: completion
+        )
+    }
+
+    func pulse() {
+        if !isPulsing {
+            self.isPulsing = true
+            self.keepPulsing()
+        }
+    }
+
+    private func keepPulsing() {
+        UIView.animateWithDuration(0.65,
+            delay: 0.0,
+            options: .CurveEaseOut,
+            animations: {
+                self.pulser.alpha = 1
+                self.pulser.transform = CGAffineTransformMakeScale(0.8, 0.8)
             },
             completion: { done in
-                if done {
+                if self.isPulsing {
                     UIView.animateWithDuration(0.65,
                         delay: 0.0,
                         options: .CurveEaseOut,
                         animations: {
-                            circle.transform = CGAffineTransformMakeScale(1.0, 1.0)
+                            self.pulser.transform = CGAffineTransformMakeScale(1.0, 1.0)
                         },
                         completion: { finished in
-                            if finished && self.circle != nil {
-                                self.keepPulsing(circle)
+                            if self.isPulsing {
+                                self.keepPulsing()
                             }
                         }
                     )
