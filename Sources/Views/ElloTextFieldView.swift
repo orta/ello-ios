@@ -13,6 +13,7 @@ private let ElloTextFieldViewHeight: CGFloat = 89.0
 public class ElloTextFieldView: UIView {
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var textField: ElloTextField!
+    @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
 
     var textFieldDidChange: (String -> ())? {
@@ -22,7 +23,10 @@ public class ElloTextFieldView: UIView {
     }
 
     var height: CGFloat {
-        return ElloTextFieldViewHeight + messageLabel.frame.height
+        var height = ElloTextFieldViewHeight
+        height += errorLabel.frame.height == 0 ? 0 : errorLabel.frame.height + 8
+        height += messageLabel.frame.height == 0 ? 0 : messageLabel.frame.height + 8
+        return height
     }
 
     required public init(coder aDecoder: NSCoder) {
@@ -39,6 +43,11 @@ public class ElloTextFieldView: UIView {
 
     func valueChanged() {
         textFieldDidChange?(textField.text)
+    }
+
+    func setErrorMessage(message: String) {
+        errorLabel.text = message
+        errorLabel.sizeToFit()
     }
 
     func setMessage(message: String) {

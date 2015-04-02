@@ -56,10 +56,11 @@ public class SensitiveSettingsViewController: UITableViewController {
             self.valueChanged()
             self.usernameView.setState(.Loading)
             self.validationCancel?()
+            self.usernameView.setErrorMessage("");
+            self.usernameView.setMessage("");
+            self.updateView()
 
             self.validationCancel = Functional.cancelableDelay(0.5) {
-                self.usernameView.setMessage("");
-
                 if text.isEmpty {
                     self.usernameView.setState(.Error)
                 } else if text == self.currentUser?.username {
@@ -69,9 +70,12 @@ public class SensitiveSettingsViewController: UITableViewController {
                         if text != self.usernameView.textField.text { return }
                         let state: ValidationState = availability.username ? .OK : .Error
 
-                        if !availability.username && !availability.usernameSuggestions.isEmpty {
-                            let suggestions = ", ".join(availability.usernameSuggestions)
-                            self.usernameView.setMessage("Available usernames -\n\(suggestions)");
+                        if !availability.username {
+                            self.usernameView.setErrorMessage("Username already exists.\nPlease try a new one.")
+                            if !availability.usernameSuggestions.isEmpty {
+                                let suggestions = ", ".join(availability.usernameSuggestions)
+                                self.usernameView.setMessage("Here are some available usernames -\n\(suggestions)");
+                            }
                         }
                         self.usernameView.setState(state)
                         self.updateView()
@@ -90,6 +94,8 @@ public class SensitiveSettingsViewController: UITableViewController {
             self.valueChanged()
             self.emailView.setState(.Loading)
             self.validationCancel?()
+            self.emailView.setErrorMessage("");
+            self.updateView()
 
             self.validationCancel = Functional.cancelableDelay(0.5) {
                 if text.isEmpty {
@@ -100,13 +106,21 @@ public class SensitiveSettingsViewController: UITableViewController {
                     AvailabilityService().emailAvailability(text, success: { availability in
                         if text != self.emailView.textField.text { return }
                         let state: ValidationState = availability.email ? .OK : .Error
+
+                        if !availability.email {
+                            self.emailView.setErrorMessage("That email is invalid.\nPlease try again.")
+                        }
                         self.emailView.setState(state)
-                        }, failure: { _, _ in
-                            self.emailView.setState(.None)
+                        self.updateView()
+                    }, failure: { _, _ in
+                        self.emailView.setState(.None)
+                        self.updateView()
                     })
                 } else {
                     self.emailView.setState(.Error)
+                    self.emailView.setErrorMessage("That email is invalid.\nPlease try again.")
                 }
+                self.updateView()
             }
         }
 
@@ -114,13 +128,17 @@ public class SensitiveSettingsViewController: UITableViewController {
         passwordView.textField.secureTextEntry = true
         passwordView.textFieldDidChange = { text in
             self.valueChanged()
+            self.passwordView.setErrorMessage("")
+
             if text.isEmpty {
                 self.passwordView.setState(.None)
             } else if text.isValidPassword() {
                 self.passwordView.setState(.OK)
             } else {
                 self.passwordView.setState(.Error)
+                self.passwordView.setErrorMessage("Password must be at least 8\ncharacters long.")
             }
+            self.updateView()
         }
     }
 
