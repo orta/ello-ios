@@ -8,14 +8,21 @@
 
 import Foundation
 
+private let ElloTextFieldViewHeight: CGFloat = 89.0
+
 public class ElloTextFieldView: UIView {
     @IBOutlet weak var label: UILabel!
-    @IBOutlet weak public var textField: ElloTextField!
+    @IBOutlet weak var textField: ElloTextField!
+    @IBOutlet weak var messageLabel: UILabel!
 
     var textFieldDidChange: (String -> ())? {
         didSet {
             textField.addTarget(self, action: "valueChanged", forControlEvents: .EditingChanged)
         }
+    }
+
+    var height: CGFloat {
+        return ElloTextFieldViewHeight + messageLabel.frame.height
     }
 
     required public init(coder aDecoder: NSCoder) {
@@ -32,5 +39,10 @@ public class ElloTextFieldView: UIView {
 
     func valueChanged() {
         textFieldDidChange?(textField.text)
+    }
+
+    func setMessage(message: String) {
+        messageLabel.text = message
+        messageLabel.sizeToFit()
     }
 }

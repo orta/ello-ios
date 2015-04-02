@@ -8,15 +8,20 @@
 
 import Foundation
 
-
-private let SensitiveSettingsClosedHeight: CGFloat = 89 * 3
-private let SensitiveSettingsOpenHeight: CGFloat = SensitiveSettingsClosedHeight + 128
+private let SensitiveSettingsSubmitViewHeight: CGFloat = 128
 
 
 public protocol SensitiveSettingsDelegate {
     func sensitiveSettingsDidUpdate()
 }
 
+private enum SensitiveSettingsRow: Int {
+    case Username
+    case Email
+    case Password
+    case Submit
+    case Unknown
+}
 
 public class SensitiveSettingsViewController: UITableViewController {
     @IBOutlet weak public var usernameView: ElloTextFieldView!
@@ -35,7 +40,8 @@ public class SensitiveSettingsViewController: UITableViewController {
     }
 
     public var height: CGFloat {
-        return isUpdatable ? SensitiveSettingsOpenHeight : SensitiveSettingsClosedHeight
+        let cellHeights = usernameView.height + emailView.height + passwordView.height
+        return cellHeights + (isUpdatable ? SensitiveSettingsSubmitViewHeight : 0)
     }
 
     override public func viewDidLoad() {
@@ -52,20 +58,29 @@ public class SensitiveSettingsViewController: UITableViewController {
             self.validationCancel?()
 
             self.validationCancel = Functional.cancelableDelay(0.5) {
+                self.usernameView.setMessage("");
+
                 if text.isEmpty {
                     self.usernameView.setState(.Error)
                 } else if text == self.currentUser?.username {
                     self.usernameView.setState(.None)
                 } else {
-                    println("callback")
                     AvailabilityService().usernameAvailability(text, success: { availability in
                         if text != self.usernameView.textField.text { return }
                         let state: ValidationState = availability.username ? .OK : .Error
+
+                        if !availability.username && !availability.usernameSuggestions.isEmpty {
+                            let suggestions = ", ".join(availability.usernameSuggestions)
+                            self.usernameView.setMessage("Available usernames -\n\(suggestions)");
+                        }
                         self.usernameView.setState(state)
-                        }, failure: { _, _ in
-                            self.usernameView.setState(.None)
+                        self.updateView()
+                    }, failure: { _, _ in
+                        self.usernameView.setState(.None)
+                        self.updateView()
                     })
                 }
+                self.updateView()
             }
         }
 
@@ -111,6 +126,22 @@ public class SensitiveSettingsViewController: UITableViewController {
 
     public func valueChanged() {
         delegate?.sensitiveSettingsDidUpdate()
+    }
+
+    func updateView() {
+        self.tableView.beginUpdates()
+        self.tableView.endUpdates()
+        valueChanged()
+    }
+
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        switch SensitiveSettingsRow(rawValue: indexPath.row) ?? .Unknown {
+        case .Username: return usernameView.height
+        case .Email: return emailView.height
+        case .Password: return passwordView.height
+        case .Submit: return SensitiveSettingsSubmitViewHeight
+        case .Unknown: return 0
+        }
     }
 }
 
