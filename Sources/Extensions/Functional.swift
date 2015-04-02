@@ -1,6 +1,8 @@
 //
 //  Functional.swift
 //
+//  Based on the Function helpers on underscorejs.org
+//
 
 import Foundation
 
@@ -80,14 +82,20 @@ struct Functional {
 
     // This block can be called multiple times, but it's guaranteed to be called
     // after the timeout duration
-    static func timeout(duration : Double, block : BasicBlock) -> BasicBlock {
+    static func timeout(duration: NSTimeInterval, block: BasicBlock) -> BasicBlock {
         let handler = once(block)
-        _ = later(duration, block: handler)
+        _ = delay(duration) {
+            handler()
+        }
         return handler
     }
 
-    // Calls the block after the specified duration.
-    static func later(duration : Double, block : BasicBlock) -> BasicBlock {
+    static func delay(duration: NSTimeInterval, block: BasicBlock) {
+        let proc = Proc(block: block)
+        let timer = NSTimer.scheduledTimerWithTimeInterval(duration, target: proc, selector: "run", userInfo: nil, repeats: false)
+    }
+
+    static func cancelableDelay(duration: NSTimeInterval, block: BasicBlock) -> BasicBlock {
         let proc = Proc(block: block)
         let timer = NSTimer.scheduledTimerWithTimeInterval(duration, target: proc, selector: "run", userInfo: nil, repeats: false)
         return {
@@ -95,19 +103,40 @@ struct Functional {
         }
     }
 
-    // calling this method multiple times resets the internal timer.  After
-    // the timeout duration has been reached, the block is called.  This cycle
-    // can then start over; if you only want the block to be called once, you
-    // should wrap the block with Functional.once()
-    static func throttle(duration: Double, block: BasicBlock) -> BasicBlock {
+    // Calling this method multiple times resets the internal timer.  After
+    // the timeout has been reached, the block is called.  Useful for things
+    // like updating the UI after the user has "stopped typing" (ie hasn't hit a
+    // key for 1/2 a sec or so)
+    static func debounce(timeout: NSTimeInterval, block: BasicBlock) -> BasicBlock {
         var timer : NSTimer? = nil
-        let proc = Proc(block: block)
+        let proc = Proc() {
+            block()
+        }
 
         return {
             if let prevTimer = timer {
                 prevTimer.invalidate()
             }
-            timer = NSTimer.scheduledTimerWithTimeInterval(duration, target: proc, selector: "run", userInfo: nil, repeats: false)
+            timer = NSTimer.scheduledTimerWithTimeInterval(timeout, target: proc, selector: "run", userInfo: nil, repeats: false)
         }
     }
+
+    // The difference with `debounce`, is that this method is guaranteed to run
+    // every `interval` seconds.  If `debounce` is useful for keyboard / UI,
+    // this method is useful for slowing down events, like a chat client that
+    // needs to insert chat messages and not be herky jerky.
+    static func throttle(interval: NSTimeInterval, block: BasicBlock) -> BasicBlock {
+        var timer : NSTimer? = nil
+        let proc = Proc() {
+            timer = nil
+            block()
+        }
+
+        return {
+            if timer == nil {
+                timer = NSTimer.scheduledTimerWithTimeInterval(interval, target: proc, selector: "run", userInfo: nil, repeats: false)
+            }
+        }
+    }
+
 }

@@ -48,7 +48,7 @@ class SensitiveSettingsViewController: UITableViewController {
             self.usernameView.setState(.Loading)
             self.validationCancel?()
 
-            self.validationCancel = Functional.later(0.5) {
+            self.validationCancel = Functional.cancelableDelay(0.5) {
                 if text.isEmpty {
                     self.usernameView.setState(.Error)
                 } else if text == self.currentUser?.username {
@@ -73,7 +73,7 @@ class SensitiveSettingsViewController: UITableViewController {
             self.emailView.setState(.Loading)
             self.validationCancel?()
 
-            self.validationCancel = Functional.later(0.5) {
+            self.validationCancel = Functional.cancelableDelay(0.5) {
                 if text.isEmpty {
                     self.emailView.setState(.Error)
                 } else if text == self.currentUser?.email {
