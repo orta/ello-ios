@@ -10,11 +10,12 @@ import Foundation
 
 public class PostbarController: NSObject, PostbarDelegate {
 
-    let presentingController: StreamViewController?
+    let presentingController: StreamViewController
     let collectionView: UICollectionView
     let dataSource: StreamDataSource
+    var currentUser: User?
 
-    public init(collectionView: UICollectionView, dataSource: StreamDataSource, presentingController: StreamViewController?) {
+    public init(collectionView: UICollectionView, dataSource: StreamDataSource, presentingController: StreamViewController) {
         self.collectionView = collectionView
         self.dataSource = dataSource
         self.collectionView.dataSource = dataSource
@@ -38,10 +39,10 @@ public class PostbarController: NSObject, PostbarDelegate {
                 }
                 else {
                     let streamService = StreamService()
-                    streamService.loadMoreCommentsForPost(post.postId, success: { (data, responseConfig) in
+                    streamService.loadMoreCommentsForPost(post.postId, success: { (comments, responseConfig) in
                         commentsButton.finishAnimation()
                         let nextIndexPath = NSIndexPath(forRow: indexPath.row + 1, inSection: indexPath.section)
-                        self.commentLoadSuccess(data, indexPath: nextIndexPath, cell: cell)
+                        self.commentLoadSuccess(post, comments: comments, indexPath: nextIndexPath, cell: cell)
                     }, failure: { _ in
                         cell.commentsButton.enabled = true
                         println("comment load failure")
@@ -65,7 +66,7 @@ public class PostbarController: NSObject, PostbarDelegate {
                 if let shareLink = post.shareLink {
                     println("shareLink = \(shareLink)")
                     let activityVC = UIActivityViewController(activityItems: [shareLink], applicationActivities:nil)
-                    presentingController?.presentViewController(activityVC, animated: true) { }
+                    presentingController.presentViewController(activityVC, animated: true) { }
                 }
             }
         }
@@ -74,14 +75,12 @@ public class PostbarController: NSObject, PostbarDelegate {
     public func flagPostButtonTapped(cell: UICollectionViewCell) {
         if let indexPath = collectionView.indexPathForCell(cell) {
             if let post = dataSource.postForIndexPath(indexPath) {
-                if let presentingController = presentingController {
-                    let flagger = ContentFlagger(presentingController: presentingController,
-                        flaggableId: post.postId,
-                        flaggableContentType: .Post,
-                        commentPostId: nil)
+                let flagger = ContentFlagger(presentingController: presentingController,
+                    flaggableId: post.postId,
+                    flaggableContentType: .Post,
+                    commentPostId: nil)
 
-                    flagger.displayFlaggingSheet()
-                }
+                flagger.displayFlaggingSheet()
             }
         }
     }
@@ -89,14 +88,12 @@ public class PostbarController: NSObject, PostbarDelegate {
     public func flagCommentButtonTapped(cell: UICollectionViewCell) {
         if let indexPath = collectionView.indexPathForCell(cell) {
             if let comment = dataSource.commentForIndexPath(indexPath) {
-                if let presentingController = presentingController {
-                    let flagger = ContentFlagger(presentingController: presentingController,
-                        flaggableId: comment.commentId,
-                        flaggableContentType: .Comment,
-                        commentPostId: comment.parentPost?.postId)
+                let flagger = ContentFlagger(presentingController: presentingController,
+                    flaggableId: comment.commentId,
+                    flaggableContentType: .Comment,
+                    commentPostId: comment.parentPost?.postId)
 
-                    flagger.displayFlaggingSheet()
-                }
+                flagger.displayFlaggingSheet()
             }
         }
     }
@@ -117,23 +114,40 @@ public class PostbarController: NSObject, PostbarDelegate {
                 let items = self.dataSource.cellItemsForPost(post)
                 // This is a bit dirty, we should not call a method on a compositionally held
                 // controller's postTappedDelegate. Need to chat about this with the crew.
-                presentingController?.postTappedDelegate?.postTapped(post, initialItems: items)
+                presentingController.postTappedDelegate?.postTapped(post, initialItems: items)
             }
         }
     }
-    
-    private func commentLoadSuccess(jsonables:[JSONAble], indexPath:NSIndexPath, cell:StreamFooterCell) {
+
+    private func commentLoadSuccess(post: Post, comments jsonables:[JSONAble], indexPath: NSIndexPath, cell: StreamFooterCell) {
+        self.appendCreateCommentItem(post, at: indexPath)
+        let commentsStartingIndexPath = NSIndexPath(forRow: indexPath.row + 1, inSection: indexPath.section)
+
         let items = StreamCellItemParser().parse(jsonables, streamKind: StreamKind.Friend)
         self.dataSource.insertUnsizedCellItems(items,
             withWidth: self.collectionView.frame.width,
-            startingIndexPath:indexPath) { (indexPaths) in
+            startingIndexPath: commentsStartingIndexPath) { (indexPaths) in
                 self.collectionView.insertItemsAtIndexPaths(indexPaths)
-        }
+            }
         cell.commentsButton.enabled = true
     }
 
-    private func commentLoadFailure(error:NSError, statusCode:Int?) {
+    private func appendCreateCommentItem(post: Post, at indexPath: NSIndexPath) {
+        if let currentUser = currentUser {
+            let comment = Comment.newCommentForPost(post, currentUser: currentUser)
+            let createCommentItem = StreamCellItem(jsonable: comment,
+                type: .CreateComment,
+                data: nil,
+                oneColumnCellHeight: StreamCreateCommentCell.Size.Height,
+                multiColumnCellHeight: StreamCreateCommentCell.Size.Height,
+                isFullWidth: true)
 
+            let items = [createCommentItem]
+            self.dataSource.insertStreamCellItems(items, startingIndexPath: indexPath)
+        }
+    }
+
+    private func commentLoadFailure(error:NSError, statusCode:Int?) {
     }
 
 }

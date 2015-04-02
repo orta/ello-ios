@@ -124,6 +124,9 @@ public class StreamViewController: BaseElloViewController {
         if let userListController = userListController {
             userListController.currentUser = currentUser
         }
+        if let postbarController = postbarController {
+            postbarController.currentUser = currentUser
+        }
         super.didSetCurrentUser()
     }
 
@@ -285,8 +288,10 @@ public class StreamViewController: BaseElloViewController {
             return true
         }
 
-        postbarController = PostbarController(collectionView: collectionView, dataSource: dataSource, presentingController: self)
+        let postbarController = PostbarController(collectionView: collectionView, dataSource: dataSource, presentingController: self)
+        postbarController.currentUser = currentUser
         dataSource.postbarDelegate = postbarController
+        self.postbarController = postbarController
 
         relationshipController = RelationshipController(presentingController: self)
         dataSource.relationshipDelegate = relationshipController

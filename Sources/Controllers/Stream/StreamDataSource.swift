@@ -264,26 +264,32 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         insertUnsizedCellItems(cellItems, withWidth: withWidth, startingIndexPath: startingIndexPath, completion: completion)
     }
 
-    public func insertUnsizedCellItems(cellItems: [StreamCellItem], withWidth: CGFloat, startingIndexPath: NSIndexPath, completion: StreamContentReady) {
-
-        var startingIndex = startingIndexPath.item
+    public func insertStreamCellItems(cellItems: [StreamCellItem], startingIndexPath: NSIndexPath) -> [NSIndexPath] {
+        // startingIndex represents the filtered index,
+        // arrayIndex is the streamCellItems index
+        let startingIndex = startingIndexPath.item
+        var arrayIndex = startingIndexPath.item
 
         if let item = self.visibleStreamCellItem(at: startingIndexPath) {
             if let foundIndex = find(self.streamCellItems, item) {
-                startingIndex = foundIndex
+                arrayIndex = foundIndex
             }
         }
 
+        var indexPaths:[NSIndexPath] = []
+
+        for (index, cellItem) in enumerate(cellItems) {
+            indexPaths.append(NSIndexPath(forItem: startingIndex + index, inSection: startingIndexPath.section))
+            self.streamCellItems.insert(cellItem, atIndex: arrayIndex + index)
+        }
+
+        self.updateFilteredItems()
+        return indexPaths
+    }
+
+    public func insertUnsizedCellItems(cellItems: [StreamCellItem], withWidth: CGFloat, startingIndexPath: NSIndexPath, completion: StreamContentReady) {
         self.calculateCellItems(cellItems, withWidth: withWidth) {
-            var indexPaths:[NSIndexPath] = []
-
-            for (index, cellItem) in enumerate(cellItems) {
-                var index = startingIndex + index
-                indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
-                self.streamCellItems.insert(cellItem, atIndex: index)
-            }
-
-            self.updateFilteredItems()
+            let indexPaths = self.insertStreamCellItems(cellItems, startingIndexPath: startingIndexPath)
             completion(indexPaths: indexPaths)
         }
     }
