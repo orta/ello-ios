@@ -150,7 +150,7 @@ class FunctionalSpec: QuickSpec {
         describe("+cancelableDelay:") {
             it("should call the block after a delay") {
                 var called = 0
-                Functional.cancelableDelay(0.1) { called += 1 }
+                let cancel = Functional.cancelableDelay(0.1) { called += 1 }
                 expect(called).to(equal(0))
                 expect(called).toEventually(equal(1), timeout: 0.2)
             }
