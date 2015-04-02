@@ -41,6 +41,7 @@ class StreamLoadingCell: UICollectionViewCell {
 
     override func layoutSubviews() {
         super.layoutSubviews()
+        self.backgroundColor = UIColor.whiteColor()
         elloLogo.center = CGPointMake(self.bounds.size.width / 2.0, self.bounds.size.height / 2.0)
     }
 
