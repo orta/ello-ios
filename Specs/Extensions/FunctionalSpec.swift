@@ -86,12 +86,12 @@ class FunctionalSpec: QuickSpec {
             }
         }
         // TODO: figure out why this fails on Travis
-        xdescribe("+timeout:") {
+        describe("+timeout:") {
             it("should call the timeout after a delay") {
                 var called = 0
-                var timeout = Functional.timeout(0.1) { called += 1 }
+                var timeout = Functional.timeout(0.5) { called += 1 }
                 expect(called).to(equal(0))
-                expect(called).toEventually(equal(1), timeout: 0.2)
+                expect(called).toEventually(equal(1), timeout: 0.3, pollInterval: 0.1)
             }
             it("should call the timeout immediately, and only call the timeout once") {
                 var called = 0
@@ -99,30 +99,67 @@ class FunctionalSpec: QuickSpec {
                 expect(called).to(equal(0))
                 timeout()
                 expect(called).to(equal(1))
-                expect(called).toEventually(equal(1), timeout: 0.11)
+                timeout()
+                expect(called).to(equal(1))
+                expect(called).toEventually(equal(1), timeout: 0.11, pollInterval: 0.11)
             }
         }
-        describe("+throttle:") {
-            xit("should throttle the block") {
+        describe("+debounce:") {
+            it("should debounce the block") {
                 var called = 0
-                var throttle = Functional.throttle(0.1) { called += 1 }
+                var debounced = Functional.debounce(0.1) {
+                    println("called: \(called)")
+                    called += 1 }
                 expect(called).to(equal(0))
-                throttle()
+
+                debounced()
                 expect(called).to(equal(0))
 
                 // reset the timer
-                expect(called).toEventually(equal(0), timeout: 0.1)
-                var timeout = Functional.timeout(0.05) { throttle() }
+                Functional.delay(0.05) { debounced() }
+                expect(called).toEventually(equal(0), timeout: 0.1, pollInterval: 0.1)
+                expect(called).toEventually(equal(1), timeout: 0.3, pollInterval: 0.2)
+            }
+        }
+        describe("+throttle:") {
+            it("should throttle the block") {
+                var called = 0
+                var throttled = Functional.throttle(0.1) {
+                    called += 1
+                    println("called: \(called)")
+                }
+                expect(called).to(equal(0))
+                throttled()
+                expect(called).to(equal(0))
 
+                // 0.1 seconds after each delay, throttled should get called
+                Functional.delay(0.05) { throttled() }
+                expect(called).toEventually(equal(1), timeout: 1, pollInterval: 0.1)
+                Functional.delay(0.25) { throttled() }
+                expect(called).toEventually(equal(2), timeout: 1, pollInterval: 0.15)
+            }
+        }
+        describe("+delay:") {
+            it("should call the block after a delay") {
+                var called = 0
+                Functional.delay(0.1) { called += 1 }
+                expect(called).to(equal(0))
                 expect(called).toEventually(equal(1), timeout: 0.2)
             }
         }
-        xdescribe("+later:") {
+        describe("+cancelableDelay:") {
             it("should call the block after a delay") {
                 var called = 0
-                _ = Functional.later(0.1) { called += 1 }
+                Functional.cancelableDelay(0.1) { called += 1 }
                 expect(called).to(equal(0))
                 expect(called).toEventually(equal(1), timeout: 0.2)
+            }
+            it("should cancel the block if called") {
+                var called = 0
+                let cancel = Functional.cancelableDelay(0.1) { called += 1 }
+                expect(called).to(equal(0))
+                cancel()
+                expect(called).toEventually(equal(0), timeout: 0.3, pollInterval: 0.2)
             }
         }
     }
