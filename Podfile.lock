@@ -89,7 +89,7 @@ CHECKOUT OPTIONS:
     :git: git@github.com:Quick/Quick.git
     :tag: v0.3.0
   SVGKit:
-    :commit: 15f7b3e7dd76805398947031749aeee72b78bc63
+    :commit: 475ef2b7d2a3622f7e6065dbb3a72a6f9f8e16cf
     :git: https://github.com/SVGKit/SVGKit
   SwiftyJSON:
     :commit: 008a09d7ea8b13c03fb59b35c01aad339584a5e1
@@ -113,4 +113,4 @@ SPEC CHECKSUMS:
   SwiftyJSON: a561c2a840121085bec8a2dfeac97a360fc66901
   WebLinking: a357f877c3537fb15363167e173b5067734889f5
 
-COCOAPODS: 0.36.1
+COCOAPODS: 0.36.3
