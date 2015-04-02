@@ -181,9 +181,10 @@ class StreamViewController: BaseElloViewController {
         }
     }
 
-    func insertUnsizedCellItems(cellItems: [StreamCellItem], startingIndexPath: NSIndexPath) {
+    func insertUnsizedCellItems(cellItems: [StreamCellItem], startingIndexPath: NSIndexPath, block: ElloEmptyCompletion = {}) {
         dataSource.insertUnsizedCellItems(cellItems, withWidth: self.view.frame.width, startingIndexPath: startingIndexPath) { _ in
             self.collectionView.reloadData()
+            block()
         }
     }
 
@@ -435,19 +436,18 @@ extension StreamViewController : UIScrollViewDelegate {
                     success: {
                         (jsonables, responseConfig) in
                         self.infiniteScrollClosure?(jsonables: jsonables) // TODO: this line can be removed when author is added to posts
-                        self.removeLoadingCell()
-                        self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind))
+                        self.scrollLoaded(jsonables: jsonables)
                         self.responseConfig = responseConfig
                         self.doneLoading()
                     },
                     failure: { (error, statusCode) in
                         println("failed to load stream (reason: \(error))")
-                        self.removeLoadingCell()
+                        self.scrollLoaded()
                         self.doneLoading()
                     },
                     noContent: {
                         self.allOlderPagesLoaded = true
-                        self.removeLoadingCell()
+                        self.scrollLoaded()
                         self.doneLoading()
                     }
                 )
@@ -455,10 +455,19 @@ extension StreamViewController : UIScrollViewDelegate {
         }
     }
 
-    private func removeLoadingCell() {
-        let indexPath = NSIndexPath(forItem: dataSource.visibleCellItems.count - 1, inSection: 0)
-        if let cell = collectionView.cellForItemAtIndexPath(indexPath) as? StreamLoadingCell {
-            cell.stop()
+    private func scrollLoaded(jsonables: [JSONAble] = []) {
+        if jsonables.count > 0 {
+            insertUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: streamKind), startingIndexPath: collectionView.lastIndexPathForSection(0)) {
+                self.removeLoadingCell(self.collectionView.lastIndexPathForSection(0))
+            }
+        }
+        else {
+            removeLoadingCell(collectionView.lastIndexPathForSection(0))
+        }
+    }
+
+    private func removeLoadingCell(indexPath: NSIndexPath) {
+        if dataSource.visibleCellItems[indexPath.row].type == .StreamLoading {
             dataSource.removeItemAtIndexPath(indexPath)
             collectionView.deleteItemsAtIndexPaths([indexPath])
         }
