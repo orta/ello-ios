@@ -2,7 +2,6 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "JTSImageViewController.h"
 #import "JTSImageInfo.h"
-#import "UITabBarController+NBUAdditions.h"
 #import <SSPullToRefresh/SSPullToRefresh.h>
 #import <CocoaLumberjack/DDLog.h>
 #import <FLAnimatedImage/FLAnimatedImage.h>

@@ -52,13 +52,13 @@ class StreamableViewController : BaseElloViewController {
     func didPresentStreamable() {}
 
     func showNavBars(scrollToBottom : Bool) {
-        if let tabBarController = self.tabBarController {
+        if let tabBarController = self.elloTabBarController {
             tabBarController.setTabBarHidden(false, animated: true)
         }
     }
 
     func hideNavBars() {
-        if let tabBarController = self.tabBarController {
+        if let tabBarController = self.elloTabBarController {
             tabBarController.setTabBarHidden(true, animated: true)
         }
     }

@@ -14,6 +14,18 @@ class BaseElloViewController: UIViewController {
         didSet { didSetCurrentUser() }
     }
 
+    var elloTabBarController: ElloTabBarController? {
+        var controller: UIViewController?
+        controller = self
+        while controller != nil {
+            if let tabBarController = controller as? ElloTabBarController {
+                return tabBarController
+            }
+            controller = controller!.parentViewController
+        }
+        return nil
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.fixNavBarItemPadding()

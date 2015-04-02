@@ -61,7 +61,8 @@ struct ElloProvider {
     }
 
     static var endpointsClosure = { (target: ElloAPI, method: Moya.Method, parameters: [String: AnyObject]) -> Endpoint<ElloAPI> in
-        var endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponse: EndpointSampleResponse.SuccessWithResponse(200, target.sampleData, target.sampleResponse), method: method, parameters: parameters)
+        let sampleResponse = EndpointSampleResponse.Closure({ return EndpointSampleResponse.SuccessWithResponse(200, target.sampleData, target.sampleResponse as? NSURLResponse) })
+        var endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponse: sampleResponse, method: method, parameters: parameters)
 
         switch target {
         case .Auth, .ReAuth:
