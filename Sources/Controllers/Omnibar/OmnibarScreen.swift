@@ -528,7 +528,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
 
         // disable the cancel button during animations (fixes weird scaling bug in iOS 8)
         cancelButton.userInteractionEnabled = false
-        Functional.later(0.3) {
+        _ = Functional.later(0.3) {
             self.cancelButton.userInteractionEnabled = true
         }
     }

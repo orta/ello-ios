@@ -10,7 +10,7 @@ import UIKit
 import Foundation
 
 @objc protocol EditProfileResponder {
-    func editProfile()
+    func onEditProfile()
 }
 
 class ProfileHeaderCell: UICollectionViewCell {
@@ -25,13 +25,16 @@ class ProfileHeaderCell: UICollectionViewCell {
     @IBOutlet weak var relationshipView: RelationshipView!
     @IBOutlet weak var viewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var bioWebView: UIWebView!
+    @IBOutlet weak var profileButtonsView: UIView!
+    @IBOutlet weak var settingsButton: UIButton!
+    @IBOutlet weak var inviteButton: UIButton!
     weak var webLinkDelegate: WebLinkDelegate?
     weak var userListDelegate: UserListDelegate?
     var currentUser: User?
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        styleLabels()
+        style()
         countsTextView.textViewDelegate = self
         bioWebView.delegate = self
         if !coverWidthSet {
@@ -49,7 +52,7 @@ class ProfileHeaderCell: UICollectionViewCell {
         avatarButton.setAvatarURL(url)
     }
 
-    private func styleLabels() {
+    private func style() {
         usernameLabel.font = UIFont.regularBoldFont(18.0)
         usernameLabel.textColor = UIColor.blackColor()
 
@@ -58,11 +61,26 @@ class ProfileHeaderCell: UICollectionViewCell {
 
         countsTextView.font = UIFont.typewriterFont(12.0)
         countsTextView.textColor = UIColor.greyA()
+
+        profileButtonsView.backgroundColor = UIColor.whiteColor()
+
+        settingsButton.setTitle("", forState: UIControlState.Normal)
+        settingsButton.setSVGImages("gear")
+        settingsButton.addTarget(self, action: "settingsTapped:", forControlEvents: UIControlEvents.TouchUpInside)
+
+        inviteButton.setTitle("", forState: UIControlState.Normal)
+        inviteButton.setSVGImages("xpmcirc", rotation: 90)
+        inviteButton.addTarget(self, action: "inviteTapped:", forControlEvents: UIControlEvents.TouchUpInside)
     }
 
-    @IBAction func editProfile() {
-        let responder = targetForAction("editProfile", withSender: self) as? EditProfileResponder
-        responder?.editProfile()
+    @IBAction func settingsTapped(sender: UIButton) {
+        let responder = targetForAction("onEditProfile", withSender: self) as? EditProfileResponder
+        responder?.onEditProfile()
+    }
+
+    @IBAction func inviteTapped(sender: UIButton) {
+        let responder = targetForAction("onInviteFriends", withSender: self) as? InviteResponder
+        responder?.onInviteFriends()
     }
 }
 

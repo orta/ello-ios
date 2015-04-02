@@ -120,7 +120,7 @@ class FunctionalSpec: QuickSpec {
         xdescribe("+later:") {
             it("should call the block after a delay") {
                 var called = 0
-                Functional.later(0.1) { called += 1 }
+                _ = Functional.later(0.1) { called += 1 }
                 expect(called).to(equal(0))
                 expect(called).toEventually(equal(1), timeout: 0.2)
             }

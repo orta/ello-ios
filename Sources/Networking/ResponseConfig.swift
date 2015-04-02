@@ -10,10 +10,22 @@ import Foundation
 
 class ResponseConfig: Printable {
     var description: String {
-        return "ResponseConfig: \r\tnextQueryItems: \(nextQueryItems) \r\tprevQueryItems: \(prevQueryItems) \r\ttotalPages: \(totalPages) \r\ttotalCount: \(totalCount) \r\ttotalPagesRemaining: \(totalPagesRemaining)"
+        let descripArray = [
+            "ResponseConfig:",
+            "nextQueryItems: \(nextQueryItems)",
+            "prevQueryItems: \(prevQueryItems)",
+            "firstQueryItems: \(firstQueryItems)",
+            "lastQueryItems: \(lastQueryItems)",
+            "totalPages: \(totalPages)",
+            "totalCount: \(totalCount)",
+            "totalPagesRemaining: \(totalPagesRemaining)"
+        ]
+        return "\r\t".join(descripArray)
     }
-    var nextQueryItems: [AnyObject]?
-    var prevQueryItems: [AnyObject]?
+    var nextQueryItems: [AnyObject]? // before (older)
+    var prevQueryItems: [AnyObject]? // after (newer)
+    var firstQueryItems: [AnyObject]? // first page
+    var lastQueryItems: [AnyObject]? // last page
     var totalCount: String?
     var totalPages: String?
     var totalPagesRemaining: String?

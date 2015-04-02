@@ -26,7 +26,7 @@ class ProfileServiceSpec: QuickSpec {
                 it("Calls success with a User") {
                     var loadedUser: User?
 
-                    profileService.loadCurrentUser({ (user) -> () in
+                    profileService.loadCurrentUser({ (user, responseConfig) in
                         loadedUser = user
                     }, failure: nil)
 

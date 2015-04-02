@@ -68,7 +68,7 @@ class StreamFooterCell: UICollectionViewCell {
             if let streamKind = streamKind {
                 if streamKind.isGridLayout {
                     self.toolBar.items = [
-                        commentsItem, lovesItem, repostItem
+                        fixedItem(-15), commentsItem, flexibleItem(), repostItem, shareItem, fixedItem(-17)
                     ]
                     self.bottomToolBar.items = [
                     ]
@@ -133,7 +133,7 @@ class StreamFooterCell: UICollectionViewCell {
 // MARK: - Private
 
     private func fixedItem(width:CGFloat) -> UIBarButtonItem {
-        let item = UIBarButtonItem()
+        let item = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
         item.width = width
         return item
     }
@@ -172,6 +172,12 @@ class StreamFooterCell: UICollectionViewCell {
     }
 
     @IBAction func commentsButtonTapped(sender: CommentButton) {
+        if let streamKind = streamKind {
+            if streamKind.isGridLayout {
+                delegate?.viewsButtonTapped(self)
+                return
+            }
+        }
         if !commentsOpened {
             sender.animate()
         }
@@ -234,7 +240,6 @@ class StreamFooterCell: UICollectionViewCell {
         frame.origin.x = scrollView.contentOffset.x
         bottomContentView.frame = frame
     }
-
 }
 
 // MARK: UIScrollViewDelegate

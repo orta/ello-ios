@@ -23,6 +23,7 @@ class SensitiveSettingsViewController: UITableViewController {
 
     var currentUser: User?
     var delegate: SensitiveSettingsDelegate?
+    var validationCancel: Functional.BasicBlock?
 
     var isUpdatable: Bool {
         return currentUser?.username != usernameView.textField.text
@@ -44,12 +45,24 @@ class SensitiveSettingsViewController: UITableViewController {
         usernameView.textField.text = currentUser?.username
         usernameView.textFieldDidChange = { text in
             self.valueChanged()
-            if text.isEmpty {
-                return .Error
-            } else if text == self.currentUser?.username {
-                return .None
-            } else {
-                return .Loading
+            self.usernameView.setState(.Loading)
+            self.validationCancel?()
+
+            self.validationCancel = Functional.later(0.5) {
+                if text.isEmpty {
+                    self.usernameView.setState(.Error)
+                } else if text == self.currentUser?.username {
+                    self.usernameView.setState(.None)
+                } else {
+                    println("callback")
+                    AvailabilityService().usernameAvailability(text, success: { availability in
+                        if text != self.usernameView.textField.text { return }
+                        let state: ValidationState = availability.username ? .OK : .Error
+                        self.usernameView.setState(state)
+                        }, failure: { _, _ in
+                            self.usernameView.setState(.None)
+                    })
+                }
             }
         }
 
@@ -57,16 +70,24 @@ class SensitiveSettingsViewController: UITableViewController {
         emailView.textField.text = currentUser?.email
         emailView.textFieldDidChange = { text in
             self.valueChanged()
-            if text.isEmpty {
-                return .Error
-            } else if text == self.currentUser?.username {
-                return .None
-            } else {
-                if text.rangeOfString("^.+@.+\\.[A-Za-z]{2}[A-Za-z]*$", options: .RegularExpressionSearch) != nil {
-                    // send to ello
-                    return .None
+            self.emailView.setState(.Loading)
+            self.validationCancel?()
+
+            self.validationCancel = Functional.later(0.5) {
+                if text.isEmpty {
+                    self.emailView.setState(.Error)
+                } else if text == self.currentUser?.email {
+                    self.emailView.setState(.None)
+                } else if text.isValidEmail() {
+                    AvailabilityService().emailAvailability(text, success: { availability in
+                        if text != self.emailView.textField.text { return }
+                        let state: ValidationState = availability.email ? .OK : .Error
+                        self.emailView.setState(state)
+                        }, failure: { _, _ in
+                            self.emailView.setState(.None)
+                    })
                 } else {
-                    return .Error
+                    self.emailView.setState(.Error)
                 }
             }
         }
@@ -76,11 +97,11 @@ class SensitiveSettingsViewController: UITableViewController {
         passwordView.textFieldDidChange = { text in
             self.valueChanged()
             if text.isEmpty {
-                return .None
-            } else if count(text) < 8 {
-                return .Error
+                self.passwordView.setState(.None)
+            } else if text.isValidPassword() {
+                self.passwordView.setState(.OK)
             } else {
-                return .OK
+                self.passwordView.setState(.Error)
             }
         }
     }

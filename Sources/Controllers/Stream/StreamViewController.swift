@@ -11,6 +11,8 @@ import UIKit
 import SSPullToRefresh
 import FLAnimatedImage
 
+typealias InfiniteScrollClosure = (jsonables: [JSONAble]) -> () // TODO: this line can be removed when author is added to posts
+
 protocol WebLinkDelegate: NSObjectProtocol {
     func webLinkTapped(type: ElloURI, data: String)
 }
@@ -32,7 +34,7 @@ protocol PostbarDelegate : NSObjectProtocol {
 }
 
 protocol StreamImageCellDelegate : NSObjectProtocol {
-    func imageTapped(imageView:FLAnimatedImageView)
+    func imageTapped(imageView: FLAnimatedImageView, cell: UICollectionViewCell)
 }
 
 @objc protocol StreamScrollDelegate: NSObjectProtocol {
@@ -68,6 +70,7 @@ class StreamViewController: BaseElloViewController {
         }
         return nil
     }
+    var infiniteScrollClosure: InfiniteScrollClosure? // TODO: this line can be removed when author is added to posts
 
     var streamKind:StreamKind = StreamKind.Friend {
         didSet {
@@ -126,8 +129,8 @@ class StreamViewController: BaseElloViewController {
     // If we ever create an init() method that doesn't use nib/storyboards,
     // we'll need to call this.  Called from awakeFromNib and init.
     private func initialSetup() {
-        setupImageViewDelegate()
         setupDataSource()
+        setupImageViewDelegate()
         addNotificationObservers()
     }
 
@@ -255,7 +258,7 @@ class StreamViewController: BaseElloViewController {
 
     private func setupImageViewDelegate() {
         if imageViewerDelegate == nil {
-            imageViewerDelegate = StreamImageViewer(controller:self)
+            imageViewerDelegate = StreamImageViewer(presentingController: self, collectionView: collectionView, dataSource: dataSource)
         }
     }
 
@@ -429,10 +432,11 @@ extension StreamViewController : UIScrollViewDelegate {
                     if lastCellItem.type == .StreamLoading { return }
                     appendStreamCellItems([StreamLoadingCell.streamCellItem()])
                 }
-                let scrollAPI = ElloAPI.InfiniteScroll(path: streamKind.endpoint.path, defaultParameters: streamKind.endpoint.defaultParameters, queryItems: nextQueryItems, mappingType: streamKind.endpoint.mappingType)
+                let scrollAPI = ElloAPI.InfiniteScroll(queryItems: nextQueryItems) { return self.streamKind.endpoint }
                 streamService.loadStream(scrollAPI,
                     success: {
                         (jsonables, responseConfig) in
+                        self.infiniteScrollClosure?(jsonables: jsonables) // TODO: this line can be removed when author is added to posts
                         self.removeLoadingCell()
                         self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind))
                         self.responseConfig = responseConfig
@@ -488,10 +492,10 @@ extension StreamViewController: SSPullToRefreshViewDelegate {
 
 extension StreamViewController: StreamImageCellDelegate {
 
-    func imageTapped(imageView: FLAnimatedImageView) {
+    func imageTapped(imageView: FLAnimatedImageView, cell: UICollectionViewCell) {
         if let imageViewerDelegate = imageViewerDelegate {
             restoreTabBar = self.parentTabBarController?.tabBarHidden
-            imageViewerDelegate.imageTapped(imageView)
+            imageViewerDelegate.imageTapped(imageView, cell: cell)
         }
     }
 

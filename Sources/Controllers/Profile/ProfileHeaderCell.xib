@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7528.3" systemVersion="14C2513" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7518.3"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -45,8 +45,8 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4sI-yA-gkk" userLabel="nameLabel">
-                                <rect key="frame" x="10" y="130" width="70" height="12"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="6" translatesAutoresizingMaskIntoConstraints="NO" id="4sI-yA-gkk" userLabel="nameLabel">
+                                <rect key="frame" x="10" y="130" width="300" height="12"/>
                                 <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="12"/>
                                 <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -69,16 +69,34 @@
                                     <constraint firstAttribute="width" constant="164" id="wma-r6-TlU" userLabel="relationshipView - width"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hw1-BX-mfR">
-                                <rect key="frame" x="264" y="120" width="46" height="30"/>
-                                <state key="normal" title="Edit">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="editProfile" destination="OE9-ll-CIs" eventType="touchUpInside" id="UaY-rp-ext"/>
-                                </connections>
-                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qUL-8u-vZD" userLabel="profileButtonsView" customClass="RelationshipView" customModule="Ello" customModuleProvider="target">
+                                <rect key="frame" x="146" y="10" width="164" height="30"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5A8-1y-eA5" userLabel="settingsButton">
+                                        <rect key="frame" x="124" y="-2" width="30" height="34"/>
+                                        <state key="normal" title="Set">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kzz-fr-myT" userLabel="inviteButton">
+                                        <rect key="frame" x="69" y="-2" width="30" height="34"/>
+                                        <state key="normal" title="Inv">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.05276594215375896" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="164" id="3Zt-4u-cGH" userLabel="profileButtonsView - width"/>
+                                    <constraint firstItem="5A8-1y-eA5" firstAttribute="leading" secondItem="kzz-fr-myT" secondAttribute="trailing" constant="25" id="5q2-84-9YF" userLabel="settingsButton - inviteButton - horiz"/>
+                                    <constraint firstAttribute="centerY" secondItem="5A8-1y-eA5" secondAttribute="centerY" id="EbB-CO-wKv" userLabel="settingsButton - vert center"/>
+                                    <constraint firstAttribute="trailing" secondItem="5A8-1y-eA5" secondAttribute="trailing" constant="10" id="Fzh-4i-v41" userLabel="settingsButton - right"/>
+                                    <constraint firstAttribute="centerY" secondItem="kzz-fr-myT" secondAttribute="centerY" id="WIf-oo-vaa" userLabel="inviteButton - vert center"/>
+                                    <constraint firstAttribute="height" constant="30" id="eEd-xT-8Lk" userLabel="profileButtonsView - height"/>
+                                </constraints>
+                            </view>
                             <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PtF-QI-fk2" userLabel="bioWebView">
+                                <rect key="frame" x="10" y="182" width="300" height="0.0"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" id="8D1-8g-PYc" userLabel="bioWebView - height"/>
@@ -91,14 +109,17 @@
                             <constraint firstAttribute="trailing" secondItem="z1n-fe-u7L" secondAttribute="trailing" constant="10" id="9GS-Lt-V2i" userLabel="relationshipView - right"/>
                             <constraint firstItem="6nJ-r0-lN7" firstAttribute="top" secondItem="U6M-uB-CWv" secondAttribute="top" constant="105" id="Ddo-EZ-be4" userLabel="usernameLabel - top"/>
                             <constraint firstItem="PtF-QI-fk2" firstAttribute="top" secondItem="L0b-tg-J5z" secondAttribute="bottom" constant="15" id="MJg-Bo-Cc3" userLabel="bioWebView - countsTextView - vert"/>
+                            <constraint firstAttribute="trailing" secondItem="4sI-yA-gkk" secondAttribute="trailing" constant="10" id="NhD-y5-g9D"/>
                             <constraint firstItem="L0b-tg-J5z" firstAttribute="top" secondItem="4sI-yA-gkk" secondAttribute="bottom" constant="5" id="Qek-yc-gtw" userLabel="countsTextView - nameLabel - vert"/>
                             <constraint firstItem="4sI-yA-gkk" firstAttribute="top" secondItem="6nJ-r0-lN7" secondAttribute="bottom" constant="7" id="WZA-Td-RU2" userLabel="nameLabel - usernameLabel - vert"/>
+                            <constraint firstAttribute="trailing" secondItem="qUL-8u-vZD" secondAttribute="trailing" constant="10" id="Y5o-4P-9X5" userLabel="profileButtonsView - right"/>
                             <constraint firstItem="GKO-1x-QWx" firstAttribute="top" secondItem="U6M-uB-CWv" secondAttribute="top" constant="-35" id="dw5-Cp-ekQ" userLabel="avatarButton - top"/>
                             <constraint firstItem="4sI-yA-gkk" firstAttribute="leading" secondItem="U6M-uB-CWv" secondAttribute="leading" constant="10" id="fOj-SB-PJt" userLabel="nameLabel - left"/>
                             <constraint firstAttribute="trailing" secondItem="L0b-tg-J5z" secondAttribute="trailing" constant="10" id="g8n-GF-d47" userLabel="countsTextView - right"/>
                             <constraint firstAttribute="trailing" secondItem="PtF-QI-fk2" secondAttribute="trailing" constant="10" id="hke-ib-z8g" userLabel="bioWebView - right"/>
                             <constraint firstItem="6nJ-r0-lN7" firstAttribute="leading" secondItem="U6M-uB-CWv" secondAttribute="leading" constant="10" id="hxF-e7-Mft" userLabel="usernameLabel - left"/>
                             <constraint firstItem="PtF-QI-fk2" firstAttribute="leading" secondItem="U6M-uB-CWv" secondAttribute="leading" constant="10" id="iXW-yx-3h5" userLabel="bioWebView - left"/>
+                            <constraint firstItem="qUL-8u-vZD" firstAttribute="top" secondItem="U6M-uB-CWv" secondAttribute="top" constant="10" id="j0U-0u-ejJ" userLabel="profileButtonsView - top"/>
                             <constraint firstItem="L0b-tg-J5z" firstAttribute="leading" secondItem="U6M-uB-CWv" secondAttribute="leading" constant="10" id="pkt-wJ-638" userLabel="countsTextView - left"/>
                             <constraint firstItem="z1n-fe-u7L" firstAttribute="top" secondItem="U6M-uB-CWv" secondAttribute="top" constant="10" id="qqq-bR-0mq" userLabel="relationshipView - top"/>
                         </constraints>
@@ -118,8 +139,11 @@
                 <outlet property="avatarButton" destination="GKO-1x-QWx" id="dbf-G3-Qty"/>
                 <outlet property="bioWebView" destination="PtF-QI-fk2" id="WKn-ZP-Rnw"/>
                 <outlet property="countsTextView" destination="L0b-tg-J5z" id="ozw-Ib-Oij"/>
+                <outlet property="inviteButton" destination="kzz-fr-myT" id="BfZ-yc-FUH"/>
                 <outlet property="nameLabel" destination="4sI-yA-gkk" id="I9n-2e-2mB"/>
+                <outlet property="profileButtonsView" destination="qUL-8u-vZD" id="BzV-jE-ocb"/>
                 <outlet property="relationshipView" destination="z1n-fe-u7L" id="x1H-nI-qZz"/>
+                <outlet property="settingsButton" destination="5A8-1y-eA5" id="Gpl-do-fHC"/>
                 <outlet property="usernameLabel" destination="6nJ-r0-lN7" id="l3X-Xg-ciD"/>
                 <outlet property="viewTopConstraint" destination="joA-XB-bkx" id="KPR-mq-9Eo"/>
             </connections>

@@ -12,7 +12,7 @@ class ElloTextFieldView: UIView {
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var textField: ElloTextField!
 
-    var textFieldDidChange: (String -> ValidationState?)? {
+    var textFieldDidChange: (String -> ())? {
         didSet {
             textField.addTarget(self, action: "valueChanged", forControlEvents: .EditingChanged)
         }
@@ -26,11 +26,11 @@ class ElloTextFieldView: UIView {
         addSubview(view)
     }
 
-    private func setState(state: ValidationState?) {
+    func setState(state: ValidationState?) {
         textField.setValidationState(state)
     }
 
     func valueChanged() {
-        setState(textFieldDidChange?(textField.text))
+        textFieldDidChange?(textField.text)
     }
 }

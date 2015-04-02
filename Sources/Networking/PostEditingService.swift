@@ -74,16 +74,14 @@ class PostEditingService: NSObject {
 
         var endpoint : ElloAPI
         if let parentPost = parentPost {
-            endpoint = ElloAPI.CreateComment(parentPostId: parentPost.postId)
+            endpoint = ElloAPI.CreateComment(parentPostId: parentPost.postId, body: params)
         }
         else {
-            endpoint = ElloAPI.CreatePost
+            endpoint = ElloAPI.CreatePost(body: params)
         }
 
         ElloProvider.sharedProvider.elloRequest(endpoint,
             method: .POST,
-            parameters: params,
-            mappingType: endpoint.mappingType,
             success: { data, responseConfig in
                 success(post: data as AnyObject)
             },

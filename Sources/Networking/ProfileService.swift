@@ -19,11 +19,9 @@ struct ProfileService {
     func loadCurrentUser(success: ProfileSuccessCompletion, failure: ElloFailureCompletion?) {
         ElloProvider.sharedProvider.elloRequest(ElloAPI.Profile,
             method: .GET,
-            parameters: ElloAPI.Profile.defaultParameters,
-            mappingType:MappingType.UsersType,
             success: { (data, responseConfig) in
                 if let user = data as? User {
-                    success(user: user)
+                    success(user: user, responseConfig: responseConfig)
                 }
                 else {
                     ElloProvider.unCastableJSONAble(failure)
@@ -36,8 +34,6 @@ struct ProfileService {
     func loadCurrentUserFollowing(forRelationship relationship: Relationship, success: ProfileFollowingSuccessCompletion, failure: ElloFailureCompletion?) {
         ElloProvider.sharedProvider.elloRequest(ElloAPI.ProfileFollowing(priority: relationship.rawValue),
             method: .GET,
-            parameters: ElloAPI.ProfileFollowing(priority: relationship.rawValue).defaultParameters,
-            mappingType: MappingType.UsersType,
             success: { data, responseConfig in
                 if let users = data as? [User] {
                     success(users: users, responseConfig: responseConfig)

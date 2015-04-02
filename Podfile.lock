@@ -75,7 +75,7 @@ CHECKOUT OPTIONS:
     :commit: 7f1d9a29597b45aef8686da22f33a3634d84c686
     :git: https://github.com/ello/FLAnimatedImage.git
   Keys:
-    :commit: 6ac34c01bbb02fa5069187081135b6c108657018
+    :commit: dfc3c5e75dd23e5e9f938f4552eaceec4a8b4b73
     :git: https://github.com/ashfurrow/empty-podspec.git
   LlamaKit:
     :commit: 17c80a90295419e180234381ab7f787e136918df
@@ -90,7 +90,7 @@ CHECKOUT OPTIONS:
     :git: git@github.com:Quick/Quick.git
     :tag: v0.3.0
   SVGKit:
-    :commit: bdce07f1b4e9708232c48b897ad3fe2992595409
+    :commit: 475ef2b7d2a3622f7e6065dbb3a72a6f9f8e16cf
     :git: https://github.com/SVGKit/SVGKit
   SwiftyJSON:
     :commit: 008a09d7ea8b13c03fb59b35c01aad339584a5e1
@@ -103,7 +103,7 @@ SPEC CHECKSUMS:
   Alamofire: 6a2cbaebe78a6d469bc55ee37f0a24ba22af76ac
   CocoaLumberjack: 628fca2e88ef06f7cf6817309aa405f325d9a6fa
   FLAnimatedImage: f9422f796135aff80d8c00b2afc48015bb746e24
-  Keys: 9a0258f6629755b9686c0821fa97cf659de68347
+  Keys: 80485232b6d580368f08f1df19ebfc4f0077b66a
   LlamaKit: 2610cffeec508d27caad8449e7d460df914d9212
   Moya: 6589de6c52d9d8e5ab0d9630b4cd5c4b7f898019
   Nimble: a05c15e0955baec1c94a22e25e4f8dea884fbc5f
@@ -114,4 +114,4 @@ SPEC CHECKSUMS:
   SwiftyJSON: a561c2a840121085bec8a2dfeac97a360fc66901
   WebLinking: a357f877c3537fb15363167e173b5067734889f5
 
-COCOAPODS: 0.36.1
+COCOAPODS: 0.36.3
