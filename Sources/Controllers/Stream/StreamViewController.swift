@@ -436,7 +436,6 @@ extension StreamViewController : UIScrollViewDelegate {
                     success: {
                         (jsonables, responseConfig) in
                         self.infiniteScrollClosure?(jsonables: jsonables) // TODO: this line can be removed when author is added to posts
-                        println("success items: \(self.collectionView.numberOfItemsInSection(0))")
                         self.scrollLoaded(jsonables: jsonables)
                         self.responseConfig = responseConfig
                         self.doneLoading()
