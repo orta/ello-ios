@@ -13,7 +13,7 @@ struct ProfileHeaderCellPresenter {
 
     static func configure(
         cell:UICollectionViewCell,
-        streamCellItem:StreamCellItem,
+        streamCellItem:StreamCellItem,  
         streamKind: StreamKind,
         indexPath: NSIndexPath)
     {
@@ -24,6 +24,7 @@ struct ProfileHeaderCellPresenter {
             if let currentUser = cell.currentUser {
                 cell.relationshipView.hidden = user.userId == currentUser.userId
             }
+            cell.profileButtonsView.hidden = !cell.relationshipView.hidden
 
             if let avatarURL = user.avatarURL {
                 cell.setAvatarURL(avatarURL)
