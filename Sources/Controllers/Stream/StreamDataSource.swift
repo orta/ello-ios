@@ -76,16 +76,18 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         updateFilteredItems()
     }
 
-    public func postForIndexPath(indexPath: NSIndexPath) -> Post? {
+    public func itemForIndexPath(indexPath: NSIndexPath) -> StreamCellItem? {
         if !isValidIndexPath(indexPath) { return nil }
 
-        return visibleCellItems[indexPath.item].jsonable as? Post
+        return visibleCellItems[indexPath.item]
+    }
+
+    public func postForIndexPath(indexPath: NSIndexPath) -> Post? {
+        return itemForIndexPath(indexPath)?.jsonable as? Post
     }
 
     public func commentForIndexPath(indexPath: NSIndexPath) -> Comment? {
-        if !isValidIndexPath(indexPath) { return nil }
-
-        return visibleCellItems[indexPath.item].jsonable as? Comment
+        return itemForIndexPath(indexPath)?.jsonable as? Comment
     }
 
     public func visibleStreamCellItem(at indexPath: NSIndexPath) -> StreamCellItem? {

@@ -22,9 +22,11 @@ public class CommentButton: StreamFooterButton {
     override public var selected: Bool {
         didSet {
             let color:CGColor = selected ? UIColor.blackColor().CGColor : UIColor.greyA().CGColor
-            dot1.fillColor = color
-            dot2.fillColor = color
-            dot3.fillColor = color
+            if dot1 != nil && dot2 != nil && dot3 != nil {
+                dot1.fillColor = color
+                dot2.fillColor = color
+                dot3.fillColor = color
+            }
         }
     }
 
