@@ -8,8 +8,15 @@
 
 import Foundation
 
-public class StreamCellItem:NSObject {
+public enum StreamCellState {
+    case None
+    case Loading
+    case Expanded
+    case Collapsed
+}
 
+
+public class StreamCellItem:NSObject {
     public let jsonable: JSONAble
     public let type: StreamCellType
     public let data:Regionable?
@@ -17,6 +24,7 @@ public class StreamCellItem:NSObject {
     public var calculatedWebHeight: CGFloat = 0
     public var oneColumnCellHeight: CGFloat = 0
     public var multiColumnCellHeight: CGFloat = 0
+    public var state: StreamCellState = .None
 
     public init(jsonable: JSONAble, type:StreamCellType, data:Regionable?, oneColumnCellHeight:CGFloat, multiColumnCellHeight:CGFloat, isFullWidth: Bool) {
         self.jsonable = jsonable
@@ -27,4 +35,5 @@ public class StreamCellItem:NSObject {
         self.oneColumnCellHeight = oneColumnCellHeight
         self.multiColumnCellHeight = multiColumnCellHeight
     }
+
 }

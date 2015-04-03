@@ -20,15 +20,38 @@ public struct StreamFooterCellPresenter {
             if let post = streamCellItem.jsonable as? Post {
                 cell.comments = post.commentsCount?.localizedStringFromNumber()
 
-                cell.commentsButton.finishAnimation()
-
                 if streamKind.isDetail {
                     cell.commentsOpened = true
+                }
+                else {
+                    let isLoading = streamCellItem.state == .Loading
+                    let isExpanded = streamCellItem.state == .Expanded
+
+                    if isLoading {
+                        // this should be set via a custom accessor or method,
+                        // me thinks.
+                        // `StreamFooterCell.state = streamCellItem.state` ??
+                        cell.commentsButton.animate()
+                        cell.commentsButton.selected = true
+                    }
+                    else {
+                        cell.commentsButton.finishAnimation()
+
+                        if isExpanded {
+                            cell.commentsButton.selected = true
+                            cell.commentsOpened = true
+                        }
+                        else {
+                            cell.commentsButton.selected = false
+                            cell.commentsOpened = false
+                            streamCellItem.state = .Collapsed
+                        }
+                    }
                 }
 
                 cell.scrollView.scrollEnabled = !streamKind.isGridLayout
                 cell.chevronButton.hidden = streamKind.isGridLayout
-                
+
                 if streamKind.isGridLayout {
                     cell.views = ""
                     cell.reposts = ""

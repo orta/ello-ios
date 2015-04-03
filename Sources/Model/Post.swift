@@ -9,6 +9,9 @@
 import SwiftyJSON
 
 
+public let UpdatePostCommentCountNotification = TypedNotification<Comment>(name: "UpdatePostCommentCountNotification")
+
+
 @objc
 public protocol Authorable {
     var createdAt : NSDate { get }
@@ -23,7 +26,7 @@ public final class Post: JSONAble, Authorable, NSCoding {
     var assets: [String:Asset]?
     public var author: User?
     public var collapsed: Bool
-    public let commentsCount: Int?
+    public var commentsCount: Int?
     public var content: [Regionable]?
     public var createdAt: NSDate
     public var groupId:String {
@@ -46,6 +49,8 @@ public final class Post: JSONAble, Authorable, NSCoding {
     public let token: String
     public let viewsCount: Int?
     public var comments: [Comment]
+
+    private var commentCountNotification: NotificationObserver?
 
 // MARK: Initialization
 
@@ -76,6 +81,34 @@ public final class Post: JSONAble, Authorable, NSCoding {
         self.token = token
         self.viewsCount = viewsCount
         self.comments = comments
+        super.init()
+        self.registerNotifications()
+    }
+
+    deinit {
+        self.unregisterNotifications()
+    }
+
+    private func registerNotifications() {
+        commentCountNotification = NotificationObserver(notification: UpdatePostCommentCountNotification) { comment in
+            if let postId = comment.parentPost?.postId {
+                if postId == self.postId {
+                    if let count = self.commentsCount {
+                        self.commentsCount = count + 1
+                    }
+                    else {
+                        self.commentsCount = 1
+                    }
+                }
+            }
+        }
+    }
+
+    private func unregisterNotifications() {
+        if let commentCountNotification = commentCountNotification {
+            commentCountNotification.removeObserver()
+            self.commentCountNotification = nil
+        }
     }
 
 // MARK: NSCoding
@@ -95,6 +128,8 @@ public final class Post: JSONAble, Authorable, NSCoding {
         self.token = decoder.decodeKey("token")
         self.viewsCount = decoder.decodeOptionalKey("viewsCount")
         self.comments = decoder.decodeKey("comments")
+        super.init()
+        self.registerNotifications()
     }
 
     public func encodeWithCoder(encoder: NSCoder) {

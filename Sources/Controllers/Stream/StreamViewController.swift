@@ -123,6 +123,9 @@ public class StreamViewController: BaseElloViewController {
         if let userListController = userListController {
             userListController.currentUser = currentUser
         }
+        if let postbarController = postbarController {
+            postbarController.currentUser = currentUser
+        }
         super.didSetCurrentUser()
     }
 
@@ -183,10 +186,24 @@ public class StreamViewController: BaseElloViewController {
         }
     }
 
-    public func insertUnsizedCellItems(cellItems: [StreamCellItem], startingIndexPath: NSIndexPath, block: ElloEmptyCompletion = {}) {
+    public func insertUnsizedCellItems(cellItems: [StreamCellItem], startingIndexPath: NSIndexPath, completion: ElloEmptyCompletion? = nil) {
         dataSource.insertUnsizedCellItems(cellItems, withWidth: self.view.frame.width, startingIndexPath: startingIndexPath) { _ in
             self.collectionView.reloadData()
-            block()
+            completion?()
+        }
+    }
+
+    public func insertNewCommentItems(commentItems: [StreamCellItem]) {
+        if count(commentItems) == 0 {
+            return
+        }
+
+        let commentItem = commentItems[0]
+        if let comment = commentItem.jsonable as? Comment,
+           let parentPost = comment.parentPost,
+           let indexPath = dataSource.createCommentIndexPathForPost(parentPost) {
+            let newCommentIndexPath = NSIndexPath(forRow: indexPath.row + 1, inSection: indexPath.section)
+            self.insertUnsizedCellItems(commentItems, startingIndexPath: newCommentIndexPath)
         }
     }
 
@@ -284,8 +301,10 @@ public class StreamViewController: BaseElloViewController {
             return true
         }
 
-        postbarController = PostbarController(collectionView: collectionView, dataSource: dataSource, presentingController: self)
+        let postbarController = PostbarController(collectionView: collectionView, dataSource: dataSource, presentingController: self)
+        postbarController.currentUser = currentUser
         dataSource.postbarDelegate = postbarController
+        self.postbarController = postbarController
 
         relationshipController = RelationshipController(presentingController: self)
         dataSource.relationshipDelegate = relationshipController
@@ -358,7 +377,7 @@ extension StreamViewController : UICollectionViewDelegate {
             }
             else if let comment = dataSource.commentForIndexPath(indexPath) {
                 let post = comment.parentPost!
-                createCommentDelegate?.createComment(post)
+                createCommentDelegate?.createComment(post, fromController: self)
             }
     }
 

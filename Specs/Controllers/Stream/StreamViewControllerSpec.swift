@@ -156,7 +156,7 @@ class StreamViewControllerSpec: QuickSpec {
                     xit("shows a post detail if type .Post") {
                         // not yet implemented
                     }
-                    
+
                 }
             }
 
@@ -224,7 +224,7 @@ class StreamViewControllerSpec: QuickSpec {
 
                     context("a create-comment cell is found for the given indexPath") {
 
-                        xit("calls createComment: on the createCommentDelegate") {
+                        xit("calls createComment:fromController: on the createCommentDelegate") {
                             // need to wire up a collectionview and datasource
                         }
                     }

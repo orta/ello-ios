@@ -17,7 +17,7 @@ public protocol UserTappedDelegate : NSObjectProtocol {
 }
 
 public protocol CreateCommentDelegate: NSObjectProtocol {
-    func createComment(post : Post)
+    func createComment(post : Post, fromController: StreamViewController)
 }
 
 public protocol InviteResponder: NSObjectProtocol {
@@ -121,19 +121,19 @@ extension StreamableViewController: UserTappedDelegate {
 
 // MARK: CreateCommentDelegate
 extension StreamableViewController: CreateCommentDelegate {
-    public func createComment(post : Post) {
+    public func createComment(post : Post, fromController: StreamViewController) {
         let vc = OmnibarViewController(parentPost: post)
         vc.currentUser = self.currentUser
         vc.onCommentSuccess() { (comment: Comment) in
             self.navigationController?.popViewControllerAnimated(true)
-            self.commentCreated(comment)
+            self.commentCreated(comment, fromController: fromController)
         }
         self.navigationController?.pushViewController(vc, animated: true)
     }
 
     // child classes should override this method and add the comment to their
     // datasource.
-    func commentCreated(comment: Comment) {}
+    func commentCreated(comment: Comment, fromController: StreamViewController) {}
 }
 
 // MARK: StreamScrollDelegate

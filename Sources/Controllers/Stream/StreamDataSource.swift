@@ -76,16 +76,18 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         updateFilteredItems()
     }
 
-    public func postForIndexPath(indexPath: NSIndexPath) -> Post? {
+    public func itemForIndexPath(indexPath: NSIndexPath) -> StreamCellItem? {
         if !isValidIndexPath(indexPath) { return nil }
 
-        return visibleCellItems[indexPath.item].jsonable as? Post
+        return visibleCellItems[indexPath.item]
+    }
+
+    public func postForIndexPath(indexPath: NSIndexPath) -> Post? {
+        return itemForIndexPath(indexPath)?.jsonable as? Post
     }
 
     public func commentForIndexPath(indexPath: NSIndexPath) -> Comment? {
-        if !isValidIndexPath(indexPath) { return nil }
-
-        return visibleCellItems[indexPath.item].jsonable as? Comment
+        return itemForIndexPath(indexPath)?.jsonable as? Comment
     }
 
     public func visibleStreamCellItem(at indexPath: NSIndexPath) -> StreamCellItem? {
@@ -118,6 +120,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         return nil
     }
 
+    // this includes the `createComment` cell, since it contains a comment item
     public func commentIndexPathsForPost(post: Post) -> [NSIndexPath] {
         var indexPaths:[NSIndexPath] = []
 
@@ -130,6 +133,27 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
             }
         }
         return indexPaths
+    }
+
+    // this includes the `createComment` cell, since it contains a comment item
+    public func footerIndexPathForPost(searchPost: Post) -> NSIndexPath? {
+        for (index, value) in enumerate(visibleCellItems) {
+            if value.type == .Footer,
+               let post = value.jsonable as? Post {
+                if searchPost.postId == post.postId {
+                    return NSIndexPath(forItem: index, inSection: 0)
+                }
+            }
+        }
+        return nil
+    }
+
+    public func createCommentIndexPathForPost(post: Post) -> NSIndexPath? {
+        let paths = commentIndexPathsForPost(post)
+        if count(paths) > 0 {
+            return paths[0]
+        }
+        return nil
     }
 
     public func removeCommentsForPost(post: Post) -> [NSIndexPath] {
@@ -264,26 +288,32 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         insertUnsizedCellItems(cellItems, withWidth: withWidth, startingIndexPath: startingIndexPath, completion: completion)
     }
 
-    public func insertUnsizedCellItems(cellItems: [StreamCellItem], withWidth: CGFloat, startingIndexPath: NSIndexPath, completion: StreamContentReady) {
-
-        var startingIndex = startingIndexPath.item
+    public func insertStreamCellItems(cellItems: [StreamCellItem], startingIndexPath: NSIndexPath) -> [NSIndexPath] {
+        // startingIndex represents the filtered index,
+        // arrayIndex is the streamCellItems index
+        let startingIndex = startingIndexPath.item
+        var arrayIndex = startingIndexPath.item
 
         if let item = self.visibleStreamCellItem(at: startingIndexPath) {
             if let foundIndex = find(self.streamCellItems, item) {
-                startingIndex = foundIndex
+                arrayIndex = foundIndex
             }
         }
 
+        var indexPaths:[NSIndexPath] = []
+
+        for (index, cellItem) in enumerate(cellItems) {
+            indexPaths.append(NSIndexPath(forItem: startingIndex + index, inSection: startingIndexPath.section))
+            self.streamCellItems.insert(cellItem, atIndex: arrayIndex + index)
+        }
+
+        self.updateFilteredItems()
+        return indexPaths
+    }
+
+    public func insertUnsizedCellItems(cellItems: [StreamCellItem], withWidth: CGFloat, startingIndexPath: NSIndexPath, completion: StreamContentReady) {
         self.calculateCellItems(cellItems, withWidth: withWidth) {
-            var indexPaths:[NSIndexPath] = []
-
-            for (index, cellItem) in enumerate(cellItems) {
-                var index = startingIndex + index
-                indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
-                self.streamCellItems.insert(cellItem, atIndex: index)
-            }
-
-            self.updateFilteredItems()
+            let indexPaths = self.insertStreamCellItems(cellItems, startingIndexPath: startingIndexPath)
             completion(indexPaths: indexPaths)
         }
     }
