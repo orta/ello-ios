@@ -43,12 +43,10 @@ public class PostbarController: NSObject, PostbarDelegate {
                         let streamService = StreamService()
                         item.state = .Loading
                         streamService.loadMoreCommentsForPost(post.postId, success: { (comments, responseConfig) in
-                            Functional.delay(10) {
-                                item.state = .Expanded
-                                commentsButton.finishAnimation()
-                                let nextIndexPath = NSIndexPath(forRow: indexPath.row + 1, inSection: indexPath.section)
-                                self.commentLoadSuccess(post, comments: comments, indexPath: nextIndexPath, cell: cell)
-                            }
+                            item.state = .Expanded
+                            commentsButton.finishAnimation()
+                            let nextIndexPath = NSIndexPath(forRow: indexPath.row + 1, inSection: indexPath.section)
+                            self.commentLoadSuccess(post, comments: comments, indexPath: nextIndexPath, cell: cell)
                         }, failure: { _ in
                             item.state = .Collapsed
                             cell.commentsButton.enabled = true
