@@ -98,7 +98,7 @@ public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
     var createdAt: NSDate? {
         willSet(newValue) {
             if let date = newValue {
-                createdAtLabel.text = NSDate().distanceOfTimeInWords(date)
+                createdAtLabel.text = date.timeAgoInWords()
             }
             else {
                 createdAtLabel.text = ""

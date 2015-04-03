@@ -27,7 +27,7 @@ public struct StreamHeaderCellPresenter {
             }
 
             cell.setAvatarURL(authorable.author?.avatarURL)
-            cell.timeStamp = NSDate().distanceOfTimeInWords(authorable.createdAt)
+            cell.timeStamp = authorable.createdAt.timeAgoInWords()
 
             if streamCellItem.type == .CommentHeader {
                 cell.avatarHeight = 30.0

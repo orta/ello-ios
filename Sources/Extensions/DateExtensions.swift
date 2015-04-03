@@ -1,26 +1,18 @@
 //
-//  DataExtensions.swift
+//  DateExtensions.swift
 //  Ello
 //
-//  Created by Sean Dougherty on 12/10/14.
-//  Copyright (c) 2014 Ello. All rights reserved.
+//  Created by Ryan Boyajian on 4/2/15.
+//  Copyright (c) 2015 Ello. All rights reserved.
+//
+//  This is a direct port of: http://api.rubyonrails.org/classes/ActionView/Helpers/DateHelper.html#method-i-distance_of_time_in_words
 //
 
 import Foundation
 
 public extension NSDate {
+    func distanceOfTimeInWords(fromDate:NSDate, toDate:NSDate) -> String {
 
-    func distanceOfTimeInWords(date:NSDate) -> String {
-
-        let SECONDS_PER_MINUTE = 60.0
-        let SECONDS_PER_HOUR   = 3600.0
-        let SECONDS_PER_DAY    = 86400.0
-        let SECONDS_PER_MONTH  = 2592000.0
-        let SECONDS_PER_YEAR   = 31536000.0
-
-
-        let Ago      = NSLocalizedString("", comment:"Denotes past dates")
-        let FromNow  = NSLocalizedString("", comment:"Denotes future dates")
         let LessThan = NSLocalizedString("<", comment:"Indicates a less-than number")
         let About    = NSLocalizedString("~", comment:"Indicates an approximate number")
         let Over     = NSLocalizedString("+", comment:"Indicates an exceeding number")
@@ -32,95 +24,69 @@ public extension NSDate {
         let Hours    = NSLocalizedString("h", comment:"More than one hour in time")
         let Day      = NSLocalizedString("d", comment:"One day in time")
         let Days     = NSLocalizedString("d", comment:"More than one day in time")
-        let Month    = NSLocalizedString("mth", comment:"One month in time")
         let Months   = NSLocalizedString("mth", comment:"More than one month in time")
-        let Year     = NSLocalizedString("y", comment:"One year in time")
         let Years    = NSLocalizedString("y", comment:"More than one year in time")
 
-        let sinceInterval:NSTimeInterval = self.timeIntervalSinceDate(date)
-        let direction = sinceInterval <= 0.0 ? Ago : FromNow
-        let since:Double = round(abs(sinceInterval))
+        let MINUTES_IN_YEAR = 525600.0
+        let MINUTES_IN_QUARTER_YEAR	= 131400.0
+        let MINUTES_IN_THREE_QUARTERS_YEAR = 394200.0
 
-        let seconds   = Int(since)
-        let minutes   = Int(since / SECONDS_PER_MINUTE)
-        let hours     = Int(since / SECONDS_PER_HOUR)
-        let days      = Int(since / SECONDS_PER_DAY)
-        let months    = Int(since / SECONDS_PER_MONTH)
-        let years     = Int(since / SECONDS_PER_YEAR)
-        let offset    = Int(floor(Double(years) / 4.0) * 1440.0)
-        let remainder = (minutes - offset) % 525600
+        let deltaSeconds = abs(toDate.timeIntervalSinceDate(fromDate))
+        let deltaMinutes = round(deltaSeconds / 60.0)
 
-        var number = 0
-        var measure = ""
-        var modifier = ""
-
-
-        switch (minutes) {
-        case 0 ... 1:
-            measure = Seconds
-            switch (seconds) {
-            case 0 ... 4:
-                number = 5
-                modifier = LessThan
-            case 5 ... 9:
-                number = 10
-                modifier = LessThan
-            case 10 ... 19:
-                number = 20
-                modifier = LessThan
-            case 20 ... 39:
-                number = 30
-                modifier = About
-            case 40 ... 59:
-                number = 1
-                measure = Minute
-                modifier = LessThan
+        switch deltaMinutes {
+        case 0..<1:
+            switch deltaSeconds {
+            case 0..<4:
+                return LessThan + "5" + Seconds
+            case 5..<9:
+                return LessThan + "10" + Seconds
+            case 10..<19:
+                return LessThan + "20" + Seconds
+            case 20..<39:
+                return "30" + Seconds
+            case 40..<59:
+                return LessThan + "1" + Minute
             default:
-                number = 1
-                measure = Minute
-                modifier = About
+                return "1" + Minute
             }
-        case 2 ... 44:
-            number = minutes
-            measure = Minutes
-        case 45 ... 89:
-            number = 1
-            measure = Hour
-            modifier = About
-        case 90 ... 1439:
-            number = hours
-            measure = Hours
-            modifier = About
-        case 1440 ... 2529:
-            number = 1
-            measure = Day
-        case 2530 ... 43199:
-            number = days
-            measure = Days
-        case 43200 ... 86399:
-            number = 1
-            measure = Month
-            modifier = About
-        case 86400 ... 525599:
-            number = months
-            measure = Months
+        case 2...45:
+            return "\(Int(round(deltaMinutes)))" + Minutes
+        case 45...90:
+            return About + "1" + Hour
+        // 90 mins up to 24 hours
+        case 90...1440:
+            return About + "\(Int(round(deltaMinutes / 60.0)))" + Hours
+        // 24 hours up to 42 hours
+        case 1440...2520:
+            return "1" + Day
+        // 42 hours up to 30 days
+        case 2520...43200:
+            return "\(Int(round(deltaMinutes / 1440.0)))" + Days
+        // 30 days up to 60 days
+        case 43200...86400:
+            return About + "\(Int(round(deltaMinutes / 43200.0)))" + Months
+        // 60 days up to 365 days
+        case 86400...525600:
+            return "\(Int(round(deltaMinutes / 43200.0)))" + Months
+        // TODO: handle leap year like rails does
         default:
-            number = years
-            measure = number == 1 ? Year : Years
-            if remainder < 131400 {
-                modifier = About
+            let remainder = deltaMinutes % MINUTES_IN_YEAR
+            let deltaYears = Int(round(deltaMinutes / MINUTES_IN_YEAR))
+            if remainder < MINUTES_IN_QUARTER_YEAR {
+                return About + "\(deltaYears)" + Years
             }
-            else if remainder < 394200 {
-                modifier = Over
+            else if remainder < MINUTES_IN_THREE_QUARTERS_YEAR {
+                return Over + "\(deltaYears)" + Years
             }
             else {
-                ++number
-                measure = Years
-                modifier = Almost
+                return Almost + "\(deltaYears + 1)" + Years
             }
         }
-
-        return "\(modifier)\(number)\(measure)\(direction)"
     }
-    
+
+    func timeAgoInWords() -> String {
+        return distanceOfTimeInWords(self, toDate: NSDate())
+    }
 }
+
