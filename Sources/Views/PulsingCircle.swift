@@ -42,7 +42,6 @@ class PulsingCircle: UIView {
     override func didMoveToWindow() {
         super.didMoveToWindow()
         self.userInteractionEnabled = false
-        println("didMoveToWindow()")
         if window != nil && shouldReanimate {
             shouldReanimate = false
             pulse()
