@@ -187,10 +187,10 @@ public class StreamViewController: BaseElloViewController {
         }
     }
 
-    public func insertUnsizedCellItems(cellItems: [StreamCellItem], startingIndexPath: NSIndexPath, block: ElloEmptyCompletion = {}) {
+    public func insertUnsizedCellItems(cellItems: [StreamCellItem], startingIndexPath: NSIndexPath, completion: ElloEmptyCompletion? = nil) {
         dataSource.insertUnsizedCellItems(cellItems, withWidth: self.view.frame.width, startingIndexPath: startingIndexPath) { _ in
             self.collectionView.reloadData()
-            block()
+            completion?()
         }
     }
 

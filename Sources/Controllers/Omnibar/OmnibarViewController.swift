@@ -34,12 +34,12 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         }
     }
 
-    func onPostSuccess(block: PostSuccessListener) {
-        postSuccessListeners.append(block)
+    func onPostSuccess(listener: PostSuccessListener) {
+        postSuccessListeners.append(listener)
     }
 
-    func onCommentSuccess(block: CommentSuccessListener) {
-        commentSuccessListeners.append(block)
+    func onCommentSuccess(listener: CommentSuccessListener) {
+        commentSuccessListeners.append(listener)
     }
 
     override public func loadView() {
