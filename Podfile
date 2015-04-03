@@ -16,8 +16,8 @@ pod 'CocoaLumberjack', '~> 1.9'
 pod 'MBProgressHUD', '~> 0.9'
 pod 'SVGKit', git: 'https://github.com/SVGKit/SVGKit', branch: '2.x'
 pod 'FLAnimatedImage', git: 'https://github.com/ello/FLAnimatedImage.git'
-pod 'JTSImageViewController', path: '/Users/s/work/Libraries/JTSImageViewController'
-pod 'KINWebBrowser', path: '/Users/s/work/Libraries/KINWebBrowser'
+pod 'JTSImageViewController', git: 'https://github.com/ello/JTSImageViewController.git'
+pod 'KINWebBrowser', git: 'https://github.com/ello/KINWebBrowser.git'
 
 # swift pods
 pod 'SwiftyJSON', git: "https://github.com/SwiftyJSON/SwiftyJSON", branch: "xcode6.3"

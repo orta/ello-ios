@@ -30,9 +30,9 @@ DEPENDENCIES:
   - Alamofire (from `https://github.com/Alamofire/Alamofire.git`, branch `xcode-6.3`)
   - CocoaLumberjack (~> 1.9)
   - FLAnimatedImage (from `https://github.com/ello/FLAnimatedImage.git`)
-  - JTSImageViewController (from `/Users/s/work/Libraries/JTSImageViewController`)
+  - JTSImageViewController (from `https://github.com/ello/JTSImageViewController.git`)
   - Keys (from `https://github.com/ashfurrow/empty-podspec.git`)
-  - KINWebBrowser (from `/Users/s/work/Libraries/KINWebBrowser`)
+  - KINWebBrowser (from `https://github.com/ello/KINWebBrowser.git`)
   - LlamaKit (from `https://github.com/ello/LlamaKit.git`)
   - MBProgressHUD (~> 0.9)
   - Moya (from `https://github.com/ello/Moya`, branch `cg-hybrid`)
@@ -51,11 +51,11 @@ EXTERNAL SOURCES:
   FLAnimatedImage:
     :git: https://github.com/ello/FLAnimatedImage.git
   JTSImageViewController:
-    :path: "/Users/s/work/Libraries/JTSImageViewController"
+    :git: https://github.com/ello/JTSImageViewController.git
   Keys:
     :git: https://github.com/ashfurrow/empty-podspec.git
   KINWebBrowser:
-    :path: "/Users/s/work/Libraries/KINWebBrowser"
+    :git: https://github.com/ello/KINWebBrowser.git
   LlamaKit:
     :git: https://github.com/ello/LlamaKit.git
   Moya:
@@ -84,9 +84,15 @@ CHECKOUT OPTIONS:
   FLAnimatedImage:
     :commit: 7f1d9a29597b45aef8686da22f33a3634d84c686
     :git: https://github.com/ello/FLAnimatedImage.git
+  JTSImageViewController:
+    :commit: ee706e3b309e920831e38fa61f1be392963e1132
+    :git: https://github.com/ello/JTSImageViewController.git
   Keys:
     :commit: dfc3c5e75dd23e5e9f938f4552eaceec4a8b4b73
     :git: https://github.com/ashfurrow/empty-podspec.git
+  KINWebBrowser:
+    :commit: c5f49457e7fb7939cf5882c3f310b9b15e340d4e
+    :git: https://github.com/ello/KINWebBrowser.git
   LlamaKit:
     :commit: 17c80a90295419e180234381ab7f787e136918df
     :git: https://github.com/ello/LlamaKit.git
