@@ -71,9 +71,9 @@ StreamImageCellDelegate {
 
 // MARK: JTSImageViewControllerDismissalDelegate
 
-    func imageViewerDidDismiss(imageViewer: JTSImageViewController!) {}
+    public func imageViewerDidDismiss(imageViewer: JTSImageViewController!) {}
 
-    func imageViewerWillDismiss(imageViewer: JTSImageViewController!) {
+    public func imageViewerWillDismiss(imageViewer: JTSImageViewController!) {
         self.imageView?.hidden = false
     }
 

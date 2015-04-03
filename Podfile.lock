@@ -85,7 +85,7 @@ CHECKOUT OPTIONS:
     :commit: 7f1d9a29597b45aef8686da22f33a3634d84c686
     :git: https://github.com/ello/FLAnimatedImage.git
   JTSImageViewController:
-    :commit: ee706e3b309e920831e38fa61f1be392963e1132
+    :commit: ba1934af3d8d22f22094211cab6db7501835c796
     :git: https://github.com/ello/JTSImageViewController.git
   Keys:
     :commit: dfc3c5e75dd23e5e9f938f4552eaceec4a8b4b73
