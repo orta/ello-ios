@@ -225,7 +225,7 @@ public class StreamFooterCell: UICollectionViewCell {
         innerContentView.frame = bounds
         containerView.frame = bounds
         scrollView.frame = bounds
-        toolBar.frame = bounds
+        toolBar.frame = CGRectMake(0, 0, bounds.width, 44)
         bottomToolBar.frame = bounds
         chevronButton.frame = CGRectMake(bounds.width - chevronButton.bounds.width - 10, bounds.height/2 - chevronButton.bounds.height/2, chevronButton.bounds.size.width, chevronButton.bounds.size.height)
         scrollView.contentSize = CGSizeMake(contentView.frame.size.width + revealWidth, scrollView.frame.size.height)
