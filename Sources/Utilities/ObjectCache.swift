@@ -8,34 +8,34 @@
 
 import Foundation
 
-protocol PersistentLayer {
+public protocol PersistentLayer {
     func setObject(value: AnyObject?, forKey: String)
     func objectForKey(defaultName: String) -> AnyObject?
 }
 
 extension NSUserDefaults: PersistentLayer { }
 
-class ObjectCache<T: AnyObject> {
+public class ObjectCache<T: AnyObject> {
     private let persistentLayer: PersistentLayer
-    var cache: [T] = []
-    let name: String
+    public var cache: [T] = []
+    public let name: String
 
-    init(name: String) {
+    public init(name: String) {
         self.name = name
         persistentLayer = NSUserDefaults.standardUserDefaults()
     }
 
-    init(name: String, persistentLayer: PersistentLayer) {
+    public init(name: String, persistentLayer: PersistentLayer) {
         self.name = name
         self.persistentLayer = persistentLayer
     }
 
-    func append(item: T) {
+    public func append(item: T) {
         cache.append(item)
         persist()
     }
 
-    func getAll() -> [T] {
+    public func getAll() -> [T] {
         return cache
     }
 
@@ -43,7 +43,7 @@ class ObjectCache<T: AnyObject> {
         persistentLayer.setObject(cache, forKey: name)
     }
 
-    func load() {
+    public func load() {
         cache = persistentLayer.objectForKey(name) as? [T] ?? []
     }
 }

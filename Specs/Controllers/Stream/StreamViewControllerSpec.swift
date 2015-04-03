@@ -6,9 +6,11 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
+import Ello
 import Quick
 import Nimble
 import SSPullToRefresh
+
 
 class StreamViewControllerSpec: QuickSpec {
     override func spec() {
@@ -496,7 +498,6 @@ class StreamViewControllerSpec: QuickSpec {
                     }
                 }
             }
-
         }
     }
 }

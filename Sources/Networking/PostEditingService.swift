@@ -13,7 +13,7 @@
 // asynchronously, they could come back in any order.  In this context "entry"
 // refers to the tuple of (index, Region) or (index, String/UIImage)
 
-class PostEditingService: NSObject {
+public class PostEditingService: NSObject {
     // this can return either a Post or Comment
     typealias CreatePostSuccessCompletion = (post : AnyObject) -> ()
     typealias UploadImagesSuccessCompletion = ([(Int, ImageRegion)]) -> ()
@@ -80,7 +80,7 @@ class PostEditingService: NSObject {
             endpoint = ElloAPI.CreatePost(body: params)
         }
 
-        ElloProvider.sharedProvider.elloRequest(endpoint,
+        ElloProvider.elloRequest(endpoint,
             method: .POST,
             success: { data, responseConfig in
                 success(post: data as AnyObject)

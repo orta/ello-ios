@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct StreamImageCellPresenter {
+public struct StreamImageCellPresenter {
 
     static func configure(
         cell:UICollectionViewCell,

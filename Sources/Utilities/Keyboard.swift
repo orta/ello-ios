@@ -8,25 +8,25 @@
 
 private let sharedKeyboard = Keyboard()
 
-class Keyboard {
-    struct Notifications {
-        static let KeyboardWillShow = TypedNotification<Keyboard>(name: "com.Ello.Keyboard.KeyboardWillShow")
-        static let KeyboardDidShow = TypedNotification<Keyboard>(name: "com.Ello.Keyboard.KeyboardDidShow")
-        static let KeyboardWillHide = TypedNotification<Keyboard>(name: "com.Ello.Keyboard.KeyboardWillHide")
-        static let KeyboardDidHide = TypedNotification<Keyboard>(name: "com.Ello.Keyboard.KeyboardDidHide")
+public class Keyboard {
+    public struct Notifications {
+        public static let KeyboardWillShow = TypedNotification<Keyboard>(name: "com.Ello.Keyboard.KeyboardWillShow")
+        public static let KeyboardDidShow = TypedNotification<Keyboard>(name: "com.Ello.Keyboard.KeyboardDidShow")
+        public static let KeyboardWillHide = TypedNotification<Keyboard>(name: "com.Ello.Keyboard.KeyboardWillHide")
+        public static let KeyboardDidHide = TypedNotification<Keyboard>(name: "com.Ello.Keyboard.KeyboardDidHide")
     }
 
-    class func shared() -> Keyboard {
+    public class func shared() -> Keyboard {
         return sharedKeyboard
     }
 
-    var visible : Bool
-    var height : CGFloat
-    var curve : UIViewAnimationCurve
-    var options : UIViewAnimationOptions
-    var duration : Double
+    public var visible : Bool
+    public var height : CGFloat
+    public var curve : UIViewAnimationCurve
+    public var options : UIViewAnimationOptions
+    public var duration : Double
 
-    init() {
+    public init() {
         visible = false
         height = 0
         curve = .Linear
@@ -45,7 +45,7 @@ class Keyboard {
         center.removeObserver(self)
     }
 
-    func keyboardTop(#inView: UIView) -> CGFloat {
+    public func keyboardTop(#inView: UIView) -> CGFloat {
         let kbdHeight = Keyboard.shared().height
         let window : UIView = inView.window ?? inView
         let bottom = window.convertPoint(CGPoint(x: 0, y: window.bounds.size.height), toView: inView).y

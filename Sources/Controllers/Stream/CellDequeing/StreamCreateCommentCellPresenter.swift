@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-struct StreamCreateCommentCellPresenter {
+public struct StreamCreateCommentCellPresenter {
 
     static func configure(
         cell:UICollectionViewCell,

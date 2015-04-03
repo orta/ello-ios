@@ -8,9 +8,9 @@
 
 import Foundation
 
-class ElloTextFieldView: UIView {
+public class ElloTextFieldView: UIView {
     @IBOutlet weak var label: UILabel!
-    @IBOutlet weak var textField: ElloTextField!
+    @IBOutlet weak public var textField: ElloTextField!
 
     var textFieldDidChange: (String -> ())? {
         didSet {
@@ -18,7 +18,7 @@ class ElloTextFieldView: UIView {
         }
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required public init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         let view: UIView = loadFromNib()
         view.frame = bounds

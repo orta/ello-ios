@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-class ElloScrollLogic : NSObject, UIScrollViewDelegate {
-    var prevOffset : CGPoint?
+public class ElloScrollLogic : NSObject, UIScrollViewDelegate {
+    public var prevOffset : CGPoint?
     var shouldIgnoreScroll:Bool = false
     var navBarHeight:CGFloat = 44
     var tabBarHeight:CGFloat = 49
@@ -25,7 +25,7 @@ class ElloScrollLogic : NSObject, UIScrollViewDelegate {
     private var onShow: ((Bool)->())!
     private var onHide: (()->())!
 
-    init(onShow: (Bool)->(), onHide: ()->()) {
+    public init(onShow: (Bool)->(), onHide: ()->()) {
         self.onShow = onShow
         self.onHide = onHide
     }
@@ -69,7 +69,7 @@ class ElloScrollLogic : NSObject, UIScrollViewDelegate {
         showingState = false
     }
 
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    public func scrollViewDidScroll(scrollView: UIScrollView) {
         var nextOffset = scrollView.contentOffset
         let shouldAcceptScroll = self.shouldAcceptScroll(scrollView)
 
@@ -95,11 +95,11 @@ class ElloScrollLogic : NSObject, UIScrollViewDelegate {
         prevOffset = nextOffset
     }
 
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+    public func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         shouldIgnoreScroll = false
     }
 
-    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate: Bool) {
+    public func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate: Bool) {
         if self.isAtBottom(scrollView) {
             show(scrollToBottom: true)
         }

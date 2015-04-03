@@ -6,8 +6,10 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
+import Ello
 import Quick
 import Nimble
+
 
 class PostSpec: QuickSpec {
     override func spec() {
@@ -35,6 +37,10 @@ class PostSpec: QuickSpec {
                 expect(post.postId) == "526"
                 expect(post.shareLink) == "https://ello-staging.herokuapp.com/cfiggis/post/ibLWX5p5fPBfzE8GmfOG6w"
                 expect(post.groupId) == "526"
+                expect(post.collapsed) == false
+                expect(post.commentsCount) == 0
+                expect(post.viewsCount) == 0
+                expect(post.repostsCount) == 0
 
                 expect(post.author).to(beAnInstanceOf(User.self))
                 expect(post.author!.name) == "Cyril Figgis"

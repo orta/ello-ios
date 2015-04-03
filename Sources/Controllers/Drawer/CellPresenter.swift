@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-protocol CellPresenter {
+public protocol CellPresenter {
     var reuseIdentifier: String { get }
     func configureCell(cell: UICollectionViewCell)
 }

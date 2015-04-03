@@ -9,7 +9,7 @@
 import Foundation
 
 
-struct ProfileHeaderCellPresenter {
+public struct ProfileHeaderCellPresenter {
 
     static func configure(
         cell:UICollectionViewCell,

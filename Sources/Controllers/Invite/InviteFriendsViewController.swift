@@ -8,31 +8,31 @@
 
 import UIKit
 
-class InviteFriendsViewController: BaseElloViewController {
+public class InviteFriendsViewController: BaseElloViewController {
 
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var filterField: UITextField!
+    @IBOutlet weak public var tableView: UITableView!
+    @IBOutlet weak public var filterField: UITextField!
 
-    let dataSource = AddFriendsDataSource()
-    let inviteService = InviteService()
-    var relationshipController: RelationshipController?
-    var allContacts: [(LocalPerson, User?)] = []
+    public let dataSource = AddFriendsDataSource()
+    public let inviteService = InviteService()
+    private var relationshipController: RelationshipController?
+    public var allContacts: [(LocalPerson, User?)] = []
 
-    required init() {
+    required public init() {
         super.init(nibName: "InviteFriendsViewController", bundle: NSBundle(forClass: InviteFriendsViewController.self))
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required public init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
         setupFilterField()
     }
 
-    func setContacts(contacts: [(LocalPerson, User?)]) {
+    public func setContacts(contacts: [(LocalPerson, User?)]) {
         allContacts = contacts
         setDataSource(allContacts)
         dispatch_async(dispatch_get_main_queue()) { _ = self.tableView?.reloadData() }
@@ -65,7 +65,7 @@ class InviteFriendsViewController: BaseElloViewController {
         tableView.registerNib(inviteCellNib, forCellReuseIdentifier: AddFriendsCellItem.CellType.Invite.identifier)
     }
 
-    @IBAction func filterFieldDidChange(sender: UITextField) {
+    @IBAction public func filterFieldDidChange(sender: UITextField) {
         if sender.text.isEmpty {
             setDataSource(allContacts)
         } else {
@@ -80,14 +80,14 @@ class InviteFriendsViewController: BaseElloViewController {
 
 // MARK: InviteFriendsViewController : UITableViewDelegate
 extension InviteFriendsViewController : UITableViewDelegate {
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 60.0
     }
 }
 
 // MARK: InviteFriendsViewController : UIScrollViewDelegate
 extension InviteFriendsViewController : UIScrollViewDelegate {
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    public func scrollViewDidScroll(scrollView: UIScrollView) {
         filterField.resignFirstResponder()
     }
 }

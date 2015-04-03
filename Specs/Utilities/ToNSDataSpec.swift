@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Ello
 import Quick
 import Nimble
 
@@ -21,6 +22,7 @@ class ToNSDataSpec: QuickSpec {
             it("should return self (empty data)") {
                 expect(emptyData.toNSData()).to(equal(emptyData))
             }
+
             it("should return self (base64 data)") {
                 expect(someData.toNSData()).to(equal(someData))
             }

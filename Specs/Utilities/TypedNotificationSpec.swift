@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Ello
 import Quick
 import Nimble
 
@@ -40,6 +41,7 @@ class TypedNotificationSpec: QuickSpec {
                 expect(self.didNotify).to(equal("testing"))
             }
         }
+
         describe("observing a notification") {
             beforeEach() {
                 self.didNotify = nil
@@ -53,6 +55,7 @@ class TypedNotificationSpec: QuickSpec {
                 expect(self.didNotify).to(equal("testing"))
             }
         }
+
         describe("stop observing a notification") {
             beforeEach() {
                 self.didNotify = nil

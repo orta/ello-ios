@@ -15,7 +15,7 @@ private var entityLookup : [String : String]!
 private var entitiesEncodedPredicate : dispatch_once_t = 0
 private var entitiesDecodedPredicate : dispatch_once_t = 0
 
-extension String {
+public extension String {
 
     func urlEncoded() -> String {
         return CFURLCreateStringByAddingPercentEscapes(

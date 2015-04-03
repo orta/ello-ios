@@ -8,27 +8,27 @@
 
 import UIKit
 
-protocol PostTappedDelegate : NSObjectProtocol {
+public protocol PostTappedDelegate : NSObjectProtocol {
     func postTapped(post : Post, initialItems: [StreamCellItem])
 }
 
-protocol UserTappedDelegate : NSObjectProtocol {
+public protocol UserTappedDelegate : NSObjectProtocol {
     func userTapped(user : User)
 }
 
-protocol CreateCommentDelegate: NSObjectProtocol {
+public protocol CreateCommentDelegate: NSObjectProtocol {
     func createComment(post : Post)
 }
 
-protocol InviteResponder: NSObjectProtocol {
+public protocol InviteResponder: NSObjectProtocol {
     func onInviteFriends()
 }
 
-class StreamableViewController : BaseElloViewController {
+public class StreamableViewController : BaseElloViewController {
 
     var scrollLogic: ElloScrollLogic!
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
 
         scrollLogic = ElloScrollLogic(
@@ -95,7 +95,7 @@ class StreamableViewController : BaseElloViewController {
 
 // MARK: PostTappedDelegate
 extension StreamableViewController: PostTappedDelegate {
-    func postTapped(post: Post, initialItems: [StreamCellItem]) {
+    public func postTapped(post: Post, initialItems: [StreamCellItem]) {
         let vc = PostDetailViewController(post: post, items: initialItems)
         vc.currentUser = currentUser
         vc.willPresentStreamable(scrollLogic.isShowing)
@@ -106,7 +106,7 @@ extension StreamableViewController: PostTappedDelegate {
 
 // MARK: UserTappedDelegate
 extension StreamableViewController: UserTappedDelegate {
-    func userTapped(user: User) {
+    public func userTapped(user: User) {
         if alreadyOnUserProfile(user.userId) {
             return
         }
@@ -121,7 +121,7 @@ extension StreamableViewController: UserTappedDelegate {
 
 // MARK: CreateCommentDelegate
 extension StreamableViewController: CreateCommentDelegate {
-    func createComment(post : Post) {
+    public func createComment(post : Post) {
         let vc = OmnibarViewController(parentPost: post)
         vc.currentUser = self.currentUser
         vc.onCommentSuccess() { (comment: Comment) in
@@ -138,22 +138,22 @@ extension StreamableViewController: CreateCommentDelegate {
 
 // MARK: StreamScrollDelegate
 extension StreamableViewController : StreamScrollDelegate {
-    func streamViewDidScroll(scrollView : UIScrollView) {
+    public func streamViewDidScroll(scrollView : UIScrollView) {
         scrollLogic.scrollViewDidScroll(scrollView)
     }
 
-    func streamViewWillBeginDragging(scrollView: UIScrollView) {
+    public func streamViewWillBeginDragging(scrollView: UIScrollView) {
         scrollLogic.scrollViewWillBeginDragging(scrollView)
     }
 
-    func streamViewDidEndDragging(scrollView: UIScrollView, willDecelerate: Bool) {
+    public func streamViewDidEndDragging(scrollView: UIScrollView, willDecelerate: Bool) {
         scrollLogic.scrollViewDidEndDragging(scrollView, willDecelerate: willDecelerate)
     }
 }
 
 // MARK: InviteResponder
 extension StreamableViewController: InviteResponder {
-    func onInviteFriends() {
+    public func onInviteFriends() {
         if AddressBook.needsAuthentication() {
             displayContactActionSheet()
         } else {

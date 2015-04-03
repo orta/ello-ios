@@ -8,8 +8,9 @@
 
 import Foundation
 
-struct AddFriendsCellPresenter {
-    static func configure(cell: UITableViewCell, addFriendsCellItem: AddFriendsCellItem, relationshipDelegate: RelationshipDelegate?, inviteCache: InviteCache) {
+public struct AddFriendsCellPresenter {
+
+    public static func configure(cell: UITableViewCell, addFriendsCellItem: AddFriendsCellItem, relationshipDelegate: RelationshipDelegate?, inviteCache: InviteCache) {
         switch addFriendsCellItem.cellType {
         case .Find: return configureFindFriendsCell(cell, relationshipDelegate: relationshipDelegate, addFriendsCellItem: addFriendsCellItem)
         case .Invite: return configureInviteFriendsCell(cell, relationshipDelegate: relationshipDelegate, addFriendsCellItem: addFriendsCellItem, inviteCache: inviteCache)

@@ -8,8 +8,8 @@
 
 import Foundation
 
-class ResponseConfig: Printable {
-    var description: String {
+public class ResponseConfig: Printable {
+    public var description: String {
         let descripArray = [
             "ResponseConfig:",
             "nextQueryItems: \(nextQueryItems)",
@@ -22,17 +22,17 @@ class ResponseConfig: Printable {
         ]
         return "\r\t".join(descripArray)
     }
-    var nextQueryItems: [AnyObject]? // before (older)
-    var prevQueryItems: [AnyObject]? // after (newer)
-    var firstQueryItems: [AnyObject]? // first page
-    var lastQueryItems: [AnyObject]? // last page
-    var totalCount: String?
-    var totalPages: String?
-    var totalPagesRemaining: String?
+    public var nextQueryItems: [AnyObject]? // before (older)
+    public var prevQueryItems: [AnyObject]? // after (newer)
+    public var firstQueryItems: [AnyObject]? // first page
+    public var lastQueryItems: [AnyObject]? // last page
+    public var totalCount: String?
+    public var totalPages: String?
+    public var totalPagesRemaining: String?
 
-    init() {}
+    public init() {}
 
-    func isOutOfData() -> Bool {
+    public func isOutOfData() -> Bool {
         return totalPagesRemaining == "0"
             || totalPagesRemaining == nil
             || nextQueryItems.map(count) == 0

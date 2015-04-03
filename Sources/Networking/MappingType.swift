@@ -7,7 +7,7 @@
 //
 
 
-enum MappingType: String {
+public enum MappingType: String {
     // these keys define the place in the JSON response where the ElloProvider
     // should look for the response data.
     case CommentsType =          "comments"
@@ -46,8 +46,8 @@ enum MappingType: String {
 
 }
 
-class UnknownJSONAble : JSONAble {
-     override class func fromJSON(data: [String : AnyObject]) -> JSONAble {
+public class UnknownJSONAble : JSONAble {
+     override class public func fromJSON(data: [String : AnyObject]) -> JSONAble {
         return UnknownJSONAble()
     }
 }

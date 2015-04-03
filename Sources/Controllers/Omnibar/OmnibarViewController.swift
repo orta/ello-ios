@@ -9,7 +9,7 @@
 import UIKit
 
 
-class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
+public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
     var keyboardWillShowObserver: NotificationObserver?
     var keyboardWillHideObserver: NotificationObserver?
 
@@ -20,12 +20,12 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
     var postSuccessListeners = [PostSuccessListener]()
     var commentSuccessListeners = [CommentSuccessListener]()
 
-    convenience init(parentPost post: Post) {
+    convenience public init(parentPost post: Post) {
         self.init(nibName: nil, bundle: nil)
         parentPost = post
     }
 
-    func omnibarDataName() -> String {
+    public func omnibarDataName() -> String {
         if let post = parentPost {
             return "omnibar_comment_\(post.postId)"
         }
@@ -37,11 +37,12 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
     func onPostSuccess(block: PostSuccessListener) {
         postSuccessListeners.append(block)
     }
+
     func onCommentSuccess(block: CommentSuccessListener) {
         commentSuccessListeners.append(block)
     }
 
-    override func loadView() {
+    override public func loadView() {
         var screen = OmnibarScreen(frame: UIScreen.mainScreen().bounds)
         self.view = screen
         screen.hasParentPost = parentPost != nil
@@ -50,12 +51,12 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
     // the _mockScreen is only for testing - otherwise `self.screen` is always
     // just an appropriately typed accessor for `self.view`
     var _mockScreen: OmnibarScreenProtocol?
-    var screen: OmnibarScreenProtocol {
+    public var screen: OmnibarScreenProtocol {
         set(screen) { _mockScreen = screen }
         get { return _mockScreen ?? self.view as! OmnibarScreen }
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
         let fileName = omnibarDataName()
@@ -73,7 +74,7 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
         keyboardWillHideObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillHide, block: self.willHide)
     }
 
-    override func viewWillDisappear(animated: Bool) {
+    override public func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
 
         if let keyboardWillShowObserver = keyboardWillShowObserver {
@@ -99,7 +100,7 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
         self.screen.avatarURL = currentUser?.avatarURL
     }
 
-    func omnibarCancel() {
+    public func omnibarCancel() {
         if let post = parentPost {
             let omnibarData = OmnibarData(attributedText: screen.attributedText, image: screen.image)
             let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
@@ -109,7 +110,7 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
         self.navigationController?.popViewControllerAnimated(true)
     }
 
-    func omnibarSubmitted(text: NSAttributedString?, image: UIImage?) {
+    public func omnibarSubmitted(text: NSAttributedString?, image: UIImage?) {
         var content = [AnyObject]()
         if let text = text?.string {
             if count(text) > 0 {
@@ -157,22 +158,22 @@ class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
         }
     }
 
-    func omnibarPresentController(controller: UIViewController) {
+    public func omnibarPresentController(controller: UIViewController) {
         self.presentViewController(controller, animated: true, completion: nil)
     }
 
-    func omnibarDismissController(controller: UIViewController) {
+    public func omnibarDismissController(controller: UIViewController) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 
 }
 
 
-class OmnibarData : NSObject, NSCoding {
+public class OmnibarData : NSObject, NSCoding {
     let attributedText: NSAttributedString?
     let image: UIImage?
 
-    required init(attributedText: NSAttributedString?, image: UIImage?) {
+    required public init(attributedText: NSAttributedString?, image: UIImage?) {
         self.attributedText = attributedText
         self.image = image
         super.init()
@@ -180,7 +181,7 @@ class OmnibarData : NSObject, NSCoding {
 
 // MARK: NSCoding
 
-    func encodeWithCoder(encoder: NSCoder) {
+    public func encodeWithCoder(encoder: NSCoder) {
         if let attributedText = self.attributedText {
             encoder.encodeObject(attributedText, forKey: "attributedText")
         }
@@ -190,7 +191,7 @@ class OmnibarData : NSObject, NSCoding {
         }
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required public init(coder aDecoder: NSCoder) {
         let decoder = Decoder(aDecoder)
         self.attributedText = decoder.decodeOptionalKey("attributedText")
         self.image = decoder.decodeOptionalKey("image")

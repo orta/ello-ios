@@ -10,12 +10,12 @@ import Foundation
 import SwiftyJSON
 
 extension TextRegion: Regionable {
-    var kind:String { return RegionKind.Text.rawValue }
-    func coding() -> NSCoding {
+    public var kind:String { return RegionKind.Text.rawValue }
+    public func coding() -> NSCoding {
         return self
     }
 	
-    func toJSON() -> [String: AnyObject] {
+    public func toJSON() -> [String: AnyObject] {
         return [
             "kind": self.kind,
             "data": self.content

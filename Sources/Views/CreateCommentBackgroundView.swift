@@ -6,19 +6,19 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-class CreateCommentBackgroundView : UIView {
+public class CreateCommentBackgroundView : UIView {
 
-    required override init(frame: CGRect) {
+    required override public init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = UIColor.clearColor()
     }
 
-    required init(coder: NSCoder) {
+    required public init(coder: NSCoder) {
         super.init(coder: coder)
         self.backgroundColor = UIColor.clearColor()
     }
 
-    override func drawRect(rect : CGRect) {
+    override public func drawRect(rect : CGRect) {
         let color = UIColor.blackColor()
         let margin = CGFloat(10)
         let midY = self.frame.height / CGFloat(2)

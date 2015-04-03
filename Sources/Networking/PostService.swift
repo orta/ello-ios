@@ -10,10 +10,10 @@ import Foundation
 
 typealias PostSuccessCompletion = (post: Post) -> ()
 
-struct PostService {
+public struct PostService {
 
     static func loadPost(postParam: String, success: PostSuccessCompletion, failure: ElloFailureCompletion?) {
-        ElloProvider.sharedProvider.elloRequest(ElloAPI.PostDetail(postParam: postParam),
+        ElloProvider.elloRequest(ElloAPI.PostDetail(postParam: postParam),
             method: .GET,
             success: { (data, responseConfig) in
                 if let post = data as? Post {

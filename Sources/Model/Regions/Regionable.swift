@@ -8,13 +8,14 @@
 
 import UIKit
 
-@objc protocol Regionable {
+@objc
+public protocol Regionable {
     var kind:String { get }
     func toJSON() -> [String: AnyObject]
     func coding() -> NSCoding
 }
 
-enum RegionKind: String {
+public enum RegionKind: String {
     case Text = "text"
     case Image = "image"
     case Unknown = "Unknown"

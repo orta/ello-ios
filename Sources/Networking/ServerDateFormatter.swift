@@ -10,7 +10,7 @@ import Foundation
 
 let ServerDateFormatter = NSDateFormatter()
 
-extension NSString {
+public extension NSString {
 
     func toNSDate() -> NSDate? {
         ServerDateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"

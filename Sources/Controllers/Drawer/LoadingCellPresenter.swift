@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-struct LoadingCellPresenter: CellPresenter {
-    let reuseIdentifier = "LoadingCell"
+public struct LoadingCellPresenter: CellPresenter {
+    public let reuseIdentifier = "LoadingCell"
 
-    func configureCell(_: UICollectionViewCell) { }
+    public func configureCell(_: UICollectionViewCell) { }
 }
 

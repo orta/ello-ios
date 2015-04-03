@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum SettingsRow: Int {
+public enum SettingsRow: Int {
     case CoverImage
     case ProfileImage
     case ProfileDescription
@@ -20,15 +20,15 @@ enum SettingsRow: Int {
     case Unknown
 }
 
-class SettingsViewController: UITableViewController {
+public class SettingsViewController: UITableViewController {
 
-    @IBOutlet weak var profileImageView: UIView!
-    @IBOutlet weak var profileDescription: ElloLabel!
+    @IBOutlet weak public var profileImageView: UIView!
+    @IBOutlet weak public var profileDescription: ElloLabel!
 
     var currentUser: User?
     var sensitiveSettingsViewController: SensitiveSettingsViewController?
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
     }
@@ -45,7 +45,7 @@ class SettingsViewController: UITableViewController {
         profileDescription.attributedText = text
     }
 
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         switch SettingsRow(rawValue: indexPath.row) ?? .Unknown {
         case .CoverImage: return 200
         case .ProfileImage: return 250
@@ -59,7 +59,7 @@ class SettingsViewController: UITableViewController {
         }
     }
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override public func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         switch segue.identifier ?? "" {
         case "SensitiveSettingsSegue":
             sensitiveSettingsViewController = segue.destinationViewController as? SensitiveSettingsViewController
@@ -71,13 +71,13 @@ class SettingsViewController: UITableViewController {
 }
 
 extension SettingsViewController: SensitiveSettingsDelegate {
-    func sensitiveSettingsDidUpdate() {
+    public func sensitiveSettingsDidUpdate() {
         tableView.beginUpdates()
         tableView.endUpdates()
     }
 }
 
-extension SettingsViewController {
+public extension SettingsViewController {
     class func instantiateFromStoryboard() -> SettingsViewController {
         return UIStoryboard(name: "Settings", bundle: NSBundle(forClass: AppDelegate.self)).instantiateInitialViewController() as! SettingsViewController
     }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 class ElloHUD: NSObject {
 
@@ -25,7 +26,7 @@ class ElloHUD: NSObject {
         elloLogo.layer.addAnimation(rotate, forKey: "10")
 
         hud.customView = elloLogo
-        hud.mode = MBProgressHUDModeCustomView
+        hud.mode = MBProgressHUDMode.CustomView
         hud.removeFromSuperViewOnHide = true
         return hud
     }

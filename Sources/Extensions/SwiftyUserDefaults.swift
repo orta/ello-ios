@@ -24,7 +24,7 @@
 
 import Foundation
 
-extension NSUserDefaults {
+public extension NSUserDefaults {
     class Proxy {
         private let defaults: NSUserDefaults
         private let key: String
@@ -156,4 +156,4 @@ postfix func ++ (proxy: NSUserDefaults.Proxy) {
 
 /// Global shortcut for NSUserDefaults.standardUserDefaults()
 
-let Defaults = NSUserDefaults.standardUserDefaults()
+public let Defaults = NSUserDefaults.standardUserDefaults()

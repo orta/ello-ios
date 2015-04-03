@@ -6,9 +6,11 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Ello
 import Quick
 import Moya
 import Nimble
+
 
 class InviteServiceSpec: QuickSpec {
     override func spec() {

@@ -8,25 +8,25 @@
 
 import UIKit
 
-class LandingViewController: BaseElloViewController {
+public class LandingViewController: BaseElloViewController {
 
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var signInButton: ElloButton!
-    @IBOutlet weak var signUpButton: LightElloButton!
+    @IBOutlet weak public var scrollView: UIScrollView!
+    @IBOutlet weak public var signInButton: ElloButton!
+    @IBOutlet weak public var signUpButton: LightElloButton!
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         setupStyles()
         setupNotificationObservers()
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override public func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
         checkIfLoggedIn()
     }
 
-    class func instantiateFromStoryboard() -> LandingViewController {
+    public class func instantiateFromStoryboard() -> LandingViewController {
         return UIStoryboard.storyboardWithId(.Landing) as! LandingViewController
     }
 

@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Ello
 import Quick
 import Nimble
 
@@ -19,15 +20,19 @@ class KeyboardSpec: QuickSpec {
             it("has a 'visible' property") {
                 expect(keyboard).notTo(beNil())
             }
+
             it("has a 'curve' property") {
                 expect(keyboard).notTo(beNil())
             }
+
             it("has a 'options' property") {
                 expect(keyboard).notTo(beNil())
             }
+
             it("has a 'duration' property") {
                 expect(keyboard).notTo(beNil())
             }
+            
             it("has a 'height' property") {
                 expect(keyboard).notTo(beNil())
             }
@@ -44,21 +49,27 @@ class KeyboardSpec: QuickSpec {
                 window.rootViewController = controller
                 window.makeKeyAndVisible()
             }
+
             it("sets the 'visible' property") {
                 expect(keyboard.visible).to(equal(true))
             }
+
             it("sets the 'curve' property") {
                 expect(keyboard.curve).toNot(equal(UIViewAnimationCurve(rawValue: 0)))
             }
+
             it("sets the 'options' property") {
                 expect(keyboard.options).toNot(equal(UIViewAnimationOptions(rawValue: 0)))
             }
+
             it("sets the 'duration' property") {
                 expect(keyboard.duration).toNot(equal(0))
             }
+
             it("sets the 'height' property") {
                 expect(keyboard.height).toNot(equal(0))
             }
+
             it("can calculate the location of the top of the keyboard") {
                 let height = textView.frame.size.height
                 let calculatedKeyboardTop = height - keyboard.height

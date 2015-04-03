@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DiscoverViewController: StreamableViewController {
+public class DiscoverViewController: StreamableViewController {
 
     let streamViewController = StreamViewController.instantiateFromStoryboard()
 
@@ -18,16 +18,16 @@ class DiscoverViewController: StreamableViewController {
     @IBOutlet weak var inviteButton: UIButton!
     @IBOutlet weak var navigationBarTopConstraint: NSLayoutConstraint!
 
-    required init() {
+    required public init() {
         super.init(nibName: "DiscoverViewController", bundle: nil)
         title = "Discover"
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required public init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBarHidden = true
 
@@ -35,7 +35,7 @@ class DiscoverViewController: StreamableViewController {
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
     }
 
-    override func showNavBars(scrollToBottom : Bool) {
+    override public func showNavBars(scrollToBottom : Bool) {
         super.showNavBars(scrollToBottom)
         navigationBarTopConstraint.constant = 0
         self.view.layoutIfNeeded()
@@ -52,7 +52,7 @@ class DiscoverViewController: StreamableViewController {
         }
     }
 
-    override func hideNavBars() {
+    override public func hideNavBars() {
         super.hideNavBars()
         navigationBarTopConstraint.constant = -navigationBar.frame.height - 1
         self.view.layoutIfNeeded()

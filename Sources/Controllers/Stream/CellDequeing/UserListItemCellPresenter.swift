@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct UserListItemCellPresenter {
+public struct UserListItemCellPresenter {
 
     static func configure(
         cell:UICollectionViewCell,

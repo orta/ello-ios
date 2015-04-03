@@ -6,14 +6,14 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-class AmazonCredentials : JSONAble {
-    let accessKey : String
-    let endpoint : String
-    let policy : String
-    let prefix : String
-    let signature : String
+public class AmazonCredentials : JSONAble {
+    public let accessKey : String
+    public let endpoint : String
+    public let policy : String
+    public let prefix : String
+    public let signature : String
 
-    init(accessKey: String, endpoint: String, policy: String, prefix: String, signature: String) {
+    public init(accessKey: String, endpoint: String, policy: String, prefix: String, signature: String) {
         self.accessKey = accessKey
         self.endpoint = endpoint
         self.policy = policy
@@ -21,7 +21,7 @@ class AmazonCredentials : JSONAble {
         self.signature = signature
     }
 
-    override class func fromJSON(data: [String : AnyObject]) -> JSONAble {
+    override public class func fromJSON(data: [String : AnyObject]) -> JSONAble {
         return AmazonCredentials(
             accessKey: data["access_key"] as! String,
             endpoint:  data["endpoint"] as! String,

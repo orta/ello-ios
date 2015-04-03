@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-enum AddressBookError: String {
+public enum AddressBookError: String {
     case Unauthorized = "Please make sure that you have granted Ello access to your contacts in the Privacy Settings"
     case Unknown = "Something went wrong! Please try again."
 }

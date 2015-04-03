@@ -6,13 +6,13 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-class MultipartRequestBuilder {
-    let boundaryConstant : String
+public class MultipartRequestBuilder {
+    public let boundaryConstant : String
     private var body : NSMutableData
     private var requestIsBuilt : Bool = false
     private var request : NSMutableURLRequest
 
-    init(url: NSURL, capacity: Int = 0) {
+    public init(url: NSURL, capacity: Int = 0) {
         let cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData
         boundaryConstant = "Boundary-7MA4YWxkTLLu0UIW" // This should be randomly-generated.
 
@@ -24,7 +24,7 @@ class MultipartRequestBuilder {
         body = NSMutableData(capacity: capacity)!
     }
 
-    func addParam(name : String, value : String) {
+    public func addParam(name : String, value : String) {
         if requestIsBuilt {
             fatalError("Cannot add parameters after request has been built")
         }
@@ -49,7 +49,7 @@ class MultipartRequestBuilder {
         body.appendData("\r\n".dataUsingEncoding(NSUTF8StringEncoding)!)
     }
 
-    func buildRequest() -> NSMutableURLRequest {
+    public func buildRequest() -> NSMutableURLRequest {
         requestIsBuilt = true
         body.appendData("--\(boundaryConstant)--\r\n".dataUsingEncoding(NSUTF8StringEncoding)!)
         request.HTTPBody = body

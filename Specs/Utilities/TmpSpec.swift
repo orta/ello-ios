@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Ello
 import Quick
 import Nimble
 
@@ -16,6 +17,7 @@ class TmpSpec: QuickSpec {
             it("should return false") {
                 expect(Tmp.fileExists("non sensical file name")).to(equal(false))
             }
+
             it("should return true") {
                 let directoryName = NSTemporaryDirectory().stringByAppendingPathComponent(Tmp.uniqDir)
                 if let directoryURL = NSURL.fileURLWithPath(directoryName, isDirectory: true) {
@@ -39,6 +41,7 @@ class TmpSpec: QuickSpec {
                 }
             }
         }
+
         describe("Tmp.directoryURL") {
             it("should be consistent") {
                 let dir1 = Tmp.directoryURL()
@@ -46,12 +49,14 @@ class TmpSpec: QuickSpec {
                 expect(dir1).to(equal(dir2))
             }
         }
+
         describe("Tmp.fileURL") {
             it("should be a URL") {
                 let fileURL = Tmp.fileURL("filename")
                 expect(fileURL).to(beAKindOf(NSURL))
             }
         }
+
         describe("creating a file") {
             it("+Tmp.write(NSData)") {                      // "test"
                 let originalData = NSData(base64EncodedString: "dGVzdA==", options: NSDataBase64DecodingOptions())!
@@ -63,6 +68,7 @@ class TmpSpec: QuickSpec {
                     fail("could not read 'file'")
                 }
             }
+
             it("+Tmp.write(String)") {
                 let originalString = "test"
                 let fileURL = Tmp.write(originalString, to: "string")
@@ -73,6 +79,7 @@ class TmpSpec: QuickSpec {
                     fail("could not read 'string'")
                 }
             }
+
             it("+Tmp.write(UIImage)") {
                 let originalImage = UIImage(named: "specs-avatar")!
                 let fileURL = Tmp.write(originalImage, to: "image")

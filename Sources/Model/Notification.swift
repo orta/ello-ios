@@ -9,7 +9,7 @@
 import UIKit
 
 
-enum NotificationFilterType: String {
+public enum NotificationFilterType: String {
     case All = "NotificationFilterTypeAll"
     case Misc = "NotificationFilterTypeMisc"
     case Mention = "NotificationFilterTypeMention"
@@ -20,26 +20,26 @@ enum NotificationFilterType: String {
 
 let NotificationVersion = 1
 
-final class Notification : JSONAble, Authorable, NSCoding {
+public final class Notification : JSONAble, Authorable, NSCoding {
 
-    let version: Int = NotificationVersion
+    public let version: Int = NotificationVersion
 
-    typealias Kind = Activity.Kind
-    typealias SubjectType = Activity.SubjectType
+    public typealias Kind = Activity.Kind
+    public typealias SubjectType = Activity.SubjectType
 
-    let author: User?
-    var createdAt: NSDate
-    var groupId:String { return notificationId }
-    let notificationId: String
-    let kind: Kind
-    let subjectType: SubjectType
-    var subject: AnyObject? { willSet { attributedTitleStore = nil } }
+    public let author: User?
+    public var createdAt: NSDate
+    public var groupId:String { return notificationId }
+    public let notificationId: String
+    public let kind: Kind
+    public let subjectType: SubjectType
+    public var subject: AnyObject? { willSet { attributedTitleStore = nil } }
 
-    var textRegion: TextRegion?
-    var imageRegion: ImageRegion?
+    public var textRegion: TextRegion?
+    public var imageRegion: ImageRegion?
 
     private var attributedTitleStore: NSAttributedString?
-    var attributedTitle: NSAttributedString {
+    public var attributedTitle: NSAttributedString {
         if let attributedTitle = attributedTitleStore {
             return attributedTitle
         }
@@ -50,7 +50,7 @@ final class Notification : JSONAble, Authorable, NSCoding {
 
 // MARK: Initialization
 
-    convenience init(activity: Activity) {
+    convenience public init(activity: Activity) {
         var author : User? = nil
         if let post = activity.subject as? Post {
             author = post.author
@@ -72,7 +72,7 @@ final class Notification : JSONAble, Authorable, NSCoding {
         self.subject = activity.subject
     }
 
-    required init(author: User?, createdAt: NSDate, kind: Kind, notificationId: String, subjectType: SubjectType) {
+    required public init(author: User?, createdAt: NSDate, kind: Kind, notificationId: String, subjectType: SubjectType) {
         self.author = author
         self.attributedTitleStore = nil
         self.createdAt = createdAt
@@ -84,7 +84,7 @@ final class Notification : JSONAble, Authorable, NSCoding {
 
 // MARK: NSCoding
 
-    required init(coder aDecoder: NSCoder) {
+    required public init(coder aDecoder: NSCoder) {
         let decoder = Decoder(aDecoder)
         self.author = decoder.decodeOptionalKey("author")
         self.createdAt = decoder.decodeKey("createdAt")
@@ -95,7 +95,7 @@ final class Notification : JSONAble, Authorable, NSCoding {
         self.subjectType = SubjectType(rawValue: subjectTypeString) ?? SubjectType.Unknown
     }
 
-    func encodeWithCoder(encoder: NSCoder) {
+    public func encodeWithCoder(encoder: NSCoder) {
         if let author = self.author {
             encoder.encodeObject(author, forKey: "author")
         }

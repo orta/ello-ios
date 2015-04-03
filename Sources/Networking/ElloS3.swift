@@ -16,7 +16,7 @@
 
 
 @objc
-class ElloS3 {
+public class ElloS3 {
     let filename : String
     let data : NSData
     let contentType : String
@@ -30,7 +30,7 @@ class ElloS3 {
     private var failureHandler : FailureHandler?
     private var progressHandler : ProgressHandler?
 
-    init(credentials: AmazonCredentials, filename: String, data: NSData, contentType: String) {
+    public init(credentials: AmazonCredentials, filename: String, data: NSData, contentType: String) {
         self.filename = filename
         self.data = data
         self.contentType = contentType

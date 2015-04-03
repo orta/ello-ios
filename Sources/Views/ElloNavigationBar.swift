@@ -6,22 +6,22 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-class ElloNavigationBar : UINavigationBar {
+public class ElloNavigationBar : UINavigationBar {
     struct Size {
         static let height : CGFloat = 44
         static let titleViewHeight : CGFloat = 20
     }
 
-    override init(frame: CGRect) {
+    override public init(frame: CGRect) {
         super.init(frame: frame)
         privateInit()
     }
 
-    required init(coder: NSCoder) {
+    required public init(coder: NSCoder) {
         super.init(coder: coder)
     }
 
-    override func awakeFromNib() {
+    override public func awakeFromNib() {
         super.awakeFromNib()
         privateInit()
     }
@@ -32,13 +32,13 @@ class ElloNavigationBar : UINavigationBar {
         self.tintColor = UIColor.greyA()
     }
 
-    override func intrinsicContentSize() -> CGSize {
+    override public func intrinsicContentSize() -> CGSize {
         var size = super.intrinsicContentSize()
         size.height = Size.height
         return size
     }
 
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         if let topItem = self.topItem {
             if let view = topItem.titleView {

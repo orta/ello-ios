@@ -1,5 +1,7 @@
+import Ello
 import Quick
 import Nimble
+
 
 class RelationshipSpec: QuickSpec {
     override func spec() {

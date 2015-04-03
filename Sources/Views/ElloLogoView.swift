@@ -10,7 +10,7 @@ import UIKit
 import QuartzCore
 import FLAnimatedImage
 
-class ElloLogoView: FLAnimatedImageView {
+public class ElloLogoView: FLAnimatedImageView {
 
     let toValue = (360.0 * M_PI) / 180.0
 

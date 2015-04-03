@@ -6,8 +6,11 @@ PODS:
   - CocoaLumberjack/Extensions (1.9.2):
     - CocoaLumberjack/Core
   - FLAnimatedImage (1.0.8)
+  - JTSImageViewController (1.5)
   - Keys (1.0.2)
+  - KINWebBrowser (1.1.0)
   - LlamaKit (0.6.1)
+  - MBProgressHUD (0.9.1)
   - Moya (0.6.1):
     - Moya/Core (= 0.6.1)
   - Moya/Core (0.6.1):
@@ -27,8 +30,11 @@ DEPENDENCIES:
   - Alamofire (from `https://github.com/Alamofire/Alamofire.git`, branch `xcode-6.3`)
   - CocoaLumberjack (~> 1.9)
   - FLAnimatedImage (from `https://github.com/ello/FLAnimatedImage.git`)
+  - JTSImageViewController (from `https://github.com/ello/JTSImageViewController.git`)
   - Keys (from `https://github.com/ashfurrow/empty-podspec.git`)
+  - KINWebBrowser (from `https://github.com/ello/KINWebBrowser.git`)
   - LlamaKit (from `https://github.com/ello/LlamaKit.git`)
+  - MBProgressHUD (~> 0.9)
   - Moya (from `https://github.com/ello/Moya`, branch `cg-hybrid`)
   - Nimble (from `git@github.com:Quick/Nimble.git`, tag `v0.4.1`)
   - Quick (from `git@github.com:Quick/Quick.git`, tag `v0.3.0`)
@@ -44,8 +50,12 @@ EXTERNAL SOURCES:
     :git: https://github.com/Alamofire/Alamofire.git
   FLAnimatedImage:
     :git: https://github.com/ello/FLAnimatedImage.git
+  JTSImageViewController:
+    :git: https://github.com/ello/JTSImageViewController.git
   Keys:
     :git: https://github.com/ashfurrow/empty-podspec.git
+  KINWebBrowser:
+    :git: https://github.com/ello/KINWebBrowser.git
   LlamaKit:
     :git: https://github.com/ello/LlamaKit.git
   Moya:
@@ -74,9 +84,15 @@ CHECKOUT OPTIONS:
   FLAnimatedImage:
     :commit: 7f1d9a29597b45aef8686da22f33a3634d84c686
     :git: https://github.com/ello/FLAnimatedImage.git
+  JTSImageViewController:
+    :commit: ee706e3b309e920831e38fa61f1be392963e1132
+    :git: https://github.com/ello/JTSImageViewController.git
   Keys:
     :commit: dfc3c5e75dd23e5e9f938f4552eaceec4a8b4b73
     :git: https://github.com/ashfurrow/empty-podspec.git
+  KINWebBrowser:
+    :commit: c5f49457e7fb7939cf5882c3f310b9b15e340d4e
+    :git: https://github.com/ello/KINWebBrowser.git
   LlamaKit:
     :commit: 17c80a90295419e180234381ab7f787e136918df
     :git: https://github.com/ello/LlamaKit.git
@@ -103,8 +119,11 @@ SPEC CHECKSUMS:
   Alamofire: 6a2cbaebe78a6d469bc55ee37f0a24ba22af76ac
   CocoaLumberjack: 628fca2e88ef06f7cf6817309aa405f325d9a6fa
   FLAnimatedImage: f9422f796135aff80d8c00b2afc48015bb746e24
+  JTSImageViewController: 89ae3c003060c65418fd3224ebbd67acc6046608
   Keys: 80485232b6d580368f08f1df19ebfc4f0077b66a
+  KINWebBrowser: 5700a9e2d891ce43f726dd9e04c929312933bb18
   LlamaKit: 2610cffeec508d27caad8449e7d460df914d9212
+  MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
   Moya: 6589de6c52d9d8e5ab0d9630b4cd5c4b7f898019
   Nimble: a05c15e0955baec1c94a22e25e4f8dea884fbc5f
   Quick: 1bda8b4c8d43f6b4dd69ca001918b1767b3c9c93

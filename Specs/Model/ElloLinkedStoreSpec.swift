@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Ello
 import Quick
 import Nimble
 
@@ -31,7 +32,6 @@ class ElloLinkedStoreSpec: QuickSpec {
                 expect(Store.store["superheroes"]?["batman"]).toNot(beNil())
                 expect(Store.store["villians"]?["lex luther"]).toNot(beNil())
             }
-            
         }
     }
 }

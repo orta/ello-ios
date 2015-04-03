@@ -6,7 +6,8 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import Foundation
+import Ello
+
 
 func stub<T: Stubbable>(values: [String : AnyObject]) -> T {
     return T.stub(values)

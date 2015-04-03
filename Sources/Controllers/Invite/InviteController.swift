@@ -8,15 +8,20 @@
 
 import Foundation
 
-protocol InviteDelegate {
+public protocol InviteDelegate {
     func sendInvite()
 }
 
-struct InviteController: InviteDelegate {
-    let person: LocalPerson
-    let didUpdate: () -> ()
+public struct InviteController: InviteDelegate {
+    public let person: LocalPerson
+    public let didUpdate: () -> ()
 
-    func sendInvite() {
+    public init(person: LocalPerson, didUpdate: () -> ()) {
+        self.person = person
+        self.didUpdate = didUpdate
+    }
+
+    public func sendInvite() {
         if let email = person.emails.first {
             ElloHUD.showLoadingHud()
             InviteService().invite(email, success: {

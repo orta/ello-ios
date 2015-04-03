@@ -6,15 +6,17 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-let externalWebNotification = TypedNotification<String>(name: "externalWebNotification")
+import KINWebBrowser
 
-class ElloNavigationController: UINavigationController, UIGestureRecognizerDelegate {
+public let externalWebNotification = TypedNotification<String>(name: "externalWebNotification")
+
+public class ElloNavigationController: UINavigationController, UIGestureRecognizerDelegate {
 
     var interactionController: UIPercentDrivenInteractiveTransition?
     var externalWebObserver: NotificationObserver?
     let externalWebController: UINavigationController = KINWebBrowserViewController.navigationControllerWithWebBrowser()
     var rootViewControllerName : String?
-    var currentUser : User? {
+    public var currentUser : User? {
         didSet { didSetCurrentUser() }
     }
     var profileResponseConfig: ResponseConfig?
@@ -59,7 +61,7 @@ class ElloNavigationController: UINavigationController, UIGestureRecognizerDeleg
         }
     }
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         self.setNavigationBarHidden(true, animated: false)
 
@@ -104,7 +106,7 @@ class ElloNavigationController: UINavigationController, UIGestureRecognizerDeleg
 
 extension ElloNavigationController: UIGestureRecognizerDelegate {
 
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    public func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
 
@@ -112,19 +114,19 @@ extension ElloNavigationController: UIGestureRecognizerDelegate {
 
 extension ElloNavigationController: UIViewControllerTransitioningDelegate {
 
-    func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    public func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return ForwardAnimator()
     }
 
-    func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    public func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return BackAnimator()
     }
 
-    func interactionControllerForPresentation(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+    public func interactionControllerForPresentation(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
         return interactionController
     }
 
-    func interactionControllerForDismissal(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+    public func interactionControllerForDismissal(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
         return interactionController
     }
 
@@ -133,11 +135,11 @@ extension ElloNavigationController: UIViewControllerTransitioningDelegate {
 extension ElloNavigationController: UINavigationControllerDelegate {
 
 
-    func navigationController(navigationController: UINavigationController, didShowViewController viewController: UIViewController, animated: Bool) {
+    public func navigationController(navigationController: UINavigationController, didShowViewController viewController: UIViewController, animated: Bool) {
         backGesture?.edges = viewController.backGestureEdges
     }
 
-    func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    public func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
 
         switch (toVC, fromVC) {
         case (is DrawerViewController, is ProfileViewController): return defaultAnimatorForOperation(operation)
@@ -148,7 +150,7 @@ extension ElloNavigationController: UINavigationControllerDelegate {
         }
     }
 
-    func navigationController(navigationController: UINavigationController, interactionControllerForAnimationController animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+    public func navigationController(navigationController: UINavigationController, interactionControllerForAnimationController animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
         return interactionController
     }
 

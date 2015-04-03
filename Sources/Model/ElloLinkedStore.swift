@@ -8,13 +8,13 @@
 
 import Foundation
 
-var Store = ElloLinkedStore()
+public var Store = ElloLinkedStore()
 
-struct ElloLinkedStore {
+public struct ElloLinkedStore {
 
-    var store = [String:[String:AnyObject]]()
+    public var store = [String:[String:AnyObject]]()
 
-    mutating func parseLinked(linked:[String:[[String:AnyObject]]]){
+    public mutating func parseLinked(linked:[String:[[String:AnyObject]]]){
         for (type:String, typeObjects:[[String:AnyObject]]) in linked {
             if store[type] == nil {
                 store[type] = [String:AnyObject]()
@@ -25,7 +25,7 @@ struct ElloLinkedStore {
         }
     }
 
-     static func parseLinks(links: [String: AnyObject]) -> [String: AnyObject] {
+    public static func parseLinks(links: [String: AnyObject]) -> [String: AnyObject] {
         var modelLinks = [String: AnyObject]()
         for (key, value) in links {
             if let link:String = value["type"] as? String {

@@ -8,15 +8,17 @@
 
 import Foundation
 
+import Ello
 import Quick
 import Moya
 import Nimble
+
 
 class ElloAPISpec: QuickSpec {
     override func spec() {
         describe("valid enpoints") {
             describe("with stubbed responses") {
-                describe("a provider", {
+                describe("a provider") {
                     var provider: MoyaProvider<ElloAPI>!
                     beforeEach {
                         provider = ElloProvider.StubbingProvider()
@@ -48,9 +50,8 @@ class ElloAPISpec: QuickSpec {
                         let sampleData = target.sampleData as NSData
                         expect(message).to(equal(NSString(data: sampleData, encoding: NSUTF8StringEncoding)))
                     }
-                })
+                }
             }
-
         }
     }
 }

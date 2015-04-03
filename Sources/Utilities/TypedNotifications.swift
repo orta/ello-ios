@@ -10,24 +10,27 @@
 
 import Foundation
 
-class Box<T> {
-    let unbox: T
-    init(_ value: T) { self.unbox = value }
+public class Box<T> {
+    public let unbox: T
+    public init(_ value: T) { self.unbox = value }
 }
 
-struct TypedNotification<A> {
-    let name: String
+public struct TypedNotification<A> {
+    public let name: String
+    public init(name: String) {
+        self.name = name
+    }
 }
 
-func postNotification<A>(note: TypedNotification<A>, value: A) {
+public func postNotification<A>(note: TypedNotification<A>, value: A) {
     let userInfo = ["value": Box(value)]
     NSNotificationCenter.defaultCenter().postNotificationName(note.name, object: nil, userInfo: userInfo)
 }
 
-class NotificationObserver {
+public class NotificationObserver {
     let observer: NSObjectProtocol
 
-    init<A>(notification: TypedNotification<A>, block aBlock: A -> ()) {
+    public init<A>(notification: TypedNotification<A>, block aBlock: A -> ()) {
         observer = NSNotificationCenter.defaultCenter().addObserverForName(notification.name, object: nil, queue: nil) { note in
             if let value = (note.userInfo?["value"] as? Box<A>)?.unbox {
                 aBlock(value)
@@ -37,7 +40,7 @@ class NotificationObserver {
         }
     }
 
-    func removeObserver() {
+    public func removeObserver() {
         NSNotificationCenter.defaultCenter().removeObserver(observer)
     }
 

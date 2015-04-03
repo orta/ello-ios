@@ -9,24 +9,24 @@
 import UIKit
 
 
-class StreamContainerViewController: StreamableViewController {
+public class StreamContainerViewController: StreamableViewController {
 
     enum Notifications : String {
         case StreamDetailTapped = "StreamDetailTappedNotification"
     }
 
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var navigationBar: ElloNavigationBar!
-    @IBOutlet weak var navigationBarTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak public var scrollView: UIScrollView!
+    @IBOutlet weak public var navigationBar: ElloNavigationBar!
+    @IBOutlet weak public var navigationBarTopConstraint: NSLayoutConstraint!
 
-    var streamsSegmentedControl: UISegmentedControl!
-    var streamControllerViews:[UIView] = []
+    public var streamsSegmentedControl: UISegmentedControl!
+    public var streamControllerViews:[UIView] = []
 
-    override func backGestureAction() {
+    override public func backGestureAction() {
         hamburgerButtonTapped()
     }
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
 
         setupNavigationBar()
@@ -38,7 +38,7 @@ class StreamContainerViewController: StreamableViewController {
         scrollLogic.prevOffset = (childViewControllers[0] as! StreamViewController).collectionView.contentOffset
     }
 
-    override func showNavBars(scrollToBottom : Bool) {
+    override public func showNavBars(scrollToBottom : Bool) {
         super.showNavBars(scrollToBottom)
         navigationBarTopConstraint.constant = 0
         self.view.layoutIfNeeded()
@@ -57,19 +57,19 @@ class StreamContainerViewController: StreamableViewController {
         }
     }
 
-    override func hideNavBars() {
+    override public func hideNavBars() {
         super.hideNavBars()
         navigationBarTopConstraint.constant = navigationBar.frame.height + 1
         self.view.layoutIfNeeded()
     }
 
-    class func instantiateFromStoryboard() -> StreamContainerViewController {
+    public class func instantiateFromStoryboard() -> StreamContainerViewController {
         let navController = UIStoryboard.storyboardWithId(.StreamContainer) as! UINavigationController
         let streamsController = navController.topViewController
         return streamsController as! StreamContainerViewController
     }
 
-    override func viewDidLayoutSubviews() {
+    override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
         let width:CGFloat = scrollView.frame.size.width

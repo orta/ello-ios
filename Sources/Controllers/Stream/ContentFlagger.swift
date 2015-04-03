@@ -8,28 +8,28 @@
 
 import Foundation
 
-enum FlaggableContentType {
+public enum FlaggableContentType {
     case Post
     case Comment
 }
 
-class ContentFlagger {
+public class ContentFlagger {
 
     var contentFlagged:Bool?
 
-    let presentingController: UIViewController
+    public let presentingController: UIViewController
     let flaggableId: String
     let flaggableContentType: FlaggableContentType
     var commentPostId: String?
 
-    init(presentingController: UIViewController, flaggableId: String, flaggableContentType: FlaggableContentType, commentPostId:String?) {
+    public init(presentingController: UIViewController, flaggableId: String, flaggableContentType: FlaggableContentType, commentPostId:String?) {
         self.presentingController = presentingController
         self.flaggableId = flaggableId
         self.flaggableContentType = flaggableContentType
         self.commentPostId = commentPostId
     }
 
-    enum AlertOption: String {
+    public enum AlertOption: String {
         case Spam = "Spam"
         case Violence = "Violence"
         case Copyright = "Copyright infringement"
@@ -38,11 +38,11 @@ class ContentFlagger {
         case Adult = "Adult content that isn't marked NSFW*"
         case DontLike = "I don't like it"
 
-        var name: String {
+        public var name: String {
             return self.rawValue
         }
 
-        var kind: String {
+        public var kind: String {
             switch self {
             case Spam: return "spam"
             case Violence: return "violence"
@@ -79,7 +79,7 @@ class ContentFlagger {
         }
     }
 
-    func displayFlaggingSheet() {
+    public func displayFlaggingSheet() {
 
         let alertController = UIAlertController(title: "Would you like to flag this content as:", message: "* Ello allows adult content as long as it complies with our rules and is marked NSFW.", preferredStyle: .ActionSheet)
 

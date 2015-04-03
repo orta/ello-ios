@@ -8,7 +8,7 @@
 
 import Foundation
 
-class AvatarButton: UIButton {
+public class AvatarButton: UIButton {
 
     weak var userDelegate: UserDelegate?
 
@@ -30,7 +30,7 @@ class AvatarButton: UIButton {
         self.setImage(nil, forState: state)
     }
 
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         if let imageView = self.imageView {
             imageView.layer.cornerRadius = self.bounds.size.height / CGFloat(2)

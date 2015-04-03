@@ -1,5 +1,7 @@
+import Ello
 import Quick
 import Nimble
+
 
 class FindFriendsCellSpec: QuickSpec {
     override func spec() {

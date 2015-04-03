@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum StreamKind {
+public enum StreamKind {
     case Friend
     case Noise
     case Discover(type: DiscoverType, seed: Int, perPage: Int)
@@ -18,7 +18,7 @@ enum StreamKind {
     case Notifications
     case UserList(endpoint: ElloAPI, title: String)
 
-    var name:String {
+    public var name:String {
         switch self {
         case .Friend: return "Friends"
         case .Noise: return "Noise"
@@ -31,14 +31,14 @@ enum StreamKind {
         }
     }
 
-    var columnCount:Int {
+    public var columnCount:Int {
         switch self {
         case .Noise, .Discover: return 2
         default: return 1
         }
     }
 
-    var endpoint:ElloAPI {
+    public var endpoint:ElloAPI {
         switch self {
         case .Friend: return .FriendStream
         case .Noise: return .NoiseStream
@@ -51,7 +51,7 @@ enum StreamKind {
         }
     }
 
-    var relationship: Relationship {
+    public var relationship: Relationship {
         switch self {
         case .Friend: return .Friend
         case .Noise: return .Noise
@@ -59,7 +59,7 @@ enum StreamKind {
         }
     }
 
-    func filter(jsonables: [JSONAble]) -> [JSONAble] {
+    public func filter(jsonables: [JSONAble]) -> [JSONAble] {
         switch self {
         case .UserList: return jsonables
         case .Discover:
@@ -101,11 +101,11 @@ enum StreamKind {
         return []
     }
 
-    var isGridLayout:Bool {
+    public var isGridLayout:Bool {
         return self.columnCount > 1
     }
 
-    var isDetail:Bool {
+   public var isDetail:Bool {
         switch self {
         case .PostDetail: return true
         default: return false

@@ -8,27 +8,27 @@
 
 import UIKit
 
-class FindFriendsViewController: BaseElloViewController {
+public class FindFriendsViewController: BaseElloViewController {
 
-    @IBOutlet weak var tableView: UITableView!
-    let dataSource = AddFriendsDataSource()
-    let inviteService = InviteService()
+    @IBOutlet weak public var tableView: UITableView!
+    public let dataSource = AddFriendsDataSource()
+    public let inviteService = InviteService()
     var relationshipController: RelationshipController?
 
-    required init() {
+    required public init() {
         super.init(nibName: "FindFriendsViewController", bundle: NSBundle(forClass: FindFriendsViewController.self))
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required public init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
     }
 
-    func setUsers(users: [User]) {
+    public func setUsers(users: [User]) {
         dataSource.items = users.map { AddFriendsCellItem(user: $0) }
         dispatch_async(dispatch_get_main_queue()) { self.tableView.reloadData() }
     }
@@ -57,7 +57,7 @@ class FindFriendsViewController: BaseElloViewController {
 // MARK: FindFriendsViewController : UITableViewDelegate
 extension FindFriendsViewController : UITableViewDelegate {
 
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 60.0
     }
 }

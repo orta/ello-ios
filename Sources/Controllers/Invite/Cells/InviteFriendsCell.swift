@@ -8,13 +8,13 @@
 
 import UIKit
 
-class InviteFriendsCell: UITableViewCell {
-    @IBOutlet weak var nameLabel: UILabel?
-    @IBOutlet weak var inviteButton: UIButton?
+public class InviteFriendsCell: UITableViewCell {
+    @IBOutlet weak public var nameLabel: UILabel?
+    @IBOutlet weak public var inviteButton: UIButton?
 
     var delegate: InviteDelegate?
 
-    override func awakeFromNib() {
+    override public func awakeFromNib() {
         super.awakeFromNib()
 
         nameLabel?.font = UIFont.typewriterFont(14)

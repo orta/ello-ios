@@ -10,13 +10,13 @@ import Foundation
 import SwiftyJSON
 
 extension ImageRegion: Regionable {
-    var kind:String { return RegionKind.Image.rawValue }
+    public var kind:String { return RegionKind.Image.rawValue }
 
-    func coding() -> NSCoding {
+    public func coding() -> NSCoding {
         return self
     }
 
-    func toJSON() -> [String: AnyObject] {
+    public func toJSON() -> [String: AnyObject] {
         if let url : String = self.url?.absoluteString {
             return [
                 "kind": self.kind,

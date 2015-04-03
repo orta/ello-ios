@@ -1,8 +1,7 @@
-#import "MBProgressHUD.h"
+#import <MBProgressHUD/MBProgressHUD.h>
 #import <SDWebImage/UIImageView+WebCache.h>
-#import "JTSImageViewController.h"
-#import "JTSImageInfo.h"
-#import "KINWebBrowserViewController.h"
+#import <JTSImageViewController/JTSImageViewController.h>
+#import <KINWebBrowser/KINWebBrowserViewController.h>
 #import <CommonCrypto/CommonCrypto.h>
 #import <SSPullToRefresh/SSPullToRefresh.h>
 #import <Keys/ElloKeys.h>

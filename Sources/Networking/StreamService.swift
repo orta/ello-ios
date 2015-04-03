@@ -10,17 +10,17 @@ import UIKit
 import Moya
 import SwiftyJSON
 
-typealias StreamSuccessCompletion = (jsonables: [JSONAble], responseConfig: ResponseConfig) -> ()
-typealias ProfileSuccessCompletion = (user: User, responseConfig: ResponseConfig) -> ()
+public typealias StreamSuccessCompletion = (jsonables: [JSONAble], responseConfig: ResponseConfig) -> ()
+public typealias ProfileSuccessCompletion = (user: User, responseConfig: ResponseConfig) -> ()
 
-class StreamService: NSObject {
+public class StreamService: NSObject {
 
     var isStreamLoading = false
 
-    func loadStream(endpoint:ElloAPI, success: StreamSuccessCompletion, failure: ElloFailureCompletion?, noContent: ElloEmptyCompletion? = nil) {
+    public func loadStream(endpoint:ElloAPI, success: StreamSuccessCompletion, failure: ElloFailureCompletion?, noContent: ElloEmptyCompletion? = nil) {
         if self.isStreamLoading { return }
         self.isStreamLoading = true
-        ElloProvider.sharedProvider.elloRequest(endpoint,
+        ElloProvider.elloRequest(endpoint,
             method: .GET,
             success: { (data, responseConfig) in
                 if let jsonables:[JSONAble] = data as? [JSONAble] {
@@ -43,8 +43,8 @@ class StreamService: NSObject {
         )
     }
 
-    func loadUser(endpoint: ElloAPI, success: ProfileSuccessCompletion, failure: ElloFailureCompletion?) {
-        ElloProvider.sharedProvider.elloRequest(endpoint,
+    public func loadUser(endpoint: ElloAPI, success: ProfileSuccessCompletion, failure: ElloFailureCompletion?) {
+        ElloProvider.elloRequest(endpoint,
             method: .GET,
             success: { (data, responseConfig) in
                 if let user = data as? User {
@@ -58,8 +58,8 @@ class StreamService: NSObject {
         )
     }
 
-    func loadMoreCommentsForPost(postID:String, success: StreamSuccessCompletion, failure: ElloFailureCompletion?) {
-        ElloProvider.sharedProvider.elloRequest(.PostComments(postId: postID),
+    public func loadMoreCommentsForPost(postID:String, success: StreamSuccessCompletion, failure: ElloFailureCompletion?) {
+        ElloProvider.elloRequest(.PostComments(postId: postID),
             method: .GET,
             success: { (data, responseConfig) in
                 if let comments:[JSONAble] = data as? [JSONAble] {

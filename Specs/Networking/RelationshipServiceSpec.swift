@@ -6,11 +6,11 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import Foundation
-
+import Ello
 import Quick
-import Moya
 import Nimble
+import Moya
+
 
 class RelationshipServiceSpec: QuickSpec {
     override func spec() {
@@ -46,8 +46,6 @@ class RelationshipServiceSpec: QuickSpec {
                 )
                 expect(loadedSuccessfully).to(beFalse())
             }
-
         }
     }
 }
-

@@ -8,23 +8,23 @@
 
 import Foundation
 
-class RelationshipView: UIView {
-    var userId: String
-    var userAtName: String
+public class RelationshipView: UIView {
+    public var userId: String
+    public var userAtName: String
     let backgroundColorNormal = UIColor.whiteColor()
     let backgroundColorSelected = UIColor.greyA()
     let backgroundColorBlock = UIColor.redColor()
-    var friendButton: UIButton
-    var noiseButton: UIButton
-    var blockButton: UIButton?
-    weak var relationshipDelegate: RelationshipDelegate?
-    var relationship:Relationship? {
+    public var friendButton: UIButton
+    public var noiseButton: UIButton
+    public var blockButton: UIButton?
+    public weak var relationshipDelegate: RelationshipDelegate?
+    public var relationship:Relationship? {
         didSet {
             selectButton(relationship!)
         }
     }
 
-    required init(coder: NSCoder) {
+    required public init(coder: NSCoder) {
         self.friendButton = UIButton()
         self.noiseButton = UIButton()
         self.userId = ""
@@ -91,7 +91,7 @@ class RelationshipView: UIView {
         }
     }
 
-    func buildLargeButtons() {
+    public func buildLargeButtons() {
         let wv = 68
         // friend
         styleTitleButton(friendButton, label: "Friend")
@@ -106,7 +106,7 @@ class RelationshipView: UIView {
         addTargets()
     }
 
-    func buildSmallButtons() {
+    public func buildSmallButtons() {
         let wv = 30
         // friend
         styleTitleButton(friendButton, label: "F")

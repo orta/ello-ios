@@ -9,9 +9,12 @@
 import Moya
 import SwiftyJSON
 
-typealias AvailabilitySuccessCompletion = (Availability) -> ()
+public typealias AvailabilitySuccessCompletion = (Availability) -> ()
 
-struct AvailabilityService {
+public struct AvailabilityService {
+
+    public init(){}
+
     func usernameAvailability(username: String, success: AvailabilitySuccessCompletion, failure: ElloFailureCompletion?) {
         availability(["username": username], success: success, failure: failure)
     }
@@ -20,9 +23,9 @@ struct AvailabilityService {
         availability(["email": email], success: success, failure: failure)
     }
 
-    func availability(content: [String: String], success: AvailabilitySuccessCompletion, failure: ElloFailureCompletion?) {
+    public func availability(content: [String: String], success: AvailabilitySuccessCompletion, failure: ElloFailureCompletion?) {
         let endpoint = ElloAPI.Availability(content: content)
-        ElloProvider.sharedProvider.elloRequest(endpoint,
+        ElloProvider.elloRequest(endpoint,
             method: .POST,
             success: { data, _ in
                 if let data = data as? Availability {
@@ -34,5 +37,3 @@ struct AvailabilityService {
             failure: failure)
     }
 }
-
-

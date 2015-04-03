@@ -10,9 +10,9 @@ import SwiftyJSON
 
 let ActivityVersion = 1
 
-final class Activity: JSONAble, NSCoding {
+public final class Activity: JSONAble, NSCoding {
 
-    enum Kind: String {
+    public enum Kind: String {
         case OwnPost = "own_post" // main feed
         case FriendPost = "friend_post" // main feed
         case WelcomePost = "welcome_post" // main feed
@@ -36,22 +36,22 @@ final class Activity: JSONAble, NSCoding {
         static func relationshipNotifications() -> [Kind] { return [.NewFollowerPost, .NewFollowedUserPost]}
     }
 
-    enum SubjectType: String {
+    public enum SubjectType: String {
         case Post = "Post"
         case User = "User"
         case Unknown = "Unknown"
     }
 
-    let version: Int = ActivityVersion
-    let activityId: String
-    let kind: Kind
-    let subjectType: SubjectType
-    var subject: AnyObject?
-    let createdAt: NSDate
+    public let version: Int = ActivityVersion
+    public let activityId: String
+    public let kind: Kind
+    public let subjectType: SubjectType
+    public var subject: AnyObject?
+    public let createdAt: NSDate
 
 // MARK: Initialization
 
-    init(activityId: String,
+    public init(activityId: String,
         kind: Kind,
         subjectType: SubjectType,
         subject: AnyObject?,
@@ -66,7 +66,7 @@ final class Activity: JSONAble, NSCoding {
 
 // MARK: NSCoding
 
-    required init(coder aDecoder: NSCoder) {
+    required public init(coder aDecoder: NSCoder) {
         let decoder = Decoder(aDecoder)
         let kindString: String = decoder.decodeKey("kind")
         self.kind = Kind(rawValue: kindString) ?? Kind.Unknown
@@ -77,7 +77,7 @@ final class Activity: JSONAble, NSCoding {
         self.createdAt = decoder.decodeKey("createdAt")
     }
 
-    func encodeWithCoder(encoder: NSCoder) {
+    public func encodeWithCoder(encoder: NSCoder) {
         encoder.encodeObject(self.kind.rawValue, forKey: "kind")
         encoder.encodeObject(self.activityId, forKey: "activityId")
         encoder.encodeObject(self.subjectType.rawValue, forKey: "subjectType")
@@ -89,7 +89,7 @@ final class Activity: JSONAble, NSCoding {
 
 // MARK: JSONAble
 
-    override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
+    override public class func fromJSON(data:[String: AnyObject]) -> JSONAble {
         let json = JSON(data)
         let sub = json["subject"]
         let kind = Kind(rawValue: json["kind"].stringValue) ?? Kind.Unknown

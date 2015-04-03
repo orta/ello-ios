@@ -11,7 +11,7 @@ import Foundation
 
 let streamCellDidOpenNotification = TypedNotification<UICollectionViewCell>(name: "StreamCellDidOpenNotification")
 
-class StreamFooterCell: UICollectionViewCell {
+public class StreamFooterCell: UICollectionViewCell {
 
     let revealWidth:CGFloat = 85.0
     var cellOpenObserver: NotificationObserver?
@@ -85,11 +85,11 @@ class StreamFooterCell: UICollectionViewCell {
         }
     }
 
-    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override public func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
         super.touchesEnded(touches, withEvent: event)
     }
 
-    override func awakeFromNib() {
+    override public func awakeFromNib() {
         super.awakeFromNib()
         toolBar.translucent = false
         toolBar.barTintColor = UIColor.whiteColor()
@@ -219,7 +219,7 @@ class StreamFooterCell: UICollectionViewCell {
         })
     }
 
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         contentView.frame = bounds
         innerContentView.frame = bounds
@@ -245,7 +245,7 @@ class StreamFooterCell: UICollectionViewCell {
 // MARK: UIScrollViewDelegate
 extension StreamFooterCell: UIScrollViewDelegate {
 
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    public func scrollViewDidScroll(scrollView: UIScrollView) {
         repositionBottomContent()
 
         if (scrollView.contentOffset.x < 0) {
@@ -261,7 +261,7 @@ extension StreamFooterCell: UIScrollViewDelegate {
 
     }
 
-    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+    public func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         if (velocity.x > 0) {
             targetContentOffset.memory.x = revealWidth
         }

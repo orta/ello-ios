@@ -6,8 +6,10 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
+import Ello
 import Quick
 import Nimble
+
 
 class UserSpec: QuickSpec {
     override func spec() {
@@ -127,4 +129,3 @@ class UserSpec: QuickSpec {
         }
     }
 }
-

@@ -6,13 +6,15 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-class ElloEquallySpacedLayout : UIView {
-    var margins : UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0){
+public class ElloEquallySpacedLayout : UIView {
+
+    public var margins : UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0){
         didSet {
             setNeedsLayout()
         }
     }
-    var spacing : CGFloat = CGFloat(0) {
+
+    public var spacing : CGFloat = CGFloat(0) {
         didSet {
             if spacing < CGFloat(0) {
                 spacing = CGFloat(0)
@@ -23,7 +25,7 @@ class ElloEquallySpacedLayout : UIView {
         }
     }
 
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
 
         let views = self.subviews as! [UIView]

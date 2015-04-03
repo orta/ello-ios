@@ -9,7 +9,7 @@
 import Foundation
 import QuartzCore
 
-class CommentButton: StreamFooterButton {
+public class CommentButton: StreamFooterButton {
 
     private let duration:CFTimeInterval = 0.5
     private let dotSize = CGSizeMake(3.5, 3.5)
@@ -19,7 +19,7 @@ class CommentButton: StreamFooterButton {
     private var dot2: CAShapeLayer!
     private var dot3: CAShapeLayer!
 
-    override var selected: Bool {
+    override public var selected: Bool {
         didSet {
             let color:CGColor = selected ? UIColor.blackColor().CGColor : UIColor.greyA().CGColor
             dot1.fillColor = color
@@ -28,15 +28,15 @@ class CommentButton: StreamFooterButton {
         }
     }
 
-    override init(frame: CGRect) {
+    override public init(frame: CGRect) {
         super.init(frame: frame)
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required public init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         createLayersIfNeeded()
     }

@@ -9,7 +9,7 @@
 import UIKit
 import FLAnimatedImage
 
-class ProfileViewController: StreamableViewController, EditProfileResponder {
+public class ProfileViewController: StreamableViewController, EditProfileResponder {
 
     var user: User?
     var responseConfig: ResponseConfig?
@@ -25,7 +25,7 @@ class ProfileViewController: StreamableViewController, EditProfileResponder {
     @IBOutlet weak var coverImage: FLAnimatedImageView!
     @IBOutlet weak var coverImageHeight: NSLayoutConstraint!
 
-    required init(userParam: String) {
+    required public init(userParam: String) {
         self.userParam = userParam
         self.streamViewController.streamKind = .UserStream(userParam: userParam)
         super.init(nibName: "ProfileViewController", bundle: nil)
@@ -40,7 +40,7 @@ class ProfileViewController: StreamableViewController, EditProfileResponder {
     }
 
     // this should only be initialized this way for currentUser in tab nav
-    required init(user: User, responseConfig: ResponseConfig) {
+    required public init(user: User, responseConfig: ResponseConfig) {
         ElloHUD.showLoadingHudInView(streamViewController.view)
         self.user = user
         self.responseConfig = responseConfig
@@ -49,11 +49,11 @@ class ProfileViewController: StreamableViewController, EditProfileResponder {
         super.init(nibName: "ProfileViewController", bundle: nil)
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required public init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         coverImage.alpha = 0
         if isRootViewController() {
@@ -69,7 +69,7 @@ class ProfileViewController: StreamableViewController, EditProfileResponder {
         }
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         if !coverWidthSet {
             coverWidthSet = true
@@ -115,7 +115,7 @@ class ProfileViewController: StreamableViewController, EditProfileResponder {
         NSNotificationCenter.defaultCenter().postNotificationName(Notifications.UserLoggedOut.rawValue, object: nil)
     }
 
-    func onEditProfile() {
+    public func onEditProfile() {
         if let settings = UIStoryboard(name: "Settings", bundle: .None).instantiateInitialViewController() as? SettingsViewController {
             settings.currentUser = currentUser
             navigationController?.pushViewController(settings, animated: true)
@@ -184,7 +184,7 @@ class ProfileViewController: StreamableViewController, EditProfileResponder {
 // MARK: ProfileViewController: StreamScrollDelegate
 extension ProfileViewController: StreamScrollDelegate {
 
-    override func streamViewDidScroll(scrollView : UIScrollView) {
+    override public func streamViewDidScroll(scrollView : UIScrollView) {
         if let (start, width) = unwrap(coverImageHeightStart, coverImage.image?.size.width) {
             coverImageHeight.constant = max(start - scrollView.contentOffset.y, start)
         }

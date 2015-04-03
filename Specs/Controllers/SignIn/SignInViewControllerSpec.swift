@@ -6,9 +6,10 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
+import Ello
 import Quick
 import Nimble
-import Ello
+
 
 class SignInViewControllerSpec: QuickSpec {
     override func spec() {
@@ -45,6 +46,9 @@ class SignInViewControllerSpec: QuickSpec {
                     expect(controller.emailTextField).notTo(beNil())
                     expect(controller.passwordTextField).notTo(beNil())
                     expect(controller.createAccountButton).notTo(beNil())
+                    expect(controller.enterButtonTopContraint).notTo(beNil())
+                    expect(controller.errorLabel).notTo(beNil())
+                    expect(controller.elloLogo).notTo(beNil())
                 }
 
                 it("IBActions are wired up") {

@@ -8,34 +8,37 @@
 
 import Foundation
 
+
 private let SensitiveSettingsClosedHeight: CGFloat = 89 * 3
 private let SensitiveSettingsOpenHeight: CGFloat = SensitiveSettingsClosedHeight + 128
 
-protocol SensitiveSettingsDelegate {
+
+public protocol SensitiveSettingsDelegate {
     func sensitiveSettingsDidUpdate()
 }
 
-class SensitiveSettingsViewController: UITableViewController {
-    @IBOutlet weak var usernameView: ElloTextFieldView!
-    @IBOutlet weak var emailView: ElloTextFieldView!
-    @IBOutlet weak var passwordView: ElloTextFieldView!
-    @IBOutlet weak var currentPasswordField: ElloTextField!
 
-    var currentUser: User?
-    var delegate: SensitiveSettingsDelegate?
+public class SensitiveSettingsViewController: UITableViewController {
+    @IBOutlet weak public var usernameView: ElloTextFieldView!
+    @IBOutlet weak public var emailView: ElloTextFieldView!
+    @IBOutlet weak public var passwordView: ElloTextFieldView!
+    @IBOutlet weak public var currentPasswordField: ElloTextField!
+
+    public var currentUser: User?
+    public var delegate: SensitiveSettingsDelegate?
     var validationCancel: Functional.BasicBlock?
 
-    var isUpdatable: Bool {
+    public var isUpdatable: Bool {
         return currentUser?.username != usernameView.textField.text
             || currentUser?.email != emailView.textField.text
             || !passwordView.textField.text.isEmpty
     }
 
-    var height: CGFloat {
+    public var height: CGFloat {
         return isUpdatable ? SensitiveSettingsOpenHeight : SensitiveSettingsClosedHeight
     }
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
     }
@@ -106,12 +109,12 @@ class SensitiveSettingsViewController: UITableViewController {
         }
     }
 
-    func valueChanged() {
+    public func valueChanged() {
         delegate?.sensitiveSettingsDidUpdate()
     }
 }
 
-extension SensitiveSettingsViewController {
+public extension SensitiveSettingsViewController {
     class func instantiateFromStoryboard() -> SensitiveSettingsViewController {
         return UIStoryboard(name: "Settings", bundle: NSBundle(forClass: AppDelegate.self)).instantiateViewControllerWithIdentifier("SensitiveSettingsViewController") as! SensitiveSettingsViewController
     }

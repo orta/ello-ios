@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AppSetup {
+public class AppSetup {
 
     lazy var useStaging = true
     var isTesting = false
@@ -20,7 +20,7 @@ class AppSetup {
         return Static.instance
     }
 
-    init() {
+    public init() {
         useStaging = Defaults["ElloUseStaging"].bool ?? true
         if let inTests: AnyClass = NSClassFromString("XCTest") { isTesting = true }
     }

@@ -9,7 +9,7 @@
 import Foundation
 import SVGKit
 
-class StreamLoadingCell: UICollectionViewCell {
+public class StreamLoadingCell: UICollectionViewCell {
 
     lazy var elloLogo: ElloLogoView = {
         let logo = ElloLogoView(image: SVGKImage(named: "ello_logo.svg").UIImage!)
@@ -22,7 +22,7 @@ class StreamLoadingCell: UICollectionViewCell {
         self.sharedInit()
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required public init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.sharedInit()
     }
@@ -39,7 +39,7 @@ class StreamLoadingCell: UICollectionViewCell {
         self.addSubview(elloLogo)
     }
 
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         self.backgroundColor = UIColor.whiteColor()
         elloLogo.center = CGPointMake(self.bounds.size.width / 2.0, self.bounds.size.height / 2.0)

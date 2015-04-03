@@ -9,13 +9,13 @@
 import UIKit
 import FLAnimatedImage
 
-class StreamCreateCommentCell : UICollectionViewCell {
-    struct Size {
-        static let Height : CGFloat = 75
-        static let Margins = UIEdgeInsets(top: 12, left: 10, bottom: 12, right: 10)
-        static let AvatarButtonMargin : CGFloat = 12
-        static let ButtonLabelMargin : CGFloat = 30
-        static let ImageHeight : CGFloat = 30
+public class StreamCreateCommentCell : UICollectionViewCell {
+    public struct Size {
+        public static let Height : CGFloat = 75
+        public static let Margins = UIEdgeInsets(top: 12, left: 10, bottom: 12, right: 10)
+        public static let AvatarButtonMargin : CGFloat = 12
+        public static let ButtonLabelMargin : CGFloat = 30
+        public static let ImageHeight : CGFloat = 30
     }
 
     let avatarView = FLAnimatedImageView()
@@ -33,13 +33,13 @@ class StreamCreateCommentCell : UICollectionViewCell {
         }
     }
 
-    override init(frame: CGRect) {
+    override public init(frame: CGRect) {
         super.init(frame: frame)
 
         setupViews()
     }
 
-    required init(coder: NSCoder) {
+    required public init(coder: NSCoder) {
         super.init(coder: coder)
     }
 
@@ -63,7 +63,7 @@ class StreamCreateCommentCell : UICollectionViewCell {
         createCommentLabel.textAlignment = .Left
     }
 
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         let imageY = (self.frame.height - Size.ImageHeight) / CGFloat(2)
         avatarView.frame = CGRect(x: Size.Margins.left, y: imageY, width: Size.ImageHeight, height: Size.ImageHeight)
         avatarView.layer.cornerRadius = Size.ImageHeight / CGFloat(2)

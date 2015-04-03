@@ -6,8 +6,10 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Ello
 import Quick
 import Nimble
+
 
 @objc
 class OmnibarMockScreen : OmnibarScreenProtocol {
@@ -26,15 +28,19 @@ class OmnibarMockScreen : OmnibarScreenProtocol {
     func reportSuccess(title : String) {
         didReportSuccess = true
     }
+
     func reportError(title : String, error : NSError) {
         didReportError = true
     }
+
     func reportError(title : String, errorMessage : String) {
         didReportError = true
     }
+
     func keyboardWillShow() {
         didKeyboardWillShow = true
     }
+
     func keyboardWillHide() {
         didKeyboardWillHide = true
     }

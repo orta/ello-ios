@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-struct ElloWebViewHelper {
+public struct ElloWebViewHelper {
     static let jsCommandProtocol = "ello://"
 
     static func handleRequest(request: NSURLRequest, webLinkDelegate: WebLinkDelegate?) -> Bool {

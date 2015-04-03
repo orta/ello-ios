@@ -8,9 +8,11 @@
 
 import Foundation
 
-struct StreamCellItemParser {
+public struct StreamCellItemParser {
 
-    func parse(items: [JSONAble], streamKind: StreamKind) -> [StreamCellItem] {
+    public init(){}
+
+    public func parse(items: [JSONAble], streamKind: StreamKind) -> [StreamCellItem] {
         var filteredItems = streamKind.filter(items)
         if let posts = filteredItems as? [Post] {
             return postCellItems(posts, streamKind: streamKind)
@@ -29,7 +31,7 @@ struct StreamCellItemParser {
 
     // MARK: - Static
 
-    static func aspectRatioForImageBlock(imageBlock: ImageRegion) -> CGFloat {
+    public static func aspectRatioForImageBlock(imageBlock: ImageRegion) -> CGFloat {
         let width = imageBlock.asset?.hdpi?.width
         let height = imageBlock.asset?.hdpi?.height
         if width != nil && height != nil {

@@ -9,7 +9,8 @@
 import SwiftyJSON
 
 
-@objc protocol Authorable {
+@objc
+public protocol Authorable {
     var createdAt : NSDate { get }
     var groupId: String { get }
     var author : User? { get }
@@ -17,18 +18,18 @@ import SwiftyJSON
 
 let PostVersion = 1
 
-final class Post: JSONAble, Authorable, NSCoding {
-    let version: Int = PostVersion
+public final class Post: JSONAble, Authorable, NSCoding {
+    public let version: Int = PostVersion
     var assets: [String:Asset]?
-    var author: User?
-    var collapsed: Bool
-    let commentsCount: Int?
-    var content: [Regionable]?
-    var createdAt: NSDate
-    var groupId:String {
+    public var author: User?
+    public var collapsed: Bool
+    public let commentsCount: Int?
+    public var content: [Regionable]?
+    public var createdAt: NSDate
+    public var groupId:String {
         get { return postId }
     }
-    var shareLink:String? {
+    public var shareLink:String? {
         get {
             if let author = self.author {
                 return "\(ElloURI.baseURL)/\(author.username)/post/\(self.token)"
@@ -38,17 +39,17 @@ final class Post: JSONAble, Authorable, NSCoding {
             }
         }
     }
-    let href: String
-    let postId: String
-    let repostsCount: Int?
-    var summary: [Regionable]?
-    let token: String
-    let viewsCount: Int?
-    var comments: [Comment]
+    public let href: String
+    public let postId: String
+    public let repostsCount: Int?
+    public var summary: [Regionable]?
+    public let token: String
+    public let viewsCount: Int?
+    public var comments: [Comment]
 
 // MARK: Initialization
 
-    init(assets: [String:Asset]?,
+    public init(assets: [String:Asset]?,
         author: User?,
         collapsed: Bool,
         commentsCount: Int?,
@@ -79,7 +80,7 @@ final class Post: JSONAble, Authorable, NSCoding {
 
 // MARK: NSCoding
 
-    required init(coder aDecoder: NSCoder) {
+    required public init(coder aDecoder: NSCoder) {
         let decoder = Decoder(aDecoder)
         self.assets = decoder.decodeOptionalKey("assets")
         self.author = decoder.decodeOptionalKey("author")
@@ -96,7 +97,7 @@ final class Post: JSONAble, Authorable, NSCoding {
         self.comments = decoder.decodeKey("comments")
     }
 
-    func encodeWithCoder(encoder: NSCoder) {
+    public func encodeWithCoder(encoder: NSCoder) {
         if let assets = self.assets {
             encoder.encodeObject(assets, forKey: "assets")
         }
@@ -130,7 +131,7 @@ final class Post: JSONAble, Authorable, NSCoding {
 
 // MARK: JSONAble
 
-     override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
+     override public class func fromJSON(data:[String: AnyObject]) -> JSONAble {
         let json = JSON(data)
         let postId = json["id"].stringValue
         var createdAt:NSDate = json["created_at"].stringValue.toNSDate() ?? NSDate()
@@ -173,7 +174,7 @@ final class Post: JSONAble, Authorable, NSCoding {
         )
     }
 
-    override var description : String {
+    override public var description : String {
         return "Post:\n\tpostId:\(self.postId)"
     }
 }

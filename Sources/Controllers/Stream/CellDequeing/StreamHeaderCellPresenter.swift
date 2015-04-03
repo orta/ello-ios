@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct StreamHeaderCellPresenter {
+public struct StreamHeaderCellPresenter {
 
     static func configure(
         cell:UICollectionViewCell,

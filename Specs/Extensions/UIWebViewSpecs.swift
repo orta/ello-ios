@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Ello
 import Quick
 import Nimble
 
@@ -22,6 +23,7 @@ class UIWebViewSpecs: QuickSpec, UIWebViewDelegate {
                 self.webView.loadHTMLString(html, baseURL: NSURL(string: "/"))
                 self.webView.delegate = self
             }
+
             it("should return the size") {
                 expect(self.size.width).toEventually(beGreaterThanOrEqualTo(CGFloat(100)), timeout: 5)
                 expect(self.size.height).toEventually(beGreaterThanOrEqualTo(CGFloat(100)), timeout: 5)

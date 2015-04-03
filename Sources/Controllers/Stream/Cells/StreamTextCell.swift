@@ -9,7 +9,7 @@
 import WebKit
 import Foundation
 
-class StreamTextCell: UICollectionViewCell, UIWebViewDelegate {
+public class StreamTextCell: UICollectionViewCell, UIWebViewDelegate {
     typealias WebContentReady = (webView : UIWebView)->()
 
     @IBOutlet weak var webView:UIWebView!
@@ -17,7 +17,7 @@ class StreamTextCell: UICollectionViewCell, UIWebViewDelegate {
     weak var webLinkDelegate: WebLinkDelegate?
     var webContentReady: WebContentReady?
 
-    override func awakeFromNib() {
+    override public func awakeFromNib() {
         super.awakeFromNib()
         webView.scrollView.scrollEnabled = false
     }
@@ -26,16 +26,16 @@ class StreamTextCell: UICollectionViewCell, UIWebViewDelegate {
         webContentReady = handler
     }
 
-    override func prepareForReuse() {
+    override public func prepareForReuse() {
         super.prepareForReuse()
         webView.stopLoading()
     }
 
-    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+    public func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         return ElloWebViewHelper.handleRequest(request, webLinkDelegate: webLinkDelegate)
     }
 
-    func webViewDidFinishLoad(webView: UIWebView) {
+    public func webViewDidFinishLoad(webView: UIWebView) {
         webView.stringByEvaluatingJavaScriptFromString("document.documentElement.style.webkitUserSelect='none';")
         webView.stringByEvaluatingJavaScriptFromString("document.documentElement.style.webkitTouchCallout='none';")
         UIView.animateWithDuration(0.15, animations: {

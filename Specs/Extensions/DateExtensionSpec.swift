@@ -6,13 +6,15 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
+import Ello
 import Quick
 import Nimble
+
 
 class DateExtensionSpec: QuickSpec {
     override func spec() {
 
-        describe("-distanceOfTimeInWords:", {
+        describe("-distanceOfTimeInWords:") {
 
             let now = NSDate()
             let three_seconds_ago = NSDate(timeIntervalSinceNow: -3)
@@ -80,8 +82,6 @@ class DateExtensionSpec: QuickSpec {
             it("15d") {
                 expect(fifteen_days_ago.distanceOfTimeInWords(now)) == "15d"
             }
-        })
+        }
     }
 }
-
-

@@ -8,28 +8,28 @@
 
 import Foundation
 
-class DrawerViewController: BaseElloViewController {
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var navigationBar: ElloNavigationBar!
+public class DrawerViewController: BaseElloViewController {
+    @IBOutlet weak public var collectionView: UICollectionView!
+    @IBOutlet weak public var navigationBar: ElloNavigationBar!
 
     override var backGestureEdges: UIRectEdge { return .Right }
 
     let dataSource: DrawerViewDataSource
 
-    required init(relationship: Relationship) {
+    required public init(relationship: Relationship) {
         dataSource = DrawerViewDataSource(relationship: relationship)
         super.init(nibName: "DrawerViewController", bundle: .None)
         dataSource.delegate = self
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required public init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
 
 // MARK: View Lifecycle
 extension DrawerViewController {
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         addHamburgerButton()
         addLeftButtons()
         setupNavigationBar()
@@ -37,7 +37,8 @@ extension DrawerViewController {
         super.viewDidLoad()
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override public func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         dataSource.loadUsers()
     }
 }
@@ -62,13 +63,13 @@ extension DrawerViewController {
 
 // MARK: DrawerViewDataSourceDelegate
 extension DrawerViewController: DrawerViewDataSourceDelegate {
-    func dataSourceStartedLoadingUsers(dataSource: DrawerViewDataSource) {
+    public func dataSourceStartedLoadingUsers(dataSource: DrawerViewDataSource) {
         dispatch_async(dispatch_get_main_queue()) {
             self.collectionView.reloadData()
         }
     }
 
-    func dataSourceFinishedLoadingUsers(dataSource: DrawerViewDataSource) {
+    public func dataSourceFinishedLoadingUsers(dataSource: DrawerViewDataSource) {
         dispatch_async(dispatch_get_main_queue()) {
             self.collectionView.reloadData()
         }
@@ -77,11 +78,11 @@ extension DrawerViewController: DrawerViewDataSourceDelegate {
 
 // MARK: UICollectionViewDataSource
 extension DrawerViewController: UICollectionViewDataSource {
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return dataSource.numberOfUsers
     }
 
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let presenter = dataSource.cellPresenterForIndexPath(indexPath)
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(presenter.reuseIdentifier, forIndexPath: indexPath) as! UICollectionViewCell
         presenter.configureCell(cell)
@@ -91,7 +92,7 @@ extension DrawerViewController: UICollectionViewDataSource {
 
 // MARK: UICollectionViewDelegate
 extension DrawerViewController: UICollectionViewDelegate {
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let profile = dataSource.userForIndexPath(indexPath).map { ProfileViewController(userParam: $0.userId) }
 
         if let profileViewController = profile {
@@ -101,7 +102,7 @@ extension DrawerViewController: UICollectionViewDelegate {
 }
 
 extension DrawerViewController: UIScrollViewDelegate {
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    public func scrollViewDidScroll(scrollView: UIScrollView) {
         if scrollView.contentOffset.y + view.frame.height + 200 > scrollView.contentSize.height {
             dataSource.loadNextUsers()
         }

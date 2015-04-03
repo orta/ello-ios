@@ -8,8 +8,9 @@
 
 import Foundation
 
-struct Mapper {
-    static func mapJSON(data: NSData) -> (AnyObject?, NSError?) {
+public struct Mapper {
+
+    public static func mapJSON(data: NSData) -> (AnyObject?, NSError?) {
 
         var error: NSError?
         var json: AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &error)
@@ -22,7 +23,7 @@ struct Mapper {
         return (json, error)
     }
 
-    static func mapToObjectArray(object: AnyObject?, fromJSON: FromJSONClosure) -> [JSONAble]? {
+    public static func mapToObjectArray(object: AnyObject?, fromJSON: FromJSONClosure) -> [JSONAble]? {
 
         if let dicts = object as? [[String:AnyObject]] {
             let jsonables:[JSONAble] =  dicts.map {
@@ -35,7 +36,7 @@ struct Mapper {
         return nil
     }
 
-    static func mapToObject(object:AnyObject?, fromJSON: FromJSONClosure) -> JSONAble? {
+    public static func mapToObject(object:AnyObject?, fromJSON: FromJSONClosure) -> JSONAble? {
         if let dict = object as? [String:AnyObject] {
             let jsonable = fromJSON(data: dict)
             return jsonable

@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum Relationship: String {
+public enum Relationship: String {
     case Friend = "friend"
     case Noise = "noise"
     case Block = "block"
@@ -20,7 +20,7 @@ enum Relationship: String {
 
     static let all = [Friend, Noise, Block, Mute, Inactive, None, Null, Me]
 
-    init(stringValue: String) {
+    public init(stringValue: String) {
         self = Relationship(rawValue: stringValue) ?? .None
     }
 }

@@ -9,7 +9,7 @@
 import UIKit
 import Foundation
 
-class StreamHeaderCell: UICollectionViewCell {
+public class StreamHeaderCell: UICollectionViewCell {
 
     let revealWidth:CGFloat = 85.0
     var cellOpenObserver: NotificationObserver?
@@ -63,11 +63,11 @@ class StreamHeaderCell: UICollectionViewCell {
 
     private var originalUsernameFrame = CGRectZero
 
-    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override public func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
         super.touchesEnded(touches, withEvent: event)
     }
 
-    override func awakeFromNib() {
+    override public func awakeFromNib() {
         super.awakeFromNib()
 
         originalUsernameFrame = usernameTextView.frame
@@ -93,7 +93,7 @@ class StreamHeaderCell: UICollectionViewCell {
         goToPostView.addGestureRecognizer(goToPostTapRecognizer)
     }
 
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         contentView.frame = bounds
         innerContentView.frame = bounds
@@ -221,7 +221,7 @@ extension StreamHeaderCell: ElloTextViewDelegate {
 // MARK: UIScrollViewDelegate
 extension StreamHeaderCell: UIScrollViewDelegate {
 
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    public func scrollViewDidScroll(scrollView: UIScrollView) {
         repositionBottomContent()
 
         if (scrollView.contentOffset.x < 0) {
@@ -237,7 +237,7 @@ extension StreamHeaderCell: UIScrollViewDelegate {
 
     }
 
-    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+    public func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         if (velocity.x > 0) {
             targetContentOffset.memory.x = revealWidth
         }

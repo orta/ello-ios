@@ -11,26 +11,26 @@ import SwiftyJSON
 
 let AssetVersion = 1
 
-final class Asset: JSONAble {
+public final class Asset: JSONAble {
 
-    let version: Int = AssetVersion
-    let assetId: String
+    public let version: Int = AssetVersion
+    public let assetId: String
     var isGif: Bool {
         return self.optimized?.imageType == "image/gif"
     }
 
-    let optimized: ImageAttachment?
-    let smallScreen: ImageAttachment?
-    let ldpi: ImageAttachment?
-    let mdpi: ImageAttachment?
-    let hdpi: ImageAttachment?
-    let xhdpi: ImageAttachment?
-    let xxhdpi: ImageAttachment?
-    let xxxhdpi: ImageAttachment?
+    public let optimized: ImageAttachment?
+    public let smallScreen: ImageAttachment?
+    public let ldpi: ImageAttachment?
+    public let mdpi: ImageAttachment?
+    public let hdpi: ImageAttachment?
+    public let xhdpi: ImageAttachment?
+    public let xxhdpi: ImageAttachment?
+    public let xxxhdpi: ImageAttachment?
 
 // MARK: Initialization
     
-    init(assetId: String,
+    public init(assetId: String,
         optimized: ImageAttachment?,
         smallScreen: ImageAttachment?,
         ldpi: ImageAttachment?,
@@ -52,7 +52,7 @@ final class Asset: JSONAble {
 
 // MARK: NSCoding
 
-    required init(coder aDecoder: NSCoder) {
+    required public init(coder aDecoder: NSCoder) {
         let decoder = Decoder(aDecoder)
         self.assetId = decoder.decodeKey("assetId")
         self.optimized = decoder.decodeOptionalKey("optimized")
@@ -65,7 +65,7 @@ final class Asset: JSONAble {
         self.xxxhdpi = decoder.decodeOptionalKey("xxxhdpi")
     }
 
-    func encodeWithCoder(encoder: NSCoder) {
+    public func encodeWithCoder(encoder: NSCoder) {
 
         encoder.encodeObject(self.assetId, forKey: "assetId")
                     
@@ -104,7 +104,7 @@ final class Asset: JSONAble {
     
 // MARK: JSONAble
 
-    override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
+    override class public func fromJSON(data:[String: AnyObject]) -> JSONAble {
         let json = JSON(data)
         let assetId = data["id"] as? String ?? ""
         let attachment = data["attachment"] as? [String:AnyObject]

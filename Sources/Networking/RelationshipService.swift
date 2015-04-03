@@ -10,10 +10,10 @@ import UIKit
 import Moya
 import SwiftyJSON
 
-class RelationshipService: NSObject {
+public class RelationshipService: NSObject {
 
-    func updateRelationship(endpoint:ElloAPI, success: ElloSuccessCompletion, failure: ElloFailureCompletion?) {
-        ElloProvider.sharedProvider.elloRequest(endpoint,
+    public func updateRelationship(endpoint:ElloAPI, success: ElloSuccessCompletion, failure: ElloFailureCompletion?) {
+        ElloProvider.elloRequest(endpoint,
             method: .POST,
             success: success,
             failure: failure

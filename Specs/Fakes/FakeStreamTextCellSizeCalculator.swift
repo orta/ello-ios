@@ -6,14 +6,14 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import Foundation
+import Ello
 
-class FakeStreamTextCellSizeCalculator: StreamTextCellSizeCalculator {
 
-    override func processCells(cellItems:[StreamCellItem], withWidth: CGFloat, completion:StreamTextCellSizeCalculated) {
+public class FakeStreamTextCellSizeCalculator: StreamTextCellSizeCalculator {
+
+    override public func processCells(cellItems:[StreamCellItem], withWidth: CGFloat, completion:StreamTextCellSizeCalculated) {
         self.completion = completion
         self.cellItems = cellItems
         completion()
     }
-
 }

@@ -8,9 +8,11 @@
 
 import Foundation
 
+import Ello
 import Quick
 import Moya
 import Nimble
+
 
 class ProfileServiceSpec: QuickSpec {
     override func spec() {
@@ -63,8 +65,6 @@ class ProfileServiceSpec: QuickSpec {
                     expect(loadedUsers!.first!.username) == "cfiggis"
                 }
             }
-
         }
     }
 }
-
