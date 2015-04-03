@@ -145,7 +145,14 @@ extension ElloTabBarController: UITabBarDelegate {
     public func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem) {
         if let items = tabBar.items as? [UITabBarItem] {
             if let index = find(items, item) {
-                selectedIndex = index
+                if index == selectedIndex {
+                    if let navigationViewController = selectedViewController as? UINavigationController {
+                        navigationViewController.popToRootViewControllerAnimated(true)
+                    }
+                }
+                else {
+                    selectedIndex = index
+                }
             }
         }
     }
