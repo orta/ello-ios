@@ -8,6 +8,7 @@
 
 import UIKit
 import FLAnimatedImage
+import TimeAgoInWords
 
 @objc
 public protocol NotificationDelegate {
