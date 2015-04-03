@@ -194,6 +194,20 @@ public class StreamViewController: BaseElloViewController {
         }
     }
 
+    public func insertNewCommentItems(commentItems: [StreamCellItem]) {
+        if count(commentItems) == 0 {
+            return
+        }
+
+        let commentItem = commentItems[0]
+        if let comment = commentItem.jsonable as? Comment,
+           let parentPost = comment.parentPost,
+           let indexPath = dataSource.createCommentIndexPathForPost(parentPost) {
+            let newCommentIndexPath = NSIndexPath(forRow: indexPath.row + 1, inSection: indexPath.section)
+            self.insertUnsizedCellItems(commentItems, startingIndexPath: newCommentIndexPath)
+        }
+    }
+
     public func loadInitialPage() {
         ElloHUD.showLoadingHudInView(view)
         streamService.loadStream(streamKind.endpoint,
@@ -364,7 +378,7 @@ extension StreamViewController : UICollectionViewDelegate {
             }
             else if let comment = dataSource.commentForIndexPath(indexPath) {
                 let post = comment.parentPost!
-                createCommentDelegate?.createComment(post)
+                createCommentDelegate?.createComment(post, fromController: self)
             }
     }
 

@@ -120,6 +120,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         return nil
     }
 
+    // this includes the `createComment` cell, since it contains a comment item
     public func commentIndexPathsForPost(post: Post) -> [NSIndexPath] {
         var indexPaths:[NSIndexPath] = []
 
@@ -132,6 +133,27 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
             }
         }
         return indexPaths
+    }
+
+    // this includes the `createComment` cell, since it contains a comment item
+    public func footerIndexPathForPost(searchPost: Post) -> NSIndexPath? {
+        for (index, value) in enumerate(visibleCellItems) {
+            if value.type == .Footer,
+               let post = value.jsonable as? Post {
+                if searchPost.postId == post.postId {
+                    return NSIndexPath(forItem: index, inSection: 0)
+                }
+            }
+        }
+        return nil
+    }
+
+    public func createCommentIndexPathForPost(post: Post) -> NSIndexPath? {
+        let paths = commentIndexPathsForPost(post)
+        if count(paths) > 0 {
+            return paths[0]
+        }
+        return nil
     }
 
     public func removeCommentsForPost(post: Post) -> [NSIndexPath] {

@@ -148,4 +148,13 @@ public class StreamContainerViewController: StreamableViewController {
         scrollView.scrollRectToVisible(rect, animated: true)
     }
 
+    // MARK: Comment creation
+
+    override public func commentCreated(comment: Comment, fromController streamViewController: StreamViewController) {
+        let comments : [JSONAble] = [comment]
+        let parser = StreamCellItemParser()
+        let newCommentItems = parser.parse(comments, streamKind: streamViewController.streamKind)
+        streamViewController.insertNewCommentItems(newCommentItems)
+    }
+
 }

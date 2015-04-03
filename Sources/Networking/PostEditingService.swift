@@ -83,6 +83,13 @@ public class PostEditingService: NSObject {
         ElloProvider.elloRequest(endpoint,
             method: .POST,
             success: { data, responseConfig in
+                switch endpoint {
+                case .CreateComment:
+                    postNotification(UpdatePostCommentCountNotification, data as! Comment)
+                default:
+                    break
+                }
+
                 success(post: data as AnyObject)
             },
             failure: failure
