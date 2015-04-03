@@ -14,7 +14,7 @@ class PulsingCircle: UIView {
     private lazy var pulser: UIView = {
         var size : CGFloat = 60
         var view = UIView(frame: CGRect(x: 0, y: 0, width: size, height: size))
-        view.center = CGPoint(x: self.frame.size.width / 2, y: self.frame.size.height / 2)
+        view.center = CGPoint(x: self.bounds.size.width / 2, y: self.bounds.size.height / 2)
         view.autoresizingMask = .FlexibleTopMargin | .FlexibleBottomMargin | .FlexibleLeftMargin | .FlexibleRightMargin
         view.layer.cornerRadius = size / 2
         view.backgroundColor = UIColor.greyA()
@@ -28,6 +28,7 @@ class PulsingCircle: UIView {
 
     class func fill(view : UIView) -> PulsingCircle {
         var circle = PulsingCircle(frame: view.bounds)
+        circle.backgroundColor = UIColor.clearColor()
         circle.autoresizingMask = .FlexibleWidth | .FlexibleHeight
         return circle
     }
@@ -62,7 +63,8 @@ class PulsingCircle: UIView {
     }
 
     func pulse() {
-        self.pulser.center = CGPoint(x: self.frame.size.width / 2, y: self.frame.size.height / 2)
+        self.pulser.alpha = 1
+        self.pulser.center = CGPoint(x: self.bounds.size.width / 2, y: self.bounds.size.height / 2)
         if !isPulsing {
             self.isPulsing = true
             self.keepPulsing()
@@ -70,11 +72,11 @@ class PulsingCircle: UIView {
     }
 
     private func keepPulsing() {
+        self.pulser.alpha = 1
         UIView.animateWithDuration(0.65,
             delay: 0.0,
             options: .CurveEaseOut,
             animations: {
-                self.pulser.alpha = 1
                 self.pulser.transform = CGAffineTransformMakeScale(0.8, 0.8)
             },
             completion: { done in
