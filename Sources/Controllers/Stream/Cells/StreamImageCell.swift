@@ -52,7 +52,7 @@ public class StreamImageCell: UICollectionViewCell {
                     postNotification(updateStreamImageCellHeightNotification, self)
                 }
 
-                UIView.animateWithDuration(0.15,
+                UIView.animateWithDuration(0.3,
                     delay:0.0,
                     options:UIViewAnimationOptions.CurveLinear,
                     animations: {
@@ -66,13 +66,13 @@ public class StreamImageCell: UICollectionViewCell {
                 self.errorLabel.hidden = false
                 self.errorLabel.setLabelText("Failed to load image")
                 self.circle.stopPulse()
-                UIView.animateWithDuration(0.15, animations: {
+                UIView.animateWithDuration(0.15) {
                     self.aspectRatio = self.defaultAspectRatio
                     self.errorLabel.alpha = 1.0
                     self.imageView.backgroundColor = UIColor.greyA()
                     self.contentView.alpha = 0.5
                     self.imageView.alpha = 1.0
-                })
+                }
 
             }
         })

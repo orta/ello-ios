@@ -63,6 +63,7 @@ class PulsingCircle: UIView {
     }
 
     func pulse() {
+        self.pulser.center = CGPoint(x: self.frame.size.width / 2, y: self.frame.size.height / 2)
         if !isPulsing {
             self.isPulsing = true
             self.keepPulsing()
