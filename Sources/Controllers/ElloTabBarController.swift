@@ -45,7 +45,7 @@ public class ElloTabBarController: UIViewController {
         }
     }
 
-    var selectedViewController: UIViewController? {
+    public var selectedViewController: UIViewController? {
         get {
             if selectedIndex >= 0 && selectedIndex < count(childViewControllers) {
                 return childViewControllers[selectedIndex] as? UIViewController
@@ -69,7 +69,7 @@ public class ElloTabBarController: UIViewController {
         return UIStoryboard.storyboardWithId(.ElloTabBar) as! ElloTabBarController
     }
 
-    required init(coder decoder: NSCoder) {
+    required public init(coder decoder: NSCoder) {
         selectedIndex = decoder.decodeIntegerForKey("selectedIndex")
         tabBarHiddenValue = false
         tabBar = ElloTabBar()
@@ -103,7 +103,7 @@ public class ElloTabBarController: UIViewController {
         }
     }
 
-    override func viewDidLayoutSubviews() {
+    override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
         var upAmount = CGFloat(0)
@@ -142,7 +142,7 @@ public class ElloTabBarController: UIViewController {
 // UITabBarDelegate
 extension ElloTabBarController: UITabBarDelegate {
 
-    func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem) {
+    public func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem) {
         if let items = tabBar.items as? [UITabBarItem] {
             if let index = find(items, item) {
                 selectedIndex = index
@@ -156,7 +156,7 @@ extension ElloTabBarController: UITabBarDelegate {
 // MARK: Child View Controller handling
 extension ElloTabBarController {
 
-    override func addChildViewController(childController: UIViewController) {
+    override public func addChildViewController(childController: UIViewController) {
         super.addChildViewController(childController)
 
         if visibleViewController == nil {
@@ -220,7 +220,7 @@ extension ElloTabBarController {
             completion: nil)
     }
 
-    override func sizeForChildContentContainer(container: UIContentContainer, withParentContainerSize size: CGSize) -> CGSize {
+    override public func sizeForChildContentContainer(container: UIContentContainer, withParentContainerSize size: CGSize) -> CGSize {
         return self.view.frame.size
     }
 

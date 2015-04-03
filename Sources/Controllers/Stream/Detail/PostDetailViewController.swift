@@ -193,7 +193,7 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         }
     }
 
-    override func commentCreated(comment: Comment) {
+    override public func commentCreated(comment: Comment) {
         let comments : [JSONAble] = [comment]
         let parser = StreamCellItemParser()
         let newCommentItems = parser.parse(comments, streamKind: streamViewController.streamKind)

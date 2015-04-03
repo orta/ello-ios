@@ -95,7 +95,7 @@ public struct Functional {
         let timer = NSTimer.scheduledTimerWithTimeInterval(duration, target: proc, selector: "run", userInfo: nil, repeats: false)
     }
 
-    static func cancelableDelay(duration: NSTimeInterval, block: BasicBlock) -> BasicBlock {
+    public static func cancelableDelay(duration: NSTimeInterval, block: BasicBlock) -> BasicBlock {
         let proc = Proc(block: block)
         let timer = NSTimer.scheduledTimerWithTimeInterval(duration, target: proc, selector: "run", userInfo: nil, repeats: false)
         return {
@@ -125,7 +125,7 @@ public struct Functional {
     // every `interval` seconds.  If `debounce` is useful for keyboard / UI,
     // this method is useful for slowing down events, like a chat client that
     // needs to insert chat messages and not be herky jerky.
-    static func throttle(interval: NSTimeInterval, block: BasicBlock) -> BasicBlock {
+    public static func throttle(interval: NSTimeInterval, block: BasicBlock) -> BasicBlock {
         var timer : NSTimer? = nil
         let proc = Proc() {
             timer = nil
