@@ -19,14 +19,14 @@ enum ValidationState: String {
     }
 }
 
-class ElloTextField: UITextField {
+public class ElloTextField: UITextField {
 
-    required override init(frame: CGRect) {
+    required override public init(frame: CGRect) {
         super.init(frame: frame)
         self.sharedSetup()
     }
 
-    required init(coder: NSCoder) {
+    required public init(coder: NSCoder) {
         super.init(coder: coder)
         self.sharedSetup()
     }
@@ -52,21 +52,21 @@ class ElloTextField: UITextField {
         self.rightView = state.map { UIImageView(image: $0.imageRepresentation) }
     }
 
-    override func textRectForBounds(bounds: CGRect) -> CGRect {
+    override public func textRectForBounds(bounds: CGRect) -> CGRect {
         return rectForBounds(bounds)
     }
 
-    override func editingRectForBounds(bounds: CGRect) -> CGRect {
+    override public func editingRectForBounds(bounds: CGRect) -> CGRect {
         return rectForBounds(bounds)
     }
 
-    override func clearButtonRectForBounds(bounds: CGRect) -> CGRect {
+    override public func clearButtonRectForBounds(bounds: CGRect) -> CGRect {
         var rect = super.clearButtonRectForBounds(bounds)
         rect.origin.x -= 10
         return rect
     }
 
-    override func rightViewRectForBounds(bounds: CGRect) -> CGRect {
+    override public func rightViewRectForBounds(bounds: CGRect) -> CGRect {
         var rect = super.rightViewRectForBounds(bounds)
         rect.origin.x -= 10
         return rect

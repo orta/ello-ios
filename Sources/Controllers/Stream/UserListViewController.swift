@@ -8,30 +8,30 @@
 
 import Foundation
 
-class UserListViewController: StreamableViewController {
+public class UserListViewController: StreamableViewController {
 
     var streamViewController : StreamViewController!
     var navigationBar: ElloNavigationBar!
     let endpoint: ElloAPI
 
-    required init(endpoint: ElloAPI, title: String) {
+    required public init(endpoint: ElloAPI, title: String) {
         self.endpoint = endpoint
         super.init(nibName: nil, bundle: nil)
         self.title = title
         self.view.backgroundColor = UIColor.whiteColor()
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required public init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
         setupStreamController()
     }
 
-    override func didSetCurrentUser() {
+    override public func didSetCurrentUser() {
         if self.isViewLoaded() {
             streamViewController.currentUser = currentUser
         }

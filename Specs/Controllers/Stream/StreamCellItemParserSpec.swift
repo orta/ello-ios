@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Ello
 import Quick
 import Nimble
 import Moya
@@ -89,5 +90,4 @@ class StreamCellItemParserSpec: QuickSpec {
             }
         }
     }
-
 }

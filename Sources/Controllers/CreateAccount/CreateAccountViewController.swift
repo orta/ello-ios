@@ -8,29 +8,29 @@
 
 import UIKit
 
-class CreateAccountViewController: BaseElloViewController, UITextFieldDelegate {
+public class CreateAccountViewController: BaseElloViewController, UITextFieldDelegate {
 
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var emailTextField: ElloTextField!
-    @IBOutlet weak var usernameTextField: ElloTextField!
-    @IBOutlet weak var passwordTextField: ElloTextField!
-    @IBOutlet weak var aboutButton: ElloTextButton!
-    @IBOutlet weak var loginButton: ElloTextButton!
-    @IBOutlet weak var createAccountButton: ElloButton!
+    @IBOutlet weak public var scrollView: UIScrollView!
+    @IBOutlet weak public var emailTextField: ElloTextField!
+    @IBOutlet weak public var usernameTextField: ElloTextField!
+    @IBOutlet weak public var passwordTextField: ElloTextField!
+    @IBOutlet weak public var aboutButton: ElloTextButton!
+    @IBOutlet weak public var loginButton: ElloTextButton!
+    @IBOutlet weak public var createAccountButton: ElloButton!
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         setupStyles()
         setupTextFields()
         setupNotificationObservers()
     }
 
-    override func viewDidDisappear(animated: Bool) {
+    override public func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         removeNotificationObservers()
     }
 
-    class func instantiateFromStoryboard() -> CreateAccountViewController {
+    public class func instantiateFromStoryboard() -> CreateAccountViewController {
         return UIStoryboard.storyboardWithId(.CreateAccount) as! CreateAccountViewController
     }
 
@@ -103,7 +103,7 @@ class CreateAccountViewController: BaseElloViewController, UITextFieldDelegate {
 
     // MARK: - UITextFieldDelegate
 
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    public func textFieldShouldReturn(textField: UITextField) -> Bool {
         switch textField {
         case emailTextField:
             return false
@@ -112,7 +112,7 @@ class CreateAccountViewController: BaseElloViewController, UITextFieldDelegate {
         }
     }
 
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    public func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
 
         let proposedString = NSMutableString(string: textField.text)
         proposedString.replaceCharactersInRange(range, withString: string)

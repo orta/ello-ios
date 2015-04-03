@@ -11,32 +11,32 @@ import SwiftyJSON
 
 let TextRegionVersion = 1
 
-final class TextRegion: JSONAble, NSCoding {
+public final class TextRegion: JSONAble, NSCoding {
 
-    let version: Int = TextRegionVersion
+    public let version: Int = TextRegionVersion
 
-    let content:String
+    public let content:String
 
 // MARK: Initialization
 
-    init(content: String) {
+    public init(content: String) {
         self.content = content
     }
 
 // MARK: NSCoding
 
-    func encodeWithCoder(encoder: NSCoder) {
+    public func encodeWithCoder(encoder: NSCoder) {
         encoder.encodeObject(self.content, forKey: "content")
     }
 
-    required init(coder aDecoder: NSCoder) {
+    public required init(coder aDecoder: NSCoder) {
         let decoder = Decoder(aDecoder)
         self.content = decoder.decodeKey("content")
     }
     
 // MARK: JSONAble
 
-    override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
+    override public class func fromJSON(data:[String: AnyObject]) -> JSONAble {
         let json = JSON(data)
         let content = json["data"].stringValue
         return TextRegion(content: content)

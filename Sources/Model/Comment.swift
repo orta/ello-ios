@@ -10,25 +10,25 @@ import SwiftyJSON
 
 let CommentVersion = 1
 
-final class Comment: JSONAble, Authorable, NSCoding {
+public final class Comment: JSONAble, Authorable, NSCoding {
 
-    let version: Int = CommentVersion
+    public let version: Int = CommentVersion
 
-    var author: User?
-    let commentId: String
-    var content: [Regionable]?
-    var createdAt: NSDate
-    var groupId:String {
+    public var author: User?
+    public let commentId: String
+    public var content: [Regionable]?
+    public var createdAt: NSDate
+    public var groupId:String {
         get {
             return parentPost?.postId ?? ""
         }
     }
-    var parentPost: Post?
-    var summary: [Regionable]?
+    public var parentPost: Post?
+    public var summary: [Regionable]?
 
 // MARK: Initialization
 
-    init(author: User?,
+    public init(author: User?,
         commentId: String,
         content: [Regionable]?,
         createdAt: NSDate,
@@ -46,7 +46,7 @@ final class Comment: JSONAble, Authorable, NSCoding {
 
 // MARK: NSCoding
 
-    required init(coder aDecoder: NSCoder) {
+    required public init(coder aDecoder: NSCoder) {
         let decoder = Decoder(aDecoder)
         self.author = decoder.decodeOptionalKey("author")
         self.commentId = decoder.decodeKey("commentId")
@@ -56,7 +56,7 @@ final class Comment: JSONAble, Authorable, NSCoding {
         self.content = decoder.decodeOptionalKey("content")
     }
 
-    func encodeWithCoder(encoder: NSCoder) {
+    public func encodeWithCoder(encoder: NSCoder) {
         encoder.encodeObject(self.author, forKey: "author")
         encoder.encodeObject(self.commentId, forKey: "commentId")
         if let content = self.content {
@@ -71,7 +71,7 @@ final class Comment: JSONAble, Authorable, NSCoding {
 
 // MARK: JSONAble
 
-    override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
+    override class public func fromJSON(data:[String: AnyObject]) -> JSONAble {
         let json = JSON(data)
 
         var commentId = json["id"].stringValue

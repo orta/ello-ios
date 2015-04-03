@@ -6,9 +6,11 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Ello
 import Foundation
 import Quick
 import Nimble
+
 
 class UserListViewControllerSpec: QuickSpec {
     override func spec() {

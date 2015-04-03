@@ -9,7 +9,7 @@
 import Moya
 
 
-class S3UploadingService: NSObject {
+public class S3UploadingService: NSObject {
     typealias S3UploadSuccessCompletion = (url : String) -> ()
 
     var uploader : ElloS3?
@@ -20,7 +20,7 @@ class S3UploadingService: NSObject {
     }
 
     func upload(data : NSData, filename: String, contentType: String, success: S3UploadSuccessCompletion, failure: ElloFailureCompletion?) {
-        ElloProvider.sharedProvider.elloRequest(ElloAPI.AmazonCredentials,
+        ElloProvider.elloRequest(ElloAPI.AmazonCredentials,
             method: .GET,
             success: { credentialsData, responseConfig in
                 if let credentials = credentialsData as? AmazonCredentials {

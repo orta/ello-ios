@@ -8,9 +8,9 @@
 
 import UIKit
 
-class ElloErrorLabel: ElloLabel {
+public class ElloErrorLabel: ElloLabel {
 
-    override func labelTextColor() -> UIColor {
+    override public func labelTextColor() -> UIColor {
         return UIColor.redColor()
     }
 }

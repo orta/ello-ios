@@ -6,13 +6,15 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
+import Ello
 import Quick
 import Nimble
+
 
 class ValidatorSpec: QuickSpec {
     override func spec() {
 
-        context("email validation", {
+        context("email validation") {
 
             it("returns true for a valid email") {
                 var email = "name@test.com"
@@ -51,9 +53,9 @@ class ValidatorSpec: QuickSpec {
                 expect(email.isValidEmail()) == false
             }
 
-        })
+        }
 
-        context("password validation", {
+        context("password validation") {
 
             it("returns true for a valid password") {
                 var password = "asdfasdf"
@@ -67,9 +69,6 @@ class ValidatorSpec: QuickSpec {
                 var password = ""
                 expect(password.isValidPassword()) == false
             }
-            
-        })
-
+        }
     }
 }
-

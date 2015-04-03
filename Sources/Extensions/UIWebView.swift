@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-extension UIWebView {
+public extension UIWebView {
 
     func windowContentSize() -> CGSize? {
         if let jsWidth = self.stringByEvaluatingJavaScriptFromString("(document.getElementById('post-container') || document.getElementByTagName('div')[0] || document.body).offsetWidth") {
@@ -18,5 +18,4 @@ extension UIWebView {
         }
         return nil
     }
-
 }

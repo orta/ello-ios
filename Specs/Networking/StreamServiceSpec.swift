@@ -6,11 +6,11 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
-import Foundation
-
+import Ello
 import Quick
 import Moya
 import Nimble
+
 
 class StreamServiceSpec: QuickSpec {
     override func spec() {
@@ -161,7 +161,6 @@ class StreamServiceSpec: QuickSpec {
                     }
                 }
             }
-
         }
     }
 }

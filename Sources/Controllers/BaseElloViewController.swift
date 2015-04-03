@@ -8,9 +8,9 @@
 
 import UIKit
 
-class BaseElloViewController: UIViewController {
+public class BaseElloViewController: UIViewController {
 
-    var currentUser: User? {
+    public var currentUser: User? {
         didSet { didSetCurrentUser() }
     }
 
@@ -26,20 +26,20 @@ class BaseElloViewController: UIViewController {
         return nil
     }
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.fixNavBarItemPadding()
         // Do any additional setup after loading the view.
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .None)
     }
 
     func didSetCurrentUser() {}
 
-    func isRootViewController() -> Bool {
+    public func isRootViewController() -> Bool {
         if let viewControllers = navigationController?.viewControllers {
             return (viewControllers[0] as! UIViewController) == self
         }

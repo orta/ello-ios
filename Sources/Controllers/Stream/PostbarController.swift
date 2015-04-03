@@ -8,13 +8,13 @@
 
 import Foundation
 
-class PostbarController: NSObject, PostbarDelegate {
+public class PostbarController: NSObject, PostbarDelegate {
 
     let presentingController: StreamViewController?
     let collectionView: UICollectionView
     let dataSource: StreamDataSource
 
-    init(collectionView: UICollectionView, dataSource: StreamDataSource, presentingController: StreamViewController?) {
+    public init(collectionView: UICollectionView, dataSource: StreamDataSource, presentingController: StreamViewController?) {
         self.collectionView = collectionView
         self.dataSource = dataSource
         self.collectionView.dataSource = dataSource
@@ -23,11 +23,11 @@ class PostbarController: NSObject, PostbarDelegate {
 
     // MARK:
 
-    func viewsButtonTapped(cell:UICollectionViewCell) {
+    public func viewsButtonTapped(cell:UICollectionViewCell) {
         postTappedForCell(cell)
     }
 
-    func commentsButtonTapped(cell:StreamFooterCell, commentsButton: CommentButton) {
+    public func commentsButtonTapped(cell:StreamFooterCell, commentsButton: CommentButton) {
         cell.commentsButton.enabled = false
         if let indexPath = collectionView.indexPathForCell(cell) {
             if let post = dataSource.postForIndexPath(indexPath) {
@@ -51,15 +51,15 @@ class PostbarController: NSObject, PostbarDelegate {
         }
     }
 
-    func lovesButtonTapped(cell:UICollectionViewCell) {
+    public func lovesButtonTapped(cell:UICollectionViewCell) {
         println("lovesButtonTapped")
     }
 
-    func repostButtonTapped(cell:UICollectionViewCell) {
+    public func repostButtonTapped(cell:UICollectionViewCell) {
         println("repostButtonTapped")
     }
 
-    func shareButtonTapped(cell: UICollectionViewCell) {
+    public func shareButtonTapped(cell: UICollectionViewCell) {
         if let indexPath = collectionView.indexPathForCell(cell) {
             if let post = dataSource.postForIndexPath(indexPath) {
                 if let shareLink = post.shareLink {
@@ -71,7 +71,7 @@ class PostbarController: NSObject, PostbarDelegate {
         }
     }
 
-    func flagPostButtonTapped(cell: UICollectionViewCell) {
+    public func flagPostButtonTapped(cell: UICollectionViewCell) {
         if let indexPath = collectionView.indexPathForCell(cell) {
             if let post = dataSource.postForIndexPath(indexPath) {
                 if let presentingController = presentingController {
@@ -86,7 +86,7 @@ class PostbarController: NSObject, PostbarDelegate {
         }
     }
 
-    func flagCommentButtonTapped(cell: UICollectionViewCell) {
+    public func flagCommentButtonTapped(cell: UICollectionViewCell) {
         if let indexPath = collectionView.indexPathForCell(cell) {
             if let comment = dataSource.commentForIndexPath(indexPath) {
                 if let presentingController = presentingController {
@@ -101,11 +101,11 @@ class PostbarController: NSObject, PostbarDelegate {
         }
     }
 
-    func replyToPostButtonTapped(cell:UICollectionViewCell) {
+    public func replyToPostButtonTapped(cell:UICollectionViewCell) {
         println("reply to post button tapped")
     }
 
-    func replyToCommentButtonTapped(cell:UICollectionViewCell) {
+    public func replyToCommentButtonTapped(cell:UICollectionViewCell) {
         println("reply to comment button tapped")
     }
 

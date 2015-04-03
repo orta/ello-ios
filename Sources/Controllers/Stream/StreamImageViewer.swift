@@ -8,8 +8,9 @@
 
 import UIKit
 import FLAnimatedImage
+import JTSImageViewController
 
-class StreamImageViewer: NSObject,
+public class StreamImageViewer: NSObject,
 JTSImageViewControllerOptionsDelegate,
 JTSImageViewControllerDismissalDelegate,
 StreamImageCellDelegate {
@@ -18,7 +19,7 @@ StreamImageCellDelegate {
     let collectionView: UICollectionView
     let dataSource: StreamDataSource
 
-    init(presentingController: StreamViewController,
+    public init(presentingController: StreamViewController,
         collectionView: UICollectionView,
         dataSource: StreamDataSource)
     {
@@ -27,7 +28,7 @@ StreamImageCellDelegate {
         self.dataSource = dataSource
     }
 
-    func imageTapped(imageView: FLAnimatedImageView, cell: UICollectionViewCell) {
+    public func imageTapped(imageView: FLAnimatedImageView, cell: UICollectionViewCell) {
         if presentingController.streamKind.isGridLayout {
             postTappedForCell(cell)
         }
@@ -41,7 +42,7 @@ StreamImageCellDelegate {
         imageInfo.image = imageView.image
         imageInfo.referenceRect = imageView.frame
         imageInfo.referenceView = imageView.superview
-        let imageViewer = JTSImageViewController(imageInfo: imageInfo, mode: JTSImageViewControllerMode.Image, backgroundStyle: JTSImageViewControllerBackgroundOption.None)
+        let imageViewer = JTSImageViewController(imageInfo: imageInfo, mode: JTSImageViewControllerMode.Image, backgroundStyle: JTSImageViewControllerBackgroundOptions.None)
         let transition:JTSImageViewControllerTransition = ._FromOriginalPosition
         imageViewer.showFromViewController(presentingController, transition: transition)
         imageViewer.optionsDelegate = self
@@ -61,13 +62,13 @@ StreamImageCellDelegate {
 
 // MARK: JTSImageViewControllerOptionsDelegate
 
-    func alphaForBackgroundDimmingOverlayInImageViewer(imageViewer: JTSImageViewController!) -> CGFloat {
+    public func alphaForBackgroundDimmingOverlayInImageViewer(imageViewer: JTSImageViewController!) -> CGFloat {
         return 1.0
     }
 
 // MARK: JTSImageViewControllerDismissalDelegate
 
-    func imageViewerDidDismiss(imageViewer: JTSImageViewController!) {
+    public func imageViewerDidDismiss(imageViewer: JTSImageViewController!) {
     }
 
 }

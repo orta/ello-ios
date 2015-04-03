@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Ello
 import Quick
 import Nimble
 
@@ -13,11 +14,13 @@ import Nimble
 class BaseElloViewControllerSpec: QuickSpec {
     override func spec() {
         describe("-isRootViewController") {
+
             it("should return 'true'") {
                 let controller = NotificationsViewController()
                 let navController = UINavigationController(rootViewController: controller)
                 expect(controller.isRootViewController()).to(beTrue())
             }
+
             it("should return 'false'") {
                 let anyController = UIViewController()
                 let controller = NotificationsViewController()

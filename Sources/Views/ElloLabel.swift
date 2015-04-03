@@ -9,13 +9,13 @@
 import Foundation
 
 
-class ElloLabel: UILabel {
+public class ElloLabel: UILabel {
 
     func labelTextColor() -> UIColor {
         return UIColor.whiteColor()
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required public init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         if let text = self.text {
             self.setLabelText(text)

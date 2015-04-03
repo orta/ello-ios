@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Ello
 import Quick
 import Nimble
 
@@ -29,6 +30,8 @@ class StreamContainerViewControllerSpec: QuickSpec {
 
                 it("IBOutlets are  not nil") {
                     expect(controller.scrollView).notTo(beNil())
+                    expect(controller.navigationBar).notTo(beNil())
+                    expect(controller.navigationBarTopConstraint).notTo(beNil())
                 }
 
             }
@@ -73,7 +76,6 @@ class StreamContainerViewControllerSpec: QuickSpec {
 
                 expect(streamsSegmentedControlActions?.count) == 1
             }
-
         }
     }
 }

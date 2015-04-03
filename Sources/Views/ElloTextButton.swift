@@ -8,14 +8,14 @@
 
 import UIKit
 
-class ElloTextButton: UIButton {
+public class ElloTextButton: UIButton {
 
-    required override init(frame: CGRect) {
+    required override public init(frame: CGRect) {
         super.init(frame: frame)
         sharedSetup()
     }
 
-    required init(coder: NSCoder) {
+    required public init(coder: NSCoder) {
         super.init(coder: coder)
         sharedSetup()
     }

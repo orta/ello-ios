@@ -6,14 +6,14 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import Foundation
+import Ello
 
-class FakeProfileHeaderCellSizeCalculator: ProfileHeaderCellSizeCalculator {
 
-    override func processCells(cellItems:[StreamCellItem], withWidth: CGFloat, completion:ElloEmptyCompletion) {
+public class FakeProfileHeaderCellSizeCalculator: ProfileHeaderCellSizeCalculator {
+
+    override public func processCells(cellItems:[StreamCellItem], withWidth: CGFloat, completion:ElloEmptyCompletion) {
         self.completion = completion
         self.cellItems = cellItems
         completion()
     }
-
 }

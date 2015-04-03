@@ -8,20 +8,20 @@
 
 import Foundation
 
-protocol UserListDelegate: NSObjectProtocol {
+public protocol UserListDelegate: NSObjectProtocol {
     func show(endpoint: ElloAPI, title: String
     )
 }
 
-class UserListController: NSObject, UserListDelegate {
+public class UserListController: NSObject, UserListDelegate {
     var currentUser : User?
     let presentingController: UIViewController
 
-    required init(presentingController: UIViewController) {
+    required public init(presentingController: UIViewController) {
         self.presentingController = presentingController
     }
 
-    func show(endpoint: ElloAPI, title: String) {
+    public func show(endpoint: ElloAPI, title: String) {
         var vc = UserListViewController(endpoint: endpoint, title: title)
         vc.currentUser = currentUser
         vc.willPresentStreamable(vc.scrollLogic.isShowing)

@@ -30,7 +30,7 @@ import MobileCoreServices
 import FLAnimatedImage
 
 @objc
-protocol OmnibarScreenDelegate {
+public protocol OmnibarScreenDelegate {
     func omnibarCancel()
     func omnibarPresentController(controller : UIViewController)
     func omnibarDismissController(controller : UIViewController)
@@ -39,7 +39,7 @@ protocol OmnibarScreenDelegate {
 
 
 @objc
-protocol OmnibarScreenProtocol {
+public protocol OmnibarScreenProtocol {
     var delegate : OmnibarScreenDelegate? { get set }
     var avatarURL : NSURL? { get set }
     var hasParentPost : Bool { get set }
@@ -54,7 +54,7 @@ protocol OmnibarScreenProtocol {
 }
 
 
-class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     struct Size {
         static let margins = CGFloat(10)
         static let textMargins = CGFloat(9)
@@ -70,7 +70,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
 
     // Styles the text and assigns it as an NSAttributedString to
     // `attributedText`
-    var text : String? {
+    public var text : String? {
         set(newValue) {
             if let value = newValue {
                 self.attributedText = ElloAttributedString.style(value)
@@ -86,7 +86,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
 
     // assigns the NSAttributedString to the UITextView and assigns
     // `currentText`
-    var attributedText : NSAttributedString? {
+    public var attributedText : NSAttributedString? {
         set(newValue) {
             userSetCurrentText(newValue)
         }
@@ -95,7 +95,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
         }
     }
 
-    var image : UIImage? {
+    public var image : UIImage? {
         set(newValue) {
             userSetCurrentImage(newValue)
         }
@@ -104,7 +104,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
         }
     }
 
-    var avatarURL : NSURL? {
+    public var avatarURL : NSURL? {
         willSet(newValue) {
             if avatarURL != newValue {
                 if let avatarURL = newValue {
@@ -118,7 +118,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
         }
     }
 
-    var hasParentPost : Bool = false {
+    public var hasParentPost : Bool = false {
         didSet {
             setNeedsLayout()
         }
@@ -126,23 +126,23 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
 
 // MARK: internal and/or private vars
 
-    weak var delegate : OmnibarScreenDelegate?
+    weak public var delegate : OmnibarScreenDelegate?
 
-    let avatarView = FLAnimatedImageView()
-    let cameraButton = UIButton()
+    public let avatarView = FLAnimatedImageView()
+    public let cameraButton = UIButton()
 
-    let imageSelectedButton = UIButton()
+    public let imageSelectedButton = UIButton()
     let imageSelectedOverlay = FLAnimatedImageView()
     let navigationBar = ElloNavigationBar(frame: CGRectZero)
     let cancelButton = UIButton()
     let submitButton = UIButton()
-    let buttonContainer = ElloEquallySpacedLayout()
+    public let buttonContainer = ElloEquallySpacedLayout()
 
-    let sayElloOverlay = UIControl()
+    public let sayElloOverlay = UIControl()
     let sayElloLabel = UILabel()
 
     let textContainer = UIView()
-    let textView = UITextView()
+    public let textView = UITextView()
 
     private var currentText : NSAttributedString?
     private var currentImage : UIImage?
@@ -152,7 +152,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
 
 // MARK: init
 
-    override init(frame: CGRect) {
+    override public init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = UIColor.whiteColor()
 
@@ -165,7 +165,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
         setupViewHierarchy()
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required public init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -272,7 +272,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
         resetUndoState()
     }
 
-    func reportSuccess(title : String) {
+    public func reportSuccess(title : String) {
         let alertController = UIAlertController(title: title, message: "", preferredStyle: .Alert)
 
         let cancelAction = UIAlertAction(title: "OK", style: .Cancel) { (action) in }
@@ -287,12 +287,12 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
         resetEditor()
     }
 
-    func reportError(title : String, error : NSError) {
+    public func reportError(title : String, error : NSError) {
         let errorMessage = error.localizedDescription
         reportError(title, errorMessage: errorMessage)
     }
 
-    func reportError(title : String, errorMessage : String) {
+    public func reportError(title : String, errorMessage : String) {
         let alertController = UIAlertController(title: title, message: errorMessage, preferredStyle: .Alert)
 
         let cancelAction = UIAlertAction(title: "OK", style: .Cancel) { (action) in }
@@ -303,7 +303,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
 
 // MARK: Keyboard events - animate layout update in conjunction with keyboard animation
 
-    func keyboardWillShow() {
+    public func keyboardWillShow() {
         self.setNeedsLayout()
         UIView.animateWithDuration(Keyboard.shared().duration,
             delay: 0.0,
@@ -314,7 +314,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
         completion: nil)
     }
 
-    func keyboardWillHide() {
+    public func keyboardWillHide() {
         self.setNeedsLayout()
         UIView.animateWithDuration(Keyboard.shared().duration,
             delay: 0.0,
@@ -327,7 +327,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
 
 // MARK: Layout and update views
 
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
 
         var screenTop = CGFloat(0)
@@ -401,17 +401,17 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
         self.delegate?.omnibarCancel()
     }
 
-    func startEditingAction() {
+    public func startEditingAction() {
         sayElloOverlay.hidden = true
         textView.becomeFirstResponder()
     }
 
-    func cancelEditingAction() {
+    public func cancelEditingAction() {
         takeUndoSnapshot()
         resetEditor()
     }
 
-    func undoCancelAction() {
+    public func undoCancelAction() {
         currentText = undoText
         textView.attributedText = undoText
         setCurrentImage(undoImage)
@@ -422,7 +422,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
         resetUndoState()
     }
 
-    func submitAction() {
+    public func submitAction() {
         if currentTextIsPresent() || currentImageIsPresent() {
             textView.resignFirstResponder()
             var submittedText : NSAttributedString?
@@ -433,7 +433,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
         }
     }
 
-    func removeButtonAction() {
+    public func removeButtonAction() {
         userSetCurrentImage(nil)
     }
 
@@ -461,7 +461,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
         updateUndoState()
     }
 
-    func canUndo() -> Bool {
+    public func canUndo() -> Bool {
         if currentTextIsPresent() || currentImageIsPresent() {
             return false
         }
@@ -535,7 +535,7 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
 
 // MARK: Camera / Image Picker
 
-    func addImageAction() {
+    public func addImageAction() {
         if UIImagePickerController.isSourceTypeAvailable(.Camera) {
             let alertController = UIAlertController(title: "Choose a photo source", message: "", preferredStyle: .ActionSheet)
 
@@ -584,11 +584,11 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
         delegate?.omnibarPresentController(imageController)
     }
 
-    func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
+    public func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
         UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .None)
     }
 
-    func imagePickerController(controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+    public func imagePickerController(controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             let oriented = image.copyWithCorrectOrientation()
             userSetCurrentImage(oriented)
@@ -596,17 +596,17 @@ class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavig
         delegate?.omnibarDismissController(controller)
     }
 
-    func imagePickerControllerDidCancel(controller: UIImagePickerController) {
+    public func imagePickerControllerDidCancel(controller: UIImagePickerController) {
         delegate?.omnibarDismissController(controller)
     }
 
 // MARK: Text View editing
 
-    func textViewShouldBeginEditing(textView : UITextView) -> Bool {
+    public func textViewShouldBeginEditing(textView : UITextView) -> Bool {
         return true
     }
 
-    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText: String) -> Bool {
+    public func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText: String) -> Bool {
         let newText = NSString(string: textView.text).stringByReplacingCharactersInRange(range, withString: replacementText)
         self.currentText = ElloAttributedString.style(newText)
 

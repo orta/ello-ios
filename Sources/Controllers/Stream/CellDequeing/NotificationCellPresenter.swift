@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct NotificationCellPresenter {
+public struct NotificationCellPresenter {
 
     static func configure(
         cell:UICollectionViewCell,

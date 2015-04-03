@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Ello
 import Quick
 import Nimble
 
@@ -23,9 +24,11 @@ class UIImageSpecs: QuickSpec {
             it("returns an image") {
                 expect(oriented).to(beAKindOf(UIImage.self))
             }
+
             it("with the correct size") {
                 expect(oriented.size).to(equal(image.size))
             }
+
             it("with the correct scale") {
                 expect(oriented.scale).to(equal(image.scale))
             }

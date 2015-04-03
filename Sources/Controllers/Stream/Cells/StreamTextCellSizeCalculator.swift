@@ -8,27 +8,27 @@
 
 import Foundation
 
-class StreamTextCellSizeCalculator: NSObject, UIWebViewDelegate {
-    typealias StreamTextCellSizeCalculated = () -> ()
+public class StreamTextCellSizeCalculator: NSObject, UIWebViewDelegate {
+    public typealias StreamTextCellSizeCalculated = () -> ()
 
     let webView: UIWebView
     var maxWidth: CGFloat
-    var cellItems: [StreamCellItem] = []
-    var completion: StreamTextCellSizeCalculated = {}
+    public var cellItems: [StreamCellItem] = []
+    public var completion: StreamTextCellSizeCalculated = {}
 
     let srcRegex:NSRegularExpression  = NSRegularExpression(
         pattern: "src=[\"']([^\"']*)[\"']",
         options: NSRegularExpressionOptions.CaseInsensitive,
         error: nil)!
 
-    init(webView:UIWebView) {
+    public init(webView:UIWebView) {
         self.webView = webView
         self.maxWidth = 0
         super.init()
         self.webView.delegate = self
     }
 
-    func processCells(cellItems:[StreamCellItem], withWidth width: CGFloat, completion:StreamTextCellSizeCalculated) {
+    public func processCells(cellItems:[StreamCellItem], withWidth width: CGFloat, completion:StreamTextCellSizeCalculated) {
         self.completion = completion
         self.cellItems = cellItems
         self.maxWidth = width
@@ -63,7 +63,7 @@ class StreamTextCellSizeCalculator: NSObject, UIWebViewDelegate {
         }
     }
 
-    func webViewDidFinishLoad(webView: UIWebView) {
+    public func webViewDidFinishLoad(webView: UIWebView) {
         var cellItem = self.cellItems.removeAtIndex(0)
         if let textHeight = self.webView.windowContentSize()?.height {
             cellItem.multiColumnCellHeight = textHeight

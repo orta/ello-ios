@@ -8,23 +8,23 @@
 
 import Foundation
 
-class BlockUserModalViewController: BaseElloViewController {
+public class BlockUserModalViewController: BaseElloViewController {
 
-    weak var relationshipDelegate: RelationshipDelegate?
+    weak public var relationshipDelegate: RelationshipDelegate?
     // base
-    @IBOutlet weak var backgroundButton: UIButton!
-    @IBOutlet weak var modalView: UIView!
-    @IBOutlet weak var closeButton: UIButton!
+    @IBOutlet weak public var backgroundButton: UIButton!
+    @IBOutlet weak public var modalView: UIView!
+    @IBOutlet weak public var closeButton: UIButton!
 
-    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak public var titleLabel: UILabel!
 
-    @IBOutlet weak var muteButton: WhiteElloButton?
-    @IBOutlet weak var muteLabel: UILabel!
+    @IBOutlet weak public var muteButton: WhiteElloButton?
+    @IBOutlet weak public var muteLabel: UILabel!
 
-    @IBOutlet weak var blockButton: WhiteElloButton?
-    @IBOutlet weak var blockLabel: UILabel!
+    @IBOutlet weak public var blockButton: WhiteElloButton?
+    @IBOutlet weak public var blockLabel: UILabel!
                     
-    var relationship: Relationship {
+    public var relationship: Relationship {
         didSet { selectButton(relationship) }
     }
 
@@ -33,7 +33,7 @@ class BlockUserModalViewController: BaseElloViewController {
 
     let changeClosure: RelationshipChangeClosure
 
-    var titleText: String {
+    public var titleText: String {
         switch relationship {
         case .Mute: return "Would you like to \runmute or block \(userAtName)?"
         case .Block: return "Would you like to \rmute or unblock \(userAtName)?"
@@ -41,15 +41,15 @@ class BlockUserModalViewController: BaseElloViewController {
         }
     }
 
-    var muteText: String {
+    public var muteText: String {
         return "\(userAtName) will not be able to comment on your posts. If \(userAtName) mentions you, you will not be notified."
     }
 
-    var blockText: String {
+    public var blockText: String {
         return "\(userAtName) will not be able to follow you or view your profile, posts or find you in search."
     }
 
-    required init(userId: String, userAtName: String, relationship: Relationship, changeClosure: RelationshipChangeClosure) {
+    required public init(userId: String, userAtName: String, relationship: Relationship, changeClosure: RelationshipChangeClosure) {
         self.userId = userId
         self.userAtName = userAtName
         self.relationship = relationship
@@ -59,11 +59,11 @@ class BlockUserModalViewController: BaseElloViewController {
         self.modalTransitionStyle = .CrossDissolve
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required public init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         styleView()
         setText()

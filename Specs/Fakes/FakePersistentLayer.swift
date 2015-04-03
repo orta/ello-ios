@@ -6,18 +6,19 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import Foundation
+import Ello
 
-class FakePersistentLayer: PersistentLayer {
+
+public class FakePersistentLayer: PersistentLayer {
     var object: [String]?
 
     init() { }
 
-    func setObject(value: AnyObject?, forKey: String) {
+    public func setObject(value: AnyObject?, forKey: String) {
         object = value as? [String]
     }
 
-    func objectForKey(defaultName: String) -> AnyObject? {
+    public func objectForKey(defaultName: String) -> AnyObject? {
         return object ?? []
     }
 }

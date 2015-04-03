@@ -9,7 +9,7 @@
 import Foundation
 
 
-enum Notifications : String {
+public enum Notifications : String {
     case UserLoggedOut = "UserElloLoggedOutNotification"
     case SystemLoggedOut = "ElloSystemLoggedOutNotification"
 }

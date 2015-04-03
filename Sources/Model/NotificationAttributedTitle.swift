@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-struct NotificationAttributedTitle {
+public struct NotificationAttributedTitle {
 
     static func attrs(_ addlAttrs : [String : AnyObject] = [:]) -> [NSObject : AnyObject] {
         let attrs : [String : AnyObject] = [

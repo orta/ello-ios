@@ -8,7 +8,7 @@
 
 import UIKit
 
-class StreamToggleCell: UICollectionViewCell {
+public class StreamToggleCell: UICollectionViewCell {
 
     let closedMessage = "NSFW: Tap to View."
     let openedMessage = "NSFW: Tap to Hide."

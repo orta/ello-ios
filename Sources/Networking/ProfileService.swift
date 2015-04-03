@@ -12,12 +12,14 @@ import UIKit
 import Moya
 import SwiftyJSON
 
-typealias ProfileFollowingSuccessCompletion = (users: [User], responseConfig: ResponseConfig) -> ()
+public typealias ProfileFollowingSuccessCompletion = (users: [User], responseConfig: ResponseConfig) -> ()
 
-struct ProfileService {
+public struct ProfileService {
 
-    func loadCurrentUser(success: ProfileSuccessCompletion, failure: ElloFailureCompletion?) {
-        ElloProvider.sharedProvider.elloRequest(ElloAPI.Profile,
+    public init(){}
+    
+    public func loadCurrentUser(success: ProfileSuccessCompletion, failure: ElloFailureCompletion?) {
+        ElloProvider.elloRequest(ElloAPI.Profile,
             method: .GET,
             success: { (data, responseConfig) in
                 if let user = data as? User {
@@ -31,8 +33,8 @@ struct ProfileService {
         )
     }
 
-    func loadCurrentUserFollowing(forRelationship relationship: Relationship, success: ProfileFollowingSuccessCompletion, failure: ElloFailureCompletion?) {
-        ElloProvider.sharedProvider.elloRequest(ElloAPI.ProfileFollowing(priority: relationship.rawValue),
+    public func loadCurrentUserFollowing(forRelationship relationship: Relationship, success: ProfileFollowingSuccessCompletion, failure: ElloFailureCompletion?) {
+        ElloProvider.elloRequest(ElloAPI.ProfileFollowing(priority: relationship.rawValue),
             method: .GET,
             success: { data, responseConfig in
                 if let users = data as? [User] {

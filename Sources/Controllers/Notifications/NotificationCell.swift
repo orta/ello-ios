@@ -10,13 +10,13 @@ import UIKit
 import FLAnimatedImage
 
 @objc
-protocol NotificationDelegate {
+public protocol NotificationDelegate {
     func userTapped(user: User)
     func commentTapped(comment: Comment)
     func postTapped(post: Post)
 }
 
-class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
+public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
 
     struct Size {
         static let sideMargins = CGFloat(15)
@@ -140,7 +140,7 @@ class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
         }
     }
 
-    required init(coder: NSCoder) {
+    required public init(coder: NSCoder) {
         super.init(coder: coder)
     }
 
@@ -148,7 +148,7 @@ class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
         webContentReady = handler
     }
 
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
 
         let outerFrame = self.contentView.bounds.inset(all: Size.sideMargins)
@@ -188,16 +188,16 @@ class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
         }
     }
 
-    override func prepareForReuse() {
+    override public func prepareForReuse() {
         super.prepareForReuse()
         messageWebView.stopLoading()
     }
 
-    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+    public func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         return ElloWebViewHelper.handleRequest(request, webLinkDelegate: webLinkDelegate)
     }
 
-    func webViewDidFinishLoad(webView: UIWebView) {
+    public func webViewDidFinishLoad(webView: UIWebView) {
         webView.stringByEvaluatingJavaScriptFromString("document.documentElement.style.webkitUserSelect='none';")
         webView.stringByEvaluatingJavaScriptFromString("document.documentElement.style.webkitTouchCallout='none';")
         UIView.animateWithDuration(0.15, animations: {

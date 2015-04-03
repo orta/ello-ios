@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension NSFileManager {
+public extension NSFileManager {
 
     class func ElloDocumentsDir() -> String {
         return NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as! String

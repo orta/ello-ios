@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct StreamTextCellPresenter {
+public struct StreamTextCellPresenter {
     static let commentMargin = CGFloat(58)
 
     static func configure(

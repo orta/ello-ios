@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Ello
 import Quick
 import Nimble
 
@@ -23,10 +24,12 @@ class ElloEquallySpacedLayoutSpec: QuickSpec {
             it("can be created") {
                 expect(ElloEquallySpacedLayout()).notTo(beNil())
             }
+
             it("is a UIView") {
                 expect(ElloEquallySpacedLayout()).to(beAKindOf(UIView))
             }
         }
+
         describe("Can contain views") {
 
             beforeEach() {
@@ -40,6 +43,7 @@ class ElloEquallySpacedLayoutSpec: QuickSpec {
                 }
                 subject.layoutIfNeeded()
             }
+            
             describe("-layoutSubviews") {
                 describe("should layout view1") {
                     beforeEach() {

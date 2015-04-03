@@ -10,19 +10,19 @@ import Foundation
 
 let ImageAttachmentVersion = 1
 
-final class ImageAttachment: NSObject, NSCoding {
+public final class ImageAttachment: NSObject, NSCoding {
 
-    let version: Int = ImageAttachmentVersion
+    public let version: Int = ImageAttachmentVersion
 
-    let url: NSURL?
-    let height: Int?
-    let width: Int?
-    let imageType: String?
-    let size: Int?
+    public let url: NSURL?
+    public let height: Int?
+    public let width: Int?
+    public let imageType: String?
+    public let size: Int?
 
 // MARK: Initialization
 
-    init(url: NSURL?,
+    public init(url: NSURL?,
         height: Int?,
         width: Int?,
         imageType: String?,
@@ -36,7 +36,7 @@ final class ImageAttachment: NSObject, NSCoding {
 
 // MARK: NSCoding
 
-    func encodeWithCoder(encoder: NSCoder) {
+    public func encodeWithCoder(encoder: NSCoder) {
         if let url = self.url {
             encoder.encodeObject(url, forKey: "url")
         }
@@ -58,7 +58,7 @@ final class ImageAttachment: NSObject, NSCoding {
         }
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required public init(coder aDecoder: NSCoder) {
         let decoder = Decoder(aDecoder)
         self.url = decoder.decodeOptionalKey("url")
         self.height = decoder.decodeOptionalKey("height")

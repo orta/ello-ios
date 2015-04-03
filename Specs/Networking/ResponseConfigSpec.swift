@@ -1,5 +1,7 @@
+import Ello
 import Quick
 import Nimble
+
 
 class ResponseConfigSpec: QuickSpec {
     override func spec() {

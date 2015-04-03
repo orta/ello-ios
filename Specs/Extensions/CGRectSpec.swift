@@ -6,9 +6,10 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-
+import Ello
 import Quick
 import Nimble
+
 
 class CGRectExtensionSpec: QuickSpec {
     override func spec() {
@@ -17,20 +18,9 @@ class CGRectExtensionSpec: QuickSpec {
             it("should return raw values") {
                 expect(badFrame.x).to(equal(CGFloat(4)))
                 expect(badFrame.y).to(equal(CGFloat(2)))
-                expect(badFrame.width).to(equal(CGFloat(-4)))
-                expect(badFrame.height).to(equal(CGFloat(-2)))
-            }
-            it("should return normalized values") {
-                expect(badFrame.minX).to(equal(CGFloat(0)))
-                expect(badFrame.midX).to(equal(CGFloat(2)))
-                expect(badFrame.maxX).to(equal(CGFloat(4)))
-                expect(badFrame.minY).to(equal(CGFloat(0)))
-                expect(badFrame.midY).to(equal(CGFloat(1)))
-                expect(badFrame.maxY).to(equal(CGFloat(2)))
-                expect(badFrame.absWidth).to(equal(CGFloat(4)))
-                expect(badFrame.absHeight).to(equal(CGFloat(2)))
             }
         }
+
         describe("factories") {
             describe("CGRect.make") {
                 let newFrame = CGRect.make(x: 1, y: 2, right: 4, bottom: 6)

@@ -10,30 +10,30 @@ import Foundation
 
 let UnknownRegionVersion = 1
 
-final class UnknownRegion: NSObject, Regionable, NSCoding {
+public final class UnknownRegion: NSObject, Regionable, NSCoding {
 
-    let version: Int = UnknownRegionVersion
+    public let version: Int = UnknownRegionVersion
 
-    var kind:String { return RegionKind.Unknown.rawValue }
+    public var kind:String { return RegionKind.Unknown.rawValue }
 
-    func coding() -> NSCoding {
+    public func coding() -> NSCoding {
         return self
     }
 
     // no-op initializer to allow stubbing
-    init(name: String) {}
+    public init(name: String) {}
 
 
 // MARK: NSCoding
 
-    func encodeWithCoder(encoder: NSCoder) {
+    public func encodeWithCoder(encoder: NSCoder) {
     }
 
-    required init(coder decoder: NSCoder) {
+    required public init(coder decoder: NSCoder) {
 
     }
 
-    func toJSON() -> [String: AnyObject] {
+    public func toJSON() -> [String: AnyObject] {
         return [:]
     }
 }

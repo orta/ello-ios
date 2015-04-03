@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-struct Decoder {
+public struct Decoder {
     let decoder: NSCoder
 
     init(_ decoder: NSCoder) {

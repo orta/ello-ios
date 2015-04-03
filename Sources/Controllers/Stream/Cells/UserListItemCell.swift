@@ -8,7 +8,7 @@
 
 import Foundation
 
-class UserListItemCell: UICollectionViewCell {
+public class UserListItemCell: UICollectionViewCell {
 
     @IBOutlet weak var avatarButton: AvatarButton!
     @IBOutlet weak var usernameLabel: UILabel!
@@ -17,7 +17,7 @@ class UserListItemCell: UICollectionViewCell {
     var currentUser: User?
     var bottomBorder = CALayer()
 
-    override func awakeFromNib() {
+    override public func awakeFromNib() {
         super.awakeFromNib()
         style()
     }
@@ -34,7 +34,7 @@ class UserListItemCell: UICollectionViewCell {
         self.layer.addSublayer(bottomBorder)
     }
 
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         bottomBorder.frame = CGRect(x: 0, y: self.bounds.height - 1, width: self.bounds.width, height: 1)
         super.layoutSubviews()
     }

@@ -8,24 +8,24 @@
 
 import UIKit
 
-struct AddFriendsCellItem {
-    let cellType: CellType
-    let user: User?
-    let person: LocalPerson?
+public struct AddFriendsCellItem {
+    public let cellType: CellType
+    public let user: User?
+    public let person: LocalPerson?
 
-    init(user: User) {
+    public init(user: User) {
         cellType = .Find
         self.user = user
         self.person = nil
     }
 
-    init(person: LocalPerson) {
+    public init(person: LocalPerson) {
         cellType = .Invite
         self.person = person
         self.user = nil
     }
 
-    init(person: LocalPerson, user: User?) {
+    public init(person: LocalPerson, user: User?) {
         if let user = user {
             cellType = .FindContact
             self.person = person
@@ -35,12 +35,12 @@ struct AddFriendsCellItem {
         }
     }
 
-    enum CellType {
+    public enum CellType {
         case Find
         case Invite
         case FindContact
 
-        var identifier: String {
+        public var identifier: String {
             switch self {
             case Find: return "FindFriendsCell"
             case Invite: return "InviteFriendsCell"
@@ -50,9 +50,9 @@ struct AddFriendsCellItem {
     }
 }
 
-class AddFriendsDataSource: NSObject, UITableViewDataSource {
+public class AddFriendsDataSource: NSObject, UITableViewDataSource {
 
-    var items = [AddFriendsCellItem]()
+    public var items = [AddFriendsCellItem]()
     var relationshipDelegate: RelationshipDelegate?
     var inviteCache = InviteCache()
 
@@ -69,11 +69,11 @@ class AddFriendsDataSource: NSObject, UITableViewDataSource {
 
     // MARK: UITableViewDataSource
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return count(items)
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if let item: AddFriendsCellItem = itemAtIndexPath(indexPath) {
             var cell = tableView.dequeueReusableCellWithIdentifier(item.cellType.identifier, forIndexPath: indexPath) as! UITableViewCell
             AddFriendsCellPresenter.configure(cell, addFriendsCellItem: item, relationshipDelegate: relationshipDelegate, inviteCache: inviteCache)

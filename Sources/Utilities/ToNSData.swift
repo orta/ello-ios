@@ -6,27 +6,27 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-protocol ToNSData {
+public protocol ToNSData {
     func toNSData() -> NSData?
 }
 
 
 extension NSData : ToNSData {
-    func toNSData() -> NSData? {
+    public func toNSData() -> NSData? {
         return self
     }
 }
 
 
 extension String : ToNSData {
-    func toNSData() -> NSData? {
+    public func toNSData() -> NSData? {
         return self.dataUsingEncoding(NSUTF8StringEncoding)
     }
 }
 
 
 extension UIImage : ToNSData {
-    func toNSData() -> NSData? {
+    public func toNSData() -> NSData? {
         return UIImagePNGRepresentation(self)
     }
 }

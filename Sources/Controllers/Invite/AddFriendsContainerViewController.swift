@@ -8,26 +8,26 @@
 
 import UIKit
 
-class AddFriendsContainerViewController: StreamableViewController {
+public class AddFriendsContainerViewController: StreamableViewController {
 
     enum FindOption {
         case Find
         case Invite
     }
 
-    @IBOutlet weak var pageView: UIView!
-    @IBOutlet weak var findButton: FindInviteButton!
-    @IBOutlet weak var inviteButton: FindInviteButton!
-    @IBOutlet weak var navigationBar: UINavigationBar!
-    @IBOutlet weak var navigationBarTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak public var pageView: UIView!
+    @IBOutlet weak public var findButton: FindInviteButton!
+    @IBOutlet weak public var inviteButton: FindInviteButton!
+    @IBOutlet weak public var navigationBar: UINavigationBar!
+    @IBOutlet weak public var navigationBarTopConstraint: NSLayoutConstraint!
 
-    let pageViewController: UIPageViewController
-    let findFriendsViewController: FindFriendsViewController
-    let inviteFriendsViewController: InviteFriendsViewController
+    public let pageViewController: UIPageViewController
+    public let findFriendsViewController: FindFriendsViewController
+    public let inviteFriendsViewController: InviteFriendsViewController
     let controllers: [UIViewController]
     let addressBook: ContactList
 
-    required init(addressBook: ContactList) {
+    required public init(addressBook: ContactList) {
         self.pageViewController = UIPageViewController(transitionStyle: .Scroll, navigationOrientation: .Horizontal, options: nil)
         self.findFriendsViewController = FindFriendsViewController()
         self.inviteFriendsViewController = InviteFriendsViewController()
@@ -37,18 +37,18 @@ class AddFriendsContainerViewController: StreamableViewController {
         self.title = "Add Friends"
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required public init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         setupNavBar()
         setupPageViewController()
         setupButtons()
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override public func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         findFriendsFromContacts()
     }
@@ -157,7 +157,7 @@ class AddFriendsContainerViewController: StreamableViewController {
 // MARK: AddFriendsContainerViewController : UIPageViewControllerDelegate
 extension AddFriendsContainerViewController: UIPageViewControllerDelegate {
 
-    func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [AnyObject], transitionCompleted completed: Bool) {
+    public func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [AnyObject], transitionCompleted completed: Bool) {
         if completed {
             let viewController = previousViewControllers.first as? UIViewController
 
@@ -174,7 +174,7 @@ extension AddFriendsContainerViewController: UIPageViewControllerDelegate {
 // MARK: AddFriendsContainerViewController : UIPageViewControllerDataSource
 extension AddFriendsContainerViewController: UIPageViewControllerDataSource {
 
-    func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
+    public func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
 
         if (viewController as? InviteFriendsViewController != nil) {
             return findFriendsViewController
@@ -182,7 +182,7 @@ extension AddFriendsContainerViewController: UIPageViewControllerDataSource {
         return nil
     }
 
-    func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
+    public func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
 
         if (viewController as? FindFriendsViewController != nil) {
             return inviteFriendsViewController

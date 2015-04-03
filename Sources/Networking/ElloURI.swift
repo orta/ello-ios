@@ -9,7 +9,7 @@
 import Foundation
 import Keys
 
-enum ElloURI {
+public enum ElloURI {
     case Post
     case Profile
     case External
@@ -17,7 +17,7 @@ enum ElloURI {
     // get the proper domain
     static let httpProtocol: String = "https://"
     private static var _domain: String?
-    static var domain: String {
+    public static var domain: String {
         get {
         return ElloURI._domain ?? ElloKeys().domain()
         }
@@ -27,7 +27,7 @@ enum ElloURI {
             }
         }
     }
-    static var baseURL: String { return "\(ElloURI.httpProtocol)\(ElloURI.domain)" }
+    public static var baseURL: String { return "\(ElloURI.httpProtocol)\(ElloURI.domain)" }
 
     // this is taken directly from app/models/user.rb
     static let usernameRegex = "[\\w\\-]+"
@@ -35,7 +35,7 @@ enum ElloURI {
 
 
 
-    static func match(url: String) -> (type: ElloURI, data: String) {
+    public static func match(url: String) -> (type: ElloURI, data: String) {
         for type in self.all {
             if let match = url.rangeOfString(type.regexPattern, options: .RegularExpressionSearch) {
                 return (type, type.data(url))

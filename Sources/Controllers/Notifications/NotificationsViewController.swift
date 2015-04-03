@@ -11,10 +11,10 @@ import UIKit
 import WebKit
 
 
-class NotificationsViewController: StreamableViewController, NotificationDelegate, NotificationsScreenDelegate {
+public class NotificationsViewController: StreamableViewController, NotificationDelegate, NotificationsScreenDelegate {
     var streamViewController: StreamViewController!
 
-    override func loadView() {
+    override public func loadView() {
         self.view = NotificationsScreen(frame: UIScreen.mainScreen().bounds)
     }
 
@@ -22,7 +22,7 @@ class NotificationsViewController: StreamableViewController, NotificationDelegat
         return self.view as! NotificationsScreen
     }
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
 
         self.screen.delegate = self
@@ -32,18 +32,18 @@ class NotificationsViewController: StreamableViewController, NotificationDelegat
         scrollLogic.navBarHeight = 44
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBarHidden = true
     }
 
-    override func showNavBars(scrollToBottom: Bool) {
+    override public func showNavBars(scrollToBottom: Bool) {
         super.showNavBars(scrollToBottom)
         self.screen.showFilterBar()
         self.screen.layoutIfNeeded()
     }
 
-    override func hideNavBars() {
+    override public func hideNavBars() {
         super.hideNavBars()
         self.screen.hideFilterBar()
         self.screen.layoutIfNeeded()
@@ -66,7 +66,7 @@ class NotificationsViewController: StreamableViewController, NotificationDelegat
         streamViewController.loadInitialPage()
     }
 
-    func activatedFilter(filterTypeStr: String) {
+    public func activatedFilter(filterTypeStr: String) {
         let filterType = NotificationFilterType(rawValue: filterTypeStr)!
         var notificationKinds: [Activity.Kind]?
 
@@ -96,12 +96,12 @@ class NotificationsViewController: StreamableViewController, NotificationDelegat
         }
     }
 
-    func commentTapped(comment: Comment) {}
+    public func commentTapped(comment: Comment) {}
 
     // the presence of this variable is being hijacked to determine if a post
     // was tapped, and is being displayed
     var sizer: StreamTextCellSizeCalculator?
-    func postTapped(post: Post) {
+    public func postTapped(post: Post) {
         if let sizer = sizer {
             return
         }

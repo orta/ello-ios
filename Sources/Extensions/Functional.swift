@@ -6,10 +6,10 @@
 
 import Foundation
 
-struct Functional {
-    typealias BasicBlock = (()->())
-    typealias CancellableBlock = Bool -> ()
-    typealias TakesIndexBlock = ((Int)->())
+public struct Functional {
+    public typealias BasicBlock = (()->())
+    public typealias CancellableBlock = Bool -> ()
+    public typealias TakesIndexBlock = ((Int)->())
 
     class Proc {
         var block : BasicBlock
@@ -25,13 +25,13 @@ struct Functional {
     }
 
     // Simple wrapper for `for i = 0 ; i < times ; ++i`.  Ignores the index.
-    static func times(times: Int, block : BasicBlock) {
+    public static func times(times: Int, block : BasicBlock) {
         self.times(times, block: { (index : Int) in block() })
     }
 
     // Simple wrapper for `for i = 0 ; i < times ; ++i`.  Passes the index to
     // the block.
-    static func times(times: Int, block : TakesIndexBlock) {
+    public static func times(times: Int, block : TakesIndexBlock) {
         if times <= 0 {
             return
         }
@@ -43,7 +43,7 @@ struct Functional {
     // This is used when you have multiple callbacks, and you need an "all done" block
     // called when *all* the callbacks have been executed.  Similar in concept to GCD
     // groups.
-    static func after(times : Int, block : BasicBlock) -> BasicBlock {
+    public static func after(times : Int, block : BasicBlock) -> BasicBlock {
         if times == 0 {
             block()
             return {}
@@ -61,7 +61,7 @@ struct Functional {
     // The block will be called many times - the simplest case is `until(1)` aka
     // `once`, which is only called one time.  After that, calling the block has
     // no effect.
-    static func until(times : Int, block : BasicBlock) -> BasicBlock {
+    public static func until(times : Int, block : BasicBlock) -> BasicBlock {
         if times == 0 {
             return {}
         }
@@ -76,13 +76,13 @@ struct Functional {
     }
 
     // Using `until(1)`, this is a simple way to make sure a block is only called one time
-    static func once(block : BasicBlock) -> BasicBlock {
+    public static func once(block : BasicBlock) -> BasicBlock {
         return until(1, block: block)
     }
 
     // This block can be called multiple times, but it's guaranteed to be called
     // after the timeout duration
-    static func timeout(duration: NSTimeInterval, block: BasicBlock) -> BasicBlock {
+    public static func timeout(duration: NSTimeInterval, block: BasicBlock) -> BasicBlock {
         let handler = once(block)
         _ = delay(duration) {
             handler()
@@ -90,7 +90,7 @@ struct Functional {
         return handler
     }
 
-    static func delay(duration: NSTimeInterval, block: BasicBlock) {
+    public static func delay(duration: NSTimeInterval, block: BasicBlock) {
         let proc = Proc(block: block)
         let timer = NSTimer.scheduledTimerWithTimeInterval(duration, target: proc, selector: "run", userInfo: nil, repeats: false)
     }
@@ -107,7 +107,7 @@ struct Functional {
     // the timeout has been reached, the block is called.  Useful for things
     // like updating the UI after the user has "stopped typing" (ie hasn't hit a
     // key for 1/2 a sec or so)
-    static func debounce(timeout: NSTimeInterval, block: BasicBlock) -> BasicBlock {
+    public static func debounce(timeout: NSTimeInterval, block: BasicBlock) -> BasicBlock {
         var timer : NSTimer? = nil
         let proc = Proc() {
             block()

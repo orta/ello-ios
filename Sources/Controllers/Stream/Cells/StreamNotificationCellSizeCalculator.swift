@@ -9,28 +9,28 @@
 
 private let textViewForSizing = ElloTextView(frame: CGRectZero, textContainer: nil)
 
-class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
+public class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
 
-    typealias StreamTextCellSizeCalculated = () -> ()
+    public typealias StreamTextCellSizeCalculated = () -> ()
 
     let webView:UIWebView
     var originalWidth:CGFloat
-    var cellItems:[StreamCellItem] = []
-    var completion:StreamTextCellSizeCalculated = {}
+    public var cellItems:[StreamCellItem] = []
+    public var completion:StreamTextCellSizeCalculated = {}
 
     let srcRegex:NSRegularExpression  = NSRegularExpression(
         pattern: "src=[\"']([^\"']*)[\"']",
         options: NSRegularExpressionOptions.CaseInsensitive,
         error: nil)!
 
-    init(webView:UIWebView) {
+    public init(webView:UIWebView) {
         self.webView = webView
         originalWidth = self.webView.frame.size.width
         super.init()
         self.webView.delegate = self
     }
 
-    func processCells(cellItems:[StreamCellItem], withWidth width: CGFloat, completion:StreamTextCellSizeCalculated) {
+    public func processCells(cellItems:[StreamCellItem], withWidth width: CGFloat, completion:StreamTextCellSizeCalculated) {
         self.completion = completion
         self.cellItems = cellItems
         self.originalWidth = width
@@ -60,7 +60,7 @@ class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
         }
     }
 
-    func webViewDidFinishLoad(webView: UIWebView) {
+    public func webViewDidFinishLoad(webView: UIWebView) {
         if let webContentHeight = self.webView.windowContentSize()?.height {
             assignCellHeight(webContentHeight)
         }

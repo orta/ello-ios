@@ -8,10 +8,10 @@
 
 import UIKit
 
-typealias FromJSONClosure = (data: [String: AnyObject]) -> JSONAble
+public typealias FromJSONClosure = (data: [String: AnyObject]) -> JSONAble
 
-class JSONAble: NSObject {
-    class func fromJSON(data:[String: AnyObject]) -> JSONAble {
+public class JSONAble: NSObject {
+    public class func fromJSON(data:[String: AnyObject]) -> JSONAble {
         return JSONAble()
     }
 }

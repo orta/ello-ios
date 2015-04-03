@@ -10,17 +10,18 @@ import UIKit
 import Moya
 import SwiftyJSON
 
-typealias ContentFlaggingSuccessCompletion = () -> ()
 
+public typealias ContentFlaggingSuccessCompletion = () -> ()
 
-struct ContentFlaggingService {
+public struct ContentFlaggingService {
 
-    func flagContent(endpoint: ElloAPI, success: ContentFlaggingSuccessCompletion, failure: ElloFailureCompletion?) {
-        ElloProvider.sharedProvider.elloRequest(endpoint,
+    public init(){}
+    
+    public func flagContent(endpoint: ElloAPI, success: ContentFlaggingSuccessCompletion, failure: ElloFailureCompletion?) {
+        ElloProvider.elloRequest(endpoint,
             method: .POST,
             success: { data in
                 success()
         }, failure: failure)
     }
-
 }

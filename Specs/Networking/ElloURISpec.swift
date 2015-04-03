@@ -6,9 +6,11 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Ello
 import Quick
 import Nimble
 import Moya
+
 
 class ElloURISpec: QuickSpec {
     override func spec() {
@@ -121,11 +123,8 @@ class ElloURISpec: QuickSpec {
                     let (type, data) = ElloURI.match("https://www.vimeo.com/anything/")
                     expect(type).to(equal(ElloURI.External))
                     expect(data).to(equal("https://www.vimeo.com/anything/"))
-                }
-                
+                }                
             }
-            
         }
-
     }
 }

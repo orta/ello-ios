@@ -7,12 +7,12 @@
 //
 
 @objc
-protocol NotificationsScreenDelegate {
+public protocol NotificationsScreenDelegate {
     func activatedFilter(filter : String)
 }
 
 
-class NotificationsScreen : UIView {
+public class NotificationsScreen : UIView {
     private class func filterButton() -> UIButton {
         let button = UIButton()
         button.titleLabel!.font = UIFont.typewriterFont(12)
@@ -40,7 +40,7 @@ class NotificationsScreen : UIView {
     var filterBarVisible : Bool
     let streamContainer : UIView
 
-    override init(frame: CGRect) {
+    override public init(frame: CGRect) {
         filterBar = NotificationsFilterBar()
         filterBarVisible = true
 
@@ -72,7 +72,7 @@ class NotificationsScreen : UIView {
         self.addSubview(streamContainer)
     }
 
-    required init(coder: NSCoder) {
+    required public init(coder: NSCoder) {
         filterBar = NotificationsFilterBar()
         filterBarVisible = true
         streamContainer = UIView()
@@ -89,7 +89,7 @@ class NotificationsScreen : UIView {
         self.setNeedsLayout()
     }
 
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
 
         filterBar.frame = self.bounds.withHeight(NotificationsFilterBar.Size.height)

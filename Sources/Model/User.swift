@@ -13,32 +13,32 @@ import SwiftyJSON
 
 let UserVersion = 1
 
-final class User: JSONAble, NSCoding {
+public final class User: JSONAble, NSCoding {
 
-    let version: Int = UserVersion
+    public let version: Int = UserVersion
 
-    var atName : String { return "@\(username)"}
-    let avatarURL: NSURL?
-    let coverImageURL: NSURL?
-    let experimentalFeatures: Bool
-    let followersCount: Int?
-    let followingCount: Int?
-    let href: String
-    let name: String
-    let formattedShortBio: String
-    let externalLinks: String
-    var posts: [Post]
-    let postsCount: Int?
-    let relationshipPriority: Relationship
-    let userId: String
-    let username: String
-    let email: String?
-    let mostRecentPost: Post?
-    let identifiableBy: String?
+    public var atName : String { return "@\(username)"}
+    public let avatarURL: NSURL?
+    public let coverImageURL: NSURL?
+    public let experimentalFeatures: Bool
+    public let followersCount: Int?
+    public let followingCount: Int?
+    public let href: String
+    public let name: String
+    public let formattedShortBio: String
+    public let externalLinks: String
+    public var posts: [Post]
+    public let postsCount: Int?
+    public let relationshipPriority: Relationship
+    public let userId: String
+    public let username: String
+    public let email: String?
+    public let mostRecentPost: Post?
+    public let identifiableBy: String?
 
-    var isCurrentUser : Bool
+    public var isCurrentUser : Bool
 
-    init(avatarURL: NSURL?,
+    public init(avatarURL: NSURL?,
         coverImageURL: NSURL?,
         experimentalFeatures: Bool,
         followersCount: Int?,
@@ -79,7 +79,7 @@ final class User: JSONAble, NSCoding {
 
 // MARK: NSCoding
 
-    required init(coder aDecoder: NSCoder) {
+    required public init(coder aDecoder: NSCoder) {
         let decoder = Decoder(aDecoder)
         self.avatarURL = decoder.decodeOptionalKey("avatarURL")
         self.coverImageURL = decoder.decodeOptionalKey("coverImageURL")
@@ -104,7 +104,7 @@ final class User: JSONAble, NSCoding {
         self.externalLinks = decoder.decodeKey("externalLinks")
     }
 
-    func encodeWithCoder(encoder: NSCoder) {
+    public func encodeWithCoder(encoder: NSCoder) {
 
         encoder.encodeObject(self.avatarURL, forKey: "avatarURL")
         encoder.encodeObject(self.coverImageURL, forKey: "coverImageURL")
@@ -136,7 +136,7 @@ final class User: JSONAble, NSCoding {
     
 // MARK: JSONAble
 
-    override class func fromJSON(data:[String: AnyObject]) -> JSONAble {
+    override public class func fromJSON(data:[String: AnyObject]) -> JSONAble {
         let json = JSON(data)
         let name = json["name"].stringValue
         let userId = json["id"].stringValue
@@ -214,7 +214,7 @@ final class User: JSONAble, NSCoding {
         return user
     }
 
-    class func fakeCurrentUser(username: String, avatarURL optlUrl : NSURL? = nil) -> User {
+    public class func fakeCurrentUser(username: String, avatarURL optlUrl : NSURL? = nil) -> User {
         let url = optlUrl ?? NSURL(string: "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/27/large_ello-09fd7088-2e4f-4781-87db-433d5dbc88a5.png")
         return User(
             avatarURL: url,

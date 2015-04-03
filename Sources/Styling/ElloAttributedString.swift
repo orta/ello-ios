@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-struct ElloAttributedString {
-    static func attrs(_ addlAttrs : [String : AnyObject] = [:]) -> [NSObject : AnyObject] {
+public struct ElloAttributedString {
+    public static func attrs(_ addlAttrs : [String : AnyObject] = [:]) -> [NSObject : AnyObject] {
         let attrs : [String : AnyObject] = [
             NSFontAttributeName : UIFont.typewriterFont(12),
             NSForegroundColorAttributeName : UIColor.blackColor(),
@@ -15,13 +15,13 @@ struct ElloAttributedString {
         return attrs + addlAttrs
     }
 
-    static func linkAttrs() -> [NSObject : AnyObject] {
+    public static func linkAttrs() -> [NSObject : AnyObject] {
         return attrs([
             NSUnderlineStyleAttributeName : NSUnderlineStyle.StyleSingle.rawValue,
         ])
     }
 
-    static func style(text : String) -> NSAttributedString {
+    public static func style(text : String) -> NSAttributedString {
         return NSAttributedString(string: text, attributes: attrs())
     }
 }

@@ -8,12 +8,12 @@
 
 private let defaultDuration: NSTimeInterval = 0.25
 
-class ForwardAnimator: NSObject, UIViewControllerAnimatedTransitioning {
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
+public class ForwardAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+    public func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
         return defaultDuration
     }
 
-    func animateTransition(context: UIViewControllerContextTransitioning) {
+    public func animateTransition(context: UIViewControllerContextTransitioning) {
         let toView = (context.viewControllerForKey(UITransitionContextToViewControllerKey)?.view)!
         let fromView = (context.viewControllerForKey(UITransitionContextFromViewControllerKey)?.view)!
 
@@ -35,12 +35,12 @@ class ForwardAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     }
 }
 
-class BackAnimator: NSObject, UIViewControllerAnimatedTransitioning {
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
+public class BackAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+    public func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
         return defaultDuration
     }
 
-    func animateTransition(context: UIViewControllerContextTransitioning) {
+    public func animateTransition(context: UIViewControllerContextTransitioning) {
         let toView = (context.viewControllerForKey(UITransitionContextToViewControllerKey)?.view)!
         let fromView = (context.viewControllerForKey(UITransitionContextFromViewControllerKey)?.view)!
 

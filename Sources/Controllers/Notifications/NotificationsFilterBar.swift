@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NotificationsFilterBar : UIView {
+public class NotificationsFilterBar : UIView {
 
     struct Size {
         static let height : CGFloat = 44
@@ -19,7 +19,7 @@ class NotificationsFilterBar : UIView {
     }
     var buttonPadding : CGFloat = 1
 
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
 
         let buttons = self.buttons
@@ -34,7 +34,7 @@ class NotificationsFilterBar : UIView {
         }
     }
 
-    func selectButton(selectedButton : UIButton) {
+    public func selectButton(selectedButton : UIButton) {
         for button in buttons {
             button.selected = button == selectedButton
         }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum ElloPostToolBarOption {
+public enum ElloPostToolBarOption {
     case Views
     case Comments
     case Loves

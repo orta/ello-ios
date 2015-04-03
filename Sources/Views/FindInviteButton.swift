@@ -6,14 +6,14 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-class FindInviteButton: UIButton {
+public class FindInviteButton: UIButton {
 
-    required override init(frame: CGRect) {
+    required override public init(frame: CGRect) {
         super.init(frame: frame)
         self.sharedSetup()
     }
 
-    required init(coder: NSCoder) {
+    required public init(coder: NSCoder) {
         super.init(coder: coder)
         self.sharedSetup()
     }

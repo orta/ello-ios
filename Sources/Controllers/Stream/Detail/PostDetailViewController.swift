@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PostDetailViewController: StreamableViewController, CreateCommentDelegate {
+public class PostDetailViewController: StreamableViewController, CreateCommentDelegate {
 
     var post : Post?
     var detailCellItems : [StreamCellItem]?
@@ -20,15 +20,15 @@ class PostDetailViewController: StreamableViewController, CreateCommentDelegate 
     var streamKind: StreamKind?
     let postParam: String
 
-    convenience init(post : Post, items: [StreamCellItem]) {
+    convenience public init(post : Post, items: [StreamCellItem]) {
         self.init(post: post, items: items, unsized: [])
     }
 
-    convenience init(post : Post, unsized: [StreamCellItem]) {
+    convenience public init(post : Post, unsized: [StreamCellItem]) {
         self.init(post: post, items: [], unsized: unsized)
     }
 
-    required init(postParam: String) {
+    required public init(postParam: String) {
         self.postParam = postParam
         self.startOfComments = 0
         super.init(nibName: nil, bundle: nil)
@@ -38,7 +38,7 @@ class PostDetailViewController: StreamableViewController, CreateCommentDelegate 
         )
     }
 
-    required init(post : Post, items: [StreamCellItem], unsized: [StreamCellItem]) {
+    required public init(post : Post, items: [StreamCellItem], unsized: [StreamCellItem]) {
         self.post = post
         self.postParam = post.postId
         self.detailCellItems = items
@@ -50,11 +50,11 @@ class PostDetailViewController: StreamableViewController, CreateCommentDelegate 
         self.title = post.author?.atName ?? "Post Detail"
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required public init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.whiteColor()
         if let post = post {
@@ -63,7 +63,7 @@ class PostDetailViewController: StreamableViewController, CreateCommentDelegate 
         }
     }
 
-    override func showNavBars(scrollToBottom : Bool) {
+    override public func showNavBars(scrollToBottom : Bool) {
         super.showNavBars(scrollToBottom)
         navigationBar.frame = navigationBar.frame.atY(0)
         streamViewController.view.frame = navigationBar.frame.fromBottom().withHeight(self.view.frame.height - navigationBar.frame.height)
@@ -80,7 +80,7 @@ class PostDetailViewController: StreamableViewController, CreateCommentDelegate 
         }
     }
 
-    override func hideNavBars() {
+    override public func hideNavBars() {
         super.hideNavBars()
         navigationBar.frame = navigationBar.frame.atY(-navigationBar.frame.height - 1)
         streamViewController.view.frame = navigationBar.frame.fromBottom().withHeight(self.view.frame.height)
@@ -185,7 +185,7 @@ class PostDetailViewController: StreamableViewController, CreateCommentDelegate 
         }
     }
 
-    override func postTapped(post: Post, initialItems: [StreamCellItem]) {
+    override public func postTapped(post: Post, initialItems: [StreamCellItem]) {
         if let selfPost = self.post {
             if post.postId != selfPost.postId {
                 super.postTapped(post, initialItems: initialItems)

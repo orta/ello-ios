@@ -9,12 +9,12 @@
 import UIKit
 import FLAnimatedImage
 
-class FindFriendsCell: UITableViewCell {
-    @IBOutlet weak var profileImageView: FLAnimatedImageView?
-    @IBOutlet weak var nameLabel: UILabel?
-    @IBOutlet weak var relationshipView: RelationshipView?
+public class FindFriendsCell: UITableViewCell {
+    @IBOutlet weak public var profileImageView: FLAnimatedImageView?
+    @IBOutlet weak public var nameLabel: UILabel?
+    @IBOutlet weak public var relationshipView: RelationshipView?
 
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
 
         profileImageView?.layer.cornerRadius = 15.0

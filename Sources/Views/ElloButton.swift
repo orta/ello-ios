@@ -8,20 +8,20 @@
 
 import UIKit
 
-class ElloButton: UIButton {
+public class ElloButton: UIButton {
 
-    override var enabled: Bool {
+    override public var enabled: Bool {
         didSet {
             self.backgroundColor = enabled ? UIColor.blackColor() : UIColor.grey231F20()
         }
     }
 
-    required override init(frame: CGRect) {
+    required override public init(frame: CGRect) {
         super.init(frame: frame)
         self.sharedSetup()
     }
 
-    required init(coder: NSCoder) {
+    required public init(coder: NSCoder) {
         super.init(coder: coder)
         self.sharedSetup()
     }
@@ -36,23 +36,23 @@ class ElloButton: UIButton {
 
 }
 
-class LightElloButton: ElloButton {
+public class LightElloButton: ElloButton {
 
-    required init(frame: CGRect) {
+    required public init(frame: CGRect) {
         super.init(frame: frame)
     }
 
-    required init(coder: NSCoder) {
+    required public init(coder: NSCoder) {
         super.init(coder: coder)
     }
 
-    override var enabled: Bool {
+    override public var enabled: Bool {
         didSet {
             self.backgroundColor = enabled ? UIColor.greyA() : UIColor.greyA()
         }
     }
    
-    override func sharedSetup() {
+    override public func sharedSetup() {
         self.titleLabel?.font = UIFont.typewriterFont(14.0)
         self.titleLabel?.numberOfLines = 1
         self.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
@@ -61,29 +61,29 @@ class LightElloButton: ElloButton {
     
 }
 
-class WhiteElloButton: LightElloButton {
+public class WhiteElloButton: LightElloButton {
 
-    required init(frame: CGRect) {
+    required public init(frame: CGRect) {
         super.init(frame: frame)
     }
     
-    required init(coder: NSCoder) {
+    required public init(coder: NSCoder) {
         super.init(coder: coder)
     }
 
-    override var enabled: Bool {
+    override public var enabled: Bool {
         didSet {
             self.backgroundColor = enabled ? UIColor.whiteColor() : UIColor.greyA()
         }
     }
 
-    override var selected: Bool {
+    override public var selected: Bool {
         didSet {
             self.backgroundColor = selected ? UIColor.blackColor() : UIColor.whiteColor()
         }
     }
 
-    override func sharedSetup() {
+    override public func sharedSetup() {
         super.sharedSetup()
         self.titleLabel?.font = UIFont.typewriterFont(12.0)
         self.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)

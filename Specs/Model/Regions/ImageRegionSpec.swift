@@ -6,8 +6,11 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Foundation
+import Ello
 import Quick
 import Nimble
+
 
 class ImageRegionSpec: QuickSpec {
     override func spec() {
@@ -131,4 +134,3 @@ class ImageRegionSpec: QuickSpec {
         }
     }
 }
-

@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Ello
 import Quick
 import Nimble
 
@@ -224,7 +225,6 @@ class ElloScrollLogicSpec: QuickSpec {
                 expect(self.didScrollToBottom).to(equal(true))
                 expect(self.didHide).to(beNil())
             }
-
         }
     }
 }

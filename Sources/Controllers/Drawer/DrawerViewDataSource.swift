@@ -6,12 +6,12 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-protocol DrawerViewDataSourceDelegate: NSObjectProtocol {
+public protocol DrawerViewDataSourceDelegate: NSObjectProtocol {
     func dataSourceStartedLoadingUsers(dataSource: DrawerViewDataSource) -> ()
     func dataSourceFinishedLoadingUsers(dataSource: DrawerViewDataSource) -> ()
 }
 
-class DrawerViewDataSource {
+public class DrawerViewDataSource {
     private let relationship: Relationship
     private let streamService = StreamService()
 
@@ -19,17 +19,17 @@ class DrawerViewDataSource {
     private var responseConfig = ResponseConfig()
     private var loading = false
 
-    weak var delegate: DrawerViewDataSourceDelegate?
+    weak public var delegate: DrawerViewDataSourceDelegate?
 
-    var numberOfUsers: Int {
+    public var numberOfUsers: Int {
         return loading ? users.count + 1 : users.count
     }
 
-    init(relationship: Relationship) {
+    public init(relationship: Relationship) {
         self.relationship = relationship
     }
 
-    func loadUsers() {
+    public func loadUsers() {
         ProfileService().loadCurrentUserFollowing(forRelationship: relationship, success: { users, responseConfig in
             self.users = users
             self.responseConfig = responseConfig
@@ -61,11 +61,11 @@ class DrawerViewDataSource {
         })
     }
 
-    func userForIndexPath(indexPath: NSIndexPath) -> User?  {
+    public func userForIndexPath(indexPath: NSIndexPath) -> User?  {
         return users.safeValue(indexPath.row)
     }
 
-    func cellPresenterForIndexPath(indexPath: NSIndexPath) -> CellPresenter {
+    public func cellPresenterForIndexPath(indexPath: NSIndexPath) -> CellPresenter {
         let user = userForIndexPath(indexPath)
         let presenter = user.map { AvatarCellPresenter(user: $0) }
         return presenter ?? LoadingCellPresenter()

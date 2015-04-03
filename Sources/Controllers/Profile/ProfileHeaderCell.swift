@@ -9,11 +9,12 @@
 import UIKit
 import Foundation
 
-@objc protocol EditProfileResponder {
+@objc 
+public protocol EditProfileResponder {
     func onEditProfile()
 }
 
-class ProfileHeaderCell: UICollectionViewCell {
+public class ProfileHeaderCell: UICollectionViewCell {
 
     var coverWidthSet: Bool = false
     let ratio:CGFloat = 16.0/9.0
@@ -32,7 +33,7 @@ class ProfileHeaderCell: UICollectionViewCell {
     weak var userListDelegate: UserListDelegate?
     var currentUser: User?
 
-    override func awakeFromNib() {
+    override public func awakeFromNib() {
         super.awakeFromNib()
         style()
         countsTextView.textViewDelegate = self
@@ -43,7 +44,7 @@ class ProfileHeaderCell: UICollectionViewCell {
         }
     }
 
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         bioWebView.scrollView.scrollEnabled = false
     }
@@ -85,11 +86,11 @@ class ProfileHeaderCell: UICollectionViewCell {
 }
 
 extension ProfileHeaderCell: UIWebViewDelegate {
-    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+    public func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         return ElloWebViewHelper.handleRequest(request, webLinkDelegate: webLinkDelegate)
     }
 
-    func webViewDidFinishLoad(webView: UIWebView) {
+    public func webViewDidFinishLoad(webView: UIWebView) {
         let jsResult = webView.stringByEvaluatingJavaScriptFromString("window.contentHeight()") ?? "0.0"
         webView.frame.size.height = CGFloat((jsResult as NSString).doubleValue)
         bioWebView.stringByEvaluatingJavaScriptFromString("document.documentElement.style.webkitUserSelect='none';")

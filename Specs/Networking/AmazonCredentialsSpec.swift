@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Ello
 import Quick
 import Nimble
 import Moya
@@ -21,7 +22,7 @@ class AmazonCredentialsSpec: QuickSpec {
                     let endpoint = ElloAPI.AmazonCredentials
                     self.credentials = nil
                     ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
-                    ElloProvider.sharedProvider.elloRequest(endpoint,
+                    ElloProvider.elloRequest(endpoint,
                         method: .GET,
                         success: { credentialsData, responseConfig in
                             if let credentials = credentialsData as? AmazonCredentials {

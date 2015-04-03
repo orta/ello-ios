@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-extension UIImage {
+public extension UIImage {
 
     func copyWithCorrectOrientation() -> UIImage {
         if self.imageOrientation == .Up {
@@ -19,5 +19,4 @@ extension UIImage {
         UIGraphicsEndImageContext()
         return image
     }
-
 }

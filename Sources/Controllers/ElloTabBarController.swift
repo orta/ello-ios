@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ElloTabBarController: UIViewController {
+public class ElloTabBarController: UIViewController {
     private var visibleViewController: UIViewController? = nil
     private var tabBar: ElloTabBar
     // stores the actual value (used by the tabBarHidden property *and* setTabBarHidden func)
@@ -65,7 +65,7 @@ class ElloTabBarController: UIViewController {
     var currentUser : User?
     var profileResponseConfig: ResponseConfig?
 
-    class func instantiateFromStoryboard() -> ElloTabBarController {
+    public class func instantiateFromStoryboard() -> ElloTabBarController {
         return UIStoryboard.storyboardWithId(.ElloTabBar) as! ElloTabBarController
     }
 
@@ -90,7 +90,7 @@ class ElloTabBarController: UIViewController {
         }
     }
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         self.view.addSubview(tabBar)
         tabBar.delegate = self

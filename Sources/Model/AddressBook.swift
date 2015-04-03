@@ -9,15 +9,15 @@
 import AddressBook
 import LlamaKit
 
-protocol ContactList {
+public protocol ContactList {
     var localPeople: [LocalPerson] { get }
 }
 
-struct AddressBook: ContactList {
+public struct AddressBook: ContactList {
     private let addressBook: ABAddressBook
-    let localPeople: [LocalPerson]
+    public let localPeople: [LocalPerson]
 
-    init(addressBook: ABAddressBook) {
+    public init(addressBook: ABAddressBook) {
         self.addressBook = addressBook
         localPeople = getAllPeopleWithEmailAddresses(addressBook)
     }

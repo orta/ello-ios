@@ -8,14 +8,14 @@
 
 import Foundation
 
-typealias CellConfigClosure = (
+public typealias CellConfigClosure = (
     cell:UICollectionViewCell,
     streamCellItem:StreamCellItem,
     streamKind: StreamKind,
     indexPath: NSIndexPath
 ) -> ()
 
-enum StreamCellType {
+public enum StreamCellType {
     case CommentHeader
     case Header
     case Footer
@@ -32,7 +32,7 @@ enum StreamCellType {
 
     static let all = [CommentHeader, Header, Footer, Image, Text, Comment, Unknown, ProfileHeader, Notification, UserListItem, CreateComment, StreamLoading, Toggle]
 
-    var name: String {
+    public var name: String {
         switch self {
         case CommentHeader: return "StreamHeaderCell"
         case Header: return "StreamHeaderCell"
@@ -50,7 +50,7 @@ enum StreamCellType {
         }
     }
 
-    var configure: CellConfigClosure {
+    public var configure: CellConfigClosure {
         switch self {
         case CommentHeader: return StreamHeaderCellPresenter.configure
         case Header: return StreamHeaderCellPresenter.configure
@@ -69,7 +69,7 @@ enum StreamCellType {
         }
     }
 
-    var classType: UICollectionViewCell.Type {
+    public var classType: UICollectionViewCell.Type {
         switch self {
         case CommentHeader: return StreamHeaderCell.self
         case Header: return StreamHeaderCell.self
@@ -87,7 +87,7 @@ enum StreamCellType {
         }
     }
 
-    var collapsable: Bool {
+    public var collapsable: Bool {
         switch self {
         case Image: return true
         case Text: return true

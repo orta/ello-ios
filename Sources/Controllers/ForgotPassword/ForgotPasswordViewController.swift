@@ -8,26 +8,26 @@
 
 import UIKit
 
-class ForgotPasswordViewController: BaseElloViewController, UITextFieldDelegate {
+public class ForgotPasswordViewController: BaseElloViewController, UITextFieldDelegate {
 
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var emailTextField: ElloTextField!
-    @IBOutlet weak var resetPasswordButton: ElloButton!
-    @IBOutlet weak var signInButton: ElloTextButton!
+    @IBOutlet weak public var scrollView: UIScrollView!
+    @IBOutlet weak public var emailTextField: ElloTextField!
+    @IBOutlet weak public var resetPasswordButton: ElloButton!
+    @IBOutlet weak public var signInButton: ElloTextButton!
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         setupStyles()
         setupTextFields()
         setupNotificationObservers()
     }
 
-    override func viewDidDisappear(animated: Bool) {
+    override public func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         removeNotificationObservers()
     }
 
-    class func instantiateFromStoryboard() -> ForgotPasswordViewController {
+    public class func instantiateFromStoryboard() -> ForgotPasswordViewController {
         return UIStoryboard.storyboardWithId(.ForgotPassword) as! ForgotPasswordViewController
     }
 
@@ -97,7 +97,7 @@ class ForgotPasswordViewController: BaseElloViewController, UITextFieldDelegate 
 
     // MARK: - UITextFieldDelegate
 
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    public func textFieldShouldReturn(textField: UITextField) -> Bool {
         switch textField {
         case emailTextField:
             return false
@@ -106,7 +106,7 @@ class ForgotPasswordViewController: BaseElloViewController, UITextFieldDelegate 
         }
     }
 
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    public func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
 
         let proposedString = NSMutableString(string: textField.text)
         proposedString.replaceCharactersInRange(range, withString: string)

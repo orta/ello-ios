@@ -1,4 +1,4 @@
-//
+ //
 //  ElloProviderSpec.swift
 //  Ello
 //
@@ -6,9 +6,11 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
+import Ello
 import Quick
 import Moya
 import Nimble
+
 
 @objc class TestObserver {
     var handled = false
@@ -20,20 +22,28 @@ import Nimble
     }
 }
 
+
 class ElloProviderSpec: QuickSpec {
     override func spec() {
-        
-        var provider: MoyaProvider<ElloAPI>!
+
         beforeEach {
-            provider = MoyaProvider(endpointsClosure: ElloProvider.endpointsClosure, stubResponses: true)
+            ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
         }
-               
+
+        afterEach {
+            ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
+        }
+
         describe("error responses") {
             describe("with stubbed responses") {
                 describe("a provider") {
-                    var provider: MoyaProvider<ElloAPI>!
+
                     beforeEach {
-                        provider = MoyaProvider(endpointsClosure: ElloProvider.errorEndpointsClosure, stubResponses: true)
+                        ElloProvider.sharedProvider = ElloProvider.ErrorStubbingProvider()
+                    }
+
+                    afterEach {
+                        ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
                     }
 
                     context("401") {
@@ -47,10 +57,10 @@ class ElloProviderSpec: QuickSpec {
                             var loadedError:NSError?
                             let testObserver = TestObserver()
 
-                           NSNotificationCenter.defaultCenter().addObserver(testObserver, selector: "handleNotification:", name: "ElloProviderNotification401", object: nil)
+                            NSNotificationCenter.defaultCenter().addObserver(testObserver, selector: "handleNotification:", name: "ElloProviderNotification401", object: nil)
 
                             let endpoint: ElloAPI = .FriendStream
-                            provider.elloRequest(endpoint, method: Moya.Method.GET, success: { (data, responseConfig) in
+                            ElloProvider.elloRequest(endpoint, method: Moya.Method.GET, success: { (data, responseConfig) in
                                     loadedJSONAbles = data as? [JSONAble]
                                 }, failure: { (error, statusCode) -> () in
                                     loadedError = error
@@ -77,11 +87,11 @@ class ElloProviderSpec: QuickSpec {
                     }
 
                     context("403") {
-                        itBehavesLike("network error") { ["provider":provider, "status":"403", "title":"You do not have access to the requested resource.", "statusCode":403, "code" : ElloNetworkError.CodeType.unauthorized.rawValue]}
+                        itBehavesLike("network error") { ["status":"403", "title":"You do not have access to the requested resource.", "statusCode":403, "code" : ElloNetworkError.CodeType.unauthorized.rawValue]}
                     }
 
                     context("404") {
-                        itBehavesLike("network error") { ["provider":provider, "status":"404", "title":"The requested resource could not be found.", "statusCode":404, "code" : ElloNetworkError.CodeType.notFound.rawValue]}
+                        itBehavesLike("network error") { ["status":"404", "title":"The requested resource could not be found.", "statusCode":404, "code" : ElloNetworkError.CodeType.notFound.rawValue]}
                     }
 
                     context("410") {
@@ -98,7 +108,7 @@ class ElloProviderSpec: QuickSpec {
                             NSNotificationCenter.defaultCenter().addObserver(testObserver, selector: "handleNotification:", name: "ElloProviderNotification410", object: nil)
 
                             let endpoint: ElloAPI = .FriendStream
-                            provider.elloRequest(endpoint,
+                            ElloProvider.elloRequest(endpoint,
                                 method: Moya.Method.GET,
                                 success: { (data, responseConfig) in
                                     loadedJSONAbles = data as? [JSONAble]
@@ -128,23 +138,23 @@ class ElloProviderSpec: QuickSpec {
                     }
 
                     context("420") {
-                        itBehavesLike("network error") { ["provider":provider, "status":"420", "title":"The request could not be handled due to rate limiting.", "statusCode":420, "code" : ElloNetworkError.CodeType.rateLimited.rawValue]}
+                        itBehavesLike("network error") { ["status":"420", "title":"The request could not be handled due to rate limiting.", "statusCode":420, "code" : ElloNetworkError.CodeType.rateLimited.rawValue]}
                     }
 
                     context("422") {
-                        itBehavesLike("network error") { ["provider":provider, "status":"422", "attrs" : ["name" : ["can't be blank"]], "title":"The current resource was invalid.", "messages" : ["Name can't be blank"], "statusCode":422, "code" : ElloNetworkError.CodeType.invalidResource.rawValue]}
+                        itBehavesLike("network error") { ["status":"422", "attrs" : ["name" : ["can't be blank"]], "title":"The current resource was invalid.", "messages" : ["Name can't be blank"], "statusCode":422, "code" : ElloNetworkError.CodeType.invalidResource.rawValue]}
                     }
 
                     context("500") {
-                        itBehavesLike("network error") { ["provider":provider, "status":"500", "title":"An unknown error has occurred.", "statusCode":500, "code" : ElloNetworkError.CodeType.serverError.rawValue, "detail" : "You have broken it, and have been blacklisted from using the API."]}
+                        itBehavesLike("network error") { ["status":"500", "title":"An unknown error has occurred.", "statusCode":500, "code" : ElloNetworkError.CodeType.serverError.rawValue, "detail" : "You have broken it, and have been blacklisted from using the API."]}
                     }
 
                     context("502") {
-                        itBehavesLike("network error") { ["provider":provider, "status":"502", "title":"The service timed out. Try again?", "statusCode":502, "code" : ElloNetworkError.CodeType.timeout.rawValue]}
+                        itBehavesLike("network error") { ["status":"502", "title":"The service timed out. Try again?", "statusCode":502, "code" : ElloNetworkError.CodeType.timeout.rawValue]}
                     }
 
                     context("503") {
-                        itBehavesLike("network error") { ["provider":provider, "status" : "503", "title":"The service is unavailable. Try back shortly.", "detail":"Oh snap, the service is down while we work on it.", "statusCode":503, "code" : ElloNetworkError.CodeType.unavailable.rawValue]}
+                        itBehavesLike("network error") { ["status" : "503", "title":"The service is unavailable. Try back shortly.", "detail":"Oh snap, the service is down while we work on it.", "statusCode":503, "code" : ElloNetworkError.CodeType.unavailable.rawValue]}
                     }
                 }
             }
@@ -158,7 +168,6 @@ class NetworkErrorSharedExamplesConfiguration: QuickConfiguration {
         sharedExamples("network error") { (sharedExampleContext: SharedExampleContext) in
             it("Calls failure with an error and statusCode") {
 
-                let provider: MoyaProvider<ElloAPI>! = sharedExampleContext()["provider"] as! MoyaProvider<ElloAPI>
                 let expectedTitle = sharedExampleContext()["title"] as! String
                 let expectedDetail = sharedExampleContext()["detail"] as? String
                 let expectedStatus = sharedExampleContext()["status"] as! String
@@ -176,7 +185,7 @@ class NetworkErrorSharedExamplesConfiguration: QuickConfiguration {
                 var loadedError:NSError?
 
                 let endpoint: ElloAPI = .FriendStream
-                provider.elloRequest(endpoint,
+                ElloProvider.elloRequest(endpoint,
                     method: Moya.Method.GET,
                     success: { (data, responseConfig) in
                         loadedJSONAbles = data as? [JSONAble]
@@ -217,7 +226,6 @@ class NetworkErrorSharedExamplesConfiguration: QuickConfiguration {
                         expect(expectedAttrs[errorFieldKey]).toNot(beNil())
                     }
                 }
-                
             }
         }
     }

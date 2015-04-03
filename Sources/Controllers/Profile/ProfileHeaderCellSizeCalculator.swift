@@ -8,20 +8,20 @@
 
 import Foundation
 
-class ProfileHeaderCellSizeCalculator: NSObject {
+public class ProfileHeaderCellSizeCalculator: NSObject {
 
     let webView: UIWebView
-    var cellItems: [StreamCellItem] = []
-    var completion: ElloEmptyCompletion = {}
+    public var cellItems: [StreamCellItem] = []
+    public var completion: ElloEmptyCompletion = {}
     let ratio:CGFloat = 16.0/9.0
 
-    required init(webView wv: UIWebView) {
+    required public init(webView wv: UIWebView) {
         webView = wv
         super.init()
         webView.delegate = self
     }
 
-    func processCells(cellItems: [StreamCellItem], withWidth width: CGFloat, completion: ElloEmptyCompletion) {
+    public func processCells(cellItems: [StreamCellItem], withWidth width: CGFloat, completion: ElloEmptyCompletion) {
         self.cellItems = cellItems
         self.completion = completion
         self.webView.frame = self.webView.frame.withWidth(width)
@@ -62,7 +62,7 @@ class ProfileHeaderCellSizeCalculator: NSObject {
 
 extension ProfileHeaderCellSizeCalculator: UIWebViewDelegate {
 
-    func webViewDidFinishLoad(webView: UIWebView) {
+    public func webViewDidFinishLoad(webView: UIWebView) {
         let jsResult = webView.stringByEvaluatingJavaScriptFromString("window.contentHeight()") ?? "0.0"
         setHeight(CGFloat((jsResult as NSString).doubleValue))
     }
