@@ -27,9 +27,13 @@ public class ElloNavigationBar : UINavigationBar {
     }
 
     private func privateInit() {
-        self.opaque = true
-        self.translucent = false
         self.tintColor = UIColor.greyA()
+        self.clipsToBounds = true
+        self.shadowImage = UIImage.imageWithColor(UIColor.whiteColor())
+        self.backgroundColor = UIColor.whiteColor()
+        self.translucent = false
+        self.opaque = true
+        self.barTintColor = UIColor.whiteColor()
     }
 
     override public func intrinsicContentSize() -> CGSize {

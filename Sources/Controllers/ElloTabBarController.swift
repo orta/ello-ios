@@ -73,7 +73,6 @@ public class ElloTabBarController: UIViewController {
         selectedIndex = decoder.decodeIntegerForKey("selectedIndex")
         tabBarHiddenValue = false
         tabBar = ElloTabBar()
-        tabBar.backgroundColor = UIColor.whiteColor()
         super.init(coder: decoder)
     }
 

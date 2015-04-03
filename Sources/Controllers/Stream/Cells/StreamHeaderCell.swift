@@ -114,7 +114,7 @@ public class StreamHeaderCell: UICollectionViewCell {
 // MARK: - Private
 
     private func positionTopContent() {
-        let sidePadding: CGFloat = 10.0
+        let sidePadding: CGFloat = 15.0
         let minimumUsernameWidth: CGFloat = 60.0
 
         avatarButton.frame = CGRectMake(sidePadding, innerContentView.frame.midY - avatarHeight/2, avatarHeight, avatarHeight)
@@ -129,7 +129,7 @@ public class StreamHeaderCell: UICollectionViewCell {
         let timestampX = chevronButton.frame.x - timestampLabel.frame.width
         timestampLabel.frame = CGRectMake(timestampX, innerContentView.frame.midY - timestampLabel.frame.height/2, timestampLabel.frame.width, timestampLabel.frame.height)
 
-        let usernameX = avatarButton.frame.maxX + avatarButton.frame.x + 10.0
+        let usernameX = avatarButton.frame.maxX + sidePadding
         maxUsernameWidth = timestampX - usernameX
         let usernameWidth = max(minimumUsernameWidth, min(usernameTextView.frame.width, maxUsernameWidth))
 
@@ -165,7 +165,7 @@ public class StreamHeaderCell: UICollectionViewCell {
     }
 
     private func styleUsernameTextView() {
-        usernameTextView.font = UIFont.typewriterFont(12.0)
+        usernameTextView.customFont = UIFont.typewriterFont(14.0)
         usernameTextView.textColor = UIColor.greyA()
     }
 

@@ -221,13 +221,14 @@ public class StreamFooterCell: UICollectionViewCell {
 
     override public func layoutSubviews() {
         super.layoutSubviews()
-        contentView.frame = bounds
-        innerContentView.frame = bounds
-        containerView.frame = bounds
-        scrollView.frame = bounds
-        toolBar.frame = bounds
-        bottomToolBar.frame = bounds
-        chevronButton.frame = CGRectMake(bounds.width - chevronButton.bounds.width - 10, bounds.height/2 - chevronButton.bounds.height/2, chevronButton.bounds.size.width, chevronButton.bounds.size.height)
+        let newBounds = CGRectMake(0, 0, bounds.width, 44)
+        contentView.frame = newBounds
+        innerContentView.frame = newBounds
+        containerView.frame = newBounds
+        scrollView.frame = newBounds
+        toolBar.frame = newBounds
+        bottomToolBar.frame = newBounds
+        chevronButton.frame = CGRectMake(newBounds.width - chevronButton.bounds.width - 10, newBounds.height/2 - chevronButton.bounds.height/2, chevronButton.bounds.size.width, chevronButton.bounds.size.height)
         scrollView.contentSize = CGSizeMake(contentView.frame.size.width + revealWidth, scrollView.frame.size.height)
         repositionBottomContent()
     }

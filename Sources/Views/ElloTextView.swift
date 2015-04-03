@@ -19,10 +19,7 @@ struct ElloAttributedText {
 
 class ElloTextView: UITextView {
 
-    var defaultAttrs: [NSObject: AnyObject] = [
-        NSFontAttributeName: UIFont.typewriterFont(12),
-        NSForegroundColorAttributeName: UIColor.greyA(),
-    ]
+    var customFont: UIFont?
 
     weak var textViewDelegate: ElloTextViewDelegate?
 
@@ -39,7 +36,7 @@ class ElloTextView: UITextView {
 // MARK: Public
 
     func appendTextWithAction(text: String, link: String? = nil, object: AnyObject? = nil) {
-        var attrs = defaultAttrs
+        var attrs = defaultAttrs()
         if let link = link {
             attrs[ElloAttributedText.Link] = link
             if let object: AnyObject = object {
@@ -54,6 +51,13 @@ class ElloTextView: UITextView {
     }
 
 // MARK: Private
+
+    private func defaultAttrs() -> [NSObject: AnyObject]  {
+        return [
+            NSFontAttributeName: self.customFont ?? UIFont.typewriterFont(12),
+            NSForegroundColorAttributeName: UIColor.greyA(),
+        ]
+    }
 
     private func internalInit() {
         setDefaults()

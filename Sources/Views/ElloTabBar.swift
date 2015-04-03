@@ -12,17 +12,27 @@ public class ElloTabBar: UITabBar {
 
     required public init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        self.barTintColor = UIColor.whiteColor()
-        self.tintColor = UIColor.blackColor()
-        self.clipsToBounds = true
+        privateInit()
     }
 
     convenience init() {
         self.init(frame: CGRectZero)
+        privateInit()
     }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        privateInit()
+    }
+
+    private func privateInit() {
+        self.backgroundColor = UIColor.whiteColor()
+        self.translucent = false
+        self.opaque = true
+        self.barTintColor = UIColor.whiteColor()
+        self.tintColor = UIColor.blackColor()
+        self.clipsToBounds = true
+        self.shadowImage = UIImage.imageWithColor(UIColor.whiteColor())
     }
 
 }

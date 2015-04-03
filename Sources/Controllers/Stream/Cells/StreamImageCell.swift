@@ -9,6 +9,7 @@
 import UIKit
 import Foundation
 import FLAnimatedImage
+import SDWebImage
 
 let updateStreamImageCellHeightNotification = TypedNotification<StreamImageCell>(name: "updateStreamImageCellHeightNotification")
 
@@ -28,6 +29,7 @@ public class StreamImageCell: UICollectionViewCell {
         super.awakeFromNib()
         circle = PulsingCircle.fill(self)
         contentView.insertSubview(circle!, belowSubview: imageView)
+//        contentView.addSubview(circle!)
     }
 
     var calculatedHeight:CGFloat {
@@ -35,13 +37,14 @@ public class StreamImageCell: UICollectionViewCell {
     }
 
     func setImageURL(url:NSURL) {
+        self.imageView.image = nil
         circle.pulse()
         self.errorLabel.hidden = true
         self.errorLabel.alpha = 1.0
         self.imageView.backgroundColor = UIColor.whiteColor()
         self.errorLabel.alpha = 0
         self.imageView.sd_setImageWithURL(url, completed: {
-            (image, error, type, url) in
+            (image, _, type, _) in
 
             if let image = image {
 
@@ -50,32 +53,36 @@ public class StreamImageCell: UICollectionViewCell {
                 if self.serverProvidedAspectRatio == nil {
                     postNotification(updateStreamImageCellHeightNotification, self)
                 }
-
-                UIView.animateWithDuration(0.15,
-                    delay:0.0,
-                    options:UIViewAnimationOptions.CurveLinear,
-                    animations: {
-                        self.contentView.alpha = 1.0
-                        self.imageView.alpha = 1.0
-                    }, completion: { finished in
-                        self.circle.stopPulse()
-                    })
+                println(type.rawValue)
+                if type != .Memory {
+                    self.imageView.alpha = 0
+                    UIView.animateWithDuration(0.3,
+                        delay:0.0,
+                        options:UIViewAnimationOptions.CurveLinear,
+                        animations: {
+                            self.imageView.alpha = 1.0
+                        }, completion: { finished in
+                            self.circle.stopPulse()
+                        })
+                }
+                else {
+                    self.imageView.alpha = 1.0
+                    self.circle.stopPulse()
+                }
             }
             else {
                 self.errorLabel.hidden = false
                 self.errorLabel.setLabelText("Failed to load image")
                 self.circle.stopPulse()
-                UIView.animateWithDuration(0.15, animations: {
+                UIView.animateWithDuration(0.15) {
                     self.aspectRatio = self.defaultAspectRatio
                     self.errorLabel.alpha = 1.0
                     self.imageView.backgroundColor = UIColor.greyA()
-                    self.contentView.alpha = 0.5
                     self.imageView.alpha = 1.0
-                })
+                }
 
             }
         })
-
     }
 
     @IBAction func imageTapped(sender: UIButton) {
