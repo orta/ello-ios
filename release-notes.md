@@ -1,3 +1,96 @@
+### Ello Build 954(f40ab4410448fb5534c0875da57022fd26f781bf) April 3, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #134 - Add a comment via stream controller
+go ahead, it's fun!
+
+------
+
+#### #133 - Hide stream images when zooming
+* Tapping on an image in the stream smoothly animates w/o leaving a copy of the image beneath the zoomed image.
+* Pulsing circle continues to animate when moving around the app (doesn't freeze)
+
+[Fixes #91501616]
+[Fixes #91639152]
+
+------
+
+#### #131 - Exclude Ello target files from Specs target
+The goal here is 2 fold. 
+
+1) Speed up spec runs, we're no longer compiling the Ello code for each target.
+2) Properly distinguish between public and private interafaces. Moving forward we'll need to consider what should be `public` vs `private` vs internal.
+
+Only 283 files changed to make this happen!
+
+* So many `public` keywords (1114 to be exact)
+* No `Ello` files are included in `Specs`
+* Moved all ThirdParty code into pods.
+
+
+[Finishes #91763810]
+
+------
+
+#### #127 - Ello Tab Bar Controller
+Refactors the ElloTabBarController so that it is not a subclass of UITabBarController.
+
+There were already some simple tab bar specs in place, which pass, so I didn't spend time on that.
+
+------
+
+#### #130 - Updates to the `Functional` methods
+Renames some methods, adds `cancelableDelay / delay` methods, since return values are annoying.
+
+------
+
+#### #129 - Fixes to how the loading spinner shows and hides.
+[Fixes #91711216][Fixes #91337096]
+
+------
+
+#### #129 - Fixes to how the loading spinner shows and hides.
+[Fixes #91711216][Fixes #91337096]
+
+------
+
+#### #128 - Adds the invite and settings icon to profile.
+* Move invite from discover up to `StreamableViewController: InviteResponder`
+* Remove edit button in favor of gear icon [Fixes #91336630]
+* Show/hide based off current user
+* Adds ability to rotate svg buttons
+
+[Finishes #91611112]
+
+------
+
+#### #114 - Update `ElloProvider` to work with paging better.
+* Refactors to remove parameters and mapping type to use the `ElloAPI` better
+* Adds `pagingPath` to `ElloAPI` for determining how to parse the response config
+* Moves all `mappingType` references to `ElloAPI`
+* Moves all `defaultParameters` to `ElloAPI`
+
+[#89132610]
+
+------
+
+#### #124 - Postbar behavior and styling tweaks when in Grid Layout
+The postbar now has the expected behavior and layout when viewing a stream in a grid layout.
+
+(see #122 for conversation)
+
+Tapping on an image loads the post's detail
+Tapping on the comment button loads the post's detail
+The postbar buttons layout closer to the edges of the column
+A chevron is no longer displayed
+[Fixes #91432072]
+[Finishes #91330178]
+    
+------------
+
 ### Ello Build 838(0aa14fdf72e574db383a61f824a1a23df296cbc7) March 27, 2015
 
     RELEASE NOTES
