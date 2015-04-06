@@ -144,7 +144,12 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     public func createCommentIndexPathForPost(post: Post) -> NSIndexPath? {
         let paths = commentIndexPathsForPost(post)
         if count(paths) > 0 {
-            return paths[0]
+            let path = paths[0]
+            if let createCommentItem = visibleStreamCellItem(at: path) {
+                if createCommentItem.type == .CreateComment {
+                    return path
+                }
+            }
         }
         return nil
     }
