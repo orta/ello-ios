@@ -7,6 +7,9 @@
 //
 
 class AlertViewController: UIViewController {
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var topPadding: NSLayoutConstraint!
+
     private let message: String?
     private var actions: [AlertAction] = []
 
@@ -17,12 +20,9 @@ class AlertViewController: UIViewController {
         return size
     }
 
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var topPadding: NSLayoutConstraint!
-
     init(message: String?) {
         self.message = message
-        super.init(nibName: "AlertView", bundle: .None)
+        super.init(nibName: "AlertViewController", bundle: .None)
         modalPresentationStyle = .Custom
         transitioningDelegate = self
     }
@@ -35,7 +35,7 @@ class AlertViewController: UIViewController {
 extension AlertViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.registerNib(AlertButtonCell.nib(), forCellReuseIdentifier: AlertButtonCell.reuseIdentifier())
+        tableView.registerNib(AlertCell.nib(), forCellReuseIdentifier: AlertCell.reuseIdentifier())
     }
 }
 
@@ -57,7 +57,6 @@ extension AlertViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let action = actions.safeValue(indexPath.row)
         action.map { $0.handler?($0) }
-        action?.handler
         dismissViewControllerAnimated(true, completion: .None)
     }
 }
@@ -68,7 +67,10 @@ extension AlertViewController: UITableViewDataSource {
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(AlertButtonCell.reuseIdentifier(), forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(AlertCell.reuseIdentifier(), forIndexPath: indexPath) as! UITableViewCell
+        let action = actions.safeValue(indexPath.row)
+        let presenter = action.map { AlertCellPresenter(action: $0) }
+        presenter?.configureCell(cell)
         return cell
     }
 }

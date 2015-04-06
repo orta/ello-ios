@@ -16,8 +16,8 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" style="plain" separatorStyle="default" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Sf2-cb-n2T">
-                    <rect key="frame" x="10" y="10" width="580" height="580"/>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Sf2-cb-n2T">
+                    <rect key="frame" x="20" y="15" width="560" height="570"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="CMO-4p-hio"/>
@@ -27,11 +27,12 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="Sf2-cb-n2T" firstAttribute="top" secondItem="WvV-hs-oXY" secondAttribute="top" constant="10" id="UuI-DQ-RPH"/>
-                <constraint firstAttribute="bottom" secondItem="Sf2-cb-n2T" secondAttribute="bottom" constant="10" id="hTv-m4-afz"/>
-                <constraint firstItem="Sf2-cb-n2T" firstAttribute="leading" secondItem="WvV-hs-oXY" secondAttribute="leading" constant="10" id="jwb-iW-mxg"/>
-                <constraint firstAttribute="trailing" secondItem="Sf2-cb-n2T" secondAttribute="trailing" constant="10" id="qU8-W6-OAy"/>
+                <constraint firstItem="Sf2-cb-n2T" firstAttribute="top" secondItem="WvV-hs-oXY" secondAttribute="top" constant="15" id="UuI-DQ-RPH"/>
+                <constraint firstAttribute="bottom" secondItem="Sf2-cb-n2T" secondAttribute="bottom" constant="15" id="hTv-m4-afz"/>
+                <constraint firstItem="Sf2-cb-n2T" firstAttribute="leading" secondItem="WvV-hs-oXY" secondAttribute="leading" constant="20" id="jwb-iW-mxg"/>
+                <constraint firstAttribute="trailing" secondItem="Sf2-cb-n2T" secondAttribute="trailing" constant="20" id="qU8-W6-OAy"/>
             </constraints>
+            <point key="canvasLocation" x="14" y="480"/>
         </view>
     </objects>
 </document>

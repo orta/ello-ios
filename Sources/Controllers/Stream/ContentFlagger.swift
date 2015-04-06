@@ -36,7 +36,7 @@ public class ContentFlagger {
         case Copyright = "Copyright infringement"
         case Threatening = "Threatening"
         case Hate = "Hate Speech"
-        case Adult = "Adult content that isn't marked NSFW*"
+        case Adult = "NSFW Content"
         case DontLike = "I don't like it"
 
         public var name: String {

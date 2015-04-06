@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7528.3" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7518.3"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="AtlasTypewriter-Regular.otf">
+            <string>AtlasTypewriter-Regular</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="76" id="bcg-QX-D1W" customClass="AlertCell" customModule="Ello" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bcg-QX-D1W" id="uBn-Zs-uUM">
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qam-Ud-NtM">
+                        <rect key="frame" x="0.0" y="5" width="320" height="49"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j76-h0-pQH">
+                                <rect key="frame" x="8" y="8" width="304" height="33"/>
+                                <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="12"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="j76-h0-pQH" secondAttribute="trailing" constant="8" id="13p-Vy-FF7"/>
+                            <constraint firstItem="j76-h0-pQH" firstAttribute="leading" secondItem="qam-Ud-NtM" secondAttribute="leading" constant="8" id="39F-0v-F06"/>
+                            <constraint firstItem="j76-h0-pQH" firstAttribute="top" secondItem="qam-Ud-NtM" secondAttribute="top" constant="8" id="7wZ-jL-bvG"/>
+                            <constraint firstAttribute="bottom" secondItem="j76-h0-pQH" secondAttribute="bottom" constant="8" id="AtS-D2-D93"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="qam-Ud-NtM" secondAttribute="bottom" constant="5" id="0WF-gU-CMo"/>
+                    <constraint firstItem="qam-Ud-NtM" firstAttribute="leading" secondItem="uBn-Zs-uUM" secondAttribute="leading" id="5GP-ID-elU"/>
+                    <constraint firstItem="qam-Ud-NtM" firstAttribute="top" secondItem="uBn-Zs-uUM" secondAttribute="top" constant="5" id="MIu-tU-pOz"/>
+                    <constraint firstAttribute="trailing" secondItem="qam-Ud-NtM" secondAttribute="trailing" id="ggj-1r-FHq"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="background" destination="qam-Ud-NtM" id="u7S-Pk-fmf"/>
+                <outlet property="label" destination="j76-h0-pQH" id="VvA-eL-X7A"/>
+            </connections>
+            <point key="canvasLocation" x="329" y="215"/>
+        </tableViewCell>
+    </objects>
+</document>
