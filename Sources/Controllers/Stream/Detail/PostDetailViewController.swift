@@ -39,11 +39,17 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
     }
 
     required public init(post : Post, items: [StreamCellItem], unsized: [StreamCellItem]) {
+        // The stream cell items can have different calculated heights depending
+        // on the controller.  For instance, coming from the Noise stream, they
+        // have 1/2 width.  So we don't want to modify the original items:
+        let itemsCopy = items.map { return $0.copy() as! StreamCellItem }
+        let unsizedCopy = unsized.map { return $0.copy() as! StreamCellItem }
+
         self.post = post
         self.postParam = post.postId
-        self.detailCellItems = items
-        self.unsizedCellItems = unsized
-        self.startOfComments = items.count
+        self.detailCellItems = itemsCopy
+        self.unsizedCellItems = unsizedCopy
+        self.startOfComments = count(itemsCopy)
 
         super.init(nibName: nil, bundle: nil)
         self.streamKind = StreamKind.PostDetail(postParam: post.postId)

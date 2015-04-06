@@ -16,7 +16,7 @@ public enum StreamCellState {
 }
 
 
-public class StreamCellItem:NSObject {
+public class StreamCellItem: NSObject, NSCopying {
     public let jsonable: JSONAble
     public let type: StreamCellType
     public let data:Regionable?
@@ -26,7 +26,7 @@ public class StreamCellItem:NSObject {
     public var multiColumnCellHeight: CGFloat = 0
     public var state: StreamCellState = .None
 
-    public init(jsonable: JSONAble, type:StreamCellType, data:Regionable?, oneColumnCellHeight:CGFloat, multiColumnCellHeight:CGFloat, isFullWidth: Bool) {
+    public required init(jsonable: JSONAble, type:StreamCellType, data:Regionable?, oneColumnCellHeight:CGFloat, multiColumnCellHeight:CGFloat, isFullWidth: Bool) {
         self.jsonable = jsonable
         self.type = type
         self.data = data
@@ -34,6 +34,19 @@ public class StreamCellItem:NSObject {
         self.calculatedWebHeight = 0
         self.oneColumnCellHeight = oneColumnCellHeight
         self.multiColumnCellHeight = multiColumnCellHeight
+    }
+
+    public func copyWithZone(zone: NSZone) -> AnyObject {
+        let copy = self.dynamicType(
+            jsonable: self.jsonable,
+            type: self.type,
+            data: self.data,
+            oneColumnCellHeight: self.oneColumnCellHeight,
+            multiColumnCellHeight: self.multiColumnCellHeight,
+            isFullWidth: self.isFullWidth
+            )
+        copy.calculatedWebHeight = self.calculatedWebHeight
+        return copy
     }
 
 }
