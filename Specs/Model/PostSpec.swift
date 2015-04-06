@@ -205,7 +205,7 @@ class PostSpec: QuickSpec {
                     expect(unArchivedPost.repostsCount) == 99
                     expect(unArchivedPost.token) == "toke-en"
                     expect(unArchivedPost.viewsCount) == 78
-                    expect(unArchivedPost.comments[0]).to(beAKindOf(Comment.self)) 
+                    expect(unArchivedPost.comments[0]).to(beAKindOf(Comment.self))
 
                     let postAuthor = unArchivedPost.author!
 
