@@ -10,17 +10,21 @@ import UIKit
 
 public class ElloTabBarController: UIViewController {
     private var visibleViewController: UIViewController? = nil
-    private var tabBar: ElloTabBar
+    private let tabBarPrivate: ElloTabBar
+
+    // public, read-only access to ElloTabBar
+    public var tabBar: ElloTabBar { return tabBarPrivate }
+
     // stores the actual value (used by the tabBarHidden property *and* setTabBarHidden func)
     private var tabBarHiddenValue: Bool
 
     // calls setTabBarHidden(animated: false)
-    var tabBarHidden: Bool {
+    public var tabBarHidden: Bool {
         get { return tabBarHiddenValue }
         set { setTabBarHidden(newValue, animated: false) }
     }
 
-    var selectedIndex: Int {
+    public var selectedIndex: Int {
         didSet {
             if count(childViewControllers) == 0 {
                 // no controllers? only allow 0 index
@@ -34,8 +38,8 @@ public class ElloTabBarController: UIViewController {
             else if selectedIndex < count(childViewControllers) {
                 updateVisibleViewController()
                 if let selectedViewController = selectedViewController {
-                    if tabBar.selectedItem != selectedViewController.tabBarItem {
-                        tabBar.selectedItem = selectedViewController.tabBarItem
+                    if tabBarPrivate.selectedItem != selectedViewController.tabBarItem {
+                        tabBarPrivate.selectedItem = selectedViewController.tabBarItem
                     }
                 }
             }
@@ -72,7 +76,7 @@ public class ElloTabBarController: UIViewController {
     required public init(coder decoder: NSCoder) {
         selectedIndex = decoder.decodeIntegerForKey("selectedIndex")
         tabBarHiddenValue = false
-        tabBar = ElloTabBar()
+        tabBarPrivate = ElloTabBar()
         super.init(coder: decoder)
     }
 
@@ -91,14 +95,14 @@ public class ElloTabBarController: UIViewController {
 
     override public func viewDidLoad() {
         super.viewDidLoad()
-        self.view.addSubview(tabBar)
-        tabBar.delegate = self
+        self.view.addSubview(tabBarPrivate)
+        tabBarPrivate.delegate = self
 
         selectedIndex = 2
         updateTabBarItems()
         modalTransitionStyle = .CrossDissolve
         if let selectedViewController = selectedViewController {
-            tabBar.selectedItem = selectedViewController.tabBarItem
+            tabBarPrivate.selectedItem = selectedViewController.tabBarItem
         }
     }
 
@@ -107,14 +111,14 @@ public class ElloTabBarController: UIViewController {
 
         var upAmount = CGFloat(0)
         if !tabBarHiddenValue {
-            upAmount = self.tabBar.frame.height
+            upAmount = self.tabBarPrivate.frame.height
         }
-        tabBar.frame = self.view.bounds.fromBottom().withHeight(self.tabBar.frame.height).shiftUp(upAmount)
+        tabBarPrivate.frame = self.view.bounds.fromBottom().withHeight(self.tabBarPrivate.frame.height).shiftUp(upAmount)
 
         if let selectedViewController = selectedViewController {
             selectedViewController.view.frame = self.view.bounds
             if !tabBarHiddenValue {
-                selectedViewController.view.frame = selectedViewController.view.frame.shrinkUp(tabBar.frame.height)
+                selectedViewController.view.frame = selectedViewController.view.frame.shrinkUp(tabBarPrivate.frame.height)
             }
         }
     }
@@ -142,7 +146,7 @@ public class ElloTabBarController: UIViewController {
 extension ElloTabBarController: UITabBarDelegate {
 
     public func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem) {
-        if let items = tabBar.items as? [UITabBarItem] {
+        if let items = tabBarPrivate.items as? [UITabBarItem] {
             if let index = find(items, item) {
                 if index == selectedIndex {
                     if let navigationViewController = selectedViewController as? UINavigationController {
@@ -175,13 +179,13 @@ extension ElloTabBarController {
         let controllers = self.childViewControllers as! [UIViewController]
         let mapper : (UIViewController)->UITabBarItem = { controller in
             let tabBarItem = controller.tabBarItem
-            if tabBarItem.selectedImage.renderingMode != .AlwaysOriginal {
+            if tabBarItem.selectedImage != nil && tabBarItem.selectedImage.renderingMode != .AlwaysOriginal {
                 tabBarItem.selectedImage = tabBarItem.selectedImage.imageWithRenderingMode(.AlwaysOriginal)
             }
             return tabBarItem
         }
         let items = controllers.map(mapper)
-        tabBar.items = items
+        tabBarPrivate.items = items
     }
 
     private func updateVisibleViewController() {
@@ -209,8 +213,8 @@ extension ElloTabBarController {
     }
 
     private func showViewController(showViewController: UIViewController) {
-        self.view.insertSubview(showViewController.view, belowSubview: tabBar)
-        showViewController.view.frame = tabBar.frame.fromBottom().growUp(self.view.frame.height - tabBar.frame.height)
+        self.view.insertSubview(showViewController.view, belowSubview: tabBarPrivate)
+        showViewController.view.frame = tabBarPrivate.frame.fromBottom().growUp(self.view.frame.height - tabBarPrivate.frame.height)
         showViewController.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
     }
 
