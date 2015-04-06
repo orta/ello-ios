@@ -11,10 +11,10 @@ import Foundation
 private let ElloTextFieldViewHeight: CGFloat = 89.0
 
 public class ElloTextFieldView: UIView {
-    @IBOutlet weak var label: ElloToggleLabel!
-    @IBOutlet weak var textField: ElloTextField!
-    @IBOutlet weak var errorLabel: ElloErrorLabel!
-    @IBOutlet weak var messageLabel: ElloLabel!
+    @IBOutlet public weak var label: ElloToggleLabel!
+    @IBOutlet public weak var textField: ElloTextField!
+    @IBOutlet public weak var errorLabel: ElloErrorLabel!
+    @IBOutlet public weak var messageLabel: ElloLabel!
 
     var textFieldDidChange: (String -> ())? {
         didSet {

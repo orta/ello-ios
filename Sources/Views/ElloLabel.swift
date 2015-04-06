@@ -55,7 +55,7 @@ public class ElloLabel: UILabel {
     
 }
 
-class ElloToggleLabel: ElloLabel {
+public class ElloToggleLabel: ElloLabel {
 
     override func labelTextColor() -> UIColor {
         return UIColor.greyA()

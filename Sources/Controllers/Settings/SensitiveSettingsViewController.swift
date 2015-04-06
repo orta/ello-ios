@@ -152,7 +152,7 @@ public class SensitiveSettingsViewController: UITableViewController {
         valueChanged()
     }
 
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         switch SensitiveSettingsRow(rawValue: indexPath.row) ?? .Unknown {
         case .Username: return usernameView.height
         case .Email: return emailView.height
