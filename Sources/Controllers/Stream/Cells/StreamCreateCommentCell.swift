@@ -44,6 +44,7 @@ public class StreamCreateCommentCell : UICollectionViewCell {
     }
 
     private func setupViews() {
+        self.contentView.backgroundColor = UIColor.whiteColor()
         self.contentView.addSubview(avatarView)
         self.contentView.addSubview(createCommentBackground)
         createCommentBackground.addSubview(createCommentLabel)

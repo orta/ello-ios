@@ -29,7 +29,6 @@ public class StreamImageCell: UICollectionViewCell {
         super.awakeFromNib()
         circle = PulsingCircle.fill(self)
         contentView.insertSubview(circle!, belowSubview: imageView)
-//        contentView.addSubview(circle!)
     }
 
     var calculatedHeight:CGFloat {
@@ -53,7 +52,6 @@ public class StreamImageCell: UICollectionViewCell {
                 if self.serverProvidedAspectRatio == nil {
                     postNotification(updateStreamImageCellHeightNotification, self)
                 }
-                println(type.rawValue)
                 if type != .Memory {
                     self.imageView.alpha = 0
                     UIView.animateWithDuration(0.3,
