@@ -53,6 +53,7 @@ class StreamDataSourceSpec: QuickSpec {
             }
 
             vc.dataSource = subject
+
             var cellItems = [JSONAble]()
             StreamService().loadStream(ElloAPI.FriendStream,
                 success: { (jsonables, responseConfig) in
@@ -66,7 +67,6 @@ class StreamDataSourceSpec: QuickSpec {
                 vc.collectionView.reloadData()
             }
         }
-
 
         context("initialization") {
 
@@ -122,6 +122,49 @@ class StreamDataSourceSpec: QuickSpec {
             it("returns nil when the subject is not a post") {
                 // the loaded stream is all posts, need to tweak the data
                 expect(subject.postForIndexPath(NSIndexPath(forItem: 8, inSection: 0))).to(beNil())
+            }
+
+        }
+
+        describe("-createCommentIndexPathForPost:") {
+            var post: Post? = nil
+
+            beforeEach {
+                subject = StreamDataSource(streamKind: .Friend,
+                    textSizeCalculator: textSizeCalculator,
+                    notificationSizeCalculator: notificationSizeCalculator,
+                    profileHeaderSizeCalculator: profileHeaderSizeCalculator)
+
+                let cellItems = ModelHelper.cellsForTwoPostsWithComments()
+                for item in cellItems {
+                    if let foundPost = item.jsonable as? Post {
+                        post = foundPost
+                        break
+                    }
+                }
+
+                subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
+                    vc.collectionView.dataSource = subject
+                    vc.collectionView.reloadData()
+                }
+            }
+
+            it("returns an index path for the post") {
+                expect(subject.createCommentIndexPathForPost(post!)).to(beAKindOf(NSIndexPath))
+            }
+
+            it("points to a create-comment-item") {
+                if let path = subject.createCommentIndexPathForPost(post!) {
+                    if let item = subject.visibleStreamCellItem(at: path) {
+                        expect(item.type).to(equal(StreamCellType.CreateComment))
+                    }
+                    else {
+                        fail("no streamCellItem found")
+                    }
+                }
+                else {
+                    fail("no createCommentIndexPath found")
+                }
             }
 
         }
@@ -192,7 +235,7 @@ class StreamDataSourceSpec: QuickSpec {
 
             it("does not return cell items for other posts") {
 
-                var post = subject.postForIndexPath(NSIndexPath(forItem:11, inSection: 0))
+                var post = subject.postForIndexPath(NSIndexPath(forItem: 12, inSection: 0))
                 let items = subject.cellItemsForPost(post!)
 
                 expect(count(items)) == 7
@@ -239,11 +282,12 @@ class StreamDataSourceSpec: QuickSpec {
                 var post = subject.postForIndexPath(indexPath0)
                 let indexPaths = subject.commentIndexPathsForPost(post!)
 
-                expect(count(indexPaths)) == 4
+                expect(count(indexPaths)) == 5
                 expect(indexPaths[0].item) == 7
                 expect(indexPaths[1].item) == 8
                 expect(indexPaths[2].item) == 9
                 expect(indexPaths[3].item) == 10
+                expect(indexPaths[4].item) == 11
             }
 
             it("does not return index paths for comments from another post") {
@@ -259,14 +303,15 @@ class StreamDataSourceSpec: QuickSpec {
                     vc.collectionView.reloadData()
                 }
 
-                var post = subject.postForIndexPath(NSIndexPath(forItem:11, inSection: 0))
+                var post = subject.postForIndexPath(NSIndexPath(forItem: 12, inSection: 0))
                 let indexPaths = subject.commentIndexPathsForPost(post!)
 
-                expect(count(indexPaths)) == 4
-                expect(indexPaths[0].item) == 18
-                expect(indexPaths[1].item) == 19
-                expect(indexPaths[2].item) == 20
-                expect(indexPaths[3].item) == 21
+                expect(count(indexPaths)) == 5
+                expect(indexPaths[0].item) == 19
+                expect(indexPaths[1].item) == 20
+                expect(indexPaths[2].item) == 21
+                expect(indexPaths[3].item) == 22
+                expect(indexPaths[4].item) == 23
             }
         }
 
@@ -288,11 +333,12 @@ class StreamDataSourceSpec: QuickSpec {
                 var post = subject.postForIndexPath(indexPath0)
                 let indexPaths = subject.removeCommentsForPost(post!)
 
-                expect(count(indexPaths)) == 4
+                expect(count(indexPaths)) == 5
                 expect(indexPaths[0].item) == 7
                 expect(indexPaths[1].item) == 8
                 expect(indexPaths[2].item) == 9
                 expect(indexPaths[3].item) == 10
+                expect(indexPaths[4].item) == 11
             }
 
         }
@@ -405,7 +451,7 @@ class StreamDataSourceSpec: QuickSpec {
 
                 expect(item).to(beNil())
             }
-            
+
         }
 
         describe("-toggleCollapsedForIndexPath:") {
@@ -540,7 +586,7 @@ class StreamDataSourceSpec: QuickSpec {
 
             it("does not return the same value for two different posts") {
                 let firstPostIndexPath = NSIndexPath(forItem: 0, inSection: 0)
-                let secondPostIndexPath = NSIndexPath(forItem: 11, inSection: 0)
+                let secondPostIndexPath = NSIndexPath(forItem: 12, inSection: 0)
 
                 let firstGroupId = subject.groupForIndexPath(firstPostIndexPath)
                 let secondGroupId = subject.groupForIndexPath(secondPostIndexPath)
