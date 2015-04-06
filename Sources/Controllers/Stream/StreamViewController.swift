@@ -193,6 +193,7 @@ public class StreamViewController: BaseElloViewController {
         }
     }
 
+    // Inserts the new comment items under the createComment cell
     public func insertNewCommentItems(commentItems: [StreamCellItem]) {
         if count(commentItems) == 0 {
             return
