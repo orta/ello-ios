@@ -10,19 +10,14 @@ import Foundation
 
 
 public class ElloLabel: UILabel {
-
-    func labelTextColor() -> UIColor {
-        return UIColor.whiteColor()
-    }
-
     required public init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         if let text = self.text {
-            self.setLabelText(text)
+            self.setLabelText(text, color: textColor)
         }
     }
 
-    func attributes(title:String) -> [NSObject : AnyObject] {
+    func attributes(title: String, color: UIColor) -> [NSObject : AnyObject] {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 10
 
@@ -30,7 +25,7 @@ public class ElloLabel: UILabel {
         var range = NSRange(location: 0, length: count(title))
         return [
             NSFontAttributeName : UIFont.typewriterFont(12.0),
-            NSForegroundColorAttributeName : self.labelTextColor(),
+            NSForegroundColorAttributeName : color,
             NSParagraphStyleAttributeName : paragraphStyle
         ]
     }
@@ -40,25 +35,28 @@ public class ElloLabel: UILabel {
             let nstext:NSString = NSString(string: text)
             return nstext.boundingRectWithSize(CGSize(width: self.frame.size.width, height: CGFloat.max),
                 options: .UsesLineFragmentOrigin,
-                attributes: attributes(text),
+                attributes: attributes(text, color: UIColor.whiteColor()),
                 context: nil).size.height
         }
         return 0.0
     }
 
-    func setLabelText(title:String) {
+    func setLabelText(title: String, color: UIColor = UIColor.whiteColor()) {
         var attributedString = NSMutableAttributedString(string: title)
         var range = NSRange(location: 0, length: count(title))
-        attributedString.addAttributes(attributes(title), range: range)
+        attributedString.addAttributes(attributes(title, color: color), range: range)
         self.attributedText = attributedString
     }
-    
 }
 
 public class ElloToggleLabel: ElloLabel {
-
-    override func labelTextColor() -> UIColor {
-        return UIColor.greyA()
+    override func setLabelText(title: String, color: UIColor = UIColor.greyA()) {
+        super.setLabelText(title, color: color)
     }
 }
 
+public class ElloErrorLabel: ElloLabel {
+    override func setLabelText(title: String, color: UIColor = UIColor.redColor()) {
+        super.setLabelText(title, color: color)
+    }
+}
