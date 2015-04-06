@@ -50,7 +50,7 @@ public class SensitiveSettingsViewController: UITableViewController {
     }
 
     private func setupViews() {
-        usernameView.label.text = "Username"
+        usernameView.label.setLabelText("Username")
         usernameView.textField.text = currentUser?.username
         usernameView.textFieldDidChange = { text in
             self.valueChanged()
@@ -88,7 +88,7 @@ public class SensitiveSettingsViewController: UITableViewController {
             }
         }
 
-        emailView.label.text = "Email"
+        emailView.label.setLabelText("Email")
         emailView.textField.text = currentUser?.email
         emailView.textFieldDidChange = { text in
             self.valueChanged()
@@ -124,7 +124,7 @@ public class SensitiveSettingsViewController: UITableViewController {
             }
         }
 
-        passwordView.label.text = "Password"
+        passwordView.label.setLabelText("Password")
         passwordView.textField.secureTextEntry = true
         passwordView.textFieldDidChange = { text in
             self.valueChanged()

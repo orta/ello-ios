@@ -14,14 +14,14 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ElloTextFieldView" customModule="Ello" customModuleProvider="target">
             <connections>
                 <outlet property="errorLabel" destination="Ur0-FP-dRP" id="CaY-xP-RTl"/>
-                <outlet property="label" destination="zsc-gQ-joB" id="hbn-S5-28l"/>
+                <outlet property="label" destination="zsc-gQ-joB" id="ml7-US-BMu"/>
                 <outlet property="messageLabel" destination="nuK-Pl-R29" id="8WN-ch-s68"/>
                 <outlet property="textField" destination="1Cw-Er-hqU" id="lBI-mx-bkv"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clipsSubviews="YES" contentMode="scaleToFill" id="Of5-ti-C23">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="105"/>
+            <rect key="frame" x="0.0" y="0.0" width="600" height="109"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1Cw-Er-hqU" customClass="ElloTextField" customModule="Ello" customModuleProvider="target">
@@ -32,20 +32,20 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zsc-gQ-joB">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zsc-gQ-joB" customClass="ElloToggleLabel" customModule="Ello" customModuleProvider="target">
                     <rect key="frame" x="8" y="8" width="77" height="15"/>
                     <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="15"/>
                     <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ur0-FP-dRP">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ur0-FP-dRP" customClass="ElloErrorLabel" customModule="Ello" customModuleProvider="target">
                     <rect key="frame" x="8" y="89" width="584" height="0.0"/>
                     <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="14"/>
                     <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nuK-Pl-R29">
-                    <rect key="frame" x="8" y="97" width="584" height="0.0"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nuK-Pl-R29" customClass="ElloLabel" customModule="Ello" customModuleProvider="target">
+                    <rect key="frame" x="8" y="109" width="584" height="0.0"/>
                     <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="14"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -55,7 +55,7 @@
                 <constraint firstItem="1Cw-Er-hqU" firstAttribute="top" secondItem="zsc-gQ-joB" secondAttribute="bottom" constant="8" id="0VS-cT-ZWa"/>
                 <constraint firstItem="Ur0-FP-dRP" firstAttribute="leading" secondItem="Of5-ti-C23" secondAttribute="leading" constant="8" id="0rH-J4-1X9"/>
                 <constraint firstItem="Ur0-FP-dRP" firstAttribute="top" secondItem="1Cw-Er-hqU" secondAttribute="bottom" constant="8" id="57e-Tl-MIV"/>
-                <constraint firstItem="nuK-Pl-R29" firstAttribute="top" secondItem="Ur0-FP-dRP" secondAttribute="bottom" constant="8" id="8vH-qJ-epS"/>
+                <constraint firstItem="nuK-Pl-R29" firstAttribute="top" secondItem="Ur0-FP-dRP" secondAttribute="bottom" constant="20" id="8vH-qJ-epS"/>
                 <constraint firstItem="zsc-gQ-joB" firstAttribute="leading" secondItem="Of5-ti-C23" secondAttribute="leading" constant="8" id="D21-65-KA5"/>
                 <constraint firstAttribute="trailing" secondItem="1Cw-Er-hqU" secondAttribute="trailing" constant="8" id="DGh-TC-SxM"/>
                 <constraint firstAttribute="trailing" secondItem="nuK-Pl-R29" secondAttribute="trailing" constant="8" id="Ihr-NU-wUN"/>
@@ -66,7 +66,7 @@
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="454" y="417.5"/>
+            <point key="canvasLocation" x="454" y="419.5"/>
         </view>
     </objects>
 </document>

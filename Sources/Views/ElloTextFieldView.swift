@@ -11,10 +11,10 @@ import Foundation
 private let ElloTextFieldViewHeight: CGFloat = 89.0
 
 public class ElloTextFieldView: UIView {
-    @IBOutlet weak var label: UILabel!
+    @IBOutlet weak var label: ElloToggleLabel!
     @IBOutlet weak var textField: ElloTextField!
-    @IBOutlet weak var errorLabel: UILabel!
-    @IBOutlet weak var messageLabel: UILabel!
+    @IBOutlet weak var errorLabel: ElloErrorLabel!
+    @IBOutlet weak var messageLabel: ElloLabel!
 
     var textFieldDidChange: (String -> ())? {
         didSet {
@@ -25,7 +25,7 @@ public class ElloTextFieldView: UIView {
     var height: CGFloat {
         var height = ElloTextFieldViewHeight
         height += errorLabel.frame.height == 0 ? 0 : errorLabel.frame.height + 8
-        height += messageLabel.frame.height == 0 ? 0 : messageLabel.frame.height + 8
+        height += messageLabel.frame.height == 0 ? 0 : messageLabel.frame.height + 20
         return height
     }
 
@@ -46,12 +46,13 @@ public class ElloTextFieldView: UIView {
     }
 
     func setErrorMessage(message: String) {
-        errorLabel.text = message
+        errorLabel.setLabelText(message)
         errorLabel.sizeToFit()
     }
 
     func setMessage(message: String) {
-        messageLabel.text = message
+        messageLabel.setLabelText(message)
+        messageLabel.textColor = UIColor.blackColor()
         messageLabel.sizeToFit()
     }
 }
