@@ -39,9 +39,15 @@ struct ModelHelper {
         let comment = ModelHelper.stubComment("456", contentCount: 3, summaryCount: 3, parentPost: post)
         let parser = StreamCellItemParser()
         let postCellItems = parser.parse([post], streamKind: .Friend)
+        let createCommentItem = StreamCellItem(jsonable: comment,
+            type: .CreateComment,
+            data: nil,
+            oneColumnCellHeight: StreamCreateCommentCell.Size.Height,
+            multiColumnCellHeight: StreamCreateCommentCell.Size.Height,
+            isFullWidth: true)
         let commentCellItems = parser.parse([comment], streamKind: .Friend)
 
-        return postCellItems + commentCellItems
+        return postCellItems + [createCommentItem] + commentCellItems
     }
 
     static func stubComment(commentId: String, contentCount: Int, summaryCount: Int, parentPost: Post?) -> Comment {
