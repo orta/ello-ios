@@ -31,7 +31,7 @@ public class PostbarController: NSObject, PostbarDelegate {
     public func commentsButtonTapped(cell:StreamFooterCell, commentsButton: CommentButton) {
         cell.commentsButton.enabled = false
         if let indexPath = collectionView.indexPathForCell(cell) {
-            if let item = dataSource.itemForIndexPath(indexPath) {
+            if let item = dataSource.visibleStreamCellItem(at: indexPath) {
                 if let post = item.jsonable as? Post {
                     if cell.commentsOpened {
                         let indexPaths = self.dataSource.removeCommentsForPost(post)

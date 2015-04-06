@@ -76,18 +76,12 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         updateFilteredItems()
     }
 
-    public func itemForIndexPath(indexPath: NSIndexPath) -> StreamCellItem? {
-        if !isValidIndexPath(indexPath) { return nil }
-
-        return visibleCellItems[indexPath.item]
-    }
-
     public func postForIndexPath(indexPath: NSIndexPath) -> Post? {
-        return itemForIndexPath(indexPath)?.jsonable as? Post
+        return visibleStreamCellItem(at: indexPath)?.jsonable as? Post
     }
 
     public func commentForIndexPath(indexPath: NSIndexPath) -> Comment? {
-        return itemForIndexPath(indexPath)?.jsonable as? Comment
+        return visibleStreamCellItem(at: indexPath)?.jsonable as? Comment
     }
 
     public func visibleStreamCellItem(at indexPath: NSIndexPath) -> StreamCellItem? {
@@ -135,7 +129,6 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         return indexPaths
     }
 
-    // this includes the `createComment` cell, since it contains a comment item
     public func footerIndexPathForPost(searchPost: Post) -> NSIndexPath? {
         for (index, value) in enumerate(visibleCellItems) {
             if value.type == .Footer,
