@@ -6,13 +6,13 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-enum ActionStyle {
+public enum ActionStyle {
     case Light
     case Dark
 }
 
-struct AlertAction {
-    let title: String
-    let style: ActionStyle
-    let handler: ((AlertAction) -> ())?
+public struct AlertAction {
+    public let title: String
+    public let style: ActionStyle
+    public let handler: ((AlertAction) -> ())?
 }
