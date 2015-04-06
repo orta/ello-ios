@@ -7,7 +7,7 @@
 //
 
 class AlertCell: UITableViewCell {
-    @IBOutlet weak var label: UILabel!
+    @IBOutlet weak var label: ElloLabel!
     @IBOutlet weak var background: UIView!
 }
 

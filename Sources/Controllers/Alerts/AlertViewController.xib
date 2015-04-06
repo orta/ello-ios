@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AlertViewController" customModule="Ello" customModuleProvider="target">
             <connections>
+                <outlet property="headerLabel" destination="1Uf-Eg-GTc" id="Tui-gd-o1e"/>
                 <outlet property="tableView" destination="Sf2-cb-n2T" id="9v2-8w-M0W"/>
                 <outlet property="topPadding" destination="UuI-DQ-RPH" id="jh1-SS-MxU"/>
                 <outlet property="view" destination="WvV-hs-oXY" id="exO-sE-Wic"/>
@@ -19,6 +20,13 @@
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Sf2-cb-n2T">
                     <rect key="frame" x="20" y="15" width="560" height="570"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <label key="tableHeaderView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1Uf-Eg-GTc" customClass="ElloLabel" customModule="Ello" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="-21" width="560" height="44"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="CMO-4p-hio"/>
                         <outlet property="delegate" destination="-1" id="smg-Mx-aJ1"/>

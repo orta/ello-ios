@@ -12,7 +12,6 @@ struct AlertCellPresenter {
 
     func configureCell(cell: UITableViewCell) {
         let buttonCell = cell as! AlertCell
-        buttonCell.label.text = action.title
 
         switch action.style {
         case .Light: configureForLightAction(buttonCell)
@@ -21,12 +20,12 @@ struct AlertCellPresenter {
     }
 
     func configureForLightAction(cell: AlertCell) {
+        cell.label.setLabelText(action.title, color: UIColor.grey6())
         cell.background.backgroundColor = UIColor.greyE5()
-        cell.label.textColor = UIColor.grey6()
     }
 
     func configureForDarkAction(cell: AlertCell) {
+        cell.label.setLabelText(action.title)
         cell.background.backgroundColor = UIColor.blackColor()
-        cell.label.textColor = UIColor.whiteColor()
     }
 }

@@ -8,6 +8,7 @@
 
 public class AlertViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var headerLabel: ElloLabel!
     @IBOutlet weak var topPadding: NSLayoutConstraint!
 
     private let message: String?
@@ -36,6 +37,11 @@ public extension AlertViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.registerNib(AlertCell.nib(), forCellReuseIdentifier: AlertCell.reuseIdentifier())
+        if let message = message {
+            headerLabel.setLabelText(message, color: UIColor.blackColor())
+        } else {
+            tableView.tableHeaderView = .None
+        }
     }
 }
 
