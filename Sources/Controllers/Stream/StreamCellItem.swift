@@ -36,4 +36,17 @@ public class StreamCellItem:NSObject {
         self.multiColumnCellHeight = multiColumnCellHeight
     }
 
+    public func copyStreamCellItem() -> StreamCellItem {
+        let copy = StreamCellItem(
+            jsonable: self.jsonable,
+            type: self.type,
+            data: self.data,
+            oneColumnCellHeight: self.oneColumnCellHeight,
+            multiColumnCellHeight: self.multiColumnCellHeight,
+            isFullWidth: self.isFullWidth
+            )
+        copy.calculatedWebHeight = self.calculatedWebHeight
+        return copy
+    }
+
 }

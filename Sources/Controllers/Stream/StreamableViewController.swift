@@ -96,7 +96,8 @@ public class StreamableViewController : BaseElloViewController {
 // MARK: PostTappedDelegate
 extension StreamableViewController: PostTappedDelegate {
     public func postTapped(post: Post, initialItems: [StreamCellItem]) {
-        let vc = PostDetailViewController(post: post, items: initialItems)
+        let itemsCopy = initialItems.map { $0.copyStreamCellItem() }
+        let vc = PostDetailViewController(post: post, items: itemsCopy)
         vc.currentUser = currentUser
         vc.willPresentStreamable(scrollLogic.isShowing)
         self.navigationController?.pushViewController(vc, animated: true)
