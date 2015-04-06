@@ -9,6 +9,7 @@ inhibit_all_warnings!
 # Opt into framework support (required for Swift support in CocoaPods RC1)
 use_frameworks!
 
+pod 'TimeAgoInWords', '~> 0.1.0'
 pod 'SDWebImage', '~> 3.7'
 pod 'SSPullToRefresh', '~> 1.2'
 # lock this at 1.9 to support SVGKit using `DDLogC` methods
