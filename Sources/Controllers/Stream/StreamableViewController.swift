@@ -157,28 +157,25 @@ extension StreamableViewController: InviteResponder {
         if AddressBook.needsAuthentication() {
             displayContactActionSheet()
         } else {
-            getAddressBook(.None)
+            getAddressBook(AlertAction(title: "", style: .Light, handler: .None))
         }
     }
 
     // MARK: - Private
 
     private func displayContactActionSheet() {
-        let alertController = UIAlertController(
-            title: "Import your contacts fo find your friends on Ello.",
-            message: "Ello does not sell user data and never contacts anyone without your permission.",
-            preferredStyle: .ActionSheet)
+        let alertController = AlertViewController(message: "Import your contacts fo find your friends on Ello.\n\nEllo does not sell user data and never contacts anyone without your permission.")
 
-        let action = UIAlertAction(title: "Import my contacts", style: .Default, handler: getAddressBook)
+        let action = AlertAction(title: "Import my contacts", style: .Dark, handler: getAddressBook)
         alertController.addAction(action)
 
-        let cancelAction = UIAlertAction(title: "Not now", style: .Cancel, handler: .None)
+        let cancelAction = AlertAction(title: "Not now", style: .Light, handler: .None)
         alertController.addAction(cancelAction)
 
         presentViewController(alertController, animated: true, completion: .None)
     }
 
-    private func getAddressBook(action: UIAlertAction?) {
+    private func getAddressBook(action: AlertAction) {
         AddressBook.getAddressBook { result in
             dispatch_async(dispatch_get_main_queue()) {
                 switch result {
@@ -194,13 +191,11 @@ extension StreamableViewController: InviteResponder {
     }
 
     private func displayAddressBookAlert(message: String) {
-        let alertController = UIAlertController(
-            title: "We were unable to access your address book",
-            message: message,
-            preferredStyle: .Alert
+        let alertController = AlertViewController(
+            message: "We were unable to access your address book\n\(message)"
         )
 
-        let action = UIAlertAction(title: "OK", style: .Default, handler: .None)
+        let action = AlertAction(title: "OK", style: .Dark, handler: .None)
         alertController.addAction(action)
 
         presentViewController(alertController, animated: true, completion: .None)

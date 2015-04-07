@@ -10,19 +10,44 @@ import Foundation
 
 
 public class ElloLabel: UILabel {
-
-    func labelTextColor() -> UIColor {
-        return UIColor.whiteColor()
-    }
-
     required public init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         if let text = self.text {
-            self.setLabelText(text)
+            self.setLabelText(text, color: textColor)
         }
     }
 
-    func attributes(title:String) -> [NSObject : AnyObject] {
+    public init() {
+        super.init(frame: CGRectZero)
+    }
+}
+
+// MARK: UIView Overrides
+extension ElloLabel {
+    public override func sizeThatFits(size: CGSize) -> CGSize {
+        var size = super.sizeThatFits(size)
+        size.height = height() + 10
+        return size
+    }
+}
+
+public extension ElloLabel {
+    func setLabelText(title: String, color: UIColor = UIColor.whiteColor()) {
+        var attributedString = NSMutableAttributedString(string: title)
+        var range = NSRange(location: 0, length: count(title))
+        attributedString.addAttributes(attributes(title, color: color), range: range)
+        self.attributedText = attributedString
+    }
+
+    func height() -> CGFloat {
+        return (attributedText?.boundingRectWithSize(CGSize(width: self.frame.size.width, height: CGFloat.max),
+            options: .UsesLineFragmentOrigin | .UsesFontLeading,
+            context: nil).size.height).map(ceil) ?? 0
+    }
+}
+
+private extension ElloLabel {
+    func attributes(title: String, color: UIColor) -> [NSObject : AnyObject] {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 10
 
@@ -30,35 +55,20 @@ public class ElloLabel: UILabel {
         var range = NSRange(location: 0, length: count(title))
         return [
             NSFontAttributeName : UIFont.typewriterFont(12.0),
-            NSForegroundColorAttributeName : self.labelTextColor(),
+            NSForegroundColorAttributeName : color,
             NSParagraphStyleAttributeName : paragraphStyle
         ]
     }
-
-    func height() -> CGFloat {
-        if let text = self.text {
-            let nstext:NSString = NSString(string: text)
-            return nstext.boundingRectWithSize(CGSize(width: self.frame.size.width, height: CGFloat.max),
-                options: .UsesLineFragmentOrigin,
-                attributes: attributes(text),
-                context: nil).size.height
-        }
-        return 0.0
-    }
-
-    func setLabelText(title:String) {
-        var attributedString = NSMutableAttributedString(string: title)
-        var range = NSRange(location: 0, length: count(title))
-        attributedString.addAttributes(attributes(title), range: range)
-        self.attributedText = attributedString
-    }
-    
 }
 
 public class ElloToggleLabel: ElloLabel {
-
-    override func labelTextColor() -> UIColor {
-        return UIColor.greyA()
+    public override func setLabelText(title: String, color: UIColor = UIColor.greyA()) {
+        super.setLabelText(title, color: color)
     }
 }
 
+public class ElloErrorLabel: ElloLabel {
+    public override func setLabelText(title: String, color: UIColor = UIColor.redColor()) {
+        super.setLabelText(title, color: color)
+    }
+}

@@ -273,9 +273,9 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
     }
 
     public func reportSuccess(title : String) {
-        let alertController = UIAlertController(title: title, message: "", preferredStyle: .Alert)
+        let alertController = AlertViewController(message: title)
 
-        let cancelAction = UIAlertAction(title: "OK", style: .Cancel) { (action) in }
+        let cancelAction = AlertAction(title: "OK", style: .Light, handler: .None)
         alertController.addAction(cancelAction)
 
         delegate?.omnibarPresentController(alertController)
@@ -293,9 +293,9 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
     }
 
     public func reportError(title : String, errorMessage : String) {
-        let alertController = UIAlertController(title: title, message: errorMessage, preferredStyle: .Alert)
+        let alertController = AlertViewController(message: title)
 
-        let cancelAction = UIAlertAction(title: "OK", style: .Cancel) { (action) in }
+        let cancelAction = AlertAction(title: "OK", style: .Light, handler: .None)
         alertController.addAction(cancelAction)
 
         delegate?.omnibarPresentController(alertController)
@@ -537,15 +537,15 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
 
     public func addImageAction() {
         if UIImagePickerController.isSourceTypeAvailable(.Camera) {
-            let alertController = UIAlertController(title: "Choose a photo source", message: "", preferredStyle: .ActionSheet)
+            let alertController = AlertViewController(message: "Choose a photo source")
 
-            let cameraAction = UIAlertAction(title: "📷 Camera", style: .Default) { (action) in self.openCamera() }
+            let cameraAction = AlertAction(title: "📷 Camera", style: .Dark) { (action) in self.openCamera() }
             alertController.addAction(cameraAction)
 
-            let libraryAction = UIAlertAction(title: "📱 Library", style: .Default) { (action) in self.openLibrary() }
+            let libraryAction = AlertAction(title: "📱 Library", style: .Dark) { (action) in self.openLibrary() }
             alertController.addAction(libraryAction)
 
-            let cancelAction = UIAlertAction(title: "🚫 Cancel", style: .Cancel) { (action) in }
+            let cancelAction = AlertAction(title: "🚫 Cancel", style: .Light) { (action) in }
             alertController.addAction(cancelAction)
 
             delegate?.omnibarPresentController(alertController)
@@ -554,9 +554,9 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
             openLibrary()
         }
         else {
-            let alertController = UIAlertController(title: "No photo library", message: "Sorry, but your device doesn’t have a photo library!", preferredStyle: .Alert)
+            let alertController = AlertViewController(message: "Sorry, but your device doesn’t have a photo library!")
 
-            let cancelAction = UIAlertAction(title: "OK", style: .Cancel) { (action) in }
+            let cancelAction = AlertAction(title: "OK", style: .Light, handler: .None)
             alertController.addAction(cancelAction)
 
             delegate?.omnibarPresentController(alertController)

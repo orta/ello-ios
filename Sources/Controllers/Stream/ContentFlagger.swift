@@ -1,4 +1,5 @@
 //
+
 //  ContentFlagger.swift
 //  Ello
 //
@@ -35,7 +36,7 @@ public class ContentFlagger {
         case Copyright = "Copyright infringement"
         case Threatening = "Threatening"
         case Hate = "Hate Speech"
-        case Adult = "Adult content that isn't marked NSFW*"
+        case Adult = "NSFW Content"
         case DontLike = "I don't like it"
 
         public var name: String {
@@ -57,7 +58,7 @@ public class ContentFlagger {
         static let all = [Spam, Violence, Copyright, Threatening, Hate, Adult, DontLike]
     }
 
-    func handler(action: UIAlertAction!) {
+    func handler(action: AlertAction) {
         let option = AlertOption(rawValue: action.title)
         if let option = option {
 
@@ -75,28 +76,23 @@ public class ContentFlagger {
             }, failure: { (error, statusCode) in
                 self.contentFlagged = false
             })
-
         }
     }
 
     public func displayFlaggingSheet() {
 
-        let alertController = UIAlertController(title: "Would you like to flag this content as:", message: "* Ello allows adult content as long as it complies with our rules and is marked NSFW.", preferredStyle: .ActionSheet)
+        let alertController = AlertViewController(message: "Would you like to flag this content as:")
 
         for option in AlertOption.all {
-            let action = UIAlertAction(title: option.name, style: .Destructive, handler:handler)
+            let action = AlertAction(title: option.name, style: .Dark, handler:handler)
             alertController.addAction(action)
         }
 
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
-            // ...
-        }
+        let cancelAction = AlertAction(title: "Cancel", style: .Light, handler: .None)
 
         alertController.addAction(cancelAction)
 
-        presentingController.presentViewController(alertController, animated: true) {
-            // ...
-        }
+        presentingController.presentViewController(alertController, animated: true, completion: .None)
     }
 
 }
