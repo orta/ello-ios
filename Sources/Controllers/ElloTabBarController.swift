@@ -10,10 +10,8 @@ import UIKit
 
 public class ElloTabBarController: UIViewController {
     private var visibleViewController: UIViewController? = nil
-    private let tabBarPrivate: ElloTabBar
-
-    // public, read-only access to ElloTabBar
-    public var tabBar: ElloTabBar { return tabBarPrivate }
+    private let _tabBar: ElloTabBar
+    public var tabBar: ElloTabBar { return _tabBar }
 
     // stores the actual value (used by the tabBarHidden property *and* setTabBarHidden func)
     private var tabBarHiddenValue: Bool
@@ -38,8 +36,8 @@ public class ElloTabBarController: UIViewController {
             else if selectedIndex < count(childViewControllers) {
                 updateVisibleViewController()
                 if let selectedViewController = selectedViewController {
-                    if tabBarPrivate.selectedItem != selectedViewController.tabBarItem {
-                        tabBarPrivate.selectedItem = selectedViewController.tabBarItem
+                    if _tabBar.selectedItem != selectedViewController.tabBarItem {
+                        _tabBar.selectedItem = selectedViewController.tabBarItem
                     }
                 }
             }
@@ -76,7 +74,7 @@ public class ElloTabBarController: UIViewController {
     required public init(coder decoder: NSCoder) {
         selectedIndex = decoder.decodeIntegerForKey("selectedIndex")
         tabBarHiddenValue = false
-        tabBarPrivate = ElloTabBar()
+        _tabBar = ElloTabBar()
         super.init(coder: decoder)
     }
 
@@ -95,14 +93,14 @@ public class ElloTabBarController: UIViewController {
 
     override public func viewDidLoad() {
         super.viewDidLoad()
-        self.view.addSubview(tabBarPrivate)
-        tabBarPrivate.delegate = self
+        self.view.addSubview(_tabBar)
+        _tabBar.delegate = self
 
         selectedIndex = 2
         updateTabBarItems()
         modalTransitionStyle = .CrossDissolve
         if let selectedViewController = selectedViewController {
-            tabBarPrivate.selectedItem = selectedViewController.tabBarItem
+            _tabBar.selectedItem = selectedViewController.tabBarItem
         }
     }
 
@@ -111,14 +109,14 @@ public class ElloTabBarController: UIViewController {
 
         var upAmount = CGFloat(0)
         if !tabBarHiddenValue {
-            upAmount = self.tabBarPrivate.frame.height
+            upAmount = self._tabBar.frame.height
         }
-        tabBarPrivate.frame = self.view.bounds.fromBottom().withHeight(self.tabBarPrivate.frame.height).shiftUp(upAmount)
+        _tabBar.frame = self.view.bounds.fromBottom().withHeight(self._tabBar.frame.height).shiftUp(upAmount)
 
         if let selectedViewController = selectedViewController {
             selectedViewController.view.frame = self.view.bounds
             if !tabBarHiddenValue {
-                selectedViewController.view.frame = selectedViewController.view.frame.shrinkUp(tabBarPrivate.frame.height)
+                selectedViewController.view.frame = selectedViewController.view.frame.shrinkUp(_tabBar.frame.height)
             }
         }
     }
@@ -146,7 +144,7 @@ public class ElloTabBarController: UIViewController {
 extension ElloTabBarController: UITabBarDelegate {
 
     public func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem) {
-        if let items = tabBarPrivate.items as? [UITabBarItem] {
+        if let items = _tabBar.items as? [UITabBarItem] {
             if let index = find(items, item) {
                 if index == selectedIndex {
                     if let navigationViewController = selectedViewController as? UINavigationController {
@@ -185,7 +183,7 @@ extension ElloTabBarController {
             return tabBarItem
         }
         let items = controllers.map(mapper)
-        tabBarPrivate.items = items
+        _tabBar.items = items
     }
 
     private func updateVisibleViewController() {
@@ -213,8 +211,8 @@ extension ElloTabBarController {
     }
 
     private func showViewController(showViewController: UIViewController) {
-        self.view.insertSubview(showViewController.view, belowSubview: tabBarPrivate)
-        showViewController.view.frame = tabBarPrivate.frame.fromBottom().growUp(self.view.frame.height - tabBarPrivate.frame.height)
+        self.view.insertSubview(showViewController.view, belowSubview: _tabBar)
+        showViewController.view.frame = _tabBar.frame.fromBottom().growUp(self.view.frame.height - _tabBar.frame.height)
         showViewController.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
     }
 
