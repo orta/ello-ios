@@ -68,6 +68,10 @@ public class SettingsViewController: UITableViewController {
         default: break
         }
     }
+
+    @IBAction func logOutTapped(sender: ElloTextButton) {
+        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.UserLoggedOut.rawValue, object: nil)
+    }
 }
 
 extension SettingsViewController: SensitiveSettingsDelegate {
