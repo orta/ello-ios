@@ -22,7 +22,6 @@ extension ImageRegion: Regionable {
                 "kind": self.kind,
                 "data": [
                     "alt": alt ?? "",
-                    "via": "direct",
                     "url": url
                 ],
             ]
