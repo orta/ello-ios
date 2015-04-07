@@ -105,12 +105,10 @@ public class LandingViewController: BaseElloViewController {
         authToken.reset()
 
         self.dismissViewControllerAnimated(true, completion: {
-            let alertController = UIAlertController(
-                title: "You have been automatically logged out",
-                message: "",
-                preferredStyle: .Alert)
+            let alertController = AlertViewController(
+                message: "You have been automatically logged out")
 
-            let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
+            let action = AlertAction(title: "OK", style: .Dark, handler: nil)
             alertController.addAction(action)
 
             self.presentViewController(alertController, animated: true, completion: nil)
