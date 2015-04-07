@@ -6,26 +6,43 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+private let DesiredWidth: CGFloat = 300
+
 public class AlertViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var headerLabel: ElloLabel!
     @IBOutlet weak var topPadding: NSLayoutConstraint!
+    @IBOutlet weak var leftPadding: NSLayoutConstraint!
 
-    private let message: String?
+    let headerLabel: ElloLabel = {
+        let label = ElloLabel()
+        label.numberOfLines = 0
+        return label
+    }()
+
     public private(set) var actions: [AlertAction] = []
 
     var desiredSize: CGSize {
         var size = CGSizeZero
-        size.height = tableView.contentSize.height + (2 * topPadding.constant)
-        size.width = 300
+        size.height = tableView.contentSize.height + totalVerticalPadding
+        size.width = DesiredWidth
         return size
     }
 
+    var totalHorizontalPadding: CGFloat {
+        return 2 * leftPadding.constant
+    }
+
+    var totalVerticalPadding: CGFloat {
+        return 2 * topPadding.constant + CGRectGetHeight(headerLabel.frame)
+    }
+
     init(message: String?) {
-        self.message = message
         super.init(nibName: "AlertViewController", bundle: .None)
         modalPresentationStyle = .Custom
         transitioningDelegate = self
+        if let text = message {
+            headerLabel.setLabelText(text, color: UIColor.blackColor())
+        }
     }
 
     public required init(coder aDecoder: NSCoder) {
@@ -37,11 +54,11 @@ public extension AlertViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.registerNib(AlertCell.nib(), forCellReuseIdentifier: AlertCell.reuseIdentifier())
-        if let message = message {
-            headerLabel.setLabelText(message, color: UIColor.blackColor())
-        } else {
-            tableView.tableHeaderView = .None
-        }
+    }
+
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        headerLabel.frame.size.width = CGRectGetWidth(self.view.bounds) - totalHorizontalPadding
     }
 }
 
@@ -64,6 +81,15 @@ extension AlertViewController: UITableViewDelegate {
         let action = actions.safeValue(indexPath.row)
         action.map { $0.handler?($0) }
         dismissViewControllerAnimated(true, completion: .None)
+    }
+
+    public func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return headerLabel
+    }
+
+    public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        headerLabel.sizeToFit()
+        return CGRectGetHeight(headerLabel.frame)
     }
 }
 

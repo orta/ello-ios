@@ -17,6 +17,10 @@ public class ElloLabel: UILabel {
         }
     }
 
+    init() {
+        super.init(frame: CGRectZero)
+    }
+
     func attributes(title: String, color: UIColor) -> [NSObject : AnyObject] {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 10
@@ -31,14 +35,9 @@ public class ElloLabel: UILabel {
     }
 
     func height() -> CGFloat {
-        if let text = self.text {
-            let nstext:NSString = NSString(string: text)
-            return nstext.boundingRectWithSize(CGSize(width: self.frame.size.width, height: CGFloat.max),
-                options: .UsesLineFragmentOrigin,
-                attributes: attributes(text, color: UIColor.whiteColor()),
-                context: nil).size.height
-        }
-        return 0.0
+        return (attributedText?.boundingRectWithSize(CGSize(width: self.frame.size.width, height: CGFloat.max),
+            options: .UsesLineFragmentOrigin | .UsesFontLeading,
+            context: nil).size.height).map(ceil) ?? 0
     }
 
     func setLabelText(title: String, color: UIColor = UIColor.whiteColor()) {
@@ -46,6 +45,12 @@ public class ElloLabel: UILabel {
         var range = NSRange(location: 0, length: count(title))
         attributedString.addAttributes(attributes(title, color: color), range: range)
         self.attributedText = attributedString
+    }
+
+    public override func sizeThatFits(size: CGSize) -> CGSize {
+        var size = super.sizeThatFits(size)
+        size.height = height() + 10
+        return size
     }
 }
 
