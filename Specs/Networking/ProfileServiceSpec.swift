@@ -13,7 +13,6 @@ import Quick
 import Moya
 import Nimble
 
-
 class ProfileServiceSpec: QuickSpec {
     override func spec() {
         describe("-loadCurrentUser") {
@@ -63,6 +62,31 @@ class ProfileServiceSpec: QuickSpec {
                     //smoke test the user
                     expect(loadedUsers!.first!.id) == "666"
                     expect(loadedUsers!.first!.username) == "cfiggis"
+                }
+            }
+        }
+
+        describe("updateUserProfile") {
+            var profileService = ProfileService()
+
+            context("success") {
+                beforeEach {
+                    ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.endpointsClosure, stubResponses: true)
+                }
+
+                it("Calls success with a User") {
+                    var returnedUser: User?
+
+                    profileService.updateUserProfile([:], success: { user, responseConfig in
+                        returnedUser = user
+                    }, failure: nil)
+
+                    expect(returnedUser).toNot(beNil())
+
+                    //smoke test the user
+                    expect(returnedUser?.userId) == "42"
+                    expect(returnedUser?.username) == "odinarcher"
+                    expect(returnedUser?.formattedShortBio) == "<p>I work for <strong>Odin</strong> now! MOTHER!</p>"
                 }
             }
         }

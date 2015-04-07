@@ -48,4 +48,17 @@ public struct ProfileService {
         )
     }
 
+    public func updateUserProfile(content: [String: AnyObject], success: ProfileSuccessCompletion, failure: ElloFailureCompletion?) {
+        ElloProvider.elloRequest(ElloAPI.ProfileUpdate(body: content),
+            method: .PATCH,
+            success: { data, responseConfig in
+                if let user = data as? User {
+                    success(user: user, responseConfig: responseConfig)
+                } else {
+                    ElloProvider.unCastableJSONAble(failure)
+                }
+            },
+            failure: failure
+        )
+    }
 }
