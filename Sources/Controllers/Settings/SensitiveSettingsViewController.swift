@@ -49,7 +49,7 @@ public class SensitiveSettingsViewController: UITableViewController {
     }
 
     private func setupViews() {
-        usernameView.label.setLabelText("Username")
+        usernameView.label.setLabelText(NSLocalizedString("Username", comment: "username key"))
         usernameView.textField.text = currentUser?.username
         usernameView.textFieldDidChange = { text in
             self.valueChanged()
@@ -70,10 +70,12 @@ public class SensitiveSettingsViewController: UITableViewController {
                         let state: ValidationState = availability.username ? .OK : .Error
 
                         if !availability.username {
-                            self.usernameView.setErrorMessage("Username already exists.\nPlease try a new one.")
+                            let msg = NSLocalizedString("Username already exists.\nPlease try a new one.", comment: "username exists error message")
+                            self.usernameView.setErrorMessage(msg)
                             if !availability.usernameSuggestions.isEmpty {
                                 let suggestions = ", ".join(availability.usernameSuggestions)
-                                self.usernameView.setMessage("Here are some available usernames -\n\(suggestions)");
+                                let msg = String(format: NSLocalizedString("Here are some available usernames -\n%@", comment: "username suggestions message"), suggestions)
+                                self.usernameView.setMessage(msg);
                             }
                         }
                         self.usernameView.setState(state)
@@ -87,7 +89,7 @@ public class SensitiveSettingsViewController: UITableViewController {
             }
         }
 
-        emailView.label.setLabelText("Email")
+        emailView.label.setLabelText(NSLocalizedString("Email", comment: "email key"))
         emailView.textField.text = currentUser?.email
         emailView.textFieldDidChange = { text in
             self.valueChanged()
@@ -107,7 +109,8 @@ public class SensitiveSettingsViewController: UITableViewController {
                         let state: ValidationState = availability.email ? .OK : .Error
 
                         if !availability.email {
-                            self.emailView.setErrorMessage("That email is invalid.\nPlease try again.")
+                            let msg = NSLocalizedString("That email is invalid.\nPlease try again.", comment: "invalid email message")
+                            self.emailView.setErrorMessage(msg)
                         }
                         self.emailView.setState(state)
                         self.updateView()
@@ -117,13 +120,14 @@ public class SensitiveSettingsViewController: UITableViewController {
                     })
                 } else {
                     self.emailView.setState(.Error)
-                    self.emailView.setErrorMessage("That email is invalid.\nPlease try again.")
+                    let msg = NSLocalizedString("That email is invalid.\nPlease try again.", comment: "invalid email message")
+                    self.emailView.setErrorMessage(msg)
                 }
                 self.updateView()
             }
         }
 
-        passwordView.label.setLabelText("Password")
+        passwordView.label.setLabelText(NSLocalizedString("Password", comment: "password key"))
         passwordView.textField.secureTextEntry = true
         passwordView.textFieldDidChange = { text in
             self.valueChanged()
@@ -135,7 +139,8 @@ public class SensitiveSettingsViewController: UITableViewController {
                 self.passwordView.setState(.OK)
             } else {
                 self.passwordView.setState(.Error)
-                self.passwordView.setErrorMessage("Password must be at least 8\ncharacters long.")
+                let msg = NSLocalizedString("Password must be at least 8\ncharacters long.", comment: "password length error message")
+                self.passwordView.setErrorMessage(msg)
             }
             self.updateView()
         }
