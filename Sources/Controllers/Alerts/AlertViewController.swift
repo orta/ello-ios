@@ -9,9 +9,9 @@
 private let DesiredWidth: CGFloat = 300
 
 public class AlertViewController: UIViewController {
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var topPadding: NSLayoutConstraint!
-    @IBOutlet weak var leftPadding: NSLayoutConstraint!
+    @IBOutlet public weak var tableView: UITableView!
+    @IBOutlet public weak var topPadding: NSLayoutConstraint!
+    @IBOutlet public weak var leftPadding: NSLayoutConstraint!
 
     let headerLabel: ElloLabel = {
         let label = ElloLabel()
@@ -36,8 +36,8 @@ public class AlertViewController: UIViewController {
         return 2 * topPadding.constant + CGRectGetHeight(headerLabel.frame)
     }
 
-    init(message: String?) {
-        super.init(nibName: "AlertViewController", bundle: .None)
+    public init(message: String?) {
+        super.init(nibName: "AlertViewController", bundle: NSBundle(forClass: AlertViewController.self))
         modalPresentationStyle = .Custom
         transitioningDelegate = self
         if let text = message {
