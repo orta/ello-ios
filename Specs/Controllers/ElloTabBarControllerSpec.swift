@@ -14,7 +14,7 @@ import Nimble
 class ElloTabBarControllerSpec: QuickSpec {
     override func spec() {
 
-        var controller = ElloTabBarController.instantiateFromStoryboard()
+        var controller: ElloTabBarController!
 
         describe("initialization") {
 
@@ -54,6 +54,78 @@ class ElloTabBarControllerSpec: QuickSpec {
                 }
             }
 
+        }
+
+        context("selecting tab bar items") {
+            var tabBarItem: UITabBarItem
+            var child1 = UINavigationController(rootViewController: UIViewController())
+            tabBarItem = child1.tabBarItem
+            tabBarItem.image = UIImage(named: "specs-avatar")
+            tabBarItem.selectedImage = UIImage(named: "specs-avatar")
+
+            var child2 = UINavigationController(rootViewController: UIViewController())
+            tabBarItem = child2.tabBarItem
+            tabBarItem.image = UIImage(named: "specs-avatar")
+            tabBarItem.selectedImage = UIImage(named: "specs-avatar")
+
+            var child3 = UINavigationController(rootViewController: UIViewController())
+            tabBarItem = child3.tabBarItem
+            tabBarItem.image = UIImage(named: "specs-avatar")
+            tabBarItem.selectedImage = UIImage(named: "specs-avatar")
+
+            var child4 = UINavigationController(rootViewController: UIViewController())
+            tabBarItem = child4.tabBarItem
+            tabBarItem.image = UIImage(named: "specs-avatar")
+            tabBarItem.selectedImage = UIImage(named: "specs-avatar")
+
+            beforeEach() {
+                controller = ElloTabBarController.instantiateFromStoryboard()
+                controller.addChildViewController(child1)
+                controller.addChildViewController(child2)
+                controller.addChildViewController(child3)
+                let view = controller.view
+                controller.selectedIndex = 0
+
+            }
+
+            it("should load child1") {
+                controller.tabBar(controller.tabBar, didSelectItem: child1.tabBarItem)
+                expect(controller.selectedViewController).to(equal(child1))
+                expect(child1.isViewLoaded()).to(beTrue())
+            }
+
+            it("should load child2") {
+                controller.tabBar(controller.tabBar, didSelectItem: child2.tabBarItem)
+                expect(controller.selectedViewController).to(equal(child2))
+                expect(child2.isViewLoaded()).to(beTrue())
+            }
+
+            it("should load child3") {
+                controller.tabBar(controller.tabBar, didSelectItem: child3.tabBarItem)
+                expect(controller.selectedViewController).to(equal(child3))
+                expect(child3.isViewLoaded()).to(beTrue())
+            }
+
+            it("should ignore child4") {
+                controller.tabBar(controller.tabBar, didSelectItem: child4.tabBarItem)
+                expect(controller.selectedViewController).toNot(equal(child3))
+            }
+
+            it("tapping the item twice") {
+                let vc1 = child2.topViewController
+                let vc2 = UIViewController()
+                child2.pushViewController(vc2, animated: false)
+
+                controller.tabBar(controller.tabBar, didSelectItem: child1.tabBarItem)
+                expect(controller.selectedViewController).to(equal(child1))
+
+                controller.tabBar(controller.tabBar, didSelectItem: child2.tabBarItem)
+                expect(controller.selectedViewController).to(equal(child2))
+                expect(child2.topViewController).to(equal(vc2))
+
+                controller.tabBar(controller.tabBar, didSelectItem: child2.tabBarItem)
+                expect(child2.topViewController).to(equal(vc1))
+            }
         }
     }
 }

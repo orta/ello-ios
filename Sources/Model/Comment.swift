@@ -101,7 +101,7 @@ public final class Comment: JSONAble, Authorable, NSCoding {
         )
     }
 
-    class func newCommentForPost(post: Post, currentUser: User) -> Comment {
+    public class func newCommentForPost(post: Post, currentUser: User) -> Comment {
         return Comment(
             author: currentUser,
             commentId: "nil",

@@ -154,6 +154,8 @@ public class StreamContainerViewController: StreamableViewController {
         let comments : [JSONAble] = [comment]
         let parser = StreamCellItemParser()
         let newCommentItems = parser.parse(comments, streamKind: streamViewController.streamKind)
+        // let the streamViewController insert the new items above the old
+        // comments, and below the 'create comment' button
         streamViewController.insertNewCommentItems(newCommentItems)
     }
 
