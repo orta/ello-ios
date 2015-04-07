@@ -66,18 +66,6 @@ class ContentFlaggerSpec: QuickSpec {
                 expect(ContentFlagger.AlertOption(rawValue: adultAction.title)) == ContentFlagger.AlertOption.Adult
                 expect(ContentFlagger.AlertOption(rawValue: dontLikeAction.title)) == ContentFlagger.AlertOption.DontLike
             }
-
-            xit("flags a post with the appropriate flag") {
-                // it appears that it is not possible to simulate taps on a UIAlertController
-            }
-
-        }
-
-        context("comment flagging") {
-
-            xit("flags a comment with the appropriate flag") {
-                // it appears that it is not possible to simulate taps on a UIAlertController
-            }
         }
     }
 }

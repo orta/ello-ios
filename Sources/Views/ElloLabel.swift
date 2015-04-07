@@ -62,13 +62,13 @@ private extension ElloLabel {
 }
 
 public class ElloToggleLabel: ElloLabel {
-    override func setLabelText(title: String, color: UIColor = UIColor.greyA()) {
+    public override func setLabelText(title: String, color: UIColor = UIColor.greyA()) {
         super.setLabelText(title, color: color)
     }
 }
 
 public class ElloErrorLabel: ElloLabel {
-    override func setLabelText(title: String, color: UIColor = UIColor.redColor()) {
+    public override func setLabelText(title: String, color: UIColor = UIColor.redColor()) {
         super.setLabelText(title, color: color)
     }
 }
