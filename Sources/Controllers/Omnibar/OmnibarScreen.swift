@@ -57,7 +57,7 @@ public protocol OmnibarScreenProtocol {
 public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     struct Size {
         static let margins = CGFloat(10)
-        static let textMargins = CGFloat(9)
+        static let textMargins = UIEdgeInsets(top: 22, left: 30, bottom: 9, right: 30)
         static let labelCorrection = CGFloat(8.5)
         static let innerTextMargin = CGFloat(11)
         static let bottomTextMargin = CGFloat(1)
@@ -365,12 +365,15 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
         textContainer.frame = CGRect.make(x: Size.margins, y: buttonContainer.frame.maxY + Size.innerTextMargin,
             right: self.bounds.size.width - Size.margins, bottom: self.bounds.size.height - localKbdHeight)
         sayElloOverlay.frame = textContainer.frame
-        sayElloLabel.frame = CGRect(x: Size.textMargins, y: Size.textMargins + Size.labelCorrection, width: 0, height: 0)
+        sayElloLabel.frame = CGRect(x: Size.textMargins.left, y: Size.textMargins.top + Size.labelCorrection, width: 0, height: 0)
         sayElloLabel.sizeToFit()
 
         // size so that it is offset from the textContainer
-        textView.frame = textContainer.bounds.inset(top: 0, left: Size.textMargins, bottom: 0, right: 0)
-        textView.contentInset = UIEdgeInsets(top: Size.textMargins, left: 0, bottom: Size.textMargins, right: 0)
+        textView.frame = textContainer.bounds.inset(top: 0, left: Size.textMargins.left, bottom: 0, right: Size.textMargins.right)
+        textView.contentInset = UIEdgeInsets(top: Size.textMargins.top, left: 0, bottom: Size.textMargins.bottom, right: 0)
+        textView.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -Size.textMargins.right)
+        textContainer.clipsToBounds = true
+        textView.clipsToBounds = false
     }
 
     private func resetEditor() {
