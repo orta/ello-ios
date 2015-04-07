@@ -29,7 +29,8 @@ public struct StreamImageCellPresenter {
                     }
                 }
                 else {
-                    if let photoURL = photoData.asset?.hdpi?.url {
+                    let photoToLoad = streamKind.isGridLayout ? photoData.asset?.ldpi?.url : photoData.asset?.mdpi?.url
+                    if let photoURL = photoToLoad {
                         cell.serverProvidedAspectRatio = StreamCellItemParser.aspectRatioForImageBlock(photoData)
                         cell.setImageURL(photoURL)
                     }
