@@ -10,7 +10,6 @@ import Foundation
 
 private let SensitiveSettingsSubmitViewHeight: CGFloat = 128
 
-
 public protocol SensitiveSettingsDelegate {
     func sensitiveSettingsDidUpdate()
 }

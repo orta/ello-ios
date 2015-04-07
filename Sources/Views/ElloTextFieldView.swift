@@ -37,7 +37,7 @@ public class ElloTextFieldView: UIView {
         addSubview(view)
     }
 
-    func setState(state: ValidationState?) {
+    func setState(state: ValidationState) {
         textField.setValidationState(state)
     }
 
