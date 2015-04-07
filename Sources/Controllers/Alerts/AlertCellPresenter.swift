@@ -7,7 +7,6 @@
 //
 
 struct AlertCellPresenter {
-    let reuseIdentifier = "AlertCell"
     let action: AlertAction
 
     func configureCell(cell: UITableViewCell) {
