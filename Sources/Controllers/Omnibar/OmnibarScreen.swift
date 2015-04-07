@@ -542,13 +542,13 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
         if UIImagePickerController.isSourceTypeAvailable(.Camera) {
             let alertController = AlertViewController(message: "Choose a photo source")
 
-            let cameraAction = AlertAction(title: "📷 Camera", style: .Dark) { (action) in self.openCamera() }
+            let cameraAction = AlertAction(title: "Camera", style: .Dark) { (action) in self.openCamera() }
             alertController.addAction(cameraAction)
 
-            let libraryAction = AlertAction(title: "📱 Library", style: .Dark) { (action) in self.openLibrary() }
+            let libraryAction = AlertAction(title: "Library", style: .Dark) { (action) in self.openLibrary() }
             alertController.addAction(libraryAction)
 
-            let cancelAction = AlertAction(title: "🚫 Cancel", style: .Light) { (action) in }
+            let cancelAction = AlertAction(title: "Cancel", style: .Light) { (action) in }
             alertController.addAction(cancelAction)
 
             delegate?.omnibarPresentController(alertController)
