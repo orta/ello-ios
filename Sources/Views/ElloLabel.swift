@@ -17,10 +17,36 @@ public class ElloLabel: UILabel {
         }
     }
 
-    init() {
+    public init() {
         super.init(frame: CGRectZero)
     }
+}
 
+// MARK: UIView Overrides
+extension ElloLabel {
+    public override func sizeThatFits(size: CGSize) -> CGSize {
+        var size = super.sizeThatFits(size)
+        size.height = height() + 10
+        return size
+    }
+}
+
+public extension ElloLabel {
+    func setLabelText(title: String, color: UIColor = UIColor.whiteColor()) {
+        var attributedString = NSMutableAttributedString(string: title)
+        var range = NSRange(location: 0, length: count(title))
+        attributedString.addAttributes(attributes(title, color: color), range: range)
+        self.attributedText = attributedString
+    }
+
+    func height() -> CGFloat {
+        return (attributedText?.boundingRectWithSize(CGSize(width: self.frame.size.width, height: CGFloat.max),
+            options: .UsesLineFragmentOrigin | .UsesFontLeading,
+            context: nil).size.height).map(ceil) ?? 0
+    }
+}
+
+private extension ElloLabel {
     func attributes(title: String, color: UIColor) -> [NSObject : AnyObject] {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 10
@@ -32,25 +58,6 @@ public class ElloLabel: UILabel {
             NSForegroundColorAttributeName : color,
             NSParagraphStyleAttributeName : paragraphStyle
         ]
-    }
-
-    func height() -> CGFloat {
-        return (attributedText?.boundingRectWithSize(CGSize(width: self.frame.size.width, height: CGFloat.max),
-            options: .UsesLineFragmentOrigin | .UsesFontLeading,
-            context: nil).size.height).map(ceil) ?? 0
-    }
-
-    func setLabelText(title: String, color: UIColor = UIColor.whiteColor()) {
-        var attributedString = NSMutableAttributedString(string: title)
-        var range = NSRange(location: 0, length: count(title))
-        attributedString.addAttributes(attributes(title, color: color), range: range)
-        self.attributedText = attributedString
-    }
-
-    public override func sizeThatFits(size: CGSize) -> CGSize {
-        var size = super.sizeThatFits(size)
-        size.height = height() + 10
-        return size
     }
 }
 
