@@ -67,9 +67,9 @@ public class SensitiveSettingsViewController: UITableViewController {
                 } else {
                     AvailabilityService().usernameAvailability(text, success: { availability in
                         if text != self.usernameView.textField.text { return }
-                        let state: ValidationState = availability.username ? .OK : .Error
+                        let state: ValidationState = availability.isUsernameAvailable ? .OK : .Error
 
-                        if !availability.username {
+                        if !availability.isUsernameAvailable {
                             let msg = NSLocalizedString("Username already exists.\nPlease try a new one.", comment: "username exists error message")
                             self.usernameView.setErrorMessage(msg)
                             if !availability.usernameSuggestions.isEmpty {
@@ -106,9 +106,9 @@ public class SensitiveSettingsViewController: UITableViewController {
                 } else if text.isValidEmail() {
                     AvailabilityService().emailAvailability(text, success: { availability in
                         if text != self.emailView.textField.text { return }
-                        let state: ValidationState = availability.email ? .OK : .Error
+                        let state: ValidationState = availability.isEmailAvailable ? .OK : .Error
 
-                        if !availability.email {
+                        if !availability.isEmailAvailable {
                             let msg = NSLocalizedString("That email is invalid.\nPlease try again.", comment: "invalid email message")
                             self.emailView.setErrorMessage(msg)
                         }

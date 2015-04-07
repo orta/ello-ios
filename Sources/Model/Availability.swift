@@ -9,16 +9,16 @@
 import SwiftyJSON
 
 public final class Availability: JSONAble {
-    public let username: Bool
-    public let email: Bool
-    public let invitationCode: Bool
+    public let isUsernameAvailable: Bool
+    public let isEmailAvailable: Bool
+    public let isInvitationCodeAvailable: Bool
     public let usernameSuggestions: [String]
     public let emailSuggestion: String
 
-    public init(username: Bool, email: Bool, invitationCode: Bool, usernameSuggestions: [String], emailSuggestion: String) {
-        self.username = username
-        self.email = email
-        self.invitationCode = invitationCode
+    public init(isUsernameAvailable: Bool, isEmailAvailable: Bool, isInvitationCodeAvailable: Bool, usernameSuggestions: [String], emailSuggestion: String) {
+        self.isUsernameAvailable = isUsernameAvailable
+        self.isEmailAvailable = isEmailAvailable
+        self.isInvitationCodeAvailable = isInvitationCodeAvailable
         self.usernameSuggestions = usernameSuggestions
         self.emailSuggestion = emailSuggestion
     }
@@ -33,6 +33,6 @@ extension Availability {
         let usernameSuggestions = json["suggestions"]["username"].arrayValue.map { $0.stringValue }
         let emailSuggestion = json["suggestions"]["email"]["full"].stringValue
 
-        return Availability(username: username, email: email, invitationCode: invitationCode, usernameSuggestions: usernameSuggestions, emailSuggestion: emailSuggestion)
+        return Availability(isUsernameAvailable: username, isEmailAvailable: email, isInvitationCodeAvailable: invitationCode, usernameSuggestions: usernameSuggestions, emailSuggestion: emailSuggestion)
     }
 }

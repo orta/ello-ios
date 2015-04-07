@@ -17,9 +17,9 @@ class AvailabilitySpec: QuickSpec {
             let parsedAvailability = stubbedJSONData("availability", "availability")
             let availability = Availability.fromJSON(parsedAvailability) as! Availability
 
-            expect(availability.username).to(beFalse())
-            expect(availability.email).to(beTrue())
-            expect(availability.invitationCode).to(beTrue())
+            expect(availability.isUsernameAvailable).to(beFalse())
+            expect(availability.isEmailAvailable).to(beTrue())
+            expect(availability.isInvitationCodeAvailable).to(beTrue())
             expect(availability.usernameSuggestions.count) == 3
             expect(availability.emailSuggestion) == "lana@gmail.com"
         }
