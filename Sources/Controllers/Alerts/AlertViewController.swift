@@ -13,26 +13,26 @@ public class AlertViewController: UIViewController {
     @IBOutlet public weak var topPadding: NSLayoutConstraint!
     @IBOutlet public weak var leftPadding: NSLayoutConstraint!
 
-    let headerLabel: ElloLabel = {
-        let label = ElloLabel()
-        label.numberOfLines = 0
-        return label
-    }()
-
-    public private(set) var actions: [AlertAction] = []
-
-    var desiredSize: CGSize {
+    public var desiredSize: CGSize {
         var size = CGSizeZero
         size.height = tableView.contentSize.height + totalVerticalPadding
         size.width = DesiredWidth
         return size
     }
 
-    var totalHorizontalPadding: CGFloat {
+    public private(set) var actions: [AlertAction] = []
+
+    private let headerLabel: ElloLabel = {
+        let label = ElloLabel()
+        label.numberOfLines = 0
+        return label
+    }()
+
+    private var totalHorizontalPadding: CGFloat {
         return 2 * leftPadding.constant
     }
 
-    var totalVerticalPadding: CGFloat {
+    private var totalVerticalPadding: CGFloat {
         return 2 * topPadding.constant
     }
 
