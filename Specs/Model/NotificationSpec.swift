@@ -25,7 +25,7 @@ class NotificationSpec: QuickSpec {
                 summary: [TextRegion(content: "LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT")]
             )
             var createdAtDate = NSDate()
-            var activity = Activity(activityId: "123", kind: .RepostNotification, subjectType: .Post, subject: post, createdAt: createdAtDate)
+            var activity = Activity(id: "123", createdAt: createdAtDate, kind: Activity.Kind.RepostNotification, subjectType: Activity.SubjectType.Post)
             var notification = Notification(activity: activity)
 
             expect(notification.notificationId).to(equal("123"))

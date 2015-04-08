@@ -50,24 +50,18 @@ struct ModelHelper {
         return postCellItems + [createCommentItem] + commentCellItems
     }
 
-    static func stubComment(commentId: String, contentCount: Int, parentPost: Post?) -> Comment {
+    static func stubComment(commentId: String, contentCount: Int, parentPost: Post) -> Comment {
 
         var content = [Regionable]()
         for index in 0..<contentCount {
             content.append(TextRegion(content: "Lorem Ipsum"))
         }
 
-        var commentDict: [String: AnyObject] = [
-            "commentId": commentId,
+        return Comment.stub([
+            "id": commentId,
             "content": content,
-            "summary": content
-        ]
-
-        if let parentPost = parentPost as? AnyObject {
-            commentDict = commentDict + ["parentPost": parentPost]
-        }
-
-        return Comment.stub(commentDict)
+            "parentPost": parentPost
+            ])
     }
 
 

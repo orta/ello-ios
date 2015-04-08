@@ -13,6 +13,15 @@ let ActivityVersion = 1
 public final class Activity: JSONAble, NSCoding {
     public let version: Int = ActivityVersion
 
+    // active record
+    public let id: String
+    public let createdAt: NSDate
+    // required
+    public let kind: Kind
+    public let subjectType: SubjectType
+    // links
+    public var subject: JSONAble?
+
     public enum Kind: String {
         // Posts
         case FriendPost = "friend_post" // main feed
@@ -60,74 +69,72 @@ public final class Activity: JSONAble, NSCoding {
         case Unknown = "Unknown"
     }
 
-    public let activityId: String
-    // required
-    public let kind: Kind
-    public let subjectType: SubjectType
-    public let createdAt: NSDate
-    // links
-    public var subject: AnyObject?
-
 // MARK: Initialization
 
-    public init(activityId: String,
+    public init(id: String,
+        createdAt: NSDate,
         kind: Kind,
-        subjectType: SubjectType,
-        subject: AnyObject?,
-        createdAt: NSDate)
+        subjectType: SubjectType)
     {
-        self.activityId = activityId
+        self.id = id
+        self.createdAt = createdAt
         self.kind = kind
         self.subjectType = subjectType
-        self.subject = subject
-        self.createdAt = createdAt
+        super.init()
     }
 
 // MARK: NSCoding
 
     required public init(coder aDecoder: NSCoder) {
         let decoder = Decoder(aDecoder)
-        self.activityId = decoder.decodeKey("activityId")
-        let kindString: String = decoder.decodeKey("kind")
-        self.kind = Kind(rawValue: kindString) ?? Kind.Unknown
+        // active record
+        self.id = decoder.decodeKey("id")
         self.createdAt = decoder.decodeKey("createdAt")
-        let subjectTypeString: String = decoder.decodeKey("subjectType")
-        self.subjectType = SubjectType(rawValue: subjectTypeString) ?? SubjectType.Unknown
+        // required
+        let rawKind: String = decoder.decodeKey("rawKind")
+        self.kind = Kind(rawValue: rawKind) ?? Kind.Unknown
+        let rawSubjectType: String = decoder.decodeKey("rawSubjectType")
+        self.subjectType = SubjectType(rawValue: rawSubjectType) ?? SubjectType.Unknown
+        // links
         self.subject = decoder.decodeOptionalKey("subject")
+        super.init()
     }
 
     public func encodeWithCoder(encoder: NSCoder) {
-        encoder.encodeObject(self.activityId, forKey: "activityId")
-        encoder.encodeObject(self.kind.rawValue, forKey: "kind")
-        encoder.encodeObject(self.createdAt, forKey: "createdAt")
-        encoder.encodeObject(self.subjectType.rawValue, forKey: "subjectType")
-        if let subject: AnyObject = self.subject {
-            encoder.encodeObject(subject, forKey: "subject")
-        }
+        // active record
+        encoder.encodeObject(id, forKey: "id")
+        encoder.encodeObject(createdAt, forKey: "createdAt")
+        // required
+        encoder.encodeObject(kind.rawValue, forKey: "rawKind")
+        encoder.encodeObject(subjectType.rawValue, forKey: "rawSubjectType")
+        // links
+        encoder.encodeObject(subject, forKey: "subject")
     }
 
 // MARK: JSONAble
 
     override public class func fromJSON(data:[String: AnyObject]) -> JSONAble {
         let json = JSON(data)
-        let activityId = json["created_at"].stringValue
+
+        // active record
+        let id = json["created_at"].stringValue
+        let createdAt = id.toNSDate()!
+        // required
         let kind = Kind(rawValue: json["kind"].stringValue) ?? Kind.Unknown
         let subjectType = SubjectType(rawValue: json["subject_type"].stringValue) ?? SubjectType.Unknown
-        var createdAt = json["created_at"].stringValue.toNSDate() ?? NSDate()
-
-        var links = [String: AnyObject]()
-        var subject:AnyObject?
+        // create activity
+        var activity = Activity(
+            id: id,
+            createdAt: createdAt,
+            kind: kind,
+            subjectType: subjectType
+        )
+        // links
         if let linksNode = data["links"] as? [String: AnyObject] {
-            links = ElloLinkedStore.parseLinks(linksNode)
-            subject = links["subject"]
+            let links = ElloLinkedStore.parseLinks(linksNode)
+            activity.subject = links["subject"] as? JSONAble
         }
 
-        return Activity(
-            activityId: activityId,
-            kind: kind,
-            subjectType: subjectType,
-            subject: subject,
-            createdAt: createdAt
-        )
+        return activity
     }
 }

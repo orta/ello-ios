@@ -13,52 +13,51 @@ import Nimble
 
 class ActivitySpec: QuickSpec {
     override func spec() {
-        it("converts Post activities from JSON") {
-            let parsedActivity = stubbedJSONData("activity-own-post", "activity")
-            let activity = Activity.fromJSON(parsedActivity) as! Activity
+        describe("+fromJSON:") {
 
-            var createdAtString = "2014-06-03T00:00:00.000Z"
-            var createdAt:NSDate = createdAtString.toNSDate()!
+            let parsedActivities = stubbedJSONDataArray("activity_streams_friend_stream", "activities")
 
-            expect(activity.activityId) == createdAtString
-            expect(activity.kind) == Activity.Kind.OwnPost
-            expect(activity.subjectType) == Activity.SubjectType.Post
-            expect(activity.createdAt) == createdAt
+            it("parses own post correctly") {
+                let activity = Activity.fromJSON(parsedActivities[0]) as! Activity
+                let createdAtStr = "2014-06-03T00:00:00.000Z"
+                let createdAt: NSDate = createdAtStr.toNSDate()!
+                // active record
+                expect(activity.id) == createdAtStr
+                expect(activity.createdAt) == createdAt
+                // required
+                expect(activity.kind) == Activity.Kind.OwnPost
+                expect(activity.subjectType) == Activity.SubjectType.Post
+                // links
+                expect(activity.subject).to(beAKindOf(Post.self))
+            }
 
-            let post = activity.subject as! Post
-            var postCreatedAt:NSDate = "2014-12-23T22:27:47.341Z".toNSDate()!
-            expect(post.createdAt) == postCreatedAt
+            it("parses friend post correctly") {
+                let activity = Activity.fromJSON(parsedActivities[1]) as! Activity
+                let createdAtStr = "2014-06-02T00:00:00.000Z"
+                let createdAt: NSDate = createdAtStr.toNSDate()!
+                // active record
+                expect(activity.id) == createdAtStr
+                expect(activity.createdAt) == createdAt
+                // required
+                expect(activity.kind) == Activity.Kind.FriendPost
+                expect(activity.subjectType) == Activity.SubjectType.Post
+                // links
+                expect(activity.subject).to(beAKindOf(Post.self))
+            }
 
-            let postContent0:TextRegion = post.content![0] as! TextRegion
-            expect(postContent0.kind) == RegionKind.Text.rawValue
-            expect(postContent0.content) == "yo mang"
-            
-            expect(post.token) == "KVNldSWCvfPkjsbWcvB4mA"
-            expect(post.id) == "598"
-            
-            let postAuthor = post.author!
-            expect(postAuthor.id) == "42"
-            expect(postAuthor.username) == "archer"
-            expect(postAuthor.name) == "Sterling"
-            expect(postAuthor.experimentalFeatures) == false
-            expect(postAuthor.relationshipPriority) == Relationship.Me
-            expect(postAuthor.href) == "/api/edge/users/42"
-            expect(postAuthor.avatarURL!.absoluteString) == "https://abc123.cloudfront.net/uploads/user/avatar/420/large_pam.png"
-
-            let imageRegion:ImageRegion = post.content![1] as! ImageRegion
-
-            expect(imageRegion.asset!.xxhdpi).notTo(beNil())
-            expect(imageRegion.asset!.xxhdpi!.width) == 2560
-            expect(imageRegion.asset!.xxhdpi!.height) == 1094
-            expect(imageRegion.asset!.xxhdpi!.size) == 728689
-            expect(imageRegion.asset!.xxhdpi!.imageType) == "image/jpeg"
-
-            expect(imageRegion.asset!.hdpi).notTo(beNil())
-            expect(imageRegion.asset!.hdpi!.width) == 750
-            expect(imageRegion.asset!.hdpi!.height) == 321
-            expect(imageRegion.asset!.hdpi!.size) == 77464
-            expect(imageRegion.asset!.hdpi!.imageType) == "image/jpeg"
-
+            it("parses welcome post correctly") {
+                let activity = Activity.fromJSON(parsedActivities[2]) as! Activity
+                let createdAtStr = "2014-06-01T00:00:00.000Z"
+                let createdAt: NSDate = createdAtStr.toNSDate()!
+                // active record
+                expect(activity.id) == createdAtStr
+                expect(activity.createdAt) == createdAt
+                // required
+                expect(activity.kind) == Activity.Kind.WelcomePost
+                expect(activity.subjectType) == Activity.SubjectType.User
+                // links
+                expect(activity.subject).to(beAKindOf(User.self))
+            }
         }
 
         context("NSCoding") {
@@ -77,23 +76,104 @@ class ActivitySpec: QuickSpec {
             context("encoding") {
 
                 it("encodes successfully") {
-                    let post: Post = stub(["id" : "768"])
-                    let activity: Activity = stub(["subject" : post, "activityId" : "456"])
-
+                    let activity: Activity = stub([:])
                     let wasSuccessfulArchived = NSKeyedArchiver.archiveRootObject(activity, toFile: filePath)
-
                     expect(wasSuccessfulArchived).to(beTrue())
                 }
             }
 
             context("decoding") {
 
-                it("decodes successfully") {
+                it("decodes own post successfully") {
                     let expectedCreatedAt = NSDate()
                     let post: Post = stub(["id" : "768"])
                     let activity: Activity = stub([
                         "subject" : post,
-                        "activityId" : "456",
+                        "id" : "456",
+                        "kind" : "own_post",
+                        "subjectType" : "Post",
+                        "createdAt" : expectedCreatedAt
+                        ])
+
+                    NSKeyedArchiver.archiveRootObject(activity, toFile: filePath)
+                    let unArchivedActivity = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! Activity
+
+                    expect(unArchivedActivity).toNot(beNil())
+                    expect(unArchivedActivity.version) == 1
+                    // active record
+                    expect(unArchivedActivity.id) == "456"
+                    expect(unArchivedActivity.createdAt) == expectedCreatedAt
+                    // required
+                    expect(unArchivedActivity.kind) == Activity.Kind.OwnPost
+                    expect(unArchivedActivity.subjectType) == Activity.SubjectType.Post
+                    // links
+                    let unArchivedPost = unArchivedActivity.subject as! Post
+                    expect(unArchivedPost).to(beAKindOf(Post.self))
+                    expect(unArchivedPost.id) == "768"
+                }
+
+                it("decodes friend post successfully") {
+                    let expectedCreatedAt = NSDate()
+                    let post: Post = stub(["id" : "768"])
+                    let activity: Activity = stub([
+                        "subject" : post,
+                        "id" : "456",
+                        "kind" : "friend_post",
+                        "subjectType" : "Post",
+                        "createdAt" : expectedCreatedAt
+                        ])
+
+                    NSKeyedArchiver.archiveRootObject(activity, toFile: filePath)
+                    let unArchivedActivity = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! Activity
+
+                    expect(unArchivedActivity).toNot(beNil())
+                    expect(unArchivedActivity.version) == 1
+                    // active record
+                    expect(unArchivedActivity.id) == "456"
+                    expect(unArchivedActivity.createdAt) == expectedCreatedAt
+                    // required
+                    expect(unArchivedActivity.kind) == Activity.Kind.FriendPost
+                    expect(unArchivedActivity.subjectType) == Activity.SubjectType.Post
+                    // links
+                    let unArchivedPost = unArchivedActivity.subject as! Post
+                    expect(unArchivedPost).to(beAKindOf(Post.self))
+                    expect(unArchivedPost.id) == "768"
+                }
+
+                it("decodes welcome post successfully") {
+                    let expectedCreatedAt = NSDate()
+                    let user: User = stub(["userId" : "768"])
+                    let activity: Activity = stub([
+                        "subject" : user,
+                        "id" : "456",
+                        "kind" : "welcome_post",
+                        "subjectType" : "User",
+                        "createdAt" : expectedCreatedAt
+                        ])
+
+                    NSKeyedArchiver.archiveRootObject(activity, toFile: filePath)
+                    let unArchivedActivity = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! Activity
+
+                    expect(unArchivedActivity).toNot(beNil())
+                    expect(unArchivedActivity.version) == 1
+                    // active record
+                    expect(unArchivedActivity.id) == "456"
+                    expect(unArchivedActivity.createdAt) == expectedCreatedAt
+                    // required
+                    expect(unArchivedActivity.kind) == Activity.Kind.WelcomePost
+                    expect(unArchivedActivity.subjectType) == Activity.SubjectType.User
+                    // links
+                    let unArchivedUser = unArchivedActivity.subject as! User
+                    expect(unArchivedUser).to(beAKindOf(User.self))
+                    expect(unArchivedUser.userId) == "768"
+                }
+
+                it("decodes noise post successfully") {
+                    let expectedCreatedAt = NSDate()
+                    let post: Post = stub(["id" : "768"])
+                    let activity: Activity = stub([
+                        "subject" : post,
+                        "id" : "456",
                         "kind" : "noise_post",
                         "subjectType" : "Post",
                         "createdAt" : expectedCreatedAt
@@ -104,12 +184,13 @@ class ActivitySpec: QuickSpec {
 
                     expect(unArchivedActivity).toNot(beNil())
                     expect(unArchivedActivity.version) == 1
-
-                    expect(unArchivedActivity.activityId) == "456"
-                    expect(unArchivedActivity.kind.rawValue) == Activity.Kind.NoisePost.rawValue
-                    expect(unArchivedActivity.subjectType.rawValue) == Activity.SubjectType.Post.rawValue
+                    // active record
+                    expect(unArchivedActivity.id) == "456"
                     expect(unArchivedActivity.createdAt) == expectedCreatedAt
-
+                    // required
+                    expect(unArchivedActivity.kind) == Activity.Kind.NoisePost
+                    expect(unArchivedActivity.subjectType) == Activity.SubjectType.Post
+                    // links
                     let unArchivedPost = unArchivedActivity.subject as! Post
                     expect(unArchivedPost).to(beAKindOf(Post.self))
                     expect(unArchivedPost.id) == "768"
@@ -118,3 +199,4 @@ class ActivitySpec: QuickSpec {
         }
     }
 }
+

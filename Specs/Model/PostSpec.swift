@@ -16,13 +16,16 @@ class PostSpec: QuickSpec {
 
         describe("+fromJSON:") {
 
+            beforeEach {
+                ElloURI.domain = "ello.co"
+            }
+
             it("parses correctly") {
-                let parsedPost = stubbedJSONData("post_details", "posts")
+                let parsedPost = stubbedJSONData("posts_post_details", "posts")
 
                 let createdAtString = "2014-06-01T00:00:00.000Z"
                 let post = Post.fromJSON(parsedPost) as! Post
-                var createdAt:NSDate = createdAtString.toNSDate()!
-                println("post: \(post)")
+                var createdAt: NSDate = createdAtString.toNSDate()!
                 // active record
                 expect(post.id) == "132"
                 expect(post.createdAt) == createdAt
@@ -50,7 +53,8 @@ class PostSpec: QuickSpec {
                 expect(count(post.assets!)) == 1
                 expect(post.assets!["11"]).to(beAKindOf(Asset.self))
                 // computed
-                expect(post.shareLink) == "https://ello-staging.herokuapp.com/cfiggis/posts/2rz4agLM4f1fyxykW3rc-Q"
+                expect(post.groupId) == "132"
+                expect(post.shareLink) == "https://ello.co/cfiggis/post/2rz4agLM4f1fyxykW3rc-Q"
                 expect(post.collapsed).to(beFalse())
             }
 
@@ -101,14 +105,8 @@ class PostSpec: QuickSpec {
             context("encoding") {
 
                 it("encodes successfully") {
-                    let author: User = stub(["id" : "555"])
-                    let post: Post = stub([
-                        "id" : "768",
-                        "author" : author
-                    ])
-
+                    let post: Post = stub([:])
                     let wasSuccessfulArchived = NSKeyedArchiver.archiveRootObject(post, toFile: filePath)
-
                     expect(wasSuccessfulArchived).to(beTrue())
                 }
             }

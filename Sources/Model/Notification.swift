@@ -63,12 +63,12 @@ public final class Notification : JSONAble, Authorable, NSCoding {
             author = user
         }
 
-        self.init(author: author, createdAt: activity.createdAt, kind: activity.kind, notificationId: activity.activityId, subjectType: activity.subjectType)
+        self.init(author: author, createdAt: activity.createdAt, kind: activity.kind, notificationId: activity.id, subjectType: activity.subjectType)
         if let post = activity.subject as? Post {
             self.assignRegionsFromContent(post.summary)
         }
         else if let comment = activity.subject as? Comment {
-            self.assignRegionsFromContent(comment.summary!)
+            self.assignRegionsFromContent(comment.content)
         }
         self.subject = activity.subject
     }

@@ -16,7 +16,7 @@ class ElloLinkedStoreSpec: QuickSpec {
         describe("-parseLinked:") {
 
             it("parses 'linked' and adds objects to Store") {
-                expect(Store.store).to(beEmpty())
+                expect(ElloLinkedStore.store).to(beEmpty())
                 let linked = [
                     "superheroes":[
                         ["id":"batman" as AnyObject],
@@ -27,10 +27,10 @@ class ElloLinkedStoreSpec: QuickSpec {
                         ["id":"lex luther" as AnyObject]
                     ]
                 ]
-                Store.parseLinked(linked)
+                ElloLinkedStore.parseLinked(linked)
 
-                expect(Store.store["superheroes"]?["batman"]).toNot(beNil())
-                expect(Store.store["villians"]?["lex luther"]).toNot(beNil())
+                expect(ElloLinkedStore.store["superheroes"]?["batman"]).toNot(beNil())
+                expect(ElloLinkedStore.store["villians"]?["lex luther"]).toNot(beNil())
             }
         }
     }

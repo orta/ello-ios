@@ -11,11 +11,10 @@ import Ello
 import Quick
 import Nimble
 
-
 class ImageRegionSpec: QuickSpec {
     override func spec() {
 
-        describe("+fromJSON:") {
+        xdescribe("+fromJSON:") {
 
             it("parses correctly") {
                 let data = stubbedJSONData("image-region", "region")

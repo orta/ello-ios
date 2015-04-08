@@ -30,16 +30,16 @@ public final class Post: JSONAble, Authorable, NSCoding {
     // required
     public let href: String
     public let token: String
-    public let contentWarning: String // new
-    public let allowComments: Bool // new
+    public let contentWarning: String
+    public let allowComments: Bool
     public let summary: [Regionable]
     // optional
     public var content: [Regionable]?
-    public var repostContent: [Regionable]? // new
-    public var repostId: String? // new
-    public var repostPath: NSURL? // new
-    public var repostViaId: String? // new
-    public var repostViaPath: NSURL? // new
+    public var repostContent: [Regionable]?
+    public var repostId: String?
+    public var repostPath: NSURL?
+    public var repostViaId: String?
+    public var repostViaPath: NSURL?
     public var viewsCount: Int?
     public var commentsCount: Int?
     public var repostsCount: Int?
@@ -185,7 +185,7 @@ public final class Post: JSONAble, Authorable, NSCoding {
         let json = JSON(data)
         // active record
         let id = json["id"].stringValue
-        var createdAt:NSDate = json["created_at"].stringValue.toNSDate() ?? NSDate()
+        let createdAt: NSDate = json["created_at"].stringValue.toNSDate()!
         // required
         let href = json["href"].stringValue
         let token = json["token"].stringValue
@@ -201,7 +201,7 @@ public final class Post: JSONAble, Authorable, NSCoding {
             contentWarning: contentWarning,
             allowComments: allowComments,
             summary: summary
-        )
+            )
         // optional
         post.content = RegionParser.regions("content", json: json)
         post.repostContent = RegionParser.regions("repost_content", json: json)
@@ -213,12 +213,8 @@ public final class Post: JSONAble, Authorable, NSCoding {
         post.commentsCount = json["comments_count"].int
         post.repostsCount = json["reposts_count"].int
         // links / nested resources
-        var links = [String: AnyObject]()
-        var assets =  [String: Asset]()
-        var author: User?
-        var content: [Regionable]?
         if let linksNode = data["links"] as? [String: AnyObject] {
-            links = ElloLinkedStore.parseLinks(linksNode)
+            var links = ElloLinkedStore.parseLinks(linksNode)
             post.author = links["author"] as? User
             post.assets = links["assets"] as? [String: Asset]
             post.comments = links["comments"] as? [Comment]

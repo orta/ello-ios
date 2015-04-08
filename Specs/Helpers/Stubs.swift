@@ -97,7 +97,7 @@ extension Post: Stubbable {
             contentWarning: (values["contentWarning"] as? String) ?? "null",
             allowComments: (values["allowComments"] as? Bool) ?? false,
             summary: (values["summary"] as? [Regionable]) ?? [stubbedTextRegion]
-        )
+            )
 
         // optional
         post.content = (values["content"] as? [Regionable]) ?? [stubbedTextRegion]
@@ -109,8 +109,7 @@ extension Post: Stubbable {
         post.viewsCount = values["viewsCount"] as? Int
         post.commentsCount = values["commentsCount"] as? Int
         post.repostsCount = values["repostsCount"] as? Int
-
-
+        // links / nested resources
         post.author = (values["author"] as? User)
         post.assets = (values["assets"] as? [String : Asset])
         post.comments = (values["comments"] as? [Comment])
@@ -130,19 +129,20 @@ extension Post: Stubbable {
 
 extension Comment: Stubbable {
     class func stub(values: [String : AnyObject]) -> Comment {
-        let author = (values["author"] as? User)
-        let content = (values["content"] as? [Regionable]) ?? [stubbedTextRegion]
-        let summary = (values["summary"] as? [Regionable]) ?? [stubbedTextRegion]
-        let parentPost = (values["parentPost"] as? Post)
 
-        return Comment(
-            author: author,
-            commentId: (values["commentId"] as? String) ?? "888",
-            content: content,
+        var comment = Comment(
+            id: (values["id"] as? String) ?? "888",
             createdAt: (values["createdAt"] as? NSDate) ?? NSDate(),
-            parentPost: parentPost,
-            summary: summary
-        )
+            postId: (values["postId"] as? String) ?? "666",
+            content: (values["content"] as? [Regionable]) ?? [stubbedTextRegion]
+            )
+
+        // links
+        comment.assets = (values["assets"] as? [String : Asset])
+        comment.author = (values["author"] as? User)
+        comment.parentPost = (values["parentPost"] as? Post)
+
+        return comment
     }
 }
 
@@ -173,16 +173,20 @@ extension UnknownRegion: Stubbable {
 extension Activity: Stubbable {
     class func stub(values: [String : AnyObject]) -> Activity {
 
-        let subjectTypeString = (values["subjectType"] as? String) ?? SubjectType.Unknown.rawValue
-        let activityKindString = (values["kind"] as? String) ?? Activity.Kind.Unknown.rawValue
+        let activityKindString = (values["kind"] as? String) ?? Activity.Kind.FriendPost.rawValue
+        let subjectTypeString = (values["subjectType"] as? String) ?? SubjectType.Post.rawValue
 
-        return Activity(
-            activityId: (values["activityId"] as? String) ?? "1234",
-            kind: Activity.Kind(rawValue: activityKindString) ?? Activity.Kind.Unknown,
-            subjectType: SubjectType(rawValue: subjectTypeString) ?? SubjectType.Unknown,
-            subject: values["subject"],
-            createdAt: (values["createdAt"] as? NSDate) ?? NSDate()
-        )
+        let activity = Activity(
+            id: (values["id"] as? String) ?? "1234",
+            createdAt: (values["createdAt"] as? NSDate) ?? NSDate(),
+            kind: Activity.Kind(rawValue: activityKindString) ?? Activity.Kind.FriendPost,
+            subjectType: SubjectType(rawValue: subjectTypeString) ?? SubjectType.Post
+            )
+
+        let defaultSubject = activity.subjectType == SubjectType.User ? User.stub([:]) : Post.stub([:])
+        activity.subject = (values["subject"] as? JSONAble) ?? defaultSubject
+
+        return activity
     }
 }
 
