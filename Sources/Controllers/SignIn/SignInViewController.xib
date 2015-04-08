@@ -99,7 +99,7 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
                                 </textField>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EOF-M5-5od" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
+                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EOF-M5-5od" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="507" width="135" height="30"/>
                                     <state key="normal" title="Create an account?">
                                         <color key="titleColor" red="0.99650349650000003" green="0.99300699299999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
