@@ -16,19 +16,13 @@ class NotificationSpec: QuickSpec {
         it("converts activities to Notifications") {
             var user: User = stub(["username": "foo"])
             var post = Post(
-                assets: nil,
-                author: user,
-                collapsed: false,
-                commentsCount: 0,
-                content: [TextRegion(content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit")],
+                id: "123",
                 createdAt: NSDate(),
                 href: "",
-                postId: "123",
-                repostsCount: 0,
-                summary: [TextRegion(content: "LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT")],
                 token: "not used",
-                viewsCount: 0,
-                comments: []
+                contentWarning: "null",
+                allowComments: true,
+                summary: [TextRegion(content: "LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT")]
             )
             var createdAtDate = NSDate()
             var activity = Activity(activityId: "123", kind: .RepostNotification, subjectType: .Post, subject: post, createdAt: createdAtDate)
@@ -105,3 +99,4 @@ class NotificationSpec: QuickSpec {
         }
     }
 }
+

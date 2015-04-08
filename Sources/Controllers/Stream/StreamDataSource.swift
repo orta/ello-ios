@@ -94,7 +94,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     public func cellItemsForPost(post:Post) -> [StreamCellItem] {
         return visibleCellItems.filter({ (item) -> Bool in
             if let cellPost = item.jsonable as? Post {
-                return post.postId == cellPost.postId
+                return post.id == cellPost.id
             }
             else {
                 return false
@@ -121,7 +121,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         for (index,value) in enumerate(visibleCellItems) {
 
             if let comment = value.jsonable as? Comment {
-                if comment.parentPost?.postId == post.postId {
+                if comment.parentPost?.id == post.id {
                     indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
                 }
             }
@@ -133,7 +133,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         for (index, value) in enumerate(visibleCellItems) {
             if value.type == .Footer,
                let post = value.jsonable as? Post {
-                if searchPost.postId == post.postId {
+                if searchPost.id == post.id {
                     return NSIndexPath(forItem: index, inSection: 0)
                 }
             }

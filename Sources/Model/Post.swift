@@ -23,15 +23,35 @@ let PostVersion = 1
 
 public final class Post: JSONAble, Authorable, NSCoding {
     public let version: Int = PostVersion
-    var assets: [String:Asset]?
-    public var author: User?
-    public var collapsed: Bool
-    public var commentsCount: Int?
+
+    // active record (should be moved to JSONAble)
+    public let id: String
+    public let createdAt: NSDate
+    // required
+    public let href: String
+    public let token: String
+    public let contentWarning: String // new
+    public let allowComments: Bool // new
+    public let summary: [Regionable]
+    // optional
     public var content: [Regionable]?
-    public var createdAt: NSDate
+    public var repostContent: [Regionable]? // new
+    public var repostId: String? // new
+    public var repostPath: NSURL? // new
+    public var repostViaId: String? // new
+    public var repostViaPath: NSURL? // new
+    public var viewsCount: Int?
+    public var commentsCount: Int?
+    public var repostsCount: Int?
+    // links / nested resources
+    public var assets: [String: Asset]?
+    public var author: User?
+    public var comments: [Comment]?
+    // links post with comments
     public var groupId:String {
-        get { return postId }
+        get { return id }
     }
+    // computed properties
     public var shareLink:String? {
         get {
             if let author = self.author {
@@ -42,47 +62,31 @@ public final class Post: JSONAble, Authorable, NSCoding {
             }
         }
     }
-    public let href: String
-    public let postId: String
-    public let repostsCount: Int?
-    public var summary: [Regionable]?
-    public let token: String
-    public let viewsCount: Int?
-    public var comments: [Comment]
-
+    public var collapsed = false
     private var commentCountNotification: NotificationObserver?
+
 
 // MARK: Initialization
 
-    public init(assets: [String:Asset]?,
-        author: User?,
-        collapsed: Bool,
-        commentsCount: Int?,
-        content: [Regionable]?,
+    public init(id: String,
         createdAt: NSDate,
         href: String,
-        postId: String,
-        repostsCount: Int?,
-        summary: [Regionable]?,
         token: String,
-        viewsCount: Int?,
-        comments: [Comment])
+        contentWarning: String,
+        allowComments: Bool,
+        summary: [Regionable]
+        )
     {
-        self.assets = assets
-        self.author = author
-        self.collapsed = collapsed
-        self.commentsCount = commentsCount
-        self.content = content
+        self.id = id
         self.createdAt = createdAt
         self.href = href
-        self.postId = postId
-        self.repostsCount = repostsCount
-        self.summary = summary
         self.token = token
-        self.viewsCount = viewsCount
-        self.comments = comments
+        self.contentWarning = contentWarning
+        self.allowComments = allowComments
+        self.summary = summary
         super.init()
-        self.registerNotifications()
+        collapsed = self.contentWarning != ""
+        registerNotifications()
     }
 
     deinit {
@@ -91,8 +95,8 @@ public final class Post: JSONAble, Authorable, NSCoding {
 
     private func registerNotifications() {
         commentCountNotification = NotificationObserver(notification: UpdatePostCommentCountNotification) { comment in
-            if let postId = comment.parentPost?.postId {
-                if postId == self.postId {
+            if let postId = comment.parentPost?.id {
+                if postId == self.id {
                     if let count = self.commentsCount {
                         self.commentsCount = count + 1
                     }
@@ -115,102 +119,115 @@ public final class Post: JSONAble, Authorable, NSCoding {
 
     required public init(coder aDecoder: NSCoder) {
         let decoder = Decoder(aDecoder)
+        // active record
+        self.id = decoder.decodeKey("id")
+        self.createdAt = decoder.decodeKey("createdAt")
+        // required
+        self.href = decoder.decodeKey("href")
+        self.token = decoder.decodeKey("token")
+        self.contentWarning = decoder.decodeKey("contentWarning")
+        self.allowComments = decoder.decodeKey("allowComments")
+        self.summary = decoder.decodeKey("summary")
+        // optional
+        self.content = decoder.decodeOptionalKey("content")
+        self.repostContent = decoder.decodeOptionalKey("repostContent")
+        self.repostId = decoder.decodeOptionalKey("repostId")
+        self.repostPath = decoder.decodeOptionalKey("repostPath")
+        self.repostViaId = decoder.decodeOptionalKey("repostViaId")
+        self.repostViaPath = decoder.decodeOptionalKey("repostViaPath")
+        self.viewsCount = decoder.decodeOptionalKey("viewsCount")
+        self.commentsCount = decoder.decodeOptionalKey("commentsCount")
+        self.repostsCount = decoder.decodeOptionalKey("repostsCount")
+        // links / nested resources
         self.assets = decoder.decodeOptionalKey("assets")
         self.author = decoder.decodeOptionalKey("author")
-        self.collapsed = decoder.decodeKey("collapsed")
-        self.commentsCount = decoder.decodeOptionalKey("commentsCount")
-        self.content = decoder.decodeOptionalKey("content")
-        self.createdAt = decoder.decodeKey("createdAt")
-        self.href = decoder.decodeKey("href")
-        self.postId = decoder.decodeKey("postId")
-        self.repostsCount = decoder.decodeOptionalKey("repostsCount")
-        self.summary = decoder.decodeOptionalKey("summary")
-        self.token = decoder.decodeKey("token")
-        self.viewsCount = decoder.decodeOptionalKey("viewsCount")
-        self.comments = decoder.decodeKey("comments")
+        self.comments = decoder.decodeOptionalKey("comments")
+
         super.init()
         self.registerNotifications()
     }
 
     public func encodeWithCoder(encoder: NSCoder) {
-        if let assets = self.assets {
-            encoder.encodeObject(assets, forKey: "assets")
-        }
-        if let author = self.author {
-            encoder.encodeObject(author, forKey: "author")
-        }
-        encoder.encodeBool(self.collapsed, forKey: "collapsed")
-        if let commentsCount = self.commentsCount {
-            encoder.encodeInt64(Int64(commentsCount), forKey: "commentsCount")
-        }
-        encoder.encodeObject(self.createdAt, forKey: "createdAt")
-        encoder.encodeObject(self.href, forKey: "href")
-        encoder.encodeObject(self.postId, forKey: "postId")
-        if let repostsCount = self.repostsCount {
-            encoder.encodeInt64(Int64(repostsCount), forKey: "repostsCount")
-        }
-        encoder.encodeObject(self.token, forKey: "token")
+        // active record
+        encoder.encodeObject(id, forKey: "id")
+        encoder.encodeObject(createdAt, forKey: "createdAt")
+        // required
+        encoder.encodeObject(href, forKey: "href")
+        encoder.encodeObject(token, forKey: "token")
+        encoder.encodeObject(contentWarning, forKey: "contentWarning")
+        encoder.encodeBool(allowComments, forKey: "allowComments")
+        encoder.encodeObject(summary, forKey: "summary")
+        // optional
+        encoder.encodeObject(content, forKey: "content")
+        encoder.encodeObject(repostContent, forKey: "repostContent")
+        encoder.encodeObject(repostId, forKey: "repostId")
+        encoder.encodeObject(repostPath, forKey: "repostPath")
+        encoder.encodeObject(repostViaId, forKey: "repostViaId")
+        encoder.encodeObject(repostViaPath, forKey: "repostViaPath")
         if let viewsCount = self.viewsCount {
             encoder.encodeInt64(Int64(viewsCount), forKey: "viewsCount")
         }
-
-        if let content = self.content {
-            encoder.encodeObject(content, forKey: "content")
+        if let commentsCount = self.commentsCount {
+            encoder.encodeInt64(Int64(commentsCount), forKey: "commentsCount")
         }
-
-        if let summary = self.summary {
-            encoder.encodeObject(summary, forKey: "summary")
+        if let repostsCount = self.repostsCount {
+            encoder.encodeInt64(Int64(repostsCount), forKey: "repostsCount")
         }
-        encoder.encodeObject(self.comments, forKey: "comments")
+        // links / nested resources
+        encoder.encodeObject(assets, forKey: "assets")
+        encoder.encodeObject(author, forKey: "author")
+        encoder.encodeObject(comments, forKey: "comments")
     }
 
 // MARK: JSONAble
 
      override public class func fromJSON(data:[String: AnyObject]) -> JSONAble {
         let json = JSON(data)
-        let postId = json["id"].stringValue
+        // active record
+        let id = json["id"].stringValue
         var createdAt:NSDate = json["created_at"].stringValue.toNSDate() ?? NSDate()
+        // required
         let href = json["href"].stringValue
-        let collapsed = json["collapsed"].boolValue
         let token = json["token"].stringValue
-        let viewsCount = json["views_count"].int
-        let commentsCount = json["comments_count"].int
-        let repostsCount = json["reposts_count"].int
-        var links = [String: AnyObject]()
-        var author: User?
-        var content: [Regionable]?
-        var summary: [Regionable]?
-        var postComments = [Comment]()
-        if let linksNode = data["links"] as? [String: AnyObject] {
-            links = ElloLinkedStore.parseLinks(linksNode)
-            author = links["author"] as? User
-//            var assets = links["assets"] as? [String:JSONAble]
-            content = RegionParser.regions("content", json: json)
-            summary = RegionParser.regions("summary", json: json)
-            if let comments = links["comments"] as? [Comment] {
-                postComments = comments
-            }
-        }
-
-        return Post(
-            assets: nil,
-            author: author,
-            collapsed: collapsed,
-            commentsCount: commentsCount,
-            content: content,
+        let contentWarning = json["content_warning"].stringValue
+        let allowComments = json["allow_comments"].boolValue
+        let summary: [Regionable] = RegionParser.regions("summary", json: json)
+        // create post
+        var post = Post(
+            id: id,
             createdAt: createdAt,
             href: href,
-            postId: postId,
-            repostsCount: repostsCount,
-            summary: summary,
             token: token,
-            viewsCount: viewsCount,
-            comments: postComments
+            contentWarning: contentWarning,
+            allowComments: allowComments,
+            summary: summary
         )
+        // optional
+        post.content = RegionParser.regions("content", json: json)
+        post.repostContent = RegionParser.regions("repost_content", json: json)
+        post.repostId = json["repost_id"].stringValue
+        post.repostPath = NSURL(string: json["repost_path"].stringValue)
+        post.repostViaId = json["repost_via_id"].stringValue
+        post.repostViaPath = NSURL(string: json["repost_via_path"].stringValue)
+        post.viewsCount = json["views_count"].int
+        post.commentsCount = json["comments_count"].int
+        post.repostsCount = json["reposts_count"].int
+        // links / nested resources
+        var links = [String: AnyObject]()
+        var assets =  [String: Asset]()
+        var author: User?
+        var content: [Regionable]?
+        if let linksNode = data["links"] as? [String: AnyObject] {
+            links = ElloLinkedStore.parseLinks(linksNode)
+            post.author = links["author"] as? User
+            post.assets = links["assets"] as? [String: Asset]
+            post.comments = links["comments"] as? [Comment]
+        }
+        return post
     }
 
     override public var description : String {
-        return "Post:\n\tpostId:\(self.postId)"
+        return "Post:\n\tid:\(self.id)"
     }
 }
 

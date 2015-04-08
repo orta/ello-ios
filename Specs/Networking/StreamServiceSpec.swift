@@ -42,7 +42,7 @@ class StreamServiceSpec: QuickSpec {
 
                         let post0:Post = loadedPosts![0] as Post
 
-                        expect(post0.postId) == "4718"
+                        expect(post0.id) == "4718"
                         expect(post0.href) == "/api/edge/posts/4718"
                         expect(post0.token) == "_axtKV8Q-MSWbUCWjGqykg"
                         expect(post0.collapsed) == false
@@ -76,7 +76,7 @@ class StreamServiceSpec: QuickSpec {
 
                         let post2:Post = loadedPosts![2] as Post
 
-                        expect(post2.postId) == "4707"
+                        expect(post2.id) == "4707"
 
                         let imageRegion:ImageRegion = post2.content![0] as! ImageRegion
 

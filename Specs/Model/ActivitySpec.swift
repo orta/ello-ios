@@ -19,10 +19,10 @@ class ActivitySpec: QuickSpec {
 
             var createdAtString = "2014-06-03T00:00:00.000Z"
             var createdAt:NSDate = createdAtString.toNSDate()!
-            
-            expect(activity.subjectType) == Activity.SubjectType.Post
+
             expect(activity.activityId) == createdAtString
             expect(activity.kind) == Activity.Kind.OwnPost
+            expect(activity.subjectType) == Activity.SubjectType.Post
             expect(activity.createdAt) == createdAt
 
             let post = activity.subject as! Post
@@ -34,7 +34,7 @@ class ActivitySpec: QuickSpec {
             expect(postContent0.content) == "yo mang"
             
             expect(post.token) == "KVNldSWCvfPkjsbWcvB4mA"
-            expect(post.postId) == "598"
+            expect(post.id) == "598"
             
             let postAuthor = post.author!
             expect(postAuthor.id) == "42"
@@ -77,7 +77,7 @@ class ActivitySpec: QuickSpec {
             context("encoding") {
 
                 it("encodes successfully") {
-                    let post: Post = stub(["postId" : "768"])
+                    let post: Post = stub(["id" : "768"])
                     let activity: Activity = stub(["subject" : post, "activityId" : "456"])
 
                     let wasSuccessfulArchived = NSKeyedArchiver.archiveRootObject(activity, toFile: filePath)
@@ -90,7 +90,7 @@ class ActivitySpec: QuickSpec {
 
                 it("decodes successfully") {
                     let expectedCreatedAt = NSDate()
-                    let post: Post = stub(["postId" : "768"])
+                    let post: Post = stub(["id" : "768"])
                     let activity: Activity = stub([
                         "subject" : post,
                         "activityId" : "456",
@@ -112,7 +112,7 @@ class ActivitySpec: QuickSpec {
 
                     let unArchivedPost = unArchivedActivity.subject as! Post
                     expect(unArchivedPost).to(beAKindOf(Post.self))
-                    expect(unArchivedPost.postId) == "768"
+                    expect(unArchivedPost.id) == "768"
                 }
             }
         }

@@ -167,10 +167,9 @@ public class PostbarController: NSObject, PostbarDelegate {
            let post = dataSource.postForIndexPath(indexPath)
         {
             let flagger = ContentFlagger(presentingController: presentingController,
-                flaggableId: post.postId,
+                flaggableId: post.id,
                 contentType: .Post,
                 commentPostId: nil)
-
             flagger.displayFlaggingSheet()
         }
     }
@@ -180,9 +179,9 @@ public class PostbarController: NSObject, PostbarDelegate {
            let comment = dataSource.commentForIndexPath(indexPath)
         {
             let flagger = ContentFlagger(presentingController: presentingController,
-                flaggableId: comment.commentId,
+                flaggableId: comment.id,
                 contentType: .Comment,
-                commentPostId: comment.parentPost?.postId)
+                commentPostId: comment.postId)
 
             flagger.displayFlaggingSheet()
         }

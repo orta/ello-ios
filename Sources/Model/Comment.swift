@@ -20,7 +20,7 @@ public final class Comment: JSONAble, Authorable, NSCoding {
     public var createdAt: NSDate
     public var groupId:String {
         get {
-            return parentPost?.postId ?? ""
+            return parentPost?.id ?? ""
         }
     }
     public var parentPost: Post?

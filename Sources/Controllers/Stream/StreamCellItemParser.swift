@@ -106,7 +106,7 @@ public struct StreamCellItemParser {
                     oneColumnHeight = 0.0
                     multiColumnHeight = 0.0
                     type = .Text
-                case .Unknown:
+                case .Embed, .Unknown:
                     oneColumnHeight = 0.0
                     multiColumnHeight = 0.0
                     type = .Unknown
@@ -142,7 +142,7 @@ public struct StreamCellItemParser {
                     oneColumnHeight = 0.0
                     multiColumnHeight = 0.0
                     type = .Text
-                case .Unknown:
+                case .Embed, .Unknown:
                     oneColumnHeight = 0.0
                     multiColumnHeight = 0.0
                     type = .Unknown

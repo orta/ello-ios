@@ -45,7 +45,7 @@ class CommentSpec: QuickSpec {
             
             expect(comment.parentPost).to(beAnInstanceOf(Post.self))
             expect(comment.parentPost!.token) == "ibLWX5p5fPBfzE8GmfOG6w"
-            expect(comment.parentPost!.postId) == "29"
+            expect(comment.parentPost!.id) == "29"
             expect(comment.parentPost!.href) == "/api/edge/posts/29"
             expect(comment.parentPost!.createdAt) == postCreatedAt
             expect(comment.parentPost!.viewsCount) == 25
@@ -96,7 +96,7 @@ class CommentSpec: QuickSpec {
                     let expectedCreatedAt = NSDate()
 
                     let parentPost: Post = stub([
-                        "postId" : "sample-parent-post-id"
+                        "id" : "sample-parent-post-id"
                     ])
 
                     let author: User = stub([
@@ -163,7 +163,7 @@ class CommentSpec: QuickSpec {
 
                     let commentParentPost = unArchivedComment.parentPost!
 
-                    expect(commentParentPost.postId) == "sample-parent-post-id"
+                    expect(commentParentPost.id) == "sample-parent-post-id"
 
                     expect(count(unArchivedComment.content!)) == 2
 

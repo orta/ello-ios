@@ -20,7 +20,7 @@ public struct RegionParser {
                     return TextRegion.fromJSON(contentDict) as! TextRegion
                 case .Image:
                     return ImageRegion.fromJSON(contentDict) as! ImageRegion
-                case .Unknown:
+                default:
                     return UnknownRegion(name: "Unknown")
                 }
             }

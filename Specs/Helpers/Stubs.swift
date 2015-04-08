@@ -13,6 +13,16 @@ func stub<T: Stubbable>(values: [String : AnyObject]) -> T {
     return T.stub(values)
 }
 
+func urlFromValue(_ value: AnyObject? = nil) -> NSURL? {
+    if value == nil { return nil }
+    else if let url = value as? NSURL {
+        return url
+    } else if let str = value as? String {
+        return NSURL(string: str)
+    }
+    return nil
+}
+
 let stubbedTextRegion: TextRegion = stub([:])
 
 protocol Stubbable: NSObjectProtocol {
@@ -78,33 +88,40 @@ extension Profile: Stubbable {
 
 extension Post: Stubbable {
     class func stub(values: [String : AnyObject]) -> Post {
-        let author = (values["author"] as? User)
-        let assets = (values["assets"] as? [String : Asset])
-        let content = (values["content"] as? [Regionable]) ?? [stubbedTextRegion]
-        let summary = (values["summary"] as? [Regionable]) ?? [stubbedTextRegion]
 
         var post = Post(
-            assets: assets,
-            author: author,
-            collapsed: (values["collapsed"] as? Bool) ?? false,
-            commentsCount: values["commentsCount"] as? Int,
-            content: content,
+            id: (values["id"] as? String) ?? "666",
             createdAt: (values["createdAt"] as? NSDate) ?? NSDate(),
             href: (values["href"] as? String) ?? "sample-href",
-            postId: (values["postId"] as? String) ?? "666",
-            repostsCount: (values["repostsCount"] as? Int),
-            summary: summary,
             token: (values["token"] as? String) ?? "sample-token",
-            viewsCount: values["viewsCount"] as? Int,
-            comments: (values["comments"] as? [Comment]) ?? []
+            contentWarning: (values["contentWarning"] as? String) ?? "null",
+            allowComments: (values["allowComments"] as? Bool) ?? false,
+            summary: (values["summary"] as? [Regionable]) ?? [stubbedTextRegion]
         )
+
+        // optional
+        post.content = (values["content"] as? [Regionable]) ?? [stubbedTextRegion]
+        post.repostContent = (values["repostContent"] as? [Regionable]) ?? [stubbedTextRegion]
+        post.repostId = (values["repostId"] as? String)
+        post.repostPath = urlFromValue(values["repostPath"])
+        post.repostViaId = (values["repostViaId"] as? String)
+        post.repostViaPath = urlFromValue(values["repostViaPath"])
+        post.viewsCount = values["viewsCount"] as? Int
+        post.commentsCount = values["commentsCount"] as? Int
+        post.repostsCount = values["repostsCount"] as? Int
+
+
+        post.author = (values["author"] as? User)
+        post.assets = (values["assets"] as? [String : Asset])
+        post.comments = (values["comments"] as? [Comment])
 
         return post
     }
 
     class func stubWithRegions(values: [String : AnyObject], summary: [Regionable] = [], content: [Regionable] = []) -> Post {
-        var post: Post = stub(values)
-        post.summary = summary
+        var mutatedValues = values
+        mutatedValues.updateValue(summary, forKey: "summary")
+        var post: Post = stub(mutatedValues)
         post.content = content
         return post
     }

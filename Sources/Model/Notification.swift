@@ -21,18 +21,19 @@ public enum NotificationFilterType: String {
 let NotificationVersion = 1
 
 public final class Notification : JSONAble, Authorable, NSCoding {
-
     public let version: Int = NotificationVersion
 
     public typealias Kind = Activity.Kind
     public typealias SubjectType = Activity.SubjectType
 
-    public let author: User?
-    public var createdAt: NSDate
-    public var groupId:String { return notificationId }
-    public let notificationId: String
+    // required
     public let kind: Kind
     public let subjectType: SubjectType
+    public var createdAt: NSDate
+
+    public let author: User?
+    public var groupId:String { return notificationId }
+    public let notificationId: String
     public var subject: AnyObject? { willSet { attributedTitleStore = nil } }
 
     public var textRegion: TextRegion?
@@ -64,7 +65,7 @@ public final class Notification : JSONAble, Authorable, NSCoding {
 
         self.init(author: author, createdAt: activity.createdAt, kind: activity.kind, notificationId: activity.activityId, subjectType: activity.subjectType)
         if let post = activity.subject as? Post {
-            self.assignRegionsFromContent(post.summary!)
+            self.assignRegionsFromContent(post.summary)
         }
         else if let comment = activity.subject as? Comment {
             self.assignRegionsFromContent(comment.summary!)
