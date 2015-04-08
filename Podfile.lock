@@ -32,7 +32,7 @@ PODS:
   - WebLinking (0.1.0)
 
 DEPENDENCIES:
-  - 1PasswordExtension (~> 1.2)
+  - 1PasswordExtension (from `https://github.com/AgileBits/onepassword-app-extension.git`)
   - Alamofire (from `https://github.com/Alamofire/Alamofire.git`, branch `xcode-6.3`)
   - FLAnimatedImage (from `https://github.com/ello/FLAnimatedImage.git`)
   - JTSImageViewController (from `https://github.com/ello/JTSImageViewController.git`)
@@ -51,6 +51,8 @@ DEPENDENCIES:
   - WebLinking (from `https://github.com/kylef/WebLinking.swift.git`, branch `swift-1.2`)
 
 EXTERNAL SOURCES:
+  1PasswordExtension:
+    :git: https://github.com/AgileBits/onepassword-app-extension.git
   Alamofire:
     :branch: xcode-6.3
     :git: https://github.com/Alamofire/Alamofire.git
@@ -84,6 +86,9 @@ EXTERNAL SOURCES:
     :git: https://github.com/kylef/WebLinking.swift.git
 
 CHECKOUT OPTIONS:
+  1PasswordExtension:
+    :commit: 6980efe9ba08a8a7e873d6321a44ad893052e20b
+    :git: https://github.com/AgileBits/onepassword-app-extension.git
   Alamofire:
     :commit: 2ff5749ffc0425f05a1411b5b6fd2c25241b5b14
     :git: https://github.com/Alamofire/Alamofire.git
