@@ -18,6 +18,14 @@ public class CreateAccountViewController: BaseElloViewController, UITextFieldDel
     @IBOutlet weak public var loginButton: ElloTextButton!
     @IBOutlet weak public var createAccountButton: ElloButton!
 
+    required public init() {
+        super.init(nibName: "CreateAccountViewController", bundle: nil)
+    }
+
+    required public init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override public func viewDidLoad() {
         super.viewDidLoad()
         setupStyles()
@@ -28,10 +36,6 @@ public class CreateAccountViewController: BaseElloViewController, UITextFieldDel
     override public func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         removeNotificationObservers()
-    }
-
-    public class func instantiateFromStoryboard() -> CreateAccountViewController {
-        return UIStoryboard.storyboardWithId(.CreateAccount) as! CreateAccountViewController
     }
 
     // MARK: - Private

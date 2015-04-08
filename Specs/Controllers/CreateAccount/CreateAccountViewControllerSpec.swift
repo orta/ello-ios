@@ -14,7 +14,7 @@ import Nimble
 class CreateAccountViewControllerSpec: QuickSpec {
     override func spec() {
 
-        var controller = CreateAccountViewController.instantiateFromStoryboard()
+        var controller: CreateAccountViewController!
 
         beforeSuite {
             ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
@@ -27,7 +27,7 @@ class CreateAccountViewControllerSpec: QuickSpec {
         describe("initialization") {
 
             beforeEach {
-                controller = CreateAccountViewController.instantiateFromStoryboard()
+                controller = CreateAccountViewController()
             }
 
             describe("storyboard") {
@@ -84,7 +84,7 @@ class CreateAccountViewControllerSpec: QuickSpec {
         describe("-viewDidLoad:") {
 
             beforeEach {
-                controller = CreateAccountViewController.instantiateFromStoryboard()
+                controller = CreateAccountViewController()
                 controller.loadView()
                 controller.viewDidLoad()
             }

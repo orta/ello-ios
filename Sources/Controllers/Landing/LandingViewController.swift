@@ -123,7 +123,7 @@ public class LandingViewController: BaseElloViewController {
     }
 
     @IBAction func signUpTapped(sender: ElloButton) {
-        let createAccountController = CreateAccountViewController.instantiateFromStoryboard()
+        let createAccountController = CreateAccountViewController()
         self.presentViewController(createAccountController, animated:true, completion:nil)
     }
 }
