@@ -118,7 +118,7 @@
                                     </constraints>
                                     <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
                                     <inset key="imageEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
-                                    <state key="normal" image="onepassword-extension">
+                                    <state key="normal" image="onepassword-ello-button">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>
@@ -186,6 +186,6 @@
     </objects>
     <resources>
         <image name="ello-logo" width="166" height="166"/>
-        <image name="onepassword-extension" width="44" height="44"/>
+        <image name="onepassword-ello-button" width="27" height="27"/>
     </resources>
 </document>
