@@ -26,7 +26,7 @@ public class ElloLabel: UILabel {
 extension ElloLabel {
     public override func sizeThatFits(size: CGSize) -> CGSize {
         var size = super.sizeThatFits(size)
-        size.height = height() + 10
+        size.height = heightForWidth(size.width) + 10
         return size
     }
 }
@@ -40,7 +40,11 @@ public extension ElloLabel {
     }
 
     func height() -> CGFloat {
-        return (attributedText?.boundingRectWithSize(CGSize(width: self.frame.size.width, height: CGFloat.max),
+        return heightForWidth(self.frame.size.width)
+    }
+
+    func heightForWidth(width: CGFloat) -> CGFloat {
+        return (attributedText?.boundingRectWithSize(CGSize(width: width, height: CGFloat.max),
             options: .UsesLineFragmentOrigin | .UsesFontLeading,
             context: nil).size.height).map(ceil) ?? 0
     }

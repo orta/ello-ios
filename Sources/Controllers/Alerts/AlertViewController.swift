@@ -33,7 +33,7 @@ public class AlertViewController: UIViewController {
     }
 
     var totalVerticalPadding: CGFloat {
-        return 2 * topPadding.constant + CGRectGetHeight(headerLabel.frame)
+        return 2 * topPadding.constant
     }
 
     public init(message: String?) {
@@ -55,11 +55,6 @@ public extension AlertViewController {
         super.viewDidLoad()
         tableView.registerNib(AlertCell.nib(), forCellReuseIdentifier: AlertCell.reuseIdentifier())
     }
-
-    public override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        headerLabel.frame.size.width = CGRectGetWidth(self.view.bounds) - totalHorizontalPadding
-    }
 }
 
 extension AlertViewController {
@@ -78,9 +73,12 @@ extension AlertViewController: UIViewControllerTransitioningDelegate {
 
 extension AlertViewController: UITableViewDelegate {
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let action = actions.safeValue(indexPath.row)
-        action.map { $0.handler?($0) }
         dismissViewControllerAnimated(true, completion: .None)
+        if let action = actions.safeValue(indexPath.row) {
+            dispatch_async(dispatch_get_main_queue()) {
+                action.handler?(action)
+            }
+        }
     }
 
     public func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -88,8 +86,8 @@ extension AlertViewController: UITableViewDelegate {
     }
 
     public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        headerLabel.sizeToFit()
-        return CGRectGetHeight(headerLabel.frame)
+        let size = CGSize(width: DesiredWidth - totalHorizontalPadding, height: .max)
+        return headerLabel.sizeThatFits(size).height
     }
 }
 
