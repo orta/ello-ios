@@ -81,7 +81,7 @@ public class ContentFlagger {
 
     public func displayFlaggingSheet() {
 
-        let alertController = AlertViewController(message: "Would you like to flag this content as:")
+        let alertController = AlertViewController(message: "Would you like to flag this content as:", textAlignment: .Left)
 
         for option in AlertOption.all {
             let action = AlertAction(title: option.name, style: .Dark, handler:handler)

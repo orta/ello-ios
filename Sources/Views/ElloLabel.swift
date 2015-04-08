@@ -32,10 +32,10 @@ extension ElloLabel {
 }
 
 public extension ElloLabel {
-    func setLabelText(title: String, color: UIColor = UIColor.whiteColor()) {
+    func setLabelText(title: String, color: UIColor = UIColor.whiteColor(), alignment: NSTextAlignment = .Left) {
         var attributedString = NSMutableAttributedString(string: title)
         var range = NSRange(location: 0, length: count(title))
-        attributedString.addAttributes(attributes(title, color: color), range: range)
+        attributedString.addAttributes(attributes(title, color: color, alignment: alignment), range: range)
         self.attributedText = attributedString
     }
 
@@ -51,9 +51,10 @@ public extension ElloLabel {
 }
 
 private extension ElloLabel {
-    func attributes(title: String, color: UIColor) -> [NSObject : AnyObject] {
+    func attributes(title: String, color: UIColor, alignment: NSTextAlignment) -> [NSObject : AnyObject] {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 10
+        paragraphStyle.alignment = alignment
 
         var attributedString = NSMutableAttributedString(string: title)
         var range = NSRange(location: 0, length: count(title))
@@ -66,13 +67,13 @@ private extension ElloLabel {
 }
 
 public class ElloToggleLabel: ElloLabel {
-    public override func setLabelText(title: String, color: UIColor = UIColor.greyA()) {
-        super.setLabelText(title, color: color)
+    public override func setLabelText(title: String, color: UIColor = UIColor.greyA(), alignment: NSTextAlignment = .Left) {
+        super.setLabelText(title, color: color, alignment: alignment)
     }
 }
 
 public class ElloErrorLabel: ElloLabel {
-    public override func setLabelText(title: String, color: UIColor = UIColor.redColor()) {
-        super.setLabelText(title, color: color)
+    public override func setLabelText(title: String, color: UIColor = UIColor.redColor(), alignment: NSTextAlignment = .Left) {
+        super.setLabelText(title, color: color, alignment: alignment)
     }
 }
