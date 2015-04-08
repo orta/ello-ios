@@ -7,6 +7,7 @@
 //
 
 private let DesiredWidth: CGFloat = 300
+private let MaxHeight = UIScreen.mainScreen().applicationFrame.height - 20
 
 public class AlertViewController: UIViewController {
     @IBOutlet public weak var tableView: UITableView!
@@ -14,10 +15,9 @@ public class AlertViewController: UIViewController {
     @IBOutlet public weak var leftPadding: NSLayoutConstraint!
 
     public var desiredSize: CGSize {
-        var size = CGSizeZero
-        size.height = tableView.contentSize.height + totalVerticalPadding
-        size.width = DesiredWidth
-        return size
+        var contentHeight = tableView.contentSize.height + totalVerticalPadding
+        let height = min(contentHeight, MaxHeight)
+        return CGSize(width: DesiredWidth, height: height)
     }
 
     public private(set) var actions: [AlertAction] = []
@@ -26,6 +26,7 @@ public class AlertViewController: UIViewController {
     private let headerLabel: ElloLabel = {
         let label = ElloLabel()
         label.numberOfLines = 0
+        label.backgroundColor = UIColor.whiteColor()
         return label
     }()
 
@@ -58,6 +59,11 @@ public extension AlertViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.registerNib(AlertCell.nib(), forCellReuseIdentifier: AlertCell.reuseIdentifier())
+    }
+
+    public override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        tableView.scrollEnabled = (CGRectGetHeight(self.view.frame) == MaxHeight)
     }
 }
 
