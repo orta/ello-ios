@@ -27,10 +27,9 @@ class ElloAPISpec: QuickSpec {
             provider = ElloProvider.DefaultProvider()
         }
 
-        fdescribe("paths") {
+        describe("paths") {
 
             it("are valid") {
-
                 expect(ElloAPI.AmazonCredentials.path) ==  "/api/edge/assets/credentials"
                 expect(ElloAPI.Auth(email: "", password: "").path) == "/api/oauth/token"
                 expect(ElloAPI.Availability(content: [:]).path) == "/api/edge/availability"
@@ -54,9 +53,7 @@ class ElloAPISpec: QuickSpec {
                 expect(ElloAPI.UserStream(userParam: "999").path) == "/api/edge/users/999"
                 expect(ElloAPI.UserStreamFollowers(userId: "321").path) == "/api/edge/users/321/followers"
                 expect(ElloAPI.UserStreamFollowing(userId: "123").path) == "/api/edge/users/123/following"
-
             }
-
         }
 
         describe("valid enpoints") {
