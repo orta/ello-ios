@@ -19,6 +19,7 @@
                 <outlet property="enterButtonTopContraint" destination="0Sz-CC-GCU" id="MU3-HG-Owv"/>
                 <outlet property="errorLabel" destination="iwD-nO-HjU" id="CBT-Vu-4JG"/>
                 <outlet property="forgotPasswordButton" destination="fep-L6-6o2" id="wcY-XN-46G"/>
+                <outlet property="onePasswordButton" destination="7Pc-ZP-WqS" id="lcO-3t-bPK"/>
                 <outlet property="passwordTextField" destination="vG2-tp-zKA" id="zE7-mQ-63c"/>
                 <outlet property="scrollView" destination="EJr-Pr-Cuc" id="oCz-F8-hzW"/>
                 <outlet property="view" destination="XFW-Ne-HSx" id="hoD-hO-gDI"/>
@@ -98,7 +99,7 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
                                 </textField>
-                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EOF-M5-5od" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EOF-M5-5od" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="507" width="135" height="30"/>
                                     <state key="normal" title="Create an account?">
                                         <color key="titleColor" red="0.99650349650000003" green="0.99300699299999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -106,6 +107,22 @@
                                     </state>
                                     <connections>
                                         <action selector="createAccountTapped:" destination="-1" eventType="touchUpInside" id="j95-cA-ml7"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="center" verticalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Pc-ZP-WqS" userLabel="1Password Button">
+                                    <rect key="frame" x="330" y="307" width="44" height="44"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="44" id="6Ws-Tz-eC4"/>
+                                        <constraint firstAttribute="height" constant="44" id="RfL-wL-clV"/>
+                                    </constraints>
+                                    <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
+                                    <inset key="imageEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
+                                    <state key="normal" image="onepassword-extension">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="findLoginFrom1Password:" destination="-1" eventType="touchUpInside" id="Ja4-Pk-Gbn"/>
                                     </connections>
                                 </button>
                             </subviews>
@@ -116,8 +133,10 @@
                                 <constraint firstItem="EOF-M5-5od" firstAttribute="leading" secondItem="0kk-r2-Als" secondAttribute="leading" id="1Lh-qM-2N5"/>
                                 <constraint firstAttribute="trailing" secondItem="vG2-tp-zKA" secondAttribute="trailing" id="1VF-HK-gc1"/>
                                 <constraint firstAttribute="centerX" secondItem="hnq-DE-pYK" secondAttribute="centerX" id="2g2-FF-rqN"/>
+                                <constraint firstAttribute="centerX" secondItem="7Pc-ZP-WqS" secondAttribute="centerX" id="3XN-WD-HVQ"/>
                                 <constraint firstItem="fep-L6-6o2" firstAttribute="top" secondItem="yyP-gN-IdD" secondAttribute="bottom" constant="20" id="9wv-GO-hTr"/>
                                 <constraint firstItem="0Fg-8C-Xhx" firstAttribute="leading" secondItem="0kk-r2-Als" secondAttribute="leading" id="AEV-Cb-K0c"/>
+                                <constraint firstItem="vG2-tp-zKA" firstAttribute="trailing" secondItem="7Pc-ZP-WqS" secondAttribute="trailing" id="BHu-ae-EPS"/>
                                 <constraint firstItem="EOF-M5-5od" firstAttribute="top" secondItem="fep-L6-6o2" secondAttribute="bottom" constant="8" id="E2G-DL-ocr"/>
                                 <constraint firstItem="hnq-DE-pYK" firstAttribute="top" secondItem="0kk-r2-Als" secondAttribute="top" constant="50" id="FKI-tM-Vxg"/>
                                 <constraint firstItem="ciS-FV-Pbi" firstAttribute="leading" secondItem="0kk-r2-Als" secondAttribute="leading" id="LVZ-in-iYm"/>
@@ -130,11 +149,17 @@
                                 <constraint firstItem="fep-L6-6o2" firstAttribute="leading" secondItem="0kk-r2-Als" secondAttribute="leading" id="dDS-HJ-POS"/>
                                 <constraint firstItem="iwD-nO-HjU" firstAttribute="leading" secondItem="0kk-r2-Als" secondAttribute="leading" constant="2" id="dcf-0b-USQ"/>
                                 <constraint firstItem="vG2-tp-zKA" firstAttribute="top" secondItem="ciS-FV-Pbi" secondAttribute="bottom" constant="20" id="g9p-Rt-1ze"/>
+                                <constraint firstItem="vG2-tp-zKA" firstAttribute="centerY" secondItem="7Pc-ZP-WqS" secondAttribute="centerY" id="h6f-bM-eP8"/>
                                 <constraint firstItem="0Fg-8C-Xhx" firstAttribute="top" secondItem="hnq-DE-pYK" secondAttribute="bottom" constant="40" id="m2I-5U-MaX"/>
                                 <constraint firstAttribute="trailing" secondItem="iwD-nO-HjU" secondAttribute="trailing" constant="2" id="pgT-yt-FSI"/>
                                 <constraint firstItem="iwD-nO-HjU" firstAttribute="top" secondItem="vG2-tp-zKA" secondAttribute="bottom" constant="20" id="tWj-D5-y3P"/>
                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="374" id="wOZ-Zt-26A"/>
                             </constraints>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="3XN-WD-HVQ"/>
+                                </mask>
+                            </variation>
                         </view>
                     </subviews>
                     <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -161,5 +186,6 @@
     </objects>
     <resources>
         <image name="ello-logo" width="166" height="166"/>
+        <image name="onepassword-extension" width="44" height="44"/>
     </resources>
 </document>

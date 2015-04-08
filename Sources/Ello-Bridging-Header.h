@@ -9,3 +9,4 @@
 #import <Keys/ElloKeys.h>
 #import <FLAnimatedImage/FLAnimatedImage.h>
 #import <SVGKit/SVGKit.h>
+#import <OnePasswordExtension/OnePasswordExtension.h>
