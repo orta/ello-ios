@@ -1,4 +1,5 @@
 PODS:
+  - 1PasswordExtension (1.2)
   - Alamofire (1.1.4)
   - CocoaLumberjack (2.0.0):
     - CocoaLumberjack/Default (= 2.0.0)
@@ -31,6 +32,7 @@ PODS:
   - WebLinking (0.1.0)
 
 DEPENDENCIES:
+  - 1PasswordExtension (from `https://github.com/AgileBits/onepassword-app-extension.git`)
   - Alamofire (from `https://github.com/Alamofire/Alamofire.git`, branch `xcode-6.3`)
   - FLAnimatedImage (from `https://github.com/ello/FLAnimatedImage.git`)
   - JTSImageViewController (from `https://github.com/ello/JTSImageViewController.git`)
@@ -49,6 +51,8 @@ DEPENDENCIES:
   - WebLinking (from `https://github.com/kylef/WebLinking.swift.git`, branch `swift-1.2`)
 
 EXTERNAL SOURCES:
+  1PasswordExtension:
+    :git: https://github.com/AgileBits/onepassword-app-extension.git
   Alamofire:
     :branch: xcode-6.3
     :git: https://github.com/Alamofire/Alamofire.git
@@ -82,6 +86,9 @@ EXTERNAL SOURCES:
     :git: https://github.com/kylef/WebLinking.swift.git
 
 CHECKOUT OPTIONS:
+  1PasswordExtension:
+    :commit: 6980efe9ba08a8a7e873d6321a44ad893052e20b
+    :git: https://github.com/AgileBits/onepassword-app-extension.git
   Alamofire:
     :commit: 2ff5749ffc0425f05a1411b5b6fd2c25241b5b14
     :git: https://github.com/Alamofire/Alamofire.git
@@ -110,7 +117,7 @@ CHECKOUT OPTIONS:
     :git: git@github.com:Quick/Quick.git
     :tag: v0.3.0
   SVGKit:
-    :commit: 17ec6d451ef33b3731d7d8744f282fd927cf9244
+    :commit: 6fdda80ac6bace3d7dff5cb11e164b2ba5282322
     :git: https://github.com/SVGKit/SVGKit
   SwiftyJSON:
     :commit: 008a09d7ea8b13c03fb59b35c01aad339584a5e1
@@ -120,6 +127,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/kylef/WebLinking.swift.git
 
 SPEC CHECKSUMS:
+  1PasswordExtension: fcf300204bda5b5c78936dbb937a7d661f1ca796
   Alamofire: 6a2cbaebe78a6d469bc55ee37f0a24ba22af76ac
   CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
   FLAnimatedImage: f9422f796135aff80d8c00b2afc48015bb746e24

@@ -17,6 +17,7 @@ pod 'SVGKit', git: 'https://github.com/SVGKit/SVGKit', branch: '2.x'
 pod 'FLAnimatedImage', git: 'https://github.com/ello/FLAnimatedImage.git'
 pod 'JTSImageViewController', git: 'https://github.com/ello/JTSImageViewController.git'
 pod 'KINWebBrowser', git: 'https://github.com/ello/KINWebBrowser.git'
+pod '1PasswordExtension', git: 'https://github.com/AgileBits/onepassword-app-extension.git'
 
 # swift pods
 pod 'SwiftyJSON', git: "https://github.com/SwiftyJSON/SwiftyJSON", branch: "xcode6.3"
