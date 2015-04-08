@@ -19,13 +19,13 @@ class StreamServiceSpec: QuickSpec {
             var streamService = StreamService()
 
             context("success") {
-                
+
                 beforeEach {
                     ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.endpointsClosure, stubResponses: true)
                 }
-                
+
                 describe("-loadStream") {
-                    
+
                     it("Calls success with an array of Activity objects and responseConfig") {
                         var loadedPosts:[Post]?
                         var config: ResponseConfig?
@@ -89,13 +89,13 @@ class StreamServiceSpec: QuickSpec {
                 }
 
                 describe("-loadMoreCommentsForPost") {
-                    
+
                     it("calls success with an array of Comment objects") {
                         var loadedComments:[Comment]?
 
                         streamService.loadMoreCommentsForPost("111", success: { (comments, responseConfig) in
                             loadedComments = comments as? [Comment]
-                        }, failure:nil)
+                        }, failure:nil, noContent: nil)
 
                         expect(count(loadedComments!)) == 1
 

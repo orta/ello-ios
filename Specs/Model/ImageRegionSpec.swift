@@ -21,7 +21,6 @@ class ImageRegionSpec: QuickSpec {
                     "kind": "image",
                     "data": [
                         "alt": "image.png",
-                        "via": "direct",
                         "url": url
                     ]
                 ]
@@ -31,7 +30,6 @@ class ImageRegionSpec: QuickSpec {
                 let expectedData = expected["data"] as [String : AnyObject]
 
                 expect(actualData["alt"] as? String).to(equal(expectedData["alt"] as? String))
-                expect(actualData["via"] as? String).to(equal(expectedData["via"] as? String))
                 expect(actualData["url"] as? String).to(equal(url.absoluteString))
             }
             it("returns json even if there's no url") {

@@ -58,12 +58,15 @@ public class StreamService: NSObject {
         )
     }
 
-    public func loadMoreCommentsForPost(postID:String, success: StreamSuccessCompletion, failure: ElloFailureCompletion?) {
+    public func loadMoreCommentsForPost(postID:String, success: StreamSuccessCompletion, failure: ElloFailureCompletion?, noContent: ElloEmptyCompletion? = nil) {
         ElloProvider.elloRequest(.PostComments(postId: postID),
             method: .GET,
             success: { (data, responseConfig) in
                 if let comments:[JSONAble] = data as? [JSONAble] {
                     success(jsonables: comments, responseConfig: responseConfig)
+                }
+                else if let noContent = noContent {
+                    noContent()
                 }
                 else {
                     ElloProvider.unCastableJSONAble(failure)

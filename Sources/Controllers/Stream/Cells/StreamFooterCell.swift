@@ -178,12 +178,21 @@ public class StreamFooterCell: UICollectionViewCell {
                 return
             }
         }
+
         if !commentsOpened {
             sender.animate()
         }
+
         sender.selected = !commentsOpened
         delegate?.commentsButtonTapped(self, commentsButton: sender)
         commentsOpened = !commentsOpened
+    }
+
+    func cancelCommentLoading() {
+        commentsButton.enabled = true
+        commentsButton.finishAnimation()
+        commentsButton.selected = false
+        commentsOpened = false
     }
 
     @IBAction func commentsButtonTouchDown(sender: CommentButton) {

@@ -34,6 +34,21 @@ class ElloProviderSpec: QuickSpec {
             ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
         }
 
+        describe("parameterEncoding") {
+            it("is .URL for most things") {
+                let endpoint = ElloProvider.endpointsClosure(ElloAPI.AmazonCredentials, Moya.Method.GET, [:])
+                expect(endpoint.parameterEncoding).to(equal(Moya.ParameterEncoding.URL))
+            }
+            it("is .JSON for CreatePost") {
+                let endpoint = ElloProvider.endpointsClosure(ElloAPI.CreatePost(body: [:]), Moya.Method.GET, [:])
+                expect(endpoint.parameterEncoding).to(equal(Moya.ParameterEncoding.JSON))
+            }
+            it("is .JSON for CreateComment") {
+                let endpoint = ElloProvider.endpointsClosure(ElloAPI.CreateComment(parentPostId: "foo", body: [:]), Moya.Method.GET, [:])
+                expect(endpoint.parameterEncoding).to(equal(Moya.ParameterEncoding.JSON))
+            }
+        }
+
         describe("error responses") {
             describe("with stubbed responses") {
                 describe("a provider") {
@@ -134,7 +149,7 @@ class ElloProviderSpec: QuickSpec {
                             expect(elloNetworkError.detail).to(beNil())
                             NSNotificationCenter.defaultCenter().removeObserver(testObserver)
                         }
-                        
+
                     }
 
                     context("420") {
@@ -158,7 +173,7 @@ class ElloProviderSpec: QuickSpec {
                     }
                 }
             }
-            
+
         }
     }
 }
@@ -200,7 +215,7 @@ class NetworkErrorSharedExamplesConfiguration: QuickConfiguration {
                 expect(loadedStatusCode!) == expectedStatusCode
                 expect(loadedError!).notTo(beNil())
                 let elloNetworkError = loadedError!.userInfo![NSLocalizedFailureReasonErrorKey] as! ElloNetworkError
-                
+
                 expect(elloNetworkError).to(beAnInstanceOf(ElloNetworkError.self))
                 expect(elloNetworkError.status!) == expectedStatus
                 expect(elloNetworkError.title) == expectedTitle
@@ -208,7 +223,7 @@ class NetworkErrorSharedExamplesConfiguration: QuickConfiguration {
                 if let expectedDetail = expectedDetail {
                     expect(elloNetworkError.detail) == expectedDetail
                 }
-                
+
                 expect(elloNetworkError.code) == expectedCodeType
 
                 if let expectedMessages = expectedMessages {

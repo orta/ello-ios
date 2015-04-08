@@ -57,7 +57,7 @@ public protocol OmnibarScreenProtocol {
 public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     struct Size {
         static let margins = CGFloat(10)
-        static let textMargins = CGFloat(9)
+        static let textMargins = UIEdgeInsets(top: 22, left: 30, bottom: 9, right: 30)
         static let labelCorrection = CGFloat(8.5)
         static let innerTextMargin = CGFloat(11)
         static let bottomTextMargin = CGFloat(1)
@@ -209,7 +209,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
         let backItem = UIBarButtonItem.backChevronWithTarget(self, action: "backAction")
         let item = UINavigationItem()
         item.leftBarButtonItem = backItem
-        item.title = "Leave a comment"
+        item.title = NSLocalizedString("Leave a comment", comment: "leave a comment")
         item.fixNavBarItemPadding()
         self.navigationBar.items = [item]
     }
@@ -275,7 +275,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
     public func reportSuccess(title : String) {
         let alertController = AlertViewController(message: title)
 
-        let cancelAction = AlertAction(title: "OK", style: .Light, handler: .None)
+        let cancelAction = AlertAction(title: NSLocalizedString("OK", comment: "ok button"), style: .Light, handler: .None)
         alertController.addAction(cancelAction)
 
         delegate?.omnibarPresentController(alertController)
@@ -295,7 +295,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
     public func reportError(title : String, errorMessage : String) {
         let alertController = AlertViewController(message: title)
 
-        let cancelAction = AlertAction(title: "OK", style: .Light, handler: .None)
+        let cancelAction = AlertAction(title: NSLocalizedString("OK", comment: "ok button"), style: .Light, handler: .None)
         alertController.addAction(cancelAction)
 
         delegate?.omnibarPresentController(alertController)
@@ -365,12 +365,15 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
         textContainer.frame = CGRect.make(x: Size.margins, y: buttonContainer.frame.maxY + Size.innerTextMargin,
             right: self.bounds.size.width - Size.margins, bottom: self.bounds.size.height - localKbdHeight)
         sayElloOverlay.frame = textContainer.frame
-        sayElloLabel.frame = CGRect(x: Size.textMargins, y: Size.textMargins + Size.labelCorrection, width: 0, height: 0)
+        sayElloLabel.frame = CGRect(x: Size.textMargins.left, y: Size.textMargins.top + Size.labelCorrection, width: 0, height: 0)
         sayElloLabel.sizeToFit()
 
         // size so that it is offset from the textContainer
-        textView.frame = textContainer.bounds.inset(top: 0, left: Size.textMargins, bottom: 0, right: 0)
-        textView.contentInset = UIEdgeInsets(top: Size.textMargins, left: 0, bottom: Size.textMargins, right: 0)
+        textView.frame = textContainer.bounds.inset(top: 0, left: Size.textMargins.left, bottom: 0, right: Size.textMargins.right)
+        textView.contentInset = UIEdgeInsets(top: Size.textMargins.top, left: 0, bottom: Size.textMargins.bottom, right: 0)
+        textView.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -Size.textMargins.right)
+        textContainer.clipsToBounds = true
+        textView.clipsToBounds = false
     }
 
     private func resetEditor() {
@@ -537,15 +540,15 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
 
     public func addImageAction() {
         if UIImagePickerController.isSourceTypeAvailable(.Camera) {
-            let alertController = AlertViewController(message: "Choose a photo source")
+            let alertController = AlertViewController(message: NSLocalizedString("Choose a photo source", comment: "choose photo source (camera or library)"))
 
-            let cameraAction = AlertAction(title: "📷 Camera", style: .Dark) { (action) in self.openCamera() }
+            let cameraAction = AlertAction(title: NSLocalizedString("Camera", comment: "camera button"), style: .Dark) { (action) in self.openCamera() }
             alertController.addAction(cameraAction)
 
-            let libraryAction = AlertAction(title: "📱 Library", style: .Dark) { (action) in self.openLibrary() }
+            let libraryAction = AlertAction(title: NSLocalizedString("Library", comment: "library button"), style: .Dark) { (action) in self.openLibrary() }
             alertController.addAction(libraryAction)
 
-            let cancelAction = AlertAction(title: "🚫 Cancel", style: .Light) { (action) in }
+            let cancelAction = AlertAction(title: NSLocalizedString("Cancel", comment: "cancel button"), style: .Light) { (action) in }
             alertController.addAction(cancelAction)
 
             delegate?.omnibarPresentController(alertController)
@@ -554,9 +557,9 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
             openLibrary()
         }
         else {
-            let alertController = AlertViewController(message: "Sorry, but your device doesn’t have a photo library!")
+            let alertController = AlertViewController(message: NSLocalizedString("Sorry, but your device doesn’t have a photo library!", comment: "device doesn't support photo library"))
 
-            let cancelAction = AlertAction(title: "OK", style: .Light, handler: .None)
+            let cancelAction = AlertAction(title: NSLocalizedString("OK", comment: "ok button"), style: .Light, handler: .None)
             alertController.addAction(cancelAction)
 
             delegate?.omnibarPresentController(alertController)
