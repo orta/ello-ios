@@ -149,7 +149,7 @@ class ElloProviderSpec: QuickSpec {
                             expect(elloNetworkError.detail).to(beNil())
                             NSNotificationCenter.defaultCenter().removeObserver(testObserver)
                         }
-                        
+
                     }
 
                     context("420") {
@@ -173,7 +173,7 @@ class ElloProviderSpec: QuickSpec {
                     }
                 }
             }
-            
+
         }
     }
 }
@@ -215,7 +215,7 @@ class NetworkErrorSharedExamplesConfiguration: QuickConfiguration {
                 expect(loadedStatusCode!) == expectedStatusCode
                 expect(loadedError!).notTo(beNil())
                 let elloNetworkError = loadedError!.userInfo![NSLocalizedFailureReasonErrorKey] as! ElloNetworkError
-                
+
                 expect(elloNetworkError).to(beAnInstanceOf(ElloNetworkError.self))
                 expect(elloNetworkError.status!) == expectedStatus
                 expect(elloNetworkError.title) == expectedTitle
@@ -223,7 +223,7 @@ class NetworkErrorSharedExamplesConfiguration: QuickConfiguration {
                 if let expectedDetail = expectedDetail {
                     expect(elloNetworkError.detail) == expectedDetail
                 }
-                
+
                 expect(elloNetworkError.code) == expectedCodeType
 
                 if let expectedMessages = expectedMessages {
