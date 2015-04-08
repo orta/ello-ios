@@ -120,7 +120,7 @@ extension ElloProvider {
 
     // MARK: - Public
 
-   public static func elloRequest(token: ElloAPI, method: Moya.Method, success: ElloSuccessCompletion, failure: ElloFailureCompletion?) {
+    public static func elloRequest(token: ElloAPI, method: Moya.Method, success: ElloSuccessCompletion, failure: ElloFailureCompletion?) {
         ElloProvider.sharedProvider.request(token, method: method, parameters: token.defaultParameters, completion: {
             (data, statusCode, response, error) in
             ElloProvider.handleRequest(token, method: method, data: data, response: response as? NSHTTPURLResponse, statusCode: statusCode, success: success, failure: failure, isRetry: false, error: error)
