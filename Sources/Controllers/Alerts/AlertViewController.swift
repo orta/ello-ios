@@ -78,9 +78,9 @@ extension AlertViewController: UIViewControllerTransitioningDelegate {
 
 extension AlertViewController: UITableViewDelegate {
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        dismissViewControllerAnimated(true, completion: .None)
         let action = actions.safeValue(indexPath.row)
         action.map { $0.handler?($0) }
-        dismissViewControllerAnimated(true, completion: .None)
     }
 
     public func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
