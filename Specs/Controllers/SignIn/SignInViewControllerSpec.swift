@@ -49,6 +49,7 @@ class SignInViewControllerSpec: QuickSpec {
                     expect(controller.enterButtonTopContraint).notTo(beNil())
                     expect(controller.errorLabel).notTo(beNil())
                     expect(controller.elloLogo).notTo(beNil())
+                    expect(controller.onePasswordButton).notTo(beNil())
                 }
 
                 it("IBActions are wired up") {
@@ -67,6 +68,11 @@ class SignInViewControllerSpec: QuickSpec {
                     expect(createAccountActions).to(contain("createAccountTapped:"))
 
                     expect(createAccountActions?.count) == 1
+
+                    let onePasswordActions = controller.onePasswordButton.actionsForTarget(controller, forControlEvent: UIControlEvents.TouchUpInside)
+                    expect(onePasswordActions).to(contain("findLoginFrom1Password:"))
+
+                    expect(onePasswordActions?.count) == 1
                 }
             }
 
