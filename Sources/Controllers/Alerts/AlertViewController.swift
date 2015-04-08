@@ -55,11 +55,6 @@ public extension AlertViewController {
         super.viewDidLoad()
         tableView.registerNib(AlertCell.nib(), forCellReuseIdentifier: AlertCell.reuseIdentifier())
     }
-
-    public override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        headerLabel.frame.size.width = CGRectGetWidth(self.view.bounds) - totalHorizontalPadding
-    }
 }
 
 extension AlertViewController {
@@ -91,8 +86,8 @@ extension AlertViewController: UITableViewDelegate {
     }
 
     public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        headerLabel.sizeToFit()
-        return CGRectGetHeight(headerLabel.frame)
+        let size = CGSize(width: CGRectGetWidth(tableView.frame), height: .max)
+        return headerLabel.sizeThatFits(size).height
     }
 }
 
