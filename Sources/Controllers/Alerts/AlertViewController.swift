@@ -21,6 +21,7 @@ public class AlertViewController: UIViewController {
     }
 
     public private(set) var actions: [AlertAction] = []
+    private let textAlignment: NSTextAlignment
 
     private let headerLabel: ElloLabel = {
         let label = ElloLabel()
@@ -36,8 +37,11 @@ public class AlertViewController: UIViewController {
         return 2 * topPadding.constant
     }
 
-    public init(message: String?) {
+    public init(message: String?, textAlignment: NSTextAlignment = .Center) {
+        self.textAlignment = textAlignment
+
         super.init(nibName: "AlertViewController", bundle: NSBundle(forClass: AlertViewController.self))
+
         modalPresentationStyle = .Custom
         transitioningDelegate = self
         if let text = message {
@@ -99,7 +103,7 @@ extension AlertViewController: UITableViewDataSource {
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(AlertCell.reuseIdentifier(), forIndexPath: indexPath) as! UITableViewCell
         let action = actions.safeValue(indexPath.row)
-        let presenter = action.map { AlertCellPresenter(action: $0) }
+        let presenter = action.map { AlertCellPresenter(action: $0, textAlignment: textAlignment) }
         presenter?.configureCell(cell)
         return cell
     }

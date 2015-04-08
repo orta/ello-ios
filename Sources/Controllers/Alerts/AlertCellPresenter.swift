@@ -8,23 +8,24 @@
 
 struct AlertCellPresenter {
     let action: AlertAction
+    let textAlignment: NSTextAlignment
 
     func configureCell(cell: UITableViewCell) {
-        let buttonCell = cell as! AlertCell
+        let alertCell = cell as! AlertCell
 
         switch action.style {
-        case .Light: configureForLightAction(buttonCell)
-        case .Dark: configureForDarkAction(buttonCell)
+        case .Light: configureForLightAction(alertCell)
+        case .Dark: configureForDarkAction(alertCell)
         }
     }
 
     func configureForLightAction(cell: AlertCell) {
-        cell.label.setLabelText(action.title, color: UIColor.grey6())
+        cell.label.setLabelText(action.title, color: UIColor.grey6(), alignment: textAlignment)
         cell.background.backgroundColor = UIColor.greyE5()
     }
 
     func configureForDarkAction(cell: AlertCell) {
-        cell.label.setLabelText(action.title)
+        cell.label.setLabelText(action.title, alignment: textAlignment)
         cell.background.backgroundColor = UIColor.blackColor()
     }
 }
