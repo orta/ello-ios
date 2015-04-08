@@ -1,0 +1,78 @@
+{
+    "linked": {
+        "users": [
+            {
+                "avatar": {
+                    "large": {
+                        "metadata": null,
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/ello-large-97fbdf62.png"
+                    },
+                    "original": {
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/archer.jpg"
+                    },
+                    "regular": {
+                        "metadata": null,
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/ello-regular-97fbdf62.png"
+                    },
+                    "small": {
+                        "metadata": null,
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/ello-small-97fbdf62.png"
+                    }
+                },
+                "experimental_features": false,
+                "followers_count": 0,
+                "following_count": 1,
+                "href": "/api/edge/users/42",
+                "id": "42",
+                "name": "Sterling",
+                "posts_count": 0,
+                "relationship_priority": "self",
+                "username": "archer"
+            },
+            {
+                "avatar": {
+                    "large": {
+                        "metadata": null,
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/666/ello-large-9b22e8ac.png"
+                    },
+                    "original": {
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/666/cyril.jpg"
+                    },
+                    "regular": {
+                        "metadata": null,
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/666/ello-regular-9b22e8ac.png"
+                    },
+                    "small": {
+                        "metadata": null,
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/666/ello-small-9b22e8ac.png"
+                    }
+                },
+                "experimental_features": true,
+                "followers_count": 1,
+                "following_count": 0,
+                "href": "/api/edge/users/666",
+                "id": "666",
+                "name": "Cyril Figgis",
+                "posts_count": 0,
+                "relationship_priority": "friend",
+                "username": "cfiggis"
+            }
+        ]
+    },
+    "relationships": {
+        "created_at": "2015-03-12T15:55:17.889Z",
+        "id": "50",
+        "links": {
+            "owner": {
+                "href": "/api/edge/users/42",
+                "id": "42",
+                "type": "users"
+            },
+            "subject": {
+                "href": "/api/edge/users/666",
+                "id": "666",
+                "type": "users"
+            }
+        }
+    }
+}

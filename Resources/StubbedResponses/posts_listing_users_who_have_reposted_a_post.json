@@ -1,0 +1,54 @@
+{
+    "users": [
+        {
+            "avatar": {
+                "large": {
+                    "metadata": null,
+                    "url": "https://abc123.cloudfront.net/uploads/user/avatar/43/ello-large-e5fcdb7d.png"
+                },
+                "original": {
+                    "url": "https://abc123.cloudfront.net/uploads/user/avatar/43/lana.jpg"
+                },
+                "regular": {
+                    "metadata": null,
+                    "url": "https://abc123.cloudfront.net/uploads/user/avatar/43/ello-regular-e5fcdb7d.png"
+                },
+                "small": {
+                    "metadata": null,
+                    "url": "https://abc123.cloudfront.net/uploads/user/avatar/43/ello-small-e5fcdb7d.png"
+                }
+            },
+            "experimental_features": true,
+            "href": "/api/edge/users/43",
+            "id": "43",
+            "name": "Lana Kane",
+            "relationship_priority": null,
+            "username": "lanakane32d"
+        },
+        {
+            "avatar": {
+                "large": {
+                    "metadata": null,
+                    "url": "https://abc123.cloudfront.net/uploads/user/avatar/666/ello-large-9b22e8ac.png"
+                },
+                "original": {
+                    "url": "https://abc123.cloudfront.net/uploads/user/avatar/666/cyril.jpg"
+                },
+                "regular": {
+                    "metadata": null,
+                    "url": "https://abc123.cloudfront.net/uploads/user/avatar/666/ello-regular-9b22e8ac.png"
+                },
+                "small": {
+                    "metadata": null,
+                    "url": "https://abc123.cloudfront.net/uploads/user/avatar/666/ello-small-9b22e8ac.png"
+                }
+            },
+            "experimental_features": true,
+            "href": "/api/edge/users/666",
+            "id": "666",
+            "name": "Cyril Figgis",
+            "relationship_priority": null,
+            "username": "cfiggis"
+        }
+    ]
+}
