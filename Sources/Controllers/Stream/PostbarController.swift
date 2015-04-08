@@ -29,32 +29,44 @@ public class PostbarController: NSObject, PostbarDelegate {
     }
 
     public func commentsButtonTapped(cell:StreamFooterCell, commentsButton: CommentButton) {
-        cell.commentsButton.enabled = false
-        if let indexPath = collectionView.indexPathForCell(cell) {
-            if let item = dataSource.visibleStreamCellItem(at: indexPath) {
-                if let post = item.jsonable as? Post {
-                    if cell.commentsOpened {
-                        let indexPaths = self.dataSource.removeCommentsForPost(post)
-                        self.collectionView.deleteItemsAtIndexPaths(indexPaths)
-                        cell.commentsButton.enabled = true
-                        item.state = .Collapsed
-                    }
-                    else {
-                        let streamService = StreamService()
-                        item.state = .Loading
-                        streamService.loadMoreCommentsForPost(post.postId, success: { (comments, responseConfig) in
-                            item.state = .Expanded
-                            commentsButton.finishAnimation()
-                            let nextIndexPath = NSIndexPath(forRow: indexPath.row + 1, inSection: indexPath.section)
-                            self.commentLoadSuccess(post, comments: comments, indexPath: nextIndexPath, cell: cell)
-                        }, failure: { _ in
-                            item.state = .Collapsed
-                            cell.commentsButton.enabled = true
-                            println("comment load failure")
-                        })
-                    }
-                }
+        if let indexPath = collectionView.indexPathForCell(cell),
+           let item = dataSource.visibleStreamCellItem(at: indexPath),
+           let post = item.jsonable as? Post
+        {
+            cell.commentsButton.enabled = false
+            if cell.commentsOpened {
+                let indexPaths = self.dataSource.removeCommentsForPost(post)
+                self.collectionView.deleteItemsAtIndexPaths(indexPaths)
+                cell.commentsButton.enabled = true
+                item.state = .Collapsed
+                cell.commentsButton.finishAnimation()
             }
+            else {
+                let streamService = StreamService()
+                item.state = .Loading
+                streamService.loadMoreCommentsForPost(post.postId,
+                    success: { (comments, responseConfig) in
+                        item.state = .Expanded
+                        commentsButton.finishAnimation()
+                        let nextIndexPath = NSIndexPath(forRow: indexPath.row + 1, inSection: indexPath.section)
+                        self.commentLoadSuccess(post, comments: comments, indexPath: nextIndexPath, cell: cell)
+                    },
+                    failure: { _ in
+                        item.state = .Collapsed
+                        cell.cancelCommentLoading()
+                        println("comment load failure")
+                    },
+                    noContent: {
+                        item.state = .Expanded
+                        commentsButton.finishAnimation()
+                        let nextIndexPath = NSIndexPath(forRow: indexPath.row + 1, inSection: indexPath.section)
+                        self.commentLoadSuccess(post, comments: [], indexPath: nextIndexPath, cell: cell)
+                    }
+                )
+            }
+        }
+        else {
+            cell.cancelCommentLoading()
         }
     }
 

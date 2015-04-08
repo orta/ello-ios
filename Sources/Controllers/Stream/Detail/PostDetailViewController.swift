@@ -162,6 +162,12 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
                     self.appendCreateCommentItem()
                     println("failed to load comments (reason: \(error))")
                     self.streamViewController.doneLoading()
+                },
+                noContent: {
+                    self.appendCreateCommentItem()
+
+                    self.streamViewController.removeRefreshables()
+                    self.streamViewController.doneLoading()
                 }
             )
         }
