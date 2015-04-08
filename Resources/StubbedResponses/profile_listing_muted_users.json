@@ -1,0 +1,32 @@
+{
+    "users": [
+        {
+            "avatar": {
+                "large": {
+                    "metadata": null,
+                    "url": "https://abc123.cloudfront.net/uploads/user/avatar/420/ello-large-91c0f710.png"
+                },
+                "original": {
+                    "url": "https://abc123.cloudfront.net/uploads/user/avatar/420/pam.jpg"
+                },
+                "regular": {
+                    "metadata": null,
+                    "url": "https://abc123.cloudfront.net/uploads/user/avatar/420/ello-regular-91c0f710.png"
+                },
+                "small": {
+                    "metadata": null,
+                    "url": "https://abc123.cloudfront.net/uploads/user/avatar/420/ello-small-91c0f710.png"
+                }
+            },
+            "experimental_features": true,
+            "followers_count": 0,
+            "following_count": 0,
+            "href": "/api/edge/users/420",
+            "id": "420",
+            "name": "Pamilanderson",
+            "posts_count": 0,
+            "relationship_priority": "mute",
+            "username": "pam"
+        }
+    ]
+}

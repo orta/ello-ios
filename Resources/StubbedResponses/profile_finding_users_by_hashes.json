@@ -1,0 +1,91 @@
+{
+    "users": [
+        {
+            "avatar": {
+                "large": {
+                    "metadata": null,
+                    "url": "https://abc123.cloudfront.net/uploads/user/avatar/43/ello-large-e5fcdb7d.png"
+                },
+                "original": {
+                    "url": "https://abc123.cloudfront.net/uploads/user/avatar/43/lana.jpg"
+                },
+                "regular": {
+                    "metadata": null,
+                    "url": "https://abc123.cloudfront.net/uploads/user/avatar/43/ello-regular-e5fcdb7d.png"
+                },
+                "small": {
+                    "metadata": null,
+                    "url": "https://abc123.cloudfront.net/uploads/user/avatar/43/ello-small-e5fcdb7d.png"
+                }
+            },
+            "experimental_features": true,
+            "followers_count": 0,
+            "following_count": 0,
+            "href": "/api/edge/users/43",
+            "id": "43",
+            "identifiable_by": "7ce4a483b475895573be1add698625511d951f85",
+            "name": "Lana Kane",
+            "posts_count": 0,
+            "relationship_priority": null,
+            "username": "lanakane32d"
+        },
+        {
+            "avatar": {
+                "large": {
+                    "metadata": null,
+                    "url": "https://abc123.cloudfront.net/uploads/user/avatar/420/ello-large-91c0f710.png"
+                },
+                "original": {
+                    "url": "https://abc123.cloudfront.net/uploads/user/avatar/420/pam.jpg"
+                },
+                "regular": {
+                    "metadata": null,
+                    "url": "https://abc123.cloudfront.net/uploads/user/avatar/420/ello-regular-91c0f710.png"
+                },
+                "small": {
+                    "metadata": null,
+                    "url": "https://abc123.cloudfront.net/uploads/user/avatar/420/ello-small-91c0f710.png"
+                }
+            },
+            "experimental_features": true,
+            "followers_count": 0,
+            "following_count": 0,
+            "href": "/api/edge/users/420",
+            "id": "420",
+            "identifiable_by": "f80a824ad174588701b72c5b0ba40846182a34b6",
+            "name": "Pamilanderson",
+            "posts_count": 0,
+            "relationship_priority": null,
+            "username": "pam"
+        },
+        {
+            "avatar": {
+                "large": {
+                    "metadata": null,
+                    "url": "https://abc123.cloudfront.net/uploads/user/avatar/421/ello-large-aaca0f5e.png"
+                },
+                "original": {
+                    "url": "https://abc123.cloudfront.net/uploads/user/avatar/421/avatar.png"
+                },
+                "regular": {
+                    "metadata": null,
+                    "url": "https://abc123.cloudfront.net/uploads/user/avatar/421/ello-regular-aaca0f5e.png"
+                },
+                "small": {
+                    "metadata": null,
+                    "url": "https://abc123.cloudfront.net/uploads/user/avatar/421/ello-small-aaca0f5e.png"
+                }
+            },
+            "experimental_features": true,
+            "followers_count": 0,
+            "following_count": 0,
+            "href": "/api/edge/users/421",
+            "id": "421",
+            "identifiable_by": "f80a824ad174588701b72c5b0ba40846182a34b6",
+            "name": "Secret Spy",
+            "posts_count": 0,
+            "relationship_priority": null,
+            "username": "duso"
+        }
+    ]
+}

@@ -1,0 +1,63 @@
+{
+    "users": {
+        "allows_analytics": false,
+        "avatar": {
+            "large": {
+                "metadata": null,
+                "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/ello-large-97fbdf62.png"
+            },
+            "original": {
+                "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/archer.jpg"
+            },
+            "regular": {
+                "metadata": null,
+                "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/ello-regular-97fbdf62.png"
+            },
+            "small": {
+                "metadata": null,
+                "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/ello-small-97fbdf62.png"
+            }
+        },
+        "background_position": "50% 100%",
+        "confirmed_at": "2015-03-12T15:55:14.212Z",
+        "cover_image": {
+            "optimized": {
+                "metadata": null,
+                "url": "https://abc123.cloudfront.net/uploads/user/cover_image/42/ello-optimized-41d0e299.jpg"
+            },
+            "original": {
+                "url": "https://abc123.cloudfront.net/uploads/user/cover_image/42/cover.png"
+            }
+        },
+        "created_at": "2015-03-12T15:55:14.235Z",
+        "email": "sarcher@odinspy.com",
+        "experimental_features": false,
+        "external_links": "http://odinspy.com http://ello.co",
+        "external_links_list": [
+            "http://odinspy.com",
+            "http://ello.co"
+        ],
+        "followers_count": 0,
+        "following_count": 0,
+        "formatted_short_bio": "<p>I work for <strong>Odin</strong> now! MOTHER!</p>",
+        "has_ad_notifications_enabled": true,
+        "has_commenting_enabled": false,
+        "has_reposting_enabled": false,
+        "has_sharing_enabled": true,
+        "href": "/api/edge/profile",
+        "id": "42",
+        "is_public": false,
+        "name": "Sterling Archer",
+        "notify_of_comments_via_email": false,
+        "notify_of_invitation_acceptances_via_email": false,
+        "notify_of_mentions_via_email": false,
+        "notify_of_new_followers_via_email": false,
+        "posts_adult_content": false,
+        "posts_count": 0,
+        "relationship_priority": "self",
+        "short_bio": "I work for **Odin** now! MOTHER!",
+        "subscribe_to_users_email_list": false,
+        "username": "odinarcher",
+        "views_adult_content": false
+    }
+}

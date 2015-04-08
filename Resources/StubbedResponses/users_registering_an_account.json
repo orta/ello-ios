@@ -1,0 +1,61 @@
+{
+    "users": {
+        "allows_analytics": true,
+        "avatar": {
+            "large": {
+                "metadata": null,
+                "url": "/images/fallback/user/avatar/ello-default-large.png"
+            },
+            "original": {
+                "url": "/images/fallback/user/avatar/ello-default.png"
+            },
+            "regular": {
+                "metadata": null,
+                "url": "/images/fallback/user/avatar/ello-default-regular.png"
+            },
+            "small": {
+                "metadata": null,
+                "url": "/images/fallback/user/avatar/ello-default-small.png"
+            }
+        },
+        "background_position": null,
+        "confirmed_at": null,
+        "cover_image": {
+            "optimized": {
+                "metadata": null,
+                "url": "/images/fallback/user/cover_image/ello-default-optimized.jpg"
+            },
+            "original": {
+                "url": "/images/fallback/user/cover_image/ello-default.jpg"
+            }
+        },
+        "created_at": "2015-03-12T15:54:56.066Z",
+        "email": "sterling@isisagency.com",
+        "experimental_features": false,
+        "external_links": null,
+        "external_links_list": [],
+        "followers_count": 0,
+        "following_count": 0,
+        "formatted_short_bio": "",
+        "ga_unique_id": "11b02655341946904c36bd6eb75f98d302c82e8e",
+        "has_ad_notifications_enabled": false,
+        "has_commenting_enabled": true,
+        "has_reposting_enabled": true,
+        "has_sharing_enabled": true,
+        "href": "/api/edge/profile",
+        "id": "1",
+        "is_public": true,
+        "name": null,
+        "notify_of_comments_via_email": true,
+        "notify_of_invitation_acceptances_via_email": true,
+        "notify_of_mentions_via_email": true,
+        "notify_of_new_followers_via_email": true,
+        "posts_adult_content": false,
+        "posts_count": 0,
+        "relationship_priority": "self",
+        "short_bio": null,
+        "subscribe_to_users_email_list": true,
+        "username": "archer",
+        "views_adult_content": false
+    }
+}

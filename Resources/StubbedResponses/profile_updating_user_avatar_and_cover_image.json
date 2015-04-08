@@ -1,0 +1,64 @@
+{
+    "users": {
+        "allows_analytics": true,
+        "avatar": {
+            "large": {
+                "metadata": null,
+                "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/avatar-large.jpeg"
+            },
+            "original": {
+                "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/avatar-.jpeg"
+            },
+            "regular": {
+                "metadata": null,
+                "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/avatar-regular.jpeg"
+            },
+            "small": {
+                "metadata": null,
+                "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/avatar-small.jpeg"
+            }
+        },
+        "background_position": "10% 50%",
+        "confirmed_at": "2015-03-12T15:55:14.413Z",
+        "cover_image": {
+            "optimized": {
+                "metadata": null,
+                "url": "https://abc123.cloudfront.net/uploads/user/cover_image/42/cover-optimized.jpeg"
+            },
+            "original": {
+                "url": "https://abc123.cloudfront.net/uploads/user/cover_image/42/cover-.jpeg"
+            }
+        },
+        "created_at": "2015-03-12T15:55:14.435Z",
+        "email": "sterling@isisagency.com",
+        "experimental_features": false,
+        "external_links": "http://isisagency.com http://ello.co",
+        "external_links_list": [
+            "http://isisagency.com",
+            "http://ello.co"
+        ],
+        "followers_count": 0,
+        "following_count": 0,
+        "formatted_short_bio": "<p>Have been <strong>spying</strong> for a while now.</p>",
+        "ga_unique_id": "eb62f1c48ff87127c3120e4b5eee7a78a00cb42c",
+        "has_ad_notifications_enabled": false,
+        "has_commenting_enabled": true,
+        "has_reposting_enabled": true,
+        "has_sharing_enabled": true,
+        "href": "/api/edge/profile",
+        "id": "42",
+        "is_public": false,
+        "name": "Sterling",
+        "notify_of_comments_via_email": true,
+        "notify_of_invitation_acceptances_via_email": true,
+        "notify_of_mentions_via_email": true,
+        "notify_of_new_followers_via_email": true,
+        "posts_adult_content": true,
+        "posts_count": 0,
+        "relationship_priority": "self",
+        "short_bio": "Have been **spying** for a while now.",
+        "subscribe_to_users_email_list": true,
+        "username": "archer",
+        "views_adult_content": true
+    }
+}
