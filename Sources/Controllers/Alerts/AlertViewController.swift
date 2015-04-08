@@ -33,7 +33,7 @@ public class AlertViewController: UIViewController {
     }
 
     var totalVerticalPadding: CGFloat {
-        return 2 * topPadding.constant + CGRectGetHeight(headerLabel.frame)
+        return 2 * topPadding.constant
     }
 
     public init(message: String?) {
@@ -86,7 +86,7 @@ extension AlertViewController: UITableViewDelegate {
     }
 
     public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        let size = CGSize(width: CGRectGetWidth(tableView.frame), height: .max)
+        let size = CGSize(width: DesiredWidth - totalHorizontalPadding, height: .max)
         return headerLabel.sizeThatFits(size).height
     }
 }
