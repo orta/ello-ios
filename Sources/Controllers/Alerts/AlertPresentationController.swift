@@ -21,8 +21,11 @@ extension AlertPresentationController {
         let alertView = presentedViewController as! AlertViewController
         alertView.view.frame.size = alertView.desiredSize
         alertView.view.center = containerView.center
-        let gesture = UITapGestureRecognizer(target:self, action: Selector("dismiss"))
-        background.addGestureRecognizer(gesture)
+
+        if alertView.dismissable {
+            let gesture = UITapGestureRecognizer(target:self, action: Selector("dismiss"))
+            background.addGestureRecognizer(gesture)
+        }
     }
 }
 

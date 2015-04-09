@@ -20,6 +20,8 @@ public class AlertViewController: UIViewController {
         return CGSize(width: DesiredWidth, height: height)
     }
 
+    public let dismissable: Bool
+
     public private(set) var actions: [AlertAction] = []
     private let textAlignment: NSTextAlignment
 
@@ -38,8 +40,9 @@ public class AlertViewController: UIViewController {
         return 2 * topPadding.constant
     }
 
-    public init(message: String?, textAlignment: NSTextAlignment = .Center) {
+    public init(message: String?, textAlignment: NSTextAlignment = .Center, dismissable: Bool = true) {
         self.textAlignment = textAlignment
+        self.dismissable = dismissable
 
         super.init(nibName: "AlertViewController", bundle: NSBundle(forClass: AlertViewController.self))
 
