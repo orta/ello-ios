@@ -1,3 +1,96 @@
+### Ello Build 1048(30ae92c221f068f7d028a7878f7fde3c07cd6308) April 8, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #151 - Backlog fixes
+Omnibar padding
+[Fixes: #91898692]
+
+Posting with an image
+[Fixes: #91988886]
+
+Tapping on comment icon (in footer cell) handles 204 response correctly
+[Fixes: #91994326]
+
+Cannot recreate #91994374
+
+------
+
+#### #150 - Add specs for ElloAPI path
+Have been meaning to do this for awhile. ElloAPI is sad and barely tested, yet crucial to the app. While incomplete this gets us a bit closer to having coverage for it.
+
+------
+
+#### #145 - 1password support
+* shows 1password button if 1password installed (hides if not)
+* TouchID email/password, so nice
+
+![1password](https://lh5.ggpht.com/a_fdt5QXfEG9qDsqJUrmoyDOycgnlX_vMwhUS-lglOq_XRneCrN7T0HUeeQlVlBzIFE=w300)
+
+[Finishes #84059742]
+
+------
+
+#### #146 - Adds all API JSON responses with a generate task.
+* Run `bundle exec rake generate:responses` to update
+* It’s pointed at staging, since staging should update before prod, but this can be easily changed to point at prod in the task if desired.
+* These responses should contain all of the `required` nodes from each schema ie: https://ello-staging.herokuapp.com/api/schema/activity
+* The data within the responses is generated from static data on the server, so dates should be locked down and not change on an update
+
+[#90149932]
+
+------
+
+#### #143 - use 'public private(set)'
+oh yeah because 'public private' is so darn readable and intuitive.
+
+LATTNER!
+
+------
+
+#### #142 - Implement logout button on settings screen
+Logout button sends a notification that signals the app to logout the
+current user and bring them to the login view.
+
+------
+
+#### #139 - More specs
+Specs around comment cell items and the ello tab bar controller.
+
+------
+
+#### #138 - Load smaller images in streams
+Loading images is taking a long time. We should see big speed and performance improvements by using smaller image files. Grid layout now uses ldpi and single column layout now uses mdpi.
+
+[Finishes #91946040]
+
+------
+
+#### #136 - copy the stream items
+so that sizing in the detail doesn't affect the sizes in the noise view.
+
+[Finishes: #91779554]
+
+------
+
+#### #132 - DateExtensions is now rails’ time_ago_in_words
+Direct port except for the leap year stuff. There's a TODO for that in the extension file.
+
+[Fixes #91455348]
+
+------
+
+#### #135 - A few quick fixes
+* Login screen now has "Social Revolution." text.
+* Set background color in comment cell to white. 
+
+[Fixes #91824398]
+[Fixes #91824404]
+    
+------------
+
 ### Ello Build 954(f40ab4410448fb5534c0875da57022fd26f781bf) April 3, 2015
 
     RELEASE NOTES
