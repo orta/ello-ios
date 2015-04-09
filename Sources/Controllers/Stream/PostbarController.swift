@@ -55,7 +55,7 @@ public class PostbarController: NSObject, PostbarDelegate {
             else {
                 let streamService = StreamService()
                 item.state = .Loading
-                streamService.loadMoreCommentsForPost(post.postId,
+                streamService.loadMoreCommentsForPost(post.id,
                     success: { (comments, responseConfig) in
                         item.state = .Expanded
                         commentsButton.finishAnimation()

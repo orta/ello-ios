@@ -97,7 +97,6 @@ public final class Comment: JSONAble, Authorable, NSCoding {
         var parentPost:Post?
         if let linksNode = data["links"] as? [String: AnyObject] {
             links = ElloLinkedStore.parseLinks(linksNode)
-            println("links: \(links)")
             comment.assets = links["assets"] as? [String: Asset]
             comment.author = links["author"] as? User
             comment.parentPost = links["parent_post"] as? Post

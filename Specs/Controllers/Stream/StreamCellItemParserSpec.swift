@@ -70,7 +70,7 @@ class StreamCellItemParserSpec: QuickSpec {
                     },
                     failure: nil
                 )
-                expect(loadedPosts.count) == 11
+                expect(loadedPosts.count) == 6
             }
 
             it("returns an empty array if an empty array of Activities is passed in") {

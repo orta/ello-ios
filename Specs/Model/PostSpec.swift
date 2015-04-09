@@ -14,11 +14,11 @@ import Nimble
 class PostSpec: QuickSpec {
     override func spec() {
 
+        beforeEach {
+            ElloURI.domain = "ello.co"
+        }
+        
         describe("+fromJSON:") {
-
-            beforeEach {
-                ElloURI.domain = "ello.co"
-            }
 
             it("parses correctly") {
                 let parsedPost = stubbedJSONData("posts_post_details", "posts")
@@ -191,7 +191,7 @@ class PostSpec: QuickSpec {
                         // required
                         "href" : "0987",
                         "token" : "toke-en",
-                        "contentWarning" : "null",
+                        "contentWarning" : "",
                         "allowComments" : true,
                         "summary" : summary,
                         // optional
@@ -221,7 +221,7 @@ class PostSpec: QuickSpec {
                     // required
                     expect(unArchivedPost.href) == "0987"
                     expect(unArchivedPost.token) == "toke-en"
-                    expect(unArchivedPost.contentWarning) == "null"
+                    expect(unArchivedPost.contentWarning) == ""
                     expect(unArchivedPost.allowComments) == true
                     testRegionContent(unArchivedPost.summary)
                     // optional
@@ -241,7 +241,7 @@ class PostSpec: QuickSpec {
                     expect(unArchivedPost.comments![0]).to(beAKindOf(Comment.self))
                     // computed
                     expect(post.collapsed) == false
-                    expect(post.shareLink) == "https://ello-staging.herokuapp.com/thenim/post/toke-en"
+                    expect(post.shareLink) == "https://ello.co/thenim/post/toke-en"
                 }
             }
         }

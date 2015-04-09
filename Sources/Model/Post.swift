@@ -24,7 +24,7 @@ let PostVersion = 1
 public final class Post: JSONAble, Authorable, NSCoding {
     public let version: Int = PostVersion
 
-    // active record (should be moved to JSONAble)
+    // active record
     public let id: String
     public let createdAt: NSDate
     // required
@@ -77,8 +77,10 @@ public final class Post: JSONAble, Authorable, NSCoding {
         summary: [Regionable]
         )
     {
+        // active record
         self.id = id
         self.createdAt = createdAt
+        // required
         self.href = href
         self.token = token
         self.contentWarning = contentWarning
@@ -95,14 +97,12 @@ public final class Post: JSONAble, Authorable, NSCoding {
 
     private func registerNotifications() {
         commentCountNotification = NotificationObserver(notification: UpdatePostCommentCountNotification) { comment in
-            if let postId = comment.parentPost?.id {
-                if postId == self.id {
-                    if let count = self.commentsCount {
-                        self.commentsCount = count + 1
-                    }
-                    else {
-                        self.commentsCount = 1
-                    }
+            if comment.postId == self.id {
+                if let count = self.commentsCount {
+                    self.commentsCount = count + 1
+                }
+                else {
+                    self.commentsCount = 1
                 }
             }
         }

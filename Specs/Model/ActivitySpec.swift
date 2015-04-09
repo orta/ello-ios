@@ -15,48 +15,51 @@ class ActivitySpec: QuickSpec {
     override func spec() {
         describe("+fromJSON:") {
 
-            let parsedActivities = stubbedJSONDataArray("activity_streams_friend_stream", "activities")
+            context("friend stream") {
+                it("parses own post correctly") {
+                    let parsedActivities = stubbedJSONDataArray("activity_streams_friend_stream", "activities")
+                    let activity = Activity.fromJSON(parsedActivities[0]) as! Activity
+                    let createdAtStr = "2014-06-03T00:00:00.000Z"
+                    let createdAt: NSDate = createdAtStr.toNSDate()!
+                    // active record
+                    expect(activity.id) == createdAtStr
+                    expect(activity.createdAt) == createdAt
+                    // required
+                    expect(activity.kind) == Activity.Kind.OwnPost
+                    expect(activity.subjectType) == Activity.SubjectType.Post
+                    // links
+                    expect(activity.subject).to(beAKindOf(Post.self))
+                }
 
-            it("parses own post correctly") {
-                let activity = Activity.fromJSON(parsedActivities[0]) as! Activity
-                let createdAtStr = "2014-06-03T00:00:00.000Z"
-                let createdAt: NSDate = createdAtStr.toNSDate()!
-                // active record
-                expect(activity.id) == createdAtStr
-                expect(activity.createdAt) == createdAt
-                // required
-                expect(activity.kind) == Activity.Kind.OwnPost
-                expect(activity.subjectType) == Activity.SubjectType.Post
-                // links
-                expect(activity.subject).to(beAKindOf(Post.self))
-            }
+                it("parses friend post correctly") {
+                    let parsedActivities = stubbedJSONDataArray("activity_streams_friend_stream", "activities")
+                    let activity = Activity.fromJSON(parsedActivities[1]) as! Activity
+                    let createdAtStr = "2014-06-02T00:00:00.000Z"
+                    let createdAt: NSDate = createdAtStr.toNSDate()!
+                    // active record
+                    expect(activity.id) == createdAtStr
+                    expect(activity.createdAt) == createdAt
+                    // required
+                    expect(activity.kind) == Activity.Kind.FriendPost
+                    expect(activity.subjectType) == Activity.SubjectType.Post
+                    // links
+                    expect(activity.subject).to(beAKindOf(Post.self))
+                }
 
-            it("parses friend post correctly") {
-                let activity = Activity.fromJSON(parsedActivities[1]) as! Activity
-                let createdAtStr = "2014-06-02T00:00:00.000Z"
-                let createdAt: NSDate = createdAtStr.toNSDate()!
-                // active record
-                expect(activity.id) == createdAtStr
-                expect(activity.createdAt) == createdAt
-                // required
-                expect(activity.kind) == Activity.Kind.FriendPost
-                expect(activity.subjectType) == Activity.SubjectType.Post
-                // links
-                expect(activity.subject).to(beAKindOf(Post.self))
-            }
-
-            it("parses welcome post correctly") {
-                let activity = Activity.fromJSON(parsedActivities[2]) as! Activity
-                let createdAtStr = "2014-06-01T00:00:00.000Z"
-                let createdAt: NSDate = createdAtStr.toNSDate()!
-                // active record
-                expect(activity.id) == createdAtStr
-                expect(activity.createdAt) == createdAt
-                // required
-                expect(activity.kind) == Activity.Kind.WelcomePost
-                expect(activity.subjectType) == Activity.SubjectType.User
-                // links
-                expect(activity.subject).to(beAKindOf(User.self))
+                it("parses welcome post correctly") {
+                    let parsedActivities = stubbedJSONDataArray("activity_streams_friend_stream", "activities")
+                    let activity = Activity.fromJSON(parsedActivities[2]) as! Activity
+                    let createdAtStr = "2014-06-01T00:00:00.000Z"
+                    let createdAt: NSDate = createdAtStr.toNSDate()!
+                    // active record
+                    expect(activity.id) == createdAtStr
+                    expect(activity.createdAt) == createdAt
+                    // required
+                    expect(activity.kind) == Activity.Kind.WelcomePost
+                    expect(activity.subjectType) == Activity.SubjectType.User
+                    // links
+                    expect(activity.subject).to(beAKindOf(User.self))
+                }
             }
         }
 

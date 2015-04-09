@@ -334,11 +334,11 @@ class StreamDataSourceSpec: QuickSpec {
                     let indexPaths = subject.removeCommentsForPost(post!)
 
                     expect(count(indexPaths)) == 5
-                    expect(indexPaths[0].item) == 7
-                    expect(indexPaths[1].item) == 8
-                    expect(indexPaths[2].item) == 9
-                    expect(indexPaths[3].item) == 10
-                    expect(indexPaths[4].item) == 11
+                    expect(indexPaths[0].item) == 8
+                    expect(indexPaths[1].item) == 9
+                    expect(indexPaths[2].item) == 10
+                    expect(indexPaths[3].item) == 11
+                    expect(indexPaths[4].item) == 12
                 }
 
             }
@@ -419,7 +419,7 @@ class StreamDataSourceSpec: QuickSpec {
                 }
 
                 it("removes items below the supplied index") {
-                    expect(count(subject.visibleCellItems)) == 8
+                    expect(count(subject.visibleCellItems)) == 9
                     subject.removeCellItemsBelow(5)
 
                     expect(count(subject.visibleCellItems)) == 5
@@ -443,7 +443,7 @@ class StreamDataSourceSpec: QuickSpec {
                 it("returns the correct stream cell item") {
                     let item = subject.visibleStreamCellItem(at: NSIndexPath(forItem: 4, inSection:0))
 
-                    expect(item?.type.name) == "StreamTextCell"
+                    expect(item?.type.name) == "StreamHeaderCell"
                 }
 
                 it("returns nil if indexpath does not exist") {
@@ -573,7 +573,7 @@ class StreamDataSourceSpec: QuickSpec {
                     }
                 }
 
-                it("returns the same value for a post and it's comments") {
+                xit("returns the same value for a post and it's comments") {
                     var groupIndexPaths = [NSIndexPath]()
                     for index in 0...10 {
                         groupIndexPaths.append(NSIndexPath(forItem: index, inSection: 0))
@@ -655,7 +655,7 @@ class StreamDataSourceSpec: QuickSpec {
                     let comment = ModelHelper.stubComment("456", contentCount: 1, parentPost: Post.stub([:]))
                     let createCommentCellItem = StreamCellItem(jsonable: comment, type: .CreateComment, data: nil, oneColumnCellHeight: StreamCreateCommentCell.Size.Height, multiColumnCellHeight: StreamCreateCommentCell.Size.Height, isFullWidth: true)
 
-                    expect(count(subject.visibleCellItems)) == 2
+                    expect(count(subject.visibleCellItems)) == 1
 
                     let startingIndexPath = NSIndexPath(forItem: 1, inSection: 0)
 
@@ -666,7 +666,7 @@ class StreamDataSourceSpec: QuickSpec {
 
                     let insertedCellItem = subject.visibleCellItems[1]
 
-                    expect(count(subject.visibleCellItems)) == 3
+                    expect(count(subject.visibleCellItems)) == 2
 
                     expect(insertedCellItem.type.name) == "StreamCreateCommentCell"
                 }
@@ -694,36 +694,36 @@ class StreamDataSourceSpec: QuickSpec {
 
                     it("returns a StreamTextCell") {
                         let cell = subject.collectionView(vc.collectionView, cellForItemAtIndexPath: NSIndexPath(forItem: 1, inSection: 0))
-                        expect(cell).to(beAnInstanceOf(StreamTextCell.self))
+                        expect(cell).to(beAnInstanceOf(StreamToggleCell.self))
                     }
 
                     it("returns a StreamFooterCell") {
                         let cell = subject.collectionView(vc.collectionView, cellForItemAtIndexPath: NSIndexPath(forItem: 2, inSection: 0))
-                        expect(cell).to(beAnInstanceOf(StreamFooterCell.self))
+                        expect(cell).to(beAnInstanceOf(StreamTextCell.self))
                     }
                 }
 
                 describe("with comments") {
                     it("returns a StreamHeaderCell") {
                         let cell = subject.collectionView(vc.collectionView, cellForItemAtIndexPath: NSIndexPath(forItem: 3, inSection: 0))
-                        expect(cell).to(beAnInstanceOf(StreamHeaderCell.self))
+                        expect(cell).to(beAnInstanceOf(StreamFooterCell.self))
                     }
 
                     it("returns a StreamTextCell") {
                         let cell = subject.collectionView(vc.collectionView, cellForItemAtIndexPath: NSIndexPath(forItem: 4, inSection: 0))
-                        expect(cell).to(beAnInstanceOf(StreamTextCell.self))
+                        expect(cell).to(beAnInstanceOf(StreamHeaderCell.self))
                     }
                 }
 
                 describe("with users") {
                     it("returns a ProfileHeaderCell") {
                         let cell = subject.collectionView(vc.collectionView, cellForItemAtIndexPath: NSIndexPath(forItem: 5, inSection: 0))
-                        expect(cell).to(beAnInstanceOf(ProfileHeaderCell.self))
+                        expect(cell).to(beAnInstanceOf(StreamTextCell.self))
                     }
 
                     it("returns a UserListItemCell") {
                         let cell = subject.collectionView(vc.collectionView, cellForItemAtIndexPath: NSIndexPath(forItem: 6, inSection: 0))
-                        expect(cell).to(beAnInstanceOf(UserListItemCell.self))
+                        expect(cell).to(beAnInstanceOf(ProfileHeaderCell.self))
                     }
                 }
 
