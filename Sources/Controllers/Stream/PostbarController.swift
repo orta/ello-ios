@@ -15,6 +15,9 @@ public class PostbarController: NSObject, PostbarDelegate {
     let dataSource: StreamDataSource
     var currentUser: User?
 
+    // on the post detail screen, the comments don't show/hide
+    var toggleableComments: Bool = true
+
     public init(collectionView: UICollectionView, dataSource: StreamDataSource, presentingController: StreamViewController) {
         self.collectionView = collectionView
         self.dataSource = dataSource
@@ -29,6 +32,12 @@ public class PostbarController: NSObject, PostbarDelegate {
     }
 
     public func commentsButtonTapped(cell:StreamFooterCell, commentsButton: CommentButton) {
+
+        if !toggleableComments {
+            cell.cancelCommentLoading()
+            return
+        }
+
         if let indexPath = collectionView.indexPathForCell(cell),
            let item = dataSource.visibleStreamCellItem(at: indexPath),
            let post = item.jsonable as? Post
