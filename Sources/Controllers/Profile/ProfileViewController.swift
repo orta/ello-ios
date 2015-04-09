@@ -128,6 +128,9 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         streamViewController.currentUser = currentUser
         streamViewController.streamScrollDelegate = self
         streamViewController.userTappedDelegate = self
+        streamViewController.postTappedDelegate = self
+        streamViewController.createCommentDelegate = self
+
         streamViewController.willMoveToParentViewController(self)
         viewContainer.addSubview(streamViewController.view)
         streamViewController.view.frame = viewContainer.bounds
