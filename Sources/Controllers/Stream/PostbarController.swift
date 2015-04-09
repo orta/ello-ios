@@ -149,15 +149,14 @@ public class PostbarController: NSObject, PostbarDelegate {
     private func commentLoadSuccess(post: Post, comments jsonables:[JSONAble], indexPath: NSIndexPath, cell: StreamFooterCell) {
         self.appendCreateCommentItem(post, at: indexPath)
         let commentsStartingIndexPath = NSIndexPath(forRow: indexPath.row + 1, inSection: indexPath.section)
-        self.collectionView.reloadData()
 
         let items = StreamCellItemParser().parse(jsonables, streamKind: StreamKind.Friend)
         self.dataSource.insertUnsizedCellItems(items,
             withWidth: self.collectionView.frame.width,
             startingIndexPath: commentsStartingIndexPath) { (indexPaths) in
                 self.collectionView.insertItemsAtIndexPaths(indexPaths)
+                cell.commentsButton.enabled = true
             }
-        cell.commentsButton.enabled = true
     }
 
     private func appendCreateCommentItem(post: Post, at indexPath: NSIndexPath) {
@@ -172,6 +171,7 @@ public class PostbarController: NSObject, PostbarDelegate {
 
             let items = [createCommentItem]
             self.dataSource.insertStreamCellItems(items, startingIndexPath: indexPath)
+            self.collectionView.insertItemsAtIndexPaths([indexPath])
         }
     }
 
