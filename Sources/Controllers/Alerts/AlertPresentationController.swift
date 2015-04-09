@@ -7,13 +7,11 @@
 //
 
 class AlertPresentationController: UIPresentationController {
-    let background: UIView
-
-    override init(presentedViewController: UIViewController!, presentingViewController: UIViewController!) {
-        background = UIView(frame: CGRectZero)
+    let background: UIView = {
+        let background = UIView(frame: CGRectZero)
         background.backgroundColor = UIColor.modalBackground()
-        super.init(presentedViewController: presentedViewController, presentingViewController: presentingViewController)
-    }
+        return background
+    }()
 }
 
 // MARK: View Lifecycle
@@ -23,6 +21,8 @@ extension AlertPresentationController {
         let alertView = presentedViewController as! AlertViewController
         alertView.view.frame.size = alertView.desiredSize
         alertView.view.center = containerView.center
+        let gesture = UITapGestureRecognizer(target:self, action: Selector("dismiss"))
+        background.addGestureRecognizer(gesture)
     }
 }
 
@@ -52,5 +52,11 @@ extension AlertPresentationController {
         if completed {
             background.removeFromSuperview()
         }
+    }
+}
+
+extension AlertPresentationController {
+    func dismiss() {
+        presentedViewController.dismissViewControllerAnimated(true, completion: .None)
     }
 }
