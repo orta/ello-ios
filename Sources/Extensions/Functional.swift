@@ -11,10 +11,10 @@ public struct Functional {
     public typealias CancellableBlock = Bool -> ()
     public typealias TakesIndexBlock = ((Int)->())
 
-    class Proc {
+    public class Proc {
         var block : BasicBlock
 
-        init(block : BasicBlock) {
+        public init(block : BasicBlock) {
             self.block = block
         }
 
