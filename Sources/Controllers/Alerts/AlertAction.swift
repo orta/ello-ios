@@ -7,6 +7,7 @@
 //
 
 public enum ActionStyle {
+    case White
     case Light
     case Dark
 }
