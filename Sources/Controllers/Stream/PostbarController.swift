@@ -80,7 +80,19 @@ public class PostbarController: NSObject, PostbarDelegate {
     }
 
     public func deleteButtonTapped(cell:UICollectionViewCell) {
-        println("deleteButtonTapped")
+        let message = NSLocalizedString("Delete Post?", comment: "Delete Post")
+        let alertController = AlertViewController(message: message, textAlignment: .Center)
+
+        let yesAction = AlertAction(title: NSLocalizedString("Yes", comment: "Yes"), style: ActionStyle.Dark) {
+            action in
+            println("yes")
+        }
+        let noAction = AlertAction(title: NSLocalizedString("No", comment: "No"), style: .Light, handler: .None)
+
+        alertController.addAction(yesAction)
+        alertController.addAction(noAction)
+
+        presentingController.presentViewController(alertController, animated: true, completion: .None)
     }
 
     public func lovesButtonTapped(cell:UICollectionViewCell) {
