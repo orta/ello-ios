@@ -50,9 +50,9 @@ public class CommentButton: StreamFooterButton {
 // MARK: Public
 
     func animate() {
-        fadeUpDown(dot1, delay: 0.0)
-        fadeUpDown(dot2, delay: 0.25)
-        fadeUpDown(dot3, delay: 0.50)
+        if dot1 != nil { fadeUpDown(dot1, delay: 0.0) }
+        if dot2 != nil { fadeUpDown(dot2, delay: 0.25) }
+        if dot3 != nil {fadeUpDown(dot3, delay: 0.50) }
     }
 
     func finishAnimation() {

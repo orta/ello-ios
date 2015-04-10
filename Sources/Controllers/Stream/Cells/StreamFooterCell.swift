@@ -15,55 +15,56 @@ public class StreamFooterCell: UICollectionViewCell {
 
     let revealWidth:CGFloat = 85.0
     var cellOpenObserver: NotificationObserver?
-    var isOpen = false
+    public private(set) var isOpen = false
 
-    @IBOutlet weak var toolBar: UIToolbar!
-    @IBOutlet weak var bottomToolBar: UIToolbar!
-    @IBOutlet weak var chevronButton: StreamFooterButton!
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var innerContentView: UIView!
-    @IBOutlet weak var bottomContentView: UIView!
-    var commentsOpened = false
+    @IBOutlet weak public var toolBar: UIToolbar!
+    @IBOutlet weak public var bottomToolBar: UIToolbar!
+    @IBOutlet weak public var chevronButton: StreamFooterButton!
+    @IBOutlet weak public var scrollView: UIScrollView!
+    @IBOutlet weak public var containerView: UIView!
+    @IBOutlet weak public var innerContentView: UIView!
+    @IBOutlet weak public var bottomContentView: UIView!
+
+    public var commentsOpened = false
     weak var delegate: PostbarDelegate?
 
     let viewsItem:UIBarButtonItem = ElloPostToolBarOption.Views.barButtonItem()
-    var viewsButton:StreamFooterButton {
+    public var viewsButton:StreamFooterButton {
         get { return self.viewsItem.customView as! StreamFooterButton }
     }
 
     let lovesItem:UIBarButtonItem = ElloPostToolBarOption.Loves.barButtonItem()
-    var lovesButton:StreamFooterButton {
+    public var lovesButton:StreamFooterButton {
         get { return self.lovesItem.customView as! StreamFooterButton }
     }
 
     let commentsItem:UIBarButtonItem = ElloPostToolBarOption.Comments.barButtonItem()
-    var commentsButton:CommentButton {
+    public var commentsButton:CommentButton {
         get { return self.commentsItem.customView as! CommentButton }
     }
 
     let repostItem:UIBarButtonItem = ElloPostToolBarOption.Repost.barButtonItem()
-    var repostButton:StreamFooterButton {
+    public var repostButton:StreamFooterButton {
         get { return self.repostItem.customView as! StreamFooterButton }
     }
 
     let flagItem:UIBarButtonItem = ElloPostToolBarOption.Flag.barButtonItem()
-    var flagButton:StreamFooterButton {
+    public var flagButton:StreamFooterButton {
         get { return self.flagItem.customView as! StreamFooterButton }
     }
 
     let shareItem:UIBarButtonItem = ElloPostToolBarOption.Share.barButtonItem()
-    var shareButton:StreamFooterButton {
+    public var shareButton:StreamFooterButton {
         get { return self.shareItem.customView as! StreamFooterButton }
     }
 
     let replyItem:UIBarButtonItem = ElloPostToolBarOption.Reply.barButtonItem()
-    var replyButton:StreamFooterButton {
+    public var replyButton:StreamFooterButton {
         get { return self.replyItem.customView as! StreamFooterButton }
     }
 
 
-    var streamKind:StreamKind? {
+    public var streamKind:StreamKind? {
         didSet {
             if let streamKind = streamKind {
                 if streamKind.isGridLayout {
@@ -107,27 +108,32 @@ public class StreamFooterCell: UICollectionViewCell {
         addButtonHandlers()
     }
 
-    var views:String? {
-        get { return viewsButton.titleForState(.Normal) }
+    public var views:String? {
+        get { return viewsButton.attributedTitleForState(.Normal)?.string }
         set { viewsButton.setButtonTitleWithPadding(newValue) }
     }
 
-    var comments:String? {
-        get { return commentsButton.titleForState(.Normal) }
+    public var comments:String? {
+        get { return commentsButton.attributedTitleForState(.Normal)?.string }
         set {
             commentsButton.setButtonTitleWithPadding(newValue, titlePadding: 13.0, contentPadding: 15.0)
             commentsButton.titleLabel?.sizeToFit()
         }
     }
 
-    var loves:String? {
-        get { return lovesButton.titleForState(.Normal) }
+    public var loves:String? {
+        get { return lovesButton.attributedTitleForState(.Normal)?.string }
         set { lovesButton.setButtonTitleWithPadding(newValue) }
     }
 
-    var reposts:String? {
-        get { return repostButton.titleForState(.Normal) }
+    public var reposts:String? {
+        get { return repostButton.attributedTitleForState(.Normal)?.string }
         set { repostButton.setButtonTitleWithPadding(newValue) }
+    }
+
+    public func close() {
+        isOpen = false
+        scrollView.contentOffset = CGPointZero
     }
 
 // MARK: - Private
@@ -147,7 +153,7 @@ public class StreamFooterCell: UICollectionViewCell {
             if cell != self && self.isOpen {
                 dispatch_async(dispatch_get_main_queue()) {
                     UIView.animateWithDuration(0.25) {
-                        self.scrollView.contentOffset = CGPointZero
+                        self.close()
                     }
                 }
             }
