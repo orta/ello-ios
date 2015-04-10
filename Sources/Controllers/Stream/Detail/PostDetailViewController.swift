@@ -130,6 +130,7 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         streamViewController.postTappedDelegate = self
         streamViewController.streamScrollDelegate = self
         streamViewController.userTappedDelegate = self
+        streamViewController.postbarController!.toggleableComments = false
 
         streamViewController.willMoveToParentViewController(self)
         self.view.insertSubview(streamViewController.view, belowSubview: navigationBar)

@@ -15,6 +15,9 @@ public class PostbarController: NSObject, PostbarDelegate {
     let dataSource: StreamDataSource
     var currentUser: User?
 
+    // on the post detail screen, the comments don't show/hide
+    var toggleableComments: Bool = true
+
     public init(collectionView: UICollectionView, dataSource: StreamDataSource, presentingController: StreamViewController) {
         self.collectionView = collectionView
         self.dataSource = dataSource
@@ -29,6 +32,12 @@ public class PostbarController: NSObject, PostbarDelegate {
     }
 
     public func commentsButtonTapped(cell:StreamFooterCell, commentsButton: CommentButton) {
+
+        if !toggleableComments {
+            cell.cancelCommentLoading()
+            return
+        }
+
         if let indexPath = collectionView.indexPathForCell(cell),
            let item = dataSource.visibleStreamCellItem(at: indexPath),
            let post = item.jsonable as? Post
@@ -140,15 +149,14 @@ public class PostbarController: NSObject, PostbarDelegate {
     private func commentLoadSuccess(post: Post, comments jsonables:[JSONAble], indexPath: NSIndexPath, cell: StreamFooterCell) {
         self.appendCreateCommentItem(post, at: indexPath)
         let commentsStartingIndexPath = NSIndexPath(forRow: indexPath.row + 1, inSection: indexPath.section)
-        self.collectionView.reloadData()
 
         let items = StreamCellItemParser().parse(jsonables, streamKind: StreamKind.Friend)
         self.dataSource.insertUnsizedCellItems(items,
             withWidth: self.collectionView.frame.width,
             startingIndexPath: commentsStartingIndexPath) { (indexPaths) in
                 self.collectionView.insertItemsAtIndexPaths(indexPaths)
+                cell.commentsButton.enabled = true
             }
-        cell.commentsButton.enabled = true
     }
 
     private func appendCreateCommentItem(post: Post, at indexPath: NSIndexPath) {
@@ -163,6 +171,7 @@ public class PostbarController: NSObject, PostbarDelegate {
 
             let items = [createCommentItem]
             self.dataSource.insertStreamCellItems(items, startingIndexPath: indexPath)
+            self.collectionView.insertItemsAtIndexPaths([indexPath])
         }
     }
 
