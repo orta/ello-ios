@@ -10,13 +10,14 @@ import Foundation
 
 public struct StreamFooterCellPresenter {
 
-    static func configure(
+    public static func configure(
         cell:UICollectionViewCell,
         streamCellItem:StreamCellItem,
         streamKind: StreamKind,
         indexPath: NSIndexPath)
     {
         if let cell = cell as? StreamFooterCell {
+            cell.close()
             if let post = streamCellItem.jsonable as? Post {
                 cell.comments = post.commentsCount?.localizedStringFromNumber()
 
