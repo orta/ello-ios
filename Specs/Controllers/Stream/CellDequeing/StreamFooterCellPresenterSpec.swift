@@ -14,7 +14,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0))
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
                     expect(cell.isOpen).to(beFalse())
                     expect(cell.commentsButton.selected).to(beFalse())
@@ -35,7 +35,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Noise, indexPath: NSIndexPath(forItem: 0, inSection: 0))
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Noise, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
                     expect(cell.isOpen).to(beFalse())
                     expect(cell.commentsButton.selected).to(beFalse())
@@ -56,7 +56,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .PostDetail(postParam: "768"), indexPath: NSIndexPath(forItem: 0, inSection: 0))
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .PostDetail(postParam: "768"), indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
                     expect(cell.isOpen).to(beFalse())
                     expect(cell.commentsButton.selected).to(beFalse())
@@ -82,7 +82,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     // set the state to loading
                     item.state = .Loading
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0))
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
                     expect(cell.isOpen).to(beFalse())
                     expect(cell.commentsOpened).to(beFalse())
@@ -110,7 +110,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         // set the state to expanded
                         item.state = .Expanded
 
-                        StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0))
+                        StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
                         expect(cell.isOpen).to(beFalse())
                         expect(cell.commentsOpened).to(beTrue())
@@ -137,7 +137,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         // set the state to none
                         item.state = .None
 
-                        StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0))
+                        StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
                         expect(cell.isOpen).to(beFalse())
                         expect(cell.commentsOpened).to(beFalse())

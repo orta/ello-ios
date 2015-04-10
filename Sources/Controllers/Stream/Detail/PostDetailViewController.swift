@@ -32,7 +32,9 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         self.postParam = postParam
         self.startOfComments = 0
         super.init(nibName: nil, bundle: nil)
-        PostService.loadPost(postParam,
+        let service = PostService()
+
+        service.loadPost(postParam,
             success: postLoaded,
             failure: nil
         )

@@ -8,14 +8,17 @@
 
 import Foundation
 
-typealias PostSuccessCompletion = (post: Post) -> ()
+public typealias PostSuccessCompletion = (post: Post) -> ()
+public typealias DeletePostSuccessCompletion = () -> ()
 
 public struct PostService {
 
-    static func loadPost(postParam: String, success: PostSuccessCompletion, failure: ElloFailureCompletion?) {
+    public init(){}
+
+    public func loadPost(postParam: String, success: PostSuccessCompletion, failure: ElloFailureCompletion?) {
         ElloProvider.elloRequest(ElloAPI.PostDetail(postParam: postParam),
             method: .GET,
-            success: { (data, responseConfig) in
+            success: { (data, _) in
                 if let post = data as? Post {
                     success(post: post)
                 }
@@ -26,5 +29,13 @@ public struct PostService {
             failure: failure
         )
     }
-    
+
+    public func deletePost(postId: String, success: DeletePostSuccessCompletion, failure: ElloFailureCompletion?) {
+        ElloProvider.elloRequest(ElloAPI.DeletePost(postId: postId),
+            method: .DELETE,
+            success: { (_, _) in
+                success()
+            }, failure: failure
+        )
+    }
 }
