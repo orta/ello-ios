@@ -13,6 +13,7 @@ let streamCellDidOpenNotification = TypedNotification<UICollectionViewCell>(name
 
 public class StreamFooterCell: UICollectionViewCell {
 
+    public var ownPost = false
     let revealWidth:CGFloat = 85.0
     var cellOpenObserver: NotificationObserver?
     public private(set) var isOpen = false
@@ -63,6 +64,11 @@ public class StreamFooterCell: UICollectionViewCell {
         get { return self.replyItem.customView as! StreamFooterButton }
     }
 
+    let deleteItem:UIBarButtonItem = ElloPostToolBarOption.Delete.barButtonItem()
+    var deleteButton:StreamFooterButton {
+        get { return self.deleteItem.customView as! StreamFooterButton }
+    }
+
 
     public var streamKind:StreamKind? {
         didSet {
@@ -78,8 +84,9 @@ public class StreamFooterCell: UICollectionViewCell {
                     self.toolBar.items = [
                         viewsItem, commentsItem, repostItem
                     ]
+                    let rightItem = self.ownPost ? deleteItem : flagItem
                     self.bottomToolBar.items = [
-                        flexibleItem(), shareItem, flagItem
+                        flexibleItem(), shareItem, rightItem
                     ]
                 }
             }
@@ -169,6 +176,7 @@ public class StreamFooterCell: UICollectionViewCell {
         repostButton.addTarget(self, action: "repostButtonTapped:", forControlEvents: .TouchUpInside)
         shareButton.addTarget(self, action: "shareButtonTapped:", forControlEvents: .TouchUpInside)
         viewsButton.addTarget(self, action: "viewsButtonTapped:", forControlEvents: .TouchUpInside)
+        deleteButton.addTarget(self, action: "deleteButtonTapped:", forControlEvents: .TouchUpInside)
     }
 
 // MARK: - IBActions
@@ -219,6 +227,10 @@ public class StreamFooterCell: UICollectionViewCell {
 
     @IBAction func shareButtonTapped(sender: StreamFooterButton) {
         delegate?.shareButtonTapped(self)
+    }
+
+    @IBAction func deleteButtonTapped(sender: StreamFooterButton) {
+        delegate?.deleteButtonTapped(self)
     }
 
     @IBAction func replyButtonTapped(sender: StreamFooterButton) {

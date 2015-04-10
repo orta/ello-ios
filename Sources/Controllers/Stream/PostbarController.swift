@@ -79,6 +79,10 @@ public class PostbarController: NSObject, PostbarDelegate {
         }
     }
 
+    public func deleteButtonTapped(cell:UICollectionViewCell) {
+        println("deleteButtonTapped")
+    }
+
     public func lovesButtonTapped(cell:UICollectionViewCell) {
         println("lovesButtonTapped")
     }
