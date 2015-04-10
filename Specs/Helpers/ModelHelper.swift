@@ -16,7 +16,7 @@ struct ModelHelper {
         // models
         let post = ModelHelper.stubPost("555", contentCount: 1, summaryCount: 1)
         let comment = ModelHelper.stubComment("456", contentCount: 1, summaryCount: 1, parentPost: post)
-        let user: User = stub(["userId": "420"])
+        let user: User = stub(["id": "420"])
         // cell items
         let postCellItems = parser.parse([post], streamKind: .Friend)
         let commentCellItems = parser.parse([comment], streamKind: .Friend)

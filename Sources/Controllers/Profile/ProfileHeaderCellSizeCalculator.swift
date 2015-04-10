@@ -35,7 +35,7 @@ public class ProfileHeaderCellSizeCalculator: NSObject {
                 setHeight(0.0)
             }
             else {
-                webView.loadHTMLString(StreamTextCellHTML.postHTML(user.formattedShortBio), baseURL: NSURL(string: "/"))
+                webView.loadHTMLString(StreamTextCellHTML.postHTML(user.formattedShortBio!), baseURL: NSURL(string: "/"))
             }
         }
         else {

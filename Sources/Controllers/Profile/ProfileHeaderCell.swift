@@ -106,11 +106,11 @@ extension ProfileHeaderCell: ElloTextViewDelegate {
         switch link {
         case "followers":
             if let user = object as? User {
-                userListDelegate?.show(.UserStreamFollowers(userId: user.userId), title: "Followers")
+                userListDelegate?.show(.UserStreamFollowers(userId: user.id), title: "Followers")
             }
         case "following":
             if let user = object as? User {
-                userListDelegate?.show(.UserStreamFollowing(userId: user.userId), title: "Following")
+                userListDelegate?.show(.UserStreamFollowing(userId: user.id), title: "Following")
             }
         default: break
         }

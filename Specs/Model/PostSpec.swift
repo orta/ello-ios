@@ -44,7 +44,7 @@ class PostSpec: QuickSpec {
 
                 expect(post.author).to(beAnInstanceOf(User.self))
                 expect(post.author!.name) == "Cyril Figgis"
-                expect(post.author!.userId) == "666"
+                expect(post.author!.id) == "666"
                 expect(post.author!.username) == "cfiggis"
                 expect(post.author!.experimentalFeatures) == true
                 expect(post.author!.relationshipPriority) == Relationship.Friend
@@ -116,7 +116,7 @@ class PostSpec: QuickSpec {
             context("encoding") {
 
                 it("encodes successfully") {
-                    let author: User = stub(["userId" : "555"])
+                    let author: User = stub(["id" : "555"])
                     let post: Post = stub([
                         "postId" : "768",
                         "author" : author
@@ -133,7 +133,7 @@ class PostSpec: QuickSpec {
                 it("decodes successfully") {
                     let expectedCreatedAt = NSDate()
                     let author: User = stub([
-                        "userId" : "555"
+                        "id" : "555"
                     ])
 
                     let hdpi: ImageAttachment = stub([
@@ -209,7 +209,7 @@ class PostSpec: QuickSpec {
 
                     let postAuthor = unArchivedPost.author!
 
-                    expect(postAuthor.userId) == "555"
+                    expect(postAuthor.id) == "555"
 
                     expect(count(unArchivedPost.content!)) == 2
 

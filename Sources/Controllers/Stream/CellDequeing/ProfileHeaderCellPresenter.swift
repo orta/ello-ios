@@ -19,11 +19,11 @@ public struct ProfileHeaderCellPresenter {
         currentUser: User?)
     {
         if let cell = cell as? ProfileHeaderCell {
-            let user = streamCellItem.jsonable as! User
+            let user = streamCellItem.jsonable as! Userlike
             cell.relationshipView.hidden = false
 
             if let currentUser = cell.currentUser {
-                cell.relationshipView.hidden = user.userId == currentUser.userId
+                cell.relationshipView.hidden = user.id == currentUser.id
             }
             cell.profileButtonsView.hidden = !cell.relationshipView.hidden
 
@@ -32,17 +32,17 @@ public struct ProfileHeaderCellPresenter {
             }
 
             cell.relationshipView.buildLargeButtons()
-            cell.relationshipView.userId = user.userId
+            cell.relationshipView.userId = user.id
             cell.relationshipView.userAtName = user.atName
             cell.relationshipView.relationship = user.relationshipPriority
             cell.usernameLabel.text = user.atName
             cell.nameLabel.text = user.name
-            cell.bioWebView.loadHTMLString(StreamTextCellHTML.postHTML(user.formattedShortBio), baseURL: NSURL(string: "/"))
+            cell.bioWebView.loadHTMLString(StreamTextCellHTML.postHTML(user.formattedShortBio!), baseURL: NSURL(string: "/"))
 
             cell.countsTextView.clearText()
             cell.countsTextView.appendTextWithAction("Posts \(user.postsCount ?? 0) / ")
             cell.countsTextView.appendTextWithAction("Following \(user.followingCount ?? 0) / ", link: "following", object: user)
-            cell.countsTextView.appendTextWithAction("Followers \(user.followersCount ?? 0)", link: "followers", object: user)
+            cell.countsTextView.appendTextWithAction("Followers \(user.followersCount!)", link: "followers", object: user)
         }
     }
 }

@@ -16,7 +16,7 @@ public let UpdatePostCommentCountNotification = TypedNotification<Comment>(name:
 public protocol Authorable {
     var createdAt : NSDate { get }
     var groupId: String { get }
-    var author : User? { get }
+    var author : Userlike? { get }
 }
 
 let PostVersion = 1
@@ -24,7 +24,7 @@ let PostVersion = 1
 public final class Post: JSONAble, Authorable, NSCoding {
     public let version: Int = PostVersion
     var assets: [String:Asset]?
-    public var author: User?
+    public var author: Userlike?
     public var collapsed: Bool
     public var commentsCount: Int?
     public var content: [Regionable]?

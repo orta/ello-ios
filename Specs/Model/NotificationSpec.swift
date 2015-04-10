@@ -76,7 +76,7 @@ class NotificationSpec: QuickSpec {
                 it("decodes successfully") {
                     let expectedCreatedAt = NSDate()
 
-                    let author: User = stub(["userId" : "author-id"])
+                    let author: User = stub(["id" : "author-id"])
 
                     let notification: Notification = stub([
                         "author" : author,
@@ -94,7 +94,7 @@ class NotificationSpec: QuickSpec {
 
                     let unarchivedAuthor = unArchivedNotification.author!
 
-                    expect(unarchivedAuthor.userId) == "author-id"
+                    expect(unarchivedAuthor.id) == "author-id"
 
                     expect(unArchivedNotification.createdAt) == expectedCreatedAt
                     expect(unArchivedNotification.notificationId) == "test-notication-id"

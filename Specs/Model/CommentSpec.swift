@@ -34,7 +34,7 @@ class CommentSpec: QuickSpec {
             
             expect(commentAuthor).to(beAnInstanceOf(User.self))
             expect(commentAuthor.name) == "Smalls"
-            expect(commentAuthor.userId) == "420"
+            expect(commentAuthor.id) == "420"
             expect(commentAuthor.username) == "bigE"
             expect(commentAuthor.href) == "/api/edge/users/420"
             expect(commentAuthor.relationshipPriority) == Relationship.Friend
@@ -57,7 +57,7 @@ class CommentSpec: QuickSpec {
             
             expect(postAuthor).to(beAnInstanceOf(User.self))
             expect(postAuthor.name) == "Cyril Figgis"
-            expect(postAuthor.userId) == "666"
+            expect(postAuthor.id) == "666"
             expect(postAuthor.username) == "cfiggis"
             expect(postAuthor.href) == "/api/edge/users/666"
             expect(postAuthor.relationshipPriority) == Relationship.Friend
@@ -100,7 +100,7 @@ class CommentSpec: QuickSpec {
                     ])
 
                     let author: User = stub([
-                        "userId" : "sample-author-id"
+                        "id" : "sample-author-id"
                     ])
 
                     let hdpi: ImageAttachment = stub([
@@ -159,7 +159,7 @@ class CommentSpec: QuickSpec {
 
                     let commentAuthor = unArchivedComment.author!
 
-                    expect(commentAuthor.userId) == "sample-author-id"
+                    expect(commentAuthor.id) == "sample-author-id"
 
                     let commentParentPost = unArchivedComment.parentPost!
 

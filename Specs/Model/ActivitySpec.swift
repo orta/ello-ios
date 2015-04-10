@@ -37,7 +37,7 @@ class ActivitySpec: QuickSpec {
             expect(post.postId) == "598"
             
             let postAuthor = post.author!
-            expect(postAuthor.userId) == "42"
+            expect(postAuthor.id) == "42"
             expect(postAuthor.username) == "archer"
             expect(postAuthor.name) == "Sterling"
             expect(postAuthor.experimentalFeatures) == false

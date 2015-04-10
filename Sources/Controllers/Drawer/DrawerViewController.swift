@@ -93,7 +93,7 @@ extension DrawerViewController: UICollectionViewDataSource {
 // MARK: UICollectionViewDelegate
 extension DrawerViewController: UICollectionViewDelegate {
     public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let profile = dataSource.userForIndexPath(indexPath).map { ProfileViewController(userParam: $0.userId) }
+        let profile = dataSource.userForIndexPath(indexPath).map { ProfileViewController(userParam: $0.id) }
 
         if let profileViewController = profile {
             navigationController?.pushViewController(profileViewController, animated: true)

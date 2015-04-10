@@ -23,7 +23,7 @@ public struct UserListItemCellPresenter {
             cell.relationshipView.hidden = false
 
             if let currentUser = cell.currentUser {
-                cell.relationshipView.hidden = user.userId == currentUser.userId
+                cell.relationshipView.hidden = user.id == currentUser.id
             }
 
             if let avatarURL = user.avatarURL {
@@ -31,7 +31,7 @@ public struct UserListItemCellPresenter {
             }
 
             cell.relationshipView.buildSmallButtons()
-            cell.relationshipView.userId = user.userId
+            cell.relationshipView.userId = user.id
             cell.relationshipView.userAtName = user.atName
             cell.relationshipView.relationship = user.relationshipPriority
             cell.usernameLabel.text = user.atName

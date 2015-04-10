@@ -21,7 +21,7 @@ class UserSpec: QuickSpec {
                 let user = User.fromJSON(data) as! User
                 
     //            expect(user.avatarURL!.absoluteString) == "https://abc123.cloudfront.net/uploads/user/avatar/42/avatar.png"
-                expect(user.userId) == "42"
+                expect(user.id) == "42"
                 expect(user.name) == "Sterling"
                 expect(user.username) == "archer"
                 expect(user.email) == "someguy@fmail.com"
@@ -86,7 +86,7 @@ class UserSpec: QuickSpec {
                         "postsCount" : 9,
                         "mostRecentPost" : stubbedMostRecentPost,
                         "relationshipPriority" : "self",
-                        "userId" : "sample-userId",
+                        "id" : "sample-userId",
                         "username" : "sample-username",
                         "email": "sample@email.com",
                         "formattedShortBio" : "sample-short-bio",
@@ -114,7 +114,7 @@ class UserSpec: QuickSpec {
                     expect(firstPost.postId) == "sample-post-id"
 
                     expect(unArchivedUser.relationshipPriority.rawValue) == "self"
-                    expect(unArchivedUser.userId) == "sample-userId"
+                    expect(unArchivedUser.id) == "sample-userId"
                     expect(unArchivedUser.username) == "sample-username"
                     expect(unArchivedUser.email) == "sample@email.com"
                     expect(unArchivedUser.formattedShortBio) == "sample-short-bio"
