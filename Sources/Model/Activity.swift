@@ -131,7 +131,7 @@ public final class Activity: JSONAble, NSCoding {
         )
         // links
         if let linksNode = data["links"] as? [String: AnyObject] {
-            let links = ElloLinkedStore.parseLinks(linksNode)
+            let links = ElloLinkedStore.sharedInstance.parseLinks(linksNode)
             activity.subject = links["subject"] as? JSONAble
         }
 

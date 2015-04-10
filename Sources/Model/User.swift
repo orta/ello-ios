@@ -120,7 +120,7 @@ public final class User: JSONAble, NSCoding {
         // profile
         encoder.encodeObject(profile, forKey: "profile")
     }
-    
+
 // MARK: JSONAble
 
     override public class func fromJSON(data:[String: AnyObject]) -> JSONAble {
@@ -182,3 +182,4 @@ public final class User: JSONAble, NSCoding {
         return user
     }
 }
+

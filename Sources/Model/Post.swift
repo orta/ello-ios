@@ -11,7 +11,6 @@ import SwiftyJSON
 
 public let UpdatePostCommentCountNotification = TypedNotification<Comment>(name: "UpdatePostCommentCountNotification")
 
-
 @objc
 public protocol Authorable {
     var createdAt : NSDate { get }
@@ -214,7 +213,7 @@ public final class Post: JSONAble, Authorable, NSCoding {
         post.repostsCount = json["reposts_count"].int
         // links / nested resources
         if let linksNode = data["links"] as? [String: AnyObject] {
-            var links = ElloLinkedStore.parseLinks(linksNode)
+            var links = ElloLinkedStore.sharedInstance.parseLinks(linksNode)
             post.author = links["author"] as? User
             post.assets = links["assets"] as? [String: Asset]
             post.comments = links["comments"] as? [Comment]

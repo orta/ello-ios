@@ -30,6 +30,12 @@ PODS:
   - SwiftyJSON (2.1.3)
   - TimeAgoInWords (0.1.0)
   - WebLinking (0.1.0)
+  - YapDatabase (2.6.1):
+    - YapDatabase/standard (= 2.6.1)
+  - YapDatabase/common (2.6.1):
+    - CocoaLumberjack (~> 2)
+  - YapDatabase/standard (2.6.1):
+    - YapDatabase/common
 
 DEPENDENCIES:
   - 1PasswordExtension (from `https://github.com/AgileBits/onepassword-app-extension.git`)
@@ -49,6 +55,7 @@ DEPENDENCIES:
   - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON`, branch `xcode6.3`)
   - TimeAgoInWords (~> 0.1.0)
   - WebLinking (from `https://github.com/kylef/WebLinking.swift.git`, branch `swift-1.2`)
+  - YapDatabase (from `../YapDatabase`)
 
 EXTERNAL SOURCES:
   1PasswordExtension:
@@ -84,6 +91,8 @@ EXTERNAL SOURCES:
   WebLinking:
     :branch: swift-1.2
     :git: https://github.com/kylef/WebLinking.swift.git
+  YapDatabase:
+    :path: "../YapDatabase"
 
 CHECKOUT OPTIONS:
   1PasswordExtension:
@@ -145,5 +154,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: a561c2a840121085bec8a2dfeac97a360fc66901
   TimeAgoInWords: bd651f6532327035b41fd3b512ca9d3e90d2e379
   WebLinking: a357f877c3537fb15363167e173b5067734889f5
+  YapDatabase: ca25874766045bca7f4c2632f61067351353ecf3
 
 COCOAPODS: 0.36.3

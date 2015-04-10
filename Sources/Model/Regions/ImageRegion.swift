@@ -61,7 +61,7 @@ public final class ImageRegion: JSONAble, NSCoding {
         var links = [String: AnyObject]()
         var asset:Asset?
         if let linksNode = data["links"] as? [String: AnyObject] {
-            links = ElloLinkedStore.parseLinks(linksNode)
+            links = ElloLinkedStore.sharedInstance.parseLinks(linksNode)
             asset = links["assets"] as? Asset
         }
 

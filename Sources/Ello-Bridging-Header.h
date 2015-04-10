@@ -10,3 +10,4 @@
 #import <FLAnimatedImage/FLAnimatedImage.h>
 #import <SVGKit/SVGKit.h>
 #import <OnePasswordExtension/OnePasswordExtension.h>
+#import <YapDatabase/YapDatabase.h>

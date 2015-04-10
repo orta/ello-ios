@@ -215,7 +215,7 @@ extension ElloProvider {
                 let linked = dict["linked"] as? [String:[[String:AnyObject]]]
 
                 if linked != nil {
-                    ElloLinkedStore.parseLinked(linked!)
+                    ElloLinkedStore.sharedInstance.parseLinked(linked!)
                 }
 
                 if let node = dict[elloAPI.mappingType.rawValue] as? [[String:AnyObject]] {
