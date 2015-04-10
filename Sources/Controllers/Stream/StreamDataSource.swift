@@ -266,7 +266,8 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                 cell: cell,
                 streamCellItem: streamCellItem,
                 streamKind: streamKind,
-                indexPath: indexPath
+                indexPath: indexPath,
+                currentUser: currentUser
             )
 
             return cell

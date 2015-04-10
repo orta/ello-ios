@@ -14,7 +14,8 @@ public struct UserListItemCellPresenter {
         cell:UICollectionViewCell,
         streamCellItem:StreamCellItem,
         streamKind: StreamKind,
-        indexPath: NSIndexPath)
+        indexPath: NSIndexPath,
+        currentUser: User?)
     {
         if let cell = cell as? UserListItemCell {
             let user = streamCellItem.jsonable as! User
