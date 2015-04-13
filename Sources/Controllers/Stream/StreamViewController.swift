@@ -68,10 +68,10 @@ public class StreamViewController: BaseElloViewController {
     var allOlderPagesLoaded = false
     var restoreTabBar: Bool? = nil
     var parentTabBarController: ElloTabBarController? {
-        if let parentViewController = self.parentViewController {
-            if let elloController = parentViewController as? BaseElloViewController {
-                return elloController.elloTabBarController
-            }
+        if  let parentViewController = self.parentViewController,
+            let elloController = parentViewController as? BaseElloViewController
+        {
+            return elloController.elloTabBarController
         }
         return nil
     }
@@ -281,14 +281,15 @@ public class StreamViewController: BaseElloViewController {
         if let imageViewerDelegate = imageViewerDelegate {
             NSNotificationCenter.defaultCenter().removeObserver(imageViewerDelegate)
         }
-        if let updatedStreamImageCellHeightNotification = updatedStreamImageCellHeightNotification {
-            updatedStreamImageCellHeightNotification.removeObserver()
-            self.updatedStreamImageCellHeightNotification = nil
-        }
-        if let relayoutNotification = relayoutNotification {
-            relayoutNotification.removeObserver()
-            self.relayoutNotification = nil
-        }
+
+        updatedStreamImageCellHeightNotification?.removeObserver()
+        updatedStreamImageCellHeightNotification = nil
+
+        relayoutNotification?.removeObserver()
+        relayoutNotification = nil
+
+        postDeletedNotification?.removeObserver()
+        postDeletedNotification = nil
     }
 
     private func updateCellHeight(indexPath:NSIndexPath, height:CGFloat) {
