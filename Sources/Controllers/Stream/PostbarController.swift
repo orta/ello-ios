@@ -8,12 +8,15 @@
 
 import Foundation
 
+public let PostDeletedNotification = TypedNotification<(String,String?)>(name: "postDeletedNotification")
+
+
 public class PostbarController: NSObject, PostbarDelegate {
 
     weak var presentingController: StreamViewController?
     let collectionView: UICollectionView
     let dataSource: StreamDataSource
-    var currentUser: User?
+    var currentUser: User?   
 
     // on the post detail screen, the comments don't show/hide
     var toggleableComments: Bool = true
@@ -85,7 +88,17 @@ public class PostbarController: NSObject, PostbarDelegate {
 
         let yesAction = AlertAction(title: NSLocalizedString("Yes", comment: "Yes"), style: ActionStyle.Dark) {
             action in
-            println("yes")
+            let service = PostService()
+            if let post = self.postForCell(cell) {
+                service.deletePost(post.postId,
+                    success: {
+                        postNotification(PostDeletedNotification, (post.postId, post.author?.userId))
+                    }, failure: { (error, statusCode)  in
+                        // TODO: add error handling
+                        println("failed to delete post, error: \(error.localizedDescription)")
+                    }
+                )
+            }
         }
         let noAction = AlertAction(title: NSLocalizedString("No", comment: "No"), style: .Light, handler: .None)
 
@@ -110,7 +123,7 @@ public class PostbarController: NSObject, PostbarDelegate {
         {
             println("shareLink = \(shareLink)")
             let activityVC = UIActivityViewController(activityItems: [shareLink], applicationActivities:nil)
-            presentingController.presentViewController(activityVC, animated: true) { }
+            presentingController?.presentViewController(activityVC, animated: true) { }
         }
     }
 
@@ -150,14 +163,19 @@ public class PostbarController: NSObject, PostbarDelegate {
 
 // MARK: - Private
 
+    private func postForCell(cell: UICollectionViewCell) -> Post? {
+        if let indexPath = collectionView.indexPathForCell(cell) {
+            return dataSource.postForIndexPath(indexPath)
+        }
+        return nil
+    }
+
     private func postTappedForCell(cell: UICollectionViewCell) {
-        if let indexPath = collectionView.indexPathForCell(cell),
-           let post = dataSource.postForIndexPath(indexPath)
-        {
+        if let post = postForCell(cell) {
             let items = self.dataSource.cellItemsForPost(post)
             // This is a bit dirty, we should not call a method on a compositionally held
             // controller's postTappedDelegate. Need to chat about this with the crew.
-            presentingController.postTappedDelegate?.postTapped(post, initialItems: items)
+            presentingController?.postTappedDelegate?.postTapped(post, initialItems: items)
         }
     }
 
