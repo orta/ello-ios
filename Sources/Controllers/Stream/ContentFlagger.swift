@@ -18,12 +18,12 @@ public class ContentFlagger {
 
     var contentFlagged:Bool?
 
-    public let presentingController: UIViewController
+    weak public var presentingController: UIViewController?
     let flaggableId: String
     let flaggableContentType: FlaggableContentType
     var commentPostId: String?
 
-    public init(presentingController: UIViewController, flaggableId: String, flaggableContentType: FlaggableContentType, commentPostId:String?) {
+    public init(presentingController: UIViewController?, flaggableId: String, flaggableContentType: FlaggableContentType, commentPostId:String?) {
         self.presentingController = presentingController
         self.flaggableId = flaggableId
         self.flaggableContentType = flaggableContentType
@@ -92,7 +92,7 @@ public class ContentFlagger {
 
         alertController.addAction(cancelAction)
 
-        presentingController.presentViewController(alertController, animated: true, completion: .None)
+        presentingController?.presentViewController(alertController, animated: true, completion: .None)
     }
 
 }

@@ -10,7 +10,7 @@ import Foundation
 
 public class PostbarController: NSObject, PostbarDelegate {
 
-    let presentingController: StreamViewController
+    weak var presentingController: StreamViewController?
     let collectionView: UICollectionView
     let dataSource: StreamDataSource
     var currentUser: User?
@@ -92,7 +92,7 @@ public class PostbarController: NSObject, PostbarDelegate {
         alertController.addAction(yesAction)
         alertController.addAction(noAction)
 
-        presentingController.presentViewController(alertController, animated: true, completion: .None)
+        presentingController?.presentViewController(alertController, animated: true, completion: .None)
     }
 
     public func lovesButtonTapped(cell:UICollectionViewCell) {
