@@ -37,6 +37,7 @@ public class StreamImageCell: UICollectionViewCell {
 
     func setImageURL(url:NSURL) {
         self.imageView.image = nil
+        self.imageView.alpha = 0
         circle.pulse()
         self.errorLabel.hidden = true
         self.errorLabel.alpha = 1.0
