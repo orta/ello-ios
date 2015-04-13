@@ -57,6 +57,35 @@ class StreamViewControllerSpec: QuickSpec {
 
         }
 
+        xdescribe("viewDidAppear(_:)") {
+
+            context("should reload") {
+
+                context("post detail stream kind") {
+
+                    context("deleted post is current user's post") {
+                        it("pops the view controller from the nav stack"){}
+                    }
+
+                    context("deteted post is NOT current user's post") {
+                        it("does not pop the view controller from the nav stack"){}
+                    }
+                }
+
+                context("not post detail stream kind") {
+                    it("reloads the content"){}
+                }
+            }
+
+            context("should not reload") {
+                it("does not reload"){}
+            }
+        }
+
+        xdescribe("viewDidDisappear(_:)") {
+            it("prevents reloading content if stale"){}
+        }
+
         describe("viewDidLoad()") {
 
             beforeEach {
