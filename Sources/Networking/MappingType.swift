@@ -7,33 +7,102 @@
 //
 
 
-public enum MappingType: String {
+public enum MappingType {
     // these keys define the place in the JSON response where the ElloProvider
     // should look for the response data.
-    case CommentsType =          "comments"
-    case PostsType =             "posts"
-    case ActivitiesType =        "activities"
-    case UsersType =             "users"
-    case ErrorType =             "error"
-    case ErrorsType =            "errors"
-    case AssetsType =            "assets"
-    case RelationshipsType =     "relationships"
-    case AmazonCredentialsType = "credentials"
-    case NoContentType =         "204"
-    case AvailabilityType =      "availability"
+    case CommentsType
+    case PostsType
+    case ActivitiesType
+    case UsersType
+    case ProfileType
+    case ErrorType
+    case ErrorsType
+    case AssetsType
+    case RelationshipsType
+    case AmazonCredentialsType
+    case NoContentType
+    case AvailabilityType
+
+    static func fromRawValue(value: String) -> MappingType? {
+        switch value {
+        case "comments":
+            return .CommentsType
+        case "posts":
+            return .PostsType
+        case "activities":
+            return .ActivitiesType
+        case "users":
+            return .UsersType
+        case "error":
+            return .ErrorType
+        case "errors":
+            return .ErrorsType
+        case "assets":
+            return .AssetsType
+        case "relationships":
+            return .RelationshipsType
+        case "credentials":
+            return .AmazonCredentialsType
+        case "204":
+            return .NoContentType
+        case "availability":
+            return .AvailabilityType
+        default:
+            return nil
+        }
+    }
+
+    var node: String {
+        switch self {
+        case CommentsType:
+            return "comments"
+        case PostsType:
+            return "posts"
+        case ActivitiesType:
+            return "activities"
+        case UsersType, ProfileType: // this is why MappingType can't be of type String
+            return "users"
+        case ErrorType:
+            return "error"
+        case ErrorsType:
+            return "errors"
+        case AssetsType:
+            return "assets"
+        case RelationshipsType:
+            return "relationships"
+        case AmazonCredentialsType:
+            return "credentials"
+        case NoContentType:
+            return "204"
+        case AvailabilityType:
+            return "availability"
+        }
+    }
 
     var fromJSON: FromJSONClosure {
         switch self {
-        case CommentsType:                  return Comment.fromJSON
-        case PostsType:                     return Post.fromJSON
-        case ActivitiesType:                return Activity.fromJSON
-        case UsersType:                     return User.fromJSON
-        case ErrorType:                     return ElloNetworkError.fromJSON
-        case ErrorsType:                    return ElloNetworkError.fromJSON
-        case AssetsType:                    return Asset.fromJSON
-        case AmazonCredentialsType:         return AmazonCredentials.fromJSON
-        case AvailabilityType:              return Availability.fromJSON
-        default:                            return UnknownJSONAble.fromJSON
+        case CommentsType:
+            return Comment.fromJSON
+        case PostsType:
+            return Post.fromJSON
+        case ActivitiesType:
+            return Activity.fromJSON
+        case UsersType:
+            return User.fromJSON
+        case ProfileType:
+            return Profile.fromJSON
+        case ErrorType:
+            return ElloNetworkError.fromJSON
+        case ErrorsType:
+            return ElloNetworkError.fromJSON
+        case AssetsType:
+            return Asset.fromJSON
+        case AmazonCredentialsType:
+            return AmazonCredentials.fromJSON
+        case AvailabilityType:
+            return Availability.fromJSON
+        default:
+            return UnknownJSONAble.fromJSON
         }
     }
 

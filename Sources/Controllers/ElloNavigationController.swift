@@ -16,7 +16,7 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
     var externalWebObserver: NotificationObserver?
     let externalWebController: UINavigationController = KINWebBrowserViewController.navigationControllerWithWebBrowser()
     var rootViewControllerName : String?
-    public var currentUser : User? {
+    public var currentUser : Profile? {
         didSet { didSetCurrentUser() }
     }
     var profileResponseConfig: ResponseConfig?
@@ -24,22 +24,22 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
     var backGesture: UIScreenEdgePanGestureRecognizer?
 
     enum RootViewControllers: String {
-        case Notifications = "NotificationsViewController"
-        case Profile = "ProfileViewController"
-        case Omnibar = "OmnibarViewController"
-        case Discover = "DiscoverViewController"
+        case NotificationsController = "NotificationsViewController"
+        case ProfileController = "ProfileViewController"
+        case OmnibarController = "OmnibarViewController"
+        case DiscoverController = "DiscoverViewController"
 
-        func controllerInstance(user: User, responseConfig: ResponseConfig) -> BaseElloViewController {
+        func controllerInstance(userlike: Profile, responseConfig: ResponseConfig) -> BaseElloViewController {
             switch self {
-            case Notifications: return NotificationsViewController()
-            case Profile: return ProfileViewController(user: user, responseConfig: responseConfig)
-            case Omnibar: return OmnibarViewController()
-            case Discover: return DiscoverViewController()
+            case NotificationsController: return NotificationsViewController()
+            case ProfileController: return ProfileViewController(userlike: userlike, responseConfig: responseConfig)
+            case OmnibarController: return OmnibarViewController()
+            case DiscoverController: return DiscoverViewController()
             }
         }
     }
 
-    func setProfileData(currentUser: User, responseConfig: ResponseConfig) {
+    func setProfileData(currentUser: Profile, responseConfig: ResponseConfig) {
         self.currentUser = currentUser
         self.profileResponseConfig = responseConfig
         if self.viewControllers.count == 0 {

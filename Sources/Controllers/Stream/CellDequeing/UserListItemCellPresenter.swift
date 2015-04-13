@@ -18,23 +18,23 @@ public struct UserListItemCellPresenter {
         currentUser: User?)
     {
         if let cell = cell as? UserListItemCell {
-            let user = streamCellItem.jsonable as! User
+            let userlike = streamCellItem.jsonable as! Userlike
             
             cell.relationshipView.hidden = false
 
             if let currentUser = cell.currentUser {
-                cell.relationshipView.hidden = user.id == currentUser.id
+                cell.relationshipView.hidden = userlike.user.id == currentUser.user.id
             }
 
-            if let avatarURL = user.avatarURL {
+            if let avatarURL = userlike.user.avatarURL {
                 cell.setAvatarURL(avatarURL)
             }
 
             cell.relationshipView.buildSmallButtons()
-            cell.relationshipView.userId = user.id
-            cell.relationshipView.userAtName = user.atName
-            cell.relationshipView.relationship = user.relationshipPriority
-            cell.usernameLabel.text = user.atName
+            cell.relationshipView.userId = userlike.user.id
+            cell.relationshipView.userAtName = userlike.user.atName
+            cell.relationshipView.relationship = userlike.user.relationshipPriority
+            cell.usernameLabel.text = userlike.user.atName
         }
     }
 }

@@ -15,24 +15,9 @@ let UserVersion: Int = 1
 
 @objc
 public protocol Userlike {
-
-    // active record
-    var id: String { get }
-    // required
-    var name: String { get }
-//    var relationshipPriority: Relationship { get }
-    // optional
-    var postsCount: Int { get }
-    var formattedShortBio: String? { get }
-    // other
-    var isCurrentUser: Bool { get }
-    // computed
-    var atName: String { get }
-    var avatarURL: NSURL? { get }
-
+    var user: User { get }
 }
 
-@objc
 public final class User: JSONAble, Userlike, NSCoding {
     public let version = UserVersion
 
@@ -63,6 +48,10 @@ public final class User: JSONAble, Userlike, NSCoding {
     public var atName: String { return "@\(username)"}
     public var avatarURL: NSURL? { return avatar?.url }
     public var coverImageURL: NSURL? { return coverImage?.url }
+    // userlike
+    public var user: User {
+        return self
+    }
 
     public init(id: String,
         href: String,

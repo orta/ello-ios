@@ -40,9 +40,9 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
     }
 
     // this should only be initialized this way for currentUser in tab nav
-    required public init(user: User, responseConfig: ResponseConfig) {
+    required public init(userlike: Profile, responseConfig: ResponseConfig) {
         ElloHUD.showLoadingHudInView(streamViewController.view)
-        self.user = user
+        self.user = userlike.user
         self.responseConfig = responseConfig
         self.userParam = self.user!.id
         self.streamViewController.streamKind = .Profile

@@ -22,7 +22,7 @@ public struct ProfileService {
         ElloProvider.elloRequest(ElloAPI.Profile,
             method: .GET,
             success: { (data, responseConfig) in
-                if let user = data as? User {
+                if let user = data as? Profile {
                     success(user: user, responseConfig: responseConfig)
                 }
                 else {

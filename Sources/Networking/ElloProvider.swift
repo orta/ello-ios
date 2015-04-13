@@ -135,7 +135,7 @@ extension ElloProvider {
             var mappedObjects: AnyObject?
 
             if mappedJSON != nil && error == nil {
-                if let node = mappedJSON?[MappingType.ErrorsType.rawValue] as? [String:AnyObject] {
+                if let node = mappedJSON?[MappingType.ErrorsType.node] as? [String:AnyObject] {
                     elloNetworkError = Mapper.mapToObject(node, fromJSON: MappingType.ErrorType.fromJSON) as? ElloNetworkError
                 }
             }
@@ -218,10 +218,10 @@ extension ElloProvider {
                     Store.parseLinked(linked!)
                 }
 
-                if let node = dict[elloAPI.mappingType.rawValue] as? [[String:AnyObject]] {
+                if let node = dict[elloAPI.mappingType.node] as? [[String:AnyObject]] {
                     mappedObjects = Mapper.mapToObjectArray(node, fromJSON: elloAPI.mappingType.fromJSON)
                 }
-                else if let node = dict[elloAPI.mappingType.rawValue] as? [String:AnyObject] {
+                else if let node = dict[elloAPI.mappingType.node] as? [String:AnyObject] {
                     mappedObjects = Mapper.mapToObject(node, fromJSON: elloAPI.mappingType.fromJSON)
                     if let pagingPath = elloAPI.pagingPath {
                         if let links = node["links"] as? [String:AnyObject] {

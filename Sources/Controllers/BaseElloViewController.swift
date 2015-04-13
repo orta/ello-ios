@@ -10,7 +10,7 @@ import UIKit
 
 public class BaseElloViewController: UIViewController {
 
-    public var currentUser: User? {
+    public var currentUser: Profile? {
         didSet { didSetCurrentUser() }
     }
 

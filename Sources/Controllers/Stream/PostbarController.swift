@@ -16,7 +16,7 @@ public class PostbarController: NSObject, PostbarDelegate {
     weak var presentingController: StreamViewController?
     let collectionView: UICollectionView
     let dataSource: StreamDataSource
-    var currentUser: User?   
+    var currentUser: Profile?
 
     // on the post detail screen, the comments don't show/hide
     var toggleableComments: Bool = true
@@ -194,7 +194,7 @@ public class PostbarController: NSObject, PostbarDelegate {
 
     private func appendCreateCommentItem(post: Post, at indexPath: NSIndexPath) {
         if let currentUser = currentUser {
-            let comment = Comment.newCommentForPost(post, currentUser: currentUser)
+            let comment = Comment.newCommentForPost(post, currentUser: currentUser.user)
             let createCommentItem = StreamCellItem(jsonable: comment,
                 type: .CreateComment,
                 data: nil,

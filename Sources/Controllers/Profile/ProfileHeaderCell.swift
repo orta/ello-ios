@@ -31,7 +31,7 @@ public class ProfileHeaderCell: UICollectionViewCell {
     @IBOutlet weak var inviteButton: UIButton!
     weak var webLinkDelegate: WebLinkDelegate?
     weak var userListDelegate: UserListDelegate?
-    var currentUser: User?
+    var currentUser: Profile?
 
     override public func awakeFromNib() {
         super.awakeFromNib()

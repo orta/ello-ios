@@ -14,7 +14,7 @@ public final class Comment: JSONAble, Authorable, NSCoding {
 
     public let version: Int = CommentVersion
 
-    public var author: Userlike?
+    public var author: User?
     public let commentId: String
     public var content: [Regionable]?
     public var createdAt: NSDate
@@ -28,7 +28,7 @@ public final class Comment: JSONAble, Authorable, NSCoding {
 
 // MARK: Initialization
 
-    public init(author: Userlike?,
+    public init(author: User?,
         commentId: String,
         content: [Regionable]?,
         createdAt: NSDate,
@@ -101,7 +101,7 @@ public final class Comment: JSONAble, Authorable, NSCoding {
         )
     }
 
-    public class func newCommentForPost(post: Post, currentUser: Userlike) -> Comment {
+    public class func newCommentForPost(post: Post, currentUser: User) -> Comment {
         return Comment(
             author: currentUser,
             commentId: "nil",
