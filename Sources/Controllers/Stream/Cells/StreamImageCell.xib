@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -13,6 +13,10 @@
                 <rect key="frame" x="0.0" y="0.0" width="587" height="119"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oJN-Vf-OgU" userLabel="circle" customClass="PulsingCircle" customModule="Ello" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="587" height="109"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
                     <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gia-lK-VuN" userLabel="imageView" customClass="FLAnimatedImageView">
                         <rect key="frame" x="0.0" y="0.0" width="587" height="109"/>
                     </imageView>
@@ -28,7 +32,7 @@
                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Et8-CY-fvV" userLabel="ErrorLabel" customClass="ElloErrorLabel" customModule="Ello" customModuleProvider="target">
                         <rect key="frame" x="15" y="49" width="557" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
@@ -37,6 +41,7 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="cba-zi-ctG" firstAttribute="leading" secondItem="miB-hg-eZF" secondAttribute="leading" id="1Pe-ua-Fx2" userLabel="imageButton Left"/>
+                <constraint firstItem="oJN-Vf-OgU" firstAttribute="trailing" secondItem="gia-lK-VuN" secondAttribute="trailing" id="Fnq-8H-pKy"/>
                 <constraint firstItem="Et8-CY-fvV" firstAttribute="leading" secondItem="miB-hg-eZF" secondAttribute="leading" constant="15" id="KzB-F5-3Zo" userLabel="ErrorLabel - Left"/>
                 <constraint firstAttribute="trailing" secondItem="Et8-CY-fvV" secondAttribute="trailing" constant="15" id="Lwl-qa-J46" userLabel="ErrorLabel - Right"/>
                 <constraint firstItem="cba-zi-ctG" firstAttribute="top" secondItem="miB-hg-eZF" secondAttribute="top" id="NiB-iX-BJq" userLabel="imageButton Top"/>
@@ -47,9 +52,13 @@
                 <constraint firstAttribute="trailing" secondItem="gia-lK-VuN" secondAttribute="trailing" id="hhW-aX-ev5" userLabel="imageView Right"/>
                 <constraint firstItem="gia-lK-VuN" firstAttribute="top" secondItem="miB-hg-eZF" secondAttribute="top" id="k2F-Aw-sEU" userLabel="imageView Top"/>
                 <constraint firstAttribute="bottom" secondItem="cba-zi-ctG" secondAttribute="bottom" constant="10" id="laR-DL-WFc" userLabel="imageButton Bottom"/>
+                <constraint firstItem="oJN-Vf-OgU" firstAttribute="top" secondItem="gia-lK-VuN" secondAttribute="top" id="ldy-Lp-cGf"/>
+                <constraint firstItem="oJN-Vf-OgU" firstAttribute="leading" secondItem="gia-lK-VuN" secondAttribute="leading" id="pxC-Kc-Blg"/>
+                <constraint firstItem="oJN-Vf-OgU" firstAttribute="bottom" secondItem="gia-lK-VuN" secondAttribute="bottom" id="qHP-Rx-9dH"/>
             </constraints>
             <size key="customSize" width="587" height="119"/>
             <connections>
+                <outlet property="circle" destination="oJN-Vf-OgU" id="Q8k-qa-AY4"/>
                 <outlet property="errorLabel" destination="Et8-CY-fvV" id="QBu-5F-i2z"/>
                 <outlet property="imageButton" destination="cba-zi-ctG" id="uab-aZ-n0v"/>
                 <outlet property="imageView" destination="gia-lK-VuN" id="hJr-41-RmY"/>
