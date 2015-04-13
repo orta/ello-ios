@@ -177,9 +177,7 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
     }
 
     private func appendCreateCommentItem() {
-        if hasAddedCommentBar {
-            return
-        }
+        if hasAddedCommentBar { return }
 
         if let post = post {
             hasAddedCommentBar = true
