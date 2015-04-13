@@ -27,6 +27,7 @@ public class SettingsViewController: UITableViewController {
 
     var currentUser: User?
     var sensitiveSettingsViewController: SensitiveSettingsViewController?
+    var dynamicSettingsViewController: DynamicSettingsViewController?
 
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +42,7 @@ public class SettingsViewController: UITableViewController {
 
     private func setupProfileDescription() {
         let text = NSMutableAttributedString(attributedString: profileDescription.attributedText)
+
         text.addAttribute(NSForegroundColorAttributeName, value: UIColor.greyA(), range: NSRange(location: 0, length: text.length))
         profileDescription.attributedText = text
     }
@@ -54,7 +56,7 @@ public class SettingsViewController: UITableViewController {
         case .Name: return 97
         case .Bio: return 200
         case .Links: return 97
-        case .PreferenceSettings: return 200
+        case .PreferenceSettings: return dynamicSettingsViewController?.height ?? 0
         case .Unknown: return 0
         }
     }
@@ -65,6 +67,11 @@ public class SettingsViewController: UITableViewController {
             sensitiveSettingsViewController = segue.destinationViewController as? SensitiveSettingsViewController
             sensitiveSettingsViewController?.currentUser = currentUser
             sensitiveSettingsViewController?.delegate = self
+
+        case "DynamicSettingsSegue":
+            dynamicSettingsViewController = segue.destinationViewController as? DynamicSettingsViewController
+            dynamicSettingsViewController?.currentUser = currentUser
+
         default: break
         }
     }
