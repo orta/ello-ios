@@ -63,7 +63,7 @@ public class ElloTabBarController: UIViewController {
         }
     }
 
-    var currentUser : Profile?
+    var currentUser : User?
     var profileResponseConfig: ResponseConfig?
 
     public class func instantiateFromStoryboard() -> ElloTabBarController {
@@ -77,7 +77,7 @@ public class ElloTabBarController: UIViewController {
         super.init(coder: decoder)
     }
 
-    func setProfileData(currentUser: Profile, responseConfig: ResponseConfig) {
+    func setProfileData(currentUser: User, responseConfig: ResponseConfig) {
         self.currentUser = currentUser
         self.profileResponseConfig = responseConfig
         for controller in self.childViewControllers {

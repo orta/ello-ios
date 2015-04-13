@@ -76,7 +76,7 @@ class PostSpec: QuickSpec {
                 let parsedPost = stubbedJSONData("posts", "posts")
                 let post = Post.fromJSON(parsedPost) as! Post
                 post.commentsCount = 1
-                let user = User.fakeCurrentUser("ello")
+                let user: User = stub(["username": "ello"])
                 let comment = Comment.newCommentForPost(post, currentUser: user)
                 postNotification(UpdatePostCommentCountNotification, comment)
                 expect(post.commentsCount).to(equal(2))
@@ -93,7 +93,7 @@ class PostSpec: QuickSpec {
                 let post2 = Post.fromJSON(parsedPost2) as! Post
                 post2.commentsCount = 1
 
-                let user = User.fakeCurrentUser("ello")
+                let user: User = stub(["username": "ello"])
                 let comment = Comment.newCommentForPost(post2, currentUser: user)
                 postNotification(UpdatePostCommentCountNotification, comment)
                 expect(post1.commentsCount).to(equal(1))

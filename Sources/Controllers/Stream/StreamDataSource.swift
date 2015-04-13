@@ -16,7 +16,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     let imageBottomPadding:CGFloat = 10.0
     public var streamKind:StreamKind
-    var currentUser: Profile?
+    var currentUser: User?
 
     // these are the items assigned from the parent controller
     public var streamCellItems:[StreamCellItem] = []

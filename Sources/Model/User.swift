@@ -13,12 +13,7 @@ import SwiftyJSON
 
 let UserVersion: Int = 1
 
-@objc
-public protocol Userlike {
-    var user: User { get }
-}
-
-public final class User: JSONAble, Userlike, NSCoding {
+public final class User: JSONAble, NSCoding {
     public let version = UserVersion
 
     // active record
@@ -42,16 +37,13 @@ public final class User: JSONAble, Userlike, NSCoding {
     // links
     public var posts: [Post]?
     public var mostRecentPost: Post?
-    // other
-    public var isCurrentUser: Bool = false
     // computed
     public var atName: String { return "@\(username)"}
     public var avatarURL: NSURL? { return avatar?.url }
     public var coverImageURL: NSURL? { return coverImage?.url }
-    // userlike
-    public var user: User {
-        return self
-    }
+    public var isCurrentUser: Bool { return self.profile != nil }
+    // profile
+    public var profile: Profile?
 
     public init(id: String,
         href: String,
@@ -79,11 +71,11 @@ public final class User: JSONAble, Userlike, NSCoding {
         self.href = decoder.decodeKey("href")
         self.username = decoder.decodeKey("username")
         self.name = decoder.decodeKey("name")
-        self.avatar = decoder.decodeKey("avatar")
         self.experimentalFeatures = decoder.decodeKey("experimentalFeatures")
         let relationshipPriorityRaw: String = decoder.decodeKey("relationshipPriorityRaw")
         self.relationshipPriority = Relationship(stringValue: relationshipPriorityRaw)
         // optional
+        self.avatar = decoder.decodeOptionalKey("avatar")
         self.identifiableBy = decoder.decodeOptionalKey("identifiableBy")
         self.postsCount = decoder.decodeOptionalKey("postsCount")
         self.followersCount = decoder.decodeOptionalKey("followersCount")
@@ -95,8 +87,8 @@ public final class User: JSONAble, Userlike, NSCoding {
         // links
         self.posts = decoder.decodeOptionalKey("posts")
         self.mostRecentPost = decoder.decodeOptionalKey("mostRecentPost")
-        // other
-        self.isCurrentUser = decoder.decodeKey("isCurrentUser")
+        // profile
+        self.profile = decoder.decodeOptionalKey("profile") 
     }
 
     public func encodeWithCoder(encoder: NSCoder) {
@@ -106,10 +98,10 @@ public final class User: JSONAble, Userlike, NSCoding {
         encoder.encodeObject(href, forKey: "href")
         encoder.encodeObject(username, forKey: "username")
         encoder.encodeObject(name, forKey: "name")
-        encoder.encodeObject(avatar, forKey: "avatar")
         encoder.encodeBool(experimentalFeatures, forKey: "experimentalFeatures")
         encoder.encodeObject(relationshipPriority.rawValue, forKey: "relationshipPriorityRaw")
         // optional
+        encoder.encodeObject(avatar, forKey: "avatar")
         encoder.encodeObject(identifiableBy, forKey: "identifiableBy")
         if let postsCount = self.postsCount {
             encoder.encodeInt64(Int64(postsCount), forKey: "postsCount")
@@ -125,8 +117,8 @@ public final class User: JSONAble, Userlike, NSCoding {
         // links
         encoder.encodeObject(posts, forKey: "posts")
         encoder.encodeObject(mostRecentPost, forKey: "mostRecentPost")
-        // other
-        encoder.encodeBool(isCurrentUser, forKey: "isCurrentUser")
+        // profile
+        encoder.encodeObject(profile, forKey: "profile")
     }
     
 // MARK: JSONAble
@@ -149,6 +141,9 @@ public final class User: JSONAble, Userlike, NSCoding {
             if let avatarPath = avatarObj["large"]?["url"] as? String {
                 user.avatar = ImageAttachment(url: NSURL(string: avatarPath, relativeToURL: NSURL(string: ElloURI.baseURL)), height: 0, width: 0, imageType: "png", size: 0)
             }
+            else if let originalPath = avatarObj["original"]?["url"] as? String {
+                user.coverImage = ImageAttachment(url: NSURL(string: originalPath, relativeToURL: NSURL(string: ElloURI.baseURL)), height: 0, width: 0, imageType: "png", size: 0)
+            }
         }
         user.identifiableBy = json["identifiable_by"].stringValue
         user.postsCount = json["posts_count"].int
@@ -157,8 +152,11 @@ public final class User: JSONAble, Userlike, NSCoding {
         user.formattedShortBio = json["formatted_short_bio"].stringValue
         user.externalLinks = json["external_links"].stringValue
         if var coverImageObj = json["cover_image"].object as? [String:[String:AnyObject]] {
-            if let coverPath = coverImageObj["hdpi"]?["url"] as? String {
-                user.coverImage = ImageAttachment(url: NSURL(string: coverPath, relativeToURL: NSURL(string: ElloURI.baseURL)), height: 0, width: 0, imageType: "png", size: 0)
+            if let hdpiPath = coverImageObj["hdpi"]?["url"] as? String {
+                user.coverImage = ImageAttachment(url: NSURL(string: hdpiPath, relativeToURL: NSURL(string: ElloURI.baseURL)), height: 0, width: 0, imageType: "png", size: 0)
+            }
+            else if let optimizedPath = coverImageObj["optimized"]?["url"] as? String {
+                user.coverImage = ImageAttachment(url: NSURL(string: optimizedPath, relativeToURL: NSURL(string: ElloURI.baseURL)), height: 0, width: 0, imageType: "png", size: 0)
             }
         }
         user.backgroundPosition = json["background_positiion"].stringValue
@@ -177,20 +175,10 @@ public final class User: JSONAble, Userlike, NSCoding {
         if let recentPost = user.mostRecentPost {
             recentPost.author = user
         }
-        return user
-    }
-
-    public class func fakeCurrentUser(username: String, avatarURL optlUrl : NSURL? = nil) -> User {
-        let url = optlUrl ?? NSURL(string: "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/27/large_ello-09fd7088-2e4f-4781-87db-433d5dbc88a5.png")
-        var user = User(
-            id: "42",
-            href: "/api/edge/users/42",
-            username: username,
-            name: "Unknown",
-            experimentalFeatures: false,
-            relationshipPriority: .Me
-        )
-        user.avatar = ImageAttachment(url: url, height: 0, width: 0, imageType: "png", size: 0)
+        // profile
+        if count(json["created_at"].stringValue) > 0 {
+            user.profile = Profile.fromJSON(data) as? Profile
+        }
         return user
     }
 }

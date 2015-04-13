@@ -12,7 +12,6 @@ import SwiftyJSON
 
 public typealias StreamSuccessCompletion = (jsonables: [JSONAble], responseConfig: ResponseConfig) -> ()
 public typealias UserSuccessCompletion = (user: User, responseConfig: ResponseConfig) -> ()
-public typealias ProfileSuccessCompletion = (user: Profile, responseConfig: ResponseConfig) -> ()
 
 public class StreamService: NSObject {
 

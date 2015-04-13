@@ -26,26 +26,53 @@ extension User: Stubbable {
             Relationship(stringValue: $0)
         } ?? Relationship.None
 
-        return User(
-            avatarURL: (values["avatarURL"] as? NSURL),
-            coverImageURL: (values["coverImageURL"] as? NSURL),
-            experimentalFeatures: (values["experimentalFeatures"] as? Bool) ?? false,
-            followersCount: (values["followersCount"] as? Int) ?? 0,
-            followingCount: (values["followingCount"] as? Int) ?? 0,
+        var user =  User(
+            id: (values["id"] as? String) ?? "1",
             href: (values["href"] as? String) ?? "href",
-            name: (values["name"] as? String) ?? "name",
-            posts: (values["posts"] as? [Post]) ?? [],
-            mostRecentPost: (values["mostRecentPost"] as? Post),
-            postsCount: (values["postsCount"] as? Int) ?? 0,
-            relationshipPriority: relationship,
-            userId: (values["userId"] as? String) ?? "1",
             username: (values["username"] as? String) ?? "username",
-            email: (values["email"] as? String) ?? .None,
-            identifiableBy: .None,
-            formattedShortBio: (values["formattedShortBio"] as? String) ?? "formattedShortBio",
-            externalLinks: (values["externalLinks"] as? String) ?? "externalLinks",
-            isCurrentUser: (values["isCurrentUser"] as? Bool) ?? false
-        )
+            name: (values["name"] as? String) ?? "name",
+            experimentalFeatures: (values["experimentalFeatures"] as? Bool) ?? false,
+            relationshipPriority: relationship
+            )
+        user.avatar = values["avatar"] as? ImageAttachment
+        user.identifiableBy = values["identifiableBy"] as? String
+        user.postsCount = values["postsCount"] as? Int
+        user.followersCount = values["followersCount"] as? String
+        user.followingCount = values["followingCount"] as? Int
+        user.formattedShortBio = values["formattedShortBio"] as? String
+        user.externalLinks = values["externalLinks"] as? String
+        user.coverImage = values["coverImage"] as? ImageAttachment
+        user.backgroundPosition = values["backgroundPosition"] as? String
+        user.posts = values["posts"] as? [Post]
+        user.mostRecentPost = values["mostRecentPost"] as? Post
+        user.profile = values["profile"] as? Profile
+        return user
+    }
+}
+
+extension Profile: Stubbable {
+    class func stub(values: [String : AnyObject]) -> Profile {
+        var profile = Profile(
+            createdAt: (values["createdAt"] as? NSDate) ?? NSDate(),
+            shortBio: (values["shortBio"] as? String) ?? "shortBio",
+            externalLinksList: (values["externalLinksList"] as? [String]) ?? ["externalLinksList"],
+            email: (values["email"] as? String) ?? "email@example.com",
+            confirmedAt: (values["confirmedAt"] as? NSDate) ?? NSDate(),
+            isPublic: (values["isPublic"] as? Bool) ?? true,
+            hasCommentingEnabled: (values["hasCommentingEnabled"] as? Bool) ?? true,
+            hasSharingEnabled: (values["hasSharingEnabled"] as? Bool) ?? true,
+            hasRepostingEnabled: (values["hasRepostingEnabled"] as? Bool) ?? true,
+            hasAdNotificationsEnabled: (values["hasAdNotificationsEnabled"] as? Bool) ?? true,
+            allowsAnalytics: (values["allowsAnalytics"] as? Bool) ?? true,
+            postsAdultContent: (values["postsAdultContent"] as? Bool) ?? false,
+            viewsAdultContent: (values["viewsAdultContent"] as? Bool) ?? false,
+            notifyOfCommentsViaEmail: (values["notifyOfCommentsViaEmail"] as? Bool) ?? true,
+            notifyOfInvitationAcceptancesViaEmail: (values["notifyOfInvitationAcceptancesViaEmail"] as? Bool) ?? true,
+            notifyOfMentionsViaEmail: (values["notifyOfMentionsViaEmail"] as? Bool) ?? true,
+            notifyOfNewFollowersViaEmail: (values["notifyOfNewFollowersViaEmail"] as? Bool) ?? true,
+            subscribeToUsersEmailList: (values["subscribeToUsersEmailList"] as? Bool) ?? true
+            )
+        return profile
     }
 }
 

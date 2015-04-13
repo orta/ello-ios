@@ -29,7 +29,7 @@ public struct ElloLinkedStore {
         var modelLinks = [String: AnyObject]()
         for (key, value) in links {
             if let link:String = value["type"] as? String {
-                if let mappingType = MappingType.fromRawValue(value["type"] as! String) {
+                if let mappingType = MappingType(rawValue: value["type"] as! String) {
                     if let linkJSON = Store.store[link]?[value["id"] as! String] as? [String: AnyObject] {
                         var jsonable: JSONAble = mappingType.fromJSON(data: linkJSON)
                         modelLinks[key] = jsonable
@@ -37,7 +37,7 @@ public struct ElloLinkedStore {
                 }
             }
             else if let link:String = value as? String {
-                if let mappingType = MappingType.fromRawValue(key) {
+                if let mappingType = MappingType(rawValue: key) {
                     if let linkJSON = Store.store[key]?[link] as? [String: AnyObject] {
                         var jsonable: JSONAble = mappingType.fromJSON(data: linkJSON)
                         modelLinks[key] = jsonable
@@ -56,7 +56,7 @@ public struct ElloLinkedStore {
 
     private static func parseArray(key: String, strArray: [String], modelLinks: [String: AnyObject]) -> [String: AnyObject] {
         var modelLinksCopy = modelLinks
-        if let mappingType = MappingType.fromRawValue(key) {
+        if let mappingType = MappingType(rawValue: key) {
             if mappingType.isOrdered {
                 var linkArray = [JSONAble]()
                 for str in strArray {

@@ -103,12 +103,12 @@ class OmnibarViewControllerSpec: QuickSpec {
             }
 
             xit("assigns the currentUser.avatarURL to the screen") {
-                let url = NSURL(string: "http://ello.co/avatar.png")
-                let user = User.fakeCurrentUser("foo", avatarURL: url)
+                let attachment = ImageAttachment(url: NSURL(string: "http://ello.co/avatar.png", relativeToURL: NSURL(string: ElloURI.baseURL)), height: 0, width: 0, imageType: "png", size: 0)
+                let user: User = stub(["avatar": attachment])
                 controller.currentUser = user
                 // this is crazy, if I inspect these values they are correct.
                 // Swift? Optionals?  ug.
-                expect(screen.avatarURL).to(equal(url))
+                expect(screen.avatarURL).to(equal("http://ello.co/avatar.png"))
             }
         }
 

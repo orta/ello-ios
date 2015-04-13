@@ -183,7 +183,7 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
             hasAddedCommentBar = true
 
             let controller = self.streamViewController
-            let comment = Comment.newCommentForPost(post, currentUser: self.currentUser!.user)
+            let comment = Comment.newCommentForPost(post, currentUser: self.currentUser!)
             let createCommentItem = StreamCellItem(jsonable: comment,
                 type: .CreateComment,
                 data: nil,

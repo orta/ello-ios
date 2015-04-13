@@ -97,7 +97,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
     override func didSetCurrentUser() {
         super.didSetCurrentUser()
-        self.screen.avatarURL = currentUser?.user.avatarURL
+        self.screen.avatarURL = currentUser?.avatarURL
     }
 
     public func omnibarCancel() {

@@ -25,7 +25,7 @@ public class SettingsViewController: UITableViewController {
     @IBOutlet weak public var profileImageView: UIView!
     @IBOutlet weak public var profileDescription: ElloLabel!
 
-    var currentUser: Profile?
+    var currentUser: User?
     var sensitiveSettingsViewController: SensitiveSettingsViewController?
 
     override public func viewDidLoad() {

@@ -18,11 +18,11 @@ public struct ProfileService {
 
     public init(){}
     
-    public func loadCurrentUser(success: ProfileSuccessCompletion, failure: ElloFailureCompletion?) {
+    public func loadCurrentUser(success: UserSuccessCompletion, failure: ElloFailureCompletion?) {
         ElloProvider.elloRequest(ElloAPI.Profile,
             method: .GET,
             success: { (data, responseConfig) in
-                if let user = data as? Profile {
+                if let user = data as? User {
                     success(user: user, responseConfig: responseConfig)
                 }
                 else {

@@ -14,7 +14,7 @@ public protocol UserListDelegate: NSObjectProtocol {
 }
 
 public class UserListController: NSObject, UserListDelegate {
-    var currentUser : Profile?
+    var currentUser : User?
     let presentingController: UIViewController
 
     required public init(presentingController: UIViewController) {

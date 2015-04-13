@@ -11,7 +11,7 @@ import SwiftyJSON
 
 let ProfileVersion: Int = 1
 
-public final class Profile: JSONAble, Userlike, NSCoding {
+public final class Profile: JSONAble, NSCoding {
     public let version = ProfileVersion
 
     // active record
@@ -34,11 +34,6 @@ public final class Profile: JSONAble, Userlike, NSCoding {
     public let notifyOfMentionsViaEmail: Bool
     public let notifyOfNewFollowersViaEmail: Bool
     public let subscribeToUsersEmailList: Bool
-    // userlike
-    private var _user: User
-    public var user: User {
-        return self._user
-    }
 
     public init(createdAt: NSDate,
         shortBio: String,
@@ -57,8 +52,7 @@ public final class Profile: JSONAble, Userlike, NSCoding {
         notifyOfInvitationAcceptancesViaEmail: Bool,
         notifyOfMentionsViaEmail: Bool,
         notifyOfNewFollowersViaEmail: Bool,
-        subscribeToUsersEmailList: Bool,
-        user: User)
+        subscribeToUsersEmailList: Bool)
     {
         self.createdAt = createdAt
         self.shortBio = shortBio
@@ -78,15 +72,12 @@ public final class Profile: JSONAble, Userlike, NSCoding {
         self.notifyOfMentionsViaEmail = notifyOfMentionsViaEmail
         self.notifyOfNewFollowersViaEmail = notifyOfNewFollowersViaEmail
         self.subscribeToUsersEmailList = subscribeToUsersEmailList
-        self._user = user
     }
 
 // MARK: NSCoding
 
     required public init(coder aDecoder: NSCoder) {
         let decoder = Decoder(aDecoder)
-        // userlike
-        self._user = decoder.decodeKey("_user")
         // active record
         self.createdAt = decoder.decodeKey("createdAt")
         // required
@@ -110,8 +101,6 @@ public final class Profile: JSONAble, Userlike, NSCoding {
     }
 
     public func encodeWithCoder(encoder: NSCoder) {
-        // userlike
-        encoder.encodeObject(_user, forKey: "_user")
         // active record
         encoder.encodeObject(createdAt, forKey: "createdAt")
         // required
@@ -138,9 +127,6 @@ public final class Profile: JSONAble, Userlike, NSCoding {
 
     override public class func fromJSON(data:[String: AnyObject]) -> JSONAble {
         let json = JSON(data)
-        // userlike
-        var user = User.fromJSON(data) as! User
-        user.isCurrentUser = true
         // create profile
         var profile = Profile(
             createdAt: (json["created_at"].stringValue.toNSDate() ?? NSDate()),
@@ -160,8 +146,7 @@ public final class Profile: JSONAble, Userlike, NSCoding {
             notifyOfInvitationAcceptancesViaEmail: json["notify_of_invitation_acceptances_via_email"].boolValue,
             notifyOfMentionsViaEmail: json["notify_of_mentions_via_email"].boolValue,
             notifyOfNewFollowersViaEmail: json["notify_of_new_followers_via_email"].boolValue,
-            subscribeToUsersEmailList: json["subscribe_to_users_email_list"].boolValue,
-            user: user
+            subscribeToUsersEmailList: json["subscribe_to_users_email_list"].boolValue
         )
         return profile
     }

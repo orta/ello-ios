@@ -14,7 +14,7 @@ import Nimble
 class NotificationSpec: QuickSpec {
     override func spec() {
         it("converts activities to Notifications") {
-            var user = User.fakeCurrentUser("foo")
+            var user: User = stub(["username": "foo"])
             var post = Post(
                 assets: nil,
                 author: user,

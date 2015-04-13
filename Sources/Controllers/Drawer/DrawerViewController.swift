@@ -133,7 +133,14 @@ private extension DrawerViewController {
     }
 
     func registerCells() {
-        let fakeUser = User.fakeCurrentUser("")
+        let fakeUser = User(
+            id: "42",
+            href: "/api/edge/users/42",
+            username: "username",
+            name: "Unknown",
+            experimentalFeatures: false,
+            relationshipPriority: .None
+        )
         collectionView.registerNib(AvatarCell.nib(), forCellWithReuseIdentifier: AvatarCellPresenter(user: fakeUser).reuseIdentifier)
         collectionView.registerClass(StreamLoadingCell.self, forCellWithReuseIdentifier: LoadingCellPresenter().reuseIdentifier)
     }
