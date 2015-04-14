@@ -10,14 +10,14 @@ import Foundation
 import YapDatabase
 
 private let _ElloLinkedStore = ElloLinkedStore()
-
+public typealias ParseLinksClosure = ([String: AnyObject]) -> ()
 
 
 public struct ElloLinkedStore {
 
     public static var sharedInstance: ElloLinkedStore { return _ElloLinkedStore }
 
-    private var database: YapDatabase
+    public var database: YapDatabase
     public var readConnection: YapDatabaseConnection
     private var writeConnection: YapDatabaseConnection
 
@@ -32,27 +32,40 @@ public struct ElloLinkedStore {
         writeConnection = database.newConnection()
     }
 
-    public func parseLinked(linked:[String:[[String:AnyObject]]]){
-        writeConnection.readWriteWithBlock { transaction in
+    public func parseLinked(linked:[String:[[String:AnyObject]]], completion: () -> () = {}){
+        writeConnection.asyncReadWriteWithBlock { transaction in
             for (type:String, typeObjects: [[String:AnyObject]]) in linked {
-                for object:[String:AnyObject] in typeObjects {
-                    let id = object["id"] as! String
-                    transaction.setObject(object, forKey: id, inCollection: type)
+                if let mappingType = MappingType(rawValue: type) {
+                    for object:[String:AnyObject] in typeObjects {
+                        let jsonable = mappingType.fromJSON(data: object)
+                        if let post = jsonable as? Post {
+                            transaction.setObject(jsonable, forKey: post.id, inCollection: type)
+                        }
+                        else if let user = jsonable as? User {
+                            transaction.setObject(jsonable, forKey: user.id, inCollection: type)
+                        }
+                    }
+//                    let id = object["id"] as! String
+//                    transaction.setObject(object, forKey: id, inCollection: type)
+
                 }
+            }
+            dispatch_async(dispatch_get_main_queue()) {
+                completion()
             }
         }
     }
 
     // primarialy used for testing for now.. could be used for setting a model after it's fromJSON
     public func setObject(collection: String, key: String, object: JSONAble) {
-        writeConnection.readWriteWithBlock { transaction in
+        writeConnection.asyncReadWriteWithBlock { transaction in
             transaction.setObject(object, forKey: key, inCollection: collection)
         }
     }
 
-    public func parseLinks(links: [String: AnyObject]) -> [String: AnyObject] {
+    public func parseLinks(links: [String: AnyObject], completion: ParseLinksClosure?) {
         var modelLinks = [String: AnyObject]()
-        readConnection.readWithBlock { transaction in
+        readConnection.asyncReadWithBlock { transaction in
             for (key, value) in links {
                 if let link:String = value["type"] as? String {
                     if let mappingType = MappingType(rawValue: value["type"] as! String) {
@@ -84,8 +97,8 @@ public struct ElloLinkedStore {
                     modelLinks = self.parseArray(key, strArray: strArray, modelLinks: modelLinks, transaction: transaction)
                 }
             }
+            completion?(modelLinks)
         }
-        return modelLinks
     }
 
     private func parseArray(key: String, strArray: [String], modelLinks: [String: AnyObject], transaction: YapDatabaseReadTransaction) -> [String: AnyObject] {

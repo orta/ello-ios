@@ -60,10 +60,10 @@ public final class ImageRegion: JSONAble, NSCoding {
         let url = json["data"].object["url"] as! String
         var links = [String: AnyObject]()
         var asset:Asset?
-        if let linksNode = data["links"] as? [String: AnyObject] {
-            links = ElloLinkedStore.sharedInstance.parseLinks(linksNode)
-            asset = links["assets"] as? Asset
-        }
+//        if let linksNode = data["links"] as? [String: AnyObject] {
+//            links = ElloLinkedStore.sharedInstance.parseLinks(linksNode)
+//            asset = links["assets"] as? Asset
+//        }
 
         return ImageRegion(asset: asset, alt: alt, url: NSURL(string: url))
     }

@@ -161,11 +161,11 @@ public final class User: JSONAble, NSCoding {
         }
         user.backgroundPosition = json["background_positiion"].stringValue
         // links
-        if let linksNode = data["links"] as? [String: AnyObject] {
-            let links = ElloLinkedStore.parseLinks(linksNode)
-            user.posts = links["posts"] as? [Post]
-            user.mostRecentPost = links["most_recent_post"] as? Post
-        }
+//        if let linksNode = data["links"] as? [String: AnyObject] {
+//            let links = ElloLinkedStore.sharedInstance.parseLinks(linksNode)
+//            user.posts = links["posts"] as? [Post]
+//            user.mostRecentPost = links["most_recent_post"] as? Post
+//        }
         // hack back in author
         if let posts = user.posts {
             for post in posts {

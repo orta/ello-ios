@@ -89,9 +89,9 @@ public class PostbarController: NSObject, PostbarDelegate {
             action in
             let service = PostService()
             if let post = self.postForCell(cell) {
-                service.deletePost(post.postId,
+                service.deletePost(post.id,
                     success: {
-                        postNotification(ExperienceUpdatedNotification, .PostChanged(id: post.postId, change: .Delete))
+                        postNotification(ExperienceUpdatedNotification, .PostChanged(id: post.id, change: .Delete))
                     }, failure: { (error, statusCode)  in
                         // TODO: add error handling
                         println("failed to delete post, error: \(error.localizedDescription)")
@@ -254,3 +254,4 @@ public class PostbarController: NSObject, PostbarDelegate {
     }
 
 }
+

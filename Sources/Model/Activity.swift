@@ -130,10 +130,10 @@ public final class Activity: JSONAble, NSCoding {
             subjectType: subjectType
         )
         // links
-        if let linksNode = data["links"] as? [String: AnyObject] {
-            let links = ElloLinkedStore.sharedInstance.parseLinks(linksNode)
-            activity.subject = links["subject"] as? JSONAble
-        }
+//        if let linksNode = data["links"] as? [String: AnyObject] {
+//            let links = ElloLinkedStore.sharedInstance.parseLinks(linksNode)
+//            activity.subject = links["subject"] as? JSONAble
+//        }
 
         return activity
     }

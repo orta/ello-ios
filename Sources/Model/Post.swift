@@ -7,7 +7,7 @@
 //
 
 import SwiftyJSON
-
+import YapDatabase
 
 public let UpdatePostCommentCountNotification = TypedNotification<Comment>(name: "UpdatePostCommentCountNotification")
 
@@ -212,12 +212,37 @@ public final class Post: JSONAble, Authorable, NSCoding {
         post.commentsCount = json["comments_count"].int
         post.repostsCount = json["reposts_count"].int
         // links / nested resources
+//        if let linksNode = data["links"] as? [String: AnyObject] {
+//            ElloLinkedStore.sharedInstance.parseLinks(linksNode) { links in
+//                post.author = links["author"] as? User
+//                post.assets = links["assets"] as? [String: Asset]
+//                post.comments = links["comments"] as? [Comment]
+//            }
+//        }
+        var authorId: String?
         if let linksNode = data["links"] as? [String: AnyObject] {
-            var links = ElloLinkedStore.sharedInstance.parseLinks(linksNode)
-            post.author = links["author"] as? User
-            post.assets = links["assets"] as? [String: Asset]
-            post.comments = links["comments"] as? [Comment]
+            authorId = linksNode["author"]?["id"] as? String
         }
+
+        ElloLinkedStore.sharedInstance.database.newConnection().asyncReadWriteWithBlock { transaction in
+            transaction.setObject(post, forKey: post.id, inCollection: "posts")
+            if let author: String = authorId {
+
+                let edge: YapDatabaseRelationshipEdge = YapDatabaseRelationshipEdge(
+                    name: "author",
+                    sourceKey: post.id,
+                    collection: "posts",
+                    destinationKey: author,
+                    collection: "users", nodeDeleteRules:
+                    UInt16(YDB_NotifyIfSourceDeleted)
+                )
+
+                if let ext = transaction.ext("relationships") as? YapDatabaseRelationshipTransaction {
+                    ext.addEdge(edge)
+                }
+            }
+        }
+
         return post
     }
 
