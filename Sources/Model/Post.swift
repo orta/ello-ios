@@ -224,24 +224,24 @@ public final class Post: JSONAble, Authorable, NSCoding {
             authorId = linksNode["author"]?["id"] as? String
         }
 
-        ElloLinkedStore.sharedInstance.database.newConnection().asyncReadWriteWithBlock { transaction in
-            transaction.setObject(post, forKey: post.id, inCollection: "posts")
-            if let author: String = authorId {
-
-                let edge: YapDatabaseRelationshipEdge = YapDatabaseRelationshipEdge(
-                    name: "author",
-                    sourceKey: post.id,
-                    collection: "posts",
-                    destinationKey: author,
-                    collection: "users", nodeDeleteRules:
-                    UInt16(YDB_NotifyIfSourceDeleted)
-                )
-
-                if let ext = transaction.ext("relationships") as? YapDatabaseRelationshipTransaction {
-                    ext.addEdge(edge)
-                }
-            }
-        }
+//        ElloLinkedStore.sharedInstance.database.newConnection().asyncReadWriteWithBlock { transaction in
+//            transaction.setObject(post, forKey: post.id, inCollection: "posts")
+//            if let author: String = authorId {
+//
+//                let edge: YapDatabaseRelationshipEdge = YapDatabaseRelationshipEdge(
+//                    name: "author",
+//                    sourceKey: post.id,
+//                    collection: "posts",
+//                    destinationKey: author,
+//                    collection: "users", nodeDeleteRules:
+//                    UInt16(YDB_NotifyIfSourceDeleted)
+//                )
+//
+//                if let ext = transaction.ext("relationships") as? YapDatabaseRelationshipTransaction {
+//                    ext.addEdge(edge)
+//                }
+//            }
+//        }
 
         return post
     }

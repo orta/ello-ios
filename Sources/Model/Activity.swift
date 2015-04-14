@@ -7,6 +7,7 @@
 //
 
 import SwiftyJSON
+import YapDatabase
 
 let ActivityVersion = 1
 
@@ -20,7 +21,16 @@ public final class Activity: JSONAble, NSCoding {
     public let kind: Kind
     public let subjectType: SubjectType
     // links
-    public var subject: JSONAble?
+    public var links: [String: AnyObject]?
+    public var subject: JSONAble? {
+        var sub: JSONAble?
+        if let subjectType = links?["subject"]?["type"] as? String, let subjectId = links?["subject"]?["id"] as? String {
+            ElloLinkedStore.sharedInstance.readConnection.readWithBlock { transaction in
+                sub = transaction.objectForKey(subjectId, inCollection: subjectType) as? JSONAble
+            }
+        }
+        return sub
+    }
 
     public enum Kind: String {
         // Posts
@@ -96,7 +106,7 @@ public final class Activity: JSONAble, NSCoding {
         let rawSubjectType: String = decoder.decodeKey("rawSubjectType")
         self.subjectType = SubjectType(rawValue: rawSubjectType) ?? SubjectType.Unknown
         // links
-        self.subject = decoder.decodeOptionalKey("subject")
+//        self.subject = decoder.decodeOptionalKey("subject")
         super.init()
     }
 
@@ -108,7 +118,7 @@ public final class Activity: JSONAble, NSCoding {
         encoder.encodeObject(kind.rawValue, forKey: "rawKind")
         encoder.encodeObject(subjectType.rawValue, forKey: "rawSubjectType")
         // links
-        encoder.encodeObject(subject, forKey: "subject")
+//        encoder.encodeObject(subject, forKey: "subject")
     }
 
 // MARK: JSONAble
@@ -130,10 +140,9 @@ public final class Activity: JSONAble, NSCoding {
             subjectType: subjectType
         )
         // links
-//        if let linksNode = data["links"] as? [String: AnyObject] {
-//            let links = ElloLinkedStore.sharedInstance.parseLinks(linksNode)
-//            activity.subject = links["subject"] as? JSONAble
-//        }
+        activity.links = data["links"] as? [String: AnyObject]
+        // store self in collection
+        ElloLinkedStore.sharedInstance.setObject(activity, forKey: activity.id, inCollection: "activities")
 
         return activity
     }
