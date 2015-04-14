@@ -165,13 +165,13 @@ public class StreamHeaderCell: UICollectionViewCell {
     }
 
     private func styleUsernameTextView() {
-        usernameTextView.customFont = UIFont.typewriterFont(14.0)
+        usernameTextView.customFont = UIFont.typewriterFont(12.0)
         usernameTextView.textColor = UIColor.greyA()
     }
 
     private func styleTimestampLabel() {
         timestampLabel.textColor = UIColor.greyA()
-        timestampLabel.font = UIFont.typewriterFont(14.0)
+        timestampLabel.font = UIFont.typewriterFont(12.0)
     }
 
     private func repositionBottomContent() {

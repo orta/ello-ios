@@ -54,7 +54,7 @@ public class ProfileHeaderCell: UICollectionViewCell {
     }
 
     private func style() {
-        usernameLabel.font = UIFont.regularBoldFont(18.0)
+        usernameLabel.font = UIFont.regularBoldFont(24.0)
         usernameLabel.textColor = UIColor.blackColor()
 
         nameLabel.font = UIFont.typewriterFont(12.0)
