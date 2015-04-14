@@ -11,7 +11,7 @@ import Moya
 import SwiftyJSON
 
 public typealias StreamSuccessCompletion = (jsonables: [JSONAble], responseConfig: ResponseConfig) -> ()
-public typealias ProfileSuccessCompletion = (user: User, responseConfig: ResponseConfig) -> ()
+public typealias UserSuccessCompletion = (user: User, responseConfig: ResponseConfig) -> ()
 
 public class StreamService: NSObject {
 
@@ -43,7 +43,7 @@ public class StreamService: NSObject {
         )
     }
 
-    public func loadUser(endpoint: ElloAPI, success: ProfileSuccessCompletion, failure: ElloFailureCompletion?) {
+    public func loadUser(endpoint: ElloAPI, success: UserSuccessCompletion, failure: ElloFailureCompletion?) {
         ElloProvider.elloRequest(endpoint,
             method: .GET,
             success: { (data, responseConfig) in

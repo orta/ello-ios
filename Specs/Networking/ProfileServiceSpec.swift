@@ -35,7 +35,7 @@ class ProfileServiceSpec: QuickSpec {
                     expect(loadedUser).toNot(beNil())
 
                     //smoke test the user
-                    expect(loadedUser!.userId) == "42"
+                    expect(loadedUser!.id) == "42"
                     expect(loadedUser!.username) == "archer"
                     expect(loadedUser!.formattedShortBio) == "<p>Have been <strong>spying</strong> for a while now.</p>"
                     expect(loadedUser!.coverImageURL?.absoluteString) == "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/cover_image/565/ello-hdpi-768defd5.jpg"
@@ -61,7 +61,7 @@ class ProfileServiceSpec: QuickSpec {
                     expect(loadedUsers!.count).to(equal(2))
 
                     //smoke test the user
-                    expect(loadedUsers!.first!.userId) == "666"
+                    expect(loadedUsers!.first!.id) == "666"
                     expect(loadedUsers!.first!.username) == "cfiggis"
                 }
             }

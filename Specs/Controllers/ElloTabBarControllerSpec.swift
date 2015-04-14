@@ -41,7 +41,7 @@ class ElloTabBarControllerSpec: QuickSpec {
 
             it("sets friends as the selected tab") {
                 if let navigationController = controller.selectedViewController as? ElloNavigationController {
-                    navigationController.currentUser = User.fakeCurrentUser("foo")
+                    navigationController.currentUser = User.stub(["username": "foo"])
                     if let firstController = navigationController.topViewController as? BaseElloViewController {
                         expect(firstController).to(beAKindOf(StreamContainerViewController.self))
                     }

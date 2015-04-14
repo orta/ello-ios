@@ -55,7 +55,7 @@ class StreamServiceSpec: QuickSpec {
                         expect(textRegion.content) == "etest post to determine what happens when someone sees this for the first time as a repost from someone they follow. dcdoran will repost this."
 
                         let post0Author:User = post0.author!
-                        expect(post0Author.userId) == "27"
+                        expect(post0Author.id) == "27"
                         expect(post0Author.href) == "/api/edge/users/27"
                         expect(post0Author.username) == "dcdoran"
                         expect(post0Author.name) == "Sterling"
@@ -112,7 +112,7 @@ class StreamServiceSpec: QuickSpec {
 
                         expect(commentAuthor).to(beAnInstanceOf(User.self))
                         expect(commentAuthor.name) == "Pamilanderson"
-                        expect(commentAuthor.userId) == "345"
+                        expect(commentAuthor.id) == "345"
                         expect(commentAuthor.username) == "pam"
                         expect(commentAuthor.href) == "/api/edge/users/345"
                         expect(commentAuthor.experimentalFeatures) == true

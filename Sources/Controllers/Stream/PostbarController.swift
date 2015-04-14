@@ -16,7 +16,7 @@ public class PostbarController: NSObject, PostbarDelegate {
     weak var presentingController: StreamViewController?
     let collectionView: UICollectionView
     let dataSource: StreamDataSource
-    var currentUser: User?   
+    var currentUser: User?
 
     // on the post detail screen, the comments don't show/hide
     var toggleableComments: Bool = true
@@ -92,7 +92,7 @@ public class PostbarController: NSObject, PostbarDelegate {
             if let post = self.postForCell(cell) {
                 service.deletePost(post.postId,
                     success: {
-                        postNotification(PostDeletedNotification, (post.postId, post.author?.userId))
+                        postNotification(PostDeletedNotification, (post.postId, post.author?.id))
                     }, failure: { (error, statusCode)  in
                         // TODO: add error handling
                         println("failed to delete post, error: \(error.localizedDescription)")

@@ -45,7 +45,7 @@ class SensitiveSettingsViewControllerSpec: QuickSpec {
 
         describe("viewDidLoad") {
             it("sets the text fields from the current user") {
-                let user: User = stub(["username": "TestName", "email": "some@guy.com"])
+                let user: User = stub(["username": "TestName", "profile": Profile.stub(["email": "some@guy.com"])])
                 subject.currentUser = user
                 subject.viewDidLoad()
 
@@ -57,7 +57,7 @@ class SensitiveSettingsViewControllerSpec: QuickSpec {
 
         describe("isUpdatable") {
             beforeEach {
-                let user: User = stub(["username": "TestName", "email": "some@guy.com"])
+                let user: User = stub(["username": "TestName", "profile": Profile.stub(["email": "some@guy.com"])])
                 subject.currentUser = user
                 subject.viewDidLoad()
             }
@@ -135,7 +135,7 @@ class SensitiveSettingsViewControllerSpec: QuickSpec {
 
         describe("height") {
             beforeEach {
-                let user: User = stub(["username": "TestName", "email": "some@guy.com"])
+                let user: User = stub(["username": "TestName", "profile": Profile.stub(["email": "some@guy.com"])])
                 subject.currentUser = user
                 subject.viewDidLoad()
             }

@@ -35,6 +35,15 @@ public final class ImageAttachment: NSObject, NSCoding {
     }
 
 // MARK: NSCoding
+    
+    required public init(coder aDecoder: NSCoder) {
+        let decoder = Decoder(aDecoder)
+        self.url = decoder.decodeOptionalKey("url")
+        self.height = decoder.decodeOptionalKey("height")
+        self.width = decoder.decodeOptionalKey("width")
+        self.size = decoder.decodeOptionalKey("size")
+        self.imageType = decoder.decodeOptionalKey("imageType")
+    }
 
     public func encodeWithCoder(encoder: NSCoder) {
         if let url = self.url {
@@ -56,14 +65,5 @@ public final class ImageAttachment: NSObject, NSCoding {
         if let size = self.size {
             encoder.encodeInt64(Int64(size), forKey: "size")
         }
-    }
-
-    required public init(coder aDecoder: NSCoder) {
-        let decoder = Decoder(aDecoder)
-        self.url = decoder.decodeOptionalKey("url")
-        self.height = decoder.decodeOptionalKey("height")
-        self.width = decoder.decodeOptionalKey("width")
-        self.size = decoder.decodeOptionalKey("size")
-        self.imageType = decoder.decodeOptionalKey("imageType")
     }
 }

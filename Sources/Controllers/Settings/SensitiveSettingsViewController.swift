@@ -34,7 +34,7 @@ public class SensitiveSettingsViewController: UITableViewController {
 
     public var isUpdatable: Bool {
         return currentUser?.username != usernameView.textField.text
-            || currentUser?.email != emailView.textField.text
+            || currentUser?.profile?.email != emailView.textField.text
             || !passwordView.textField.text.isEmpty
     }
 
@@ -90,7 +90,7 @@ public class SensitiveSettingsViewController: UITableViewController {
         }
 
         emailView.label.setLabelText(NSLocalizedString("Email", comment: "email key"))
-        emailView.textField.text = currentUser?.email
+        emailView.textField.text = currentUser?.profile?.email
         emailView.textFieldDidChange = { text in
             self.valueChanged()
             self.emailView.setState(.Loading)
@@ -101,7 +101,7 @@ public class SensitiveSettingsViewController: UITableViewController {
             self.validationCancel = Functional.cancelableDelay(0.5) {
                 if text.isEmpty {
                     self.emailView.setState(.Error)
-                } else if text == self.currentUser?.email {
+                } else if text == self.currentUser?.profile?.email {
                     self.emailView.setState(.None)
                 } else if text.isValidEmail() {
                     AvailabilityService().emailAvailability(text, success: { availability in

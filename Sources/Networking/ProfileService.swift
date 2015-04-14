@@ -18,7 +18,7 @@ public struct ProfileService {
 
     public init(){}
     
-    public func loadCurrentUser(success: ProfileSuccessCompletion, failure: ElloFailureCompletion?) {
+    public func loadCurrentUser(success: UserSuccessCompletion, failure: ElloFailureCompletion?) {
         ElloProvider.elloRequest(ElloAPI.Profile,
             method: .GET,
             success: { (data, responseConfig) in

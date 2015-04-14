@@ -44,7 +44,7 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         ElloHUD.showLoadingHudInView(streamViewController.view)
         self.user = user
         self.responseConfig = responseConfig
-        self.userParam = self.user!.userId
+        self.userParam = self.user!.id
         self.streamViewController.streamKind = .Profile
         super.init(nibName: "ProfileViewController", bundle: nil)
     }
@@ -167,7 +167,9 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         }
 
         var items: [StreamCellItem] = [StreamCellItem(jsonable: user, type: StreamCellType.ProfileHeader, data: nil, oneColumnCellHeight: 0.0, multiColumnCellHeight: 0.0, isFullWidth: true)]
-        items += StreamCellItemParser().parse(user.posts, streamKind: streamViewController.streamKind)
+        if let posts = user.posts {
+            items += StreamCellItemParser().parse(posts, streamKind: streamViewController.streamKind)
+        }
         streamViewController.appendUnsizedCellItems(items)
         streamViewController.doneLoading()
     }

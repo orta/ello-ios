@@ -86,7 +86,7 @@ public class StreamableViewController : BaseElloViewController {
                 return user.username == usernamePart
             }
             else {
-                return user.userId == profileVC.userParam
+                return user.id == profileVC.userParam
             }
         }
         return false
@@ -107,11 +107,11 @@ extension StreamableViewController: PostTappedDelegate {
 // MARK: UserTappedDelegate
 extension StreamableViewController: UserTappedDelegate {
     public func userTapped(user: User) {
-        if alreadyOnUserProfile(user.userId) {
+        if alreadyOnUserProfile(user.id) {
             return
         }
 
-        let vc = ProfileViewController(userParam: user.userId)
+        let vc = ProfileViewController(userParam: user.id)
         vc.currentUser = currentUser
         vc.willPresentStreamable(scrollLogic.isShowing)
         self.navigationController?.pushViewController(vc, animated: true)

@@ -217,7 +217,7 @@ class StreamViewControllerSpec: QuickSpec {
                 beforeEach {
                     let service = StreamService()
                     service.loadUser(ElloAPI.FriendStream, success: { (user, responseConfig) in
-                        controller.appendUnsizedCellItems(StreamCellItemParser().parse(user.posts, streamKind: .Friend))
+                        controller.appendUnsizedCellItems(StreamCellItemParser().parse(user.posts!, streamKind: .Friend))
                     }, failure: nil)
                 }
 

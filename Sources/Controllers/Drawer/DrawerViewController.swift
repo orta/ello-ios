@@ -93,7 +93,7 @@ extension DrawerViewController: UICollectionViewDataSource {
 // MARK: UICollectionViewDelegate
 extension DrawerViewController: UICollectionViewDelegate {
     public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let profile = dataSource.userForIndexPath(indexPath).map { ProfileViewController(userParam: $0.userId) }
+        let profile = dataSource.userForIndexPath(indexPath).map { ProfileViewController(userParam: $0.id) }
 
         if let profileViewController = profile {
             navigationController?.pushViewController(profileViewController, animated: true)
@@ -133,7 +133,14 @@ private extension DrawerViewController {
     }
 
     func registerCells() {
-        let fakeUser = User.fakeCurrentUser("")
+        let fakeUser = User(
+            id: "42",
+            href: "/api/edge/users/42",
+            username: "username",
+            name: "Unknown",
+            experimentalFeatures: false,
+            relationshipPriority: .None
+        )
         collectionView.registerNib(AvatarCell.nib(), forCellWithReuseIdentifier: AvatarCellPresenter(user: fakeUser).reuseIdentifier)
         collectionView.registerClass(StreamLoadingCell.self, forCellWithReuseIdentifier: LoadingCellPresenter().reuseIdentifier)
     }

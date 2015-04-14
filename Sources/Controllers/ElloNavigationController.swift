@@ -24,17 +24,17 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
     var backGesture: UIScreenEdgePanGestureRecognizer?
 
     enum RootViewControllers: String {
-        case Notifications = "NotificationsViewController"
-        case Profile = "ProfileViewController"
-        case Omnibar = "OmnibarViewController"
-        case Discover = "DiscoverViewController"
+        case NotificationsController = "NotificationsViewController"
+        case ProfileController = "ProfileViewController"
+        case OmnibarController = "OmnibarViewController"
+        case DiscoverController = "DiscoverViewController"
 
         func controllerInstance(user: User, responseConfig: ResponseConfig) -> BaseElloViewController {
             switch self {
-            case Notifications: return NotificationsViewController()
-            case Profile: return ProfileViewController(user: user, responseConfig: responseConfig)
-            case Omnibar: return OmnibarViewController()
-            case Discover: return DiscoverViewController()
+            case NotificationsController: return NotificationsViewController()
+            case ProfileController: return ProfileViewController(user: user, responseConfig: responseConfig)
+            case OmnibarController: return OmnibarViewController()
+            case DiscoverController: return DiscoverViewController()
             }
         }
     }
