@@ -21,7 +21,9 @@ public class DynamicSettingCell: UITableViewCell {
     public var setting: DynamicSetting?
 
     @IBAction public func toggleButtonTapped() {
-        setting.map { delegate?.toggleSetting($0) }
-        toggleButton.value = !toggleButton.value
+        if let setting = setting {
+            delegate?.toggleSetting(setting)
+            toggleButton.value = !toggleButton.value
+        }
     }
 }
