@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DynamicSettingCategoryViewController: UITableViewController, DynamicSettingCellDelegate {
+class DynamicSettingCategoryViewController: UITableViewController {
     var category: DynamicSettingCategory?
     var currentUser: User?
 
@@ -37,8 +37,8 @@ class DynamicSettingCategoryViewController: UITableViewController, DynamicSettin
         cell.delegate = self
         return cell
     }
+}
 
-    func toggleSetting(setting: DynamicSetting) {
-        
-    }
+extension DynamicSettingCategoryViewController: DynamicSettingCellDelegate {
+    func toggleSetting(setting: DynamicSetting) { }
 }
