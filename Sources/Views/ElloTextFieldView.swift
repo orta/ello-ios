@@ -24,8 +24,8 @@ public class ElloTextFieldView: UIView {
 
     var height: CGFloat {
         var height = ElloTextFieldViewHeight
-        height += errorLabel.frame.height == 0 ? 0 : errorLabel.frame.height + 8
-        height += messageLabel.frame.height == 0 ? 0 : messageLabel.frame.height + 20
+        height += (errorLabel.text?.isEmpty ?? true) ? 0 : errorLabel.frame.height + 8
+        height += (messageLabel.text?.isEmpty ?? true) ? 0 : messageLabel.frame.height + 20
         return height
     }
 
