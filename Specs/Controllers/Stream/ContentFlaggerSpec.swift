@@ -39,14 +39,14 @@ class ContentFlaggerSpec: QuickSpec {
             it("presents an AlertController") {
 
                 subject.displayFlaggingSheet()
-                let presentedVC = subject.presentingController.presentedViewController as! AlertViewController
+                let presentedVC = subject.presentingController?.presentedViewController as! AlertViewController
 
                 expect(presentedVC).to(beAKindOf(AlertViewController.self))
             }
 
             it("the correct kind is associated with each flag type") {
                 subject.displayFlaggingSheet()
-                let presentedVC = subject.presentingController.presentedViewController as! AlertViewController
+                let presentedVC = subject.presentingController?.presentedViewController as! AlertViewController
 
                 let actions = presentedVC.actions
 

@@ -14,7 +14,8 @@ public struct StreamToggleCellPresenter {
         cell:UICollectionViewCell,
         streamCellItem:StreamCellItem,
         streamKind: StreamKind,
-        indexPath: NSIndexPath)
+        indexPath: NSIndexPath,
+        currentUser: User?)
     {
         if let cell = cell as? StreamToggleCell {
             if let post = streamCellItem.jsonable as? Post {

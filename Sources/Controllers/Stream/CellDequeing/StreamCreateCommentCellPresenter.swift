@@ -12,7 +12,8 @@ public struct StreamCreateCommentCellPresenter {
         cell:UICollectionViewCell,
         streamCellItem:StreamCellItem,
         streamKind: StreamKind,
-        indexPath: NSIndexPath)
+        indexPath: NSIndexPath,
+        currentUser: User?)
     {
         if let cell = cell as? StreamCreateCommentCell {
             let comment = streamCellItem.jsonable as! Comment

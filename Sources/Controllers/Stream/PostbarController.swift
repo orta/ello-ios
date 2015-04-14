@@ -8,12 +8,15 @@
 
 import Foundation
 
+public let PostDeletedNotification = TypedNotification<(String,String?)>(name: "postDeletedNotification")
+
+
 public class PostbarController: NSObject, PostbarDelegate {
 
-    let presentingController: StreamViewController
+    weak var presentingController: StreamViewController?
     let collectionView: UICollectionView
     let dataSource: StreamDataSource
-    var currentUser: User?
+    var currentUser: User?   
 
     // on the post detail screen, the comments don't show/hide
     var toggleableComments: Bool = true
@@ -79,6 +82,32 @@ public class PostbarController: NSObject, PostbarDelegate {
         }
     }
 
+    public func deleteButtonTapped(cell:UICollectionViewCell) {
+        let message = NSLocalizedString("Delete Post?", comment: "Delete Post")
+        let alertController = AlertViewController(message: message, textAlignment: .Center)
+
+        let yesAction = AlertAction(title: NSLocalizedString("Yes", comment: "Yes"), style: ActionStyle.Dark) {
+            action in
+            let service = PostService()
+            if let post = self.postForCell(cell) {
+                service.deletePost(post.postId,
+                    success: {
+                        postNotification(PostDeletedNotification, (post.postId, post.author?.userId))
+                    }, failure: { (error, statusCode)  in
+                        // TODO: add error handling
+                        println("failed to delete post, error: \(error.localizedDescription)")
+                    }
+                )
+            }
+        }
+        let noAction = AlertAction(title: NSLocalizedString("No", comment: "No"), style: .Light, handler: .None)
+
+        alertController.addAction(yesAction)
+        alertController.addAction(noAction)
+
+        presentingController?.presentViewController(alertController, animated: true, completion: .None)
+    }
+
     public func lovesButtonTapped(cell:UICollectionViewCell) {
         println("lovesButtonTapped")
     }
@@ -88,40 +117,39 @@ public class PostbarController: NSObject, PostbarDelegate {
     }
 
     public func shareButtonTapped(cell: UICollectionViewCell) {
-        if let indexPath = collectionView.indexPathForCell(cell) {
-            if let post = dataSource.postForIndexPath(indexPath) {
-                if let shareLink = post.shareLink {
-                    println("shareLink = \(shareLink)")
-                    let activityVC = UIActivityViewController(activityItems: [shareLink], applicationActivities:nil)
-                    presentingController.presentViewController(activityVC, animated: true) { }
-                }
-            }
+        if let indexPath = collectionView.indexPathForCell(cell),
+           let post = dataSource.postForIndexPath(indexPath),
+           let shareLink = post.shareLink
+        {
+            println("shareLink = \(shareLink)")
+            let activityVC = UIActivityViewController(activityItems: [shareLink], applicationActivities:nil)
+            presentingController?.presentViewController(activityVC, animated: true) { }
         }
     }
 
     public func flagPostButtonTapped(cell: UICollectionViewCell) {
-        if let indexPath = collectionView.indexPathForCell(cell) {
-            if let post = dataSource.postForIndexPath(indexPath) {
-                let flagger = ContentFlagger(presentingController: presentingController,
-                    flaggableId: post.postId,
-                    flaggableContentType: .Post,
-                    commentPostId: nil)
+        if let indexPath = collectionView.indexPathForCell(cell),
+           let post = dataSource.postForIndexPath(indexPath)
+        {
+            let flagger = ContentFlagger(presentingController: presentingController,
+                flaggableId: post.postId,
+                flaggableContentType: .Post,
+                commentPostId: nil)
 
-                flagger.displayFlaggingSheet()
-            }
+            flagger.displayFlaggingSheet()
         }
     }
 
     public func flagCommentButtonTapped(cell: UICollectionViewCell) {
-        if let indexPath = collectionView.indexPathForCell(cell) {
-            if let comment = dataSource.commentForIndexPath(indexPath) {
-                let flagger = ContentFlagger(presentingController: presentingController,
-                    flaggableId: comment.commentId,
-                    flaggableContentType: .Comment,
-                    commentPostId: comment.parentPost?.postId)
+        if let indexPath = collectionView.indexPathForCell(cell),
+           let comment = dataSource.commentForIndexPath(indexPath)
+        {
+            let flagger = ContentFlagger(presentingController: presentingController,
+                flaggableId: comment.commentId,
+                flaggableContentType: .Comment,
+                commentPostId: comment.parentPost?.postId)
 
-                flagger.displayFlaggingSheet()
-            }
+            flagger.displayFlaggingSheet()
         }
     }
 
@@ -135,14 +163,19 @@ public class PostbarController: NSObject, PostbarDelegate {
 
 // MARK: - Private
 
-    private func postTappedForCell(cell: UICollectionViewCell) {
+    private func postForCell(cell: UICollectionViewCell) -> Post? {
         if let indexPath = collectionView.indexPathForCell(cell) {
-            if let post = dataSource.postForIndexPath(indexPath) {
-                let items = self.dataSource.cellItemsForPost(post)
-                // This is a bit dirty, we should not call a method on a compositionally held
-                // controller's postTappedDelegate. Need to chat about this with the crew.
-                presentingController.postTappedDelegate?.postTapped(post, initialItems: items)
-            }
+            return dataSource.postForIndexPath(indexPath)
+        }
+        return nil
+    }
+
+    private func postTappedForCell(cell: UICollectionViewCell) {
+        if let post = postForCell(cell) {
+            let items = self.dataSource.cellItemsForPost(post)
+            // This is a bit dirty, we should not call a method on a compositionally held
+            // controller's postTappedDelegate. Need to chat about this with the crew.
+            presentingController?.postTappedDelegate?.postTapped(post, initialItems: items)
         }
     }
 

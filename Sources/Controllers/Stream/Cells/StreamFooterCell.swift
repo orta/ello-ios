@@ -63,10 +63,14 @@ public class StreamFooterCell: UICollectionViewCell {
         get { return self.replyItem.customView as! StreamFooterButton }
     }
 
+    let deleteItem:UIBarButtonItem = ElloPostToolBarOption.Delete.barButtonItem()
+    var deleteButton:StreamFooterButton {
+        get { return self.deleteItem.customView as! StreamFooterButton }
+    }
 
-    public var streamKind:StreamKind? {
+    public var footerConfig: (ownPost: Bool, streamKind: StreamKind?) = (false, nil) {
         didSet {
-            if let streamKind = streamKind {
+            if let streamKind = footerConfig.streamKind {
                 if streamKind.isGridLayout {
                     self.toolBar.items = [
                         fixedItem(-15), commentsItem, flexibleItem(), repostItem, shareItem, fixedItem(-17)
@@ -78,8 +82,9 @@ public class StreamFooterCell: UICollectionViewCell {
                     self.toolBar.items = [
                         viewsItem, commentsItem, repostItem
                     ]
+                    let rightItem = footerConfig.ownPost ? deleteItem : flagItem
                     self.bottomToolBar.items = [
-                        flexibleItem(), shareItem, flagItem
+                        flexibleItem(), shareItem, rightItem
                     ]
                 }
             }
@@ -169,6 +174,7 @@ public class StreamFooterCell: UICollectionViewCell {
         repostButton.addTarget(self, action: "repostButtonTapped:", forControlEvents: .TouchUpInside)
         shareButton.addTarget(self, action: "shareButtonTapped:", forControlEvents: .TouchUpInside)
         viewsButton.addTarget(self, action: "viewsButtonTapped:", forControlEvents: .TouchUpInside)
+        deleteButton.addTarget(self, action: "deleteButtonTapped:", forControlEvents: .TouchUpInside)
     }
 
 // MARK: - IBActions
@@ -178,7 +184,7 @@ public class StreamFooterCell: UICollectionViewCell {
     }
 
     @IBAction func commentsButtonTapped(sender: CommentButton) {
-        if let streamKind = streamKind {
+        if let streamKind = footerConfig.streamKind {
             if streamKind.isGridLayout {
                 delegate?.viewsButtonTapped(self)
                 return
@@ -219,6 +225,10 @@ public class StreamFooterCell: UICollectionViewCell {
 
     @IBAction func shareButtonTapped(sender: StreamFooterButton) {
         delegate?.shareButtonTapped(self)
+    }
+
+    @IBAction func deleteButtonTapped(sender: StreamFooterButton) {
+        delegate?.deleteButtonTapped(self)
     }
 
     @IBAction func replyButtonTapped(sender: StreamFooterButton) {

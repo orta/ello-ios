@@ -14,7 +14,8 @@ public struct StreamImageCellPresenter {
         cell:UICollectionViewCell,
         streamCellItem:StreamCellItem,
         streamKind: StreamKind,
-        indexPath: NSIndexPath)
+        indexPath: NSIndexPath,
+        currentUser: User?)
     {
         if let cell = cell as? StreamImageCell {
             if let photoData = streamCellItem.data as! ImageRegion? {

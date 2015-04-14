@@ -15,7 +15,8 @@ public struct StreamTextCellPresenter {
         cell:UICollectionViewCell,
         streamCellItem:StreamCellItem,
         streamKind: StreamKind,
-        indexPath: NSIndexPath)
+        indexPath: NSIndexPath,
+        currentUser: User?)
     {
         if let cell = cell as? StreamTextCell {
             cell.contentView.alpha = 0.0

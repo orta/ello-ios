@@ -9,6 +9,11 @@
 private let DesiredWidth: CGFloat = 300
 private let MaxHeight = UIScreen.mainScreen().applicationFrame.height - 20
 
+public enum AlertType {
+    case Normal
+    case Danger
+}
+
 public class AlertViewController: UIViewController {
     @IBOutlet public weak var tableView: UITableView!
     @IBOutlet public weak var topPadding: NSLayoutConstraint!
@@ -24,6 +29,7 @@ public class AlertViewController: UIViewController {
 
     public private(set) var actions: [AlertAction] = []
     private let textAlignment: NSTextAlignment
+    private let type: AlertType
 
     private let headerLabel: ElloLabel = {
         let label = ElloLabel()
@@ -40,9 +46,10 @@ public class AlertViewController: UIViewController {
         return 2 * topPadding.constant
     }
 
-    public init(message: String?, textAlignment: NSTextAlignment = .Center, dismissable: Bool = true) {
+    public init(message: String?, textAlignment: NSTextAlignment = .Center, dismissable: Bool = true, type: AlertType = .Normal) {
         self.textAlignment = textAlignment
         self.dismissable = dismissable
+        self.type = type
 
         super.init(nibName: "AlertViewController", bundle: NSBundle(forClass: AlertViewController.self))
 
@@ -51,6 +58,9 @@ public class AlertViewController: UIViewController {
         if let text = message {
             headerLabel.setLabelText(text, color: UIColor.blackColor())
         }
+        view.backgroundColor = type == .Danger ? UIColor.redColor() : UIColor.whiteColor()
+        tableView.backgroundColor = type == .Danger ? UIColor.redColor() : UIColor.whiteColor()
+        headerLabel.backgroundColor = type == .Danger ? UIColor.redColor() : UIColor.whiteColor()
     }
 
     public required init(coder aDecoder: NSCoder) {
@@ -113,7 +123,7 @@ extension AlertViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCellWithIdentifier(AlertCell.reuseIdentifier(), forIndexPath: indexPath) as! UITableViewCell
         let action = actions.safeValue(indexPath.row)
         let presenter = action.map { AlertCellPresenter(action: $0, textAlignment: textAlignment) }
-        presenter?.configureCell(cell)
+        presenter?.configureCell(cell, type: self.type)
         return cell
     }
 }

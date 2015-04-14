@@ -10,13 +10,21 @@ struct AlertCellPresenter {
     let action: AlertAction
     let textAlignment: NSTextAlignment
 
-    func configureCell(cell: UITableViewCell) {
+    func configureCell(cell: UITableViewCell, type: AlertType = .Normal) {
         let alertCell = cell as! AlertCell
 
         switch action.style {
+        case .White: configureForWhiteAction(alertCell)
         case .Light: configureForLightAction(alertCell)
         case .Dark: configureForDarkAction(alertCell)
         }
+
+        cell.contentView.backgroundColor = type == .Danger ? UIColor.redColor() : UIColor.whiteColor()
+    }
+
+    func configureForWhiteAction(cell: AlertCell) {
+        cell.label.setLabelText(action.title, color: UIColor.blackColor(), alignment: textAlignment)
+        cell.background.backgroundColor = UIColor.whiteColor()
     }
 
     func configureForLightAction(cell: AlertCell) {

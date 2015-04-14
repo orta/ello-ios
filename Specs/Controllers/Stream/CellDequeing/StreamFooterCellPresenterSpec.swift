@@ -14,14 +14,14 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0))
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
                     expect(cell.isOpen).to(beFalse())
                     expect(cell.commentsButton.selected).to(beFalse())
                     expect(cell.commentsOpened).to(beFalse())
                     expect(cell.scrollView.scrollEnabled).to(beTrue())
                     expect(cell.chevronButton.hidden).to(beFalse())
-                    expect(cell.streamKind?.name) == "Friends"
+                    expect(cell.footerConfig.streamKind?.name) == "Friends"
                     expect(cell.views) == "9"
                     expect(cell.reposts) == "4"
                     expect(cell.comments) == "6"
@@ -35,14 +35,14 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Noise, indexPath: NSIndexPath(forItem: 0, inSection: 0))
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Noise, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
                     expect(cell.isOpen).to(beFalse())
                     expect(cell.commentsButton.selected).to(beFalse())
                     expect(cell.commentsOpened).to(beFalse())
                     expect(cell.scrollView.scrollEnabled).to(beFalse())
                     expect(cell.chevronButton.hidden).to(beTrue())
-                    expect(cell.streamKind?.name) == "Noise"
+                    expect(cell.footerConfig.streamKind?.name) == "Noise"
                     expect(cell.views) == ""
                     expect(cell.reposts) == ""
                     expect(cell.comments) == "6"
@@ -56,13 +56,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .PostDetail(postParam: "768"), indexPath: NSIndexPath(forItem: 0, inSection: 0))
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .PostDetail(postParam: "768"), indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
                     expect(cell.isOpen).to(beFalse())
                     expect(cell.commentsButton.selected).to(beFalse())
                     expect(cell.scrollView.scrollEnabled).to(beTrue())
                     expect(cell.chevronButton.hidden).to(beFalse())
-                    expect(cell.streamKind?.name) == "Post Detail"
+                    expect(cell.footerConfig.streamKind?.name) == "Post Detail"
                     expect(cell.views) == "9"
                     expect(cell.reposts) == "4"
                     expect(cell.comments) == "6"
@@ -82,13 +82,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     // set the state to loading
                     item.state = .Loading
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0))
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
                     expect(cell.isOpen).to(beFalse())
                     expect(cell.commentsOpened).to(beFalse())
                     expect(cell.scrollView.scrollEnabled).to(beTrue())
                     expect(cell.chevronButton.hidden).to(beFalse())
-                    expect(cell.streamKind?.name) == "Friends"
+                    expect(cell.footerConfig.streamKind?.name) == "Friends"
                     expect(cell.views) == "9"
                     expect(cell.reposts) == "4"
                     expect(cell.comments) == "6"
@@ -110,13 +110,13 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         // set the state to expanded
                         item.state = .Expanded
 
-                        StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0))
+                        StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
                         expect(cell.isOpen).to(beFalse())
                         expect(cell.commentsOpened).to(beTrue())
                         expect(cell.scrollView.scrollEnabled).to(beTrue())
                         expect(cell.chevronButton.hidden).to(beFalse())
-                        expect(cell.streamKind?.name) == "Friends"
+                        expect(cell.footerConfig.streamKind?.name) == "Friends"
                         expect(cell.views) == "9"
                         expect(cell.reposts) == "4"
                         expect(cell.comments) == "6"
@@ -137,14 +137,14 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         // set the state to none
                         item.state = .None
 
-                        StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0))
+                        StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
                         expect(cell.isOpen).to(beFalse())
                         expect(cell.commentsOpened).to(beFalse())
                         expect(item.state) == StreamCellState.Collapsed
                         expect(cell.scrollView.scrollEnabled).to(beTrue())
                         expect(cell.chevronButton.hidden).to(beFalse())
-                        expect(cell.streamKind?.name) == "Friends"
+                        expect(cell.footerConfig.streamKind?.name) == "Friends"
                         expect(cell.views) == "9"
                         expect(cell.reposts) == "4"
                         expect(cell.comments) == "6"

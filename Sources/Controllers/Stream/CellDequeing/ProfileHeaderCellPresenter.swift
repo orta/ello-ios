@@ -15,7 +15,8 @@ public struct ProfileHeaderCellPresenter {
         cell:UICollectionViewCell,
         streamCellItem:StreamCellItem,  
         streamKind: StreamKind,
-        indexPath: NSIndexPath)
+        indexPath: NSIndexPath,
+        currentUser: User?)
     {
         if let cell = cell as? ProfileHeaderCell {
             let user = streamCellItem.jsonable as! User

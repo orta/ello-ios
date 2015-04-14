@@ -57,7 +57,36 @@ class StreamViewControllerSpec: QuickSpec {
 
         }
 
-        describe("-viewDidLoad:") {
+        xdescribe("viewDidAppear(_:)") {
+
+            context("should reload") {
+
+                context("post detail stream kind") {
+
+                    context("deleted post is current user's post") {
+                        it("pops the view controller from the nav stack"){}
+                    }
+
+                    context("deteted post is NOT current user's post") {
+                        it("does not pop the view controller from the nav stack"){}
+                    }
+                }
+
+                context("not post detail stream kind") {
+                    it("reloads the content"){}
+                }
+            }
+
+            context("should not reload") {
+                it("does not reload"){}
+            }
+        }
+
+        xdescribe("viewDidDisappear(_:)") {
+            it("prevents reloading content if stale"){}
+        }
+
+        describe("viewDidLoad()") {
 
             beforeEach {
                 controller = StreamViewController.instantiateFromStoryboard()
@@ -136,7 +165,7 @@ class StreamViewControllerSpec: QuickSpec {
                     expect(controller as WebLinkDelegate).notTo(beNil())
                 }
 
-                describe("-webLinkTapped:data:") {
+                describe("webLinkTapped(_:data:)") {
 
                     it("posts a notification if type .External") {
 
@@ -166,7 +195,7 @@ class StreamViewControllerSpec: QuickSpec {
                     expect(controller as SSPullToRefreshViewDelegate).notTo(beNil())
                 }
 
-                describe("-pullToRefreshViewShouldStartLoading:") {
+                describe("pullToRefreshViewShouldStartLoading(_:)") {
 
                     it("returns true") {
                         let shouldStartLoading = controller.pullToRefreshViewShouldStartLoading(controller.pullToRefreshView)
@@ -175,7 +204,7 @@ class StreamViewControllerSpec: QuickSpec {
                     }
                 }
 
-                describe("-pullToRefreshViewDidStartLoading:") {
+                describe("pullToRefreshViewDidStartLoading(_:)") {
 
                     //TODO: verify data
                     xit("reloads the collectionview") {
@@ -196,7 +225,7 @@ class StreamViewControllerSpec: QuickSpec {
                     expect(controller as UserDelegate).notTo(beNil())
                 }
 
-                describe("-userTapped:") {
+                describe("userTappedCell(_:)") {
 
                     xit("presents a ProfileViewController") {
                         let cell = controller.collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0))
@@ -213,7 +242,7 @@ class StreamViewControllerSpec: QuickSpec {
                     expect(controller as UICollectionViewDelegate).notTo(beNil())
                 }
 
-                describe("-collectionView:didSelectItemAtIndexPath:") {
+                describe("collectionView(_:didSelectItemAtIndexPath:)") {
 
                     context("a post is found for the given indexPath") {
 
@@ -222,7 +251,7 @@ class StreamViewControllerSpec: QuickSpec {
                         }
                     }
 
-                    context("a create-comment cell is found for the given indexPath") {
+                    context("a create comment cell is found for the given indexPath") {
 
                         xit("calls createComment:fromController: on the createCommentDelegate") {
                             // need to wire up a collectionview and datasource
@@ -238,7 +267,7 @@ class StreamViewControllerSpec: QuickSpec {
 
                 }
 
-                describe("-collectionView:shouldSelectItemAtIndexPath:") {
+                describe("_:shouldSelectItemAtIndexPath:)") {
 
                     xit("returns true if the streamcell item type is .Header") {
                         // need to wire up a collectionview and datasource
@@ -252,7 +281,7 @@ class StreamViewControllerSpec: QuickSpec {
                     expect(controller as StreamCollectionViewLayoutDelegate).notTo(beNil())
                 }
 
-                describe("-collectionView:sizeForItemAtIndexPath:") {
+                describe("collectionView(_:layout:sizeForItemAtIndexPath:)") {
 
                     context("one column layout") {
 
@@ -326,7 +355,7 @@ class StreamViewControllerSpec: QuickSpec {
 
                 }
 
-                describe("-collectionView:groupForItemAtIndexPath:") {
+                describe("collectionView(_:layout:groupForItemAtIndexPath:)") {
 
                     xit("returns the same group for all cells in a post") {
 
@@ -337,7 +366,7 @@ class StreamViewControllerSpec: QuickSpec {
                     }
                 }
 
-                describe("-collectionView:heightForItemAtIndexPath:") {
+                describe("collectionView(_:layout:heightForItemAtIndexPath:numberOfColumns:)") {
 
                     context("one column layout") {
 
@@ -410,7 +439,7 @@ class StreamViewControllerSpec: QuickSpec {
                     }
                 }
 
-                describe("-collectionView:maintainAspectRatioForItemAtIndexPath:") {
+                describe("collectionView(_:layout:maintainAspectRatioForItemAtIndexPath:)") {
 
                     xit("returns false for a Header Cell") {
 
@@ -445,7 +474,7 @@ class StreamViewControllerSpec: QuickSpec {
                     }
                 }
 
-                describe("-collectionView:isFullWidthAtIndexPath:") {
+                describe("collectionView(_:layout:isFullWidthAtIndexPath:)") {
 
                     xit("returns false for a Header Cell") {
 
@@ -487,7 +516,7 @@ class StreamViewControllerSpec: QuickSpec {
                     expect(controller as UIScrollViewDelegate).notTo(beNil())
                 }
 
-                describe("-scrollViewDidScroll:") {
+                describe("scrollViewDidScroll(_:)") {
 
                     xit("hides the tab bar when scrolling up") {
 

@@ -14,12 +14,21 @@ public struct StreamFooterCellPresenter {
         cell:UICollectionViewCell,
         streamCellItem:StreamCellItem,
         streamKind: StreamKind,
-        indexPath: NSIndexPath)
+        indexPath: NSIndexPath,
+        currentUser: User?)
     {
         if let cell = cell as? StreamFooterCell {
             cell.close()
             if let post = streamCellItem.jsonable as? Post {
                 cell.comments = post.commentsCount?.localizedStringFromNumber()
+
+                var ownPost = false
+                if let currentUser = currentUser {
+                    if post.author?.userId == currentUser.userId {
+                        ownPost = true
+                    }
+                }
+                cell.footerConfig = (ownPost: ownPost, streamKind: streamKind)
 
                 if streamKind.isDetail {
                     cell.commentsOpened = true
@@ -61,7 +70,6 @@ public struct StreamFooterCellPresenter {
                     cell.views = post.viewsCount?.localizedStringFromNumber()
                     cell.reposts = post.repostsCount?.localizedStringFromNumber()
                 }
-                cell.streamKind = streamKind
             }
         }
     }

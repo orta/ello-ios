@@ -24,6 +24,7 @@ public protocol UserDelegate: NSObjectProtocol {
 public protocol PostbarDelegate : NSObjectProtocol {
     func viewsButtonTapped(cell:UICollectionViewCell)
     func commentsButtonTapped(cell:StreamFooterCell, commentsButton: CommentButton)
+    func deleteButtonTapped(cell:UICollectionViewCell)
     func lovesButtonTapped(cell:UICollectionViewCell)
     func repostButtonTapped(cell:UICollectionViewCell)
     func shareButtonTapped(cell:UICollectionViewCell)
@@ -51,6 +52,10 @@ let RelayoutStreamViewControllerNotification = TypedNotification<UICollectionVie
 public class StreamViewController: BaseElloViewController {
 
     @IBOutlet weak public var collectionView: UICollectionView!
+    private var shouldReload = false
+    private var isVisible = false
+    private var deletedPostUserid: String?
+
     var streamables:[Streamable]?
     var refreshableIndex: Int?
     public var dataSource:StreamDataSource!
@@ -63,10 +68,10 @@ public class StreamViewController: BaseElloViewController {
     var allOlderPagesLoaded = false
     var restoreTabBar: Bool? = nil
     var parentTabBarController: ElloTabBarController? {
-        if let parentViewController = self.parentViewController {
-            if let elloController = parentViewController as? BaseElloViewController {
-                return elloController.elloTabBarController
-            }
+        if  let parentViewController = self.parentViewController,
+            let elloController = parentViewController as? BaseElloViewController
+        {
+            return elloController.elloTabBarController
         }
         return nil
     }
@@ -81,6 +86,8 @@ public class StreamViewController: BaseElloViewController {
     var imageViewerDelegate:StreamImageViewer?
     var updatedStreamImageCellHeightNotification:NotificationObserver?
     var relayoutNotification:NotificationObserver?
+    var postDeletedNotification:NotificationObserver?
+
     weak var createCommentDelegate : CreateCommentDelegate?
     weak var postTappedDelegate : PostTappedDelegate?
     weak var userTappedDelegate : UserTappedDelegate?
@@ -110,22 +117,33 @@ public class StreamViewController: BaseElloViewController {
         }
     }
 
+    public override func viewDidDisappear(animated: Bool) {
+        self.isVisible = false
+        super.viewDidDisappear(animated)
+    }
+
     override public func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        self.isVisible = true
         if let restoreTabBar = self.restoreTabBar {
             self.parentTabBarController?.setTabBarHidden(restoreTabBar, animated: false)
             self.restoreTabBar = nil
         }
+
+        if self.shouldReload { self.handleReload(deletedPostUserid) }
     }
 
     override public func didSetCurrentUser() {
         dataSource.currentUser = currentUser
+
         if let userListController = userListController {
             userListController.currentUser = currentUser
         }
+
         if let postbarController = postbarController {
             postbarController.currentUser = currentUser
         }
+
         super.didSetCurrentUser()
     }
 
@@ -200,14 +218,13 @@ public class StreamViewController: BaseElloViewController {
         }
 
         let commentItem = commentItems[0]
-        if let comment = commentItem.jsonable as? Comment {
-            if let parentPost = comment.parentPost {
-                if let indexPath = dataSource.createCommentIndexPathForPost(parentPost) {
-                    // insert the items below the create comment button
-                    let newCommentIndexPath = NSIndexPath(forRow: indexPath.row + 1, inSection: indexPath.section)
-                    self.insertUnsizedCellItems(commentItems, startingIndexPath: newCommentIndexPath)
-                }
-            }
+        if  let comment = commentItem.jsonable as? Comment,
+            let parentPost = comment.parentPost,
+            let indexPath = dataSource.createCommentIndexPathForPost(parentPost)
+        {
+            // insert the items below the create comment button
+            let newCommentIndexPath = NSIndexPath(forRow: indexPath.row + 1, inSection: indexPath.section)
+            self.insertUnsizedCellItems(commentItems, startingIndexPath: newCommentIndexPath)
         }
     }
 
@@ -233,6 +250,30 @@ public class StreamViewController: BaseElloViewController {
         relayoutNotification = NotificationObserver(notification: RelayoutStreamViewControllerNotification) { streamTextCell in
             self.collectionView.collectionViewLayout.invalidateLayout()
         }
+
+        postDeletedNotification = NotificationObserver(notification: PostDeletedNotification) {
+            (postId, userId) in
+
+            if self.isVisible { self.handleReload(userId) }
+            else {
+                self.deletedPostUserid = userId
+                self.shouldReload = true
+            }
+            println("delete the post \(postId, userId)")
+        }
+    }
+
+    private func handleReload(userId: String?) {
+        shouldReload = false
+        deletedPostUserid = nil
+        switch streamKind {
+        case .PostDetail:
+            if userId == self.currentUser?.userId {
+                navigationController?.popViewControllerAnimated(true)
+            }
+        default:
+            pullToRefreshLoad()
+        }
     }
 
     private func removeNotificationObservers() {
@@ -240,14 +281,15 @@ public class StreamViewController: BaseElloViewController {
         if let imageViewerDelegate = imageViewerDelegate {
             NSNotificationCenter.defaultCenter().removeObserver(imageViewerDelegate)
         }
-        if let updatedStreamImageCellHeightNotification = updatedStreamImageCellHeightNotification {
-            updatedStreamImageCellHeightNotification.removeObserver()
-            self.updatedStreamImageCellHeightNotification = nil
-        }
-        if let relayoutNotification = relayoutNotification {
-            relayoutNotification.removeObserver()
-            self.relayoutNotification = nil
-        }
+
+        updatedStreamImageCellHeightNotification?.removeObserver()
+        updatedStreamImageCellHeightNotification = nil
+
+        relayoutNotification?.removeObserver()
+        relayoutNotification = nil
+
+        postDeletedNotification?.removeObserver()
+        postDeletedNotification = nil
     }
 
     private func updateCellHeight(indexPath:NSIndexPath, height:CGFloat) {
@@ -321,6 +363,23 @@ public class StreamViewController: BaseElloViewController {
         dataSource.webLinkDelegate = self
         dataSource.userDelegate = self
         collectionView.dataSource = dataSource
+    }
+
+    private func pullToRefreshLoad() {
+        self.streamService.loadStream(streamKind.endpoint,
+            success: { (jsonables, responseConfig) in
+                let index = self.refreshableIndex ?? 0
+                self.allOlderPagesLoaded = false
+                self.dataSource.removeCellItemsBelow(index)
+                self.collectionView.reloadData()
+                self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind))
+                self.responseConfig = responseConfig
+                self.pullToRefreshView?.finishLoading()
+            }, failure: { (error, statusCode) in
+                println("failed to load \(self.streamKind.name) stream (reason: \(error))")
+                self.pullToRefreshView?.finishLoading()
+            }
+        )
     }
 }
 
@@ -505,20 +564,7 @@ extension StreamViewController: SSPullToRefreshViewDelegate {
     }
 
     public func pullToRefreshViewDidStartLoading(view: SSPullToRefreshView!) {
-        self.streamService.loadStream(streamKind.endpoint,
-            success: { (jsonables, responseConfig) in
-                let index = self.refreshableIndex ?? 0
-                self.allOlderPagesLoaded = false
-                self.dataSource.removeCellItemsBelow(index)
-                self.collectionView.reloadData()
-                self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind))
-                self.responseConfig = responseConfig
-                view.finishLoading()
-            }, failure: { (error, statusCode) in
-                println("failed to load \(self.streamKind.name) stream (reason: \(error))")
-                view.finishLoading()
-            }
-        )
+        self.pullToRefreshLoad()
     }
 }
 

@@ -14,7 +14,8 @@ public struct NotificationCellPresenter {
         cell:UICollectionViewCell,
         streamCellItem:StreamCellItem,
         streamKind: StreamKind,
-        indexPath: NSIndexPath)
+        indexPath: NSIndexPath,
+        currentUser: User?)
     {
         if let cell = cell as? NotificationCell {
             var notification = streamCellItem.jsonable as! Notification

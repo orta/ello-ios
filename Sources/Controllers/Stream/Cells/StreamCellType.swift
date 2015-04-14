@@ -12,7 +12,8 @@ public typealias CellConfigClosure = (
     cell:UICollectionViewCell,
     streamCellItem:StreamCellItem,
     streamKind: StreamKind,
-    indexPath: NSIndexPath
+    indexPath: NSIndexPath,
+    currentUser: User?
 ) -> ()
 
 public enum StreamCellType {
@@ -65,7 +66,7 @@ public enum StreamCellType {
         case CreateComment: return StreamCreateCommentCellPresenter.configure
         case StreamLoading: return StreamLoadingCellPresenter.configure
         case Toggle: return StreamToggleCellPresenter.configure
-        default: return { (cell, streamCellItem, streamKind, indexPath) in }
+        default: return { (cell, streamCellItem, streamKind, indexPath, currentUser) in }
         }
     }
 

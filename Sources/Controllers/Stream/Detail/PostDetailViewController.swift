@@ -32,7 +32,9 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         self.postParam = postParam
         self.startOfComments = 0
         super.init(nibName: nil, bundle: nil)
-        PostService.loadPost(postParam,
+        let service = PostService()
+
+        service.loadPost(postParam,
             success: postLoaded,
             failure: nil
         )
@@ -175,9 +177,7 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
     }
 
     private func appendCreateCommentItem() {
-        if hasAddedCommentBar {
-            return
-        }
+        if hasAddedCommentBar { return }
 
         if let post = post {
             hasAddedCommentBar = true
