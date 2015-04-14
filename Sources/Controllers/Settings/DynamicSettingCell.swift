@@ -8,8 +8,20 @@
 
 import UIKit
 
-class DynamicSettingCell: UITableViewCell {
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var descriptionLabel: UILabel!
-    @IBOutlet weak var toggleButton: UIButton!
+public protocol DynamicSettingCellDelegate {
+     func toggleSetting(setting: DynamicSetting)
+}
+
+public class DynamicSettingCell: UITableViewCell {
+    @IBOutlet public weak var titleLabel: UILabel!
+    @IBOutlet public weak var descriptionLabel: ElloToggleLabel!
+    @IBOutlet public weak var toggleButton: ElloToggleButton!
+
+    public var delegate: DynamicSettingCellDelegate?
+    public var setting: DynamicSetting?
+
+    @IBAction public func toggleButtonTapped() {
+        setting.map { delegate?.toggleSetting($0) }
+        toggleButton.value = !toggleButton.value
+    }
 }

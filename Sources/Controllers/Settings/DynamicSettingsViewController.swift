@@ -70,4 +70,23 @@ class DynamicSettingsViewController: UITableViewController {
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return DynamicSettingsCellHeight
     }
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "DynamicSettingCategorySegue" {
+            let controller = segue.destinationViewController as! DynamicSettingCategoryViewController
+            let selectedIndexPath = tableView.indexPathForSelectedRow()
+
+            switch DynamicSettingsSection(rawValue: selectedIndexPath?.section ?? 0) ?? .Unknown {
+            case .DynamicSettings:
+                let index = tableView.indexPathForSelectedRow()?.row ?? 0
+                controller.category = dynamicCategories[index]
+
+            case .AccountDeletion:
+                controller.category = DynamicSettingCategory(label: "Account Deletion", settings: [])
+
+            case .Unknown: break
+            }
+            controller.currentUser = currentUser
+        }
+    }
 }
