@@ -38,6 +38,7 @@ public class SettingsViewController: UITableViewController {
         profileImageView.layer.cornerRadius = profileImageView.frame.width / 2
         navigationController?.setNavigationBarHidden(false, animated: true)
         setupProfileDescription()
+        setupNavigationBar()
     }
 
     private func setupProfileDescription() {
@@ -45,6 +46,17 @@ public class SettingsViewController: UITableViewController {
 
         text.addAttribute(NSForegroundColorAttributeName, value: UIColor.greyA(), range: NSRange(location: 0, length: text.length))
         profileDescription.attributedText = text
+    }
+
+    private func setupNavigationBar() {
+        let backItem = UIBarButtonItem.backChevronWithTarget(self, action: "backAction")
+        navigationItem.leftBarButtonItem = backItem
+        navigationItem.title = NSLocalizedString("Settings", comment: "settings title")
+        navigationItem.fixNavBarItemPadding()
+    }
+
+    func backAction() {
+        navigationController?.popViewControllerAnimated(true)
     }
 
     override public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
