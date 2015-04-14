@@ -26,13 +26,6 @@ class PulsingCircle: UIView {
     private var isPulsing: Bool = false
     private var shouldReanimate: Bool = false
 
-    class func fill(view : UIView) -> PulsingCircle {
-        var circle = PulsingCircle(frame: view.bounds)
-        circle.backgroundColor = UIColor.clearColor()
-        circle.autoresizingMask = .FlexibleWidth | .FlexibleHeight
-        return circle
-    }
-
     override func willMoveToWindow(newWindow: UIWindow?) {
         super.willMoveToWindow(newWindow)
         if isPulsing && newWindow == nil {

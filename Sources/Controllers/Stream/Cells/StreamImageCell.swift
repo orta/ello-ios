@@ -18,18 +18,12 @@ public class StreamImageCell: UICollectionViewCell {
     @IBOutlet weak var imageView: FLAnimatedImageView!
     @IBOutlet weak var imageButton: UIButton!
     @IBOutlet weak var errorLabel: ElloErrorLabel!
+    @IBOutlet weak var circle:PulsingCircle!
 
     weak var delegate: StreamImageCellDelegate?
     var serverProvidedAspectRatio:CGFloat?
     private let defaultAspectRatio:CGFloat = 4.0/3.0
     private var aspectRatio:CGFloat = 4.0/3.0
-    private var circle:PulsingCircle!
-
-    override public func awakeFromNib() {
-        super.awakeFromNib()
-        circle = PulsingCircle.fill(self)
-        contentView.insertSubview(circle!, belowSubview: imageView)
-    }
 
     var calculatedHeight:CGFloat {
         return self.frame.width / self.aspectRatio
@@ -37,6 +31,7 @@ public class StreamImageCell: UICollectionViewCell {
 
     func setImageURL(url:NSURL) {
         self.imageView.image = nil
+        self.imageView.alpha = 0
         circle.pulse()
         self.errorLabel.hidden = true
         self.errorLabel.alpha = 1.0

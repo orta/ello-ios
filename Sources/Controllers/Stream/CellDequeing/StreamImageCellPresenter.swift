@@ -20,24 +20,23 @@ public struct StreamImageCellPresenter {
         if let cell = cell as? StreamImageCell {
             if let photoData = streamCellItem.data as! ImageRegion? {
 
-                if let isGif = photoData.asset?.isGif {
-                    if let photoURL = photoData.asset?.optimized?.url {
-                        cell.serverProvidedAspectRatio = StreamCellItemParser.aspectRatioForImageBlock(photoData)
-                        cell.setImageURL(photoURL)
-                    }
-                    else if let photoURL = photoData.url {
-                        cell.setImageURL(photoURL)
-                    }
+                var photoToLoad: NSURL?
+                if photoData.asset != nil && photoData.asset!.isGif {
+                    photoToLoad = photoData.asset?.optimized?.url
+                }
+                else if streamKind.isGridLayout {
+                    photoToLoad = photoData.asset?.ldpi?.url
                 }
                 else {
-                    let photoToLoad = streamKind.isGridLayout ? photoData.asset?.ldpi?.url : photoData.asset?.mdpi?.url
-                    if let photoURL = photoToLoad {
-                        cell.serverProvidedAspectRatio = StreamCellItemParser.aspectRatioForImageBlock(photoData)
-                        cell.setImageURL(photoURL)
-                    }
-                    else if let photoURL = photoData.url {
-                        cell.setImageURL(photoURL)
-                    }
+                    photoToLoad = photoData.asset?.mdpi?.url
+                }
+
+                if let photoURL = photoToLoad {
+                    cell.serverProvidedAspectRatio = StreamCellItemParser.aspectRatioForImageBlock(photoData)
+                    cell.setImageURL(photoURL)
+                }
+                else if let photoURL = photoData.url {
+                    cell.setImageURL(photoURL)
                 }
             }
         }
