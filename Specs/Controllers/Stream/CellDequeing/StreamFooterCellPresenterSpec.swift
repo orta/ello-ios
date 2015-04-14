@@ -21,7 +21,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     expect(cell.commentsOpened).to(beFalse())
                     expect(cell.scrollView.scrollEnabled).to(beTrue())
                     expect(cell.chevronButton.hidden).to(beFalse())
-                    expect(cell.streamKind?.name) == "Friends"
+                    expect(cell.footerConfig.streamKind?.name) == "Friends"
                     expect(cell.views) == "9"
                     expect(cell.reposts) == "4"
                     expect(cell.comments) == "6"
@@ -42,7 +42,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     expect(cell.commentsOpened).to(beFalse())
                     expect(cell.scrollView.scrollEnabled).to(beFalse())
                     expect(cell.chevronButton.hidden).to(beTrue())
-                    expect(cell.streamKind?.name) == "Noise"
+                    expect(cell.footerConfig.streamKind?.name) == "Noise"
                     expect(cell.views) == ""
                     expect(cell.reposts) == ""
                     expect(cell.comments) == "6"
@@ -62,7 +62,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     expect(cell.commentsButton.selected).to(beFalse())
                     expect(cell.scrollView.scrollEnabled).to(beTrue())
                     expect(cell.chevronButton.hidden).to(beFalse())
-                    expect(cell.streamKind?.name) == "Post Detail"
+                    expect(cell.footerConfig.streamKind?.name) == "Post Detail"
                     expect(cell.views) == "9"
                     expect(cell.reposts) == "4"
                     expect(cell.comments) == "6"
@@ -88,7 +88,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     expect(cell.commentsOpened).to(beFalse())
                     expect(cell.scrollView.scrollEnabled).to(beTrue())
                     expect(cell.chevronButton.hidden).to(beFalse())
-                    expect(cell.streamKind?.name) == "Friends"
+                    expect(cell.footerConfig.streamKind?.name) == "Friends"
                     expect(cell.views) == "9"
                     expect(cell.reposts) == "4"
                     expect(cell.comments) == "6"
@@ -116,7 +116,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         expect(cell.commentsOpened).to(beTrue())
                         expect(cell.scrollView.scrollEnabled).to(beTrue())
                         expect(cell.chevronButton.hidden).to(beFalse())
-                        expect(cell.streamKind?.name) == "Friends"
+                        expect(cell.footerConfig.streamKind?.name) == "Friends"
                         expect(cell.views) == "9"
                         expect(cell.reposts) == "4"
                         expect(cell.comments) == "6"
@@ -144,7 +144,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         expect(item.state) == StreamCellState.Collapsed
                         expect(cell.scrollView.scrollEnabled).to(beTrue())
                         expect(cell.chevronButton.hidden).to(beFalse())
-                        expect(cell.streamKind?.name) == "Friends"
+                        expect(cell.footerConfig.streamKind?.name) == "Friends"
                         expect(cell.views) == "9"
                         expect(cell.reposts) == "4"
                         expect(cell.comments) == "6"

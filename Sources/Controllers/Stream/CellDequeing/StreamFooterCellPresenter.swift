@@ -22,13 +22,13 @@ public struct StreamFooterCellPresenter {
             if let post = streamCellItem.jsonable as? Post {
                 cell.comments = post.commentsCount?.localizedStringFromNumber()
 
-                cell.ownPost = false
-                
+                var ownPost = false
                 if let currentUser = currentUser {
                     if post.author?.userId == currentUser.userId {
-                        cell.ownPost = true
+                        ownPost = true
                     }
                 }
+                cell.footerConfig = (ownPost: ownPost, streamKind: streamKind)
 
                 if streamKind.isDetail {
                     cell.commentsOpened = true
@@ -70,7 +70,6 @@ public struct StreamFooterCellPresenter {
                     cell.views = post.viewsCount?.localizedStringFromNumber()
                     cell.reposts = post.repostsCount?.localizedStringFromNumber()
                 }
-                cell.streamKind = streamKind
             }
         }
     }

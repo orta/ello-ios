@@ -13,7 +13,6 @@ let streamCellDidOpenNotification = TypedNotification<UICollectionViewCell>(name
 
 public class StreamFooterCell: UICollectionViewCell {
 
-    public var ownPost = false
     let revealWidth:CGFloat = 85.0
     var cellOpenObserver: NotificationObserver?
     public private(set) var isOpen = false
@@ -69,10 +68,9 @@ public class StreamFooterCell: UICollectionViewCell {
         get { return self.deleteItem.customView as! StreamFooterButton }
     }
 
-
-    public var streamKind:StreamKind? {
+    public var footerConfig: (ownPost: Bool, streamKind: StreamKind?) = (false, nil) {
         didSet {
-            if let streamKind = streamKind {
+            if let streamKind = footerConfig.streamKind {
                 if streamKind.isGridLayout {
                     self.toolBar.items = [
                         fixedItem(-15), commentsItem, flexibleItem(), repostItem, shareItem, fixedItem(-17)
@@ -84,7 +82,7 @@ public class StreamFooterCell: UICollectionViewCell {
                     self.toolBar.items = [
                         viewsItem, commentsItem, repostItem
                     ]
-                    let rightItem = self.ownPost ? deleteItem : flagItem
+                    let rightItem = footerConfig.ownPost ? deleteItem : flagItem
                     self.bottomToolBar.items = [
                         flexibleItem(), shareItem, rightItem
                     ]
@@ -186,7 +184,7 @@ public class StreamFooterCell: UICollectionViewCell {
     }
 
     @IBAction func commentsButtonTapped(sender: CommentButton) {
-        if let streamKind = streamKind {
+        if let streamKind = footerConfig.streamKind {
             if streamKind.isGridLayout {
                 delegate?.viewsButtonTapped(self)
                 return
