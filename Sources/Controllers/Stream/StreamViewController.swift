@@ -268,7 +268,7 @@ public class StreamViewController: BaseElloViewController {
         deletedPostUserid = nil
         switch streamKind {
         case .PostDetail:
-            if userId == self.currentUser?.userId {
+            if userId == self.currentUser?.id {
                 navigationController?.popViewControllerAnimated(true)
             }
         default:

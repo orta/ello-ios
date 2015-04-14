@@ -24,7 +24,7 @@ public struct StreamFooterCellPresenter {
 
                 var ownPost = false
                 if let currentUser = currentUser {
-                    if post.author?.userId == currentUser.userId {
+                    if post.author?.id == currentUser.id {
                         ownPost = true
                     }
                 }
