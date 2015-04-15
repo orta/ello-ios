@@ -20,7 +20,7 @@ public enum NotificationFilterType: String {
 
 let NotificationVersion = 1
 
-public final class Notification : JSONAble, Authorable, NSCoding {
+public final class Notification : JSONAble, Authorable {
     public let version: Int = NotificationVersion
 
     public typealias Kind = Activity.Kind
@@ -73,7 +73,7 @@ public final class Notification : JSONAble, Authorable, NSCoding {
         self.subject = activity.subject
     }
 
-    required public init(author: User?, createdAt: NSDate, kind: Kind, notificationId: String, subjectType: SubjectType) {
+    public init(author: User?, createdAt: NSDate, kind: Kind, notificationId: String, subjectType: SubjectType) {
         self.author = author
         self.attributedTitleStore = nil
         self.createdAt = createdAt
@@ -85,7 +85,7 @@ public final class Notification : JSONAble, Authorable, NSCoding {
 
 // MARK: NSCoding
 
-    required public init(coder aDecoder: NSCoder) {
+    public required init(coder aDecoder: NSCoder) {
         let decoder = Decoder(aDecoder)
         self.author = decoder.decodeOptionalKey("author")
         self.createdAt = decoder.decodeKey("createdAt")
@@ -94,9 +94,10 @@ public final class Notification : JSONAble, Authorable, NSCoding {
         self.notificationId = decoder.decodeKey("notificationId")
         let subjectTypeString: String = decoder.decodeKey("subjectType")
         self.subjectType = SubjectType(rawValue: subjectTypeString) ?? SubjectType.Unknown
+        super.init(coder: aDecoder)
     }
 
-    public func encodeWithCoder(encoder: NSCoder) {
+    public override func encodeWithCoder(encoder: NSCoder) {
         if let author = self.author {
             encoder.encodeObject(author, forKey: "author")
         }
@@ -104,6 +105,7 @@ public final class Notification : JSONAble, Authorable, NSCoding {
         encoder.encodeObject(self.kind.rawValue, forKey: "kind")
         encoder.encodeObject(self.notificationId, forKey: "notificationId")
         encoder.encodeObject(self.subjectType.rawValue, forKey: "subjectType")
+        super.encodeWithCoder(encoder)
     }
 
 // MARK: Public

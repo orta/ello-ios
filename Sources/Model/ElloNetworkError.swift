@@ -54,6 +54,18 @@ public class ElloNetworkError: JSONAble {
         self.messages = messages
         self.status = status
         self.title = title
+        super.init()
+    }
+
+    public required init(coder aDecoder: NSCoder) {
+        let decoder = Decoder(aDecoder)
+        self.attrs = decoder.decodeOptionalKey("attrs")
+        self.code = decoder.decodeKey("code")
+        self.detail = decoder.decodeOptionalKey("detail")
+        self.messages = decoder.decodeOptionalKey("messages")
+        self.status = decoder.decodeOptionalKey("status")
+        self.title = decoder.decodeKey("title")
+        super.init(coder: aDecoder)
     }
 
     override public class func fromJSON(data:[String: AnyObject]) -> JSONAble {

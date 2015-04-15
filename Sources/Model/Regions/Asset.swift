@@ -48,11 +48,12 @@ public final class Asset: JSONAble {
             self.xhdpi = xhdpi
             self.xxhdpi = xxhdpi
             self.xxxhdpi = xxxhdpi
+            super.init()
     }
 
 // MARK: NSCoding
 
-    required public init(coder aDecoder: NSCoder) {
+    public required init(coder aDecoder: NSCoder) {
         let decoder = Decoder(aDecoder)
         self.assetId = decoder.decodeKey("assetId")
         self.optimized = decoder.decodeOptionalKey("optimized")
@@ -63,9 +64,10 @@ public final class Asset: JSONAble {
         self.xhdpi = decoder.decodeOptionalKey("xhdpi")
         self.xxhdpi = decoder.decodeOptionalKey("xxhdpi")
         self.xxxhdpi = decoder.decodeOptionalKey("xxxhdpi")
+        super.init(coder: aDecoder)
     }
 
-    public func encodeWithCoder(encoder: NSCoder) {
+    public override func encodeWithCoder(encoder: NSCoder) {
 
         encoder.encodeObject(self.assetId, forKey: "assetId")
                     
@@ -100,6 +102,7 @@ public final class Asset: JSONAble {
         if let xxxhdpi = self.xxxhdpi {
             encoder.encodeObject(xxxhdpi, forKey: "xxxhdpi")
         }
+        super.encodeWithCoder(encoder)
     }
     
 // MARK: JSONAble

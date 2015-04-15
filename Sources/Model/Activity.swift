@@ -7,11 +7,10 @@
 //
 
 import SwiftyJSON
-import YapDatabase
 
 let ActivityVersion = 1
 
-public final class Activity: JSONAble, NSCoding {
+public final class Activity: JSONAble {
     public let version: Int = ActivityVersion
 
     // active record
@@ -21,16 +20,7 @@ public final class Activity: JSONAble, NSCoding {
     public let kind: Kind
     public let subjectType: SubjectType
     // links
-    public var links: [String: AnyObject]?
-    public var subject: JSONAble? {
-        var sub: JSONAble?
-        if let subjectType = links?["subject"]?["type"] as? String, let subjectId = links?["subject"]?["id"] as? String {
-            ElloLinkedStore.sharedInstance.readConnection.readWithBlock { transaction in
-                sub = transaction.objectForKey(subjectId, inCollection: subjectType) as? JSONAble
-            }
-        }
-        return sub
-    }
+    public var subject: JSONAble? { return getLinkObject("subject") }
 
     public enum Kind: String {
         // Posts
@@ -95,7 +85,7 @@ public final class Activity: JSONAble, NSCoding {
 
 // MARK: NSCoding
 
-    required public init(coder aDecoder: NSCoder) {
+    public required init(coder aDecoder: NSCoder) {
         let decoder = Decoder(aDecoder)
         // active record
         self.id = decoder.decodeKey("id")
@@ -105,20 +95,17 @@ public final class Activity: JSONAble, NSCoding {
         self.kind = Kind(rawValue: rawKind) ?? Kind.Unknown
         let rawSubjectType: String = decoder.decodeKey("rawSubjectType")
         self.subjectType = SubjectType(rawValue: rawSubjectType) ?? SubjectType.Unknown
-        // links
-//        self.subject = decoder.decodeOptionalKey("subject")
-        super.init()
+        super.init(coder: aDecoder)
     }
 
-    public func encodeWithCoder(encoder: NSCoder) {
+    public override func encodeWithCoder(encoder: NSCoder) {
         // active record
         encoder.encodeObject(id, forKey: "id")
         encoder.encodeObject(createdAt, forKey: "createdAt")
         // required
         encoder.encodeObject(kind.rawValue, forKey: "rawKind")
         encoder.encodeObject(subjectType.rawValue, forKey: "rawSubjectType")
-        // links
-//        encoder.encodeObject(subject, forKey: "subject")
+        super.encodeWithCoder(encoder)
     }
 
 // MARK: JSONAble
@@ -142,7 +129,7 @@ public final class Activity: JSONAble, NSCoding {
         // links
         activity.links = data["links"] as? [String: AnyObject]
         // store self in collection
-        ElloLinkedStore.sharedInstance.setObject(activity, forKey: activity.id, inCollection: "activities")
+        ElloLinkedStore.sharedInstance.setObject(activity, forKey: activity.id, inCollection: MappingType.ActivitiesType.rawValue)
 
         return activity
     }

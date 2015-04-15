@@ -164,7 +164,7 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
                     }
 
                     self.appendCreateCommentItem()
-
+                    self.streamViewController.responseConfig = responseConfig
                     self.streamViewController.removeRefreshables()
                     let newCommentItems = StreamCellItemParser().parse(jsonables, streamKind: self.streamKind!)
                     self.streamViewController.appendUnsizedCellItems(newCommentItems)

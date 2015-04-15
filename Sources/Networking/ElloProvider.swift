@@ -212,17 +212,18 @@ extension ElloProvider {
         }
 
         if let node = dict[elloAPI.mappingType.rawValue] as? [[String:AnyObject]] {
-            mappedObjects = Mapper.mapToObjectArray(node, fromJSON: elloAPI.mappingType.fromJSON)
+            mappedObjects = Mapper.mapToObjectArray(node, fromJSON: elloAPI.mappingType.fromJSON, linkObject: elloAPI.linkObject)
         }
         else if let node = dict[elloAPI.mappingType.rawValue] as? [String:AnyObject] {
             mappedObjects = Mapper.mapToObject(node, fromJSON: elloAPI.mappingType.fromJSON)
             if  let pagingPath = elloAPI.pagingPath,
                 let links = node["links"] as? [String:AnyObject],
-                    let pagingPathNode = links[pagingPath] as? [String:AnyObject] {
-                        if let pagination = pagingPathNode["pagination"] as? [String:String] {
-                            responseConfig = ElloProvider.parsePagination(pagination)
-                        }
-                              }
+                let pagingPathNode = links[pagingPath] as? [String:AnyObject]
+            {
+                if let pagination = pagingPathNode["pagination"] as? [String:String] {
+                    responseConfig = ElloProvider.parsePagination(pagination)
+                }
+            }
         }
         if let mappedObjects: AnyObject = mappedObjects {
             success(data: mappedObjects, responseConfig: responseConfig)

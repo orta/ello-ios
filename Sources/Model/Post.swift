@@ -20,7 +20,7 @@ public protocol Authorable {
 
 let PostVersion = 1
 
-public final class Post: JSONAble, Authorable, NSCoding {
+public final class Post: JSONAble, Authorable {
     public let version: Int = PostVersion
 
     // active record
@@ -42,14 +42,24 @@ public final class Post: JSONAble, Authorable, NSCoding {
     public var viewsCount: Int?
     public var commentsCount: Int?
     public var repostsCount: Int?
-    // links / nested resources
+    // links
     public var assets: [String: Asset]?
-    public var author: User?
-    public var comments: [Comment]?
-    // links post with comments
-    public var groupId:String {
-        get { return id }
+    public var author: User? {
+        println("author post \(id) links: \(links)")
+        return getLinkObject("author") as? User
     }
+    // nested resources
+    public var comments: [Comment]? {
+        if let comments = getLinkArray(MappingType.CommentsType.rawValue) as? [Comment] {
+            for comment in comments {
+                comment.addLinkObject("parent_post", key: id, collection: MappingType.PostsType.rawValue)
+            }
+            return comments
+        }
+        return nil
+    }
+    // links post with comments
+    public var groupId:String { return id }
     // computed properties
     public var shareLink:String? {
         get {
@@ -116,7 +126,7 @@ public final class Post: JSONAble, Authorable, NSCoding {
 
 // MARK: NSCoding
 
-    required public init(coder aDecoder: NSCoder) {
+    public required init(coder aDecoder: NSCoder) {
         let decoder = Decoder(aDecoder)
         // active record
         self.id = decoder.decodeKey("id")
@@ -137,16 +147,14 @@ public final class Post: JSONAble, Authorable, NSCoding {
         self.viewsCount = decoder.decodeOptionalKey("viewsCount")
         self.commentsCount = decoder.decodeOptionalKey("commentsCount")
         self.repostsCount = decoder.decodeOptionalKey("repostsCount")
-        // links / nested resources
+        // links
         self.assets = decoder.decodeOptionalKey("assets")
-        self.author = decoder.decodeOptionalKey("author")
-        self.comments = decoder.decodeOptionalKey("comments")
-
-        super.init()
-        self.registerNotifications()
+        super.init(coder: aDecoder)
+        // register for updates
+        registerNotifications()
     }
 
-    public func encodeWithCoder(encoder: NSCoder) {
+    public override func encodeWithCoder(encoder: NSCoder) {
         // active record
         encoder.encodeObject(id, forKey: "id")
         encoder.encodeObject(createdAt, forKey: "createdAt")
@@ -172,15 +180,18 @@ public final class Post: JSONAble, Authorable, NSCoding {
         if let repostsCount = self.repostsCount {
             encoder.encodeInt64(Int64(repostsCount), forKey: "repostsCount")
         }
-        // links / nested resources
+        // links
         encoder.encodeObject(assets, forKey: "assets")
-        encoder.encodeObject(author, forKey: "author")
-        encoder.encodeObject(comments, forKey: "comments")
+        super.encodeWithCoder(encoder)
+    }
+
+    func save() {
+        ElloLinkedStore.sharedInstance.setObject(self, forKey: id, inCollection: MappingType.PostsType.rawValue)
     }
 
 // MARK: JSONAble
 
-     override public class func fromJSON(data:[String: AnyObject]) -> JSONAble {
+    override public class func fromJSON(data:[String: AnyObject]) -> JSONAble {
         let json = JSON(data)
         // active record
         let id = json["id"].stringValue
@@ -219,35 +230,14 @@ public final class Post: JSONAble, Authorable, NSCoding {
 //                post.comments = links["comments"] as? [Comment]
 //            }
 //        }
-        var authorId: String?
-        if let linksNode = data["links"] as? [String: AnyObject] {
-            authorId = linksNode["author"]?["id"] as? String
-        }
 
-//        ElloLinkedStore.sharedInstance.database.newConnection().asyncReadWriteWithBlock { transaction in
-//            transaction.setObject(post, forKey: post.id, inCollection: "posts")
-//            if let author: String = authorId {
-//
-//                let edge: YapDatabaseRelationshipEdge = YapDatabaseRelationshipEdge(
-//                    name: "author",
-//                    sourceKey: post.id,
-//                    collection: "posts",
-//                    destinationKey: author,
-//                    collection: "users", nodeDeleteRules:
-//                    UInt16(YDB_NotifyIfSourceDeleted)
-//                )
-//
-//                if let ext = transaction.ext("relationships") as? YapDatabaseRelationshipTransaction {
-//                    ext.addEdge(edge)
-//                }
-//            }
-//        }
+        // links
+        post.links = data["links"] as? [String: AnyObject]
+        println("fromJSON post \(post.id) links: \(post.links)")
+        // store self in collection
+        post.save()
 
         return post
-    }
-
-    override public var description : String {
-        return "Post:\n\tid:\(self.id)"
     }
 }
 

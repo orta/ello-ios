@@ -10,7 +10,7 @@ import SwiftyJSON
 
 let CommentVersion = 1
 
-public final class Comment: JSONAble, Authorable, NSCoding {
+public final class Comment: JSONAble, Authorable {
     public let version: Int = CommentVersion
 
     // active record
@@ -21,8 +21,8 @@ public final class Comment: JSONAble, Authorable, NSCoding {
     public let content: [Regionable]
     // links
     public var assets: [String: Asset]?
-    public var author: User?
-    public var parentPost: Post?
+    public var author: User? { return getLinkObject("author") as? User }
+    public var parentPost: Post? { return getLinkObject("parent_post") as? Post }
     // computed properties
     public var groupId:String {
         get { return postId }
@@ -45,7 +45,7 @@ public final class Comment: JSONAble, Authorable, NSCoding {
 
 // MARK: NSCoding
 
-    required public init(coder aDecoder: NSCoder) {
+    public required init(coder aDecoder: NSCoder) {
         let decoder = Decoder(aDecoder)
         // active record
         self.id = decoder.decodeKey("id")
@@ -55,11 +55,10 @@ public final class Comment: JSONAble, Authorable, NSCoding {
         self.content = decoder.decodeKey("content")
         // links
         self.assets = decoder.decodeOptionalKey("assets")
-        self.author = decoder.decodeOptionalKey("author")
-        self.parentPost = decoder.decodeOptionalKey("parentPost")
+        super.init(coder: aDecoder)
     }
 
-    public func encodeWithCoder(encoder: NSCoder) {
+    public override func encodeWithCoder(encoder: NSCoder) {
         // active record
         encoder.encodeObject(id, forKey: "id")
         encoder.encodeObject(createdAt, forKey: "createdAt")
@@ -68,8 +67,7 @@ public final class Comment: JSONAble, Authorable, NSCoding {
         encoder.encodeObject(content, forKey: "content")
         // links
         encoder.encodeObject(assets, forKey: "assets")
-        encoder.encodeObject(author, forKey: "author")
-        encoder.encodeObject(parentPost, forKey: "parentPost")
+        super.encodeWithCoder(encoder)
     }
 
 // MARK: JSONAble
@@ -101,6 +99,10 @@ public final class Comment: JSONAble, Authorable, NSCoding {
 //            comment.author = links["author"] as? User
 //            comment.parentPost = links["parent_post"] as? Post
 //        }
+        // links
+        comment.links = data["links"] as? [String: AnyObject]
+        // store self in collection
+        ElloLinkedStore.sharedInstance.setObject(comment, forKey: comment.id, inCollection: MappingType.CommentsType.rawValue)
         return comment
     }
 
@@ -111,8 +113,6 @@ public final class Comment: JSONAble, Authorable, NSCoding {
             postId: post.id,
             content: [Regionable]()
         )
-        comment.author = currentUser
-        comment.parentPost = post
         return comment
     }
 }

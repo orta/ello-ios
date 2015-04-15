@@ -19,6 +19,17 @@ public class AmazonCredentials : JSONAble {
         self.policy = policy
         self.prefix = prefix
         self.signature = signature
+        super.init()
+    }
+
+    public required init(coder aDecoder: NSCoder) {
+        let decoder = Decoder(aDecoder)
+        self.accessKey = decoder.decodeKey("accessKey")
+        self.endpoint = decoder.decodeKey("endpoint")
+        self.policy = decoder.decodeKey("policy")
+        self.prefix = decoder.decodeKey("prefix")
+        self.signature = decoder.decodeKey("signature")
+        super.init(coder: aDecoder)
     }
 
     override public class func fromJSON(data: [String : AnyObject]) -> JSONAble {

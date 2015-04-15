@@ -33,21 +33,19 @@ public struct ElloLinkedStore {
     }
 
     public func parseLinked(linked:[String:[[String:AnyObject]]]) {
-        writeConnection.asyncReadWriteWithBlock { transaction in
+//        writeConnection.asyncReadWriteWithBlock { transaction in
             for (type:String, typeObjects: [[String:AnyObject]]) in linked {
                 if let mappingType = MappingType(rawValue: type) {
-                    for object:[String:AnyObject] in typeObjects {
-                        let jsonable = mappingType.fromJSON(data: object)
-                        if let post = jsonable as? Post {
-                            transaction.setObject(jsonable, forKey: post.id, inCollection: type)
-                        }
-                        else if let user = jsonable as? User {
-                            transaction.setObject(jsonable, forKey: user.id, inCollection: type)
+                    for object: [String:AnyObject] in typeObjects {
+                        if let id = object["id"] as? String {
+//                            println("Add \(mappingType.rawValue): \(id)")
+                            let jsonable = mappingType.fromJSON(data: object)
+//                            transaction.setObject(jsonable, forKey: id, inCollection: type)
                         }
                     }
                 }
             }
-        }
+//        }
     }
 
     // primarialy used for testing for now.. could be used for setting a model after it's fromJSON
