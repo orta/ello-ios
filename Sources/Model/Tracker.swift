@@ -44,8 +44,9 @@ public extension Tracker {
     func contentCreationCanceled(type: ContentType) { }
     func contentCreationFailed(type: ContentType, message: String) { }
 
-    func contentFlagged(content: String, flag: ContentFlagger.AlertOption) { }
-    func contentFlaggingCanceled(content: String) { }
+    func contentFlagged(type: ContentType, flag: ContentFlagger.AlertOption) { }
+    func contentFlaggingCanceled(type: ContentType) { }
+    func contentFlaggingFailed(type: ContentType, message: String) { }
 
     func postBarVisibilityChanged(visible: Bool) { }
 
