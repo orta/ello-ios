@@ -642,7 +642,7 @@ public extension String {
         return self.rangeOfString(string, options: .CaseInsensitiveSearch) != .None
     }
 
-    func camelWithSnake() -> String {
+    var camelCase: String {
         let splits = split(self) { $0 == "_" }
         var capSplits: [String] = splits.map { s in
             let index = s.startIndex.successor()
