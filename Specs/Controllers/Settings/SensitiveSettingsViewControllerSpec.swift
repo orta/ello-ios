@@ -141,10 +141,22 @@ class SensitiveSettingsViewControllerSpec: QuickSpec {
             }
 
             context("isUpdatable is true") {
-                it("returns 89 * 3 + 128") {
-                    subject.passwordView.textField.text = "anything"
-                    expect(subject.isUpdatable).to(beTrue())
-                    expect(subject.height) == 89 * 3 + 128
+                context("errorLabel is empty") {
+                    it("returns 89 * 3 + 128") {
+                        subject.passwordView.textField.text = "anything"
+                        expect(subject.isUpdatable).to(beTrue())
+                        expect(subject.height) == 89 * 3 + 128
+                    }
+                }
+
+                context("errorLabel is not empty") {
+                    it("returns 89 * 3 + 128 + errorLabel height + 8") {
+                        subject.passwordView.textField.text = "anything"
+                        subject.errorLabel.setLabelText("something")
+                        subject.errorLabel.sizeToFit()
+                        expect(subject.isUpdatable).to(beTrue())
+                        expect(subject.height) == 89 * 3 + 128 + subject.errorLabel.frame.height + 8
+                    }
                 }
             }
 
