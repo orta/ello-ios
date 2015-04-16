@@ -8,7 +8,11 @@
 
 import UIKit
 
-public class BaseElloViewController: UIViewController {
+@objc public protocol ControllerThatMightHaveTheCurrentUser {
+    var currentUser: User? { get set }
+}
+
+public class BaseElloViewController: UIViewController, ControllerThatMightHaveTheCurrentUser {
 
     public var currentUser: User? {
         didSet { didSetCurrentUser() }

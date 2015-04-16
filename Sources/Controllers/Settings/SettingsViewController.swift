@@ -20,7 +20,7 @@ public enum SettingsRow: Int {
     case Unknown
 }
 
-public class SettingsViewController: UITableViewController {
+public class SettingsViewController: UITableViewController, ControllerThatMightHaveTheCurrentUser {
 
     @IBOutlet weak public var profileImageView: UIView!
     @IBOutlet weak public var profileDescription: ElloLabel!

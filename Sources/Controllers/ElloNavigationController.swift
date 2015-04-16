@@ -54,7 +54,7 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
 
     func didSetCurrentUser() {
         if self.viewControllers.count > 0 {
-            var controllers = self.viewControllers as! [BaseElloViewController]
+            var controllers = self.viewControllers as! [ControllerThatMightHaveTheCurrentUser]
             for controller in controllers {
                 controller.currentUser = currentUser
             }
