@@ -15,7 +15,7 @@
     },
     {
       "label": "Sharing",
-      "key": "",
+      "key": "has_sharing_enabled",
       "info": "Allow people to share my posts."
     },
     {
@@ -25,7 +25,7 @@
     },
     {
       "label": "Embedded Media",
-      "key": "",
+      "key": "has_ad_notifications_enabled",
       "info": "Warn me when media may contain 3rd party ads."
     },
     {
@@ -53,11 +53,6 @@
       "info": "Receive an e-mail when other people mention you in a post."
     },
     {
-      "label": "Reposts",
-      "key": "",
-      "info": "Receive an e-mail when other people repost your posts."
-    },
-    {
       "label": "New Followers",
       "key": "notify_of_new_followers_via_email",
       "info": "Receive an e-mail when other people follow you."
@@ -74,7 +69,7 @@
     "items": [
     {
       "label": "Updates & Announcements",
-      "key": "",
+      "key": "subscribe_to_users_email_list",
       "info": "Receive e-mails from Ello with service updates and feature announcements"
     }
     ]

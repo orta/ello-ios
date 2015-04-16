@@ -50,13 +50,14 @@ class DynamicSettingCellSpec: QuickSpec {
                 expect(fake.didCall).to(beTrue())
             }
 
-            it("hands the setting to the delegate function") {
+            it("hands the setting and value to the delegate function") {
                 let fake = FakeDelegate()
                 let setting = DynamicSetting(label: "test", key: "", info: "", linkLabel: "", linkURL: .None)
                 subject.delegate = fake
                 subject.setting = setting
                 subject.toggleButtonTapped()
                 expect(fake.setting?.label) == setting.label
+                expect(fake.value) == true
             }
         }
     }
@@ -65,9 +66,11 @@ class DynamicSettingCellSpec: QuickSpec {
 private class FakeDelegate: DynamicSettingCellDelegate {
     var didCall = false
     var setting: DynamicSetting?
+    var value: Bool?
 
-    private func toggleSetting(setting: DynamicSetting) {
+    private func toggleSetting(setting: DynamicSetting, value: Bool) {
         didCall = true
         self.setting = setting
+        self.value = value
     }
 }

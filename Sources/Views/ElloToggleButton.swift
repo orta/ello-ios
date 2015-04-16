@@ -11,7 +11,7 @@ import UIKit
 public class ElloToggleButton: UIButton {
     private let attributes = [NSFontAttributeName: UIFont.typewriterFont(14.0)]
 
-    var value: Bool = false {
+    public var value: Bool = false {
         didSet {
             toggleButton()
         }

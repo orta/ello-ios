@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DynamicSettingCategoryViewController: UITableViewController {
+class DynamicSettingCategoryViewController: UITableViewController, ControllerThatMightHaveTheCurrentUser {
     var category: DynamicSettingCategory?
     var currentUser: User?
 
@@ -17,6 +17,7 @@ class DynamicSettingCategoryViewController: UITableViewController {
 
         title = category?.label
         setupTableView()
+        setupNavigationBar()
     }
 
     private func setupTableView() {
@@ -25,20 +26,40 @@ class DynamicSettingCategoryViewController: UITableViewController {
         tableView.registerNib(UINib(nibName: "DynamicSettingCell", bundle: .None), forCellReuseIdentifier: "DynamicSettingCell")
     }
 
+    private func setupNavigationBar() {
+        let backItem = UIBarButtonItem.backChevronWithTarget(self, action: "backAction")
+        navigationItem.leftBarButtonItem = backItem
+        navigationItem.title = category?.label
+        navigationItem.fixNavBarItemPadding()
+    }
+
+    func backAction() {
+        navigationController?.popViewControllerAnimated(true)
+    }
+
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return category?.settings.count ?? 0
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("DynamicSettingCell", forIndexPath: indexPath) as! DynamicSettingCell
-        let setting = category?.settings[indexPath.row]
-        setting.map { DynamicSettingCellPresenter.configure(cell, setting: $0) }
-        cell.setting = setting
-        cell.delegate = self
+        if  let setting = category?.settings.safeValue(indexPath.row),
+            let user = currentUser
+        {
+            DynamicSettingCellPresenter.configure(cell, setting: setting, currentUser: user)
+            cell.setting = setting
+            cell.delegate = self
+        }
         return cell
     }
 }
 
 extension DynamicSettingCategoryViewController: DynamicSettingCellDelegate {
-    func toggleSetting(setting: DynamicSetting) { }
+    func toggleSetting(setting: DynamicSetting, value: Bool) {
+        if let nav = self.navigationController as? ElloNavigationController {
+            ProfileService().updateUserProfile([setting.key: value], success: nav.setProfileData) { _, _ in
+                self.tableView.reloadData()
+            }
+        }
+    }
 }

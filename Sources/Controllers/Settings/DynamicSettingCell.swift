@@ -9,7 +9,7 @@
 import UIKit
 
 public protocol DynamicSettingCellDelegate {
-     func toggleSetting(setting: DynamicSetting)
+    func toggleSetting(setting: DynamicSetting, value: Bool)
 }
 
 public class DynamicSettingCell: UITableViewCell {
@@ -22,7 +22,7 @@ public class DynamicSettingCell: UITableViewCell {
 
     @IBAction public func toggleButtonTapped() {
         if let setting = setting {
-            delegate?.toggleSetting(setting)
+            delegate?.toggleSetting(setting, value: !toggleButton.value)
             toggleButton.value = !toggleButton.value
         }
     }
