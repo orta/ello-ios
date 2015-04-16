@@ -6,6 +6,12 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+
+public enum ContentType: String {
+    case Post = "Post"
+    case Comment = "Comment"
+}
+
 private let AnalyticsAPIKey = ""
 
 public struct Tracker {
@@ -34,9 +40,9 @@ public extension Tracker {
 
     func screenAppeared(name: String) { }
 
-    func contentCreated(content: String)() { }
-    func contentCreationCanceled(content: String)() { }
-    func contentCreationFailed() { }
+    func contentCreated(type: ContentType) { }
+    func contentCreationCanceled(type: ContentType) { }
+    func contentCreationFailed(type: ContentType, message: String) { }
 
     func contentFlagged(content: String, flag: ContentFlagger.AlertOption) { }
     func contentFlaggingCanceled(content: String) { }
