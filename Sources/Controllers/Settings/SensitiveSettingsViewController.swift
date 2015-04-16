@@ -28,7 +28,7 @@ public class SensitiveSettingsViewController: UITableViewController {
     @IBOutlet weak public var passwordView: ElloTextFieldView!
     @IBOutlet weak public var currentPasswordField: ElloTextField!
     @IBOutlet weak public var errorLabel: ElloErrorLabel!
-    @IBOutlet weak var saveButton: ElloButton!
+    @IBOutlet weak public var saveButton: ElloButton!
 
     public var currentUser: User?
     public var delegate: SensitiveSettingsDelegate?

@@ -39,6 +39,8 @@ class SensitiveSettingsViewControllerSpec: QuickSpec {
                     expect(subject.emailView).notTo(beNil())
                     expect(subject.passwordView).notTo(beNil())
                     expect(subject.currentPasswordField).notTo(beNil())
+                    expect(subject.errorLabel).notTo(beNil())
+                    expect(subject.saveButton).notTo(beNil())
                 }
             }
         }
