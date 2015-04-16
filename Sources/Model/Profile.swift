@@ -152,3 +152,9 @@ public final class Profile: JSONAble, NSCoding {
     }
 }
 
+extension Profile {
+    func propertyForSettingsKey(key: String) -> Bool {
+        let value = self.valueForKey(key.camelWithSnake()) as? Bool
+        return value ?? false
+    }
+}

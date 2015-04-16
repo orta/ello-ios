@@ -641,5 +641,15 @@ public extension String {
     func contains(string: String) -> Bool {
         return self.rangeOfString(string, options: .CaseInsensitiveSearch) != .None
     }
+
+    func camelWithSnake() -> String {
+        let splits = split(self) { $0 == "_" }
+        var capSplits: [String] = splits.map { s in
+            let index = s.startIndex.successor()
+            return s.substringToIndex(index).capitalizedString + s.substringFromIndex(index)
+        }
+        capSplits.replaceRange(0..<1, with: [splits.first ?? ""])
+        return "".join(capSplits)
+    }
 }
 
