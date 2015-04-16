@@ -1,5 +1,5 @@
 //
-//  SensitiveSettingsViewControllerSpec.swift
+//  CredentialSettingsViewControllerSpec.swift
 //  Ello
 //
 //  Created by Tony DiPasquale on 3/24/15.
@@ -11,9 +11,9 @@ import Quick
 import Nimble
 
 
-class SensitiveSettingsViewControllerSpec: QuickSpec {
+class CredentialSettingsViewControllerSpec: QuickSpec {
     override func spec() {
-        var subject = SensitiveSettingsViewController.instantiateFromStoryboard()
+        var subject = CredentialSettingsViewController.instantiateFromStoryboard()
 
         beforeSuite {
             ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
@@ -24,7 +24,7 @@ class SensitiveSettingsViewControllerSpec: QuickSpec {
         }
 
         beforeEach {
-            subject = SensitiveSettingsViewController.instantiateFromStoryboard()
+            subject = CredentialSettingsViewController.instantiateFromStoryboard()
             subject.loadView()
         }
 
@@ -128,7 +128,7 @@ class SensitiveSettingsViewControllerSpec: QuickSpec {
             }
 
             it("calls the delegate function when set") {
-                let fake = FakeSensitiveSettingsDelegate()
+                let fake = FakeCredentialSettingsDelegate()
                 subject.delegate = fake
                 subject.valueChanged()
                 expect(fake.didCall).to(beTrue())
@@ -172,10 +172,10 @@ class SensitiveSettingsViewControllerSpec: QuickSpec {
     }
 }
 
-class FakeSensitiveSettingsDelegate: SensitiveSettingsDelegate {
+class FakeCredentialSettingsDelegate: CredentialSettingsDelegate {
     var didCall = false
 
-    func sensitiveSettingsDidUpdate() {
+    func credentialSettingsDidUpdate() {
         didCall = true
     }
 }

@@ -12,7 +12,7 @@ public enum SettingsRow: Int {
     case CoverImage
     case ProfileImage
     case ProfileDescription
-    case SensitiveSettings
+    case CredentialSettings
     case Name
     case Bio
     case Links
@@ -27,12 +27,12 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
 
     public var currentUser: User? {
         didSet {
-            sensitiveSettingsViewController?.currentUser = currentUser
+            credentialSettingsViewController?.currentUser = currentUser
             dynamicSettingsViewController?.currentUser = currentUser
         }
     }
 
-    var sensitiveSettingsViewController: SensitiveSettingsViewController?
+    var credentialSettingsViewController: CredentialSettingsViewController?
     var dynamicSettingsViewController: DynamicSettingsViewController?
 
     override public func viewDidLoad() {
@@ -70,7 +70,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         case .CoverImage: return 200
         case .ProfileImage: return 250
         case .ProfileDescription: return 130
-        case .SensitiveSettings: return sensitiveSettingsViewController?.height ?? 0
+        case .CredentialSettings: return credentialSettingsViewController?.height ?? 0
         case .Name: return 97
         case .Bio: return 200
         case .Links: return 97
@@ -81,10 +81,10 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
 
     override public func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         switch segue.identifier ?? "" {
-        case "SensitiveSettingsSegue":
-            sensitiveSettingsViewController = segue.destinationViewController as? SensitiveSettingsViewController
-            sensitiveSettingsViewController?.currentUser = currentUser
-            sensitiveSettingsViewController?.delegate = self
+        case "CredentialSettingsSegue":
+            credentialSettingsViewController = segue.destinationViewController as? CredentialSettingsViewController
+            credentialSettingsViewController?.currentUser = currentUser
+            credentialSettingsViewController?.delegate = self
 
         case "DynamicSettingsSegue":
             dynamicSettingsViewController = segue.destinationViewController as? DynamicSettingsViewController
@@ -99,8 +99,8 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     }
 }
 
-extension SettingsViewController: SensitiveSettingsDelegate {
-    public func sensitiveSettingsDidUpdate() {
+extension SettingsViewController: CredentialSettingsDelegate {
+    public func credentialSettingsDidUpdate() {
         tableView.beginUpdates()
         tableView.endUpdates()
     }

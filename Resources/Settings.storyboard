@@ -170,7 +170,7 @@
                                                 <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hnR-bh-oEh">
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="267"/>
                                                     <connections>
-                                                        <segue destination="a55-rf-841" kind="embed" identifier="SensitiveSettingsSegue" id="UlV-Q3-620"/>
+                                                        <segue destination="a55-rf-841" kind="embed" identifier="CredentialSettingsSegue" id="UlV-Q3-620"/>
                                                     </connections>
                                                 </containerView>
                                             </subviews>
@@ -305,10 +305,10 @@
             </objects>
             <point key="canvasLocation" x="628" y="516"/>
         </scene>
-        <!--Sensitive Settings View Controller-->
+        <!--Credential Settings View Controller-->
         <scene sceneID="WVL-K4-Ckj">
             <objects>
-                <tableViewController storyboardIdentifier="SensitiveSettingsViewController" id="a55-rf-841" customClass="SensitiveSettingsViewController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="CredentialSettingsViewController" id="a55-rf-841" customClass="CredentialSettingsViewController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="static" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="80" sectionHeaderHeight="22" sectionFooterHeight="22" id="QLt-tZ-ekt">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="447"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

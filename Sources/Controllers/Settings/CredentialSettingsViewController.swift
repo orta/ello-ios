@@ -1,5 +1,5 @@
 //
-//  SensitiveSettingsViewController.swift
+//  CredentialSettingsViewController.swift
 //  Ello
 //
 //  Created by Tony DiPasquale on 3/24/15.
@@ -8,13 +8,13 @@
 
 import Foundation
 
-private let SensitiveSettingsSubmitViewHeight: CGFloat = 128
+private let CredentialSettingsSubmitViewHeight: CGFloat = 128
 
-public protocol SensitiveSettingsDelegate {
-    func sensitiveSettingsDidUpdate()
+public protocol CredentialSettingsDelegate {
+    func credentialSettingsDidUpdate()
 }
 
-private enum SensitiveSettingsRow: Int {
+private enum CredentialSettingsRow: Int {
     case Username
     case Email
     case Password
@@ -22,7 +22,7 @@ private enum SensitiveSettingsRow: Int {
     case Unknown
 }
 
-public class SensitiveSettingsViewController: UITableViewController {
+public class CredentialSettingsViewController: UITableViewController {
     @IBOutlet weak public var usernameView: ElloTextFieldView!
     @IBOutlet weak public var emailView: ElloTextFieldView!
     @IBOutlet weak public var passwordView: ElloTextFieldView!
@@ -31,7 +31,7 @@ public class SensitiveSettingsViewController: UITableViewController {
     @IBOutlet weak public var saveButton: ElloButton!
 
     public var currentUser: User?
-    public var delegate: SensitiveSettingsDelegate?
+    public var delegate: CredentialSettingsDelegate?
     var validationCancel: Functional.BasicBlock?
 
     public var isUpdatable: Bool {
@@ -151,7 +151,7 @@ public class SensitiveSettingsViewController: UITableViewController {
     }
 
     public func valueChanged() {
-        delegate?.sensitiveSettingsDidUpdate()
+        delegate?.credentialSettingsDidUpdate()
     }
 
     private func updateView() {
@@ -161,7 +161,7 @@ public class SensitiveSettingsViewController: UITableViewController {
     }
 
     override public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        switch SensitiveSettingsRow(rawValue: indexPath.row) ?? .Unknown {
+        switch CredentialSettingsRow(rawValue: indexPath.row) ?? .Unknown {
         case .Username: return usernameView.height
         case .Email: return emailView.height
         case .Password: return passwordView.height
@@ -171,7 +171,7 @@ public class SensitiveSettingsViewController: UITableViewController {
     }
 
     private var submitViewHeight: CGFloat {
-        let height = SensitiveSettingsSubmitViewHeight
+        let height = CredentialSettingsSubmitViewHeight
         return height + (errorLabel.text != "" ? errorLabel.frame.height + 8 : 0)
     }
 
@@ -236,8 +236,8 @@ public class SensitiveSettingsViewController: UITableViewController {
     }
 }
 
-public extension SensitiveSettingsViewController {
-    class func instantiateFromStoryboard() -> SensitiveSettingsViewController {
-        return UIStoryboard(name: "Settings", bundle: NSBundle(forClass: AppDelegate.self)).instantiateViewControllerWithIdentifier("SensitiveSettingsViewController") as! SensitiveSettingsViewController
+public extension CredentialSettingsViewController {
+    class func instantiateFromStoryboard() -> CredentialSettingsViewController {
+        return UIStoryboard(name: "Settings", bundle: NSBundle(forClass: AppDelegate.self)).instantiateViewControllerWithIdentifier("CredentialSettingsViewController") as! CredentialSettingsViewController
     }
 }
