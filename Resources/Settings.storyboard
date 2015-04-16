@@ -42,7 +42,7 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mez-WV-SCz">
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="(tap to edit)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R8R-j4-bAe">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(tap to edit)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R8R-j4-bAe">
                                                             <rect key="frame" x="233" y="92" width="134" height="16"/>
                                                             <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="16"/>
                                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -85,7 +85,7 @@
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JlU-8X-cmD">
                                                             <rect key="frame" x="0.0" y="0.0" width="200" height="202"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="(tap to edit)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="spU-yZ-sOq">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(tap to edit)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="spU-yZ-sOq">
                                                                     <rect key="frame" x="33" y="93" width="134" height="16"/>
                                                                     <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="16"/>
                                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -137,7 +137,7 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qI7-BO-CpZ" id="pRY-LO-X4I">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Profile" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fsS-Ce-3ei">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Profile" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fsS-Ce-3ei">
                                                     <rect key="frame" x="8" y="8" width="65" height="32"/>
                                                     <fontDescription key="fontDescription" name="AtlasGrotesk-Bold" family="Atlas Grotesk" pointSize="20"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -187,13 +187,13 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xce-vt-AjM" id="SD5-Hw-68m">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E1Y-Tv-9le">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E1Y-Tv-9le">
                                                     <rect key="frame" x="8" y="8" width="39" height="15"/>
                                                     <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="15"/>
                                                     <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="V11-Hj-0hd" customClass="ElloTextField" customModule="Ello" customModuleProvider="target">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="V11-Hj-0hd" customClass="ElloTextField" customModule="Ello" customModuleProvider="target">
                                                     <rect key="frame" x="8" y="31" width="584" height="50"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -214,13 +214,13 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pIw-nr-rpN" id="X2J-gF-7y6">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Bio" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ByA-mg-wdp">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bio" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ByA-mg-wdp">
                                                     <rect key="frame" x="8" y="8" width="29" height="15"/>
                                                     <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="15"/>
                                                     <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8GS-hA-vSR" customClass="ElloEditableTextView" customModule="Ello" customModuleProvider="target">
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8GS-hA-vSR" customClass="ElloEditableTextView" customModule="Ello" customModuleProvider="target">
                                                     <rect key="frame" x="8" y="31" width="584" height="161"/>
                                                     <color key="backgroundColor" red="0.89803921568627454" green="0.89803921568627454" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="14"/>
@@ -242,13 +242,13 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eDQ-Gb-bxc" id="8Eb-Nw-TEY">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Links" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qUd-W4-ozk">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Links" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qUd-W4-ozk">
                                                     <rect key="frame" x="8" y="8" width="48" height="15"/>
                                                     <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="15"/>
                                                     <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fRX-Ur-lhn" customClass="ElloTextField" customModule="Ello" customModuleProvider="target">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fRX-Ur-lhn" customClass="ElloTextField" customModule="Ello" customModuleProvider="target">
                                                     <rect key="frame" x="8" y="31" width="584" height="50"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -310,7 +310,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="SensitiveSettingsViewController" id="a55-rf-841" customClass="SensitiveSettingsViewController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="static" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="80" sectionHeaderHeight="22" sectionFooterHeight="22" id="QLt-tZ-ekt">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="399"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="447"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <sections>
@@ -375,14 +375,17 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hnU-BR-Xdc" id="Bqj-Gp-r26">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Re-enter your Ello password (8+ characters) to save changes to your account." lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EeE-Bu-dku">
-                                                    <rect key="frame" x="8" y="8" width="260" height="46"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Re-enter your Ello password (8+ characters) to save changes to your account." lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EeE-Bu-dku">
+                                                    <rect key="frame" x="8" y="8" width="260" height="45"/>
                                                     <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="15"/>
                                                     <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Current Password *" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Znt-wY-XbZ" customClass="ElloTextField" customModule="Ello" customModuleProvider="target">
-                                                    <rect key="frame" x="8" y="62" width="506" height="50"/>
+                                                    <rect key="frame" x="8" y="61" width="506" height="52"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="52" id="dM5-ly-sIX"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                                 </textField>
@@ -393,18 +396,28 @@
                                                         <constraint firstAttribute="height" constant="50" id="vam-ap-oNb"/>
                                                     </constraints>
                                                     <state key="normal" title="Save"/>
+                                                    <connections>
+                                                        <action selector="saveButtonTapped" destination="a55-rf-841" eventType="touchUpInside" id="JPR-ce-01x"/>
+                                                    </connections>
                                                 </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hCs-KV-8Pu" customClass="ElloErrorLabel" customModule="Ello" customModuleProvider="target">
+                                                    <rect key="frame" x="8" y="121" width="0.0" height="0.0"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="Znt-wY-XbZ" firstAttribute="top" secondItem="EeE-Bu-dku" secondAttribute="bottom" constant="8" id="AYE-H4-rwo"/>
                                                 <constraint firstItem="EeE-Bu-dku" firstAttribute="top" secondItem="Bqj-Gp-r26" secondAttribute="topMargin" id="OGN-jG-zAB"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="h0e-7m-r6C" secondAttribute="bottom" constant="8" id="UPd-Ca-9SG"/>
+                                                <constraint firstItem="hCs-KV-8Pu" firstAttribute="top" secondItem="Znt-wY-XbZ" secondAttribute="bottom" constant="8" id="Wix-Kn-8rd"/>
                                                 <constraint firstItem="Znt-wY-XbZ" firstAttribute="centerY" secondItem="h0e-7m-r6C" secondAttribute="centerY" id="Y9n-6G-F4J"/>
                                                 <constraint firstAttribute="trailing" secondItem="h0e-7m-r6C" secondAttribute="trailing" constant="8" id="Z64-bi-iET"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="Znt-wY-XbZ" secondAttribute="bottom" constant="8" id="diS-pg-IjT"/>
                                                 <constraint firstItem="EeE-Bu-dku" firstAttribute="leading" secondItem="Bqj-Gp-r26" secondAttribute="leading" constant="8" id="h3L-jE-Uo8"/>
                                                 <constraint firstItem="h0e-7m-r6C" firstAttribute="leading" secondItem="Znt-wY-XbZ" secondAttribute="trailing" constant="8" id="h6Z-Qt-7uS"/>
                                                 <constraint firstItem="Znt-wY-XbZ" firstAttribute="leading" secondItem="Bqj-Gp-r26" secondAttribute="leading" constant="8" id="vBF-wr-TQj"/>
+                                                <constraint firstItem="hCs-KV-8Pu" firstAttribute="leading" secondItem="Bqj-Gp-r26" secondAttribute="leading" constant="8" id="vDH-rc-DXt"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="hCs-KV-8Pu" secondAttribute="trailing" constant="8" id="wet-Yj-qvy"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -417,17 +430,19 @@
                         </connections>
                     </tableView>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="600" height="399"/>
+                    <size key="freeformSize" width="600" height="447"/>
                     <connections>
                         <outlet property="currentPasswordField" destination="Znt-wY-XbZ" id="4av-xD-xs9"/>
                         <outlet property="emailView" destination="1Vt-x7-9bm" id="xuu-nh-7dq"/>
+                        <outlet property="errorLabel" destination="hCs-KV-8Pu" id="qBK-UO-c67"/>
                         <outlet property="passwordView" destination="fbg-6E-NBp" id="71i-6O-SXe"/>
+                        <outlet property="saveButton" destination="h0e-7m-r6C" id="221-PY-Ewx"/>
                         <outlet property="usernameView" destination="WI9-c1-A8C" id="1cw-kM-WJk"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iWJ-Cv-JGS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1342" y="516"/>
+            <point key="canvasLocation" x="1342" y="515.5"/>
         </scene>
         <!--Dynamic Settings View Controller-->
         <scene sceneID="63N-GQ-Lh9">

@@ -55,4 +55,10 @@ public class ElloTextFieldView: UIView {
         messageLabel.textColor = UIColor.blackColor()
         messageLabel.sizeToFit()
     }
+
+    func clearState() {
+        textField.setValidationState(.None)
+        setErrorMessage("")
+        setMessage("")
+    }
 }

@@ -25,7 +25,13 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     @IBOutlet weak public var profileImageView: UIView!
     @IBOutlet weak public var profileDescription: ElloLabel!
 
-    var currentUser: User?
+    public var currentUser: User? {
+        didSet {
+            sensitiveSettingsViewController?.currentUser = currentUser
+            dynamicSettingsViewController?.currentUser = currentUser
+        }
+    }
+
     var sensitiveSettingsViewController: SensitiveSettingsViewController?
     var dynamicSettingsViewController: DynamicSettingsViewController?
 

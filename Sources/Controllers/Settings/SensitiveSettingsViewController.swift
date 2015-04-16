@@ -27,6 +27,8 @@ public class SensitiveSettingsViewController: UITableViewController {
     @IBOutlet weak public var emailView: ElloTextFieldView!
     @IBOutlet weak public var passwordView: ElloTextFieldView!
     @IBOutlet weak public var currentPasswordField: ElloTextField!
+    @IBOutlet weak public var errorLabel: ElloErrorLabel!
+    @IBOutlet weak var saveButton: ElloButton!
 
     public var currentUser: User?
     public var delegate: SensitiveSettingsDelegate?
@@ -40,7 +42,7 @@ public class SensitiveSettingsViewController: UITableViewController {
 
     public var height: CGFloat {
         let cellHeights = usernameView.height + emailView.height + passwordView.height
-        return cellHeights + (isUpdatable ? SensitiveSettingsSubmitViewHeight : 0)
+        return cellHeights + (isUpdatable ? submitViewHeight : 0)
     }
 
     override public func viewDidLoad() {
@@ -144,13 +146,15 @@ public class SensitiveSettingsViewController: UITableViewController {
             }
             self.updateView()
         }
+
+        currentPasswordField.addTarget(self, action: "passwordChanged", forControlEvents: .EditingChanged)
     }
 
     public func valueChanged() {
         delegate?.sensitiveSettingsDidUpdate()
     }
 
-    func updateView() {
+    private func updateView() {
         self.tableView.beginUpdates()
         self.tableView.endUpdates()
         valueChanged()
@@ -161,9 +165,74 @@ public class SensitiveSettingsViewController: UITableViewController {
         case .Username: return usernameView.height
         case .Email: return emailView.height
         case .Password: return passwordView.height
-        case .Submit: return SensitiveSettingsSubmitViewHeight
+        case .Submit: return submitViewHeight
         case .Unknown: return 0
         }
+    }
+
+    private var submitViewHeight: CGFloat {
+        let height = SensitiveSettingsSubmitViewHeight
+        return height + (errorLabel.text != "" ? errorLabel.frame.height + 8 : 0)
+    }
+
+    public func passwordChanged() {
+        saveButton.enabled = currentPasswordField.text.isValidPassword()
+    }
+
+    @IBAction func saveButtonTapped() {
+        var content: [String: AnyObject] = [
+            "username": usernameView.textField.text,
+            "email": emailView.textField.text,
+            "current_password": currentPasswordField.text
+        ]
+
+        if !passwordView.textField.text.isEmpty {
+            content["password"] = passwordView.textField.text
+            content["password_confirmation"] = passwordView.textField.text
+        }
+
+        if let nav = self.navigationController as? ElloNavigationController {
+            ProfileService().updateUserProfile(content, success: {
+                nav.setProfileData($0, responseConfig: $1)
+                self.resetViews()
+            }) { error, _ in
+                self.currentPasswordField.text = ""
+                self.passwordView.textField.text = ""
+
+                if let err = error.userInfo?[NSLocalizedFailureReasonErrorKey] as? ElloNetworkError {
+                    self.handleError(err)
+                }
+            }
+        }
+    }
+
+    private func resetViews() {
+        currentPasswordField.text = ""
+        passwordView.textField.text = ""
+        errorLabel.setLabelText("")
+        usernameView.clearState()
+        emailView.clearState()
+        passwordView.clearState()
+        updateView()
+    }
+
+    private func handleError(error: ElloNetworkError) {
+        if let message = error.attrs?["password"] {
+            passwordView.setErrorMessage(message.first ?? "")
+        }
+
+        if let message = error.attrs?["email"] {
+            emailView.setErrorMessage(message.first ?? "")
+        }
+
+        if let message = error.attrs?["username"] {
+            usernameView.setErrorMessage(message.first ?? "")
+        }
+
+        errorLabel.setLabelText(error.messages?.first ?? "")
+        errorLabel.sizeToFit()
+
+        updateView()
     }
 }
 
