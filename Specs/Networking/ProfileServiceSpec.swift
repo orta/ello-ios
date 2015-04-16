@@ -84,7 +84,7 @@ class ProfileServiceSpec: QuickSpec {
                     expect(returnedUser).toNot(beNil())
 
                     //smoke test the user
-                    expect(returnedUser?.userId) == "42"
+                    expect(returnedUser?.id) == "42"
                     expect(returnedUser?.username) == "odinarcher"
                     expect(returnedUser?.formattedShortBio) == "<p>I work for <strong>Odin</strong> now! MOTHER!</p>"
                 }

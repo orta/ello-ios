@@ -48,7 +48,7 @@ public struct ProfileService {
         )
     }
 
-    public func updateUserProfile(content: [String: AnyObject], success: ProfileSuccessCompletion, failure: ElloFailureCompletion?) {
+    public func updateUserProfile(content: [String: AnyObject], success: UserSuccessCompletion, failure: ElloFailureCompletion?) {
         ElloProvider.elloRequest(ElloAPI.ProfileUpdate(body: content),
             method: .PATCH,
             success: { data, responseConfig in
