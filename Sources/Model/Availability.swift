@@ -36,7 +36,7 @@ public final class Availability: JSONAble {
 }
 
 extension Availability {
-    override public class func fromJSON(data: [String: AnyObject]) -> JSONAble {
+    override public class func fromJSON(data: [String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         let json = JSON(data)
         let username = json["username"].boolValue
         let email = json["email"].boolValue

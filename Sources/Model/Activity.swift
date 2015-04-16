@@ -11,7 +11,7 @@ import SwiftyJSON
 let ActivityVersion = 1
 
 public final class Activity: JSONAble {
-    public let version: Int = ActivityVersion
+    public let version = ActivityVersion
 
     // active record
     public let id: String
@@ -110,27 +110,24 @@ public final class Activity: JSONAble {
 
 // MARK: JSONAble
 
-    override public class func fromJSON(data:[String: AnyObject]) -> JSONAble {
+    override public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         let json = JSON(data)
-
         // active record
         let id = json["created_at"].stringValue
         let createdAt = id.toNSDate()!
-        // required
-        let kind = Kind(rawValue: json["kind"].stringValue) ?? Kind.Unknown
-        let subjectType = SubjectType(rawValue: json["subject_type"].stringValue) ?? SubjectType.Unknown
         // create activity
         var activity = Activity(
             id: id,
             createdAt: createdAt,
-            kind: kind,
-            subjectType: subjectType
+            kind: Kind(rawValue: json["kind"].stringValue) ?? Kind.Unknown,
+            subjectType: SubjectType(rawValue: json["subject_type"].stringValue) ?? SubjectType.Unknown
         )
         // links
         activity.links = data["links"] as? [String: AnyObject]
         // store self in collection
-        ElloLinkedStore.sharedInstance.setObject(activity, forKey: activity.id, inCollection: MappingType.ActivitiesType.rawValue)
-
+        if !fromLinked {
+            ElloLinkedStore.sharedInstance.setObject(activity, forKey: activity.id, inCollection: MappingType.ActivitiesType.rawValue)
+        }
         return activity
     }
 }

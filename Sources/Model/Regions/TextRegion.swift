@@ -12,10 +12,9 @@ import SwiftyJSON
 let TextRegionVersion = 1
 
 public final class TextRegion: JSONAble {
+    public let version = TextRegionVersion
 
-    public let version: Int = TextRegionVersion
-
-    public let content:String
+    public let content: String
 
 // MARK: Initialization
 
@@ -39,9 +38,23 @@ public final class TextRegion: JSONAble {
     
 // MARK: JSONAble
 
-    override public class func fromJSON(data:[String: AnyObject]) -> JSONAble {
+    override public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         let json = JSON(data)
         let content = json["data"].stringValue
         return TextRegion(content: content)
+    }
+}
+
+extension TextRegion: Regionable {
+    public var kind:String { return RegionKind.Text.rawValue }
+    public func coding() -> NSCoding {
+        return self
+    }
+
+    public func toJSON() -> [String: AnyObject] {
+        return [
+            "kind": self.kind,
+            "data": self.content
+        ]
     }
 }

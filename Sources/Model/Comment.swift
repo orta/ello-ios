@@ -11,7 +11,7 @@ import SwiftyJSON
 let CommentVersion = 1
 
 public final class Comment: JSONAble, Authorable {
-    public let version: Int = CommentVersion
+    public let version = CommentVersion
 
     // active record
     public let id: String
@@ -20,7 +20,12 @@ public final class Comment: JSONAble, Authorable {
     public let postId: String
     public let content: [Regionable]
     // links
-    public var assets: [String: Asset]?
+    public var assets: [Asset]? {
+        if let assets = getLinkArray("assets") as? [Asset] {
+            return assets
+        }
+        return nil
+    }
     public var author: User? { return getLinkObject("author") as? User }
     public var parentPost: Post? { return getLinkObject("parent_post") as? Post }
     // computed properties
@@ -53,8 +58,6 @@ public final class Comment: JSONAble, Authorable {
         // required
         self.postId = decoder.decodeKey("postId")
         self.content = decoder.decodeKey("content")
-        // links
-        self.assets = decoder.decodeOptionalKey("assets")
         super.init(coder: aDecoder)
     }
 
@@ -65,44 +68,26 @@ public final class Comment: JSONAble, Authorable {
         // required
         encoder.encodeObject(postId, forKey: "postId")
         encoder.encodeObject(content, forKey: "content")
-        // links
-        encoder.encodeObject(assets, forKey: "assets")
         super.encodeWithCoder(encoder)
     }
 
 // MARK: JSONAble
 
-    override class public func fromJSON(data:[String: AnyObject]) -> JSONAble {
+    override class public func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         let json = JSON(data)
-
-        // active record
-        let id = json["id"].stringValue
-        let createdAt = json["created_at"].stringValue.toNSDate()!
-        // required
-        let postId = json["post_id"].stringValue
-        let content = RegionParser.regions("content", json: json)
-        // create post
+        // create comment
         var comment = Comment(
-            id: id,
-            createdAt: createdAt,
-            postId: postId,
-            content: content
+            id: json["id"].stringValue,
+            createdAt: json["created_at"].stringValue.toNSDate()!,
+            postId: json["post_id"].stringValue,
+            content: RegionParser.regions("content", json: json)
             )
-        // links
-        var links = [String: AnyObject]()
-        var assets =  [String: Asset]()
-        var author: User?
-        var parentPost:Post?
-//        if let linksNode = data["links"] as? [String: AnyObject] {
-//            links = ElloLinkedStore.sharedInstance.parseLinks(linksNode)
-//            comment.assets = links["assets"] as? [String: Asset]
-//            comment.author = links["author"] as? User
-//            comment.parentPost = links["parent_post"] as? Post
-//        }
         // links
         comment.links = data["links"] as? [String: AnyObject]
         // store self in collection
-        ElloLinkedStore.sharedInstance.setObject(comment, forKey: comment.id, inCollection: MappingType.CommentsType.rawValue)
+        if !fromLinked {
+            ElloLinkedStore.sharedInstance.setObject(comment, forKey: comment.id, inCollection: MappingType.CommentsType.rawValue)
+        }
         return comment
     }
 

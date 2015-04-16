@@ -9,7 +9,7 @@
 import UIKit
 import YapDatabase
 
-public typealias FromJSONClosure = (data: [String: AnyObject]) -> JSONAble
+public typealias FromJSONClosure = (data: [String: AnyObject], fromLinked: Bool) -> JSONAble
 
 public class JSONAble: NSObject, NSCoding {
     // links
@@ -28,7 +28,7 @@ public class JSONAble: NSObject, NSCoding {
         encoder.encodeObject(links, forKey: "links")
     }
 
-    public class func fromJSON(data:[String: AnyObject]) -> JSONAble {
+    public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         return JSONAble()
     }
 }
@@ -43,6 +43,11 @@ extension JSONAble {
                 obj = transaction.objectForKey(key, inCollection: collection) as? JSONAble
             }
         }
+        else if let key = links?[identifier] as? String {
+            ElloLinkedStore.sharedInstance.database.newConnection().readWithBlock { transaction in
+                obj = transaction.objectForKey(key, inCollection: identifier) as? JSONAble
+            }
+        }
         return obj
     }
 
@@ -53,6 +58,7 @@ extension JSONAble {
             ElloLinkedStore.sharedInstance.database.newConnection().readWithBlock { transaction in
                 for key in ids {
                     if let jsonable = transaction.objectForKey(key, inCollection: identifier) as? JSONAble {
+                        println("key: \(key) collection: \(identifier) \(jsonable)")
                         arr += [jsonable]
                     }
                 }

@@ -27,7 +27,7 @@ public struct Mapper {
 
         if let dicts = object as? [[String:AnyObject]] {
             let jsonables:[JSONAble] =  dicts.map {
-                let jsonable = fromJSON(data: $0)
+                let jsonable = fromJSON(data: $0, fromLinked: false)
                 if let linkObject = linkObject {
                     jsonable.addLinkObject(linkObject.identifier, key: linkObject.key, collection: linkObject.collection)
                 }
@@ -41,7 +41,7 @@ public struct Mapper {
 
     public static func mapToObject(object:AnyObject?, fromJSON: FromJSONClosure) -> JSONAble? {
         if let dict = object as? [String:AnyObject] {
-            let jsonable = fromJSON(data: dict)
+            let jsonable = fromJSON(data: dict, fromLinked: false)
             return jsonable
         }
         else {

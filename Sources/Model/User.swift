@@ -25,14 +25,14 @@ public final class User: JSONAble {
     public let experimentalFeatures: Bool
     public let relationshipPriority: Relationship
     // optional
-    public var avatar: ImageAttachment? // required, but kinda optional due to it being nested in json
+    public var avatar: Attachment? // required, but kinda optional due to it being nested in json
     public var identifiableBy: String?
     public var postsCount: Int?
     public var followersCount: String? // string due to this returning "∞" for the ello user
     public var followingCount: Int?
     public var formattedShortBio: String?
     public var externalLinks: String? // this will change to an object when incoming
-    public var coverImage: ImageAttachment?
+    public var coverImage: Attachment?
     public var backgroundPosition: String?
     // links
     public var posts: [Post]? {
@@ -133,7 +133,7 @@ public final class User: JSONAble {
 
 // MARK: JSONAble
 
-    override public class func fromJSON(data:[String: AnyObject]) -> JSONAble {
+    override public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         let json = JSON(data)
 
         // create user
@@ -148,11 +148,11 @@ public final class User: JSONAble {
 
         // optional
         if let avatarObj = json["avatar"].object as? [String:[String:AnyObject]] {
-            if let avatarPath = avatarObj["large"]?["url"] as? String {
-                user.avatar = ImageAttachment(url: NSURL(string: avatarPath, relativeToURL: NSURL(string: ElloURI.baseURL)), height: 0, width: 0, imageType: "png", size: 0)
+            if let largePath = avatarObj["large"] {
+                user.avatar = Attachment.fromJSON(largePath) as? Attachment
             }
-            else if let originalPath = avatarObj["original"]?["url"] as? String {
-                user.coverImage = ImageAttachment(url: NSURL(string: originalPath, relativeToURL: NSURL(string: ElloURI.baseURL)), height: 0, width: 0, imageType: "png", size: 0)
+            else if let originalPath = avatarObj["original"] {
+                user.avatar = Attachment.fromJSON(originalPath) as? Attachment
             }
         }
         user.identifiableBy = json["identifiable_by"].stringValue
@@ -162,11 +162,11 @@ public final class User: JSONAble {
         user.formattedShortBio = json["formatted_short_bio"].stringValue
         user.externalLinks = json["external_links"].stringValue
         if var coverImageObj = json["cover_image"].object as? [String:[String:AnyObject]] {
-            if let hdpiPath = coverImageObj["hdpi"]?["url"] as? String {
-                user.coverImage = ImageAttachment(url: NSURL(string: hdpiPath, relativeToURL: NSURL(string: ElloURI.baseURL)), height: 0, width: 0, imageType: "png", size: 0)
+            if let hdpiPath = coverImageObj["hdpi"] {
+                user.coverImage = Attachment.fromJSON(hdpiPath) as? Attachment
             }
-            else if let optimizedPath = coverImageObj["optimized"]?["url"] as? String {
-                user.coverImage = ImageAttachment(url: NSURL(string: optimizedPath, relativeToURL: NSURL(string: ElloURI.baseURL)), height: 0, width: 0, imageType: "png", size: 0)
+            else if let optimizedPath = coverImageObj["optimized"] {
+                user.coverImage = Attachment.fromJSON(optimizedPath) as? Attachment
             }
         }
         user.backgroundPosition = json["background_positiion"].stringValue
@@ -177,7 +177,9 @@ public final class User: JSONAble {
             user.profile = Profile.fromJSON(data) as? Profile
         }
         // store self in collection
-        ElloLinkedStore.sharedInstance.setObject(user, forKey: user.id, inCollection: MappingType.UsersType.rawValue)
+        if !fromLinked {
+            ElloLinkedStore.sharedInstance.setObject(user, forKey: user.id, inCollection: MappingType.UsersType.rawValue)
+        }
         return user
     }
 }

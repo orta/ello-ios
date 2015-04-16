@@ -21,7 +21,7 @@ public protocol Authorable {
 let PostVersion = 1
 
 public final class Post: JSONAble, Authorable {
-    public let version: Int = PostVersion
+    public let version = PostVersion
 
     // active record
     public let id: String
@@ -43,11 +43,13 @@ public final class Post: JSONAble, Authorable {
     public var commentsCount: Int?
     public var repostsCount: Int?
     // links
-    public var assets: [String: Asset]?
-    public var author: User? {
-        println("author post \(id) links: \(links)")
-        return getLinkObject("author") as? User
+    public var assets: [Asset]? {
+        if let assets = getLinkArray("assets") as? [Asset] {
+            return assets
+        }
+        return nil
     }
+    public var author: User? { return getLinkObject("author") as? User }
     // nested resources
     public var comments: [Comment]? {
         if let comments = getLinkArray(MappingType.CommentsType.rawValue) as? [Comment] {
@@ -147,8 +149,6 @@ public final class Post: JSONAble, Authorable {
         self.viewsCount = decoder.decodeOptionalKey("viewsCount")
         self.commentsCount = decoder.decodeOptionalKey("commentsCount")
         self.repostsCount = decoder.decodeOptionalKey("repostsCount")
-        // links
-        self.assets = decoder.decodeOptionalKey("assets")
         super.init(coder: aDecoder)
         // register for updates
         registerNotifications()
@@ -180,37 +180,22 @@ public final class Post: JSONAble, Authorable {
         if let repostsCount = self.repostsCount {
             encoder.encodeInt64(Int64(repostsCount), forKey: "repostsCount")
         }
-        // links
-        encoder.encodeObject(assets, forKey: "assets")
         super.encodeWithCoder(encoder)
-    }
-
-    func save() {
-        ElloLinkedStore.sharedInstance.setObject(self, forKey: id, inCollection: MappingType.PostsType.rawValue)
     }
 
 // MARK: JSONAble
 
-    override public class func fromJSON(data:[String: AnyObject]) -> JSONAble {
+    override public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         let json = JSON(data)
-        // active record
-        let id = json["id"].stringValue
-        let createdAt: NSDate = json["created_at"].stringValue.toNSDate()!
-        // required
-        let href = json["href"].stringValue
-        let token = json["token"].stringValue
-        let contentWarning = json["content_warning"].stringValue
-        let allowComments = json["allow_comments"].boolValue
-        let summary: [Regionable] = RegionParser.regions("summary", json: json)
         // create post
         var post = Post(
-            id: id,
-            createdAt: createdAt,
-            href: href,
-            token: token,
-            contentWarning: contentWarning,
-            allowComments: allowComments,
-            summary: summary
+            id: json["id"].stringValue,
+            createdAt: json["created_at"].stringValue.toNSDate()!,
+            href: json["href"].stringValue,
+            token: json["token"].stringValue,
+            contentWarning: json["content_warning"].stringValue,
+            allowComments: json["allow_comments"].boolValue,
+            summary: RegionParser.regions("summary", json: json)
             )
         // optional
         post.content = RegionParser.regions("content", json: json)
@@ -222,21 +207,12 @@ public final class Post: JSONAble, Authorable {
         post.viewsCount = json["views_count"].int
         post.commentsCount = json["comments_count"].int
         post.repostsCount = json["reposts_count"].int
-        // links / nested resources
-//        if let linksNode = data["links"] as? [String: AnyObject] {
-//            ElloLinkedStore.sharedInstance.parseLinks(linksNode) { links in
-//                post.author = links["author"] as? User
-//                post.assets = links["assets"] as? [String: Asset]
-//                post.comments = links["comments"] as? [Comment]
-//            }
-//        }
-
         // links
         post.links = data["links"] as? [String: AnyObject]
-        println("fromJSON post \(post.id) links: \(post.links)")
         // store self in collection
-        post.save()
-
+        if !fromLinked {
+            ElloLinkedStore.sharedInstance.setObject(post, forKey: post.id, inCollection: MappingType.PostsType.rawValue)
+        }
         return post
     }
 }

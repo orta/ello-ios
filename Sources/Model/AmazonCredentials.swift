@@ -32,7 +32,7 @@ public class AmazonCredentials : JSONAble {
         super.init(coder: aDecoder)
     }
 
-    override public class func fromJSON(data: [String : AnyObject]) -> JSONAble {
+    override public class func fromJSON(data: [String : AnyObject], fromLinked: Bool = false) -> JSONAble {
         return AmazonCredentials(
             accessKey: data["access_key"] as! String,
             endpoint:  data["endpoint"] as! String,

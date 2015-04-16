@@ -11,8 +11,7 @@ import Foundation
 let UnknownRegionVersion = 1
 
 public final class UnknownRegion: NSObject, Regionable, NSCoding {
-
-    public let version: Int = UnknownRegionVersion
+    public let version = UnknownRegionVersion
 
     public var kind:String { return RegionKind.Unknown.rawValue }
 

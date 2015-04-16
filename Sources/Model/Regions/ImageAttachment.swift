@@ -1,5 +1,5 @@
 //
-//  ImageAttachment.swift
+//  Attachment.swift
 //  Ello
 //
 //  Created by Sean on 2/11/15.
@@ -7,63 +7,74 @@
 //
 
 import Foundation
+import SwiftyJSON
 
-let ImageAttachmentVersion = 1
+let AttachmentVersion = 1
 
-public final class ImageAttachment: NSObject, NSCoding {
+public final class Attachment: JSONAble {
+    public let version = AttachmentVersion
 
-    public let version: Int = ImageAttachmentVersion
-
-    public let url: NSURL?
-    public let height: Int?
-    public let width: Int?
-    public let imageType: String?
-    public let size: Int?
+    // required
+    public let url: NSURL
+    // optional
+    public var size: Int?
+    public var width: Int?
+    public var height: Int?
+    public var type: String?
 
 // MARK: Initialization
 
-    public init(url: NSURL?,
-        height: Int?,
-        width: Int?,
-        imageType: String?,
-        size: Int?) {
-            self.url = url
-            self.height = height
-            self.width = width
-            self.imageType = imageType
-            self.size = size
+    public init(url: NSURL) {
+        self.url = url
+        super.init()
     }
 
 // MARK: NSCoding
     
     required public init(coder aDecoder: NSCoder) {
         let decoder = Decoder(aDecoder)
-        self.url = decoder.decodeOptionalKey("url")
+        // required
+        self.url = decoder.decodeKey("url")
+        // optional
         self.height = decoder.decodeOptionalKey("height")
         self.width = decoder.decodeOptionalKey("width")
         self.size = decoder.decodeOptionalKey("size")
-        self.imageType = decoder.decodeOptionalKey("imageType")
+        self.type = decoder.decodeOptionalKey("type")
+        super.init(coder: aDecoder)
     }
 
-    public func encodeWithCoder(encoder: NSCoder) {
-        if let url = self.url {
-            encoder.encodeObject(url, forKey: "url")
-        }
-
+    public override func encodeWithCoder(encoder: NSCoder) {
+        // required
+        encoder.encodeObject(url, forKey: "url")
+        // optional
         if let height = self.height {
             encoder.encodeInt64(Int64(height), forKey: "height")
         }
-
         if let width = self.width {
             encoder.encodeInt64(Int64(width), forKey: "width")
         }
-
-        if let imageType = self.imageType {
-            encoder.encodeObject(imageType, forKey: "imageType")
-        }
-
+        encoder.encodeObject(type, forKey: "type")
         if let size = self.size {
             encoder.encodeInt64(Int64(size), forKey: "size")
         }
+        super.encodeWithCoder(encoder)
+    }
+
+// MARK: JSONAble
+
+    override class public func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
+        let json = JSON(data)
+        var url = json["url"].stringValue
+        if url.hasPrefix("//") {
+            url = "https:" + url
+        }
+        // create attachment
+        var attachment = Attachment(url: NSURL(string: url)!)
+        // optional
+        attachment.size = json["metadata"]["size"].int
+        attachment.width = json["metadata"]["width"].int
+        attachment.height = json["metadata"]["height"].int
+        attachment.type = json["metadata"]["type"].stringValue
+        return attachment
     }
 }
