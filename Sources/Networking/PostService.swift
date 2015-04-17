@@ -10,7 +10,6 @@ import Foundation
 
 public typealias PostSuccessCompletion = (post: Post) -> ()
 public typealias DeletePostSuccessCompletion = () -> ()
-public typealias DeleteCommentSuccessCompletion = () -> ()
 
 public struct PostService {
 
@@ -31,7 +30,7 @@ public struct PostService {
         )
     }
 
-    public func deletePost(postId: String, success: DeletePostSuccessCompletion, failure: ElloFailureCompletion?) {
+    public func deletePost(postId: String, success: ElloEmptyCompletion, failure: ElloFailureCompletion?) {
         ElloProvider.elloRequest(ElloAPI.DeletePost(postId: postId),
             method: .DELETE,
             success: { (_, _) in
@@ -40,7 +39,7 @@ public struct PostService {
         )
     }
 
-    public func deleteComment(postId: String, commentId: String, success: DeleteCommentSuccessCompletion, failure: ElloFailureCompletion?) {
+    public func deleteComment(postId: String, commentId: String, success: ElloEmptyCompletion, failure: ElloFailureCompletion?) {
         ElloProvider.elloRequest(ElloAPI.DeleteComment(postId: postId, commentId: commentId),
             method: .DELETE,
             success: { (_, _) in
