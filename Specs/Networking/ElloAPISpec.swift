@@ -53,6 +53,8 @@ class ElloAPISpec: QuickSpec {
                 expect(ElloAPI.UserStream(userParam: "999").path) == "/api/edge/users/999"
                 expect(ElloAPI.UserStreamFollowers(userId: "321").path) == "/api/edge/users/321/followers"
                 expect(ElloAPI.UserStreamFollowing(userId: "123").path) == "/api/edge/users/123/following"
+                expect(ElloAPI.DeletePost(postId: "666").path) == "/api/edge/posts/666"
+                expect(ElloAPI.DeleteComment(postId: "666", commentId: "777").path) == "/api/edge/posts/666/comments/777"
             }
         }
 

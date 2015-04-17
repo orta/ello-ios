@@ -26,7 +26,7 @@ class PostServiceSpec: QuickSpec {
                 ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
             }
 
-            describe("-loadPost:postParam:success:failure:") {
+            describe("loadPost(_:success:failure)") {
 
                 context("success") {
 
@@ -73,7 +73,8 @@ class PostServiceSpec: QuickSpec {
                 }
             }
 
-            describe("-deletePost:postId:success:failure") {
+            describe("deletePost(_:success:failure)") {
+
                 context("success") {
 
                     it("succeeds") {
@@ -120,6 +121,56 @@ class PostServiceSpec: QuickSpec {
                     }
                 }
             }
+
+            describe("deleteComment(_:commentId:success:failure)") {
+
+                context("success") {
+
+                    it("succeeds") {
+                        var successCalled = false
+                        var failedCalled = false
+                        subject.deleteComment("fake-post-id",
+                            commentId: "fake-comment-id",
+                            success: {
+                                successCalled = true
+                            }, failure: { (_, _) in
+                                failedCalled = true
+                            }
+                        )
+
+                        expect(successCalled).to(beTrue())
+                        expect(failedCalled).to(beFalse())
+                    }
+                }
+
+                context("failure") {
+
+                    beforeEach {
+                        ElloProvider.sharedProvider = ElloProvider.ErrorStubbingProvider()
+                    }
+
+                    afterEach {
+                        ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
+                    }
+
+                    it("fails") {
+                        var successCalled = false
+                        var failedCalled = false
+                        subject.deleteComment("fake-post-id",
+                            commentId: "fake-comment-id",
+                            success: {
+                                successCalled = true
+                            }, failure: { (_, _) in
+                                failedCalled = true
+                            }
+                        )
+
+                        expect(successCalled).to(beFalse())
+                        expect(failedCalled).to(beTrue())
+                    }
+                }
+            }
+
         }
     }
 }
