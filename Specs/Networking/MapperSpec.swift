@@ -76,7 +76,7 @@ class MapperSpec: QuickSpec {
 
                     let invalidArray = NSArray(array: [invalidAnyObject, anotherAnyObject])
 
-                    expect(Mapper.mapToObjectArray(invalidArray, fromJSON: User.fromJSON)).to(beNil(), linkObject: nil)
+                    expect(Mapper.mapToObjectArray(invalidArray, fromJSON: User.fromJSON, linkObject: nil)).to(beNil())
                 }
             }
         }
