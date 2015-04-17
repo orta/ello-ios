@@ -45,7 +45,7 @@ class SignInViewControllerSpec: QuickSpec {
                     expect(controller.forgotPasswordButton).notTo(beNil())
                     expect(controller.emailTextField).notTo(beNil())
                     expect(controller.passwordTextField).notTo(beNil())
-                    expect(controller.createAccountButton).notTo(beNil())
+                    expect(controller.joinButton).notTo(beNil())
                     expect(controller.enterButtonTopContraint).notTo(beNil())
                     expect(controller.errorLabel).notTo(beNil())
                     expect(controller.elloLogo).notTo(beNil())
@@ -54,24 +54,19 @@ class SignInViewControllerSpec: QuickSpec {
 
                 it("IBActions are wired up") {
                     let enterActions = controller.enterButton.actionsForTarget(controller, forControlEvent: UIControlEvents.TouchUpInside)
-
                     expect(enterActions).to(contain("enterTapped:"))
-
                     expect(enterActions?.count) == 1
 
                     let forgotPasswordActions = controller.forgotPasswordButton.actionsForTarget(controller, forControlEvent: UIControlEvents.TouchUpInside)
                     expect(forgotPasswordActions).to(contain("forgotPasswordTapped:"))
-
                     expect(forgotPasswordActions?.count) == 1
 
-                    let createAccountActions = controller.createAccountButton.actionsForTarget(controller, forControlEvent: UIControlEvents.TouchUpInside)
-                    expect(createAccountActions).to(contain("createAccountTapped:"))
-
-                    expect(createAccountActions?.count) == 1
+                    let joinActions = controller.joinButton.actionsForTarget(controller, forControlEvent: UIControlEvents.TouchUpInside)
+                    expect(joinActions).to(contain("joinTapped:"))
+                    expect(joinActions?.count) == 1
 
                     let onePasswordActions = controller.onePasswordButton.actionsForTarget(controller, forControlEvent: UIControlEvents.TouchUpInside)
                     expect(onePasswordActions).to(contain("findLoginFrom1Password:"))
-
                     expect(onePasswordActions?.count) == 1
                 }
             }

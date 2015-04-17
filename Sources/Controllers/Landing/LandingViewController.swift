@@ -12,7 +12,7 @@ public class LandingViewController: BaseElloViewController {
 
     @IBOutlet weak public var scrollView: UIScrollView!
     @IBOutlet weak public var signInButton: ElloButton!
-    @IBOutlet weak public var signUpButton: LightElloButton!
+    @IBOutlet weak public var joinButton: LightElloButton!
 
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +36,8 @@ public class LandingViewController: BaseElloViewController {
         scrollView.backgroundColor = UIColor.grey3()
         view.backgroundColor = UIColor.grey3()
         view.setNeedsDisplay()
+        joinButton.backgroundColor = UIColor.greyA()
+        signInButton.backgroundColor = UIColor.blackColor()
     }
 
     private func checkIfLoggedIn() {
@@ -69,9 +71,8 @@ public class LandingViewController: BaseElloViewController {
     }
 
     private func showButtons() {
-        signInButton.hidden = false
-        signInButton.enabled = true
         UIView.animateWithDuration(0.2, animations: {
+            self.joinButton.alpha = 1.0
             self.signInButton.alpha = 1.0
         })
     }
@@ -123,7 +124,10 @@ public class LandingViewController: BaseElloViewController {
     }
 
     @IBAction func signUpTapped(sender: ElloButton) {
-        let createAccountController = CreateAccountViewController()
-        self.presentViewController(createAccountController, animated:true, completion:nil)
+        let joinController = JoinViewController()
+        let window = self.view.window!
+        self.presentViewController(joinController, animated:true, completion: {
+            window.rootViewController = joinController
+        })
     }
 }
