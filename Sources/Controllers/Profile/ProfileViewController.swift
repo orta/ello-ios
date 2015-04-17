@@ -158,12 +158,14 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
             self.title = user.atName ?? "Profile"
         }
         if let cover = user.coverImageURL {
-            coverImage.sd_setImageWithURL(cover, completed: {
-                (image, error, type, url) in
-                UIView.animateWithDuration(0.15, animations: {
-                    self.coverImage.alpha = 1.0
-                })
-            })
+            if let coverImage = coverImage {
+                coverImage.sd_setImageWithURL(cover) {
+                    (image, error, type, url) in
+                    UIView.animateWithDuration(0.15) {
+                        self.coverImage.alpha = 1.0
+                    }
+                }
+            }
         }
 
         var items: [StreamCellItem] = [StreamCellItem(jsonable: user, type: StreamCellType.ProfileHeader, data: nil, oneColumnCellHeight: 0.0, multiColumnCellHeight: 0.0, isFullWidth: true)]
