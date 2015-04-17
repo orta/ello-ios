@@ -62,10 +62,8 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         setupStreamController()
         setupNavigationBar()
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
-        if let user = self.user {
-            if let responseConfig = self.responseConfig {
-                userLoaded(user, responseConfig: responseConfig)
-            }
+        if let user = self.user, let responseConfig = self.responseConfig {
+            userLoaded(user, responseConfig: responseConfig)
         }
     }
 
@@ -178,11 +176,9 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
 
     // TODO: this method can be removed when author is added to posts
     private func addAuthorToPosts(jsonables: [JSONAble]) {
-        if let user = self.user {
-            if let posts = jsonables as? [Post] {
-                for post in posts {
-                    post.author = user
-                }
+        if let user = self.user, let posts = jsonables as? [Post] {
+            for post in posts {
+                post.author = user
             }
         }
     }
