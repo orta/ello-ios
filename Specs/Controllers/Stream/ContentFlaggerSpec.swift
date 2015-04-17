@@ -19,12 +19,7 @@ class ContentFlaggerSpec: QuickSpec {
         var subject: ContentFlagger!
         var presentingController = UIViewController()
         beforeEach({
-
-            let keyWindow = UIWindow(frame: UIScreen.mainScreen().bounds)
-            keyWindow.makeKeyAndVisible()
-            keyWindow.rootViewController = presentingController
-            presentingController.loadView()
-            presentingController.viewDidLoad()
+            self.showController(presentingController)
         })
 
         context("post flagging") {

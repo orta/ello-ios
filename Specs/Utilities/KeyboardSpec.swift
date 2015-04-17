@@ -40,14 +40,11 @@ class KeyboardSpec: QuickSpec {
 
         xdescribe("Responds to keyboard being shown") {
             beforeEach() {
-                let window = UIWindow(frame: UIScreen.mainScreen().bounds)
                 let controller = UIViewController()
+                let window = self.showController(controller)
                 textView = UITextView(frame: window.bounds)
                 textView.becomeFirstResponder()
                 controller.view.addSubview(textView)
-
-                window.rootViewController = controller
-                window.makeKeyAndVisible()
             }
 
             it("sets the 'visible' property") {
