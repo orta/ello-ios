@@ -61,7 +61,10 @@ public class LandingViewController: BaseElloViewController {
         profileService.loadCurrentUser({ (user, responseConfig) in
             var vc = ElloTabBarController.instantiateFromStoryboard()
             vc.setProfileData(user, responseConfig: responseConfig)
-            self.presentViewController(vc, animated: true, completion: nil)
+            var window = self.view.window!
+            self.presentViewController(vc, animated: true, completion: {
+                window.rootViewController = vc
+            })
         }, failure: { error in
             self.failedToLoadCurrentUser()
         })
@@ -98,7 +101,7 @@ public class LandingViewController: BaseElloViewController {
     func userLoggedOut(notification: NSNotification) {
         let authToken = AuthToken()
         authToken.reset()
-        self.dismissViewControllerAnimated(true, completion: nil)
+        UIApplication.sharedApplication().keyWindow!.rootViewController = self
     }
 
     func systemLoggedOut(notification: NSNotification) {
@@ -120,7 +123,10 @@ public class LandingViewController: BaseElloViewController {
 
     @IBAction func signInTapped(sender: ElloButton) {
         let signInController = SignInViewController()
-        self.presentViewController(signInController, animated:true, completion:nil)
+        let window = self.view.window!
+        self.presentViewController(signInController, animated:true, completion: {
+            window.rootViewController = signInController
+        })
     }
 
     @IBAction func signUpTapped(sender: ElloButton) {
