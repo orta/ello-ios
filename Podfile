@@ -9,7 +9,7 @@ inhibit_all_warnings!
 # Opt into framework support (required for Swift support in CocoaPods RC1)
 use_frameworks!
 
-pod 'YapDatabase', path: '../YapDatabase'
+pod 'YapDatabase', git: 'https://github.com/ello/YapDatabase.git'
 pod 'TimeAgoInWords', '~> 0.1.0'
 pod 'SDWebImage', '~> 3.7'
 pod 'SSPullToRefresh', '~> 1.2'
@@ -22,10 +22,10 @@ pod '1PasswordExtension', git: 'https://github.com/AgileBits/onepassword-app-ext
 
 # swift pods
 pod 'SwiftyJSON', git: "https://github.com/SwiftyJSON/SwiftyJSON", branch: "xcode6.3"
-pod 'Alamofire', git: "https://github.com/Alamofire/Alamofire.git", branch: "xcode-6.3"
+pod 'Alamofire', git: "https://github.com/Alamofire/Alamofire.git"
 pod 'LlamaKit', git: "https://github.com/ello/LlamaKit.git"
 pod 'Moya', git: "https://github.com/ello/Moya", branch: 'cg-hybrid'
-pod 'WebLinking', git: "https://github.com/kylef/WebLinking.swift.git", branch: "swift-1.2"
+pod 'WebLinking', git: "https://github.com/kylef/WebLinking.swift.git"
 
 target 'Specs' do
     pod 'Quick', git: "git@github.com:Quick/Quick.git", tag: "v0.3.0"
