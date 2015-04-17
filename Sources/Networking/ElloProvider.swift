@@ -278,6 +278,7 @@ extension ElloProvider {
 
     static private func handleNetworkFailure(failure:ElloFailureCompletion?, data:NSData?, error: NSError?, statusCode: Int?) {
         let elloError = generateElloError(data, error: error, statusCode: statusCode)
+        Tracker.sharedTracker.encounteredNetworkError(elloError)
         failure?(error: elloError, statusCode: statusCode)
     }
 

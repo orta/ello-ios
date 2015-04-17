@@ -77,6 +77,7 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
     }
 
     func showExternalWebView(url: String) {
+        Tracker.sharedTracker.screenAppeared("Web View: \(url)")
         presentViewController(externalWebController, animated: true, completion: nil)
         if let externalWebView = externalWebController.rootWebBrowser() {
             externalWebView.loadURLString(url)
@@ -137,6 +138,7 @@ extension ElloNavigationController: UINavigationControllerDelegate {
 
     public func navigationController(navigationController: UINavigationController, didShowViewController viewController: UIViewController, animated: Bool) {
         backGesture?.edges = viewController.backGestureEdges
+        Tracker.sharedTracker.screenAppeared(viewController.title ?? viewController.readableClassName())
     }
 
     public func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {

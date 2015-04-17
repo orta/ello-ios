@@ -33,10 +33,12 @@ public class RelationshipView: UIView {
     }
 
     @IBAction func friendTapped(sender: UIButton) {
+        Tracker.sharedTracker.friendAdded()
         handleTapped(sender, newRelationship: Relationship.Friend)
     }
 
     @IBAction func noiseTapped(sender: UIButton) {
+        Tracker.sharedTracker.noiseAdded()
         handleTapped(sender, newRelationship: Relationship.Noise)
     }
 

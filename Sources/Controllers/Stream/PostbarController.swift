@@ -29,6 +29,7 @@ public class PostbarController: NSObject, PostbarDelegate {
     // MARK:
 
     public func viewsButtonTapped(cell:UICollectionViewCell) {
+        Tracker.sharedTracker.viewsButtonTapped()
         postTappedForCell(cell)
     }
 
@@ -135,10 +136,12 @@ public class PostbarController: NSObject, PostbarDelegate {
 
     public func lovesButtonTapped(cell:UICollectionViewCell) {
         println("lovesButtonTapped")
+        Tracker.sharedTracker.postLoved()
     }
 
     public func repostButtonTapped(cell:UICollectionViewCell) {
         println("repostButtonTapped")
+        Tracker.sharedTracker.postReposted()
     }
 
     public func shareButtonTapped(cell: UICollectionViewCell) {
@@ -146,6 +149,7 @@ public class PostbarController: NSObject, PostbarDelegate {
            let post = dataSource.postForIndexPath(indexPath),
            let shareLink = post.shareLink
         {
+            Tracker.sharedTracker.postShared()
             let activityVC = UIActivityViewController(activityItems: [shareLink], applicationActivities:nil)
             if UI_USER_INTERFACE_IDIOM() == .Phone {
                 presentingController?.presentViewController(activityVC, animated: true) { }
@@ -164,7 +168,7 @@ public class PostbarController: NSObject, PostbarDelegate {
         {
             let flagger = ContentFlagger(presentingController: presentingController,
                 flaggableId: post.postId,
-                flaggableContentType: .Post,
+                contentType: .Post,
                 commentPostId: nil)
 
             flagger.displayFlaggingSheet()
@@ -177,7 +181,7 @@ public class PostbarController: NSObject, PostbarDelegate {
         {
             let flagger = ContentFlagger(presentingController: presentingController,
                 flaggableId: comment.commentId,
-                flaggableContentType: .Comment,
+                contentType: .Comment,
                 commentPostId: comment.parentPost?.postId)
 
             flagger.displayFlaggingSheet()
@@ -185,6 +189,7 @@ public class PostbarController: NSObject, PostbarDelegate {
     }
 
     public func replyToPostButtonTapped(cell:UICollectionViewCell) {
+        Tracker.sharedTracker.inlineCommentsViewed()
         println("reply to post button tapped")
     }
 

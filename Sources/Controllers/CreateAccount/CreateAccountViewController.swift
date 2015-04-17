@@ -25,6 +25,11 @@ public class CreateAccountViewController: BaseElloViewController, UITextFieldDel
         setupNotificationObservers()
     }
 
+    public override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        Tracker.sharedTracker.screenAppeared("Create Account")
+    }
+
     override public func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         removeNotificationObservers()

@@ -285,6 +285,7 @@ extension StreamFooterCell: UIScrollViewDelegate {
             isOpen = false
         }
 
+        Tracker.sharedTracker.postBarVisibilityChanged(isOpen)
     }
 
     public func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
