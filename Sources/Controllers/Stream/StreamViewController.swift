@@ -24,7 +24,8 @@ public protocol UserDelegate: NSObjectProtocol {
 public protocol PostbarDelegate : NSObjectProtocol {
     func viewsButtonTapped(cell:UICollectionViewCell)
     func commentsButtonTapped(cell:StreamFooterCell, commentsButton: CommentButton)
-    func deleteButtonTapped(cell:UICollectionViewCell)
+    func deletePostButtonTapped(cell:UICollectionViewCell)
+    func deleteCommentButtonTapped(cell:UICollectionViewCell)
     func lovesButtonTapped(cell:UICollectionViewCell)
     func repostButtonTapped(cell:UICollectionViewCell)
     func shareButtonTapped(cell:UICollectionViewCell)
@@ -48,11 +49,11 @@ public protocol StreamScrollDelegate: NSObjectProtocol {
 
 let RelayoutStreamViewControllerNotification = TypedNotification<UICollectionViewCell>(name: "RelayoutStreamViewControllerNotification")
 
-
 public class StreamViewController: BaseElloViewController {
 
     @IBOutlet weak public var collectionView: UICollectionView!
-    private var shouldReload = false
+    private var shouldReloadPostDeleted = false
+    private var shouldReloadCommentDeleted = false
     private var isVisible = false
     private var deletedPostUserid: String?
 
@@ -87,6 +88,7 @@ public class StreamViewController: BaseElloViewController {
     var updatedStreamImageCellHeightNotification:NotificationObserver?
     var relayoutNotification:NotificationObserver?
     var postDeletedNotification:NotificationObserver?
+    var commentDeletedNotification:NotificationObserver?
 
     weak var createCommentDelegate : CreateCommentDelegate?
     weak var postTappedDelegate : PostTappedDelegate?
@@ -130,7 +132,8 @@ public class StreamViewController: BaseElloViewController {
             self.restoreTabBar = nil
         }
 
-        if self.shouldReload { self.handleReload(deletedPostUserid) }
+        if self.shouldReloadPostDeleted { self.handleReloadPostDeleted(deletedPostUserid) }
+        if self.shouldReloadCommentDeleted { self.handleReloadCommentDeleted() }
     }
 
     override public func didSetCurrentUser() {
@@ -254,18 +257,24 @@ public class StreamViewController: BaseElloViewController {
         postDeletedNotification = NotificationObserver(notification: PostDeletedNotification) {
             (postId, userId) in
 
-            if self.isVisible { self.handleReload(userId) }
+            if self.isVisible { self.handleReloadPostDeleted(userId) }
             else {
                 self.deletedPostUserid = userId
-                self.shouldReload = true
+                self.shouldReloadPostDeleted = true
             }
-            println("delete the post \(postId, userId)")
+        }
+
+        commentDeletedNotification = NotificationObserver(notification: PostDeletedNotification) {
+            (postId, userId) in
+
+            if self.isVisible { self.handleReloadCommentDeleted() }
+            else { self.shouldReloadCommentDeleted = true }
         }
     }
 
-    private func handleReload(userId: String?) {
-        shouldReload = false
-        deletedPostUserid = nil
+    private func handleReloadPostDeleted(userId: String?) {
+        shouldReloadPostDeleted = false
+        deletedPostUserid = .None
         switch streamKind {
         case .PostDetail:
             if userId == self.currentUser?.id {
@@ -274,6 +283,11 @@ public class StreamViewController: BaseElloViewController {
         default:
             pullToRefreshLoad()
         }
+    }
+
+    private func handleReloadCommentDeleted() {
+        shouldReloadCommentDeleted = false
+        pullToRefreshLoad()
     }
 
     private func removeNotificationObservers() {
