@@ -8,8 +8,6 @@
 
 import Foundation
 
-public let PostDeletedNotification = TypedNotification<(String,String?)>(name: "postDeletedNotification")
-
 
 public class PostbarController: NSObject, PostbarDelegate {
 
@@ -82,7 +80,7 @@ public class PostbarController: NSObject, PostbarDelegate {
         }
     }
 
-    public func deleteButtonTapped(cell:UICollectionViewCell) {
+    public func deletePostButtonTapped(cell:UICollectionViewCell) {
         let message = NSLocalizedString("Delete Post?", comment: "Delete Post")
         let alertController = AlertViewController(message: message, textAlignment: .Center)
 
@@ -92,7 +90,7 @@ public class PostbarController: NSObject, PostbarDelegate {
             if let post = self.postForCell(cell) {
                 service.deletePost(post.postId,
                     success: {
-                        postNotification(PostDeletedNotification, (post.postId, post.author?.id))
+                        postNotification(ExperienceUpdatedNotification, .PostChanged(id: post.postId, change: .Delete))
                     }, failure: { (error, statusCode)  in
                         // TODO: add error handling
                         println("failed to delete post, error: \(error.localizedDescription)")
@@ -108,6 +106,33 @@ public class PostbarController: NSObject, PostbarDelegate {
         presentingController?.presentViewController(alertController, animated: true, completion: .None)
     }
 
+    public func deleteCommentButtonTapped(cell:UICollectionViewCell) {
+        let message = NSLocalizedString("Delete Comment?", comment: "Delete Comment")
+        let alertController = AlertViewController(message: message, textAlignment: .Center)
+
+        let yesAction = AlertAction(title: NSLocalizedString("Yes", comment: "Yes"), style: ActionStyle.Dark) {
+            action in
+            let service = PostService()
+            if let comment = self.commentForCell(cell), let postId = comment.parentPost?.postId {
+                service.deleteComment(postId, commentId: comment.commentId,
+                    success: {
+                        postNotification(ExperienceUpdatedNotification, .CommentChanged(commentId: comment.commentId, postId: postId, change: .Delete))
+                    }, failure: { (error, statusCode)  in
+                        // TODO: add error handling
+                        println("failed to delete post, error: \(error.localizedDescription)")
+                    }
+                )
+            }
+        }
+        let noAction = AlertAction(title: NSLocalizedString("No", comment: "No"), style: .Light, handler: .None)
+
+        alertController.addAction(yesAction)
+        alertController.addAction(noAction)
+
+        presentingController?.presentViewController(alertController, animated: true, completion: .None)
+    }
+
+
     public func lovesButtonTapped(cell:UICollectionViewCell) {
         println("lovesButtonTapped")
     }
@@ -121,9 +146,15 @@ public class PostbarController: NSObject, PostbarDelegate {
            let post = dataSource.postForIndexPath(indexPath),
            let shareLink = post.shareLink
         {
-            println("shareLink = \(shareLink)")
             let activityVC = UIActivityViewController(activityItems: [shareLink], applicationActivities:nil)
-            presentingController?.presentViewController(activityVC, animated: true) { }
+            if UI_USER_INTERFACE_IDIOM() == .Phone {
+                presentingController?.presentViewController(activityVC, animated: true) { }
+            }
+            else {
+                activityVC.popoverPresentationController?.sourceView = cell
+                activityVC.modalPresentationStyle = .Popover
+                presentingController?.presentViewController(activityVC, animated: true) { }
+            }
         }
     }
 
@@ -166,6 +197,13 @@ public class PostbarController: NSObject, PostbarDelegate {
     private func postForCell(cell: UICollectionViewCell) -> Post? {
         if let indexPath = collectionView.indexPathForCell(cell) {
             return dataSource.postForIndexPath(indexPath)
+        }
+        return nil
+    }
+
+    private func commentForCell(cell: UICollectionViewCell) -> Comment? {
+        if let indexPath = collectionView.indexPathForCell(cell) {
+            return dataSource.commentForIndexPath(indexPath)
         }
         return nil
     }

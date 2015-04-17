@@ -62,10 +62,8 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         setupStreamController()
         setupNavigationBar()
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
-        if let user = self.user {
-            if let responseConfig = self.responseConfig {
-                userLoaded(user, responseConfig: responseConfig)
-            }
+        if let user = self.user, let responseConfig = self.responseConfig {
+            userLoaded(user, responseConfig: responseConfig)
         }
     }
 
@@ -158,12 +156,14 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
             self.title = user.atName ?? "Profile"
         }
         if let cover = user.coverImageURL {
-            coverImage.sd_setImageWithURL(cover, completed: {
-                (image, error, type, url) in
-                UIView.animateWithDuration(0.15, animations: {
-                    self.coverImage.alpha = 1.0
-                })
-            })
+            if let coverImage = coverImage {
+                coverImage.sd_setImageWithURL(cover) {
+                    (image, error, type, url) in
+                    UIView.animateWithDuration(0.15) {
+                        self.coverImage.alpha = 1.0
+                    }
+                }
+            }
         }
 
         var items: [StreamCellItem] = [StreamCellItem(jsonable: user, type: StreamCellType.ProfileHeader, data: nil, oneColumnCellHeight: 0.0, multiColumnCellHeight: 0.0, isFullWidth: true)]
@@ -176,11 +176,9 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
 
     // TODO: this method can be removed when author is added to posts
     private func addAuthorToPosts(jsonables: [JSONAble]) {
-        if let user = self.user {
-            if let posts = jsonables as? [Post] {
-                for post in posts {
-                    post.author = user
-                }
+        if let user = self.user, let posts = jsonables as? [Post] {
+            for post in posts {
+                post.author = user
             }
         }
     }

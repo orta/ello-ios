@@ -24,7 +24,8 @@ public protocol UserDelegate: NSObjectProtocol {
 public protocol PostbarDelegate : NSObjectProtocol {
     func viewsButtonTapped(cell:UICollectionViewCell)
     func commentsButtonTapped(cell:StreamFooterCell, commentsButton: CommentButton)
-    func deleteButtonTapped(cell:UICollectionViewCell)
+    func deletePostButtonTapped(cell:UICollectionViewCell)
+    func deleteCommentButtonTapped(cell:UICollectionViewCell)
     func lovesButtonTapped(cell:UICollectionViewCell)
     func repostButtonTapped(cell:UICollectionViewCell)
     func shareButtonTapped(cell:UICollectionViewCell)
@@ -48,13 +49,9 @@ public protocol StreamScrollDelegate: NSObjectProtocol {
 
 let RelayoutStreamViewControllerNotification = TypedNotification<UICollectionViewCell>(name: "RelayoutStreamViewControllerNotification")
 
-
 public class StreamViewController: BaseElloViewController {
 
     @IBOutlet weak public var collectionView: UICollectionView!
-    private var shouldReload = false
-    private var isVisible = false
-    private var deletedPostUserid: String?
 
     var streamables:[Streamable]?
     var refreshableIndex: Int?
@@ -86,7 +83,6 @@ public class StreamViewController: BaseElloViewController {
     var imageViewerDelegate:StreamImageViewer?
     var updatedStreamImageCellHeightNotification:NotificationObserver?
     var relayoutNotification:NotificationObserver?
-    var postDeletedNotification:NotificationObserver?
 
     weak var createCommentDelegate : CreateCommentDelegate?
     weak var postTappedDelegate : PostTappedDelegate?
@@ -117,20 +113,12 @@ public class StreamViewController: BaseElloViewController {
         }
     }
 
-    public override func viewDidDisappear(animated: Bool) {
-        self.isVisible = false
-        super.viewDidDisappear(animated)
-    }
-
     override public func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        self.isVisible = true
         if let restoreTabBar = self.restoreTabBar {
             self.parentTabBarController?.setTabBarHidden(restoreTabBar, animated: false)
             self.restoreTabBar = nil
         }
-
-        if self.shouldReload { self.handleReload(deletedPostUserid) }
     }
 
     override public func didSetCurrentUser() {
@@ -250,30 +238,6 @@ public class StreamViewController: BaseElloViewController {
         relayoutNotification = NotificationObserver(notification: RelayoutStreamViewControllerNotification) { streamTextCell in
             self.collectionView.collectionViewLayout.invalidateLayout()
         }
-
-        postDeletedNotification = NotificationObserver(notification: PostDeletedNotification) {
-            (postId, userId) in
-
-            if self.isVisible { self.handleReload(userId) }
-            else {
-                self.deletedPostUserid = userId
-                self.shouldReload = true
-            }
-            println("delete the post \(postId, userId)")
-        }
-    }
-
-    private func handleReload(userId: String?) {
-        shouldReload = false
-        deletedPostUserid = nil
-        switch streamKind {
-        case .PostDetail:
-            if userId == self.currentUser?.id {
-                navigationController?.popViewControllerAnimated(true)
-            }
-        default:
-            pullToRefreshLoad()
-        }
     }
 
     private func removeNotificationObservers() {
@@ -287,9 +251,6 @@ public class StreamViewController: BaseElloViewController {
 
         relayoutNotification?.removeObserver()
         relayoutNotification = nil
-
-        postDeletedNotification?.removeObserver()
-        postDeletedNotification = nil
     }
 
     private func updateCellHeight(indexPath:NSIndexPath, height:CGFloat) {

@@ -16,7 +16,7 @@ public let UpdatePostCommentCountNotification = TypedNotification<Comment>(name:
 public protocol Authorable {
     var createdAt : NSDate { get }
     var groupId: String { get }
-    var author : User? { get }
+    var author: User? { get }
 }
 
 let PostVersion = 1

@@ -42,7 +42,7 @@ public struct StreamCellItemParser {
         }
     }
 
-    // MARK: - public
+    // MARK: - Private
 
     private func notificationCellItems(notifications:[Notification]) -> [StreamCellItem] {
         return map(notifications) { notification in
@@ -76,8 +76,6 @@ public struct StreamCellItemParser {
         }
         return cellItems
     }
-
-    // MARK: - Private
 
     private func postToggleItems(post: Post, streamKind: StreamKind) -> [StreamCellItem] {
         if post.collapsed {

@@ -11,6 +11,11 @@ import Foundation
 
 public class StreamHeaderCell: UICollectionViewCell {
 
+    public var ownPost = false {
+        didSet {
+            self.updateItems()
+        }
+    }
     let revealWidth:CGFloat = 85.0
     var cellOpenObserver: NotificationObserver?
     var isOpen = false
@@ -48,12 +53,17 @@ public class StreamHeaderCell: UICollectionViewCell {
     weak var userDelegate: UserDelegate?
 
     let flagItem:UIBarButtonItem = ElloPostToolBarOption.Flag.barButtonItem()
-    var flagButton:StreamFooterButton {
+    public var flagButton:StreamFooterButton {
         get { return self.flagItem.customView as! StreamFooterButton }
     }
 
+    let deleteItem:UIBarButtonItem = ElloPostToolBarOption.Delete.barButtonItem()
+    public var deleteButton:StreamFooterButton {
+        get { return self.deleteItem.customView as! StreamFooterButton }
+    }
+
     let replyItem:UIBarButtonItem = ElloPostToolBarOption.Reply.barButtonItem()
-    var replyButton:StreamFooterButton {
+    public var replyButton:StreamFooterButton {
         get { return self.replyItem.customView as! StreamFooterButton }
     }
 
@@ -85,10 +95,6 @@ public class StreamHeaderCell: UICollectionViewCell {
         styleUsernameTextView()
         styleTimestampLabel()
 
-        bottomToolBar.items = [
-            flexibleItem(), replyItem, flagItem
-        ]
-
         let goToPostTapRecognizer = UITapGestureRecognizer(target: self, action: "postTapped:")
         goToPostView.addGestureRecognizer(goToPostTapRecognizer)
     }
@@ -106,12 +112,22 @@ public class StreamHeaderCell: UICollectionViewCell {
         repositionBottomContent()
     }
 
-    func resetUsernameTextView() {
+// MARK: - Public
+
+    public func resetUsernameTextView() {
         usernameTextView.frame = originalUsernameFrame
         usernameTextView.textContainerInset = UIEdgeInsetsZero
     }
 
 // MARK: - Private
+
+    private func updateItems() {
+        let rightItem = self.ownPost ? deleteItem : flagItem
+
+        bottomToolBar.items = [
+            flexibleItem(), replyItem, rightItem
+        ]
+    }
 
     private func positionTopContent() {
         let sidePadding: CGFloat = 15.0
@@ -162,16 +178,17 @@ public class StreamHeaderCell: UICollectionViewCell {
     private func addButtonHandlers() {
         flagButton.addTarget(self, action: "flagButtonTapped:", forControlEvents: .TouchUpInside)
         replyButton.addTarget(self, action: "replyButtonTapped:", forControlEvents: .TouchUpInside)
+        deleteButton.addTarget(self, action: "deleteButtonTapped:", forControlEvents: .TouchUpInside)
     }
 
     private func styleUsernameTextView() {
-        usernameTextView.customFont = UIFont.typewriterFont(14.0)
+        usernameTextView.customFont = UIFont.typewriterFont(12.0)
         usernameTextView.textColor = UIColor.greyA()
     }
 
     private func styleTimestampLabel() {
         timestampLabel.textColor = UIColor.greyA()
-        timestampLabel.font = UIFont.typewriterFont(14.0)
+        timestampLabel.font = UIFont.typewriterFont(12.0)
     }
 
     private func repositionBottomContent() {
@@ -199,6 +216,10 @@ public class StreamHeaderCell: UICollectionViewCell {
 
     @IBAction func replyButtonTapped(sender: StreamFooterButton) {
         postbarDelegate?.replyToCommentButtonTapped(self)
+    }
+
+    @IBAction func deleteButtonTapped(sender: StreamFooterButton) {
+        postbarDelegate?.deleteCommentButtonTapped(self)
     }
 
     @IBAction func chevronButtonTapped(sender: StreamFooterButton) {

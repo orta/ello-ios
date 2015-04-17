@@ -64,7 +64,7 @@ public class StreamFooterCell: UICollectionViewCell {
     }
 
     let deleteItem:UIBarButtonItem = ElloPostToolBarOption.Delete.barButtonItem()
-    var deleteButton:StreamFooterButton {
+    public var deleteButton:StreamFooterButton {
         get { return self.deleteItem.customView as! StreamFooterButton }
     }
 
@@ -228,7 +228,7 @@ public class StreamFooterCell: UICollectionViewCell {
     }
 
     @IBAction func deleteButtonTapped(sender: StreamFooterButton) {
-        delegate?.deleteButtonTapped(self)
+        delegate?.deletePostButtonTapped(self)
     }
 
     @IBAction func replyButtonTapped(sender: StreamFooterButton) {

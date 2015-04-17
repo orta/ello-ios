@@ -20,6 +20,17 @@ public struct StreamHeaderCellPresenter {
     {
         if let cell = cell as? StreamHeaderCell {
             let authorable = streamCellItem.jsonable as! Authorable
+
+            cell.ownPost = false
+
+            if let currentUser = currentUser, let comment = authorable as? Comment {
+                if comment.author?.id == currentUser.id ||
+                    comment.parentPost?.author?.id == currentUser.id
+                {
+                    cell.ownPost = true
+                }
+            }
+
             if streamCellItem.type == .Header {
                 cell.streamKind = streamKind
                 cell.avatarHeight = streamKind.isGridLayout ? 30.0 : 60.0
@@ -46,5 +57,4 @@ public struct StreamHeaderCellPresenter {
             cell.layoutIfNeeded()
         }
     }
-
 }
