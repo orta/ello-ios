@@ -8,6 +8,8 @@
 
 import Foundation
 
+public let ExperienceUpdatedNotification = TypedNotification<ExperienceUpdate>(name: "experienceUpdatedNotification")
+
 public enum ExperienceUpdate {
     case CommentChanged(commentId: String, postId: String, change: ContentChange)
     case ContentActionRuleChanged(userId: String, action: ContentAction, allowed: Bool)

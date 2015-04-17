@@ -8,9 +8,6 @@
 
 import Foundation
 
-public let PostDeletedNotification = TypedNotification<(String,String?)>(name: "postDeletedNotification")
-public let CommentDeletedNotification = TypedNotification<(String,String?)>(name: "commentDeletedNotification")
-
 
 public class PostbarController: NSObject, PostbarDelegate {
 
@@ -93,7 +90,7 @@ public class PostbarController: NSObject, PostbarDelegate {
             if let post = self.postForCell(cell) {
                 service.deletePost(post.postId,
                     success: {
-                        postNotification(PostDeletedNotification, (post.postId, post.author?.id))
+                        postNotification(ExperienceUpdatedNotification, .PostChanged(id: post.postId, change: .Delete))
                     }, failure: { (error, statusCode)  in
                         // TODO: add error handling
                         println("failed to delete post, error: \(error.localizedDescription)")
@@ -110,8 +107,6 @@ public class PostbarController: NSObject, PostbarDelegate {
     }
 
     public func deleteCommentButtonTapped(cell:UICollectionViewCell) {
-
-
         let message = NSLocalizedString("Delete Comment?", comment: "Delete Comment")
         let alertController = AlertViewController(message: message, textAlignment: .Center)
 
@@ -121,7 +116,7 @@ public class PostbarController: NSObject, PostbarDelegate {
             if let comment = self.commentForCell(cell), let postId = comment.parentPost?.postId {
                 service.deleteComment(postId, commentId: comment.commentId,
                     success: {
-                        postNotification(CommentDeletedNotification, (comment.commentId, comment.author?.id))
+                        postNotification(ExperienceUpdatedNotification, .CommentChanged(commentId: comment.commentId, postId: postId, change: .Delete))
                     }, failure: { (error, statusCode)  in
                         // TODO: add error handling
                         println("failed to delete post, error: \(error.localizedDescription)")
