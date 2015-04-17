@@ -72,7 +72,7 @@ class CredentialSettingsViewControllerSpec: QuickSpec {
                         expect(subject.isUpdatable).to(beTrue())
                     }
                 }
-                
+
                 context("is reset") {
                     it("isUpdatable is false") {
                         subject.usernameView.textField.text = "something"
@@ -91,7 +91,7 @@ class CredentialSettingsViewControllerSpec: QuickSpec {
                         expect(subject.isUpdatable).to(beTrue())
                     }
                 }
-                
+
                 context("is reset") {
                     it("isUpdatable is false") {
                         subject.emailView.textField.text = "no-one@email.com"
@@ -110,7 +110,7 @@ class CredentialSettingsViewControllerSpec: QuickSpec {
                         expect(subject.isUpdatable).to(beTrue())
                     }
                 }
-                
+
                 context("is empty") {
                     it("isUpdatable is false") {
                         subject.passwordView.textField.text = "anything"

@@ -32,7 +32,7 @@ class KeyboardSpec: QuickSpec {
             it("has a 'duration' property") {
                 expect(keyboard).notTo(beNil())
             }
-            
+
             it("has a 'height' property") {
                 expect(keyboard).notTo(beNil())
             }
