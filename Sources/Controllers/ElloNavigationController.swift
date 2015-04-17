@@ -77,6 +77,7 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
     }
 
     func showExternalWebView(url: String) {
+        Tracker.sharedTracker.screenAppeared("Web View: \(url)")
         presentViewController(externalWebController, animated: true, completion: nil)
         if let externalWebView = externalWebController.rootWebBrowser() {
             externalWebView.loadURLString(url)
