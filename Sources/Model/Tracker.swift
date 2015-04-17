@@ -48,14 +48,12 @@ public extension Tracker {
     func contentFlaggingCanceled(type: ContentType) { }
     func contentFlaggingFailed(type: ContentType, message: String) { }
 
-    func postBarVisibilityChanged(visible: Bool) { }
-
     func viewedImage() { }
 
+    func postBarVisibilityChanged(visible: Bool) { }
     func postReposted() { }
     func postShared() { }
     func postLoved() { }
-
     func inlineCommentsViewed() { }
 
     func userBlocked() { }
