@@ -10,7 +10,7 @@ import UIKit
 
 public extension UIStoryboard {
 
-    class func storyboardWithId(identifier:ViewControllerStoryboardIdentifier) -> UIViewController {
+    class func storyboardWithId(identifier:StoryboardIdentifier) -> UIViewController {
         return UIStoryboard(name: "Main", bundle: NSBundle(forClass: AppDelegate.self)).instantiateViewControllerWithIdentifier(identifier.rawValue) as! UIViewController
     }
 }
