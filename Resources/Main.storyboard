@@ -159,7 +159,7 @@
                                     <constraint firstAttribute="trailing" secondItem="oHS-RL-ubg" secondAttribute="trailing" constant="217" placeholder="YES" id="xEH-jD-TgJ"/>
                                 </constraints>
                             </scrollView>
-                            <button hidden="YES" opaque="NO" alpha="0.0" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="war-Oo-BBs" customClass="ElloButton" customModule="Ello" customModuleProvider="target">
+                            <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="war-Oo-BBs" customClass="ElloButton" customModule="Ello" customModuleProvider="target">
                                 <rect key="frame" x="113" y="490" width="374" height="60"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -175,7 +175,7 @@
                                     <action selector="signInTapped:" destination="jJZ-zI-fFG" eventType="touchUpInside" id="HW1-xd-aWe"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" alpha="0.0" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qIL-al-gUD" customClass="LightElloButton" customModule="Ello" customModuleProvider="target">
+                            <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qIL-al-gUD" customClass="LightElloButton" customModule="Ello" customModuleProvider="target">
                                 <rect key="frame" x="113" y="400" width="374" height="60"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -209,9 +209,9 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="joinButton" destination="qIL-al-gUD" id="Qg2-Bt-HgK"/>
                         <outlet property="scrollView" destination="bvm-6v-S7r" id="FYi-8e-de2"/>
                         <outlet property="signInButton" destination="war-Oo-BBs" id="YNK-dV-vhB"/>
-                        <outlet property="signUpButton" destination="qIL-al-gUD" id="cgu-GO-ZfY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jjg-AH-34k" userLabel="First Responder" sceneMemberID="firstResponder"/>
