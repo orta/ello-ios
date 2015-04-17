@@ -44,18 +44,30 @@ extension User: Stubbable {
             experimentalFeatures: (values["experimentalFeatures"] as? Bool) ?? false,
             relationshipPriority: relationship
             )
-        user.avatar = values["avatar"] as? ImageAttachment
+        user.avatar = values["avatar"] as? Attachment
         user.identifiableBy = values["identifiableBy"] as? String
         user.postsCount = values["postsCount"] as? Int
         user.followersCount = values["followersCount"] as? String
         user.followingCount = values["followingCount"] as? Int
         user.formattedShortBio = values["formattedShortBio"] as? String
         user.externalLinks = values["externalLinks"] as? String
-        user.coverImage = values["coverImage"] as? ImageAttachment
+        user.coverImage = values["coverImage"] as? Attachment
         user.backgroundPosition = values["backgroundPosition"] as? String
-        user.posts = values["posts"] as? [Post]
-        user.mostRecentPost = values["mostRecentPost"] as? Post
+        // links / nested resources
+        if let posts = values["posts"] as? [Post] {
+            var postIds = [String]()
+            for post in posts {
+                postIds.append(post.id)
+                ElloLinkedStore.sharedInstance.setObject(post, forKey: post.id, inCollection: MappingType.PostsType.rawValue)
+            }
+            user.addLinkArray("posts", array: postIds)
+        }
+        if let mostRecentPost = values["mostRecentPost"] as? Post {
+            user.addLinkObject("most_recent_post", key: mostRecentPost.id, collection: MappingType.PostsType.rawValue)
+            ElloLinkedStore.sharedInstance.setObject(mostRecentPost, forKey: mostRecentPost.id, inCollection: MappingType.PostsType.rawValue)
+        }
         user.profile = values["profile"] as? Profile
+        ElloLinkedStore.sharedInstance.setObject(user, forKey: user.id, inCollection: MappingType.UsersType.rawValue)
         return user
     }
 }
@@ -110,10 +122,27 @@ extension Post: Stubbable {
         post.commentsCount = values["commentsCount"] as? Int
         post.repostsCount = values["repostsCount"] as? Int
         // links / nested resources
-        post.author = (values["author"] as? User)
-        post.assets = (values["assets"] as? [String : Asset])
-        post.comments = (values["comments"] as? [Comment])
-
+        if let author = values["author"] as? User {
+            post.addLinkObject("author", key: author.id, collection: MappingType.UsersType.rawValue)
+            ElloLinkedStore.sharedInstance.setObject(author, forKey: author.id, inCollection: MappingType.UsersType.rawValue)
+        }
+        if let assets = values["assets"] as? [Asset] {
+            var assetIds = [String]()
+            for asset in assets {
+                assetIds.append(asset.id)
+                ElloLinkedStore.sharedInstance.setObject(asset, forKey: asset.id, inCollection: MappingType.AssetsType.rawValue)
+            }
+            post.addLinkArray("assets", array: assetIds)
+        }
+        if let comments = values["comments"] as? [Comment] {
+            var commentIds = [String]()
+            for comment in comments {
+                commentIds.append(comment.id)
+                ElloLinkedStore.sharedInstance.setObject(comment, forKey: comment.id, inCollection: MappingType.CommentsType.rawValue)
+            }
+            post.addLinkArray("comments", array: commentIds)
+        }
+        ElloLinkedStore.sharedInstance.setObject(post, forKey: post.id, inCollection: MappingType.PostsType.rawValue)
         return post
     }
 
@@ -138,10 +167,23 @@ extension Comment: Stubbable {
             )
 
         // links
-        comment.assets = (values["assets"] as? [String : Asset])
-        comment.author = (values["author"] as? User)
-        comment.parentPost = (values["parentPost"] as? Post)
-
+        if let author = values["author"] as? User {
+            comment.addLinkObject("author", key: author.id, collection: MappingType.UsersType.rawValue)
+            ElloLinkedStore.sharedInstance.setObject(author, forKey: author.id, inCollection: MappingType.UsersType.rawValue)
+        }
+        if let assets = values["assets"] as? [Asset] {
+            var assetIds = [String]()
+            for asset in assets {
+                assetIds.append(asset.id)
+                ElloLinkedStore.sharedInstance.setObject(asset, forKey: asset.id, inCollection: MappingType.AssetsType.rawValue)
+            }
+            comment.addLinkArray("assets", array: assetIds)
+        }
+        if let parentPost = values["parentPost"] as? Post {
+            comment.addLinkObject("parent_post", key: parentPost.id, collection: MappingType.UsersType.rawValue)
+            ElloLinkedStore.sharedInstance.setObject(parentPost, forKey: parentPost.id, inCollection: MappingType.PostsType.rawValue)
+        }
+        ElloLinkedStore.sharedInstance.setObject(comment, forKey: comment.id, inCollection: MappingType.CommentsType.rawValue)
         return comment
     }
 }
@@ -156,11 +198,13 @@ extension TextRegion: Stubbable {
 
 extension ImageRegion: Stubbable {
     class func stub(values: [String : AnyObject]) -> ImageRegion {
-        return ImageRegion(
-            asset: values["asset"] as? Asset,
-            alt: values["alt"] as? String,
-            url: values["url"] as? NSURL
-        )
+        var imageRegion = ImageRegion(alt: (values["alt"] as? String) ?? "imageRegion")
+        imageRegion.url = urlFromValue(values["url"])
+        if let asset = values["asset"] as? Asset {
+            imageRegion.addLinkObject("assets", key: asset.id, collection: MappingType.AssetsType.rawValue)
+            ElloLinkedStore.sharedInstance.setObject(asset, forKey: asset.id, inCollection: MappingType.AssetsType.rawValue)
+        }
+        return imageRegion
     }
 }
 
@@ -184,53 +228,52 @@ extension Activity: Stubbable {
             )
 
         let defaultSubject = activity.subjectType == SubjectType.User ? User.stub([:]) : Post.stub([:])
-        activity.subject = (values["subject"] as? JSONAble) ?? defaultSubject
-
+        if let user = values["subject"] as? User {
+            activity.addLinkObject("subject", key: user.id, collection: MappingType.UsersType.rawValue)
+            ElloLinkedStore.sharedInstance.setObject(user, forKey: user.id, inCollection: MappingType.UsersType.rawValue)
+        }
+        else if let post = values["subject"] as? Post {
+            activity.addLinkObject("subject", key: post.id, collection: MappingType.PostsType.rawValue)
+            ElloLinkedStore.sharedInstance.setObject(post, forKey: post.id, inCollection: MappingType.PostsType.rawValue)
+        }
+        else if let comment = values["subject"] as? Comment {
+            activity.addLinkObject("subject", key: comment.id, collection: MappingType.CommentsType.rawValue)
+            ElloLinkedStore.sharedInstance.setObject(comment, forKey: comment.id, inCollection: MappingType.CommentsType.rawValue)
+        }
+        ElloLinkedStore.sharedInstance.setObject(activity, forKey: activity.id, inCollection: MappingType.ActivitiesType.rawValue)
         return activity
     }
 }
 
 extension Asset: Stubbable {
     class func stub(values: [String : AnyObject]) -> Asset {
-        return Asset(
-            assetId:  (values["assetId"] as? String) ?? "1234",
-            optimized: values["optimized"] as? ImageAttachment,
-            smallScreen: values["smallScreen"] as? ImageAttachment,
-            ldpi: values["ldpi"] as? ImageAttachment,
-            mdpi: values["mdpi"] as? ImageAttachment,
-            hdpi: values["hdpi"] as? ImageAttachment,
-            xhdpi: values["xhdpi"] as? ImageAttachment,
-            xxhdpi: values["xxhdpi"] as? ImageAttachment,
-            xxxhdpi: values["xxxhdpi"] as? ImageAttachment
-        )
+        var asset = Asset(id:  (values["id"] as? String) ?? "1234")
+        asset.optimized = values["optimized"] as? Attachment
+        asset.smallScreen = values["smallScreen"] as? Attachment
+        asset.ldpi = values["ldpi"] as? Attachment
+        asset.mdpi = values["mdpi"] as? Attachment
+        asset.hdpi = values["hdpi"] as? Attachment
+        asset.xhdpi = values["xhdpi"] as? Attachment
+        asset.xxhdpi = values["xxhdpi"] as? Attachment
+        asset.original = values["original"] as? Attachment
+        ElloLinkedStore.sharedInstance.setObject(asset, forKey: asset.id, inCollection: MappingType.AssetsType.rawValue)
+        return asset
     }
 }
 
-extension ImageAttachment: Stubbable {
-    class func stub(values: [String : AnyObject]) -> ImageAttachment {
-        return ImageAttachment(
-            url: values["url"] as? NSURL,
-            height: values["height"] as? Int,
-            width: values["width"] as? Int,
-            imageType: values["imageType"] as? String,
-            size: values["size"] as? Int
-        )
+extension Attachment: Stubbable {
+    class func stub(values: [String : AnyObject]) -> Attachment {
+        var attachment = Attachment(url: urlFromValue(values["url"]) ?? NSURL(string: "http://www.google.com")!)
+        attachment.height = values["height"] as? Int
+        attachment.width = values["width"] as? Int
+        attachment.type = values["type"] as? String
+        attachment.size = values["size"] as? Int
+        return attachment
     }
 }
 
 extension Notification: Stubbable {
     class func stub(values: [String : AnyObject]) -> Notification {
-
-        let author = (values["author"] as? User)
-        let subjectTypeString = (values["subjectType"] as? String) ?? SubjectType.Unknown.rawValue
-        let activityKindString = (values["kind"] as? String) ?? Activity.Kind.Unknown.rawValue
-
-        return Notification(
-            author: author,
-            createdAt: (values["createdAt"] as? NSDate) ?? NSDate(),
-            kind: Activity.Kind(rawValue: activityKindString) ?? Activity.Kind.Unknown,
-            notificationId: (values["notificationId"] as? String) ?? "444",
-            subjectType: SubjectType(rawValue: subjectTypeString) ?? SubjectType.Unknown
-        )
+        return Notification(activity: (values["activity"] as? Activity) ?? Activity.stub([:]))
     }
 }

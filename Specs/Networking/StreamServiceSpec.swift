@@ -83,7 +83,7 @@ class StreamServiceSpec: QuickSpec {
                         expect(imageRegion.asset?.hdpi!.width) == 750
                         expect(imageRegion.asset?.hdpi!.height) == 321
                         expect(imageRegion.asset?.hdpi!.size) == 77464
-                        expect(imageRegion.asset?.hdpi!.imageType) == "image/jpeg"
+                        expect(imageRegion.asset?.hdpi!.type) == "image/jpeg"
                     }
                 }
 

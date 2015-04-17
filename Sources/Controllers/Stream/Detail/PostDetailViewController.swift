@@ -157,12 +157,6 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         if let post = post {
             streamViewController.streamService.loadMoreCommentsForPost(post.id,
                 success: { (jsonables, responseConfig) in
-                    for jsonable in jsonables {
-                        if let comment = jsonable as? Comment {
-                            comment.parentPost?.author = post.author
-                        }
-                    }
-
                     self.appendCreateCommentItem()
                     self.streamViewController.responseConfig = responseConfig
                     self.streamViewController.removeRefreshables()

@@ -38,7 +38,6 @@ public struct ElloLinkedStore {
                 if let mappingType = MappingType(rawValue: type) {
                     for object: [String:AnyObject] in typeObjects {
                         if let id = object["id"] as? String {
-                            println("Add \(mappingType.rawValue): \(id)")
                             let jsonable = mappingType.fromJSON(data: object, fromLinked: true)
                             transaction.setObject(jsonable, forKey: id, inCollection: type)
                         }

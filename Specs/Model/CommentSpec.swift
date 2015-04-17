@@ -16,8 +16,8 @@ class CommentSpec: QuickSpec {
 
             it("parses correctly") {
                 // add stubs for references in json
-                ElloLinkedStore.sharedInstance.setObject("posts", key: "40", object: Post.stub(["id": "40"]))
-                ElloLinkedStore.sharedInstance.setObject("users", key: "420", object: User.stub(["userId": "420"]))
+                ElloLinkedStore.sharedInstance.setObject(Post.stub(["id": "40"]), forKey: "40", inCollection: MappingType.PostsType.rawValue)
+                ElloLinkedStore.sharedInstance.setObject(User.stub(["userId": "420"]), forKey: "420", inCollection: MappingType.UsersType.rawValue)
 
                 let parsedComment = stubbedJSONData("comments_comment_details", "comments")
 
@@ -36,7 +36,7 @@ class CommentSpec: QuickSpec {
                 expect(comment.author).to(beAKindOf(User.self))
                 expect(comment.parentPost).to(beAKindOf(Post.self))
                 expect(count(comment.assets!)) == 1
-                expect(comment.assets!["5"]).to(beAKindOf(Asset.self))
+                expect(comment.assets![0]).to(beAKindOf(Asset.self))
                 // computed
                 expect(comment.groupId) == "40"
             }
@@ -74,21 +74,21 @@ class CommentSpec: QuickSpec {
                     expect(textRegion.content) == "I am your comment's content"
                     expect(imageRegion.alt) == "sample-alt"
                     expect(imageRegion.url?.absoluteString) == "http://www.example5.com"
-                    expect(imageAsset.assetId) == "qwerty"
+                    expect(imageAsset.id) == "qwerty"
 
                     let assetXXHDPI = imageAsset.xxhdpi!
-                    expect(assetXXHDPI.url!.absoluteString) == "http://www.example2.com"
+                    expect(assetXXHDPI.url.absoluteString) == "http://www.example2.com"
                     expect(assetXXHDPI.width) == 112
                     expect(assetXXHDPI.height) == 98
                     expect(assetXXHDPI.size) == 5673
-                    expect(assetXXHDPI.imageType) == "png"
+                    expect(assetXXHDPI.type) == "png"
 
                     let assetHDPI = imageAsset.hdpi!
-                    expect(assetHDPI.url!.absoluteString) == "http://www.example.com"
+                    expect(assetHDPI.url.absoluteString) == "http://www.example.com"
                     expect(assetHDPI.width) == 887
                     expect(assetHDPI.height) == 122
                     expect(assetHDPI.size) == 666987
-                    expect(assetHDPI.imageType) == "jpeg"
+                    expect(assetHDPI.type) == "jpeg"
                 }
 
                 it("decodes successfully") {
@@ -102,24 +102,24 @@ class CommentSpec: QuickSpec {
                         "id" : "sample-author-id"
                     ])
 
-                    let hdpi: ImageAttachment = stub([
+                    let hdpi: Attachment = stub([
                         "url" : NSURL(string: "http://www.example.com")!,
                         "height" : 122,
                         "width" : 887,
-                        "imageType" : "jpeg",
+                        "type" : "jpeg",
                         "size" : 666987
                     ])
 
-                    let xxhdpi: ImageAttachment = stub([
+                    let xxhdpi: Attachment = stub([
                         "url" : NSURL(string: "http://www.example2.com")!,
                         "height" : 98,
                         "width" : 112,
-                        "imageType" : "png",
+                        "type" : "png",
                         "size" : 5673
                     ])
 
                     let asset: Asset = stub([
-                        "assetId" : "qwerty",
+                        "id" : "qwerty",
                         "hdpi" : hdpi,
                         "xxhdpi" : xxhdpi
                     ])

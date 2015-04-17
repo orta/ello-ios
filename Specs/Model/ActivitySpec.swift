@@ -145,7 +145,7 @@ class ActivitySpec: QuickSpec {
 
                 it("decodes welcome post successfully") {
                     let expectedCreatedAt = NSDate()
-                    let user: User = stub(["userId" : "768"])
+                    let user: User = stub(["id" : "768"])
                     let activity: Activity = stub([
                         "subject" : user,
                         "id" : "456",
@@ -168,7 +168,7 @@ class ActivitySpec: QuickSpec {
                     // links
                     let unArchivedUser = unArchivedActivity.subject as! User
                     expect(unArchivedUser).to(beAKindOf(User.self))
-                    expect(unArchivedUser.userId) == "768"
+                    expect(unArchivedUser.id) == "768"
                 }
 
                 it("decodes noise post successfully") {

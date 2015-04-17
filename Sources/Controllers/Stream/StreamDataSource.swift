@@ -121,7 +121,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         for (index,value) in enumerate(visibleCellItems) {
 
             if let comment = value.jsonable as? Comment {
-                if comment.parentPost?.id == post.id {
+                if comment.postId == post.id {
                     indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
                 }
             }

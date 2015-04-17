@@ -43,7 +43,6 @@ public struct ProfileHeaderCellPresenter {
             cell.countsTextView.appendTextWithAction("Following \(user.followingCount ?? 0) / ", link: "following", object: user)
             let followersStr = user.followersCount ?? "0"
             cell.countsTextView.appendTextWithAction("Followers \(followersStr)", link: "followers", object: user)
-            println("WTF")
         }
     }
 }

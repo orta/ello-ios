@@ -51,7 +51,7 @@ class PostSpec: QuickSpec {
                 expect(post.comments![0]).to(beAKindOf(Comment.self))
                 expect(post.comments![1]).to(beAKindOf(Comment.self))
                 expect(count(post.assets!)) == 1
-                expect(post.assets!["11"]).to(beAKindOf(Asset.self))
+                expect(post.assets![0]).to(beAKindOf(Asset.self))
                 // computed
                 expect(post.groupId) == "132"
                 expect(post.shareLink) == "https://ello.co/cfiggis/post/2rz4agLM4f1fyxykW3rc-Q"
@@ -121,47 +121,48 @@ class PostSpec: QuickSpec {
                     expect(textRegion.content) == "I am your content for sure"
                     expect(imageRegion.alt) == "some-altness"
                     expect(imageRegion.url?.absoluteString) == "http://www.example5.com"
-                    expect(imageAsset.assetId) == "qwerty"
+                    expect(imageAsset.id) == "qwerty"
 
                     let assetXXHDPI = imageAsset.xxhdpi!
-                    expect(assetXXHDPI.url!.absoluteString) == "http://www.example2.com"
+                    expect(assetXXHDPI.url.absoluteString) == "http://www.example2.com"
                     expect(assetXXHDPI.width) == 10
                     expect(assetXXHDPI.height) == 99
                     expect(assetXXHDPI.size) == 986896
-                    expect(assetXXHDPI.imageType) == "png"
+                    expect(assetXXHDPI.type) == "png"
 
                     let assetHDPI = imageAsset.hdpi!
-                    expect(assetHDPI.url!.absoluteString) == "http://www.example.com"
+                    expect(assetHDPI.url.absoluteString) == "http://www.example.com"
                     expect(assetHDPI.width) == 45
                     expect(assetHDPI.height) == 35
                     expect(assetHDPI.size) == 445566
-                    expect(assetHDPI.imageType) == "jpeg"
+                    expect(assetHDPI.type) == "jpeg"
                 }
 
                 it("decodes successfully") {
                     let expectedCreatedAt = NSDate()
                     let author: User = stub([
-                        "id" : "555"
+                        "id" : "555",
+                        "username": "thenim"
                     ])
 
-                    let hdpi: ImageAttachment = stub([
+                    let hdpi: Attachment = stub([
                         "url" : NSURL(string: "http://www.example.com")!,
                         "height" : 35,
                         "width" : 45,
-                        "imageType" : "jpeg",
+                        "type" : "jpeg",
                         "size" : 445566
                     ])
 
-                    let xxhdpi: ImageAttachment = stub([
+                    let xxhdpi: Attachment = stub([
                         "url" : NSURL(string: "http://www.example2.com")!,
                         "height" : 99,
                         "width" : 10,
-                        "imageType" : "png",
+                        "type" : "png",
                         "size" : 986896
                     ])
 
                     let asset: Asset = stub([
-                        "assetId" : "qwerty",
+                        "id" : "qwerty",
                         "hdpi" : hdpi,
                         "xxhdpi" : xxhdpi
                     ])
@@ -205,7 +206,7 @@ class PostSpec: QuickSpec {
                         "commentsCount" : 6,
                         "repostsCount" : 99,
                         // links
-                        "assets" : ["assetUno" : asset],
+                        "assets" : [asset],
                         "author" : author,
                         "comments" : [comment]
                     ])
@@ -235,7 +236,7 @@ class PostSpec: QuickSpec {
                     expect(unArchivedPost.commentsCount) == 6
                     expect(unArchivedPost.repostsCount) == 99
                     // links
-                    expect(unArchivedPost.author!.userId) == "555"
+                    expect(unArchivedPost.author!.id) == "555"
                     expect(count(unArchivedPost.assets!)) == 1
                     expect(count(unArchivedPost.comments!)) == 1
                     expect(unArchivedPost.comments![0]).to(beAKindOf(Comment.self))

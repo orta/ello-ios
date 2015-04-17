@@ -58,7 +58,6 @@ extension JSONAble {
             ElloLinkedStore.sharedInstance.database.newConnection().readWithBlock { transaction in
                 for key in ids {
                     if let jsonable = transaction.objectForKey(key, inCollection: identifier) as? JSONAble {
-                        println("key: \(key) collection: \(identifier) \(jsonable)")
                         arr += [jsonable]
                     }
                 }
@@ -70,5 +69,10 @@ extension JSONAble {
     public func addLinkObject(identifier: String, key: String, collection: String) {
         if links == nil { links = [String: AnyObject]() }
         links![identifier] = ["id": key, "type": collection]
+    }
+
+    public func addLinkArray(identifier: String, array: [String]) {
+        if links == nil { links = [String: AnyObject]() }
+        links![identifier] = array
     }
 }
