@@ -139,6 +139,7 @@ public class AddFriendsContainerViewController: StreamableViewController {
 
     @IBAction func findFriendsTapped(sender: FindInviteButton) {
         selectButton(.Find)
+        Tracker.sharedTracker.screenAppeared("Find Friends")
         pageViewController.setViewControllers([controllers[0]],
             direction: .Reverse,
             animated: true) { finished in
@@ -147,6 +148,7 @@ public class AddFriendsContainerViewController: StreamableViewController {
 
     @IBAction func inviteFriendsTapped(sender: FindInviteButton) {
         selectButton(.Invite)
+        Tracker.sharedTracker.screenAppeared("Invite Friends")
         pageViewController.setViewControllers([controllers[1]],
             direction: .Forward,
             animated: true) { finished in

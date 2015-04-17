@@ -146,7 +146,7 @@ public class StreamContainerViewController: StreamableViewController {
         let x:CGFloat = CGFloat(sender.selectedSegmentIndex) * width
         let rect = CGRect(x: x, y: 0, width: width, height: height)
         scrollView.scrollRectToVisible(rect, animated: true)
-        let stream = StreamKind.streamValues[index]
+        let stream = StreamKind.streamValues[sender.selectedSegmentIndex]
         Tracker.sharedTracker.screenAppeared(stream.name)
     }
 

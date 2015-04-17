@@ -23,6 +23,7 @@ public struct InviteController: InviteDelegate {
 
     public func sendInvite() {
         if let email = person.emails.first {
+            Tracker.sharedTracker.friendInvited()
             ElloHUD.showLoadingHud()
             InviteService().invite(email, success: {
                 ElloHUD.hideLoadingHud()

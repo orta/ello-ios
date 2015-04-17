@@ -66,8 +66,13 @@ public extension Tracker {
     func imageAddedFromLibrary() { }
     func addImageCanceled() { }
 
-    func friendAdded(fromFindScreen: Bool = false) { }
-    func userInvited() { }
+    func inviteFriendsTapped() { }
+    func friendAdded() { }
+    func noiseAdded() { }
+    func friendInvited() { }
+    func importContactsInitiated() { }
+    func importContactsDenied() { }
+    func addressBookAccessed() { }
 
     func pushNotificationPreferenceChanged(enabled: Bool) { }
     func contactAccessPreferenceChanged(enabled: Bool) { }
