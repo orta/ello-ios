@@ -114,10 +114,10 @@ public class PostbarController: NSObject, PostbarDelegate {
         let yesAction = AlertAction(title: NSLocalizedString("Yes", comment: "Yes"), style: ActionStyle.Dark) {
             action in
             let service = PostService()
-            if let comment = self.commentForCell(cell), let postId = comment.parentPost?.postId {
-                service.deleteComment(postId, commentId: comment.commentId,
+            if let comment = self.commentForCell(cell), let postId = comment.parentPost?.id {
+                service.deleteComment(postId, commentId: comment.id,
                     success: {
-                        postNotification(ExperienceUpdatedNotification, .CommentChanged(commentId: comment.commentId, postId: postId, change: .Delete))
+                        postNotification(ExperienceUpdatedNotification, .CommentChanged(commentId: comment.id, postId: postId, change: .Delete))
                     }, failure: { (error, statusCode)  in
                         // TODO: add error handling
                         println("failed to delete post, error: \(error.localizedDescription)")

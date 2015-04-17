@@ -54,10 +54,10 @@ public final class ImageRegion: JSONAble {
         let json = JSON(data)
         // create region
         var imageRegion = ImageRegion(
-            alt: json["data"].object["alt"] as! String
+            alt: json["data"]["alt"].stringValue
             )
         // optional
-        if let urlStr = json["data"].object["url"] as? String {
+        if let urlStr = json["data"]["url"].string {
             imageRegion.url = NSURL(string: urlStr)
         }
         // links
