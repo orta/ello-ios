@@ -106,7 +106,6 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         }
         self.unsizedCellItems = items
         self.startOfComments += items.count
-        self.streamViewController.refreshableIndex = self.startOfComments
         self.title = post.author?.atName ?? "Post Detail"
         postDidLoad()
     }
