@@ -19,6 +19,7 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
     var coverWidthSet = false
     let ratio:CGFloat = 16.0/9.0
 
+    private var isSetup = false
     @IBOutlet weak var viewContainer: UIView!
     @IBOutlet weak var navigationBar: ElloNavigationBar!
     @IBOutlet weak var navigationBarTopConstraint: NSLayoutConstraint!
@@ -63,17 +64,21 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         setupStreamController()
         setupNavigationBar()
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
-        if let user = self.user, let responseConfig = self.responseConfig {
-            userLoaded(user, responseConfig: responseConfig)
-        }
     }
 
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+
         if !coverWidthSet {
             coverWidthSet = true
             coverImageHeight.constant = view.frame.width / ratio
             coverImageHeightStart = coverImageHeight.constant
+        }
+        if let user = self.user, let responseConfig = self.responseConfig {
+            if !isSetup {
+                isSetup = true
+                userLoaded(user, responseConfig: responseConfig)
+            }
         }
     }
 
@@ -175,7 +180,7 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         if let posts = user.posts {
             items += StreamCellItemParser().parse(posts, streamKind: streamViewController.streamKind)
         }
-        streamViewController.appendUnsizedCellItems(items)
+        streamViewController.appendUnsizedCellItems(items, withWidth: self.view.frame.width)
         streamViewController.doneLoading()
     }
 }

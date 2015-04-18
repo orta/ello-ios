@@ -147,7 +147,7 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
             streamViewController.appendStreamCellItems(detailCellItems)
         }
         if let unsizedCellItems = unsizedCellItems {
-            streamViewController.appendUnsizedCellItems(unsizedCellItems)
+            streamViewController.appendUnsizedCellItems(unsizedCellItems, withWidth: nil)
         }
         streamViewController.refreshableIndex = self.startOfComments
     }
@@ -160,7 +160,7 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
                     self.streamViewController.responseConfig = responseConfig
                     self.streamViewController.removeRefreshables()
                     let newCommentItems = StreamCellItemParser().parse(jsonables, streamKind: self.streamKind!)
-                    self.streamViewController.appendUnsizedCellItems(newCommentItems)
+                    self.streamViewController.appendUnsizedCellItems(newCommentItems, withWidth: nil)
                     self.streamViewController.doneLoading()
                 },
                 failure: { (error, statusCode) in
