@@ -32,8 +32,8 @@ public struct StreamCellItemParser {
     // MARK: - Static
 
     public static func aspectRatioForImageBlock(imageBlock: ImageRegion) -> CGFloat {
-        let width = imageBlock.asset?.mdpi?.width
-        let height = imageBlock.asset?.mdpi?.height
+        let width = imageBlock.asset?.hdpi?.width
+        let height = imageBlock.asset?.hdpi?.height
         if width != nil && height != nil {
             return CGFloat(width!)/CGFloat(height!)
         }
