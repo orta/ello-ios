@@ -27,4 +27,8 @@ extension UIScreen {
         return UIScreen.mainScreen().bounds
     }
 
+    class func scale() -> CGFloat {
+        return UIScreen.mainScreen().scale
+    }
+
 }

@@ -19,6 +19,8 @@ public class StreamImageCell: UICollectionViewCell {
     @IBOutlet weak var imageButton: UIButton!
     @IBOutlet weak var errorLabel: ElloErrorLabel!
     @IBOutlet weak var circle:PulsingCircle!
+    @IBOutlet weak var imageLeftContraint: NSLayoutConstraint!
+    @IBOutlet weak var imageRightConstraint: NSLayoutConstraint!
 
     weak var delegate: StreamImageCellDelegate?
     var serverProvidedAspectRatio:CGFloat?

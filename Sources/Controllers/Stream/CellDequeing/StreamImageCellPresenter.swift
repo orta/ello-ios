@@ -9,6 +9,7 @@
 import Foundation
 
 public struct StreamImageCellPresenter {
+    private static let padding: CGFloat = 15
 
     static func configure(
         cell:UICollectionViewCell,
@@ -18,17 +19,27 @@ public struct StreamImageCellPresenter {
         currentUser: User?)
     {
         if let cell = cell as? StreamImageCell {
-            if let photoData = streamCellItem.data as! ImageRegion? {
-
+            if let photoData = streamCellItem.data as? ImageRegion {
+                cell.imageLeftContraint.constant = 0
+                cell.imageRightConstraint.constant = 0
                 var photoToLoad: NSURL?
                 if photoData.asset != nil && photoData.asset!.isGif {
                     photoToLoad = photoData.asset?.optimized?.url
                 }
                 else if streamKind.isGridLayout {
-                    photoToLoad = photoData.asset?.mdpi?.url
+                    photoToLoad = photoData.asset?.gridLayoutAttachment?.url
                 }
                 else {
-                    photoToLoad = photoData.asset?.hdpi?.url
+                    photoToLoad = photoData.asset?.oneColumnAttachment?.url
+
+                    var screenWidth = UIScreen.screenWidth()
+                    if let assetWidth = photoData.asset?.oneColumnAttachment?.width {
+                        let width = CGFloat(assetWidth)
+                        if width < (screenWidth - padding * 2) {
+                            cell.imageLeftContraint.constant = padding
+                            cell.imageRightConstraint.constant = screenWidth - width - padding
+                        }
+                    }
                 }
 
                 if let photoURL = photoToLoad {

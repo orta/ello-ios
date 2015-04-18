@@ -32,8 +32,8 @@ public struct StreamCellItemParser {
     // MARK: - Static
 
     public static func aspectRatioForImageBlock(imageBlock: ImageRegion) -> CGFloat {
-        let width = imageBlock.asset?.hdpi?.width
-        let height = imageBlock.asset?.hdpi?.height
+        let width = imageBlock.asset?.mdpi?.width
+        let height = imageBlock.asset?.mdpi?.height
         if width != nil && height != nil {
             return CGFloat(width!)/CGFloat(height!)
         }
@@ -180,7 +180,11 @@ public struct StreamCellItemParser {
     }
 
     private func oneColumnImageHeight(imageBlock: ImageRegion) -> CGFloat {
-        return UIScreen.screenWidth() / StreamCellItemParser.aspectRatioForImageBlock(imageBlock)
+        var imageWidth = UIScreen.screenWidth()
+        if let assetWidth = imageBlock.asset?.oneColumnAttachment?.width {
+            imageWidth = min(imageWidth, CGFloat(assetWidth))
+        }
+        return imageWidth / StreamCellItemParser.aspectRatioForImageBlock(imageBlock)
     }
 
     private func twoColumnImageHeight(imageBlock: ImageRegion) -> CGFloat {
