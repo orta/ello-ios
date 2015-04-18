@@ -25,10 +25,10 @@ public struct StreamImageCellPresenter {
                     photoToLoad = photoData.asset?.optimized?.url
                 }
                 else if streamKind.isGridLayout {
-                    photoToLoad = photoData.asset?.ldpi?.url
+                    photoToLoad = photoData.asset?.mdpi?.url
                 }
                 else {
-                    photoToLoad = photoData.asset?.mdpi?.url
+                    photoToLoad = photoData.asset?.hdpi?.url
                 }
 
                 if let photoURL = photoToLoad {
