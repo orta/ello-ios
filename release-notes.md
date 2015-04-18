@@ -1,3 +1,79 @@
+### Ello Build 1146(v1.0.0) April 17, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #168 - Add analytics hooks
+This adds the hooks in place to track the analytics events outlined
+[here][gdoc]. The only things that haven't been added are:
+
+- Push Notification Preference
+- Account Creation success
+
+These will be added once the features are in place.
+
+The Tracker class has no implementation currently. Segment.io is being a
+pain in the ass. I'll fill in the implementation once they fix their
+framework.
+
+[gdoc]: https://docs.google.com/a/thoughtbot.com/spreadsheets/d/167AQVGBPtF4wDyH3WKbWXssdJ1MnJ6dN9Wc6_ydB-v8/edit#gid=0
+
+------
+
+#### #167 - Delete Comments
+* Any comment on my own post is deletable
+* `ExperienceUpdate` describes any update to the system that requires potential UI updates
+* `ExperienceUpdatedNotification` notifies system of updates
+* Updating UI in other controllers will be part of new PR
+
+[#91944770]
+[#85642540]
+
+------
+
+#### #162 - Use text presence for label spacing
+The labels have padding in their size so even when they are empty they
+can show in the view which is unwanted.
+
+------
+
+#### #159 - Image cell fixes
+the pulsing circle wasn't appearing, and some other minor refactors.
+
+------
+
+#### #158 - Adding the `Profile` as a property of `User`
+
+------
+
+#### #160 - Delete my own Post
+* Replace `flag` icon with `delete` icon in the postbar on my own posts
+* Tapping `delete` shows confirmation dialog
+* Add `Danger` UI state to the `AlertViewController`
+* All `StreamViewControllers` are notified of the delete and reload and/or are removed if need be
+* `PostService` created to handle post deletion
+
+![trash](https://media1.giphy.com/media/LNvYSvIDBT1bq/200.gif)
+[#91944746]
+
+------
+
+#### #157 - Close swipe-to-reveal area after cell reuse
+* When cells are reused the closed state of the swipe-to-reveal area is restored to closed
+* Added a bunch of specs around the presenter due to the complex logic involved in prepping a footer cell
+
+[Fixes #92150582]
+
+------
+
+#### #156 - Backlog fixes
+Mostly related to commenting, showing & hiding comments.
+
+Also fixed the FunctionalSpecs by converting them to `XCTestCase` (ewwww!)
+    
+------------
+
 ### Ello Build 1048(30ae92c221f068f7d028a7878f7fde3c07cd6308) April 8, 2015
 
     RELEASE NOTES
