@@ -19,7 +19,17 @@ public final class ImageRegion: JSONAble {
     // optional
     public var url: NSURL?
     // links
-    public var asset: Asset? { return getLinkObject("assets") as? Asset }
+    public var asset: Asset? {
+        set {
+            if let asset = newValue {
+                addLinkObject("assets", key: asset.id, collection: MappingType.AssetsType.rawValue)
+            }
+            else {
+                clearLinkObject("assets")
+            }
+        }
+        get { return getLinkObject("assets") as? Asset }
+    }
 
 // MARK: Initialization
 

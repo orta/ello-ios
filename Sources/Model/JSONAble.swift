@@ -71,6 +71,11 @@ extension JSONAble {
         links![identifier] = ["id": key, "type": collection]
     }
 
+    public func clearLinkObject(identifier: String) {
+        if links == nil { links = [String: AnyObject]() }
+        links![identifier] = nil
+    }
+
     public func addLinkArray(identifier: String, array: [String]) {
         if links == nil { links = [String: AnyObject]() }
         links![identifier] = array
