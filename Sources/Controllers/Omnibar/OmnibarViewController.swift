@@ -27,7 +27,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
     public func omnibarDataName() -> String {
         if let post = parentPost {
-            return "omnibar_comment_\(post.postId)"
+            return "omnibar_comment_\(post.id)"
         }
         else {
             return "omnibar_post"
@@ -104,12 +104,15 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     }
 
     public func omnibarCancel() {
+        var contentType: ContentType = .Post
         if let post = parentPost {
             let omnibarData = OmnibarData(attributedText: screen.attributedText, image: screen.image)
             let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
             Tmp.write(data, to: omnibarDataName())
+            contentType = .Comment
         }
 
+        Tracker.sharedTracker.contentCreationCanceled(contentType)
         self.navigationController?.popViewControllerAnimated(true)
     }
 
@@ -143,6 +146,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
                     for listener in self.commentSuccessListeners {
                         listener(comment: comment)
                     }
+                    Tracker.sharedTracker.contentCreated(.Comment)
                 }
                 else {
                     var post = postOrComment as! Post
@@ -150,15 +154,22 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
                         listener(post: post)
                     }
                     self.screen.reportSuccess("Post successfully created!")
+                    Tracker.sharedTracker.contentCreated(.Post)
                 }
             }, failure: { error, statusCode in
                 ElloHUD.hideLoadingHud()
-                self.screen.reportError("Could not create post", error: error)
+                self.contentCreationFailed(error.localizedDescription)
             })
         }
         else {
-            self.screen.reportError("Could not create post", errorMessage: "No content was submitted")
+            contentCreationFailed("No content was submitted")
         }
+    }
+
+    func contentCreationFailed(errorMessage: String) {
+        let contentType: ContentType = (parentPost == nil) ? .Post : .Comment
+        Tracker.sharedTracker.contentCreationFailed(contentType, message: errorMessage)
+        screen.reportError("Could not create \(contentType.rawValue)", errorMessage: errorMessage)
     }
 
     public func omnibarPresentController(controller: UIViewController) {

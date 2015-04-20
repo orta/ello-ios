@@ -71,14 +71,17 @@ public class BlockUserModalViewController: BaseElloViewController {
     }
 
     @IBAction func blockTapped(sender: UIButton) {
+        Tracker.sharedTracker.userBlocked()
         handleTapped(sender, newRelationship: Relationship.Block)
     }
 
     @IBAction func muteTapped(sender: UIButton) {
+        Tracker.sharedTracker.userMuted()
         handleTapped(sender, newRelationship: Relationship.Mute)
     }
 
     @IBAction func closeModal(sender: UIButton?) {
+        Tracker.sharedTracker.userBlockCanceled()
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 

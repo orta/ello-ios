@@ -542,13 +542,15 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
         if UIImagePickerController.isSourceTypeAvailable(.Camera) {
             let alertController = AlertViewController(message: NSLocalizedString("Choose a photo source", comment: "choose photo source (camera or library)"))
 
-            let cameraAction = AlertAction(title: NSLocalizedString("Camera", comment: "camera button"), style: .Dark) { (action) in self.openCamera() }
+            let cameraAction = AlertAction(title: NSLocalizedString("Camera", comment: "camera button"), style: .Dark) { _ in self.openCamera() }
             alertController.addAction(cameraAction)
 
-            let libraryAction = AlertAction(title: NSLocalizedString("Library", comment: "library button"), style: .Dark) { (action) in self.openLibrary() }
+            let libraryAction = AlertAction(title: NSLocalizedString("Library", comment: "library button"), style: .Dark) { _ in self.openLibrary() }
             alertController.addAction(libraryAction)
 
-            let cancelAction = AlertAction(title: NSLocalizedString("Cancel", comment: "cancel button"), style: .Light) { (action) in }
+            let cancelAction = AlertAction(title: NSLocalizedString("Cancel", comment: "cancel button"), style: .Light) { _ in
+                Tracker.sharedTracker.addImageCanceled()
+            }
             alertController.addAction(cancelAction)
 
             delegate?.omnibarPresentController(alertController)
@@ -567,12 +569,14 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
     }
 
     func openLibrary() {
+        Tracker.sharedTracker.imageAddedFromLibrary()
         let imageController = UIImagePickerController()
         imageController.sourceType = .PhotoLibrary
         openImagePicker(imageController)
     }
 
     func openCamera() {
+        Tracker.sharedTracker.imageAddedFromCamera()
         let imageController = UIImagePickerController()
         imageController.sourceType = .Camera
         openImagePicker(imageController)

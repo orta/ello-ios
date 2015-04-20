@@ -9,24 +9,19 @@
 
 import Foundation
 
-public enum FlaggableContentType {
-    case Post
-    case Comment
-}
-
 public class ContentFlagger {
 
     var contentFlagged:Bool?
 
     weak public var presentingController: UIViewController?
     let flaggableId: String
-    let flaggableContentType: FlaggableContentType
+    let contentType: ContentType
     var commentPostId: String?
 
-    public init(presentingController: UIViewController?, flaggableId: String, flaggableContentType: FlaggableContentType, commentPostId:String?) {
+    public init(presentingController: UIViewController?, flaggableId: String, contentType: ContentType, commentPostId:String?) {
         self.presentingController = presentingController
         self.flaggableId = flaggableId
-        self.flaggableContentType = flaggableContentType
+        self.contentType = contentType
         self.commentPostId = commentPostId
     }
 
@@ -63,7 +58,7 @@ public class ContentFlagger {
         if let option = option {
 
             var endPoint:ElloAPI
-            switch flaggableContentType {
+            switch contentType {
             case .Post:
                 endPoint = ElloAPI.FlagPost(postId: flaggableId, kind: option.kind)
             case .Comment:
@@ -72,8 +67,10 @@ public class ContentFlagger {
 
             let service = ContentFlaggingService()
             service.flagContent(endPoint, success: {
+                Tracker.sharedTracker.contentFlagged(self.contentType, flag: option)
                 self.contentFlagged = true
             }, failure: { (error, statusCode) in
+                Tracker.sharedTracker.contentCreationFailed(self.contentType, message: error.localizedDescription)
                 self.contentFlagged = false
             })
         }
@@ -84,11 +81,13 @@ public class ContentFlagger {
         let alertController = AlertViewController(message: "Would you like to flag this content as:", textAlignment: .Left)
 
         for option in AlertOption.all {
-            let action = AlertAction(title: option.name, style: .Dark, handler:handler)
+            let action = AlertAction(title: option.name, style: .Dark, handler: handler)
             alertController.addAction(action)
         }
 
-        let cancelAction = AlertAction(title: "Cancel", style: .Light, handler: .None)
+        let cancelAction = AlertAction(title: "Cancel", style: .Light) { _ in
+            Tracker.sharedTracker.contentFlaggingCanceled(self.contentType)
+        }
 
         alertController.addAction(cancelAction)
 

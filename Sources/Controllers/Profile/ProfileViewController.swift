@@ -13,7 +13,7 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
 
     var user: User?
     var responseConfig: ResponseConfig?
-    let userParam: String
+    var userParam: String!
     let streamViewController = StreamViewController.instantiateFromStoryboard()
     var coverImageHeightStart: CGFloat?
     var coverWidthSet = false
@@ -27,7 +27,7 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
 
     required public init(userParam: String) {
         self.userParam = userParam
-        self.streamViewController.streamKind = .UserStream(userParam: userParam)
+        self.streamViewController.streamKind = .UserStream(userParam: self.userParam)
         super.init(nibName: "ProfileViewController", bundle: nil)
         ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.streamService.loadUser(streamViewController.streamKind.endpoint,
@@ -41,6 +41,7 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
 
     // this should only be initialized this way for currentUser in tab nav
     required public init(user: User, responseConfig: ResponseConfig) {
+        // this user should have the .proifle on it since it is currentUser
         ElloHUD.showLoadingHudInView(streamViewController.view)
         self.user = user
         self.responseConfig = responseConfig
@@ -150,8 +151,12 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
 
     private func userLoaded(user: User, responseConfig: ResponseConfig) {
         self.user = user
-        self.streamViewController.responseConfig = responseConfig
-        self.streamViewController.infiniteScrollClosure = addAuthorToPosts // TODO: this line can be removed when author is added to posts
+        // need to reassign the userParam to the id for paging
+        userParam = user.id
+        // need to reassign the streamKind so that the currentUser can page based off the user.id from the ElloAPI.path
+        // same for when tapping on a username in a post this will replace '~666' with the correct id for paging to work
+        streamViewController.streamKind = .UserStream(userParam: userParam)
+        streamViewController.responseConfig = responseConfig
         if !isRootViewController() {
             self.title = user.atName ?? "Profile"
         }
@@ -173,15 +178,6 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         streamViewController.appendUnsizedCellItems(items)
         streamViewController.doneLoading()
     }
-
-    // TODO: this method can be removed when author is added to posts
-    private func addAuthorToPosts(jsonables: [JSONAble]) {
-        if let user = self.user, let posts = jsonables as? [Post] {
-            for post in posts {
-                post.author = user
-            }
-        }
-    }
 }
 
 // MARK: ProfileViewController: StreamScrollDelegate
@@ -194,3 +190,4 @@ extension ProfileViewController: StreamScrollDelegate {
         super.streamViewDidScroll(scrollView)
     }
 }
+

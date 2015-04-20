@@ -27,7 +27,7 @@ class ContentFlaggerSpec: QuickSpec {
             beforeEach({
                 subject = ContentFlagger(presentingController: presentingController,
                     flaggableId: "123",
-                    flaggableContentType: .Post,
+                    contentType: .Post,
                     commentPostId: nil)
             })
 

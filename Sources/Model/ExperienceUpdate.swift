@@ -31,14 +31,14 @@ public extension ExperienceUpdate {
     func affectsItem(item: StreamCellItem) -> Bool {
         switch self {
         case .CommentChanged(let commentId, let postId, _):
-            return comment(item)?.parentPost?.postId == postId ||
-                comment(item)?.commentId == commentId
+            return comment(item)?.postId == postId ||
+                comment(item)?.id == commentId
         case .ContentActionRuleChanged(let userId, _, _):
             return userAffected(userId, item: item)
         case .ContentVisibilityRuleChanged(let userId, _, _):
             return userAffected(userId, item: item)
         case .PostChanged(let id, _):
-            return post(item)?.postId == id
+            return post(item)?.id == id
         case RelationshipChanged(_, let userId):
             return userAffected(userId, item: item)
         case .UserBlocked(let userId, _):

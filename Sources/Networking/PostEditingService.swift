@@ -74,7 +74,7 @@ public class PostEditingService: NSObject {
 
         var endpoint : ElloAPI
         if let parentPost = parentPost {
-            endpoint = ElloAPI.CreateComment(parentPostId: parentPost.postId, body: params)
+            endpoint = ElloAPI.CreateComment(parentPostId: parentPost.id, body: params)
         }
         else {
             endpoint = ElloAPI.CreatePost(body: params)
@@ -137,7 +137,8 @@ public class PostEditingService: NSObject {
 
             uploadService.upload(image, filename: filename,
                 success: { url in
-                    let imageRegion = ImageRegion(asset: nil, alt: filename, url: NSURL(string: url))
+                    let imageRegion = ImageRegion(alt: filename)
+                    imageRegion.url = NSURL(string: url)
                     uploaded.append((imageIndex, imageRegion))
                     allDone()
                 },

@@ -46,6 +46,7 @@ extension DrawerViewController {
 // MARK: Actions
 extension DrawerViewController {
     func hamburgerButtonTapped() {
+        Tracker.sharedTracker.drawerClosed()
         navigationController?.popViewControllerAnimated(true)
     }
 

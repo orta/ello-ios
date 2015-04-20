@@ -13,7 +13,7 @@ import SwiftyJSON
 
 let UserVersion: Int = 1
 
-public final class User: JSONAble, NSCoding {
+public final class User: JSONAble {
     public let version = UserVersion
 
     // active record
@@ -25,18 +25,32 @@ public final class User: JSONAble, NSCoding {
     public let experimentalFeatures: Bool
     public let relationshipPriority: Relationship
     // optional
-    public var avatar: ImageAttachment? // required, but kinda optional due to it being nested in json
+    public var avatar: Attachment? // required, but kinda optional due to it being nested in json
     public var identifiableBy: String?
     public var postsCount: Int?
     public var followersCount: String? // string due to this returning "∞" for the ello user
     public var followingCount: Int?
     public var formattedShortBio: String?
     public var externalLinks: String? // this will change to an object when incoming
-    public var coverImage: ImageAttachment?
+    public var coverImage: Attachment?
     public var backgroundPosition: String?
     // links
-    public var posts: [Post]?
-    public var mostRecentPost: Post?
+    public var posts: [Post]? {
+        if let posts = getLinkArray(MappingType.PostsType.rawValue) as? [Post] {
+            for post in posts {
+                post.addLinkObject("author", key: id, collection: MappingType.UsersType.rawValue)
+            }
+            return posts
+        }
+        return nil
+    }
+    public var mostRecentPost: Post? {
+        if let post = getLinkObject("most_recent_post") as? Post {
+            post.addLinkObject("author", key: id, collection: MappingType.UsersType.rawValue)
+            return post
+        }
+        return nil
+    }
     // computed
     public var atName: String { return "@\(username)"}
     public var avatarURL: NSURL? { return avatar?.url }
@@ -63,7 +77,7 @@ public final class User: JSONAble, NSCoding {
 
 // MARK: NSCoding
 
-    required public init(coder aDecoder: NSCoder) {
+    public required init(coder aDecoder: NSCoder) {
         let decoder = Decoder(aDecoder)
         // active record
         self.id = decoder.decodeKey("id")
@@ -84,14 +98,12 @@ public final class User: JSONAble, NSCoding {
         self.externalLinks = decoder.decodeOptionalKey("externalLinks")
         self.coverImage = decoder.decodeOptionalKey("coverImage")
         self.backgroundPosition = decoder.decodeOptionalKey("backgroundPosition")
-        // links
-        self.posts = decoder.decodeOptionalKey("posts")
-        self.mostRecentPost = decoder.decodeOptionalKey("mostRecentPost")
         // profile
-        self.profile = decoder.decodeOptionalKey("profile") 
+        self.profile = decoder.decodeOptionalKey("profile")
+        super.init(coder: aDecoder)
     }
 
-    public func encodeWithCoder(encoder: NSCoder) {
+    public override func encodeWithCoder(encoder: NSCoder) {
         // active record
         encoder.encodeObject(id, forKey: "id")
         // required
@@ -114,16 +126,14 @@ public final class User: JSONAble, NSCoding {
         encoder.encodeObject(externalLinks, forKey: "externalLinks")
         encoder.encodeObject(coverImage, forKey: "coverImage")
         encoder.encodeObject(backgroundPosition, forKey: "backgroundPosition")
-        // links
-        encoder.encodeObject(posts, forKey: "posts")
-        encoder.encodeObject(mostRecentPost, forKey: "mostRecentPost")
         // profile
         encoder.encodeObject(profile, forKey: "profile")
+        super.encodeWithCoder(encoder)
     }
-    
+
 // MARK: JSONAble
 
-    override public class func fromJSON(data:[String: AnyObject]) -> JSONAble {
+    override public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         let json = JSON(data)
 
         // create user
@@ -138,11 +148,11 @@ public final class User: JSONAble, NSCoding {
 
         // optional
         if let avatarObj = json["avatar"].object as? [String:[String:AnyObject]] {
-            if let avatarPath = avatarObj["large"]?["url"] as? String {
-                user.avatar = ImageAttachment(url: NSURL(string: avatarPath, relativeToURL: NSURL(string: ElloURI.baseURL)), height: 0, width: 0, imageType: "png", size: 0)
+            if let largePath = avatarObj["large"] {
+                user.avatar = Attachment.fromJSON(largePath) as? Attachment
             }
-            else if let originalPath = avatarObj["original"]?["url"] as? String {
-                user.coverImage = ImageAttachment(url: NSURL(string: originalPath, relativeToURL: NSURL(string: ElloURI.baseURL)), height: 0, width: 0, imageType: "png", size: 0)
+            else if let originalPath = avatarObj["original"] {
+                user.avatar = Attachment.fromJSON(originalPath) as? Attachment
             }
         }
         user.identifiableBy = json["identifiable_by"].stringValue
@@ -152,33 +162,25 @@ public final class User: JSONAble, NSCoding {
         user.formattedShortBio = json["formatted_short_bio"].stringValue
         user.externalLinks = json["external_links"].stringValue
         if var coverImageObj = json["cover_image"].object as? [String:[String:AnyObject]] {
-            if let hdpiPath = coverImageObj["hdpi"]?["url"] as? String {
-                user.coverImage = ImageAttachment(url: NSURL(string: hdpiPath, relativeToURL: NSURL(string: ElloURI.baseURL)), height: 0, width: 0, imageType: "png", size: 0)
+            if let hdpiPath = coverImageObj["hdpi"] {
+                user.coverImage = Attachment.fromJSON(hdpiPath) as? Attachment
             }
-            else if let optimizedPath = coverImageObj["optimized"]?["url"] as? String {
-                user.coverImage = ImageAttachment(url: NSURL(string: optimizedPath, relativeToURL: NSURL(string: ElloURI.baseURL)), height: 0, width: 0, imageType: "png", size: 0)
+            else if let optimizedPath = coverImageObj["optimized"] {
+                user.coverImage = Attachment.fromJSON(optimizedPath) as? Attachment
             }
         }
         user.backgroundPosition = json["background_positiion"].stringValue
         // links
-        if let linksNode = data["links"] as? [String: AnyObject] {
-            let links = ElloLinkedStore.parseLinks(linksNode)
-            user.posts = links["posts"] as? [Post]
-            user.mostRecentPost = links["most_recent_post"] as? Post
-        }
-        // hack back in author
-        if let posts = user.posts {
-            for post in posts {
-                post.author = user
-            }
-        }
-        if let recentPost = user.mostRecentPost {
-            recentPost.author = user
-        }
+        user.links = data["links"] as? [String: AnyObject]
         // profile
         if count(json["created_at"].stringValue) > 0 {
             user.profile = Profile.fromJSON(data) as? Profile
         }
+        // store self in collection
+        if !fromLinked {
+            ElloLinkedStore.sharedInstance.setObject(user, forKey: user.id, inCollection: MappingType.UsersType.rawValue)
+        }
         return user
     }
 }
+

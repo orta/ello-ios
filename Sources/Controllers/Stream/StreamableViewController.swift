@@ -154,6 +154,7 @@ extension StreamableViewController : StreamScrollDelegate {
 // MARK: InviteResponder
 extension StreamableViewController: InviteResponder {
     public func onInviteFriends() {
+        Tracker.sharedTracker.inviteFriendsTapped()
         if AddressBook.needsAuthentication() {
             displayContactActionSheet()
         } else {
@@ -166,23 +167,31 @@ extension StreamableViewController: InviteResponder {
     private func displayContactActionSheet() {
         let alertController = AlertViewController(message: "Import your contacts fo find your friends on Ello.\n\nEllo does not sell user data and never contacts anyone without your permission.")
 
-        let action = AlertAction(title: "Import my contacts", style: .Dark, handler: getAddressBook)
+        let action = AlertAction(title: "Import my contacts", style: .Dark) { action in
+            Tracker.sharedTracker.importContactsInitiated()
+            self.getAddressBook(action)
+        }
         alertController.addAction(action)
 
-        let cancelAction = AlertAction(title: "Not now", style: .Light, handler: .None)
+        let cancelAction = AlertAction(title: "Not now", style: .Light) { _ in
+            Tracker.sharedTracker.importContactsDenied()
+        }
         alertController.addAction(cancelAction)
 
         presentViewController(alertController, animated: true, completion: .None)
     }
 
     private func getAddressBook(action: AlertAction) {
+        Tracker.sharedTracker.addressBookAccessed()
         AddressBook.getAddressBook { result in
             dispatch_async(dispatch_get_main_queue()) {
                 switch result {
                 case let .Success(box):
+                    Tracker.sharedTracker.contactAccessPreferenceChanged(true)
                     let vc = AddFriendsContainerViewController(addressBook: box.unbox)
                     self.navigationController?.pushViewController(vc, animated: true)
                 case let .Failure(box):
+                    Tracker.sharedTracker.contactAccessPreferenceChanged(false)
                     self.displayAddressBookAlert(box.unbox.rawValue)
                     return
                 }

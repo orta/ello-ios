@@ -48,13 +48,13 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         let unsizedCopy = unsized.map { return $0.copy() as! StreamCellItem }
 
         self.post = post
-        self.postParam = post.postId
+        self.postParam = post.id
         self.detailCellItems = itemsCopy
         self.unsizedCellItems = unsizedCopy
         self.startOfComments = count(itemsCopy)
 
         super.init(nibName: nil, bundle: nil)
-        self.streamKind = StreamKind.PostDetail(postParam: post.postId)
+        self.streamKind = StreamKind.PostDetail(postParam: post.id)
         self.title = post.author?.atName ?? "Post Detail"
     }
 
@@ -98,9 +98,12 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
 
     private func postLoaded(post: Post) {
         self.post = post
-        streamKind = StreamKind.PostDetail(postParam: post.postId)
+        streamKind = StreamKind.PostDetail(postParam: post.id)
         let parser = StreamCellItemParser()
-        let items = parser.parse([post], streamKind: streamKind!) + parser.parse(post.comments, streamKind: streamKind!)
+        var items = parser.parse([post], streamKind: streamKind!)
+        if let comments = post.comments {
+            items += parser.parse(comments, streamKind: streamKind!)
+        }
         self.unsizedCellItems = items
         self.startOfComments += items.count
         self.streamViewController.refreshableIndex = self.startOfComments
@@ -152,16 +155,10 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
 
     private func loadComments() {
         if let post = post {
-            streamViewController.streamService.loadMoreCommentsForPost(post.postId,
+            streamViewController.streamService.loadMoreCommentsForPost(post.id,
                 success: { (jsonables, responseConfig) in
-                    for jsonable in jsonables {
-                        if let comment = jsonable as? Comment {
-                            comment.parentPost?.author = post.author
-                        }
-                    }
-
                     self.appendCreateCommentItem()
-
+                    self.streamViewController.responseConfig = responseConfig
                     self.streamViewController.removeRefreshables()
                     let newCommentItems = StreamCellItemParser().parse(jsonables, streamKind: self.streamKind!)
                     self.streamViewController.appendUnsizedCellItems(newCommentItems)
@@ -206,7 +203,7 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
 
     override public func postTapped(post: Post, initialItems: [StreamCellItem]) {
         if let selfPost = self.post {
-            if post.postId != selfPost.postId {
+            if post.id != selfPost.id {
                 super.postTapped(post, initialItems: initialItems)
             }
         }

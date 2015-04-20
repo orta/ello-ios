@@ -59,6 +59,7 @@ public class LandingViewController: BaseElloViewController {
     private func loadCurrentUser() {
         let profileService = ProfileService()
         profileService.loadCurrentUser({ (user, responseConfig) in
+            Tracker.sharedTracker.identify(user)
             var vc = ElloTabBarController.instantiateFromStoryboard()
             vc.setProfileData(user, responseConfig: responseConfig)
             var window = self.view.window!
