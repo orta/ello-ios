@@ -364,7 +364,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         }
 
         if let streamCollapsedFilter = streamCollapsedFilter {
-            self.visibleCellItems = self.streamCellItems.filter(streamCollapsedFilter)
+            self.visibleCellItems = self.visibleCellItems.filter(streamCollapsedFilter)
         }
     }
 
