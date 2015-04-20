@@ -18,11 +18,7 @@ class RelationshipControllerSpec: QuickSpec {
 
         beforeEach({
             var presentingController = UIViewController()
-            let keyWindow = UIWindow(frame: UIScreen.mainScreen().bounds)
-            keyWindow.makeKeyAndVisible()
-            keyWindow.rootViewController = presentingController
-            presentingController.loadView()
-            presentingController.viewDidLoad()
+            self.showController(presentingController)
             subject = RelationshipController(presentingController: presentingController)
 
         })

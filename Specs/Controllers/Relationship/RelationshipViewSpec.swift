@@ -18,11 +18,7 @@ class RelationshipViewSpec: QuickSpec {
         let subject = RelationshipView(coder: NSKeyedUnarchiver(forReadingWithData: NSData()))
         subject.buildLargeButtons()
         var presentingController = UIViewController()
-        var keyWindow = UIWindow(frame: UIScreen.mainScreen().bounds)
-        keyWindow.makeKeyAndVisible()
-        keyWindow.rootViewController = presentingController
-        presentingController.loadView()
-        presentingController.viewDidLoad()
+        self.showController(presentingController)
         var relationshipController = RelationshipController(presentingController: presentingController)
 
         describe("initialization") {
@@ -87,11 +83,7 @@ class RelationshipViewSpec: QuickSpec {
 
             beforeEach {
                 presentingController = UIViewController()
-                keyWindow = UIWindow(frame: UIScreen.mainScreen().bounds)
-                keyWindow.makeKeyAndVisible()
-                keyWindow.rootViewController = presentingController
-                presentingController.loadView()
-                presentingController.viewDidLoad()
+                self.showController(presentingController)
                 relationshipController = RelationshipController(presentingController: presentingController)
                 subject.relationshipDelegate = relationshipController
             }

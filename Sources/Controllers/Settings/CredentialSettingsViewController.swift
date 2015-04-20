@@ -51,113 +51,119 @@ public class CredentialSettingsViewController: UITableViewController {
     }
 
     private func setupViews() {
-        usernameView.label.setLabelText(NSLocalizedString("Username", comment: "username key"))
+        ElloTextFieldView.styleAsUsername(usernameView)
         usernameView.textField.text = currentUser?.username
-        usernameView.textFieldDidChange = { text in
-            self.valueChanged()
-            self.usernameView.setState(.Loading)
-            self.validationCancel?()
-            self.usernameView.setErrorMessage("");
-            self.usernameView.setMessage("");
-            self.updateView()
+        usernameView.textFieldDidChange = self.usernameChanged
 
-            self.validationCancel = Functional.cancelableDelay(0.5) {
-                if text.isEmpty {
-                    self.usernameView.setState(.Error)
-                } else if text == self.currentUser?.username {
-                    self.usernameView.setState(.None)
-                } else {
-                    AvailabilityService().usernameAvailability(text, success: { availability in
-                        if text != self.usernameView.textField.text { return }
-                        let state: ValidationState = availability.isUsernameAvailable ? .OK : .Error
-
-                        if !availability.isUsernameAvailable {
-                            let msg = NSLocalizedString("Username already exists.\nPlease try a new one.", comment: "username exists error message")
-                            self.usernameView.setErrorMessage(msg)
-                            if !availability.usernameSuggestions.isEmpty {
-                                let suggestions = ", ".join(availability.usernameSuggestions)
-                                let msg = String(format: NSLocalizedString("Here are some available usernames -\n%@", comment: "username suggestions message"), suggestions)
-                                self.usernameView.setMessage(msg);
-                            }
-                        }
-                        self.usernameView.setState(state)
-                        self.updateView()
-                    }, failure: { _, _ in
-                        self.usernameView.setState(.None)
-                        self.updateView()
-                    })
-                }
-                self.updateView()
-            }
-        }
-
-        emailView.label.setLabelText(NSLocalizedString("Email", comment: "email key"))
+        ElloTextFieldView.styleAsEmail(emailView)
         emailView.textField.text = currentUser?.profile?.email
-        emailView.textFieldDidChange = { text in
-            self.valueChanged()
-            self.emailView.setState(.Loading)
-            self.validationCancel?()
-            self.emailView.setErrorMessage("");
-            self.updateView()
+        emailView.textFieldDidChange = self.emailChanged
 
-            self.validationCancel = Functional.cancelableDelay(0.5) {
-                if text.isEmpty {
-                    self.emailView.setState(.Error)
-                } else if text == self.currentUser?.profile?.email {
+        ElloTextFieldView.styleAsPassword(passwordView)
+        passwordView.textFieldDidChange = self.passwordChanged
+    }
+
+    private func emailChanged(text: String) {
+        self.emailView.setState(.Loading)
+        self.emailView.setErrorMessage("")
+        self.updateView()
+
+        self.validationCancel?()
+        self.validationCancel = Functional.cancelableDelay(0.5) {
+            if text.isEmpty {
+                self.emailView.setState(.Error)
+                self.updateView()
+            } else if text == self.currentUser?.profile?.email {
+                self.emailView.setState(.None)
+                self.updateView()
+            } else if text.isValidEmail() {
+                AvailabilityService().emailAvailability(text, success: { availability in
+                    if text != self.emailView.textField.text { return }
+                    let state: ValidationState = availability.isEmailAvailable ? .OK : .Error
+
+                    if !availability.isEmailAvailable {
+                        let msg = NSLocalizedString("That email is invalid.\nPlease try again.", comment: "invalid email message")
+                        self.emailView.setErrorMessage(msg)
+                    }
+                    self.emailView.setState(state)
+                    self.updateView()
+                }, failure: { _, _ in
                     self.emailView.setState(.None)
-                } else if text.isValidEmail() {
-                    AvailabilityService().emailAvailability(text, success: { availability in
-                        if text != self.emailView.textField.text { return }
-                        let state: ValidationState = availability.isEmailAvailable ? .OK : .Error
-
-                        if !availability.isEmailAvailable {
-                            let msg = NSLocalizedString("That email is invalid.\nPlease try again.", comment: "invalid email message")
-                            self.emailView.setErrorMessage(msg)
-                        }
-                        self.emailView.setState(state)
-                        self.updateView()
-                    }, failure: { _, _ in
-                        self.emailView.setState(.None)
-                        self.updateView()
-                    })
-                } else {
-                    self.emailView.setState(.Error)
-                    let msg = NSLocalizedString("That email is invalid.\nPlease try again.", comment: "invalid email message")
-                    self.emailView.setErrorMessage(msg)
-                }
+                    self.updateView()
+                })
+            } else {
+                self.emailView.setState(.Error)
+                let msg = NSLocalizedString("That email is invalid.\nPlease try again.", comment: "invalid email message")
+                self.emailView.setErrorMessage(msg)
                 self.updateView()
             }
         }
+    }
 
-        passwordView.label.setLabelText(NSLocalizedString("Password", comment: "password key"))
-        passwordView.textField.secureTextEntry = true
-        passwordView.textFieldDidChange = { text in
-            self.valueChanged()
-            self.passwordView.setErrorMessage("")
+    private func usernameChanged(text: String) {
+        self.usernameView.setState(.Loading)
+        self.usernameView.setErrorMessage("")
+        self.usernameView.setMessage("")
+        self.updateView()
 
+        self.validationCancel?()
+        self.validationCancel = Functional.cancelableDelay(0.5) {
             if text.isEmpty {
-                self.passwordView.setState(.None)
-            } else if text.isValidPassword() {
-                self.passwordView.setState(.OK)
+                self.usernameView.setState(.Error)
+                self.updateView()
+            } else if text == self.currentUser?.username {
+                self.usernameView.setState(.None)
+                self.updateView()
             } else {
-                self.passwordView.setState(.Error)
-                let msg = NSLocalizedString("Password must be at least 8\ncharacters long.", comment: "password length error message")
-                self.passwordView.setErrorMessage(msg)
+                AvailabilityService().usernameAvailability(text, success: { availability in
+                    if text != self.usernameView.textField.text { return }
+                    let state: ValidationState = availability.isUsernameAvailable ? .OK : .Error
+
+                    if !availability.isUsernameAvailable {
+                        let msg = NSLocalizedString("Username already exists.\nPlease try a new one.", comment: "username exists error message")
+                        self.usernameView.setErrorMessage(msg)
+                        if !availability.usernameSuggestions.isEmpty {
+                            let suggestions = ", ".join(availability.usernameSuggestions)
+                            let msg = String(format: NSLocalizedString("Here are some available usernames -\n%@", comment: "username suggestions message"), suggestions)
+                            self.usernameView.setMessage(msg)
+                        }
+                    }
+                    self.usernameView.setState(state)
+                    self.updateView()
+                }, failure: { _, _ in
+                    self.usernameView.setState(.None)
+                    self.updateView()
+                })
             }
-            self.updateView()
         }
 
         currentPasswordField.addTarget(self, action: "passwordChanged", forControlEvents: .EditingChanged)
     }
 
-    public func valueChanged() {
-        delegate?.credentialSettingsDidUpdate()
+    private func passwordChanged(text: String) {
+        self.passwordView.setErrorMessage("")
+
+        if text.isEmpty {
+            self.passwordView.setState(.None)
+        } else if text.isValidPassword() {
+            self.passwordView.setState(.OK)
+        } else {
+            self.passwordView.setState(.Error)
+            let msg = NSLocalizedString("Password must be at least 8\ncharacters long.", comment: "password length error message")
+            self.passwordView.setErrorMessage(msg)
+        }
+
+        self.updateView()
     }
 
     private func updateView() {
         self.tableView.beginUpdates()
         self.tableView.endUpdates()
         valueChanged()
+    }
+
+    public func valueChanged() {
+        delegate?.credentialSettingsDidUpdate()
     }
 
     override public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

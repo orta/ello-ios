@@ -72,7 +72,7 @@ class CredentialSettingsViewControllerSpec: QuickSpec {
                         expect(subject.isUpdatable).to(beTrue())
                     }
                 }
-                
+
                 context("is reset") {
                     it("isUpdatable is false") {
                         subject.usernameView.textField.text = "something"
@@ -91,7 +91,7 @@ class CredentialSettingsViewControllerSpec: QuickSpec {
                         expect(subject.isUpdatable).to(beTrue())
                     }
                 }
-                
+
                 context("is reset") {
                     it("isUpdatable is false") {
                         subject.emailView.textField.text = "no-one@email.com"
@@ -110,7 +110,7 @@ class CredentialSettingsViewControllerSpec: QuickSpec {
                         expect(subject.isUpdatable).to(beTrue())
                     }
                 }
-                
+
                 context("is empty") {
                     it("isUpdatable is false") {
                         subject.passwordView.textField.text = "anything"
@@ -127,10 +127,27 @@ class CredentialSettingsViewControllerSpec: QuickSpec {
                 subject.viewDidLoad()
             }
 
-            it("calls the delegate function when set") {
+            it("calls the delegate function when email is set") {
                 let fake = FakeCredentialSettingsDelegate()
                 subject.delegate = fake
-                subject.valueChanged()
+                subject.emailView.textField.text = "email@example.com"
+                subject.emailView.textField.sendActionsForControlEvents(.EditingChanged)
+                expect(fake.didCall).to(beTrue())
+            }
+
+            it("calls the delegate function when username is set") {
+                let fake = FakeCredentialSettingsDelegate()
+                subject.delegate = fake
+                subject.usernameView.textField.text = "username"
+                subject.usernameView.textField.sendActionsForControlEvents(.EditingChanged)
+                expect(fake.didCall).to(beTrue())
+            }
+
+            it("calls the delegate function when password is set") {
+                let fake = FakeCredentialSettingsDelegate()
+                subject.delegate = fake
+                subject.passwordView.textField.text = "pa$$w0rd"
+                subject.passwordView.textField.sendActionsForControlEvents(.EditingChanged)
                 expect(fake.didCall).to(beTrue())
             }
         }

@@ -46,6 +46,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         var screen = OmnibarScreen(frame: UIScreen.mainScreen().bounds)
         self.view = screen
         screen.hasParentPost = parentPost != nil
+        screen.avatarURL = currentUser?.avatarURL
     }
 
     // the _mockScreen is only for testing - otherwise `self.screen` is always
@@ -97,7 +98,9 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
     override func didSetCurrentUser() {
         super.didSetCurrentUser()
-        self.screen.avatarURL = currentUser?.avatarURL
+        if isViewLoaded() {
+            self.screen.avatarURL = currentUser?.avatarURL
+        }
     }
 
     public func omnibarCancel() {

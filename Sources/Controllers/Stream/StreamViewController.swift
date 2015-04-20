@@ -497,13 +497,15 @@ extension StreamViewController : UIScrollViewDelegate {
     }
 
     private func scrollLoaded(jsonables: [JSONAble] = []) {
-        if jsonables.count > 0 {
-            insertUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: streamKind), startingIndexPath: collectionView.lastIndexPathForSection(0)) {
-                self.removeLoadingCell(self.collectionView.lastIndexPathForSection(0))
+        if let lastIndexPath = collectionView.lastIndexPathForSection(0) {
+            if jsonables.count > 0 {
+                insertUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: streamKind), startingIndexPath: lastIndexPath) {
+                    self.removeLoadingCell(lastIndexPath)
+                }
             }
-        }
-        else {
-            removeLoadingCell(collectionView.lastIndexPathForSection(0))
+            else {
+                removeLoadingCell(lastIndexPath)
+            }
         }
     }
 

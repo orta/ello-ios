@@ -31,11 +31,7 @@ class StreamDataSourceSpec: QuickSpec {
                 ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.endpointsClosure, stubResponses: true)
                 vc = StreamViewController.instantiateFromStoryboard()
                 vc.streamKind = StreamKind.Friend
-                let keyWindow = UIWindow(frame: UIScreen.mainScreen().bounds)
-                keyWindow.makeKeyAndVisible()
-                keyWindow.rootViewController = vc
-                vc.loadView()
-                vc.viewDidLoad()
+                self.showController(vc)
 
                 subject = StreamDataSource(streamKind: .Friend,
                     textSizeCalculator: textSizeCalculator,

@@ -44,9 +44,7 @@ class OmnibarScreenSpec: QuickSpec {
             screen.delegate = delegate
             controller.view.addSubview(screen)
 
-            let window = UIWindow(frame: UIScreen.mainScreen().bounds)
-            window.rootViewController = UIViewController()
-            window.makeKeyAndVisible()
+            self.showController(controller)
         }
 
         describe("setting text") {
