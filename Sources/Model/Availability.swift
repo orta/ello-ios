@@ -21,11 +21,22 @@ public final class Availability: JSONAble {
         self.isInvitationCodeAvailable = isInvitationCodeAvailable
         self.usernameSuggestions = usernameSuggestions
         self.emailSuggestion = emailSuggestion
+        super.init()
+    }
+
+    public required init(coder aDecoder: NSCoder) {
+        let decoder = Decoder(aDecoder)
+        self.isUsernameAvailable = decoder.decodeKey("isUsernameAvailable")
+        self.isEmailAvailable = decoder.decodeKey("isEmailAvailable")
+        self.isInvitationCodeAvailable = decoder.decodeKey("isInvitationCodeAvailable")
+        self.usernameSuggestions = decoder.decodeKey("usernameSuggestions")
+        self.emailSuggestion = decoder.decodeKey("emailSuggestion")
+        super.init(coder: aDecoder)
     }
 }
 
 extension Availability {
-    override public class func fromJSON(data: [String: AnyObject]) -> JSONAble {
+    override public class func fromJSON(data: [String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         let json = JSON(data)
         let username = json["username"].boolValue
         let email = json["email"].boolValue

@@ -21,11 +21,31 @@ public final class DynamicSetting: JSONAble {
         self.info = info
         self.linkLabel = linkLabel
         self.linkURL = linkURL
+        super.init()
+    }
+
+    public required init(coder aDecoder: NSCoder) {
+        let decoder = Decoder(aDecoder)
+        self.label = decoder.decodeKey("label")
+        self.key = decoder.decodeKey("key")
+        self.info = decoder.decodeOptionalKey("info")
+        self.linkLabel = decoder.decodeOptionalKey("linkLabel")
+        self.linkURL = decoder.decodeOptionalKey("linkURL")
+        super.init(coder: aDecoder)
+    }
+
+    public override func encodeWithCoder(encoder: NSCoder) {
+        encoder.encodeObject(label, forKey: "label")
+        encoder.encodeObject(key, forKey: "key")
+        encoder.encodeObject(info, forKey: "info")
+        encoder.encodeObject(linkLabel, forKey: "linkLabel")
+        encoder.encodeObject(linkURL, forKey: "linkURL")
+        super.encodeWithCoder(encoder)
     }
 }
 
 extension DynamicSetting {
-    override public class func fromJSON(data: [String: AnyObject]) -> DynamicSetting {
+    override public class func fromJSON(data: [String: AnyObject], fromLinked: Bool = false) -> DynamicSetting {
         let json = JSON(data)
         let label = json["label"].stringValue
         let key = json["key"].stringValue

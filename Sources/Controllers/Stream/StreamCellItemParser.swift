@@ -106,7 +106,7 @@ public struct StreamCellItemParser {
                     oneColumnHeight = 0.0
                     multiColumnHeight = 0.0
                     type = .Text
-                case .Unknown:
+                case .Embed, .Unknown:
                     oneColumnHeight = 0.0
                     multiColumnHeight = 0.0
                     type = .Unknown
@@ -125,33 +125,32 @@ public struct StreamCellItemParser {
 
     private func commentRegionItems(comment: Comment) -> [StreamCellItem] {
         var cellArray:[StreamCellItem] = []
-        if let content = comment.content {
-            for region in content {
-                var oneColumnHeight:CGFloat
-                var multiColumnHeight:CGFloat
-                var type : StreamCellType
 
-                let kind = RegionKind(rawValue: region.kind) ?? RegionKind.Unknown
+        for region in comment.content {
+            var oneColumnHeight:CGFloat
+            var multiColumnHeight:CGFloat
+            var type : StreamCellType
 
-                switch kind {
-                case .Image:
-                    oneColumnHeight = self.oneColumnImageHeight(region as! ImageRegion)
-                    multiColumnHeight = self.twoColumnImageHeight(region as! ImageRegion)
-                    type = .Image
-                case .Text:
-                    oneColumnHeight = 0.0
-                    multiColumnHeight = 0.0
-                    type = .Text
-                case .Unknown:
-                    oneColumnHeight = 0.0
-                    multiColumnHeight = 0.0
-                    type = .Unknown
-                }
+            let kind = RegionKind(rawValue: region.kind) ?? RegionKind.Unknown
 
-                let body:StreamCellItem = StreamCellItem(jsonable: comment, type: type, data: region, oneColumnCellHeight: oneColumnHeight, multiColumnCellHeight: multiColumnHeight, isFullWidth: false)
-
-                cellArray.append(body)
+            switch kind {
+            case .Image:
+                oneColumnHeight = self.oneColumnImageHeight(region as! ImageRegion)
+                multiColumnHeight = self.twoColumnImageHeight(region as! ImageRegion)
+                type = .Image
+            case .Text:
+                oneColumnHeight = 0.0
+                multiColumnHeight = 0.0
+                type = .Text
+            case .Embed, .Unknown:
+                oneColumnHeight = 0.0
+                multiColumnHeight = 0.0
+                type = .Unknown
             }
+
+            let body:StreamCellItem = StreamCellItem(jsonable: comment, type: type, data: region, oneColumnCellHeight: oneColumnHeight, multiColumnCellHeight: multiColumnHeight, isFullWidth: false)
+
+            cellArray.append(body)
         }
         return cellArray
     }

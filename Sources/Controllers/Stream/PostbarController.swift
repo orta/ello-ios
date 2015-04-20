@@ -55,7 +55,7 @@ public class PostbarController: NSObject, PostbarDelegate {
             else {
                 let streamService = StreamService()
                 item.state = .Loading
-                streamService.loadMoreCommentsForPost(post.postId,
+                streamService.loadMoreCommentsForPost(post.id,
                     success: { (comments, responseConfig) in
                         item.state = .Expanded
                         commentsButton.finishAnimation()
@@ -89,9 +89,9 @@ public class PostbarController: NSObject, PostbarDelegate {
             action in
             let service = PostService()
             if let post = self.postForCell(cell) {
-                service.deletePost(post.postId,
+                service.deletePost(post.id,
                     success: {
-                        postNotification(ExperienceUpdatedNotification, .PostChanged(id: post.postId, change: .Delete))
+                        postNotification(ExperienceUpdatedNotification, .PostChanged(id: post.id, change: .Delete))
                     }, failure: { (error, statusCode)  in
                         // TODO: add error handling
                         println("failed to delete post, error: \(error.localizedDescription)")
@@ -114,10 +114,10 @@ public class PostbarController: NSObject, PostbarDelegate {
         let yesAction = AlertAction(title: NSLocalizedString("Yes", comment: "Yes"), style: ActionStyle.Dark) {
             action in
             let service = PostService()
-            if let comment = self.commentForCell(cell), let postId = comment.parentPost?.postId {
-                service.deleteComment(postId, commentId: comment.commentId,
+            if let comment = self.commentForCell(cell), let postId = comment.parentPost?.id {
+                service.deleteComment(postId, commentId: comment.id,
                     success: {
-                        postNotification(ExperienceUpdatedNotification, .CommentChanged(commentId: comment.commentId, postId: postId, change: .Delete))
+                        postNotification(ExperienceUpdatedNotification, .CommentChanged(commentId: comment.id, postId: postId, change: .Delete))
                     }, failure: { (error, statusCode)  in
                         // TODO: add error handling
                         println("failed to delete post, error: \(error.localizedDescription)")
@@ -167,10 +167,9 @@ public class PostbarController: NSObject, PostbarDelegate {
            let post = dataSource.postForIndexPath(indexPath)
         {
             let flagger = ContentFlagger(presentingController: presentingController,
-                flaggableId: post.postId,
+                flaggableId: post.id,
                 contentType: .Post,
                 commentPostId: nil)
-
             flagger.displayFlaggingSheet()
         }
     }
@@ -180,9 +179,9 @@ public class PostbarController: NSObject, PostbarDelegate {
            let comment = dataSource.commentForIndexPath(indexPath)
         {
             let flagger = ContentFlagger(presentingController: presentingController,
-                flaggableId: comment.commentId,
+                flaggableId: comment.id,
                 contentType: .Comment,
-                commentPostId: comment.parentPost?.postId)
+                commentPostId: comment.postId)
 
             flagger.displayFlaggingSheet()
         }
@@ -255,3 +254,4 @@ public class PostbarController: NSObject, PostbarDelegate {
     }
 
 }
+

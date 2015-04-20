@@ -11,60 +11,83 @@ import SwiftyJSON
 
 let ImageRegionVersion = 1
 
-public final class ImageRegion: JSONAble, NSCoding {
+public final class ImageRegion: JSONAble {
+    public let version = ImageRegionVersion
 
-    public let version: Int = ImageRegionVersion
-
-    public let asset:Asset?
-    public var alt:String?
-    public let url:NSURL?
+    // required
+    public let alt: String
+    // optional
+    public var url: NSURL?
+    // links
+    public var asset: Asset? { return getLinkObject("assets") as? Asset }
 
 // MARK: Initialization
 
-    public init(asset: Asset?,
-        alt: String?,
-        url: NSURL?) {
-            self.asset = asset
-            self.alt = alt
-            self.url = url
+    public init(alt: String)
+    {
+        self.alt = alt
+        super.init()
     }
 
 // MARK: NSCoding
 
-    public func encodeWithCoder(encoder: NSCoder) {
-        if let asset = self.asset {
-            encoder.encodeObject(asset, forKey: "asset")
-        }
-
-        if let alt = self.alt {
-            encoder.encodeObject(alt, forKey: "alt")
-        }
-
-        if let url = self.url {
-            encoder.encodeObject(url, forKey: "url")
-        }
+    public required init(coder aDecoder: NSCoder) {
+        let decoder = Decoder(aDecoder)
+        // required
+        self.alt = decoder.decodeKey("alt")
+        // optional
+        self.url = decoder.decodeOptionalKey("url")
+        super.init(coder: aDecoder)
     }
 
-    required public init(coder aDecoder: NSCoder) {
-        let decoder = Decoder(aDecoder)
-        self.asset = decoder.decodeOptionalKey("asset")
-        self.alt = decoder.decodeOptionalKey("alt")
-        self.url = decoder.decodeOptionalKey("url")
+    public override func encodeWithCoder(encoder: NSCoder) {
+        // required
+        encoder.encodeObject(alt, forKey: "alt")
+        // optional
+        encoder.encodeObject(url, forKey: "url")
+        super.encodeWithCoder(encoder)
     }
 
 // MARK: JSONAble
 
-    override public class func fromJSON(data:[String: AnyObject]) -> JSONAble {
+    override public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         let json = JSON(data)
-        var alt = json["data"].object["alt"] as? String
-        let url = json["data"].object["url"] as! String
-        var links = [String: AnyObject]()
-        var asset:Asset?
-        if let linksNode = data["links"] as? [String: AnyObject] {
-            links = ElloLinkedStore.parseLinks(linksNode)
-            asset = links["assets"] as? Asset
+        // create region
+        var imageRegion = ImageRegion(
+            alt: json["data"]["alt"].stringValue
+            )
+        // optional
+        if let urlStr = json["data"]["url"].string {
+            imageRegion.url = NSURL(string: urlStr)
         }
+        // links
+        imageRegion.links = data["links"] as? [String: AnyObject]
+        return imageRegion
+    }
+}
 
-        return ImageRegion(asset: asset, alt: alt, url: NSURL(string: url))
+extension ImageRegion: Regionable {
+    public var kind:String { return RegionKind.Image.rawValue }
+
+    public func coding() -> NSCoding {
+        return self
+    }
+
+    public func toJSON() -> [String: AnyObject] {
+        if let url : String = self.url?.absoluteString {
+            return [
+                "kind": self.kind,
+                "data": [
+                    "alt": alt ?? "",
+                    "url": url
+                ],
+            ]
+        }
+        else {
+            return [
+                "kind": self.kind,
+                "data": [:]
+            ]
+        }
     }
 }

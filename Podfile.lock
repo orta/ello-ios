@@ -1,6 +1,6 @@
 PODS:
   - 1PasswordExtension (1.2)
-  - Alamofire (1.1.4)
+  - Alamofire (1.2.0)
   - CocoaLumberjack (2.0.0):
     - CocoaLumberjack/Default (= 2.0.0)
     - CocoaLumberjack/Extensions (= 2.0.0)
@@ -18,7 +18,7 @@ PODS:
   - Moya (0.6.1):
     - Moya/Core (= 0.6.1)
   - Moya/Core (0.6.1):
-    - Alamofire (~> 1.1.0)
+    - Alamofire (~> 1.2.0)
   - Nimble (0.4.0)
   - Quick (0.2.2)
   - SDWebImage (3.7.2):
@@ -29,11 +29,17 @@ PODS:
     - CocoaLumberjack (~> 2.x)
   - SwiftyJSON (2.1.3)
   - TimeAgoInWords (0.1.0)
-  - WebLinking (0.1.0)
+  - WebLinking (0.2.0)
+  - YapDatabase (2.6.1):
+    - YapDatabase/standard (= 2.6.1)
+  - YapDatabase/common (2.6.1):
+    - CocoaLumberjack (~> 2)
+  - YapDatabase/standard (2.6.1):
+    - YapDatabase/common
 
 DEPENDENCIES:
   - 1PasswordExtension (from `https://github.com/AgileBits/onepassword-app-extension.git`)
-  - Alamofire (from `https://github.com/Alamofire/Alamofire.git`, branch `xcode-6.3`)
+  - Alamofire (from `https://github.com/Alamofire/Alamofire.git`)
   - FLAnimatedImage (from `https://github.com/ello/FLAnimatedImage.git`)
   - JTSImageViewController (from `https://github.com/ello/JTSImageViewController.git`)
   - Keys (from `https://github.com/ashfurrow/empty-podspec.git`)
@@ -48,13 +54,13 @@ DEPENDENCIES:
   - SVGKit (from `https://github.com/SVGKit/SVGKit`, branch `2.x`)
   - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON`, branch `xcode6.3`)
   - TimeAgoInWords (~> 0.1.0)
-  - WebLinking (from `https://github.com/kylef/WebLinking.swift.git`, branch `swift-1.2`)
+  - WebLinking (from `https://github.com/kylef/WebLinking.swift.git`)
+  - YapDatabase (from `https://github.com/ello/YapDatabase.git`)
 
 EXTERNAL SOURCES:
   1PasswordExtension:
     :git: https://github.com/AgileBits/onepassword-app-extension.git
   Alamofire:
-    :branch: xcode-6.3
     :git: https://github.com/Alamofire/Alamofire.git
   FLAnimatedImage:
     :git: https://github.com/ello/FLAnimatedImage.git
@@ -82,15 +88,16 @@ EXTERNAL SOURCES:
     :branch: xcode6.3
     :git: https://github.com/SwiftyJSON/SwiftyJSON
   WebLinking:
-    :branch: swift-1.2
     :git: https://github.com/kylef/WebLinking.swift.git
+  YapDatabase:
+    :git: https://github.com/ello/YapDatabase.git
 
 CHECKOUT OPTIONS:
   1PasswordExtension:
-    :commit: 6980efe9ba08a8a7e873d6321a44ad893052e20b
+    :commit: 664bd24e8946a126e0eae64e680c8ffcefcc8b77
     :git: https://github.com/AgileBits/onepassword-app-extension.git
   Alamofire:
-    :commit: 2ff5749ffc0425f05a1411b5b6fd2c25241b5b14
+    :commit: 6d1238d9ac9032980c27843fc27015d8db121cdd
     :git: https://github.com/Alamofire/Alamofire.git
   FLAnimatedImage:
     :commit: 7f1d9a29597b45aef8686da22f33a3634d84c686
@@ -108,7 +115,7 @@ CHECKOUT OPTIONS:
     :commit: 17c80a90295419e180234381ab7f787e136918df
     :git: https://github.com/ello/LlamaKit.git
   Moya:
-    :commit: 9dac672ee6f95f45bab89eec4a1227eb7ac1da5e
+    :commit: 3199b781225ee5cdd59d6b70fd4c038a80f47f74
     :git: https://github.com/ello/Moya
   Nimble:
     :git: git@github.com:Quick/Nimble.git
@@ -117,18 +124,21 @@ CHECKOUT OPTIONS:
     :git: git@github.com:Quick/Quick.git
     :tag: v0.3.0
   SVGKit:
-    :commit: 6fdda80ac6bace3d7dff5cb11e164b2ba5282322
+    :commit: a851ff5a4b841fe3746c8cbf0cd9d88a3061446f
     :git: https://github.com/SVGKit/SVGKit
   SwiftyJSON:
     :commit: 008a09d7ea8b13c03fb59b35c01aad339584a5e1
     :git: https://github.com/SwiftyJSON/SwiftyJSON
   WebLinking:
-    :commit: 6e1a19c399fd5236ed6c376b3a6806af8d1c37c8
+    :commit: 316efb081ece4fd2cdda5d975f4eb95d155b43b0
     :git: https://github.com/kylef/WebLinking.swift.git
+  YapDatabase:
+    :commit: d76b838c53d5525663fd8bd279829c75ff1bd0ce
+    :git: https://github.com/ello/YapDatabase.git
 
 SPEC CHECKSUMS:
   1PasswordExtension: fcf300204bda5b5c78936dbb937a7d661f1ca796
-  Alamofire: 6a2cbaebe78a6d469bc55ee37f0a24ba22af76ac
+  Alamofire: d765c5c1713aa64106b0228aaa600a1e6851f68d
   CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
   FLAnimatedImage: f9422f796135aff80d8c00b2afc48015bb746e24
   JTSImageViewController: 89ae3c003060c65418fd3224ebbd67acc6046608
@@ -136,7 +146,7 @@ SPEC CHECKSUMS:
   KINWebBrowser: 5700a9e2d891ce43f726dd9e04c929312933bb18
   LlamaKit: 2610cffeec508d27caad8449e7d460df914d9212
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
-  Moya: 6589de6c52d9d8e5ab0d9630b4cd5c4b7f898019
+  Moya: f652dec673d9dd177376d2c9366c76c9ed7b0343
   Nimble: a05c15e0955baec1c94a22e25e4f8dea884fbc5f
   Quick: 1bda8b4c8d43f6b4dd69ca001918b1767b3c9c93
   SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
@@ -144,6 +154,7 @@ SPEC CHECKSUMS:
   SVGKit: cf06ac3067c4d5e927e5f93ba6a7e4d7171a7502
   SwiftyJSON: a561c2a840121085bec8a2dfeac97a360fc66901
   TimeAgoInWords: bd651f6532327035b41fd3b512ca9d3e90d2e379
-  WebLinking: a357f877c3537fb15363167e173b5067734889f5
+  WebLinking: 8e267eed3f7b2d040bf6468681cc1325141ab7fe
+  YapDatabase: ca25874766045bca7f4c2632f61067351353ecf3
 
-COCOAPODS: 0.36.3
+COCOAPODS: 0.36.4

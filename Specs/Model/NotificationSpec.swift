@@ -15,32 +15,27 @@ class NotificationSpec: QuickSpec {
     override func spec() {
         it("converts activities to Notifications") {
             var user: User = stub(["username": "foo"])
-            var post = Post(
-                assets: nil,
-                author: user,
-                collapsed: false,
-                commentsCount: 0,
-                content: [TextRegion(content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit")],
-                createdAt: NSDate(),
-                href: "",
-                postId: "123",
-                repostsCount: 0,
-                summary: [TextRegion(content: "LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT")],
-                token: "not used",
-                viewsCount: 0,
-                comments: []
-            )
+            var post: Post = stub([
+                "id": "123",
+                "createdAt": NSDate(),
+                "href": "",
+                "token": "not used",
+                "contentWarning": "null",
+                "allowComments": true,
+                "author": user,
+                "summary": [TextRegion(content: "LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT")]
+            ])
             var createdAtDate = NSDate()
-            var activity = Activity(activityId: "123", kind: .RepostNotification, subjectType: .Post, subject: post, createdAt: createdAtDate)
+            var activity: Activity = stub(["subject": post, "createdAt": createdAtDate, "id": "123", "subjectType": Activity.SubjectType.Post.rawValue, "kind": Activity.Kind.RepostNotification.rawValue])
             var notification = Notification(activity: activity)
 
-            expect(notification.notificationId).to(equal("123"))
-            expect(notification.author!).to(equal(user))
+            expect(notification.activity.id).to(equal("123"))
+            expect(notification.author!.id).to(equal(user.id))
             expect(notification.createdAt).to(equal(createdAtDate))
             expect(notification.groupId).to(equal("123"))
-            expect(notification.kind).to(equal(Activity.Kind.RepostNotification))
-            expect(notification.subjectType).to(equal(Activity.SubjectType.Post))
-            expect(notification.subject as? Post).to(equal(post))
+            expect(notification.activity.kind).to(equal(Activity.Kind.RepostNotification))
+            expect(notification.activity.subjectType).to(equal(Activity.SubjectType.Post))
+            expect(notification.subject!.id).to(equal(post.id))
 
             expect(notification.attributedTitle.string).to(equal("@foo reposted your post."))
             expect(notification.textRegion!.content).to(equal("LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT"))
@@ -78,13 +73,14 @@ class NotificationSpec: QuickSpec {
 
                     let author: User = stub(["id" : "author-id"])
 
-                    let notification: Notification = stub([
-                        "author" : author,
+                    let activity: Activity = stub([
+                        "subject" : author,
                         "createdAt" : expectedCreatedAt,
-                        "notificationId" : "test-notication-id",
+                        "id" : "test-notication-id",
                         "kind" : "noise_post",
                         "subjectType" : "Post"
                     ])
+                    let notification: Notification = stub(["activity": activity])
 
                     NSKeyedArchiver.archiveRootObject(notification, toFile: filePath)
                     let unArchivedNotification = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! Notification
@@ -97,11 +93,12 @@ class NotificationSpec: QuickSpec {
                     expect(unarchivedAuthor.id) == "author-id"
 
                     expect(unArchivedNotification.createdAt) == expectedCreatedAt
-                    expect(unArchivedNotification.notificationId) == "test-notication-id"
-                    expect(unArchivedNotification.kind.rawValue) == Activity.Kind.NoisePost.rawValue
-                    expect(unArchivedNotification.subjectType.rawValue) == Activity.SubjectType.Post.rawValue
+                    expect(unArchivedNotification.activity.id) == "test-notication-id"
+                    expect(unArchivedNotification.activity.kind.rawValue) == Activity.Kind.NoisePost.rawValue
+                    expect(unArchivedNotification.activity.subjectType.rawValue) == Activity.SubjectType.Post.rawValue
                 }
             }
         }
     }
 }
+

@@ -57,7 +57,7 @@ public enum MappingType: String {
 }
 
 public class UnknownJSONAble : JSONAble {
-     override class public func fromJSON(data: [String : AnyObject]) -> JSONAble {
+     override class public func fromJSON(data: [String : AnyObject], fromLinked: Bool = false) -> JSONAble {
         return UnknownJSONAble()
     }
 }

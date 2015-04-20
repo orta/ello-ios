@@ -10,106 +10,124 @@ import SwiftyJSON
 
 let ActivityVersion = 1
 
-public final class Activity: JSONAble, NSCoding {
+public final class Activity: JSONAble {
+    public let version = ActivityVersion
+
+    // active record
+    public let id: String
+    public let createdAt: NSDate
+    // required
+    public let kind: Kind
+    public let subjectType: SubjectType
+    // links
+    public var subject: JSONAble? { return getLinkObject("subject") }
 
     public enum Kind: String {
-        case OwnPost = "own_post" // main feed
+        // Posts
         case FriendPost = "friend_post" // main feed
+        case OwnPost = "own_post" // main feed
         case WelcomePost = "welcome_post" // main feed
         case NoisePost = "noise_post" // main feed
 
+        // Comments
+        case FriendComment = "friend_comment"
+
         // Notifications
-        case RepostNotification = "repost_notification" // main feed (but collapsable)
-        case NewFollowedUserPost = "new_followed_user_post" // main feed
-        case NewFollowerPost = "new_follower_post"
-        case PostMentionNotification = "post_mention_notification"
-        case CommentMentionNotification = "comment_mention_notification"
-        case InvitationAcceptedPost = "invitation_accepted_post"
-        case CommentNotification = "comment_notification" // main feed
-        case WelcomeNotification = "welcome_notification"
+        case NewFollowerPost = "new_follower_post" // '#{name} started following you'
+        case NewFollowedUserPost = "new_followed_user_post" // 'you started following #{name}'
+        case InvitationAcceptedPost = "invitation_accepted_post" // '#{name} accepted your invitation'
+
+        case PostMentionNotification = "post_mention_notification" // 'you were mentioned in a post'
+        case CommentMentionNotification = "comment_mention_notification" // 'you were mentioned in a comment'
+        case CommentNotification = "comment_notification" // 'someone commented on your post'
+        case WelcomeNotification = "welcome_notification" // 'welcome to Ello'
+        case RepostNotification = "repost_notification" // main feed (but collapsable) 'someone reposted your post'
+
+        // Deprecated posts
+        case CommentMention = "comment_mention"
+
+        // Fallback for not defined types
         case Unknown = "Unknown"
 
-        static func allNotifications() -> [Kind] { return [.RepostNotification, .NewFollowedUserPost, .NewFollowerPost, .PostMentionNotification, .CommentMentionNotification, .InvitationAcceptedPost, .CommentNotification, .WelcomeNotification]}
-        static func commentNotifications() -> [Kind] { return [.CommentNotification]}
-        static func mentionNotifications() -> [Kind] { return [.PostMentionNotification, .CommentMentionNotification]}
+        // Static funcs
+        static func friendStreamKind() -> [Kind] { return [.FriendPost, .OwnPost, .WelcomePost] }
+        static func noiseStreamKind() -> [Kind] { return [.NoisePost] }
+        static func notificationStreamKind() -> [Kind] { return [.NewFollowerPost, .NewFollowedUserPost, .InvitationAcceptedPost, .PostMentionNotification, .CommentMentionNotification, .CommentNotification, .WelcomeNotification, .RepostNotification] }
+
+        // Notification categories
+        static func allNotifications() -> [Kind] { return notificationStreamKind() }
+        static func commentNotifications() -> [Kind] { return [.CommentNotification] }
+        static func mentionNotifications() -> [Kind] { return [.PostMentionNotification, .CommentMentionNotification] }
         static func repostNotifications() -> [Kind] { return [.RepostNotification]}
-        static func relationshipNotifications() -> [Kind] { return [.NewFollowerPost, .NewFollowedUserPost]}
+        static func relationshipNotifications() -> [Kind] { return [.NewFollowerPost, .NewFollowedUserPost] }
     }
 
     public enum SubjectType: String {
-        case Post = "Post"
         case User = "User"
+        case Post = "Post"
+        case Comment = "Comment"
         case Unknown = "Unknown"
     }
 
-    public let version: Int = ActivityVersion
-    public let activityId: String
-    public let kind: Kind
-    public let subjectType: SubjectType
-    public var subject: AnyObject?
-    public let createdAt: NSDate
-
 // MARK: Initialization
 
-    public init(activityId: String,
+    public init(id: String,
+        createdAt: NSDate,
         kind: Kind,
-        subjectType: SubjectType,
-        subject: AnyObject?,
-        createdAt: NSDate )
+        subjectType: SubjectType)
     {
-        self.activityId = activityId
+        self.id = id
+        self.createdAt = createdAt
         self.kind = kind
         self.subjectType = subjectType
-        self.subject = subject
-        self.createdAt = createdAt
+        super.init()
     }
 
 // MARK: NSCoding
 
-    required public init(coder aDecoder: NSCoder) {
+    public required init(coder aDecoder: NSCoder) {
         let decoder = Decoder(aDecoder)
-        let kindString: String = decoder.decodeKey("kind")
-        self.kind = Kind(rawValue: kindString) ?? Kind.Unknown
-        self.activityId = decoder.decodeKey("activityId")
-        let subjectTypeString: String = decoder.decodeKey("subjectType")
-        self.subjectType = SubjectType(rawValue: subjectTypeString) ?? SubjectType.Unknown
-        self.subject = decoder.decodeOptionalKey("subject")
+        // active record
+        self.id = decoder.decodeKey("id")
         self.createdAt = decoder.decodeKey("createdAt")
+        // required
+        let rawKind: String = decoder.decodeKey("rawKind")
+        self.kind = Kind(rawValue: rawKind) ?? Kind.Unknown
+        let rawSubjectType: String = decoder.decodeKey("rawSubjectType")
+        self.subjectType = SubjectType(rawValue: rawSubjectType) ?? SubjectType.Unknown
+        super.init(coder: aDecoder)
     }
 
-    public func encodeWithCoder(encoder: NSCoder) {
-        encoder.encodeObject(self.kind.rawValue, forKey: "kind")
-        encoder.encodeObject(self.activityId, forKey: "activityId")
-        encoder.encodeObject(self.subjectType.rawValue, forKey: "subjectType")
-        if let subject: AnyObject = self.subject {
-            encoder.encodeObject(subject, forKey: "subject")
-        }
-        encoder.encodeObject(self.createdAt, forKey: "createdAt")
+    public override func encodeWithCoder(encoder: NSCoder) {
+        // active record
+        encoder.encodeObject(id, forKey: "id")
+        encoder.encodeObject(createdAt, forKey: "createdAt")
+        // required
+        encoder.encodeObject(kind.rawValue, forKey: "rawKind")
+        encoder.encodeObject(subjectType.rawValue, forKey: "rawSubjectType")
+        super.encodeWithCoder(encoder)
     }
 
 // MARK: JSONAble
 
-    override public class func fromJSON(data:[String: AnyObject]) -> JSONAble {
+    override public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         let json = JSON(data)
-        let sub = json["subject"]
-        let kind = Kind(rawValue: json["kind"].stringValue) ?? Kind.Unknown
-        let activityId = json["created_at"].stringValue
-        let subjectType = SubjectType(rawValue: json["subject_type"].stringValue) ?? SubjectType.Unknown
-        var createdAt = json["created_at"].stringValue.toNSDate() ?? NSDate()
-
-        var links = [String: AnyObject]()
-        var subject:AnyObject?
-        if let linksNode = data["links"] as? [String: AnyObject] {
-            links = ElloLinkedStore.parseLinks(linksNode)
-            subject = links["subject"]
-        }
-
-        return Activity(
-            activityId: activityId,
-            kind: kind,
-            subjectType: subjectType,
-            subject: subject,
-            createdAt: createdAt
+        // active record
+        let id = json["created_at"].stringValue
+        let createdAt = id.toNSDate()!
+        // create activity
+        var activity = Activity(
+            id: id,
+            createdAt: createdAt,
+            kind: Kind(rawValue: json["kind"].stringValue) ?? Kind.Unknown,
+            subjectType: SubjectType(rawValue: json["subject_type"].stringValue) ?? SubjectType.Unknown
         )
+        // links
+        activity.links = data["links"] as? [String: AnyObject]
+        // store self in collection
+        if !fromLinked {
+            ElloLinkedStore.sharedInstance.setObject(activity, forKey: activity.id, inCollection: MappingType.ActivitiesType.rawValue)
+        }
+        return activity
     }
 }

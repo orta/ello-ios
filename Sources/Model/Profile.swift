@@ -11,7 +11,7 @@ import SwiftyJSON
 
 let ProfileVersion: Int = 1
 
-public final class Profile: JSONAble, NSCoding {
+public final class Profile: JSONAble {
     public let version = ProfileVersion
 
     // active record
@@ -72,11 +72,12 @@ public final class Profile: JSONAble, NSCoding {
         self.notifyOfMentionsViaEmail = notifyOfMentionsViaEmail
         self.notifyOfNewFollowersViaEmail = notifyOfNewFollowersViaEmail
         self.subscribeToUsersEmailList = subscribeToUsersEmailList
+        super.init()
     }
 
 // MARK: NSCoding
 
-    required public init(coder aDecoder: NSCoder) {
+    public required init(coder aDecoder: NSCoder) {
         let decoder = Decoder(aDecoder)
         // active record
         self.createdAt = decoder.decodeKey("createdAt")
@@ -98,9 +99,10 @@ public final class Profile: JSONAble, NSCoding {
         self.notifyOfMentionsViaEmail = decoder.decodeKey("notifyOfMentionsViaEmail")
         self.notifyOfNewFollowersViaEmail = decoder.decodeKey("notifyOfNewFollowersViaEmail")
         self.subscribeToUsersEmailList = decoder.decodeKey("subscribeToUsersEmailList")
+        super.init(coder: aDecoder)
     }
 
-    public func encodeWithCoder(encoder: NSCoder) {
+    public override func encodeWithCoder(encoder: NSCoder) {
         // active record
         encoder.encodeObject(createdAt, forKey: "createdAt")
         // required
@@ -121,11 +123,12 @@ public final class Profile: JSONAble, NSCoding {
         encoder.encodeBool(notifyOfMentionsViaEmail, forKey: "notifyOfMentionsViaEmail")
         encoder.encodeBool(notifyOfNewFollowersViaEmail, forKey: "notifyOfNewFollowersViaEmail")
         encoder.encodeBool(subscribeToUsersEmailList, forKey: "subscribeToUsersEmailList")
+        super.encodeWithCoder(encoder)
     }
 
 // MARK: JSONAble
 
-    override public class func fromJSON(data:[String: AnyObject]) -> JSONAble {
+    override public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         let json = JSON(data)
         // create profile
         var profile = Profile(

@@ -11,8 +11,6 @@ import UIKit
 import SSPullToRefresh
 import FLAnimatedImage
 
-typealias InfiniteScrollClosure = (jsonables: [JSONAble]) -> () // TODO: this line can be removed when author is added to posts
-
 public protocol WebLinkDelegate: NSObjectProtocol {
     func webLinkTapped(type: ElloURI, data: String)
 }
@@ -72,7 +70,6 @@ public class StreamViewController: BaseElloViewController {
         }
         return nil
     }
-    var infiniteScrollClosure: InfiniteScrollClosure? // TODO: this line can be removed when author is added to posts
 
     public var streamKind:StreamKind = StreamKind.Friend {
         didSet {
@@ -480,7 +477,6 @@ extension StreamViewController : UIScrollViewDelegate {
                 streamService.loadStream(scrollAPI,
                     success: {
                         (jsonables, responseConfig) in
-                        self.infiniteScrollClosure?(jsonables: jsonables) // TODO: this line can be removed when author is added to posts
                         self.scrollLoaded(jsonables: jsonables)
                         self.responseConfig = responseConfig
                         self.doneLoading()

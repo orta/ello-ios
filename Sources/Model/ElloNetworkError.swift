@@ -12,8 +12,7 @@ import SwiftyJSON
 let ElloNetworkErrorVersion = 1
 
 public class ElloNetworkError: JSONAble {
-
-    public let version: Int = ElloNetworkErrorVersion
+    public let version = ElloNetworkErrorVersion
 
     public enum CodeType: String {
         case blacklisted = "blacklisted"
@@ -54,9 +53,21 @@ public class ElloNetworkError: JSONAble {
         self.messages = messages
         self.status = status
         self.title = title
+        super.init()
     }
 
-    override public class func fromJSON(data:[String: AnyObject]) -> JSONAble {
+    public required init(coder aDecoder: NSCoder) {
+        let decoder = Decoder(aDecoder)
+        self.attrs = decoder.decodeOptionalKey("attrs")
+        self.code = decoder.decodeKey("code")
+        self.detail = decoder.decodeOptionalKey("detail")
+        self.messages = decoder.decodeOptionalKey("messages")
+        self.status = decoder.decodeOptionalKey("status")
+        self.title = decoder.decodeKey("title")
+        super.init(coder: aDecoder)
+    }
+
+    override public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         let json = JSON(data)
         let title = json["title"].stringValue
         var codeType = CodeType.unknown

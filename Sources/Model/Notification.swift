@@ -20,89 +20,67 @@ public enum NotificationFilterType: String {
 
 let NotificationVersion = 1
 
-public final class Notification : JSONAble, Authorable, NSCoding {
+public final class Notification: JSONAble, Authorable {
+    public let version = NotificationVersion
 
-    public let version: Int = NotificationVersion
-
-    public typealias Kind = Activity.Kind
-    public typealias SubjectType = Activity.SubjectType
-
-    public let author: User?
-    public var createdAt: NSDate
-    public var groupId:String { return notificationId }
-    public let notificationId: String
-    public let kind: Kind
-    public let subjectType: SubjectType
+    // required
+    public let activity: Activity
+    // optional
+    public var author: User?
+    // computed
+    public var createdAt: NSDate { return activity.createdAt }
+    public var groupId:String { return activity.id }
     public var subject: AnyObject? { willSet { attributedTitleStore = nil } }
 
+    // notification specific
     public var textRegion: TextRegion?
     public var imageRegion: ImageRegion?
-
-    private var attributedTitleStore: NSAttributedString?
+    private var attributedTitleStore: NSAttributedString? = nil
     public var attributedTitle: NSAttributedString {
         if let attributedTitle = attributedTitleStore {
             return attributedTitle
         }
-
-        attributedTitleStore = NotificationAttributedTitle.attributedTitle(kind, author: author, subject: subject)
+        attributedTitleStore = NotificationAttributedTitle.attributedTitle(activity.kind, author: author, subject: subject)
         return attributedTitleStore!
     }
 
 // MARK: Initialization
 
-    convenience public init(activity: Activity) {
+    public init(activity: Activity) {
+        self.activity = activity
         var author : User? = nil
         if let post = activity.subject as? Post {
-            author = post.author
+            self.author = post.author
         }
         else if let comment = activity.subject as? Comment {
-            author = comment.author
+            self.author = comment.author
         }
         else if let user = activity.subject as? User {
-            author = user
+            self.author = user
         }
-
-        self.init(author: author, createdAt: activity.createdAt, kind: activity.kind, notificationId: activity.activityId, subjectType: activity.subjectType)
+        super.init()
         if let post = activity.subject as? Post {
-            self.assignRegionsFromContent(post.summary!)
+            assignRegionsFromContent(post.summary)
         }
         else if let comment = activity.subject as? Comment {
-            self.assignRegionsFromContent(comment.summary!)
+            assignRegionsFromContent(comment.content)
         }
-        self.subject = activity.subject
-    }
-
-    required public init(author: User?, createdAt: NSDate, kind: Kind, notificationId: String, subjectType: SubjectType) {
-        self.author = author
-        self.attributedTitleStore = nil
-        self.createdAt = createdAt
-        self.kind = kind
-        self.notificationId = notificationId
-        self.subjectType = subjectType
-        super.init()
+        subject = activity.subject
     }
 
 // MARK: NSCoding
 
-    required public init(coder aDecoder: NSCoder) {
+    public required init(coder aDecoder: NSCoder) {
         let decoder = Decoder(aDecoder)
+        self.activity = decoder.decodeKey("activity")
         self.author = decoder.decodeOptionalKey("author")
-        self.createdAt = decoder.decodeKey("createdAt")
-        let kindString: String = decoder.decodeKey("kind")
-        self.kind = Kind(rawValue: kindString) ?? Kind.Unknown
-        self.notificationId = decoder.decodeKey("notificationId")
-        let subjectTypeString: String = decoder.decodeKey("subjectType")
-        self.subjectType = SubjectType(rawValue: subjectTypeString) ?? SubjectType.Unknown
+        super.init(coder: aDecoder)
     }
 
-    public func encodeWithCoder(encoder: NSCoder) {
-        if let author = self.author {
-            encoder.encodeObject(author, forKey: "author")
-        }
-        encoder.encodeObject(self.createdAt, forKey: "createdAt")
-        encoder.encodeObject(self.kind.rawValue, forKey: "kind")
-        encoder.encodeObject(self.notificationId, forKey: "notificationId")
-        encoder.encodeObject(self.subjectType.rawValue, forKey: "subjectType")
+    public override func encodeWithCoder(encoder: NSCoder) {
+        encoder.encodeObject(activity, forKey: "activity")
+        encoder.encodeObject(author, forKey: "author")
+        super.encodeWithCoder(encoder)
     }
 
 // MARK: Public

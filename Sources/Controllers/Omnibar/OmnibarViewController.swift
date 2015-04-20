@@ -27,7 +27,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
     public func omnibarDataName() -> String {
         if let post = parentPost {
-            return "omnibar_comment_\(post.postId)"
+            return "omnibar_comment_\(post.id)"
         }
         else {
             return "omnibar_post"

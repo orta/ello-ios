@@ -10,105 +10,95 @@ import SwiftyJSON
 
 let CommentVersion = 1
 
-public final class Comment: JSONAble, Authorable, NSCoding {
+public final class Comment: JSONAble, Authorable {
+    public let version = CommentVersion
 
-    public let version: Int = CommentVersion
-
-    public var author: User?
-    public let commentId: String
-    public var content: [Regionable]?
-    public var createdAt: NSDate
-    public var groupId:String {
-        get {
-            return parentPost?.postId ?? ""
+    // active record
+    public let id: String
+    public let createdAt: NSDate
+    // required
+    public let postId: String
+    public let content: [Regionable]
+    // links
+    public var assets: [Asset]? {
+        if let assets = getLinkArray("assets") as? [Asset] {
+            return assets
         }
+        return nil
     }
-    public var parentPost: Post?
-    public var summary: [Regionable]?
+    public var author: User? { return getLinkObject("author") as? User }
+    public var parentPost: Post? { return getLinkObject("parent_post") as? Post }
+    // computed properties
+    public var groupId:String {
+        get { return postId }
+    }
 
 // MARK: Initialization
 
-    public init(author: User?,
-        commentId: String,
-        content: [Regionable]?,
+    public init(id: String,
         createdAt: NSDate,
-        parentPost: Post?,
-        summary: [Regionable]? )
+        postId: String,
+        content: [Regionable])
     {
-        self.author = author
-        self.commentId = commentId
-        self.content = content
+        self.id = id
         self.createdAt = createdAt
-        self.parentPost = parentPost
-        self.summary = summary
+        self.postId = postId
+        self.content = content
+        super.init()
     }
 
 
 // MARK: NSCoding
 
-    required public init(coder aDecoder: NSCoder) {
+    public required init(coder aDecoder: NSCoder) {
         let decoder = Decoder(aDecoder)
-        self.author = decoder.decodeOptionalKey("author")
-        self.commentId = decoder.decodeKey("commentId")
+        // active record
+        self.id = decoder.decodeKey("id")
         self.createdAt = decoder.decodeKey("createdAt")
-        self.parentPost = decoder.decodeOptionalKey("parentPost")
-        self.summary = decoder.decodeOptionalKey("summary")
-        self.content = decoder.decodeOptionalKey("content")
+        // required
+        self.postId = decoder.decodeKey("postId")
+        self.content = decoder.decodeKey("content")
+        super.init(coder: aDecoder)
     }
 
-    public func encodeWithCoder(encoder: NSCoder) {
-        encoder.encodeObject(self.author, forKey: "author")
-        encoder.encodeObject(self.commentId, forKey: "commentId")
-        if let content = self.content {
-            encoder.encodeObject(content, forKey: "content")
-        }
-        encoder.encodeObject(self.createdAt, forKey: "createdAt")
-        encoder.encodeObject(self.parentPost, forKey: "parentPost")
-        if let summary = self.summary {
-            encoder.encodeObject(summary, forKey: "summary")
-        }
+    public override func encodeWithCoder(encoder: NSCoder) {
+        // active record
+        encoder.encodeObject(id, forKey: "id")
+        encoder.encodeObject(createdAt, forKey: "createdAt")
+        // required
+        encoder.encodeObject(postId, forKey: "postId")
+        encoder.encodeObject(content, forKey: "content")
+        super.encodeWithCoder(encoder)
     }
 
 // MARK: JSONAble
 
-    override class public func fromJSON(data:[String: AnyObject]) -> JSONAble {
+    override class public func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         let json = JSON(data)
-
-        var commentId = json["id"].stringValue
-        var createdAt = json["created_at"].stringValue.toNSDate()!
-
-        var links = [String: AnyObject]()
-        var parentPost:Post?
-        var author: User?
-        var content: [Regionable]?
-        var summary: [Regionable]?
-        if let linksNode = data["links"] as? [String: AnyObject] {
-            links = ElloLinkedStore.parseLinks(linksNode)
-            author = links["author"] as? User
-            parentPost = links["parent_post"] as? Post
-            //            var assets = links["assets"] as? [String:JSONAble]
-            content = RegionParser.regions("content", json: json)
-            summary = RegionParser.regions("summary", json: json)
+        // create comment
+        var comment = Comment(
+            id: json["id"].stringValue,
+            createdAt: json["created_at"].stringValue.toNSDate()!,
+            postId: json["post_id"].stringValue,
+            content: RegionParser.regions("content", json: json)
+            )
+        // links
+        comment.links = data["links"] as? [String: AnyObject]
+        // store self in collection
+        if !fromLinked {
+            ElloLinkedStore.sharedInstance.setObject(comment, forKey: comment.id, inCollection: MappingType.CommentsType.rawValue)
         }
-
-        return Comment(
-            author: author,
-            commentId: commentId,
-            content: content,
-            createdAt: createdAt,
-            parentPost: parentPost,
-            summary: summary
-        )
+        return comment
     }
 
     public class func newCommentForPost(post: Post, currentUser: User) -> Comment {
-        return Comment(
-            author: currentUser,
-            commentId: "nil",
-            content: nil,
+        var comment = Comment(
+            id: "nil",
             createdAt: NSDate(),
-            parentPost: post,
-            summary: nil
+            postId: post.id,
+            content: [Regionable]()
         )
+        comment.addLinkObject("author", key: currentUser.id, collection: MappingType.UsersType.rawValue)
+        return comment
     }
 }

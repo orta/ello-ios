@@ -17,8 +17,8 @@ class ExperienceUpdateSpec: QuickSpec {
 
             context(".CommentChanged") {
 
-                let parentPost: Post = stub(["postId" : "123"])
-                let comment: Comment = stub(["commentId" : "362","parentPost" : parentPost])
+                let parentPost: Post = stub(["id" : "123"])
+                let comment: Comment = stub(["id" : "362","parentPost" : parentPost])
 
                 let item = StreamCellItem(jsonable: comment, type: .CreateComment, data: nil, oneColumnCellHeight: 5, multiColumnCellHeight: 5, isFullWidth: true)
 
@@ -26,7 +26,7 @@ class ExperienceUpdateSpec: QuickSpec {
 
                     it("returns true") {
                         let parentPostUpdate = ExperienceUpdate.CommentChanged(commentId: "555", postId: "123", change: ContentChange.Update)
-                        expect(parentPostUpdate.affectsItem(item)) == true
+                        expect(parentPostUpdate.affectsItem(item)) == false
 
                         let commentUpdate = ExperienceUpdate.CommentChanged(commentId: "362", postId: "963", change: ContentChange.Update)
                         expect(commentUpdate.affectsItem(item)) == true
@@ -46,9 +46,9 @@ class ExperienceUpdateSpec: QuickSpec {
 
                 let user: User = stub(["id" : "232"])
                 let postAuthor: User = stub(["id" : "96"])
-                let post: Post = stub(["postId" : "123", "author" : postAuthor])
+                let post: Post = stub(["id" : "123", "author" : postAuthor])
                 let commentAuthor: User = stub(["id" : "111"])
-                let comment: Comment = stub(["commentId" : "362", "parentPost" : post, "author" : commentAuthor])
+                let comment: Comment = stub(["id" : "362", "parentPost" : post, "author" : commentAuthor])
 
                 let userItem = StreamCellItem(jsonable: user, type: StreamCellType.ProfileHeader, data: nil, oneColumnCellHeight: 0.0, multiColumnCellHeight: 0.0, isFullWidth: true)
 
@@ -89,9 +89,9 @@ class ExperienceUpdateSpec: QuickSpec {
 
                 let user: User = stub(["id" : "232"])
                 let postAuthor: User = stub(["id" : "96"])
-                let post: Post = stub(["postId" : "123", "author" : postAuthor])
+                let post: Post = stub(["id" : "123", "author" : postAuthor])
                 let commentAuthor: User = stub(["id" : "111"])
-                let comment: Comment = stub(["commentId" : "362", "parentPost" : post, "author" : commentAuthor])
+                let comment: Comment = stub(["id" : "362", "parentPost" : post, "author" : commentAuthor])
 
                 let userItem = StreamCellItem(jsonable: user, type: StreamCellType.ProfileHeader, data: nil, oneColumnCellHeight: 0.0, multiColumnCellHeight: 0.0, isFullWidth: true)
 
@@ -130,7 +130,7 @@ class ExperienceUpdateSpec: QuickSpec {
 
             context(".PostChanged") {
 
-                let post: Post = stub(["postId" : "485"])
+                let post: Post = stub(["id" : "485"])
 
                 let item = StreamCellItem(jsonable: post, type: .Header, data: nil, oneColumnCellHeight: 5, multiColumnCellHeight: 5, isFullWidth: true)
 
@@ -155,9 +155,9 @@ class ExperienceUpdateSpec: QuickSpec {
 
                 let user: User = stub(["id" : "232"])
                 let postAuthor: User = stub(["id" : "96"])
-                let post: Post = stub(["postId" : "123", "author" : postAuthor])
+                let post: Post = stub(["id" : "123", "author" : postAuthor])
                 let commentAuthor: User = stub(["id" : "111"])
-                let comment: Comment = stub(["commentId" : "362", "parentPost" : post, "author" : commentAuthor])
+                let comment: Comment = stub(["id" : "362", "parentPost" : post, "author" : commentAuthor])
 
                 let userItem = StreamCellItem(jsonable: user, type: StreamCellType.ProfileHeader, data: nil, oneColumnCellHeight: 0.0, multiColumnCellHeight: 0.0, isFullWidth: true)
 
@@ -198,9 +198,9 @@ class ExperienceUpdateSpec: QuickSpec {
 
                 let user: User = stub(["id" : "232"])
                 let postAuthor: User = stub(["id" : "96"])
-                let post: Post = stub(["postId" : "123", "author" : postAuthor])
+                let post: Post = stub(["id" : "123", "author" : postAuthor])
                 let commentAuthor: User = stub(["id" : "111"])
-                let comment: Comment = stub(["commentId" : "362", "parentPost" : post, "author" : commentAuthor])
+                let comment: Comment = stub(["id" : "362", "parentPost" : post, "author" : commentAuthor])
 
                 let userItem = StreamCellItem(jsonable: user, type: StreamCellType.ProfileHeader, data: nil, oneColumnCellHeight: 0.0, multiColumnCellHeight: 0.0, isFullWidth: true)
 
@@ -241,9 +241,9 @@ class ExperienceUpdateSpec: QuickSpec {
 
                 let user: User = stub(["id" : "232"])
                 let postAuthor: User = stub(["id" : "96"])
-                let post: Post = stub(["postId" : "123", "author" : postAuthor])
+                let post: Post = stub(["id" : "123", "author" : postAuthor])
                 let commentAuthor: User = stub(["id" : "111"])
-                let comment: Comment = stub(["commentId" : "362", "parentPost" : post, "author" : commentAuthor])
+                let comment: Comment = stub(["id" : "362", "parentPost" : post, "author" : commentAuthor])
 
                 let userItem = StreamCellItem(jsonable: user, type: StreamCellType.ProfileHeader, data: nil, oneColumnCellHeight: 0.0, multiColumnCellHeight: 0.0, isFullWidth: true)
 
