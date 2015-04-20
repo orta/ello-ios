@@ -139,7 +139,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bvm-6v-S7r">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" directionalLockEnabled="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bvm-6v-S7r">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ello-logo" translatesAutoresizingMaskIntoConstraints="NO" id="oHS-RL-ubg">
@@ -152,12 +152,12 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstItem="oHS-RL-ubg" firstAttribute="leading" secondItem="bvm-6v-S7r" secondAttribute="leading" constant="217" placeholder="YES" id="3nc-qT-sig"/>
-                                    <constraint firstAttribute="bottom" secondItem="oHS-RL-ubg" secondAttribute="bottom" constant="258" placeholder="YES" id="AUc-na-g9O"/>
                                     <constraint firstItem="oHS-RL-ubg" firstAttribute="top" secondItem="bvm-6v-S7r" secondAttribute="top" constant="176" id="PZj-Ab-6hR"/>
                                     <constraint firstAttribute="centerX" secondItem="oHS-RL-ubg" secondAttribute="centerX" id="fbE-OP-dvp"/>
-                                    <constraint firstAttribute="trailing" secondItem="oHS-RL-ubg" secondAttribute="trailing" constant="217" placeholder="YES" id="xEH-jD-TgJ"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="delegate" destination="jJZ-zI-fFG" id="39U-Kc-gZl"/>
+                                </connections>
                             </scrollView>
                             <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="war-Oo-BBs" customClass="ElloButton" customModule="Ello" customModuleProvider="target">
                                 <rect key="frame" x="113" y="490" width="374" height="60"/>
@@ -188,7 +188,7 @@
                                     <color key="titleShadowColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="signUpTapped:" destination="jJZ-zI-fFG" eventType="touchUpInside" id="k6Z-57-xFM"/>
+                                    <action selector="joinTapped:" destination="jJZ-zI-fFG" eventType="touchUpInside" id="k6Z-57-xFM"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -210,6 +210,8 @@
                     </view>
                     <connections>
                         <outlet property="joinButton" destination="qIL-al-gUD" id="Qg2-Bt-HgK"/>
+                        <outlet property="logoTopConstraint" destination="PZj-Ab-6hR" id="JKL-fm-peI"/>
+                        <outlet property="logoView" destination="oHS-RL-ubg" id="8hG-UY-axZ"/>
                         <outlet property="scrollView" destination="bvm-6v-S7r" id="FYi-8e-de2"/>
                         <outlet property="signInButton" destination="war-Oo-BBs" id="YNK-dV-vhB"/>
                     </connections>

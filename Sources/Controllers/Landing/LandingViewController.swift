@@ -11,6 +11,8 @@ import UIKit
 public class LandingViewController: BaseElloViewController {
 
     @IBOutlet weak public var scrollView: UIScrollView!
+    @IBOutlet weak public var logoView: UIView!
+    @IBOutlet weak public var logoTopConstraint: NSLayoutConstraint!
     @IBOutlet weak public var signInButton: ElloButton!
     @IBOutlet weak public var joinButton: LightElloButton!
 
@@ -18,6 +20,13 @@ public class LandingViewController: BaseElloViewController {
         super.viewDidLoad()
         setupStyles()
         setupNotificationObservers()
+    }
+
+    override public func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        if self.view.frame.height < CGFloat(568) {
+            logoTopConstraint.constant = 56
+        }
     }
 
     override public func viewDidAppear(animated: Bool) {
@@ -28,6 +37,32 @@ public class LandingViewController: BaseElloViewController {
 
     public class func instantiateFromStoryboard() -> LandingViewController {
         return UIStoryboard.storyboardWithId(.Landing) as! LandingViewController
+    }
+
+    public func showJoinScreen() {
+        let joinController = JoinViewController()
+        let window = self.view.window!
+        self.presentViewController(joinController, animated:true) {
+            window.rootViewController = joinController
+        }
+    }
+
+    public func showSignInScreen() {
+        let signInController = SignInViewController()
+        let window = self.view.window!
+        self.presentViewController(signInController, animated:true) {
+            window.rootViewController = signInController
+        }
+    }
+
+    public func showMainScreen(user: User, responseConfig: ResponseConfig) {
+        Tracker.sharedTracker.identify(user)
+        var vc = ElloTabBarController.instantiateFromStoryboard()
+        vc.setProfileData(user, responseConfig: responseConfig)
+        var window = self.view.window!
+        self.presentViewController(vc, animated: true) {
+            window.rootViewController = vc
+        }
     }
 
 // MARK: - Private
@@ -59,13 +94,7 @@ public class LandingViewController: BaseElloViewController {
     private func loadCurrentUser() {
         let profileService = ProfileService()
         profileService.loadCurrentUser({ (user, responseConfig) in
-            Tracker.sharedTracker.identify(user)
-            var vc = ElloTabBarController.instantiateFromStoryboard()
-            vc.setProfileData(user, responseConfig: responseConfig)
-            var window = self.view.window!
-            self.presentViewController(vc, animated: true) {
-                window.rootViewController = vc
-            }
+            self.showMainScreen(user, responseConfig: responseConfig)
         }, failure: { error in
             self.failedToLoadCurrentUser()
         })
@@ -120,21 +149,18 @@ public class LandingViewController: BaseElloViewController {
         })
     }
 
+}
+
+
 // MARK: - IBActions
+public extension LandingViewController {
 
     @IBAction func signInTapped(sender: ElloButton) {
-        let signInController = SignInViewController()
-        let window = self.view.window!
-        self.presentViewController(signInController, animated:true) {
-            window.rootViewController = signInController
-        }
+        showSignInScreen()
     }
 
-    @IBAction func signUpTapped(sender: ElloButton) {
-        let joinController = JoinViewController()
-        let window = self.view.window!
-        self.presentViewController(joinController, animated:true) {
-            window.rootViewController = joinController
-        }
+    @IBAction func joinTapped(sender: ElloButton) {
+        showJoinScreen()
     }
+
 }
