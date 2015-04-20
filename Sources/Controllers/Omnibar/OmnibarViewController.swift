@@ -143,18 +143,12 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
                 if let parentPost = self.parentPost {
                     var comment = postOrComment as! Comment
-                    for listener in self.commentSuccessListeners {
-                        listener(comment: comment)
-                    }
-                    Tracker.sharedTracker.contentCreated(.Comment)
+                    self.emitCommentSuccess(comment)
                 }
                 else {
                     var post = postOrComment as! Post
-                    for listener in self.postSuccessListeners {
-                        listener(post: post)
-                    }
+                    self.emitPostSuccess(post)
                     self.screen.reportSuccess("Post successfully created!")
-                    Tracker.sharedTracker.contentCreated(.Post)
                 }
             }, failure: { error, statusCode in
                 ElloHUD.hideLoadingHud()
@@ -164,6 +158,22 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         else {
             contentCreationFailed("No content was submitted")
         }
+    }
+
+    private func emitCommentSuccess(comment: Comment) {
+        for listener in self.commentSuccessListeners {
+            listener(comment: comment)
+        }
+        Tracker.sharedTracker.contentCreated(.Comment)
+    }
+
+
+    private func emitPostSuccess(post: Post) {
+        for listener in self.postSuccessListeners {
+            listener(post: post)
+        }
+        Tracker.sharedTracker.contentCreated(.Post)
+
     }
 
     func contentCreationFailed(errorMessage: String) {
