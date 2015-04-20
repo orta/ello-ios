@@ -84,14 +84,16 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
     }
 
     func handleBackGesture(gesture: UIScreenEdgePanGestureRecognizer) {
+        let percentThroughView = gesture.percentageThroughView(gesture.edges)
+
         switch gesture.state {
         case .Began:
             interactionController = UIPercentDrivenInteractiveTransition()
             topViewController.backGestureAction()
         case .Changed:
-            interactionController?.updateInteractiveTransition(gesture.percentageThroughView)
+            interactionController?.updateInteractiveTransition(percentThroughView)
         case .Ended, .Cancelled:
-            if gesture.percentageThroughView > 0.5 {
+            if percentThroughView > 0.5 {
                 interactionController?.finishInteractiveTransition()
             } else {
                 interactionController?.cancelInteractiveTransition()
