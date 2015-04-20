@@ -99,6 +99,7 @@ public final class Comment: JSONAble, Authorable {
             content: [Regionable]()
         )
         comment.addLinkObject("author", key: currentUser.id, collection: MappingType.UsersType.rawValue)
+        comment.addLinkObject("parent_post", key: post.id, collection: MappingType.PostsType.rawValue)
         return comment
     }
 }
