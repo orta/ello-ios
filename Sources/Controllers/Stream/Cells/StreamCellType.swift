@@ -22,6 +22,7 @@ public enum StreamCellType {
     case Footer
     case Image
     case Text
+    case Embed
     case Comment
     case Unknown
     case ProfileHeader
@@ -31,7 +32,7 @@ public enum StreamCellType {
     case StreamLoading
     case Toggle
 
-    static let all = [CommentHeader, Header, Footer, Image, Text, Comment, Unknown, ProfileHeader, Notification, UserListItem, CreateComment, StreamLoading, Toggle]
+    static let all = [CommentHeader, Header, Footer, Image, Text, Embed, Comment, Unknown, ProfileHeader, Notification, UserListItem, CreateComment, StreamLoading, Toggle]
 
     public var name: String {
         switch self {
@@ -40,6 +41,7 @@ public enum StreamCellType {
         case Footer: return "StreamFooterCell"
         case Image: return "StreamImageCell"
         case Text: return "StreamTextCell"
+        case Embed: return "StreamEmbedCell"
         case Comment: return "StreamCommentCell"
         case Unknown: return "StreamUnknownCell"
         case ProfileHeader: return "ProfileHeaderCell"
@@ -58,6 +60,7 @@ public enum StreamCellType {
         case Footer: return StreamFooterCellPresenter.configure
         case Image: return StreamImageCellPresenter.configure
         case Text: return StreamTextCellPresenter.configure
+        case Embed: return StreamEmbedCellPresenter.configure
         case Comment: return ProfileHeaderCellPresenter.configure
         case ProfileHeader: return ProfileHeaderCellPresenter.configure
         case Notification: return NotificationCellPresenter.configure
@@ -77,6 +80,7 @@ public enum StreamCellType {
         case Footer: return StreamFooterCell.self
         case Image: return StreamImageCell.self
         case Text: return StreamTextCell.self
+        case Embed: return StreamEmbedCell.self
         case Comment: return StreamCommentCell.self
         case ProfileHeader: return ProfileHeaderCell.self
         case Notification: return NotificationCell.self
@@ -90,8 +94,7 @@ public enum StreamCellType {
 
     public var collapsable: Bool {
         switch self {
-        case Image: return true
-        case Text: return true
+        case Image, Text, Embed: return true
         default: return false
         }
     }

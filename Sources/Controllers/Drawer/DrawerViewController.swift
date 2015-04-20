@@ -56,9 +56,7 @@ extension DrawerViewController {
     }
 
     func storeButtonTapped() {
-        if let navController = navigationController as? ElloNavigationController {
-            navController.showExternalWebView("http://ello.threadless.com/")
-        }
+        postNotification(externalWebNotification, "http://ello.threadless.com/")
     }
 }
 

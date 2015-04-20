@@ -31,6 +31,10 @@ public final class EmbedRegion: JSONAble {
     public let url: NSURL
     public let thumbnailSmallUrl: NSURL
     public let thumbnailLargeUrl: NSURL
+    // computed
+    public var isAudioEmbed: Bool {
+        return service == EmbedType.Mixcloud || service == EmbedType.Soundcloud
+    }
 
     // MARK: Initialization
 
@@ -82,11 +86,11 @@ public final class EmbedRegion: JSONAble {
         let json = JSON(data)
         // create region
         var embedRegion = EmbedRegion(
-            id: json["data"].object["id"] as! String,
-            service: EmbedType(rawValue: json["data"].object["id"] as! String) ?? .Unknown,
-            url: NSURL(string: json["data"].object["url"] as! String)!,
-            thumbnailSmallUrl: NSURL(string: json["data"].object["thumbnail_small_url"] as! String)!,
-            thumbnailLargeUrl: NSURL(string: json["data"].object["thumbnail_large_url"] as! String)!
+            id: json["data"]["id"].stringValue,
+            service: EmbedType(rawValue: json["data"]["service"].stringValue) ?? .Unknown,
+            url: NSURL(string: json["data"]["url"].stringValue)!,
+            thumbnailSmallUrl: NSURL(string: json["data"]["thumbnail_small_url"].stringValue)!,
+            thumbnailLargeUrl: NSURL(string: json["data"]["thumbnail_large_url"].stringValue)!
         )
         return embedRegion
     }

@@ -106,7 +106,18 @@ public struct StreamCellItemParser {
                     oneColumnHeight = 0.0
                     multiColumnHeight = 0.0
                     type = .Text
-                case .Embed, .Unknown:
+                case .Embed:
+                    var ratio: CGFloat!
+                    if (region as! EmbedRegion).isAudioEmbed {
+                        ratio = 4.0/3.0
+                    }
+                    else {
+                        ratio = 16.0/9.0
+                    }
+                    oneColumnHeight = UIScreen.screenWidth() / ratio
+                    multiColumnHeight = ((UIScreen.screenWidth() - 10.0) / 2) / ratio
+                    type = .Embed
+                case .Unknown:
                     oneColumnHeight = 0.0
                     multiColumnHeight = 0.0
                     type = .Unknown
