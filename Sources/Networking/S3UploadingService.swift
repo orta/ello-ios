@@ -10,7 +10,7 @@ import Moya
 
 
 public class S3UploadingService: NSObject {
-    typealias S3UploadSuccessCompletion = (url : String) -> ()
+    typealias S3UploadSuccessCompletion = (url : NSURL?) -> ()
 
     var uploader : ElloS3?
 
@@ -28,7 +28,7 @@ public class S3UploadingService: NSObject {
                         .onSuccess({ (data : NSData) in
                             let endpoint : String = credentials.endpoint
                             let prefix : String = credentials.prefix
-                            success(url: "\(endpoint)/\(prefix)/\(filename)")
+                            success(url: NSURL(string: "\(endpoint)/\(prefix)/\(filename)"))
                         })
                         .onFailure({ (error : NSError) in
                             _ = failure?(error: error, statusCode: nil)

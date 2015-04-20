@@ -83,14 +83,31 @@ public class PostEditingService: NSObject {
         ElloProvider.elloRequest(endpoint,
             method: .POST,
             success: { data, responseConfig in
+                var post: AnyObject = data
+
                 switch endpoint {
                 case .CreateComment:
-                    postNotification(UpdatePostCommentCountNotification, data as! Comment)
+                    let comment = data as! Comment
+                    let localComment = Comment(
+                        id: NSUUID().UUIDString,
+                        createdAt: NSDate(),
+                        postId: (data as! Comment).id,
+                        content: regions
+                    )
+                    if let user = comment.author {
+                        localComment.addLinkObject("author", key: user.id, collection: MappingType.UsersType.rawValue)
+                    }
+                    if let post = comment.parentPost {
+                        localComment.addLinkObject("parent_post", key: post.id, collection: MappingType.PostsType.rawValue)
+                    }
+
+                    post = localComment
+                    postNotification(UpdatePostCommentCountNotification, localComment)
                 default:
                     break
                 }
 
-                success(post: data as AnyObject)
+                success(post: post as AnyObject)
             },
             failure: failure
         )
@@ -138,7 +155,19 @@ public class PostEditingService: NSObject {
             uploadService.upload(image, filename: filename,
                 success: { url in
                     let imageRegion = ImageRegion(alt: filename)
-                    imageRegion.url = NSURL(string: url)
+                    imageRegion.url = url
+
+                    if let url = url {
+                        let attachment = Attachment(url: url)
+                        attachment.width = Int(image.size.width)
+                        attachment.height = Int(image.size.height)
+
+                        let asset = Asset(id: "nil")
+                        asset.optimized = attachment
+
+                        imageRegion.asset = asset
+                    }
+
                     uploaded.append((imageIndex, imageRegion))
                     allDone()
                 },
