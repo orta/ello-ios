@@ -93,6 +93,7 @@ public class JoinViewController: BaseElloViewController {
     private func join() {
         if allFieldsValid() {
             self.elloLogo.animateLogo()
+            self.view.userInteractionEnabled = false
 
             emailView.textField.resignFirstResponder()
             usernameView.textField.resignFirstResponder()
@@ -107,14 +108,17 @@ public class JoinViewController: BaseElloViewController {
                 authService.authenticate(email: email,
                     password: password,
                     success: {
+                        self.view.userInteractionEnabled = false
                         self.showMainScreen(user, responseConfig: responseConfig)
                     },
-                    failure: { (error, statusCode) -> () in
+                    failure: { _, _ in
+                        self.view.userInteractionEnabled = false
                         self.showSignInScreen(email, password)
                     })
             },
             failure: { error, statusCode in
-                self.elloLogo.animateLogo()
+                self.view.userInteractionEnabled = false
+                self.elloLogo.stopAnimatingLogo()
             })
         }
     }
