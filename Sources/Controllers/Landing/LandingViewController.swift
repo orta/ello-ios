@@ -63,9 +63,9 @@ public class LandingViewController: BaseElloViewController {
             var vc = ElloTabBarController.instantiateFromStoryboard()
             vc.setProfileData(user, responseConfig: responseConfig)
             var window = self.view.window!
-            self.presentViewController(vc, animated: true, completion: {
+            self.presentViewController(vc, animated: true) {
                 window.rootViewController = vc
-            })
+            }
         }, failure: { error in
             self.failedToLoadCurrentUser()
         })
@@ -125,16 +125,16 @@ public class LandingViewController: BaseElloViewController {
     @IBAction func signInTapped(sender: ElloButton) {
         let signInController = SignInViewController()
         let window = self.view.window!
-        self.presentViewController(signInController, animated:true, completion: {
+        self.presentViewController(signInController, animated:true) {
             window.rootViewController = signInController
-        })
+        }
     }
 
     @IBAction func signUpTapped(sender: ElloButton) {
         let joinController = JoinViewController()
         let window = self.view.window!
-        self.presentViewController(joinController, animated:true, completion: {
+        self.presentViewController(joinController, animated:true) {
             window.rootViewController = joinController
-        })
+        }
     }
 }

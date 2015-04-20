@@ -124,9 +124,9 @@ public class JoinViewController: BaseElloViewController {
         vc.setProfileData(user, responseConfig: responseConfig)
         self.elloLogo.stopAnimatingLogo()
         let window = self.view.window!
-        self.presentViewController(vc, animated: true, completion: {
+        self.presentViewController(vc, animated: true) {
             window.rootViewController = vc
-        })
+        }
     }
 
     private func showSignInScreen(email: String, _ password: String) {
@@ -137,17 +137,17 @@ public class JoinViewController: BaseElloViewController {
         signInController.passwordTextField.text = password
         signInController.enterButton.enabled = true
 
-        self.presentViewController(signInController, animated:true, completion: {
+        self.presentViewController(signInController, animated:true) {
             window.rootViewController = signInController
-        })
+        }
     }
 
     private func showSignInScreen() {
         let signInController = SignInViewController()
         let window = self.view.window!
-        self.presentViewController(signInController, animated:true, completion: {
+        self.presentViewController(signInController, animated:true) {
             window.rootViewController = signInController
-        })
+        }
     }
 
     private func showAboutScreen() {
@@ -155,9 +155,9 @@ public class JoinViewController: BaseElloViewController {
         println("about tapped")
         // let aboutController = AboutViewController()
         // let window = self.view.window!
-        // self.presentViewController(aboutController, animated:true, completion: {
+        // self.presentViewController(aboutController, animated:true) {
         //     window.rootViewController = aboutController
-        // })
+        // }
     }
 
 }
