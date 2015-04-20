@@ -93,7 +93,7 @@ public final class Comment: JSONAble, Authorable {
 
     public class func newCommentForPost(post: Post, currentUser: User) -> Comment {
         var comment = Comment(
-            id: "nil",
+            id: NSUUID().UUIDString,
             createdAt: NSDate(),
             postId: post.id,
             content: [Regionable]()
