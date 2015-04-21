@@ -307,8 +307,11 @@ extension StreamFooterCell: UIScrollViewDelegate {
 
         if (scrollView.contentOffset.x >= revealWidth) {
             isOpen = true
+            openChevron()
             postNotification(streamCellDidOpenNotification, self)
         } else {
+            var angle: CGFloat = CGFloat(M_PI) * scrollView.contentOffset.x / revealWidth
+            rotateChevron(angle)
             isOpen = false
         }
 
