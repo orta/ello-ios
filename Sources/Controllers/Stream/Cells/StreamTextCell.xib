@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7528.3" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7518.3"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -14,7 +14,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kqv-DZ-gE5" userLabel="webView">
-                        <rect key="frame" x="0.0" y="0.0" width="610" height="50"/>
+                        <rect key="frame" x="15" y="0.0" width="580" height="50"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <connections>
                             <outlet property="delegate" destination="24S-Yh-BNz" id="3vg-yS-xwV"/>
@@ -26,8 +26,8 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="Kqv-DZ-gE5" secondAttribute="bottom" id="94r-IZ-f7E" userLabel="webView Bottom"/>
-                <constraint firstAttribute="trailing" secondItem="Kqv-DZ-gE5" secondAttribute="trailing" id="9X6-RE-Dlv" userLabel="webView Right"/>
-                <constraint firstItem="Kqv-DZ-gE5" firstAttribute="leading" secondItem="24S-Yh-BNz" secondAttribute="leading" priority="999" id="S8x-pG-FYW" userLabel="leadingConstraint"/>
+                <constraint firstAttribute="trailing" secondItem="Kqv-DZ-gE5" secondAttribute="trailing" constant="15" id="9X6-RE-Dlv" userLabel="webView Right"/>
+                <constraint firstItem="Kqv-DZ-gE5" firstAttribute="leading" secondItem="24S-Yh-BNz" secondAttribute="leading" priority="999" constant="15" id="S8x-pG-FYW" userLabel="leadingConstraint"/>
                 <constraint firstItem="Kqv-DZ-gE5" firstAttribute="top" secondItem="24S-Yh-BNz" secondAttribute="top" id="sB9-Su-Tbg" userLabel="webView Top"/>
             </constraints>
             <size key="customSize" width="610" height="50"/>

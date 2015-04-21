@@ -9,7 +9,7 @@
 import UIKit
 
 public struct StreamTextCellPresenter {
-    static let commentMargin = CGFloat(58)
+    static let commentMargin = CGFloat(43)
 
     static func configure(
         cell:UICollectionViewCell,
@@ -44,7 +44,7 @@ public struct StreamTextCellPresenter {
                 cell.leadingConstraint.constant = commentMargin
             }
             else {
-                cell.leadingConstraint.constant = 0.0
+                cell.leadingConstraint.constant = 15.0
             }
         }
     }
