@@ -39,12 +39,10 @@ public struct ProfileHeaderCellPresenter {
             cell.nameLabel.text = user.name
             cell.bioWebView.loadHTMLString(StreamTextCellHTML.postHTML(user.formattedShortBio ?? ""), baseURL: NSURL(string: "/"))
             cell.countsTextView.clearText()
-            cell.countsTextView.appendTextWithAction("Posts \(user.postsCount ?? 0) / ")
-            cell.countsTextView.appendTextWithAction("Following \(user.followingCount ?? 0) / ", link: "following", object: user)
-            let followersStr = user.followersCount ?? "0"
-            cell.countsTextView.appendTextWithAction("Followers \(followersStr)", link: "followers", object: user)
+            cell.countsTextView.appendTextWithAction("Posts \(user.postsCount ?? 0) ")
+            cell.countsTextView.appendTextWithAction("Following \(user.followingCount ?? 0) ", link: "following", object: user)
+            let followersCount = user.followersCount ?? "0"
+            cell.countsTextView.appendTextWithAction("Followers \(followersCount)", link: "followers", object: user)
         }
     }
 }
-
-

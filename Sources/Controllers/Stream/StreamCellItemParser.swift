@@ -180,11 +180,19 @@ public struct StreamCellItemParser {
     }
 
     private func oneColumnImageHeight(imageBlock: ImageRegion) -> CGFloat {
-        return UIScreen.screenWidth() / StreamCellItemParser.aspectRatioForImageBlock(imageBlock)
+        var imageWidth = UIScreen.screenWidth()
+        if let assetWidth = imageBlock.asset?.oneColumnAttachment?.width {
+            imageWidth = min(imageWidth, CGFloat(assetWidth))
+        }
+        return imageWidth / StreamCellItemParser.aspectRatioForImageBlock(imageBlock)
     }
 
     private func twoColumnImageHeight(imageBlock: ImageRegion) -> CGFloat {
-        return ((UIScreen.screenWidth() - 10.0) / 2) / StreamCellItemParser.aspectRatioForImageBlock(imageBlock)
+        var imageWidth = (UIScreen.screenWidth() - 10.0) / 2
+        if let assetWidth = imageBlock.asset?.gridLayoutAttachment?.width {
+            imageWidth = min(imageWidth, CGFloat(assetWidth))
+        }
+        return  imageWidth / StreamCellItemParser.aspectRatioForImageBlock(imageBlock)
     }
 
     private func footerStreamCellItems(post: Post) -> [StreamCellItem] {

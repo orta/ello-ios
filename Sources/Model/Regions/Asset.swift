@@ -30,6 +30,14 @@ public final class Asset: JSONAble {
         return self.optimized?.type == "image/gif"
     }
 
+	public var oneColumnAttachment: Attachment? {
+        return self.hdpi
+    }
+
+    public var gridLayoutAttachment: Attachment? {
+        return self.mdpi
+    }
+
 // MARK: Initialization
     
     public init(id: String)

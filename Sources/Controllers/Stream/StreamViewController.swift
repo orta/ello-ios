@@ -182,8 +182,9 @@ public class StreamViewController: BaseElloViewController {
         collectionView.reloadData()
     }
 
-    public func appendUnsizedCellItems(items: [StreamCellItem]) {
-        dataSource.appendUnsizedCellItems(items, withWidth: self.view.frame.width) { _ in
+    public func appendUnsizedCellItems(items: [StreamCellItem], withWidth: CGFloat?) {
+        let width = withWidth ?? self.view.frame.width
+        dataSource.appendUnsizedCellItems(items, withWidth: width) { _ in
             self.collectionView.reloadData()
             self.doneLoading()
         }
@@ -217,7 +218,7 @@ public class StreamViewController: BaseElloViewController {
         ElloHUD.showLoadingHudInView(view)
         streamService.loadStream(streamKind.endpoint,
             success: { (jsonables, responseConfig) in
-                self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind))
+                self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind), withWidth: nil)
                 self.responseConfig = responseConfig
             }, failure: { (error, statusCode) in
                 println("failed to load \(self.streamKind.name) stream (reason: \(error))")
@@ -330,7 +331,7 @@ public class StreamViewController: BaseElloViewController {
                 self.allOlderPagesLoaded = false
                 self.dataSource.removeCellItemsBelow(index)
                 self.collectionView.reloadData()
-                self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind))
+                self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind), withWidth: nil)
                 self.responseConfig = responseConfig
                 self.pullToRefreshView?.finishLoading()
             }, failure: { (error, statusCode) in
