@@ -274,10 +274,14 @@
       .post-content > *:last-child:not(div) {
         margin-bottom: 0.3125rem;
       }
+      .post-content > * {
+        margin-top: 0;
+      }
     </style>
+    <base href="{{base-url}}"></base>
   </head>
   <body>
-    <div id="post-container">
+    <div id="post-container" class="post-content">
       {{post-content}}
     </div>
     <script>
