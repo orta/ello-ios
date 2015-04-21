@@ -91,7 +91,7 @@ public class PostEditingService: NSObject {
                     let localComment = Comment(
                         id: NSUUID().UUIDString,
                         createdAt: NSDate(),
-                        postId: (data as! Comment).id,
+                        postId: (comment.parentPost?.id ?? ""),
                         content: regions
                     )
                     if let user = comment.author {
@@ -162,10 +162,11 @@ public class PostEditingService: NSObject {
                         attachment.width = Int(image.size.width)
                         attachment.height = Int(image.size.height)
 
-                        let asset = Asset(id: "nil")
+                        let asset = Asset(id: NSUUID().UUIDString)
                         asset.optimized = attachment
 
-                        imageRegion.asset = asset
+                        ElloLinkedStore.sharedInstance.setObject(asset, forKey: asset.id, inCollection: MappingType.AssetsType.rawValue)
+                        imageRegion.addLinkObject("assets", key: asset.id, collection: MappingType.AssetsType.rawValue)
                     }
 
                     uploaded.append((imageIndex, imageRegion))
