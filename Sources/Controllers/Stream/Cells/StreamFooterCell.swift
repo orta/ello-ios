@@ -260,15 +260,14 @@ public class StreamFooterCell: UICollectionViewCell {
         openChevron(isOpen: false)
     }
 
-    private func rotateChevron(angle: CGFloat) {
-        var normalizedAngle = angle
+    private func rotateChevron(var angle: CGFloat) {
         if angle < 0 {
-            normalizedAngle = 0
+            angle = 0
         }
         else if angle > CGFloat(M_PI) {
-            normalizedAngle = CGFloat(M_PI)
+            angle = CGFloat(M_PI)
         }
-        self.chevronButton.transform = CGAffineTransformMakeRotation(normalizedAngle)
+        self.chevronButton.transform = CGAffineTransformMakeRotation(angle)
     }
 
     override public func layoutSubviews() {
