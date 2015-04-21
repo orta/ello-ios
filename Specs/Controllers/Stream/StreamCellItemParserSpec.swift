@@ -68,7 +68,7 @@ class StreamCellItemParserSpec: QuickSpec {
 
             it("returns an array with the proper count of stream cell items when parsing friends.json's posts") {
                 var loadedPosts = [StreamCellItem]()
-                StreamService().loadStream(ElloAPI.FriendStream,
+                StreamService().loadStream(ElloAPI.FriendStream, streamKind: nil,
                     success: { (jsonables, responseConfig) in
                         loadedPosts = self.parser.parse(jsonables, streamKind: .Friend)
                     },
@@ -84,7 +84,7 @@ class StreamCellItemParserSpec: QuickSpec {
 
             it("returns an array with the proper count of stream cell items when parsing friends.json's activities") {
                 var loadedNotifications = [StreamCellItem]()
-                StreamService().loadStream(ElloAPI.NotificationsStream,
+                StreamService().loadStream(ElloAPI.NotificationsStream, streamKind: nil,
                     success: { (jsonables, responseConfig) in
                         loadedNotifications = self.parser.parse(jsonables, streamKind: .Notifications)
                     },

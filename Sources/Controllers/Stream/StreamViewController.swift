@@ -10,7 +10,6 @@ import Foundation
 import UIKit
 import SSPullToRefresh
 import FLAnimatedImage
-import SDWebImage
 
 public protocol WebLinkDelegate: NSObjectProtocol {
     func webLinkTapped(type: ElloURI, data: String)
