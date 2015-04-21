@@ -28,6 +28,14 @@ public struct StreamImageCellPresenter {
                 }
                 else if streamKind.isGridLayout {
                     photoToLoad = photoData.asset?.gridLayoutAttachment?.url
+
+                    var screenWidth = (UIScreen.screenWidth() - 10.0) / 2
+                    if let assetWidth = photoData.asset?.gridLayoutAttachment?.width {
+                        let width = CGFloat(assetWidth)
+                        if width < screenWidth {
+                            cell.imageRightConstraint.constant = screenWidth - width
+                        }
+                    }
                 }
                 else {
                     photoToLoad = photoData.asset?.oneColumnAttachment?.url
