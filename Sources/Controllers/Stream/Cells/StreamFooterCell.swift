@@ -159,6 +159,7 @@ public class StreamFooterCell: UICollectionViewCell {
                 dispatch_async(dispatch_get_main_queue()) {
                     UIView.animateWithDuration(0.25) {
                         self.close()
+                        self.openChevron()
                     }
                 }
             }
@@ -237,11 +238,36 @@ public class StreamFooterCell: UICollectionViewCell {
 
     @IBAction func chevronButtonTapped(sender: StreamFooterButton) {
         let contentOffset = isOpen ? CGPointZero : CGPointMake(revealWidth, 0)
+
         dispatch_async(dispatch_get_main_queue(), {
             UIView.animateWithDuration(0.25, animations: {
                 self.scrollView.contentOffset = contentOffset
+                self.openChevron(isOpen: self.isOpen)
             })
         })
+    }
+
+    private func openChevron(isOpen: Bool = true) {
+        if isOpen {
+            rotateChevron(CGFloat(M_PI))
+        }
+        else {
+            rotateChevron(0)
+        }
+    }
+
+    private func closeChevron() {
+        openChevron(isOpen: false)
+    }
+
+    private func rotateChevron(var angle: CGFloat) {
+        if angle < 0 {
+            angle = 0
+        }
+        else if angle > CGFloat(M_PI) {
+            angle = CGFloat(M_PI)
+        }
+        self.chevronButton.transform = CGAffineTransformMakeRotation(angle)
     }
 
     override public func layoutSubviews() {
@@ -280,8 +306,11 @@ extension StreamFooterCell: UIScrollViewDelegate {
 
         if (scrollView.contentOffset.x >= revealWidth) {
             isOpen = true
+            openChevron()
             postNotification(streamCellDidOpenNotification, self)
         } else {
+            var angle: CGFloat = CGFloat(M_PI) * scrollView.contentOffset.x / revealWidth
+            rotateChevron(angle)
             isOpen = false
         }
 
