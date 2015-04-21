@@ -22,6 +22,10 @@ public class LandingViewController: BaseElloViewController {
         setupNotificationObservers()
     }
 
+    deinit {
+        removeNotificationObservers()
+    }
+
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         if self.view.frame.height < CGFloat(568) {
@@ -42,6 +46,7 @@ public class LandingViewController: BaseElloViewController {
     public func showJoinScreen() {
         let joinController = JoinViewController()
         let window = self.view.window!
+        self.removeNotificationObservers()
         self.presentViewController(joinController, animated:true) {
             window.rootViewController = joinController
         }
@@ -50,6 +55,7 @@ public class LandingViewController: BaseElloViewController {
     public func showSignInScreen() {
         let signInController = SignInViewController()
         let window = self.view.window!
+        self.removeNotificationObservers()
         self.presentViewController(signInController, animated:true) {
             window.rootViewController = signInController
         }
@@ -60,6 +66,7 @@ public class LandingViewController: BaseElloViewController {
         var vc = ElloTabBarController.instantiateFromStoryboard()
         vc.setProfileData(user, responseConfig: responseConfig)
         var window = self.view.window!
+        self.removeNotificationObservers()
         self.presentViewController(vc, animated: true) {
             window.rootViewController = vc
         }
@@ -100,7 +107,6 @@ public class LandingViewController: BaseElloViewController {
         })
 
         //TODO: Need to get failure back to LandingViewController when loading the current user fails
-        // Currently "ElloProviderNotification401" is posted but that doesn't feel right here
     }
 
     private func showButtons() {
@@ -114,7 +120,6 @@ public class LandingViewController: BaseElloViewController {
         let center = NSNotificationCenter.defaultCenter()
         center.addObserver(self, selector: Selector("userLoggedOut:"), name: Notifications.UserLoggedOut.rawValue, object: nil)
         center.addObserver(self, selector: Selector("systemLoggedOut:"), name: Notifications.SystemLoggedOut.rawValue, object: nil)
-        center.addObserver(self, selector: Selector("failedToLoadCurrentUser"), name: "ElloProviderNotification401", object: nil)
     }
 
     private func removeNotificationObservers() {

@@ -93,12 +93,13 @@ public final class Comment: JSONAble, Authorable {
 
     public class func newCommentForPost(post: Post, currentUser: User) -> Comment {
         var comment = Comment(
-            id: "nil",
+            id: NSUUID().UUIDString,
             createdAt: NSDate(),
             postId: post.id,
             content: [Regionable]()
         )
         comment.addLinkObject("author", key: currentUser.id, collection: MappingType.UsersType.rawValue)
+        comment.addLinkObject("parent_post", key: post.id, collection: MappingType.PostsType.rawValue)
         return comment
     }
 }

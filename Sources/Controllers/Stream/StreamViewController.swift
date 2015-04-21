@@ -61,7 +61,6 @@ public class StreamViewController: BaseElloViewController {
     public let streamService = StreamService()
     public var pullToRefreshView: SSPullToRefreshView?
     var allOlderPagesLoaded = false
-    var restoreTabBar: Bool? = nil
     var parentTabBarController: ElloTabBarController? {
         if  let parentViewController = self.parentViewController,
             let elloController = parentViewController as? BaseElloViewController
@@ -101,21 +100,6 @@ public class StreamViewController: BaseElloViewController {
     override public func awakeFromNib() {
         super.awakeFromNib()
         initialSetup()
-    }
-
-    override public func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        if let restoreTabBar = self.restoreTabBar {
-            self.parentTabBarController?.setTabBarHidden(restoreTabBar, animated: false)
-        }
-    }
-
-    override public func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        if let restoreTabBar = self.restoreTabBar {
-            self.parentTabBarController?.setTabBarHidden(restoreTabBar, animated: false)
-            self.restoreTabBar = nil
-        }
     }
 
     override public func didSetCurrentUser() {
@@ -399,9 +383,10 @@ extension StreamViewController : UICollectionViewDelegate {
                 let items = dataSource.cellItemsForPost(post)
                 postTappedDelegate?.postTapped(post, initialItems: items)
             }
-            else if let comment = dataSource.commentForIndexPath(indexPath) {
-                let post = comment.parentPost!
-                createCommentDelegate?.createComment(post, fromController: self)
+            else if let comment = dataSource.commentForIndexPath(indexPath),
+                let post = comment.parentPost
+            {
+                    createCommentDelegate?.createComment(post, fromController: self)
             }
     }
 
@@ -535,7 +520,6 @@ extension StreamViewController: StreamImageCellDelegate {
 
     public func imageTapped(imageView: FLAnimatedImageView, cell: UICollectionViewCell) {
         if let imageViewerDelegate = imageViewerDelegate {
-            restoreTabBar = self.parentTabBarController?.tabBarHidden
             imageViewerDelegate.imageTapped(imageView, cell: cell)
         }
     }
