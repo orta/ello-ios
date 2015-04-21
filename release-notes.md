@@ -1,3 +1,76 @@
+### Ello Build 1204(v1.0.0) April 20, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #170 - Bug Fixes
+Fixes a handful of bugs in tracker. See the individual commits for more detail.
+
+1. Handle optional followers count in ProfileHeaderCell
+- Prevent small images from scaling to the full width of the screen
+- Removed timestamp from grid view 
+- Force profile header cell to display with the correct height
+- Remove "/" characters from Posts / Following / Followers in profile
+- Load higher resultion images in streams.
+
+[Fixes #90555244]
+[Fixes #92762676]
+[Fixes #92366706]
+[#92482054]
+[Fixes #92721188]
+[Fixes #92263260]
+
+![screen shot 2015-04-18 at 5 42 42 pm](https://cloud.githubusercontent.com/assets/12459/7217605/5c06e472-e5f2-11e4-82e8-3813a4c7890e.png)
+
+------
+
+#### #172 - Adds ability to view embeds in stream.
+* Add icons for audio play and video play
+* Updates embed parsing to work
+* Adds embed cell to launch embed in web view
+
+[Finishes #88940716][Finishes #88940664][Finishes #86548090]
+
+------
+
+#### #169 - Adds Join Screen
+- New services, including `AnonymousCredentials` and `Join`.
+- Enables the landing -> login/join -> join/login flow (you can move back and forth between join and login)
+- a few misc fixes as they came up (omnibar screen, zero state)
+
+@tonyd256 as promised, there are some major refactors to `CredentialSettingsViewController` so that it is similar to `JoinViewController`.  Hopefully we can further refactor these to share more validation code, I didn't get to that.  Also changes to `ElloTextFieldView`, mostly related to constraints.
+
+Actually, the changes to CredentialSettings are milder than they appear.  I whipped up some hacky little style helpers in `ElloTextFieldView`, so that code is shared.
+
+------
+
+#### #155 - This aims to update all our models with api parity for all properties.
+I would suggest pulling down this branch and testing locally to be sure I didn't break anything that y'all are working on.
+
+* Also updates tests
+* Updates json responses
+* `JSONAble` now conforms to `NSCoding`
+* Pull relational properties from YDB
+* Adds a hook for paging to know how to assign linked objects
+* Adds convenience methods on `JSONAble` for dealing with link objects and arrays
+* Updates the mapper to use the link object if found
+* Fix issue with posts not loading when logging in for first time
+* Move region extensions into classes
+* Updates to Notification
+* Add Embed Region
+* Move ImageAttachment to Attachment
+* Fix merge issues
+* Delete code
+* Comment tests
+* Remove println’s
+* Fix tests
+* Rename `ImageAttachment` to `Attachment`
+* Add YDB setup and teardown in spec helper
+* Update stubs
+    
+------------
+
 ### Ello Build 1146(v1.0.0) April 17, 2015
 
     RELEASE NOTES
