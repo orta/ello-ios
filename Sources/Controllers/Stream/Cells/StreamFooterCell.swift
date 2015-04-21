@@ -159,6 +159,7 @@ public class StreamFooterCell: UICollectionViewCell {
                 dispatch_async(dispatch_get_main_queue()) {
                     UIView.animateWithDuration(0.25) {
                         self.close()
+                        self.chevronButton.transform = CGAffineTransformMakeRotation(0.0)
                     }
                 }
             }
@@ -237,9 +238,13 @@ public class StreamFooterCell: UICollectionViewCell {
 
     @IBAction func chevronButtonTapped(sender: StreamFooterButton) {
         let contentOffset = isOpen ? CGPointZero : CGPointMake(revealWidth, 0)
+        let angle = isOpen ? CGFloat(0.0) : CGFloat(135.0)
+
+
         dispatch_async(dispatch_get_main_queue(), {
             UIView.animateWithDuration(0.25, animations: {
                 self.scrollView.contentOffset = contentOffset
+                self.chevronButton.transform = CGAffineTransformMakeRotation(angle)
             })
         })
     }
