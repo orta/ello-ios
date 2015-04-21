@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Eqr-kF-k9D">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Eqr-kF-k9D">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -87,7 +87,7 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zIv-1h-dPK" id="vQJ-At-aS8">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4f3-Di-kfH">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4f3-Di-kfH">
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mez-WV-SCz">
@@ -101,10 +101,14 @@
                                                         </label>
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <gestureRecognizers/>
                                                     <constraints>
                                                         <constraint firstAttribute="centerX" secondItem="R8R-j4-bAe" secondAttribute="centerX" id="3j8-LW-wH3"/>
                                                         <constraint firstAttribute="centerY" secondItem="R8R-j4-bAe" secondAttribute="centerY" id="Fxb-7W-D64"/>
                                                     </constraints>
+                                                    <connections>
+                                                        <outletCollection property="gestureRecognizers" destination="Asc-Eu-Nji" appends="YES" id="YAB-h0-d97"/>
+                                                    </connections>
                                                 </view>
                                             </subviews>
                                             <constraints>
@@ -127,7 +131,7 @@
                                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yfC-cy-c0C">
                                                     <rect key="frame" x="8" y="8" width="200" height="202"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bEB-3t-p7d">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bEB-3t-p7d">
                                                             <rect key="frame" x="0.0" y="0.0" width="200" height="202"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="200" id="bjs-yx-LRR"/>
@@ -144,10 +148,14 @@
                                                                 </label>
                                                             </subviews>
                                                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <gestureRecognizers/>
                                                             <constraints>
                                                                 <constraint firstAttribute="centerX" secondItem="spU-yZ-sOq" secondAttribute="centerX" id="gwQ-Nb-EQ7"/>
                                                                 <constraint firstAttribute="centerY" secondItem="spU-yZ-sOq" secondAttribute="centerY" id="pcr-6D-U2q"/>
                                                             </constraints>
+                                                            <connections>
+                                                                <outletCollection property="gestureRecognizers" destination="L3b-Dm-cPh" appends="YES" id="rIb-07-zc7"/>
+                                                            </connections>
                                                         </view>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -348,11 +356,23 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="1500"/>
                     <connections>
+                        <outlet property="coverImage" destination="4f3-Di-kfH" id="2op-Ie-4IJ"/>
                         <outlet property="profileDescription" destination="2YC-45-ipS" id="tR5-q4-5A4"/>
+                        <outlet property="profileImage" destination="bEB-3t-p7d" id="q1V-Li-zAc"/>
                         <outlet property="profileImageView" destination="yfC-cy-c0C" id="0Mz-Id-GpN"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0yq-3N-KcF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="Asc-Eu-Nji">
+                    <connections>
+                        <action selector="coverImageTapped" destination="co9-Rd-OXG" id="9mL-KV-PAg"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="L3b-Dm-cPh">
+                    <connections>
+                        <action selector="profileImageTapped" destination="co9-Rd-OXG" id="cPA-jz-ZHA"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="628" y="516"/>
         </scene>

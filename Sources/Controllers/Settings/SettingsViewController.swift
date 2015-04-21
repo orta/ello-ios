@@ -59,6 +59,8 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
 
     @IBOutlet weak public var profileImageView: UIView!
     @IBOutlet weak public var profileDescription: ElloLabel!
+    @IBOutlet weak var coverImage: UIImageView!
+    @IBOutlet weak var profileImage: UIImageView!
     var scrollLogic: ElloScrollLogic!
 
     public var currentUser: User? {
@@ -70,6 +72,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
 
     var credentialSettingsViewController: CredentialSettingsViewController?
     var dynamicSettingsViewController: DynamicSettingsViewController?
+    var photoSaveCallback: (UIImage -> ())?
 
     override public func awakeFromNib() {
         super.awakeFromNib()
@@ -114,6 +117,8 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         profileImageView.layer.cornerRadius = profileImageView.frame.width / 2
         containerController?.showNavBars()
         setupProfileDescription()
+        setupNavigationBar()
+        setupDefaultValues()
     }
 
     private func setupProfileDescription() {
@@ -128,6 +133,11 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         navigationItem.leftBarButtonItem = backItem
         navigationItem.title = NSLocalizedString("Settings", comment: "settings title")
         navigationItem.fixNavBarItemPadding()
+    }
+
+    private func setupDefaultValues() {
+        currentUser?.coverImageURL.map(coverImage.sd_setImageWithURL)
+        currentUser?.avatarURL.map(profileImage.sd_setImageWithURL)
     }
 
     func backAction() {
@@ -166,12 +176,47 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     @IBAction func logOutTapped(sender: ElloTextButton) {
         NSNotificationCenter.defaultCenter().postNotificationName(Notifications.UserLoggedOut.rawValue, object: nil)
     }
+
+    @IBAction func coverImageTapped() {
+        photoSaveCallback = { image in
+            self.coverImage.image = image
+        }
+        openImagePicker()
+    }
+
+    @IBAction func profileImageTapped() {
+        photoSaveCallback = { image in
+            self.profileImage.image = image
+        }
+        openImagePicker()
+    }
+
+    private func openImagePicker() {
+        let alertViewController = alertControllerForImagePicker { imagePicker in
+            imagePicker.delegate = self
+            self.presentViewController(imagePicker, animated: true, completion: .None)
+        }
+    }
 }
 
 extension SettingsViewController: CredentialSettingsDelegate {
     public func credentialSettingsDidUpdate() {
         tableView.beginUpdates()
         tableView.endUpdates()
+    }
+}
+
+extension SettingsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    public func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            let oriented = image.copyWithCorrectOrientation()
+            self.photoSaveCallback?(oriented)
+        }
+        self.dismissViewControllerAnimated(true, completion: .None)
+    }
+    
+    public func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        self.dismissViewControllerAnimated(true, completion: .None)
     }
 }
 
