@@ -144,11 +144,14 @@ public final class User: JSONAble {
             name: json["name"].stringValue,
             experimentalFeatures: json["experimental_features"].boolValue,
             relationshipPriority: Relationship(stringValue: json["relationship_priority"].stringValue)
-            )
+        )
 
         // optional
         if let avatarObj = json["avatar"].object as? [String:[String:AnyObject]] {
-            if let largePath = avatarObj["large"] {
+            if let regularPath = avatarObj["regular"] {
+                user.avatar = Attachment.fromJSON(regularPath) as? Attachment
+            }
+            else if let largePath = avatarObj["large"] {
                 user.avatar = Attachment.fromJSON(largePath) as? Attachment
             }
             else if let originalPath = avatarObj["original"] {

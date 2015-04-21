@@ -217,6 +217,7 @@ public class StreamViewController: BaseElloViewController {
     public func loadInitialPage() {
         ElloHUD.showLoadingHudInView(view)
         streamService.loadStream(streamKind.endpoint,
+            streamKind: streamKind,
             success: { (jsonables, responseConfig) in
                 self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind), withWidth: nil)
                 self.responseConfig = responseConfig
@@ -326,6 +327,7 @@ public class StreamViewController: BaseElloViewController {
 
     private func pullToRefreshLoad() {
         self.streamService.loadStream(streamKind.endpoint,
+            streamKind: streamKind,
             success: { (jsonables, responseConfig) in
                 let index = self.refreshableIndex ?? 0
                 self.allOlderPagesLoaded = false
@@ -476,6 +478,7 @@ extension StreamViewController : UIScrollViewDelegate {
                 }
                 let scrollAPI = ElloAPI.InfiniteScroll(queryItems: nextQueryItems) { return self.streamKind.endpoint }
                 streamService.loadStream(scrollAPI,
+                    streamKind: streamKind,
                     success: {
                         (jsonables, responseConfig) in
                         self.scrollLoaded(jsonables: jsonables)

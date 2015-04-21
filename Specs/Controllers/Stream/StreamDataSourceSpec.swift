@@ -51,7 +51,7 @@ class StreamDataSourceSpec: QuickSpec {
                 vc.dataSource = subject
 
                 var cellItems = [JSONAble]()
-                StreamService().loadStream(ElloAPI.FriendStream,
+                StreamService().loadStream(ElloAPI.FriendStream, streamKind: nil,
                     success: { (jsonables, responseConfig) in
                         cellItems = jsonables
                     },

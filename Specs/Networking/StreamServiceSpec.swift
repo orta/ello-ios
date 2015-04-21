@@ -29,7 +29,7 @@ class StreamServiceSpec: QuickSpec {
                         var loadedPosts:[Post]?
                         var config: ResponseConfig?
 
-                        streamService.loadStream(ElloAPI.FriendStream, success: { (jsonables, responseConfig) in
+                        streamService.loadStream(ElloAPI.FriendStream, streamKind: nil, success: { (jsonables, responseConfig) in
                             loadedPosts = (StreamKind.Friend.filter(jsonables) as! [Post])
                             config = responseConfig
                         }, failure: nil)
@@ -66,7 +66,7 @@ class StreamServiceSpec: QuickSpec {
                     xit("handles assets") {
                         var loadedPosts:[Post]?
 
-                        streamService.loadStream(ElloAPI.FriendStream,
+                        streamService.loadStream(ElloAPI.FriendStream, streamKind: nil,
                             success: { (jsonables, responseConfig) in
                                 loadedPosts = (StreamKind.Friend.filter(jsonables) as! [Post])
                             },
@@ -115,7 +115,7 @@ class StreamServiceSpec: QuickSpec {
                         expect(commentAuthor.username) == "pam"
                         expect(commentAuthor.href) == "/api/edge/users/345"
                         expect(commentAuthor.experimentalFeatures) == true
-                        expect(commentAuthor.avatarURL!.absoluteString) == "https://d324imu86q1bqn.cloudfront.net/uploads/user/avatar/97143/regular_owl.png"
+                        expect(commentAuthor.avatarURL!.absoluteString) == "https://abc123.cloudfront.net/uploads/user/avatar/420/regular_pam.png"
                     }
                 }
             }
@@ -140,7 +140,7 @@ class StreamServiceSpec: QuickSpec {
                         var loadedStatusCode:Int?
                         var loadedError:NSError?
 
-                        streamService.loadStream(ElloAPI.FriendStream, success: { (jsonables, responseConfig) in
+                        streamService.loadStream(ElloAPI.FriendStream, streamKind: nil, success: { (jsonables, responseConfig) in
                             loadedJsonables = jsonables
                         }, failure: { (error, statusCode) -> () in
                             loadedError = error
