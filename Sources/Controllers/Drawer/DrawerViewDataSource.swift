@@ -45,7 +45,9 @@ public class DrawerViewDataSource {
         delegate?.dataSourceStartedLoadingUsers(self)
         let nextQueryItems = responseConfig.nextQueryItems ?? []
         let endpoint = ElloAPI.InfiniteScroll(queryItems: nextQueryItems) { return ElloAPI.ProfileFollowing(priority: self.relationship.rawValue) }
-        streamService.loadStream(endpoint, success: { jsonables, responseConfig in
+        streamService.loadStream(endpoint,
+            streamKind: nil,
+            success: { jsonables, responseConfig in
             self.responseConfig = responseConfig
             if let users = jsonables as? [User] {
                 self.users += users

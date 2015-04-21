@@ -9,6 +9,7 @@
 import UIKit
 import Moya
 import SwiftyJSON
+import SDWebImage
 
 public typealias StreamSuccessCompletion = (jsonables: [JSONAble], responseConfig: ResponseConfig) -> ()
 public typealias UserSuccessCompletion = (user: User, responseConfig: ResponseConfig) -> ()
@@ -17,13 +18,16 @@ public class StreamService: NSObject {
 
     var isStreamLoading = false
 
-    public func loadStream(endpoint:ElloAPI, success: StreamSuccessCompletion, failure: ElloFailureCompletion?, noContent: ElloEmptyCompletion? = nil) {
+    public func loadStream(endpoint:ElloAPI, streamKind: StreamKind?, success: StreamSuccessCompletion, failure: ElloFailureCompletion?, noContent: ElloEmptyCompletion? = nil) {
         if self.isStreamLoading { return }
         self.isStreamLoading = true
         ElloProvider.elloRequest(endpoint,
             method: .GET,
             success: { (data, responseConfig) in
                 if let jsonables:[JSONAble] = data as? [JSONAble] {
+                    if let streamKind = streamKind {
+                        self.preloadImages(jsonables, streamKind: streamKind)
+                    }
                     success(jsonables: jsonables, responseConfig: responseConfig)
                 }
                 else {
@@ -74,5 +78,41 @@ public class StreamService: NSObject {
             },
             failure: failure
         )
+    }
+
+    private func preloadImages(jsonables: [JSONAble], streamKind: StreamKind) {
+
+        // preload avatars
+        for jsonable in jsonables {
+            if let activity = jsonable as? Activity,
+                let authorable = activity.subject as? Authorable,
+                let author = authorable.author,
+                let avatarURL = author.avatarURL
+            {
+                let manager = SDWebImageManager.sharedManager()
+                manager.downloadImageWithURL(avatarURL,
+                    options: SDWebImageOptions.LowPriority,
+                    progress: { (_, _) in }, completed: { (_, _, _, _, _) in})
+            }
+        }
+        // preload images in image regions
+        for jsonable in jsonables {
+            if let activity = jsonable as? Activity,
+                let post = activity.subject as? Post,
+                let content = streamKind.isGridLayout ? post.summary: post.content
+            {
+                for region in content {
+                    if let imageRegion = region as? ImageRegion,
+                        let asset = imageRegion.asset,
+                        let attachment = streamKind.isGridLayout ? asset.gridLayoutAttachment : asset.oneColumnAttachment
+                    {
+                        let manager = SDWebImageManager.sharedManager()
+                        manager.downloadImageWithURL(attachment.url,
+                            options: SDWebImageOptions.LowPriority,
+                            progress: { (_, _) in }, completed: { (_, _, _, _, _) in})
+                    }
+                }
+            }
+        }
     }
 }
