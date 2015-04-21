@@ -47,8 +47,22 @@ public class ElloTextFieldView: UIView {
 
     public var hasError: Bool { return !(errorLabel.text?.isEmpty ?? true) }
     public var hasMessage: Bool { return !(messageLabel.text?.isEmpty ?? true) }
-    var errorHeight: CGFloat { return errorLabel.sizeThatFits(CGSize(width: errorLabel.frame.width, height: 0)).height }
-    var messageHeight: CGFloat { return messageLabel.sizeThatFits(CGSize(width: messageLabel.frame.width, height: 0)).height }
+    var errorHeight: CGFloat {
+        if hasError {
+            return errorLabel.sizeThatFits(CGSize(width: errorLabel.frame.width, height: 0)).height
+        }
+        else {
+            return 0
+        }
+    }
+    var messageHeight: CGFloat {
+        if hasMessage {
+            return messageLabel.sizeThatFits(CGSize(width: messageLabel.frame.width, height: 0)).height
+        }
+        else {
+            return 0
+        }
+    }
 
     override public init(frame: CGRect) {
         super.init(frame: frame)
