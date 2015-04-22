@@ -96,7 +96,12 @@ public class NotificationsViewController: StreamableViewController, Notification
         }
     }
 
-    public func commentTapped(comment: Comment) {}
+    public func commentTapped(comment: Comment) {
+        println("comment: \(comment)")
+        if let post = comment.parentPost {
+            println("post: \(post)")
+        }
+    }
 
     // the presence of this variable is being hijacked to determine if a post
     // was tapped, and is being displayed
