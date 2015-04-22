@@ -21,6 +21,7 @@ pod 'KINWebBrowser', git: 'https://github.com/ello/KINWebBrowser.git'
 pod '1PasswordExtension', git: 'https://github.com/AgileBits/onepassword-app-extension.git'
 
 # swift pods
+pod 'SwiftyUserDefaults', '~> 1.1.0'
 pod 'SwiftyJSON', git: "https://github.com/SwiftyJSON/SwiftyJSON", branch: "xcode6.3"
 pod 'Alamofire', git: "https://github.com/Alamofire/Alamofire.git"
 pod 'LlamaKit', git: "https://github.com/ello/LlamaKit.git"

@@ -28,6 +28,7 @@ PODS:
   - SVGKit (2.x):
     - CocoaLumberjack (~> 2.x)
   - SwiftyJSON (2.1.3)
+  - SwiftyUserDefaults (1.1.0)
   - TimeAgoInWords (0.1.0)
   - WebLinking (0.2.0)
   - YapDatabase (2.6.1):
@@ -53,6 +54,7 @@ DEPENDENCIES:
   - SSPullToRefresh (~> 1.2)
   - SVGKit (from `https://github.com/SVGKit/SVGKit`, branch `2.x`)
   - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON`, branch `xcode6.3`)
+  - SwiftyUserDefaults (~> 1.1.0)
   - TimeAgoInWords (~> 0.1.0)
   - WebLinking (from `https://github.com/kylef/WebLinking.swift.git`)
   - YapDatabase (from `https://github.com/ello/YapDatabase.git`)
@@ -153,6 +155,7 @@ SPEC CHECKSUMS:
   SSPullToRefresh: ae69778f6961120bd906e6349602c6918e609368
   SVGKit: cf06ac3067c4d5e927e5f93ba6a7e4d7171a7502
   SwiftyJSON: a561c2a840121085bec8a2dfeac97a360fc66901
+  SwiftyUserDefaults: ae600cd466daa1420a058d09aefbf45ccb6caf1e
   TimeAgoInWords: bd651f6532327035b41fd3b512ca9d3e90d2e379
   WebLinking: 8e267eed3f7b2d040bf6468681cc1325141ab7fe
   YapDatabase: ca25874766045bca7f4c2632f61067351353ecf3
