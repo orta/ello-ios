@@ -82,6 +82,7 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
         if let externalWebView = externalWebController.rootWebBrowser() {
             let xButton = UIBarButtonItem(title: "\u{2573}", style: UIBarButtonItemStyle.Done, target: externalWebView, action: Selector("doneButtonPressed:"))
             externalWebView.navigationItem.setRightBarButtonItem(xButton, animated: false)
+            externalWebView.tintColor = UIColor.greyA()
             externalWebView.loadURLString(url)
         }
     }
