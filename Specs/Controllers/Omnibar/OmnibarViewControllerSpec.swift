@@ -45,6 +45,9 @@ class OmnibarMockScreen : OmnibarScreenProtocol {
         didKeyboardWillHide = true
     }
 
+    func startEditing() {
+    }
+
 }
 
 

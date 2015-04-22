@@ -74,7 +74,7 @@
         <!--Settings-->
         <scene sceneID="hG7-9w-XAH">
             <objects>
-                <tableViewController id="co9-Rd-OXG" customClass="SettingsViewController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="SettingsViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="co9-Rd-OXG" customClass="SettingsViewController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="bSl-xt-2XL">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="1500"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

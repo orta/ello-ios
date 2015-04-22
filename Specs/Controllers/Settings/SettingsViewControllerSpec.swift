@@ -13,7 +13,7 @@ import Nimble
 
 class SettingsViewControllerSpec: QuickSpec {
     override func spec() {
-        var subject = SettingsViewController.instantiateFromStoryboard()
+        var subject = UIStoryboard.storyboardWithId("SettingsViewController", storyboardName: "Settings") as! SettingsViewController
 
         beforeSuite {
             ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
@@ -25,13 +25,13 @@ class SettingsViewControllerSpec: QuickSpec {
 
         describe("initialization") {
             beforeEach {
-                subject = SettingsViewController.instantiateFromStoryboard()
+                subject = UIStoryboard.storyboardWithId("SettingsViewController", storyboardName: "Settings") as! SettingsViewController
+                Void()
             }
 
             describe("storyboard") {
                 beforeEach {
-                    subject.loadView()
-                    subject.viewDidLoad()
+                    let view = subject.view
                 }
 
                 it("IBOutlets are not nil") {
