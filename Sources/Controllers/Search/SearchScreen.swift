@@ -30,6 +30,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         self.backgroundColor = UIColor.whiteColor()
 
         setupNavigationBar()
+        setupInputBar()
     }
 
     required public init(coder aDecoder: NSCoder) {
@@ -48,6 +49,10 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         navigationItem.leftBarButtonItems = [item]
         navigationItem.fixNavBarItemPadding()
         navigationBar.items = [navigationItem]
+    }
+
+    private func setupInputBar() {
+        
     }
 
 // MARK: actions
