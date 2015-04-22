@@ -25,6 +25,7 @@ public class SettingsContainerViewController: BaseElloViewController {
     @IBOutlet weak public var elloNavBar: ElloNavigationBar!
     @IBOutlet weak public var containerView: UIView!
     @IBOutlet weak var navigationBarTopConstraint: NSLayoutConstraint!
+    public var navBarsVisible: Bool = true
 
     func showNavBars() {
         navigationBarTopConstraint.constant = 0
@@ -40,8 +41,15 @@ public class SettingsContainerViewController: BaseElloViewController {
         super.addChildViewController(viewController)
 
         if let settings = viewController as? SettingsViewController {
+            if navBarsVisible {
+                showNavBars()
+            }
+            else {
+                hideNavBars()
+            }
             elloNavBar.items = [settings.navigationItem]
             settings.currentUser = currentUser
+            settings.scrollLogic.isShowing = navBarsVisible
         }
     }
 }

@@ -122,6 +122,7 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
     public func onEditProfile() {
         if let settings = UIStoryboard(name: "Settings", bundle: .None).instantiateInitialViewController() as? SettingsContainerViewController {
             settings.currentUser = currentUser
+            settings.navBarsVisible = scrollLogic.isShowing
             navigationController?.pushViewController(settings, animated: true)
         }
     }
