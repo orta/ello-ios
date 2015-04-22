@@ -25,14 +25,14 @@ public final class User: JSONAble {
     public let experimentalFeatures: Bool
     public let relationshipPriority: Relationship
     // optional
-    public var avatar: Attachment? // required, but kinda optional due to it being nested in json
+    public var avatar: Asset? // required, but kinda optional due to it being nested in json
     public var identifiableBy: String?
     public var postsCount: Int?
     public var followersCount: String? // string due to this returning "∞" for the ello user
     public var followingCount: Int?
     public var formattedShortBio: String?
     public var externalLinks: String? // this will change to an object when incoming
-    public var coverImage: Attachment?
+    public var coverImage: Asset?
     public var backgroundPosition: String?
     // links
     public var posts: [Post]? {
@@ -53,8 +53,8 @@ public final class User: JSONAble {
     }
     // computed
     public var atName: String { return "@\(username)"}
-    public var avatarURL: NSURL? { return avatar?.url }
-    public var coverImageURL: NSURL? { return coverImage?.url }
+    public var avatarURL: NSURL? { return avatar?.regular?.url }
+    public var coverImageURL: NSURL? { return coverImage?.hdpi?.url }
     public var isCurrentUser: Bool { return self.profile != nil }
     // profile
     public var profile: Profile?
@@ -147,31 +147,14 @@ public final class User: JSONAble {
         )
 
         // optional
-        if let avatarObj = json["avatar"].object as? [String:[String:AnyObject]] {
-            if let regularPath = avatarObj["regular"] {
-                user.avatar = Attachment.fromJSON(regularPath) as? Attachment
-            }
-            else if let largePath = avatarObj["large"] {
-                user.avatar = Attachment.fromJSON(largePath) as? Attachment
-            }
-            else if let originalPath = avatarObj["original"] {
-                user.avatar = Attachment.fromJSON(originalPath) as? Attachment
-            }
-        }
+        user.avatar = Asset.parseAsset("user_avatar_\(user.id)", node: data["avatar"] as? [String: AnyObject])
         user.identifiableBy = json["identifiable_by"].stringValue
         user.postsCount = json["posts_count"].int
         user.followersCount = json["followers_count"].stringValue
         user.followingCount = json["following_count"].int
         user.formattedShortBio = json["formatted_short_bio"].stringValue
         user.externalLinks = json["external_links"].stringValue
-        if var coverImageObj = json["cover_image"].object as? [String:[String:AnyObject]] {
-            if let hdpiPath = coverImageObj["hdpi"] {
-                user.coverImage = Attachment.fromJSON(hdpiPath) as? Attachment
-            }
-            else if let optimizedPath = coverImageObj["optimized"] {
-                user.coverImage = Attachment.fromJSON(optimizedPath) as? Attachment
-            }
-        }
+        user.coverImage = Asset.parseAsset("user_cover_image_\(user.id)", node: data["cover_image"] as? [String: AnyObject])
         user.backgroundPosition = json["background_positiion"].stringValue
         // links
         user.links = data["links"] as? [String: AnyObject]
