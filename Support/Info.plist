@@ -24,12 +24,11 @@
 	<true/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>AtlasTypewriter-Regular.otf</string>
-		<string>AtlasGrotesk-Regular.otf</string>
-		<string>AtlasGrotesk-Bold.otf</string>
-		<string>AtlasTypewriter-RegularItalic.otf</string>
-		<string>AtlasTypewriter-MediumItalic.otf</string>
-		<string>AtlasTypewriter-Medium.otf</string>
+		<string>AtlasTypewriterRegular.otf</string>
+		<string>AtlasGroteskBold.otf</string>
+		<string>AtlasTypewriterRegularItalic.otf</string>
+		<string>AtlasTypewriterMediumItalic.otf</string>
+		<string>AtlasTypewriterMedium.otf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
