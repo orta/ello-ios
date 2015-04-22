@@ -117,7 +117,6 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         avatarImageView.layer.cornerRadius = avatarImageView.frame.width / 2
         containerController?.showNavBars()
         setupProfileDescription()
-        setupNavigationBar()
         setupDefaultValues()
     }
 
