@@ -43,7 +43,6 @@ class DynamicSettingCategoryViewController: UIViewController, UITableViewDataSou
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let count = category?.settings.count ?? 0
-        println("count: \(count)")
         return category?.settings.count ?? 0
     }
 
