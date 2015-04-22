@@ -1,5 +1,5 @@
 //
-//  UIViewControllerGestures.swift
+//  UIViewController.swift
 //  Ello
 //
 //  Created by Gordon Fontenot on 3/23/15.
@@ -21,4 +21,17 @@ extension UIViewController: GestureNavigation {
             navigationController?.popViewControllerAnimated(true)
         }
     }
+
+    public func findViewController(find: (UIViewController) -> Bool) -> UIViewController? {
+        var controller: UIViewController?
+        controller = self
+        while controller != nil {
+            if find(controller!) {
+                return controller
+            }
+            controller = controller!.parentViewController
+        }
+        return nil
+    }
+
 }
