@@ -10,7 +10,7 @@ import Foundation
 
 public enum SettingsRow: Int {
     case CoverImage
-    case ProfileImage
+    case AvatarImage
     case ProfileDescription
     case CredentialSettings
     case Name
@@ -57,10 +57,10 @@ public class SettingsContainerViewController: BaseElloViewController {
 
 public class SettingsViewController: UITableViewController, ControllerThatMightHaveTheCurrentUser {
 
-    @IBOutlet weak public var profileImageView: UIView!
+    @IBOutlet weak public var avatarImageView: UIView!
     @IBOutlet weak public var profileDescription: ElloLabel!
-    @IBOutlet weak var coverImage: UIImageView!
-    @IBOutlet weak var profileImage: UIImageView!
+    @IBOutlet weak public var coverImage: UIImageView!
+    @IBOutlet weak public var avatarImage: UIImageView!
     var scrollLogic: ElloScrollLogic!
 
     public var currentUser: User? {
@@ -114,7 +114,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     }
 
     private func setupViews() {
-        profileImageView.layer.cornerRadius = profileImageView.frame.width / 2
+        avatarImageView.layer.cornerRadius = avatarImageView.frame.width / 2
         containerController?.showNavBars()
         setupProfileDescription()
         setupNavigationBar()
@@ -137,7 +137,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
 
     private func setupDefaultValues() {
         currentUser?.coverImageURL.map(coverImage.sd_setImageWithURL)
-        currentUser?.avatarURL.map(profileImage.sd_setImageWithURL)
+        currentUser?.avatarURL.map(avatarImage.sd_setImageWithURL)
     }
 
     func backAction() {
@@ -147,7 +147,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     override public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         switch SettingsRow(rawValue: indexPath.row) ?? .Unknown {
         case .CoverImage: return 200
-        case .ProfileImage: return 250
+        case .AvatarImage: return 250
         case .ProfileDescription: return 130
         case .CredentialSettings: return credentialSettingsViewController?.height ?? 0
         case .Name: return 97
@@ -190,9 +190,9 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         openImagePicker()
     }
 
-    @IBAction func profileImageTapped() {
+    @IBAction func avatarImageTapped() {
         photoSaveCallback = { image in
-            self.profileImage.image = image
+            self.avatarImage.image = image
             ProfileService().updateUserAvatarImage(image, success: { user, responseConfig in
                 let nav = self.navigationController as? ElloNavigationController
                 nav?.setProfileData(user, responseConfig: responseConfig)

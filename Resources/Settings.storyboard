@@ -356,10 +356,10 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="1500"/>
                     <connections>
+                        <outlet property="avatarImage" destination="bEB-3t-p7d" id="i7M-66-obQ"/>
+                        <outlet property="avatarImageView" destination="yfC-cy-c0C" id="r4w-eS-VJi"/>
                         <outlet property="coverImage" destination="4f3-Di-kfH" id="2op-Ie-4IJ"/>
                         <outlet property="profileDescription" destination="2YC-45-ipS" id="tR5-q4-5A4"/>
-                        <outlet property="profileImage" destination="bEB-3t-p7d" id="q1V-Li-zAc"/>
-                        <outlet property="profileImageView" destination="yfC-cy-c0C" id="0Mz-Id-GpN"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0yq-3N-KcF" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -370,7 +370,7 @@
                 </tapGestureRecognizer>
                 <tapGestureRecognizer id="L3b-Dm-cPh">
                     <connections>
-                        <action selector="profileImageTapped" destination="co9-Rd-OXG" id="cPA-jz-ZHA"/>
+                        <action selector="avatarImageTapped" destination="co9-Rd-OXG" id="FJJ-EL-Xp1"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>

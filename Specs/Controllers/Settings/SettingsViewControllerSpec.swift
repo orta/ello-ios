@@ -35,7 +35,9 @@ class SettingsViewControllerSpec: QuickSpec {
                 }
 
                 it("IBOutlets are not nil") {
-                    expect(subject.profileImageView).notTo(beNil())
+                    expect(subject.avatarImageView).notTo(beNil())
+                    expect(subject.avatarImage).notTo(beNil())
+                    expect(subject.coverImage).notTo(beNil())
                     expect(subject.profileDescription).notTo(beNil())
                 }
             }
