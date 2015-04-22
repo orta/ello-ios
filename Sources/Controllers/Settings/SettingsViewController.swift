@@ -180,6 +180,12 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     @IBAction func coverImageTapped() {
         photoSaveCallback = { image in
             self.coverImage.image = image
+            ProfileService().updateUserCoverImage(image, success: { user, responseConfig in
+                let nav = self.navigationController as? ElloNavigationController
+                nav?.setProfileData(user, responseConfig: responseConfig)
+            }) { _, _ in
+                self.currentUser?.coverImageURL.map(self.coverImage.sd_setImageWithURL)
+            }
         }
         openImagePicker()
     }
@@ -187,6 +193,12 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     @IBAction func profileImageTapped() {
         photoSaveCallback = { image in
             self.profileImage.image = image
+            ProfileService().updateUserAvatarImage(image, success: { user, responseConfig in
+                let nav = self.navigationController as? ElloNavigationController
+                nav?.setProfileData(user, responseConfig: responseConfig)
+            }) { _, _ in
+                self.currentUser?.avatarURL.map(self.profileImage.sd_setImageWithURL)
+            }
         }
         openImagePicker()
     }

@@ -61,4 +61,16 @@ public struct ProfileService {
             failure: failure
         )
     }
+
+    public func updateUserCoverImage(image: UIImage, success: UserSuccessCompletion, failure: ElloFailureCompletion) {
+        S3UploadingService().upload(image, filename: "cover.jpeg", success: { url in
+            self.updateUserProfile(["remote_cover_image_url": url], success: success, failure: failure)
+        }, failure: failure)
+    }
+
+    public func updateUserAvatarImage(image: UIImage, success: UserSuccessCompletion, failure: ElloFailureCompletion) {
+        S3UploadingService().upload(image, filename: "avatar.jpeg", success: { url in
+            self.updateUserProfile(["remote_avatar_url": url], success: success, failure: failure)
+        }, failure: failure)
+    }
 }
