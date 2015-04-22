@@ -51,6 +51,7 @@ public protocol OmnibarScreenProtocol {
     func reportError(title : String, errorMessage : String)
     func keyboardWillShow()
     func keyboardWillHide()
+    func startEditing()
 }
 
 
@@ -287,6 +288,11 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
         resetEditor()
     }
 
+    public func startEditing() {
+        sayElloOverlay.hidden = true
+        textView.becomeFirstResponder()
+    }
+
     public func reportError(title : String, error : NSError) {
         let errorMessage = error.localizedDescription
         reportError(title, errorMessage: errorMessage)
@@ -405,8 +411,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
     }
 
     public func startEditingAction() {
-        sayElloOverlay.hidden = true
-        textView.becomeFirstResponder()
+        startEditing()
     }
 
     public func cancelEditingAction() {
