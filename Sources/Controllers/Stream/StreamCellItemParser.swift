@@ -42,9 +42,9 @@ public struct StreamCellItemParser {
             }
 
             if let attachment = attachment {
-                let width = attachment.width
-                let height = attachment.height
-                return CGFloat(width!)/CGFloat(height!)
+                if let width = attachment.width, height = attachment.height {
+                    return CGFloat(width)/CGFloat(height)
+                }
             }
         }
 
