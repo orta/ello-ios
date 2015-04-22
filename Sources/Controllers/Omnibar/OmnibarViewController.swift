@@ -20,6 +20,14 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     var postSuccessListeners = [PostSuccessListener]()
     var commentSuccessListeners = [CommentSuccessListener]()
 
+    // the _mockScreen is only for testing - otherwise `self.screen` is always
+    // just an appropriately typed accessor for `self.view`
+    var _mockScreen: OmnibarScreenProtocol?
+    public var screen: OmnibarScreenProtocol {
+        set(screen) { _mockScreen = screen }
+        get { return _mockScreen ?? self.view as! OmnibarScreen }
+    }
+
     convenience public init(parentPost post: Post) {
         self.init(nibName: nil, bundle: nil)
         parentPost = post
@@ -47,14 +55,6 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         self.view = screen
         screen.hasParentPost = parentPost != nil
         screen.avatarURL = currentUser?.avatarURL
-    }
-
-    // the _mockScreen is only for testing - otherwise `self.screen` is always
-    // just an appropriately typed accessor for `self.view`
-    var _mockScreen: OmnibarScreenProtocol?
-    public var screen: OmnibarScreenProtocol {
-        set(screen) { _mockScreen = screen }
-        get { return _mockScreen ?? self.view as! OmnibarScreen }
     }
 
     override public func viewWillAppear(animated: Bool) {
