@@ -9,20 +9,11 @@
 import UIKit
 
 
-private enum DynamicSettingCategorySection: Int {
-    case NavBar
-    case Cell
-    case Unknown
-
-    static var count: Int {
-        return DynamicSettingCategorySection.Unknown.rawValue
-    }
-}
-
-
-class DynamicSettingCategoryViewController: UITableViewController, ControllerThatMightHaveTheCurrentUser {
+class DynamicSettingCategoryViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ControllerThatMightHaveTheCurrentUser {
     var category: DynamicSettingCategory?
     var currentUser: User?
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var navBar: ElloNavigationBar!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,44 +34,30 @@ class DynamicSettingCategoryViewController: UITableViewController, ControllerTha
         navigationItem.leftBarButtonItem = backItem
         navigationItem.title = category?.label
         navigationItem.fixNavBarItemPadding()
+        navBar.items = [navigationItem]
     }
 
     func backAction() {
         navigationController?.popViewControllerAnimated(true)
     }
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return DynamicSettingCategorySection.count
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let count = category?.settings.count ?? 0
+        println("count: \(count)")
+        return category?.settings.count ?? 0
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch DynamicSettingCategorySection(rawValue: section) ?? .Unknown {
-        case .NavBar: return 1
-        case .Cell: return category?.settings.count ?? 0
-        default: return 0
-        }
-    }
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("DynamicSettingCell", forIndexPath: indexPath) as! DynamicSettingCell
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        switch DynamicSettingCategorySection(rawValue: indexPath.section) ?? .Unknown {
-        case .NavBar:
-            let cell = UITableViewCell()
-            let navBar = ElloNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: ElloNavigationBar.Size.height))
-            navBar.items = [navigationItem]
-            cell.contentView.addSubview(navBar)
-            return cell
-        default:
-            let cell = tableView.dequeueReusableCellWithIdentifier("DynamicSettingCell", forIndexPath: indexPath) as! DynamicSettingCell
-
-            if  let setting = category?.settings.safeValue(indexPath.row),
-                let user = currentUser
-            {
-                DynamicSettingCellPresenter.configure(cell, setting: setting, currentUser: user)
-                cell.setting = setting
-                cell.delegate = self
-            }
-            return cell
+        if  let setting = category?.settings.safeValue(indexPath.row),
+            let user = currentUser
+        {
+            DynamicSettingCellPresenter.configure(cell, setting: setting, currentUser: user)
+            cell.setting = setting
+            cell.delegate = self
         }
+        return cell
     }
 }
 

@@ -518,7 +518,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="hDS-Vm-Ip5" kind="show" identifier="DynamicSettingCategorySegue" id="xmX-bH-ax8"/>
+                                    <segue destination="ohM-iJ-4Uy" kind="show" identifier="DynamicSettingCategorySegue" id="jhZ-Ki-2XQ"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -533,23 +533,56 @@
             <point key="canvasLocation" x="628" y="1485"/>
         </scene>
         <!--Dynamic Setting Category View Controller-->
-        <scene sceneID="WhL-Pd-Ir1">
+        <scene sceneID="hKB-Hi-WYj">
             <objects>
-                <tableViewController id="hDS-Vm-Ip5" customClass="DynamicSettingCategoryViewController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="50" sectionHeaderHeight="22" sectionFooterHeight="22" id="TqN-8X-tkG">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="193"/>
+                <viewController id="ohM-iJ-4Uy" customClass="DynamicSettingCategoryViewController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="XzQ-cg-7fe"/>
+                        <viewControllerLayoutGuide type="bottom" id="o15-O8-mb2"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="o77-zi-6ls">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="244"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="avo-sD-Kn2" customClass="ElloNavigationBar" customModule="Ello" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                <items>
+                                    <navigationItem title="Title" id="DeH-NM-G7z"/>
+                                </items>
+                            </navigationBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="50" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="TqN-8X-tkG">
+                                <rect key="frame" x="0.0" y="44" width="600" height="200"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="ohM-iJ-4Uy" id="wSf-dl-Sj1"/>
+                                    <outlet property="delegate" destination="ohM-iJ-4Uy" id="RAk-2C-g6g"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        <connections>
-                            <outlet property="dataSource" destination="hDS-Vm-Ip5" id="MKa-t1-Lte"/>
-                            <outlet property="delegate" destination="hDS-Vm-Ip5" id="1Hj-g5-e84"/>
-                        </connections>
-                    </tableView>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="jDm-ci-fYP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="TqN-8X-tkG" secondAttribute="centerX" id="DOU-Rp-8Cp"/>
+                            <constraint firstAttribute="centerX" secondItem="avo-sD-Kn2" secondAttribute="centerX" id="Ebw-Jg-GZp"/>
+                            <constraint firstItem="o15-O8-mb2" firstAttribute="top" secondItem="TqN-8X-tkG" secondAttribute="bottom" id="FG6-wg-kXE"/>
+                            <constraint firstAttribute="width" secondItem="TqN-8X-tkG" secondAttribute="width" id="esA-GH-B0e"/>
+                            <constraint firstItem="avo-sD-Kn2" firstAttribute="width" secondItem="o77-zi-6ls" secondAttribute="width" id="f58-ax-PId"/>
+                            <constraint firstItem="TqN-8X-tkG" firstAttribute="top" secondItem="avo-sD-Kn2" secondAttribute="bottom" id="iRg-R0-SUR"/>
+                            <constraint firstItem="avo-sD-Kn2" firstAttribute="top" secondItem="XzQ-cg-7fe" secondAttribute="bottom" id="wPu-em-xYC"/>
+                        </constraints>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="600" height="244"/>
+                    <connections>
+                        <outlet property="navBar" destination="avo-sD-Kn2" id="pYN-dv-yw7"/>
+                        <outlet property="tableView" destination="TqN-8X-tkG" id="9V3-ni-D4y"/>
+                        <outlet property="view" destination="o77-zi-6ls" id="UDI-vH-aNp"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0lb-rY-rQ8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1416" y="1484.5"/>
+            <point key="canvasLocation" x="1369" y="1476"/>
         </scene>
     </scenes>
 </document>
