@@ -77,6 +77,9 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="search-icon" style="done" id="erj-L9-Ry4" userLabel="Search Button">
                             <color key="tintColor" red="0.66274509800000003" green="0.66274509800000003" blue="0.66274509800000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="searchButtonTapped" destination="hkH-y2-vf2" id="zTF-oE-GEk"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>

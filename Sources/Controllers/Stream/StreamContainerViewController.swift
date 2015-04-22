@@ -140,6 +140,11 @@ public class StreamContainerViewController: StreamableViewController {
         self.navigationController?.pushViewController(drawer, animated: true)
     }
 
+    @IBAction func searchButtonTapped() {
+        let search = SearchViewController()
+        self.navigationController?.pushViewController(search, animated: true)
+    }
+
     @IBAction func streamSegmentTapped(sender: UISegmentedControl) {
         let width:CGFloat = view.bounds.size.width
         let height:CGFloat = view.bounds.size.height
