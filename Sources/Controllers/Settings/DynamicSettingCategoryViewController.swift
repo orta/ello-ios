@@ -8,6 +8,18 @@
 
 import UIKit
 
+
+private enum DynamicSettingCategorySection: Int {
+    case NavBar
+    case Cell
+    case Unknown
+
+    static var count: Int {
+        return DynamicSettingCategorySection.Unknown.rawValue
+    }
+}
+
+
 class DynamicSettingCategoryViewController: UITableViewController, ControllerThatMightHaveTheCurrentUser {
     var category: DynamicSettingCategory?
     var currentUser: User?
@@ -37,20 +49,38 @@ class DynamicSettingCategoryViewController: UITableViewController, ControllerTha
         navigationController?.popViewControllerAnimated(true)
     }
 
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return DynamicSettingCategorySection.count
+    }
+
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return category?.settings.count ?? 0
+        switch DynamicSettingCategorySection(rawValue: section) ?? .Unknown {
+        case .NavBar: return 1
+        case .Cell: return category?.settings.count ?? 0
+        default: return 0
+        }
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("DynamicSettingCell", forIndexPath: indexPath) as! DynamicSettingCell
-        if  let setting = category?.settings.safeValue(indexPath.row),
-            let user = currentUser
-        {
-            DynamicSettingCellPresenter.configure(cell, setting: setting, currentUser: user)
-            cell.setting = setting
-            cell.delegate = self
+        switch DynamicSettingCategorySection(rawValue: indexPath.section) ?? .Unknown {
+        case .NavBar:
+            let cell = UITableViewCell()
+            let navBar = ElloNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: ElloNavigationBar.Size.height))
+            navBar.items = [navigationItem]
+            cell.contentView.addSubview(navBar)
+            return cell
+        default:
+            let cell = tableView.dequeueReusableCellWithIdentifier("DynamicSettingCell", forIndexPath: indexPath) as! DynamicSettingCell
+
+            if  let setting = category?.settings.safeValue(indexPath.row),
+                let user = currentUser
+            {
+                DynamicSettingCellPresenter.configure(cell, setting: setting, currentUser: user)
+                cell.setting = setting
+                cell.delegate = self
+            }
+            return cell
         }
-        return cell
     }
 }
 
