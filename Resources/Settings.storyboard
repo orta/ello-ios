@@ -35,7 +35,7 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aiC-5l-KQt">
                                 <rect key="frame" x="0.0" y="44" width="600" height="556"/>
                                 <connections>
-                                    <segue destination="co9-Rd-OXG" kind="embed" id="1q7-lL-eUh"/>
+                                    <segue destination="co9-Rd-OXG" kind="embed" identifier="SettingsContainerSegue" id="1q7-lL-eUh"/>
                                 </connections>
                             </containerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RTz-hl-55m" customClass="ElloNavigationBar" customModule="Ello" customModuleProvider="target">

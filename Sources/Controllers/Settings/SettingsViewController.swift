@@ -37,10 +37,9 @@ public class SettingsContainerViewController: BaseElloViewController {
         self.view.layoutIfNeeded()
     }
 
-    override public func addChildViewController(viewController: UIViewController) {
-        super.addChildViewController(viewController)
-
-        if let settings = viewController as? SettingsViewController {
+    public override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "SettingsContainerSegue" {
+            let settings = segue.destinationViewController as! SettingsViewController
             if navBarsVisible {
                 showNavBars()
             }
