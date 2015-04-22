@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
     </dependencies>
     <customFonts key="customFonts">
-        <mutableArray key="AtlasTypewriter-Regular.otf">
+        <mutableArray key="AtlasTypewriterRegular.otf">
             <string>AtlasTypewriter-Regular</string>
         </mutableArray>
     </customFonts>
