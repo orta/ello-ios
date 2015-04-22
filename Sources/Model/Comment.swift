@@ -27,7 +27,15 @@ public final class Comment: JSONAble, Authorable {
         return nil
     }
     public var author: User? { return getLinkObject("author") as? User }
-    public var parentPost: Post? { return getLinkObject("parent_post") as? Post }
+    public var parentPost: Post? {
+        var post: Post? = nil
+        ElloLinkedStore.sharedInstance.database.newConnection().readWithBlock { transaction in
+            post = transaction.objectForKey(self.postId, inCollection: MappingType.PostsType.rawValue) as? Post
+        }
+        if let parentPost = post { return post }
+        return getLinkObject("parent_post") as? Post
+    }
+
     // computed properties
     public var groupId:String {
         get { return postId }
@@ -54,7 +62,7 @@ public final class Comment: JSONAble, Authorable {
         let decoder = Decoder(aDecoder)
         // active record
         self.id = decoder.decodeKey("id")
-        self.createdAt = decoder.decodeKey("createdAt")
+        self.createdAt = decoder.decodeKey("createdAt") 
         // required
         self.postId = decoder.decodeKey("postId")
         self.content = decoder.decodeKey("content")

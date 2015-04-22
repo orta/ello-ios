@@ -37,8 +37,9 @@ public final class User: JSONAble {
     // links
     public var posts: [Post]? {
         if let posts = getLinkArray(MappingType.PostsType.rawValue) as? [Post] {
+            if id == "249" { println("userId: \(id) posts: \(posts)") }
             for post in posts {
-                post.addLinkObject("author", key: id, collection: MappingType.UsersType.rawValue)
+                addLinkObject(post, identifier: "author", key: id, collection: MappingType.UsersType.rawValue)
             }
             return posts
         }
@@ -161,6 +162,18 @@ public final class User: JSONAble {
         // profile
         if count(json["created_at"].stringValue) > 0 {
             user.profile = Profile.fromJSON(data) as? Profile
+        }
+        // update
+        if let oldUser = ElloLinkedStore.sharedInstance.getObject(user.id, collection: MappingType.UsersType.rawValue) {
+            // update links
+            if var oldLinks = oldUser.links {
+                if let newLinks = user.links {
+                    user.links = oldLinks + newLinks
+                }
+                else {
+                    user.links = oldLinks
+                }
+            }
         }
         // store self in collection
         if !fromLinked {

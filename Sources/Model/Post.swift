@@ -215,6 +215,7 @@ public final class Post: JSONAble, Authorable {
         post.links = data["links"] as? [String: AnyObject]
         // store self in collection
         if !fromLinked {
+            println("fromJSON posts for id: \(post.id) links: \(post.links)")
             ElloLinkedStore.sharedInstance.setObject(post, forKey: post.id, inCollection: MappingType.PostsType.rawValue)
         }
         return post

@@ -84,7 +84,7 @@ public class StreamFooterCell: UICollectionViewCell {
                     ]
                     let rightItem = footerConfig.ownPost ? deleteItem : flagItem
                     self.bottomToolBar.items = [
-                        flexibleItem(), shareItem, rightItem
+                        flexibleItem(), shareItem, rightItem, fixedItem(-17)
                     ]
                 }
             }

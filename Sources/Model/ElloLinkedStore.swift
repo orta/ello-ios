@@ -39,6 +39,7 @@ public struct ElloLinkedStore {
                     for object: [String:AnyObject] in typeObjects {
                         if let id = object["id"] as? String {
                             let jsonable = mappingType.fromJSON(data: object, fromLinked: true)
+                            println("add \(mappingType.rawValue) for id: \(id) links: \(jsonable.links)")
                             transaction.setObject(jsonable, forKey: id, inCollection: type)
                         }
                     }
@@ -52,5 +53,15 @@ public struct ElloLinkedStore {
         writeConnection.readWriteWithBlock { transaction in
             transaction.setObject(object, forKey: key, inCollection: collection)
         }
+    }
+
+    public func getObject(key: String, collection: String) -> JSONAble? {
+        var object: JSONAble?
+        readConnection.readWithBlock { transaction in
+            if transaction.hasObjectForKey(key, inCollection: collection) {
+                object = transaction.objectForKey(key, inCollection: collection) as? JSONAble
+            }
+        }
+        return object
     }
 }
