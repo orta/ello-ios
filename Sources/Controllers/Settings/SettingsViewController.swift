@@ -177,12 +177,12 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
 
     @IBAction func coverImageTapped() {
         photoSaveCallback = { image in
-            self.coverImage.image = image
-            ProfileService().updateUserCoverImage(image, success: { user, responseConfig in
-                let nav = self.navigationController as? ElloNavigationController
-                nav?.setProfileData(user, responseConfig: responseConfig)
+            ElloHUD.showLoadingHud()
+            ProfileService().updateUserCoverImage(image, success: { _, _ in
+                ElloHUD.hideLoadingHud()
+                self.alertUserOfImageProcessing()
             }) { _, _ in
-                self.currentUser?.coverImageURL.map(self.coverImage.sd_setImageWithURL)
+                ElloHUD.hideLoadingHud()
             }
         }
         openImagePicker()
@@ -190,12 +190,12 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
 
     @IBAction func avatarImageTapped() {
         photoSaveCallback = { image in
-            self.avatarImage.image = image
+            ElloHUD.showLoadingHud()
             ProfileService().updateUserAvatarImage(image, success: { user, responseConfig in
-                let nav = self.navigationController as? ElloNavigationController
-                nav?.setProfileData(user, responseConfig: responseConfig)
+                ElloHUD.hideLoadingHud()
+                self.alertUserOfImageProcessing()
             }) { _, _ in
-                self.currentUser?.avatarURL.map(self.profileImage.sd_setImageWithURL)
+                ElloHUD.hideLoadingHud()
             }
         }
         openImagePicker()
@@ -206,6 +206,13 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
             imagePicker.delegate = self
             self.presentViewController(imagePicker, animated: true, completion: .None)
         }
+    }
+
+    private func alertUserOfImageProcessing() {
+        let message = NSLocalizedString("Copy needed to explain caching of old avatar", comment: "Copy needed to explain caching of old avatar")
+        let alert = AlertViewController(message: message, textAlignment: .Center, dismissable: true, type: .Normal)
+        alert.addAction(AlertAction(title: "OK", style: .Light, handler: .None))
+        presentViewController(alert, animated: true, completion: .None)
     }
 }
 
