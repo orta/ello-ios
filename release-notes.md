@@ -1,3 +1,36 @@
+### Ello Build 1234(v1.0.0) April 21, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #178 - Updates to the HTML.
+
+------
+
+#### #175 - Bug fixes
+- [Delivers #92938340] 'create new comment' bug
+- [Delivers #92150832] New comments (portrait images were being stretched)
+- [Delivers #92937180] App logging out (due to token reauth logic)
+- [Delivers #92734054] Removes `restoreTabBarController` (old tab bar logic)
+
+------
+
+#### #176 - Utilize a more focused set of web view styles
+This is a non compressed change of a more focused stylesheet. Once ello/ello#1021 is merged in and makes it way to production the asset for the minified stylesheet should be at http://ello.co/assets/ios.css to curl down.
+
+:metal: 6,610 deletions :metal: 
+
+/cc @rynbyjn
+
+------
+
+#### #173 - Cache stream images
+* prefetch images referenced in `StreamService loadStream()`
+* use "regular" size for avatars
+    
+------------
+
 ### Ello Build 1204(v1.0.0) April 20, 2015
 
     RELEASE NOTES
