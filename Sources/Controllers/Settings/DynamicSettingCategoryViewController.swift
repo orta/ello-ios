@@ -8,9 +8,12 @@
 
 import UIKit
 
-class DynamicSettingCategoryViewController: UITableViewController, ControllerThatMightHaveTheCurrentUser {
+
+class DynamicSettingCategoryViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ControllerThatMightHaveTheCurrentUser {
     var category: DynamicSettingCategory?
     var currentUser: User?
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var navBar: ElloNavigationBar!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,18 +34,21 @@ class DynamicSettingCategoryViewController: UITableViewController, ControllerTha
         navigationItem.leftBarButtonItem = backItem
         navigationItem.title = category?.label
         navigationItem.fixNavBarItemPadding()
+        navBar.items = [navigationItem]
     }
 
     func backAction() {
         navigationController?.popViewControllerAnimated(true)
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let count = category?.settings.count ?? 0
         return category?.settings.count ?? 0
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("DynamicSettingCell", forIndexPath: indexPath) as! DynamicSettingCell
+
         if  let setting = category?.settings.safeValue(indexPath.row),
             let user = currentUser
         {

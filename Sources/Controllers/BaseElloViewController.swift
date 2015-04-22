@@ -19,15 +19,7 @@ public class BaseElloViewController: UIViewController, ControllerThatMightHaveTh
     }
 
     var elloTabBarController: ElloTabBarController? {
-        var controller: UIViewController?
-        controller = self
-        while controller != nil {
-            if let tabBarController = controller as? ElloTabBarController {
-                return tabBarController
-            }
-            controller = controller!.parentViewController
-        }
-        return nil
+        return findViewController { vc in vc is ElloTabBarController } as! ElloTabBarController?
     }
 
     override public func viewDidLoad() {
