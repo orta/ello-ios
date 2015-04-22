@@ -80,6 +80,8 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
         Tracker.sharedTracker.screenAppeared("Web View: \(url)")
         presentViewController(externalWebController, animated: true, completion: nil)
         if let externalWebView = externalWebController.rootWebBrowser() {
+            let xButton = UIBarButtonItem(title: "\u{2573}", style: UIBarButtonItemStyle.Done, target: externalWebView, action: Selector("doneButtonPressed:"))
+            externalWebView.navigationItem.setRightBarButtonItem(xButton, animated: false)
             externalWebView.loadURLString(url)
         }
     }
