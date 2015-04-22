@@ -39,10 +39,18 @@ public struct ProfileHeaderCellPresenter {
             cell.nameLabel.text = user.name
             cell.bioWebView.loadHTMLString(StreamTextCellHTML.postHTML(user.formattedShortBio ?? ""), baseURL: NSURL(string: "/"))
             cell.countsTextView.clearText()
-            cell.countsTextView.appendTextWithAction("Posts \(user.postsCount ?? 0) ")
-            cell.countsTextView.appendTextWithAction("Following \(user.followingCount ?? 0) ", link: "following", object: user)
-            let followersCount = user.followersCount ?? "0"
-            cell.countsTextView.appendTextWithAction("Followers \(followersCount)", link: "followers", object: user)
+
+            let extraAttrs = [NSForegroundColorAttributeName: UIColor.blackColor()]
+
+            cell.countsTextView.appendTextWithAction(NSLocalizedString("Posts", comment: "posts"))
+            cell.countsTextView.appendTextWithAction(" \(user.postsCount ?? 0) ", extraAttrs: extraAttrs)
+
+            cell.countsTextView.appendTextWithAction(NSLocalizedString("Following", comment: "following"), link: "following", object: user)
+            cell.countsTextView.appendTextWithAction(" \(user.followingCount ?? 0) ", link: "following", object: user, extraAttrs: extraAttrs)
+
+            let fCount = user.followersCount ?? "0"
+            cell.countsTextView.appendTextWithAction(NSLocalizedString("Followers", comment: "followers"), link: "followers", object: user)
+            cell.countsTextView.appendTextWithAction(" \(fCount) ", link: "followers", object: user, extraAttrs: extraAttrs)
         }
     }
 }

@@ -35,8 +35,10 @@ class ElloTextView: UITextView {
 
 // MARK: Public
 
-    func appendTextWithAction(text: String, link: String? = nil, object: AnyObject? = nil) {
+    func appendTextWithAction(text: String, link: String? = nil, object: AnyObject? = nil, extraAttrs: [NSObject:AnyObject]? = nil) {
         var attrs = defaultAttrs()
+        extraAttrs.map(attrs.merge)
+
         if let link = link {
             attrs[ElloAttributedText.Link] = link
             if let object: AnyObject = object {
