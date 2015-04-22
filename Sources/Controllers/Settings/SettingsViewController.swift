@@ -20,6 +20,33 @@ public enum SettingsRow: Int {
     case Unknown
 }
 
+
+public class SettingsContainerViewController: BaseElloViewController {
+    @IBOutlet weak public var elloNavBar: ElloNavigationBar!
+    @IBOutlet weak public var containerView: UIView!
+    @IBOutlet weak var navigationBarTopConstraint: NSLayoutConstraint!
+
+    func showNavBars() {
+        navigationBarTopConstraint.constant = 0
+        self.view.layoutIfNeeded()
+    }
+
+    func hideNavBars() {
+        navigationBarTopConstraint.constant = -elloNavBar.frame.height - 1
+        self.view.layoutIfNeeded()
+    }
+
+    override public func addChildViewController(viewController: UIViewController) {
+        super.addChildViewController(viewController)
+
+        if let settings = viewController as? SettingsViewController {
+            elloNavBar.items = [settings.navigationItem]
+            settings.currentUser = currentUser
+        }
+    }
+}
+
+
 public class SettingsViewController: UITableViewController, ControllerThatMightHaveTheCurrentUser {
 
     @IBOutlet weak public var profileImageView: UIView!
@@ -38,6 +65,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
 
     override public func awakeFromNib() {
         super.awakeFromNib()
+        setupNavigationBar()
         scrollLogic = ElloScrollLogic(
             onShow: self.showNavBars,
             onHide: self.hideNavBars
@@ -47,13 +75,16 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     var elloTabBarController: ElloTabBarController? {
         return findViewController { vc in vc is ElloTabBarController } as! ElloTabBarController?
     }
+    var containerController: SettingsContainerViewController? {
+        return findViewController { vc in vc is SettingsContainerViewController } as! SettingsContainerViewController?
+    }
 
     func showNavBars(scrollToBottom : Bool) {
         if let tabBarController = self.elloTabBarController {
             tabBarController.setTabBarHidden(false, animated: true)
         }
 
-        navigationController?.setNavigationBarHidden(false, animated: true)
+        containerController?.showNavBars()
         self.view.layoutIfNeeded()
     }
 
@@ -62,7 +93,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
             tabBarController.setTabBarHidden(true, animated: true)
         }
 
-        navigationController?.setNavigationBarHidden(true, animated: true)
+        containerController?.hideNavBars()
         self.view.layoutIfNeeded()
     }
 
@@ -73,9 +104,8 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
 
     private func setupViews() {
         profileImageView.layer.cornerRadius = profileImageView.frame.width / 2
-        navigationController?.setNavigationBarHidden(false, animated: true)
+        containerController?.showNavBars()
         setupProfileDescription()
-        setupNavigationBar()
     }
 
     private func setupProfileDescription() {
@@ -93,7 +123,6 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     }
 
     func backAction() {
-        navigationController?.setNavigationBarHidden(true, animated: true)
         navigationController?.popViewControllerAnimated(true)
     }
 
