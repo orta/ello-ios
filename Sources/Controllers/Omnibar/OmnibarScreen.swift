@@ -544,55 +544,12 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
 // MARK: Camera / Image Picker
 
     public func addImageAction() {
-        if UIImagePickerController.isSourceTypeAvailable(.Camera) {
-            let alertController = AlertViewController(message: NSLocalizedString("Choose a photo source", comment: "choose photo source (camera or library)"))
-
-            let cameraAction = AlertAction(title: NSLocalizedString("Camera", comment: "camera button"), style: .Dark) { _ in self.openCamera() }
-            alertController.addAction(cameraAction)
-
-            let libraryAction = AlertAction(title: NSLocalizedString("Library", comment: "library button"), style: .Dark) { _ in self.openLibrary() }
-            alertController.addAction(libraryAction)
-
-            let cancelAction = AlertAction(title: NSLocalizedString("Cancel", comment: "cancel button"), style: .Light) { _ in
-                Tracker.sharedTracker.addImageCanceled()
-            }
-            alertController.addAction(cancelAction)
-
-            delegate?.omnibarPresentController(alertController)
-        }
-        else if UIImagePickerController.isSourceTypeAvailable(.PhotoLibrary) {
-            openLibrary()
-        }
-        else {
-            let alertController = AlertViewController(message: NSLocalizedString("Sorry, but your device doesn’t have a photo library!", comment: "device doesn't support photo library"))
-
-            let cancelAction = AlertAction(title: NSLocalizedString("OK", comment: "ok button"), style: .Light, handler: .None)
-            alertController.addAction(cancelAction)
-
-            delegate?.omnibarPresentController(alertController)
-        }
-    }
-
-    func openLibrary() {
-        Tracker.sharedTracker.imageAddedFromLibrary()
-        let imageController = UIImagePickerController()
-        imageController.sourceType = .PhotoLibrary
-        openImagePicker(imageController)
-    }
-
-    func openCamera() {
-        Tracker.sharedTracker.imageAddedFromCamera()
-        let imageController = UIImagePickerController()
-        imageController.sourceType = .Camera
-        openImagePicker(imageController)
+        let alert = alertControllerForImagePicker(openImagePicker)
+        alert.map { self.delegate?.omnibarPresentController($0) }
     }
 
     private func openImagePicker(imageController : UIImagePickerController) {
-        imageController.mediaTypes = [kUTTypeImage]
-        imageController.allowsEditing = false
         imageController.delegate = self
-        imageController.modalPresentationStyle = .FullScreen
-        imageController.navigationBar.tintColor = UIColor.greyA()
         delegate?.omnibarPresentController(imageController)
     }
 
