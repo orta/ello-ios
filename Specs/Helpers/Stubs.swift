@@ -101,9 +101,14 @@ extension Profile: Stubbable {
 extension Post: Stubbable {
     class func stub(values: [String : AnyObject]) -> Post {
 
+        // create necessary links
+        let author: User = (values["author"] as? User) ?? User.stub(["id": "10000"])
+        ElloLinkedStore.sharedInstance.setObject(author, forKey: author.id, inCollection: MappingType.UsersType.rawValue)
+
         var post = Post(
             id: (values["id"] as? String) ?? "666",
             createdAt: (values["createdAt"] as? NSDate) ?? NSDate(),
+            authorId: author.id,
             href: (values["href"] as? String) ?? "sample-href",
             token: (values["token"] as? String) ?? "sample-token",
             contentWarning: (values["contentWarning"] as? String) ?? "",
@@ -122,10 +127,6 @@ extension Post: Stubbable {
         post.commentsCount = values["commentsCount"] as? Int
         post.repostsCount = values["repostsCount"] as? Int
         // links / nested resources
-        if let author = values["author"] as? User {
-            post.addLinkObject("author", key: author.id, collection: MappingType.UsersType.rawValue)
-            ElloLinkedStore.sharedInstance.setObject(author, forKey: author.id, inCollection: MappingType.UsersType.rawValue)
-        }
         if let assets = values["assets"] as? [Asset] {
             var assetIds = [String]()
             for asset in assets {
@@ -159,18 +160,21 @@ extension Post: Stubbable {
 extension Comment: Stubbable {
     class func stub(values: [String : AnyObject]) -> Comment {
 
+        // create necessary links
+        let author: User = (values["author"] as? User) ?? User.stub(["id": "10000"])
+        ElloLinkedStore.sharedInstance.setObject(author, forKey: author.id, inCollection: MappingType.UsersType.rawValue)
+        let parentPost: Post = (values["parentPost"] as? Post) ?? Post.stub(["id": "20000"])
+        ElloLinkedStore.sharedInstance.setObject(parentPost, forKey: parentPost.id, inCollection: MappingType.PostsType.rawValue)
+
         var comment = Comment(
             id: (values["id"] as? String) ?? "888",
             createdAt: (values["createdAt"] as? NSDate) ?? NSDate(),
-            postId: (values["postId"] as? String) ?? "666",
+            authorId: author.id,
+            postId: post.id,
             content: (values["content"] as? [Regionable]) ?? [stubbedTextRegion]
             )
 
         // links
-        if let author = values["author"] as? User {
-            comment.addLinkObject("author", key: author.id, collection: MappingType.UsersType.rawValue)
-            ElloLinkedStore.sharedInstance.setObject(author, forKey: author.id, inCollection: MappingType.UsersType.rawValue)
-        }
         if let assets = values["assets"] as? [Asset] {
             var assetIds = [String]()
             for asset in assets {
@@ -178,10 +182,6 @@ extension Comment: Stubbable {
                 ElloLinkedStore.sharedInstance.setObject(asset, forKey: asset.id, inCollection: MappingType.AssetsType.rawValue)
             }
             comment.addLinkArray("assets", array: assetIds)
-        }
-        if let parentPost = values["parentPost"] as? Post {
-            comment.addLinkObject("parent_post", key: parentPost.id, collection: MappingType.UsersType.rawValue)
-            ElloLinkedStore.sharedInstance.setObject(parentPost, forKey: parentPost.id, inCollection: MappingType.PostsType.rawValue)
         }
         ElloLinkedStore.sharedInstance.setObject(comment, forKey: comment.id, inCollection: MappingType.CommentsType.rawValue)
         return comment
@@ -227,7 +227,6 @@ extension Activity: Stubbable {
             subjectType: SubjectType(rawValue: subjectTypeString) ?? SubjectType.Post
             )
 
-        let defaultSubject = activity.subjectType == SubjectType.User ? User.stub([:]) : Post.stub([:])
         if let user = values["subject"] as? User {
             activity.addLinkObject("subject", key: user.id, collection: MappingType.UsersType.rawValue)
             ElloLinkedStore.sharedInstance.setObject(user, forKey: user.id, inCollection: MappingType.UsersType.rawValue)
@@ -247,7 +246,7 @@ extension Activity: Stubbable {
 
 extension Asset: Stubbable {
     class func stub(values: [String : AnyObject]) -> Asset {
-        var asset = Asset(id:  (values["id"] as? String) ?? "1234")
+        var asset = Asset(id: (values["id"] as? String) ?? "1234")
         asset.optimized = values["optimized"] as? Attachment
         asset.smallScreen = values["smallScreen"] as? Attachment
         asset.ldpi = values["ldpi"] as? Attachment

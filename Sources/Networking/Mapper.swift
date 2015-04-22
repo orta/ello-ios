@@ -23,14 +23,11 @@ public struct Mapper {
         return (json, error)
     }
 
-    public static func mapToObjectArray(object: AnyObject?, fromJSON: FromJSONClosure, linkObject: LinkObject?) -> [JSONAble]? {
+    public static func mapToObjectArray(object: AnyObject?, fromJSON: FromJSONClosure) -> [JSONAble]? {
 
         if let dicts = object as? [[String:AnyObject]] {
             let jsonables:[JSONAble] =  dicts.map {
                 let jsonable = fromJSON(data: $0, fromLinked: false)
-                if let linkObject = linkObject {
-                    jsonable.addLinkObject(linkObject.identifier, key: linkObject.key, collection: linkObject.collection)
-                }
                 return jsonable
             }
             return jsonables

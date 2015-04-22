@@ -89,16 +89,10 @@ public class PostEditingService: NSObject {
                     let localComment = Comment(
                         id: NSUUID().UUIDString,
                         createdAt: NSDate(),
+                        authorId: user.id,
                         postId: (comment.parentPost?.id ?? ""),
                         content: regions
                     )
-                    if let user = comment.author {
-                        localComment.addLinkObject("author", key: user.id, collection: MappingType.UsersType.rawValue)
-                    }
-                    if let post = comment.parentPost {
-                        localComment.addLinkObject("parent_post", key: post.id, collection: MappingType.PostsType.rawValue)
-                    }
-
                     post = localComment
                     postNotification(UpdatePostCommentCountNotification, localComment)
                 default:

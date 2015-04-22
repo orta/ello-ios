@@ -35,23 +35,8 @@ public final class User: JSONAble {
     public var coverImage: Asset?
     public var backgroundPosition: String?
     // links
-    public var posts: [Post]? {
-        if let posts = getLinkArray(MappingType.PostsType.rawValue) as? [Post] {
-            if id == "249" { println("userId: \(id) posts: \(posts)") }
-            for post in posts {
-                addLinkObject(post, identifier: "author", key: id, collection: MappingType.UsersType.rawValue)
-            }
-            return posts
-        }
-        return nil
-    }
-    public var mostRecentPost: Post? {
-        if let post = getLinkObject("most_recent_post") as? Post {
-            post.addLinkObject("author", key: id, collection: MappingType.UsersType.rawValue)
-            return post
-        }
-        return nil
-    }
+    public var posts: [Post]? { return getLinkArray("posts") as? [Post] }
+    public var mostRecentPost: Post? { return getLinkObject("most_recent_post") as? Post }
     // computed
     public var atName: String { return "@\(username)"}
     public var avatarURL: NSURL? { return avatar?.regular?.url }
@@ -162,18 +147,6 @@ public final class User: JSONAble {
         // profile
         if count(json["created_at"].stringValue) > 0 {
             user.profile = Profile.fromJSON(data) as? Profile
-        }
-        // update
-        if let oldUser = ElloLinkedStore.sharedInstance.getObject(user.id, collection: MappingType.UsersType.rawValue) {
-            // update links
-            if var oldLinks = oldUser.links {
-                if let newLinks = user.links {
-                    user.links = oldLinks + newLinks
-                }
-                else {
-                    user.links = oldLinks
-                }
-            }
         }
         // store self in collection
         if !fromLinked {
