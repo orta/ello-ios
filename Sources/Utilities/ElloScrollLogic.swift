@@ -39,9 +39,6 @@ public class ElloScrollLogic : NSObject, UIScrollViewDelegate {
     }
 
     private func show(scrollToBottom : Bool = false) {
-        if self.showingState == nil {
-            println("setting showingState to false")
-        }
         let wasShowing = self.showingState ?? false
 
         if !wasShowing {

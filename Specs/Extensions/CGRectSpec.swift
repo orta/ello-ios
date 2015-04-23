@@ -37,6 +37,7 @@ class CGRectExtensionSpec: QuickSpec {
                 it("should set height") { expect(newFrame.size.height).to(equal(CGFloat(0)))}
             }
         }
+
         describe("setters") {
             let frame = CGRect(x: 1, y: 2, width: 3, height: 4)
             it("-atOrigin:") {

@@ -109,9 +109,7 @@ public struct Functional {
     // key for 1/2 a sec or so)
     public static func debounce(timeout: NSTimeInterval, block: BasicBlock) -> BasicBlock {
         var timer : NSTimer? = nil
-        let proc = Proc() {
-            block()
-        }
+        let proc = Proc(block: block)
 
         return {
             if let prevTimer = timer {
