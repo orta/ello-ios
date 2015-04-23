@@ -198,13 +198,20 @@ public class StreamViewController: BaseElloViewController {
         }
     }
 
+    var loadInitialPageLoadingToken: String = ""
     public func loadInitialPage() {
+        let localToken = NSUUID().UUIDString
+        loadInitialPageLoadingToken = localToken
+
         ElloHUD.showLoadingHudInView(view)
         streamService.loadStream(streamKind.endpoint,
             streamKind: streamKind,
             success: { (jsonables, responseConfig) in
+                if self.loadInitialPageLoadingToken != localToken { return }
+
                 self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind), withWidth: nil)
                 self.responseConfig = responseConfig
+                self.doneLoading()
             }, failure: { (error, statusCode) in
                 println("failed to load \(self.streamKind.name) stream (reason: \(error))")
                 self.doneLoading()
@@ -309,10 +316,16 @@ public class StreamViewController: BaseElloViewController {
         collectionView.dataSource = dataSource
     }
 
+    var pullToRefreshLoadLoadingToken: String = ""
     private func pullToRefreshLoad() {
-        self.streamService.loadStream(streamKind.endpoint,
+        let localToken = NSUUID().UUIDString
+        pullToRefreshLoadLoadingToken = localToken
+
+        streamService.loadStream(streamKind.endpoint,
             streamKind: streamKind,
             success: { (jsonables, responseConfig) in
+                if self.pullToRefreshLoadLoadingToken != localToken { return }
+
                 let index = self.refreshableIndex ?? 0
                 self.allOlderPagesLoaded = false
                 self.dataSource.removeCellItemsBelow(index)

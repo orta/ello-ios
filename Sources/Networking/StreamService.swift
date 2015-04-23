@@ -16,11 +16,7 @@ public typealias UserSuccessCompletion = (user: User, responseConfig: ResponseCo
 
 public class StreamService: NSObject {
 
-    var isStreamLoading = false
-
     public func loadStream(endpoint:ElloAPI, streamKind: StreamKind?, success: StreamSuccessCompletion, failure: ElloFailureCompletion?, noContent: ElloEmptyCompletion? = nil) {
-        if self.isStreamLoading { return }
-        self.isStreamLoading = true
         ElloProvider.elloRequest(endpoint,
             method: .GET,
             success: { (data, responseConfig) in
@@ -38,11 +34,9 @@ public class StreamService: NSObject {
                         ElloProvider.unCastableJSONAble(failure)
                     }
                 }
-                self.isStreamLoading = false
             },
             failure: { (error, statusCode) in
                 failure!(error: error, statusCode: statusCode)
-                self.isStreamLoading = false
             }
         )
     }
