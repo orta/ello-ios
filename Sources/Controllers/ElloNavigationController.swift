@@ -73,6 +73,43 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
         externalWebObserver = NotificationObserver(notification: externalWebNotification) { url in
             self.showExternalWebView(url)
         }
+
+        experienceUpdateObserver = NotificationObserver(notification: ExperienceUpdatedNotification) { update in
+            var reloadControllers = [AnyObject]()
+            var removeControllers = [AnyObject]()
+            var newControllers = [AnyObject]()
+            for controller in self.childViewControllers {
+                // filter ExperienceUpdatable
+                if let updatable = controller as? ExperienceUpdatable {
+                    switch updatable.experienceUpdateResponse(update) {
+                    case .Reload:
+                        reloadControllers.append(controller)
+                        newControllers.append(controller)
+                    case .Remove:
+                        removeControllers.append(controller)
+                    case .DoNothing:
+                        newControllers.append(controller)
+                    }
+                }
+                else {
+                    newControllers.append(controller)
+                }
+            }
+            self.setViewControllers(newControllers, animated: true)
+
+            for controller in reloadControllers {
+                if  let updatable = controller as? ExperienceUpdatable,
+                    let vc = controller as? UIViewController
+                {
+                    if vc == self.topViewController {
+                        updatable.experienceReloadNow()
+                    }
+                    else {
+                        updatable.experienceMarkForReload()
+                    }
+                }
+            }
+        }
     }
 
     func showExternalWebView(url: String) {
@@ -140,7 +177,7 @@ extension ElloNavigationController: UINavigationControllerDelegate {
 
     public func navigationController(navigationController: UINavigationController, didShowViewController viewController: UIViewController, animated: Bool) {
         backGesture?.edges = viewController.backGestureEdges
-        Tracker.sharedTracker.screenAppeared(viewController.title ?? viewController.readableClassName())
+//        Tracker.sharedTracker.screenAppeared(viewController.title ?? viewController.readableClassName())
     }
 
     public func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
