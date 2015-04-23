@@ -13,12 +13,16 @@ extension UINavigationItem {
     func fixNavBarItemPadding() {
         let negativeSpacer = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
         negativeSpacer.width = -22
+
+        let leftNegativeSpacer = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+        leftNegativeSpacer.width = -17
+
         if let rightBarButtonItems = self.rightBarButtonItems {
             self.rightBarButtonItems = [negativeSpacer] + rightBarButtonItems
         }
 
         if let leftBarButtonItems = self.leftBarButtonItems {
-            self.leftBarButtonItems = [negativeSpacer] + leftBarButtonItems
+            self.leftBarButtonItems = [leftNegativeSpacer] + leftBarButtonItems
         }
     }
 
