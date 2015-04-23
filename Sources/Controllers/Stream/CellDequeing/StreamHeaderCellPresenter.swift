@@ -22,11 +22,13 @@ public struct StreamHeaderCellPresenter {
             let authorable = streamCellItem.jsonable as! Authorable
 
             cell.ownPost = false
+            cell.ownComment = false
 
             if let currentUser = currentUser, let comment = authorable as? Comment {
-                if comment.author?.id == currentUser.id ||
-                    comment.parentPost?.author?.id == currentUser.id
-                {
+                if comment.authorId == currentUser.id {
+                    cell.ownComment = true
+                }
+                else if comment.parentPost?.authorId == currentUser.id {
                     cell.ownPost = true
                 }
             }

@@ -16,6 +16,12 @@ public class StreamHeaderCell: UICollectionViewCell {
             self.updateItems()
         }
     }
+
+    public var ownComment = false {
+        didSet {
+            self.updateItems()
+        }
+    }
     let revealWidth:CGFloat = 120.0
     var cellOpenObserver: NotificationObserver?
     var isOpen = false
@@ -122,20 +128,22 @@ public class StreamHeaderCell: UICollectionViewCell {
 // MARK: - Private
 
     private func updateItems() {
-        
-        if self.ownPost {
-            println("ownPost")
+
+        if self.ownComment {
+            bottomToolBar.items = [
+                flexibleItem(), replyItem, deleteItem, fixedItem(-10)
+            ]
+        }
+        else if self.ownPost {
             bottomToolBar.items = [
                 flexibleItem(), replyItem, flagItem, deleteItem, fixedItem(-10)
             ]
         }
         else {
-            println("NOT ownPost")
             bottomToolBar.items = [
                 flexibleItem(), replyItem, flagItem, fixedItem(-10)
             ]
         }
-
     }
 
     private func positionTopContent() {
