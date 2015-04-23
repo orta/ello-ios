@@ -57,11 +57,6 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         let navigationItem = UINavigationItem(title: "Search")
         let leftItem = UIBarButtonItem.backChevronWithTarget(self, action: "backTapped")
         navigationItem.leftBarButtonItems = [leftItem]
-
-        let image = SVGKImage(named: "search_selected.svg").UIImage
-        let view = UIImageView(image: image)
-        let rightItem = UIBarButtonItem(customView: view)
-        navigationItem.rightBarButtonItems = [rightItem]
         navigationItem.fixNavBarItemPadding()
         navigationBar.items = [navigationItem]
 
