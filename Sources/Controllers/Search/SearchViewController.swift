@@ -36,6 +36,7 @@ public class SearchViewController: BaseElloViewController {
 
         streamViewController.willMoveToParentViewController(self)
         self.addChildViewController(streamViewController)
+        streamViewController.didMoveToParentViewController(self)
     }
 
 }
