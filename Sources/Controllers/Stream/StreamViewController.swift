@@ -411,7 +411,7 @@ extension StreamViewController : UICollectionViewDelegate {
             else if let comment = dataSource.commentForIndexPath(indexPath),
                 let post = comment.parentPost
             {
-                    createCommentDelegate?.createComment(post, fromController: self)
+                createCommentDelegate?.createComment(post, text: "", fromController: self)
             }
     }
 

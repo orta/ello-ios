@@ -14,6 +14,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     var keyboardWillHideObserver: NotificationObserver?
 
     var parentPost: Post?
+    var defaultText: String?
 
     typealias PostSuccessListener = (post : Post)->()
     typealias CommentSuccessListener = (comment : Comment)->()
@@ -31,6 +32,11 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     convenience public init(parentPost post: Post) {
         self.init(nibName: nil, bundle: nil)
         parentPost = post
+    }
+
+    convenience public init(parentPost post: Post, defaultText: String) {
+        self.init(parentPost: post)
+        self.defaultText = defaultText
     }
 
     public func omnibarDataName() -> String {
@@ -69,7 +75,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             }
             Tmp.remove(fileName)
         }
-
+        screen.text = self.defaultText
         self.screen.delegate = self
 
         keyboardWillShowObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillShow, block: self.willShow)

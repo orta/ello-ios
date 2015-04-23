@@ -9,15 +9,15 @@
 import UIKit
 
 public protocol PostTappedDelegate : NSObjectProtocol {
-    func postTapped(post : Post, initialItems: [StreamCellItem])
+    func postTapped(post: Post, initialItems: [StreamCellItem])
 }
 
 public protocol UserTappedDelegate : NSObjectProtocol {
-    func userTapped(user : User)
+    func userTapped(user: User)
 }
 
 public protocol CreateCommentDelegate: NSObjectProtocol {
-    func createComment(post : Post, fromController: StreamViewController)
+    func createComment(post: Post, text:String, fromController: StreamViewController)
 }
 
 public protocol InviteResponder: NSObjectProtocol {
@@ -116,8 +116,8 @@ extension StreamableViewController: UserTappedDelegate {
 
 // MARK: CreateCommentDelegate
 extension StreamableViewController: CreateCommentDelegate {
-    public func createComment(post : Post, fromController: StreamViewController) {
-        let vc = OmnibarViewController(parentPost: post)
+    public func createComment(post : Post, text: String, fromController: StreamViewController) {
+        let vc = OmnibarViewController(parentPost: post, defaultText: text)
         vc.currentUser = self.currentUser
         vc.onCommentSuccess() { (comment: Comment) in
             self.navigationController?.popViewControllerAnimated(true)
