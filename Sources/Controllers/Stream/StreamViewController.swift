@@ -386,9 +386,16 @@ extension StreamViewController : UICollectionViewDelegate {
 
     public func collectionView(collectionView: UICollectionView,
         didSelectItemAtIndexPath indexPath: NSIndexPath) {
-            if let cell = collectionView.cellForItemAtIndexPath(indexPath) as? StreamToggleCell {
+            let tappedCell = collectionView.cellForItemAtIndexPath(indexPath)
+
+            if tappedCell is StreamToggleCell {
                 dataSource.toggleCollapsedForIndexPath(indexPath)
                 collectionView.reloadData()
+            }
+            else if tappedCell is UserListItemCell {
+                if let user = dataSource.userForIndexPath(indexPath) {
+                    userTappedDelegate?.userTapped(user)
+                }
             }
             else if let post = dataSource.postForIndexPath(indexPath) {
                 let items = dataSource.cellItemsForPost(post)
@@ -404,10 +411,7 @@ extension StreamViewController : UICollectionViewDelegate {
     public func collectionView(collectionView: UICollectionView,
         shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
             if let cellItemType = dataSource.visibleStreamCellItem(at: indexPath)?.type {
-                switch cellItemType {
-                case .Header, .CreateComment, .Toggle: return true
-                default: return false
-                }
+                return cellItemType.selectable
             }
             return false
     }
