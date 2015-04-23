@@ -140,25 +140,35 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
         if count(content) > 0 {
             ElloHUD.showLoadingHud()
-            service.create(content: content, success: { postOrComment in
-                ElloHUD.hideLoadingHud()
+            if let authorId = currentUser?.id {
+                service.create(
+                    content: content,
+                    authorId: authorId,
+                    success: { postOrComment in
+                        ElloHUD.hideLoadingHud()
 
-                if let parentPost = self.parentPost {
-                    var comment = postOrComment as! Comment
-                    self.emitCommentSuccess(comment)
-                }
-                else {
-                    var post = postOrComment as! Post
-                    self.emitPostSuccess(post)
-                    self.screen.reportSuccess("Post successfully created!")
-                }
-            }, failure: { error, statusCode in
-                ElloHUD.hideLoadingHud()
-                self.contentCreationFailed(error.localizedDescription)
-            })
+                        if let parentPost = self.parentPost {
+                            var comment = postOrComment as! Comment
+                            self.emitCommentSuccess(comment)
+                        }
+                        else {
+                            var post = postOrComment as! Post
+                            self.emitPostSuccess(post)
+                            self.screen.reportSuccess(NSLocalizedString("Post successfully created!", comment: "Post successfully created!"))
+                        }
+                    },
+                    failure: { error, statusCode in
+                        ElloHUD.hideLoadingHud()
+                        self.contentCreationFailed(error.localizedDescription)
+                    }
+                )
+            }
+            else {
+                contentCreationFailed(NSLocalizedString("No content was submitted", comment: "No content was submitted"))
+            }
         }
         else {
-            contentCreationFailed("No content was submitted")
+            contentCreationFailed(NSLocalizedString("No content was submitted", comment: "No content was submitted"))
         }
     }
 

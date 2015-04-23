@@ -26,7 +26,7 @@ public class PostEditingService: NSObject {
     }
 
     // rawSections is String or UIImage objects
-    func create(content rawContent: [AnyObject], success: CreatePostSuccessCompletion, failure: ElloFailureCompletion?) {
+    func create(content rawContent: [AnyObject], authorId: String, success: CreatePostSuccessCompletion, failure: ElloFailureCompletion?) {
         var textEntries = [(Int, String)]()
         var imageEntries = [(Int, UIImage)]()
 
@@ -55,15 +55,15 @@ public class PostEditingService: NSObject {
                     return (index, region as Regionable)
                 }
 
-                self.create(regions: self.sortedRegions(indexedRegions), success: success, failure: failure)
+                self.create(regions: self.sortedRegions(indexedRegions), authorId: authorId, success: success, failure: failure)
             }, failure: failure)
         }
         else {
-            create(regions: sortedRegions(indexedRegions), success: success, failure: failure)
+            create(regions: sortedRegions(indexedRegions), authorId: authorId, success: success, failure: failure)
         }
     }
 
-    func create(#regions : [Regionable], success: CreatePostSuccessCompletion, failure: ElloFailureCompletion?) {
+    func create(#regions : [Regionable], authorId: String, success: CreatePostSuccessCompletion, failure: ElloFailureCompletion?) {
         let body = NSMutableArray(capacity: regions.count)
         for region in regions {
             body.addObject(region.toJSON())
@@ -89,7 +89,7 @@ public class PostEditingService: NSObject {
                     let localComment = Comment(
                         id: NSUUID().UUIDString,
                         createdAt: NSDate(),
-                        authorId: user.id,
+                        authorId: authorId,
                         postId: (comment.parentPost?.id ?? ""),
                         content: regions
                     )

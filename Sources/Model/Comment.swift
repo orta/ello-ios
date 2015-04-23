@@ -102,6 +102,7 @@ public final class Comment: JSONAble, Authorable {
         var comment = Comment(
             id: NSUUID().UUIDString,
             createdAt: NSDate(),
+            authorId: currentUser.id,
             postId: post.id,
             content: [Regionable]()
         )

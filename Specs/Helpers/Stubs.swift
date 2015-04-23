@@ -170,7 +170,7 @@ extension Comment: Stubbable {
             id: (values["id"] as? String) ?? "888",
             createdAt: (values["createdAt"] as? NSDate) ?? NSDate(),
             authorId: author.id,
-            postId: post.id,
+            postId: parentPost.id,
             content: (values["content"] as? [Regionable]) ?? [stubbedTextRegion]
             )
 
