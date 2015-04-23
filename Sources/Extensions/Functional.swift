@@ -8,6 +8,8 @@ import Foundation
 
 public struct Functional {
     public typealias BasicBlock = (()->())
+    public typealias TakesBasicBlock = ((BasicBlock)->())
+    public typealias ThrottledBlock = TakesBasicBlock
     public typealias CancellableBlock = Bool -> ()
     public typealias TakesIndexBlock = ((Int)->())
 
@@ -119,6 +121,19 @@ public struct Functional {
         }
     }
 
+    // Same as above, but you pass the block in to the closure that is returned.
+    public static func debounce(timeout: NSTimeInterval) -> ThrottledBlock {
+        var timer : NSTimer? = nil
+
+        return { block in
+            if let prevTimer = timer {
+                prevTimer.invalidate()
+            }
+            let proc = Proc(block: block)
+            timer = NSTimer.scheduledTimerWithTimeInterval(timeout, target: proc, selector: "run", userInfo: nil, repeats: false)
+        }
+    }
+
     // The difference with `debounce`, is that this method is guaranteed to run
     // every `interval` seconds.  If `debounce` is useful for keyboard / UI,
     // this method is useful for slowing down events, like a chat client that
@@ -132,6 +147,25 @@ public struct Functional {
 
         return {
             if timer == nil {
+                timer = NSTimer.scheduledTimerWithTimeInterval(interval, target: proc, selector: "run", userInfo: nil, repeats: false)
+            }
+        }
+    }
+
+    // Same as above, but you pass the block in to the closure that is returned.
+    public static func throttle(interval: NSTimeInterval) -> ThrottledBlock {
+        var timer : NSTimer? = nil
+        var lastBlock : BasicBlock?
+
+        return { block in
+            lastBlock = block
+
+            if timer == nil {
+                let proc = Proc() {
+                    timer = nil
+                    lastBlock?()
+                }
+
                 timer = NSTimer.scheduledTimerWithTimeInterval(interval, target: proc, selector: "run", userInfo: nil, repeats: false)
             }
         }
