@@ -90,5 +90,25 @@ class ProfileServiceSpec: QuickSpec {
                 }
             }
         }
+
+        describe("deleteAccount") {
+            var profileService = ProfileService()
+
+            context("success") {
+                beforeEach {
+                    ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.endpointsClosure, stubResponses: true)
+                }
+
+                it("Calls success function") {
+                    var called = false
+
+                    profileService.deleteAccount({
+                        called = true
+                    }, failure: nil)
+
+                    expect(called) == true
+                }
+            }
+        }
     }
 }

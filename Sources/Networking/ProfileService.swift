@@ -13,6 +13,7 @@ import Moya
 import SwiftyJSON
 
 public typealias ProfileFollowingSuccessCompletion = (users: [User], responseConfig: ResponseConfig) -> ()
+public typealias AccountDeletionSuccessCompletion = () -> ()
 
 public struct ProfileService {
 
@@ -76,5 +77,12 @@ public struct ProfileService {
                 self.updateUserProfile([key: urlString], success: success, failure: failure)
             }
         }, failure: failure)
+    }
+
+    public func deleteAccount(success: AccountDeletionSuccessCompletion, failure: ElloFailureCompletion?) {
+        ElloProvider.elloRequest(ElloAPI.ProfileDelete,
+            method: .DELETE,
+            success: { _, _ in success() },
+            failure: failure)
     }
 }
