@@ -135,7 +135,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
 
     private func setupDefaultValues() {
         currentUser?.coverImageURL.map(coverImage.sd_setImageWithURL)
-        currentUser?.avatarURL.map(avatarImage.sd_setImageWithURL)
+        (currentUser?.avatar?.large?.url).map(avatarImage.sd_setImageWithURL)
     }
 
     func backAction() {
