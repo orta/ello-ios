@@ -92,6 +92,14 @@ class CGRectExtensionSpec: QuickSpec {
                 let newFrame = frame.inset(topBottom: 1, sides: 2)
                 expect(newFrame).to(equal(CGRect(x: 7, y: 8, width: 6, height: 12)))
             }
+            it("-inset(topBottom:)") {
+                let newFrame = frame.inset(topBottom: 1)
+                expect(newFrame).to(equal(CGRect(x: 5, y: 8, width: 10, height: 12)))
+            }
+            it("-inset(sides:)") {
+                let newFrame = frame.inset(sides: 2)
+                expect(newFrame).to(equal(CGRect(x: 7, y: 7, width: 6, height: 14)))
+            }
             it("-inset(top:sides:bottom:)") {
                 let newFrame = frame.inset(top: 1, sides: 2, bottom: 3)
                 expect(newFrame).to(equal(CGRect(x: 7, y: 8, width: 6, height: 10)))
