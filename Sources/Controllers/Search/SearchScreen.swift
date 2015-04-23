@@ -75,7 +75,8 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         searchField.clearButtonMode = .WhileEditing
         searchField.font = UIFont.regularBoldFont(18)
         searchField.textColor = UIColor.greyA()
-        searchField.placeholder = "  Search Ello"
+        let placeholder = NSLocalizedString("Search Ello", comment: "search ello placeholder text")
+        searchField.placeholder = "  \(placeholder)"
         searchField.autocapitalizationType = .None
         searchField.autocorrectionType = .No
         searchField.spellCheckingType = .No
