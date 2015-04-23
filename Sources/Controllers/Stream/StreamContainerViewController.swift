@@ -142,6 +142,7 @@ public class StreamContainerViewController: StreamableViewController {
 
     @IBAction func searchButtonTapped() {
         let search = SearchViewController()
+        search.currentUser = currentUser
         self.navigationController?.pushViewController(search, animated: true)
     }
 

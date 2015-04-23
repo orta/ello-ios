@@ -10,27 +10,35 @@
 @objc
 public protocol SearchScreenDelegate {
     func searchCanceled()
+    func searchFieldChanged(text: String)
 }
 
 @objc
 public protocol SearchScreenProtocol {
     var delegate : SearchScreenDelegate? { get set }
+    func insertStreamView(view: UIView)
 }
 
 public class SearchScreen: UIView, SearchScreenProtocol {
     var keyboardWillShowObserver: NotificationObserver?
     var keyboardWillHideObserver: NotificationObserver?
+    private var throttled: Functional.ThrottledBlock
+    private var navigationBar: ElloNavigationBar!
+    private var searchField: UITextField!
+    private var streamViewContainer: UIView!
 
     weak public var delegate : SearchScreenDelegate?
 
 // MARK: init
 
     override public init(frame: CGRect) {
+        throttled = Functional.debounce(0.5)
         super.init(frame: frame)
         self.backgroundColor = UIColor.whiteColor()
 
         setupNavigationBar()
-        setupInputBar()
+        setupSearchField()
+        setupStreamView()
     }
 
     required public init(coder aDecoder: NSCoder) {
@@ -41,18 +49,59 @@ public class SearchScreen: UIView, SearchScreenProtocol {
 
     private func setupNavigationBar() {
         let frame = CGRect(x: 0, y: 0, width: self.frame.width, height: ElloNavigationBar.Size.height)
-        let navigationBar = ElloNavigationBar(frame: frame)
+        navigationBar = ElloNavigationBar(frame: frame)
         navigationBar.autoresizingMask = .FlexibleBottomMargin | .FlexibleWidth
-        self.addSubview(navigationBar)
+
         let navigationItem = UINavigationItem(title: "Search")
-        let item = UIBarButtonItem.backChevronWithTarget(self, action: "backTapped")
-        navigationItem.leftBarButtonItems = [item]
+        let leftItem = UIBarButtonItem.backChevronWithTarget(self, action: "backTapped")
+        navigationItem.leftBarButtonItems = [leftItem]
+
+        let image = UIImage(named: "search-icon")
+        let view = UIImageView(image: image)
+        let rightItem = UIBarButtonItem(customView: view)
+        navigationItem.rightBarButtonItems = [rightItem]
         navigationItem.fixNavBarItemPadding()
         navigationBar.items = [navigationItem]
+
+        self.addSubview(navigationBar)
     }
 
-    private func setupInputBar() {
-        
+    private func setupSearchField() {
+        let frame = self.bounds.inset(sides: 20).atY(50).withHeight(41)
+        searchField = UITextField(frame: frame)
+        searchField.autoresizingMask = .FlexibleWidth | .FlexibleBottomMargin
+        searchField.clearButtonMode = .WhileEditing
+        searchField.font = UIFont.regularBoldFont(18)
+        searchField.textColor = UIColor.greyA()
+        searchField.placeholder = "  Search Ello"
+        searchField.autocapitalizationType = .None
+        searchField.autocorrectionType = .No
+        searchField.spellCheckingType = .No
+        searchField.enablesReturnKeyAutomatically = true
+        searchField.returnKeyType = .Search
+        searchField.keyboardType = .Default
+        searchField.addTarget(self, action: "searchFieldDidChange", forControlEvents: .EditingChanged)
+        self.addSubview(searchField)
+
+        let lineFrame = searchField.frame.fromBottom().growUp(1)
+        let lineView = UIView(frame: lineFrame)
+        lineView.backgroundColor = UIColor.greyA()
+        self.addSubview(lineView)
+    }
+
+    private func setupStreamView() {
+        let height = self.frame.height - searchField.frame.maxY
+        let frame = self.bounds.atY(searchField.frame.maxY).withHeight(height)
+        streamViewContainer = UIView(frame: frame)
+        streamViewContainer.autoresizingMask = .FlexibleWidth | .FlexibleHeight
+        streamViewContainer.backgroundColor = .whiteColor()
+        self.addSubview(streamViewContainer)
+    }
+
+    public func insertStreamView(view: UIView) {
+        view.frame = streamViewContainer.bounds
+        view.autoresizingMask = .FlexibleWidth | .FlexibleHeight
+        streamViewContainer.addSubview(view)
     }
 
 // MARK: actions
@@ -60,6 +109,13 @@ public class SearchScreen: UIView, SearchScreenProtocol {
     @objc
     private func backTapped() {
         delegate?.searchCanceled()
+    }
+
+    @objc
+    private func searchFieldDidChange() {
+        throttled { [unowned self] in
+            self.delegate?.searchFieldChanged(searchField.text ?? "")
+        }
     }
 
 }
