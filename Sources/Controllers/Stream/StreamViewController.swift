@@ -153,6 +153,7 @@ public class StreamViewController: BaseElloViewController {
         else {
             dataSource.removeAllCellItems()
         }
+        collectionView.reloadData()
     }
 
     public func imageCellHeightUpdated(cell:StreamImageCell) {

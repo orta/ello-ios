@@ -12,6 +12,7 @@ import SVGKit
 @objc
 public protocol SearchScreenDelegate {
     func searchCanceled()
+    func searchFieldCleared()
     func searchFieldChanged(text: String)
 }
 
@@ -110,9 +111,21 @@ public class SearchScreen: UIView, SearchScreenProtocol {
     }
 
     @objc
+    private func textFieldShouldClear() {
+        self.delegate?.searchFieldCleared()
+        throttled {}
+    }
+
+    @objc
     private func searchFieldDidChange() {
         throttled { [unowned self] in
-            self.delegate?.searchFieldChanged(searchField.text ?? "")
+            let text = self.searchField.text ?? ""
+            if count(text) == 0 {
+                self.delegate?.searchFieldCleared()
+            }
+            else {
+                self.delegate?.searchFieldChanged(text)
+            }
         }
     }
 

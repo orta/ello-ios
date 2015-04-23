@@ -57,6 +57,11 @@ extension SearchViewController: SearchScreenDelegate {
         navigationController?.popViewControllerAnimated(true)
     }
 
+    public func searchFieldCleared() {
+        userSearchText = ""
+        streamViewController.removeRefreshables()
+    }
+
     public func searchFieldChanged(text: String) {
         if count(text) < 2 { return }  // just.. no (and the server doesn't guard against empty/short searches)
         if userSearchText == text { return }  // a search is already in progress for this text
