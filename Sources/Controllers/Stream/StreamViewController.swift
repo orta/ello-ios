@@ -344,7 +344,6 @@ extension StreamViewController : WebLinkDelegate {
         let vc = ProfileViewController(userParam: param)
         vc.currentUser = currentUser
         self.navigationController?.pushViewController(vc, animated: true)
-        vc.didPresentStreamable()
     }
 
     private func showPostDetail(token: String) {
@@ -353,7 +352,6 @@ extension StreamViewController : WebLinkDelegate {
         let vc = PostDetailViewController(postParam: param)
         vc.currentUser = currentUser
         self.navigationController?.pushViewController(vc, animated: true)
-        vc.didPresentStreamable()
     }
 }
 
