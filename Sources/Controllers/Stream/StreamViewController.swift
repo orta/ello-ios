@@ -56,7 +56,7 @@ public class StreamViewController: BaseElloViewController {
     public var dataSource:StreamDataSource!
     public var postbarController:PostbarController?
     var relationshipController: RelationshipController?
-    var userListController: UserListController?
+    var userListPresentationController: UserListPresentationController?
     public var responseConfig: ResponseConfig?
     public let streamService = StreamService()
     public var pullToRefreshView: SSPullToRefreshView?
@@ -105,8 +105,8 @@ public class StreamViewController: BaseElloViewController {
     override public func didSetCurrentUser() {
         dataSource.currentUser = currentUser
 
-        if let userListController = userListController {
-            userListController.currentUser = currentUser
+        if let userListPresentationController = userListPresentationController {
+            userListPresentationController.currentUser = currentUser
         }
 
         if let postbarController = postbarController {
@@ -299,9 +299,9 @@ public class StreamViewController: BaseElloViewController {
         relationshipController = RelationshipController(presentingController: self)
         dataSource.relationshipDelegate = relationshipController
 
-        userListController = UserListController(presentingController: self)
-        userListController!.currentUser = currentUser
-        dataSource.userListDelegate = userListController
+        userListPresentationController = UserListPresentationController(presentingController: self)
+        userListPresentationController!.currentUser = currentUser
+        dataSource.userListDelegate = userListPresentationController
 
         dataSource.imageDelegate = self
         dataSource.webLinkDelegate = self
