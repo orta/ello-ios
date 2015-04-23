@@ -71,7 +71,7 @@ public struct ProfileService {
     }
 
     private func updateUserImage(image: UIImage, key: String, success: UserSuccessCompletion, failure: ElloFailureCompletion) {
-        S3UploadingService().upload(image, filename: "\(NSUUID().UUIDString).jpeg", success: { url in
+        S3UploadingService().upload(image, filename: "\(NSUUID().UUIDString).png", success: { url in
             if let urlString = url?.absoluteString {
                 self.updateUserProfile([key: urlString], success: success, failure: failure)
             }
