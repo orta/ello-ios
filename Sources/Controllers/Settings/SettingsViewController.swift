@@ -211,7 +211,8 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     private func alertUserOfImageProcessing() {
         let message = NSLocalizedString("Copy needed to explain caching of old avatar", comment: "Copy needed to explain caching of old avatar")
         let alert = AlertViewController(message: message, textAlignment: .Center, dismissable: true, type: .Normal)
-        alert.addAction(AlertAction(title: "OK", style: .Light, handler: .None))
+        let action = AlertAction(title: NSLocalizedString("OK", comment: "ok"), style: .Light, handler: .None)
+        alert.addAction(action)
         presentViewController(alert, animated: true, completion: .None)
     }
 }
