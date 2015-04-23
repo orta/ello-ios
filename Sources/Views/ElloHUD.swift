@@ -12,6 +12,17 @@ import MBProgressHUD
 class ElloHUD: NSObject {
 
     class func showLoadingHudInView(view: UIView) -> MBProgressHUD? {
+        var existingHub: MBProgressHUD?
+        for subview in view.subviews {
+            if let found = subview as? MBProgressHUD {
+                existingHub = found
+                break
+            }
+        }
+        if let existingHub = existingHub {
+            return existingHub
+        }
+
         let hud = MBProgressHUD.showHUDAddedTo(view, animated: true)
         hud.opacity = 0.0
 
