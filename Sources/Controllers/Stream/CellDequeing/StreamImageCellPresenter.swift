@@ -57,6 +57,15 @@ public struct StreamImageCellPresenter {
                 else if let photoURL = photoData.url {
                     cell.setImageURL(photoURL)
                 }
+                cell.hideBorder()
+                // Repost specifics
+                if streamCellItem.data?.isRepost == true {
+                    cell.leadingConstraint.constant = 30.0
+                    cell.showBorder()
+                }
+                else {
+                    cell.leadingConstraint.constant = 0.0
+                }
             }
         }
     }

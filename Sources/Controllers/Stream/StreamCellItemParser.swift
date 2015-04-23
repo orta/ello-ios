@@ -70,8 +70,25 @@ public struct StreamCellItemParser {
         var cellItems:[StreamCellItem] = []
         for post in posts {
             cellItems.append(StreamCellItem(jsonable: post, type: StreamCellType.Header, data: nil, oneColumnCellHeight: 80.0, multiColumnCellHeight: 49.0, isFullWidth: false))
-            cellItems += postToggleItems(post, streamKind: streamKind)
-            cellItems += postRegionItems(post, streamKind: streamKind)
+            cellItems += postToggleItems(post)
+            if post.isRepost {
+                // add repost header with via/source
+                var repostHeaderHeight: CGFloat = post.repostViaPath == nil ? 15.0 : 30.0
+                cellItems.append(StreamCellItem(jsonable: post, type: StreamCellType.RepostHeader, data: nil, oneColumnCellHeight: repostHeaderHeight, multiColumnCellHeight: repostHeaderHeight, isFullWidth: false))
+                // add repost content
+                if let repostContent = post.repostContent {
+                    cellItems += postRegionItems(post, content: repostContent)
+                    // add additional content
+                    if let content = streamKind.isGridLayout ? post.summary : post.content {
+                        cellItems += postRegionItems(post, content: content)
+                    }
+                }
+            }
+            else {
+                if let content = streamKind.isGridLayout ? post.summary : post.content {
+                    cellItems += postRegionItems(post, content: content)
+                }
+            }
             cellItems += footerStreamCellItems(post)
         }
         return cellItems
@@ -86,7 +103,7 @@ public struct StreamCellItemParser {
         return cellItems
     }
 
-    private func postToggleItems(post: Post, streamKind: StreamKind) -> [StreamCellItem] {
+    private func postToggleItems(post: Post) -> [StreamCellItem] {
         if post.collapsed {
             return [StreamCellItem(jsonable: post, type: StreamCellType.Toggle, data: nil, oneColumnCellHeight: 30.0, multiColumnCellHeight: 30.0, isFullWidth: false)]
         }
@@ -95,48 +112,45 @@ public struct StreamCellItemParser {
         }
     }
 
-    private func postRegionItems(post: Post, streamKind: StreamKind) -> [StreamCellItem] {
+    private func postRegionItems(post: Post, content: [Regionable]) -> [StreamCellItem] {
         var cellArray:[StreamCellItem] = []
-        let contentKind = streamKind.isGridLayout ? post.summary : post.content
-        if let content = contentKind {
-            for region in content {
-                var oneColumnHeight:CGFloat
-                var multiColumnHeight:CGFloat
-                var type : StreamCellType
+        for region in content {
+            var oneColumnHeight:CGFloat
+            var multiColumnHeight:CGFloat
+            var type : StreamCellType
 
-                let kind = RegionKind(rawValue: region.kind) ?? RegionKind.Unknown
+            let kind = RegionKind(rawValue: region.kind) ?? RegionKind.Unknown
 
-                switch kind {
-                case .Image:
-                    oneColumnHeight = self.oneColumnImageHeight(region as! ImageRegion)
-                    multiColumnHeight = self.twoColumnImageHeight(region as! ImageRegion)
-                    type = .Image
-                case .Text:
-                    oneColumnHeight = 0.0
-                    multiColumnHeight = 0.0
-                    type = .Text
-                case .Embed:
-                    var ratio: CGFloat!
-                    if (region as! EmbedRegion).isAudioEmbed {
-                        ratio = 4.0/3.0
-                    }
-                    else {
-                        ratio = 16.0/9.0
-                    }
-                    oneColumnHeight = UIScreen.screenWidth() / ratio
-                    multiColumnHeight = ((UIScreen.screenWidth() - 10.0) / 2) / ratio
-                    type = .Embed
-                case .Unknown:
-                    oneColumnHeight = 0.0
-                    multiColumnHeight = 0.0
-                    type = .Unknown
+            switch kind {
+            case .Image:
+                oneColumnHeight = self.oneColumnImageHeight(region as! ImageRegion)
+                multiColumnHeight = self.twoColumnImageHeight(region as! ImageRegion)
+                type = .Image
+            case .Text:
+                oneColumnHeight = 0.0
+                multiColumnHeight = 0.0
+                type = .Text
+            case .Embed:
+                var ratio: CGFloat!
+                if (region as! EmbedRegion).isAudioEmbed {
+                    ratio = 4.0/3.0
                 }
-
-                if type != .Unknown {
-                    let body:StreamCellItem = StreamCellItem(jsonable: post, type: type, data: region, oneColumnCellHeight: oneColumnHeight, multiColumnCellHeight: multiColumnHeight, isFullWidth: false)
-
-                    cellArray.append(body)
+                else {
+                    ratio = 16.0/9.0
                 }
+                oneColumnHeight = UIScreen.screenWidth() / ratio
+                multiColumnHeight = ((UIScreen.screenWidth() - 10.0) / 2) / ratio
+                type = .Embed
+            case .Unknown:
+                oneColumnHeight = 0.0
+                multiColumnHeight = 0.0
+                type = .Unknown
+            }
+
+            if type != .Unknown {
+                let body:StreamCellItem = StreamCellItem(jsonable: post, type: type, data: region, oneColumnCellHeight: oneColumnHeight, multiColumnCellHeight: multiColumnHeight, isFullWidth: false)
+
+                cellArray.append(body)
             }
         }
         return cellArray

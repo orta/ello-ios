@@ -9,7 +9,7 @@
 import WebKit
 import Foundation
 
-public class StreamTextCell: UICollectionViewCell, UIWebViewDelegate {
+public class StreamTextCell: StreamRegionableCell, UIWebViewDelegate {
     typealias WebContentReady = (webView : UIWebView)->()
 
     @IBOutlet weak var webView:UIWebView!

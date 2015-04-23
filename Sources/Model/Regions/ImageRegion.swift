@@ -11,9 +11,10 @@ import SwiftyJSON
 
 let ImageRegionVersion = 1
 
-public final class ImageRegion: JSONAble {
+public final class ImageRegion: JSONAble, Regionable {
     public let version = ImageRegionVersion
-
+    public var isRepost: Bool  = false
+    
     // required
     public let alt: String
     // optional
@@ -35,6 +36,7 @@ public final class ImageRegion: JSONAble {
         let decoder = Decoder(aDecoder)
         // required
         self.alt = decoder.decodeKey("alt")
+        self.isRepost = decoder.decodeKey("isRepost")
         // optional
         self.url = decoder.decodeOptionalKey("url")
         super.init(coder: aDecoder)
@@ -43,6 +45,7 @@ public final class ImageRegion: JSONAble {
     public override func encodeWithCoder(encoder: NSCoder) {
         // required
         encoder.encodeObject(alt, forKey: "alt")
+        encoder.encodeBool(isRepost, forKey: "isRepost")
         // optional
         encoder.encodeObject(url, forKey: "url")
         super.encodeWithCoder(encoder)
@@ -64,11 +67,11 @@ public final class ImageRegion: JSONAble {
         imageRegion.links = data["links"] as? [String: AnyObject]
         return imageRegion
     }
-}
 
-extension ImageRegion: Regionable {
+// MARK: Regionable
+
     public var kind:String { return RegionKind.Image.rawValue }
-
+    
     public func coding() -> NSCoding {
         return self
     }

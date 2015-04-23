@@ -9,8 +9,8 @@
 import Foundation
 
 public typealias CellConfigClosure = (
-    cell:UICollectionViewCell,
-    streamCellItem:StreamCellItem,
+    cell: UICollectionViewCell,
+    streamCellItem: StreamCellItem,
     streamKind: StreamKind,
     indexPath: NSIndexPath,
     currentUser: User?
@@ -23,6 +23,7 @@ public enum StreamCellType {
     case Image
     case Text
     case Embed
+    case RepostHeader
     case Comment
     case Unknown
     case ProfileHeader
@@ -32,7 +33,7 @@ public enum StreamCellType {
     case StreamLoading
     case Toggle
 
-    static let all = [CommentHeader, Header, Footer, Image, Text, Embed, Comment, Unknown, ProfileHeader, Notification, UserListItem, CreateComment, StreamLoading, Toggle]
+    static let all = [CommentHeader, Header, Footer, Image, Text, Embed, RepostHeader, Comment, Unknown, ProfileHeader, Notification, UserListItem, CreateComment, StreamLoading, Toggle]
 
     public var name: String {
         switch self {
@@ -42,6 +43,7 @@ public enum StreamCellType {
         case Image: return "StreamImageCell"
         case Text: return "StreamTextCell"
         case Embed: return "StreamEmbedCell"
+        case RepostHeader: return "StreamRepostHeaderCell"
         case Comment: return "StreamCommentCell"
         case Unknown: return "StreamUnknownCell"
         case ProfileHeader: return "ProfileHeaderCell"
@@ -69,6 +71,7 @@ public enum StreamCellType {
         case Image: return StreamImageCellPresenter.configure
         case Text: return StreamTextCellPresenter.configure
         case Embed: return StreamEmbedCellPresenter.configure
+        case RepostHeader: return StreamRepostHeaderCellPresenter.configure
         case Comment: return ProfileHeaderCellPresenter.configure
         case ProfileHeader: return ProfileHeaderCellPresenter.configure
         case Notification: return NotificationCellPresenter.configure
@@ -89,6 +92,7 @@ public enum StreamCellType {
         case Image: return StreamImageCell.self
         case Text: return StreamTextCell.self
         case Embed: return StreamEmbedCell.self
+        case RepostHeader: return StreamRepostHeaderCell.self
         case Comment: return StreamCommentCell.self
         case ProfileHeader: return ProfileHeaderCell.self
         case Notification: return NotificationCell.self
