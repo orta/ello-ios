@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import SVGKit
+
 
 @objc
 public protocol SearchScreenDelegate {
@@ -56,7 +58,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         let leftItem = UIBarButtonItem.backChevronWithTarget(self, action: "backTapped")
         navigationItem.leftBarButtonItems = [leftItem]
 
-        let image = UIImage(named: "search-icon")
+        let image = SVGKImage(named: "search_selected.svg").UIImage
         let view = UIImageView(image: image)
         let rightItem = UIBarButtonItem(customView: view)
         navigationItem.rightBarButtonItems = [rightItem]
