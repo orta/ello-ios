@@ -10,7 +10,8 @@ import UIKit
 
 public class PostDetailViewController: StreamableViewController, CreateCommentDelegate {
 
-    var post: Post?
+    var shouldReload = false
+	var post: Post?
     var postParam: String!
     let streamViewController : StreamViewController = StreamViewController.instantiateFromStoryboard()
     var startOfComments: Int = 0
@@ -19,18 +20,28 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
     required public init(postParam: String) {
         self.postParam = postParam
         super.init(nibName: nil, bundle: nil)
-        setupNavigationBar()
-        setupStreamViewController()
-        ElloHUD.showLoadingHudInView(streamViewController.view)
-        PostService().loadPost(postParam,
-            streamKind: .PostDetail(postParam: postParam),
-            success: postLoaded,
-            failure: nil
-        )
+        reloadEntirePostDetail()
     }
 
     required public init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    public override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        if shouldReload {
+            shouldReload = false
+            reloadEntirePostDetail()
+        }
+    }
+
+    private func reloadEntirePostDetail() {
+        let service = PostService()
+
+        service.loadPost(postParam,
+            success: postLoaded,
+            failure: nil
+        )
     }
 
     override public func viewDidLoad() {
@@ -137,4 +148,27 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         // load comments again?
     }
 
+}
+
+// MARK: PostDetailViewController: ExperienceUpdatable
+extension PostDetailViewController: ExperienceUpdatable {
+
+    public func experienceUpdateResponse(update: ExperienceUpdate) -> ExperienceUpdateResponse {
+        switch update {
+        case .PostChanged(let id, let change):
+            let releventPostDeleted = id == self.post?.id && change == .Delete
+            return releventPostDeleted ? .Remove : .DoNothing
+        default:
+            let affected = update.affectsItems(self.streamViewController.dataSource.streamCellItems)
+            return affected ? .Reload : .DoNothing
+        }
+    }
+
+    public func experienceReloadNow() {
+        reloadEntirePostDetail()
+    }
+
+    public func experienceMarkForReload() {
+        shouldReload = true
+    }
 }
