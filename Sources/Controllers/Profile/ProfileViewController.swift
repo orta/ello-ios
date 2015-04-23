@@ -11,6 +11,7 @@ import FLAnimatedImage
 
 public class ProfileViewController: StreamableViewController, EditProfileResponder {
 
+    var shouldReload = false
     var user: User?
     var responseConfig: ResponseConfig?
     var userParam: String!
@@ -84,6 +85,14 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         }
     }
 
+    public override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        if shouldReload {
+            shouldReload = false
+            reloadEntireProfile()
+        }
+    }
+
     override func showNavBars(scrollToBottom : Bool) {
         super.showNavBars(scrollToBottom)
         if !isRootViewController() {
@@ -131,6 +140,17 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
 
 // MARK : private
 
+    private func reloadEntireProfile() {
+        ElloHUD.showLoadingHudInView(streamViewController.view)
+        streamViewController.streamService.loadUser(streamViewController.streamKind.endpoint,
+            success: userLoaded,
+            failure: { (error, statusCode) in
+                println("failed to load user (reason: \(error))")
+                self.streamViewController.doneLoading()
+            }
+        )
+    }
+
     private func setupStreamController() {
         streamViewController.currentUser = currentUser
         streamViewController.streamScrollDelegate = self
@@ -166,7 +186,7 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         streamViewController.streamKind = .UserStream(userParam: userParam)
         streamViewController.responseConfig = responseConfig
         if !isRootViewController() {
-            self.title = user.atName ?? "Profile"
+            self.title = user.atName ?? NSLocalizedString("Profile", comment: "a user's profile")
         }
         if let cover = user.coverImageURL {
             if let coverImage = coverImage {
@@ -183,6 +203,7 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         if let posts = user.posts {
             items += StreamCellItemParser().parse(posts, streamKind: streamViewController.streamKind)
         }
+        streamViewController.removeRefreshables()
         streamViewController.appendUnsizedCellItems(items, withWidth: self.view.frame.width)
         streamViewController.doneLoading()
     }
@@ -202,3 +223,19 @@ extension ProfileViewController: StreamScrollDelegate {
     }
 }
 
+// MARK: ProfileViewController: ExperienceUpdatable
+extension ProfileViewController: ExperienceUpdatable {
+
+    public func experienceUpdateResponse(update: ExperienceUpdate) -> ExperienceUpdateResponse {
+        let affected = update.affectsItems(self.streamViewController.dataSource.streamCellItems)
+        return affected ? .Reload : .DoNothing
+    }
+
+    public func experienceReloadNow() {
+        reloadEntireProfile()
+    }
+
+    public func experienceMarkForReload() {
+        shouldReload = true
+    }
+}

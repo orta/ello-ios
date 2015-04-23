@@ -350,6 +350,9 @@ public class StreamViewController: BaseElloViewController {
 
                 println("failed to load \(self.streamKind.name) stream (reason: \(error))")
                 self.pullToRefreshView?.finishLoading()
+            }, noContent: {
+                println("nothing new")
+                self.pullToRefreshView?.finishLoading()
             }
         )
     }
