@@ -115,9 +115,9 @@ extension Post: Stubbable {
         post.content = (values["content"] as? [Regionable]) ?? [stubbedTextRegion]
         post.repostContent = (values["repostContent"] as? [Regionable]) ?? [stubbedTextRegion]
         post.repostId = (values["repostId"] as? String)
-        post.repostPath = urlFromValue(values["repostPath"])
+        post.repostPath = (values["repostPath"] as? String)
         post.repostViaId = (values["repostViaId"] as? String)
-        post.repostViaPath = urlFromValue(values["repostViaPath"])
+        post.repostViaPath = (values["repostViaPath"] as? String)
         post.viewsCount = values["viewsCount"] as? Int
         post.commentsCount = values["commentsCount"] as? Int
         post.repostsCount = values["repostsCount"] as? Int
