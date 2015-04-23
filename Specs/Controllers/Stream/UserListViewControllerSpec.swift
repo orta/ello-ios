@@ -16,8 +16,7 @@ class UserListViewControllerSpec: QuickSpec {
     override func spec() {
 
         var subject = UserListViewController(endpoint: ElloAPI.UserStreamFollowers(userId: "666"), title: "Followers")
-        let userListController = UserListController(presentingController: UIViewController())
-
+        // let userListPresentationController = UserListPresentationController(presentingController: UIViewController())
 
         describe("initialization") {
 
