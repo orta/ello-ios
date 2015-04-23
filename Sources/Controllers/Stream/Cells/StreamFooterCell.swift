@@ -73,7 +73,7 @@ public class StreamFooterCell: UICollectionViewCell {
             if let streamKind = footerConfig.streamKind {
                 if streamKind.isGridLayout {
                     self.toolBar.items = [
-                        fixedItem(-15), commentsItem, flexibleItem(), repostItem, shareItem, fixedItem(-17)
+                        fixedItem(-15), commentsItem, flexibleItem(), repostItem, shareItem, fixedItem(-10)
                     ]
                     self.bottomToolBar.items = [
                     ]
@@ -84,7 +84,7 @@ public class StreamFooterCell: UICollectionViewCell {
                     ]
                     let rightItem = footerConfig.ownPost ? deleteItem : flagItem
                     self.bottomToolBar.items = [
-                        flexibleItem(), shareItem, rightItem, fixedItem(-17)
+                        flexibleItem(), shareItem, rightItem, fixedItem(-10)
                     ]
                 }
             }
