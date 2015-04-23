@@ -88,8 +88,11 @@ public enum VisibilityKind {
 public enum ExperienceUpdateResponse {
     case Reload
     case Remove
+    case DoNothing
 }
 
 public protocol ExperienceUpdatable {
-    func experienceUpdateResponse(update: ExperienceUpdate) -> ExperienceUpdateResponse?
+    func experienceUpdateResponse(update: ExperienceUpdate) -> ExperienceUpdateResponse
+    func experienceReloadNow()
+    func experienceMarkForReload()
 }
