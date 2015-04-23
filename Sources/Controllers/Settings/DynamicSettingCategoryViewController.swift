@@ -68,4 +68,21 @@ extension DynamicSettingCategoryViewController: DynamicSettingCellDelegate {
             }
         }
     }
+
+    func deleteAccount() {
+        let alert = AlertViewController(message: "Delete Account?", textAlignment: .Center, dismissable: false, type: .Danger)
+        let cancelAction = AlertAction(title: "No", style: .Light, handler: .None)
+        let deleteAction = AlertAction(title: "Yes", style: .Light) { _ in
+            ElloHUD.showLoadingHud()
+            ProfileService().deleteAccount({
+                ElloHUD.hideLoadingHud()
+                NSNotificationCenter.defaultCenter().postNotificationName(Notifications.UserLoggedOut.rawValue, object: nil)
+            }) { _, _ in
+                ElloHUD.hideLoadingHud()
+            }
+        }
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+        presentViewController(alert, animated: true, completion: .None)
+    }
 }

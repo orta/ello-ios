@@ -12,6 +12,15 @@ public struct DynamicSettingCellPresenter {
     public static func configure(cell: DynamicSettingCell, setting: DynamicSetting, currentUser: User) {
         cell.titleLabel.text = setting.label
         cell.descriptionLabel.setLabelText(setting.info ?? "")
-        cell.toggleButton.value = currentUser.profile?.propertyForSettingsKey(setting.key) ?? false
+
+        if setting.key == DynamicSetting.accountDeletionSetting.key {
+            cell.toggleButton.hidden = true
+            cell.deleteButton.hidden = false
+            cell.deleteButton.setText(NSLocalizedString("Delete", comment: "delete button"))
+        } else {
+            cell.toggleButton.hidden = false
+            cell.deleteButton.hidden = true
+            cell.toggleButton.value = currentUser.profile?.propertyForSettingsKey(setting.key) ?? false
+        }
     }
 }

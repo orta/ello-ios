@@ -41,3 +41,10 @@ extension DynamicSettingCategory {
         return DynamicSettingCategory(label: label, settings: settings)
     }
 }
+
+extension DynamicSettingCategory {
+    static var accountDeletionCategory: DynamicSettingCategory {
+        let label = NSLocalizedString("Account Deletion", comment: "account deletion button")
+        return DynamicSettingCategory(label: label, settings: [DynamicSetting.accountDeletionSetting])
+    }
+}

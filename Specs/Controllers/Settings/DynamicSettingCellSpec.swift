@@ -32,6 +32,7 @@ class DynamicSettingCellSpec: QuickSpec {
                     expect(subject.titleLabel).notTo(beNil())
                     expect(subject.descriptionLabel).notTo(beNil())
                     expect(subject.toggleButton).notTo(beNil())
+                    expect(subject.deleteButton).notTo(beNil())
                 }
             }
         }
@@ -60,6 +61,19 @@ class DynamicSettingCellSpec: QuickSpec {
                 expect(fake.value) == true
             }
         }
+
+        describe("deleteButtonTapped") {
+            beforeEach {
+                subject = DynamicSettingCell.loadFromNib()
+            }
+
+            it("calls the delegate function") {
+                let fake = FakeDelegate()
+                subject.delegate = fake
+                subject.deleteButtonTapped()
+                expect(fake.didCall).to(beTrue())
+            }
+        }
     }
 }
 
@@ -72,5 +86,9 @@ private class FakeDelegate: DynamicSettingCellDelegate {
         didCall = true
         self.setting = setting
         self.value = value
+    }
+
+    private func deleteAccount() {
+        didCall = true
     }
 }

@@ -59,7 +59,7 @@ class DynamicSettingsViewController: UITableViewController {
             cell.textLabel?.text = category.label
 
         case .AccountDeletion:
-            cell.textLabel?.text = NSLocalizedString("Account Deletion", comment: "account deletion button")
+            cell.textLabel?.text = DynamicSettingCategory.accountDeletionCategory.label
 
         case .Unknown: break
         }
@@ -82,7 +82,7 @@ class DynamicSettingsViewController: UITableViewController {
                 controller.category = dynamicCategories[index]
 
             case .AccountDeletion:
-                controller.category = DynamicSettingCategory(label: "Account Deletion", settings: [])
+                controller.category = DynamicSettingCategory.accountDeletionCategory
 
             case .Unknown: break
             }

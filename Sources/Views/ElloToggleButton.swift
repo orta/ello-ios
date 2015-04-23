@@ -25,7 +25,7 @@ public class ElloToggleButton: UIButton {
         setTitleColor(UIColor.greyA(), forState: .Normal)
     }
 
-    private func setText(text: String, color: UIColor = UIColor.greyA()) {
+    public func setText(text: String, color: UIColor = UIColor.greyA()) {
         let string = NSMutableAttributedString(string: text, attributes: attributes)
         string.addAttribute(NSForegroundColorAttributeName, value: color, range: NSRange(location: 0, length: string.length))
         setAttributedTitle(string, forState: .Normal)
