@@ -28,14 +28,14 @@ class UserSpec: QuickSpec {
                 expect(user.experimentalFeatures) == true
                 expect(user.relationshipPriority) == Relationship.None
                 // optional
-                expect(user.avatar).to(beAKindOf(Attachment.self))
+                expect(user.avatar).to(beAKindOf(Asset.self))
                 expect(user.identifiableBy) == ""
                 expect(user.postsCount!) == 3
                 expect(user.followersCount!) == "0"
                 expect(user.followingCount!) == 0
                 expect(user.formattedShortBio) == "<p>Have been spying for a while now.</p>"
                 expect(user.externalLinks) == "http://isis.com http://ello.co"
-                expect(user.coverImage).to(beAKindOf(Attachment.self))
+                expect(user.coverImage).to(beAKindOf(Asset.self))
                 expect(user.backgroundPosition) == ""
                 expect(user.isCurrentUser) == false
 
@@ -76,10 +76,14 @@ class UserSpec: QuickSpec {
 
                     let post: Post = stub(["id" : "sample-post-id"])
                     let stubbedMostRecentPost: Post = stub(["id" : "another-sample-post-id"])
+                    let attachment: Attachment = stub(["url": NSURL(string: "http://www.example.com")!, "height": 0, "width": 0, "type": "png", "size": 0 ])
+                    let asset: Asset = stub(["regular" : attachment])
+                    let coverAttachment: Attachment = stub(["url": NSURL(string: "http://www.example2.com")!, "height": 0, "width": 0, "type": "png", "size": 0 ])
+                    let coverAsset: Asset = stub(["hdpi" : coverAttachment])
 
                     let user: User = stub([
-                        "avatar" : Attachment.stub(["url": NSURL(string: "http://www.example.com")!, "height": 0, "width": 0, "type": "png", "size": 0]),
-                        "coverImage" : Attachment.stub(["url": NSURL(string: "http://www.example2.com")!, "height": 0, "width": 0, "type": "png", "size": 0]),
+                        "avatar" : asset,
+                        "coverImage" : coverAsset,
                         "experimentalFeatures" : true,
                         "followersCount" : "6",
                         "followingCount" : 8,

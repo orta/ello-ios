@@ -44,14 +44,14 @@ extension User: Stubbable {
             experimentalFeatures: (values["experimentalFeatures"] as? Bool) ?? false,
             relationshipPriority: relationship
             )
-        user.avatar = values["avatar"] as? Attachment
+        user.avatar = values["avatar"] as? Asset
         user.identifiableBy = values["identifiableBy"] as? String
         user.postsCount = values["postsCount"] as? Int
         user.followersCount = values["followersCount"] as? String
         user.followingCount = values["followingCount"] as? Int
         user.formattedShortBio = values["formattedShortBio"] as? String
         user.externalLinks = values["externalLinks"] as? String
-        user.coverImage = values["coverImage"] as? Attachment
+        user.coverImage = values["coverImage"] as? Asset
         user.backgroundPosition = values["backgroundPosition"] as? String
         // links / nested resources
         if let posts = values["posts"] as? [Post] {
@@ -256,6 +256,9 @@ extension Asset: Stubbable {
         asset.xhdpi = values["xhdpi"] as? Attachment
         asset.xxhdpi = values["xxhdpi"] as? Attachment
         asset.original = values["original"] as? Attachment
+        asset.large = values["large"] as? Attachment
+        asset.regular = values["regular"] as? Attachment
+        asset.small = values["small"] as? Attachment
         ElloLinkedStore.sharedInstance.setObject(asset, forKey: asset.id, inCollection: MappingType.AssetsType.rawValue)
         return asset
     }
