@@ -15,6 +15,7 @@ import Nimble
 class OmnibarMockScreen : OmnibarScreenProtocol {
     var delegate : OmnibarScreenDelegate?
     var avatarURL : NSURL?
+    var currentUser : User?
     var text : String?
     var image : UIImage?
     var attributedText : NSAttributedString?

@@ -15,10 +15,14 @@ class OmnibarScreenMockDelegate : OmnibarScreenDelegate {
     var didGoBack = false
     var didPresentController = false
     var didDismissController = false
+    var didPushController = false
     var submitted = false
 
     @objc func omnibarCancel() {
         didGoBack = true
+    }
+    @objc func omnibarPushController(controller: UIViewController) {
+        didPushController = true
     }
     @objc func omnibarPresentController(controller : UIViewController) {
         didPresentController = true
@@ -45,6 +49,14 @@ class OmnibarScreenSpec: QuickSpec {
             controller.view.addSubview(screen)
 
             self.showController(controller)
+        }
+
+        describe("tapping the avatar") {
+            it("should push the profile VC on to the navigation controller") {
+                screen.currentUser = User(id: "1", href: "", username: "", name: "", experimentalFeatures: false, relationshipPriority: Relationship(stringValue: "noise"))
+                screen.profileImageTapped()
+                expect(delegate.didPushController) == true
+            }
         }
 
         describe("setting text") {

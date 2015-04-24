@@ -32,6 +32,7 @@ import FLAnimatedImage
 @objc
 public protocol OmnibarScreenDelegate {
     func omnibarCancel()
+    func omnibarPushController(controller: UIViewController)
     func omnibarPresentController(controller : UIViewController)
     func omnibarDismissController(controller : UIViewController)
     func omnibarSubmitted(text : NSAttributedString?, image: UIImage?)
@@ -42,6 +43,7 @@ public protocol OmnibarScreenDelegate {
 public protocol OmnibarScreenProtocol {
     var delegate : OmnibarScreenDelegate? { get set }
     var avatarURL : NSURL? { get set }
+    var currentUser : User? { get set }
     var hasParentPost : Bool { get set }
     var text : String? { get set }
     var image : UIImage? { get set }
@@ -110,6 +112,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
             if avatarURL != newValue {
                 if let avatarURL = newValue {
                     self.avatarView.sd_setImageWithURL(avatarURL)
+                    self.avatarButtonView.setImage(self.avatarView.image, forState: .Normal)
                 }
                 else {
                     // TODO: Ello default
@@ -125,11 +128,14 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
         }
     }
 
+    public var currentUser: User?
+
 // MARK: internal and/or private vars
 
     weak public var delegate : OmnibarScreenDelegate?
 
     public let avatarView = FLAnimatedImageView()
+    public let avatarButtonView = UIButton()
     public let cameraButton = UIButton()
 
     public let imageSelectedButton = UIButton()
@@ -175,9 +181,11 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
     // Avatar view (in the upper right corner) just needs to round its corners,
     // which is done in layoutSubviews.
     private func setupAvatarView() {
-        avatarView.backgroundColor = UIColor.blackColor()
-        avatarView.clipsToBounds = true
+        avatarButtonView.backgroundColor = UIColor.blackColor()
+        avatarButtonView.clipsToBounds = true
+        avatarButtonView.addTarget(self, action: Selector("profileImageTapped"), forControlEvents: .TouchUpInside)
     }
+
     // the label and overlay cover the text view; on tap they are hidden and the
     // textView is given first responder status.  This is basically a workaround
     // for UITextView not having a `placeholder` property.
@@ -241,7 +249,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
         textView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
     }
     private func setupViewHierarchy() {
-        for view in [navigationBar, avatarView, buttonContainer, textContainer, sayElloOverlay] as [UIView] {
+        for view in [navigationBar, avatarButtonView, buttonContainer, textContainer, sayElloOverlay] as [UIView] {
             self.addSubview(view)
         }
         for view in [cameraButton, cancelButton, submitButton] as [UIView] {
@@ -286,6 +294,13 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
     private func resetAfterSuccessfulPost() {
         resetUndoState()
         resetEditor()
+    }
+
+    public func profileImageTapped() {
+        if let userParam = currentUser?.id {
+            let profileVC = ProfileViewController(userParam: userParam)
+            self.delegate?.omnibarPushController(profileVC)
+        }
     }
 
     public func startEditing() {
@@ -343,8 +358,8 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
         }
 
         var avatarViewLeft = Size.margins
-        avatarView.frame = CGRect(x: avatarViewLeft, y: screenTop + Size.margins, width: Size.toolbarHeight, height: Size.toolbarHeight)
-        avatarView.layer.cornerRadius = Size.toolbarHeight / CGFloat(2)
+        avatarButtonView.frame = CGRect(x: avatarViewLeft, y: screenTop + Size.margins, width: Size.toolbarHeight, height: Size.toolbarHeight)
+        avatarButtonView.layer.cornerRadius = Size.toolbarHeight / CGFloat(2)
 
         let buttonContainerWidth = Size.buttonWidth * CGFloat(buttonContainer.subviews.count)
         buttonContainer.spacing = (buttonContainerWidth - buttonContainer.frame.height * CGFloat(buttonContainer.subviews.count)) / CGFloat(buttonContainer.subviews.count - 1)
