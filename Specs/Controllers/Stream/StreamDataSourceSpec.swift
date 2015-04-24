@@ -19,14 +19,15 @@ class StreamDataSourceSpec: QuickSpec {
         let indexPathOutOfBounds = NSIndexPath(forItem: 1000, inSection: 0)
         let indexPathInvalidSection = NSIndexPath(forItem: 0, inSection: 10)
 
-        var vc:StreamViewController!
+        var vc: StreamViewController!
         var subject: StreamDataSource!
+
         let webView = UIWebView(frame: CGRectMake(0, 0, 320, 640))
         let textSizeCalculator = FakeStreamTextCellSizeCalculator(webView: UIWebView(frame: webView.frame))
         let notificationSizeCalculator = FakeStreamNotificationCellSizeCalculator(webView: UIWebView(frame: webView.frame))
         let profileHeaderSizeCalculator = FakeProfileHeaderCellSizeCalculator(webView: UIWebView(frame: webView.frame))
 
-        describe("StreamDataSourceSpec") {
+        fdescribe("StreamDataSourceSpec") {
             beforeEach {
                 ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.endpointsClosure, stubResponses: true)
                 vc = StreamViewController.instantiateFromStoryboard()
@@ -49,22 +50,13 @@ class StreamDataSourceSpec: QuickSpec {
                 }
 
                 vc.dataSource = subject
-
-                var cellItems = [JSONAble]()
-                StreamService().loadStream(ElloAPI.FriendStream, streamKind: nil,
-                    success: { (jsonables, responseConfig) in
-                        cellItems = jsonables
-                    },
-                    failure: nil
-                )
-
-                subject.appendUnsizedCellItems(StreamCellItemParser().parse(cellItems, streamKind: .Friend), withWidth: webView.frame.width) { cellCount in
-                    vc.collectionView.dataSource = subject
-                    vc.collectionView.reloadData()
-                }
             }
 
-            context("initialization") {
+            afterEach {
+                subject.removeAllCellItems()
+            }
+
+            describe("init(streamKind:textSizeCalculator:notificationSizeCalculator:profileHeaderSizeCalculator:)") {
 
                 it("has streamKind") {
                     expect(subject.streamKind).toNot(beNil())
@@ -78,25 +70,90 @@ class StreamDataSourceSpec: QuickSpec {
                     expect(subject.notificationSizeCalculator).toNot(beNil())
                 }
 
+                it("has profileHeaderSizeCalculator") {
+                    expect(subject.profileHeaderSizeCalculator).toNot(beNil())
+                }
             }
 
-            describe("-collectionView:numberOfItemsInSection:") {
+            describe("collectionView(_:numberOfItemsInSection:)") {
 
-                it("returns the correct number of rows") {
-                    expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 6
+                context("with posts") {
+                    beforeEach {
+                        // there should be 10 posts
+                        // 10 * 3(number of cells for a post w/ 1 region) = 30
+                        var posts = [Post]()
+                        for index in 1...10 {
+                            posts.append(Post.stub(["id": "\(index)"]))
+                        }
+                        var cellItems = StreamCellItemParser().parse(posts, streamKind: .Friend)
+                        subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
+                            vc.collectionView.dataSource = subject
+                            vc.collectionView.reloadData()
+                        }
+                    }
+
+                    it("returns the correct number of rows") {
+                        expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 30
+                    }
                 }
 
+                context("with reposts") {
+                    beforeEach {
+                        // there should be 10 reposts
+                        // 10 * 7(number of cells for a repost w/ 2 regions) = 70
+                        var posts = [Post]()
+                        for index in 1...10 {
+                            posts.append(Post.stub([
+                                "id": "\(index)",
+                                "repostContent": [TextRegion.stub([:]), TextRegion.stub([:])],
+                                "content": [TextRegion.stub([:]), TextRegion.stub([:])]
+                                ])
+                            )
+                        }
+                        var cellItems = StreamCellItemParser().parse(posts, streamKind: .Friend)
+                        subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
+                            vc.collectionView.dataSource = subject
+                            vc.collectionView.reloadData()
+                        }
+                    }
+
+                    it("returns the correct number of rows") {
+                        expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 70
+                    }
+                }
+
+                context("with collapsed and non collapsed posts") {
+                    beforeEach {
+                        var posts = [Post]()
+                        // there should be 5 collapsed and 5 non collapsed
+                        // 5 * 5(number of cells for non collapsed w/ 3 regions) = 25
+                        // 5 * 3(number of cells for collapsed) = 15
+                        // thus the 40
+                        for index in 1...10 {
+                            posts.append(Post.stub([
+                                "id": "\(index)",
+                                "contentWarning": index % 2 == 0 ? "" : "NSFW",
+                                "content": [TextRegion.stub([:]), TextRegion.stub([:]), TextRegion.stub([:])]
+                                ])
+                            )
+                        }
+                        var cellItems = StreamCellItemParser().parse(posts, streamKind: .Friend)
+                        subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
+                            vc.collectionView.dataSource = subject
+                            vc.collectionView.reloadData()
+                        }
+                    }
+
+                    it("returns the correct number of rows") {
+                        expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 40
+                    }
+                }
             }
 
-            describe("-postForIndexPath:") {
+            describe("postForIndexPath(_:)") {
 
                 beforeEach {
-                    subject = StreamDataSource(streamKind: .Friend,
-                        textSizeCalculator: textSizeCalculator,
-                        notificationSizeCalculator: notificationSizeCalculator,
-                        profileHeaderSizeCalculator: profileHeaderSizeCalculator)
-
-                    let cellItems = ModelHelper.cellsForTwoPostsWithComments()
+                    let cellItems = StreamCellItemParser().parse([Post.stub([:])], streamKind: .Friend)
                     subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
                         vc.collectionView.reloadData()
@@ -114,42 +171,164 @@ class StreamDataSourceSpec: QuickSpec {
                 it("returns nil when invalid section") {
                     expect(subject.postForIndexPath(indexPathInvalidSection)).to(beNil())
                 }
-
-                it("returns nil when the subject is not a post") {
-                    // the loaded stream is all posts, need to tweak the data
-                    expect(subject.postForIndexPath(NSIndexPath(forItem: 8, inSection: 0))).to(beNil())
-                }
-
             }
 
-            xdescribe("-createCommentIndexPathForPost:") {
-                var post: Post? = nil
+            describe("commentForIndexPath(_:)") {
 
                 beforeEach {
-                    subject = StreamDataSource(streamKind: .Friend,
-                        textSizeCalculator: textSizeCalculator,
-                        notificationSizeCalculator: notificationSizeCalculator,
-                        profileHeaderSizeCalculator: profileHeaderSizeCalculator)
-
-                    let cellItems = ModelHelper.cellsForTwoPostsWithComments()
-                    for item in cellItems {
-                        if let foundPost = item.jsonable as? Post {
-                            post = foundPost
-                            break
-                        }
-                    }
-
+                    let cellItems = StreamCellItemParser().parse([Comment.stub([:])], streamKind: .Friend)
                     subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
                         vc.collectionView.reloadData()
                     }
                 }
 
-                it("returns an index path for the post") {
-                    expect(subject.createCommentIndexPathForPost(post!)).to(beAKindOf(NSIndexPath))
+                it("returns a comment") {
+                    expect(subject.commentForIndexPath(indexPath0)).to(beAKindOf(Comment.self))
+                }
+
+                it("returns nil when out of bounds") {
+                    expect(subject.commentForIndexPath(indexPathOutOfBounds)).to(beNil())
+                }
+
+                it("returns nil when invalid section") {
+                    expect(subject.commentForIndexPath(indexPathInvalidSection)).to(beNil())
+                }
+            }
+
+            describe("cellItemsForPost(_:)") {
+
+                beforeEach {
+                    let parser = StreamCellItemParser()
+                    let postCellItems = parser.parse([Post.stub(["id": "666"])], streamKind: .Friend)
+                    let commentCellItems = parser.parse([Comment.stub(["postId": "666"]), Comment.stub(["postId": "666"])], streamKind: .Friend)
+                    let otherPostCellItems = parser.parse([Post.stub(["id": "777"])], streamKind: .Friend)
+                    let cellItems = postCellItems + commentCellItems + otherPostCellItems
+                    subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
+                        vc.collectionView.dataSource = subject
+                        vc.collectionView.reloadData()
+                    }
+                }
+
+                it("returns an array of StreamCellItems") {
+                    var post = subject.postForIndexPath(indexPath0)
+                    let items = subject.cellItemsForPost(post!)
+                    expect(count(items)) == 7
+                }
+
+                it("returns empty array if post not found") {
+                    let randomPost: Post = stub(["id": "notfound"])
+                    let items = subject.cellItemsForPost(randomPost)
+                    expect(count(items)) == 0
+                }
+
+                it("does not return cell items for other posts") {
+                    var post = subject.postForIndexPath(NSIndexPath(forItem: 9, inSection: 0))
+                    let items = subject.cellItemsForPost(post!)
+                    expect(count(items)) == 3
+                }
+                
+            }
+
+            describe("userForIndexPath(_:)") {
+
+                beforeEach {
+                    let cellItems = StreamCellItemParser().parse([User.stub(["id": "42"])], streamKind: .UserList(endpoint: ElloAPI.UserStream(userParam: "42"), title: "yup"))
+                    subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
+                        vc.collectionView.dataSource = subject
+                        vc.collectionView.reloadData()
+                    }
+                }
+
+                it("returns a user") {
+                    expect(subject.userForIndexPath(indexPath0)).to(beAKindOf(User.self))
+                }
+
+                it("returns nil when out of bounds") {
+                    expect(subject.userForIndexPath(indexPathOutOfBounds)).to(beNil())
+                }
+
+                it("returns nil when invalid section") {
+                    expect(subject.userForIndexPath(indexPathInvalidSection)).to(beNil())
+                }
+            }
+
+            describe("commentIndexPathsForPost(_:)") {
+
+                beforeEach {
+                    let parser = StreamCellItemParser()
+                    let postCellItems = parser.parse([Post.stub(["id": "666"])], streamKind: .Friend)
+                    let commentCellItems = parser.parse([Comment.stub(["postId": "666"]), Comment.stub(["postId": "666"])], streamKind: .Friend)
+                    let otherPostCellItems = parser.parse([Post.stub(["id": "777"])], streamKind: .Friend)
+                    let otherCommentCellItems = parser.parse([Comment.stub(["postId": "777"])], streamKind: .Friend)
+                    let cellItems = postCellItems + commentCellItems + otherPostCellItems + otherCommentCellItems
+                    subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
+                        vc.collectionView.dataSource = subject
+                        vc.collectionView.reloadData()
+                    }
+                }
+
+                it("returns an array of comment index paths") {
+                    var post = subject.postForIndexPath(indexPath0)
+                    let indexPaths = subject.commentIndexPathsForPost(post!)
+
+                    expect(count(indexPaths)) == 4
+                    expect(indexPaths[0].item) == 3
+                    expect(indexPaths[1].item) == 4
+                    expect(indexPaths[2].item) == 5
+                    expect(indexPaths[3].item) == 6
+                }
+
+                it("does not return index paths for comments from another post") {
+                    var post = subject.postForIndexPath(NSIndexPath(forItem: 9, inSection: 0))
+                    let indexPaths = subject.commentIndexPathsForPost(post!)
+
+                    expect(count(indexPaths)) == 2
+                    expect(indexPaths[0].item) == 10
+                    expect(indexPaths[1].item) == 11
+                }
+            }
+
+            describe("footerIndexPathForPost(_:)") {
+                beforeEach {
+                    let cellItems = StreamCellItemParser().parse([Post.stub(["id": "456"])], streamKind: .Friend)
+                    subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
+                        vc.collectionView.dataSource = subject
+                        vc.collectionView.reloadData()
+                    }
+                }
+
+                it("returns the index path of the footer associated with this post") {
+                    var post = subject.postForIndexPath(indexPath0)
+                    let indexPath = subject.footerIndexPathForPost(post!)
+
+                    expect(indexPath!.item) == 2
+                    expect(subject.visibleCellItems[indexPath!.item].type) == StreamCellType.Footer
+                }
+            }
+
+            describe("createCommentIndexPathForPost(_:)") {
+                beforeEach {
+                    let parser = StreamCellItemParser()
+                    let postCellItems = parser.parse([Post.stub(["id": "666"])], streamKind: .Friend)
+                    let commentCellItems = parser.parse([Comment.stub(["postId": "666"]), Comment.stub(["postId": "666"])], streamKind: .Friend)
+                    let otherPostCellItems = parser.parse([Post.stub(["id": "777"])], streamKind: .Friend)
+                    let otherCommentCellItems = parser.parse([Comment.stub(["postId": "777"])], streamKind: .Friend)
+                    let createCommentItem = StreamCellItem(jsonable: Comment.stub([:]),
+                        type: .CreateComment,
+                        data: nil,
+                        oneColumnCellHeight: StreamCreateCommentCell.Size.Height,
+                        multiColumnCellHeight: StreamCreateCommentCell.Size.Height,
+                        isFullWidth: true)
+                    let cellItems = postCellItems + [createCommentItem] + commentCellItems + otherPostCellItems + [createCommentItem] + otherCommentCellItems
+                    subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
+                        vc.collectionView.dataSource = subject
+                        vc.collectionView.reloadData()
+                    }
                 }
 
                 it("points to a create-comment-item") {
+                    let post = subject.postForIndexPath(indexPath0)
                     if let path = subject.createCommentIndexPathForPost(post!) {
                         if let item = subject.visibleStreamCellItem(at: path) {
                             expect(item.type).to(equal(StreamCellType.CreateComment))
@@ -163,152 +342,6 @@ class StreamDataSourceSpec: QuickSpec {
                     }
                 }
 
-            }
-
-            describe("-commentForIndexPath:") {
-
-                beforeEach {
-                    subject = StreamDataSource(streamKind: .Friend,
-                        textSizeCalculator: textSizeCalculator,
-                        notificationSizeCalculator: notificationSizeCalculator,
-                        profileHeaderSizeCalculator: profileHeaderSizeCalculator)
-
-                    let cellItems = ModelHelper.cellsForTwoPostsWithComments()
-                    subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
-                        vc.collectionView.dataSource = subject
-                        vc.collectionView.reloadData()
-                    }
-                }
-
-                it("returns a comment") {
-                    let commentIndexPath = NSIndexPath(forItem: 8, inSection: 0)
-                    expect(subject.commentForIndexPath(commentIndexPath)).to(beAKindOf(Comment.self))
-                }
-
-                it("returns nil when out of bounds") {
-                    expect(subject.commentForIndexPath(indexPathOutOfBounds)).to(beNil())
-                }
-
-                it("returns nil when invalid section") {
-                    expect(subject.commentForIndexPath(indexPathInvalidSection)).to(beNil())
-                }
-
-                it("returns nil when the subject is not a comment") {
-                    // the loaded stream is all posts, need to tweak the data
-                    expect(subject.commentForIndexPath(NSIndexPath(forItem: 0, inSection: 0))).to(beNil())
-                }
-
-            }
-
-            describe("-cellItemsForPost:") {
-
-                beforeEach {
-                    subject = StreamDataSource(streamKind: .Friend,
-                        textSizeCalculator: textSizeCalculator,
-                        notificationSizeCalculator: notificationSizeCalculator,
-                        profileHeaderSizeCalculator: profileHeaderSizeCalculator)
-
-                    let cellItems = ModelHelper.cellsForTwoPostsWithComments()
-                    subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
-                        vc.collectionView.dataSource = subject
-                        vc.collectionView.reloadData()
-                    }
-                }
-
-                it("returns an array of StreamCellItems") {
-                    var post = subject.postForIndexPath(indexPath0)
-                    let items = subject.cellItemsForPost(post!)
-
-                    expect(count(items)) == 8
-                }
-
-                it("returns empty array if post not found") {
-                    let randomPost: Post = stub(["id": "notfound"])
-                    let items = subject.cellItemsForPost(randomPost)
-
-                    expect(count(items)) == 0
-                }
-
-                xit("does not return cell items for other posts") {
-
-                    var post = subject.postForIndexPath(NSIndexPath(forItem: 12, inSection: 0))
-                    let items = subject.cellItemsForPost(post!)
-
-                    expect(count(items)) == 8
-                }
-
-            }
-
-            describe("-userForIndexPath:") {
-
-                it("returns a User") {
-                    expect(subject.userForIndexPath(indexPath0)).to(beAKindOf(User.self))
-                }
-
-                it("returns nil when out of bounds") {
-                    expect(subject.userForIndexPath(indexPathOutOfBounds)).to(beNil())
-                }
-
-                it("returns nil when invalid section") {
-                    expect(subject.userForIndexPath(indexPathInvalidSection)).to(beNil())
-                }
-
-                xit("returns nil when the indexPath does not have an author") {
-                    // the loaded stream does not have any non-author content yet
-                }
-
-            }
-
-            xdescribe("-commentIndexPathsForPost:") {
-
-                beforeEach {
-                    subject = StreamDataSource(streamKind: .Friend,
-                        textSizeCalculator: textSizeCalculator,
-                        notificationSizeCalculator: notificationSizeCalculator,
-                        profileHeaderSizeCalculator: profileHeaderSizeCalculator)
-
-                    let cellItems = ModelHelper.cellsForPostWithComments("123")
-                    subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
-                        vc.collectionView.dataSource = subject
-                        vc.collectionView.reloadData()
-                    }
-                }
-
-                it("returns an array of comment index paths") {
-                    var post = subject.postForIndexPath(indexPath0)
-                    let indexPaths = subject.commentIndexPathsForPost(post!)
-
-                    expect(count(indexPaths)) == 5
-                    expect(indexPaths[0].item) == 8
-                    expect(indexPaths[1].item) == 9
-                    expect(indexPaths[2].item) == 10
-                    expect(indexPaths[3].item) == 11
-                    expect(indexPaths[4].item) == 12
-                }
-
-                it("does not return index paths for comments from another post") {
-
-                    subject = StreamDataSource(streamKind: .Friend,
-                        textSizeCalculator: textSizeCalculator,
-                        notificationSizeCalculator: notificationSizeCalculator,
-                        profileHeaderSizeCalculator: profileHeaderSizeCalculator)
-
-                    let cellItems = ModelHelper.cellsForTwoPostsWithComments()
-                    subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
-                        vc.collectionView.dataSource = subject
-                        vc.collectionView.reloadData()
-                    }
-
-                    var post = subject.postForIndexPath(NSIndexPath(forItem: 12, inSection: 0))
-                    let indexPaths = subject.commentIndexPathsForPost(post!)
-
-                    expect(count(indexPaths)) == 5
-                    expect(indexPaths[0].item) == 19
-                    expect(indexPaths[1].item) == 20
-                    expect(indexPaths[2].item) == 21
-                    expect(indexPaths[3].item) == 22
-                    expect(indexPaths[4].item) == 23
-                }
             }
 
             xdescribe("-removeCommentsForPost:") {
@@ -339,7 +372,7 @@ class StreamDataSourceSpec: QuickSpec {
 
             }
 
-            describe("-updateHeightForIndexPath:") {
+            xdescribe("-updateHeightForIndexPath:") {
 
                 it("updates the height of an existing StreamCellItem") {
                     subject.updateHeightForIndexPath(indexPath0, height: 256)
@@ -360,7 +393,7 @@ class StreamDataSourceSpec: QuickSpec {
                 }
             }
 
-            describe("-heightForIndexPath:numberOfColumns") {
+            xdescribe("-heightForIndexPath:numberOfColumns") {
                 // Need to test this but the sell sizers are not synchronous and are a pain in the ass
                 xit("returns the correct height") {}
 
@@ -373,7 +406,7 @@ class StreamDataSourceSpec: QuickSpec {
                 }
             }
 
-            describe("-removeAllCellItems") {
+            xdescribe("-removeAllCellItems") {
 
                 beforeEach {
                     subject = StreamDataSource(streamKind: .Friend,
@@ -400,7 +433,7 @@ class StreamDataSourceSpec: QuickSpec {
                 }
             }
 
-            describe("-removeCellItemsBelow:") {
+            xdescribe("-removeCellItemsBelow:") {
 
                 beforeEach {
                     subject = StreamDataSource(streamKind: .Friend,
@@ -422,7 +455,7 @@ class StreamDataSourceSpec: QuickSpec {
                 }
             }
 
-            describe("-visibleStreamCellItem:") {
+            xdescribe("-visibleStreamCellItem:") {
 
                 beforeEach {
                     subject = StreamDataSource(streamKind: .Friend,
@@ -450,7 +483,7 @@ class StreamDataSourceSpec: QuickSpec {
 
             }
 
-            describe("-toggleCollapsedForIndexPath:") {
+            xdescribe("-toggleCollapsedForIndexPath:") {
 
                 beforeEach {
                     subject.removeAllCellItems()
@@ -499,7 +532,7 @@ class StreamDataSourceSpec: QuickSpec {
                 }
             }
 
-            describe("-isFullWidthAtIndexPath:") {
+            xdescribe("-isFullWidthAtIndexPath:") {
 
                 beforeEach {
                     subject = StreamDataSource(streamKind: .Friend,
@@ -530,7 +563,7 @@ class StreamDataSourceSpec: QuickSpec {
 
             }
 
-            describe("-maintainAspectRatioForItemAtIndexPath:") {
+            xdescribe("-maintainAspectRatioForItemAtIndexPath:") {
 
                 beforeEach {
                     subject = StreamDataSource(streamKind: .Friend,
@@ -554,7 +587,7 @@ class StreamDataSourceSpec: QuickSpec {
                 }
             }
 
-            describe("-groupForIndexPath:") {
+            xdescribe("-groupForIndexPath:") {
 
                 beforeEach {
                     subject = StreamDataSource(streamKind: .Friend,
@@ -618,7 +651,7 @@ class StreamDataSourceSpec: QuickSpec {
                 }
             }
 
-            describe("-insertUnsizedCellItems:withWidth:startingIndexPath:completion:") {
+            xdescribe("-insertUnsizedCellItems:withWidth:startingIndexPath:completion:") {
 
                 beforeEach {
                     subject.removeAllCellItems()
@@ -659,7 +692,7 @@ class StreamDataSourceSpec: QuickSpec {
                 }
             }
 
-            describe("-collectionView:cellForItemAtIndexPath:") {
+            xdescribe("-collectionView:cellForItemAtIndexPath:") {
 
                 beforeEach {
                     subject = StreamDataSource(streamKind: .Friend,
