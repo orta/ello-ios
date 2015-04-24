@@ -79,6 +79,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         searchField.enablesReturnKeyAutomatically = true
         searchField.returnKeyType = .Search
         searchField.keyboardType = .Default
+        searchField.delegate = self
         searchField.addTarget(self, action: "searchFieldDidChange", forControlEvents: .EditingChanged)
         self.addSubview(searchField)
 
@@ -103,6 +104,11 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         streamViewContainer.addSubview(view)
     }
 
+    private func clearSearch() {
+        self.delegate?.searchFieldCleared()
+        throttled {}
+    }
+
 // MARK: actions
 
     @objc
@@ -111,22 +117,26 @@ public class SearchScreen: UIView, SearchScreenProtocol {
     }
 
     @objc
-    private func textFieldShouldClear() {
-        self.delegate?.searchFieldCleared()
-        throttled {}
-    }
-
-    @objc
     private func searchFieldDidChange() {
-        throttled { [unowned self] in
-            let text = self.searchField.text ?? ""
-            if count(text) == 0 {
-                self.delegate?.searchFieldCleared()
-            }
-            else {
+        let text = self.searchField.text ?? ""
+        if count(text) == 0 {
+            clearSearch()
+        }
+        else {
+            throttled { [unowned self] in
                 self.delegate?.searchFieldChanged(text)
             }
         }
+    }
+
+}
+
+extension SearchScreen: UITextFieldDelegate {
+
+    @objc
+    public func textFieldShouldClear(textField: UITextField) -> Bool {
+        clearSearch()
+        return true
     }
 
 }

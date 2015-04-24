@@ -60,6 +60,7 @@ extension SearchViewController: SearchScreenDelegate {
     public func searchFieldCleared() {
         userSearchText = ""
         streamViewController.removeRefreshables()
+        streamViewController.cancelInitialPage()
     }
 
     public func searchFieldChanged(text: String) {

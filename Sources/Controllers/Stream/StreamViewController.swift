@@ -200,6 +200,12 @@ public class StreamViewController: BaseElloViewController {
     }
 
     var loadInitialPageLoadingToken: String = ""
+    public func cancelInitialPage() {
+        let localToken = NSUUID().UUIDString
+        loadInitialPageLoadingToken = localToken
+        self.doneLoading()
+    }
+
     public func loadInitialPage() {
         let localToken = NSUUID().UUIDString
         loadInitialPageLoadingToken = localToken
