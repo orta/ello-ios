@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="AtlasGroteskBold.otf">
+            <string>AtlasGrotesk-Bold</string>
+        </mutableArray>
+        <mutableArray key="AtlasTypewriterRegular.otf">
+            <string>AtlasTypewriter-Regular</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DeleteAccountConfirmationViewController" customModule="Ello" customModuleProvider="target">
+            <connections>
+                <outlet property="buttonView" destination="mA3-1f-O6d" id="2q4-TN-bcX"/>
+                <outlet property="cancelLabel" destination="rOj-hz-3sS" id="kRj-u8-i4d"/>
+                <outlet property="cancelView" destination="iUc-nf-DS5" id="4Ct-cU-fTi"/>
+                <outlet property="infoLabel" destination="wH2-8e-Rof" id="Mck-gp-c1F"/>
+                <outlet property="titleLabel" destination="jNP-47-wo8" id="t3u-eR-vA4"/>
+                <outlet property="view" destination="iN0-l3-epB" id="Mgf-6X-TV1"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jNP-47-wo8">
+                    <rect key="frame" x="16" y="225" width="568" height="30"/>
+                    <fontDescription key="fontDescription" name="AtlasGrotesk-Bold" family="Atlas Grotesk" pointSize="30"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="* By deleting your account you remove your personal information from Ello. Your account cannot be restored." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wH2-8e-Rof" customClass="ElloLabel" customModule="Ello" customModuleProvider="target">
+                    <rect key="frame" x="165" y="345" width="270" height="48"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="270" id="ckj-YJ-Aki"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="12"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mA3-1f-O6d">
+                    <rect key="frame" x="200" y="275" width="200" height="50"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ij5-6Z-VwN" customClass="LightElloButton" customModule="Ello" customModuleProvider="target">
+                            <rect key="frame" x="112" y="3" width="80" height="44"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="80" id="KeQ-mp-8BG"/>
+                                <constraint firstAttribute="height" constant="44" id="jYd-d5-adB"/>
+                            </constraints>
+                            <state key="normal" title="No">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="dismiss" destination="-1" eventType="touchUpInside" id="Vzb-Bc-IjQ"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PGp-nn-FVP" customClass="LightElloButton" customModule="Ello" customModuleProvider="target">
+                            <rect key="frame" x="8" y="3" width="80" height="44"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="80" id="Qbm-rC-EjO"/>
+                                <constraint firstAttribute="height" constant="44" id="dcK-Gw-grI"/>
+                            </constraints>
+                            <state key="normal" title="Yes">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="yesButtonTapped" destination="-1" eventType="touchUpInside" id="TFN-hI-kvZ"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="centerY" secondItem="PGp-nn-FVP" secondAttribute="centerY" id="MWv-lf-PbR"/>
+                        <constraint firstAttribute="height" constant="50" id="XEg-Xh-2eP"/>
+                        <constraint firstItem="PGp-nn-FVP" firstAttribute="leading" secondItem="mA3-1f-O6d" secondAttribute="leading" constant="8" id="dHz-af-na6"/>
+                        <constraint firstAttribute="centerY" secondItem="Ij5-6Z-VwN" secondAttribute="centerY" id="euQ-Kg-HVZ"/>
+                        <constraint firstAttribute="width" constant="200" id="xB5-lA-VQl"/>
+                        <constraint firstAttribute="trailing" secondItem="Ij5-6Z-VwN" secondAttribute="trailing" constant="8" id="xgB-qG-bB3"/>
+                    </constraints>
+                </view>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iUc-nf-DS5">
+                    <rect key="frame" x="150" y="267" width="300" height="89"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mw9-6W-ned" customClass="LightElloButton" customModule="Ello" customModuleProvider="target">
+                            <rect key="frame" x="110" y="37" width="80" height="44"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="80" id="1Ad-f5-cW2"/>
+                                <constraint firstAttribute="height" constant="44" id="tUa-uP-QJ6"/>
+                            </constraints>
+                            <state key="normal" title="Cancel">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="dismiss" destination="-1" eventType="touchUpInside" id="Idq-9a-9fe"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rOj-hz-3sS" customClass="ElloLabel" customModule="Ello" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="8" width="300" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstItem="mw9-6W-ned" firstAttribute="top" secondItem="rOj-hz-3sS" secondAttribute="bottom" constant="8" id="E7V-VN-gIv"/>
+                        <constraint firstAttribute="bottom" secondItem="mw9-6W-ned" secondAttribute="bottom" constant="8" id="cge-De-Qk1"/>
+                        <constraint firstItem="rOj-hz-3sS" firstAttribute="top" secondItem="iUc-nf-DS5" secondAttribute="top" constant="8" id="h0H-ZV-Jn2"/>
+                        <constraint firstAttribute="trailing" secondItem="rOj-hz-3sS" secondAttribute="trailing" id="iFR-WZ-h42"/>
+                        <constraint firstItem="rOj-hz-3sS" firstAttribute="leading" secondItem="iUc-nf-DS5" secondAttribute="leading" id="irU-cn-V4B"/>
+                        <constraint firstAttribute="height" constant="89" id="ox5-ZS-8Kt"/>
+                        <constraint firstAttribute="centerX" secondItem="mw9-6W-ned" secondAttribute="centerX" id="pa6-wK-4UQ"/>
+                        <constraint firstAttribute="width" constant="300" id="wLj-Nb-CNG"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+            <gestureRecognizers/>
+            <constraints>
+                <constraint firstAttribute="centerX" secondItem="mA3-1f-O6d" secondAttribute="centerX" id="3gf-3K-IAp"/>
+                <constraint firstItem="jNP-47-wo8" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="6UO-wV-uxQ"/>
+                <constraint firstAttribute="trailing" secondItem="jNP-47-wo8" secondAttribute="trailing" constant="16" id="9LZ-Gr-Nrz"/>
+                <constraint firstAttribute="centerX" secondItem="jNP-47-wo8" secondAttribute="centerX" id="Al3-cb-Mkl"/>
+                <constraint firstAttribute="centerX" secondItem="iUc-nf-DS5" secondAttribute="centerX" id="CYG-6E-7o4"/>
+                <constraint firstItem="wH2-8e-Rof" firstAttribute="top" secondItem="mA3-1f-O6d" secondAttribute="bottom" constant="20" id="LUo-HH-wep"/>
+                <constraint firstAttribute="centerX" secondItem="wH2-8e-Rof" secondAttribute="centerX" id="Zn0-cu-xAK"/>
+                <constraint firstItem="iUc-nf-DS5" firstAttribute="top" secondItem="jNP-47-wo8" secondAttribute="bottom" constant="12" id="dxh-eh-0MM"/>
+                <constraint firstAttribute="centerY" secondItem="mA3-1f-O6d" secondAttribute="centerY" id="eiu-5Q-Ics"/>
+                <constraint firstItem="mA3-1f-O6d" firstAttribute="top" secondItem="jNP-47-wo8" secondAttribute="bottom" constant="20" id="iNt-mB-qAD"/>
+            </constraints>
+            <connections>
+                <outletCollection property="gestureRecognizers" destination="IiP-7S-6rq" appends="YES" id="2nI-6k-POq"/>
+            </connections>
+        </view>
+        <tapGestureRecognizer id="IiP-7S-6rq">
+            <connections>
+                <action selector="dismiss" destination="-1" id="BbT-GO-nOu"/>
+            </connections>
+        </tapGestureRecognizer>
+    </objects>
+</document>
