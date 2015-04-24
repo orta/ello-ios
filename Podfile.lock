@@ -19,6 +19,7 @@ PODS:
     - Moya/Core (= 0.6.1)
   - Moya/Core (0.6.1):
     - Alamofire (~> 1.2.0)
+  - NewRelicAgent (4.186.1)
   - Nimble (0.4.0)
   - Quick (0.2.2)
   - SDWebImage (3.7.2):
@@ -48,6 +49,7 @@ DEPENDENCIES:
   - LlamaKit (from `https://github.com/ello/LlamaKit.git`)
   - MBProgressHUD (~> 0.9)
   - Moya (from `https://github.com/ello/Moya`, branch `cg-hybrid`)
+  - NewRelicAgent (~> 4.186)
   - Nimble (from `git@github.com:Quick/Nimble.git`, tag `v0.4.1`)
   - Quick (from `git@github.com:Quick/Quick.git`, tag `v0.3.0`)
   - SDWebImage (~> 3.7)
@@ -149,6 +151,7 @@ SPEC CHECKSUMS:
   LlamaKit: 2610cffeec508d27caad8449e7d460df914d9212
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
   Moya: f652dec673d9dd177376d2c9366c76c9ed7b0343
+  NewRelicAgent: 5cd52dafe03e74c5066073a00fd500df9d966e7e
   Nimble: a05c15e0955baec1c94a22e25e4f8dea884fbc5f
   Quick: 1bda8b4c8d43f6b4dd69ca001918b1767b3c9c93
   SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
