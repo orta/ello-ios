@@ -56,7 +56,7 @@ public class StreamViewController: BaseElloViewController {
     public var dataSource:StreamDataSource!
     public var postbarController:PostbarController?
     var relationshipController: RelationshipController?
-    var userListController: UserListController?
+    var userListPresentationController: UserListPresentationController?
     public var responseConfig: ResponseConfig?
     public let streamService = StreamService()
     public var pullToRefreshView: SSPullToRefreshView?
@@ -105,8 +105,8 @@ public class StreamViewController: BaseElloViewController {
     override public func didSetCurrentUser() {
         dataSource.currentUser = currentUser
 
-        if let userListController = userListController {
-            userListController.currentUser = currentUser
+        if let userListPresentationController = userListPresentationController {
+            userListPresentationController.currentUser = currentUser
         }
 
         if let postbarController = postbarController {
@@ -153,6 +153,7 @@ public class StreamViewController: BaseElloViewController {
         else {
             dataSource.removeAllCellItems()
         }
+        collectionView.reloadData()
     }
 
     public func imageCellHeightUpdated(cell:StreamImageCell) {
@@ -198,13 +199,26 @@ public class StreamViewController: BaseElloViewController {
         }
     }
 
+    var loadInitialPageLoadingToken: String = ""
+    public func cancelInitialPage() {
+        let localToken = NSUUID().UUIDString
+        loadInitialPageLoadingToken = localToken
+        self.doneLoading()
+    }
+
     public func loadInitialPage() {
+        let localToken = NSUUID().UUIDString
+        loadInitialPageLoadingToken = localToken
+
         ElloHUD.showLoadingHudInView(view)
         streamService.loadStream(streamKind.endpoint,
             streamKind: streamKind,
             success: { (jsonables, responseConfig) in
+                if self.loadInitialPageLoadingToken != localToken { return }
+
                 self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind), withWidth: nil)
                 self.responseConfig = responseConfig
+                self.doneLoading()
             }, failure: { (error, statusCode) in
                 println("failed to load \(self.streamKind.name) stream (reason: \(error))")
                 self.doneLoading()
@@ -299,9 +313,9 @@ public class StreamViewController: BaseElloViewController {
         relationshipController = RelationshipController(presentingController: self)
         dataSource.relationshipDelegate = relationshipController
 
-        userListController = UserListController(presentingController: self)
-        userListController!.currentUser = currentUser
-        dataSource.userListDelegate = userListController
+        userListPresentationController = UserListPresentationController(presentingController: self)
+        userListPresentationController!.currentUser = currentUser
+        dataSource.userListDelegate = userListPresentationController
 
         dataSource.imageDelegate = self
         dataSource.webLinkDelegate = self
@@ -309,10 +323,16 @@ public class StreamViewController: BaseElloViewController {
         collectionView.dataSource = dataSource
     }
 
+    var pullToRefreshLoadLoadingToken: String = ""
     private func pullToRefreshLoad() {
-        self.streamService.loadStream(streamKind.endpoint,
+        let localToken = NSUUID().UUIDString
+        pullToRefreshLoadLoadingToken = localToken
+
+        streamService.loadStream(streamKind.endpoint,
             streamKind: streamKind,
             success: { (jsonables, responseConfig) in
+                if self.pullToRefreshLoadLoadingToken != localToken { return }
+
                 let index = self.refreshableIndex ?? 0
                 self.allOlderPagesLoaded = false
                 self.dataSource.removeCellItemsBelow(index)
@@ -344,7 +364,6 @@ extension StreamViewController : WebLinkDelegate {
         let vc = ProfileViewController(userParam: param)
         vc.currentUser = currentUser
         self.navigationController?.pushViewController(vc, animated: true)
-        vc.didPresentStreamable()
     }
 
     private func showPostDetail(token: String) {
@@ -353,7 +372,6 @@ extension StreamViewController : WebLinkDelegate {
         let vc = PostDetailViewController(postParam: param)
         vc.currentUser = currentUser
         self.navigationController?.pushViewController(vc, animated: true)
-        vc.didPresentStreamable()
     }
 }
 
@@ -375,9 +393,16 @@ extension StreamViewController : UICollectionViewDelegate {
 
     public func collectionView(collectionView: UICollectionView,
         didSelectItemAtIndexPath indexPath: NSIndexPath) {
-            if let cell = collectionView.cellForItemAtIndexPath(indexPath) as? StreamToggleCell {
+            let tappedCell = collectionView.cellForItemAtIndexPath(indexPath)
+
+            if tappedCell is StreamToggleCell {
                 dataSource.toggleCollapsedForIndexPath(indexPath)
                 collectionView.reloadData()
+            }
+            else if tappedCell is UserListItemCell {
+                if let user = dataSource.userForIndexPath(indexPath) {
+                    userTappedDelegate?.userTapped(user)
+                }
             }
             else if let post = dataSource.postForIndexPath(indexPath) {
                 let items = dataSource.cellItemsForPost(post)
@@ -393,10 +418,7 @@ extension StreamViewController : UICollectionViewDelegate {
     public func collectionView(collectionView: UICollectionView,
         shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
             if let cellItemType = dataSource.visibleStreamCellItem(at: indexPath)?.type {
-                switch cellItemType {
-                case .Header, .CreateComment, .Toggle: return true
-                default: return false
-                }
+                return cellItemType.selectable
             }
             return false
     }

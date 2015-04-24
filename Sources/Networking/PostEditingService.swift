@@ -18,8 +18,6 @@ public class PostEditingService: NSObject {
     typealias CreatePostSuccessCompletion = (post : AnyObject) -> ()
     typealias UploadImagesSuccessCompletion = ([(Int, ImageRegion)]) -> ()
 
-    private var retainUploaders: [S3UploadingService]?
-
     var parentPost: Post?
 
     convenience init(parentPost post: Post) {
@@ -121,13 +119,10 @@ public class PostEditingService: NSObject {
     // generate unique image names in that case.
     func uploadImages(imageEntries : [(Int, UIImage)], success: UploadImagesSuccessCompletion, failure: ElloFailureCompletion?) {
         var uploaded = [(Int, ImageRegion)]()
-        var uploaders = [S3UploadingService]()
-        self.retainUploaders = uploaders  // retain during processing
 
         // if any upload fails, the entire post creationg fails
         var anyError : NSError?
         var anyStatusCode : Int?
-
 
         let allDone = Functional.after(imageEntries.count) {
             if let error = anyError {
@@ -136,7 +131,6 @@ public class PostEditingService: NSObject {
             else {
                 success(uploaded)
             }
-            self.retainUploaders = nil
         }
 
         for imageEntry in imageEntries {
@@ -145,13 +139,10 @@ public class PostEditingService: NSObject {
                 continue
             }
 
-            let (imageIndex, image) = imageEntry as (Int, UIImage)
+            let (imageIndex, image) = imageEntry
+            let filename = "\(NSUUID().UUIDString).png"
 
             let uploadService = S3UploadingService()
-            uploaders.append(uploadService)  // retain during processing
-
-            let filename = "image.png"  // this could be based on the data content?  (e.g. hash of the data?)
-
             uploadService.upload(image, filename: filename,
                 success: { url in
                     let imageRegion = ImageRegion(alt: filename)
@@ -173,7 +164,6 @@ public class PostEditingService: NSObject {
                     allDone()
                 },
                 failure: { error, statusCode in
-                    uploaded = []
                     anyError = error
                     anyStatusCode = statusCode
                     allDone()

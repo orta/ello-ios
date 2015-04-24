@@ -1,5 +1,5 @@
 //
-//  UserListController.swift
+//  UserListPresentationController.swift
 //  Ello
 //
 //  Created by Ryan Boyajian on 3/5/15.
@@ -13,7 +13,7 @@ public protocol UserListDelegate: NSObjectProtocol {
     )
 }
 
-public class UserListController: NSObject, UserListDelegate {
+public class UserListPresentationController: NSObject, UserListDelegate {
     var currentUser : User?
     let presentingController: UIViewController
 
@@ -26,7 +26,6 @@ public class UserListController: NSObject, UserListDelegate {
         vc.currentUser = currentUser
         vc.willPresentStreamable(vc.scrollLogic.isShowing)
         presentingController.navigationController?.pushViewController(vc, animated: true)
-        vc.didPresentStreamable()
     }
 
 }

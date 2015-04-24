@@ -8,6 +8,8 @@ import Foundation
 
 public struct Functional {
     public typealias BasicBlock = (()->())
+    public typealias TakesBasicBlock = ((BasicBlock)->())
+    public typealias ThrottledBlock = TakesBasicBlock
     public typealias CancellableBlock = Bool -> ()
     public typealias TakesIndexBlock = ((Int)->())
 
@@ -109,14 +111,25 @@ public struct Functional {
     // key for 1/2 a sec or so)
     public static func debounce(timeout: NSTimeInterval, block: BasicBlock) -> BasicBlock {
         var timer : NSTimer? = nil
-        let proc = Proc() {
-            block()
-        }
+        let proc = Proc(block: block)
 
         return {
             if let prevTimer = timer {
                 prevTimer.invalidate()
             }
+            timer = NSTimer.scheduledTimerWithTimeInterval(timeout, target: proc, selector: "run", userInfo: nil, repeats: false)
+        }
+    }
+
+    // Same as above, but you pass the block in to the closure that is returned.
+    public static func debounce(timeout: NSTimeInterval) -> ThrottledBlock {
+        var timer : NSTimer? = nil
+
+        return { block in
+            if let prevTimer = timer {
+                prevTimer.invalidate()
+            }
+            let proc = Proc(block: block)
             timer = NSTimer.scheduledTimerWithTimeInterval(timeout, target: proc, selector: "run", userInfo: nil, repeats: false)
         }
     }
@@ -134,6 +147,25 @@ public struct Functional {
 
         return {
             if timer == nil {
+                timer = NSTimer.scheduledTimerWithTimeInterval(interval, target: proc, selector: "run", userInfo: nil, repeats: false)
+            }
+        }
+    }
+
+    // Same as above, but you pass the block in to the closure that is returned.
+    public static func throttle(interval: NSTimeInterval) -> ThrottledBlock {
+        var timer : NSTimer? = nil
+        var lastBlock : BasicBlock?
+
+        return { block in
+            lastBlock = block
+
+            if timer == nil {
+                let proc = Proc() {
+                    timer = nil
+                    lastBlock?()
+                }
+
                 timer = NSTimer.scheduledTimerWithTimeInterval(interval, target: proc, selector: "run", userInfo: nil, repeats: false)
             }
         }

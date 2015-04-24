@@ -26,9 +26,9 @@ public class JoinViewController: BaseElloViewController {
 
     required public init() {
         super.init(nibName: "JoinViewController", bundle: nil)
-        queueEmailValidation = Functional.debounce(0.5) { self.validateEmail(self.emailView.textField.text) }
-        queueUsernameValidation = Functional.debounce(0.5) { self.validateUsername(self.usernameView.textField.text) }
-        queuePasswordValidation = Functional.debounce(0.5) { self.validatePassword(self.passwordView.textField.text) }
+        queueEmailValidation = Functional.debounce(0.5) { [unowned self] in self.validateEmail(self.emailView.textField.text) }
+        queueUsernameValidation = Functional.debounce(0.5) { [unowned self] in self.validateUsername(self.usernameView.textField.text) }
+        queuePasswordValidation = Functional.debounce(0.5) { [unowned self] in self.validatePassword(self.passwordView.textField.text) }
     }
 
     required public init(coder aDecoder: NSCoder) {

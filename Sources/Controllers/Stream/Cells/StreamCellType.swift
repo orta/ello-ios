@@ -53,6 +53,14 @@ public enum StreamCellType {
         }
     }
 
+    public var selectable: Bool {
+        switch self {
+        case .Header, .CreateComment, .Toggle, .UserListItem:
+             return true
+        default: return false
+        }
+    }
+
     public var configure: CellConfigClosure {
         switch self {
         case CommentHeader: return StreamHeaderCellPresenter.configure

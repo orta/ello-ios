@@ -69,6 +69,14 @@ public extension CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: topBottom, left: sides, bottom: topBottom, right: sides))
     }
 
+    func inset(#topBottom:CGFloat) -> CGRect {
+        return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: topBottom, left: 0, bottom: topBottom, right: 0))
+    }
+
+    func inset(#sides: CGFloat) -> CGRect {
+        return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: 0, left: sides, bottom: 0, right: sides))
+    }
+
     func inset(#top:CGFloat, sides: CGFloat, bottom: CGFloat) -> CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: top, left: sides, bottom: bottom, right: sides))
     }

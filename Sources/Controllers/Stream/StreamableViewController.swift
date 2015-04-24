@@ -49,8 +49,6 @@ public class StreamableViewController : BaseElloViewController {
         scrollLogic.isShowing = navBarsVisible
     }
 
-    func didPresentStreamable() {}
-
     func showNavBars(scrollToBottom : Bool) {
         if let tabBarController = self.elloTabBarController {
             tabBarController.setTabBarHidden(false, animated: true)
@@ -69,7 +67,6 @@ public class StreamableViewController : BaseElloViewController {
                 if let prev = controllers[controllers.count - 2] as? StreamableViewController {
                     prev.willPresentStreamable(scrollLogic.isShowing)
                     self.navigationController?.popViewControllerAnimated(true)
-                    prev.didPresentStreamable()
                 }
                 else {
                     self.navigationController?.popViewControllerAnimated(true)
@@ -100,7 +97,6 @@ extension StreamableViewController: PostTappedDelegate {
         vc.currentUser = currentUser
         vc.willPresentStreamable(scrollLogic.isShowing)
         self.navigationController?.pushViewController(vc, animated: true)
-        vc.didPresentStreamable()
     }
 }
 
@@ -115,7 +111,6 @@ extension StreamableViewController: UserTappedDelegate {
         vc.currentUser = currentUser
         vc.willPresentStreamable(scrollLogic.isShowing)
         self.navigationController?.pushViewController(vc, animated: true)
-        vc.didPresentStreamable()
     }
 }
 

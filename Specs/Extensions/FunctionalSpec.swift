@@ -150,6 +150,27 @@ class FunctionalTests: XCTestCase {
         waitForExpectationsWithTimeout(0.5) { error in }
     }
 
+    func testDebounceTakesBlock() {
+        var called = 0
+        var debounced = Functional.debounce(0.1)
+        XCTAssertEqual(called, 0, "value starts out as 0")
+
+        debounced() { called += 1 }
+        XCTAssertEqual(called, 0, "value remains 0 after block is called")
+
+        // reset the timer
+        Functional.delay(0.05) {
+            debounced() { called += 1 }
+        }
+        wait(0.1, "value is still 0") {
+            XCTAssertEqual(called, 0, "value is still 0, because it has debounced")
+        }
+        wait(0.3,  "value is 1") {
+            XCTAssertEqual(called, 1, "value is 1, because timer expired")
+        }
+        waitForExpectationsWithTimeout(0.5) { error in }
+    }
+
     func testThrottle() {
         var called = 0
         var throttled = Functional.throttle(0.1) { called += 1 }
@@ -164,6 +185,31 @@ class FunctionalTests: XCTestCase {
         wait(0.22) {
             XCTAssertEqual(called, 2, "value is now 2")
             throttled()
+            XCTAssertEqual(called, 2, "value is still 2")
+        }
+        wait(0.33) {
+            XCTAssertEqual(called, 3, "value is now 3")
+        }
+        wait(0.44) {
+            XCTAssertEqual(called, 3, "value is still 3")
+        }
+        waitForExpectationsWithTimeout(0.5) { error in }
+    }
+
+    func testThrottleTakesBlock() {
+        var called = 0
+        var throttled = Functional.throttle(0.1)
+        XCTAssertEqual(called, 0, "value starts out as 0")
+        throttled() { called += 1 }
+        XCTAssertEqual(called, 0, "value is still 0")
+        wait(0.11) {
+            XCTAssertEqual(called, 1, "value is now 1")
+            throttled() { called += 1 }
+            XCTAssertEqual(called, 1, "value is still 1")
+        }
+        wait(0.22) {
+            XCTAssertEqual(called, 2, "value is now 2")
+            throttled() { called += 1 }
             XCTAssertEqual(called, 2, "value is still 2")
         }
         wait(0.33) {
