@@ -72,11 +72,14 @@ public class DeleteAccountConfirmationViewController: BaseElloViewController {
     }
 
     private func deleteAccount() {
+        timer?.invalidate()
         ElloHUD.showLoadingHud()
+
         ProfileService().deleteAccount({
             ElloHUD.hideLoadingHud()
-            self.dismiss()
-            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.UserLoggedOut.rawValue, object: nil)
+            self.dismissViewControllerAnimated(true) {
+                NSNotificationCenter.defaultCenter().postNotificationName(Notifications.UserLoggedOut.rawValue, object: nil)
+            }
         }) { _, _ in
             ElloHUD.hideLoadingHud()
         }
