@@ -55,6 +55,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         self.view = screen
         screen.hasParentPost = parentPost != nil
         screen.avatarURL = currentUser?.avatarURL
+        screen.currentUser = currentUser
     }
 
     override public func viewWillAppear(animated: Bool) {
@@ -185,6 +186,10 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
     public func omnibarPresentController(controller: UIViewController) {
         self.presentViewController(controller, animated: true, completion: nil)
+    }
+
+    public func omnibarPushController(controller: UIViewController) {
+        self.navigationController?.pushViewController(controller, animated: true)
     }
 
     public func omnibarDismissController(controller: UIViewController) {
