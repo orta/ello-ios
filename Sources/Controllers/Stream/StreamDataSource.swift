@@ -37,7 +37,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     public let textSizeCalculator:StreamTextCellSizeCalculator
     public let notificationSizeCalculator:StreamNotificationCellSizeCalculator
-    let profileHeaderSizeCalculator: ProfileHeaderCellSizeCalculator
+    public let profileHeaderSizeCalculator: ProfileHeaderCellSizeCalculator
 
     weak public var postbarDelegate:PostbarDelegate?
     weak public var notificationDelegate:NotificationDelegate?
@@ -86,15 +86,16 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     public func visibleStreamCellItem(at indexPath: NSIndexPath) -> StreamCellItem? {
         if !isValidIndexPath(indexPath) { return nil }
-
         return visibleCellItems[indexPath.item]
     }
 
-    // TODO: also grab out comment cells for the detail view
     public func cellItemsForPost(post:Post) -> [StreamCellItem] {
         return visibleCellItems.filter({ (item) -> Bool in
             if let cellPost = item.jsonable as? Post {
                 return post.id == cellPost.id
+            }
+            else if let commentPost = item.jsonable as? Comment {
+                return post.id == commentPost.postId
             }
             else {
                 return false
@@ -117,9 +118,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     // this includes the `createComment` cell, since it contains a comment item
     public func commentIndexPathsForPost(post: Post) -> [NSIndexPath] {
         var indexPaths:[NSIndexPath] = []
-
         for (index,value) in enumerate(visibleCellItems) {
-
             if let comment = value.jsonable as? Comment {
                 if comment.postId == post.id {
                     indexPaths.append(NSIndexPath(forItem: index, inSection: 0))

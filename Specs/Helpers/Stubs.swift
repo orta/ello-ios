@@ -106,18 +106,18 @@ extension Post: Stubbable {
             createdAt: (values["createdAt"] as? NSDate) ?? NSDate(),
             href: (values["href"] as? String) ?? "sample-href",
             token: (values["token"] as? String) ?? "sample-token",
-            contentWarning: (values["contentWarning"] as? String) ?? "null",
+            contentWarning: (values["contentWarning"] as? String) ?? "",
             allowComments: (values["allowComments"] as? Bool) ?? false,
             summary: (values["summary"] as? [Regionable]) ?? [stubbedTextRegion]
             )
 
         // optional
         post.content = (values["content"] as? [Regionable]) ?? [stubbedTextRegion]
-        post.repostContent = (values["repostContent"] as? [Regionable]) ?? [stubbedTextRegion]
+        post.repostContent = (values["repostContent"] as? [Regionable])
         post.repostId = (values["repostId"] as? String)
-        post.repostPath = urlFromValue(values["repostPath"])
+        post.repostPath = (values["repostPath"] as? String)
         post.repostViaId = (values["repostViaId"] as? String)
-        post.repostViaPath = urlFromValue(values["repostViaPath"])
+        post.repostViaPath = (values["repostViaPath"] as? String)
         post.viewsCount = values["viewsCount"] as? Int
         post.commentsCount = values["commentsCount"] as? Int
         post.repostsCount = values["repostsCount"] as? Int

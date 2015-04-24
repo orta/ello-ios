@@ -13,7 +13,7 @@ import SDWebImage
 
 let updateStreamImageCellHeightNotification = TypedNotification<StreamImageCell>(name: "updateStreamImageCellHeightNotification")
 
-public class StreamImageCell: UICollectionViewCell {
+public class StreamImageCell: StreamRegionableCell {
 
     @IBOutlet weak var imageView: FLAnimatedImageView!
     @IBOutlet weak var imageButton: UIButton!
@@ -21,6 +21,7 @@ public class StreamImageCell: UICollectionViewCell {
     @IBOutlet weak var circle:PulsingCircle!
     @IBOutlet weak var imageLeftContraint: NSLayoutConstraint!
     @IBOutlet weak var imageRightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var leadingConstraint:NSLayoutConstraint!
 
     weak var delegate: StreamImageCellDelegate?
     var serverProvidedAspectRatio:CGFloat?

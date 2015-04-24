@@ -30,6 +30,18 @@ public struct StreamTextCellPresenter {
                     }
                 }
             }
+            cell.hideBorder()
+            // Repost specifics
+            if streamCellItem.data?.isRepost == true {
+                cell.leadingConstraint.constant = 30.0
+                cell.showBorder()
+            }
+            else if let comment = streamCellItem.jsonable as? Comment {
+                cell.leadingConstraint.constant = commentMargin
+            }
+            else {
+                cell.leadingConstraint.constant = 15.0
+            }
 
             if let textRegion = streamCellItem.data as? TextRegion {
                 let content = textRegion.content
@@ -38,13 +50,6 @@ public struct StreamTextCellPresenter {
             }
             else {
                 cell.webView.loadHTMLString("", baseURL: NSURL(string: "/"))
-            }
-
-            if let comment = streamCellItem.jsonable as? Comment {
-                cell.leadingConstraint.constant = commentMargin
-            }
-            else {
-                cell.leadingConstraint.constant = 15.0
             }
         }
     }

@@ -36,9 +36,9 @@ public final class Post: JSONAble, Authorable {
     public var content: [Regionable]?
     public var repostContent: [Regionable]?
     public var repostId: String?
-    public var repostPath: NSURL?
+    public var repostPath: String?
     public var repostViaId: String?
-    public var repostViaPath: NSURL?
+    public var repostViaPath: String?
     public var viewsCount: Int?
     public var commentsCount: Int?
     public var repostsCount: Int?
@@ -75,6 +75,9 @@ public final class Post: JSONAble, Authorable {
     }
     public var collapsed = false
     private var commentCountNotification: NotificationObserver?
+    public var isRepost: Bool {
+        return self.repostContent != nil
+    }
 
 
 // MARK: Initialization
@@ -187,6 +190,7 @@ public final class Post: JSONAble, Authorable {
 
     override public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         let json = JSON(data)
+        var repostContent = RegionParser.regions("repost_content", json: json)
         // create post
         var post = Post(
             id: json["id"].stringValue,
@@ -195,15 +199,15 @@ public final class Post: JSONAble, Authorable {
             token: json["token"].stringValue,
             contentWarning: json["content_warning"].stringValue,
             allowComments: json["allow_comments"].boolValue,
-            summary: RegionParser.regions("summary", json: json)
+            summary: RegionParser.regions("summary", json: json, isRepostContent: repostContent.count > 0)
             )
         // optional
-        post.content = RegionParser.regions("content", json: json)
-        post.repostContent = RegionParser.regions("repost_content", json: json)
-        post.repostId = json["repost_id"].stringValue
-        post.repostPath = NSURL(string: json["repost_path"].stringValue)
-        post.repostViaId = json["repost_via_id"].stringValue
-        post.repostViaPath = NSURL(string: json["repost_via_path"].stringValue)
+        post.content = RegionParser.regions("content", json: json, isRepostContent: repostContent.count > 0)
+        post.repostContent = repostContent
+        post.repostId = json["repost_id"].string
+        post.repostPath = json["repost_path"].string
+        post.repostViaId = json["repost_via_id"].string
+        post.repostViaPath = json["repost_via_path"].string
         post.viewsCount = json["views_count"].int
         post.commentsCount = json["comments_count"].int
         post.repostsCount = json["reposts_count"].int

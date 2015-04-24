@@ -21,9 +21,10 @@ public enum EmbedType: String {
     case Unknown = "unknown"
 }
 
-public final class EmbedRegion: JSONAble {
+public final class EmbedRegion: JSONAble, Regionable {
     public let version = EmbedRegionVersion
-
+    public var isRepost: Bool = false
+    
     // active record
     public let id: String
     // required
@@ -61,6 +62,7 @@ public final class EmbedRegion: JSONAble {
         // active record
         self.id = decoder.decodeKey("id")
         // required
+        self.isRepost = decoder.decodeKey("isRepost")
         let serviceRaw: String = decoder.decodeKey("serviceRaw")
         self.service = EmbedType(rawValue: serviceRaw) ?? EmbedType.Unknown
         self.url = decoder.decodeKey("url")
@@ -73,6 +75,7 @@ public final class EmbedRegion: JSONAble {
         // active record
         encoder.encodeObject(id, forKey: "id")
         // required
+        encoder.encodeBool(isRepost, forKey: "isRepost")
         encoder.encodeObject(service.rawValue, forKey: "serviceRaw")
         encoder.encodeObject(url, forKey: "url")
         encoder.encodeObject(thumbnailSmallUrl, forKey: "thumbnailSmallUrl")
@@ -94,11 +97,11 @@ public final class EmbedRegion: JSONAble {
         )
         return embedRegion
     }
-}
 
-extension EmbedRegion: Regionable {
+// MARK: Regionable
+
     public var kind:String { return RegionKind.Embed.rawValue }
-
+    
     public func coding() -> NSCoding {
         return self
     }

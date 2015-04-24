@@ -229,9 +229,9 @@ class PostSpec: QuickSpec {
                     testRegionContent(unArchivedPost.content!)
                     testRegionContent(unArchivedPost.repostContent!)
                     expect(unArchivedPost.repostId) == "910"
-                    expect(unArchivedPost.repostPath!.absoluteString) == "http://ello.co/910"
+                    expect(unArchivedPost.repostPath) == "http://ello.co/910"
                     expect(unArchivedPost.repostViaId) == "112"
-                    expect(unArchivedPost.repostViaPath!.absoluteString) == "http://ello.co/112"
+                    expect(unArchivedPost.repostViaPath) == "http://ello.co/112"
                     expect(unArchivedPost.viewsCount) == 78
                     expect(unArchivedPost.commentsCount) == 6
                     expect(unArchivedPost.repostsCount) == 99

@@ -10,8 +10,8 @@ import UIKit
 
 public class StreamToggleCell: UICollectionViewCell {
 
-    let closedMessage = "NSFW: Tap to View."
-    let openedMessage = "NSFW: Tap to Hide."
+    let closedMessage = NSLocalizedString("Tap to View.", comment: "Tap to View.")
+    let openedMessage = NSLocalizedString("Tap to Hide.", comment: "Tap to Hide.")
 
     @IBOutlet weak var label:ElloToggleLabel!
 }
