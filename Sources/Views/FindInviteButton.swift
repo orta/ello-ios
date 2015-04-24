@@ -24,6 +24,7 @@ public class FindInviteButton: UIButton {
         self.layer.cornerRadius = 0.0
         self.titleLabel?.font = UIFont.typewriterFont(11.0)
         self.titleLabel?.numberOfLines = 1
+        self.titleEdgeInsets = UIEdgeInsetsMake(1.0, 0.0, 0.0, 0.0)
         self.setTitleColor(UIColor.greyA(), forState: UIControlState.Normal)
         self.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Highlighted)
         self.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
