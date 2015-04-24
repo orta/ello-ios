@@ -309,19 +309,19 @@ class StreamDataSourceSpec: QuickSpec {
 
 //            describe("createCommentIndexPathForPost(_:)") {
 //                beforeEach {
+//                    var items = [StreamCellItem]()
 //                    let parser = StreamCellItemParser()
-//                    let postCellItems = parser.parse([Post.stub(["id": "666"])], streamKind: .Friend)
-//                    let commentCellItems = parser.parse([Comment.stub(["postId": "666"]), Comment.stub(["postId": "666"])], streamKind: .Friend)
-//                    let otherPostCellItems = parser.parse([Post.stub(["id": "777"])], streamKind: .Friend)
-//                    let otherCommentCellItems = parser.parse([Comment.stub(["postId": "777"])], streamKind: .Friend)
-//                    let createCommentItem = StreamCellItem(jsonable: Comment.stub([:]),
+//                    items += parser.parse([Post.stub(["id": "666"])], streamKind: .Friend)
+//                    items += parser.parse([Comment.stub(["postId": "666"]), Comment.stub(["postId": "666"])], streamKind: .Friend)
+//                    items.append(StreamCellItem(jsonable: Comment.stub([:]),
 //                        type: .CreateComment,
 //                        data: nil,
 //                        oneColumnCellHeight: StreamCreateCommentCell.Size.Height,
 //                        multiColumnCellHeight: StreamCreateCommentCell.Size.Height,
-//                        isFullWidth: true)
-//                    let cellItems = postCellItems + [createCommentItem] + commentCellItems + otherPostCellItems + [createCommentItem] + otherCommentCellItems
-//                    subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
+//                        isFullWidth: true))
+//                    items += parser.parse([Post.stub(["id": "777"])], streamKind: .Friend)
+//                    items += parser.parse([Comment.stub(["postId": "777"])], streamKind: .Friend)
+//                    subject.appendUnsizedCellItems(items, withWidth: webView.frame.width) { cellCount in
 //                        vc.collectionView.dataSource = subject
 //                        vc.collectionView.reloadData()
 //                    }
