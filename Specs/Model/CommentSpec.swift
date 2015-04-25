@@ -141,8 +141,7 @@ class CommentSpec: QuickSpec {
                         "id" : "362",
                         "createdAt" : expectedCreatedAt,
                         "parentPost" : parentPost,
-                        "content" : content,
-                        "postId" : "42"
+                        "content" : content
                     ])
 
                     NSKeyedArchiver.archiveRootObject(comment, toFile: filePath)
@@ -154,7 +153,7 @@ class CommentSpec: QuickSpec {
                     expect(unArchivedComment.id) == "362"
                     expect(unArchivedComment.createdAt) == expectedCreatedAt
                     // required
-                    expect(unArchivedComment.postId) == "42"
+                    expect(unArchivedComment.postId) == "sample-parent-post-id"
                     testRegionContent(unArchivedComment.content)
                 }
             }

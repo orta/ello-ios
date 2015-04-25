@@ -102,7 +102,8 @@ extension Post: Stubbable {
     class func stub(values: [String : AnyObject]) -> Post {
 
         // create necessary links
-        let author: User = (values["author"] as? User) ?? User.stub(["id": "10000"])
+
+        let author: User = (values["author"] as? User) ?? User.stub(["id": values["authorId"] ?? "10000"])
         ElloLinkedStore.sharedInstance.setObject(author, forKey: author.id, inCollection: MappingType.UsersType.rawValue)
 
         var post = Post(
@@ -114,7 +115,7 @@ extension Post: Stubbable {
             contentWarning: (values["contentWarning"] as? String) ?? "",
             allowComments: (values["allowComments"] as? Bool) ?? false,
             summary: (values["summary"] as? [Regionable]) ?? [stubbedTextRegion]
-            )
+        )
 
         // optional
         post.content = (values["content"] as? [Regionable]) ?? [stubbedTextRegion]
@@ -172,7 +173,7 @@ extension Comment: Stubbable {
             authorId: author.id,
             postId: parentPost.id,
             content: (values["content"] as? [Regionable]) ?? [stubbedTextRegion]
-            )
+        )
 
         // links
         if let assets = values["assets"] as? [Asset] {

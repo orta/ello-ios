@@ -27,11 +27,11 @@ class PostSpec: QuickSpec {
                 let post = Post.fromJSON(parsedPost) as! Post
                 var createdAt: NSDate = createdAtString.toNSDate()!
                 // active record
-                expect(post.id) == "132"
+                expect(post.id) == "137"
                 expect(post.createdAt) == createdAt
                 // required
-                expect(post.href) == "/api/edge/posts/132"
-                expect(post.token) == "2rz4agLM4f1fyxykW3rc-Q"
+                expect(post.href) == "/api/edge/posts/137"
+                expect(post.token) == "JdIy2H_9ZC0AN1jy5_7Dcg"
                 expect(post.contentWarning) == ""
                 expect(post.allowComments) == true
                 expect(count(post.summary)) == 2
@@ -53,8 +53,8 @@ class PostSpec: QuickSpec {
                 expect(count(post.assets!)) == 1
                 expect(post.assets![0]).to(beAKindOf(Asset.self))
                 // computed
-                expect(post.groupId) == "132"
-                expect(post.shareLink) == "https://ello.co/cfiggis/post/2rz4agLM4f1fyxykW3rc-Q"
+                expect(post.groupId) == "137"
+                expect(post.shareLink) == "https://ello.co/cfiggis/post/JdIy2H_9ZC0AN1jy5_7Dcg"
                 expect(post.collapsed).to(beFalse())
             }
 

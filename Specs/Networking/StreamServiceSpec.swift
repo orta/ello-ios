@@ -101,7 +101,7 @@ class StreamServiceSpec: QuickSpec {
                         let expectedCreatedAt = "2014-06-02T00:00:00.000Z".toNSDate()!
                         let comment:Comment = loadedComments![0] as Comment
 
-                        expect(comment.id) == "112"
+                        expect(comment.id) == "200"
                         expect(comment.createdAt) == expectedCreatedAt
 
                         let contentRegion0:TextRegion = comment.content[0] as! TextRegion
@@ -111,11 +111,11 @@ class StreamServiceSpec: QuickSpec {
 
                         expect(commentAuthor).to(beAnInstanceOf(User.self))
                         expect(commentAuthor.name) == "Pamilanderson"
-                        expect(commentAuthor.id) == "345"
+                        expect(commentAuthor.id) == "420"
                         expect(commentAuthor.username) == "pam"
-                        expect(commentAuthor.href) == "/api/edge/users/345"
+                        expect(commentAuthor.href) == "/api/edge/users/420"
                         expect(commentAuthor.experimentalFeatures) == true
-                        expect(commentAuthor.avatarURL!.absoluteString) == "https://abc123.cloudfront.net/uploads/user/avatar/420/regular_pam.png"
+                        expect(commentAuthor.avatarURL!.absoluteString) == "https://abc123.cloudfront.net/uploads/user/avatar/420/ello-regular-91c0f710.png"
                     }
                 }
             }
