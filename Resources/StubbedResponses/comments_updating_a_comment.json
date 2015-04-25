@@ -1,5 +1,6 @@
 {
     "comments": {
+        "author_id": "42",
         "body": [
             {
                 "data": "cfiggis no, Burt Reynolds is **MY** godking.",
@@ -12,8 +13,8 @@
                 "kind": "text"
             }
         ],
-        "created_at": "2015-03-12T15:54:53.539Z",
-        "id": "58",
+        "created_at": "2015-04-23T20:27:59.309Z",
+        "id": "59",
         "links": {
             "assets": [],
             "author": {
@@ -22,11 +23,11 @@
                 "type": "users"
             },
             "parent_post": {
-                "href": "/api/edge/posts/57",
-                "id": "57",
+                "href": "/api/edge/posts/58",
+                "id": "58",
                 "type": "posts"
             }
         },
-        "post_id": "57"
+        "post_id": "58"
     }
 }

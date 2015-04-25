@@ -41,6 +41,7 @@
         "posts": [
             {
                 "allow_comments": true,
+                "author_id": "42",
                 "comments_count": 0,
                 "content": [
                     {
@@ -49,7 +50,7 @@
                     }
                 ],
                 "content_warning": null,
-                "created_at": "2015-04-03T21:55:04.863Z",
+                "created_at": "2015-04-23T20:27:45.021Z",
                 "href": "/api/edge/posts/2",
                 "id": "2",
                 "links": {
@@ -67,11 +68,12 @@
                         "kind": "text"
                     }
                 ],
-                "token": "9Rq1Qg2QUkJKxhKXHtIKCA",
+                "token": "dAxaW0E02rKaQpXKaw9aag",
                 "views_count": 0
             },
             {
                 "allow_comments": true,
+                "author_id": "666",
                 "comments_count": 0,
                 "content": [
                     {
@@ -80,7 +82,7 @@
                     }
                 ],
                 "content_warning": null,
-                "created_at": "2015-04-03T21:55:04.849Z",
+                "created_at": "2015-04-23T20:27:45.007Z",
                 "href": "/api/edge/posts/1",
                 "id": "1",
                 "links": {
@@ -98,7 +100,7 @@
                         "kind": "text"
                     }
                 ],
-                "token": "m-KzFAVm9MHTdjZjFRRYAw",
+                "token": "4uBGYuO31JZnjzlCm2_PPg",
                 "views_count": 0
             }
         ],

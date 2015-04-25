@@ -27,6 +27,7 @@ public final class Post: JSONAble, Authorable {
     public let id: String
     public let createdAt: NSDate
     // required
+    public let authorId: String
     public let href: String
     public let token: String
     public let contentWarning: String
@@ -44,21 +45,14 @@ public final class Post: JSONAble, Authorable {
     public var repostsCount: Int?
     // links
     public var assets: [Asset]? {
-        if let assets = getLinkArray("assets") as? [Asset] {
-            return assets
-        }
-        return nil
+        return getLinkArray("assets") as? [Asset]
     }
-    public var author: User? { return getLinkObject("author") as? User }
+    public var author: User? {
+        return ElloLinkedStore.sharedInstance.getObject(self.authorId, inCollection: MappingType.UsersType.rawValue) as? User
+    }
     // nested resources
     public var comments: [Comment]? {
-        if let comments = getLinkArray(MappingType.CommentsType.rawValue) as? [Comment] {
-            for comment in comments {
-                comment.addLinkObject("parent_post", key: id, collection: MappingType.PostsType.rawValue)
-            }
-            return comments
-        }
-        return nil
+        return getLinkArray(MappingType.CommentsType.rawValue) as? [Comment]
     }
     // links post with comments
     public var groupId:String { return id }
@@ -84,6 +78,7 @@ public final class Post: JSONAble, Authorable {
 
     public init(id: String,
         createdAt: NSDate,
+        authorId: String,
         href: String,
         token: String,
         contentWarning: String,
@@ -95,6 +90,7 @@ public final class Post: JSONAble, Authorable {
         self.id = id
         self.createdAt = createdAt
         // required
+        self.authorId = authorId
         self.href = href
         self.token = token
         self.contentWarning = contentWarning
@@ -137,6 +133,7 @@ public final class Post: JSONAble, Authorable {
         self.id = decoder.decodeKey("id")
         self.createdAt = decoder.decodeKey("createdAt")
         // required
+        self.authorId = decoder.decodeKey("authorId")
         self.href = decoder.decodeKey("href")
         self.token = decoder.decodeKey("token")
         self.contentWarning = decoder.decodeKey("contentWarning")
@@ -162,6 +159,7 @@ public final class Post: JSONAble, Authorable {
         encoder.encodeObject(id, forKey: "id")
         encoder.encodeObject(createdAt, forKey: "createdAt")
         // required
+        encoder.encodeObject(authorId, forKey: "authorId")
         encoder.encodeObject(href, forKey: "href")
         encoder.encodeObject(token, forKey: "token")
         encoder.encodeObject(contentWarning, forKey: "contentWarning")
@@ -195,6 +193,7 @@ public final class Post: JSONAble, Authorable {
         var post = Post(
             id: json["id"].stringValue,
             createdAt: json["created_at"].stringValue.toNSDate()!,
+            authorId: json["author_id"].stringValue,
             href: json["href"].stringValue,
             token: json["token"].stringValue,
             contentWarning: json["content_warning"].stringValue,
@@ -220,4 +219,3 @@ public final class Post: JSONAble, Authorable {
         return post
     }
 }
-

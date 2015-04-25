@@ -75,7 +75,7 @@ class UserSpec: QuickSpec {
                     let expectedCreatedAt = NSDate()
 
                     let post: Post = stub(["id" : "sample-post-id"])
-                    let stubbedMostRecentPost: Post = stub(["id" : "another-sample-post-id"])
+                    let stubbedMostRecentPost: Post = stub(["id" : "another-sample-post-id", "authorId" : "sample-userId"])
                     let attachment: Attachment = stub(["url": NSURL(string: "http://www.example.com")!, "height": 0, "width": 0, "type": "png", "size": 0 ])
                     let asset: Asset = stub(["regular" : attachment])
                     let coverAttachment: Attachment = stub(["url": NSURL(string: "http://www.example2.com")!, "height": 0, "width": 0, "type": "png", "size": 0 ])

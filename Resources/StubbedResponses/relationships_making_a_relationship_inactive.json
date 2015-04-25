@@ -53,15 +53,15 @@
                 "href": "/api/edge/users/666",
                 "id": "666",
                 "name": "Cyril Figgis",
-                "posts_count": 0,
+                "posts_count": 2,
                 "relationship_priority": "inactive",
                 "username": "cfiggis"
             }
         ]
     },
     "relationships": {
-        "created_at": "2015-03-12T15:55:18.307Z",
-        "id": "52",
+        "created_at": "2015-04-23T20:28:48.874Z",
+        "id": "53",
         "links": {
             "owner": {
                 "href": "/api/edge/users/42",

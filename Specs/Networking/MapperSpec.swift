@@ -61,7 +61,7 @@ class MapperSpec: QuickSpec {
 
                 it("returns an array of mapped domain objects") {
                     let friendData = stubbedJSONDataArray("friends", "activities")
-                    let activities = Mapper.mapToObjectArray(friendData, fromJSON: Activity.fromJSON, linkObject: nil)
+                    let activities = Mapper.mapToObjectArray(friendData, fromJSON: Activity.fromJSON)
 
                     expect(activities).toNot(beNil())
                     expect(activities?.first).to(beAKindOf(Activity.self))
@@ -76,7 +76,7 @@ class MapperSpec: QuickSpec {
 
                     let invalidArray = NSArray(array: [invalidAnyObject, anotherAnyObject])
 
-                    expect(Mapper.mapToObjectArray(invalidArray, fromJSON: User.fromJSON, linkObject: nil)).to(beNil())
+                    expect(Mapper.mapToObjectArray(invalidArray, fromJSON: User.fromJSON)).to(beNil())
                 }
             }
         }

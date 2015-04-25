@@ -1,6 +1,6 @@
 PODS:
   - 1PasswordExtension (1.2)
-  - Alamofire (1.2.0)
+  - Alamofire (1.2.1)
   - CocoaLumberjack (2.0.0):
     - CocoaLumberjack/Default (= 2.0.0)
     - CocoaLumberjack/Extensions (= 2.0.0)
@@ -98,10 +98,10 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   1PasswordExtension:
-    :commit: 664bd24e8946a126e0eae64e680c8ffcefcc8b77
+    :commit: a3b2a9334980dcbd513c7c72c8dee4e3e99efd92
     :git: https://github.com/AgileBits/onepassword-app-extension.git
   Alamofire:
-    :commit: 6d1238d9ac9032980c27843fc27015d8db121cdd
+    :commit: 333bf874b85a12c448f9d2419293e3d47e5416c2
     :git: https://github.com/Alamofire/Alamofire.git
   FLAnimatedImage:
     :commit: 7f1d9a29597b45aef8686da22f33a3634d84c686
@@ -128,7 +128,7 @@ CHECKOUT OPTIONS:
     :git: git@github.com:Quick/Quick.git
     :tag: v0.3.0
   SVGKit:
-    :commit: a851ff5a4b841fe3746c8cbf0cd9d88a3061446f
+    :commit: 352033dc30dc64bcc3306c0a2fceeafbc162b3bb
     :git: https://github.com/SVGKit/SVGKit
   SwiftyJSON:
     :commit: 008a09d7ea8b13c03fb59b35c01aad339584a5e1
@@ -142,7 +142,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   1PasswordExtension: fcf300204bda5b5c78936dbb937a7d661f1ca796
-  Alamofire: d765c5c1713aa64106b0228aaa600a1e6851f68d
+  Alamofire: 1acfdf179aff68b41a48dff70c1ac7fa263e2bcb
   CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
   FLAnimatedImage: f9422f796135aff80d8c00b2afc48015bb746e24
   JTSImageViewController: 89ae3c003060c65418fd3224ebbd67acc6046608

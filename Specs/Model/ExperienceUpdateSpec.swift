@@ -18,7 +18,7 @@ class ExperienceUpdateSpec: QuickSpec {
             context(".CommentChanged") {
 
                 let parentPost: Post = stub(["id" : "123"])
-                let comment: Comment = stub(["id" : "362","parentPost" : parentPost])
+                let comment: Comment = stub(["id" : "362", "parentPost" : parentPost])
 
                 let item = StreamCellItem(jsonable: comment, type: .CreateComment, data: nil, oneColumnCellHeight: 5, multiColumnCellHeight: 5, isFullWidth: true)
 
@@ -26,7 +26,7 @@ class ExperienceUpdateSpec: QuickSpec {
 
                     it("returns true") {
                         let parentPostUpdate = ExperienceUpdate.CommentChanged(commentId: "555", postId: "123", change: ContentChange.Update)
-                        expect(parentPostUpdate.affectsItem(item)) == false
+                        expect(parentPostUpdate.affectsItem(item)) == true
 
                         let commentUpdate = ExperienceUpdate.CommentChanged(commentId: "362", postId: "963", change: ContentChange.Update)
                         expect(commentUpdate.affectsItem(item)) == true

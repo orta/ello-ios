@@ -16,7 +16,13 @@ public class StreamHeaderCell: UICollectionViewCell {
             self.updateItems()
         }
     }
-    let revealWidth:CGFloat = 85.0
+
+    public var ownComment = false {
+        didSet {
+            self.updateItems()
+        }
+    }
+    let revealWidth:CGFloat = 120.0
     var cellOpenObserver: NotificationObserver?
     var isOpen = false
     var maxUsernameWidth: CGFloat = 50.0
@@ -106,7 +112,7 @@ public class StreamHeaderCell: UICollectionViewCell {
         bottomContentView.frame = bounds
         containerView.frame = bounds
         scrollView.frame = bounds
-        bottomToolBar.frame = scrollView.bounds
+        bottomToolBar.frame = bounds
         scrollView.contentSize = CGSizeMake(contentView.frame.size.width + revealWidth, scrollView.frame.size.height)
         positionTopContent()
         repositionBottomContent()
@@ -119,27 +125,42 @@ public class StreamHeaderCell: UICollectionViewCell {
         usernameTextView.textContainerInset = UIEdgeInsetsZero
     }
 
+    public func close() {
+        isOpen = false
+        scrollView.contentOffset = CGPointZero
+    }
+    
 // MARK: - Private
 
     private func updateItems() {
-        let rightItem = self.ownPost ? deleteItem : flagItem
 
-        bottomToolBar.items = [
-            flexibleItem(), replyItem, rightItem
-        ]
+        if self.ownComment {
+            bottomToolBar.items = [
+                flexibleItem(), replyItem, deleteItem, fixedItem(-10)
+            ]
+        }
+        else if self.ownPost {
+            bottomToolBar.items = [
+                flexibleItem(), replyItem, flagItem, deleteItem, fixedItem(-10)
+            ]
+        }
+        else {
+            bottomToolBar.items = [
+                flexibleItem(), replyItem, flagItem, fixedItem(-10)
+            ]
+        }
     }
 
     private func positionTopContent() {
         let sidePadding: CGFloat = 15.0
         let minimumUsernameWidth: CGFloat = 60.0
-
         avatarButton.frame = CGRectMake(sidePadding, innerContentView.frame.midY - avatarHeight/2, avatarHeight, avatarHeight)
 
         if chevronHidden {
             chevronButton.frame = CGRectMake(innerContentView.frame.width - sidePadding, innerContentView.frame.height/2 - chevronButton.bounds.height/2, 0, chevronButton.frame.height)
         }
         else {
-            chevronButton.frame = CGRectMake(innerContentView.frame.width - chevronButton.bounds.width - sidePadding, innerContentView.frame.height/2 - chevronButton.bounds.height/2, chevronButton.frame.width, chevronButton.frame.height)
+            chevronButton.frame = CGRectMake(innerContentView.frame.width - 19.0 - sidePadding, innerContentView.frame.height/2 - chevronButton.bounds.height/2, 19.0, chevronButton.frame.height)
         }
 
         let timestampX = chevronButton.frame.x - timestampLabel.frame.width
@@ -157,6 +178,12 @@ public class StreamHeaderCell: UICollectionViewCell {
         usernameTextView.textContainerInset = UIEdgeInsetsMake(topoffset, 0, 0, 0)
 
         goToPostView.frame = CGRectMake(usernameTextView.frame.maxX, 0, innerContentView.bounds.width - usernameTextView.frame.maxX, innerContentView.frame.height)
+    }
+
+    private func fixedItem(width:CGFloat) -> UIBarButtonItem {
+        let item = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+        item.width = width
+        return item
     }
 
     private func flexibleItem() -> UIBarButtonItem {

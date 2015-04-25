@@ -69,6 +69,13 @@ extension JSONAble {
     public func addLinkObject(identifier: String, key: String, collection: String) {
         if links == nil { links = [String: AnyObject]() }
         links![identifier] = ["id": key, "type": collection]
+
+    }
+
+    public func addLinkObject(model: JSONAble, identifier: String, key: String, collection: String) {
+        if model.links == nil { links = [String: AnyObject]() }
+        model.links![identifier] = ["id": key, "type": collection]
+        ElloLinkedStore.sharedInstance.setObject(model, forKey: key, inCollection: collection)
     }
 
     public func clearLinkObject(identifier: String) {

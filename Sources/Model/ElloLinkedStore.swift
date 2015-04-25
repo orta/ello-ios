@@ -53,4 +53,14 @@ public struct ElloLinkedStore {
             transaction.setObject(object, forKey: key, inCollection: collection)
         }
     }
+
+    public func getObject(key: String, inCollection collection: String) -> JSONAble? {
+        var object: JSONAble?
+        readConnection.readWithBlock { transaction in
+            if transaction.hasObjectForKey(key, inCollection: collection) {
+                object = transaction.objectForKey(key, inCollection: collection) as? JSONAble
+            }
+        }
+        return object
+    }
 }

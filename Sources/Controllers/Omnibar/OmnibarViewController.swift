@@ -14,6 +14,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     var keyboardWillHideObserver: NotificationObserver?
 
     var parentPost: Post?
+    var defaultText: String?
 
     typealias PostSuccessListener = (post : Post)->()
     typealias CommentSuccessListener = (comment : Comment)->()
@@ -31,6 +32,11 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     convenience public init(parentPost post: Post) {
         self.init(nibName: nil, bundle: nil)
         parentPost = post
+    }
+
+    convenience public init(parentPost post: Post, defaultText: String) {
+        self.init(parentPost: post)
+        self.defaultText = defaultText
     }
 
     public func omnibarDataName() -> String {
@@ -69,7 +75,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             }
             Tmp.remove(fileName)
         }
-
+        screen.text = self.defaultText
         self.screen.delegate = self
 
         keyboardWillShowObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillShow, block: self.willShow)
@@ -140,25 +146,35 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
         if count(content) > 0 {
             ElloHUD.showLoadingHud()
-            service.create(content: content, success: { postOrComment in
-                ElloHUD.hideLoadingHud()
+            if let authorId = currentUser?.id {
+                service.create(
+                    content: content,
+                    authorId: authorId,
+                    success: { postOrComment in
+                        ElloHUD.hideLoadingHud()
 
-                if let parentPost = self.parentPost {
-                    var comment = postOrComment as! Comment
-                    self.emitCommentSuccess(comment)
-                }
-                else {
-                    var post = postOrComment as! Post
-                    self.emitPostSuccess(post)
-                    self.screen.reportSuccess("Post successfully created!")
-                }
-            }, failure: { error, statusCode in
-                ElloHUD.hideLoadingHud()
-                self.contentCreationFailed(error.localizedDescription)
-            })
+                        if let parentPost = self.parentPost {
+                            var comment = postOrComment as! Comment
+                            self.emitCommentSuccess(comment)
+                        }
+                        else {
+                            var post = postOrComment as! Post
+                            self.emitPostSuccess(post)
+                            self.screen.reportSuccess(NSLocalizedString("Post successfully created!", comment: "Post successfully created!"))
+                        }
+                    },
+                    failure: { error, statusCode in
+                        ElloHUD.hideLoadingHud()
+                        self.contentCreationFailed(error.localizedDescription)
+                    }
+                )
+            }
+            else {
+                contentCreationFailed(NSLocalizedString("No content was submitted", comment: "No content was submitted"))
+            }
         }
         else {
-            contentCreationFailed("No content was submitted")
+            contentCreationFailed(NSLocalizedString("No content was submitted", comment: "No content was submitted"))
         }
     }
 

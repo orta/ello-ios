@@ -35,22 +35,8 @@ public final class User: JSONAble {
     public var coverImage: Asset?
     public var backgroundPosition: String?
     // links
-    public var posts: [Post]? {
-        if let posts = getLinkArray(MappingType.PostsType.rawValue) as? [Post] {
-            for post in posts {
-                post.addLinkObject("author", key: id, collection: MappingType.UsersType.rawValue)
-            }
-            return posts
-        }
-        return nil
-    }
-    public var mostRecentPost: Post? {
-        if let post = getLinkObject("most_recent_post") as? Post {
-            post.addLinkObject("author", key: id, collection: MappingType.UsersType.rawValue)
-            return post
-        }
-        return nil
-    }
+    public var posts: [Post]? { return getLinkArray("posts") as? [Post] }
+    public var mostRecentPost: Post? { return getLinkObject("most_recent_post") as? Post }
     // computed
     public var atName: String { return "@\(username)"}
     public var avatarURL: NSURL? { return avatar?.regular?.url }

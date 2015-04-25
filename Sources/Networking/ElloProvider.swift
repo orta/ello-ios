@@ -212,7 +212,7 @@ extension ElloProvider {
         }
 
         if let node = dict[elloAPI.mappingType.rawValue] as? [[String:AnyObject]] {
-            mappedObjects = Mapper.mapToObjectArray(node, fromJSON: elloAPI.mappingType.fromJSON, linkObject: elloAPI.linkObject )
+            mappedObjects = Mapper.mapToObjectArray(node, fromJSON: elloAPI.mappingType.fromJSON)
         }
         else if let node = dict[elloAPI.mappingType.rawValue] as? [String:AnyObject] {
             mappedObjects = Mapper.mapToObject(node, fromJSON: elloAPI.mappingType.fromJSON)

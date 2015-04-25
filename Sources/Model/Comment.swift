@@ -17,17 +17,19 @@ public final class Comment: JSONAble, Authorable {
     public let id: String
     public let createdAt: NSDate
     // required
+    public let authorId: String
     public let postId: String
     public let content: [Regionable]
     // links
     public var assets: [Asset]? {
-        if let assets = getLinkArray("assets") as? [Asset] {
-            return assets
-        }
-        return nil
+        return getLinkArray("assets") as? [Asset]
     }
-    public var author: User? { return getLinkObject("author") as? User }
-    public var parentPost: Post? { return getLinkObject("parent_post") as? Post }
+    public var author: User? {
+        return ElloLinkedStore.sharedInstance.getObject(self.authorId, inCollection: MappingType.UsersType.rawValue) as? User
+    }
+    public var parentPost: Post? {
+        return ElloLinkedStore.sharedInstance.getObject(self.postId, inCollection: MappingType.PostsType.rawValue) as? Post
+    }
     // computed properties
     public var groupId:String {
         get { return postId }
@@ -37,11 +39,13 @@ public final class Comment: JSONAble, Authorable {
 
     public init(id: String,
         createdAt: NSDate,
+        authorId: String,
         postId: String,
         content: [Regionable])
     {
         self.id = id
         self.createdAt = createdAt
+        self.authorId = authorId
         self.postId = postId
         self.content = content
         super.init()
@@ -54,8 +58,9 @@ public final class Comment: JSONAble, Authorable {
         let decoder = Decoder(aDecoder)
         // active record
         self.id = decoder.decodeKey("id")
-        self.createdAt = decoder.decodeKey("createdAt")
+        self.createdAt = decoder.decodeKey("createdAt") 
         // required
+        self.authorId = decoder.decodeKey("authorId")
         self.postId = decoder.decodeKey("postId")
         self.content = decoder.decodeKey("content")
         super.init(coder: aDecoder)
@@ -66,6 +71,7 @@ public final class Comment: JSONAble, Authorable {
         encoder.encodeObject(id, forKey: "id")
         encoder.encodeObject(createdAt, forKey: "createdAt")
         // required
+        encoder.encodeObject(authorId, forKey: "authorId")
         encoder.encodeObject(postId, forKey: "postId")
         encoder.encodeObject(content, forKey: "content")
         super.encodeWithCoder(encoder)
@@ -79,6 +85,7 @@ public final class Comment: JSONAble, Authorable {
         var comment = Comment(
             id: json["id"].stringValue,
             createdAt: json["created_at"].stringValue.toNSDate()!,
+            authorId: json["author_id"].stringValue,
             postId: json["post_id"].stringValue,
             content: RegionParser.regions("content", json: json)
             )
@@ -95,11 +102,10 @@ public final class Comment: JSONAble, Authorable {
         var comment = Comment(
             id: NSUUID().UUIDString,
             createdAt: NSDate(),
+            authorId: currentUser.id,
             postId: post.id,
             content: [Regionable]()
         )
-        comment.addLinkObject("author", key: currentUser.id, collection: MappingType.UsersType.rawValue)
-        comment.addLinkObject("parent_post", key: post.id, collection: MappingType.PostsType.rawValue)
         return comment
     }
 }

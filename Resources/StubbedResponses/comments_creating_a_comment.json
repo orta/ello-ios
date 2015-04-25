@@ -1,5 +1,6 @@
 {
     "comments": {
+        "author_id": "42",
         "body": [
             {
                 "data": "cfiggis no, Burt Reynolds is a godking.",
@@ -12,7 +13,7 @@
                 "kind": "text"
             }
         ],
-        "created_at": "2015-03-12T15:54:52.837Z",
+        "created_at": "2015-04-23T20:27:57.421Z",
         "id": "53",
         "links": {
             "assets": [],
