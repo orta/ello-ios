@@ -125,6 +125,11 @@ public class StreamHeaderCell: UICollectionViewCell {
         usernameTextView.textContainerInset = UIEdgeInsetsZero
     }
 
+    public func close() {
+        isOpen = false
+        scrollView.contentOffset = CGPointZero
+    }
+    
 // MARK: - Private
 
     private func updateItems() {
@@ -174,8 +179,6 @@ public class StreamHeaderCell: UICollectionViewCell {
 
         goToPostView.frame = CGRectMake(usernameTextView.frame.maxX, 0, innerContentView.bounds.width - usernameTextView.frame.maxX, innerContentView.frame.height)
     }
-
-    // MARK: - Private
 
     private func fixedItem(width:CGFloat) -> UIBarButtonItem {
         let item = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
