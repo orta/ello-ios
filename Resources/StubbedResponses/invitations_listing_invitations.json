@@ -2,22 +2,22 @@
     "invitations": [
         {
             "accepted_at": null,
-            "code": "aa8171b664c31160a87445b7e68ad78f",
-            "created_at": "2015-03-12T15:55:03.774Z",
+            "code": "8d7d1560265d1abab00e64d0b6704ccf",
+            "created_at": "2015-04-23T20:28:19.254Z",
             "email": null,
             "id": "9"
         },
         {
             "accepted_at": null,
-            "code": "14d482c2d40b21f6119832bf1b11ea03",
-            "created_at": "2015-03-12T15:55:03.777Z",
+            "code": "ae3248ca58eedb7fc0ad5bb87dbdb1c4",
+            "created_at": "2015-04-23T20:28:19.258Z",
             "email": "raygillette@isisagency.com",
             "id": "10"
         },
         {
-            "accepted_at": "2015-03-12T15:55:03.779Z",
-            "code": "21d91e9c8c0e5e2cac0f06dc70dd92db",
-            "created_at": "2015-03-12T15:55:03.779Z",
+            "accepted_at": "2015-04-23T20:28:19.261Z",
+            "code": "b9b6b05e91b8f64c3438c18ef95119af",
+            "created_at": "2015-04-23T20:28:19.261Z",
             "email": "lanakane@isisagency.com",
             "id": "11",
             "links": {

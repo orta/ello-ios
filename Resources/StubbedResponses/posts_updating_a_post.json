@@ -1,6 +1,7 @@
 {
     "posts": {
         "allow_comments": true,
+        "author_id": "42",
         "body": [
             {
                 "data": "If I stopped drinking all at once...",
@@ -50,9 +51,9 @@
             }
         ],
         "content_warning": null,
-        "created_at": "2015-04-03T21:55:28.388Z",
-        "href": "/api/edge/posts/181",
-        "id": "181",
+        "created_at": "2015-04-23T20:28:30.992Z",
+        "href": "/api/edge/posts/186",
+        "id": "186",
         "links": {
             "assets": []
         },
@@ -70,7 +71,7 @@
                 "kind": "image"
             }
         ],
-        "token": "nyQJ4CH3Z8_L_RAFRWOliw",
+        "token": "oG_prFvdPn1tbU13oI9rLw",
         "views_count": 0
     }
 }

@@ -5,13 +5,13 @@
                 "attachment": {
                     "optimized": {
                         "metadata": null,
-                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/21/ello-optimized-97fbdf62.jpg"
+                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/23/ello-optimized-97fbdf62.jpg"
                     },
                     "original": {
-                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/21/archer.jpg"
+                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/23/archer.jpg"
                     }
                 },
-                "id": "21"
+                "id": "23"
             }
         ],
         "users": [
@@ -44,6 +44,7 @@
     },
     "posts": {
         "allow_comments": true,
+        "author_id": "42",
         "body": [
             {
                 "data": "To clarify, she means the spy agency.",
@@ -58,12 +59,12 @@
             }
         ],
         "content_warning": null,
-        "created_at": "2015-04-03T21:55:27.748Z",
-        "href": "/api/edge/posts/177",
-        "id": "177",
+        "created_at": "2015-04-23T20:28:29.822Z",
+        "href": "/api/edge/posts/182",
+        "id": "182",
         "links": {
             "assets": [
-                "21"
+                "23"
             ],
             "repost_author": {
                 "href": "/api/edge/users/43",
@@ -79,19 +80,19 @@
             {
                 "data": {
                     "alt": "archer.jpg",
-                    "url": "https://abc123.cloudfront.net/uploads/asset/attachment/21/archer.jpg"
+                    "url": "https://abc123.cloudfront.net/uploads/asset/attachment/23/archer.jpg"
                 },
                 "kind": "image",
                 "links": {
-                    "assets": "21"
+                    "assets": "23"
                 }
             }
         ],
-        "repost_id": "175",
-        "repost_path": "/lanakane32d/post/xZhlFVFdCdOtGLRw2SeozA",
-        "repost_via_id": "176",
-        "repost_via_path": "/pam/post/YWvceSewfRhiK9X8he_XTw",
-        "reposts_count": 0,
+        "repost_id": "180",
+        "repost_path": "/lanakane32d/post/qMt-qlW5vtMNpQFcG0_4Lg",
+        "repost_via_id": "181",
+        "repost_via_path": "/pam/post/pKR3STKc3fnjLXJCJhL20g",
+        "reposts_count": 2,
         "summary": [
             {
                 "data": "<p>Have you ever heard of ISIS?</p>",
@@ -100,15 +101,15 @@
             {
                 "data": {
                     "alt": "archer.jpg",
-                    "url": "https://abc123.cloudfront.net/uploads/asset/attachment/21/archer.jpg"
+                    "url": "https://abc123.cloudfront.net/uploads/asset/attachment/23/archer.jpg"
                 },
                 "kind": "image",
                 "links": {
-                    "assets": "21"
+                    "assets": "23"
                 }
             }
         ],
-        "token": "TVqbGdWv5NTNAOTYFJHVAw",
+        "token": "qSLdyaF0LyES51rpSmU5tA",
         "views_count": 0
     }
 }
