@@ -76,10 +76,11 @@ public struct StreamCellItemParser {
                 var repostHeaderHeight: CGFloat = post.repostViaPath == nil ? 15.0 : 30.0
                 cellItems.append(StreamCellItem(jsonable: post, type: StreamCellType.RepostHeader, data: nil, oneColumnCellHeight: repostHeaderHeight, multiColumnCellHeight: repostHeaderHeight, isFullWidth: false))
                 // add repost content
-                if let repostContent = post.repostContent {
+                // this is weird, but the post summary is actually the repost summary on reposts
+                if let repostContent = streamKind.isGridLayout ? post.summary : post.repostContent {
                     cellItems += postRegionItems(post, content: repostContent)
                     // add additional content
-                    if let content = streamKind.isGridLayout ? post.summary : post.content {
+                    if let content = post.content {
                         cellItems += postRegionItems(post, content: content)
                     }
                 }
