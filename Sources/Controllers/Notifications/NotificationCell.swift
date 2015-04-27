@@ -47,7 +47,7 @@ public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
         static func imageHeight(#imageRegion: ImageRegion?) -> CGFloat {
             if let imageRegion = imageRegion {
                 var aspectRatio = StreamCellItemParser.aspectRatioForImageBlock(imageRegion)
-                return self.imageWidth * aspectRatio
+                return self.imageWidth / aspectRatio
             }
             else {
                 return 0
