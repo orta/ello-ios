@@ -58,6 +58,7 @@ public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
     typealias WebContentReady = (webView : UIWebView)->()
 
     var webLinkDelegate: WebLinkDelegate?
+    var userDelegate: UserDelegate?
     var delegate: NotificationDelegate?
     var webContentReady: WebContentReady?
 
@@ -122,6 +123,7 @@ public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
         super.init(frame: frame)
 
         avatarButton = AvatarButton()
+        avatarButton.addTarget(self, action: "avatarTapped", forControlEvents: .TouchUpInside)
         titleTextView = ElloTextView(frame: CGRectZero, textContainer: nil)
         titleTextView.textViewDelegate = self
 
@@ -220,4 +222,13 @@ extension NotificationCell: ElloTextViewDelegate {
         default: break
         }
     }
+}
+
+extension NotificationCell {
+
+    @objc
+    public func avatarTapped() {
+        userDelegate?.userTappedCell(self)
+    }
+
 }

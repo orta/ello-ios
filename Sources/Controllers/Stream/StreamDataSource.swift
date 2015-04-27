@@ -232,6 +232,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
             switch streamCellItem.type {
             case .Notification:
                 (cell as! NotificationCell).webLinkDelegate = webLinkDelegate
+                (cell as! NotificationCell).userDelegate = userDelegate
                 (cell as! NotificationCell).delegate = notificationDelegate
             case .CreateComment:
                 // (cell as! StreamCreateCommentCell)
