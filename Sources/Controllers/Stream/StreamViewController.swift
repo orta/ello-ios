@@ -94,6 +94,7 @@ public class StreamViewController: BaseElloViewController {
         set {
             dataSource.streamFilter = newValue
             collectionView.reloadData()
+            self.scrollToTop()
         }
     }
 
@@ -140,6 +141,10 @@ public class StreamViewController: BaseElloViewController {
     }
 
 // MARK: Public Functions
+
+    public func scrollToTop() {
+        collectionView.contentOffset = CGPoint(x: 0, y: 0)
+    }
 
     public func doneLoading() {
         ElloHUD.hideLoadingHudInView(view)
