@@ -207,7 +207,9 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
             self.presentViewController(imagePicker, animated: true, completion: .None)
         }
 
-        alertViewController.map { self.presentViewController($0, animated: true, completion: .None) }
+        if let alertViewController = alertViewController {
+            self.presentViewController(alertViewController, animated: true, completion: .None)
+        }
     }
 
     private func alertUserOfImageProcessing() {
