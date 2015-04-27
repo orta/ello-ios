@@ -39,10 +39,10 @@ public class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
     }
 
     private func loadNext() {
-        if !self.cellItems.isEmpty {
-            let notification = self.cellItems[0].jsonable as! Notification
-
-            if let textRegion = notification.textRegion {
+        if let activity = self.cellItems.safeValue(0) {
+            if let notification = activity.jsonable as? Notification,
+                let textRegion = notification.textRegion
+            {
                 let content = textRegion.content
                 let strippedContent = self.stripImageSrc(content)
                 let html = StreamTextCellHTML.postHTML(strippedContent)
