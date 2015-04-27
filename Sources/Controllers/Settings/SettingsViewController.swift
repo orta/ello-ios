@@ -194,9 +194,9 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         case .AvatarImage: return 250
         case .ProfileDescription: return 130
         case .CredentialSettings: return credentialSettingsViewController?.height ?? 0
-        case .Name: return 97
+        case .Name: return nameTextFieldView.height
         case .Bio: return 200
-        case .Links: return 97
+        case .Links: return linksTextFieldView.height
         case .PreferenceSettings: return dynamicSettingsViewController?.height ?? 0
         case .Unknown: return 0
         }
