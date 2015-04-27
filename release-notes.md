@@ -1,3 +1,94 @@
+### Ello Build 1339(v1.0.0) April 24, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #199 - Comment Flagging & Deletion
+* Delete my own comment
+* Flag or delete someone else's comment on my post
+
+[Finishes #85642738]
+[Finishes #92752904]
+[Finishes #85642540]
+[Fixes #92172352]
+[Finishes #85642738]
+[Fixes #92172220]
+[Finishes #91944770]
+
+------
+
+#### #197 - Integrate New Relic for performance monitoring
+This will go to the same account that the webapp is on currently (linked to Heroku) - stats will show up there.
+
+Crash reporting is available but not enabled since we have Crashlytics on. I set up dSYM upload in case we ever want it.
+
+------
+
+#### #195 - Adds viewing reposts to the stream.
+* Add repost header
+* Add black line and indentation to own comments/images/embeds on content
+* Add `isRepost` to `Post`
+* Make repost paths a `String`
+* Add `isRepost` to `Regionable`
+* Move Regionable extensions into respective classes
+* Add `StreamRegionableCell` for adding the black like on the left
+
+[Finishes #86633280]
+
+------
+
+#### #194 - Move left bar button items over a bit
+[Fixes #93147924]
+
+------
+
+#### #191 - Move the text down 1pt [Fixes #90667636]
+![screen shot 2015-04-23 at 3 00 35 pm](https://cloud.githubusercontent.com/assets/3432639/7305109/8a196436-e9c9-11e4-9c32-efbdd5868415.png)
+
+------
+
+#### #191 - Move the text down 1pt [Fixes #90667636]
+![screen shot 2015-04-23 at 3 00 35 pm](https://cloud.githubusercontent.com/assets/3432639/7305109/8a196436-e9c9-11e4-9c32-efbdd5868415.png)
+
+------
+
+#### #180 - Search
+Implements the `SearchViewController`, adds the `SearchForUsers` endpoint.  Super f-ing easy, thanks to the existing work on `StreamViewController`, `InfiniteScroll`, and the `UserList` stream kind.
+
+------
+
+#### #185 - Converts user avatar and cover to use `Asset`
+* Adds large, regular, and small for assets
+* Adds static `parseAsset` class method to `Asset` for passing in a specific node
+
+@tonyd256 @steam this will allow to pull out more `Attachment`s from `Asset`. We might want to create a helper for fallback images for these at some point.
+
+------
+
+#### #182 - start editing in omnibar immediately
+Starts editing in the `viewWillAppear` method, so the keyboard is already visible when the screen is shown.
+
+------
+
+#### #179 - Fixes the navigation bar on Settings and DynamicSettingCategory view controllers
+before, it looked like this:
+
+![boo](https://cloud.githubusercontent.com/assets/27570/7266739/c1998b16-e86b-11e4-8fa6-a9fa41ab84b3.gif)
+
+Now like this!
+
+![yay](https://cloud.githubusercontent.com/assets/27570/7266774/5df87026-e86c-11e4-9eb3-4abca72d8919.gif)
+
+Had to overhaul Settings quite a bit, by adding a `SettingsContainerViewController` to hold the `ElloNavigationBar`.  @tonyd256 I hope this doesn't mess with your ongoing work in Settings! :frowning:
+
+------
+
+#### #181 - Previous force unwrapping was causing a failure in StreamContainerVCSpec
+Not sure what introduced this failure, also not sure why we were force unwrapping here... maybe someone has context?
+    
+------------
+
 ### Ello Build 1236(v1.0.0) April 21, 2015
 
     No completed pull requests since last distribution.
