@@ -355,15 +355,18 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     private func updateFilteredItems() {
+        self.visibleCellItems = self.streamCellItems
+
         if let streamFilter = streamFilter {
-            self.visibleCellItems = self.streamCellItems.filter(streamFilter)
-        }
-        else {
-            self.visibleCellItems = self.streamCellItems
+            self.visibleCellItems = self.visibleCellItems.filter { item in
+                return item.alwaysShow() || streamFilter(item)
+            }
         }
 
         if let streamCollapsedFilter = streamCollapsedFilter {
-            self.visibleCellItems = self.visibleCellItems.filter(streamCollapsedFilter)
+            self.visibleCellItems = self.visibleCellItems.filter { item in
+                return item.alwaysShow() || streamCollapsedFilter(item)
+            }
         }
     }
 
