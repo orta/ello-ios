@@ -10,6 +10,8 @@ import UIKit
 
 public protocol PostTappedDelegate : NSObjectProtocol {
     func postTapped(post: Post, initialItems: [StreamCellItem])
+    func postTapped(post: Post)
+    func postTapped(#postId: String)
 }
 
 public protocol UserTappedDelegate : NSObjectProtocol {
@@ -94,6 +96,16 @@ public class StreamableViewController : BaseElloViewController {
 extension StreamableViewController: PostTappedDelegate {
     public func postTapped(post: Post, initialItems: [StreamCellItem]) {
         let vc = PostDetailViewController(post: post, items: initialItems)
+        vc.currentUser = currentUser
+        vc.willPresentStreamable(scrollLogic.isShowing)
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+
+    public func postTapped(post: Post) {
+        self.postTapped(postId: post.id)
+    }
+    public func postTapped(#postId: String) {
+        let vc = PostDetailViewController(postParam: postId)
         vc.currentUser = currentUser
         vc.willPresentStreamable(scrollLogic.isShowing)
         self.navigationController?.pushViewController(vc, animated: true)
