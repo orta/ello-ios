@@ -479,15 +479,18 @@ extension StreamViewController : UIScrollViewDelegate {
     }
 
     private func loadNextPage(scrollView: UIScrollView) {
-        if scrollView.contentOffset.y + self.view.frame.height + 300 > scrollView.contentSize.height {
+        let scrollPastThreshold = CGFloat(300)
+        if scrollView.contentOffset.y + self.view.frame.height + scrollPastThreshold > scrollView.contentSize.height {
             if allOlderPagesLoaded == true { return }
             if responseConfig?.totalPagesRemaining == "0" { return }
+
             if let nextQueryItems = responseConfig?.nextQueryItems {
                 if dataSource.visibleCellItems.count > 0 {
                     let lastCellItem: StreamCellItem = dataSource.visibleCellItems[dataSource.visibleCellItems.count - 1]
                     if lastCellItem.type == .StreamLoading { return }
                     appendStreamCellItems([StreamLoadingCell.streamCellItem()])
                 }
+
                 let scrollAPI = ElloAPI.InfiniteScroll(queryItems: nextQueryItems) { return self.streamKind.endpoint }
                 streamService.loadStream(scrollAPI,
                     streamKind: streamKind,
