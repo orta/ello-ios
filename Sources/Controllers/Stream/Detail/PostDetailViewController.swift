@@ -65,6 +65,10 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
     override public func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.whiteColor()
+
+        setupNavigationBar()
+        setupStreamController()
+
         if let post = post {
             postDidLoad()
             loadComments()
@@ -72,6 +76,10 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
     }
 
     override public func showNavBars(scrollToBottom : Bool) {
+        if !isViewLoaded() {
+            let view = self.view
+        }
+
         super.showNavBars(scrollToBottom)
         navigationBar.frame = navigationBar.frame.atY(0)
         streamViewController.view.frame = navigationBar.frame.fromBottom().withHeight(self.view.frame.height - navigationBar.frame.height)
@@ -89,6 +97,10 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
     }
 
     override public func hideNavBars() {
+        if !isViewLoaded() {
+            let view = self.view
+        }
+
         super.hideNavBars()
         navigationBar.frame = navigationBar.frame.atY(-navigationBar.frame.height - 1)
         streamViewController.view.frame = navigationBar.frame.fromBottom().withHeight(self.view.frame.height)
@@ -111,9 +123,16 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
     }
 
     private func postDidLoad() {
-        setupNavigationBar()
-        setupStreamController()
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
+        streamViewController.streamKind = streamKind!
+
+        if let detailCellItems = detailCellItems {
+            streamViewController.appendStreamCellItems(detailCellItems)
+        }
+        if let unsizedCellItems = unsizedCellItems {
+            streamViewController.appendUnsizedCellItems(unsizedCellItems, withWidth: nil)
+        }
+        streamViewController.refreshableIndex = self.startOfComments
     }
 
     private func setupNavigationBar() {
@@ -128,7 +147,6 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
 
     private func setupStreamController() {
         streamViewController = StreamViewController.instantiateFromStoryboard()
-        streamViewController.streamKind = streamKind!
         streamViewController.currentUser = currentUser
         streamViewController.createCommentDelegate = self
         streamViewController.postTappedDelegate = self
@@ -142,14 +160,6 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         streamViewController.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
         self.addChildViewController(streamViewController)
         streamViewController.didMoveToParentViewController(self)
-
-        if let detailCellItems = detailCellItems {
-            streamViewController.appendStreamCellItems(detailCellItems)
-        }
-        if let unsizedCellItems = unsizedCellItems {
-            streamViewController.appendUnsizedCellItems(unsizedCellItems, withWidth: nil)
-        }
-        streamViewController.refreshableIndex = self.startOfComments
     }
 
     private func loadComments() {
