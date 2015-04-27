@@ -206,6 +206,8 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
             imagePicker.delegate = self
             self.presentViewController(imagePicker, animated: true, completion: .None)
         }
+
+        alertViewController.map { self.presentViewController($0, animated: true, completion: .None) }
     }
 
     private func alertUserOfImageProcessing() {
