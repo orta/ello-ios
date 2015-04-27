@@ -39,6 +39,11 @@ class SettingsViewControllerSpec: QuickSpec {
                     expect(subject.avatarImage).notTo(beNil())
                     expect(subject.coverImage).notTo(beNil())
                     expect(subject.profileDescription).notTo(beNil())
+                    expect(subject.nameTextFieldView).notTo(beNil())
+                    expect(subject.linksTextFieldView).notTo(beNil())
+                    expect(subject.bioTextView).notTo(beNil())
+                    expect(subject.bioTextCountLabel).notTo(beNil())
+                    expect(subject.bioTextStatusImage).notTo(beNil())
                 }
             }
         }

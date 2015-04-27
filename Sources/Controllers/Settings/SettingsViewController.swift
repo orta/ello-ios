@@ -62,13 +62,13 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     @IBOutlet weak public var avatarImage: UIImageView!
     var scrollLogic: ElloScrollLogic!
 
-    @IBOutlet weak var nameTextFieldView: ElloTextFieldView!
-    @IBOutlet weak var linksTextFieldView: ElloTextFieldView!
-    @IBOutlet weak var bioTextView: ElloEditableTextView!
-    @IBOutlet weak var bioTextCountLabel: ElloErrorLabel!
-    @IBOutlet weak var bioTextStatusImage: UIImageView!
+    @IBOutlet weak public var nameTextFieldView: ElloTextFieldView!
+    @IBOutlet weak public var linksTextFieldView: ElloTextFieldView!
+    @IBOutlet weak public var bioTextView: ElloEditableTextView!
+    @IBOutlet weak public var bioTextCountLabel: ElloErrorLabel!
+    @IBOutlet weak public var bioTextStatusImage: UIImageView!
 
-    var bioTextViewDidChange: (() -> ())?
+    private var bioTextViewDidChange: (() -> ())?
 
     public var currentUser: User? {
         didSet {

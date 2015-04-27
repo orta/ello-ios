@@ -8,8 +8,8 @@
 
 import UIKit
 
-class ElloEditableTextView: UITextView {
-    override func awakeFromNib() {
+public class ElloEditableTextView: UITextView {
+    override public func awakeFromNib() {
         super.awakeFromNib()
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("textViewDidBeginEditing:"), name: UITextViewTextDidBeginEditingNotification, object: .None)
