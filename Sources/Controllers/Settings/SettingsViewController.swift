@@ -63,6 +63,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     var scrollLogic: ElloScrollLogic!
 
     @IBOutlet weak var nameTextFieldView: ElloTextFieldView!
+    @IBOutlet weak var linksTextFieldView: ElloTextFieldView!
 
     public var currentUser: User? {
         didSet {
@@ -158,6 +159,28 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         nameTextFieldView.textFieldDidChange = { _ in
             self.nameTextFieldView.setState(.Loading)
             updateNameFunction()
+        }
+
+        linksTextFieldView.label.setLabelText("Links")
+        linksTextFieldView.textField.text = (currentUser?.profile?.externalLinksList).map { " ".join($0) }
+
+        let updateLinksFunction = Functional.debounce(0.5) {
+            let links = self.linksTextFieldView.textField.text
+            ProfileService().updateUserProfile(["external_links": links], success: { user, responseConfig in
+                if let nav = self.navigationController as? ElloNavigationController {
+                    nav.setProfileData(user, responseConfig: responseConfig)
+                    self.linksTextFieldView.setState(.OK)
+                } else {
+                    self.linksTextFieldView.setState(.Error)
+                }
+            }) { _, _ in
+                self.linksTextFieldView.setState(.Error)
+            }
+        }
+
+        linksTextFieldView.textFieldDidChange = { _ in
+            self.linksTextFieldView.setState(.Loading)
+            updateLinksFunction()
         }
     }
 
