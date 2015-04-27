@@ -138,6 +138,7 @@ public class StreamFooterCell: UICollectionViewCell {
 
     public func close() {
         isOpen = false
+        closeChevron()
         scrollView.contentOffset = CGPointZero
     }
 
@@ -249,10 +250,10 @@ public class StreamFooterCell: UICollectionViewCell {
 
     private func openChevron(isOpen: Bool = true) {
         if isOpen {
-            rotateChevron(CGFloat(M_PI))
+            rotateChevron(0)
         }
         else {
-            rotateChevron(0)
+            rotateChevron(CGFloat(M_PI))
         }
     }
 
@@ -261,8 +262,8 @@ public class StreamFooterCell: UICollectionViewCell {
     }
 
     private func rotateChevron(var angle: CGFloat) {
-        if angle < 0 {
-            angle = 0
+        if angle < CGFloat(-M_PI) {
+            angle = CGFloat(-M_PI)
         }
         else if angle > CGFloat(M_PI) {
             angle = CGFloat(M_PI)
@@ -309,7 +310,7 @@ extension StreamFooterCell: UIScrollViewDelegate {
             openChevron()
             postNotification(streamCellDidOpenNotification, self)
         } else {
-            var angle: CGFloat = CGFloat(M_PI) * scrollView.contentOffset.x / revealWidth
+            var angle: CGFloat = -CGFloat(M_PI) + CGFloat(M_PI) * scrollView.contentOffset.x / revealWidth
             rotateChevron(angle)
             isOpen = false
         }
