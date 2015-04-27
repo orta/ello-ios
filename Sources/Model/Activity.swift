@@ -49,17 +49,12 @@ public final class Activity: JSONAble {
         // Fallback for not defined types
         case Unknown = "Unknown"
 
-        // Static funcs
-        static func friendStreamKind() -> [Kind] { return [.FriendPost, .OwnPost, .WelcomePost] }
-        static func noiseStreamKind() -> [Kind] { return [.NoisePost] }
-        static func notificationStreamKind() -> [Kind] { return [.NewFollowerPost, .NewFollowedUserPost, .InvitationAcceptedPost, .PostMentionNotification, .CommentMentionNotification, .CommentNotification, .WelcomeNotification, .RepostNotification] }
-
         // Notification categories
-        static func allNotifications() -> [Kind] { return notificationStreamKind() }
-        static func commentNotifications() -> [Kind] { return [.CommentNotification] }
-        static func mentionNotifications() -> [Kind] { return [.PostMentionNotification, .CommentMentionNotification] }
-        static func repostNotifications() -> [Kind] { return [.RepostNotification]}
-        static func relationshipNotifications() -> [Kind] { return [.NewFollowerPost, .NewFollowedUserPost] }
+        static public func allNotifications() -> [Kind] { return [.NewFollowerPost, .NewFollowedUserPost, .InvitationAcceptedPost, .PostMentionNotification, .CommentMentionNotification, .CommentNotification, .WelcomeNotification, .RepostNotification] }
+        static public func commentNotifications() -> [Kind] { return [.CommentNotification] }
+        static public func mentionNotifications() -> [Kind] { return [.PostMentionNotification, .CommentMentionNotification, .WelcomeNotification] }
+        static public func repostNotifications() -> [Kind] { return [.RepostNotification]}
+        static public func relationshipNotifications() -> [Kind] { return [.NewFollowerPost, .NewFollowedUserPost, .InvitationAcceptedPost] }
     }
 
     public enum SubjectType: String {
