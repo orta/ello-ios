@@ -16,13 +16,20 @@ public typealias UserSuccessCompletion = (user: User, responseConfig: ResponseCo
 
 public class StreamService: NSObject {
 
-    public func loadStream(endpoint:ElloAPI, streamKind: StreamKind?, success: StreamSuccessCompletion, failure: ElloFailureCompletion?, noContent: ElloEmptyCompletion? = nil) {
-        ElloProvider.elloRequest(endpoint,
+    public func loadStream(
+        endpoint:ElloAPI,
+        streamKind: StreamKind?,
+        success: StreamSuccessCompletion,
+        failure: ElloFailureCompletion?,
+        noContent: ElloEmptyCompletion? = nil)
+    {
+        ElloProvider.elloRequest(
+            endpoint,
             method: .GET,
             success: { (data, responseConfig) in
                 if let jsonables:[JSONAble] = data as? [JSONAble] {
                     if let streamKind = streamKind {
-                        self.preloadImages(jsonables, streamKind: streamKind)
+                        Preloader().preloadImages(jsonables,  streamKind: streamKind)
                     }
                     success(jsonables: jsonables, responseConfig: responseConfig)
                 }
@@ -41,11 +48,20 @@ public class StreamService: NSObject {
         )
     }
 
-    public func loadUser(endpoint: ElloAPI, success: UserSuccessCompletion, failure: ElloFailureCompletion?) {
-        ElloProvider.elloRequest(endpoint,
+    public func loadUser(
+        endpoint: ElloAPI,
+        streamKind: StreamKind?,
+        success: UserSuccessCompletion,
+        failure: ElloFailureCompletion?)
+    {
+        ElloProvider.elloRequest(
+            endpoint,
             method: .GET,
             success: { (data, responseConfig) in
                 if let user = data as? User {
+                    if let streamKind = streamKind {
+                        Preloader().preloadImages([user], streamKind: streamKind)
+                    }
                     success(user: user, responseConfig: responseConfig)
                 }
                 else {
@@ -56,11 +72,21 @@ public class StreamService: NSObject {
         )
     }
 
-    public func loadMoreCommentsForPost(postID:String, success: StreamSuccessCompletion, failure: ElloFailureCompletion?, noContent: ElloEmptyCompletion? = nil) {
-        ElloProvider.elloRequest(.PostComments(postId: postID),
+    public func loadMoreCommentsForPost(
+        postID:String,
+        streamKind: StreamKind?,
+        success: StreamSuccessCompletion,
+        failure: ElloFailureCompletion?,
+        noContent: ElloEmptyCompletion? = nil)
+    {
+        ElloProvider.elloRequest(
+            .PostComments(postId: postID),
             method: .GET,
             success: { (data, responseConfig) in
                 if let comments:[JSONAble] = data as? [JSONAble] {
+                    if let streamKind = streamKind {
+                        Preloader().preloadImages(comments, streamKind: streamKind)
+                    }
                     success(jsonables: comments, responseConfig: responseConfig)
                 }
                 else if let noContent = noContent {
@@ -72,41 +98,5 @@ public class StreamService: NSObject {
             },
             failure: failure
         )
-    }
-
-    private func preloadImages(jsonables: [JSONAble], streamKind: StreamKind) {
-
-        // preload avatars
-        for jsonable in jsonables {
-            if let activity = jsonable as? Activity,
-                let authorable = activity.subject as? Authorable,
-                let author = authorable.author,
-                let avatarURL = author.avatarURL
-            {
-                let manager = SDWebImageManager.sharedManager()
-                manager.downloadImageWithURL(avatarURL,
-                    options: SDWebImageOptions.LowPriority,
-                    progress: { (_, _) in }, completed: { (_, _, _, _, _) in})
-            }
-        }
-        // preload images in image regions
-        for jsonable in jsonables {
-            if let activity = jsonable as? Activity,
-                let post = activity.subject as? Post,
-                let content = streamKind.isGridLayout ? post.summary: post.content
-            {
-                for region in content {
-                    if let imageRegion = region as? ImageRegion,
-                        let asset = imageRegion.asset,
-                        let attachment = streamKind.isGridLayout ? asset.gridLayoutAttachment : asset.oneColumnAttachment
-                    {
-                        let manager = SDWebImageManager.sharedManager()
-                        manager.downloadImageWithURL(attachment.url,
-                            options: SDWebImageOptions.LowPriority,
-                            progress: { (_, _) in }, completed: { (_, _, _, _, _) in})
-                    }
-                }
-            }
-        }
     }
 }

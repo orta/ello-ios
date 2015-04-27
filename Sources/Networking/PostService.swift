@@ -15,11 +15,20 @@ public struct PostService {
 
     public init(){}
 
-    public func loadPost(postParam: String, success: PostSuccessCompletion, failure: ElloFailureCompletion?) {
-        ElloProvider.elloRequest(ElloAPI.PostDetail(postParam: postParam),
+    public func loadPost(
+        postParam: String,
+        streamKind: StreamKind?,
+        success: PostSuccessCompletion,
+        failure: ElloFailureCompletion?)
+    {
+        ElloProvider.elloRequest(
+            ElloAPI.PostDetail(postParam: postParam),
             method: .GET,
             success: { (data, _) in
                 if let post = data as? Post {
+                    if let streamKind = streamKind {
+                        Preloader().preloadImages([post],  streamKind: streamKind)
+                    }
                     success(post: post)
                 }
                 else {
@@ -30,7 +39,11 @@ public struct PostService {
         )
     }
 
-    public func deletePost(postId: String, success: ElloEmptyCompletion, failure: ElloFailureCompletion?) {
+    public func deletePost(
+        postId: String,
+        success: ElloEmptyCompletion,
+        failure: ElloFailureCompletion?)
+    {
         ElloProvider.elloRequest(ElloAPI.DeletePost(postId: postId),
             method: .DELETE,
             success: { (_, _) in
