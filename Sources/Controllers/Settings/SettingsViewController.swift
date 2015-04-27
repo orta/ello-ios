@@ -62,6 +62,8 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     @IBOutlet weak public var avatarImage: UIImageView!
     var scrollLogic: ElloScrollLogic!
 
+    @IBOutlet weak var nameTextFieldView: ElloTextFieldView!
+
     public var currentUser: User? {
         didSet {
             credentialSettingsViewController?.currentUser = currentUser
@@ -136,6 +138,27 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     private func setupDefaultValues() {
         currentUser?.coverImageURL.map(coverImage.sd_setImageWithURL)
         (currentUser?.avatar?.large?.url).map(avatarImage.sd_setImageWithURL)
+        nameTextFieldView.label.setLabelText("Name")
+        nameTextFieldView.textField.text = currentUser?.name
+
+        let updateNameFunction = Functional.debounce(0.5) {
+            let name = self.nameTextFieldView.textField.text
+            ProfileService().updateUserProfile(["name": name], success: { user, responseConfig in
+                if let nav = self.navigationController as? ElloNavigationController {
+                    nav.setProfileData(user, responseConfig: responseConfig)
+                    self.nameTextFieldView.setState(.OK)
+                } else {
+                    self.nameTextFieldView.setState(.Error)
+                }
+            }) { _, _ in
+                self.nameTextFieldView.setState(.Error)
+            }
+        }
+
+        nameTextFieldView.textFieldDidChange = { _ in
+            self.nameTextFieldView.setState(.Loading)
+            updateNameFunction()
+        }
     }
 
     func backAction() {
