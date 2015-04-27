@@ -15,6 +15,7 @@
             <string>AtlasTypewriter-Regular</string>
             <string>AtlasTypewriter-Regular</string>
             <string>AtlasTypewriter-Regular</string>
+            <string>AtlasTypewriter-Regular</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -262,7 +263,7 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pIw-nr-rpN" id="X2J-gF-7y6">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bio" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ByA-mg-wdp">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bio" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ByA-mg-wdp" customClass="ElloLabel" customModule="Ello" customModuleProvider="target">
                                                     <rect key="frame" x="8" y="8" width="29" height="15"/>
                                                     <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="15"/>
                                                     <color key="textColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -274,12 +275,30 @@
                                                     <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 </textView>
+                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3ws-k3-vsf" customClass="ElloErrorLabel" customModule="Ello" customModuleProvider="target">
+                                                    <rect key="frame" x="45" y="8" width="547" height="15"/>
+                                                    <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="15"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BRk-56-eVr">
+                                                    <rect key="frame" x="564" y="39" width="20" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="20" id="9A0-iS-dX7"/>
+                                                        <constraint firstAttribute="height" constant="20" id="t4E-An-SDr"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="BRk-56-eVr" firstAttribute="top" secondItem="8GS-hA-vSR" secondAttribute="top" constant="8" id="3HB-in-Ddn"/>
+                                                <constraint firstAttribute="trailing" secondItem="3ws-k3-vsf" secondAttribute="trailing" constant="8" id="66h-9W-Za5"/>
                                                 <constraint firstItem="ByA-mg-wdp" firstAttribute="leading" secondItem="X2J-gF-7y6" secondAttribute="leading" constant="8" id="MN5-jc-Ze5"/>
+                                                <constraint firstItem="3ws-k3-vsf" firstAttribute="centerY" secondItem="ByA-mg-wdp" secondAttribute="centerY" id="biE-EJ-4ud"/>
                                                 <constraint firstAttribute="trailing" secondItem="8GS-hA-vSR" secondAttribute="trailing" constant="8" id="i51-SB-xsy"/>
                                                 <constraint firstAttribute="bottom" secondItem="8GS-hA-vSR" secondAttribute="bottom" constant="8" id="jEn-h3-KYq"/>
                                                 <constraint firstItem="ByA-mg-wdp" firstAttribute="top" secondItem="X2J-gF-7y6" secondAttribute="topMargin" id="ktU-Em-Nr4"/>
+                                                <constraint firstItem="3ws-k3-vsf" firstAttribute="leading" secondItem="ByA-mg-wdp" secondAttribute="trailing" constant="8" id="q3d-qq-ytF"/>
+                                                <constraint firstItem="BRk-56-eVr" firstAttribute="trailing" secondItem="8GS-hA-vSR" secondAttribute="trailing" constant="-8" id="wuS-hT-rDq"/>
                                                 <constraint firstItem="8GS-hA-vSR" firstAttribute="leading" secondItem="X2J-gF-7y6" secondAttribute="leading" constant="8" id="xou-fO-kHS"/>
                                                 <constraint firstItem="8GS-hA-vSR" firstAttribute="top" secondItem="ByA-mg-wdp" secondAttribute="bottom" constant="8" id="yyK-Jw-eCP"/>
                                             </constraints>
@@ -338,6 +357,9 @@
                     <connections>
                         <outlet property="avatarImage" destination="bEB-3t-p7d" id="i7M-66-obQ"/>
                         <outlet property="avatarImageView" destination="yfC-cy-c0C" id="r4w-eS-VJi"/>
+                        <outlet property="bioTextCountLabel" destination="3ws-k3-vsf" id="2lF-hB-fzy"/>
+                        <outlet property="bioTextStatusImage" destination="BRk-56-eVr" id="fQr-OI-9Uj"/>
+                        <outlet property="bioTextView" destination="8GS-hA-vSR" id="mlp-aP-hra"/>
                         <outlet property="coverImage" destination="4f3-Di-kfH" id="2op-Ie-4IJ"/>
                         <outlet property="linksTextFieldView" destination="YkZ-N1-zPh" id="4lP-7w-Y1j"/>
                         <outlet property="nameTextFieldView" destination="qeu-Yg-Zbl" id="7oL-x3-YG3"/>

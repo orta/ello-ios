@@ -64,6 +64,11 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
 
     @IBOutlet weak var nameTextFieldView: ElloTextFieldView!
     @IBOutlet weak var linksTextFieldView: ElloTextFieldView!
+    @IBOutlet weak var bioTextView: ElloEditableTextView!
+    @IBOutlet weak var bioTextCountLabel: ElloErrorLabel!
+    @IBOutlet weak var bioTextStatusImage: UIImageView!
+
+    var bioTextViewDidChange: (() -> ())?
 
     public var currentUser: User? {
         didSet {
@@ -139,6 +144,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     private func setupDefaultValues() {
         currentUser?.coverImageURL.map(coverImage.sd_setImageWithURL)
         (currentUser?.avatar?.large?.url).map(avatarImage.sd_setImageWithURL)
+
         nameTextFieldView.label.setLabelText("Name")
         nameTextFieldView.textField.text = currentUser?.name
 
@@ -181,6 +187,24 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         linksTextFieldView.textFieldDidChange = { _ in
             self.linksTextFieldView.setState(.Loading)
             updateLinksFunction()
+        }
+
+        bioTextView.textContainerInset = UIEdgeInsetsMake(10, 10, 10, 30)
+        bioTextView.text = currentUser?.profile?.shortBio
+        bioTextView.delegate = self
+
+        bioTextViewDidChange = Functional.debounce(0.5) {
+            let bio = self.bioTextView.text
+            ProfileService().updateUserProfile(["unsanitized_short_bio": bio], success: { user, responseConfig in
+                if let nav = self.navigationController as? ElloNavigationController {
+                    nav.setProfileData(user, responseConfig: responseConfig)
+                    self.bioTextStatusImage.image = ValidationState.OK.imageRepresentation
+                } else {
+                    self.bioTextStatusImage.image = ValidationState.Error.imageRepresentation
+                }
+            }) { _, _ in
+                self.bioTextStatusImage.image = ValidationState.Error.imageRepresentation
+            }
         }
     }
 
@@ -291,6 +315,16 @@ extension SettingsViewController: UIImagePickerControllerDelegate, UINavigationC
 public extension SettingsViewController {
     class func instantiateFromStoryboard() -> SettingsViewController {
         return UIStoryboard(name: "Settings", bundle: NSBundle(forClass: AppDelegate.self)).instantiateInitialViewController() as! SettingsViewController
+    }
+}
+
+extension SettingsViewController: UITextViewDelegate {
+    public func textViewDidChange(textView: UITextView) {
+        let characterCount = textView.text.lengthOfBytesUsingEncoding(NSASCIIStringEncoding)
+        bioTextCountLabel.setLabelText("\(characterCount)")
+        bioTextCountLabel.hidden = characterCount <= 192
+        bioTextStatusImage.image = ValidationState.Loading.imageRepresentation
+        bioTextViewDidChange?()
     }
 }
 
