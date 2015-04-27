@@ -20,8 +20,8 @@ PODS:
   - Moya/Core (0.6.1):
     - Alamofire (~> 1.2.0)
   - NewRelicAgent (4.186.1)
-  - Nimble (0.4.0)
-  - Quick (0.2.2)
+  - Nimble (0.4.2)
+  - Quick (0.3.1)
   - SDWebImage (3.7.2):
     - SDWebImage/Core (= 3.7.2)
   - SDWebImage/Core (3.7.2)
