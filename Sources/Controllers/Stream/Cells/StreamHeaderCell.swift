@@ -129,7 +129,7 @@ public class StreamHeaderCell: UICollectionViewCell {
         isOpen = false
         scrollView.contentOffset = CGPointZero
     }
-    
+
 // MARK: - Private
 
     private func updateItems() {
@@ -261,7 +261,7 @@ public class StreamHeaderCell: UICollectionViewCell {
 }
 
 extension StreamHeaderCell: ElloTextViewDelegate {
-    func textViewTapped(link: String, object: AnyObject?) {
+    func textViewTapped(link: String, object: ElloAttributedObject) {
         userDelegate?.userTappedCell(self)
     }
 }

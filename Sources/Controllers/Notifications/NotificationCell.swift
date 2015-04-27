@@ -209,17 +209,13 @@ public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
 }
 
 extension NotificationCell: ElloTextViewDelegate {
-    func textViewTapped(link: String, object: AnyObject?) {
-        switch link {
-        case "post":
-            let post = object as! Post
+    func textViewTapped(link: String, object: ElloAttributedObject) {
+        switch object {
+        case let .AttributedPost(post):
             delegate?.postTapped(post)
-        case "comment":
-            let comment = object as! Comment
+        case let .AttributedComment(comment):
             delegate?.commentTapped(comment)
-        case "user":
-            let user = object as! User
-            println("user: \(user)")
+        case let .AttributedUser(user):
             delegate?.userTapped(user)
         default: break
         }

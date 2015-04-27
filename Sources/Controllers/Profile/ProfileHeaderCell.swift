@@ -9,7 +9,7 @@
 import UIKit
 import Foundation
 
-@objc 
+@objc
 public protocol EditProfileResponder {
     func onEditProfile()
 }
@@ -102,16 +102,12 @@ extension ProfileHeaderCell: UIWebViewDelegate {
 }
 
 extension ProfileHeaderCell: ElloTextViewDelegate {
-    func textViewTapped(link: String, object: AnyObject?) {
-        switch link {
-        case "followers":
-            if let user = object as? User {
-                userListDelegate?.show(.UserStreamFollowers(userId: user.id), title: "Followers")
-            }
-        case "following":
-            if let user = object as? User {
-                userListDelegate?.show(.UserStreamFollowing(userId: user.id), title: "Following")
-            }
+    func textViewTapped(link: String, object: ElloAttributedObject) {
+        switch object {
+        case let .AttributedFollowers(user):
+            userListDelegate?.show(.UserStreamFollowers(userId: user.id), title: "Followers")
+        case let .AttributedFollowing(user):
+            userListDelegate?.show(.UserStreamFollowing(userId: user.id), title: "Following")
         default: break
         }
     }
