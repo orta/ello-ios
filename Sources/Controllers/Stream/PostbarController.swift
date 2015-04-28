@@ -87,7 +87,7 @@ public class PostbarController: NSObject, PostbarDelegate {
         let message = NSLocalizedString("Delete Post?", comment: "Delete Post")
         let alertController = AlertViewController(message: message, textAlignment: .Center)
 
-        let yesAction = AlertAction(title: NSLocalizedString("Yes", comment: "Yes"), style: ActionStyle.Dark) {
+        let yesAction = AlertAction(title: NSLocalizedString("Yes", comment: "Yes"), style: .Dark) {
             action in
             let service = PostService()
             if let post = self.postForCell(cell) {
@@ -113,7 +113,7 @@ public class PostbarController: NSObject, PostbarDelegate {
         let message = NSLocalizedString("Delete Comment?", comment: "Delete Comment")
         let alertController = AlertViewController(message: message, textAlignment: .Center)
 
-        let yesAction = AlertAction(title: NSLocalizedString("Yes", comment: "Yes"), style: ActionStyle.Dark) {
+        let yesAction = AlertAction(title: NSLocalizedString("Yes", comment: "Yes"), style: .Dark) {
             action in
             let service = PostService()
             if let comment = self.commentForCell(cell), let postId = comment.parentPost?.id {
@@ -136,14 +136,42 @@ public class PostbarController: NSObject, PostbarDelegate {
     }
 
 
-    public func lovesButtonTapped(cell:UICollectionViewCell) {
+    public func lovesButtonTapped(cell: UICollectionViewCell) {
         println("lovesButtonTapped")
         Tracker.sharedTracker.postLoved()
     }
 
-    public func repostButtonTapped(cell:UICollectionViewCell) {
-        println("repostButtonTapped")
+    public func repostButtonTapped(cell: UICollectionViewCell) {
         Tracker.sharedTracker.postReposted()
+        let message = NSLocalizedString("Repost?", comment: "Repost acknowledgment")
+        let alertController = AlertViewController(message: message, textAlignment: .Center)
+
+        let yesAction = AlertAction(title: NSLocalizedString("Yes", comment: "Yes button"), style: .Dark) {
+            action in
+            if let post = self.postForCell(cell) {
+                let service = RePostService()
+                service.repost(post: post,
+                    success: { repost in
+                        println("great job")
+                    }, failure: { (error, statusCode)  in
+                        var errorTitle : String = error.localizedDescription
+                        if let info = error.userInfo {
+                            if let elloNetworkError = info[NSLocalizedFailureReasonErrorKey] as? ElloNetworkError {
+                                errorTitle = elloNetworkError.title
+                            }
+                        }
+
+                        println("I can’t, I just can’t (reason: “\(errorTitle)”)")
+                    }
+                )
+            }
+        }
+        let noAction = AlertAction(title: NSLocalizedString("No", comment: "No button"), style: .Light, handler: .None)
+
+        alertController.addAction(yesAction)
+        alertController.addAction(noAction)
+
+        presentingController?.presentViewController(alertController, animated: true, completion: .None)
     }
 
     public func shareButtonTapped(cell: UICollectionViewCell) {
