@@ -79,7 +79,7 @@
                                         <action selector="enterTapped:" destination="-1" eventType="touchUpInside" id="Xvx-43-uxr"/>
                                     </connections>
                                 </button>
-                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fep-L6-6o2" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fep-L6-6o2" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="469" width="159" height="30"/>
                                     <state key="normal" title="Forgot your password?">
                                         <color key="titleColor" red="0.99650349650000003" green="0.99300699299999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
