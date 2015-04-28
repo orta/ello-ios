@@ -19,6 +19,7 @@ pod 'SSPullToRefresh', '~> 1.2'
 pod 'SVGKit', git: 'https://github.com/SVGKit/SVGKit', branch: '2.x'
 pod 'TimeAgoInWords', '~> 0.1.0'
 pod 'YapDatabase', git: 'https://github.com/ello/YapDatabase.git'
+pod 'LUKeychainAccess', '~> 1.2.4'
 
 pod 'NewRelicAgent', '~> 4.186'
 
