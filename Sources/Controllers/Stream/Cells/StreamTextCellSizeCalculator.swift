@@ -16,7 +16,7 @@ public class StreamTextCellSizeCalculator: NSObject, UIWebViewDelegate {
     public var cellItems: [StreamCellItem] = []
     public var completion: StreamTextCellSizeCalculated = {}
 
-    let srcRegex:NSRegularExpression  = NSRegularExpression(
+    public static let srcRegex:NSRegularExpression  = NSRegularExpression(
         pattern: "src=[\"']([^\"']*)[\"']",
         options: NSRegularExpressionOptions.CaseInsensitive,
         error: nil)!
@@ -50,7 +50,7 @@ public class StreamTextCellSizeCalculator: NSObject, UIWebViewDelegate {
 
             if let textElement = textElement {
                 let content = textElement.content
-                let strippedContent = self.stripImageSrc(content)
+                let strippedContent = StreamTextCellSizeCalculator.stripImageSrc(content)
                 let html = StreamTextCellHTML.postHTML(strippedContent)
                 // needs to use the same width as the post text region
                 self.webView.loadHTMLString(html, baseURL: NSURL(string: "/"))
@@ -77,7 +77,7 @@ public class StreamTextCellSizeCalculator: NSObject, UIWebViewDelegate {
         loadNext()
     }
 
-    private func stripImageSrc(html: String) -> String {
+    public static func stripImageSrc(html: String) -> String {
         // finds image tags, replaces them with data:image/png (inlines image data)
         let range = NSMakeRange(0, count(html))
 
