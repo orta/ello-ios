@@ -92,16 +92,19 @@ public class NotificationsScreen : UIView {
     override public func layoutSubviews() {
         super.layoutSubviews()
 
+        let bottom: CGFloat
         filterBar.frame = self.bounds.withHeight(NotificationsFilterBar.Size.height)
         if filterBarVisible {
             filterBar.frame = filterBar.frame.atY(0)
+            bottom = filterBar.frame.maxY
         }
         else {
             filterBar.frame = filterBar.frame.atY(-NotificationsFilterBar.Size.height)
+            bottom = CGFloat(0)
         }
         streamContainer.frame = self.bounds.fromTop()
             .withHeight(self.frame.height)
-            .shrinkDown(filterBar.frame.maxY)
+            .shrinkDown(bottom)
     }
 
     func insertStreamView(streamView : UIView) {

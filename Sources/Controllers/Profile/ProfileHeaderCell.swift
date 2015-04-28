@@ -9,7 +9,7 @@
 import UIKit
 import Foundation
 
-@objc 
+@objc
 public protocol EditProfileResponder {
     func onEditProfile()
 }
@@ -67,11 +67,11 @@ public class ProfileHeaderCell: UICollectionViewCell {
 
         settingsButton.setTitle("", forState: UIControlState.Normal)
         settingsButton.setSVGImages("gear")
-        settingsButton.addTarget(self, action: "settingsTapped:", forControlEvents: UIControlEvents.TouchUpInside)
+        settingsButton.addTarget(self, action: Selector("settingsTapped:"), forControlEvents: UIControlEvents.TouchUpInside)
 
         inviteButton.setTitle("", forState: UIControlState.Normal)
         inviteButton.setSVGImages("xpmcirc", rotation: 90)
-        inviteButton.addTarget(self, action: "inviteTapped:", forControlEvents: UIControlEvents.TouchUpInside)
+        inviteButton.addTarget(self, action: Selector("inviteTapped:"), forControlEvents: UIControlEvents.TouchUpInside)
     }
 
     @IBAction func settingsTapped(sender: UIButton) {
@@ -102,16 +102,12 @@ extension ProfileHeaderCell: UIWebViewDelegate {
 }
 
 extension ProfileHeaderCell: ElloTextViewDelegate {
-    func textViewTapped(link: String, object: AnyObject?) {
-        switch link {
-        case "followers":
-            if let user = object as? User {
-                userListDelegate?.show(.UserStreamFollowers(userId: user.id), title: "Followers")
-            }
-        case "following":
-            if let user = object as? User {
-                userListDelegate?.show(.UserStreamFollowing(userId: user.id), title: "Following")
-            }
+    func textViewTapped(link: String, object: ElloAttributedObject) {
+        switch object {
+        case let .AttributedFollowers(user):
+            userListDelegate?.show(.UserStreamFollowers(userId: user.id), title: NSLocalizedString("Followers", comment: "Followers title"))
+        case let .AttributedFollowing(user):
+            userListDelegate?.show(.UserStreamFollowing(userId: user.id), title: NSLocalizedString("Following", comment: "Following title"))
         default: break
         }
     }

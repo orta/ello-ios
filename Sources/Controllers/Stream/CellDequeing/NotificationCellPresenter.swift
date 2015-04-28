@@ -17,9 +17,9 @@ public struct NotificationCellPresenter {
         indexPath: NSIndexPath,
         currentUser: User?)
     {
-        if let cell = cell as? NotificationCell {
-            var notification = streamCellItem.jsonable as! Notification
-
+        if let cell = cell as? NotificationCell,
+            let notification = streamCellItem.jsonable as? Notification
+        {
             cell.onWebContentReady { webView in
                 if let actualHeight = webView.windowContentSize()?.height {
                     if actualHeight != streamCellItem.calculatedWebHeight {

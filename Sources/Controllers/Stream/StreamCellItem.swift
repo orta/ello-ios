@@ -49,4 +49,11 @@ public class StreamCellItem: NSObject, NSCopying {
         return copy
     }
 
+    public func alwaysShow() -> Bool {
+        if type == .StreamLoading {
+            return true
+        }
+        return false
+    }
+
 }

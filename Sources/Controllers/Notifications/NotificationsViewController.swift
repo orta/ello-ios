@@ -87,8 +87,12 @@ public class NotificationsViewController: StreamableViewController, Notification
 
         if let notificationKinds = notificationKinds {
             streamViewController.streamFilter = { item in
-                let notification = item.jsonable as! Notification
-                return contains(notificationKinds, notification.activity.kind)
+                if let notification = item.jsonable as? Notification {
+                    return contains(notificationKinds, notification.activity.kind)
+                }
+                else {
+                    return false
+                }
             }
         }
         else {
@@ -96,25 +100,12 @@ public class NotificationsViewController: StreamableViewController, Notification
         }
     }
 
-    public func commentTapped(comment: Comment) {}
-
-    // the presence of this variable is being hijacked to determine if a post
-    // was tapped, and is being displayed
-    var sizer: StreamTextCellSizeCalculator?
-    public func postTapped(post: Post) {
-        if let sizer = sizer {
-            return
+    public func commentTapped(comment: Comment) {
+        if let post = comment.parentPost {
+            postTapped(post)
         }
         else {
-            sizer = StreamTextCellSizeCalculator(webView: UIWebView(frame: self.view.bounds))
-            let initialItems = StreamCellItemParser().parse([post], streamKind: .PostDetail(postParam: post.id))
-            ElloHUD.showLoadingHud()
-            sizer!.processCells(initialItems, withWidth: self.view.frame.width) {
-                ElloHUD.hideLoadingHud()
-                self.postTapped(post, initialItems: initialItems)
-                self.navigationController?.setNavigationBarHidden(false, animated: true)
-                self.sizer = nil
-            }
+            postTapped(postId: comment.postId)
         }
     }
 

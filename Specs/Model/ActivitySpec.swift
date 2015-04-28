@@ -13,6 +13,49 @@ import Nimble
 
 class ActivitySpec: QuickSpec {
     override func spec() {
+        context("notification Kinds") {
+            context("Kind.commentNotifications()") {
+                it("should only contain notification kinds") {
+                    let allNotificationKinds = Activity.Kind.allNotifications()
+                    for kind in Activity.Kind.commentNotifications() {
+                        expect(allNotificationKinds.map { return $0.rawValue }).to(contain(kind.rawValue))
+                    }
+                }
+            }
+            context("Kind.mentionNotifications()") {
+                it("should only contain notification kinds") {
+                    let allNotificationKinds = Activity.Kind.allNotifications()
+                    for kind in Activity.Kind.mentionNotifications() {
+                        expect(allNotificationKinds.map { return $0.rawValue }).to(contain(kind.rawValue))
+                    }
+                }
+            }
+            context("Kind.repostNotifications()") {
+                it("should only contain notification kinds") {
+                    let allNotificationKinds = Activity.Kind.allNotifications()
+                    for kind in Activity.Kind.repostNotifications() {
+                        expect(allNotificationKinds.map { return $0.rawValue }).to(contain(kind.rawValue))
+                    }
+                }
+            }
+            context("Kind.relationshipNotifications()") {
+                it("should only contain notification kinds") {
+                    let allNotificationKinds = Activity.Kind.allNotifications()
+                    for kind in Activity.Kind.relationshipNotifications() {
+                        expect(allNotificationKinds.map { return $0.rawValue }).to(contain(kind.rawValue))
+                    }
+                }
+            }
+            context("joining all filters") {
+                it("should contain all the notification kinds") {
+                    let allNotificationKinds = Activity.Kind.allNotifications()
+                    let filteredNotificationKinds = Activity.Kind.commentNotifications() + Activity.Kind.mentionNotifications() + Activity.Kind.repostNotifications() + Activity.Kind.relationshipNotifications()
+                    for kind in allNotificationKinds {
+                        expect(filteredNotificationKinds.map { return $0.rawValue }).to(contain(kind.rawValue))
+                    }
+                }
+            }
+        }
         describe("+fromJSON:") {
 
             context("friend stream") {

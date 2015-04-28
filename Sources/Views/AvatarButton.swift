@@ -10,8 +10,6 @@ import Foundation
 
 public class AvatarButton: UIButton {
 
-    weak var userDelegate: UserDelegate?
-
     func setAvatarURL(url:NSURL?) {
         let state = UIControlState.Normal
         if let url = url {

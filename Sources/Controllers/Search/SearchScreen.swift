@@ -56,7 +56,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         navigationBar.autoresizingMask = .FlexibleBottomMargin | .FlexibleWidth
 
         let navigationItem = UINavigationItem(title: "Search")
-        let leftItem = UIBarButtonItem.backChevronWithTarget(self, action: "backTapped")
+        let leftItem = UIBarButtonItem.backChevronWithTarget(self, action: Selector("backTapped"))
         navigationItem.leftBarButtonItems = [leftItem]
         navigationItem.fixNavBarItemPadding()
         navigationBar.items = [navigationItem]
@@ -80,7 +80,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         searchField.returnKeyType = .Search
         searchField.keyboardType = .Default
         searchField.delegate = self
-        searchField.addTarget(self, action: "searchFieldDidChange", forControlEvents: .EditingChanged)
+        searchField.addTarget(self, action: Selector("searchFieldDidChange"), forControlEvents: .EditingChanged)
         self.addSubview(searchField)
 
         let lineFrame = searchField.frame.fromBottom().growUp(1)

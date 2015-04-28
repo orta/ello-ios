@@ -127,7 +127,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     }
 
     private func setupNavigationBar() {
-        let backItem = UIBarButtonItem.backChevronWithTarget(self, action: "backAction")
+        let backItem = UIBarButtonItem.backChevronWithTarget(self, action: Selector("backAction"))
         navigationItem.leftBarButtonItem = backItem
         navigationItem.title = NSLocalizedString("Settings", comment: "settings title")
         navigationItem.fixNavBarItemPadding()
@@ -236,7 +236,7 @@ extension SettingsViewController: UIImagePickerControllerDelegate, UINavigationC
         }
         self.dismissViewControllerAnimated(true, completion: .None)
     }
-    
+
     public func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         self.dismissViewControllerAnimated(true, completion: .None)
     }

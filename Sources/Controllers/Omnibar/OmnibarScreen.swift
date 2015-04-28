@@ -215,7 +215,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
         imageSelectedButton.addSubview(imageSelectedOverlay)
     }
     private func setupNavigationBar() {
-        let backItem = UIBarButtonItem.backChevronWithTarget(self, action: "backAction")
+        let backItem = UIBarButtonItem.backChevronWithTarget(self, action: Selector("backAction"))
         let item = UINavigationItem()
         item.leftBarButtonItem = backItem
         item.title = NSLocalizedString("Leave a comment", comment: "leave a comment")

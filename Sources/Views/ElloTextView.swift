@@ -9,7 +9,33 @@
 import Foundation
 
 protocol ElloTextViewDelegate: NSObjectProtocol {
-    func textViewTapped(link: String, object: AnyObject?)
+    func textViewTapped(link: String, object: ElloAttributedObject)
+}
+
+enum ElloAttributedObject {
+    case AttributedPost(post: Post)
+    case AttributedComment(comment: Comment)
+    case AttributedUser(user: User)
+    case AttributedFollowers(user: User)
+    case AttributedFollowing(user: User)
+    case Unknown
+
+    static func generate(link: String, _ object: AnyObject?) -> ElloAttributedObject {
+        switch link {
+        case let "post":
+            if let post = object as? Post { return ElloAttributedObject.AttributedPost(post: post) }
+        case let "comment":
+            if let comment = object as? Comment { return ElloAttributedObject.AttributedComment(comment: comment) }
+        case let "user":
+            if let user = object as? User { return ElloAttributedObject.AttributedUser(user: user) }
+        case "followers":
+            if let user = object as? User { return ElloAttributedObject.AttributedFollowers(user: user) }
+        case "following":
+            if let user = object as? User { return ElloAttributedObject.AttributedFollowing(user: user) }
+        default: break
+        }
+        return .Unknown
+    }
 }
 
 struct ElloAttributedText {
@@ -82,7 +108,7 @@ class ElloTextView: UITextView {
     }
 
     private func addTarget() {
-        let recognizer = UITapGestureRecognizer(target: self, action: "textViewTapped:")
+        let recognizer = UITapGestureRecognizer(target: self, action: Selector("textViewTapped:"))
         recognizer.numberOfTapsRequired = 1
         recognizer.numberOfTouchesRequired = 1
         addGestureRecognizer(recognizer)
@@ -94,12 +120,9 @@ class ElloTextView: UITextView {
         let pos = closestPositionToPoint(location, withinRange: range)
         let style = textStylingAtPosition(pos, inDirection: .Forward) as! [String : AnyObject]
         if let link = style[ElloAttributedText.Link] as? String {
-            if let object: AnyObject = style[ElloAttributedText.Object] {
-                textViewDelegate?.textViewTapped(link, object: object)
-            }
-            else {
-                textViewDelegate?.textViewTapped(link, object: nil)
-            }
+            let object: AnyObject? = style[ElloAttributedText.Object]
+            let attributedObject = ElloAttributedObject.generate(link, object)
+            textViewDelegate?.textViewTapped(link, object: attributedObject)
         }
     }
 }

@@ -47,7 +47,7 @@ public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
         static func imageHeight(#imageRegion: ImageRegion?) -> CGFloat {
             if let imageRegion = imageRegion {
                 var aspectRatio = StreamImageCellSizeCalculator.aspectRatioForImageRegion(imageRegion)
-                return self.imageWidth * aspectRatio
+                return self.imageWidth / aspectRatio
             }
             else {
                 return 0
@@ -58,6 +58,7 @@ public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
     typealias WebContentReady = (webView : UIWebView)->()
 
     var webLinkDelegate: WebLinkDelegate?
+    var userDelegate: UserDelegate?
     var delegate: NotificationDelegate?
     var webContentReady: WebContentReady?
 
@@ -122,6 +123,7 @@ public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
         super.init(frame: frame)
 
         avatarButton = AvatarButton()
+        avatarButton.addTarget(self, action: Selector("avatarTapped"), forControlEvents: .TouchUpInside)
         titleTextView = ElloTextView(frame: CGRectZero, textContainer: nil)
         titleTextView.textViewDelegate = self
 
@@ -209,21 +211,24 @@ public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
 }
 
 extension NotificationCell: ElloTextViewDelegate {
-    func textViewTapped(link: String, object: AnyObject?) {
-        switch link {
-        case "post":
-            delegate?.postTapped(object as! Post)
-        case "comment":
-            let comment = object as! Comment
-            println("comment: \(comment)")
-            if let post = comment.parentPost {
-                println("post: \(post)")
-            }
-        case "user":
-            let user = object as! User
-            println("user: \(user)")
+    func textViewTapped(link: String, object: ElloAttributedObject) {
+        switch object {
+        case let .AttributedPost(post):
+            delegate?.postTapped(post)
+        case let .AttributedComment(comment):
+            delegate?.commentTapped(comment)
+        case let .AttributedUser(user):
             delegate?.userTapped(user)
         default: break
         }
     }
+}
+
+extension NotificationCell {
+
+    @objc
+    public func avatarTapped() {
+        userDelegate?.userTappedCell(self)
+    }
+
 }
