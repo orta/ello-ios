@@ -139,7 +139,7 @@ class ActivitySpec: QuickSpec {
                         "kind" : "own_post",
                         "subjectType" : "Post",
                         "createdAt" : expectedCreatedAt
-                        ])
+                    ])
 
                     NSKeyedArchiver.archiveRootObject(activity, toFile: filePath)
                     let unArchivedActivity = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! Activity
