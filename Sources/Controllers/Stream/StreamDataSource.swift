@@ -93,14 +93,16 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         return visibleCellItems[indexPath.item]
     }
 
+    // TODO: this should grab comments to hand to post detail 
+    // and post detail should handle loading/paging them better
     public func cellItemsForPost(post:Post) -> [StreamCellItem] {
         return visibleCellItems.filter({ (item) -> Bool in
             if let cellPost = item.jsonable as? Post {
                 return post.id == cellPost.id
             }
-            else if let commentPost = item.jsonable as? Comment {
-                return post.id == commentPost.postId
-            }
+//            else if let commentPost = item.jsonable as? Comment {
+//                return post.id == commentPost.postId
+//            }
             else {
                 return false
             }
