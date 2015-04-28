@@ -8,23 +8,35 @@
 
 import UIKit
 
-class ElloEditableTextView: UITextView {
-    override func awakeFromNib() {
+public class ElloEditableTextView: UITextView {
+    override public func awakeFromNib() {
         super.awakeFromNib()
-        self.delegate = self
-    }
-}
 
-extension ElloEditableTextView: UITextViewDelegate {
-    func textViewDidBeginEditing(textView: UITextView) {
-        UIView.animateWithDuration(0.2) {
-            self.backgroundColor = UIColor.whiteColor()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("textViewDidBeginEditing:"), name: UITextViewTextDidBeginEditingNotification, object: .None)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("textViewDidEndEditing:"), name: UITextViewTextDidEndEditingNotification, object: .None)
+    }
+
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
+    func textViewDidBeginEditing(notification: NSNotification) {
+        if let textView = notification.object as? UITextView {
+            if textView == self {
+                UIView.animateWithDuration(0.2) {
+                    self.backgroundColor = UIColor.whiteColor()
+                }
+            }
         }
     }
 
-    func textViewDidEndEditing(textView: UITextView) {
-        UIView.animateWithDuration(0.2) {
-            self.backgroundColor = UIColor.greyE5()
+    func textViewDidEndEditing(notification: NSNotification) {
+        if let textView = notification.object as? UITextView {
+            if textView == self {
+                UIView.animateWithDuration(0.2) {
+                    self.backgroundColor = UIColor.greyE5()
+                }
+            }
         }
     }
 }

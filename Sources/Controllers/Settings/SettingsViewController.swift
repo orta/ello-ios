@@ -62,6 +62,14 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     @IBOutlet weak public var avatarImage: UIImageView!
     var scrollLogic: ElloScrollLogic!
 
+    @IBOutlet weak public var nameTextFieldView: ElloTextFieldView!
+    @IBOutlet weak public var linksTextFieldView: ElloTextFieldView!
+    @IBOutlet weak public var bioTextView: ElloEditableTextView!
+    @IBOutlet weak public var bioTextCountLabel: ElloErrorLabel!
+    @IBOutlet weak public var bioTextStatusImage: UIImageView!
+
+    private var bioTextViewDidChange: (() -> ())?
+
     public var currentUser: User? {
         didSet {
             credentialSettingsViewController?.currentUser = currentUser
@@ -136,6 +144,68 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     private func setupDefaultValues() {
         currentUser?.coverImageURL.map(coverImage.sd_setImageWithURL)
         (currentUser?.avatar?.large?.url).map(avatarImage.sd_setImageWithURL)
+
+        nameTextFieldView.label.setLabelText(NSLocalizedString("Name", comment: "name setting"))
+        nameTextFieldView.textField.text = currentUser?.name
+
+        let updateNameFunction = Functional.debounce(0.5) { [unowned self] in
+            let name = self.nameTextFieldView.textField.text
+            ProfileService().updateUserProfile(["name": name], success: { user, responseConfig in
+                if let nav = self.navigationController as? ElloNavigationController {
+                    nav.setProfileData(user, responseConfig: responseConfig)
+                    self.nameTextFieldView.setState(.OK)
+                } else {
+                    self.nameTextFieldView.setState(.Error)
+                }
+            }) { _, _ in
+                self.nameTextFieldView.setState(.Error)
+            }
+        }
+
+        nameTextFieldView.textFieldDidChange = { _ in
+            self.nameTextFieldView.setState(.Loading)
+            updateNameFunction()
+        }
+
+        linksTextFieldView.label.setLabelText(NSLocalizedString("Links", comment: "links setting"))
+        linksTextFieldView.textField.text = (currentUser?.profile?.externalLinksList).map { " ".join($0) }
+
+        let updateLinksFunction = Functional.debounce(0.5) { [unowned self] in
+            let links = self.linksTextFieldView.textField.text
+            ProfileService().updateUserProfile(["external_links": links], success: { user, responseConfig in
+                if let nav = self.navigationController as? ElloNavigationController {
+                    nav.setProfileData(user, responseConfig: responseConfig)
+                    self.linksTextFieldView.setState(.OK)
+                } else {
+                    self.linksTextFieldView.setState(.Error)
+                }
+            }) { _, _ in
+                self.linksTextFieldView.setState(.Error)
+            }
+        }
+
+        linksTextFieldView.textFieldDidChange = { _ in
+            self.linksTextFieldView.setState(.Loading)
+            updateLinksFunction()
+        }
+
+        bioTextView.textContainerInset = UIEdgeInsetsMake(10, 10, 10, 30)
+        bioTextView.text = currentUser?.profile?.shortBio
+        bioTextView.delegate = self
+
+        bioTextViewDidChange = Functional.debounce(0.5) { [unowned self] in
+            let bio = self.bioTextView.text
+            ProfileService().updateUserProfile(["unsanitized_short_bio": bio], success: { user, responseConfig in
+                if let nav = self.navigationController as? ElloNavigationController {
+                    nav.setProfileData(user, responseConfig: responseConfig)
+                    self.bioTextStatusImage.image = ValidationState.OK.imageRepresentation
+                } else {
+                    self.bioTextStatusImage.image = ValidationState.Error.imageRepresentation
+                }
+            }) { _, _ in
+                self.bioTextStatusImage.image = ValidationState.Error.imageRepresentation
+            }
+        }
     }
 
     func backAction() {
@@ -148,9 +218,9 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         case .AvatarImage: return 250
         case .ProfileDescription: return 130
         case .CredentialSettings: return credentialSettingsViewController?.height ?? 0
-        case .Name: return 97
+        case .Name: return nameTextFieldView.height
         case .Bio: return 200
-        case .Links: return 97
+        case .Links: return linksTextFieldView.height
         case .PreferenceSettings: return dynamicSettingsViewController?.height ?? 0
         case .Unknown: return 0
         }
@@ -245,6 +315,16 @@ extension SettingsViewController: UIImagePickerControllerDelegate, UINavigationC
 public extension SettingsViewController {
     class func instantiateFromStoryboard() -> SettingsViewController {
         return UIStoryboard(name: "Settings", bundle: NSBundle(forClass: AppDelegate.self)).instantiateInitialViewController() as! SettingsViewController
+    }
+}
+
+extension SettingsViewController: UITextViewDelegate {
+    public func textViewDidChange(textView: UITextView) {
+        let characterCount = textView.text.lengthOfBytesUsingEncoding(NSASCIIStringEncoding)
+        bioTextCountLabel.setLabelText("\(characterCount)")
+        bioTextCountLabel.hidden = characterCount <= 192
+        bioTextStatusImage.image = ValidationState.Loading.imageRepresentation
+        bioTextViewDidChange?()
     }
 }
 
