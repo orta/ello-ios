@@ -116,12 +116,12 @@ public class StreamFooterCell: UICollectionViewCell {
     }
 
     public var views:String? {
-        get { return viewsButton.attributedTitleForState(.Normal)?.string }
+        get { return viewsButton.titleForState(.Normal) }
         set { viewsButton.setButtonTitleWithPadding(newValue) }
     }
 
     public var comments:String? {
-        get { return commentsButton.attributedTitleForState(.Normal)?.string }
+        get { return commentsButton.titleForState(.Normal) }
         set {
             commentsButton.setButtonTitleWithPadding(newValue, titlePadding: 13.0, contentPadding: 15.0)
             commentsButton.titleLabel?.sizeToFit()
@@ -129,12 +129,12 @@ public class StreamFooterCell: UICollectionViewCell {
     }
 
     public var loves:String? {
-        get { return lovesButton.attributedTitleForState(.Normal)?.string }
+        get { return lovesButton.titleForState(.Normal) }
         set { lovesButton.setButtonTitleWithPadding(newValue) }
     }
 
     public var reposts:String? {
-        get { return repostButton.attributedTitleForState(.Normal)?.string }
+        get { return repostButton.titleForState(.Normal) }
         set { repostButton.setButtonTitleWithPadding(newValue) }
     }
 
