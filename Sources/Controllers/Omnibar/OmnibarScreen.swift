@@ -309,7 +309,12 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
     }
 
     public func reportError(title : String, error : NSError) {
-        let errorMessage = error.localizedDescription
+        var errorMessage : String = error.localizedDescription
+        if let info = error.userInfo {
+            if let elloNetworkError = info[NSLocalizedFailureReasonErrorKey] as? ElloNetworkError {
+                errorMessage = elloNetworkError.title
+            }
+        }
         reportError(title, errorMessage: errorMessage)
     }
 
