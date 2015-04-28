@@ -126,6 +126,7 @@ public class JoinViewController: BaseElloViewController {
         let vc = ElloTabBarController.instantiateFromStoryboard()
         vc.setProfileData(user, responseConfig: responseConfig)
         self.elloLogo.stopAnimatingLogo()
+        PushNotificationController.sharedController.registerForRemoteNotifications()
         let window = self.view.window!
         self.presentViewController(vc, animated: true) {
             window.rootViewController = vc
