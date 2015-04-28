@@ -49,6 +49,9 @@ public class StreamImageCellSizeCalculator: NSObject {
     private func loadNext() {
         if !self.cellItems.isEmpty {
             let item = cellItems.removeAtIndex(0)
+            if let comment = item.jsonable as? Comment {
+                maxWidth -= StreamTextCellPresenter.commentMargin
+            }
             if let imageRegion = item.data as? ImageRegion {
                 item.oneColumnCellHeight = oneColumnImageHeight(imageRegion)
                 item.multiColumnCellHeight = multiColumnImageHeight(imageRegion)
