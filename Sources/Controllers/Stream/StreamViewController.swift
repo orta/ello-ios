@@ -286,14 +286,11 @@ public class StreamViewController: BaseElloViewController {
 
     private func setupDataSource() {
         let webView = UIWebView(frame: view.bounds)
-        let textSizeCalculator = StreamTextCellSizeCalculator(webView: UIWebView(frame: webView.frame))
-        let notificationSizeCalculator = StreamNotificationCellSizeCalculator(webView: UIWebView(frame: webView.frame))
-        let profileHeaderSizeCalculator = ProfileHeaderCellSizeCalculator(webView: UIWebView(frame: webView.frame))
-
         dataSource = StreamDataSource(streamKind: streamKind,
-            textSizeCalculator: textSizeCalculator,
-            notificationSizeCalculator: notificationSizeCalculator,
-            profileHeaderSizeCalculator: profileHeaderSizeCalculator)
+            textSizeCalculator: StreamTextCellSizeCalculator(webView: UIWebView(frame: webView.frame)),
+            notificationSizeCalculator: StreamNotificationCellSizeCalculator(webView: UIWebView(frame: webView.frame)),
+            profileHeaderSizeCalculator: ProfileHeaderCellSizeCalculator(webView: UIWebView(frame: webView.frame)),
+            imageSizeCalculator: StreamImageCellSizeCalculator())
 
         dataSource.streamCollapsedFilter = { item in
             if !item.type.collapsable {

@@ -29,29 +29,7 @@ public struct StreamCellItemParser {
         return []
     }
 
-    // MARK: - Static
-
-    public static func aspectRatioForImageBlock(imageBlock: ImageRegion) -> CGFloat {
-        if let asset = imageBlock.asset {
-            var attachment: Attachment?
-            if let tryAttachment = asset.hdpi {
-                attachment = tryAttachment
-            }
-            else if let tryAttachment = asset.optimized {
-                attachment = tryAttachment
-            }
-
-            if let attachment = attachment {
-                if let width = attachment.width, height = attachment.height {
-                    return CGFloat(width)/CGFloat(height)
-                }
-            }
-        }
-
-        return 4.0/3.0
-    }
-
-    // MARK: - Private
+// MARK: - Private
 
     private func notificationCellItems(notifications:[Notification]) -> [StreamCellItem] {
         return map(notifications) { notification in
@@ -76,17 +54,21 @@ public struct StreamCellItemParser {
                 var repostHeaderHeight: CGFloat = post.repostViaPath == nil ? 15.0 : 30.0
                 cellItems.append(StreamCellItem(jsonable: post, type: StreamCellType.RepostHeader, data: nil, oneColumnCellHeight: repostHeaderHeight, multiColumnCellHeight: repostHeaderHeight, isFullWidth: false))
                 // add repost content
-                if let repostContent = post.repostContent {
-                    cellItems += postRegionItems(post, content: repostContent)
+                // this is weird, but the post summary is actually the repost summary on reposts
+                if streamKind.isGridLayout {
+                    cellItems += regionItems(post, content: post.summary)
+                }
+                else if let repostContent = post.repostContent {
+                    cellItems += regionItems(post, content: repostContent)
                     // add additional content
-                    if let content = streamKind.isGridLayout ? post.summary : post.content {
-                        cellItems += postRegionItems(post, content: content)
+                    if let content = post.content {
+                        cellItems += regionItems(post, content: content)
                     }
                 }
             }
             else {
                 if let content = streamKind.isGridLayout ? post.summary : post.content {
-                    cellItems += postRegionItems(post, content: content)
+                    cellItems += regionItems(post, content: content)
                 }
             }
             cellItems += footerStreamCellItems(post)
@@ -98,7 +80,7 @@ public struct StreamCellItemParser {
         var cellItems:[StreamCellItem] = []
         for comment in comments {
             cellItems.append(StreamCellItem(jsonable: comment, type: StreamCellType.CommentHeader, data: nil, oneColumnCellHeight: 50.0, multiColumnCellHeight: 50.0, isFullWidth: false))
-            cellItems += commentRegionItems(comment)
+            cellItems += regionItems(comment, content: comment.content)
         }
         return cellItems
     }
@@ -112,79 +94,15 @@ public struct StreamCellItemParser {
         }
     }
 
-    private func postRegionItems(post: Post, content: [Regionable]) -> [StreamCellItem] {
+    private func regionItems(jsonable: JSONAble, content: [Regionable]) -> [StreamCellItem] {
         var cellArray:[StreamCellItem] = []
         for region in content {
-            var oneColumnHeight:CGFloat
-            var multiColumnHeight:CGFloat
-            var type : StreamCellType
-
             let kind = RegionKind(rawValue: region.kind) ?? RegionKind.Unknown
-
-            switch kind {
-            case .Image:
-                oneColumnHeight = self.oneColumnImageHeight(region as! ImageRegion)
-                multiColumnHeight = self.twoColumnImageHeight(region as! ImageRegion)
-                type = .Image
-            case .Text:
-                oneColumnHeight = 0.0
-                multiColumnHeight = 0.0
-                type = .Text
-            case .Embed:
-                var ratio: CGFloat!
-                if (region as! EmbedRegion).isAudioEmbed {
-                    ratio = 4.0/3.0
-                }
-                else {
-                    ratio = 16.0/9.0
-                }
-                oneColumnHeight = UIScreen.screenWidth() / ratio
-                multiColumnHeight = ((UIScreen.screenWidth() - 10.0) / 2) / ratio
-                type = .Embed
-            case .Unknown:
-                oneColumnHeight = 0.0
-                multiColumnHeight = 0.0
-                type = .Unknown
-            }
-
+            let type = kind.streamCellType
             if type != .Unknown {
-                let body:StreamCellItem = StreamCellItem(jsonable: post, type: type, data: region, oneColumnCellHeight: oneColumnHeight, multiColumnCellHeight: multiColumnHeight, isFullWidth: false)
-
-                cellArray.append(body)
+                let item: StreamCellItem = StreamCellItem(jsonable: jsonable, type: type, data: region, oneColumnCellHeight: 0.0, multiColumnCellHeight: 0.0, isFullWidth: false)
+                cellArray.append(item)
             }
-        }
-        return cellArray
-    }
-
-
-    private func commentRegionItems(comment: Comment) -> [StreamCellItem] {
-        var cellArray:[StreamCellItem] = []
-
-        for region in comment.content {
-            var oneColumnHeight:CGFloat
-            var multiColumnHeight:CGFloat
-            var type : StreamCellType
-
-            let kind = RegionKind(rawValue: region.kind) ?? RegionKind.Unknown
-
-            switch kind {
-            case .Image:
-                oneColumnHeight = self.oneColumnImageHeight(region as! ImageRegion)
-                multiColumnHeight = self.twoColumnImageHeight(region as! ImageRegion)
-                type = .Image
-            case .Text:
-                oneColumnHeight = 0.0
-                multiColumnHeight = 0.0
-                type = .Text
-            case .Embed, .Unknown:
-                oneColumnHeight = 0.0
-                multiColumnHeight = 0.0
-                type = .Unknown
-            }
-
-            let body:StreamCellItem = StreamCellItem(jsonable: comment, type: type, data: region, oneColumnCellHeight: oneColumnHeight, multiColumnCellHeight: multiColumnHeight, isFullWidth: false)
-
-            cellArray.append(body)
         }
         return cellArray
     }
@@ -200,22 +118,6 @@ public struct StreamCellItemParser {
                 isFullWidth: true
             )
         }
-    }
-
-    private func oneColumnImageHeight(imageBlock: ImageRegion) -> CGFloat {
-        var imageWidth = UIScreen.screenWidth()
-        if let assetWidth = imageBlock.asset?.oneColumnAttachment?.width {
-            imageWidth = min(imageWidth, CGFloat(assetWidth))
-        }
-        return imageWidth / StreamCellItemParser.aspectRatioForImageBlock(imageBlock)
-    }
-
-    private func twoColumnImageHeight(imageBlock: ImageRegion) -> CGFloat {
-        var imageWidth = (UIScreen.screenWidth() - 10.0) / 2
-        if let assetWidth = imageBlock.asset?.gridLayoutAttachment?.width {
-            imageWidth = min(imageWidth, CGFloat(assetWidth))
-        }
-        return  imageWidth / StreamCellItemParser.aspectRatioForImageBlock(imageBlock)
     }
 
     private func footerStreamCellItems(post: Post) -> [StreamCellItem] {

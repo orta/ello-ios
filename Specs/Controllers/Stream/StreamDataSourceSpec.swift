@@ -26,6 +26,7 @@ class StreamDataSourceSpec: QuickSpec {
         let textSizeCalculator = FakeStreamTextCellSizeCalculator(webView: UIWebView(frame: webView.frame))
         let notificationSizeCalculator = FakeStreamNotificationCellSizeCalculator(webView: UIWebView(frame: webView.frame))
         let profileHeaderSizeCalculator = FakeProfileHeaderCellSizeCalculator(webView: UIWebView(frame: webView.frame))
+        let imageSizeCalculator = StreamImageCellSizeCalculator()
 
         describe("StreamDataSourceSpec") {
             beforeEach {
@@ -37,7 +38,8 @@ class StreamDataSourceSpec: QuickSpec {
                 subject = StreamDataSource(streamKind: .Friend,
                     textSizeCalculator: textSizeCalculator,
                     notificationSizeCalculator: notificationSizeCalculator,
-                    profileHeaderSizeCalculator: profileHeaderSizeCalculator)
+                    profileHeaderSizeCalculator: profileHeaderSizeCalculator,
+                    imageSizeCalculator: imageSizeCalculator)
 
                 subject.streamCollapsedFilter = { item in
                     if !item.type.collapsable {

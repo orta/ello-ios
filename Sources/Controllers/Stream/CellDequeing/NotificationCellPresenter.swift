@@ -46,7 +46,7 @@ public struct NotificationCellPresenter {
             }
 
             if let imageRegion = notification.imageRegion {
-                var aspectRatio = StreamCellItemParser.aspectRatioForImageBlock(imageRegion)
+                var aspectRatio = StreamImageCellSizeCalculator.aspectRatioForImageRegion(imageRegion)
                 var imageURL: NSURL?
                 if imageRegion.asset != nil && imageRegion.asset!.isGif {
                     imageURL = imageRegion.asset?.optimized?.url
