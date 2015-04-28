@@ -148,7 +148,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         nameTextFieldView.label.setLabelText(NSLocalizedString("Name", comment: "name setting"))
         nameTextFieldView.textField.text = currentUser?.name
 
-        let updateNameFunction = Functional.debounce(0.5) {
+        let updateNameFunction = Functional.debounce(0.5) { [unowned self] in
             let name = self.nameTextFieldView.textField.text
             ProfileService().updateUserProfile(["name": name], success: { user, responseConfig in
                 if let nav = self.navigationController as? ElloNavigationController {
@@ -170,7 +170,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         linksTextFieldView.label.setLabelText(NSLocalizedString("Links", comment: "links setting"))
         linksTextFieldView.textField.text = (currentUser?.profile?.externalLinksList).map { " ".join($0) }
 
-        let updateLinksFunction = Functional.debounce(0.5) {
+        let updateLinksFunction = Functional.debounce(0.5) { [unowned self] in
             let links = self.linksTextFieldView.textField.text
             ProfileService().updateUserProfile(["external_links": links], success: { user, responseConfig in
                 if let nav = self.navigationController as? ElloNavigationController {
@@ -193,7 +193,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         bioTextView.text = currentUser?.profile?.shortBio
         bioTextView.delegate = self
 
-        bioTextViewDidChange = Functional.debounce(0.5) {
+        bioTextViewDidChange = Functional.debounce(0.5) { [unowned self] in
             let bio = self.bioTextView.text
             ProfileService().updateUserProfile(["unsanitized_short_bio": bio], success: { user, responseConfig in
                 if let nav = self.navigationController as? ElloNavigationController {
