@@ -70,7 +70,10 @@ public final class Post: JSONAble, Authorable {
     public var collapsed = false
     private var commentCountNotification: NotificationObserver?
     public var isRepost: Bool {
-        return self.repostContent != nil
+        if let repostContent = self.repostContent {
+            return repostContent.count > 0
+        }
+        return false
     }
 
 
