@@ -197,7 +197,7 @@ public class PostbarController: NSObject, PostbarDelegate {
     public func replyToCommentButtonTapped(cell:UICollectionViewCell) {
         if let comment = commentForCell(cell) {
             // This is a bit dirty, we should not call a method on a compositionally held
-            // controller's createCommentDelegate. Can this use the responder chain when we have 
+            // controller's createCommentDelegate. Can this use the responder chain when we have
             // parameters to pass?
             if let presentingController = presentingController,
                 let post = comment.parentPost,

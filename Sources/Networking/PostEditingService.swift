@@ -15,7 +15,7 @@
 
 public class PostEditingService: NSObject {
     // this can return either a Post or Comment
-    typealias CreatePostSuccessCompletion = (post : AnyObject) -> ()
+    typealias CreatePostSuccessCompletion = (post: AnyObject) -> ()
     typealias UploadImagesSuccessCompletion = ([(Int, ImageRegion)]) -> ()
 
     var parentPost: Post?
@@ -120,12 +120,12 @@ public class PostEditingService: NSObject {
     // Another way to upload the images would be to generate one AmazonCredentials
     // object, and pass that to the uploader.  The uploader would need to
     // generate unique image names in that case.
-    func uploadImages(imageEntries : [(Int, UIImage)], success: UploadImagesSuccessCompletion, failure: ElloFailureCompletion?) {
+    func uploadImages(imageEntries: [(Int, UIImage)], success: UploadImagesSuccessCompletion, failure: ElloFailureCompletion?) {
         var uploaded = [(Int, ImageRegion)]()
 
         // if any upload fails, the entire post creationg fails
-        var anyError : NSError?
-        var anyStatusCode : Int?
+        var anyError: NSError?
+        var anyStatusCode: Int?
 
         let allDone = Functional.after(imageEntries.count) {
             if let error = anyError {
@@ -177,11 +177,11 @@ public class PostEditingService: NSObject {
     // this happens just before create(regions:).  The original index of each
     // section has been stored in `entry.0`, and this is used to sort the
     // entries, and then the sorted regions are returned.
-    private func sortedRegions(indexedRegions : [(Int, Regionable)]) -> [Regionable] {
+    private func sortedRegions(indexedRegions: [(Int, Regionable)]) -> [Regionable] {
         return indexedRegions.sorted() { left, right in
             let (indexLeft, indexRight) = (left.0, right.0)
             return indexLeft < indexRight
-        }.map() { (index : Int, region : Regionable) -> Regionable in
+        }.map() { (index: Int, region: Regionable) -> Regionable in
             return region
         }
     }
