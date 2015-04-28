@@ -38,6 +38,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     public let textSizeCalculator:StreamTextCellSizeCalculator
     public let notificationSizeCalculator:StreamNotificationCellSizeCalculator
     public let profileHeaderSizeCalculator: ProfileHeaderCellSizeCalculator
+    public let imageSizeCalculator: StreamImageCellSizeCalculator
 
     weak public var postbarDelegate:PostbarDelegate?
     weak public var notificationDelegate:NotificationDelegate?
@@ -50,12 +51,14 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     public init(streamKind:StreamKind,
         textSizeCalculator: StreamTextCellSizeCalculator,
         notificationSizeCalculator: StreamNotificationCellSizeCalculator,
-        profileHeaderSizeCalculator: ProfileHeaderCellSizeCalculator)
+        profileHeaderSizeCalculator: ProfileHeaderCellSizeCalculator,
+        imageSizeCalculator: StreamImageCellSizeCalculator)
     {
         self.streamKind = streamKind
         self.textSizeCalculator = textSizeCalculator
         self.notificationSizeCalculator = notificationSizeCalculator
         self.profileHeaderSizeCalculator = profileHeaderSizeCalculator
+        self.imageSizeCalculator = imageSizeCalculator
         super.init()
     }
 
@@ -324,21 +327,65 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         }
     }
 
-    private func calculateCellItems(cellItems:[StreamCellItem], withWidth: CGFloat, completion: ()->()) {
-        let textElements = cellItems.filter {
-            return $0.data as? TextRegion != nil
-        }
+    private func calculateCellItems(cellItems:[StreamCellItem], withWidth: CGFloat, completion: ElloEmptyCompletion) {
+        let textCells = filterTextCells(cellItems)
+        let imageCells = filterImageCells(cellItems)
         let notificationElements = cellItems.filter {
             return $0.type == StreamCellType.Notification
         }
         let profileHeaderItems = cellItems.filter {
             return $0.type == StreamCellType.ProfileHeader
         }
-        let afterAll = Functional.after(3, block: completion)
+        let afterAll = Functional.after(4, block: completion)
 
+        self.imageSizeCalculator.processCells(imageCells.normal, withWidth: withWidth) {
+            self.imageSizeCalculator.processCells(imageCells.repost, withWidth: withWidth - 30.0, completion: afterAll)
+        }
+        self.textSizeCalculator.processCells(textCells.normal, withWidth: withWidth - 30.0) {
+            self.textSizeCalculator.processCells(textCells.repost, withWidth: withWidth - 30.0, completion: afterAll)
+        }
         self.notificationSizeCalculator.processCells(notificationElements, withWidth: withWidth, completion: afterAll)
-        self.textSizeCalculator.processCells(textElements, withWidth: withWidth, completion: afterAll)
         self.profileHeaderSizeCalculator.processCells(profileHeaderItems, withWidth: withWidth, completion: afterAll)
+    }
+
+    private func filterTextCells(cellItems: [StreamCellItem]) -> (normal: [StreamCellItem], repost: [StreamCellItem]) {
+        var cells = [StreamCellItem]()
+        var repostCells = [StreamCellItem]()
+        for item in cellItems {
+            if let textRegion = item.data as? TextRegion {
+                if textRegion.isRepost {
+                    repostCells.append(item)
+                }
+                else {
+                    cells.append(item)
+                }
+            }
+        }
+        return (cells, repostCells)
+    }
+
+    private func filterImageCells(cellItems: [StreamCellItem]) -> (normal: [StreamCellItem], repost: [StreamCellItem]) {
+        var cells = [StreamCellItem]()
+        var repostCells = [StreamCellItem]()
+        for item in cellItems {
+            if let imageRegion = item.data as? ImageRegion {
+                if imageRegion.isRepost {
+                    repostCells.append(item)
+                }
+                else {
+                    cells.append(item)
+                }
+            }
+            else if let embedRegion = item.data as? EmbedRegion {
+                if embedRegion.isRepost {
+                    repostCells.append(item)
+                }
+                else {
+                    cells.append(item)
+                }
+            }
+        }
+        return (cells, repostCells)
     }
 
     private func temporarilyUnfilter(block: ()->()) {

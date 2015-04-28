@@ -21,4 +21,17 @@ public enum RegionKind: String {
     case Image = "image"
     case Embed = "embed"
     case Unknown = "Unknown"
+
+    var streamCellType: StreamCellType {
+        switch self {
+        case .Image:
+            return StreamCellType.Image
+        case .Text:
+            return StreamCellType.Text
+        case .Embed:
+            return StreamCellType.Embed
+        case .Unknown:
+            return StreamCellType.Unknown
+        }
+    }
 }
