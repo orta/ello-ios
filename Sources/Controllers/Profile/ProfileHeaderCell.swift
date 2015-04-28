@@ -67,11 +67,11 @@ public class ProfileHeaderCell: UICollectionViewCell {
 
         settingsButton.setTitle("", forState: UIControlState.Normal)
         settingsButton.setSVGImages("gear")
-        settingsButton.addTarget(self, action: "settingsTapped:", forControlEvents: UIControlEvents.TouchUpInside)
+        settingsButton.addTarget(self, action: Selector("settingsTapped:"), forControlEvents: UIControlEvents.TouchUpInside)
 
         inviteButton.setTitle("", forState: UIControlState.Normal)
         inviteButton.setSVGImages("xpmcirc", rotation: 90)
-        inviteButton.addTarget(self, action: "inviteTapped:", forControlEvents: UIControlEvents.TouchUpInside)
+        inviteButton.addTarget(self, action: Selector("inviteTapped:"), forControlEvents: UIControlEvents.TouchUpInside)
     }
 
     @IBAction func settingsTapped(sender: UIButton) {

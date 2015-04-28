@@ -137,7 +137,7 @@ public class CredentialSettingsViewController: UITableViewController {
             }
         }
 
-        currentPasswordField.addTarget(self, action: "passwordChanged", forControlEvents: .EditingChanged)
+        currentPasswordField.addTarget(self, action: Selector("passwordChanged"), forControlEvents: .EditingChanged)
     }
 
     private func passwordChanged(text: String) {

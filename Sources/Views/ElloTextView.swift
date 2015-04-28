@@ -108,7 +108,7 @@ class ElloTextView: UITextView {
     }
 
     private func addTarget() {
-        let recognizer = UITapGestureRecognizer(target: self, action: "textViewTapped:")
+        let recognizer = UITapGestureRecognizer(target: self, action: Selector("textViewTapped:"))
         recognizer.numberOfTapsRequired = 1
         recognizer.numberOfTouchesRequired = 1
         addGestureRecognizer(recognizer)

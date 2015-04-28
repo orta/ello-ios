@@ -168,15 +168,15 @@ public class StreamFooterCell: UICollectionViewCell {
     }
 
     private func addButtonHandlers() {
-        flagButton.addTarget(self, action: "flagButtonTapped:", forControlEvents: .TouchUpInside)
-        commentsButton.addTarget(self, action: "commentsButtonTapped:", forControlEvents: .TouchUpInside)
-        commentsButton.addTarget(self, action: "commentsButtonTouchDown:", forControlEvents: .TouchDown)
-        lovesButton.addTarget(self, action: "lovesButtonTapped:", forControlEvents: .TouchUpInside)
-        replyButton.addTarget(self, action: "replyButtonTapped:", forControlEvents: .TouchUpInside)
-        repostButton.addTarget(self, action: "repostButtonTapped:", forControlEvents: .TouchUpInside)
-        shareButton.addTarget(self, action: "shareButtonTapped:", forControlEvents: .TouchUpInside)
-        viewsButton.addTarget(self, action: "viewsButtonTapped:", forControlEvents: .TouchUpInside)
-        deleteButton.addTarget(self, action: "deleteButtonTapped:", forControlEvents: .TouchUpInside)
+        flagButton.addTarget(self, action: Selector("flagButtonTapped:"), forControlEvents: .TouchUpInside)
+        commentsButton.addTarget(self, action: Selector("commentsButtonTapped:"), forControlEvents: .TouchUpInside)
+        commentsButton.addTarget(self, action: Selector("commentsButtonTouchDown:"), forControlEvents: .TouchDown)
+        lovesButton.addTarget(self, action: Selector("lovesButtonTapped:"), forControlEvents: .TouchUpInside)
+        replyButton.addTarget(self, action: Selector("replyButtonTapped:"), forControlEvents: .TouchUpInside)
+        repostButton.addTarget(self, action: Selector("repostButtonTapped:"), forControlEvents: .TouchUpInside)
+        shareButton.addTarget(self, action: Selector("shareButtonTapped:"), forControlEvents: .TouchUpInside)
+        viewsButton.addTarget(self, action: Selector("viewsButtonTapped:"), forControlEvents: .TouchUpInside)
+        deleteButton.addTarget(self, action: Selector("deleteButtonTapped:"), forControlEvents: .TouchUpInside)
     }
 
 // MARK: - IBActions

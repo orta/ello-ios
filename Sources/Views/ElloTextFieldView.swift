@@ -24,7 +24,7 @@ public class ElloTextFieldView: UIView {
 
     public var textFieldDidChange: (String -> ())? {
         didSet {
-            textField.addTarget(self, action: "valueChanged", forControlEvents: .EditingChanged)
+            textField.addTarget(self, action: Selector("valueChanged"), forControlEvents: .EditingChanged)
         }
     }
 

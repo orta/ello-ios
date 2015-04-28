@@ -149,7 +149,7 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         navigationItem.title = self.title
         navigationBar.items = [navigationItem]
         if !isRootViewController() {
-            let item = UIBarButtonItem.backChevronWithTarget(self, action: "backTapped:")
+            let item = UIBarButtonItem.backChevronWithTarget(self, action: Selector("backTapped:"))
             self.navigationItem.leftBarButtonItems = [item]
             self.navigationItem.fixNavBarItemPadding()
         }

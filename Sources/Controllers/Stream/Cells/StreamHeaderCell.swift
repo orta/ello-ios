@@ -101,7 +101,7 @@ public class StreamHeaderCell: UICollectionViewCell {
         styleUsernameTextView()
         styleTimestampLabel()
 
-        let goToPostTapRecognizer = UITapGestureRecognizer(target: self, action: "postTapped:")
+        let goToPostTapRecognizer = UITapGestureRecognizer(target: self, action: Selector("postTapped:"))
         goToPostView.addGestureRecognizer(goToPostTapRecognizer)
     }
 
@@ -203,9 +203,9 @@ public class StreamHeaderCell: UICollectionViewCell {
     }
 
     private func addButtonHandlers() {
-        flagButton.addTarget(self, action: "flagButtonTapped:", forControlEvents: .TouchUpInside)
-        replyButton.addTarget(self, action: "replyButtonTapped:", forControlEvents: .TouchUpInside)
-        deleteButton.addTarget(self, action: "deleteButtonTapped:", forControlEvents: .TouchUpInside)
+        flagButton.addTarget(self, action: Selector("flagButtonTapped:"), forControlEvents: .TouchUpInside)
+        replyButton.addTarget(self, action: Selector("replyButtonTapped:"), forControlEvents: .TouchUpInside)
+        deleteButton.addTarget(self, action: Selector("deleteButtonTapped:"), forControlEvents: .TouchUpInside)
     }
 
     private func styleUsernameTextView() {

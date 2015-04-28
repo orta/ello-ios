@@ -44,7 +44,7 @@ public class UserListViewController: StreamableViewController {
         navigationBar = ElloNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: ElloNavigationBar.Size.height))
         navigationBar.autoresizingMask = .FlexibleBottomMargin | .FlexibleWidth
         self.view.addSubview(navigationBar)
-        let item = UIBarButtonItem.backChevronWithTarget(self, action: "backTapped:")
+        let item = UIBarButtonItem.backChevronWithTarget(self, action: Selector("backTapped:"))
         self.navigationItem.leftBarButtonItems = [item]
         self.navigationItem.fixNavBarItemPadding()
         navigationBar.items = [self.navigationItem]

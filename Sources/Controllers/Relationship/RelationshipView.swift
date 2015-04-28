@@ -121,9 +121,9 @@ public class RelationshipView: UIView {
     }
 
     private func addTargets() {
-        friendButton.addTarget(self, action: "friendTapped:", forControlEvents: UIControlEvents.TouchUpInside)
-        noiseButton.addTarget(self, action: "noiseTapped:", forControlEvents: UIControlEvents.TouchUpInside)
-        blockButton?.addTarget(self, action: "blockTapped:", forControlEvents: UIControlEvents.TouchUpInside)
+        friendButton.addTarget(self, action: Selector("friendTapped:"), forControlEvents: UIControlEvents.TouchUpInside)
+        noiseButton.addTarget(self, action: Selector("noiseTapped:"), forControlEvents: UIControlEvents.TouchUpInside)
+        blockButton?.addTarget(self, action: Selector("blockTapped:"), forControlEvents: UIControlEvents.TouchUpInside)
         addSubview(friendButton)
         addSubview(noiseButton)
         if let blockButton = blockButton {

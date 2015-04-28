@@ -119,7 +119,7 @@ public class StreamContainerViewController: StreamableViewController {
 
     private func setupStreamsSegmentedControl() {
         let control = UISegmentedControl(items: StreamKind.streamValues.map{ $0.name })
-        control.addTarget(self, action: "streamSegmentTapped:", forControlEvents: .ValueChanged)
+        control.addTarget(self, action: Selector("streamSegmentTapped:"), forControlEvents: .ValueChanged)
         var rect = control.bounds
         rect.size = CGSize(width: rect.size.width, height: 19.0)
         control.bounds = rect

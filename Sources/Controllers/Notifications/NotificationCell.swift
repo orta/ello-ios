@@ -123,7 +123,7 @@ public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
         super.init(frame: frame)
 
         avatarButton = AvatarButton()
-        avatarButton.addTarget(self, action: "avatarTapped", forControlEvents: .TouchUpInside)
+        avatarButton.addTarget(self, action: Selector("avatarTapped"), forControlEvents: .TouchUpInside)
         titleTextView = ElloTextView(frame: CGRectZero, textContainer: nil)
         titleTextView.textViewDelegate = self
 
