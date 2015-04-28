@@ -62,6 +62,7 @@ public class LandingViewController: BaseElloViewController {
     }
 
     public func showMainScreen(user: User, responseConfig: ResponseConfig) {
+        PushNotificationController.sharedController.registerForRemoteNotifications()
         Tracker.sharedTracker.identify(user)
         var vc = ElloTabBarController.instantiateFromStoryboard()
         vc.setProfileData(user, responseConfig: responseConfig)
