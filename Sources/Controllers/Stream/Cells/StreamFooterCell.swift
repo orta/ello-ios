@@ -71,6 +71,8 @@ public class StreamFooterCell: UICollectionViewCell {
     public var footerConfig: (ownPost: Bool, streamKind: StreamKind?) = (false, nil) {
         didSet {
             if let streamKind = footerConfig.streamKind {
+                self.repostButton.enabled = !footerConfig.ownPost
+
                 if streamKind.isGridLayout {
                     self.toolBar.items = [
                         fixedItem(-15), commentsItem, flexibleItem(), repostItem, shareItem, fixedItem(-10)
