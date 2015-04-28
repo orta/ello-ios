@@ -20,6 +20,20 @@
                ReferencedContainer = "container:Ello.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "12A2C8C51AEFD4F3002DFD75"
+               BuildableName = "FastSpecs.xctest"
+               BlueprintName = "FastSpecs"
+               ReferencedContainer = "container:Ello.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -42,6 +56,16 @@
                   Identifier = "FunctionalTests">
                </Test>
             </SkippedTests>
+         </TestableReference>
+         <TestableReference
+            skipped = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "12A2C8C51AEFD4F3002DFD75"
+               BuildableName = "FastSpecs.xctest"
+               BlueprintName = "FastSpecs"
+               ReferencedContainer = "container:Ello.xcodeproj">
+            </BuildableReference>
          </TestableReference>
       </Testables>
       <MacroExpansion>

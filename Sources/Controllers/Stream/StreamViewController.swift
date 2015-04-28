@@ -216,7 +216,8 @@ public class StreamViewController: BaseElloViewController {
         loadInitialPageLoadingToken = localToken
 
         ElloHUD.showLoadingHudInView(view)
-        streamService.loadStream(streamKind.endpoint,
+        streamService.loadStream(
+            streamKind.endpoint,
             streamKind: streamKind,
             success: { (jsonables, responseConfig) in
                 if self.loadInitialPageLoadingToken != localToken { return }

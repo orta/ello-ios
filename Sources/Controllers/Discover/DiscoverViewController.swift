@@ -79,5 +79,4 @@ public class DiscoverViewController: StreamableViewController {
         let responder = targetForAction("onInviteFriends", withSender: self) as? InviteResponder
         responder?.onInviteFriends()
     }
-
 }

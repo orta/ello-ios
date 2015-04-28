@@ -92,7 +92,9 @@ class StreamServiceSpec: QuickSpec {
                     it("calls success with an array of Comment objects") {
                         var loadedComments:[Comment]?
 
-                        streamService.loadMoreCommentsForPost("111", success: { (comments, responseConfig) in
+                        streamService.loadMoreCommentsForPost("111",
+                            streamKind: nil,
+                            success: { (comments, responseConfig) in
                             loadedComments = comments as? [Comment]
                         }, failure:nil, noContent: nil)
 

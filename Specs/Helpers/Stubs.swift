@@ -43,7 +43,7 @@ extension User: Stubbable {
             name: (values["name"] as? String) ?? "name",
             experimentalFeatures: (values["experimentalFeatures"] as? Bool) ?? false,
             relationshipPriority: relationship
-            )
+        )
         user.avatar = values["avatar"] as? Asset
         user.identifiableBy = values["identifiableBy"] as? String
         user.postsCount = values["postsCount"] as? Int
@@ -226,7 +226,7 @@ extension Activity: Stubbable {
             createdAt: (values["createdAt"] as? NSDate) ?? NSDate(),
             kind: Activity.Kind(rawValue: activityKindString) ?? Activity.Kind.FriendPost,
             subjectType: SubjectType(rawValue: subjectTypeString) ?? SubjectType.Post
-            )
+        )
 
         if let user = values["subject"] as? User {
             activity.addLinkObject("subject", key: user.id, collection: MappingType.UsersType.rawValue)

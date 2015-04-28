@@ -48,7 +48,8 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     weak public var relationshipDelegate: RelationshipDelegate?
     weak public var userListDelegate: UserListDelegate?
 
-    public init(streamKind:StreamKind,
+    public init(
+        streamKind:StreamKind,
         textSizeCalculator: StreamTextCellSizeCalculator,
         notificationSizeCalculator: StreamNotificationCellSizeCalculator,
         profileHeaderSizeCalculator: ProfileHeaderCellSizeCalculator,

@@ -35,6 +35,7 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         let service = PostService()
 
         service.loadPost(postParam,
+            streamKind: streamKind,
             success: postLoaded,
             failure: nil
         )
@@ -164,7 +165,9 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
 
     private func loadComments() {
         if let post = post {
-            streamViewController.streamService.loadMoreCommentsForPost(post.id,
+            streamViewController.streamService.loadMoreCommentsForPost(
+                post.id,
+                streamKind: streamKind,
                 success: { (jsonables, responseConfig) in
                     self.appendCreateCommentItem()
                     self.streamViewController.responseConfig = responseConfig

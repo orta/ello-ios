@@ -31,7 +31,9 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         self.streamViewController.streamKind = .UserStream(userParam: self.userParam)
         super.init(nibName: "ProfileViewController", bundle: nil)
         ElloHUD.showLoadingHudInView(streamViewController.view)
-        streamViewController.streamService.loadUser(streamViewController.streamKind.endpoint,
+        streamViewController.streamService.loadUser(
+            streamViewController.streamKind.endpoint,
+            streamKind: streamViewController.streamKind,
             success: userLoaded,
             failure: { (error, statusCode) in
                 println("failed to load user (reason: \(error))")
