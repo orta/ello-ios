@@ -39,7 +39,9 @@ public class StreamTextCellSizeCalculator: NSObject, UIWebViewDelegate {
         if !self.cellItems.isEmpty {
             let item = self.cellItems[0]
             if let comment = item.jsonable as? Comment {
-                self.webView.frame = self.webView.frame.withWidth(maxWidth - StreamTextCellPresenter.commentMargin)
+                // need to add back in the postMargin (15) since the maxWidth should already
+                // account for 15 on the left that is part of the commentMargin (60)
+                self.webView.frame = self.webView.frame.withWidth(maxWidth - StreamTextCellPresenter.commentMargin + StreamTextCellPresenter.postMargin)
             }
             else {
                 self.webView.frame = self.webView.frame.withWidth(maxWidth)
