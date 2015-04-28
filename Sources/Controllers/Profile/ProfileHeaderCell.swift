@@ -105,9 +105,9 @@ extension ProfileHeaderCell: ElloTextViewDelegate {
     func textViewTapped(link: String, object: ElloAttributedObject) {
         switch object {
         case let .AttributedFollowers(user):
-            userListDelegate?.show(.UserStreamFollowers(userId: user.id), title: "Followers")
+            userListDelegate?.show(.UserStreamFollowers(userId: user.id), title: NSLocalizedString("Followers", comment: "Followers title"))
         case let .AttributedFollowing(user):
-            userListDelegate?.show(.UserStreamFollowing(userId: user.id), title: "Following")
+            userListDelegate?.show(.UserStreamFollowing(userId: user.id), title: NSLocalizedString("Following", comment: "Following title"))
         default: break
         }
     }
