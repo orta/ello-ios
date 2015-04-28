@@ -51,7 +51,7 @@ public struct StreamImageCellPresenter {
                 }
 
                 if let photoURL = photoToLoad {
-                    cell.serverProvidedAspectRatio = StreamCellItemParser.aspectRatioForImageBlock(photoData)
+                    cell.serverProvidedAspectRatio = StreamImageCellSizeCalculator.aspectRatioForImageRegion(photoData)
                     cell.setImageURL(photoURL)
                 }
                 else if let photoURL = photoData.url {

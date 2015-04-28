@@ -18,38 +18,6 @@ class StreamCellItemParserSpec: QuickSpec {
 
     override func spec() {
 
-        describe("-aspectRatioForImageBlock:") {
-
-            it("returns 4/3 if width or height not present") {
-                let imageBlock: ImageRegion = stub(["alt": "alt text", "url": "http://www.ello.com"])
-                let aspectRatio = StreamCellItemParser.aspectRatioForImageBlock(imageBlock)
-
-                expect(aspectRatio) == 4.0/3.0
-            }
-
-            it("returns the correct aspect ratio") {
-                let hdpi: Attachment = stub([
-                    "url": "http://www.ello.com",
-                    "height": 1600,
-                    "width": 900,
-                    "type": "jpeg",
-                    "size": 894578
-                    ])
-                var asset: Asset = stub([
-                    "id": "123",
-                    "hdpi": hdpi
-                    ])
-                var imageBlock: ImageRegion = stub([
-                    "asset": asset,
-                    "alt": "alt text",
-                    "url": "http://www.ello.com"
-                    ])
-                let aspectRatio = StreamCellItemParser.aspectRatioForImageBlock(imageBlock)
-
-                expect(aspectRatio) == 900.0/1600.0
-            }
-        }
-
         describe("-streamCellItems:") {
 
             beforeEach {
