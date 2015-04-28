@@ -63,14 +63,14 @@ public class PostEditingService: NSObject {
         }
     }
 
-    func create(#regions : [Regionable], authorId: String, success: CreatePostSuccessCompletion, failure: ElloFailureCompletion?) {
+    func create(#regions: [Regionable], authorId: String, success: CreatePostSuccessCompletion, failure: ElloFailureCompletion?) {
         let body = NSMutableArray(capacity: regions.count)
         for region in regions {
             body.addObject(region.toJSON())
         }
-        let params = ["body" : body]
+        let params = ["body": body]
 
-        var endpoint : ElloAPI
+        var endpoint: ElloAPI
         if let parentPost = parentPost {
             endpoint = ElloAPI.CreateComment(parentPostId: parentPost.id, body: params)
         }

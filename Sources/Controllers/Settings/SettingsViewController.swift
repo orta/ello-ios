@@ -236,7 +236,7 @@ extension SettingsViewController: UIImagePickerControllerDelegate, UINavigationC
         }
         self.dismissViewControllerAnimated(true, completion: .None)
     }
-    
+
     public func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         self.dismissViewControllerAnimated(true, completion: .None)
     }
