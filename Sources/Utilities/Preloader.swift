@@ -10,8 +10,12 @@ import SDWebImage
 
 public struct Preloader {
 
-    public func preloadImages(jsonables: [JSONAble], streamKind: StreamKind) {
+    // public so that we can swap out a fake in specs
+    public var manager = SDWebImageManager.sharedManager()
 
+    public init(){}
+    
+    public func preloadImages(jsonables: [JSONAble], streamKind: StreamKind) {
 
         for jsonable in jsonables {
 
@@ -30,6 +34,23 @@ public struct Preloader {
                     let avatarURL = author.avatarURL
             {
                 preloadUrl(avatarURL)
+            }
+
+            // user's posts avatars
+            else if let user = jsonable as? User,
+                    let posts = user.posts
+            {
+                if let userAvatarURL = user.avatarURL {
+                    preloadUrl(userAvatarURL)
+                }
+
+                for post in posts {
+                    if  let author = post.author,
+                        let avatarURL = author.avatarURL
+                        {
+                            preloadUrl(avatarURL)
+                        }
+                }
             }
 
             // activity image regions
@@ -95,7 +116,6 @@ public struct Preloader {
     }
 
     private func preloadUrl(url: NSURL) {
-        let manager = SDWebImageManager.sharedManager()
         manager.downloadImageWithURL(url,
             options: SDWebImageOptions.LowPriority,
             progress: { (_, _) in }, completed: { (_, _, _, _, _) in}
