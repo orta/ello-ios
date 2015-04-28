@@ -145,7 +145,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         currentUser?.coverImageURL.map(coverImage.sd_setImageWithURL)
         (currentUser?.avatar?.large?.url).map(avatarImage.sd_setImageWithURL)
 
-        nameTextFieldView.label.setLabelText("Name")
+        nameTextFieldView.label.setLabelText(NSLocalizedString("Name", comment: "name setting"))
         nameTextFieldView.textField.text = currentUser?.name
 
         let updateNameFunction = Functional.debounce(0.5) {
@@ -167,7 +167,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
             updateNameFunction()
         }
 
-        linksTextFieldView.label.setLabelText("Links")
+        linksTextFieldView.label.setLabelText(NSLocalizedString("Links", comment: "links setting"))
         linksTextFieldView.textField.text = (currentUser?.profile?.externalLinksList).map { " ".join($0) }
 
         let updateLinksFunction = Functional.debounce(0.5) {
