@@ -57,7 +57,9 @@ public enum ElloURI {
         case .External: return url
         default:
             var urlArr = split(url) { $0 == "/" }
-            return urlArr.last ?? url
+            var last = urlArr.last ?? url
+            var lastArr = split(last) { $0 == "?" }
+            return lastArr.first ?? url
         }
     }
 
