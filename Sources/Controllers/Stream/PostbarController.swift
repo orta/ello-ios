@@ -85,7 +85,7 @@ public class PostbarController: NSObject, PostbarDelegate {
 
     public func deletePostButtonTapped(cell:UICollectionViewCell) {
         let message = NSLocalizedString("Delete Post?", comment: "Delete Post")
-        let alertController = AlertViewController(message: message, textAlignment: .Center)
+        let alertController = AlertViewController(message: message)
 
         let yesAction = AlertAction(title: NSLocalizedString("Yes", comment: "Yes"), style: .Dark) {
             action in
@@ -111,7 +111,7 @@ public class PostbarController: NSObject, PostbarDelegate {
 
     public func deleteCommentButtonTapped(cell:UICollectionViewCell) {
         let message = NSLocalizedString("Delete Comment?", comment: "Delete Comment")
-        let alertController = AlertViewController(message: message, textAlignment: .Center)
+        let alertController = AlertViewController(message: message)
 
         let yesAction = AlertAction(title: NSLocalizedString("Yes", comment: "Yes"), style: .Dark) {
             action in
