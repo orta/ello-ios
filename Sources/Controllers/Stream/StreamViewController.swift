@@ -409,7 +409,7 @@ extension StreamViewController : UICollectionViewDelegate {
             }
             else if let post = dataSource.postForIndexPath(indexPath) {
                 let items = dataSource.cellItemsForPost(post)
-                postTappedDelegate?.postTapped(post, initialItems: items)
+                postTappedDelegate?.postTapped(post, initialItems: items, streamKind: dataSource.streamKind)
             }
             else if let comment = dataSource.commentForIndexPath(indexPath),
                 let post = comment.parentPost
