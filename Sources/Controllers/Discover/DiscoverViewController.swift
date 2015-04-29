@@ -12,7 +12,6 @@ public class DiscoverViewController: StreamableViewController {
 
     let streamViewController = StreamViewController.instantiateFromStoryboard()
 
-
     @IBOutlet weak var viewContainer: UIView!
     @IBOutlet weak var navigationBar: UIView!
     @IBOutlet weak var inviteButton: UIButton!
