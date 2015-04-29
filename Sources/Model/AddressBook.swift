@@ -30,15 +30,15 @@ extension AddressBook {
 
         if error != nil { completion(failure(.Unauthorized)); return }
 
-        let book = AddressBook(addressBook: ab.takeRetainedValue())
+        let book: ABAddressBook = ab.takeRetainedValue()
 
         switch ABAddressBookGetAuthorizationStatus() {
         case .NotDetermined:
-            ABAddressBookRequestAccessWithCompletion(book.addressBook) { granted, _ in
-                if granted { completion(success(book)) }
+            ABAddressBookRequestAccessWithCompletion(book) { granted, _ in
+                if granted { completion(success(AddressBook(addressBook: book))) }
                 else { completion(failure(.Unauthorized)) }
             }
-        case .Authorized: completion(success(book))
+        case .Authorized: completion(success(AddressBook(addressBook: book)))
         default: completion(failure(.Unauthorized))
         }
     }
