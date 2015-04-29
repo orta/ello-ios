@@ -19,6 +19,11 @@ class CGRectExtensionSpec: QuickSpec {
                 expect(badFrame.x).to(equal(CGFloat(4)))
                 expect(badFrame.y).to(equal(CGFloat(2)))
             }
+            it("should return center") {
+                let center = badFrame.center
+                expect(center.x).to(equal(CGFloat(2)))
+                expect(center.y).to(equal(CGFloat(1)))
+            }
         }
 
         describe("factories") {
