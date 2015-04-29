@@ -49,6 +49,12 @@ class ElloURISpec: QuickSpec {
                     expect(data).to(equal("6789"))
                 }
 
+                it("matches with https://www.ello.co/666/post/6789?expanded=true") {
+                    let (type, data) = ElloURI.match("https://www.ello.co/666/post/6789/")
+                    expect(type).to(equal(ElloURI.Post))
+                    expect(data).to(equal("6789"))
+                }
+
             }
 
             describe("with Profile urls") {
@@ -64,7 +70,13 @@ class ElloURISpec: QuickSpec {
                     expect(type).to(equal(ElloURI.Profile))
                     expect(data).to(equal("420"))
                 }
-                
+
+                it("matches with https://www.ello.co/420/") {
+                    let (type, data) = ElloURI.match("https://www.ello.co/420?expanded=false")
+                    expect(type).to(equal(ElloURI.Profile))
+                    expect(data).to(equal("420"))
+                }
+
             }
 
             describe("with External urls") {
@@ -99,12 +111,24 @@ class ElloURISpec: QuickSpec {
                     expect(data).to(equal("2345"))
                 }
 
+                it("matches with http://ello-staging.herokuapp.com/666/post/2345?expanded=false") {
+                    let (type, data) = ElloURI.match("http://ello-staging.herokuapp.com/666/post/2345")
+                    expect(type).to(equal(ElloURI.Post))
+                    expect(data).to(equal("2345"))
+                }
+
             }
 
             describe("with Profile urls") {
 
                 it("matches with http://ello-staging.herokuapp.com/666") {
                     let (type, data) = ElloURI.match("http://ello-staging.herokuapp.com/666")
+                    expect(type).to(equal(ElloURI.Profile))
+                    expect(data).to(equal("666"))
+                }
+
+                it("matches with http://ello-staging.herokuapp.com/666") {
+                    let (type, data) = ElloURI.match("http://ello-staging.herokuapp.com/666?expanded=true")
                     expect(type).to(equal(ElloURI.Profile))
                     expect(data).to(equal("666"))
                 }
