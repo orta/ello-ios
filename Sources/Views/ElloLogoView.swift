@@ -7,12 +7,29 @@
 //
 
 import UIKit
+import SVGKit
 import QuartzCore
 import FLAnimatedImage
 
 public class ElloLogoView: FLAnimatedImageView {
+    struct Size {
+        static let natural = CGSize(width: 60, height: 60)
+    }
 
     let toValue = (360.0 * M_PI) / 180.0
+
+    required public init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+
+    convenience public init() {
+        self.init(frame: CGRectZero)
+    }
+
+    override public init(frame: CGRect) {
+        super.init(frame: frame)
+        self.image = SVGKImage(named: "ello_logo.svg").UIImage
+    }
 
     func animateLogo() {
         let rotate = CABasicAnimation(keyPath: "transform.rotation.z")

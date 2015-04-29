@@ -18,7 +18,7 @@ class ElloPullToRefreshView: UIView, SSPullToRefreshContentView {
     private let toValue = (360.0 * M_PI) / 180.0
 
     lazy var elloLogo: ElloLogoView = {
-        let logo = ElloLogoView(image: SVGKImage(named: "ello_logo.svg").UIImage!)
+        let logo = ElloLogoView()
         logo.transform = CGAffineTransformMakeRotation(CGFloat(M_PI))
         logo.bounds = CGRectMake(0, 0, 30, 30)
         return logo

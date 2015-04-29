@@ -12,7 +12,7 @@ import SVGKit
 public class StreamLoadingCell: UICollectionViewCell {
 
     lazy var elloLogo: ElloLogoView = {
-        let logo = ElloLogoView(image: SVGKImage(named: "ello_logo.svg").UIImage!)
+        let logo = ElloLogoView()
         logo.bounds = CGRectMake(0, 0, 30, 30)
         return logo
     }()
