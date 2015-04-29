@@ -16,7 +16,7 @@ public class StreamTextCellSizeCalculator: NSObject, UIWebViewDelegate {
     public var cellItems: [StreamCellItem] = []
     public var completion: StreamTextCellSizeCalculated = {}
 
-    let srcRegex:NSRegularExpression  = NSRegularExpression(
+    public static let srcRegex:NSRegularExpression  = NSRegularExpression(
         pattern: "src=[\"']([^\"']*)[\"']",
         options: NSRegularExpressionOptions.CaseInsensitive,
         error: nil)!
@@ -39,7 +39,9 @@ public class StreamTextCellSizeCalculator: NSObject, UIWebViewDelegate {
         if !self.cellItems.isEmpty {
             let item = self.cellItems[0]
             if let comment = item.jsonable as? Comment {
-                self.webView.frame = self.webView.frame.withWidth(maxWidth - StreamTextCellPresenter.commentMargin)
+                // need to add back in the postMargin (15) since the maxWidth should already
+                // account for 15 on the left that is part of the commentMargin (60)
+                self.webView.frame = self.webView.frame.withWidth(maxWidth - StreamTextCellPresenter.commentMargin + StreamTextCellPresenter.postMargin)
             }
             else {
                 self.webView.frame = self.webView.frame.withWidth(maxWidth)
@@ -48,7 +50,7 @@ public class StreamTextCellSizeCalculator: NSObject, UIWebViewDelegate {
 
             if let textElement = textElement {
                 let content = textElement.content
-                let strippedContent = self.stripImageSrc(content)
+                let strippedContent = StreamTextCellSizeCalculator.stripImageSrc(content)
                 let html = StreamTextCellHTML.postHTML(strippedContent)
                 // needs to use the same width as the post text region
                 self.webView.loadHTMLString(html, baseURL: NSURL(string: "/"))
@@ -75,7 +77,7 @@ public class StreamTextCellSizeCalculator: NSObject, UIWebViewDelegate {
         loadNext()
     }
 
-    private func stripImageSrc(html: String) -> String {
+    public static func stripImageSrc(html: String) -> String {
         // finds image tags, replaces them with data:image/png (inlines image data)
         let range = NSMakeRange(0, count(html))
 

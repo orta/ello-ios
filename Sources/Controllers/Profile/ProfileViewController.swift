@@ -192,9 +192,12 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
 extension ProfileViewController: StreamScrollDelegate {
 
     override public func streamViewDidScroll(scrollView : UIScrollView) {
-        if let (start, width) = unwrap(coverImageHeightStart, coverImage.image?.size.width) {
+        if  let start = coverImageHeightStart,
+            let width = coverImage.image?.size.width
+        {
             coverImageHeight.constant = max(start - scrollView.contentOffset.y, start)
         }
+
         super.streamViewDidScroll(scrollView)
     }
 }

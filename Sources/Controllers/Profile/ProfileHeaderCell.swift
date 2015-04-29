@@ -16,9 +16,6 @@ public protocol EditProfileResponder {
 
 public class ProfileHeaderCell: UICollectionViewCell {
 
-    var coverWidthSet: Bool = false
-    let ratio:CGFloat = 16.0/9.0
-
     @IBOutlet weak var avatarButton: AvatarButton!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
@@ -38,10 +35,6 @@ public class ProfileHeaderCell: UICollectionViewCell {
         style()
         countsTextView.textViewDelegate = self
         bioWebView.delegate = self
-        if !coverWidthSet {
-            coverWidthSet = true
-            viewTopConstraint.constant = frame.width / ratio
-        }
     }
 
     override public func layoutSubviews() {
@@ -91,10 +84,6 @@ extension ProfileHeaderCell: UIWebViewDelegate {
     }
 
     public func webViewDidFinishLoad(webView: UIWebView) {
-        let jsResult = webView.stringByEvaluatingJavaScriptFromString("window.contentHeight()") ?? "0.0"
-        webView.frame.size.height = CGFloat((jsResult as NSString).doubleValue)
-        bioWebView.stringByEvaluatingJavaScriptFromString("document.documentElement.style.webkitUserSelect='none';")
-        bioWebView.stringByEvaluatingJavaScriptFromString("document.documentElement.style.webkitTouchCallout='none';")
         UIView.animateWithDuration(0.15, animations: {
             self.contentView.alpha = 1.0
         })

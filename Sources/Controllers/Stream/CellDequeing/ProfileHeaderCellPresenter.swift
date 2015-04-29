@@ -19,6 +19,7 @@ public struct ProfileHeaderCellPresenter {
         currentUser: User?)
     {
         if let cell = cell as? ProfileHeaderCell {
+            let ratio:CGFloat = 16.0/9.0
             let user = streamCellItem.jsonable as! User
             cell.relationshipView.hidden = false
 
@@ -30,7 +31,7 @@ public struct ProfileHeaderCellPresenter {
             if let avatarURL = user.avatarURL {
                 cell.setAvatarURL(avatarURL)
             }
-
+            cell.viewTopConstraint.constant = UIScreen.screenWidth() / ratio
             cell.relationshipView.buildLargeButtons()
             cell.relationshipView.userId = user.id
             cell.relationshipView.userAtName = user.atName

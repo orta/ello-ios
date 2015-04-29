@@ -86,12 +86,21 @@ public class PostEditingService: NSObject {
                 switch endpoint {
                 case .CreateComment:
                     let comment = data as! Comment
+                    // this assumes that
+                    var regionsCopy = regions
+                    for (index, regionable) in enumerate(comment.content) {
+                        if  let textRegion = regionable as? TextRegion,
+                            let localTextRegion = regionsCopy[0] as? TextRegion
+                        {
+                            regionsCopy[0] = textRegion
+                        }
+                    }
                     let localComment = Comment(
-                        id: NSUUID().UUIDString,
-                        createdAt: NSDate(),
-                        authorId: authorId,
-                        postId: (comment.parentPost?.id ?? ""),
-                        content: regions
+                        id: comment.id,
+                        createdAt: comment.createdAt,
+                        authorId: comment.authorId,
+                        postId: comment.postId,
+                        content: regionsCopy
                     )
                     post = localComment
                     postNotification(UpdatePostCommentCountNotification, localComment)

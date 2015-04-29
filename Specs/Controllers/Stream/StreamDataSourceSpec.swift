@@ -198,7 +198,7 @@ class StreamDataSourceSpec: QuickSpec {
                 }
             }
 
-            describe("cellItemsForPost(_:)") {
+            xdescribe("cellItemsForPost(_:)") {
 
                 beforeEach {
                     let parser = StreamCellItemParser()
@@ -212,11 +212,11 @@ class StreamDataSourceSpec: QuickSpec {
                     }
                 }
 
-//                xit("returns an array of StreamCellItems") {
-//                    var post = subject.postForIndexPath(indexPath0)
-//                    let items = subject.cellItemsForPost(post!)
-//                    expect(count(items)) == 7
-//                }
+                it("returns an array of StreamCellItems") {
+                    var post = subject.postForIndexPath(indexPath0)
+                    let items = subject.cellItemsForPost(post!)
+                    expect(count(items)) == 7
+                }
 
                 it("returns empty array if post not found") {
                     let randomPost: Post = stub(["id": "notfound"])

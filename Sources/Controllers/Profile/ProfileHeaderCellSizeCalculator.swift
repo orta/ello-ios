@@ -11,12 +11,13 @@ import Foundation
 public class ProfileHeaderCellSizeCalculator: NSObject {
 
     let webView: UIWebView
+    var maxWidth: CGFloat = 0.0
     public var cellItems: [StreamCellItem] = []
     public var completion: ElloEmptyCompletion = {}
     let ratio:CGFloat = 16.0/9.0
 
     required public init(webView wv: UIWebView) {
-        webView = wv
+        self.webView = wv
         super.init()
         webView.delegate = self
     }
@@ -24,18 +25,22 @@ public class ProfileHeaderCellSizeCalculator: NSObject {
     public func processCells(cellItems: [StreamCellItem], withWidth width: CGFloat, completion: ElloEmptyCompletion) {
         self.cellItems = cellItems
         self.completion = completion
-        self.webView.frame = self.webView.frame.withWidth(width)
+        self.maxWidth = width
+        // -30 for the padding on the webview
+        self.webView.frame = self.webView.frame.withWidth(self.maxWidth - (StreamTextCellPresenter.postMargin * 2))
         loadNext()
     }
 
     private func loadNext() {
         if !cellItems.isEmpty {
             let user = cellItems[0].jsonable as! User
-            if user.formattedShortBio == "" {
-                setHeight(0.0)
+            if let shortBio = user.formattedShortBio {
+                let html = StreamTextCellHTML.postHTML(shortBio)
+                // needs to use the same width as the post text region
+                webView.loadHTMLString(html, baseURL: NSURL(string: "/"))
             }
             else {
-                webView.loadHTMLString(StreamTextCellHTML.postHTML(user.formattedShortBio!), baseURL: NSURL(string: "/"))
+                setHeight(0.0)
             }
         }
         else {
@@ -45,17 +50,14 @@ public class ProfileHeaderCellSizeCalculator: NSObject {
 
     private func setHeight(hv: CGFloat) {
         var cellItem = self.cellItems.removeAtIndex(0)
-        var height: CGFloat = hv
-        // add height to top of name label
-        if let user = cellItem.jsonable as? User {
-            height += user.name == "" ? 130.0 : 142.0
+        var height: CGFloat = maxWidth / ratio // cover image size
+        height += 178.0 // top of webview
+        // add web view height and bottom padding
+        if hv > 0.0 {
+            height += hv
         }
-        // add bottom padding of name label
-        height += hv == 0 ? 0 : 15
-        // add area for cover image
-        height += webView.frame.width / ratio
-        cellItem.multiColumnCellHeight = height
         cellItem.oneColumnCellHeight = height
+        cellItem.multiColumnCellHeight = height
         loadNext()
     }
 }

@@ -93,14 +93,16 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         return visibleCellItems[indexPath.item]
     }
 
+    // TODO: this should grab comments to hand to post detail 
+    // and post detail should handle loading/paging them better
     public func cellItemsForPost(post:Post) -> [StreamCellItem] {
         return visibleCellItems.filter({ (item) -> Bool in
             if let cellPost = item.jsonable as? Post {
                 return post.id == cellPost.id
             }
-            else if let commentPost = item.jsonable as? Comment {
-                return post.id == commentPost.postId
-            }
+//            else if let commentPost = item.jsonable as? Comment {
+//                return post.id == commentPost.postId
+//            }
             else {
                 return false
             }
@@ -342,8 +344,11 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         self.imageSizeCalculator.processCells(imageCells.normal, withWidth: withWidth) {
             self.imageSizeCalculator.processCells(imageCells.repost, withWidth: withWidth - 30.0, completion: afterAll)
         }
-        self.textSizeCalculator.processCells(textCells.normal, withWidth: withWidth - 30.0) {
-            self.textSizeCalculator.processCells(textCells.repost, withWidth: withWidth - 30.0, completion: afterAll)
+        // -30.0 acounts for the 15 on either side for constraints
+        let textLeftRightConstraintWidth = (StreamTextCellPresenter.postMargin * 2)
+        self.textSizeCalculator.processCells(textCells.normal, withWidth: withWidth - textLeftRightConstraintWidth) {
+            // extra -30.0 acounts for the left indent on a repost with the black line
+            self.textSizeCalculator.processCells(textCells.repost, withWidth: withWidth - (textLeftRightConstraintWidth * 2), completion: afterAll)
         }
         self.notificationSizeCalculator.processCells(notificationElements, withWidth: withWidth, completion: afterAll)
         self.profileHeaderSizeCalculator.processCells(profileHeaderItems, withWidth: withWidth, completion: afterAll)
