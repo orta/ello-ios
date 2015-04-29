@@ -11,7 +11,15 @@ private let MaxHeight = UIScreen.mainScreen().applicationFrame.height - 20
 
 public enum AlertType {
     case Normal
+    case Dark
     case Danger
+
+    var backgroundColor: UIColor {
+        switch self {
+            case .Danger: return .redColor()
+            default:      return .whiteColor()
+        }
+    }
 }
 
 public class AlertViewController: UIViewController {
@@ -58,9 +66,11 @@ public class AlertViewController: UIViewController {
         if let text = message {
             headerLabel.setLabelText(text, color: UIColor.blackColor())
         }
-        view.backgroundColor = type == .Danger ? UIColor.redColor() : UIColor.whiteColor()
-        tableView.backgroundColor = type == .Danger ? UIColor.redColor() : UIColor.whiteColor()
-        headerLabel.backgroundColor = type == .Danger ? UIColor.redColor() : UIColor.whiteColor()
+
+        view.backgroundColor = type.backgroundColor
+        tableView.backgroundColor = type.backgroundColor
+        headerLabel.backgroundColor = type.backgroundColor
+        self.type = type
     }
 
     public required init(coder aDecoder: NSCoder) {
