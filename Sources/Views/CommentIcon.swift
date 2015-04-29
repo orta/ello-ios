@@ -1,41 +1,73 @@
 //
-//  CommentButton.swift
+//  CommentIcon.swift
 //  Ello
 //
-//  Created by Sean on 2/17/15.
+//  Created by Sean on 4/29/15.
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
 import Foundation
-import QuartzCore
 
-public class CommentButton: StreamFooterButton {
+public class CommentIcon: UIView, ImageLabelAnimatable {
 
-    private let duration:CFTimeInterval = 0.5
+    public var view: UIView { return self }
+    private var _selected = false
+    private var _highlighted = false
+
+    public var selected: Bool {
+        get { return _selected }
+        set {
+            _selected = newValue
+            if highlighted { return }
+            foo(newValue)
+        }
+    }
+
+    public var highlighted: Bool {
+        get { return _highlighted }
+        set {
+            _highlighted = newValue
+            foo(newValue)
+        }
+    }
+
+    private let duration: CFTimeInterval = 0.5
     private let dotSize = CGSizeMake(3.5, 3.5)
-    private let dotSpace:CGFloat = 1.5
-    private let dotStart:CGFloat = 10.0
+    private let dotSpace: CGFloat = 1.5
+    private var dotStart: CGFloat = 0.0
     private var dot1: CAShapeLayer!
     private var dot2: CAShapeLayer!
     private var dot3: CAShapeLayer!
 
-    override public var selected: Bool {
-        didSet {
-            let color:CGColor = selected ? UIColor.blackColor().CGColor : UIColor.greyA().CGColor
-            if dot1 != nil && dot2 != nil && dot3 != nil {
-                dot1.fillColor = color
-                dot2.fillColor = color
-                dot3.fillColor = color
-            }
-        }
-    }
+    // MARK: Initializers
 
-    override public init(frame: CGRect) {
+    public init() {
+        let frame =
+        CGRect(
+            x: 0,
+            y: 0,
+            width: 13.5,
+            height: 3.5
+        )
         super.init(frame: frame)
     }
 
     required public init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: Public
+
+    public func animate() {
+        if dot1 != nil { fadeUpDown(dot1, delay: 0.0) }
+        if dot2 != nil { fadeUpDown(dot2, delay: 0.25) }
+        if dot3 != nil { fadeUpDown(dot3, delay: 0.50) }
+    }
+
+    public func finishAnimation() {
+        if dot1 != nil { fadeUp(dot1) }
+        if dot2 != nil { fadeUp(dot2) }
+        if dot3 != nil { fadeUp(dot3) }
     }
 
     override public func layoutSubviews() {
@@ -43,25 +75,16 @@ public class CommentButton: StreamFooterButton {
         createLayersIfNeeded()
     }
 
-    override func setButtonTitleWithPadding(title: String?, titlePadding: CGFloat, contentPadding: CGFloat) {
-        super.setButtonTitleWithPadding(title, titlePadding: titlePadding, contentPadding: contentPadding)
+    // MARK: Private
+
+    private func foo(select: Bool) {
+        let color:CGColor = select ? UIColor.blackColor().CGColor : UIColor.greyA().CGColor
+        if dot1 != nil && dot2 != nil && dot3 != nil {
+            dot1.fillColor = color
+            dot2.fillColor = color
+            dot3.fillColor = color
+        }
     }
-
-// MARK: Public
-
-    func animate() {
-        if dot1 != nil { fadeUpDown(dot1, delay: 0.0) }
-        if dot2 != nil { fadeUpDown(dot2, delay: 0.25) }
-        if dot3 != nil {fadeUpDown(dot3, delay: 0.50) }
-    }
-
-    func finishAnimation() {
-        if dot1 != nil { fadeUp(dot1) }
-        if dot2 != nil { fadeUp(dot2) }
-        if dot3 != nil { fadeUp(dot3) }
-    }
-
-// MARK: Private
 
     private func fadeUpDown(dot:CAShapeLayer, delay: NSTimeInterval) {
         let dotFadeUpOpacity = CABasicAnimation(keyPath: "opacity")
@@ -90,7 +113,7 @@ public class CommentButton: StreamFooterButton {
 
     private func createLayersIfNeeded() {
 
-       if dot1 == nil {
+        if dot1 == nil {
             dot1 = circleShape(CGRectMake(dotStart, self.bounds.height/2  - dotSize.height/2, dotSize.width, dotSize.height))
             self.layer.addSublayer(dot1)
         }
@@ -120,5 +143,4 @@ public class CommentButton: StreamFooterButton {
         let circle = UIBezierPath(ovalInRect: inFrame)
         return circle.CGPath
     }
-    
 }
