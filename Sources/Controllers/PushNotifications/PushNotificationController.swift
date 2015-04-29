@@ -12,19 +12,24 @@ private let NeedsPermissionKey = "PushNotificationNeedsPermission"
 private let DeniedPermissionKey = "PushNotificationDeniedPermission"
 
 public class PushNotificationController {
-    public static let sharedController = PushNotificationController()
+    public static let sharedController = PushNotificationController(defaults: Defaults, keychain: Keychain())
 
-    var needsPermission: Bool {
-        get { return Defaults[NeedsPermissionKey].bool ?? true }
-        set { Defaults[NeedsPermissionKey] = newValue }
+    private let defaults: NSUserDefaults
+    private var keychain: KeychainType
+
+    public var needsPermission: Bool {
+        get { return defaults[NeedsPermissionKey].bool ?? true }
+        set { defaults[NeedsPermissionKey] = newValue }
     }
 
-    var permissionDenied: Bool {
-        get { return Defaults[DeniedPermissionKey].bool ?? false }
-        set { Defaults[DeniedPermissionKey] = newValue }
+    public var permissionDenied: Bool {
+        get { return defaults[DeniedPermissionKey].bool ?? false }
+        set { defaults[DeniedPermissionKey] = newValue }
     }
 
-    public init() {
+    public init(defaults: NSUserDefaults, keychain: KeychainType) {
+        self.defaults = defaults
+        self.keychain = keychain
         registerForLocalNotifications()
     }
 
@@ -54,18 +59,18 @@ public extension PushNotificationController {
     }
 
     func updateToken(token: NSData) {
-        Keychain.pushToken = token
+        keychain.pushToken = token
         ProfileService().updateUserDeviceToken(token)
     }
 
     func registerStoredToken() {
-        if let token = Keychain.pushToken {
+        if let token = keychain.pushToken {
             ProfileService().updateUserDeviceToken(token)
         }
     }
 
     @objc func deregisterStoredToken() {
-        if let token = Keychain.pushToken {
+        if let token = keychain.pushToken {
             ProfileService().removeUserDeviceToken(token)
         }
     }

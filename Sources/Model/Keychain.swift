@@ -8,10 +8,14 @@
 
 import LUKeychainAccess
 
+public protocol KeychainType {
+    var pushToken: NSData? { get set }
+}
+
 private let PushToken = "ElloPushToken"
 
-struct Keychain {
-    static var pushToken: NSData? {
+struct Keychain: KeychainType {
+    var pushToken: NSData? {
         get { return LUKeychainAccess.standardKeychainAccess().dataForKey(PushToken) as NSData? }
         set { LUKeychainAccess.standardKeychainAccess().setData(newValue, forKey: PushToken) }
     }
