@@ -59,7 +59,7 @@ StreamImageCellDelegate {
                 let items = self.dataSource.cellItemsForPost(post)
                 // This is a bit dirty, we should not call a method on a compositionally held
                 // controller's postTappedDelegate. Need to chat about this with the crew.
-                presentingController.postTappedDelegate?.postTapped(post, initialItems: items)
+                presentingController.postTappedDelegate?.postTapped(post, initialItems: items, streamKind: dataSource.streamKind)
             }
         }
     }

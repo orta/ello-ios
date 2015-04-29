@@ -213,10 +213,10 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         }
     }
 
-    override public func postTapped(post: Post, initialItems: [StreamCellItem]) {
+    override public func postTapped(post: Post, initialItems: [StreamCellItem], streamKind: StreamKind) {
         if let selfPost = self.post {
             if post.id != selfPost.id {
-                super.postTapped(post, initialItems: initialItems)
+                super.postTapped(post, initialItems: initialItems, streamKind: streamKind)
             }
         }
     }
