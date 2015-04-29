@@ -27,17 +27,43 @@ public class AlertViewController: UIViewController {
     @IBOutlet public weak var topPadding: NSLayoutConstraint!
     @IBOutlet public weak var leftPadding: NSLayoutConstraint!
 
-    public var desiredSize: CGSize {
-        var contentHeight = tableView.contentSize.height + totalVerticalPadding
-        let height = min(contentHeight, MaxHeight)
-        return CGSize(width: DesiredWidth, height: height)
+    // assign a contentView to show a message or spinner.  The contentView frame
+    // size must be set.
+    var contentView: UIView? {
+        willSet { willSetContentView() }
+        didSet { didSetContentView() }
     }
 
-    public let dismissable: Bool
+    public var desiredSize: CGSize {
+        if let contentView = contentView {
+            return contentView.frame.size
+        }
+        else {
+            var contentHeight = tableView.contentSize.height + totalVerticalPadding
+            let height = min(contentHeight, MaxHeight)
+            return CGSize(width: DesiredWidth, height: height)
+        }
+    }
+
+    public var dismissable: Bool = true
+    public var autoDismiss: Bool = true
 
     public private(set) var actions: [AlertAction] = []
     private let textAlignment: NSTextAlignment
-    private let type: AlertType
+    public var type: AlertType = .Normal {
+        didSet {
+            let backgroundColor = type.backgroundColor
+            view.backgroundColor = backgroundColor
+            tableView.backgroundColor = backgroundColor
+            headerLabel.backgroundColor = backgroundColor
+            tableView.reloadData()
+        }
+    }
+
+    public var message: String {
+        get { return headerLabel.text ?? "" }
+        set(text) { headerLabel.setLabelText(text, color: UIColor.blackColor())}
+    }
 
     private let headerLabel: ElloLabel = {
         let label = ElloLabel()
@@ -54,11 +80,8 @@ public class AlertViewController: UIViewController {
         return 2 * topPadding.constant
     }
 
-    public init(message: String?, textAlignment: NSTextAlignment = .Center, dismissable: Bool = true, type: AlertType = .Normal) {
+    public init(message: String?, textAlignment: NSTextAlignment = .Center, type: AlertType = .Normal) {
         self.textAlignment = textAlignment
-        self.dismissable = dismissable
-        self.type = type
-
         super.init(nibName: "AlertViewController", bundle: NSBundle(forClass: AlertViewController.self))
 
         modalPresentationStyle = .Custom
@@ -88,11 +111,48 @@ public extension AlertViewController {
         super.viewDidAppear(animated)
         tableView.scrollEnabled = (CGRectGetHeight(self.view.frame) == MaxHeight)
     }
+
+    public func dismiss(animated: Bool = true, completion: (()->())? = .None) {
+        dismissViewControllerAnimated(animated, completion: completion)
+    }
 }
 
 extension AlertViewController {
     func addAction(action: AlertAction) {
         actions.append(action)
+        tableView.reloadData()
+    }
+
+    func resetActions() {
+        actions = []
+        tableView.reloadData()
+    }
+}
+
+extension AlertViewController {
+    private func willSetContentView() {
+        if let contentView = self.contentView {
+            contentView.removeFromSuperview()
+        }
+    }
+
+    private func didSetContentView() {
+        if let contentView = self.contentView {
+            self.tableView.hidden = true
+            self.view.addSubview(contentView)
+        }
+        else {
+            self.tableView.hidden = false
+        }
+
+        resize()
+    }
+
+    public func resize() {
+        self.view.frame.size = self.desiredSize
+        if let superview = self.view.superview {
+            self.view.center = superview.center
+        }
     }
 }
 
@@ -106,7 +166,10 @@ extension AlertViewController: UIViewControllerTransitioningDelegate {
 
 extension AlertViewController: UITableViewDelegate {
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        dismissViewControllerAnimated(true, completion: .None)
+        if autoDismiss {
+            dismiss()
+        }
+
         if let action = actions.safeValue(indexPath.row) {
             dispatch_async(dispatch_get_main_queue()) {
                 action.handler?(action)
@@ -131,9 +194,10 @@ extension AlertViewController: UITableViewDataSource {
 
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(AlertCell.reuseIdentifier(), forIndexPath: indexPath) as! UITableViewCell
-        let action = actions.safeValue(indexPath.row)
-        let presenter = action.map { AlertCellPresenter(action: $0, textAlignment: textAlignment) }
-        presenter?.configureCell(cell, type: self.type)
+        if let action = actions.safeValue(indexPath.row) {
+            let presenter = AlertCellPresenter(action: action, textAlignment: textAlignment)
+            presenter.configureCell(cell, type: self.type)
+        }
         return cell
     }
 }

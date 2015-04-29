@@ -144,34 +144,62 @@ public class PostbarController: NSObject, PostbarDelegate {
     public func repostButtonTapped(cell: UICollectionViewCell) {
         Tracker.sharedTracker.postReposted()
         let message = NSLocalizedString("Repost?", comment: "Repost acknowledgment")
-        let alertController = AlertViewController(message: message, textAlignment: .Center)
+        let alertController = AlertViewController(message: message)
+        alertController.autoDismiss = false
 
-        let yesAction = AlertAction(title: NSLocalizedString("Yes", comment: "Yes button"), style: .Dark) {
-            action in
-            if let post = self.postForCell(cell) {
-                let service = RePostService()
-                service.repost(post: post,
-                    success: { repost in
-                        println("great job")
-                    }, failure: { (error, statusCode)  in
-                        var errorTitle : String = error.localizedDescription
-                        if let info = error.userInfo {
-                            if let elloNetworkError = info[NSLocalizedFailureReasonErrorKey] as? ElloNetworkError {
-                                errorTitle = elloNetworkError.title
-                            }
-                        }
-
-                        println("I can’t, I just can’t (reason: “\(errorTitle)”)")
-                    }
-                )
-            }
-        }
-        let noAction = AlertAction(title: NSLocalizedString("No", comment: "No button"), style: .Light, handler: .None)
+        let yesAction = AlertAction(title: NSLocalizedString("Yes", comment: "Yes button"), style: .Dark, handler: { action in
+            self.createRepost(cell, alertController: alertController)
+        })
+        let noAction = AlertAction(title: NSLocalizedString("No", comment: "No button"), style: .Light, handler: { action in
+            alertController.dismiss()
+        })
 
         alertController.addAction(yesAction)
         alertController.addAction(noAction)
 
         presentingController?.presentViewController(alertController, animated: true, completion: .None)
+    }
+
+    public func createRepost(cell: UICollectionViewCell, alertController: AlertViewController) {
+        if let post = self.postForCell(cell) {
+            alertController.resetActions()
+            alertController.dismissable = false
+
+            let spinnerContainer = UIView(frame: CGRect(x: 0, y: 0, width: alertController.view.frame.size.width, height: 200))
+            let spinner = ElloLogoView(frame: CGRect(origin: CGPointZero, size: ElloLogoView.Size.natural))
+            spinner.center = spinnerContainer.bounds.center
+            spinnerContainer.addSubview(spinner)
+            alertController.contentView = spinnerContainer
+            spinner.animateLogo()
+
+            let service = RePostService()
+            service.repost(post: post,
+                success: { repost in
+                    alertController.contentView = nil
+                    alertController.message = NSLocalizedString("Success!", comment: "Successful repost alert")
+                    Functional.delay(1) {
+                        alertController.dismiss()
+                    }
+                }, failure: { (error, statusCode)  in
+                    var errorTitle : String = error.localizedDescription
+                    if let info = error.userInfo {
+                        if let elloNetworkError = info[NSLocalizedFailureReasonErrorKey] as? ElloNetworkError {
+                            errorTitle = elloNetworkError.title
+                        }
+                    }
+
+                    alertController.contentView = nil
+                    alertController.message = NSLocalizedString("Could not create repost", comment: "Could not create repost message")
+                    alertController.autoDismiss = true
+                    alertController.dismissable = true
+                    let okAction = AlertAction(title: NSLocalizedString("OK", comment: "OK button"), style: .Light, handler: .None)
+                    alertController.addAction(okAction)
+                }
+            )
+        }
+        else {
+            alertController.dismiss()
+        }
     }
 
     public func shareButtonTapped(cell: UICollectionViewCell) {

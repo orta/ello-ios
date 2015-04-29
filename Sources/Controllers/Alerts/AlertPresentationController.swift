@@ -18,14 +18,11 @@ class AlertPresentationController: UIPresentationController {
 extension AlertPresentationController {
     override func containerViewDidLayoutSubviews() {
         super.containerViewDidLayoutSubviews()
-        let alertView = presentedViewController as! AlertViewController
-        alertView.view.frame.size = alertView.desiredSize
-        alertView.view.center = containerView.center
+        let alertViewController = presentedViewController as! AlertViewController
+        alertViewController.resize()
 
-        if alertView.dismissable {
-            let gesture = UITapGestureRecognizer(target:self, action: Selector("dismiss"))
-            background.addGestureRecognizer(gesture)
-        }
+        let gesture = UITapGestureRecognizer(target:self, action: Selector("dismiss"))
+        background.addGestureRecognizer(gesture)
     }
 }
 
@@ -60,6 +57,9 @@ extension AlertPresentationController {
 
 extension AlertPresentationController {
     func dismiss() {
-        presentedViewController.dismissViewControllerAnimated(true, completion: .None)
+        let alertViewController = presentedViewController as! AlertViewController
+        if alertViewController.dismissable {
+            presentedViewController.dismissViewControllerAnimated(true, completion: .None)
+        }
     }
 }
