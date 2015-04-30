@@ -122,7 +122,6 @@ extension CommentIcon: ImageLabelAnimatable {
         get { return _selected }
         set {
             _selected = newValue
-            if highlighted { return }
             select(newValue)
         }
     }
@@ -131,6 +130,7 @@ extension CommentIcon: ImageLabelAnimatable {
         get { return _highlighted }
         set {
             _highlighted = newValue
+            if selected { return }
             select(newValue)
         }
     }

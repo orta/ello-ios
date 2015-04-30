@@ -47,18 +47,19 @@ public class BasicIcon: UIView {
 
 extension BasicIcon: ImageLabelAnimatable {
 
-    public var highlighted: Bool {
-        get { return _highlighted }
-        set {
-            _highlighted = newValue
-            select(newValue)
-        }
-    }
-
     public var selected: Bool {
         get { return _selected }
         set {
             _selected = newValue
+            select(newValue)
+        }
+    }
+
+    public var highlighted: Bool {
+        get { return _highlighted }
+        set {
+            _highlighted = newValue
+            if selected { return }
             select(newValue)
         }
     }
