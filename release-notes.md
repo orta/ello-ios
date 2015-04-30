@@ -1,3 +1,94 @@
+### Ello Build 1408(v1.0.0) April 29, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #216 - Add FastSpecs scheme
+This gives us an isolated place to run just the FastSpecs target
+
+------
+
+#### #213 - Handle query params when loading posts/profiles.
+* this was failing to load posts that had query params
+
+[Finishes #90555244]
+
+------
+
+#### #211 - Loads the post detail when coming from noise.
+* Loads the content instead of the summary for multi column layouts
+
+[Fixes #92139680]
+
+------
+
+#### #210 - Tweaks to text/image/embed/repost regions in the stream.
+Fix padding issues in the comments.
+* These numbers make way more sense as they are multiples of 15
+* Accounts for varying widths of text fields
+
+Fix logic for `isRepost` on a `Post`.
+* This was always reporting back that a post was a repost
+
+Move touch-callout and user-select into css.
+* Shouldn't be able to tap and hold to select or have the copy/paste thing show up from any web view now
+
+Update profile header cell rendering.
+* Top constraint for view was off due to not knowing the width
+* Modify .xib to handle flexible html bio text
+* Update size calculator to calculate properly
+* Unwrap some if/let statements
+* Strip images out of bio calculations
+* Make strip image stuff static in `TextCellSizeCalculator`
+
+Add margin to comment images.
+* This will indent comment images to the same spot the text is for fluidity
+
+Use text region from server to show emojis.
+
+------
+
+#### #204 - Prefetch most stream images
+* Extract new type `Preloader`
+* `StreamService` and `UserService` use `Preloader` to prefetch most images
+[#93387576]
+
+------
+
+#### #205 - Fixes to Notifications Screen
+- Filtering had bugs (loading the 'spinner' was particularly onerous)
+- Tapping on notifications had lots of "not done yet" code
+- Not all notifications appeared in filters (and this is tested now)
+- The "loading screen" is more fun.  Try it! :smiley: 
+- There was a 'navigationBar' error in there when loading PostDetail
+- Fixed the async loading in PostDetail (when 'initialItems' are not preloaded)
+
+Unrelated changes:
+- The chevron that shows the "more actions" on comments has been reversed.  This is just for kicks.  Maybe we like it more, maybe not, but Lucian wanted to at least try it out.
+- refactored the attributed "links" to use an `enum` for type safety's sake
+
+------
+
+#### #198 - Update pods to latest and greatest.
+* Update `Alamofire`
+* Update `Quick/Nimble`
+* Update `SwiftyJSON`
+* Pull from cocoa pods where possible instead of git repos
+
+The updates to Quick/Nimble also sped up the running of the specs. `StreamDataSourceSpec`(in it's current state) went from 17 sec down to 4 alone.
+
+------
+
+#### #200 - Move Crashlytics and NewRelic creds to cocoapods-keys
+Adds default values to .env and configure the Rakefile to copy them
+
+This doesn’t change the use of the same keys in the build phase scripts, which is probably fine, but I can change that too if people feel strongly about it.
+
+Ping @steam.
+    
+------------
+
 ### Ello Build 1339(v1.0.0) April 24, 2015
 
     RELEASE NOTES
