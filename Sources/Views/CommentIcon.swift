@@ -15,7 +15,7 @@ public class CommentIcon: UIView {
     private let duration: CFTimeInterval = 0.5
     private let dotSize = CGSizeMake(3.5, 3.5)
     private let dotSpace: CGFloat = 1.5
-    private var dotStart: CGFloat = 0.0
+    private var dotStart: CGFloat = 1.75
     private var dot1: CAShapeLayer!
     private var dot2: CAShapeLayer!
     private var dot3: CAShapeLayer!
