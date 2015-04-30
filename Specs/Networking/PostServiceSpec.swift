@@ -35,7 +35,7 @@ class PostServiceSpec: QuickSpec {
                         var failedCalled = false
                         subject.loadPost("fake-post-param",
                             streamKind: nil,
-                            success: { post in
+                            success: { (post, responseConfig) in
                                 successPost = post
                             }, failure: { (_, _) in
                                 failedCalled = true
@@ -62,7 +62,7 @@ class PostServiceSpec: QuickSpec {
                         var failedCalled = false
                         subject.loadPost("fake-post-param",
                             streamKind: nil,
-                            success: { post in
+                            success: { (post, responseConfig) in
                                 successPost = post
                             }, failure: { (_, _) in
                                 failedCalled = true
