@@ -236,7 +236,7 @@ public class StreamFooterCell: UICollectionViewCell {
         let contentOffset = isOpen ? CGPointZero : CGPointMake(revealWidth, 0)
         UIView.animateWithDuration(0.25) {
             self.scrollView.contentOffset = contentOffset
-            self.rotateChevron(isOpen: self.isOpen)
+            self.openChevron(isOpen: self.isOpen)
         }
         Tracker.sharedTracker.postBarVisibilityChanged(isOpen)
     }
@@ -267,7 +267,7 @@ public class StreamFooterCell: UICollectionViewCell {
 
 extension StreamFooterCell {
 
-    private func rotateChevron(isOpen: Bool = true) {
+    private func openChevron(#isOpen: Bool) {
         if isOpen {
             rotateChevron(CGFloat(0))
         }
@@ -277,7 +277,7 @@ extension StreamFooterCell {
     }
 
     private func closeChevron() {
-        rotateChevron(isOpen: false)
+        openChevron(isOpen: false)
     }
 
     private func rotateChevron(var angle: CGFloat) {
@@ -304,7 +304,7 @@ extension StreamFooterCell: UIScrollViewDelegate {
 
         if scrollView.contentOffset.x >= revealWidth {
             isOpen = true
-            rotateChevron(isOpen: true)
+            openChevron(isOpen: true)
             postNotification(streamCellDidOpenNotification, self)
             Tracker.sharedTracker.postBarVisibilityChanged(isOpen)
         } else {
