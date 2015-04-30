@@ -69,6 +69,9 @@ public class LandingViewController: BaseElloViewController {
         self.removeNotificationObservers()
         self.presentViewController(vc, animated: true) {
             window.rootViewController = vc
+            if let alert = PushNotificationController.sharedController.requestPushAccessIfNeeded() {
+                vc.presentViewController(alert, animated: true, completion: .None)
+            }
         }
     }
 
@@ -110,10 +113,10 @@ public class LandingViewController: BaseElloViewController {
     }
 
     private func showButtons() {
-        UIView.animateWithDuration(0.2, animations: {
+        UIView.animateWithDuration(0.2) {
             self.joinButton.alpha = 1.0
             self.signInButton.alpha = 1.0
-        })
+        }
     }
 
     private func setupNotificationObservers() {

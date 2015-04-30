@@ -9,7 +9,6 @@
 import UIKit
 
 public protocol PostTappedDelegate : NSObjectProtocol {
-    func postTapped(post: Post, initialItems: [StreamCellItem], streamKind: StreamKind)
     func postTapped(post: Post)
     func postTapped(#postId: String)
 }
@@ -92,19 +91,6 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
     }
 
 // MARK: PostTappedDelegate
-    
-    public func postTapped(post: Post, initialItems: [StreamCellItem], streamKind: StreamKind) {
-        var vc: PostDetailViewController!
-        if streamKind.isGridLayout {
-            vc = PostDetailViewController(postParam: post.id)
-        }
-        else {
-            vc = PostDetailViewController(post: post, items: initialItems)
-        }
-        vc.currentUser = currentUser
-        vc.willPresentStreamable(scrollLogic.isShowing)
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
 
     public func postTapped(post: Post) {
         self.postTapped(postId: post.id)

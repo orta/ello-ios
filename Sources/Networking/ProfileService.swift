@@ -71,6 +71,20 @@ public struct ProfileService {
         updateUserImage(image, key: "remote_avatar_url", success: success, failure: failure)
     }
 
+    public func updateUserDeviceToken(token: NSData) {
+        ElloProvider.elloRequest(ElloAPI.PushSubscriptions(token: token),
+            method: .POST,
+            success: { _, _ in },
+            failure: .None)
+    }
+
+    public func removeUserDeviceToken(token: NSData) {
+        ElloProvider.elloRequest(ElloAPI.PushSubscriptions(token: token),
+            method: .DELETE,
+            success: { _, _ in },
+            failure: .None)
+    }
+
     private func updateUserImage(image: UIImage, key: String, success: UserSuccessCompletion, failure: ElloFailureCompletion) {
         S3UploadingService().upload(image, filename: "\(NSUUID().UUIDString).png", success: { url in
             if let urlString = url?.absoluteString {

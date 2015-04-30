@@ -41,18 +41,18 @@ public struct StreamFooterCellPresenter {
                         // this should be set via a custom accessor or method,
                         // me thinks.
                         // `StreamFooterCell.state = streamCellItem.state` ??
-                        cell.commentsButton.animate()
-                        cell.commentsButton.selected = true
+                        cell.commentsControl.animate()
+                        cell.commentsControl.selected = true
                     }
                     else {
-                        cell.commentsButton.finishAnimation()
+                        cell.commentsControl.finishAnimation()
 
                         if isExpanded {
-                            cell.commentsButton.selected = true
+                            cell.commentsControl.selected = true
                             cell.commentsOpened = true
                         }
                         else {
-                            cell.commentsButton.selected = false
+                            cell.commentsControl.selected = false
                             cell.commentsOpened = false
                             streamCellItem.state = .Collapsed
                         }

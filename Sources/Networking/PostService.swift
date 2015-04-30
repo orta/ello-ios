@@ -8,7 +8,7 @@
 
 import Foundation
 
-public typealias PostSuccessCompletion = (post: Post) -> ()
+public typealias PostSuccessCompletion = (post: Post, responseConfig: ResponseConfig) -> ()
 public typealias DeletePostSuccessCompletion = () -> ()
 
 public struct PostService {
@@ -24,12 +24,12 @@ public struct PostService {
         ElloProvider.elloRequest(
             ElloAPI.PostDetail(postParam: postParam),
             method: .GET,
-            success: { (data, _) in
+            success: { (data, responseConfig) in
                 if let post = data as? Post {
                     if let streamKind = streamKind {
                         Preloader().preloadImages([post],  streamKind: streamKind)
                     }
-                    success(post: post)
+                    success(post: post, responseConfig: responseConfig)
                 }
                 else {
                     ElloProvider.unCastableJSONAble(failure)

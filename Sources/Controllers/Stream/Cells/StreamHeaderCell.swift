@@ -22,7 +22,15 @@ public class StreamHeaderCell: UICollectionViewCell {
             self.updateItems()
         }
     }
-    let revealWidth:CGFloat = 120.0
+    var revealWidth: CGFloat {
+        if let items = bottomToolBar.items where count(items) == 5 {
+            return 158.0
+        }
+        else {
+            return 104.0
+        }
+    }
+
     var cellOpenObserver: NotificationObserver?
     var isOpen = false
     var maxUsernameWidth: CGFloat = 50.0
@@ -58,19 +66,19 @@ public class StreamHeaderCell: UICollectionViewCell {
     var streamKind:StreamKind?
     weak var userDelegate: UserDelegate?
 
-    let flagItem:UIBarButtonItem = ElloPostToolBarOption.Flag.barButtonItem()
-    public var flagButton:StreamFooterButton {
-        get { return self.flagItem.customView as! StreamFooterButton }
+    let flagItem = ElloPostToolBarOption.Flag.barButtonItem()
+    public var flagControl: ImageLabelControl {
+        return self.flagItem.customView as! ImageLabelControl
     }
 
-    let deleteItem:UIBarButtonItem = ElloPostToolBarOption.Delete.barButtonItem()
-    public var deleteButton:StreamFooterButton {
-        get { return self.deleteItem.customView as! StreamFooterButton }
+    let deleteItem = ElloPostToolBarOption.Delete.barButtonItem()
+    public var deleteControl: ImageLabelControl {
+        return self.deleteItem.customView as! ImageLabelControl
     }
 
-    let replyItem:UIBarButtonItem = ElloPostToolBarOption.Reply.barButtonItem()
-    public var replyButton:StreamFooterButton {
-        get { return self.replyItem.customView as! StreamFooterButton }
+    let replyItem = ElloPostToolBarOption.Reply.barButtonItem()
+    public var replyControl: ImageLabelControl {
+        return self.replyItem.customView as! ImageLabelControl
     }
 
     func setAvatarURL(url:NSURL?) {
@@ -127,6 +135,7 @@ public class StreamHeaderCell: UICollectionViewCell {
 
     public func close() {
         isOpen = false
+        closeChevron()
         scrollView.contentOffset = CGPointZero
     }
 
@@ -195,7 +204,7 @@ public class StreamHeaderCell: UICollectionViewCell {
             if cell != self && self.isOpen {
                 dispatch_async(dispatch_get_main_queue()) {
                     UIView.animateWithDuration(0.25) {
-                        self.scrollView.contentOffset = CGPointZero
+                        self.close()
                     }
                 }
             }
@@ -203,9 +212,9 @@ public class StreamHeaderCell: UICollectionViewCell {
     }
 
     private func addButtonHandlers() {
-        flagButton.addTarget(self, action: Selector("flagButtonTapped:"), forControlEvents: .TouchUpInside)
-        replyButton.addTarget(self, action: Selector("replyButtonTapped:"), forControlEvents: .TouchUpInside)
-        deleteButton.addTarget(self, action: Selector("deleteButtonTapped:"), forControlEvents: .TouchUpInside)
+        flagControl.addTarget(self, action: Selector("flagButtonTapped:"), forControlEvents: .TouchUpInside)
+        replyControl.addTarget(self, action: Selector("replyButtonTapped:"), forControlEvents: .TouchUpInside)
+        deleteControl.addTarget(self, action: Selector("deleteButtonTapped:"), forControlEvents: .TouchUpInside)
     }
 
     private func styleUsernameTextView() {
@@ -251,11 +260,38 @@ public class StreamHeaderCell: UICollectionViewCell {
 
     @IBAction func chevronButtonTapped(sender: StreamFooterButton) {
         let contentOffset = isOpen ? CGPointZero : CGPointMake(revealWidth, 0)
-        dispatch_async(dispatch_get_main_queue(), {
-            UIView.animateWithDuration(0.25, animations: {
-                self.scrollView.contentOffset = contentOffset
-            })
-        })
+        UIView.animateWithDuration(0.25) {
+            self.scrollView.contentOffset = contentOffset
+            self.openChevron(isOpen: self.isOpen)
+        }
+        Tracker.sharedTracker.commentBarVisibilityChanged(isOpen)
+    }
+
+}
+
+extension StreamHeaderCell {
+
+    private func openChevron(#isOpen: Bool) {
+        if isOpen {
+            rotateChevron(CGFloat(0))
+        }
+        else {
+            rotateChevron(CGFloat(M_PI))
+        }
+    }
+
+    private func closeChevron() {
+        openChevron(isOpen: false)
+    }
+
+    private func rotateChevron(var angle: CGFloat) {
+        if angle < CGFloat(-M_PI) {
+            angle = CGFloat(-M_PI)
+        }
+        else if angle > CGFloat(M_PI) {
+            angle = CGFloat(M_PI)
+        }
+        self.chevronButton.transform = CGAffineTransformMakeRotation(angle)
     }
 
 }
@@ -272,17 +308,20 @@ extension StreamHeaderCell: UIScrollViewDelegate {
     public func scrollViewDidScroll(scrollView: UIScrollView) {
         repositionBottomContent()
 
-        if (scrollView.contentOffset.x < 0) {
+        if scrollView.contentOffset.x < 0 {
             scrollView.contentOffset = CGPointZero;
         }
 
-        if (scrollView.contentOffset.x >= revealWidth) {
+        if scrollView.contentOffset.x >= revealWidth {
             isOpen = true
+            openChevron(isOpen: true)
             postNotification(streamCellDidOpenNotification, self)
+            Tracker.sharedTracker.commentBarVisibilityChanged(isOpen)
         } else {
+            var angle: CGFloat = -CGFloat(M_PI) + CGFloat(M_PI) * scrollView.contentOffset.x / revealWidth
+            rotateChevron(angle)
             isOpen = false
         }
-
     }
 
     public func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {

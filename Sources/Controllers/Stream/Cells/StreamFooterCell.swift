@@ -13,7 +13,7 @@ let streamCellDidOpenNotification = TypedNotification<UICollectionViewCell>(name
 
 public class StreamFooterCell: UICollectionViewCell {
 
-    let revealWidth:CGFloat = 85.0
+    let revealWidth:CGFloat = 114.0
     var cellOpenObserver: NotificationObserver?
     public private(set) var isOpen = false
 
@@ -28,50 +28,50 @@ public class StreamFooterCell: UICollectionViewCell {
     public var commentsOpened = false
     weak var delegate: PostbarDelegate?
 
-    let viewsItem:UIBarButtonItem = ElloPostToolBarOption.Views.barButtonItem()
-    public var viewsButton:StreamFooterButton {
-        get { return self.viewsItem.customView as! StreamFooterButton }
+    let viewsItem = ElloPostToolBarOption.Views.barButtonItem()
+    public var viewsControl: ImageLabelControl {
+        return self.viewsItem.customView as! ImageLabelControl
     }
 
-    let lovesItem:UIBarButtonItem = ElloPostToolBarOption.Loves.barButtonItem()
-    public var lovesButton:StreamFooterButton {
-        get { return self.lovesItem.customView as! StreamFooterButton }
+    let lovesItem = ElloPostToolBarOption.Loves.barButtonItem()
+    public var lovesControl: ImageLabelControl {
+        return self.lovesItem.customView as! ImageLabelControl
     }
 
-    let commentsItem:UIBarButtonItem = ElloPostToolBarOption.Comments.barButtonItem()
-    public var commentsButton:CommentButton {
-        get { return self.commentsItem.customView as! CommentButton }
+    let commentsItem = ElloPostToolBarOption.Comments.barButtonItem()
+    public var commentsControl: ImageLabelControl {
+        return self.commentsItem.customView as! ImageLabelControl
     }
 
-    let repostItem:UIBarButtonItem = ElloPostToolBarOption.Repost.barButtonItem()
-    public var repostButton:StreamFooterButton {
-        get { return self.repostItem.customView as! StreamFooterButton }
+    let repostItem = ElloPostToolBarOption.Repost.barButtonItem()
+    public var repostControl: ImageLabelControl {
+        return self.repostItem.customView as! ImageLabelControl
     }
 
-    let flagItem:UIBarButtonItem = ElloPostToolBarOption.Flag.barButtonItem()
-    public var flagButton:StreamFooterButton {
-        get { return self.flagItem.customView as! StreamFooterButton }
+    let flagItem = ElloPostToolBarOption.Flag.barButtonItem()
+    public var flagControl: ImageLabelControl {
+        return self.flagItem.customView as! ImageLabelControl
     }
 
-    let shareItem:UIBarButtonItem = ElloPostToolBarOption.Share.barButtonItem()
-    public var shareButton:StreamFooterButton {
-        get { return self.shareItem.customView as! StreamFooterButton }
+    let shareItem = ElloPostToolBarOption.Share.barButtonItem()
+    public var shareControl: ImageLabelControl {
+        return self.shareItem.customView as! ImageLabelControl
     }
 
-    let replyItem:UIBarButtonItem = ElloPostToolBarOption.Reply.barButtonItem()
-    public var replyButton:StreamFooterButton {
-        get { return self.replyItem.customView as! StreamFooterButton }
+    let replyItem = ElloPostToolBarOption.Reply.barButtonItem()
+    public var replyControl: ImageLabelControl {
+        return self.replyItem.customView as! ImageLabelControl
     }
 
-    let deleteItem:UIBarButtonItem = ElloPostToolBarOption.Delete.barButtonItem()
-    public var deleteButton:StreamFooterButton {
-        get { return self.deleteItem.customView as! StreamFooterButton }
+    let deleteItem = ElloPostToolBarOption.Delete.barButtonItem()
+    public var deleteControl: ImageLabelControl {
+       return self.deleteItem.customView as! ImageLabelControl
     }
 
     public var footerConfig: (ownPost: Bool, streamKind: StreamKind?) = (false, nil) {
         didSet {
             if let streamKind = footerConfig.streamKind {
-                self.repostButton.enabled = !footerConfig.ownPost
+                self.repostControl.enabled = !footerConfig.ownPost
 
                 if streamKind.isGridLayout {
                     self.toolBar.items = [
@@ -116,26 +116,23 @@ public class StreamFooterCell: UICollectionViewCell {
     }
 
     public var views:String? {
-        get { return viewsButton.titleForState(.Normal) }
-        set { viewsButton.setButtonTitleWithPadding(newValue) }
+        get { return viewsControl.title }
+        set { viewsControl.title = newValue }
     }
 
     public var comments:String? {
-        get { return commentsButton.titleForState(.Normal) }
-        set {
-            commentsButton.setButtonTitleWithPadding(newValue, titlePadding: 13.0, contentPadding: 15.0)
-            commentsButton.titleLabel?.sizeToFit()
-        }
+        get { return commentsControl.title }
+        set { commentsControl.title = newValue }
     }
 
     public var loves:String? {
-        get { return lovesButton.titleForState(.Normal) }
-        set { lovesButton.setButtonTitleWithPadding(newValue) }
+        get { return lovesControl.title }
+        set { lovesControl.title = newValue }
     }
 
     public var reposts:String? {
-        get { return repostButton.titleForState(.Normal) }
-        set { repostButton.setButtonTitleWithPadding(newValue) }
+        get { return repostControl.title }
+        set { repostControl.title = newValue }
     }
 
     public func close() {
@@ -162,7 +159,6 @@ public class StreamFooterCell: UICollectionViewCell {
                 dispatch_async(dispatch_get_main_queue()) {
                     UIView.animateWithDuration(0.25) {
                         self.close()
-                        self.openChevron()
                     }
                 }
             }
@@ -170,24 +166,24 @@ public class StreamFooterCell: UICollectionViewCell {
     }
 
     private func addButtonHandlers() {
-        flagButton.addTarget(self, action: Selector("flagButtonTapped:"), forControlEvents: .TouchUpInside)
-        commentsButton.addTarget(self, action: Selector("commentsButtonTapped:"), forControlEvents: .TouchUpInside)
-        commentsButton.addTarget(self, action: Selector("commentsButtonTouchDown:"), forControlEvents: .TouchDown)
-        lovesButton.addTarget(self, action: Selector("lovesButtonTapped:"), forControlEvents: .TouchUpInside)
-        replyButton.addTarget(self, action: Selector("replyButtonTapped:"), forControlEvents: .TouchUpInside)
-        repostButton.addTarget(self, action: Selector("repostButtonTapped:"), forControlEvents: .TouchUpInside)
-        shareButton.addTarget(self, action: Selector("shareButtonTapped:"), forControlEvents: .TouchUpInside)
-        viewsButton.addTarget(self, action: Selector("viewsButtonTapped:"), forControlEvents: .TouchUpInside)
-        deleteButton.addTarget(self, action: Selector("deleteButtonTapped:"), forControlEvents: .TouchUpInside)
+        flagControl.addTarget(self, action: Selector("flagButtonTapped:"), forControlEvents: .TouchUpInside)
+        commentsControl.addTarget(self, action: Selector("commentsButtonTapped:"), forControlEvents: .TouchUpInside)
+        commentsControl.addTarget(self, action: Selector("commentsButtonTouchDown:"), forControlEvents: .TouchDown)
+        lovesControl.addTarget(self, action: Selector("lovesButtonTapped:"), forControlEvents: .TouchUpInside)
+        replyControl.addTarget(self, action: Selector("replyButtonTapped:"), forControlEvents: .TouchUpInside)
+        repostControl.addTarget(self, action: Selector("repostButtonTapped:"), forControlEvents: .TouchUpInside)
+        shareControl.addTarget(self, action: Selector("shareButtonTapped:"), forControlEvents: .TouchUpInside)
+        viewsControl.addTarget(self, action: Selector("viewsButtonTapped:"), forControlEvents: .TouchUpInside)
+        deleteControl.addTarget(self, action: Selector("deleteButtonTapped:"), forControlEvents: .TouchUpInside)
     }
 
 // MARK: - IBActions
 
-    @IBAction func viewsButtonTapped(sender: StreamFooterButton) {
+    @IBAction func viewsButtonTapped(sender: ImageLabelControl) {
         delegate?.viewsButtonTapped(self)
     }
 
-    @IBAction func commentsButtonTapped(sender: CommentButton) {
+    @IBAction func commentsButtonTapped(sender: ImageLabelControl) {
         if let streamKind = footerConfig.streamKind {
             if streamKind.isGridLayout {
                 delegate?.viewsButtonTapped(self)
@@ -198,79 +194,53 @@ public class StreamFooterCell: UICollectionViewCell {
         if !commentsOpened {
             sender.animate()
         }
-
         sender.selected = !commentsOpened
-        delegate?.commentsButtonTapped(self, commentsButton: sender)
+        delegate?.commentsButtonTapped(self, imageLabelControl: sender)
         commentsOpened = !commentsOpened
     }
 
     func cancelCommentLoading() {
-        commentsButton.enabled = true
-        commentsButton.finishAnimation()
-        commentsButton.selected = false
+        commentsControl.enabled = true
+        commentsControl.finishAnimation()
+        commentsControl.selected = false
         commentsOpened = false
     }
 
-    @IBAction func commentsButtonTouchDown(sender: CommentButton) {
+    @IBAction func commentsButtonTouchDown(sender: ImageLabelControl) {
         sender.highlighted = true
     }
 
-    @IBAction func lovesButtonTapped(sender: StreamFooterButton) {
+    @IBAction func lovesButtonTapped(sender: ImageLabelControl) {
         delegate?.lovesButtonTapped(self)
     }
 
-    @IBAction func repostButtonTapped(sender: StreamFooterButton) {
+    @IBAction func repostButtonTapped(sender: ImageLabelControl) {
         delegate?.repostButtonTapped(self)
     }
 
-    @IBAction func flagButtonTapped(sender: StreamFooterButton) {
+    @IBAction func flagButtonTapped(sender: ImageLabelControl) {
         delegate?.flagPostButtonTapped(self)
     }
 
-    @IBAction func shareButtonTapped(sender: StreamFooterButton) {
+    @IBAction func shareButtonTapped(sender: ImageLabelControl) {
         delegate?.shareButtonTapped(self)
     }
 
-    @IBAction func deleteButtonTapped(sender: StreamFooterButton) {
+    @IBAction func deleteButtonTapped(sender: ImageLabelControl) {
         delegate?.deletePostButtonTapped(self)
     }
 
-    @IBAction func replyButtonTapped(sender: StreamFooterButton) {
+    @IBAction func replyButtonTapped(sender: ImageLabelControl) {
         println("reply tapped")
     }
 
     @IBAction func chevronButtonTapped(sender: StreamFooterButton) {
         let contentOffset = isOpen ? CGPointZero : CGPointMake(revealWidth, 0)
-
-        dispatch_async(dispatch_get_main_queue(), {
-            UIView.animateWithDuration(0.25, animations: {
-                self.scrollView.contentOffset = contentOffset
-                self.openChevron(isOpen: self.isOpen)
-            })
-        })
-    }
-
-    private func openChevron(isOpen: Bool = true) {
-        if isOpen {
-            rotateChevron(0)
+        UIView.animateWithDuration(0.25) {
+            self.scrollView.contentOffset = contentOffset
+            self.openChevron(isOpen: self.isOpen)
         }
-        else {
-            rotateChevron(CGFloat(M_PI))
-        }
-    }
-
-    private func closeChevron() {
-        openChevron(isOpen: false)
-    }
-
-    private func rotateChevron(var angle: CGFloat) {
-        if angle < CGFloat(-M_PI) {
-            angle = CGFloat(-M_PI)
-        }
-        else if angle > CGFloat(M_PI) {
-            angle = CGFloat(M_PI)
-        }
-        self.chevronButton.transform = CGAffineTransformMakeRotation(angle)
+        Tracker.sharedTracker.postBarVisibilityChanged(isOpen)
     }
 
     override public func layoutSubviews() {
@@ -297,27 +267,53 @@ public class StreamFooterCell: UICollectionViewCell {
     }
 }
 
+extension StreamFooterCell {
+
+    private func openChevron(#isOpen: Bool) {
+        if isOpen {
+            rotateChevron(CGFloat(0))
+        }
+        else {
+            rotateChevron(CGFloat(M_PI))
+        }
+    }
+
+    private func closeChevron() {
+        openChevron(isOpen: false)
+    }
+
+    private func rotateChevron(var angle: CGFloat) {
+        if angle < CGFloat(-M_PI) {
+            angle = CGFloat(-M_PI)
+        }
+        else if angle > CGFloat(M_PI) {
+            angle = CGFloat(M_PI)
+        }
+        self.chevronButton.transform = CGAffineTransformMakeRotation(angle)
+    }
+
+}
+
 // MARK: UIScrollViewDelegate
 extension StreamFooterCell: UIScrollViewDelegate {
 
     public func scrollViewDidScroll(scrollView: UIScrollView) {
         repositionBottomContent()
 
-        if (scrollView.contentOffset.x < 0) {
+        if scrollView.contentOffset.x < 0 {
             scrollView.contentOffset = CGPointZero;
         }
 
-        if (scrollView.contentOffset.x >= revealWidth) {
+        if scrollView.contentOffset.x >= revealWidth {
             isOpen = true
-            openChevron()
+            openChevron(isOpen: true)
             postNotification(streamCellDidOpenNotification, self)
+            Tracker.sharedTracker.postBarVisibilityChanged(isOpen)
         } else {
             var angle: CGFloat = -CGFloat(M_PI) + CGFloat(M_PI) * scrollView.contentOffset.x / revealWidth
             rotateChevron(angle)
             isOpen = false
         }
-
-        Tracker.sharedTracker.postBarVisibilityChanged(isOpen)
     }
 
     public func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {

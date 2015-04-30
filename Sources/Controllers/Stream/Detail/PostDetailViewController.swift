@@ -10,53 +10,23 @@ import UIKit
 
 public class PostDetailViewController: StreamableViewController, CreateCommentDelegate {
 
-    var post : Post?
-    var detailCellItems : [StreamCellItem]?
-    var unsizedCellItems : [StreamCellItem]?
-    var startOfComments : Int
-    var hasAddedCommentBar = false
-    var navigationBar : ElloNavigationBar!
-    var streamViewController : StreamViewController!
-    var streamKind: StreamKind?
-    let postParam: String
-
-    convenience public init(post : Post, items: [StreamCellItem]) {
-        self.init(post: post, items: items, unsized: [])
-    }
-
-    convenience public init(post : Post, unsized: [StreamCellItem]) {
-        self.init(post: post, items: [], unsized: unsized)
-    }
+    var post: Post?
+    var postParam: String!
+    let streamViewController : StreamViewController = StreamViewController.instantiateFromStoryboard()
+    var startOfComments: Int = 0
+    var navigationBar: ElloNavigationBar!
 
     required public init(postParam: String) {
         self.postParam = postParam
-        self.startOfComments = 0
         super.init(nibName: nil, bundle: nil)
-        let service = PostService()
-
-        service.loadPost(postParam,
-            streamKind: streamKind,
+        setupNavigationBar()
+        setupStreamViewController()
+        ElloHUD.showLoadingHudInView(streamViewController.view)
+        PostService().loadPost(postParam,
+            streamKind: .PostDetail(postParam: postParam),
             success: postLoaded,
             failure: nil
         )
-    }
-
-    required public init(post : Post, items: [StreamCellItem], unsized: [StreamCellItem]) {
-        // The stream cell items can have different calculated heights depending
-        // on the controller.  For instance, coming from the Noise stream, they
-        // have 1/2 width.  So we don't want to modify the original items:
-        let itemsCopy = items.map { return $0.copy() as! StreamCellItem }
-        let unsizedCopy = unsized.map { return $0.copy() as! StreamCellItem }
-
-        self.post = post
-        self.postParam = post.id
-        self.detailCellItems = itemsCopy
-        self.unsizedCellItems = unsizedCopy
-        self.startOfComments = count(itemsCopy)
-
-        super.init(nibName: nil, bundle: nil)
-        self.streamKind = StreamKind.PostDetail(postParam: post.id)
-        self.title = post.author?.atName ?? "Post Detail"
     }
 
     required public init(coder aDecoder: NSCoder) {
@@ -65,22 +35,10 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
 
     override public func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.whiteColor()
-
-        setupNavigationBar()
-        setupStreamController()
-
-        if let post = post {
-            postDidLoad()
-            loadComments()
-        }
+        view.backgroundColor = UIColor.whiteColor()
     }
 
     override public func showNavBars(scrollToBottom : Bool) {
-        if !isViewLoaded() {
-            let view = self.view
-        }
-
         super.showNavBars(scrollToBottom)
         navigationBar.frame = navigationBar.frame.atY(0)
         streamViewController.view.frame = navigationBar.frame.fromBottom().withHeight(self.view.frame.height - navigationBar.frame.height)
@@ -98,10 +56,6 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
     }
 
     override public func hideNavBars() {
-        if !isViewLoaded() {
-            let view = self.view
-        }
-
         super.hideNavBars()
         navigationBar.frame = navigationBar.frame.atY(-navigationBar.frame.height - 1)
         streamViewController.view.frame = navigationBar.frame.fromBottom().withHeight(self.view.frame.height)
@@ -109,126 +63,78 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
 
 // MARK : private
 
-    private func postLoaded(post: Post) {
-        self.post = post
-        streamKind = StreamKind.PostDetail(postParam: post.id)
-        let parser = StreamCellItemParser()
-        var items = parser.parse([post], streamKind: streamKind!)
-        if let comments = post.comments {
-            items += parser.parse(comments, streamKind: streamKind!)
-        }
-        self.unsizedCellItems = items
-        self.startOfComments += items.count
-        self.title = post.author?.atName ?? "Post Detail"
-        postDidLoad()
-    }
-
-    private func postDidLoad() {
-        scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
-        streamViewController.streamKind = streamKind!
-
-        if let detailCellItems = detailCellItems {
-            streamViewController.appendStreamCellItems(detailCellItems)
-        }
-        if let unsizedCellItems = unsizedCellItems {
-            streamViewController.appendUnsizedCellItems(unsizedCellItems, withWidth: nil)
-        }
-        streamViewController.refreshableIndex = self.startOfComments
-    }
-
     private func setupNavigationBar() {
         navigationBar = ElloNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: ElloNavigationBar.Size.height))
         navigationBar.autoresizingMask = .FlexibleBottomMargin | .FlexibleWidth
-        self.view.addSubview(navigationBar)
+        view.addSubview(navigationBar)
         let item = UIBarButtonItem.backChevronWithTarget(self, action: Selector("backTapped:"))
-        self.navigationItem.leftBarButtonItems = [item]
-        self.navigationItem.fixNavBarItemPadding()
+        navigationItem.leftBarButtonItems = [item]
+        navigationItem.fixNavBarItemPadding()
         navigationBar.items = [self.navigationItem]
     }
 
-    private func setupStreamController() {
-        streamViewController = StreamViewController.instantiateFromStoryboard()
+    private func setupStreamViewController() {
         streamViewController.currentUser = currentUser
+        streamViewController.streamKind = .PostDetail(postParam: postParam)
         streamViewController.createCommentDelegate = self
         streamViewController.postTappedDelegate = self
         streamViewController.streamScrollDelegate = self
         streamViewController.userTappedDelegate = self
-        streamViewController.postbarController!.toggleableComments = false
+        streamViewController.postbarController?.toggleableComments = false
 
         streamViewController.willMoveToParentViewController(self)
-        self.view.insertSubview(streamViewController.view, belowSubview: navigationBar)
-        streamViewController.view.frame = navigationBar.frame.fromBottom().withHeight(self.view.frame.height - navigationBar.frame.height)
-        streamViewController.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
-        self.addChildViewController(streamViewController)
+        view.insertSubview(streamViewController.view, belowSubview: navigationBar)
+        addChildViewController(streamViewController)
         streamViewController.didMoveToParentViewController(self)
+
+        streamViewController.view.frame = navigationBar.frame.fromBottom().withHeight(view.frame.height - navigationBar.frame.height)
+        streamViewController.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
     }
 
-    private func loadComments() {
-        if let post = post {
-            streamViewController.streamService.loadMoreCommentsForPost(
-                post.id,
-                streamKind: streamKind,
-                success: { (jsonables, responseConfig) in
-                    self.appendCreateCommentItem()
-                    self.streamViewController.responseConfig = responseConfig
-                    self.streamViewController.removeRefreshables()
-                    let newCommentItems = StreamCellItemParser().parse(jsonables, streamKind: self.streamKind!)
-                    self.streamViewController.appendUnsizedCellItems(newCommentItems, withWidth: nil)
-                    self.streamViewController.doneLoading()
-                },
-                failure: { (error, statusCode) in
-                    self.appendCreateCommentItem()
-                    println("failed to load comments (reason: \(error))")
-                    self.streamViewController.doneLoading()
-                },
-                noContent: {
-                    self.appendCreateCommentItem()
-
-                    self.streamViewController.removeRefreshables()
-                    self.streamViewController.doneLoading()
-                }
-            )
+    private func postLoaded(post: Post, responseConfig: ResponseConfig) {
+        self.post = post
+        // need to reassign the userParam to the id for paging
+        postParam = post.id
+        // need to reassign the streamKind so that the comments can page based off the post.id from the ElloAPI.path
+        // same for when tapping on a post token in a post this will replace '~CRAZY-TOKEN' with the correct id for paging to work
+        streamViewController.streamKind = .PostDetail(postParam: postParam)
+        streamViewController.responseConfig = responseConfig
+        title = post.author?.atName ?? "Post Detail"
+        let parser = StreamCellItemParser()
+        var items = parser.parse([post], streamKind: streamViewController.streamKind)
+        // add in the comment button
+        items.append(StreamCellItem(
+            jsonable: Comment.newCommentForPost(post, currentUser: currentUser!),
+            type: .CreateComment,
+            data: nil,
+            oneColumnCellHeight: StreamCreateCommentCell.Size.Height,
+            multiColumnCellHeight: StreamCreateCommentCell.Size.Height,
+            isFullWidth: true)
+        )
+        startOfComments = items.count
+        if let comments = post.comments {
+            items += parser.parse(comments, streamKind: streamViewController.streamKind)
         }
+        streamViewController.appendUnsizedCellItems(items, withWidth: view.frame.width)
+        streamViewController.doneLoading()
+        scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
+        streamViewController.refreshableIndex = startOfComments
     }
 
-    private func appendCreateCommentItem() {
-        if hasAddedCommentBar { return }
-
-        if let post = post {
-            hasAddedCommentBar = true
-
-            let controller = self.streamViewController
-            let comment = Comment.newCommentForPost(post, currentUser: self.currentUser!)
-            let createCommentItem = StreamCellItem(jsonable: comment,
-                type: .CreateComment,
-                data: nil,
-                oneColumnCellHeight: StreamCreateCommentCell.Size.Height,
-                multiColumnCellHeight: StreamCreateCommentCell.Size.Height,
-                isFullWidth: true)
-
-            let items = [createCommentItem]
-            controller.appendStreamCellItems(items)
-            self.startOfComments += items.count
-            controller.refreshableIndex = self.startOfComments
-        }
-    }
-
-    override public func postTapped(post: Post, initialItems: [StreamCellItem], streamKind: StreamKind) {
+    override public func postTapped(post: Post) {
         if let selfPost = self.post {
             if post.id != selfPost.id {
-                super.postTapped(post, initialItems: initialItems, streamKind: streamKind)
+                super.postTapped(post)
             }
         }
     }
 
     override public func commentCreated(comment: Comment, fromController streamViewController: StreamViewController) {
-        let comments : [JSONAble] = [comment]
-        let parser = StreamCellItemParser()
-        let newCommentItems = parser.parse(comments, streamKind: streamViewController.streamKind)
+        let newCommentItems = StreamCellItemParser().parse([comment], streamKind: streamViewController.streamKind)
 
-        let startingIndexPath = NSIndexPath(forRow: self.startOfComments, inSection: 0)
+        let startingIndexPath = NSIndexPath(forRow: startOfComments, inSection: 0)
         streamViewController.insertUnsizedCellItems(newCommentItems, startingIndexPath: startingIndexPath)
-        loadComments()
+        // load comments again?
     }
 
 }

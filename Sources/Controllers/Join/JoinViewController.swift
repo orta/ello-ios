@@ -129,6 +129,9 @@ public class JoinViewController: BaseElloViewController {
         let window = self.view.window!
         self.presentViewController(vc, animated: true) {
             window.rootViewController = vc
+            if let alert = PushNotificationController.sharedController.requestPushAccessIfNeeded() {
+                vc.presentViewController(alert, animated: true, completion: .None)
+            }
         }
     }
 

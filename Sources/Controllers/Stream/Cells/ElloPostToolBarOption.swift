@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SVGKit
 
 public enum ElloPostToolBarOption {
     case Views
@@ -19,53 +20,51 @@ public enum ElloPostToolBarOption {
     case Reply
     case Flag
 
-    func button() -> UIButton {
+    func imageLabelControl() -> UIControl {
         switch self {
         case .Views:
-            return normalButton("eye")
+            return imageLabelControl("eye")
         case .Comments:
-            return commentButon()
+            return commentControl()
         case .Loves:
-            return normalButton("hearts")
+            return imageLabelControl("hearts")
         case .Repost:
-            return normalButton("repost")
+            return imageLabelControl("repost")
         case .Share:
-            return normalButton("share")
+            return imageLabelControl("share")
         case .Delete:
-            return normalButton("xbox")
+            return imageLabelControl("xbox")
         case .Edit:
-            return normalButton("pencil")
+            return imageLabelControl("pencil")
         case .Reply:
-            return normalButton("reply")
+            return imageLabelControl("reply")
         case .Flag:
-            return normalButton("danger")
+            return imageLabelControl("danger")
         }
     }
 
     func barButtonItem() -> UIBarButtonItem {
-        return UIBarButtonItem(customView: self.button())
+        return UIBarButtonItem(customView: self.imageLabelControl())
     }
 
-    private func normalButton(imageName: String, count: Int? = nil) -> UIButton {
-        let image = UIImage(named: imageName)
-        let button = StreamFooterButton()
+    private func imageLabelControl(imageName: String, count: Int? = nil) -> UIControl {
+        let iconImage = SVGKImage(named: "\(imageName)_normal.svg").UIImage!
+        let iconSelectedImage = SVGKImage(named: "\(imageName)_selected.svg").UIImage!
+        let icon = UIImageView(image: iconImage)
+        let iconSelected = UIImageView(image: iconSelectedImage)
+        let basicIcon = BasicIcon(normalIconView: icon, selectedIconView: iconSelected)
+        return ImageLabelControl(icon: basicIcon, title: title(count: count))
+    }
+
+    private func commentControl(count: Int? = nil) -> UIControl {
+        return ImageLabelControl(icon: CommentIcon(), title: title(count: count))
+    }
+
+    private func title(count: Int? = nil) -> String {
         var title = ""
         if let count = count {
             title = String(count)
         }
-        button.setSVGImages(imageName)
-        button.setButtonTitleWithPadding(title)
-        return button
-    }
-
-    private func commentButon(count: Int? = nil) -> UIButton {
-        let button = CommentButton()
-
-        var title = ""
-        if let count = count {
-            title = String(count)
-        }
-        button.setButtonTitleWithPadding(title, titlePadding: 13.0, contentPadding: 15.0)
-        return button
+        return title
     }
 }

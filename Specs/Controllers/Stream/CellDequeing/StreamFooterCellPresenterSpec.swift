@@ -17,7 +17,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
                     expect(cell.isOpen).to(beFalse())
-                    expect(cell.commentsButton.selected).to(beFalse())
+                    expect(cell.commentsControl.selected).to(beFalse())
                     expect(cell.commentsOpened).to(beFalse())
                     expect(cell.scrollView.scrollEnabled).to(beTrue())
                     expect(cell.chevronButton.hidden).to(beFalse())
@@ -38,7 +38,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Noise, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
                     expect(cell.isOpen).to(beFalse())
-                    expect(cell.commentsButton.selected).to(beFalse())
+                    expect(cell.commentsControl.selected).to(beFalse())
                     expect(cell.commentsOpened).to(beFalse())
                     expect(cell.scrollView.scrollEnabled).to(beFalse())
                     expect(cell.chevronButton.hidden).to(beTrue())
@@ -59,7 +59,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .PostDetail(postParam: "768"), indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
                     expect(cell.isOpen).to(beFalse())
-                    expect(cell.commentsButton.selected).to(beFalse())
+                    expect(cell.commentsControl.selected).to(beFalse())
                     expect(cell.scrollView.scrollEnabled).to(beTrue())
                     expect(cell.chevronButton.hidden).to(beFalse())
                     expect(cell.footerConfig.streamKind?.name) == "Post Detail"
@@ -94,7 +94,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     expect(cell.comments) == "6"
 
                     // commentsButton should be selected when the state is loading
-                    expect(cell.commentsButton.selected).to(beTrue())
+                    expect(cell.commentsControl.selected).to(beTrue())
                 }
             }
 
@@ -122,7 +122,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         expect(cell.comments) == "6"
 
                         // commentsButton should be selected when expanded
-                        expect(cell.commentsButton.selected).to(beTrue())
+                        expect(cell.commentsControl.selected).to(beTrue())
                     }
 
                 }
@@ -148,7 +148,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         expect(cell.views) == "9"
                         expect(cell.reposts) == "4"
                         expect(cell.comments) == "6"
-                        expect(cell.commentsButton.selected).to(beFalse())
+                        expect(cell.commentsControl.selected).to(beFalse())
                     }
                 }
             }

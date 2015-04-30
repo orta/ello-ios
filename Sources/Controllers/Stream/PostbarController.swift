@@ -33,7 +33,7 @@ public class PostbarController: NSObject, PostbarDelegate {
         postTappedForCell(cell)
     }
 
-    public func commentsButtonTapped(cell:StreamFooterCell, commentsButton: CommentButton) {
+    public func commentsButtonTapped(cell:StreamFooterCell, imageLabelControl: ImageLabelControl) {
 
         if !toggleableComments {
             cell.cancelCommentLoading()
@@ -44,13 +44,14 @@ public class PostbarController: NSObject, PostbarDelegate {
            let item = dataSource.visibleStreamCellItem(at: indexPath),
            let post = item.jsonable as? Post
         {
-            cell.commentsButton.enabled = false
+            cell.commentsControl.enabled = false
             if cell.commentsOpened {
                 let indexPaths = self.dataSource.removeCommentsForPost(post)
                 self.collectionView.deleteItemsAtIndexPaths(indexPaths)
-                cell.commentsButton.enabled = true
+                imageLabelControl.enabled = true
                 item.state = .Collapsed
-                cell.commentsButton.finishAnimation()
+                imageLabelControl.finishAnimation()
+                imageLabelControl.highlighted = false
             }
             else {
                 let streamService = StreamService()
@@ -60,7 +61,7 @@ public class PostbarController: NSObject, PostbarDelegate {
                     streamKind: dataSource.streamKind,
                     success: { (comments, responseConfig) in
                         item.state = .Expanded
-                        commentsButton.finishAnimation()
+                        imageLabelControl.finishAnimation()
                         let nextIndexPath = NSIndexPath(forRow: indexPath.row + 1, inSection: indexPath.section)
                         self.commentLoadSuccess(post, comments: comments, indexPath: nextIndexPath, cell: cell)
                     },
@@ -71,7 +72,7 @@ public class PostbarController: NSObject, PostbarDelegate {
                     },
                     noContent: {
                         item.state = .Expanded
-                        commentsButton.finishAnimation()
+                        imageLabelControl.finishAnimation()
                         let nextIndexPath = NSIndexPath(forRow: indexPath.row + 1, inSection: indexPath.section)
                         self.commentLoadSuccess(post, comments: [], indexPath: nextIndexPath, cell: cell)
                     }
@@ -245,11 +246,6 @@ public class PostbarController: NSObject, PostbarDelegate {
         }
     }
 
-    public func replyToPostButtonTapped(cell:UICollectionViewCell) {
-        Tracker.sharedTracker.inlineCommentsViewed()
-        println("reply to post button tapped")
-    }
-
     public func replyToCommentButtonTapped(cell:UICollectionViewCell) {
         if let comment = commentForCell(cell) {
             // This is a bit dirty, we should not call a method on a compositionally held
@@ -285,7 +281,7 @@ public class PostbarController: NSObject, PostbarDelegate {
             let items = self.dataSource.cellItemsForPost(post)
             // This is a bit dirty, we should not call a method on a compositionally held
             // controller's postTappedDelegate. Need to chat about this with the crew.
-            presentingController?.postTappedDelegate?.postTapped(post, initialItems: items, streamKind: dataSource.streamKind)
+            presentingController?.postTappedDelegate?.postTapped(post)
         }
     }
 
@@ -298,7 +294,7 @@ public class PostbarController: NSObject, PostbarDelegate {
             withWidth: self.collectionView.frame.width,
             startingIndexPath: commentsStartingIndexPath) { (indexPaths) in
                 self.collectionView.insertItemsAtIndexPaths(indexPaths)
-                cell.commentsButton.enabled = true
+                cell.commentsControl.enabled = true
             }
     }
 
