@@ -62,7 +62,7 @@ public struct NotificationAttributedTitle {
                 }
                 else {
                     return self.profile(author)
-                    .append(self.text(" reposted your post."))
+                        .append(self.text(" reposted your post."))
                 }
             case .NewFollowedUserPost:
                 return self.text("You started following ")

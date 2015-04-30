@@ -76,8 +76,7 @@ public enum StreamKind {
             }
         case .Notifications:
             if let activities = jsonables as? [Activity] {
-                let notifications: [Notification] = activities.map { return Notification(activity: $0) }
-                return notifications
+                return activities.map { return Notification(activity: $0) }
             }
             else {
                 return []
