@@ -96,7 +96,7 @@ public class PostbarController: NSObject, PostbarDelegate {
                         postNotification(ExperienceUpdatedNotification, .PostChanged(id: post.id, change: .Delete))
                     }, failure: { (error, statusCode)  in
                         // TODO: add error handling
-                        println("failed to delete post, error: \(error.localizedDescription)")
+                        println("failed to delete post, error: \(error.elloErrorMessage ?? error.localizedDescription)")
                     }
                 )
             }
@@ -122,7 +122,7 @@ public class PostbarController: NSObject, PostbarDelegate {
                         postNotification(ExperienceUpdatedNotification, .CommentChanged(commentId: comment.id, postId: postId, change: .Delete))
                     }, failure: { (error, statusCode)  in
                         // TODO: add error handling
-                        println("failed to delete post, error: \(error.localizedDescription)")
+                        println("failed to delete post, error: \(error.elloErrorMessage ?? error.localizedDescription)")
                     }
                 )
             }

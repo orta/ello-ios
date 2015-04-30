@@ -141,7 +141,7 @@ extension ElloProvider {
             }
         }
         else {
-            let detail = error?.localizedDescription ?? "NEED DEFAULT HERE"
+            let detail = error?.elloErrorMessage ?? error?.localizedDescription ?? "NEED DEFAULT HERE"
             let jsonMappingError = ElloNetworkError(attrs: nil, code: ElloNetworkError.CodeType.unknown, detail: detail,messages: nil, status: nil, title: "Error")
         }
 
