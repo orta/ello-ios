@@ -409,7 +409,7 @@ extension StreamViewController : UICollectionViewDelegate {
             }
             else if let post = dataSource.postForIndexPath(indexPath) {
                 let items = dataSource.cellItemsForPost(post)
-                postTappedDelegate?.postTapped(post, initialItems: items, streamKind: dataSource.streamKind)
+                postTappedDelegate?.postTapped(post)
             }
             else if let comment = dataSource.commentForIndexPath(indexPath),
                 let post = comment.parentPost
@@ -517,7 +517,9 @@ extension StreamViewController : UIScrollViewDelegate {
         if let lastIndexPath = collectionView.lastIndexPathForSection(0) {
             if jsonables.count > 0 {
                 insertUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: streamKind), startingIndexPath: lastIndexPath) {
-                    self.removeLoadingCell(lastIndexPath)
+                    if let newLastIndexPath = self.collectionView.lastIndexPathForSection(0) {
+                        self.removeLoadingCell(newLastIndexPath)
+                    }
                 }
             }
             else {
