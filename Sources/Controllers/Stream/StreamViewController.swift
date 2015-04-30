@@ -29,7 +29,6 @@ public protocol PostbarDelegate : NSObjectProtocol {
     func shareButtonTapped(cell:UICollectionViewCell)
     func flagPostButtonTapped(cell:UICollectionViewCell)
     func flagCommentButtonTapped(cell:UICollectionViewCell)
-    func replyToPostButtonTapped(cell:UICollectionViewCell)
     func replyToCommentButtonTapped(cell:UICollectionViewCell)
 }
 
