@@ -109,7 +109,6 @@ public class StreamFooterCell: UICollectionViewCell {
 
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = false
-//        chevronButton.backgroundColor = UIColor.redColor()
         addObservers()
         addButtonHandlers()
     }

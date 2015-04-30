@@ -13,10 +13,10 @@ public class ImageLabelControl: UIControl {
     public var title: String? {
         get { return self.attributedNormalTitle?.string }
         set {
-            if label.attributedText?.string != newValue && newValue != nil {
-                attributedNormalTitle = attributedText(newValue!, color: UIColor.greyA())
-                attributedSelectedTitle = attributedText(newValue!, color: UIColor.blackColor())
-                reLayout()
+            if let value = newValue where label.text != value {
+                attributedNormalTitle = attributedText(value, color: .greyA())
+                attributedSelectedTitle = attributedText(value, color: .blackColor())
+                updateLayout()
             }
         }
     }
@@ -49,7 +49,6 @@ public class ImageLabelControl: UIControl {
         addSubviews()
         addTargets()
         self.title = title
-//        backgroundColor = UIColor.redColor()
     }
 
     required public init(coder aDecoder: NSCoder) {
@@ -103,7 +102,7 @@ public class ImageLabelControl: UIControl {
         button.addTarget(self, action: Selector("buttonTouchUpOutside:"), forControlEvents: .TouchUpOutside)
     }
 
-    private func reLayout() {
+    private func updateLayout() {
         label.attributedText = attributedNormalTitle
         label.sizeToFit()
         let textWidth = attributedNormalTitle.widthForHeight(0)
@@ -116,22 +115,11 @@ public class ImageLabelControl: UIControl {
         // force a minimum width of 44 pts
         width = max(width, minWidth)
 
-        self.frame =
-            CGRect(
-                x: 0,
-                y: 0,
-                width: width,
-                height: height
-            )
+        self.frame.size.width = width
+        self.frame.size.height = height
 
         let iconViewY: CGFloat = height / 2 - icon.view.frame.size.height / 2
-        icon.view.frame =
-            CGRect(
-                x: 0,
-                y: iconViewY,
-                width: icon.view.frame.width,
-                height: icon.view.frame.height
-            )
+        icon.view.frame.origin.y = iconViewY
 
         let contentX: CGFloat = width / 2 - contentWidth / 2
         contentContainer.frame =
@@ -140,23 +128,13 @@ public class ImageLabelControl: UIControl {
                 y: 0,
                 width: contentWidth,
                 height: height
-            )
+        )
 
-        button.frame =
-            CGRect(
-                x: 0,
-                y: 0,
-                width: width,
-                height: height
-            )
+        button.frame.size.width = width
+        button.frame.size.height = height
 
-        label.frame =
-            CGRect(
-                x: icon.view.frame.origin.x + icon.view.frame.width + innerPadding,
-                y: height / 2 - label.frame.size.height / 2,
-                width: label.frame.width,
-                height: label.frame.height
-            )
+        label.frame.origin.x = icon.view.frame.origin.x + icon.view.frame.width + innerPadding
+        label.frame.origin.y = height / 2 - label.frame.size.height / 2
     }
 
     private func attributedText(title: String, color: UIColor) -> NSAttributedString {
@@ -164,11 +142,10 @@ public class ImageLabelControl: UIControl {
         var range = NSRange(location: 0, length: count(title))
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .Left
-
+        
         var attributes = [
             NSFontAttributeName : titleFont,
             NSForegroundColorAttributeName : color,
-//            NSBackgroundColorAttributeName : UIColor.purpleColor(),
             NSParagraphStyleAttributeName : paragraphStyle
         ]
         attributed.addAttributes(attributes, range: range)

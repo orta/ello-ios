@@ -48,9 +48,9 @@ public class PostbarController: NSObject, PostbarDelegate {
             if cell.commentsOpened {
                 let indexPaths = self.dataSource.removeCommentsForPost(post)
                 self.collectionView.deleteItemsAtIndexPaths(indexPaths)
-                cell.commentsControl.enabled = true
+                imageLabelControl.enabled = true
                 item.state = .Collapsed
-                cell.commentsControl.finishAnimation()
+                imageLabelControl.finishAnimation()
                 imageLabelControl.highlighted = false
             }
             else {

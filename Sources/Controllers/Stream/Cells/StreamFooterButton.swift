@@ -34,7 +34,7 @@ public class StreamFooterButton: UIButton {
         var range = NSRange(location: 0, length: count(title))
         contentHorizontalAlignment = .Center
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = NSTextAlignment.Center
+        paragraphStyle.alignment = .Center
 
         var attributes = [
             NSFontAttributeName : UIFont.typewriterFont(12.0),
