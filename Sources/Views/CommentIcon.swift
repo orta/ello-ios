@@ -8,28 +8,9 @@
 
 import Foundation
 
-public class CommentIcon: UIView, ImageLabelAnimatable {
-
-    public var view: UIView { return self }
+public class CommentIcon: UIView {
     private var _selected = false
     private var _highlighted = false
-
-    public var selected: Bool {
-        get { return _selected }
-        set {
-            _selected = newValue
-            if highlighted { return }
-            foo(newValue)
-        }
-    }
-
-    public var highlighted: Bool {
-        get { return _highlighted }
-        set {
-            _highlighted = newValue
-            foo(newValue)
-        }
-    }
 
     private let duration: CFTimeInterval = 0.5
     private let dotSize = CGSizeMake(3.5, 3.5)
@@ -58,18 +39,6 @@ public class CommentIcon: UIView, ImageLabelAnimatable {
 
     // MARK: Public
 
-    public func animate() {
-        if dot1 != nil { fadeUpDown(dot1, delay: 0.0) }
-        if dot2 != nil { fadeUpDown(dot2, delay: 0.25) }
-        if dot3 != nil { fadeUpDown(dot3, delay: 0.50) }
-    }
-
-    public func finishAnimation() {
-        if dot1 != nil { fadeUp(dot1) }
-        if dot2 != nil { fadeUp(dot2) }
-        if dot3 != nil { fadeUp(dot3) }
-    }
-
     override public func layoutSubviews() {
         super.layoutSubviews()
         createLayersIfNeeded()
@@ -77,7 +46,7 @@ public class CommentIcon: UIView, ImageLabelAnimatable {
 
     // MARK: Private
 
-    private func foo(select: Bool) {
+    private func select(select: Bool) {
         let color:CGColor = select ? UIColor.blackColor().CGColor : UIColor.greyA().CGColor
         if dot1 != nil && dot2 != nil && dot3 != nil {
             dot1.fillColor = color
@@ -142,5 +111,39 @@ public class CommentIcon: UIView, ImageLabelAnimatable {
     private func circlePath(inFrame: CGRect) -> CGPath {
         let circle = UIBezierPath(ovalInRect: inFrame)
         return circle.CGPath
+    }
+}
+
+extension CommentIcon: ImageLabelAnimatable {
+
+    public var view: UIView { return self }
+    
+    public var selected: Bool {
+        get { return _selected }
+        set {
+            _selected = newValue
+            if highlighted { return }
+            select(newValue)
+        }
+    }
+
+    public var highlighted: Bool {
+        get { return _highlighted }
+        set {
+            _highlighted = newValue
+            select(newValue)
+        }
+    }
+
+    public func animate() {
+        if dot1 != nil { fadeUpDown(dot1, delay: 0.0) }
+        if dot2 != nil { fadeUpDown(dot2, delay: 0.25) }
+        if dot3 != nil { fadeUpDown(dot3, delay: 0.50) }
+    }
+
+    public func finishAnimation() {
+        if dot1 != nil { fadeUp(dot1) }
+        if dot2 != nil { fadeUp(dot2) }
+        if dot3 != nil { fadeUp(dot3) }
     }
 }

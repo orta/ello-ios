@@ -8,30 +8,11 @@
 
 import Foundation
 
-public class BasicIcon: UIView, ImageLabelAnimatable {
-
-    public var selected: Bool {
-        get { return _selected }
-        set {
-            _selected = newValue
-            normalIconView.hidden = _selected
-            selectedIconView.hidden = !_selected
-        }
-    }
-
-    public var highlighted: Bool {
-        get { return _highlighted }
-        set {
-            _highlighted = newValue
-            normalIconView.hidden = _highlighted
-            selectedIconView.hidden = !_highlighted
-        }
-    }
-
-    public var view: UIView { return self }
+public class BasicIcon: UIView {
 
     private var _selected = false
     private var _highlighted = false
+
     private let normalIconView: UIView
     private let selectedIconView: UIView
 
@@ -56,4 +37,31 @@ public class BasicIcon: UIView, ImageLabelAnimatable {
     required public init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: Private
+    private func select(value: Bool) {
+        normalIconView.hidden = value
+        selectedIconView.hidden = !value
+    }
+}
+
+extension BasicIcon: ImageLabelAnimatable {
+
+    public var highlighted: Bool {
+        get { return _highlighted }
+        set {
+            _highlighted = newValue
+            select(newValue)
+        }
+    }
+
+    public var selected: Bool {
+        get { return _selected }
+        set {
+            _selected = newValue
+            select(newValue)
+        }
+    }
+
+    public var view: UIView { return self }
 }
