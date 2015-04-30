@@ -260,10 +260,10 @@ public class StreamHeaderCell: UICollectionViewCell {
 
     @IBAction func chevronButtonTapped(sender: StreamFooterButton) {
         let contentOffset = isOpen ? CGPointZero : CGPointMake(revealWidth, 0)
-        UIView.animateWithDuration(0.25, animations: {
+        UIView.animateWithDuration(0.25) {
             self.scrollView.contentOffset = contentOffset
             self.rotateChevron(isOpen: self.isOpen)
-        })
+        }
         Tracker.sharedTracker.commentBarVisibilityChanged(isOpen)
     }
 

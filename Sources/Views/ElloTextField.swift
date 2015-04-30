@@ -83,9 +83,9 @@ public class ElloTextField: UITextField {
     func textDidBeginEditing(notification: NSNotification) {
         if let textField = notification.object as? UITextField {
             if textField == self {
-                UIView.animateWithDuration(0.2, animations: {
+                UIView.animateWithDuration(0.2) {
                     textField.backgroundColor = UIColor.whiteColor()
-                })
+                }
             }
         }
     }
@@ -93,9 +93,9 @@ public class ElloTextField: UITextField {
     func textDidEndEditing(notification: NSNotification) {
         if let textField = notification.object as? UITextField {
             if textField == self {
-                UIView.animateWithDuration(0.2, animations: {
+                UIView.animateWithDuration(0.2) {
                     textField.backgroundColor = UIColor.greyE5()
-                })
+                }
             }
         }
     }

@@ -84,9 +84,9 @@ extension ProfileHeaderCell: UIWebViewDelegate {
     }
 
     public func webViewDidFinishLoad(webView: UIWebView) {
-        UIView.animateWithDuration(0.15, animations: {
+        UIView.animateWithDuration(0.15) {
             self.contentView.alpha = 1.0
-        })
+        }
     }
 }
 

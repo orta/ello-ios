@@ -110,10 +110,10 @@ public class LandingViewController: BaseElloViewController {
     }
 
     private func showButtons() {
-        UIView.animateWithDuration(0.2, animations: {
+        UIView.animateWithDuration(0.2) {
             self.joinButton.alpha = 1.0
             self.signInButton.alpha = 1.0
-        })
+        }
     }
 
     private func setupNotificationObservers() {
