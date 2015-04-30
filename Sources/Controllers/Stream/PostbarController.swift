@@ -96,7 +96,7 @@ public class PostbarController: NSObject, PostbarDelegate {
                         postNotification(ExperienceUpdatedNotification, .PostChanged(id: post.id, change: .Delete))
                     }, failure: { (error, statusCode)  in
                         // TODO: add error handling
-                        println("failed to delete post, error: \(error.localizedDescription)")
+                        println("failed to delete post, error: \(error.elloErrorMessage ?? error.localizedDescription)")
                     }
                 )
             }
@@ -122,7 +122,7 @@ public class PostbarController: NSObject, PostbarDelegate {
                         postNotification(ExperienceUpdatedNotification, .CommentChanged(commentId: comment.id, postId: postId, change: .Delete))
                     }, failure: { (error, statusCode)  in
                         // TODO: add error handling
-                        println("failed to delete post, error: \(error.localizedDescription)")
+                        println("failed to delete post, error: \(error.elloErrorMessage ?? error.localizedDescription)")
                     }
                 )
             }
@@ -197,7 +197,7 @@ public class PostbarController: NSObject, PostbarDelegate {
     public func replyToCommentButtonTapped(cell:UICollectionViewCell) {
         if let comment = commentForCell(cell) {
             // This is a bit dirty, we should not call a method on a compositionally held
-            // controller's createCommentDelegate. Can this use the responder chain when we have 
+            // controller's createCommentDelegate. Can this use the responder chain when we have
             // parameters to pass?
             if let presentingController = presentingController,
                 let post = comment.parentPost,
