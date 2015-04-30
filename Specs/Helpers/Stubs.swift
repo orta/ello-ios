@@ -42,7 +42,12 @@ extension User: Stubbable {
             username: (values["username"] as? String) ?? "username",
             name: (values["name"] as? String) ?? "name",
             experimentalFeatures: (values["experimentalFeatures"] as? Bool) ?? false,
-            relationshipPriority: relationship
+            relationshipPriority: relationship,
+            postsAdultContent: (values["postsAdultContent"] as? Bool) ?? false,
+            viewsAdultContent: (values["viewsAdultContent"] as? Bool) ?? false,
+            hasCommentingEnabled: (values["hasCommentingEnabled"] as? Bool) ?? true,
+            hasSharingEnabled: (values["hasSharingEnabled"] as? Bool) ?? true,
+            hasRepostingEnabled: (values["hasRepostingEnabled"] as? Bool) ?? true
         )
         user.avatar = values["avatar"] as? Asset
         user.identifiableBy = values["identifiableBy"] as? String
@@ -81,13 +86,8 @@ extension Profile: Stubbable {
             email: (values["email"] as? String) ?? "email@example.com",
             confirmedAt: (values["confirmedAt"] as? NSDate) ?? NSDate(),
             isPublic: (values["isPublic"] as? Bool) ?? true,
-            hasCommentingEnabled: (values["hasCommentingEnabled"] as? Bool) ?? true,
-            hasSharingEnabled: (values["hasSharingEnabled"] as? Bool) ?? true,
-            hasRepostingEnabled: (values["hasRepostingEnabled"] as? Bool) ?? true,
             hasAdNotificationsEnabled: (values["hasAdNotificationsEnabled"] as? Bool) ?? true,
             allowsAnalytics: (values["allowsAnalytics"] as? Bool) ?? true,
-            postsAdultContent: (values["postsAdultContent"] as? Bool) ?? false,
-            viewsAdultContent: (values["viewsAdultContent"] as? Bool) ?? false,
             notifyOfCommentsViaEmail: (values["notifyOfCommentsViaEmail"] as? Bool) ?? true,
             notifyOfInvitationAcceptancesViaEmail: (values["notifyOfInvitationAcceptancesViaEmail"] as? Bool) ?? true,
             notifyOfMentionsViaEmail: (values["notifyOfMentionsViaEmail"] as? Bool) ?? true,

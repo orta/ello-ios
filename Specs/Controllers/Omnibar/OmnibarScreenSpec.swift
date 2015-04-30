@@ -53,7 +53,7 @@ class OmnibarScreenSpec: QuickSpec {
 
         describe("tapping the avatar") {
             it("should push the profile VC on to the navigation controller") {
-                screen.currentUser = User(id: "1", href: "", username: "", name: "", experimentalFeatures: false, relationshipPriority: Relationship(stringValue: "noise"))
+                screen.currentUser = User.stub(["id": "1"])
                 screen.profileImageTapped()
                 expect(delegate.didPushController) == true
             }
