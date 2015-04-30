@@ -58,19 +58,19 @@ public class StreamHeaderCell: UICollectionViewCell {
     var streamKind:StreamKind?
     weak var userDelegate: UserDelegate?
 
-    let flagItem:UIBarButtonItem = ElloPostToolBarOption.Flag.barButtonItem()
-    public var flagButton:StreamFooterButton {
-        get { return self.flagItem.customView as! StreamFooterButton }
+    let flagItem = ElloPostToolBarOption.Flag.barButtonItem()
+    public var flagControl: ImageLabelControl {
+        return self.flagItem.customView as! ImageLabelControl
     }
 
-    let deleteItem:UIBarButtonItem = ElloPostToolBarOption.Delete.barButtonItem()
-    public var deleteButton:StreamFooterButton {
-        get { return self.deleteItem.customView as! StreamFooterButton }
+    let deleteItem = ElloPostToolBarOption.Delete.barButtonItem()
+    public var deleteControl: ImageLabelControl {
+        return self.deleteItem.customView as! ImageLabelControl
     }
 
-    let replyItem:UIBarButtonItem = ElloPostToolBarOption.Reply.barButtonItem()
-    public var replyButton:StreamFooterButton {
-        get { return self.replyItem.customView as! StreamFooterButton }
+    let replyItem = ElloPostToolBarOption.Reply.barButtonItem()
+    public var replyControl: ImageLabelControl {
+        return self.replyItem.customView as! ImageLabelControl
     }
 
     func setAvatarURL(url:NSURL?) {
@@ -203,9 +203,9 @@ public class StreamHeaderCell: UICollectionViewCell {
     }
 
     private func addButtonHandlers() {
-        flagButton.addTarget(self, action: Selector("flagButtonTapped:"), forControlEvents: .TouchUpInside)
-        replyButton.addTarget(self, action: Selector("replyButtonTapped:"), forControlEvents: .TouchUpInside)
-        deleteButton.addTarget(self, action: Selector("deleteButtonTapped:"), forControlEvents: .TouchUpInside)
+        flagControl.addTarget(self, action: Selector("flagButtonTapped:"), forControlEvents: .TouchUpInside)
+        replyControl.addTarget(self, action: Selector("replyButtonTapped:"), forControlEvents: .TouchUpInside)
+        deleteControl.addTarget(self, action: Selector("deleteButtonTapped:"), forControlEvents: .TouchUpInside)
     }
 
     private func styleUsernameTextView() {

@@ -21,7 +21,7 @@ public protocol UserDelegate: NSObjectProtocol {
 
 public protocol PostbarDelegate : NSObjectProtocol {
     func viewsButtonTapped(cell:UICollectionViewCell)
-    func commentsButtonTapped(cell:StreamFooterCell, commentsButton: CommentButton)
+    func commentsButtonTapped(cell:StreamFooterCell, imageLabelControl: ImageLabelControl)
     func deletePostButtonTapped(cell:UICollectionViewCell)
     func deleteCommentButtonTapped(cell:UICollectionViewCell)
     func lovesButtonTapped(cell:UICollectionViewCell)

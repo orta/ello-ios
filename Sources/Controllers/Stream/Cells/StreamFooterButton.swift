@@ -32,9 +32,9 @@ public class StreamFooterButton: UIButton {
     private func setButtonTitle(title:String, color:UIColor, forState state:UIControlState) {
         attributedText = NSMutableAttributedString(string: title)
         var range = NSRange(location: 0, length: count(title))
-        contentHorizontalAlignment = .Left
+        contentHorizontalAlignment = .Center
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = NSTextAlignment.Left
+        paragraphStyle.alignment = .Center
 
         var attributes = [
             NSFontAttributeName : UIFont.typewriterFont(12.0),
@@ -43,13 +43,12 @@ public class StreamFooterButton: UIButton {
         ]
 
         attributedText.addAttributes(attributes, range: range)
-        self.titleLabel?.textAlignment = .Left
+        self.titleLabel?.textAlignment = .Center
         self.setAttributedTitle(attributedText, forState: state)
     }
 
     override public func sizeThatFits(size: CGSize) -> CGSize {
         let size = super.sizeThatFits(size)
-        return CGSizeMake(size.width, 44.0)
+        return CGSizeMake(max(44.0, size.width), 44.0)
     }
-
 }
