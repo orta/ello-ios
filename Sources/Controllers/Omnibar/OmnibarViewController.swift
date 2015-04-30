@@ -165,7 +165,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
                     },
                     failure: { error, statusCode in
                         ElloHUD.hideLoadingHud()
-                        self.contentCreationFailed(error.localizedDescription)
+                        self.contentCreationFailed(error.elloErrorMessage ?? error.localizedDescription)
                     }
                 )
             }

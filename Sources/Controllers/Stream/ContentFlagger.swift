@@ -70,7 +70,7 @@ public class ContentFlagger {
                 Tracker.sharedTracker.contentFlagged(self.contentType, flag: option)
                 self.contentFlagged = true
             }, failure: { (error, statusCode) in
-                Tracker.sharedTracker.contentCreationFailed(self.contentType, message: error.localizedDescription)
+                Tracker.sharedTracker.contentCreationFailed(self.contentType, message: error.elloErrorMessage ?? error.localizedDescription)
                 self.contentFlagged = false
             })
         }
