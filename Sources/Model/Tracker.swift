@@ -54,7 +54,8 @@ public extension Tracker {
     func postReposted() { }
     func postShared() { }
     func postLoved() { }
-    func inlineCommentsViewed() { }
+
+    func commentBarVisibilityChanged(visible: Bool) { }
 
     func userBlocked() { }
     func userMuted() { }

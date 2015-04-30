@@ -190,11 +190,6 @@ public class PostbarController: NSObject, PostbarDelegate {
         }
     }
 
-    public func replyToPostButtonTapped(cell:UICollectionViewCell) {
-        Tracker.sharedTracker.inlineCommentsViewed()
-        println("reply to post button tapped")
-    }
-
     public func replyToCommentButtonTapped(cell:UICollectionViewCell) {
         if let comment = commentForCell(cell) {
             // This is a bit dirty, we should not call a method on a compositionally held

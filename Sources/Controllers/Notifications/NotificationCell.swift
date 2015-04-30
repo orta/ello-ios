@@ -201,9 +201,9 @@ public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
     }
 
     public func webViewDidFinishLoad(webView: UIWebView) {
-        UIView.animateWithDuration(0.15, animations: {
-            self.messageWebView.alpha = 1.0
-        })
+        // UIView.animateWithDuration(0.15) {
+        // }
+        self.messageWebView.alpha = 1.0
         webContentReady?(webView: webView)
     }
 }
