@@ -157,7 +157,6 @@ public class StreamFooterCell: UICollectionViewCell {
                 dispatch_async(dispatch_get_main_queue()) {
                     UIView.animateWithDuration(0.25) {
                         self.close()
-                        self.openChevron()
                     }
                 }
             }
@@ -235,36 +234,11 @@ public class StreamFooterCell: UICollectionViewCell {
 
     @IBAction func chevronButtonTapped(sender: StreamFooterButton) {
         let contentOffset = isOpen ? CGPointZero : CGPointMake(revealWidth, 0)
-
-        dispatch_async(dispatch_get_main_queue(), {
-            UIView.animateWithDuration(0.25, animations: {
-                self.scrollView.contentOffset = contentOffset
-                self.openChevron(isOpen: self.isOpen)
-            })
+        UIView.animateWithDuration(0.25, animations: {
+            self.scrollView.contentOffset = contentOffset
+            self.rotateChevron(isOpen: self.isOpen)
         })
-    }
-
-    private func openChevron(isOpen: Bool = true) {
-        if isOpen {
-            rotateChevron(0)
-        }
-        else {
-            rotateChevron(CGFloat(M_PI))
-        }
-    }
-
-    private func closeChevron() {
-        openChevron(isOpen: false)
-    }
-
-    private func rotateChevron(var angle: CGFloat) {
-        if angle < CGFloat(-M_PI) {
-            angle = CGFloat(-M_PI)
-        }
-        else if angle > CGFloat(M_PI) {
-            angle = CGFloat(M_PI)
-        }
-        self.chevronButton.transform = CGAffineTransformMakeRotation(angle)
+        Tracker.sharedTracker.postBarVisibilityChanged(isOpen)
     }
 
     override public func layoutSubviews() {
@@ -291,27 +265,53 @@ public class StreamFooterCell: UICollectionViewCell {
     }
 }
 
+extension StreamFooterCell {
+
+    private func rotateChevron(isOpen: Bool = true) {
+        if isOpen {
+            rotateChevron(CGFloat(0))
+        }
+        else {
+            rotateChevron(CGFloat(M_PI))
+        }
+    }
+
+    private func closeChevron() {
+        rotateChevron(isOpen: false)
+    }
+
+    private func rotateChevron(var angle: CGFloat) {
+        if angle < CGFloat(-M_PI) {
+            angle = CGFloat(-M_PI)
+        }
+        else if angle > CGFloat(M_PI) {
+            angle = CGFloat(M_PI)
+        }
+        self.chevronButton.transform = CGAffineTransformMakeRotation(angle)
+    }
+
+}
+
 // MARK: UIScrollViewDelegate
 extension StreamFooterCell: UIScrollViewDelegate {
 
     public func scrollViewDidScroll(scrollView: UIScrollView) {
         repositionBottomContent()
 
-        if (scrollView.contentOffset.x < 0) {
+        if scrollView.contentOffset.x < 0 {
             scrollView.contentOffset = CGPointZero;
         }
 
-        if (scrollView.contentOffset.x >= revealWidth) {
+        if scrollView.contentOffset.x >= revealWidth {
             isOpen = true
-            openChevron()
+            rotateChevron(isOpen: true)
             postNotification(streamCellDidOpenNotification, self)
+            Tracker.sharedTracker.postBarVisibilityChanged(isOpen)
         } else {
             var angle: CGFloat = -CGFloat(M_PI) + CGFloat(M_PI) * scrollView.contentOffset.x / revealWidth
             rotateChevron(angle)
             isOpen = false
         }
-
-        Tracker.sharedTracker.postBarVisibilityChanged(isOpen)
     }
 
     public func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
