@@ -24,7 +24,6 @@ public enum StreamCellType {
     case Text
     case Embed
     case RepostHeader
-    case Comment
     case Unknown
     case ProfileHeader
     case Notification
@@ -33,7 +32,7 @@ public enum StreamCellType {
     case StreamLoading
     case Toggle
 
-    static let all = [CommentHeader, Header, Footer, Image, Text, Embed, RepostHeader, Comment, Unknown, ProfileHeader, Notification, UserListItem, CreateComment, StreamLoading, Toggle]
+    static let all = [CommentHeader, Header, Footer, Image, Text, Embed, RepostHeader, Unknown, ProfileHeader, Notification, UserListItem, CreateComment, StreamLoading, Toggle]
 
     public var name: String {
         switch self {
@@ -44,7 +43,6 @@ public enum StreamCellType {
         case Text: return "StreamTextCell"
         case Embed: return "StreamEmbedCell"
         case RepostHeader: return "StreamRepostHeaderCell"
-        case Comment: return "StreamCommentCell"
         case Unknown: return "StreamUnknownCell"
         case ProfileHeader: return "ProfileHeaderCell"
         case Notification: return "NotificationCell"
@@ -72,7 +70,6 @@ public enum StreamCellType {
         case Text: return StreamTextCellPresenter.configure
         case Embed: return StreamEmbedCellPresenter.configure
         case RepostHeader: return StreamRepostHeaderCellPresenter.configure
-        case Comment: return ProfileHeaderCellPresenter.configure
         case ProfileHeader: return ProfileHeaderCellPresenter.configure
         case Notification: return NotificationCellPresenter.configure
         case Unknown: return ProfileHeaderCellPresenter.configure
@@ -93,7 +90,6 @@ public enum StreamCellType {
         case Text: return StreamTextCell.self
         case Embed: return StreamEmbedCell.self
         case RepostHeader: return StreamRepostHeaderCell.self
-        case Comment: return StreamCommentCell.self
         case ProfileHeader: return ProfileHeaderCell.self
         case Notification: return NotificationCell.self
         case Unknown: return UICollectionViewCell.self
