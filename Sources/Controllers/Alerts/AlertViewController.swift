@@ -44,8 +44,8 @@ public class AlertViewController: UIViewController {
         }
     }
 
-    public var dismissable: Bool = true
-    public var autoDismiss: Bool = true
+    public var dismissable = true
+    public var autoDismiss = true
 
     public private(set) var actions: [AlertAction] = []
     private let textAlignment: NSTextAlignment
