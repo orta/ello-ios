@@ -10,7 +10,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
             context("single column view") {
 
                 it("configures a stream footer cell") {
-                    let post: Post = stub(["postId" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6])
+                    let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6])
                     var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
@@ -31,7 +31,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
             context("grid layout") {
 
                 it("configures a stream footer cell") {
-                    let post: Post = stub(["postId" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6])
+                    let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6])
                     var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
@@ -52,7 +52,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
             context("detail streamkind") {
 
                 it("configures a stream footer cell") {
-                    let post: Post = stub(["postId" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6])
+                    let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6])
                     var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
@@ -117,7 +117,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
             context("loading") {
 
                 it("configures a stream footer cell") {
-                    let post: Post = stub(["postId" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6])
+                    let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6])
                     var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
@@ -145,7 +145,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                 context("expanded") {
 
                     it("configures a stream footer cell") {
-                        let post: Post = stub(["postId" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6])
+                        let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6])
                         var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                         var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
@@ -172,7 +172,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                 context("not expanded") {
 
                     it("configures a stream footer cell") {
-                        let post: Post = stub(["postId" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6])
+                        let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6])
                         var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                         var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
