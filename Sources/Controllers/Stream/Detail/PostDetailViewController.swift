@@ -11,7 +11,7 @@ import UIKit
 public class PostDetailViewController: StreamableViewController, CreateCommentDelegate {
 
     var shouldReload = false
-	var post: Post?
+    var post: Post?
     var postParam: String!
     let streamViewController : StreamViewController = StreamViewController.instantiateFromStoryboard()
     var startOfComments: Int = 0
@@ -20,33 +20,28 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
     required public init(postParam: String) {
         self.postParam = postParam
         super.init(nibName: nil, bundle: nil)
-        reloadEntirePostDetail()
+        ElloHUD.showLoadingHudInView(streamViewController.view)
+        streamViewController.initialLoadClosure = reloadEntirePostDetail
+        streamViewController.loadInitialPage()
     }
 
     required public init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override public func viewDidLoad() {
+        super.viewDidLoad()
+        setupNavigationBar()
+        setupStreamViewController()
+        view.backgroundColor = UIColor.whiteColor()
+    }
+
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         if shouldReload {
             shouldReload = false
-            reloadEntirePostDetail()
+            streamViewController.loadInitialPage()
         }
-    }
-
-    private func reloadEntirePostDetail() {
-        let service = PostService()
-
-        service.loadPost(postParam,
-            success: postLoaded,
-            failure: nil
-        )
-    }
-
-    override public func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = UIColor.whiteColor()
     }
 
     override public func showNavBars(scrollToBottom : Bool) {
@@ -72,7 +67,16 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         streamViewController.view.frame = navigationBar.frame.fromBottom().withHeight(self.view.frame.height)
     }
 
-// MARK : private
+    // MARK : private
+
+    private func reloadEntirePostDetail() {
+        PostService().loadPost(
+            postParam,
+            streamKind: .PostDetail(postParam: postParam),
+            success: postLoaded,
+            failure: nil
+        )
+    }
 
     private func setupNavigationBar() {
         navigationBar = ElloNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: ElloNavigationBar.Size.height))
@@ -147,7 +151,7 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         streamViewController.insertUnsizedCellItems(newCommentItems, startingIndexPath: startingIndexPath)
         // load comments again?
     }
-
+    
 }
 
 // MARK: PostDetailViewController: ExperienceUpdatable
@@ -165,10 +169,10 @@ extension PostDetailViewController: ExperienceUpdatable {
     }
 
     public func experienceReloadNow() {
-        reloadEntirePostDetail()
+        streamViewController.loadInitialPage()
     }
 
-    public func experienceMarkForReload() {
+    public func experienceReloadLater() {
         shouldReload = true
     }
 }

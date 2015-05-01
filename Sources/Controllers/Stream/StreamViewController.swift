@@ -210,27 +210,40 @@ public class StreamViewController: BaseElloViewController {
         self.doneLoading()
     }
 
+    public var initialLoadClosure: ElloEmptyCompletion?
+
     public func loadInitialPage() {
-        let localToken = NSUUID().UUIDString
-        loadInitialPageLoadingToken = localToken
+        if let initialLoadClosure = initialLoadClosure {
+            initialLoadClosure()
+        }
+        else {
+            let localToken = NSUUID().UUIDString
+            loadInitialPageLoadingToken = localToken
 
-        ElloHUD.showLoadingHudInView(view)
-        streamService.loadStream(
-            streamKind.endpoint,
-            streamKind: streamKind,
-            success: { (jsonables, responseConfig) in
-                if self.loadInitialPageLoadingToken != localToken { return }
+            streamService.loadStream(
+                streamKind.endpoint,
+                streamKind: streamKind,
+                success: { (jsonables, responseConfig) in
+                    if self.loadInitialPageLoadingToken != localToken { return }
 
-                self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind), withWidth: nil)
-                self.responseConfig = responseConfig
-                self.doneLoading()
-            }, failure: { (error, statusCode) in
-                if self.loadInitialPageLoadingToken != localToken { return }
+                    let index = self.refreshableIndex ?? 0
+                    self.allOlderPagesLoaded = false
+                    self.dataSource.removeCellItemsBelow(index)
+                    self.collectionView.reloadData()
 
-                println("failed to load \(self.streamKind.name) stream (reason: \(error))")
-                self.doneLoading()
-            }
-        )
+                    self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind), withWidth: nil)
+                    self.responseConfig = responseConfig
+
+                    self.doneLoading()
+                }, failure: { (error, statusCode) in
+                    println("failed to load \(self.streamKind.name) stream (reason: \(error))")
+                    self.doneLoading()
+                }, noContent: {
+                    println("nothing new")
+                    self.doneLoading()
+                }
+            )
+        }
     }
 
 // MARK: Private Functions
@@ -545,7 +558,7 @@ extension StreamViewController: SSPullToRefreshViewDelegate {
     }
 
     public func pullToRefreshViewDidStartLoading(view: SSPullToRefreshView!) {
-        self.pullToRefreshLoad()
+        self.loadInitialPage()
     }
 }
 
@@ -565,3 +578,4 @@ extension StreamViewController: StreamImageCellDelegate {
     }
 
 }
+

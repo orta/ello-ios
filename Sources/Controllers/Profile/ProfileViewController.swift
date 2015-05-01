@@ -19,6 +19,7 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
     var coverImageHeightStart: CGFloat?
     var coverWidthSet = false
     let ratio:CGFloat = 16.0/9.0
+    let initialStreamKind: StreamKind
 
     private var isSetup = false
     @IBOutlet weak var viewContainer: UIView!
@@ -29,29 +30,25 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
 
     required public init(userParam: String) {
         self.userParam = userParam
-        self.streamViewController.streamKind = .UserStream(userParam: self.userParam)
+        self.initialStreamKind = .UserStream(userParam: self.userParam)
+        self.streamViewController.streamKind = initialStreamKind
         super.init(nibName: "ProfileViewController", bundle: nil)
+
         ElloHUD.showLoadingHudInView(streamViewController.view)
-        streamViewController.streamService.loadUser(
-            streamViewController.streamKind.endpoint,
-            streamKind: streamViewController.streamKind,
-            success: userLoaded,
-            failure: { (error, statusCode) in
-                println("failed to load user (reason: \(error))")
-                self.streamViewController.doneLoading()
-            }
-        )
+        streamViewController.initialLoadClosure = reloadEntireProfile
+        streamViewController.loadInitialPage()
     }
 
     // this should only be initialized this way for currentUser in tab nav
     required public init(user: User, responseConfig: ResponseConfig) {
         // this user should have the .proifle on it since it is currentUser
+        self.initialStreamKind = .Profile
         ElloHUD.showLoadingHudInView(streamViewController.view)
         self.user = user
         self.responseConfig = responseConfig
         self.userParam = self.user!.id
-        self.streamViewController.streamKind = .Profile
         super.init(nibName: "ProfileViewController", bundle: nil)
+        self.streamViewController.initialLoadClosure = reloadEntireProfile
     }
 
     required public init(coder aDecoder: NSCoder) {
@@ -89,7 +86,7 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         super.viewDidAppear(animated)
         if shouldReload {
             shouldReload = false
-            reloadEntireProfile()
+            streamViewController.loadInitialPage()
         }
     }
 
@@ -138,11 +135,12 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         }
     }
 
-// MARK : private
+    // MARK : private
 
     private func reloadEntireProfile() {
-        ElloHUD.showLoadingHudInView(streamViewController.view)
-        streamViewController.streamService.loadUser(streamViewController.streamKind.endpoint,
+        streamViewController.streamService.loadUser(
+            initialStreamKind.endpoint,
+            streamKind: initialStreamKind,
             success: userLoaded,
             failure: { (error, statusCode) in
                 println("failed to load user (reason: \(error))")
@@ -186,24 +184,27 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         streamViewController.streamKind = .UserStream(userParam: userParam)
         streamViewController.responseConfig = responseConfig
         if !isRootViewController() {
-            self.title = user.atName ?? NSLocalizedString("Profile", comment: "a user's profile")
+            self.title = user.atName ?? "Profile"
         }
-        if let cover = user.coverImageURL {
-            if let coverImage = coverImage {
-                coverImage.sd_setImageWithURL(cover) {
-                    (image, error, type, url) in
-                    UIView.animateWithDuration(0.15) {
-                        self.coverImage.alpha = 1.0
-                    }
+        if  let cover = user.coverImageURL,
+            let coverImage = coverImage
+        {
+            coverImage.sd_setImageWithURL(cover) {
+                (image, error, type, url) in
+                UIView.animateWithDuration(0.15) {
+                    self.coverImage.alpha = 1.0
                 }
             }
         }
+        let index = streamViewController.refreshableIndex ?? 0
+        streamViewController.allOlderPagesLoaded = false
+        streamViewController.dataSource.removeCellItemsBelow(index)
+        streamViewController.collectionView.reloadData()
 
         var items: [StreamCellItem] = [StreamCellItem(jsonable: user, type: StreamCellType.ProfileHeader, data: nil, oneColumnCellHeight: 0.0, multiColumnCellHeight: 0.0, isFullWidth: true)]
         if let posts = user.posts {
             items += StreamCellItemParser().parse(posts, streamKind: streamViewController.streamKind)
         }
-        streamViewController.removeRefreshables()
         streamViewController.appendUnsizedCellItems(items, withWidth: self.view.frame.width)
         streamViewController.doneLoading()
     }
@@ -218,7 +219,7 @@ extension ProfileViewController: StreamScrollDelegate {
         {
             coverImageHeight.constant = max(start - scrollView.contentOffset.y, start)
         }
-
+        
         super.streamViewDidScroll(scrollView)
     }
 }
@@ -232,10 +233,10 @@ extension ProfileViewController: ExperienceUpdatable {
     }
 
     public func experienceReloadNow() {
-        reloadEntireProfile()
+        streamViewController.loadInitialPage()
     }
 
-    public func experienceMarkForReload() {
+    public func experienceReloadLater() {
         shouldReload = true
     }
 }

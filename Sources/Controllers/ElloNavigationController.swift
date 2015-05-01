@@ -105,7 +105,7 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
                         updatable.experienceReloadNow()
                     }
                     else {
-                        updatable.experienceMarkForReload()
+                        updatable.experienceReloadLater()
                     }
                 }
             }

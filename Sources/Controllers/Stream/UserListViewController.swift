@@ -61,7 +61,7 @@ public class UserListViewController: StreamableViewController {
         streamViewController.view.frame = self.view.bounds
         streamViewController.view.autoresizingMask = .FlexibleWidth | .FlexibleHeight
         self.addChildViewController(streamViewController)
-
+        ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.loadInitialPage()
     }
 

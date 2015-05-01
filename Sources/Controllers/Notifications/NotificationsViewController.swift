@@ -62,7 +62,7 @@ public class NotificationsViewController: StreamableViewController, Notification
         streamViewController.willMoveToParentViewController(self)
         self.screen.insertStreamView(streamViewController.view)
         self.addChildViewController(streamViewController)
-
+        ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.loadInitialPage()
     }
 

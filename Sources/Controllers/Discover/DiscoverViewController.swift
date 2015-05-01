@@ -69,6 +69,7 @@ public class DiscoverViewController: StreamableViewController {
         streamViewController.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
         addChildViewController(streamViewController)
         streamViewController.didMoveToParentViewController(self)
+        ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.loadInitialPage()
     }
 

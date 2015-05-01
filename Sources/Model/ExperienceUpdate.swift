@@ -94,5 +94,5 @@ public enum ExperienceUpdateResponse {
 public protocol ExperienceUpdatable {
     func experienceUpdateResponse(update: ExperienceUpdate) -> ExperienceUpdateResponse
     func experienceReloadNow()
-    func experienceMarkForReload()
+    func experienceReloadLater()
 }
