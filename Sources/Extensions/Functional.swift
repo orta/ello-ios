@@ -14,9 +14,9 @@ public struct Functional {
     public typealias TakesIndexBlock = ((Int)->())
 
     public class Proc {
-        var block : BasicBlock
+        var block: BasicBlock
 
-        public init(block : BasicBlock) {
+        public init(block: BasicBlock) {
             self.block = block
         }
 
@@ -27,13 +27,13 @@ public struct Functional {
     }
 
     // Simple wrapper for `for i = 0 ; i < times ; ++i`.  Ignores the index.
-    public static func times(times: Int, block : BasicBlock) {
-        self.times(times, block: { (index : Int) in block() })
+    public static func times(times: Int, @noescape block: BasicBlock) {
+        self.times(times, block: { (index: Int) in block() })
     }
 
     // Simple wrapper for `for i = 0 ; i < times ; ++i`.  Passes the index to
     // the block.
-    public static func times(times: Int, block : TakesIndexBlock) {
+    public static func times(times: Int, @noescape block: TakesIndexBlock) {
         if times <= 0 {
             return
         }
@@ -45,7 +45,7 @@ public struct Functional {
     // This is used when you have multiple callbacks, and you need an "all done" block
     // called when *all* the callbacks have been executed.  Similar in concept to GCD
     // groups.
-    public static func after(times : Int, block : BasicBlock) -> BasicBlock {
+    public static func after(times: Int, block: BasicBlock) -> BasicBlock {
         if times == 0 {
             block()
             return {}
@@ -63,7 +63,7 @@ public struct Functional {
     // The block will be called many times - the simplest case is `until(1)` aka
     // `once`, which is only called one time.  After that, calling the block has
     // no effect.
-    public static func until(times : Int, block : BasicBlock) -> BasicBlock {
+    public static func until(times: Int, block: BasicBlock) -> BasicBlock {
         if times == 0 {
             return {}
         }
@@ -78,7 +78,7 @@ public struct Functional {
     }
 
     // Using `until(1)`, this is a simple way to make sure a block is only called one time
-    public static func once(block : BasicBlock) -> BasicBlock {
+    public static func once(block: BasicBlock) -> BasicBlock {
         return until(1, block: block)
     }
 
@@ -110,7 +110,7 @@ public struct Functional {
     // like updating the UI after the user has "stopped typing" (ie hasn't hit a
     // key for 1/2 a sec or so)
     public static func debounce(timeout: NSTimeInterval, block: BasicBlock) -> BasicBlock {
-        var timer : NSTimer? = nil
+        var timer: NSTimer? = nil
         let proc = Proc(block: block)
 
         return {
@@ -123,7 +123,7 @@ public struct Functional {
 
     // Same as above, but you pass the block in to the closure that is returned.
     public static func debounce(timeout: NSTimeInterval) -> ThrottledBlock {
-        var timer : NSTimer? = nil
+        var timer: NSTimer? = nil
 
         return { block in
             if let prevTimer = timer {
@@ -139,7 +139,7 @@ public struct Functional {
     // this method is useful for slowing down events, like a chat client that
     // needs to insert chat messages and not be herky jerky.
     public static func throttle(interval: NSTimeInterval, block: BasicBlock) -> BasicBlock {
-        var timer : NSTimer? = nil
+        var timer: NSTimer? = nil
         let proc = Proc() {
             timer = nil
             block()
@@ -154,8 +154,8 @@ public struct Functional {
 
     // Same as above, but you pass the block in to the closure that is returned.
     public static func throttle(interval: NSTimeInterval) -> ThrottledBlock {
-        var timer : NSTimer? = nil
-        var lastBlock : BasicBlock?
+        var timer: NSTimer? = nil
+        var lastBlock: BasicBlock?
 
         return { block in
             lastBlock = block
