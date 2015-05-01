@@ -11,7 +11,6 @@ private let MaxHeight = UIScreen.mainScreen().applicationFrame.height - 20
 
 public enum AlertType {
     case Normal
-    case Dark
     case Danger
 
     var backgroundColor: UIColor {
