@@ -72,7 +72,7 @@ public struct ElloProvider {
 
         var endpoint: Endpoint<ElloAPI>
         switch target {
-        case .CreatePost, .CreateComment, .ProfileUpdate:
+        case .CreatePost, .CreateComment, .ProfileUpdate, .RePost:
             // the important thing here is `parameterEncoding: .JSON`
             endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponse: sampleResponse, method: method, parameters: parameters, parameterEncoding: Moya.ParameterEncoding.JSON)
         default:

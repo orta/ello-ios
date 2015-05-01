@@ -83,7 +83,8 @@ private extension PushNotificationController {
     }
 
     func alertViewController() -> AlertViewController {
-        let alert = AlertViewController(message: NSLocalizedString("Allow Push Notifications?", comment: "Turn on Push Notifications?"), dismissable: false)
+        let alert = AlertViewController(message: NSLocalizedString("Allow Push Notifications?", comment: "Turn on Push Notifications?"))
+        alert.dismissable = false
 
         let disallowAction = AlertAction(title: NSLocalizedString("Disallow", comment: "Disallow"), style: .Dark) { _ in
             self.needsPermission = false

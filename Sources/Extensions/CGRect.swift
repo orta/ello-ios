@@ -22,6 +22,9 @@ public extension CGRect {
 // MARK: helpers
     var x:CGFloat { return self.origin.x }
     var y:CGFloat { return self.origin.y }
+    var center: CGPoint {
+        return CGPoint(x: self.midX, y: self.midY)
+    }
 
 // MARK: dimension setters
     func atOrigin(amt:CGPoint) -> CGRect {

@@ -19,7 +19,7 @@ struct AlertCellPresenter {
         case .Dark: configureForDarkAction(alertCell)
         }
 
-        cell.contentView.backgroundColor = type == .Danger ? UIColor.redColor() : UIColor.whiteColor()
+        cell.contentView.backgroundColor = type.backgroundColor
     }
 
     func configureForWhiteAction(cell: AlertCell) {

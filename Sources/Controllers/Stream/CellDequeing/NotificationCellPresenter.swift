@@ -51,10 +51,13 @@ public struct NotificationCellPresenter {
                 if imageRegion.asset != nil && imageRegion.asset!.isGif {
                     imageURL = imageRegion.asset?.optimized?.url
                 }
-                else {
-                    imageURL = imageRegion.asset?.hdpi?.url
+                else if let hdpiURL = imageRegion.asset?.hdpi?.url{
+                    imageURL = hdpiURL
                 }
-                cell.imageURL = imageURL ?? imageRegion.url
+                else {
+                    imageURL = imageRegion.url
+                }
+                cell.imageURL = imageURL
                 cell.aspectRatio = aspectRatio
             }
         }

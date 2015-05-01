@@ -170,7 +170,7 @@ public class ElloTabBarController: UIViewController {
     func setTabBarHidden(hidden: Bool, animated: Bool) {
         tabBarHiddenValue = hidden
 
-        let animations:()->() = {
+        let animations: ElloEmptyCompletion = {
             self.view.setNeedsLayout()
             self.view.layoutIfNeeded()
         }

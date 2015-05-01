@@ -19,6 +19,11 @@ class CGRectExtensionSpec: QuickSpec {
                 expect(badFrame.x).to(equal(CGFloat(4)))
                 expect(badFrame.y).to(equal(CGFloat(2)))
             }
+            it("should return center") {
+                let center = badFrame.center
+                expect(center.x).to(equal(CGFloat(2)))
+                expect(center.y).to(equal(CGFloat(1)))
+            }
         }
 
         describe("factories") {
@@ -167,21 +172,21 @@ class CGRectExtensionSpec: QuickSpec {
                 expect(newFrame).to(equal(CGRect(x: 5, y: 7, width: 10, height: 15)))
             }
         }
-        describe("fromXyz") {
+        describe("-fromXyz:") {
             let frame = CGRect(x: 5, y: 7, width: 10, height: 14)
-            it("fromTop") {
+            it("-fromTop:") {
                 let newFrame = frame.fromTop()
                 expect(newFrame).to(equal(CGRect(x: 5, y: 7, width: 10, height: 0)))
             }
-            it("fromBottom") {
+            it("-fromBottom:") {
                 let newFrame = frame.fromBottom()
                 expect(newFrame).to(equal(CGRect(x: 5, y: 21, width: 10, height: 0)))
             }
-            it("fromLeft") {
+            it("-fromLeft:") {
                 let newFrame = frame.fromLeft()
                 expect(newFrame).to(equal(CGRect(x: 5, y: 7, width: 0, height: 14)))
             }
-            it("fromRight") {
+            it("-fromRight:") {
                 let newFrame = frame.fromRight()
                 expect(newFrame).to(equal(CGRect(x: 15, y: 7, width: 0, height: 14)))
             }
