@@ -18,6 +18,7 @@ public class JoinViewController: BaseElloViewController {
     @IBOutlet weak public var aboutButton: ElloTextButton!
     @IBOutlet weak public var loginButton: ElloTextButton!
     @IBOutlet weak public var joinButton: ElloButton!
+    @IBOutlet weak public var termsLabel: UILabel!
 
     // error checking
     var queueEmailValidation: Functional.BasicBlock!
@@ -251,8 +252,15 @@ extension JoinViewController {
         return !emailView.hasError && !usernameView.hasError && !passwordView.hasError
     }
 
+    private func extraHeight() -> CGFloat {
+        let spacing = CGRectGetMaxY(termsLabel.frame) - view.bounds.height + 10
+        return spacing > 0 ? spacing : 0
+    }
+
     public func revalidateAndResizeViews() {
+        scrollView.layoutIfNeeded()
         joinButton.enabled = allFieldsValid()
+        scrollView.contentSize = CGSize(width: view.bounds.width, height: view.bounds.height + extraHeight())
     }
 
     private func emailChanged(text: String) {
