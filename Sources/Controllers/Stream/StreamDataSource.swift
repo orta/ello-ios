@@ -93,7 +93,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         return visibleCellItems[indexPath.item]
     }
 
-    // TODO: this should grab comments to hand to post detail 
+    // TODO: this should grab comments to hand to post detail
     // and post detail should handle loading/paging them better
     public func cellItemsForPost(post:Post) -> [StreamCellItem] {
         return visibleCellItems.filter({ (item) -> Bool in
@@ -394,7 +394,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         return (cells, repostCells)
     }
 
-    private func temporarilyUnfilter(block: ()->()) {
+    private func temporarilyUnfilter(@noescape block: ()->()) {
         let cachedStreamFilter = streamFilter
         let cachedStreamCollapsedFilter = streamCollapsedFilter
         self.streamFilter = nil

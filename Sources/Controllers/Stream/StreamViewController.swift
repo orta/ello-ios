@@ -460,7 +460,6 @@ extension StreamViewController : UIScrollViewDelegate {
 
     public func scrollViewDidScroll(scrollView : UIScrollView) {
         self.streamScrollDelegate?.streamViewDidScroll(scrollView)
-        self.loadNextPage(scrollView)
     }
 
     public func scrollViewWillBeginDragging(scrollView: UIScrollView) {
@@ -473,6 +472,7 @@ extension StreamViewController : UIScrollViewDelegate {
         if let delegate = self.streamScrollDelegate {
             delegate.streamViewDidEndDragging?(scrollView, willDecelerate: willDecelerate)
         }
+        self.loadNextPage(scrollView)
     }
 
     private func loadNextPage(scrollView: UIScrollView) {
@@ -516,19 +516,19 @@ extension StreamViewController : UIScrollViewDelegate {
         if let lastIndexPath = collectionView.lastIndexPathForSection(0) {
             if jsonables.count > 0 {
                 insertUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: streamKind), startingIndexPath: lastIndexPath) {
-                    if let newLastIndexPath = self.collectionView.lastIndexPathForSection(0) {
-                        self.removeLoadingCell(newLastIndexPath)
-                    }
+                    self.removeLoadingCell()
                 }
             }
             else {
-                removeLoadingCell(lastIndexPath)
+                removeLoadingCell()
             }
         }
     }
 
-    private func removeLoadingCell(indexPath: NSIndexPath) {
-        if dataSource.visibleCellItems[indexPath.row].type == .StreamLoading {
+    private func removeLoadingCell() {
+        if let indexPath = self.collectionView.lastIndexPathForSection(0)
+            where dataSource.visibleCellItems[indexPath.row].type == .StreamLoading
+        {
             dataSource.removeItemAtIndexPath(indexPath)
             collectionView.deleteItemsAtIndexPaths([indexPath])
         }
