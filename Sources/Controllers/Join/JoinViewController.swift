@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import KINWebBrowser
 
 public class JoinViewController: BaseElloViewController {
 
@@ -18,7 +19,7 @@ public class JoinViewController: BaseElloViewController {
     @IBOutlet weak public var aboutButton: ElloTextButton!
     @IBOutlet weak public var loginButton: ElloTextButton!
     @IBOutlet weak public var joinButton: ElloButton!
-    @IBOutlet weak public var termsLabel: UILabel!
+    @IBOutlet weak public var termsButton: UIButton!
 
     // error checking
     var queueEmailValidation: Functional.BasicBlock!
@@ -30,6 +31,7 @@ public class JoinViewController: BaseElloViewController {
         queueEmailValidation = Functional.debounce(0.5) { [unowned self] in self.validateEmail(self.emailView.textField.text) }
         queueUsernameValidation = Functional.debounce(0.5) { [unowned self] in self.validateUsername(self.usernameView.textField.text) }
         queuePasswordValidation = Functional.debounce(0.5) { [unowned self] in self.validatePassword(self.passwordView.textField.text) }
+        modalTransitionStyle = .CrossDissolve
     }
 
     required public init(coder aDecoder: NSCoder) {
@@ -40,11 +42,18 @@ public class JoinViewController: BaseElloViewController {
         super.viewDidLoad()
         setupStyles()
         setupViews()
-        setupNotificationObservers()
+        let attrs : [String : AnyObject] = [
+            NSFontAttributeName : UIFont.typewriterFont(12),
+            NSForegroundColorAttributeName : UIColor.whiteColor(),
+            NSUnderlineStyleAttributeName : NSUnderlineStyle.StyleSingle.rawValue,
+        ]
+        let title = NSAttributedString(string: termsButton.currentTitle ?? "", attributes: attrs)
+        termsButton.setAttributedTitle(title, forState: UIControlState.Normal)
     }
 
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        addNotificationObservers()
         Tracker.sharedTracker.screenAppeared("Join")
     }
 
@@ -56,12 +65,10 @@ public class JoinViewController: BaseElloViewController {
     // MARK: Private
 
     private func setupStyles() {
-        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .Slide)
+        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .None)
         scrollView.contentSize = view.bounds.size
-        modalTransitionStyle = .CrossDissolve
         scrollView.backgroundColor = UIColor.grey3()
         view.backgroundColor = UIColor.grey3()
-        view.setNeedsDisplay()
     }
 
     private func setupViews() {
@@ -80,7 +87,7 @@ public class JoinViewController: BaseElloViewController {
         passwordView.textFieldDidChange = self.passwordChanged
     }
 
-    private func setupNotificationObservers() {
+    private func addNotificationObservers() {
         let center = NSNotificationCenter.defaultCenter()
         center.addObserver(self, selector: Selector("keyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
         center.addObserver(self, selector: Selector("keyboardWillHide:"), name: UIKeyboardWillHideNotification, object: nil)
@@ -158,13 +165,39 @@ public class JoinViewController: BaseElloViewController {
     }
 
     private func showAboutScreen() {
-        //TODO: show about screen
-        println("about tapped")
-        // let aboutController = AboutViewController()
-        // let window = self.view.window!
-        // self.presentViewController(aboutController, animated:true) {
-        //     window.rootViewController = aboutController
-        // }
+        let nav = KINWebBrowserViewController.navigationControllerWithWebBrowser()
+        let browser = nav.rootWebBrowser()
+        let xButton = UIBarButtonItem(title: "\u{2573}", style: .Done, target: browser, action: Selector("doneButtonPressed:"))
+        xButton.setTitleTextAttributes([NSForegroundColorAttributeName : UIColor.blackColor()], forState: .Normal)
+        browser.navigationItem.rightBarButtonItem = xButton
+        browser.tintColor = UIColor.greyA()
+
+        browser.loadURLString("\(ElloURI.baseURL)/wtf/post/about")
+        browser.showsURLInNavigationBar = false
+        browser.showsPageTitleInNavigationBar = false
+        browser.title = NSLocalizedString("About", comment: "about title")
+
+        presentViewController(nav, animated: true, completion: {
+            nav.setToolbarHidden(true, animated: false)
+        })
+    }
+
+    private func showTerms() {
+        let nav = KINWebBrowserViewController.navigationControllerWithWebBrowser()
+        let browser = nav.rootWebBrowser()
+        let xButton = UIBarButtonItem(title: "\u{2573}", style: .Done, target: browser, action: Selector("doneButtonPressed:"))
+        xButton.setTitleTextAttributes([NSForegroundColorAttributeName : UIColor.blackColor()], forState: .Normal)
+        browser.navigationItem.rightBarButtonItem = xButton
+        browser.tintColor = UIColor.greyA()
+        browser.loadURLString("\(ElloURI.baseURL)/wtf/post/privacy")
+        browser.showsURLInNavigationBar = false
+        browser.showsPageTitleInNavigationBar = false
+        browser.title = NSLocalizedString("Terms and Conditions", comment: "terms and conditions title")
+        nav.setToolbarHidden(true, animated: false)
+
+        presentViewController(nav, animated: true, completion: {
+            nav.setToolbarHidden(true, animated: false)
+        })
     }
 
 }
@@ -234,6 +267,10 @@ extension JoinViewController {
         join()
     }
 
+    @IBAction func termsTapped(sender: ElloButton) {
+        showTerms()
+    }
+
     @IBAction func loginTapped(sender: ElloTextButton) {
         showSignInScreen()
     }
@@ -253,7 +290,7 @@ extension JoinViewController {
     }
 
     private func extraHeight() -> CGFloat {
-        let spacing = CGRectGetMaxY(termsLabel.frame) - view.bounds.height + 10
+        let spacing = CGRectGetMaxY(termsButton.frame) - view.bounds.height + 10
         return spacing > 0 ? spacing : 0
     }
 
