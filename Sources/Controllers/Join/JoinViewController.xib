@@ -42,21 +42,6 @@
                                         <constraint firstAttribute="height" constant="60" id="ktI-pp-jtJ"/>
                                     </constraints>
                                 </imageView>
-                                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Ak-T0-AxJ" userLabel="Create Account Button" customClass="ElloButton" customModule="Ello" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="481" width="374" height="60"/>
-                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="60" id="iF8-hE-0hr"/>
-                                    </constraints>
-                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                    <state key="normal" title="Create Account">
-                                        <color key="titleColor" red="0.99989169840000003" green="1" blue="0.99988096950000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="joinTapped:" destination="-1" eventType="touchUpInside" id="vDM-r6-Tyf"/>
-                                    </connections>
-                                </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tyb-rJ-Zeg" userLabel="Go to Login Button" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
                                     <rect key="frame" x="336" y="30" width="38" height="30"/>
                                     <state key="normal" title="Login">
@@ -67,10 +52,10 @@
                                         <action selector="loginTapped:" destination="-1" eventType="touchUpInside" id="t3I-Ki-bF0"/>
                                     </connections>
                                 </button>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By Clicking Create Account you are agreeing to our Terms." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rhW-dT-sOr" userLabel="Terms label">
-                                    <rect key="frame" x="0.0" y="559" width="374" height="30"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By Clicking Create Account you are agreeing to our Terms." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rhW-dT-sOr" userLabel="Terms label" customClass="ElloLabel" customModule="Ello" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="539" width="374" height="50"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="30" id="FWF-a1-83n"/>
+                                        <constraint firstAttribute="height" constant="50" id="OVa-M7-CD7"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="14"/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -107,6 +92,21 @@
                                         <constraint firstAttribute="height" constant="89" placeholder="YES" id="dSw-D5-jCt"/>
                                     </constraints>
                                 </view>
+                                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Ak-T0-AxJ" userLabel="Create Account Button" customClass="ElloButton" customModule="Ello" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="461" width="374" height="60"/>
+                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="60" id="iF8-hE-0hr"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <state key="normal" title="Create Account">
+                                        <color key="titleColor" red="0.99989169840000003" green="1" blue="0.99988096950000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="joinTapped:" destination="-1" eventType="touchUpInside" id="vDM-r6-Tyf"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
@@ -114,8 +114,8 @@
                                 <constraint firstItem="iY9-d8-Pt2" firstAttribute="top" secondItem="g3x-Zq-MBV" secondAttribute="bottom" id="3fs-eC-lWL"/>
                                 <constraint firstItem="g3x-Zq-MBV" firstAttribute="leading" secondItem="ajo-sA-4uh" secondAttribute="leading" id="4UX-VH-U5y"/>
                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="374" id="B6S-G7-DV8"/>
-                                <constraint firstItem="5Ak-T0-AxJ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="iY9-d8-Pt2" secondAttribute="bottom" constant="20" id="D1J-eP-rwD"/>
                                 <constraint firstAttribute="trailing" secondItem="rhW-dT-sOr" secondAttribute="trailing" id="DXF-IQ-qnl"/>
+                                <constraint firstItem="5Ak-T0-AxJ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="iY9-d8-Pt2" secondAttribute="bottom" constant="20" id="FLT-zd-g2z"/>
                                 <constraint firstItem="uvx-Cc-aUr" firstAttribute="leading" secondItem="ajo-sA-4uh" secondAttribute="leading" id="G74-P7-2k7"/>
                                 <constraint firstItem="9jX-bg-MMX" firstAttribute="top" secondItem="ajo-sA-4uh" secondAttribute="top" constant="50" id="JQF-K2-r0T"/>
                                 <constraint firstAttribute="trailing" secondItem="gRX-YT-5aA" secondAttribute="trailing" id="ODG-9x-S5K"/>
@@ -140,7 +140,7 @@
                         <constraint firstAttribute="height" secondItem="ajo-sA-4uh" secondAttribute="height" id="7nX-EY-ifI"/>
                         <constraint firstItem="ajo-sA-4uh" firstAttribute="width" secondItem="Z9R-YG-xaY" secondAttribute="width" priority="999" constant="-40" id="97s-Qz-y3v"/>
                         <constraint firstAttribute="trailing" secondItem="ajo-sA-4uh" secondAttribute="trailing" constant="113" placeholder="YES" id="D7s-aO-dLD"/>
-                        <constraint firstAttribute="bottom" secondItem="rhW-dT-sOr" secondAttribute="bottom" priority="999" constant="11" id="Qgh-hr-pO3"/>
+                        <constraint firstAttribute="bottom" secondItem="rhW-dT-sOr" secondAttribute="bottom" priority="500" constant="11" id="Qgh-hr-pO3"/>
                         <constraint firstAttribute="bottom" secondItem="ajo-sA-4uh" secondAttribute="bottom" id="cxX-4B-FlG"/>
                         <constraint firstItem="ajo-sA-4uh" firstAttribute="top" secondItem="Z9R-YG-xaY" secondAttribute="top" id="dlP-pc-3KC"/>
                         <constraint firstItem="ajo-sA-4uh" firstAttribute="leading" secondItem="Z9R-YG-xaY" secondAttribute="leading" constant="113" placeholder="YES" id="drz-sb-GP6"/>

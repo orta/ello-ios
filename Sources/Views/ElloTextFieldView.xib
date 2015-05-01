@@ -13,11 +13,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ElloTextFieldView" customModule="Ello" customModuleProvider="target">
             <connections>
-                <outlet property="errorAndBottomMarginConstraint" destination="jTn-oO-MBW" id="PQ1-ih-sWU"/>
-                <outlet property="errorAndMessageMarginConstraint" destination="8vH-qJ-epS" id="y3h-tv-nd5"/>
-                <outlet property="errorAndNoMarginConstraint" destination="0KI-sW-hxa" id="deO-ND-0z2"/>
                 <outlet property="errorLabel" destination="Ur0-FP-dRP" id="CaY-xP-RTl"/>
                 <outlet property="errorLabelHeight" destination="FzD-bP-v11" id="alT-K1-78O"/>
+                <outlet property="errorLabelSeparationSpacing" destination="peZ-C3-53Q" id="ai5-cX-ArQ"/>
                 <outlet property="label" destination="zsc-gQ-joB" id="ml7-US-BMu"/>
                 <outlet property="messageLabel" destination="nuK-Pl-R29" id="8WN-ch-s68"/>
                 <outlet property="messageLabelHeight" destination="Ov1-0M-tKs" id="J5r-jZ-9kv"/>
@@ -66,27 +64,26 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="Ur0-FP-dRP" secondAttribute="bottom" id="0KI-sW-hxa" userLabel="errorAndNoMarginConstraint"/>
                 <constraint firstItem="1Cw-Er-hqU" firstAttribute="top" secondItem="zsc-gQ-joB" secondAttribute="bottom" constant="8" id="0VS-cT-ZWa"/>
                 <constraint firstItem="Ur0-FP-dRP" firstAttribute="leading" secondItem="Of5-ti-C23" secondAttribute="leading" constant="8" id="0rH-J4-1X9"/>
-                <constraint firstItem="Ur0-FP-dRP" firstAttribute="top" secondItem="1Cw-Er-hqU" secondAttribute="bottom" constant="8" id="57e-Tl-MIV"/>
-                <constraint firstItem="nuK-Pl-R29" firstAttribute="top" secondItem="Ur0-FP-dRP" secondAttribute="bottom" constant="20" id="8vH-qJ-epS" userLabel="errorAndMessageMarginConstraint"/>
+                <constraint firstItem="Ur0-FP-dRP" firstAttribute="top" relation="greaterThanOrEqual" secondItem="1Cw-Er-hqU" secondAttribute="bottom" constant="8" id="57e-Tl-MIV"/>
                 <constraint firstItem="zsc-gQ-joB" firstAttribute="leading" secondItem="Of5-ti-C23" secondAttribute="leading" constant="8" id="D21-65-KA5"/>
                 <constraint firstAttribute="trailing" secondItem="1Cw-Er-hqU" secondAttribute="trailing" constant="8" id="DGh-TC-SxM"/>
-                <constraint firstAttribute="bottom" secondItem="nuK-Pl-R29" secondAttribute="bottom" constant="8" id="H8i-oS-qaM"/>
+                <constraint firstAttribute="bottom" relation="lessThanOrEqual" secondItem="nuK-Pl-R29" secondAttribute="bottom" constant="8" id="H8i-oS-qaM"/>
                 <constraint firstAttribute="trailing" secondItem="nuK-Pl-R29" secondAttribute="trailing" constant="8" id="Ihr-NU-wUN"/>
                 <constraint firstAttribute="trailing" secondItem="Ur0-FP-dRP" secondAttribute="trailing" constant="8" id="M1H-Ol-FRl"/>
+                <constraint firstItem="Ur0-FP-dRP" firstAttribute="top" secondItem="1Cw-Er-hqU" secondAttribute="bottom" priority="999" constant="8" id="Oud-H2-Pb7"/>
+                <constraint firstAttribute="bottom" secondItem="nuK-Pl-R29" secondAttribute="bottom" priority="998" constant="8" id="Uda-ZH-CeF"/>
                 <constraint firstItem="nuK-Pl-R29" firstAttribute="leading" secondItem="Of5-ti-C23" secondAttribute="leading" constant="8" id="W1F-aq-30E"/>
                 <constraint firstItem="zsc-gQ-joB" firstAttribute="leading" secondItem="1Cw-Er-hqU" secondAttribute="leading" id="e3T-hm-nPs"/>
-                <constraint firstAttribute="bottom" secondItem="Ur0-FP-dRP" secondAttribute="bottom" constant="8" id="jTn-oO-MBW" userLabel="errorAndBottomMarginConstraint"/>
+                <constraint firstItem="nuK-Pl-R29" firstAttribute="top" secondItem="Ur0-FP-dRP" secondAttribute="bottom" constant="20" id="peZ-C3-53Q" userLabel="errorLabelSeparationSpacing"/>
                 <constraint firstItem="zsc-gQ-joB" firstAttribute="top" secondItem="Of5-ti-C23" secondAttribute="top" constant="8" id="zIE-UQ-unU"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <variation key="default">
                 <mask key="constraints">
-                    <exclude reference="0KI-sW-hxa"/>
-                    <exclude reference="jTn-oO-MBW"/>
+                    <exclude reference="peZ-C3-53Q"/>
                 </mask>
             </variation>
             <point key="canvasLocation" x="454" y="419.5"/>
