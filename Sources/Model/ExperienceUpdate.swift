@@ -60,9 +60,9 @@ public extension ExperienceUpdate {
     }
 
     private func userAffected(userId: String, item: StreamCellItem) -> Bool {
-        return  post(item)?.author?.id == userId ||
-                comment(item)?.parentPost?.author?.id == userId ||
-                comment(item)?.author?.id == userId ||
+        return  post(item)?.authorId == userId ||
+                comment(item)?.parentPost?.authorId == userId ||
+                comment(item)?.authorId == userId ||
                 user(item)?.id == userId
     }
 }
