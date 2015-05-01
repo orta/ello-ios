@@ -28,7 +28,7 @@ public class AlertViewController: UIViewController {
 
     // assign a contentView to show a message or spinner.  The contentView frame
     // size must be set.
-    var contentView: UIView? {
+    public var contentView: UIView? {
         willSet { willSetContentView() }
         didSet { didSetContentView() }
     }
