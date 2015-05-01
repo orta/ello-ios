@@ -182,13 +182,6 @@ public class PostbarController: NSObject, PostbarDelegate {
                         alertController.dismiss()
                     }
                 }, failure: { (error, statusCode)  in
-                    var errorTitle : String = error.localizedDescription
-                    if let info = error.userInfo {
-                        if let elloNetworkError = info[NSLocalizedFailureReasonErrorKey] as? ElloNetworkError {
-                            errorTitle = elloNetworkError.title
-                        }
-                    }
-
                     alertController.contentView = nil
                     alertController.message = NSLocalizedString("Could not create repost", comment: "Could not create repost message")
                     alertController.autoDismiss = true
