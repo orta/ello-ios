@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <customFonts key="customFonts">
-        <mutableArray key="AtlasTypewriter-Regular.otf">
+        <mutableArray key="AtlasTypewriterRegular.otf">
             <string>AtlasTypewriter-Regular</string>
         </mutableArray>
     </customFonts>
@@ -18,6 +18,7 @@
                 <outlet property="loginButton" destination="Tyb-rJ-Zeg" id="OQu-8E-qOL"/>
                 <outlet property="passwordView" destination="iY9-d8-Pt2" id="5ZE-AU-Mze"/>
                 <outlet property="scrollView" destination="Z9R-YG-xaY" id="3F0-IJ-oAX"/>
+                <outlet property="termsLabel" destination="rhW-dT-sOr" id="td4-3r-wi2"/>
                 <outlet property="usernameView" destination="g3x-Zq-MBV" id="FFQ-er-JWv"/>
                 <outlet property="view" destination="vJa-Mv-qia" id="CAb-vZ-nZt"/>
             </connections>
@@ -113,6 +114,7 @@
                                 <constraint firstItem="iY9-d8-Pt2" firstAttribute="top" secondItem="g3x-Zq-MBV" secondAttribute="bottom" id="3fs-eC-lWL"/>
                                 <constraint firstItem="g3x-Zq-MBV" firstAttribute="leading" secondItem="ajo-sA-4uh" secondAttribute="leading" id="4UX-VH-U5y"/>
                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="374" id="B6S-G7-DV8"/>
+                                <constraint firstItem="5Ak-T0-AxJ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="iY9-d8-Pt2" secondAttribute="bottom" constant="20" id="D1J-eP-rwD"/>
                                 <constraint firstAttribute="trailing" secondItem="rhW-dT-sOr" secondAttribute="trailing" id="DXF-IQ-qnl"/>
                                 <constraint firstItem="uvx-Cc-aUr" firstAttribute="leading" secondItem="ajo-sA-4uh" secondAttribute="leading" id="G74-P7-2k7"/>
                                 <constraint firstItem="9jX-bg-MMX" firstAttribute="top" secondItem="ajo-sA-4uh" secondAttribute="top" constant="50" id="JQF-K2-r0T"/>
@@ -138,7 +140,7 @@
                         <constraint firstAttribute="height" secondItem="ajo-sA-4uh" secondAttribute="height" id="7nX-EY-ifI"/>
                         <constraint firstItem="ajo-sA-4uh" firstAttribute="width" secondItem="Z9R-YG-xaY" secondAttribute="width" priority="999" constant="-40" id="97s-Qz-y3v"/>
                         <constraint firstAttribute="trailing" secondItem="ajo-sA-4uh" secondAttribute="trailing" constant="113" placeholder="YES" id="D7s-aO-dLD"/>
-                        <constraint firstAttribute="bottom" secondItem="5Ak-T0-AxJ" secondAttribute="top" constant="119" id="Voj-Za-kOU"/>
+                        <constraint firstAttribute="bottom" secondItem="rhW-dT-sOr" secondAttribute="bottom" priority="999" constant="11" id="Qgh-hr-pO3"/>
                         <constraint firstAttribute="bottom" secondItem="ajo-sA-4uh" secondAttribute="bottom" id="cxX-4B-FlG"/>
                         <constraint firstItem="ajo-sA-4uh" firstAttribute="top" secondItem="Z9R-YG-xaY" secondAttribute="top" id="dlP-pc-3KC"/>
                         <constraint firstItem="ajo-sA-4uh" firstAttribute="leading" secondItem="Z9R-YG-xaY" secondAttribute="leading" constant="113" placeholder="YES" id="drz-sb-GP6"/>
