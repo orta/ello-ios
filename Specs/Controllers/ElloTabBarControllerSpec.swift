@@ -80,12 +80,14 @@ class ElloTabBarControllerSpec: QuickSpec {
 
             beforeEach() {
                 controller = ElloTabBarController.instantiateFromStoryboard()
+                let children = controller.childViewControllers as! [UIViewController]
+                for child in children {
+                    child.removeFromParentViewController()
+                }
                 controller.addChildViewController(child1)
                 controller.addChildViewController(child2)
                 controller.addChildViewController(child3)
                 let view = controller.view
-                controller.selectedIndex = 0
-
             }
 
             it("should load child1") {
@@ -104,11 +106,6 @@ class ElloTabBarControllerSpec: QuickSpec {
                 controller.tabBar(controller.tabBar, didSelectItem: child3.tabBarItem)
                 expect(controller.selectedViewController).to(equal(child3))
                 expect(child3.isViewLoaded()).to(beTrue())
-            }
-
-            it("should ignore child4") {
-                controller.tabBar(controller.tabBar, didSelectItem: child4.tabBarItem)
-                expect(controller.selectedViewController).toNot(equal(child3))
             }
 
             it("tapping the item twice") {
