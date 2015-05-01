@@ -166,7 +166,6 @@ public class StreamFooterCell: UICollectionViewCell {
     private func addButtonHandlers() {
         flagControl.addTarget(self, action: Selector("flagButtonTapped:"), forControlEvents: .TouchUpInside)
         commentsControl.addTarget(self, action: Selector("commentsButtonTapped:"), forControlEvents: .TouchUpInside)
-        commentsControl.addTarget(self, action: Selector("commentsButtonTouchDown:"), forControlEvents: .TouchDown)
         lovesControl.addTarget(self, action: Selector("lovesButtonTapped:"), forControlEvents: .TouchUpInside)
         replyControl.addTarget(self, action: Selector("replyButtonTapped:"), forControlEvents: .TouchUpInside)
         repostControl.addTarget(self, action: Selector("repostButtonTapped:"), forControlEvents: .TouchUpInside)
@@ -189,6 +188,7 @@ public class StreamFooterCell: UICollectionViewCell {
             }
         }
 
+        sender.highlighted = true
         if !commentsOpened {
             sender.animate()
         }
@@ -202,10 +202,6 @@ public class StreamFooterCell: UICollectionViewCell {
         commentsControl.finishAnimation()
         commentsControl.selected = false
         commentsOpened = false
-    }
-
-    @IBAction func commentsButtonTouchDown(sender: ImageLabelControl) {
-        sender.highlighted = true
     }
 
     @IBAction func lovesButtonTapped(sender: ImageLabelControl) {

@@ -98,7 +98,7 @@ CHECKOUT OPTIONS:
     :commit: 3199b781225ee5cdd59d6b70fd4c038a80f47f74
     :git: https://github.com/ello/Moya
   SVGKit:
-    :commit: 352033dc30dc64bcc3306c0a2fceeafbc162b3bb
+    :commit: 29684d7fca9a1e0f8731689d72576539ca74cd8c
     :git: https://github.com/SVGKit/SVGKit
   YapDatabase:
     :commit: d76b838c53d5525663fd8bd279829c75ff1bd0ce
@@ -110,7 +110,7 @@ SPEC CHECKSUMS:
   CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
   FLAnimatedImage: f9422f796135aff80d8c00b2afc48015bb746e24
   JTSImageViewController: 89ae3c003060c65418fd3224ebbd67acc6046608
-  Keys: 0feb3c779714b9ddbb40a8214ca348af3ea4986c
+  Keys: 80485232b6d580368f08f1df19ebfc4f0077b66a
   KINWebBrowser: 5700a9e2d891ce43f726dd9e04c929312933bb18
   LlamaKit: 2610cffeec508d27caad8449e7d460df914d9212
   LUKeychainAccess: 6479edb12cf06e11ff3336f796959eedbc58f714
