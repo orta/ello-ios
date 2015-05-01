@@ -111,7 +111,7 @@ public extension AlertViewController {
         tableView.scrollEnabled = (CGRectGetHeight(self.view.frame) == MaxHeight)
     }
 
-    public func dismiss(animated: Bool = true, completion: (()->())? = .None) {
+    public func dismiss(animated: Bool = true, completion: ElloEmptyCompletion? = .None) {
         dismissViewControllerAnimated(animated, completion: completion)
     }
 }

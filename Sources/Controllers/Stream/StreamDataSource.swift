@@ -394,7 +394,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         return (cells, repostCells)
     }
 
-    private func temporarilyUnfilter(@noescape block: ()->()) {
+    private func temporarilyUnfilter(@noescape block: ElloEmptyCompletion) {
         let cachedStreamFilter = streamFilter
         let cachedStreamCollapsedFilter = streamCollapsedFilter
         self.streamFilter = nil
