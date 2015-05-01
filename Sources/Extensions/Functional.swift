@@ -27,13 +27,13 @@ public struct Functional {
     }
 
     // Simple wrapper for `for i = 0 ; i < times ; ++i`.  Ignores the index.
-    public static func times(times: Int, block : BasicBlock) {
-        self.times(times, block: { (index : Int) in block() })
+    public static func times(times: Int, @noescape block: BasicBlock) {
+        self.times(times, block: { (index: Int) in block() })
     }
 
     // Simple wrapper for `for i = 0 ; i < times ; ++i`.  Passes the index to
     // the block.
-    public static func times(times: Int, block : TakesIndexBlock) {
+    public static func times(times: Int, @noescape block: TakesIndexBlock) {
         if times <= 0 {
             return
         }
