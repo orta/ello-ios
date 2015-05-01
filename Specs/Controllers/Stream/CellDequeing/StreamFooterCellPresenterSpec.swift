@@ -72,6 +72,48 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                 }
             }
 
+            context("repost button") {
+                it("usually enabled") {
+                    let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6])
+                    var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+
+                    expect(cell.repostControl.enabled).to(beTrue())
+                }
+                it("enabled if author allows it") {
+                    let author: User = stub(["id" : "1", "hasRepostingEnabled" : true])
+                    let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6, "author" : author])
+                    var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+
+                    expect(cell.repostControl.enabled).to(beTrue())
+                }
+                it("disabled if author doesn't allow it") {
+                    let author: User = stub(["id" : "1", "hasRepostingEnabled" : false])
+                    let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6, "author" : author])
+                    var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+
+                    expect(cell.repostControl.enabled).to(beFalse())
+                }
+                it("disabled if author is current user") {
+                    let author: User = stub(["id" : "1", "hasRepostingEnabled" : true])
+                    let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6, "author" : author])
+                    var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: author)
+
+                    expect(cell.repostControl.enabled).to(beFalse())
+                }
+            }
+
             context("loading") {
 
                 it("configures a stream footer cell") {

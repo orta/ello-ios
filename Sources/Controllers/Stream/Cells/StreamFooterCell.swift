@@ -68,10 +68,15 @@ public class StreamFooterCell: UICollectionViewCell {
        return self.deleteItem.customView as! ImageLabelControl
     }
 
-    public var footerConfig: (ownPost: Bool, streamKind: StreamKind?) = (false, nil) {
+    public var footerConfig: (ownPost: Bool, allowsRepost: Bool, streamKind: StreamKind?) = (false, true, nil) {
         didSet {
             if let streamKind = footerConfig.streamKind {
-                self.repostControl.enabled = !footerConfig.ownPost
+                if footerConfig.ownPost {
+                    self.repostControl.enabled = false
+                }
+                else {
+                    self.repostControl.enabled = footerConfig.allowsRepost
+                }
 
                 if streamKind.isGridLayout {
                     self.toolBar.items = [

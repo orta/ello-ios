@@ -28,7 +28,11 @@ public struct StreamFooterCellPresenter {
                         ownPost = true
                     }
                 }
-                cell.footerConfig = (ownPost: ownPost, streamKind: streamKind)
+                cell.footerConfig = (
+                    ownPost: ownPost,
+                    allowsRepost: post.author?.hasRepostingEnabled ?? true,
+                    streamKind: streamKind
+                    )
 
                 if streamKind.isDetail {
                     cell.commentsOpened = true
