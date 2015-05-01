@@ -148,12 +148,12 @@ public class PostbarController: NSObject, PostbarDelegate {
         let alertController = AlertViewController(message: message)
         alertController.autoDismiss = false
 
-        let yesAction = AlertAction(title: NSLocalizedString("Yes", comment: "Yes button"), style: .Dark, handler: { action in
+        let yesAction = AlertAction(title: NSLocalizedString("Yes", comment: "Yes button"), style: .Dark) { action in
             self.createRepost(cell, alertController: alertController)
-        })
-        let noAction = AlertAction(title: NSLocalizedString("No", comment: "No button"), style: .Light, handler: { action in
+        }
+        let noAction = AlertAction(title: NSLocalizedString("No", comment: "No button"), style: .Light) { action in
             alertController.dismiss()
-        })
+        }
 
         alertController.addAction(yesAction)
         alertController.addAction(noAction)
