@@ -18,9 +18,7 @@ public class ElloTextFieldView: UIView {
 
     @IBOutlet private var errorLabelHeight: NSLayoutConstraint!
     @IBOutlet private var messageLabelHeight: NSLayoutConstraint!
-    @IBOutlet private var errorAndMessageMarginConstraint: NSLayoutConstraint!
-    @IBOutlet private var errorAndBottomMarginConstraint: NSLayoutConstraint!
-    @IBOutlet private var errorAndNoMarginConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var errorLabelSeparationSpacing: NSLayoutConstraint!
 
     public var textFieldDidChange: (String -> ())? {
         didSet {
@@ -120,20 +118,7 @@ public class ElloTextFieldView: UIView {
     }
 
     private func updateErrorConstraints() {
-        errorAndMessageMarginConstraint.active = false
-        errorAndBottomMarginConstraint.active = false
-        errorAndNoMarginConstraint.active = false
-
-        if hasMessage {
-            errorAndMessageMarginConstraint.active = true
-        }
-        else if hasError {
-            errorAndBottomMarginConstraint.active = true
-        }
-        else {
-            errorAndNoMarginConstraint.active = true
-        }
-
+        errorLabelSeparationSpacing.active = errorHeight > 0 && messageHeight > 0
         errorLabelHeight.constant = errorHeight
         messageLabelHeight.constant = messageHeight
     }

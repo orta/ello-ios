@@ -22,11 +22,22 @@ public class ImageLabelControl: UIControl {
     }
 
     override public var selected: Bool {
-        didSet { icon.selected = selected }
+        didSet {
+            icon.selected = selected
+            if !highlighted {
+                label.attributedText = selected ? attributedSelectedTitle : attributedNormalTitle
+            }
+
+        }
     }
 
     override public var highlighted: Bool {
-        didSet { icon.highlighted = highlighted }
+        didSet {
+            icon.highlighted = highlighted
+            if !selected {
+                label.attributedText = highlighted ? attributedSelectedTitle : attributedNormalTitle
+            }
+        }
     }
 
     let innerPadding: CGFloat = 5
@@ -69,22 +80,17 @@ public class ImageLabelControl: UIControl {
 
     @IBAction func buttonTouchUpInside(sender: ImageLabelControl) {
         sendActionsForControlEvents(.TouchUpInside)
-        icon.selected = false
-        if highlighted { return }
-        label.attributedText = attributedNormalTitle
+        highlighted = false
     }
 
     @IBAction func buttonTouchUpOutside(sender: ImageLabelControl) {
         sendActionsForControlEvents(.TouchUpOutside)
-        icon.selected = false
-        if highlighted { return }
-        label.attributedText = attributedNormalTitle
+        highlighted = false
     }
 
     @IBAction func buttonTouchDown(sender: ImageLabelControl) {
         sendActionsForControlEvents(.TouchDown)
-        icon.selected = true
-        label.attributedText = attributedSelectedTitle
+        highlighted = true
     }
 
     // MARK: Private
@@ -98,8 +104,8 @@ public class ImageLabelControl: UIControl {
 
     private func addTargets() {
         button.addTarget(self, action: Selector("buttonTouchUpInside:"), forControlEvents: .TouchUpInside)
-        button.addTarget(self, action: Selector("buttonTouchDown:"), forControlEvents: .TouchDown)
-        button.addTarget(self, action: Selector("buttonTouchUpOutside:"), forControlEvents: .TouchUpOutside)
+        button.addTarget(self, action: Selector("buttonTouchDown:"), forControlEvents: .TouchDown | .TouchDragEnter)
+        button.addTarget(self, action: Selector("buttonTouchUpOutside:"), forControlEvents: .TouchCancel | .TouchDragExit)
     }
 
     private func updateLayout() {
@@ -128,7 +134,7 @@ public class ImageLabelControl: UIControl {
                 y: 0,
                 width: contentWidth,
                 height: height
-        )
+            )
 
         button.frame.size.width = width
         button.frame.size.height = height

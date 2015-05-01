@@ -58,6 +58,7 @@ class JoinViewControllerSpec: QuickSpec {
                 expect(controller.aboutButton).notTo(beNil())
                 expect(controller.loginButton).notTo(beNil())
                 expect(controller.joinButton).notTo(beNil())
+                expect(controller.termsLabel).notTo(beNil())
             }
 
             it("IBActions are wired up") {

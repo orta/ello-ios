@@ -24,6 +24,11 @@ public final class User: JSONAble {
     public let name: String
     public let experimentalFeatures: Bool
     public let relationshipPriority: Relationship
+    public let postsAdultContent: Bool
+    public let viewsAdultContent: Bool
+    public let hasCommentingEnabled: Bool
+    public let hasSharingEnabled: Bool
+    public let hasRepostingEnabled: Bool
     // optional
     public var avatar: Asset? // required, but kinda optional due to it being nested in json
     public var identifiableBy: String?
@@ -50,7 +55,12 @@ public final class User: JSONAble {
         username: String,
         name: String,
         experimentalFeatures: Bool,
-        relationshipPriority: Relationship)
+        relationshipPriority: Relationship,
+        postsAdultContent: Bool,
+        viewsAdultContent: Bool,
+        hasCommentingEnabled: Bool,
+        hasSharingEnabled: Bool,
+        hasRepostingEnabled: Bool)
     {
         self.id = id
         self.href = href
@@ -58,6 +68,11 @@ public final class User: JSONAble {
         self.name = name
         self.experimentalFeatures = experimentalFeatures
         self.relationshipPriority = relationshipPriority
+        self.postsAdultContent = postsAdultContent
+        self.viewsAdultContent = viewsAdultContent
+        self.hasCommentingEnabled = hasCommentingEnabled
+        self.hasSharingEnabled = hasSharingEnabled
+        self.hasRepostingEnabled = hasRepostingEnabled
         super.init()
     }
 
@@ -74,6 +89,11 @@ public final class User: JSONAble {
         self.experimentalFeatures = decoder.decodeKey("experimentalFeatures")
         let relationshipPriorityRaw: String = decoder.decodeKey("relationshipPriorityRaw")
         self.relationshipPriority = Relationship(stringValue: relationshipPriorityRaw)
+        self.postsAdultContent = decoder.decodeKey("postsAdultContent")
+        self.viewsAdultContent = decoder.decodeKey("viewsAdultContent")
+        self.hasCommentingEnabled = decoder.decodeKey("hasCommentingEnabled")
+        self.hasSharingEnabled = decoder.decodeKey("hasSharingEnabled")
+        self.hasRepostingEnabled = decoder.decodeKey("hasRepostingEnabled")
         // optional
         self.avatar = decoder.decodeOptionalKey("avatar")
         self.identifiableBy = decoder.decodeOptionalKey("identifiableBy")
@@ -98,6 +118,11 @@ public final class User: JSONAble {
         encoder.encodeObject(name, forKey: "name")
         encoder.encodeBool(experimentalFeatures, forKey: "experimentalFeatures")
         encoder.encodeObject(relationshipPriority.rawValue, forKey: "relationshipPriorityRaw")
+        encoder.encodeBool(postsAdultContent, forKey: "postsAdultContent")
+        encoder.encodeBool(viewsAdultContent, forKey: "viewsAdultContent")
+        encoder.encodeBool(hasCommentingEnabled, forKey: "hasCommentingEnabled")
+        encoder.encodeBool(hasSharingEnabled, forKey: "hasSharingEnabled")
+        encoder.encodeBool(hasRepostingEnabled, forKey: "hasRepostingEnabled")
         // optional
         encoder.encodeObject(avatar, forKey: "avatar")
         encoder.encodeObject(identifiableBy, forKey: "identifiableBy")
@@ -129,7 +154,12 @@ public final class User: JSONAble {
             username: json["username"].stringValue,
             name: json["name"].stringValue,
             experimentalFeatures: json["experimental_features"].boolValue,
-            relationshipPriority: Relationship(stringValue: json["relationship_priority"].stringValue)
+            relationshipPriority: Relationship(stringValue: json["relationship_priority"].stringValue),
+            postsAdultContent: json["posts_adult_content"].boolValue,
+            viewsAdultContent: json["views_adult_content"].boolValue,
+            hasCommentingEnabled: json["has_commenting_enabled"].boolValue,
+            hasSharingEnabled: json["has_sharing_enabled"].boolValue,
+            hasRepostingEnabled: json["has_reposting_enabled"].boolValue
         )
 
         // optional
@@ -156,3 +186,9 @@ public final class User: JSONAble {
     }
 }
 
+extension User {
+    func propertyForSettingsKey(key: String) -> Bool {
+        let value = (valueForKey(key.camelCase) ?? profile?.valueForKey(key.camelCase)) as? Bool
+        return value ?? false
+    }
+}

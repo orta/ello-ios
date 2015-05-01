@@ -20,7 +20,7 @@ public struct DynamicSettingCellPresenter {
         } else {
             cell.toggleButton.hidden = false
             cell.deleteButton.hidden = true
-            cell.toggleButton.value = currentUser.profile?.propertyForSettingsKey(setting.key) ?? false
+            cell.toggleButton.value = currentUser.propertyForSettingsKey(setting.key) ?? false
         }
     }
 }
