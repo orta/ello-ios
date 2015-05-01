@@ -75,8 +75,10 @@ public class StreamFooterCell: UICollectionViewCell {
                     self.repostControl.enabled = false
                 }
                 else {
-                    self.repostControl.enabled = footerConfig.allowsRepost
+                    self.repostControl.enabled = true
                 }
+
+                self.repostControl.hidden = !footerConfig.allowsRepost
 
                 if streamKind.isGridLayout {
                     self.toolBar.items = [
