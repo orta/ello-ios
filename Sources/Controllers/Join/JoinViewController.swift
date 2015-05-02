@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import KINWebBrowser
 
 public class JoinViewController: BaseElloViewController {
 
@@ -165,39 +164,36 @@ public class JoinViewController: BaseElloViewController {
     }
 
     private func showAboutScreen() {
-        let nav = KINWebBrowserViewController.navigationControllerWithWebBrowser()
+        let nav = ElloWebBrowserViewController.navigationControllerWithWebBrowser()
         let browser = nav.rootWebBrowser()
+        browser.loadURLString("\(ElloURI.baseURL)/wtf/post/about")
+
         let xButton = UIBarButtonItem(title: "\u{2573}", style: .Done, target: browser, action: Selector("doneButtonPressed:"))
         xButton.setTitleTextAttributes([NSForegroundColorAttributeName : UIColor.blackColor()], forState: .Normal)
         browser.navigationItem.rightBarButtonItem = xButton
         browser.tintColor = UIColor.greyA()
 
-        browser.loadURLString("\(ElloURI.baseURL)/wtf/post/about")
         browser.showsURLInNavigationBar = false
         browser.showsPageTitleInNavigationBar = false
         browser.title = NSLocalizedString("About", comment: "about title")
 
-        presentViewController(nav, animated: true, completion: {
-            nav.setToolbarHidden(true, animated: false)
-        })
+        presentViewController(nav, animated: true, completion: nil)
     }
 
     private func showTerms() {
-        let nav = KINWebBrowserViewController.navigationControllerWithWebBrowser()
+        let nav = ElloWebBrowserViewController.navigationControllerWithWebBrowser()
         let browser = nav.rootWebBrowser()
+        browser.loadURLString("\(ElloURI.baseURL)/wtf/post/privacy")
+
         let xButton = UIBarButtonItem(title: "\u{2573}", style: .Done, target: browser, action: Selector("doneButtonPressed:"))
         xButton.setTitleTextAttributes([NSForegroundColorAttributeName : UIColor.blackColor()], forState: .Normal)
         browser.navigationItem.rightBarButtonItem = xButton
         browser.tintColor = UIColor.greyA()
-        browser.loadURLString("\(ElloURI.baseURL)/wtf/post/privacy")
         browser.showsURLInNavigationBar = false
         browser.showsPageTitleInNavigationBar = false
         browser.title = NSLocalizedString("Terms and Conditions", comment: "terms and conditions title")
-        nav.setToolbarHidden(true, animated: false)
 
-        presentViewController(nav, animated: true, completion: {
-            nav.setToolbarHidden(true, animated: false)
-        })
+        presentViewController(nav, animated: true, completion: nil)
     }
 
 }
