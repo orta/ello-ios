@@ -1,3 +1,74 @@
+### Ello Build 1483(v1.0.0) May 1, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #224 - Reposting
+The repost button shows an alert "you wanna repost", then it shows a spinner, then it either reposts or shows an error.
+
+Significant changes to `AlertViewController`.
+- Added a `contentView` ability, which resizes the alert and hides the tableView.
+- Mucked with the `dismissable` property.  It is now mutable, and the presenting controller "respects" its setting (tapping outside dismisses when `dismissable` is true)
+- Added `autoDismiss` to allow/prevent buttons from hiding the alert when they are pressed.
+
+Known issue: the API doesn't actually support reposting (it requires a "body", which we are not sending).
+
+The repost button respects the author's `hasRepostingEnabled` setting, and is disabled when the poster is the current user (@steam: I haven't implemented the "highlight button when user has already reposted" - I don't know if/where that data is stored).
+
+------
+
+#### #222 - fixes refreshing in notifications by moving the 'start paging' method
+From 'scrollViewDidScroll' to 'scrollViewDidEndDragging'
+
+------
+
+#### #218 - Adds some necessary booleans to the user api
+* Adds `has_commenting_enabled` on user to show/hide the comment button on a post
+* Adds `has_sharing_enabled` on user to show/hide the share button on a post
+* Adds `has_reposting_enabled` on user to show/hide the repost button on a post
+* Removes `allow_comments` boolean from a post, should already have the author which has the `has_commenting_enabled` flag on it now.
+* This depends on this pull request: https://github.com/ello/ello/pull/1059
+
+------
+
+#### #220 - Rotate the comment header chevron
+SSIA
+
+------
+
+#### #221 - Paging comments in post detail pages!
+* Strips down the `PostDetailViewController` a bunch
+* Removes method from `PostTappedDelegate`
+* Fixes a bug with paging that only loaded the first page
+
+[Fixes #92960590]
+
+------
+
+#### #221 - Paging comments in post detail pages!
+* Strips down the `PostDetailViewController` a bunch
+* Removes method from `PostTappedDelegate`
+* Fixes a bug with paging that only loaded the first page
+
+[Fixes #92960590]
+
+------
+
+#### #217 - Add finer grain control to postbar buttons
+* `ImageLabelControl` replaces `StreamFooterButton` as the post bar's `UIControl`
+* Pass `ImageLabelControl` a `ImageLabelAnimatable` (currently `CommentIcon` and `BasicIcon`)
+* `ImageLabelControl`s force a minimum size of 44pt x 44pt for easier tapping
+
+![screen shot 2015-04-29 at 5 08 03 pm](https://cloud.githubusercontent.com/assets/12459/7403389/6519d8a0-ee92-11e4-9fc7-09c6845d8b84.png)
+
+------
+
+#### #219 - better error messages, and disable user interaction
+Super short one.
+    
+------------
+
 ### Ello Build 1408(v1.0.0) April 29, 2015
 
     RELEASE NOTES
