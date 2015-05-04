@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import KINWebBrowser
 
 public let externalWebNotification = TypedNotification<String>(name: "externalWebNotification")
 
@@ -14,7 +13,7 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
 
     var interactionController: UIPercentDrivenInteractiveTransition?
     var externalWebObserver: NotificationObserver?
-    let externalWebController: UINavigationController = KINWebBrowserViewController.navigationControllerWithWebBrowser()
+    let externalWebController: UINavigationController = ElloWebBrowserViewController.navigationControllerWithWebBrowser()
     var rootViewControllerName : String?
     public var currentUser : User? {
         didSet { didSetCurrentUser() }
@@ -80,9 +79,6 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
         Tracker.sharedTracker.screenAppeared("Web View: \(url)")
         presentViewController(externalWebController, animated: true, completion: nil)
         if let externalWebView = externalWebController.rootWebBrowser() {
-            let xButton = UIBarButtonItem(title: "\u{2573}", style: UIBarButtonItemStyle.Done, target: externalWebView, action: Selector("doneButtonPressed:"))
-            xButton.setTitleTextAttributes([NSForegroundColorAttributeName : UIColor.blackColor()], forState: UIControlState.Normal)
-            externalWebView.navigationItem.rightBarButtonItem = xButton
             externalWebView.tintColor = UIColor.greyA()
             externalWebView.loadURLString(url)
         }

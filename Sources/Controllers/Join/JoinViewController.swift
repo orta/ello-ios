@@ -159,10 +159,6 @@ public class JoinViewController: BaseElloViewController {
         let nav = ElloWebBrowserViewController.navigationControllerWithWebBrowser()
         let browser = nav.rootWebBrowser()
         browser.loadURLString("\(ElloURI.baseURL)/wtf/post/about")
-
-        let xButton = UIBarButtonItem(title: "\u{2573}", style: .Done, target: browser, action: Selector("doneButtonPressed:"))
-        xButton.setTitleTextAttributes([NSForegroundColorAttributeName : UIColor.blackColor()], forState: .Normal)
-        browser.navigationItem.rightBarButtonItem = xButton
         browser.tintColor = UIColor.greyA()
 
         browser.showsURLInNavigationBar = false
@@ -176,10 +172,6 @@ public class JoinViewController: BaseElloViewController {
         let nav = ElloWebBrowserViewController.navigationControllerWithWebBrowser()
         let browser = nav.rootWebBrowser()
         browser.loadURLString("\(ElloURI.baseURL)/wtf/post/privacy")
-
-        let xButton = UIBarButtonItem(title: "\u{2573}", style: .Done, target: browser, action: Selector("doneButtonPressed:"))
-        xButton.setTitleTextAttributes([NSForegroundColorAttributeName : UIColor.blackColor()], forState: .Normal)
-        browser.navigationItem.rightBarButtonItem = xButton
         browser.tintColor = UIColor.greyA()
         browser.showsURLInNavigationBar = false
         browser.showsPageTitleInNavigationBar = false

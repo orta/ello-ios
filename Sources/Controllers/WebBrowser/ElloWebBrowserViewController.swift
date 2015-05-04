@@ -24,4 +24,9 @@ class ElloWebBrowserViewController: KINWebBrowserViewController {
         return UINavigationController(rootViewController: webBrowser)
     }
 
+    override class func navigationControllerWithWebBrowser() -> UINavigationController {
+        let browser = self()
+        return navigationControllerWithBrowser(browser)
+    }
+
 }
