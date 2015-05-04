@@ -247,3 +247,9 @@ public extension CredentialSettingsViewController {
         return UIStoryboard(name: "Settings", bundle: NSBundle(forClass: AppDelegate.self)).instantiateViewControllerWithIdentifier("CredentialSettingsViewController") as! CredentialSettingsViewController
     }
 }
+
+public extension CredentialSettingsViewController {
+    public override func scrollViewDidScroll(scrollView: UIScrollView) {
+        tableView.setContentOffset(CGPointZero, animated: false)
+    }
+}

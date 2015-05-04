@@ -141,6 +141,7 @@ public final class Post: JSONAble, Authorable {
         self.token = decoder.decodeKey("token")
         self.contentWarning = decoder.decodeKey("contentWarning")
         self.allowComments = decoder.decodeKey("allowComments")
+        self.collapsed = decoder.decodeKey("collapsed")
         self.summary = decoder.decodeKey("summary")
         // optional
         self.content = decoder.decodeOptionalKey("content")
@@ -167,6 +168,7 @@ public final class Post: JSONAble, Authorable {
         encoder.encodeObject(token, forKey: "token")
         encoder.encodeObject(contentWarning, forKey: "contentWarning")
         encoder.encodeBool(allowComments, forKey: "allowComments")
+        encoder.encodeBool(collapsed, forKey: "collapsed")
         encoder.encodeObject(summary, forKey: "summary")
         // optional
         encoder.encodeObject(content, forKey: "content")

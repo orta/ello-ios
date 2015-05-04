@@ -192,13 +192,14 @@ class PostSpec: QuickSpec {
                         // required
                         "href" : "0987",
                         "token" : "toke-en",
-                        "contentWarning" : "",
+                        "contentWarning" : "NSFW.",
                         "allowComments" : true,
                         "summary" : summary,
                         // optional
                         "content" : content,
                         "repostContent" : repostContent,
                         "repostId" : "910",
+                        "collapsed" : true,
                         "repostPath" : "http://ello.co/910",
                         "repostViaId" : "112",
                         "repostViaPath" : "http://ello.co/112",
@@ -222,7 +223,8 @@ class PostSpec: QuickSpec {
                     // required
                     expect(unArchivedPost.href) == "0987"
                     expect(unArchivedPost.token) == "toke-en"
-                    expect(unArchivedPost.contentWarning) == ""
+                    expect(unArchivedPost.contentWarning) == "NSFW."
+                    expect(unArchivedPost.collapsed) == true
                     expect(unArchivedPost.allowComments) == true
                     testRegionContent(unArchivedPost.summary)
                     // optional
@@ -241,7 +243,7 @@ class PostSpec: QuickSpec {
                     expect(count(unArchivedPost.comments!)) == 1
                     expect(unArchivedPost.comments![0]).to(beAKindOf(Comment.self))
                     // computed
-                    expect(post.collapsed) == false
+                    expect(post.collapsed) == true
                     expect(post.shareLink) == "https://ello.co/thenim/post/toke-en"
                 }
             }
