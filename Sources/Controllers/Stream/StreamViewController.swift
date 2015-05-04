@@ -49,7 +49,7 @@ let RelayoutStreamViewControllerNotification = TypedNotification<UICollectionVie
 public class StreamViewController: BaseElloViewController {
 
     @IBOutlet weak public var collectionView: UICollectionView!
-
+    var shouldReload = false
     var streamables:[Streamable]?
     var refreshableIndex: Int?
     public var dataSource:StreamDataSource!
@@ -133,6 +133,14 @@ public class StreamViewController: BaseElloViewController {
         pullToRefreshView = SSPullToRefreshView(scrollView:collectionView, delegate: self)
         pullToRefreshView?.contentView = ElloPullToRefreshView(frame:CGRectZero)
         setupCollectionView()
+    }
+
+    public override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        if shouldReload {
+            shouldReload = false
+            loadInitialPage()
+        }
     }
 
     public class func instantiateFromStoryboard() -> StreamViewController {
@@ -552,6 +560,7 @@ extension StreamViewController : UIScrollViewDelegate {
     }
 }
 
+// MARK: StreamViewController: SSPullToRefreshViewDelegate
 extension StreamViewController: SSPullToRefreshViewDelegate {
     public func pullToRefreshViewShouldStartLoading(view: SSPullToRefreshView!) -> Bool {
         return true
@@ -562,6 +571,7 @@ extension StreamViewController: SSPullToRefreshViewDelegate {
     }
 }
 
+// MARK: StreamViewController: StreamImageCellDelegate
 extension StreamViewController: StreamImageCellDelegate {
 
     public func imageTapped(imageView: FLAnimatedImageView, cell: UICollectionViewCell) {

@@ -166,5 +166,4 @@ public class StreamContainerViewController: StreamableViewController {
         // comments, and below the 'create comment' button
         streamViewController.insertNewCommentItems(newCommentItems)
     }
-
 }

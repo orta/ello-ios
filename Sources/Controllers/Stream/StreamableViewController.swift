@@ -28,6 +28,7 @@ public protocol InviteResponder: NSObjectProtocol {
 public class StreamableViewController : BaseElloViewController, PostTappedDelegate {
 
     var scrollLogic: ElloScrollLogic!
+    var experienceUpdatable: ExperienceUpdatable
 
     override public func viewDidLoad() {
         super.viewDidLoad()

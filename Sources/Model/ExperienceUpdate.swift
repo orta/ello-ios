@@ -10,14 +10,22 @@ import Foundation
 
 public let ExperienceUpdatedNotification = TypedNotification<ExperienceUpdate>(name: "experienceUpdatedNotification")
 
+
+// comment created/updated/deleted - changes / creates comment
+// post created/updated/deleted(also deletes comments) - changes / creates post
+// commenting allowed / not allowed - changes current user
+// sharing allowed / not allowed - changes current user
+// reposing allowed / not allowed - changes current user
+// view / not view nswf content - changes current user
+// view / not view ads - changes current user profile
+// relationship changed friend / noise / mute / block - changes User
+
 public enum ExperienceUpdate {
     case CommentChanged(commentId: String, postId: String, change: ContentChange)
     case ContentActionRuleChanged(userId: String, action: ContentAction, allowed: Bool)
     case ContentVisibilityRuleChanged(userId: String, kind: VisibilityKind, visible: Bool)
     case PostChanged(id: String, change: ContentChange)
     case RelationshipChanged(relationship: Relationship, userId: String)
-    case UserBlocked(id: String, blocked: Bool)
-    case UserMuted(id: String, muted: Bool)
 }
 
 

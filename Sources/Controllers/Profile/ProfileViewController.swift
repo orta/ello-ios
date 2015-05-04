@@ -223,20 +223,3 @@ extension ProfileViewController: StreamScrollDelegate {
         super.streamViewDidScroll(scrollView)
     }
 }
-
-// MARK: ProfileViewController: ExperienceUpdatable
-extension ProfileViewController: ExperienceUpdatable {
-
-    public func experienceUpdateResponse(update: ExperienceUpdate) -> ExperienceUpdateResponse {
-        let affected = update.affectsItems(self.streamViewController.dataSource.streamCellItems)
-        return affected ? .Reload : .DoNothing
-    }
-
-    public func experienceReloadNow() {
-        streamViewController.loadInitialPage()
-    }
-
-    public func experienceReloadLater() {
-        shouldReload = true
-    }
-}

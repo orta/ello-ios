@@ -153,26 +153,3 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
     }
     
 }
-
-// MARK: PostDetailViewController: ExperienceUpdatable
-extension PostDetailViewController: ExperienceUpdatable {
-
-    public func experienceUpdateResponse(update: ExperienceUpdate) -> ExperienceUpdateResponse {
-        switch update {
-        case .PostChanged(let id, let change):
-            let releventPostDeleted = id == self.post?.id && change == .Delete
-            return releventPostDeleted ? .Remove : .DoNothing
-        default:
-            let affected = update.affectsItems(self.streamViewController.dataSource.streamCellItems)
-            return affected ? .Reload : .DoNothing
-        }
-    }
-
-    public func experienceReloadNow() {
-        streamViewController.loadInitialPage()
-    }
-
-    public func experienceReloadLater() {
-        shouldReload = true
-    }
-}
