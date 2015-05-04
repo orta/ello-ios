@@ -20,6 +20,9 @@ public class JoinViewController: BaseElloViewController {
     @IBOutlet weak public var joinButton: ElloButton!
     @IBOutlet weak public var termsLabel: UILabel!
 
+    private var keyboardWillShowObserver: NotificationObserver?
+    private var keyboardWillHideObserver: NotificationObserver?
+
     // error checking
     var queueEmailValidation: Functional.BasicBlock!
     var queueUsernameValidation: Functional.BasicBlock!
@@ -81,14 +84,13 @@ public class JoinViewController: BaseElloViewController {
     }
 
     private func setupNotificationObservers() {
-        let center = NSNotificationCenter.defaultCenter()
-        center.addObserver(self, selector: Selector("keyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
-        center.addObserver(self, selector: Selector("keyboardWillHide:"), name: UIKeyboardWillHideNotification, object: nil)
+        keyboardWillShowObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillShow, block: keyboardWillShow)
+        keyboardWillHideObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillHide, block: keyboardWillHide)
     }
 
     private func removeNotificationObservers() {
-        let center = NSNotificationCenter.defaultCenter()
-        center.removeObserver(self)
+        keyboardWillShowObserver?.removeObserver()
+        keyboardWillHideObserver?.removeObserver()
     }
 
     private func join() {
@@ -173,30 +175,25 @@ public class JoinViewController: BaseElloViewController {
 // MARK: Keyboard Events
 extension JoinViewController {
 
-    func keyboardWillShow(notification: NSNotification) {
-        keyboardWillChangeFrame(notification, showsKeyboard: true)
+    func keyboardWillShow(keyboard: Keyboard) {
+        keyboardWillChangeFrame(keyboard, showsKeyboard: true)
     }
 
-    func keyboardWillHide(notification: NSNotification) {
-        keyboardWillChangeFrame(notification, showsKeyboard: false)
+    func keyboardWillHide(keyboard: Keyboard) {
+        keyboardWillChangeFrame(keyboard, showsKeyboard: false)
     }
 
-    private func keyboardWillChangeFrame(notification: NSNotification, showsKeyboard: Bool) {
-        if let userInfo = notification.userInfo {
-            let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-            let keyboardViewEndFrame = view.convertRect(keyboardScreenEndFrame, fromView: view.window)
-
-            if shouldAdjustScrollViewForKeyboard(keyboardViewEndFrame) || !showsKeyboard {
-                let keyboardHeight = showsKeyboard ? keyboardViewEndFrame.size.height : 0
-                let adjustedInsets = UIEdgeInsetsMake(
-                    scrollView.contentInset.top,
-                    scrollView.contentInset.left,
-                    keyboardHeight,
-                    scrollView.contentInset.right
-                )
-                scrollView.contentInset = adjustedInsets
-                scrollView.scrollIndicatorInsets = adjustedInsets
-            }
+    private func keyboardWillChangeFrame(keyboard: Keyboard, showsKeyboard: Bool) {
+        if shouldAdjustScrollViewForKeyboard(keyboard.endFrame) || !showsKeyboard {
+            let keyboardHeight = showsKeyboard ? keyboard.height : 0
+            let adjustedInsets = UIEdgeInsetsMake(
+                scrollView.contentInset.top,
+                scrollView.contentInset.left,
+                keyboardHeight,
+                scrollView.contentInset.right
+            )
+            scrollView.contentInset = adjustedInsets
+            scrollView.scrollIndicatorInsets = adjustedInsets
         }
     }
 
