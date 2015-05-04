@@ -46,6 +46,9 @@ public class ElloTabBarController: UIViewController {
     var currentUser : User?
     var profileResponseConfig: ResponseConfig?
 
+    private var userLoggedOutObserver: NotificationObserver?
+    private var systemLoggedOutObserver: NotificationObserver?
+
     required public init(coder aDecoder: NSCoder) {
         _tabBarHidden = false
         tabBar = ElloTabBar()
@@ -130,16 +133,16 @@ public extension ElloTabBarController {
 // MARK: Notifications
 private extension ElloTabBarController {
     func setupNotificationObservers() {
-        let center = NSNotificationCenter.defaultCenter()
-        center.addObserver(self, selector: Selector("userLoggedOut:"), name: Notifications.UserLoggedOut.rawValue, object: nil)
-        center.addObserver(self, selector: Selector("systemLoggedOut:"), name: Notifications.SystemLoggedOut.rawValue, object: nil)
+        userLoggedOutObserver = NotificationObserver(notification: AuthenticationNotifications.userLoggedOut, block: userLoggedOut)
+        systemLoggedOutObserver = NotificationObserver(notification: AuthenticationNotifications.systemLoggedOut, block: systemLoggedOut)
     }
 
     func removeNotificationObservers() {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        userLoggedOutObserver?.removeObserver()
+        systemLoggedOutObserver?.removeObserver()
     }
 
-    func userLoggedOut(notification: NSNotification) {
+    func userLoggedOut() {
         removeNotificationObservers()
         let authToken = AuthToken()
         authToken.reset()
@@ -150,7 +153,7 @@ private extension ElloTabBarController {
         }
     }
 
-    func systemLoggedOut(notification: NSNotification) {
+    func systemLoggedOut() {
         removeNotificationObservers()
         let authToken = AuthToken()
         authToken.reset()

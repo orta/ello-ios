@@ -180,11 +180,11 @@ extension ElloProvider {
                         },
                         failure: { _ in
                             ElloProvider.postNetworkFailureNotification(data, error: error, statusCode: statusCode)
-                            NSNotificationCenter.defaultCenter().postNotificationName(Notifications.SystemLoggedOut.rawValue, object: nil)
+                            postNotification(AuthenticationNotifications.systemLoggedOut, ())
                     })
                 } else {
                     ElloProvider.postNetworkFailureNotification(data, error: error, statusCode: statusCode)
-                    NSNotificationCenter.defaultCenter().postNotificationName(Notifications.SystemLoggedOut.rawValue, object: nil)
+                    postNotification(AuthenticationNotifications.systemLoggedOut, ())
                 }
             case 410:
                 ElloProvider.postNetworkFailureNotification(data, error: error, statusCode: statusCode)

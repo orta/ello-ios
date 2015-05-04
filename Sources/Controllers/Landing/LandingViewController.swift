@@ -16,6 +16,9 @@ public class LandingViewController: BaseElloViewController {
     @IBOutlet weak public var signInButton: ElloButton!
     @IBOutlet weak public var joinButton: LightElloButton!
 
+    private var userLoggedOutObserver: NotificationObserver?
+    private var systemLoggedOutObserver: NotificationObserver?
+
     override public func viewDidLoad() {
         super.viewDidLoad()
         setupStyles()
@@ -120,14 +123,13 @@ public class LandingViewController: BaseElloViewController {
     }
 
     private func setupNotificationObservers() {
-        let center = NSNotificationCenter.defaultCenter()
-        center.addObserver(self, selector: Selector("userLoggedOut:"), name: Notifications.UserLoggedOut.rawValue, object: nil)
-        center.addObserver(self, selector: Selector("systemLoggedOut:"), name: Notifications.SystemLoggedOut.rawValue, object: nil)
+        userLoggedOutObserver = NotificationObserver(notification: AuthenticationNotifications.userLoggedOut, block: userLoggedOut)
+        systemLoggedOutObserver = NotificationObserver(notification: AuthenticationNotifications.systemLoggedOut, block: systemLoggedOut)
     }
 
     private func removeNotificationObservers() {
-        let center = NSNotificationCenter.defaultCenter()
-        center.removeObserver(self)
+        userLoggedOutObserver?.removeObserver()
+        systemLoggedOutObserver?.removeObserver()
     }
 
     func failedToLoadCurrentUser() {
@@ -136,13 +138,13 @@ public class LandingViewController: BaseElloViewController {
         showButtons()
     }
 
-    func userLoggedOut(notification: NSNotification) {
+    func userLoggedOut() {
         let authToken = AuthToken()
         authToken.reset()
         UIApplication.sharedApplication().keyWindow!.rootViewController = self
     }
 
-    func systemLoggedOut(notification: NSNotification) {
+    func systemLoggedOut() {
         let authToken = AuthToken()
         authToken.reset()
 

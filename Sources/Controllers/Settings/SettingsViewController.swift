@@ -242,7 +242,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     }
 
     @IBAction func logOutTapped(sender: ElloTextButton) {
-        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.UserLoggedOut.rawValue, object: nil)
+        postNotification(AuthenticationNotifications.userLoggedOut, ())
     }
 
     @IBAction func coverImageTapped() {
