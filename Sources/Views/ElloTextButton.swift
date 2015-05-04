@@ -22,15 +22,18 @@ public class ElloTextButton: UIButton {
 
     private func sharedSetup() {
         self.backgroundColor = UIColor.clearColor()
-        self.titleLabel?.numberOfLines = 1
+        let lineBreakMode = self.titleLabel?.lineBreakMode ?? .ByWordWrapping
+        if lineBreakMode != .ByWordWrapping
+        {
+            self.titleLabel?.numberOfLines = 1
+        }
         self.setTitleColor(UIColor.greyA(), forState: UIControlState.Normal)
 
-
         if let title = self.titleLabel?.text {
-            var attributedString = NSMutableAttributedString(string: title)
-            attributedString.addAttribute(NSFontAttributeName, value:UIFont.typewriterFont(14.0), range: NSRange(location: 0, length: count(title)))
-            attributedString.addAttribute(NSUnderlineStyleAttributeName, value:1, range: NSRange(location: 0, length: count(title)))
-
+            let attributedString = NSAttributedString(string: title, attributes: [
+                NSFontAttributeName : UIFont.typewriterFont(14.0),
+                NSUnderlineStyleAttributeName : 1,
+                ])
             self.setAttributedTitle(attributedString, forState: UIControlState.Normal)
         }
     }

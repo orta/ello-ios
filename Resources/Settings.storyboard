@@ -170,7 +170,7 @@
                                                         <constraint firstItem="bEB-3t-p7d" firstAttribute="top" secondItem="yfC-cy-c0C" secondAttribute="top" id="oeH-qq-nUN"/>
                                                     </constraints>
                                                 </view>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="coq-pH-vhf" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="custom" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="coq-pH-vhf" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
                                                     <rect key="frame" x="538" y="21" width="54" height="33"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <state key="normal" title="Logout">

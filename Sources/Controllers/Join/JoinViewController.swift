@@ -18,7 +18,7 @@ public class JoinViewController: BaseElloViewController {
     @IBOutlet weak public var aboutButton: ElloTextButton!
     @IBOutlet weak public var loginButton: ElloTextButton!
     @IBOutlet weak public var joinButton: ElloButton!
-    @IBOutlet weak public var termsButton: UIButton!
+    @IBOutlet weak public var termsButton: ElloTextButton!
 
     // error checking
     var queueEmailValidation: Functional.BasicBlock!
@@ -41,13 +41,6 @@ public class JoinViewController: BaseElloViewController {
         super.viewDidLoad()
         setupStyles()
         setupViews()
-        let attrs : [String : AnyObject] = [
-            NSFontAttributeName : UIFont.typewriterFont(12),
-            NSForegroundColorAttributeName : UIColor.whiteColor(),
-            NSUnderlineStyleAttributeName : NSUnderlineStyle.StyleSingle.rawValue,
-        ]
-        let title = NSAttributedString(string: termsButton.currentTitle ?? "", attributes: attrs)
-        termsButton.setAttributedTitle(title, forState: UIControlState.Normal)
     }
 
     public override func viewDidAppear(animated: Bool) {
