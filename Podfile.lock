@@ -98,7 +98,7 @@ CHECKOUT OPTIONS:
     :commit: 3199b781225ee5cdd59d6b70fd4c038a80f47f74
     :git: https://github.com/ello/Moya
   SVGKit:
-    :commit: 29684d7fca9a1e0f8731689d72576539ca74cd8c
+    :commit: 1b04a954b0be5904a7c36ae683bc20a566a27ae8
     :git: https://github.com/SVGKit/SVGKit
   YapDatabase:
     :commit: d76b838c53d5525663fd8bd279829c75ff1bd0ce
