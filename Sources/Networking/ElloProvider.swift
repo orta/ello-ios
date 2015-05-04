@@ -34,12 +34,12 @@ public struct ElloProvider {
             return stubbedData(String(self.rawValue))
         }
 
-        var notificationName: String {
+        public var notification: TypedNotification<NSError> {
             switch self {
             case .StatusUnknown:
-                return "ElloProviderNotificationUnknown"
+                return TypedNotification(name: "ElloProviderNotificationUnknown")
             default:
-                return "ElloProviderNotification\(self.rawValue)"
+                return TypedNotification(name: "ElloProviderNotification\(self.rawValue)")
             }
         }
     }
@@ -276,7 +276,7 @@ extension ElloProvider {
             notificationCase = ElloProvider.ErrorStatusCode.StatusUnknown
         }
 
-        NSNotificationCenter.defaultCenter().postNotificationName(notificationCase.notificationName, object: elloError)
+        postNotification(notificationCase.notification, elloError)
     }
 
     static private func handleNetworkFailure(failure:ElloFailureCompletion?, data:NSData?, error: NSError?, statusCode: Int?) {
