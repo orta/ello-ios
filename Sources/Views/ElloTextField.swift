@@ -35,13 +35,7 @@ public class ElloTextField: UITextField {
         self.sharedSetup()
     }
 
-    deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-
     func sharedSetup() {
-        let center = NSNotificationCenter.defaultCenter()
-
         self.backgroundColor = UIColor.greyE5()
         self.font = UIFont.typewriterFont(14.0)
         self.textColor = UIColor.blackColor()
