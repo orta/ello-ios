@@ -8,57 +8,37 @@
 
 import UIKit
 
+public enum ElloTab: Int {
+    case Discovery
+    case Notifications
+    case Stream
+    case Profile
+    case Post
+}
+
 public class ElloTabBarController: UIViewController {
-    private var visibleViewController: UIViewController? = nil
     public private(set) var tabBar: ElloTabBar
 
-    // stores the actual value (used by the tabBarHidden property *and* setTabBarHidden func)
-    private var tabBarHiddenValue: Bool
+    private var visibleViewController = UIViewController()
 
-    // calls setTabBarHidden(animated: false)
+    private var _tabBarHidden: Bool
     public var tabBarHidden: Bool {
-        get { return tabBarHiddenValue }
+        get { return _tabBarHidden }
         set { setTabBarHidden(newValue, animated: false) }
     }
 
-    public var selectedIndex: Int {
+    public var selectedTab: ElloTab = .Stream {
         didSet {
-            if count(childViewControllers) == 0 {
-                // no controllers? only allow 0 index
-                if selectedIndex != 0 {
-                    selectedIndex = 0
-                }
-            }
-            else if selectedIndex < 0 {
-                selectedIndex = 0
-            }
-            else if selectedIndex < count(childViewControllers) {
-                updateVisibleViewController()
-                if let selectedViewController = selectedViewController {
-                    if tabBar.selectedItem != selectedViewController.tabBarItem {
-                        tabBar.selectedItem = selectedViewController.tabBarItem
-                    }
-                }
-            }
-            else {
-                selectedIndex = count(childViewControllers) - 1
-            }
+            updateVisibleViewController()
+            tabBar.selectedItem = selectedViewController.tabBarItem
         }
     }
 
-    public var selectedViewController: UIViewController? {
-        get {
-            if selectedIndex >= 0 && selectedIndex < count(childViewControllers) {
-                return childViewControllers[selectedIndex] as? UIViewController
-            }
-            return nil
-        }
+    public var selectedViewController: UIViewController {
+        get { return childViewControllers[selectedTab.rawValue] as! UIViewController }
         set(controller) {
-            if let controller = controller {
-                if let index = find(childViewControllers as! [UIViewController], controller) {
-                    // this will call updateVisibleViewController()
-                    selectedIndex = index
-                }
+            if let index = find(childViewControllers as! [UIViewController], controller) {
+                selectedTab = ElloTab(rawValue: index) ?? .Stream
             }
         }
     }
@@ -66,16 +46,11 @@ public class ElloTabBarController: UIViewController {
     var currentUser : User?
     var profileResponseConfig: ResponseConfig?
 
-    public class func instantiateFromStoryboard() -> ElloTabBarController {
-        return UIStoryboard.storyboardWithId(.ElloTabBar) as! ElloTabBarController
-    }
-
-    required public init(coder decoder: NSCoder) {
-        selectedIndex = decoder.decodeIntegerForKey("selectedIndex")
-        tabBarHiddenValue = false
+    required public init(coder aDecoder: NSCoder) {
+        _tabBarHidden = false
         tabBar = ElloTabBar()
 
-        super.init(coder: decoder)
+        super.init(coder: aDecoder)
 
         setupNotificationObservers()
     }
@@ -83,51 +58,49 @@ public class ElloTabBarController: UIViewController {
     deinit {
         removeNotificationObservers()
     }
+}
 
-    private func setupNotificationObservers() {
-        let center = NSNotificationCenter.defaultCenter()
-        center.addObserver(self, selector: Selector("userLoggedOut:"), name: Notifications.UserLoggedOut.rawValue, object: nil)
-        center.addObserver(self, selector: Selector("systemLoggedOut:"), name: Notifications.SystemLoggedOut.rawValue, object: nil)
+public extension ElloTabBarController {
+    class func instantiateFromStoryboard() -> ElloTabBarController {
+        return UIStoryboard.storyboardWithId(.ElloTabBar) as! ElloTabBarController
+    }
+}
+
+// MARK: View Lifecycle
+public extension ElloTabBarController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.addSubview(tabBar)
+        showViewController(childViewControllers[ElloTab.Stream.rawValue] as! UIViewController)
+        tabBar.delegate = self
+
+        updateTabBarItems()
+        selectedTab = .Stream
+        modalTransitionStyle = .CrossDissolve
+        tabBar.selectedItem = selectedViewController.tabBarItem
     }
 
-    private func removeNotificationObservers() {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
 
-    func userLoggedOut(notification: NSNotification) {
-        self.removeNotificationObservers()
-        let authToken = AuthToken()
-        authToken.reset()
-        let window = self.view.window!
-        let landingController = LandingViewController.instantiateFromStoryboard()
-        self.presentViewController(landingController, animated: true) {
-            window.rootViewController = landingController
+        var upAmount = CGFloat(0)
+        if !tabBarHidden {
+            upAmount = tabBar.frame.height
+        }
+        tabBar.frame = view.bounds.fromBottom().withHeight(tabBar.frame.height).shiftUp(upAmount)
+
+        selectedViewController.view.frame = view.bounds
+        if !tabBarHidden {
+            selectedViewController.view.frame = selectedViewController.view.frame.shrinkUp(tabBar.frame.height)
         }
     }
+}
 
-    func systemLoggedOut(notification: NSNotification) {
-        self.removeNotificationObservers()
-        let authToken = AuthToken()
-        authToken.reset()
-        let window = self.view.window!
-        let landingController = LandingViewController.instantiateFromStoryboard()
-        self.presentViewController(landingController, animated: true) {
-            window.rootViewController = landingController
-
-            let alertController = AlertViewController(
-                message: "You have been automatically logged out")
-
-            let action = AlertAction(title: "OK", style: .Dark, handler: nil)
-            alertController.addAction(action)
-            landingController.presentViewController(alertController, animated: true, completion: nil)
-        }
-    }
-
-
+public extension ElloTabBarController {
     func setProfileData(currentUser: User, responseConfig: ResponseConfig) {
         self.currentUser = currentUser
         self.profileResponseConfig = responseConfig
-        for controller in self.childViewControllers {
+        for controller in childViewControllers {
             if let controller = controller as? BaseElloViewController {
                 controller.currentUser = currentUser
             }
@@ -137,38 +110,8 @@ public class ElloTabBarController: UIViewController {
         }
     }
 
-    override public func viewDidLoad() {
-        super.viewDidLoad()
-        self.view.addSubview(tabBar)
-        tabBar.delegate = self
-
-        selectedIndex = 2
-        updateTabBarItems()
-        modalTransitionStyle = .CrossDissolve
-        if let selectedViewController = selectedViewController {
-            tabBar.selectedItem = selectedViewController.tabBarItem
-        }
-    }
-
-    override public func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-        var upAmount = CGFloat(0)
-        if !tabBarHiddenValue {
-            upAmount = self.tabBar.frame.height
-        }
-        tabBar.frame = self.view.bounds.fromBottom().withHeight(self.tabBar.frame.height).shiftUp(upAmount)
-
-        if let selectedViewController = selectedViewController {
-            selectedViewController.view.frame = self.view.bounds
-            if !tabBarHiddenValue {
-                selectedViewController.view.frame = selectedViewController.view.frame.shrinkUp(tabBar.frame.height)
-            }
-        }
-    }
-
     func setTabBarHidden(hidden: Bool, animated: Bool) {
-        tabBarHiddenValue = hidden
+        _tabBarHidden = hidden
 
         let animations: ElloEmptyCompletion = {
             self.view.setNeedsLayout()
@@ -182,89 +125,112 @@ public class ElloTabBarController: UIViewController {
             animations()
         }
     }
-
 }
 
+// MARK: Notifications
+private extension ElloTabBarController {
+    func setupNotificationObservers() {
+        let center = NSNotificationCenter.defaultCenter()
+        center.addObserver(self, selector: Selector("userLoggedOut:"), name: Notifications.UserLoggedOut.rawValue, object: nil)
+        center.addObserver(self, selector: Selector("systemLoggedOut:"), name: Notifications.SystemLoggedOut.rawValue, object: nil)
+    }
+
+    func removeNotificationObservers() {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
+    func userLoggedOut(notification: NSNotification) {
+        removeNotificationObservers()
+        let authToken = AuthToken()
+        authToken.reset()
+        let window = view.window!
+        let landingController = LandingViewController.instantiateFromStoryboard()
+        presentViewController(landingController, animated: true) {
+            window.rootViewController = landingController
+        }
+    }
+
+    func systemLoggedOut(notification: NSNotification) {
+        removeNotificationObservers()
+        let authToken = AuthToken()
+        authToken.reset()
+        let window = view.window!
+        let landingController = LandingViewController.instantiateFromStoryboard()
+        presentViewController(landingController, animated: true) {
+            window.rootViewController = landingController
+
+            let alertController = AlertViewController(
+                message: "You have been automatically logged out")
+
+            let action = AlertAction(title: "OK", style: .Dark, handler: nil)
+            alertController.addAction(action)
+            landingController.presentViewController(alertController, animated: true, completion: nil)
+        }
+    }
+}
 
 // UITabBarDelegate
 extension ElloTabBarController: UITabBarDelegate {
-
     public func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem) {
-        if let items = tabBar.items as? [UITabBarItem] {
-            if let index = find(items, item) {
-                if index == selectedIndex {
-                    if let navigationViewController = selectedViewController as? UINavigationController {
-                        navigationViewController.popToRootViewControllerAnimated(true)
-                    }
+        if let items = tabBar.items as? [UITabBarItem], index = find(items, item) {
+            if index == selectedTab.rawValue {
+                if let navigationViewController = selectedViewController as? UINavigationController {
+                    navigationViewController.popToRootViewControllerAnimated(true)
                 }
-                else {
-                    selectedIndex = index
-                }
+            }
+            else {
+                selectedTab = ElloTab(rawValue:index) ?? .Stream
             }
         }
     }
-
 }
 
-
 // MARK: Child View Controller handling
-extension ElloTabBarController {
-
-    override public func addChildViewController(childController: UIViewController) {
+public extension ElloTabBarController {
+    override func addChildViewController(childController: UIViewController) {
         super.addChildViewController(childController)
-
-        if visibleViewController == nil {
-            selectedIndex = 0
-        }
         updateTabBarItems()
     }
 
-    private func updateTabBarItems() {
-        let controllers = self.childViewControllers as! [UIViewController]
-        let mapper : (UIViewController)->UITabBarItem = { controller in
+    override func sizeForChildContentContainer(container: UIContentContainer, withParentContainerSize size: CGSize) -> CGSize {
+        return view.frame.size
+    }
+}
+
+private extension ElloTabBarController {
+    func updateTabBarItems() {
+        let controllers = childViewControllers as! [UIViewController]
+        tabBar.items = controllers.map { controller in
             let tabBarItem = controller.tabBarItem
             if tabBarItem.selectedImage != nil && tabBarItem.selectedImage.renderingMode != .AlwaysOriginal {
                 tabBarItem.selectedImage = tabBarItem.selectedImage.imageWithRenderingMode(.AlwaysOriginal)
             }
             return tabBarItem
         }
-        let items = controllers.map(mapper)
-        tabBar.items = items
     }
 
-    private func updateVisibleViewController() {
-        if let prevController = visibleViewController {
-            if let selectedViewController = selectedViewController {
-                if prevController != selectedViewController {
-                    transitionControllers(prevController, selectedViewController)
-                }
-            }
-            else {
-                hideViewController(prevController)
-            }
+    func updateVisibleViewController() {
+        if visibleViewController != selectedViewController {
+            transitionControllers(visibleViewController, selectedViewController)
         }
-        else if let selectedViewController = selectedViewController {
-            showViewController(selectedViewController)
-        }
-
-        visibleViewController = selectedViewController
     }
 
-    private func hideViewController(hideViewController: UIViewController) {
+    func hideViewController(hideViewController: UIViewController) {
         if hideViewController.parentViewController == self {
             hideViewController.view.removeFromSuperview()
         }
     }
 
-    private func showViewController(showViewController: UIViewController) {
+    func showViewController(showViewController: UIViewController) {
         let controller = (showViewController as? UINavigationController)?.topViewController ?? showViewController
         Tracker.sharedTracker.screenAppeared(controller.title ?? controller.readableClassName())
-        self.view.insertSubview(showViewController.view, belowSubview: tabBar)
-        showViewController.view.frame = tabBar.frame.fromBottom().growUp(self.view.frame.height - tabBar.frame.height)
+        view.insertSubview(showViewController.view, belowSubview: tabBar)
+        showViewController.view.frame = tabBar.frame.fromBottom().growUp(view.frame.height - tabBar.frame.height)
         showViewController.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        visibleViewController = showViewController
     }
 
-    private func transitionControllers(hideViewController: UIViewController, _ showViewController: UIViewController) {
+    func transitionControllers(hideViewController: UIViewController, _ showViewController: UIViewController) {
         transitionFromViewController(hideViewController,
             toViewController: showViewController,
             duration: 0,
@@ -275,9 +241,4 @@ extension ElloTabBarController {
             },
             completion: nil)
     }
-
-    override public func sizeForChildContentContainer(container: UIContentContainer, withParentContainerSize size: CGSize) -> CGSize {
-        return self.view.frame.size
-    }
-
 }
