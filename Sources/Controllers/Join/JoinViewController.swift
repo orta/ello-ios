@@ -57,7 +57,6 @@ public class JoinViewController: BaseElloViewController {
     // MARK: Private
 
     private func setupStyles() {
-        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .None)
         scrollView.contentSize = view.bounds.size
         scrollView.backgroundColor = UIColor.grey3()
         view.backgroundColor = UIColor.grey3()

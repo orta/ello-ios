@@ -34,7 +34,6 @@ public class ForgotPasswordViewController: BaseElloViewController, UITextFieldDe
     // MARK: - Private
 
     private func setupStyles() {
-        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .Slide)
         scrollView.contentSize = view.bounds.size
         modalTransitionStyle = .CrossDissolve
         scrollView.backgroundColor = UIColor.grey3()
