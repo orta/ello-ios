@@ -243,7 +243,7 @@ class PostSpec: QuickSpec {
                     expect(count(unArchivedPost.comments!)) == 1
                     expect(unArchivedPost.comments![0]).to(beAKindOf(Comment.self))
                     // computed
-                    expect(post.collapsed) == false
+                    expect(post.collapsed) == true
                     expect(post.shareLink) == "https://ello.co/thenim/post/toke-en"
                 }
             }
