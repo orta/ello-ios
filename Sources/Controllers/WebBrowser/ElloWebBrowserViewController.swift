@@ -8,15 +8,15 @@
 
 import KINWebBrowser
 
-class ElloWebBrowserViewController: KINWebBrowserViewController {
+public class ElloWebBrowserViewController: KINWebBrowserViewController {
     var toolbarHidden = false
 
-    override func viewWillAppear(animated: Bool) {
+    override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setToolbarHidden(toolbarHidden, animated: false)
     }
 
-    class func navigationControllerWithBrowser(webBrowser: ElloWebBrowserViewController) -> UINavigationController {
+    public class func navigationControllerWithBrowser(webBrowser: ElloWebBrowserViewController) -> UINavigationController {
         let xButton = UIBarButtonItem(title: "\u{2573}", style: .Done, target: webBrowser, action: Selector("doneButtonPressed:"))
         xButton.setTitleTextAttributes([NSForegroundColorAttributeName : UIColor.blackColor()], forState: .Normal)
         webBrowser.navigationItem.rightBarButtonItem = xButton
@@ -24,7 +24,7 @@ class ElloWebBrowserViewController: KINWebBrowserViewController {
         return UINavigationController(rootViewController: webBrowser)
     }
 
-    override class func navigationControllerWithWebBrowser() -> UINavigationController {
+    override public class func navigationControllerWithWebBrowser() -> UINavigationController {
         let browser = self()
         return navigationControllerWithBrowser(browser)
     }
