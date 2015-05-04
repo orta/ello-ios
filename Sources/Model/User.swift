@@ -188,7 +188,12 @@ public final class User: JSONAble {
 
 extension User {
     func propertyForSettingsKey(key: String) -> Bool {
-        let value = (valueForKey(key.camelCase) ?? profile?.valueForKey(key.camelCase)) as? Bool
+        var value: Bool? = false
+        if respondsToSelector(Selector(key.camelCase)) {
+            value = valueForKey(key.camelCase) as? Bool
+        } else if profile?.respondsToSelector(Selector(key.camelCase)) ?? false {
+            value = profile?.valueForKey(key.camelCase) as? Bool
+        }
         return value ?? false
     }
 }
