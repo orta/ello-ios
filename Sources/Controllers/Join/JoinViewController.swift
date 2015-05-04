@@ -142,7 +142,7 @@ public class JoinViewController: BaseElloViewController {
         signInController.passwordTextField.text = password
         signInController.enterButton.enabled = true
 
-        self.presentViewController(signInController, animated:true) {
+        self.presentViewController(signInController, animated: true) {
             window.rootViewController = signInController
         }
     }
@@ -150,7 +150,7 @@ public class JoinViewController: BaseElloViewController {
     private func showSignInScreen() {
         let signInController = SignInViewController()
         let window = self.view.window!
-        self.presentViewController(signInController, animated:true) {
+        self.presentViewController(signInController, animated: true) {
             window.rootViewController = signInController
         }
     }
