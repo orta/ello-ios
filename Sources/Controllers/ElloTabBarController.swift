@@ -19,7 +19,7 @@ public enum ElloTab: Int {
 public class ElloTabBarController: UIViewController {
     public private(set) var tabBar: ElloTabBar
 
-    private var visibleViewController: UIViewController = UIViewController()
+    private var visibleViewController = UIViewController()
 
     private var _tabBarHidden: Bool
     public var tabBarHidden: Bool {
@@ -70,7 +70,7 @@ public extension ElloTabBarController {
 public extension ElloTabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.addSubview(tabBar)
+        view.addSubview(tabBar)
         showViewController(childViewControllers[ElloTab.Stream.rawValue] as! UIViewController)
         tabBar.delegate = self
 
@@ -85,11 +85,11 @@ public extension ElloTabBarController {
 
         var upAmount = CGFloat(0)
         if !tabBarHidden {
-            upAmount = self.tabBar.frame.height
+            upAmount = tabBar.frame.height
         }
-        tabBar.frame = self.view.bounds.fromBottom().withHeight(self.tabBar.frame.height).shiftUp(upAmount)
+        tabBar.frame = view.bounds.fromBottom().withHeight(tabBar.frame.height).shiftUp(upAmount)
 
-        selectedViewController.view.frame = self.view.bounds
+        selectedViewController.view.frame = view.bounds
         if !tabBarHidden {
             selectedViewController.view.frame = selectedViewController.view.frame.shrinkUp(tabBar.frame.height)
         }
@@ -100,7 +100,7 @@ public extension ElloTabBarController {
     func setProfileData(currentUser: User, responseConfig: ResponseConfig) {
         self.currentUser = currentUser
         self.profileResponseConfig = responseConfig
-        for controller in self.childViewControllers {
+        for controller in childViewControllers {
             if let controller = controller as? BaseElloViewController {
                 controller.currentUser = currentUser
             }
@@ -140,23 +140,23 @@ private extension ElloTabBarController {
     }
 
     func userLoggedOut(notification: NSNotification) {
-        self.removeNotificationObservers()
+        removeNotificationObservers()
         let authToken = AuthToken()
         authToken.reset()
-        let window = self.view.window!
+        let window = view.window!
         let landingController = LandingViewController.instantiateFromStoryboard()
-        self.presentViewController(landingController, animated: true) {
+        presentViewController(landingController, animated: true) {
             window.rootViewController = landingController
         }
     }
 
     func systemLoggedOut(notification: NSNotification) {
-        self.removeNotificationObservers()
+        removeNotificationObservers()
         let authToken = AuthToken()
         authToken.reset()
-        let window = self.view.window!
+        let window = view.window!
         let landingController = LandingViewController.instantiateFromStoryboard()
-        self.presentViewController(landingController, animated: true) {
+        presentViewController(landingController, animated: true) {
             window.rootViewController = landingController
 
             let alertController = AlertViewController(
@@ -193,13 +193,13 @@ public extension ElloTabBarController {
     }
 
     override func sizeForChildContentContainer(container: UIContentContainer, withParentContainerSize size: CGSize) -> CGSize {
-        return self.view.frame.size
+        return view.frame.size
     }
 }
 
 private extension ElloTabBarController {
     func updateTabBarItems() {
-        let controllers = self.childViewControllers as! [UIViewController]
+        let controllers = childViewControllers as! [UIViewController]
         tabBar.items = controllers.map { controller in
             let tabBarItem = controller.tabBarItem
             if tabBarItem.selectedImage != nil && tabBarItem.selectedImage.renderingMode != .AlwaysOriginal {
@@ -224,8 +224,8 @@ private extension ElloTabBarController {
     func showViewController(showViewController: UIViewController) {
         let controller = (showViewController as? UINavigationController)?.topViewController ?? showViewController
         Tracker.sharedTracker.screenAppeared(controller.title ?? controller.readableClassName())
-        self.view.insertSubview(showViewController.view, belowSubview: tabBar)
-        showViewController.view.frame = tabBar.frame.fromBottom().growUp(self.view.frame.height - tabBar.frame.height)
+        view.insertSubview(showViewController.view, belowSubview: tabBar)
+        showViewController.view.frame = tabBar.frame.fromBottom().growUp(view.frame.height - tabBar.frame.height)
         showViewController.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
         visibleViewController = showViewController
     }
