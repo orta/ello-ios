@@ -17,9 +17,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     var parentPost: Post?
     var defaultText: String?
 
-    typealias PostSuccessListener = (post : Post)->()
     typealias CommentSuccessListener = (comment : Comment)->()
-    var postSuccessListeners = [PostSuccessListener]()
     var commentSuccessListeners = [CommentSuccessListener]()
 
     // the _mockScreen is only for testing - otherwise `self.screen` is always
@@ -47,10 +45,6 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         else {
             return "omnibar_post"
         }
-    }
-
-    func onPostSuccess(listener: PostSuccessListener) {
-        postSuccessListeners.append(listener)
     }
 
     func onCommentSuccess(listener: CommentSuccessListener) {
@@ -164,7 +158,6 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
                         else {
                             var post = postOrComment as! Post
                             self.emitPostSuccess(post)
-                            self.screen.reportSuccess(NSLocalizedString("Post successfully created!", comment: "Post successfully created!"))
                         }
                     },
                     failure: { error, statusCode in
@@ -191,11 +184,9 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
 
     private func emitPostSuccess(post: Post) {
-        for listener in self.postSuccessListeners {
-            listener(post: post)
-        }
         Tracker.sharedTracker.contentCreated(.Post)
-
+        elloTabBarController?.selectedTab = previousTab
+        self.screen.reportSuccess(NSLocalizedString("Post successfully created!", comment: "Post successfully created!"))
     }
 
     func contentCreationFailed(errorMessage: String) {
