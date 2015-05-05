@@ -9,6 +9,24 @@
 import UIKit
 
 public class ElloEditableTextView: UITextView {
+    required override public init(frame: CGRect, textContainer: NSTextContainer?) {
+        super.init(frame: frame, textContainer: textContainer)
+        sharedSetup()
+    }
+
+    required public init(coder: NSCoder) {
+        super.init(coder: coder)
+        sharedSetup()
+    }
+
+    func sharedSetup() {
+        backgroundColor = UIColor.greyE5()
+        font = UIFont.typewriterFont(12.0)
+        textColor = UIColor.blackColor()
+
+        setNeedsDisplay()
+    }
+
     override public func awakeFromNib() {
         super.awakeFromNib()
 
