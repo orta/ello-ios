@@ -27,12 +27,41 @@ public protocol InviteResponder: NSObjectProtocol {
 
 public class StreamableViewController : BaseElloViewController, PostTappedDelegate {
 
+    @IBOutlet weak var viewContainer: UIView!
+
+    let streamViewController = StreamViewController.instantiateFromStoryboard()
+
+    func setupStreamController() {
+        streamViewController.currentUser = currentUser
+        streamViewController.streamScrollDelegate = self
+        streamViewController.userTappedDelegate = self
+        streamViewController.postTappedDelegate = self
+        streamViewController.createCommentDelegate = self
+        streamViewController.willMoveToParentViewController(self)
+        let streamViewContainer = viewForStream()
+        streamViewContainer.addSubview(streamViewController.view)
+        streamViewController.view.frame = streamViewContainer.bounds
+        streamViewController.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        addChildViewController(streamViewController)
+        streamViewController.didMoveToParentViewController(self)
+    }
+
     var scrollLogic: ElloScrollLogic!
-    var experienceUpdatable: ExperienceUpdatable
+//    var experienceUpdatable: ExperienceUpdatable? {
+//        return streamViewDidScroll
+//    }
+
+    func viewForStream() -> UIView {
+        return viewContainer
+    }
+//    func addStreamView() {
+//        viewContainer.addSubview(streamViewController.view)
+//    }
 
     override public func viewDidLoad() {
         super.viewDidLoad()
 
+        setupStreamController()
         scrollLogic = ElloScrollLogic(
             onShow: self.showNavBars,
             onHide: self.hideNavBars
@@ -126,14 +155,9 @@ extension StreamableViewController: CreateCommentDelegate {
         vc.currentUser = self.currentUser
         vc.onCommentSuccess() { (comment: Comment) in
             self.navigationController?.popViewControllerAnimated(true)
-            self.commentCreated(comment, fromController: fromController)
         }
         self.navigationController?.pushViewController(vc, animated: true)
     }
-
-    // child classes should override this method and add the comment to their
-    // datasource.
-    func commentCreated(comment: Comment, fromController: StreamViewController) {}
 }
 
 // MARK: StreamScrollDelegate

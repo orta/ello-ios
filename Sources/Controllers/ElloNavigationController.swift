@@ -13,7 +13,8 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
 
     var interactionController: UIPercentDrivenInteractiveTransition?
     var externalWebObserver: NotificationObserver?
-    let externalWebController: UINavigationController = ElloWebBrowserViewController.navigationControllerWithWebBrowser()
+    var postChangedNotification:NotificationObserver?
+    let externalWebController: UINavigationController = KINWebBrowserViewController.navigationControllerWithWebBrowser()
     var rootViewControllerName : String?
     public var currentUser : User? {
         didSet { didSetCurrentUser() }
@@ -74,40 +75,23 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
             self.showExternalWebView(url)
         }
 
-        experienceUpdateObserver = NotificationObserver(notification: ExperienceUpdatedNotification) { update in
-            var reloadControllers = [AnyObject]()
-            var removeControllers = [AnyObject]()
-            var newControllers = [AnyObject]()
-            for controller in self.childViewControllers {
-                // filter ExperienceUpdatable
-                if let updatable = controller as? ExperienceUpdatable {
-                    switch updatable.experienceUpdateResponse(update) {
-                    case .Reload:
-                        reloadControllers.append(controller)
-                        newControllers.append(controller)
-                    case .Remove:
-                        removeControllers.append(controller)
-                    case .DoNothing:
-                        newControllers.append(controller)
-                    }
-                }
-                else {
-                    newControllers.append(controller)
-                }
-            }
-            self.setViewControllers(newControllers, animated: true)
-
-            for controller in reloadControllers {
-                if  let updatable = controller as? ExperienceUpdatable,
-                    let vc = controller as? UIViewController
-                {
-                    if vc == self.topViewController {
-                        updatable.experienceReloadNow()
+        postChangedNotification = NotificationObserver(notification: PostChangedNotification) { (post, change) in
+            switch change {
+            case .Delete:
+                var keepers = [AnyObject]()
+                for controller in self.childViewControllers {
+                    if let postDetailVC = controller as? PostDetailViewController {
+                        if let postId = postDetailVC.post?.id where postId != post.id {
+                            keepers.append(controller)
+                        }
                     }
                     else {
-                        updatable.experienceReloadLater()
+                        keepers.append(controller)
                     }
                 }
+                self.setViewControllers(keepers, animated: true)
+            default:
+                println("do nothing")
             }
         }
     }

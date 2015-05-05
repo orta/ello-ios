@@ -15,14 +15,13 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
     var user: User?
     var responseConfig: ResponseConfig?
     var userParam: String!
-    let streamViewController = StreamViewController.instantiateFromStoryboard()
     var coverImageHeightStart: CGFloat?
     var coverWidthSet = false
     let ratio:CGFloat = 16.0/9.0
     let initialStreamKind: StreamKind
 
     private var isSetup = false
-    @IBOutlet weak var viewContainer: UIView!
+
     @IBOutlet weak var navigationBar: ElloNavigationBar!
     @IBOutlet weak var navigationBarTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var coverImage: FLAnimatedImageView!
@@ -31,8 +30,8 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
     required public init(userParam: String) {
         self.userParam = userParam
         self.initialStreamKind = .UserStream(userParam: self.userParam)
-        self.streamViewController.streamKind = initialStreamKind
         super.init(nibName: "ProfileViewController", bundle: nil)
+        self.streamViewController.streamKind = initialStreamKind
 
         ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.initialLoadClosure = reloadEntireProfile
@@ -43,11 +42,12 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
     required public init(user: User, responseConfig: ResponseConfig) {
         // this user should have the .proifle on it since it is currentUser
         self.initialStreamKind = .Profile
-        ElloHUD.showLoadingHudInView(streamViewController.view)
+
         self.user = user
         self.responseConfig = responseConfig
         self.userParam = self.user!.id
         super.init(nibName: "ProfileViewController", bundle: nil)
+        ElloHUD.showLoadingHudInView(streamViewController.view)
         self.streamViewController.initialLoadClosure = reloadEntireProfile
     }
 
@@ -61,7 +61,6 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         if isRootViewController() {
             hideNavBar()
         }
-        setupStreamController()
         setupNavigationBar()
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
     }
@@ -147,21 +146,6 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
                 self.streamViewController.doneLoading()
             }
         )
-    }
-
-    private func setupStreamController() {
-        streamViewController.currentUser = currentUser
-        streamViewController.streamScrollDelegate = self
-        streamViewController.userTappedDelegate = self
-        streamViewController.postTappedDelegate = self
-        streamViewController.createCommentDelegate = self
-
-        streamViewController.willMoveToParentViewController(self)
-        viewContainer.addSubview(streamViewController.view)
-        streamViewController.view.frame = viewContainer.bounds
-        streamViewController.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
-        addChildViewController(streamViewController)
-        streamViewController.didMoveToParentViewController(self)
     }
 
     private func setupNavigationBar() {

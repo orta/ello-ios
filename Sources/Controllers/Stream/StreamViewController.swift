@@ -69,8 +69,9 @@ public class StreamViewController: BaseElloViewController {
         return nil
     }
 
-    public var streamKind:StreamKind = StreamKind.Friend {
+    public var streamKind: StreamKind = StreamKind.Unknown {
         didSet {
+            println("setter = \(streamKind.name)")
             dataSource.streamKind = streamKind
             setupCollectionViewLayout()
         }
@@ -78,6 +79,8 @@ public class StreamViewController: BaseElloViewController {
     var imageViewerDelegate:StreamImageViewer?
     var updatedStreamImageCellHeightNotification:NotificationObserver?
     var relayoutNotification:NotificationObserver?
+    var commentChangedNotification:NotificationObserver?
+    var postChangedNotification:NotificationObserver?
 
     weak var createCommentDelegate : CreateCommentDelegate?
     weak var postTappedDelegate : PostTappedDelegate?
@@ -263,6 +266,39 @@ public class StreamViewController: BaseElloViewController {
         relayoutNotification = NotificationObserver(notification: RelayoutStreamViewControllerNotification) { streamTextCell in
             self.collectionView.collectionViewLayout.invalidateLayout()
         }
+
+        commentChangedNotification = NotificationObserver(notification: CommentChangedNotification) { (comment, change) in
+            switch change {
+            case .Create, .Delete, .Update:
+                self.dataSource.modifyItems(comment, change: change, collectionView: self.collectionView)
+            case .Read:
+                println("do nothing")
+            }
+        }
+
+        postChangedNotification = NotificationObserver(notification: PostChangedNotification) { (post, change) in
+            switch change {
+            case .Create:
+                self.dataSource.modifyItems(post, change: change, collectionView: self.collectionView)
+                // if comments are shown, add comment to the top of the list
+                // update the comment count
+                println("handle create")
+            case .Delete:
+                switch self.streamKind {
+                case .PostDetail:
+                    println("no-op")
+                default:
+                    self.dataSource.modifyItems(post, change: change, collectionView: self.collectionView)
+                }   
+                println("handle deletes")
+                // reload page
+            case .Update:
+                self.dataSource.modifyItems(post, change: change, collectionView: self.collectionView)
+            case .Read:
+                println("do nothing")
+            }
+        }
+
     }
 
     private func removeNotificationObservers() {
@@ -276,6 +312,12 @@ public class StreamViewController: BaseElloViewController {
 
         relayoutNotification?.removeObserver()
         relayoutNotification = nil
+
+        commentChangedNotification?.removeObserver()
+        commentChangedNotification = nil
+
+        postChangedNotification?.removeObserver()
+        postChangedNotification = nil
     }
 
     private func updateCellHeight(indexPath:NSIndexPath, height:CGFloat) {

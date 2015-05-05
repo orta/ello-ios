@@ -55,6 +55,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         profileHeaderSizeCalculator: ProfileHeaderCellSizeCalculator,
         imageSizeCalculator: StreamImageCellSizeCalculator)
     {
+        println("StreamDataSource init() streamKind = \(streamKind.name)")
         self.streamKind = streamKind
         self.textSizeCalculator = textSizeCalculator
         self.notificationSizeCalculator = notificationSizeCalculator
@@ -286,6 +287,124 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
 
         }
         return UICollectionViewCell()
+    }
+
+    public func modifyItems(jsonable: JSONAble, change: ContentChange, collectionView: UICollectionView) {
+        // get items that match id and type -> [IndexPath]
+        // based on change decide to update/remove those items
+        switch change {
+        case .Create:
+            // if comment, add new comment cells
+            if  let comment = jsonable as? Comment,
+                let parentPost = comment.parentPost
+            {
+                let indexPaths = self.commentIndexPathsForPost(parentPost)
+                if let first = indexPaths.first {
+                    if self.visibleCellItems[first.item].type == .CreateComment {
+                        self.insertUnsizedCellItems(
+                            StreamCellItemParser().parse([comment], streamKind: self.streamKind),
+                            withWidth: 375.0,
+                            startingIndexPath: NSIndexPath(forItem: first.item + 1, inSection: first.section)
+                        )
+                        {
+                            newIndexPaths in
+                            collectionView.insertItemsAtIndexPaths(newIndexPaths)
+                        }
+                    }
+                }
+            }
+
+            // if post, add new post cells
+            if let post = jsonable as? Post {
+                switch streamKind {
+                case .Friend:
+                    self.insertUnsizedCellItems(
+                        StreamCellItemParser().parse([post], streamKind: self.streamKind),
+                        withWidth: 375.0,
+                        startingIndexPath: NSIndexPath(forItem: 0, inSection: 0)
+                        )
+                        {
+                            newIndexPaths in
+                            collectionView.performBatchUpdates({
+                                collectionView.insertItemsAtIndexPaths(newIndexPaths)
+                            }, completion: nil)
+
+                        }
+                case let .UserStream(userParam):
+                    if currentUser?.id == userParam {
+                        self.insertUnsizedCellItems(
+                            StreamCellItemParser().parse([post], streamKind: self.streamKind),
+                            withWidth: 375.0,
+                            startingIndexPath: NSIndexPath(forItem: 1, inSection: 0)
+                        )
+                        {
+                            newIndexPaths in
+                            collectionView.performBatchUpdates({
+                                collectionView.insertItemsAtIndexPaths(newIndexPaths)
+                                }, completion: nil)
+                        }
+                    }
+                default:
+                    println("no op")
+                }
+            }
+
+        case .Delete:
+            collectionView.deleteItemsAtIndexPaths(removeItemsForJSONAble(jsonable, change: change))
+        case .Update:
+            let (indexPaths, items) = elementsForJSONAble(jsonable, change: change)
+            items.map { $0.jsonable = jsonable }
+            collectionView.reloadItemsAtIndexPaths(indexPaths)
+        default:
+            println("")
+        }
+    }
+
+    public func removeItemsForJSONAble(jsonable: JSONAble, change: ContentChange) -> [NSIndexPath] {
+        let indexPaths = self.elementsForJSONAble(jsonable, change: change).0
+        temporarilyUnfilter() {
+            // these paths might be different depending on the filter
+            let unfilteredIndexPaths = self.elementsForJSONAble(jsonable, change: change).0
+            var newItems = [StreamCellItem]()
+            for (index, item) in enumerate(self.streamCellItems) {
+                var remove = unfilteredIndexPaths.reduce(false) { remove, path in
+                    return remove || path.item == index
+                }
+                if !remove {
+                    newItems.append(item)
+                }
+            }
+            self.streamCellItems = newItems
+        }
+        return indexPaths
+    }
+
+    private func elementsForJSONAble(jsonable: JSONAble, change: ContentChange) -> ([NSIndexPath], [StreamCellItem]) {
+        var indexPaths = [NSIndexPath]()
+        var items = [StreamCellItem]()
+        if let comment = jsonable as? Comment {
+            for (index, item) in enumerate(visibleCellItems) {
+                if let itemComment = item.jsonable as? Comment where comment.id == itemComment.id {
+                    indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
+                    items.append(item)
+                }
+            }
+        }
+        else if let post = jsonable as? Post {
+            for (index, item) in enumerate(visibleCellItems) {
+                if let itemPost = item.jsonable as? Post where post.id == itemPost.id {
+                    indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
+                    items.append(item)
+                }
+                else if change == .Delete {
+                    if let itemComment = item.jsonable as? Comment where itemComment.postId == post.id {
+                        indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
+                        items.append(item)
+                    }
+                }
+            }
+        }
+        return (indexPaths, items)
     }
 
     // MARK: Adding items

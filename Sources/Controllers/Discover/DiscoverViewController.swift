@@ -10,16 +10,13 @@ import UIKit
 
 public class DiscoverViewController: StreamableViewController {
 
-    let streamViewController = StreamViewController.instantiateFromStoryboard()
-
-    @IBOutlet weak var viewContainer: UIView!
     @IBOutlet weak var navigationBar: UIView!
     @IBOutlet weak var inviteButton: UIButton!
     @IBOutlet weak var navigationBarTopConstraint: NSLayoutConstraint!
 
     required public init() {
         super.init(nibName: "DiscoverViewController", bundle: nil)
-        title = "Discover"
+        title = NSLocalizedString("Discover", comment: "Discover")
     }
 
     required public init(coder aDecoder: NSCoder) {
@@ -29,8 +26,8 @@ public class DiscoverViewController: StreamableViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBarHidden = true
-
-        setupStreamController()
+        streamViewController.streamKind = .Discover(type: .Recommended, seed: Int(NSDate().timeIntervalSince1970), perPage: 50)
+        streamViewController.loadInitialPage()
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
     }
 
@@ -55,22 +52,6 @@ public class DiscoverViewController: StreamableViewController {
         super.hideNavBars()
         navigationBarTopConstraint.constant = -navigationBar.frame.height - 1
         self.view.layoutIfNeeded()
-    }
-
-    private func setupStreamController() {
-        streamViewController.streamKind = .Discover(type: .Recommended, seed: Int(NSDate().timeIntervalSince1970), perPage: 50)
-        streamViewController.postTappedDelegate = self
-        streamViewController.streamScrollDelegate = self
-        streamViewController.userTappedDelegate = self
-
-        streamViewController.willMoveToParentViewController(self)
-        viewContainer.addSubview(streamViewController.view)
-        streamViewController.view.frame = viewContainer.bounds
-        streamViewController.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
-        addChildViewController(streamViewController)
-        streamViewController.didMoveToParentViewController(self)
-        ElloHUD.showLoadingHudInView(streamViewController.view)
-        streamViewController.loadInitialPage()
     }
 
     // MARK: - IBActions

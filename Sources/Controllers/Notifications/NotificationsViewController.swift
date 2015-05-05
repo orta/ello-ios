@@ -12,7 +12,6 @@ import WebKit
 
 
 public class NotificationsViewController: StreamableViewController, NotificationDelegate, NotificationsScreenDelegate {
-    var streamViewController: StreamViewController!
 
     override public func loadView() {
         self.view = NotificationsScreen(frame: UIScreen.mainScreen().bounds)
@@ -26,8 +25,8 @@ public class NotificationsViewController: StreamableViewController, Notification
         super.viewDidLoad()
 
         self.screen.delegate = self
-
-        setupStreamController()
+        streamViewController.streamKind = .Notifications
+        streamViewController.loadInitialPage()
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
         scrollLogic.navBarHeight = 44
     }
@@ -49,22 +48,12 @@ public class NotificationsViewController: StreamableViewController, Notification
         self.screen.layoutIfNeeded()
     }
 
-    private func setupStreamController() {
-        streamViewController = StreamViewController.instantiateFromStoryboard()
-        streamViewController.currentUser = currentUser
-        streamViewController.streamKind = .Notifications
-        streamViewController.streamScrollDelegate = self
-        streamViewController.createCommentDelegate = self
-        streamViewController.postTappedDelegate = self
-        streamViewController.userTappedDelegate = self
-        streamViewController.notificationDelegate = self
-
-        streamViewController.willMoveToParentViewController(self)
-        self.screen.insertStreamView(streamViewController.view)
-        self.addChildViewController(streamViewController)
-        ElloHUD.showLoadingHudInView(streamViewController.view)
-        streamViewController.loadInitialPage()
+    // used to provide StreamableViewController access to the container it then
+    // loads the StreamViewController's content into
+    override func viewForStream() -> UIView {
+        return self.screen.streamContainer
     }
+
 
     public func activatedFilter(filterTypeStr: String) {
         let filterType = NotificationFilterType(rawValue: filterTypeStr)!

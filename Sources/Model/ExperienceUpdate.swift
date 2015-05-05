@@ -10,6 +10,8 @@ import Foundation
 
 public let ExperienceUpdatedNotification = TypedNotification<ExperienceUpdate>(name: "experienceUpdatedNotification")
 
+public let CommentChangedNotification = TypedNotification<(Comment, ContentChange)>(name: "commentChangedNotification")
+public let PostChangedNotification = TypedNotification<(Post, ContentChange)>(name: "postChangedNotification")
 
 // comment created/updated/deleted - changes / creates comment
 // post created/updated/deleted(also deletes comments) - changes / creates post
@@ -48,8 +50,6 @@ public extension ExperienceUpdate {
         case .PostChanged(let id, _):
             return post(item)?.id == id
         case RelationshipChanged(_, let userId):
-            return userAffected(userId, item: item)
-        case .UserBlocked(let userId, _):
             return userAffected(userId, item: item)
         default: return false
         }

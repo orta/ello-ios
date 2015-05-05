@@ -13,7 +13,6 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
     var shouldReload = false
     var post: Post?
     var postParam: String!
-    let streamViewController : StreamViewController = StreamViewController.instantiateFromStoryboard()
     var startOfComments: Int = 0
     var navigationBar: ElloNavigationBar!
 
@@ -32,8 +31,14 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
     override public func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
-        setupStreamViewController()
+        streamViewController.streamKind = .PostDetail(postParam: postParam)
         view.backgroundColor = UIColor.whiteColor()
+    }
+
+    // used to provide StreamableViewController access to the container it then
+    // loads the StreamViewController's content into
+    override func viewForStream() -> UIView {
+        return view
     }
 
     public override func viewDidAppear(animated: Bool) {
@@ -88,24 +93,6 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         navigationBar.items = [self.navigationItem]
     }
 
-    private func setupStreamViewController() {
-        streamViewController.currentUser = currentUser
-        streamViewController.streamKind = .PostDetail(postParam: postParam)
-        streamViewController.createCommentDelegate = self
-        streamViewController.postTappedDelegate = self
-        streamViewController.streamScrollDelegate = self
-        streamViewController.userTappedDelegate = self
-        streamViewController.postbarController?.toggleableComments = false
-
-        streamViewController.willMoveToParentViewController(self)
-        view.insertSubview(streamViewController.view, belowSubview: navigationBar)
-        addChildViewController(streamViewController)
-        streamViewController.didMoveToParentViewController(self)
-
-        streamViewController.view.frame = navigationBar.frame.fromBottom().withHeight(view.frame.height - navigationBar.frame.height)
-        streamViewController.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
-    }
-
     private func postLoaded(post: Post, responseConfig: ResponseConfig) {
         self.post = post
         // need to reassign the userParam to the id for paging
@@ -144,12 +131,12 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         }
     }
 
-    override public func commentCreated(comment: Comment, fromController streamViewController: StreamViewController) {
-        let newCommentItems = StreamCellItemParser().parse([comment], streamKind: streamViewController.streamKind)
+//    override public func commentCreated(comment: Comment, fromController streamViewController: StreamViewController) {
+//        let newCommentItems = StreamCellItemParser().parse([comment], streamKind: streamViewController.streamKind)
+//
+//        let startingIndexPath = NSIndexPath(forRow: startOfComments, inSection: 0)
+//        streamViewController.insertUnsizedCellItems(newCommentItems, startingIndexPath: startingIndexPath)
+//        // load comments again?
+//    }
 
-        let startingIndexPath = NSIndexPath(forRow: startOfComments, inSection: 0)
-        streamViewController.insertUnsizedCellItems(newCommentItems, startingIndexPath: startingIndexPath)
-        // load comments again?
-    }
-    
 }

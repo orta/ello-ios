@@ -17,6 +17,7 @@ public enum StreamKind {
     case UserStream(userParam: String)
     case Notifications
     case UserList(endpoint: ElloAPI, title: String)
+    case Unknown
 
     public var name:String {
         switch self {
@@ -28,6 +29,7 @@ public enum StreamKind {
         case .Profile: return "Profile"
         case .UserStream: return "User Stream"
         case let .UserList(_, title): return title
+        case .Unknown: return "unknown"
         }
     }
 
@@ -48,6 +50,7 @@ public enum StreamKind {
         case .Profile: return .Profile
         case .UserStream(let userParam): return .UserStream(userParam: userParam)
         case .UserList(let endpoint, let title): return endpoint
+        case .Unknown: return .Profile // doesn't really get used
         }
     }
 
@@ -120,3 +123,4 @@ public enum StreamKind {
 
     static let streamValues = [Friend, Noise]
 }
+

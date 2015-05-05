@@ -26,6 +26,8 @@ public class StreamContainerViewController: StreamableViewController {
         hamburgerButtonTapped()
     }
 
+    override func setupStreamController() { /* intentially left blank */ }
+
     override public func viewDidLoad() {
         super.viewDidLoad()
 
@@ -160,10 +162,10 @@ public class StreamContainerViewController: StreamableViewController {
 
     // MARK: Comment creation
 
-    override public func commentCreated(comment: Comment, fromController streamViewController: StreamViewController) {
-        let newCommentItems = StreamCellItemParser().parse([comment], streamKind: streamViewController.streamKind)
-        // let the streamViewController insert the new items above the old
-        // comments, and below the 'create comment' button
-        streamViewController.insertNewCommentItems(newCommentItems)
-    }
+//    override public func commentCreated(comment: Comment, fromController streamViewController: StreamViewController) {
+//        let newCommentItems = StreamCellItemParser().parse([comment], streamKind: streamViewController.streamKind)
+//        // let the streamViewController insert the new items above the old
+//        // comments, and below the 'create comment' button
+//        streamViewController.insertNewCommentItems(newCommentItems)
+//    }
 }
