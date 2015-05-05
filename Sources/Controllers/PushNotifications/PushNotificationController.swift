@@ -11,6 +11,15 @@ import SwiftyUserDefaults
 private let NeedsPermissionKey = "PushNotificationNeedsPermission"
 private let DeniedPermissionKey = "PushNotificationDeniedPermission"
 
+public struct PushPayload {
+    let info: [NSObject: AnyObject]
+}
+
+public struct PushNotificationNotifications {
+    static let interactedWithPushNotification = TypedNotification<PushPayload>(name: "com.Ello.PushNotification.Interaction")
+    static let receivedPushNotification = TypedNotification<PushPayload>(name: "com.Ello.PushNotification.Received")
+}
+
 public class PushNotificationController {
     public static let sharedController = PushNotificationController(defaults: Defaults, keychain: Keychain())
 
@@ -76,6 +85,14 @@ public extension PushNotificationController {
     @objc func deregisterStoredToken() {
         if let token = keychain.pushToken {
             ProfileService().removeUserDeviceToken(token)
+        }
+    }
+
+    func receivedNotification(application: UIApplication, userInfo: [NSObject: AnyObject]) {
+        switch application.applicationState {
+        case .Active: println("The app is active")
+        default:
+            postNotification(PushNotificationNotifications.interactedWithPushNotification, PushPayload(info: userInfo))
         }
     }
 }
