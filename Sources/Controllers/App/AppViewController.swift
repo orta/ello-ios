@@ -24,6 +24,8 @@ public class AppViewController: BaseElloViewController {
     @IBOutlet weak public var joinButton: LightElloButton!
 
     var visibleViewController: UIViewController?
+    private var userLoggedOutObserver: NotificationObserver?
+    private var systemLoggedOutObserver: NotificationObserver?
 
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -107,14 +109,13 @@ public class AppViewController: BaseElloViewController {
     }
 
     private func setupNotificationObservers() {
-        let center = NSNotificationCenter.defaultCenter()
-        center.addObserver(self, selector: Selector("userLoggedOut:"), name: Notifications.UserLoggedOut.rawValue, object: nil)
-        center.addObserver(self, selector: Selector("systemLoggedOut:"), name: Notifications.SystemLoggedOut.rawValue, object: nil)
+        userLoggedOutObserver = NotificationObserver(notification: AuthenticationNotifications.userLoggedOut, block: userLoggedOut)
+        systemLoggedOutObserver = NotificationObserver(notification: AuthenticationNotifications.systemLoggedOut, block: systemLoggedOut)
     }
 
     private func removeNotificationObservers() {
-        let center = NSNotificationCenter.defaultCenter()
-        center.removeObserver(self)
+        userLoggedOutObserver?.removeObserver()
+        systemLoggedOutObserver?.removeObserver()
     }
 
 }
@@ -219,14 +220,14 @@ extension AppViewController {
 extension AppViewController {
 
     @objc
-    func userLoggedOut(notification: NSNotification) {
+    func userLoggedOut() {
         let authToken = AuthToken()
         authToken.reset()
         removeViewController()
     }
 
     @objc
-    func systemLoggedOut(notification: NSNotification) {
+    func systemLoggedOut() {
         let authToken = AuthToken()
         authToken.reset()
 

@@ -18,7 +18,10 @@ public class JoinViewController: BaseElloViewController, HasAppController {
     @IBOutlet weak public var aboutButton: ElloTextButton!
     @IBOutlet weak public var loginButton: ElloTextButton!
     @IBOutlet weak public var joinButton: ElloButton!
-    @IBOutlet weak public var termsLabel: UILabel!
+    @IBOutlet weak public var termsButton: ElloTextButton!
+
+    private var keyboardWillShowObserver: NotificationObserver?
+    private var keyboardWillHideObserver: NotificationObserver?
 
     weak var parentAppController: AppViewController?
 
@@ -32,6 +35,7 @@ public class JoinViewController: BaseElloViewController, HasAppController {
         queueEmailValidation = Functional.debounce(0.5) { [unowned self] in self.validateEmail(self.emailView.textField.text) }
         queueUsernameValidation = Functional.debounce(0.5) { [unowned self] in self.validateUsername(self.usernameView.textField.text) }
         queuePasswordValidation = Functional.debounce(0.5) { [unowned self] in self.validatePassword(self.passwordView.textField.text) }
+        modalTransitionStyle = .CrossDissolve
     }
 
     required public init(coder aDecoder: NSCoder) {
@@ -42,11 +46,11 @@ public class JoinViewController: BaseElloViewController, HasAppController {
         super.viewDidLoad()
         setupStyles()
         setupViews()
-        setupNotificationObservers()
     }
 
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        addNotificationObservers()
         Tracker.sharedTracker.screenAppeared("Join")
     }
 
@@ -58,12 +62,9 @@ public class JoinViewController: BaseElloViewController, HasAppController {
     // MARK: Private
 
     private func setupStyles() {
-        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .Slide)
         scrollView.contentSize = view.bounds.size
-        modalTransitionStyle = .CrossDissolve
         scrollView.backgroundColor = UIColor.grey3()
         view.backgroundColor = UIColor.grey3()
-        view.setNeedsDisplay()
     }
 
     private func setupViews() {
@@ -82,15 +83,14 @@ public class JoinViewController: BaseElloViewController, HasAppController {
         passwordView.textFieldDidChange = self.passwordChanged
     }
 
-    private func setupNotificationObservers() {
-        let center = NSNotificationCenter.defaultCenter()
-        center.addObserver(self, selector: Selector("keyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
-        center.addObserver(self, selector: Selector("keyboardWillHide:"), name: UIKeyboardWillHideNotification, object: nil)
+    private func addNotificationObservers() {
+        keyboardWillShowObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillShow, block: keyboardWillShow)
+        keyboardWillHideObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillHide, block: keyboardWillHide)
     }
 
     private func removeNotificationObservers() {
-        let center = NSNotificationCenter.defaultCenter()
-        center.removeObserver(self)
+        keyboardWillShowObserver?.removeObserver()
+        keyboardWillHideObserver?.removeObserver()
     }
 
     private func join() {
@@ -152,13 +152,28 @@ public class JoinViewController: BaseElloViewController, HasAppController {
     }
 
     private func showAboutScreen() {
-        //TODO: show about screen
-        println("about tapped")
-        // let aboutController = AboutViewController()
-        // let window = self.view.window!
-        // self.presentViewController(aboutController, animated:true) {
-        //     window.rootViewController = aboutController
-        // }
+        let nav = ElloWebBrowserViewController.navigationControllerWithWebBrowser()
+        let browser = nav.rootWebBrowser()
+        browser.loadURLString("\(ElloURI.baseURL)/wtf/post/about")
+        browser.tintColor = UIColor.greyA()
+
+        browser.showsURLInNavigationBar = false
+        browser.showsPageTitleInNavigationBar = false
+        browser.title = NSLocalizedString("About", comment: "about title")
+
+        presentViewController(nav, animated: true, completion: nil)
+    }
+
+    private func showTerms() {
+        let nav = ElloWebBrowserViewController.navigationControllerWithWebBrowser()
+        let browser = nav.rootWebBrowser()
+        browser.loadURLString("\(ElloURI.baseURL)/wtf/post/privacy")
+        browser.tintColor = UIColor.greyA()
+        browser.showsURLInNavigationBar = false
+        browser.showsPageTitleInNavigationBar = false
+        browser.title = NSLocalizedString("Terms and Conditions", comment: "terms and conditions title")
+
+        presentViewController(nav, animated: true, completion: nil)
     }
 
 }
@@ -167,30 +182,25 @@ public class JoinViewController: BaseElloViewController, HasAppController {
 // MARK: Keyboard Events
 extension JoinViewController {
 
-    func keyboardWillShow(notification: NSNotification) {
-        keyboardWillChangeFrame(notification, showsKeyboard: true)
+    func keyboardWillShow(keyboard: Keyboard) {
+        keyboardWillChangeFrame(keyboard, showsKeyboard: true)
     }
 
-    func keyboardWillHide(notification: NSNotification) {
-        keyboardWillChangeFrame(notification, showsKeyboard: false)
+    func keyboardWillHide(keyboard: Keyboard) {
+        keyboardWillChangeFrame(keyboard, showsKeyboard: false)
     }
 
-    private func keyboardWillChangeFrame(notification: NSNotification, showsKeyboard: Bool) {
-        if let userInfo = notification.userInfo {
-            let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-            let keyboardViewEndFrame = view.convertRect(keyboardScreenEndFrame, fromView: view.window)
-
-            if shouldAdjustScrollViewForKeyboard(keyboardViewEndFrame) || !showsKeyboard {
-                let keyboardHeight = showsKeyboard ? keyboardViewEndFrame.size.height : 0
-                let adjustedInsets = UIEdgeInsetsMake(
-                    scrollView.contentInset.top,
-                    scrollView.contentInset.left,
-                    keyboardHeight,
-                    scrollView.contentInset.right
-                )
-                scrollView.contentInset = adjustedInsets
-                scrollView.scrollIndicatorInsets = adjustedInsets
-            }
+    private func keyboardWillChangeFrame(keyboard: Keyboard, showsKeyboard: Bool) {
+        if shouldAdjustScrollViewForKeyboard(keyboard.endFrame) || !showsKeyboard {
+            let keyboardHeight = showsKeyboard ? keyboard.height : 0
+            let adjustedInsets = UIEdgeInsetsMake(
+                scrollView.contentInset.top,
+                scrollView.contentInset.left,
+                keyboardHeight,
+                scrollView.contentInset.right
+            )
+            scrollView.contentInset = adjustedInsets
+            scrollView.scrollIndicatorInsets = adjustedInsets
         }
     }
 
@@ -228,6 +238,10 @@ extension JoinViewController {
         join()
     }
 
+    @IBAction func termsTapped(sender: ElloButton) {
+        showTerms()
+    }
+
     @IBAction func loginTapped(sender: ElloTextButton) {
         showSignInScreen()
     }
@@ -247,7 +261,7 @@ extension JoinViewController {
     }
 
     private func extraHeight() -> CGFloat {
-        let spacing = CGRectGetMaxY(termsLabel.frame) - view.bounds.height + 10
+        let spacing = CGRectGetMaxY(termsButton.frame) - view.bounds.height + 10
         return spacing > 0 ? spacing : 0
     }
 

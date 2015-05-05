@@ -168,7 +168,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         }
 
         linksTextFieldView.label.setLabelText(NSLocalizedString("Links", comment: "links setting"))
-        linksTextFieldView.textField.text = (currentUser?.profile?.externalLinksList).map { " ".join($0) }
+        linksTextFieldView.textField.text = (currentUser?.profile?.externalLinksList).map { ", ".join($0) }
 
         let updateLinksFunction = Functional.debounce(0.5) { [unowned self] in
             let links = self.linksTextFieldView.textField.text
@@ -242,7 +242,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     }
 
     @IBAction func logOutTapped(sender: ElloTextButton) {
-        NSNotificationCenter.defaultCenter().postNotificationName(Notifications.UserLoggedOut.rawValue, object: nil)
+        postNotification(AuthenticationNotifications.userLoggedOut, ())
     }
 
     @IBAction func coverImageTapped() {

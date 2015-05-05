@@ -9,6 +9,7 @@
 import Ello
 import Quick
 import Nimble
+import Box
 
 
 class TypedNotificationSpec: QuickSpec {
@@ -20,7 +21,7 @@ class TypedNotificationSpec: QuickSpec {
     func receivedNotification(notif : NSNotification) {
         if let userInfo = notif.userInfo {
             if let box = userInfo["value"] as? Box<String> {
-                didNotify = box.unbox
+                didNotify = box.value
             }
         }
     }

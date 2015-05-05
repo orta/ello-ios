@@ -15,6 +15,9 @@ public class ForgotPasswordViewController: BaseElloViewController, UITextFieldDe
     @IBOutlet weak public var resetPasswordButton: ElloButton!
     @IBOutlet weak public var signInButton: ElloTextButton!
 
+    private var keyboardWillHideObserver: NotificationObserver?
+    private var keyboardWillShowObserver: NotificationObserver?
+
     override public func viewDidLoad() {
         super.viewDidLoad()
         setupStyles()
@@ -34,7 +37,6 @@ public class ForgotPasswordViewController: BaseElloViewController, UITextFieldDe
     // MARK: - Private
 
     private func setupStyles() {
-        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .Slide)
         scrollView.contentSize = view.bounds.size
         modalTransitionStyle = .CrossDissolve
         scrollView.backgroundColor = UIColor.grey3()
@@ -48,36 +50,30 @@ public class ForgotPasswordViewController: BaseElloViewController, UITextFieldDe
     }
 
     private func setupNotificationObservers() {
-        let center = NSNotificationCenter.defaultCenter()
-        center.addObserver(self, selector: Selector("keyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
-        center.addObserver(self, selector: Selector("keyboardWillHide:"), name: UIKeyboardWillHideNotification, object: nil)
+        keyboardWillHideObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillHide, block: keyboardWillHide)
+        keyboardWillShowObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillShow, block: keyboardWillShow)
     }
 
     private func removeNotificationObservers() {
-        let center = NSNotificationCenter.defaultCenter()
-        center.removeObserver(self)
+        keyboardWillHideObserver?.removeObserver()
+        keyboardWillShowObserver?.removeObserver()
     }
 
-    private func keyboardWillChangeFrame(notification: NSNotification, showsKeyboard: Bool) {
-        if let userInfo = notification.userInfo {
-            let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-            let keyboardViewEndFrame = view.convertRect(keyboardScreenEndFrame, fromView: view.window)
-
-            if shouldAdjustScrollViewForKeyboard(keyboardViewEndFrame) || !showsKeyboard {
-                let keyboardHeight = showsKeyboard ? keyboardViewEndFrame.size.height : 0
-                let adjustedInsets = UIEdgeInsetsMake(
-                    scrollView.contentInset.top,
-                    scrollView.contentInset.left,
-                    keyboardHeight,
-                    scrollView.contentInset.right
-                )
-                scrollView.contentInset = adjustedInsets
-                scrollView.scrollIndicatorInsets = adjustedInsets
-            }
+    private func keyboardWillChangeFrame(keyboard: Keyboard, showsKeyboard: Bool) {
+        if shouldAdjustScrollViewForKeyboard(keyboard.endFrame) || !showsKeyboard {
+            let keyboardHeight = showsKeyboard ? keyboard.height : 0
+            let adjustedInsets = UIEdgeInsetsMake(
+                scrollView.contentInset.top,
+                scrollView.contentInset.left,
+                keyboardHeight,
+                scrollView.contentInset.right
+            )
+            scrollView.contentInset = adjustedInsets
+            scrollView.scrollIndicatorInsets = adjustedInsets
         }
     }
 
-    private func shouldAdjustScrollViewForKeyboard(rect:CGRect) -> Bool {
+    private func shouldAdjustScrollViewForKeyboard(rect: CGRect) -> Bool {
         return (rect.origin.y + rect.size.height) == view.bounds.size.height
     }
 
@@ -87,12 +83,12 @@ public class ForgotPasswordViewController: BaseElloViewController, UITextFieldDe
 
     // MARK: Keyboard Event Notifications
 
-    func keyboardWillShow(notification: NSNotification) {
-        keyboardWillChangeFrame(notification, showsKeyboard: true)
+    func keyboardWillShow(keyboard: Keyboard) {
+        keyboardWillChangeFrame(keyboard, showsKeyboard: true)
     }
 
-    func keyboardWillHide(notification: NSNotification) {
-        keyboardWillChangeFrame(notification, showsKeyboard: false)
+    func keyboardWillHide(keyboard: Keyboard) {
+        keyboardWillChangeFrame(keyboard, showsKeyboard: false)
     }
 
     // MARK: - UITextFieldDelegate

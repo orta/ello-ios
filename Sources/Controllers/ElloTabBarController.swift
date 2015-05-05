@@ -47,6 +47,9 @@ public class ElloTabBarController: UIViewController, HasAppController {
     var currentUser : User?
     var profileResponseConfig: ResponseConfig?
 
+    private var userLoggedOutObserver: NotificationObserver?
+    private var systemLoggedOutObserver: NotificationObserver?
+
     required public init(coder aDecoder: NSCoder) {
         _tabBarHidden = false
         tabBar = ElloTabBar()

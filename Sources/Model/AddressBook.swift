@@ -7,7 +7,7 @@
 //
 
 import AddressBook
-import LlamaKit
+import Result
 
 public protocol ContactList {
     var localPeople: [LocalPerson] { get }
@@ -28,18 +28,18 @@ extension AddressBook {
         var error: Unmanaged<CFError>?
         let ab = ABAddressBookCreateWithOptions(nil, &error)
 
-        if error != nil { completion(failure(.Unauthorized)); return }
+        if error != nil { completion(.failure(.Unauthorized)); return }
 
         let book: ABAddressBook = ab.takeRetainedValue()
 
         switch ABAddressBookGetAuthorizationStatus() {
         case .NotDetermined:
             ABAddressBookRequestAccessWithCompletion(book) { granted, _ in
-                if granted { completion(success(AddressBook(addressBook: book))) }
-                else { completion(failure(.Unauthorized)) }
+                if granted { completion(.success(AddressBook(addressBook: book))) }
+                else { completion(.failure(.Unauthorized)) }
             }
-        case .Authorized: completion(success(AddressBook(addressBook: book)))
-        default: completion(failure(.Unauthorized))
+        case .Authorized: completion(.success(AddressBook(addressBook: book)))
+        default: completion(.failure(.Unauthorized))
         }
     }
 
