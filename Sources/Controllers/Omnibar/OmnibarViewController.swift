@@ -78,7 +78,9 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
         keyboardWillShowObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillShow, block: self.willShow)
         keyboardWillHideObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillHide, block: self.willHide)
-        screen.startEditing()
+        Functional.delay(0) {
+            self.screen.startEditing()
+        }
     }
 
     override public func viewWillDisappear(animated: Bool) {
