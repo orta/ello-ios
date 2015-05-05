@@ -1,5 +1,5 @@
 //
-//  LandingViewController.swift
+//  AppViewController.swift
 //  Ello
 //
 //  Created by Sean Dougherty on 11/24/14.
@@ -8,13 +8,22 @@
 
 import UIKit
 
-public class LandingViewController: BaseElloViewController {
+
+@objc
+protocol HasAppController {
+    var parentAppController: AppViewController? { get set }
+}
+
+
+public class AppViewController: BaseElloViewController {
 
     @IBOutlet weak public var scrollView: UIScrollView!
     @IBOutlet weak public var logoView: UIView!
     @IBOutlet weak public var logoTopConstraint: NSLayoutConstraint!
     @IBOutlet weak public var signInButton: ElloButton!
     @IBOutlet weak public var joinButton: LightElloButton!
+
+    var visibleViewController: UIViewController?
 
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -33,32 +42,32 @@ public class LandingViewController: BaseElloViewController {
         }
     }
 
+    var isStartup = true
     override public func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        checkIfLoggedIn()
+        if isStartup {
+            isStartup = false
+            checkIfLoggedIn()
+        }
     }
 
-    public class func instantiateFromStoryboard() -> LandingViewController {
-        return UIStoryboard.storyboardWithId(.Landing) as! LandingViewController
+    public class func instantiateFromStoryboard() -> AppViewController {
+        return UIStoryboard.storyboardWithId(.Landing) as! AppViewController
     }
 
     public func showJoinScreen() {
         let joinController = JoinViewController()
+        joinController.parentAppController = self
         let window = self.view.window!
-        self.removeNotificationObservers()
-        self.presentViewController(joinController, animated:true) {
-            window.rootViewController = joinController
-        }
+        self.swapViewController(joinController)
     }
 
     public func showSignInScreen() {
         let signInController = SignInViewController()
+        signInController.parentAppController = self
         let window = self.view.window!
-        self.removeNotificationObservers()
-        self.presentViewController(signInController, animated:true) {
-            window.rootViewController = signInController
-        }
+        self.swapViewController(signInController)
     }
 
     public func showMainScreen(user: User, responseConfig: ResponseConfig) {
@@ -66,13 +75,72 @@ public class LandingViewController: BaseElloViewController {
         var vc = ElloTabBarController.instantiateFromStoryboard()
         vc.setProfileData(user, responseConfig: responseConfig)
         var window = self.view.window!
-        self.removeNotificationObservers()
-        self.presentViewController(vc, animated: true) {
-            window.rootViewController = vc
+        self.swapViewController(vc) {
             if let alert = PushNotificationController.sharedController.requestPushAccessIfNeeded() {
                 vc.presentViewController(alert, animated: true, completion: .None)
             }
         }
+    }
+
+// Show New Screen
+
+    public func swapViewController(newViewController: UIViewController, completion: ElloEmptyCompletion? = nil) {
+        newViewController.view.alpha = 0
+
+        visibleViewController?.willMoveToParentViewController(nil)
+        newViewController.willMoveToParentViewController(self)
+
+        self.showViewController(newViewController)
+
+        UIView.animateWithDuration(0.2, animations: {
+            self.visibleViewController?.view.alpha = 0
+            newViewController.view.alpha = 1
+            self.scrollView.alpha = 0
+        }, completion: { completed in
+            self.visibleViewController?.view.removeFromSuperview()
+            self.visibleViewController?.removeFromParentViewController()
+
+            self.addChildViewController(newViewController)
+            if let childController = newViewController as? HasAppController {
+                childController.parentAppController = self
+            }
+
+            newViewController.didMoveToParentViewController(self)
+
+            self.visibleViewController = newViewController
+            completion?()
+        })
+    }
+
+    public func removeViewController(completion: ElloEmptyCompletion? = nil) {
+        if let visibleViewController = visibleViewController {
+            visibleViewController.willMoveToParentViewController(nil)
+
+            UIView.animateWithDuration(0.2, animations: {
+                self.showButtons()
+                visibleViewController.view.alpha = 0
+                self.scrollView.alpha = 1
+            }, completion: { completed in
+                visibleViewController.view.removeFromSuperview()
+                visibleViewController.removeFromParentViewController()
+                self.visibleViewController = nil
+                completion?()
+            })
+        }
+        else {
+            showButtons()
+            self.scrollView.alpha = 1
+            completion?()
+        }
+    }
+
+    private func showViewController(newViewController: UIViewController) {
+        let controller = (newViewController as? UINavigationController)?.topViewController ?? newViewController
+        Tracker.sharedTracker.screenAppeared(controller.title ?? controller.readableClassName())
+
+        view.addSubview(newViewController.view)
+        newViewController.view.frame = self.view.bounds
+        newViewController.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
     }
 
 // MARK: - Private
@@ -109,7 +177,7 @@ public class LandingViewController: BaseElloViewController {
             self.failedToLoadCurrentUser()
         })
 
-        //TODO: Need to get failure back to LandingViewController when loading the current user fails
+        //TODO: Need to get failure back to AppViewController when loading the current user fails
     }
 
     private func showButtons() {
@@ -136,17 +204,19 @@ public class LandingViewController: BaseElloViewController {
         showButtons()
     }
 
+    @objc
     func userLoggedOut(notification: NSNotification) {
         let authToken = AuthToken()
         authToken.reset()
-        UIApplication.sharedApplication().keyWindow!.rootViewController = self
+        removeViewController()
     }
 
+    @objc
     func systemLoggedOut(notification: NSNotification) {
         let authToken = AuthToken()
         authToken.reset()
 
-        self.dismissViewControllerAnimated(true, completion: {
+        removeViewController() {
             let alertController = AlertViewController(
                 message: "You have been automatically logged out")
 
@@ -154,14 +224,14 @@ public class LandingViewController: BaseElloViewController {
             alertController.addAction(action)
 
             self.presentViewController(alertController, animated: true, completion: nil)
-        })
+        }
     }
 
 }
 
 
 // MARK: - IBActions
-public extension LandingViewController {
+public extension AppViewController {
 
     @IBAction func signInTapped(sender: ElloButton) {
         showSignInScreen()

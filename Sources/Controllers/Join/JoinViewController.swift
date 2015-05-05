@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class JoinViewController: BaseElloViewController {
+public class JoinViewController: BaseElloViewController, HasAppController {
 
     @IBOutlet weak public var scrollView: UIScrollView!
     @IBOutlet weak public var elloLogo: ElloLogoView!
@@ -19,6 +19,8 @@ public class JoinViewController: BaseElloViewController {
     @IBOutlet weak public var loginButton: ElloTextButton!
     @IBOutlet weak public var joinButton: ElloButton!
     @IBOutlet weak public var termsLabel: UILabel!
+
+    weak var parentAppController: AppViewController?
 
     // error checking
     var queueEmailValidation: Functional.BasicBlock!
@@ -127,9 +129,7 @@ public class JoinViewController: BaseElloViewController {
         let vc = ElloTabBarController.instantiateFromStoryboard()
         vc.setProfileData(user, responseConfig: responseConfig)
         self.elloLogo.stopAnimatingLogo()
-        let window = self.view.window!
-        self.presentViewController(vc, animated: true) {
-            window.rootViewController = vc
+        parentAppController?.swapViewController(vc) {
             if let alert = PushNotificationController.sharedController.requestPushAccessIfNeeded() {
                 vc.presentViewController(alert, animated: true, completion: .None)
             }
@@ -144,17 +144,12 @@ public class JoinViewController: BaseElloViewController {
         signInController.passwordTextField.text = password
         signInController.enterButton.enabled = true
 
-        self.presentViewController(signInController, animated:true) {
-            window.rootViewController = signInController
-        }
+        parentAppController?.swapViewController(signInController)
     }
 
     private func showSignInScreen() {
         let signInController = SignInViewController()
-        let window = self.view.window!
-        self.presentViewController(signInController, animated:true) {
-            window.rootViewController = signInController
-        }
+        parentAppController?.swapViewController(signInController)
     }
 
     private func showAboutScreen() {
