@@ -84,8 +84,8 @@ public class JoinViewController: BaseElloViewController, HasAppController {
     }
 
     private func addNotificationObservers() {
-        keyboardWillShowObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillShow, block: keyboardWillShow)
-        keyboardWillHideObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillHide, block: keyboardWillHide)
+        keyboardWillShowObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillShow, block: keyboardWillChangeFrame)
+        keyboardWillHideObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillHide, block: keyboardWillChangeFrame)
     }
 
     private func removeNotificationObservers() {
@@ -182,30 +182,9 @@ public class JoinViewController: BaseElloViewController, HasAppController {
 // MARK: Keyboard Events
 extension JoinViewController {
 
-    func keyboardWillShow(keyboard: Keyboard) {
-        keyboardWillChangeFrame(keyboard, showsKeyboard: true)
-    }
-
-    func keyboardWillHide(keyboard: Keyboard) {
-        keyboardWillChangeFrame(keyboard, showsKeyboard: false)
-    }
-
-    private func keyboardWillChangeFrame(keyboard: Keyboard, showsKeyboard: Bool) {
-        if shouldAdjustScrollViewForKeyboard(keyboard.endFrame) || !showsKeyboard {
-            let keyboardHeight = showsKeyboard ? keyboard.height : 0
-            let adjustedInsets = UIEdgeInsetsMake(
-                scrollView.contentInset.top,
-                scrollView.contentInset.left,
-                keyboardHeight,
-                scrollView.contentInset.right
-            )
-            scrollView.contentInset = adjustedInsets
-            scrollView.scrollIndicatorInsets = adjustedInsets
-        }
-    }
-
-    private func shouldAdjustScrollViewForKeyboard(rect:CGRect) -> Bool {
-        return (rect.origin.y + rect.size.height) == view.bounds.size.height
+    private func keyboardWillChangeFrame(keyboard: Keyboard) {
+        scrollView.contentInset.bottom = keyboard.topEdge
+        scrollView.scrollIndicatorInsets.bottom = keyboard.topEdge
     }
 
 }

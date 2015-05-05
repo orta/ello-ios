@@ -13,12 +13,11 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     var keyboardWillShowObserver: NotificationObserver?
     var keyboardWillHideObserver: NotificationObserver?
 
+    var previousTab: ElloTab = .DefaultTab
     var parentPost: Post?
     var defaultText: String?
 
-    typealias PostSuccessListener = (post : Post)->()
     typealias CommentSuccessListener = (comment : Comment)->()
-    var postSuccessListeners = [PostSuccessListener]()
     var commentSuccessListeners = [CommentSuccessListener]()
 
     // the _mockScreen is only for testing - otherwise `self.screen` is always
@@ -48,10 +47,6 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         }
     }
 
-    func onPostSuccess(listener: PostSuccessListener) {
-        postSuccessListeners.append(listener)
-    }
-
     func onCommentSuccess(listener: CommentSuccessListener) {
         commentSuccessListeners.append(listener)
     }
@@ -62,10 +57,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         screen.hasParentPost = parentPost != nil
         screen.avatarURL = currentUser?.avatarURL
         screen.currentUser = currentUser
-    }
-
-    override public func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+        screen.text = self.defaultText
 
         let fileName = omnibarDataName()
         if let data : NSData = Tmp.read(fileName) {
@@ -75,12 +67,20 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             }
             Tmp.remove(fileName)
         }
-        screen.text = self.defaultText
-        self.screen.delegate = self
+        screen.delegate = self
+    }
+
+    override public func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        if let previousTab = elloTabBarController?.previousTab {
+            self.previousTab = previousTab
+        }
 
         keyboardWillShowObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillShow, block: self.willShow)
         keyboardWillHideObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillHide, block: self.willHide)
-        self.screen.startEditing()
+        Functional.delay(0) {
+            self.screen.startEditing()
+        }
     }
 
     override public func viewWillDisappear(animated: Bool) {
@@ -136,7 +136,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             content.append(image)
         }
 
-        var service : PostEditingService
+        let service : PostEditingService
         if let parentPost = parentPost {
             service = PostEditingService(parentPost: parentPost)
         }
@@ -160,7 +160,6 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
                         else {
                             var post = postOrComment as! Post
                             self.emitPostSuccess(post)
-                            self.screen.reportSuccess(NSLocalizedString("Post successfully created!", comment: "Post successfully created!"))
                         }
                     },
                     failure: { error, statusCode in
@@ -170,6 +169,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
                 )
             }
             else {
+                ElloHUD.hideLoadingHud()
                 contentCreationFailed(NSLocalizedString("No content was submitted", comment: "No content was submitted"))
             }
         }
@@ -179,19 +179,17 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     }
 
     private func emitCommentSuccess(comment: Comment) {
+        Tracker.sharedTracker.contentCreated(.Comment)
         for listener in self.commentSuccessListeners {
             listener(comment: comment)
         }
-        Tracker.sharedTracker.contentCreated(.Comment)
     }
 
 
     private func emitPostSuccess(post: Post) {
-        for listener in self.postSuccessListeners {
-            listener(post: post)
-        }
         Tracker.sharedTracker.contentCreated(.Post)
-
+        elloTabBarController?.selectedTab = previousTab
+        self.screen.reportSuccess(NSLocalizedString("Post successfully created!", comment: "Post successfully created!"))
     }
 
     func contentCreationFailed(errorMessage: String) {
