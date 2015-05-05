@@ -14,6 +14,8 @@ public enum ElloTab: Int {
     case Stream
     case Profile
     case Post
+
+    static let DefaultTab = ElloTab.Stream
 }
 
 public class ElloTabBarController: UIViewController, HasAppController {
@@ -28,12 +30,14 @@ public class ElloTabBarController: UIViewController, HasAppController {
         set { setTabBarHidden(newValue, animated: false) }
     }
 
-    public private(set) var previousTab: ElloTab
-    public var selectedTab: ElloTab = .Stream {
-        didSet {
+    public private(set) var previousTab: ElloTab = .DefaultTab
+    public var selectedTab: ElloTab = .DefaultTab {
+        willSet {
             if selectedTab != previousTab {
                 previousTab = selectedTab
             }
+        }
+        didSet {
             updateVisibleViewController()
             tabBar.selectedItem = selectedViewController.tabBarItem
         }
@@ -57,7 +61,6 @@ public class ElloTabBarController: UIViewController, HasAppController {
     required public init(coder aDecoder: NSCoder) {
         _tabBarHidden = false
         tabBar = ElloTabBar()
-        previousTab = selectedTab
 
         super.init(coder: aDecoder)
     }
