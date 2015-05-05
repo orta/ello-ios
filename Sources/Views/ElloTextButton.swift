@@ -23,8 +23,7 @@ public class ElloTextButton: UIButton {
     private func sharedSetup() {
         self.backgroundColor = UIColor.clearColor()
         let lineBreakMode = self.titleLabel?.lineBreakMode ?? .ByWordWrapping
-        if lineBreakMode != .ByWordWrapping
-        {
+        if lineBreakMode != .ByWordWrapping {
             self.titleLabel?.numberOfLines = 1
         }
         self.setTitleColor(UIColor.greyA(), forState: UIControlState.Normal)
