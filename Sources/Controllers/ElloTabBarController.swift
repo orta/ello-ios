@@ -49,12 +49,21 @@ public class ElloTabBarController: UIViewController, HasAppController {
 
     private var userLoggedOutObserver: NotificationObserver?
     private var systemLoggedOutObserver: NotificationObserver?
+    private var receivedPushNotificationObserver: NotificationObserver?
 
     required public init(coder aDecoder: NSCoder) {
         _tabBarHidden = false
         tabBar = ElloTabBar()
 
         super.init(coder: aDecoder)
+
+        receivedPushNotificationObserver = NotificationObserver(notification: PushNotificationNotifications.interactedWithPushNotification) { _ in
+            self.selectedTab = .Notifications
+        }
+    }
+
+    deinit {
+        receivedPushNotificationObserver?.removeObserver()
     }
 
 }
