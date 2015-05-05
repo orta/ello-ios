@@ -26,20 +26,22 @@ public struct AddressBook: ContactList {
 extension AddressBook {
     static func getAddressBook(completion: Result<AddressBook, AddressBookError> -> ()) {
         var error: Unmanaged<CFError>?
-        let ab = ABAddressBookCreateWithOptions(nil, &error)
+        let ab = ABAddressBookCreateWithOptions(nil, &error) as Unmanaged<ABAddressBook>?
 
         if error != nil { completion(.failure(.Unauthorized)); return }
 
-        let book: ABAddressBook = ab.takeRetainedValue()
-
-        switch ABAddressBookGetAuthorizationStatus() {
-        case .NotDetermined:
-            ABAddressBookRequestAccessWithCompletion(book) { granted, _ in
-                if granted { completion(.success(AddressBook(addressBook: book))) }
-                else { completion(.failure(.Unauthorized)) }
+        if let book: ABAddressBook = ab?.takeRetainedValue() {
+            switch ABAddressBookGetAuthorizationStatus() {
+            case .NotDetermined:
+                ABAddressBookRequestAccessWithCompletion(book) { granted, _ in
+                    if granted { completion(.success(AddressBook(addressBook: book))) }
+                    else { completion(.failure(.Unauthorized)) }
+                }
+            case .Authorized: completion(.success(AddressBook(addressBook: book)))
+            default: completion(.failure(.Unauthorized))
             }
-        case .Authorized: completion(.success(AddressBook(addressBook: book)))
-        default: completion(.failure(.Unauthorized))
+        } else {
+            completion(.failure(.Unknown))
         }
     }
 
@@ -52,20 +54,20 @@ extension AddressBook {
 }
 
 private func getAllPeopleWithEmailAddresses(addressBook: ABAddressBook) -> [LocalPerson] {
-    return records(addressBook).map { person in
-        let name = ABRecordCopyCompositeName(person).takeUnretainedValue()
+    return records(addressBook)?.map { person in
+        let name = ABRecordCopyCompositeName(person)?.takeUnretainedValue() as String? ?? "NO NAME"
         let emails = getEmails(person)
         let id = ABRecordGetRecordID(person)
-        return LocalPerson(name: name as String, emails: emails, id: id)
-    }.filter { $0.emails.count > 0 }
+        return LocalPerson(name: name, emails: emails, id: id)
+    }.filter { $0.emails.count > 0 } ?? []
 }
 
 private func getEmails(record: ABRecordRef) -> [String] {
-    let multiEmails: ABMultiValueRef = ABRecordCopyValue(record, kABPersonEmailProperty).takeUnretainedValue()
-    let emails = ABMultiValueCopyArrayOfAllValues(multiEmails)?.takeUnretainedValue() as? [String]
+    let multiEmails: ABMultiValueRef? = ABRecordCopyValue(record, kABPersonEmailProperty)?.takeUnretainedValue()
+    let emails = multiEmails.flatMap { ABMultiValueCopyArrayOfAllValues($0)?.takeUnretainedValue() as? [String] }
     return emails ?? []
 }
 
-private func records(addressBook: ABAddressBook) -> [ABRecordRef] {
-    return ABAddressBookCopyArrayOfAllPeople(addressBook).takeUnretainedValue() as [ABRecordRef]
+private func records(addressBook: ABAddressBook) -> [ABRecordRef]? {
+    return ABAddressBookCopyArrayOfAllPeople(addressBook)?.takeUnretainedValue() as [ABRecordRef]?
 }
