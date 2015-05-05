@@ -13,6 +13,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     var keyboardWillShowObserver: NotificationObserver?
     var keyboardWillHideObserver: NotificationObserver?
 
+    var previousTab: ElloTab = .DefaultTab
     var parentPost: Post?
     var defaultText: String?
 
@@ -77,7 +78,9 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        println("previous tab: \(elloTabBarController?.previousTab)")
+        if let previousTab = elloTabBarController?.previousTab {
+            self.previousTab = previousTab
+        }
 
         keyboardWillShowObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillShow, block: self.willShow)
         keyboardWillHideObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillHide, block: self.willHide)
