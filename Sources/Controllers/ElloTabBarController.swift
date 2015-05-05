@@ -16,10 +16,11 @@ public enum ElloTab: Int {
     case Post
 }
 
-public class ElloTabBarController: UIViewController {
+public class ElloTabBarController: UIViewController, HasAppController {
     public private(set) var tabBar: ElloTabBar
 
     private var visibleViewController = UIViewController()
+    var parentAppController: AppViewController?
 
     private var _tabBarHidden: Bool
     public var tabBarHidden: Bool {
@@ -54,13 +55,8 @@ public class ElloTabBarController: UIViewController {
         tabBar = ElloTabBar()
 
         super.init(coder: aDecoder)
-
-        setupNotificationObservers()
     }
 
-    deinit {
-        removeNotificationObservers()
-    }
 }
 
 public extension ElloTabBarController {
@@ -126,48 +122,6 @@ public extension ElloTabBarController {
         }
         else {
             animations()
-        }
-    }
-}
-
-// MARK: Notifications
-private extension ElloTabBarController {
-    func setupNotificationObservers() {
-        userLoggedOutObserver = NotificationObserver(notification: AuthenticationNotifications.userLoggedOut, block: userLoggedOut)
-        systemLoggedOutObserver = NotificationObserver(notification: AuthenticationNotifications.systemLoggedOut, block: systemLoggedOut)
-    }
-
-    func removeNotificationObservers() {
-        userLoggedOutObserver?.removeObserver()
-        systemLoggedOutObserver?.removeObserver()
-    }
-
-    func userLoggedOut() {
-        removeNotificationObservers()
-        let authToken = AuthToken()
-        authToken.reset()
-        let window = view.window!
-        let landingController = LandingViewController.instantiateFromStoryboard()
-        presentViewController(landingController, animated: true) {
-            window.rootViewController = landingController
-        }
-    }
-
-    func systemLoggedOut() {
-        removeNotificationObservers()
-        let authToken = AuthToken()
-        authToken.reset()
-        let window = view.window!
-        let landingController = LandingViewController.instantiateFromStoryboard()
-        presentViewController(landingController, animated: true) {
-            window.rootViewController = landingController
-
-            let alertController = AlertViewController(
-                message: "You have been automatically logged out")
-
-            let action = AlertAction(title: "OK", style: .Dark, handler: nil)
-            alertController.addAction(action)
-            landingController.presentViewController(alertController, animated: true, completion: nil)
         }
     }
 }
