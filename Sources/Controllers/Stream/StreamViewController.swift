@@ -272,6 +272,7 @@ public class StreamViewController: BaseElloViewController {
         collectionView.alwaysBounceHorizontal = false
         collectionView.alwaysBounceVertical = true
         collectionView.directionalLockEnabled = true
+        collectionView.keyboardDismissMode = .OnDrag
         StreamCellType.registerAll(collectionView)
         setupCollectionViewLayout()
     }

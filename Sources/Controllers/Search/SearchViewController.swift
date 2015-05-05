@@ -33,20 +33,10 @@ public class SearchViewController: BaseElloViewController {
         streamViewController.currentUser = currentUser
 
         streamViewController.userTappedDelegate = self
-        streamViewController.streamScrollDelegate = self
 
         streamViewController.willMoveToParentViewController(self)
         self.addChildViewController(streamViewController)
         streamViewController.didMoveToParentViewController(self)
-    }
-
-}
-
-// MARK: StreamScrollDelegate
-extension SearchViewController: StreamScrollDelegate {
-
-    public func streamViewDidScroll(scrollView: UIScrollView) {
-        screen.dismissKeyboard()
     }
 
 }

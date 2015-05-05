@@ -20,7 +20,6 @@ class SearchMockScreen: NSObject, SearchScreenProtocol {
     }
 
     func dismissKeyboard() {
-        didDismissKeyboard = true
     }
 
 }
@@ -28,14 +27,5 @@ class SearchMockScreen: NSObject, SearchScreenProtocol {
 
 class SearchViewControllerSpec: QuickSpec {
     override func spec() {
-        describe("Scrolling the view") {
-            it("should dismiss the keyboard") {
-                let controller = SearchViewController()
-                let mock = SearchMockScreen()
-                controller.screen = mock
-                controller.streamViewDidScroll(UIScrollView())
-                expect(mock.didDismissKeyboard).to(beTrue())
-            }
-        }
     }
 }
