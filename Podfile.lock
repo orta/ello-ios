@@ -1,6 +1,7 @@
 PODS:
   - 1PasswordExtension (1.2)
   - Alamofire (1.2.1)
+  - Box (1.2.0)
   - CocoaLumberjack (2.0.0):
     - CocoaLumberjack/Default (= 2.0.0)
     - CocoaLumberjack/Extensions (= 2.0.0)
@@ -13,7 +14,6 @@ PODS:
   - JTSImageViewController (1.5)
   - Keys (1.0.2)
   - KINWebBrowser (1.1.0)
-  - LlamaKit (0.6.1)
   - LUKeychainAccess (1.2.4)
   - MBProgressHUD (0.9.1)
   - Moya (0.6.1):
@@ -23,6 +23,8 @@ PODS:
   - NewRelicAgent (4.186.1)
   - Nimble (0.4.2)
   - Quick (0.3.1)
+  - Result (0.4):
+    - Box (~> 1.2)
   - SDWebImage (3.7.2):
     - SDWebImage/Core (= 3.7.2)
   - SDWebImage/Core (3.7.2)
@@ -47,13 +49,13 @@ DEPENDENCIES:
   - JTSImageViewController (from `https://github.com/ello/JTSImageViewController.git`)
   - Keys (from `https://github.com/ashfurrow/empty-podspec.git`)
   - KINWebBrowser (from `https://github.com/ello/KINWebBrowser.git`)
-  - LlamaKit (from `https://github.com/ello/LlamaKit.git`)
   - LUKeychainAccess (~> 1.2.4)
   - MBProgressHUD (~> 0.9.0)
   - Moya (from `https://github.com/ello/Moya`, branch `cg-hybrid`)
   - NewRelicAgent (~> 4.186)
   - Nimble (~> 0.4.0)
   - Quick (~> 0.3.0)
+  - Result (~> 0.4.0)
   - SDWebImage (~> 3.7)
   - SSPullToRefresh (~> 1.2)
   - SVGKit (from `https://github.com/SVGKit/SVGKit`, branch `2.x`)
@@ -70,8 +72,6 @@ EXTERNAL SOURCES:
     :git: https://github.com/ashfurrow/empty-podspec.git
   KINWebBrowser:
     :git: https://github.com/ello/KINWebBrowser.git
-  LlamaKit:
-    :git: https://github.com/ello/LlamaKit.git
   Moya:
     :branch: cg-hybrid
     :git: https://github.com/ello/Moya
@@ -91,9 +91,6 @@ CHECKOUT OPTIONS:
   KINWebBrowser:
     :commit: c5f49457e7fb7939cf5882c3f310b9b15e340d4e
     :git: https://github.com/ello/KINWebBrowser.git
-  LlamaKit:
-    :commit: 17c80a90295419e180234381ab7f787e136918df
-    :git: https://github.com/ello/LlamaKit.git
   Moya:
     :commit: 3199b781225ee5cdd59d6b70fd4c038a80f47f74
     :git: https://github.com/ello/Moya
@@ -107,18 +104,19 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   1PasswordExtension: fcf300204bda5b5c78936dbb937a7d661f1ca796
   Alamofire: 1acfdf179aff68b41a48dff70c1ac7fa263e2bcb
+  Box: 3345df1dee5c8cd639a663e368427c51f931d095
   CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
   FLAnimatedImage: f9422f796135aff80d8c00b2afc48015bb746e24
   JTSImageViewController: 89ae3c003060c65418fd3224ebbd67acc6046608
   Keys: 80485232b6d580368f08f1df19ebfc4f0077b66a
   KINWebBrowser: 5700a9e2d891ce43f726dd9e04c929312933bb18
-  LlamaKit: 2610cffeec508d27caad8449e7d460df914d9212
   LUKeychainAccess: 6479edb12cf06e11ff3336f796959eedbc58f714
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
   Moya: f652dec673d9dd177376d2c9366c76c9ed7b0343
   NewRelicAgent: 5cd52dafe03e74c5066073a00fd500df9d966e7e
   Nimble: 49b7a7da8919f42823d37c6d68cc6d15a7009f32
   Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
+  Result: 03957bbe943dd96a9f12ff1c6b5ac65c8a6b64aa
   SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
   SSPullToRefresh: ae69778f6961120bd906e6349602c6918e609368
   SVGKit: cf06ac3067c4d5e927e5f93ba6a7e4d7171a7502

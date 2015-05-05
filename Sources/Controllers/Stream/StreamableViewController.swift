@@ -187,11 +187,11 @@ extension StreamableViewController: InviteResponder {
                 switch result {
                 case let .Success(box):
                     Tracker.sharedTracker.contactAccessPreferenceChanged(true)
-                    let vc = AddFriendsContainerViewController(addressBook: box.unbox)
+                    let vc = AddFriendsContainerViewController(addressBook: box.value)
                     self.navigationController?.pushViewController(vc, animated: true)
                 case let .Failure(box):
                     Tracker.sharedTracker.contactAccessPreferenceChanged(false)
-                    self.displayAddressBookAlert(box.unbox.rawValue)
+                    self.displayAddressBookAlert(box.value.rawValue)
                     return
                 }
             }
