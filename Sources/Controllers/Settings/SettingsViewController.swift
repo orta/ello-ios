@@ -156,9 +156,9 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
 
         let updateNameFunction = Functional.debounce(0.5) { [unowned self] in
             let name = self.nameTextFieldView.textField.text
-            ProfileService().updateUserProfile(["name": name], success: { user, responseConfig in
+            ProfileService().updateUserProfile(["name": name], success: { user in
                 if let nav = self.navigationController as? ElloNavigationController {
-                    nav.setProfileData(user, responseConfig: responseConfig)
+                    nav.setProfileData(user)
                     self.nameTextFieldView.setState(.OK)
                 } else {
                     self.nameTextFieldView.setState(.Error)
@@ -178,9 +178,9 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
 
         let updateLinksFunction = Functional.debounce(0.5) { [unowned self] in
             let links = self.linksTextFieldView.textField.text
-            ProfileService().updateUserProfile(["external_links": links], success: { user, responseConfig in
+            ProfileService().updateUserProfile(["external_links": links], success: { user in
                 if let nav = self.navigationController as? ElloNavigationController {
-                    nav.setProfileData(user, responseConfig: responseConfig)
+                    nav.setProfileData(user)
                     self.linksTextFieldView.setState(.OK)
                 } else {
                     self.linksTextFieldView.setState(.Error)
@@ -201,9 +201,9 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
 
         bioTextViewDidChange = Functional.debounce(0.5) { [unowned self] in
             let bio = self.bioTextView.text
-            ProfileService().updateUserProfile(["unsanitized_short_bio": bio], success: { user, responseConfig in
+            ProfileService().updateUserProfile(["unsanitized_short_bio": bio], success: { user in
                 if let nav = self.navigationController as? ElloNavigationController {
-                    nav.setProfileData(user, responseConfig: responseConfig)
+                    nav.setProfileData(user)
                     self.bioTextStatusImage.image = ValidationState.OK.imageRepresentation
                 } else {
                     self.bioTextStatusImage.image = ValidationState.Error.imageRepresentation
@@ -254,7 +254,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     @IBAction func coverImageTapped() {
         photoSaveCallback = { image in
             ElloHUD.showLoadingHud()
-            ProfileService().updateUserCoverImage(image, success: { _, _ in
+            ProfileService().updateUserCoverImage(image, success: { _ in
                 ElloHUD.hideLoadingHud()
                 self.alertUserOfImageProcessing()
             }) { _, _ in
@@ -267,7 +267,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     @IBAction func avatarImageTapped() {
         photoSaveCallback = { image in
             ElloHUD.showLoadingHud()
-            ProfileService().updateUserAvatarImage(image, success: { user, responseConfig in
+            ProfileService().updateUserAvatarImage(image, success: { user in
                 ElloHUD.hideLoadingHud()
                 self.alertUserOfImageProcessing()
             }) { _, _ in

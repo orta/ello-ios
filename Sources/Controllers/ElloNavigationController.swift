@@ -20,7 +20,6 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
     public var currentUser : User? {
         didSet { didSetCurrentUser() }
     }
-    var profileResponseConfig: ResponseConfig?
 
     var backGesture: UIScreenEdgePanGestureRecognizer?
 
@@ -30,22 +29,21 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
         case Omnibar = "OmnibarViewController"
         case Discover = "DiscoverViewController"
 
-        func controllerInstance(user: User, responseConfig: ResponseConfig) -> BaseElloViewController {
+        func controllerInstance(user: User) -> BaseElloViewController {
             switch self {
             case Notifications: return NotificationsViewController()
-            case Profile: return ProfileViewController(user: user, responseConfig: responseConfig)
+            case Profile: return ProfileViewController(user: user)
             case Omnibar: return OmnibarViewController()
             case Discover: return DiscoverViewController()
             }
         }
     }
 
-    func setProfileData(currentUser: User, responseConfig: ResponseConfig) {
+    func setProfileData(currentUser: User) {
         self.currentUser = currentUser
-        self.profileResponseConfig = responseConfig
         if self.viewControllers.count == 0 {
             if let rootViewControllerName = rootViewControllerName {
-                if let controller = RootViewControllers(rawValue:rootViewControllerName)?.controllerInstance(currentUser, responseConfig: responseConfig) {
+                if let controller = RootViewControllers(rawValue:rootViewControllerName)?.controllerInstance(currentUser) {
                     controller.currentUser = currentUser
                     self.viewControllers = [controller]
                 }

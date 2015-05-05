@@ -92,8 +92,8 @@ public class AppViewController: BaseElloViewController {
 
     private func loadCurrentUser() {
         let profileService = ProfileService()
-        profileService.loadCurrentUser({ (user, responseConfig) in
-            self.showMainScreen(user, responseConfig: responseConfig)
+        profileService.loadCurrentUser(ElloAPI.Profile(perPage: 1), success: { user in
+            self.showMainScreen(user)
         }, failure: { error in
             self.failedToLoadCurrentUser()
         })
@@ -147,7 +147,7 @@ extension AppViewController {
         swapViewController(signInController)
     }
 
-    public func showMainScreen(user: User, responseConfig: ResponseConfig) {
+    public func showMainScreen(user: User) {
         Tracker.sharedTracker.identify(user)
 
         var vc = ElloTabBarController.instantiateFromStoryboard()

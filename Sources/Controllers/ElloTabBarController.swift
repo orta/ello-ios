@@ -98,15 +98,14 @@ public extension ElloTabBarController {
 }
 
 public extension ElloTabBarController {
-    func setProfileData(currentUser: User, responseConfig: ResponseConfig) {
+    func setProfileData(currentUser: User) {
         self.currentUser = currentUser
-        self.profileResponseConfig = responseConfig
         for controller in childViewControllers {
             if let controller = controller as? BaseElloViewController {
                 controller.currentUser = currentUser
             }
             else if let controller = controller as? ElloNavigationController {
-                controller.setProfileData(currentUser, responseConfig: responseConfig)
+                controller.setProfileData(currentUser)
             }
         }
     }
@@ -153,6 +152,26 @@ public extension ElloTabBarController {
 
     override func sizeForChildContentContainer(container: UIContentContainer, withParentContainerSize size: CGSize) -> CGSize {
         return view.frame.size
+    }
+
+    override public func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        println(segue.identifier)
+        //        if segue.identifier == "DynamicSettingCategorySegue" {
+        //            let controller = segue.destinationViewController as! DynamicSettingCategoryViewController
+        //            let selectedIndexPath = tableView.indexPathForSelectedRow()
+        //
+        //            switch DynamicSettingsSection(rawValue: selectedIndexPath?.section ?? 0) ?? .Unknown {
+        //            case .DynamicSettings:
+        //                let index = tableView.indexPathForSelectedRow()?.row ?? 0
+        //                controller.category = dynamicCategories[index]
+        //
+        //            case .AccountDeletion:
+        //                controller.category = DynamicSettingCategory.accountDeletionCategory
+        //
+        //            case .Unknown: break
+        //            }
+        //            controller.currentUser = currentUser
+        //        }
     }
 }
 

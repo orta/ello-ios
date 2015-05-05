@@ -14,17 +14,18 @@ import SwiftyJSON
 
 public typealias ProfileFollowingSuccessCompletion = (users: [User], responseConfig: ResponseConfig) -> ()
 public typealias AccountDeletionSuccessCompletion = () -> ()
+public typealias ProfileSuccessCompletion = (user: User) -> ()
 
 public struct ProfileService {
 
     public init(){}
     
-    public func loadCurrentUser(success: UserSuccessCompletion, failure: ElloFailureCompletion?) {
-        ElloProvider.elloRequest(ElloAPI.Profile,
+    public func loadCurrentUser(endpoint: ElloAPI, success: ProfileSuccessCompletion, failure: ElloFailureCompletion?) {
+        ElloProvider.elloRequest(endpoint,
             method: .GET,
-            success: { (data, responseConfig) in
+            success: { (data, _) in
                 if let user = data as? User {
-                    success(user: user, responseConfig: responseConfig)
+                    success(user: user)
                 }
                 else {
                     ElloProvider.unCastableJSONAble(failure)
@@ -49,12 +50,12 @@ public struct ProfileService {
         )
     }
 
-    public func updateUserProfile(content: [String: AnyObject], success: UserSuccessCompletion, failure: ElloFailureCompletion?) {
+    public func updateUserProfile(content: [String: AnyObject], success: ProfileSuccessCompletion, failure: ElloFailureCompletion?) {
         ElloProvider.elloRequest(ElloAPI.ProfileUpdate(body: content),
             method: .PATCH,
             success: { data, responseConfig in
                 if let user = data as? User {
-                    success(user: user, responseConfig: responseConfig)
+                    success(user: user)
                 } else {
                     ElloProvider.unCastableJSONAble(failure)
                 }
@@ -63,11 +64,11 @@ public struct ProfileService {
         )
     }
 
-    public func updateUserCoverImage(image: UIImage, success: UserSuccessCompletion, failure: ElloFailureCompletion) {
+    public func updateUserCoverImage(image: UIImage, success: ProfileSuccessCompletion, failure: ElloFailureCompletion) {
         updateUserImage(image, key: "remote_cover_image_url", success: success, failure: failure)
     }
 
-    public func updateUserAvatarImage(image: UIImage, success: UserSuccessCompletion, failure: ElloFailureCompletion) {
+    public func updateUserAvatarImage(image: UIImage, success: ProfileSuccessCompletion, failure: ElloFailureCompletion) {
         updateUserImage(image, key: "remote_avatar_url", success: success, failure: failure)
     }
 
@@ -85,7 +86,7 @@ public struct ProfileService {
             failure: .None)
     }
 
-    private func updateUserImage(image: UIImage, key: String, success: UserSuccessCompletion, failure: ElloFailureCompletion) {
+    private func updateUserImage(image: UIImage, key: String, success: ProfileSuccessCompletion, failure: ElloFailureCompletion) {
         S3UploadingService().upload(image, filename: "\(NSUUID().UUIDString).png", success: { url in
             if let urlString = url?.absoluteString {
                 self.updateUserProfile([key: urlString], success: success, failure: failure)

@@ -106,12 +106,12 @@ public class JoinViewController: BaseElloViewController, HasAppController {
             let email = emailView.textField.text
             let username = usernameView.textField.text
             let password = passwordView.textField.text
-            service.join(email: email, username: username, password: password, success: { user, responseConfig in
+            service.join(email: email, username: username, password: password, success: { user in
                 let authService = AuthService()
                 authService.authenticate(email: email,
                     password: password,
                     success: {
-                        self.showMainScreen(user, responseConfig: responseConfig)
+                        self.showMainScreen(user)
                     },
                     failure: { _, _ in
                         self.view.userInteractionEnabled = true
@@ -125,9 +125,9 @@ public class JoinViewController: BaseElloViewController, HasAppController {
         }
     }
 
-    private func showMainScreen(user: User, responseConfig: ResponseConfig) {
+    private func showMainScreen(user: User) {
         let vc = ElloTabBarController.instantiateFromStoryboard()
-        vc.setProfileData(user, responseConfig: responseConfig)
+        vc.setProfileData(user)
         self.elloLogo.stopAnimatingLogo()
         parentAppController?.swapViewController(vc) {
             if let alert = PushNotificationController.sharedController.requestPushAccessIfNeeded() {

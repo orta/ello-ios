@@ -199,7 +199,7 @@ public class CredentialSettingsViewController: UITableViewController {
 
         if let nav = self.navigationController as? ElloNavigationController {
             ProfileService().updateUserProfile(content, success: {
-                nav.setProfileData($0, responseConfig: $1)
+                nav.setProfileData($0)
                 self.resetViews()
             }) { error, _ in
                 self.currentPasswordField.text = ""
