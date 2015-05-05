@@ -62,10 +62,6 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         screen.hasParentPost = parentPost != nil
         screen.avatarURL = currentUser?.avatarURL
         screen.currentUser = currentUser
-    }
-
-    override public func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
 
         let fileName = omnibarDataName()
         if let data : NSData = Tmp.read(fileName) {
@@ -76,11 +72,16 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             Tmp.remove(fileName)
         }
         screen.text = self.defaultText
-        self.screen.delegate = self
+        screen.delegate = self
+    }
+
+    override public func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        println("previous tab: \(elloTabBarController?.previousTab)")
 
         keyboardWillShowObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillShow, block: self.willShow)
         keyboardWillHideObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillHide, block: self.willHide)
-        self.screen.startEditing()
+        screen.startEditing()
     }
 
     override public func viewWillDisappear(animated: Bool) {

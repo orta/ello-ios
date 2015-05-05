@@ -28,8 +28,12 @@ public class ElloTabBarController: UIViewController, HasAppController {
         set { setTabBarHidden(newValue, animated: false) }
     }
 
+    public private(set) var previousTab: ElloTab
     public var selectedTab: ElloTab = .Stream {
         didSet {
+            if selectedTab != previousTab {
+                previousTab = selectedTab
+            }
             updateVisibleViewController()
             tabBar.selectedItem = selectedViewController.tabBarItem
         }
@@ -53,6 +57,7 @@ public class ElloTabBarController: UIViewController, HasAppController {
     required public init(coder aDecoder: NSCoder) {
         _tabBarHidden = false
         tabBar = ElloTabBar()
+        previousTab = selectedTab
 
         super.init(coder: aDecoder)
     }
