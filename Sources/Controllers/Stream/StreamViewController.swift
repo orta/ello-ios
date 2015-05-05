@@ -459,19 +459,15 @@ extension StreamViewController : StreamCollectionViewLayoutDelegate {
 extension StreamViewController : UIScrollViewDelegate {
 
     public func scrollViewDidScroll(scrollView : UIScrollView) {
-        self.streamScrollDelegate?.streamViewDidScroll(scrollView)
+        streamScrollDelegate?.streamViewDidScroll(scrollView)
     }
 
     public func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        if let delegate = self.streamScrollDelegate {
-            delegate.streamViewWillBeginDragging?(scrollView)
-        }
+        streamScrollDelegate?.streamViewWillBeginDragging?(scrollView)
     }
 
     public func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate: Bool) {
-        if let delegate = self.streamScrollDelegate {
-            delegate.streamViewDidEndDragging?(scrollView, willDecelerate: willDecelerate)
-        }
+        streamScrollDelegate?.streamViewDidEndDragging?(scrollView, willDecelerate: willDecelerate)
         self.loadNextPage(scrollView)
     }
 

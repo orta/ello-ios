@@ -14,7 +14,7 @@ public class ElloEquallySpacedLayout : UIView {
         }
     }
 
-    public var spacing : CGFloat = CGFloat(0) {
+    public var spacing = CGFloat(0) {
         didSet {
             if spacing < CGFloat(0) {
                 spacing = CGFloat(0)

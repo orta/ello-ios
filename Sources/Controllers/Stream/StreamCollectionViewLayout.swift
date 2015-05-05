@@ -97,7 +97,7 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
         var insets:UIEdgeInsets = sectionInsets ?? self.sectionInset
 
         let width:CGFloat = collectionView!.frame.size.width - insets.left - insets.right
-        let spaceColumCount:CGFloat = CGFloat(columnCount-1)
+        let spaceColumCount = CGFloat(columnCount-1)
         return floor((width - (spaceColumCount * minimumColumnSpacing)) / CGFloat(columnCount))
     }
 
