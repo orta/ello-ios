@@ -328,8 +328,8 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
             options: Keyboard.shared().options,
             animations: {
                 self.layoutIfNeeded()
-        },
-        completion: nil)
+            },
+            completion: nil)
     }
 
     public func keyboardWillHide() {

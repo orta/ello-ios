@@ -61,7 +61,7 @@ public class ForgotPasswordViewController: BaseElloViewController, UITextFieldDe
 
     private func keyboardWillChangeFrame(keyboard: Keyboard, showsKeyboard: Bool) {
         if shouldAdjustScrollViewForKeyboard(keyboard.endFrame) || !showsKeyboard {
-            let keyboardHeight = showsKeyboard ? keyboard.height : 0
+            let keyboardHeight = showsKeyboard ? keyboard.topEdge : 0
             let adjustedInsets = UIEdgeInsetsMake(
                 scrollView.contentInset.top,
                 scrollView.contentInset.left,
@@ -130,4 +130,3 @@ public class ForgotPasswordViewController: BaseElloViewController, UITextFieldDe
     }
 
 }
-
