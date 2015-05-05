@@ -167,6 +167,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
                 )
             }
             else {
+                ElloHUD.hideLoadingHud()
                 contentCreationFailed(NSLocalizedString("No content was submitted", comment: "No content was submitted"))
             }
         }
