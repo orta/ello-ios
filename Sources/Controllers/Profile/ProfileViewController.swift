@@ -32,10 +32,8 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         self.initialStreamKind = .UserStream(userParam: self.userParam)
         super.init(nibName: "ProfileViewController", bundle: nil)
 
-        ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.streamKind = initialStreamKind
         streamViewController.initialLoadClosure = reloadEntireProfile
-        streamViewController.loadInitialPage()
     }
 
     // this should only be initialized this way for currentUser in tab nav
@@ -46,10 +44,8 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         self.initialStreamKind = .Profile(perPage: 10)
         super.init(nibName: "ProfileViewController", bundle: nil)
 
-        ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.streamKind = initialStreamKind
         streamViewController.initialLoadClosure = reloadEntireProfile
-        streamViewController.loadInitialPage()
     }
 
     required public init(coder aDecoder: NSCoder) {
@@ -64,6 +60,8 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         }
         setupNavigationBar()
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
+        ElloHUD.showLoadingHudInView(streamViewController.view)
+        streamViewController.loadInitialPage()
     }
 
     override public func viewWillAppear(animated: Bool) {
