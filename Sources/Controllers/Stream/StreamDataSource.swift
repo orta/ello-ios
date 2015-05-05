@@ -316,6 +316,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
 
             // if post, add new post cells
             if let post = jsonable as? Post {
+                println("streamKind = \(streamKind.name)")
                 switch streamKind {
                 case .Friend:
                     self.insertUnsizedCellItems(
@@ -330,18 +331,30 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                             }, completion: nil)
 
                         }
+                case let .Profile:
+                    self.insertUnsizedCellItems(
+                        StreamCellItemParser().parse([post], streamKind: self.streamKind),
+                        withWidth: 375.0,
+                        startingIndexPath: NSIndexPath(forItem: 1, inSection: 0)
+                    )
+                    {
+                        newIndexPaths in
+                        collectionView.performBatchUpdates({
+                            collectionView.insertItemsAtIndexPaths(newIndexPaths)
+                            }, completion: nil)
+                    }
                 case let .UserStream(userParam):
                     if currentUser?.id == userParam {
                         self.insertUnsizedCellItems(
                             StreamCellItemParser().parse([post], streamKind: self.streamKind),
                             withWidth: 375.0,
                             startingIndexPath: NSIndexPath(forItem: 1, inSection: 0)
-                        )
-                        {
-                            newIndexPaths in
-                            collectionView.performBatchUpdates({
-                                collectionView.insertItemsAtIndexPaths(newIndexPaths)
-                                }, completion: nil)
+                            )
+                            {
+                                newIndexPaths in
+                                collectionView.performBatchUpdates({
+                                    collectionView.insertItemsAtIndexPaths(newIndexPaths)
+                                    }, completion: nil)
                         }
                     }
                 default:

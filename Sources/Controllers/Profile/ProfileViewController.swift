@@ -31,24 +31,25 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         self.userParam = userParam
         self.initialStreamKind = .UserStream(userParam: self.userParam)
         super.init(nibName: "ProfileViewController", bundle: nil)
-        self.streamViewController.streamKind = initialStreamKind
 
         ElloHUD.showLoadingHudInView(streamViewController.view)
+        streamViewController.streamKind = initialStreamKind
         streamViewController.initialLoadClosure = reloadEntireProfile
         streamViewController.loadInitialPage()
     }
 
     // this should only be initialized this way for currentUser in tab nav
-    required public init(user: User, responseConfig: ResponseConfig) {
+    required public init(user: User) {
         // this user should have the .proifle on it since it is currentUser
-        self.initialStreamKind = .Profile
-
         self.user = user
-        self.responseConfig = responseConfig
         self.userParam = self.user!.id
+        self.initialStreamKind = .Profile(perPage: 10)
         super.init(nibName: "ProfileViewController", bundle: nil)
+
         ElloHUD.showLoadingHudInView(streamViewController.view)
-        self.streamViewController.initialLoadClosure = reloadEntireProfile
+        streamViewController.streamKind = initialStreamKind
+        streamViewController.initialLoadClosure = reloadEntireProfile
+        streamViewController.loadInitialPage()
     }
 
     required public init(coder aDecoder: NSCoder) {
@@ -72,12 +73,6 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
             coverWidthSet = true
             coverImageHeight.constant = view.frame.width / ratio
             coverImageHeightStart = coverImageHeight.constant
-        }
-        if let user = self.user, let responseConfig = self.responseConfig {
-            if !isSetup {
-                isSetup = true
-                userLoaded(user, responseConfig: responseConfig)
-            }
         }
     }
 

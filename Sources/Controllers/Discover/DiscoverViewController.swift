@@ -17,6 +17,7 @@ public class DiscoverViewController: StreamableViewController {
     required public init() {
         super.init(nibName: "DiscoverViewController", bundle: nil)
         title = NSLocalizedString("Discover", comment: "Discover")
+        streamViewController.streamKind = .Discover(type: .Recommended, seed: Int(NSDate().timeIntervalSince1970), perPage: 50)
     }
 
     required public init(coder aDecoder: NSCoder) {
@@ -26,7 +27,6 @@ public class DiscoverViewController: StreamableViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBarHidden = true
-        streamViewController.streamKind = .Discover(type: .Recommended, seed: Int(NSDate().timeIntervalSince1970), perPage: 50)
         streamViewController.loadInitialPage()
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
     }
