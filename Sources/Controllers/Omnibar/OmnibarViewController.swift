@@ -134,7 +134,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             content.append(image)
         }
 
-        var service : PostEditingService
+        let service : PostEditingService
         if let parentPost = parentPost {
             service = PostEditingService(parentPost: parentPost)
         }
