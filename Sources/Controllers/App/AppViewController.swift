@@ -53,7 +53,7 @@ public class AppViewController: BaseElloViewController {
     }
 
     public class func instantiateFromStoryboard() -> AppViewController {
-        return UIStoryboard.storyboardWithId(.Landing) as! AppViewController
+        return UIStoryboard.storyboardWithId(.App) as! AppViewController
     }
 
 // MARK: - Private
@@ -126,13 +126,13 @@ extension AppViewController {
     public func showJoinScreen() {
         let joinController = JoinViewController()
         joinController.parentAppController = self
-        self.swapViewController(joinController)
+        swapViewController(joinController)
     }
 
     public func showSignInScreen() {
         let signInController = SignInViewController()
         signInController.parentAppController = self
-        self.swapViewController(signInController)
+        swapViewController(signInController)
     }
 
     public func showMainScreen(user: User, responseConfig: ResponseConfig) {
@@ -140,7 +140,7 @@ extension AppViewController {
 
         var vc = ElloTabBarController.instantiateFromStoryboard()
         vc.setProfileData(user, responseConfig: responseConfig)
-        self.swapViewController(vc) {
+        swapViewController(vc) {
             if let alert = PushNotificationController.sharedController.requestPushAccessIfNeeded() {
                 vc.presentViewController(alert, animated: true, completion: .None)
             }
@@ -159,13 +159,13 @@ extension AppViewController {
         visibleViewController?.willMoveToParentViewController(nil)
         newViewController.willMoveToParentViewController(self)
 
-        self.prepareToShowViewController(newViewController)
+        prepareToShowViewController(newViewController)
 
         UIView.animateWithDuration(0.2, animations: {
             self.visibleViewController?.view.alpha = 0
             newViewController.view.alpha = 1
             self.scrollView.alpha = 0
-        }, completion: { completed in
+        }, completion: { _ in
             self.visibleViewController?.view.removeFromSuperview()
             self.visibleViewController?.removeFromParentViewController()
 
@@ -189,7 +189,7 @@ extension AppViewController {
                 self.showButtons()
                 visibleViewController.view.alpha = 0
                 self.scrollView.alpha = 1
-            }, completion: { completed in
+            }, completion: { _ in
                 visibleViewController.view.removeFromSuperview()
                 visibleViewController.removeFromParentViewController()
                 self.visibleViewController = nil
@@ -198,7 +198,7 @@ extension AppViewController {
         }
         else {
             showButtons()
-            self.scrollView.alpha = 1
+            scrollView.alpha = 1
             completion?()
         }
     }
