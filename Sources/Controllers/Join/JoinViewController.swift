@@ -18,7 +18,7 @@ public class JoinViewController: BaseElloViewController {
     @IBOutlet weak public var aboutButton: ElloTextButton!
     @IBOutlet weak public var loginButton: ElloTextButton!
     @IBOutlet weak public var joinButton: ElloButton!
-    @IBOutlet weak public var termsLabel: UILabel!
+    @IBOutlet weak public var termsButton: ElloTextButton!
 
     private var keyboardWillShowObserver: NotificationObserver?
     private var keyboardWillHideObserver: NotificationObserver?
@@ -33,6 +33,7 @@ public class JoinViewController: BaseElloViewController {
         queueEmailValidation = Functional.debounce(0.5) { [unowned self] in self.validateEmail(self.emailView.textField.text) }
         queueUsernameValidation = Functional.debounce(0.5) { [unowned self] in self.validateUsername(self.usernameView.textField.text) }
         queuePasswordValidation = Functional.debounce(0.5) { [unowned self] in self.validatePassword(self.passwordView.textField.text) }
+        modalTransitionStyle = .CrossDissolve
     }
 
     required public init(coder aDecoder: NSCoder) {
@@ -43,11 +44,11 @@ public class JoinViewController: BaseElloViewController {
         super.viewDidLoad()
         setupStyles()
         setupViews()
-        setupNotificationObservers()
     }
 
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        addNotificationObservers()
         Tracker.sharedTracker.screenAppeared("Join")
     }
 
@@ -59,12 +60,9 @@ public class JoinViewController: BaseElloViewController {
     // MARK: Private
 
     private func setupStyles() {
-        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .Slide)
         scrollView.contentSize = view.bounds.size
-        modalTransitionStyle = .CrossDissolve
         scrollView.backgroundColor = UIColor.grey3()
         view.backgroundColor = UIColor.grey3()
-        view.setNeedsDisplay()
     }
 
     private func setupViews() {
@@ -146,7 +144,7 @@ public class JoinViewController: BaseElloViewController {
         signInController.passwordTextField.text = password
         signInController.enterButton.enabled = true
 
-        self.presentViewController(signInController, animated:true) {
+        self.presentViewController(signInController, animated: true) {
             window.rootViewController = signInController
         }
     }
@@ -154,19 +152,34 @@ public class JoinViewController: BaseElloViewController {
     private func showSignInScreen() {
         let signInController = SignInViewController()
         let window = self.view.window!
-        self.presentViewController(signInController, animated:true) {
+        self.presentViewController(signInController, animated: true) {
             window.rootViewController = signInController
         }
     }
 
     private func showAboutScreen() {
-        //TODO: show about screen
-        println("about tapped")
-        // let aboutController = AboutViewController()
-        // let window = self.view.window!
-        // self.presentViewController(aboutController, animated:true) {
-        //     window.rootViewController = aboutController
-        // }
+        let nav = ElloWebBrowserViewController.navigationControllerWithWebBrowser()
+        let browser = nav.rootWebBrowser()
+        browser.loadURLString("\(ElloURI.baseURL)/wtf/post/about")
+        browser.tintColor = UIColor.greyA()
+
+        browser.showsURLInNavigationBar = false
+        browser.showsPageTitleInNavigationBar = false
+        browser.title = NSLocalizedString("About", comment: "about title")
+
+        presentViewController(nav, animated: true, completion: nil)
+    }
+
+    private func showTerms() {
+        let nav = ElloWebBrowserViewController.navigationControllerWithWebBrowser()
+        let browser = nav.rootWebBrowser()
+        browser.loadURLString("\(ElloURI.baseURL)/wtf/post/privacy")
+        browser.tintColor = UIColor.greyA()
+        browser.showsURLInNavigationBar = false
+        browser.showsPageTitleInNavigationBar = false
+        browser.title = NSLocalizedString("Terms and Conditions", comment: "terms and conditions title")
+
+        presentViewController(nav, animated: true, completion: nil)
     }
 
 }
@@ -231,6 +244,10 @@ extension JoinViewController {
         join()
     }
 
+    @IBAction func termsTapped(sender: ElloButton) {
+        showTerms()
+    }
+
     @IBAction func loginTapped(sender: ElloTextButton) {
         showSignInScreen()
     }
@@ -250,7 +267,7 @@ extension JoinViewController {
     }
 
     private func extraHeight() -> CGFloat {
-        let spacing = CGRectGetMaxY(termsLabel.frame) - view.bounds.height + 10
+        let spacing = CGRectGetMaxY(termsButton.frame) - view.bounds.height + 10
         return spacing > 0 ? spacing : 0
     }
 

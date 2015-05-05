@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <mutableArray key="AtlasTypewriterRegular.otf">
-            <string>AtlasTypewriter-Regular</string>
-        </mutableArray>
-    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="JoinViewController" customModule="Ello" customModuleProvider="target">
             <connections>
@@ -18,7 +13,7 @@
                 <outlet property="loginButton" destination="Tyb-rJ-Zeg" id="OQu-8E-qOL"/>
                 <outlet property="passwordView" destination="iY9-d8-Pt2" id="5ZE-AU-Mze"/>
                 <outlet property="scrollView" destination="Z9R-YG-xaY" id="3F0-IJ-oAX"/>
-                <outlet property="termsLabel" destination="rhW-dT-sOr" id="td4-3r-wi2"/>
+                <outlet property="termsButton" destination="rhW-dT-sOr" id="td4-3r-wi2"/>
                 <outlet property="usernameView" destination="g3x-Zq-MBV" id="FFQ-er-JWv"/>
                 <outlet property="view" destination="vJa-Mv-qia" id="CAb-vZ-nZt"/>
             </connections>
@@ -42,8 +37,8 @@
                                         <constraint firstAttribute="height" constant="60" id="ktI-pp-jtJ"/>
                                     </constraints>
                                 </imageView>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tyb-rJ-Zeg" userLabel="Go to Login Button" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
-                                    <rect key="frame" x="336" y="30" width="38" height="30"/>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tyb-rJ-Zeg" userLabel="Go to Login Button" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
+                                    <rect key="frame" x="329" y="30" width="45" height="34"/>
                                     <state key="normal" title="Login">
                                         <color key="titleColor" red="0.99650349650000003" green="0.99300699299999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -52,17 +47,20 @@
                                         <action selector="loginTapped:" destination="-1" eventType="touchUpInside" id="t3I-Ki-bF0"/>
                                     </connections>
                                 </button>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By Clicking Create Account you are agreeing to our Terms." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rhW-dT-sOr" userLabel="Terms label" customClass="ElloLabel" customModule="Ello" customModuleProvider="target">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="rhW-dT-sOr" userLabel="Terms button" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="539" width="374" height="50"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="50" id="OVa-M7-CD7"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="14"/>
-                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uvx-Cc-aUr" userLabel="Go to About Button" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="30" width="42" height="30"/>
+                                    <state key="normal" title="By Clicking Create Account you are agreeing to our Terms.">
+                                        <color key="titleColor" red="0.99650349650000003" green="0.99300699299999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="termsTapped:" destination="-1" eventType="touchUpInside" id="Ep8-Gh-6ov"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uvx-Cc-aUr" userLabel="Go to About Button" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="30" width="49" height="34"/>
                                     <state key="normal" title="About">
                                         <color key="titleColor" red="0.99650349650000003" green="0.99300699299999995" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
