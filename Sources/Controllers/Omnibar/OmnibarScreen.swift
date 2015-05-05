@@ -111,12 +111,10 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
         willSet(newValue) {
             if avatarURL != newValue {
                 if let avatarURL = newValue {
-                    self.avatarView.sd_setImageWithURL(avatarURL)
-                    self.avatarButtonView.setImage(self.avatarView.image, forState: .Normal)
+                    self.avatarButtonView.sd_setImageWithURL(avatarURL, forState: .Normal)
                 }
                 else {
-                    // TODO: Ello default
-                    self.avatarView.image = nil
+                    self.avatarButtonView.setImage(nil, forState: .Normal)
                 }
             }
         }
@@ -134,7 +132,6 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
 
     weak public var delegate : OmnibarScreenDelegate?
 
-    public let avatarView = FLAnimatedImageView()
     public let avatarButtonView = UIButton()
     public let cameraButton = UIButton()
 
