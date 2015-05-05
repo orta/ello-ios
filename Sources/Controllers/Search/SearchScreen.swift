@@ -20,6 +20,7 @@ public protocol SearchScreenDelegate {
 public protocol SearchScreenProtocol {
     var delegate : SearchScreenDelegate? { get set }
     func insertStreamView(view: UIView)
+    func dismissKeyboard()
 }
 
 public class SearchScreen: UIView, SearchScreenProtocol {
@@ -102,6 +103,10 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         view.frame = streamViewContainer.bounds
         view.autoresizingMask = .FlexibleWidth | .FlexibleHeight
         streamViewContainer.addSubview(view)
+    }
+
+    public func dismissKeyboard() {
+        searchField.resignFirstResponder()
     }
 
     private func clearSearch() {
