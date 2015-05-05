@@ -81,7 +81,7 @@ public class JoinViewController: BaseElloViewController {
         passwordView.textFieldDidChange = self.passwordChanged
     }
 
-    private func setupNotificationObservers() {
+    private func addNotificationObservers() {
         keyboardWillShowObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillShow, block: keyboardWillShow)
         keyboardWillHideObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillHide, block: keyboardWillHide)
     }
