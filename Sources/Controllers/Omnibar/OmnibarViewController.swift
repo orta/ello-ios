@@ -177,10 +177,10 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     }
 
     private func emitCommentSuccess(comment: Comment) {
+        Tracker.sharedTracker.contentCreated(.Comment)
         for listener in self.commentSuccessListeners {
             listener(comment: comment)
         }
-        Tracker.sharedTracker.contentCreated(.Comment)
     }
 
 
