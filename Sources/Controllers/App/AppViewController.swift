@@ -59,14 +59,12 @@ public class AppViewController: BaseElloViewController {
     public func showJoinScreen() {
         let joinController = JoinViewController()
         joinController.parentAppController = self
-        let window = self.view.window!
         self.swapViewController(joinController)
     }
 
     public func showSignInScreen() {
         let signInController = SignInViewController()
         signInController.parentAppController = self
-        let window = self.view.window!
         self.swapViewController(signInController)
     }
 
@@ -74,7 +72,6 @@ public class AppViewController: BaseElloViewController {
         Tracker.sharedTracker.identify(user)
         var vc = ElloTabBarController.instantiateFromStoryboard()
         vc.setProfileData(user, responseConfig: responseConfig)
-        var window = self.view.window!
         self.swapViewController(vc) {
             if let alert = PushNotificationController.sharedController.requestPushAccessIfNeeded() {
                 vc.presentViewController(alert, animated: true, completion: .None)

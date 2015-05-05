@@ -138,7 +138,6 @@ public class JoinViewController: BaseElloViewController, HasAppController {
 
     private func showSignInScreen(email: String, _ password: String) {
         let signInController = SignInViewController()
-        let window = self.view.window!
         let view = signInController.view
         signInController.emailTextField.text = email
         signInController.passwordTextField.text = password
