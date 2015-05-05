@@ -17,6 +17,9 @@ public class PushNotificationController {
     private let defaults: NSUserDefaults
     private var keychain: KeychainType
 
+    private var userLoggedOutObserver: NotificationObserver?
+    private var systemLoggedOutObserver: NotificationObserver?
+
     public var needsPermission: Bool {
         get { return defaults[NeedsPermissionKey].bool ?? true }
         set { defaults[NeedsPermissionKey] = newValue }
@@ -34,7 +37,8 @@ public class PushNotificationController {
     }
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        userLoggedOutObserver?.removeObserver()
+        systemLoggedOutObserver?.removeObserver()
     }
 }
 
@@ -78,8 +82,8 @@ public extension PushNotificationController {
 
 private extension PushNotificationController {
     func registerForLocalNotifications() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("deregisterStoredToken"), name: Notifications.UserLoggedOut.rawValue, object: .None)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("deregisterStoredToken"), name: Notifications.SystemLoggedOut.rawValue, object: .None)
+        userLoggedOutObserver = NotificationObserver(notification: AuthenticationNotifications.userLoggedOut, block: deregisterStoredToken)
+        systemLoggedOutObserver = NotificationObserver(notification: AuthenticationNotifications.systemLoggedOut, block: deregisterStoredToken)
     }
 
     func alertViewController() -> AlertViewController {

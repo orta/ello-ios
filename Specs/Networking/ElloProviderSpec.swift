@@ -70,9 +70,13 @@ class ElloProviderSpec: QuickSpec {
                             var loadedJSONAbles:[JSONAble]?
                             var loadedStatusCode:Int?
                             var loadedError:NSError?
-                            let testObserver = TestObserver()
+                            var handled = false
+                            var object = NSError()
 
-                            NSNotificationCenter.defaultCenter().addObserver(testObserver, selector: "handleNotification:", name: "ElloProviderNotification401", object: nil)
+                            let testObserver = NotificationObserver(notification: ElloProvider.ErrorStatusCode.Status401.notification) { error in
+                                handled = true
+                                object = error
+                            }
 
                             let endpoint: ElloAPI = .FriendStream
                             ElloProvider.elloRequest(endpoint, method: Moya.Method.GET, success: { (data, responseConfig) in
@@ -82,13 +86,12 @@ class ElloProviderSpec: QuickSpec {
                                     loadedStatusCode = statusCode
                             })
 
-                            expect(testObserver.handled) == true
+                            expect(handled) == true
                             expect(loadedJSONAbles).to(beNil())
                             expect(loadedStatusCode).to(beNil())
                             expect(loadedError).to(beNil())
 
-                            let systemError = testObserver.object as! NSError
-                            let elloNetworkError = systemError.userInfo![NSLocalizedFailureReasonErrorKey] as! ElloNetworkError
+                            let elloNetworkError = object.userInfo![NSLocalizedFailureReasonErrorKey] as! ElloNetworkError
 
                             expect(elloNetworkError).to(beAnInstanceOf(ElloNetworkError.self))
                             expect(elloNetworkError.status) == "401"
@@ -96,7 +99,7 @@ class ElloProviderSpec: QuickSpec {
                             expect(elloNetworkError.code) == ElloNetworkError.CodeType.unauthenticated
                             expect(elloNetworkError.detail).to(beNil())
 
-                            NSNotificationCenter.defaultCenter().removeObserver(testObserver)
+                            testObserver.removeObserver()
                         }
 
                     }
@@ -118,9 +121,12 @@ class ElloProviderSpec: QuickSpec {
                             var loadedJSONAbles:[JSONAble]?
                             var loadedStatusCode:Int?
                             var loadedError:NSError?
-                            let testObserver = TestObserver()
-
-                            NSNotificationCenter.defaultCenter().addObserver(testObserver, selector: "handleNotification:", name: "ElloProviderNotification410", object: nil)
+                            var handled = false
+                            var object = NSError()
+                            let testObserver = NotificationObserver(notification: ElloProvider.ErrorStatusCode.Status410.notification) { error in
+                                handled = true
+                                object = error
+                            }
 
                             let endpoint: ElloAPI = .FriendStream
                             ElloProvider.elloRequest(endpoint,
@@ -134,20 +140,19 @@ class ElloProviderSpec: QuickSpec {
                                 }
                             )
 
-                            expect(testObserver.handled) == true
+                            expect(handled) == true
                             expect(loadedJSONAbles).to(beNil())
                             expect(loadedStatusCode).to(beNil())
                             expect(loadedError).to(beNil())
 
-                            let systemError = testObserver.object as! NSError
-                            let elloNetworkError = systemError.userInfo![NSLocalizedFailureReasonErrorKey] as! ElloNetworkError
+                            let elloNetworkError = object.userInfo![NSLocalizedFailureReasonErrorKey] as! ElloNetworkError
 
                             expect(elloNetworkError).to(beAnInstanceOf(ElloNetworkError.self))
                             expect(elloNetworkError.status) == "410"
                             expect(elloNetworkError.title) == "The requested API version no longer exists."
                             expect(elloNetworkError.code) == ElloNetworkError.CodeType.invalidVersion
                             expect(elloNetworkError.detail).to(beNil())
-                            NSNotificationCenter.defaultCenter().removeObserver(testObserver)
+                            testObserver.removeObserver()
                         }
 
                     }

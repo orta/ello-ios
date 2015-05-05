@@ -20,19 +20,14 @@ public class Keyboard {
         return sharedKeyboard
     }
 
-    public var visible : Bool
-    public var height : CGFloat
-    public var curve : UIViewAnimationCurve
-    public var options : UIViewAnimationOptions
-    public var duration : Double
+    public var visible = false
+    public var height: CGFloat = 0.0
+    public var endFrame = CGRectZero
+    public var curve = UIViewAnimationCurve.Linear
+    public var options = UIViewAnimationOptions.CurveLinear
+    public var duration: Double = 0.0
 
     public init() {
-        visible = false
-        height = 0
-        curve = .Linear
-        options = .CurveLinear
-        duration = 0
-
         let center : NSNotificationCenter = NSNotificationCenter.defaultCenter()
         center.addObserver(self, selector: Selector("willShow:"), name: UIKeyboardWillShowNotification, object: nil)
         center.addObserver(self, selector: Selector("didShow:"), name: UIKeyboardDidShowNotification, object: nil)
@@ -56,7 +51,8 @@ public class Keyboard {
     func willShow(notification : NSNotification) {
         visible = true
         setFromNotification(notification)
-        height = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue().size.height
+        endFrame = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+        height = endFrame.size.height
 
         postNotification(Notifications.KeyboardWillShow, self)
     }
@@ -70,7 +66,8 @@ public class Keyboard {
     func willHide(notification : NSNotification) {
         visible = false
         setFromNotification(notification)
-        height = 0
+        endFrame = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+        height = endFrame.size.height
 
         postNotification(Notifications.KeyboardWillHide, self)
     }

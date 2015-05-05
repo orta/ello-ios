@@ -9,11 +9,7 @@
 //  Find Here: https://gist.github.com/chriseidhof/9bf7280063db3a249fbe
 
 import Foundation
-
-public class Box<T> {
-    public let unbox: T
-    public init(_ value: T) { self.unbox = value }
-}
+import Box
 
 public struct TypedNotification<A> {
     public let name: String
@@ -32,7 +28,7 @@ public class NotificationObserver {
 
     public init<A>(notification: TypedNotification<A>, block aBlock: A -> ()) {
         observer = NSNotificationCenter.defaultCenter().addObserverForName(notification.name, object: nil, queue: nil) { note in
-            if let value = (note.userInfo?["value"] as? Box<A>)?.unbox {
+            if let value = (note.userInfo?["value"] as? Box<A>)?.value {
                 aBlock(value)
             } else {
                 assert(false, "Couldn't understand user info")

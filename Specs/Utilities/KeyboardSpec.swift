@@ -10,33 +10,10 @@ import Ello
 import Quick
 import Nimble
 
-
 class KeyboardSpec: QuickSpec {
     override func spec() {
         var keyboard : Keyboard = Keyboard.shared()
         var textView : UITextView!
-
-        describe("Sanity checks") {
-            it("has a 'visible' property") {
-                expect(keyboard).notTo(beNil())
-            }
-
-            it("has a 'curve' property") {
-                expect(keyboard).notTo(beNil())
-            }
-
-            it("has a 'options' property") {
-                expect(keyboard).notTo(beNil())
-            }
-
-            it("has a 'duration' property") {
-                expect(keyboard).notTo(beNil())
-            }
-
-            it("has a 'height' property") {
-                expect(keyboard).notTo(beNil())
-            }
-        }
 
         xdescribe("Responds to keyboard being shown") {
             beforeEach() {
@@ -65,6 +42,10 @@ class KeyboardSpec: QuickSpec {
 
             it("sets the 'height' property") {
                 expect(keyboard.height).toNot(equal(0))
+            }
+
+            it("sets the 'endFrame' property") {
+                expect(keyboard.endFrame).toNot(equal(CGRectZero))
             }
 
             it("can calculate the location of the top of the keyboard") {

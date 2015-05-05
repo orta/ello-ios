@@ -25,11 +25,11 @@ pod 'NewRelicAgent', '~> 4.186'
 
 # swift pods
 pod 'Alamofire', '~> 1.2.0'
-pod 'LlamaKit', git: "https://github.com/ello/LlamaKit.git"
 pod 'Moya', git: "https://github.com/ello/Moya", branch: 'cg-hybrid'
 pod 'SwiftyJSON', '~> 2.2.0'
 pod 'SwiftyUserDefaults', '~> 1.1.0'
 pod 'WebLinking', '~> 0.2.0'
+pod 'Result', '~> 0.4.0'
 
 target 'Specs' do
   pod 'Quick', '~> 0.3.0'
