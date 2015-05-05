@@ -225,6 +225,8 @@ public class StreamViewController: BaseElloViewController {
                 self.responseConfig = responseConfig
                 self.doneLoading()
             }, failure: { (error, statusCode) in
+                if self.loadInitialPageLoadingToken != localToken { return }
+
                 println("failed to load \(self.streamKind.name) stream (reason: \(error))")
                 self.doneLoading()
             }
@@ -343,6 +345,8 @@ public class StreamViewController: BaseElloViewController {
                 self.responseConfig = responseConfig
                 self.pullToRefreshView?.finishLoading()
             }, failure: { (error, statusCode) in
+                if self.pullToRefreshLoadLoadingToken != localToken { return }
+
                 println("failed to load \(self.streamKind.name) stream (reason: \(error))")
                 self.pullToRefreshView?.finishLoading()
             }
