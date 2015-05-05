@@ -63,6 +63,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         screen.hasParentPost = parentPost != nil
         screen.avatarURL = currentUser?.avatarURL
         screen.currentUser = currentUser
+        screen.text = self.defaultText
 
         let fileName = omnibarDataName()
         if let data : NSData = Tmp.read(fileName) {
@@ -72,7 +73,6 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             }
             Tmp.remove(fileName)
         }
-        screen.text = self.defaultText
         screen.delegate = self
     }
 
