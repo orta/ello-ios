@@ -35,7 +35,7 @@ public struct ProfileService {
         )
     }
 
-    public func loadCurrentUserFollowing(forRelationship relationship: Relationship, success: ProfileFollowingSuccessCompletion, failure: ElloFailureCompletion?) {
+    public func loadCurrentUserFollowing(forRelationship relationship: RelationshipPriority, success: ProfileFollowingSuccessCompletion, failure: ElloFailureCompletion?) {
         ElloProvider.elloRequest(ElloAPI.ProfileFollowing(priority: relationship.rawValue),
             method: .GET,
             success: { data, responseConfig in

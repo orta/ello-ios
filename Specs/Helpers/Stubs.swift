@@ -33,8 +33,8 @@ extension User: Stubbable {
     class func stub(values: [String : AnyObject]) -> User {
 
         let relationship = (values["relationshipPriority"] as? String).map {
-            Relationship(stringValue: $0)
-        } ?? Relationship.None
+            RelationshipPriority(stringValue: $0)
+        } ?? RelationshipPriority.None
 
         var user =  User(
             id: (values["id"] as? String) ?? "1",

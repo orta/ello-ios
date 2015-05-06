@@ -8,7 +8,7 @@
 
 import Foundation
 
-public typealias RelationshipChangeClosure = (relationship: Relationship) -> ()
+public typealias RelationshipChangeClosure = (relationship: RelationshipPriority) -> ()
 
 public enum RelationshipRequestStatus: String {
     case Success = "success"
@@ -16,8 +16,8 @@ public enum RelationshipRequestStatus: String {
 }
 
 public protocol RelationshipDelegate: NSObjectProtocol {
-    func relationshipTapped(userId: String, relationship: Relationship, complete: (status: RelationshipRequestStatus) -> ())
-    func launchBlockModal(userId: String, userAtName: String, relationship: Relationship, changeClosure: RelationshipChangeClosure)
+    func relationshipTapped(userId: String, relationship: RelationshipPriority, complete: (status: RelationshipRequestStatus) -> ())
+    func launchBlockModal(userId: String, userAtName: String, relationship: RelationshipPriority, changeClosure: RelationshipChangeClosure)
 }
 
 public class RelationshipController: NSObject, RelationshipDelegate {
@@ -28,7 +28,7 @@ public class RelationshipController: NSObject, RelationshipDelegate {
         self.presentingController = presentingController
     }
 
-    public func relationshipTapped(userId: String, relationship: Relationship, complete: (status: RelationshipRequestStatus) -> ()) {
+    public func relationshipTapped(userId: String, relationship: RelationshipPriority, complete: (status: RelationshipRequestStatus) -> ()) {
         RelationshipService().updateRelationship(ElloAPI.Relationship(userId: userId,
             relationship: relationship.rawValue),
             success: {
@@ -42,7 +42,7 @@ public class RelationshipController: NSObject, RelationshipDelegate {
         )
     }
 
-    public func launchBlockModal(userId: String, userAtName: String, relationship: Relationship, changeClosure: RelationshipChangeClosure) {
+    public func launchBlockModal(userId: String, userAtName: String, relationship: RelationshipPriority, changeClosure: RelationshipChangeClosure) {
         let vc = BlockUserModalViewController(userId: userId, userAtName: userAtName, relationship: relationship, changeClosure: changeClosure)
         vc.relationshipDelegate = self
         presentingController.presentViewController(vc, animated: true, completion: nil)

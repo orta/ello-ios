@@ -192,9 +192,6 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
     private func emitPostSuccess(post: Post) {
         postNotification(PostChangedNotification, (post, .Create))
-        for listener in self.postSuccessListeners {
-            listener(post: post)
-        }
         Tracker.sharedTracker.contentCreated(.Post)
         elloTabBarController?.selectedTab = previousTab
         self.screen.reportSuccess(NSLocalizedString("Post successfully created!", comment: "Post successfully created!"))

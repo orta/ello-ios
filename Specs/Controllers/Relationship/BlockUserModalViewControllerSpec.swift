@@ -15,7 +15,7 @@ import Moya
 class BlockUserModalViewControllerSpec: QuickSpec {
     override func spec() {
 
-        var subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationship: Relationship.Friend) {
+        var subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationship: RelationshipPriority.Friend) {
             relationship in
         }
         let relationshipController = RelationshipController(presentingController: UIViewController())
@@ -24,7 +24,7 @@ class BlockUserModalViewControllerSpec: QuickSpec {
         describe("initialization") {
 
             beforeEach {
-                subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationship: Relationship.Friend) {
+                subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationship: RelationshipPriority.Friend) {
                     relationship in
                 }
                 subject.loadView()
@@ -62,21 +62,21 @@ class BlockUserModalViewControllerSpec: QuickSpec {
 
         describe("@titleText") {
             it("is correct when relationship is mute") {
-                subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationship: Relationship.Mute) {
+                subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationship: RelationshipPriority.Mute) {
                     relationship in
                 }
                 expect(subject.titleText).to(equal("Would you like to \runmute or block @archer?"))
             }
 
             it("is correct when relationship is block") {
-                subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationship: Relationship.Block) {
+                subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationship: RelationshipPriority.Block) {
                     relationship in
                 }
                 expect(subject.titleText).to(equal("Would you like to \rmute or unblock @archer?"))
             }
 
             it("is correct when relationship is not block or mute") {
-                subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationship: Relationship.Friend) {
+                subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationship: RelationshipPriority.Friend) {
                     relationship in
                 }
                 expect(subject.titleText).to(equal("Would you like to \rmute or block @archer?"))
@@ -85,7 +85,7 @@ class BlockUserModalViewControllerSpec: QuickSpec {
 
         describe("@muteText") {
             it("is correct") {
-                subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationship: Relationship.Mute) {
+                subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationship: RelationshipPriority.Mute) {
                     relationship in
                 }
                 expect(subject.muteText).to(equal("@archer will not be able to comment on your posts. If @archer mentions you, you will not be notified."))
@@ -94,7 +94,7 @@ class BlockUserModalViewControllerSpec: QuickSpec {
 
         describe("@blockText") {
             it("is correct") {
-                subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationship: Relationship.Mute) {
+                subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationship: RelationshipPriority.Mute) {
                     relationship in
                 }
                 expect(subject.blockText).to(equal("@archer will not be able to follow you or view your profile, posts or find you in search."))
@@ -104,7 +104,7 @@ class BlockUserModalViewControllerSpec: QuickSpec {
         describe("@relationship") {
 
             beforeEach {
-                subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationship: Relationship.Mute) {
+                subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationship: RelationshipPriority.Mute) {
                     relationship in
                 }
                 subject.loadView()
@@ -117,13 +117,13 @@ class BlockUserModalViewControllerSpec: QuickSpec {
             }
 
             it("sets state properly when set to friend") {
-                subject.relationship = Relationship.Friend
+                subject.relationship = RelationshipPriority.Friend
                 expect(subject.muteButton!.selected).to(beFalse())
                 expect(subject.blockButton!.selected).to(beFalse())
             }
 
             it("sets state properly when set to block") {
-                subject.relationship = Relationship.Block
+                subject.relationship = RelationshipPriority.Block
                 expect(subject.muteButton!.selected).to(beFalse())
                 expect(subject.blockButton!.selected).to(beTrue())
             }
@@ -132,7 +132,7 @@ class BlockUserModalViewControllerSpec: QuickSpec {
         describe("button targets") {
 
             beforeEach {
-                subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationship: Relationship.Friend) {
+                subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationship: RelationshipPriority.Friend) {
                     relationship in
                 }
                 subject.loadView()
@@ -148,29 +148,29 @@ class BlockUserModalViewControllerSpec: QuickSpec {
 
                 describe("@muteButton") {
                     it("not selected") {
-                        subject.relationship = Relationship.Friend
+                        subject.relationship = RelationshipPriority.Friend
                         subject.muteButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
-                        expect(subject.relationship).to(equal(Relationship.Mute))
+                        expect(subject.relationship).to(equal(RelationshipPriority.Mute))
                     }
 
                     it("selected") {
-                        subject.relationship = Relationship.Mute
+                        subject.relationship = RelationshipPriority.Mute
                         subject.muteButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
-                        expect(subject.relationship).to(equal(Relationship.Inactive))
+                        expect(subject.relationship).to(equal(RelationshipPriority.Inactive))
                     }
                 }
 
                 describe("@blockButton") {
                     it("not selected") {
-                        subject.relationship = Relationship.Friend
+                        subject.relationship = RelationshipPriority.Friend
                         subject.blockButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
-                        expect(subject.relationship).to(equal(Relationship.Block))
+                        expect(subject.relationship).to(equal(RelationshipPriority.Block))
                     }
 
                     it("selected") {
-                        subject.relationship = Relationship.Block
+                        subject.relationship = RelationshipPriority.Block
                         subject.blockButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
-                        expect(subject.relationship).to(equal(Relationship.Inactive))
+                        expect(subject.relationship).to(equal(RelationshipPriority.Inactive))
                     }
                 }
             }
@@ -183,29 +183,29 @@ class BlockUserModalViewControllerSpec: QuickSpec {
 
                 describe("@muteButton") {
                     it("not selected") {
-                        subject.relationship = Relationship.Friend
+                        subject.relationship = RelationshipPriority.Friend
                         subject.muteButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
-                        expect(subject.relationship).to(equal(Relationship.Friend))
+                        expect(subject.relationship).to(equal(RelationshipPriority.Friend))
                     }
 
                     it("selected") {
-                        subject.relationship = Relationship.Mute
+                        subject.relationship = RelationshipPriority.Mute
                         subject.muteButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
-                        expect(subject.relationship).to(equal(Relationship.Mute))
+                        expect(subject.relationship).to(equal(RelationshipPriority.Mute))
                     }
                 }
 
                 describe("@blockButton") {
                     it("not selected") {
-                        subject.relationship = Relationship.Friend
+                        subject.relationship = RelationshipPriority.Friend
                         subject.blockButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
-                        expect(subject.relationship).to(equal(Relationship.Friend))
+                        expect(subject.relationship).to(equal(RelationshipPriority.Friend))
                     }
 
                     it("selected") {
-                        subject.relationship = Relationship.Block
+                        subject.relationship = RelationshipPriority.Block
                         subject.blockButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
-                        expect(subject.relationship).to(equal(Relationship.Block))
+                        expect(subject.relationship).to(equal(RelationshipPriority.Block))
                     }
                 }
             }

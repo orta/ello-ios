@@ -27,7 +27,7 @@ public enum ExperienceUpdate {
     case ContentActionRuleChanged(userId: String, action: ContentAction, allowed: Bool)
     case ContentVisibilityRuleChanged(userId: String, kind: VisibilityKind, visible: Bool)
     case PostChanged(id: String, change: ContentChange)
-    case RelationshipChanged(relationship: Relationship, userId: String)
+    case RelationshipChanged(relationship: RelationshipPriority, userId: String)
 }
 
 

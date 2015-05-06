@@ -24,7 +24,7 @@ public class BlockUserModalViewController: BaseElloViewController {
     @IBOutlet weak public var blockButton: WhiteElloButton?
     @IBOutlet weak public var blockLabel: UILabel!
                     
-    public var relationship: Relationship {
+    public var relationship: RelationshipPriority {
         didSet { selectButton(relationship) }
     }
 
@@ -49,7 +49,7 @@ public class BlockUserModalViewController: BaseElloViewController {
         return "\(userAtName) will not be able to follow you or view your profile, posts or find you in search."
     }
 
-    required public init(userId: String, userAtName: String, relationship: Relationship, changeClosure: RelationshipChangeClosure) {
+    required public init(userId: String, userAtName: String, relationship: RelationshipPriority, changeClosure: RelationshipChangeClosure) {
         self.userId = userId
         self.userAtName = userAtName
         self.relationship = relationship
@@ -72,12 +72,12 @@ public class BlockUserModalViewController: BaseElloViewController {
 
     @IBAction func blockTapped(sender: UIButton) {
         Tracker.sharedTracker.userBlocked()
-        handleTapped(sender, newRelationship: Relationship.Block)
+        handleTapped(sender, newRelationship: RelationshipPriority.Block)
     }
 
     @IBAction func muteTapped(sender: UIButton) {
         Tracker.sharedTracker.userMuted()
-        handleTapped(sender, newRelationship: Relationship.Mute)
+        handleTapped(sender, newRelationship: RelationshipPriority.Mute)
     }
 
     @IBAction func closeModal(sender: UIButton?) {
@@ -112,10 +112,10 @@ public class BlockUserModalViewController: BaseElloViewController {
         }
     }
 
-    private func handleTapped(sender: UIButton, newRelationship: Relationship) {
+    private func handleTapped(sender: UIButton, newRelationship: RelationshipPriority) {
         let prevRelationship = relationship
         if sender.selected == true {
-            relationship = Relationship.Inactive
+            relationship = RelationshipPriority.Inactive
         } else {
             relationship = newRelationship
         }
@@ -136,7 +136,7 @@ public class BlockUserModalViewController: BaseElloViewController {
         blockButton?.selected = false
     }
 
-    private func selectButton(relationship: Relationship) {
+    private func selectButton(relationship: RelationshipPriority) {
         resetButtons()
         switch relationship {
         case .Mute:

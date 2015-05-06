@@ -54,7 +54,7 @@ public enum StreamKind {
         }
     }
 
-    public var relationship: Relationship {
+    public var relationship: RelationshipPriority {
         switch self {
         case .Friend: return .Friend
         case .Noise: return .Noise

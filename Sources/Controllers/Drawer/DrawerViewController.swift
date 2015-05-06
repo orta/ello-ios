@@ -16,7 +16,7 @@ public class DrawerViewController: BaseElloViewController {
 
     let dataSource: DrawerViewDataSource
 
-    required public init(relationship: Relationship) {
+    required public init(relationship: RelationshipPriority) {
         dataSource = DrawerViewDataSource(relationship: relationship)
         super.init(nibName: "DrawerViewController", bundle: .None)
         dataSource.delegate = self

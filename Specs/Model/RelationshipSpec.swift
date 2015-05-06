@@ -3,22 +3,22 @@ import Quick
 import Nimble
 
 
-class RelationshipSpec: QuickSpec {
+class RelationshipPrioritySpec: QuickSpec {
     override func spec() {
         describe("initWithStringValue:") {
             context("when the string matches a raw value") {
                 it("returns a Relationship created from the raw value"){
-                    let relationship = Relationship(stringValue: "friend")
+                    let relationship = RelationshipPriority(stringValue: "friend")
 
-                    expect(relationship).to(equal(Relationship.Friend))
+                    expect(relationship).to(equal(RelationshipPriority.Friend))
                 }
             }
 
             context("when the string doesn't match a raw value") {
                 it("returns Relationship.None"){
-                    let relationship = Relationship(stringValue: "bad_string")
+                    let relationship = RelationshipPriority(stringValue: "bad_string")
 
-                    expect(relationship).to(equal(Relationship.None))
+                    expect(relationship).to(equal(RelationshipPriority.None))
                 }
             }
         }
