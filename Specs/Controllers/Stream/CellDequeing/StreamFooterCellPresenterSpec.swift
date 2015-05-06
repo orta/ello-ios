@@ -11,8 +11,8 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                 it("configures a stream footer cell") {
                     let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6])
-                    var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
@@ -31,8 +31,8 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                 it("configures a stream footer cell") {
                     let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6])
-                    var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Noise, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
@@ -51,8 +51,8 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                 it("configures a stream footer cell") {
                     let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6])
-                    var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .PostDetail(postParam: "768"), indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
@@ -72,177 +72,295 @@ class StreamFooterCellPresenterSpec: QuickSpec {
             context("comment button") {
                 it("usually enabled and visible") {
                     let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6])
-                    var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .PostDetail(postParam: "768"), indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
-                    expect(cell.commentsControl.hidden).to(beFalse())
+                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.commentsItem)).to(beTrue())
                 }
                 it("shown if author allows it") {
                     let author: User = stub(["id" : "1", "hasCommentingEnabled" : true])
                     let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6, "author" : author])
-                    var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .PostDetail(postParam: "768"), indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
-                    expect(cell.commentsControl.hidden).to(beFalse())
+                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.commentsItem)).to(beTrue())
+                }
+                it("shown if author allows it in grid view") {
+                    let author: User = stub(["id" : "1", "hasCommentingEnabled" : true])
+                    let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6, "author" : author])
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Noise, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+
+                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.commentsItem)).to(beTrue())
                 }
                 it("hidden if author doesn't allow it") {
                     let author: User = stub(["id" : "1", "hasCommentingEnabled" : false])
                     let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6, "author" : author])
-                    var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .PostDetail(postParam: "768"), indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
-                    expect(cell.commentsControl.hidden).to(beTrue())
+                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.commentsItem)).to(beFalse())
+                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.commentsItem)).to(beFalse())
+                }
+                it("hidden if author doesn't allow it in grid view") {
+                    let author: User = stub(["id" : "1", "hasCommentingEnabled" : false])
+                    let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6, "author" : author])
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Noise, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+
+                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.commentsItem)).to(beFalse())
+                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.commentsItem)).to(beFalse())
                 }
             }
             context("sharing button") {
                 it("usually enabled and visible") {
                     let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6])
-                    var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .PostDetail(postParam: "768"), indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
-                    expect(cell.shareControl.hidden).to(beFalse())
+                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.shareItem)).to(beTrue())
                 }
                 it("shown if author allows it") {
                     let author: User = stub(["id" : "1", "hasSharingEnabled" : true])
                     let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6, "author" : author])
-                    var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .PostDetail(postParam: "768"), indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
-                    expect(cell.shareControl.hidden).to(beFalse())
+                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.shareItem)).to(beTrue())
+                }
+                it("shown if author allows it in grid view") {
+                    let author: User = stub(["id" : "1", "hasSharingEnabled" : true])
+                    let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6, "author" : author])
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Noise, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+
+                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.shareItem)).to(beTrue())
                 }
                 it("hidden if author doesn't allow it") {
                     let author: User = stub(["id" : "1", "hasSharingEnabled" : false])
                     let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6, "author" : author])
-                    var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .PostDetail(postParam: "768"), indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
-                    expect(cell.shareControl.hidden).to(beTrue())
+                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.shareItem)).to(beFalse())
+                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.shareItem)).to(beFalse())
+                }
+                it("hidden if author doesn't allow it in grid view") {
+                    let author: User = stub(["id" : "1", "hasSharingEnabled" : false])
+                    let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6, "author" : author])
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Noise, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+
+                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.shareItem)).to(beFalse())
+                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.shareItem)).to(beFalse())
                 }
             }
             context("repost button") {
                 it("usually enabled and visible") {
                     let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6])
-                    var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
                     expect(cell.repostControl.enabled).to(beTrue())
-                    expect(cell.repostControl.hidden).to(beFalse())
+                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.repostItem)).to(beTrue())
                 }
                 it("shown if author allows it") {
                     let author: User = stub(["id" : "1", "hasRepostingEnabled" : true])
                     let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6, "author" : author])
-                    var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
-                    expect(cell.repostControl.hidden).to(beFalse())
+                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.repostItem)).to(beTrue())
                 }
-                it("disabled if author doesn't allow it") {
+                it("shown if author allows it in grid view") {
+                    let author: User = stub(["id" : "1", "hasRepostingEnabled" : true])
+                    let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6, "author" : author])
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Noise, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+
+                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.repostItem)).to(beTrue())
+                }
+                it("hidden if author doesn't allow it") {
                     let author: User = stub(["id" : "1", "hasRepostingEnabled" : false])
                     let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6, "author" : author])
-                    var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
-                    expect(cell.repostControl.hidden).to(beTrue())
+                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.repostItem)).to(beFalse())
+                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.repostItem)).to(beFalse())
+                }
+                it("hidden if author doesn't allow it in grid view") {
+                    let author: User = stub(["id" : "1", "hasRepostingEnabled" : false])
+                    let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6, "author" : author])
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Noise, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+
+                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.repostItem)).to(beFalse())
+                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.repostItem)).to(beFalse())
                 }
                 it("disabled if author is current user") {
                     let author: User = stub(["id" : "1", "hasRepostingEnabled" : true])
                     let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6, "author" : author])
-                    var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: author)
 
                     expect(cell.repostControl.enabled).to(beFalse())
+                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.repostItem)).to(beTrue())
+                }
+                it("disabled if author is current user in grid view") {
+                    let author: User = stub(["id" : "1", "hasRepostingEnabled" : true])
+                    let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6, "author" : author])
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Noise, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: author)
+
+                    expect(cell.repostControl.enabled).to(beFalse())
+                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.repostItem)).to(beTrue())
                 }
                 it("hidden if author is current user, and reposting isn't allowed") {
                     let author: User = stub(["id" : "1", "hasRepostingEnabled" : false])
                     let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6, "author" : author])
-                    var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: author)
 
-                    expect(cell.repostControl.hidden).to(beTrue())
+                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.repostItem)).to(beFalse())
+                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.repostItem)).to(beFalse())
+                }
+                it("hidden if author is current user, and reposting isn't allowed in grid view") {
+                    let author: User = stub(["id" : "1", "hasRepostingEnabled" : false])
+                    let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6, "author" : author])
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Noise, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: author)
+
+                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.repostItem)).to(beFalse())
+                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.repostItem)).to(beFalse())
                 }
             }
             context("delete button") {
                 it("usually hidden") {
                     let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6])
-                    var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .PostDetail(postParam: "768"), indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
-                    expect(cell.deleteControl.hidden).to(beTrue())
+                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.deleteItem)).to(beFalse())
+                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.deleteItem)).to(beFalse())
                 }
                 it("shown if author is current user") {
-                    let author: User = stub(["id" : "1", "hasSharingEnabled" : true])
+                    let author: User = stub(["id" : "1"])
                     let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6, "author" : author])
-                    var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .PostDetail(postParam: "768"), indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: author)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: author)
 
-                    expect(cell.deleteControl.hidden).to(beFalse())
+                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.deleteItem)).to(beTrue())
+                }
+                it("hidden if author is current user in grid view") {
+                    let author: User = stub(["id" : "1"])
+                    let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6, "author" : author])
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Noise, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: author)
+
+                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.deleteItem)).to(beFalse())
+                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.deleteItem)).to(beFalse())
                 }
                 it("hidden if author is not current user") {
-                    let author: User = stub(["id" : "1", "hasSharingEnabled" : false])
+                    let author: User = stub(["id" : "1"])
+                    let currentUser: User = stub(["id" : "2"])
                     let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6, "author" : author])
-                    var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .PostDetail(postParam: "768"), indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: author)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
 
-                    expect(cell.deleteControl.hidden).to(beTrue())
+                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.deleteItem)).to(beFalse())
+                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.deleteItem)).to(beFalse())
                 }
             }
             context("flag button") {
                 it("usually visible") {
                     let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6])
-                    var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .PostDetail(postParam: "768"), indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
-                    expect(cell.flagControl.hidden).to(beTrue())
+                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.flagItem)).to(beTrue())
                 }
                 it("hidden if author is current user") {
-                    let author: User = stub(["id" : "1", "hasSharingEnabled" : true])
+                    let author: User = stub(["id" : "1"])
                     let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6, "author" : author])
-                    var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .PostDetail(postParam: "768"), indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: author)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: author)
 
-                    expect(cell.flagControl.hidden).to(beTrue())
+                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.flagItem)).to(beFalse())
+                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.flagItem)).to(beFalse())
                 }
                 it("shown if author is not current user") {
-                    let author: User = stub(["id" : "1", "hasSharingEnabled" : false])
+                    let author: User = stub(["id" : "1"])
+                    let currentUser: User = stub(["id" : "2", "hasSharingEnabled" : false])
                     let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6, "author" : author])
-                    var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
-                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .PostDetail(postParam: "768"), indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: author)
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
 
-                    expect(cell.flagControl.hidden).to(beFalse())
+                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.flagItem)).to(beTrue())
+                }
+                it("hidden if author is not current user in grid view") {
+                    let author: User = stub(["id" : "1"])
+                    let currentUser: User = stub(["id" : "2", "hasSharingEnabled" : false])
+                    let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6, "author" : author])
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Noise, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+
+                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.flagItem)).to(beFalse())
+                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.flagItem)).to(beFalse())
                 }
             }
 
@@ -250,8 +368,8 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                 it("configures a stream footer cell") {
                     let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6])
-                    var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                    var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
                     // set the state to loading
                     item.state = .Loading
@@ -277,8 +395,8 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                     it("configures a stream footer cell") {
                         let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6])
-                        var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                        var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+                        let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                        let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
                         // set the state to expanded
                         item.state = .Expanded
@@ -303,8 +421,8 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                     it("configures a stream footer cell") {
                         let post: Post = stub(["id" : "768", "viewsCount" : 9, "repostsCount" : 4, "commentsCount" : 6])
-                        var cell: StreamFooterCell = StreamFooterCell.loadFromNib()
-                        var item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+                        let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                        let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
 
                         // set the state to none
                         item.state = .None

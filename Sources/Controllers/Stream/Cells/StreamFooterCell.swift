@@ -35,43 +35,43 @@ public class StreamFooterCell: UICollectionViewCell {
     public var commentsOpened = false
     weak var delegate: PostbarDelegate?
 
-    let viewsItem = ElloPostToolBarOption.Views.barButtonItem()
-    public var viewsControl: ImageLabelControl {
+    public let viewsItem = ElloPostToolBarOption.Views.barButtonItem()
+    var viewsControl: ImageLabelControl {
         return self.viewsItem.customView as! ImageLabelControl
     }
 
-    let lovesItem = ElloPostToolBarOption.Loves.barButtonItem()
-    public var lovesControl: ImageLabelControl {
+    public let lovesItem = ElloPostToolBarOption.Loves.barButtonItem()
+    var lovesControl: ImageLabelControl {
         return self.lovesItem.customView as! ImageLabelControl
     }
 
-    let commentsItem = ElloPostToolBarOption.Comments.barButtonItem()
+    public let commentsItem = ElloPostToolBarOption.Comments.barButtonItem()
     public var commentsControl: ImageLabelControl {
         return self.commentsItem.customView as! ImageLabelControl
     }
 
-    let repostItem = ElloPostToolBarOption.Repost.barButtonItem()
+    public let repostItem = ElloPostToolBarOption.Repost.barButtonItem()
     public var repostControl: ImageLabelControl {
         return self.repostItem.customView as! ImageLabelControl
     }
 
-    let flagItem = ElloPostToolBarOption.Flag.barButtonItem()
-    public var flagControl: ImageLabelControl {
+    public let flagItem = ElloPostToolBarOption.Flag.barButtonItem()
+    var flagControl: ImageLabelControl {
         return self.flagItem.customView as! ImageLabelControl
     }
 
-    let shareItem = ElloPostToolBarOption.Share.barButtonItem()
-    public var shareControl: ImageLabelControl {
+    public let shareItem = ElloPostToolBarOption.Share.barButtonItem()
+    var shareControl: ImageLabelControl {
         return self.shareItem.customView as! ImageLabelControl
     }
 
-    let replyItem = ElloPostToolBarOption.Reply.barButtonItem()
-    public var replyControl: ImageLabelControl {
+    public let replyItem = ElloPostToolBarOption.Reply.barButtonItem()
+    var replyControl: ImageLabelControl {
         return self.replyItem.customView as! ImageLabelControl
     }
 
-    let deleteItem = ElloPostToolBarOption.Delete.barButtonItem()
-    public var deleteControl: ImageLabelControl {
+    public let deleteItem = ElloPostToolBarOption.Delete.barButtonItem()
+    var deleteControl: ImageLabelControl {
        return self.deleteItem.customView as! ImageLabelControl
     }
 
