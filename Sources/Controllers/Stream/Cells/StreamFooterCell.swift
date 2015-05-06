@@ -75,7 +75,7 @@ public class StreamFooterCell: UICollectionViewCell {
        return self.deleteItem.customView as! ImageLabelControl
     }
 
-    private func updateButtonVisibility(button: UIControl, _ visibility: InteractionVisibility) {
+    private func updateButtonVisibility(button: UIControl, visibility: InteractionVisibility) {
         button.hidden = !visibility.isVisible
         button.enabled = visibility.isEnabled
     }
@@ -86,11 +86,9 @@ public class StreamFooterCell: UICollectionViewCell {
         commentVisibility: InteractionVisibility,
         shareVisibility: InteractionVisibility,
         deleteVisibility: InteractionVisibility
-        ) {
-        updateButtonVisibility(self.repostControl, repostVisibility)
-        updateButtonVisibility(self.commentsControl, commentVisibility)
-        updateButtonVisibility(self.shareControl, shareVisibility)
-        updateButtonVisibility(self.deleteControl, deleteVisibility)
+        )
+    {
+        updateButtonVisibility(self.repostControl, visibility: repostVisibility)
 
         var toolbarItems: [UIBarButtonItem] = []
 
