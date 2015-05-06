@@ -40,8 +40,13 @@ public func beVisibleIn<S: UIView>(view: UIView) -> NonNilMatcherFunc<S> {
                 return false
             }
 
-            let allSubviews = allSubviewsIn(view)
-            return contains(allSubviews, childView)
+            var parentView: UIView? = childView.superview
+            while parentView != nil {
+                if let parentView = parentView where parentView == view {
+                    return true
+                }
+                parentView = parentView!.superview
+            }
         }
         return false
     }
