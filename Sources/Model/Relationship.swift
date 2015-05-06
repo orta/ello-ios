@@ -33,6 +33,7 @@ public final class Relationship: JSONAble {
     // active record
     public let id: String
     public let createdAt: NSDate
+    // required
     public let ownerId: String
     public let subjectId: String
     // computed

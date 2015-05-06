@@ -24,3 +24,88 @@ class RelationshipPrioritySpec: QuickSpec {
         }
     }
 }
+
+class RelationshipSpec: QuickSpec {
+    override func spec() {
+
+        describe("+fromJSON:") {
+
+            context("following a user as friend") {
+                it("parses correctly") {
+                    let parsedRelationship = stubbedJSONData("relationships_following_a_user_as_friend", "relationships")
+                    let relationship = Relationship.fromJSON(parsedRelationship) as! Relationship
+                    expect(relationship.id) == "51"
+                    expect(relationship.createdAt).to(beAKindOf(NSDate.self))
+                    expect(relationship.owner!.relationshipPriority.rawValue) == "self"
+                    expect(relationship.subject!.relationshipPriority.rawValue) == "friend"
+                }
+            }
+
+            context("blocking an abusive user") {
+                it("parses correctly") {
+                    let parsedRelationship = stubbedJSONData("relationships_blocking_an_abusive_user", "relationships")
+                    let relationship = Relationship.fromJSON(parsedRelationship) as! Relationship
+                    expect(relationship.id) == "52"
+                    expect(relationship.createdAt).to(beAKindOf(NSDate.self))
+                    expect(relationship.owner!.relationshipPriority.rawValue) == "self"
+                    expect(relationship.subject!.relationshipPriority.rawValue) == "block"
+                }
+            }
+
+            context("making a relationship inactive") {
+                it("parses correctly") {
+                    let parsedRelationship = stubbedJSONData("relationships_making_a_relationship_inactive", "relationships")
+                    let relationship = Relationship.fromJSON(parsedRelationship) as! Relationship
+                    expect(relationship.id) == "53"
+                    expect(relationship.createdAt).to(beAKindOf(NSDate.self))
+                    expect(relationship.owner!.relationshipPriority.rawValue) == "self"
+                    expect(relationship.subject!.relationshipPriority.rawValue) == "inactive"
+                }
+            }
+        }
+
+        describe("NSCoding") {
+
+            var filePath = ""
+
+            beforeEach {
+                filePath = NSFileManager.ElloDocumentsDir().stringByAppendingPathComponent("UserSpec")
+            }
+
+            afterEach {
+                var error:NSError?
+                NSFileManager.defaultManager().removeItemAtPath(filePath, error: &error)
+            }
+
+            context("encoding") {
+
+                it("encodes successfully") {
+                    let relationship: Relationship = stub([:])
+                    let wasSuccessfulArchived = NSKeyedArchiver.archiveRootObject(relationship, toFile: filePath)
+                    expect(wasSuccessfulArchived).to(beTrue())
+                }
+            }
+            
+            context("decoding") {
+                
+                it("decodes successfully") {
+                    let expectedCreatedAt = NSDate()
+                    let relationship: Relationship = stub([
+                        "id": "relationship",
+                        "createdAt": expectedCreatedAt,
+                        "owner": User.stub(["id": "123"]),
+                        "subject": User.stub(["id": "456"])
+                        ])
+
+                    NSKeyedArchiver.archiveRootObject(relationship, toFile: filePath)
+                    let unArchivedRelationship = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! Relationship
+                    expect(unArchivedRelationship.id) == "relationship"
+                    expect(unArchivedRelationship.createdAt) == expectedCreatedAt
+                    expect(unArchivedRelationship.owner!.id) == "123"
+                    expect(unArchivedRelationship.subject!.id) == "456"
+                }
+            }
+
+        }
+    }
+}

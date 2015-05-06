@@ -280,3 +280,20 @@ extension Notification: Stubbable {
         return Notification(activity: (values["activity"] as? Activity) ?? Activity.stub([:]))
     }
 }
+
+extension Relationship: Stubbable {
+    class func stub(values: [String : AnyObject]) -> Relationship {
+        // create necessary links
+        let owner: User = (values["owner"] as? User) ?? User.stub(["relationshipPriority": "self", "id": values["ownerId"] ?? "60001"])
+        ElloLinkedStore.sharedInstance.setObject(owner, forKey: owner.id, inCollection: MappingType.UsersType.rawValue)
+        let subject: User = (values["subject"] as? User) ?? User.stub(["relationshipPriority": "friend", "id": values["subjectId"] ?? "60002"])
+        ElloLinkedStore.sharedInstance.setObject(owner, forKey: owner.id, inCollection: MappingType.UsersType.rawValue)
+
+        return Relationship(
+            id: (values["id"] as? String) ?? "60000",
+            createdAt: (values["createdAt"] as? NSDate) ?? NSDate(),
+            ownerId: owner.id,
+            subjectId: subject.id
+        )
+    }
+}
