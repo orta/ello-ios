@@ -1,3 +1,27 @@
+### Ello Build 1541(v1.0.0) May 5, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #236 - Go back to previous screen after a successful Omnibar Post
+The OmnibarViewController stores the `previousTab` from its `elloTabBarController`, and after a successful post, it displays that tab along with the success message.
+
+No reloading of data at this point, since that is what @steam and @rynbyjn are working on.
+
+------
+
+#### #230 - App View Controller
+This replaces the `LandingViewController`, and changes how the "early views" are presented.  Instead of using `presentViewController` to present a new VC, each VC has a [weak] reference to the app controller, and can ask it to present another controller.  As part of the transition, the app controller sets itself as the `parentAppController` of the new VC.  So: pretty much the delegate pattern.
+
+I gave the `ElloTabBarController` the same `parentAppController` property, because it felt consistent to do so, but I never ended up using it.
+
+At system or user logout, the app view controller just hides the `visibleViewController` and displays the buttons.
+
+I'd like to refactor `AppViewController` more, get methods grouped more logically.  I'll do that after review, though, so the diff isn't ridiculous.
+    
+------------
+
 ### Ello Build 1483(v1.0.0) May 1, 2015
 
     RELEASE NOTES
