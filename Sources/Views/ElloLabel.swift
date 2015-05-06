@@ -33,10 +33,8 @@ extension ElloLabel {
 
 public extension ElloLabel {
     func setLabelText(title: String, color: UIColor = UIColor.whiteColor(), alignment: NSTextAlignment = .Left) {
-        var attributedString = NSMutableAttributedString(string: title)
-        var range = NSRange(location: 0, length: count(title))
-        attributedString.addAttributes(attributes(title, color: color, alignment: alignment), range: range)
-        self.attributedText = attributedString
+        let attrs = attributes(color, alignment: alignment)
+        attributedText = NSAttributedString(string: title, attributes: attrs)
     }
 
     func height() -> CGFloat {
@@ -51,13 +49,11 @@ public extension ElloLabel {
 }
 
 private extension ElloLabel {
-    func attributes(title: String, color: UIColor, alignment: NSTextAlignment) -> [NSObject : AnyObject] {
+    func attributes(color: UIColor, alignment: NSTextAlignment) -> [NSObject : AnyObject] {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 10
         paragraphStyle.alignment = alignment
 
-        var attributedString = NSMutableAttributedString(string: title)
-        var range = NSRange(location: 0, length: count(title))
         return [
             NSFontAttributeName : UIFont.typewriterFont(12.0),
             NSForegroundColorAttributeName : color,
