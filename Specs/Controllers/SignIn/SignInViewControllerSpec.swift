@@ -170,10 +170,10 @@ class SignInViewControllerSpec: QuickSpec {
             describe("UIKeyboardWillHideNotification") {
 
                 it("adjusts scrollview") {
-                    Keyboard.shared().topEdge = screenHeight
+                    Keyboard.shared().topEdge = 0.0
                     postNotification(Keyboard.Notifications.KeyboardWillHide, Keyboard.shared())
 
-                    expect(controller.scrollView.contentInset.bottom) == 600.0
+                    expect(controller.scrollView.contentInset.bottom) == 0.0
                 }
             }
         }
