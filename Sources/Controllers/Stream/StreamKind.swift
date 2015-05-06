@@ -27,7 +27,7 @@ public enum StreamKind {
         case .PostDetail: return "Post Detail"
         case .Profile: return "Profile"
         case .UserStream: return "User Stream"
-        case .UserList(let title): return "\(title)"
+        case let .UserList(_, title): return title
         }
     }
 

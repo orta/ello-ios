@@ -225,6 +225,8 @@ public class StreamViewController: BaseElloViewController {
                 self.responseConfig = responseConfig
                 self.doneLoading()
             }, failure: { (error, statusCode) in
+                if self.loadInitialPageLoadingToken != localToken { return }
+
                 println("failed to load \(self.streamKind.name) stream (reason: \(error))")
                 self.doneLoading()
             }
@@ -270,6 +272,7 @@ public class StreamViewController: BaseElloViewController {
         collectionView.alwaysBounceHorizontal = false
         collectionView.alwaysBounceVertical = true
         collectionView.directionalLockEnabled = true
+        collectionView.keyboardDismissMode = .OnDrag
         StreamCellType.registerAll(collectionView)
         setupCollectionViewLayout()
     }
@@ -343,6 +346,8 @@ public class StreamViewController: BaseElloViewController {
                 self.responseConfig = responseConfig
                 self.pullToRefreshView?.finishLoading()
             }, failure: { (error, statusCode) in
+                if self.pullToRefreshLoadLoadingToken != localToken { return }
+
                 println("failed to load \(self.streamKind.name) stream (reason: \(error))")
                 self.pullToRefreshView?.finishLoading()
             }
@@ -459,19 +464,15 @@ extension StreamViewController : StreamCollectionViewLayoutDelegate {
 extension StreamViewController : UIScrollViewDelegate {
 
     public func scrollViewDidScroll(scrollView : UIScrollView) {
-        self.streamScrollDelegate?.streamViewDidScroll(scrollView)
+        streamScrollDelegate?.streamViewDidScroll(scrollView)
     }
 
     public func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        if let delegate = self.streamScrollDelegate {
-            delegate.streamViewWillBeginDragging?(scrollView)
-        }
+        streamScrollDelegate?.streamViewWillBeginDragging?(scrollView)
     }
 
     public func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate: Bool) {
-        if let delegate = self.streamScrollDelegate {
-            delegate.streamViewDidEndDragging?(scrollView, willDecelerate: willDecelerate)
-        }
+        streamScrollDelegate?.streamViewDidEndDragging?(scrollView, willDecelerate: willDecelerate)
         self.loadNextPage(scrollView)
     }
 
