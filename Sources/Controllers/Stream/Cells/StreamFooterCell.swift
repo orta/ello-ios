@@ -14,7 +14,12 @@ let streamCellDidOpenNotification = TypedNotification<UICollectionViewCell>(name
 public class StreamFooterCell: UICollectionViewCell {
 
     var revealWidth: CGFloat {
-        return 57.0 * CGFloat((bottomToolBar.items?.count ?? 2) - 2)
+        if let items = bottomToolBar.items {
+            let numberOfSpacingItems = 2
+            let itemWidth = CGFloat(57.0)
+            return itemWidth * CGFloat(items.count - numberOfSpacingItems)
+        }
+        return 0
     }
     var cellOpenObserver: NotificationObserver?
     public private(set) var isOpen = false
