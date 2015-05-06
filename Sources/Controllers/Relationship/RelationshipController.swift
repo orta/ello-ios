@@ -16,7 +16,7 @@ public enum RelationshipRequestStatus: String {
 }
 
 public protocol RelationshipDelegate: NSObjectProtocol {
-    func relationshipTapped(userId: String, relationship: RelationshipPriority, complete: (status: RelationshipRequestStatus, relationship: Relationship) -> ())
+    func relationshipTapped(userId: String, relationship: RelationshipPriority, complete: (status: RelationshipRequestStatus, relationship: Relationship?) -> ())
     func launchBlockModal(userId: String, userAtName: String, relationship: RelationshipPriority, changeClosure: RelationshipChangeClosure)
 }
 

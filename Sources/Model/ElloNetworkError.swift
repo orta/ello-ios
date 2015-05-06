@@ -46,14 +46,13 @@ public class ElloNetworkError: JSONAble {
         status: String?,
         title: String )
     {
-        self.version = ElloNetworkErrorVersion
         self.attrs = attrs
         self.code = code
         self.detail = detail
         self.messages = messages
         self.status = status
         self.title = title
-        super.init()
+        super.init(version: ElloNetworkErrorVersion)
     }
 
     public required init(coder aDecoder: NSCoder) {

@@ -61,7 +61,6 @@ public final class User: JSONAble {
         hasSharingEnabled: Bool,
         hasRepostingEnabled: Bool)
     {
-        self.version = UserVersion
         self.id = id
         self.href = href
         self.username = username
@@ -73,7 +72,7 @@ public final class User: JSONAble {
         self.hasCommentingEnabled = hasCommentingEnabled
         self.hasSharingEnabled = hasSharingEnabled
         self.hasRepostingEnabled = hasRepostingEnabled
-        super.init()
+        super.init(version: UserVersion)
     }
 
 // MARK: NSCoding

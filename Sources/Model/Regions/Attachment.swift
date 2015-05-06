@@ -24,9 +24,8 @@ public final class Attachment: JSONAble {
 // MARK: Initialization
 
     public init(url: NSURL) {
-        self.version = AttachmentVersion
         self.url = url
-        super.init()
+        super.init(version: AttachmentVersion)
     }
 
 // MARK: NSCoding

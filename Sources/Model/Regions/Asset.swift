@@ -53,9 +53,8 @@ public final class Asset: JSONAble {
 
     public init(id: String)
     {
-        self.version = AssetVersion
         self.id = id
-        super.init()
+        super.init(version: AssetVersion)
     }
 
 // MARK: NSCoding

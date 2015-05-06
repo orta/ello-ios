@@ -43,7 +43,6 @@ public final class Profile: JSONAble {
         notifyOfNewFollowersViaEmail: Bool,
         subscribeToUsersEmailList: Bool)
     {
-        self.version = ProfileVersion
         self.createdAt = createdAt
         self.shortBio = shortBio
         self.externalLinksList = externalLinksList
@@ -57,7 +56,7 @@ public final class Profile: JSONAble {
         self.notifyOfMentionsViaEmail = notifyOfMentionsViaEmail
         self.notifyOfNewFollowersViaEmail = notifyOfNewFollowersViaEmail
         self.subscribeToUsersEmailList = subscribeToUsersEmailList
-        super.init()
+        super.init(version: ProfileVersion)
     }
 
 // MARK: NSCoding

@@ -46,13 +46,12 @@ public final class EmbedRegion: JSONAble, Regionable {
         thumbnailLargeUrl: NSURL
         )
     {
-        self.version = EmbedRegionVersion
         self.id = id
         self.service = service
         self.url = url
         self.thumbnailSmallUrl = thumbnailSmallUrl
         self.thumbnailLargeUrl = thumbnailLargeUrl
-        super.init()
+        super.init(version: EmbedRegionVersion)
     }
 
     // MARK: NSCoding

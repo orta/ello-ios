@@ -25,9 +25,8 @@ public final class ImageRegion: JSONAble, Regionable {
 
     public init(alt: String)
     {
-        self.version = ImageRegionVersion
         self.alt = alt
-        super.init()
+        super.init(version: ImageRegionVersion)
     }
 
 // MARK: NSCoding

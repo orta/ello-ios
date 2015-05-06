@@ -21,7 +21,6 @@ public enum NotificationFilterType: String {
 let NotificationVersion = 1
 
 public final class Notification: JSONAble, Authorable {
-    public let version = NotificationVersion
 
     // required
     public let activity: Activity
@@ -58,7 +57,7 @@ public final class Notification: JSONAble, Authorable {
         else if let user = activity.subject as? User {
             self.author = user
         }
-        super.init()
+        super.init(version: NotificationVersion)
         if let post = activity.subject as? Post {
             assignRegionsFromContent(post.summary)
         }

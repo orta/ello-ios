@@ -42,13 +42,12 @@ public final class Comment: JSONAble, Authorable {
         postId: String,
         content: [Regionable])
     {
-        self.version = CommentVersion
         self.id = id
         self.createdAt = createdAt
         self.authorId = authorId
         self.postId = postId
         self.content = content
-        super.init()
+        super.init(version: CommentVersion)
     }
 
 

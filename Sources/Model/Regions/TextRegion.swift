@@ -19,9 +19,8 @@ public final class TextRegion: JSONAble, Regionable {
 // MARK: Initialization
 
     public init(content: String) {
-        self.version = TextRegionVersion
         self.content = content
-        super.init()
+        super.init(version: TextRegionVersion)
     }
 
 // MARK: NSCoding

@@ -88,7 +88,6 @@ public final class Post: JSONAble, Authorable {
         summary: [Regionable]
         )
     {
-        self.version = PostVersion
         // active record
         self.id = id
         self.createdAt = createdAt
@@ -99,7 +98,7 @@ public final class Post: JSONAble, Authorable {
         self.contentWarning = contentWarning
         self.allowComments = allowComments
         self.summary = summary
-        super.init()
+        super.init(version: PostVersion)
         collapsed = self.contentWarning != ""
         registerNotifications()
     }

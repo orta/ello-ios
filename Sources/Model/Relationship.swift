@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 public enum RelationshipPriority: String {
     case Friend = "friend"
@@ -44,12 +45,11 @@ public final class Relationship: JSONAble {
     }
 
     public init(id: String, createdAt: NSDate, ownerId: String, subjectId: String) {
-        self.version = RelationshipVersion
         self.id = id
         self.createdAt = createdAt
         self.ownerId = ownerId
         self.subjectId = subjectId
-        super.init()
+        super.init(version: RelationshipVersion)
     }
 
 // MARK: NSCoding
@@ -71,8 +71,7 @@ public final class Relationship: JSONAble {
         encoder.encodeObject(createdAt, forKey: "createdAt")
         // required
         encoder.encodeObject(ownerId, forKey: "ownerId")
-        encoder.encodeObjec
-        t(subjectId, forKey: "subjectId")
+        encoder.encodeObject(subjectId, forKey: "subjectId")
         super.encodeWithCoder(encoder)
     }
 

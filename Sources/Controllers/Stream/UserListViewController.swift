@@ -10,7 +10,6 @@ import Foundation
 
 public class UserListViewController: StreamableViewController {
 
-//    var streamViewController : StreamViewController!
     var navigationBar: ElloNavigationBar!
     let endpoint: ElloAPI
 
@@ -28,7 +27,10 @@ public class UserListViewController: StreamableViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
-//        setupStreamController()
+    }
+
+    override func viewForStream() -> UIView {
+        return view
     }
 
     override public func didSetCurrentUser() {
@@ -49,21 +51,6 @@ public class UserListViewController: StreamableViewController {
         self.navigationItem.fixNavBarItemPadding()
         navigationBar.items = [self.navigationItem]
     }
-
-//    private func setupStreamController() {
-//        streamViewController = StreamViewController.instantiateFromStoryboard()
-//        streamViewController.currentUser = currentUser
-//        streamViewController.streamKind = .UserList(endpoint: endpoint, title: self.title!)
-//        streamViewController.userTappedDelegate = self
-//
-//        self.view.addSubview(streamViewController.view)
-//        streamViewController.willMoveToParentViewController(self)
-//        streamViewController.view.frame = self.view.bounds
-//        streamViewController.view.autoresizingMask = .FlexibleWidth | .FlexibleHeight
-//        self.addChildViewController(streamViewController)
-//        ElloHUD.showLoadingHudInView(streamViewController.view)
-//        streamViewController.loadInitialPage()
-//    }
 
     override func showNavBars(scrollToBottom : Bool) {
         super.showNavBars(scrollToBottom)
