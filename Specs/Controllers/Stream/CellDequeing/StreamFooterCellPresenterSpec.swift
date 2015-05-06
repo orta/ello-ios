@@ -77,7 +77,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
-                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.commentsItem)).to(beTrue())
+                    expect(cell.commentsItem.customView).to(beVisibleIn(cell))
                 }
                 it("shown if author allows it") {
                     let author: User = stub(["id" : "1", "hasCommentingEnabled" : true])
@@ -87,7 +87,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
-                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.commentsItem)).to(beTrue())
+                    expect(cell.commentsItem.customView).to(beVisibleIn(cell))
                 }
                 it("shown if author allows it in grid view") {
                     let author: User = stub(["id" : "1", "hasCommentingEnabled" : true])
@@ -97,7 +97,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Noise, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
-                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.commentsItem)).to(beTrue())
+                    expect(cell.commentsItem.customView).to(beVisibleIn(cell))
                 }
                 it("hidden if author doesn't allow it") {
                     let author: User = stub(["id" : "1", "hasCommentingEnabled" : false])
@@ -107,8 +107,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
-                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.commentsItem)).to(beFalse())
-                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.commentsItem)).to(beFalse())
+                    expect(cell.commentsItem.customView).toNot(beVisibleIn(cell))
                 }
                 it("hidden if author doesn't allow it in grid view") {
                     let author: User = stub(["id" : "1", "hasCommentingEnabled" : false])
@@ -118,8 +117,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Noise, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
-                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.commentsItem)).to(beFalse())
-                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.commentsItem)).to(beFalse())
+                    expect(cell.commentsItem.customView).toNot(beVisibleIn(cell))
                 }
             }
             context("sharing button") {
@@ -130,7 +128,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
-                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.shareItem)).to(beTrue())
+                    expect(cell.shareItem.customView).to(beVisibleIn(cell))
                 }
                 it("shown if author allows it") {
                     let author: User = stub(["id" : "1", "hasSharingEnabled" : true])
@@ -140,7 +138,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
-                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.shareItem)).to(beTrue())
+                    expect(cell.shareItem.customView).to(beVisibleIn(cell))
                 }
                 it("shown if author allows it in grid view") {
                     let author: User = stub(["id" : "1", "hasSharingEnabled" : true])
@@ -150,7 +148,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Noise, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
-                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.shareItem)).to(beTrue())
+                    expect(cell.shareItem.customView).to(beVisibleIn(cell))
                 }
                 it("hidden if author doesn't allow it") {
                     let author: User = stub(["id" : "1", "hasSharingEnabled" : false])
@@ -160,8 +158,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
-                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.shareItem)).to(beFalse())
-                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.shareItem)).to(beFalse())
+                    expect(cell.shareItem.customView).toNot(beVisibleIn(cell))
                 }
                 it("hidden if author doesn't allow it in grid view") {
                     let author: User = stub(["id" : "1", "hasSharingEnabled" : false])
@@ -171,8 +168,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Noise, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
-                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.shareItem)).to(beFalse())
-                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.shareItem)).to(beFalse())
+                    expect(cell.shareItem.customView).toNot(beVisibleIn(cell))
                 }
             }
             context("repost button") {
@@ -184,7 +180,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
                     expect(cell.repostControl.enabled).to(beTrue())
-                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.repostItem)).to(beTrue())
+                    expect(cell.repostItem.customView).to(beVisibleIn(cell))
                 }
                 it("shown if author allows it") {
                     let author: User = stub(["id" : "1", "hasRepostingEnabled" : true])
@@ -194,7 +190,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
-                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.repostItem)).to(beTrue())
+                    expect(cell.repostItem.customView).to(beVisibleIn(cell))
                 }
                 it("shown if author allows it in grid view") {
                     let author: User = stub(["id" : "1", "hasRepostingEnabled" : true])
@@ -204,7 +200,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Noise, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
-                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.repostItem)).to(beTrue())
+                    expect(cell.repostItem.customView).to(beVisibleIn(cell))
                 }
                 it("hidden if author doesn't allow it") {
                     let author: User = stub(["id" : "1", "hasRepostingEnabled" : false])
@@ -214,8 +210,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
-                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.repostItem)).to(beFalse())
-                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.repostItem)).to(beFalse())
+                    expect(cell.repostItem.customView).toNot(beVisibleIn(cell))
                 }
                 it("hidden if author doesn't allow it in grid view") {
                     let author: User = stub(["id" : "1", "hasRepostingEnabled" : false])
@@ -225,8 +220,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Noise, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
-                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.repostItem)).to(beFalse())
-                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.repostItem)).to(beFalse())
+                    expect(cell.repostItem.customView).toNot(beVisibleIn(cell))
                 }
                 it("disabled if author is current user") {
                     let author: User = stub(["id" : "1", "hasRepostingEnabled" : true])
@@ -237,7 +231,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: author)
 
                     expect(cell.repostControl.enabled).to(beFalse())
-                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.repostItem)).to(beTrue())
+                    expect(cell.repostItem.customView).to(beVisibleIn(cell))
                 }
                 it("disabled if author is current user in grid view") {
                     let author: User = stub(["id" : "1", "hasRepostingEnabled" : true])
@@ -248,7 +242,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Noise, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: author)
 
                     expect(cell.repostControl.enabled).to(beFalse())
-                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.repostItem)).to(beTrue())
+                    expect(cell.repostItem.customView).to(beVisibleIn(cell))
                 }
                 it("hidden if author is current user, and reposting isn't allowed") {
                     let author: User = stub(["id" : "1", "hasRepostingEnabled" : false])
@@ -258,8 +252,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: author)
 
-                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.repostItem)).to(beFalse())
-                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.repostItem)).to(beFalse())
+                    expect(cell.repostItem.customView).toNot(beVisibleIn(cell))
                 }
                 it("hidden if author is current user, and reposting isn't allowed in grid view") {
                     let author: User = stub(["id" : "1", "hasRepostingEnabled" : false])
@@ -269,8 +262,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Noise, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: author)
 
-                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.repostItem)).to(beFalse())
-                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.repostItem)).to(beFalse())
+                    expect(cell.repostItem.customView).toNot(beVisibleIn(cell))
                 }
             }
             context("delete button") {
@@ -281,8 +273,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
-                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.deleteItem)).to(beFalse())
-                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.deleteItem)).to(beFalse())
+                    expect(cell.deleteItem.customView).toNot(beVisibleIn(cell))
                 }
                 it("shown if author is current user") {
                     let author: User = stub(["id" : "1"])
@@ -292,7 +283,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: author)
 
-                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.deleteItem)).to(beTrue())
+                    expect(cell.deleteItem.customView).to(beVisibleIn(cell))
                 }
                 it("hidden if author is current user in grid view") {
                     let author: User = stub(["id" : "1"])
@@ -302,8 +293,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Noise, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: author)
 
-                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.deleteItem)).to(beFalse())
-                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.deleteItem)).to(beFalse())
+                    expect(cell.deleteItem.customView).toNot(beVisibleIn(cell))
                 }
                 it("hidden if author is not current user") {
                     let author: User = stub(["id" : "1"])
@@ -314,8 +304,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
 
-                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.deleteItem)).to(beFalse())
-                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.deleteItem)).to(beFalse())
+                    expect(cell.deleteItem.customView).toNot(beVisibleIn(cell))
                 }
             }
             context("flag button") {
@@ -326,7 +315,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
-                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.flagItem)).to(beTrue())
+                    expect(cell.flagItem.customView).to(beVisibleIn(cell))
                 }
                 it("hidden if author is current user") {
                     let author: User = stub(["id" : "1"])
@@ -336,8 +325,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: author)
 
-                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.flagItem)).to(beFalse())
-                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.flagItem)).to(beFalse())
+                    expect(cell.flagItem.customView).toNot(beVisibleIn(cell))
                 }
                 it("shown if author is not current user") {
                     let author: User = stub(["id" : "1"])
@@ -348,7 +336,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
 
-                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.flagItem)).to(beTrue())
+                    expect(cell.flagItem.customView).to(beVisibleIn(cell))
                 }
                 it("hidden if author is not current user in grid view") {
                     let author: User = stub(["id" : "1"])
@@ -359,8 +347,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Noise, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
 
-                    expect(contains(cell.toolBar.items as! [UIBarButtonItem], cell.flagItem)).to(beFalse())
-                    expect(contains(cell.bottomToolBar.items as! [UIBarButtonItem], cell.flagItem)).to(beFalse())
+                    expect(cell.flagItem.customView).toNot(beVisibleIn(cell))
                 }
             }
 
