@@ -33,6 +33,14 @@ public final class Asset: JSONAble {
     var isGif: Bool {
         return self.optimized?.type == "image/gif"
     }
+    var isLargeGif: Bool {
+        if isGif {
+            if let size = self.optimized?.size {
+                return size >= 2_097_152
+            }
+        }
+        return false
+    }
 
 	public var oneColumnAttachment: Attachment? {
         return self.hdpi
