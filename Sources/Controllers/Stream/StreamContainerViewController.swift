@@ -127,16 +127,8 @@ public class StreamContainerViewController: StreamableViewController {
         control.layer.borderWidth = 1.0
         control.layer.cornerRadius = 0.0
         control.selectedSegmentIndex = 0
-        control.setDividerImage(blankDividerImage(control.frame.size.height), forLeftSegmentState: .Normal, rightSegmentState: .Normal, barMetrics: .Default)
+        control.tintColor = .blackColor()
         streamsSegmentedControl = control
-    }
-
-    private func blankDividerImage(height: CGFloat) -> UIImage {
-        UIGraphicsBeginImageContext(CGSizeMake(1, height))
-        let divider = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-
-        return divider
     }
 
     // MARK: - IBActions
