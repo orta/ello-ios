@@ -20,8 +20,9 @@ public class AppViewController: BaseElloViewController {
     @IBOutlet weak public var scrollView: UIScrollView!
     @IBOutlet weak public var logoView: UIView!
     @IBOutlet weak public var logoTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak public var signInButton: ElloButton!
-    @IBOutlet weak public var joinButton: LightElloButton!
+    @IBOutlet weak public var socialRevolution: UILabel!
+    @IBOutlet weak public var signInButton: LightElloButton!
+    @IBOutlet weak public var joinButton: ElloButton!
 
     var visibleViewController: UIViewController?
     private var userLoggedOutObserver: NotificationObserver?
@@ -61,11 +62,9 @@ public class AppViewController: BaseElloViewController {
 // MARK: - Private
 
     private func setupStyles() {
-        scrollView.backgroundColor = UIColor.grey3()
-        view.backgroundColor = UIColor.grey3()
+        scrollView.backgroundColor = .whiteColor()
+        view.backgroundColor = .whiteColor()
         view.setNeedsDisplay()
-        joinButton.backgroundColor = UIColor.greyA()
-        signInButton.backgroundColor = UIColor.blackColor()
     }
 
     private func checkIfLoggedIn() {
@@ -105,6 +104,7 @@ public class AppViewController: BaseElloViewController {
         UIView.animateWithDuration(0.2) {
             self.joinButton.alpha = 1.0
             self.signInButton.alpha = 1.0
+            self.socialRevolution.alpha = 1.0
         }
     }
 

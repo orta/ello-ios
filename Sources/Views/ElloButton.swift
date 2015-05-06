@@ -57,6 +57,7 @@ public class LightElloButton: ElloButton {
         self.titleLabel?.numberOfLines = 1
         self.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
         self.setTitleColor(UIColor.blackColor(), forState: UIControlState.Disabled)
+        self.backgroundColor = enabled ? UIColor.greyA() : UIColor.greyA()
     }
     
 }

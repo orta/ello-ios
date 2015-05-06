@@ -63,8 +63,8 @@ public class JoinViewController: BaseElloViewController, HasAppController {
 
     private func setupStyles() {
         scrollView.contentSize = view.bounds.size
-        scrollView.backgroundColor = UIColor.grey3()
-        view.backgroundColor = UIColor.grey3()
+        scrollView.backgroundColor = .whiteColor()
+        view.backgroundColor = .whiteColor()
     }
 
     private func setupViews() {
