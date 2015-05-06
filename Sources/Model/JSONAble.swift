@@ -31,7 +31,7 @@ public class JSONAble: NSObject, NSCoding {
 
     public func encodeWithCoder(encoder: NSCoder) {
         encoder.encodeObject(links, forKey: "links")
-        encoder.encodeObject(version, forKey: "version")
+        encoder.encodeInt64(Int64(version), forKey: "version")
     }
 
     public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
