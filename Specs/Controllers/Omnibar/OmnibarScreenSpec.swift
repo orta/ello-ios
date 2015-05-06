@@ -82,7 +82,7 @@ class OmnibarScreenSpec: QuickSpec {
                 expect(avatarURL).toNot(beNil())
 
                 screen.avatarURL = avatarURL
-                expect(screen.avatarView.image).toEventuallyNot(beNil())
+                expect(screen.avatarButtonView.imageForState(UIControlState.Normal)).toEventuallyNot(beNil())
             }
         }
         describe("start editing") {
