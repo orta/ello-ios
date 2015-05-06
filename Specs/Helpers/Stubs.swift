@@ -162,9 +162,9 @@ extension Comment: Stubbable {
     class func stub(values: [String : AnyObject]) -> Comment {
 
         // create necessary links
-        let author: User = (values["author"] as? User) ?? User.stub(["id": "10000"])
+        let author: User = (values["author"] as? User) ?? User.stub(["id": values["userId"] ?? "10000"])
         ElloLinkedStore.sharedInstance.setObject(author, forKey: author.id, inCollection: MappingType.UsersType.rawValue)
-        let parentPost: Post = (values["parentPost"] as? Post) ?? Post.stub(["id": "20000"])
+        let parentPost: Post = (values["parentPost"] as? Post) ?? Post.stub(["id": values["postId"] ?? "20000"])
         ElloLinkedStore.sharedInstance.setObject(parentPost, forKey: parentPost.id, inCollection: MappingType.PostsType.rawValue)
 
         var comment = Comment(

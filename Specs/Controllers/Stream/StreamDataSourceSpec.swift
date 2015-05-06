@@ -11,6 +11,12 @@ import Quick
 import Nimble
 import Moya
 
+public class FakeCollectionView: UICollectionView {
+
+    public override func insertItemsAtIndexPaths(indexPaths: [AnyObject]) {
+        // noop
+    }
+}
 
 class StreamDataSourceSpec: QuickSpec {
 
@@ -21,6 +27,7 @@ class StreamDataSourceSpec: QuickSpec {
 
         var vc: StreamViewController!
         var subject: StreamDataSource!
+        var fakeCollectionView: FakeCollectionView!
 
         let webView = UIWebView(frame: CGRectMake(0, 0, 320, 640))
         let textSizeCalculator = FakeStreamTextCellSizeCalculator(webView: UIWebView(frame: webView.frame))
@@ -33,8 +40,6 @@ class StreamDataSourceSpec: QuickSpec {
                 ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.endpointsClosure, stubResponses: true)
                 vc = StreamViewController.instantiateFromStoryboard()
                 vc.streamKind = StreamKind.Friend
-                self.showController(vc)
-
                 subject = StreamDataSource(streamKind: .Friend,
                     textSizeCalculator: textSizeCalculator,
                     notificationSizeCalculator: notificationSizeCalculator,
@@ -50,8 +55,10 @@ class StreamDataSourceSpec: QuickSpec {
                     }
                     return true
                 }
-
                 vc.dataSource = subject
+                self.showController(vc)
+                fakeCollectionView = FakeCollectionView(frame: vc.collectionView.frame, collectionViewLayout: vc.collectionView.collectionViewLayout)
+
             }
 
             afterEach {
@@ -255,41 +262,41 @@ class StreamDataSourceSpec: QuickSpec {
                 }
             }
 
-//            describe("commentIndexPathsForPost(_:)") {
-//
-//                beforeEach {
-//                    let parser = StreamCellItemParser()
-//                    let postCellItems = parser.parse([Post.stub(["id": "666"])], streamKind: .Friend)
-//                    let commentCellItems = parser.parse([Comment.stub(["postId": "666"]), Comment.stub(["postId": "666"])], streamKind: .Friend)
-//                    let otherPostCellItems = parser.parse([Post.stub(["id": "777"])], streamKind: .Friend)
-//                    let otherCommentCellItems = parser.parse([Comment.stub(["postId": "777"])], streamKind: .Friend)
-//                    let cellItems = postCellItems + commentCellItems + otherPostCellItems + otherCommentCellItems
-//                    subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
-//                        vc.collectionView.dataSource = subject
-//                        vc.collectionView.reloadData()
-//                    }
-//                }
-//
-//                it("returns an array of comment index paths") {
-//                    var post = subject.postForIndexPath(indexPath0)
-//                    let indexPaths = subject.commentIndexPathsForPost(post!)
-//
-//                    expect(count(indexPaths)) == 4
-//                    expect(indexPaths[0].item) == 3
-//                    expect(indexPaths[1].item) == 4
-//                    expect(indexPaths[2].item) == 5
-//                    expect(indexPaths[3].item) == 6
-//                }
-//
-//                it("does not return index paths for comments from another post") {
-//                    var post = subject.postForIndexPath(NSIndexPath(forItem: 9, inSection: 0))
-//                    let indexPaths = subject.commentIndexPathsForPost(post!)
-//
-//                    expect(count(indexPaths)) == 2
-//                    expect(indexPaths[0].item) == 10
-//                    expect(indexPaths[1].item) == 11
-//                }
-//            }
+            describe("commentIndexPathsForPost(_:)") {
+
+                beforeEach {
+                    let parser = StreamCellItemParser()
+                    let postCellItems = parser.parse([Post.stub(["id": "666"])], streamKind: .Friend)
+                    let commentCellItems = parser.parse([Comment.stub(["postId": "666"]), Comment.stub(["postId": "666"])], streamKind: .Friend)
+                    let otherPostCellItems = parser.parse([Post.stub(["id": "777"])], streamKind: .Friend)
+                    let otherCommentCellItems = parser.parse([Comment.stub(["postId": "777"])], streamKind: .Friend)
+                    let cellItems = postCellItems + commentCellItems + otherPostCellItems + otherCommentCellItems
+                    subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
+                        vc.collectionView.dataSource = subject
+                        vc.collectionView.reloadData()
+                    }
+                }
+
+                it("returns an array of comment index paths") {
+                    var post = subject.postForIndexPath(indexPath0)
+                    let indexPaths = subject.commentIndexPathsForPost(post!)
+
+                    expect(count(indexPaths)) == 4
+                    expect(indexPaths[0].item) == 3
+                    expect(indexPaths[1].item) == 4
+                    expect(indexPaths[2].item) == 5
+                    expect(indexPaths[3].item) == 6
+                }
+
+                it("does not return index paths for comments from another post") {
+                    var post = subject.postForIndexPath(NSIndexPath(forItem: 9, inSection: 0))
+                    let indexPaths = subject.commentIndexPathsForPost(post!)
+
+                    expect(count(indexPaths)) == 2
+                    expect(indexPaths[0].item) == 10
+                    expect(indexPaths[1].item) == 11
+                }
+            }
 
             describe("footerIndexPathForPost(_:)") {
                 beforeEach {
@@ -306,6 +313,86 @@ class StreamDataSourceSpec: QuickSpec {
 
                     expect(indexPath!.item) == 2
                     expect(subject.visibleCellItems[indexPath!.item].type) == StreamCellType.Footer
+                }
+            }
+
+           fdescribe("modifyItems(_:change:collectioView:)") {
+
+                context("with comments") {
+
+                    let stubCommentCellItems: (commentsVisible: Bool) -> Void = { (commentsVisible: Bool) in
+                        let parser = StreamCellItemParser()
+                        let postCellItems = parser.parse([Post.stub(["id": "456"])], streamKind: .Friend)
+                        let commentButtonCellItem = [StreamCellItem(
+                            jsonable: Comment.stub(["postId": "456"]),
+                            type: .CreateComment,
+                            data: nil,
+                            oneColumnCellHeight: StreamCreateCommentCell.Size.Height,
+                            multiColumnCellHeight: StreamCreateCommentCell.Size.Height,
+                            isFullWidth: true)
+                        ]
+                        let commentCellItems = parser.parse([Comment.stub(["postId": "456"])], streamKind: .Friend)
+                        var cellItems = postCellItems
+                        if commentsVisible {
+                            cellItems = cellItems + commentButtonCellItem + commentCellItems
+                        }
+                        subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
+                            vc.collectionView.dataSource = subject
+                            vc.collectionView.reloadData()
+                        }
+                    }
+
+                    describe(".Create") {
+
+                        it("inserts the new comment") {
+                            stubCommentCellItems(commentsVisible: true)
+                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 6
+                            subject.modifyItems(Comment.stub(["id": "new_comment", "postId": "456"]), change: .Create, collectionView: fakeCollectionView)
+                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 8
+                            expect(subject.commentForIndexPath(NSIndexPath(forItem: 4, inSection: 0))!.id) == "new_comment"
+                        }
+
+                        it("doesn't insert the new comment") {
+                            stubCommentCellItems(commentsVisible: false)
+                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 3
+                            subject.modifyItems(Comment.stub(["id": "new_comment", "postId": "456"]), change: .Create, collectionView: fakeCollectionView)
+                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 3
+                        }
+
+                    }
+                }
+
+                context("with posts") {
+
+                    describe(".Create") {
+
+                        context("StreamKind.Friend") {
+
+                            beforeEach {
+                                subject.streamKind = .Friend
+                                var posts = [Post]()
+                                for index in 1...5 {
+                                    posts.append(Post.stub([
+                                        "id": "\(index)",
+                                        "repostContent": [TextRegion.stub([:])],
+                                        "content": [TextRegion.stub([:])]
+                                        ])
+                                    )
+                                }
+                            }
+
+                            it("inserts the new post at 0, 0") {
+                                subject.modifyItems(Post.stub(["id": "new_post"]), change: .Create, collectionView: fakeCollectionView)
+                                expect(subject.postForIndexPath(indexPath0)!.id) == "new_post"
+                            }
+
+                        }
+                    }
+
+                }
+
+                context("with users") {
+
                 }
             }
 

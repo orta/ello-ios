@@ -130,8 +130,8 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     // this includes the `createComment` cell, since it contains a comment item
     public func commentIndexPathsForPost(post: Post) -> [NSIndexPath] {
-        var indexPaths:[NSIndexPath] = []
-        for (index,value) in enumerate(visibleCellItems) {
+        var indexPaths = [NSIndexPath]()
+        for (index, value) in enumerate(visibleCellItems) {
             if let comment = value.jsonable as? Comment {
                 if comment.postId == post.id {
                     indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
@@ -314,8 +314,8 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                 }
             }
 
-            // if post, add new post cells
-            if let post = jsonable as? Post {
+            // else if post, add new post cells
+            else if let post = jsonable as? Post {
                 println("streamKind = \(streamKind.name)")
                 switch streamKind {
                 case .Friend:
