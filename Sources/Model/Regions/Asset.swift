@@ -51,7 +51,7 @@ public final class Asset: JSONAble {
     }
 
 // MARK: Initialization
-    
+
     public init(id: String)
     {
         self.id = id
@@ -98,7 +98,7 @@ public final class Asset: JSONAble {
         encoder.encodeObject(small, forKey: "small")
         super.encodeWithCoder(encoder)
     }
-    
+
 // MARK: JSONAble
 
     override class public func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
