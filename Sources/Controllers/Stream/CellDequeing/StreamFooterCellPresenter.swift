@@ -8,6 +8,17 @@
 
 import Foundation
 
+
+public enum InteractionVisibility: String {
+    case Enabled = "Enabled"
+    case Disabled = "Disabled"
+    case NotAllowed = "NotAllowed"
+
+    var isVisible: Bool { return self != .Disabled }
+    var isEnabled: Bool { return self == .Enabled }
+}
+
+
 public struct StreamFooterCellPresenter {
 
     public static func configure(
@@ -28,10 +39,33 @@ public struct StreamFooterCellPresenter {
                         ownPost = true
                     }
                 }
-                cell.footerConfig = (
-                    ownPost: ownPost,
-                    allowsRepost: post.author?.hasRepostingEnabled ?? true,
-                    streamKind: streamKind
+
+                let repostingEnabled = post.author?.hasRepostingEnabled ?? true
+
+                let repostVisibility: InteractionVisibility
+                if !repostingEnabled {
+                    repostVisibility = .Disabled
+                }
+                else if ownPost {
+                    repostVisibility = .NotAllowed
+                }
+                else {
+                    repostVisibility = .Enabled
+                }
+
+                let commentingEnabled = post.author?.hasCommentingEnabled ?? true
+                let commentVisibility: InteractionVisibility = commentingEnabled ? .Enabled : .Disabled
+
+                let sharingEnabled = post.author?.hasSharingEnabled ?? true
+                let shareVisibility: InteractionVisibility = sharingEnabled ? .Enabled : .Disabled
+                let deleteVisibility: InteractionVisibility = ownPost ? .Enabled : .Disabled
+
+                cell.updateToolbarItems(
+                    streamKind: streamKind,
+                    repostVisibility: repostVisibility,
+                    commentVisibility: commentVisibility,
+                    shareVisibility: shareVisibility,
+                    deleteVisibility: deleteVisibility
                     )
 
                 if streamKind.isDetail {

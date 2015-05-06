@@ -13,7 +13,9 @@ let streamCellDidOpenNotification = TypedNotification<UICollectionViewCell>(name
 
 public class StreamFooterCell: UICollectionViewCell {
 
-    let revealWidth:CGFloat = 114.0
+    var revealWidth: CGFloat {
+        return 57.0 * CGFloat((bottomToolBar.items?.count ?? 2) - 2)
+    }
     var cellOpenObserver: NotificationObserver?
     public private(set) var isOpen = false
 
@@ -68,35 +70,67 @@ public class StreamFooterCell: UICollectionViewCell {
        return self.deleteItem.customView as! ImageLabelControl
     }
 
-    public var footerConfig: (ownPost: Bool, allowsRepost: Bool, streamKind: StreamKind?) = (false, true, nil) {
-        didSet {
-            if let streamKind = footerConfig.streamKind {
-                if footerConfig.ownPost {
-                    self.repostControl.enabled = false
-                }
-                else {
-                    self.repostControl.enabled = true
-                }
+    private func updateButtonVisibility(button: UIControl, _ visibility: InteractionVisibility) {
+        button.hidden = !visibility.isVisible
+        button.enabled = visibility.isEnabled
+    }
 
-                self.repostControl.hidden = !footerConfig.allowsRepost
+    public func updateToolbarItems(
+        #streamKind: StreamKind,
+        repostVisibility: InteractionVisibility,
+        commentVisibility: InteractionVisibility,
+        shareVisibility: InteractionVisibility,
+        deleteVisibility: InteractionVisibility
+        ) {
+        updateButtonVisibility(self.repostControl, repostVisibility)
+        updateButtonVisibility(self.commentsControl, commentVisibility)
+        updateButtonVisibility(self.shareControl, shareVisibility)
+        updateButtonVisibility(self.deleteControl, deleteVisibility)
 
-                if streamKind.isGridLayout {
-                    self.toolBar.items = [
-                        fixedItem(-15), commentsItem, flexibleItem(), repostItem, shareItem, fixedItem(-10)
-                    ]
-                    self.bottomToolBar.items = [
-                    ]
-                }
-                else {
-                    self.toolBar.items = [
-                        viewsItem, commentsItem, repostItem
-                    ]
-                    let rightItem = footerConfig.ownPost ? deleteItem : flagItem
-                    self.bottomToolBar.items = [
-                        flexibleItem(), shareItem, rightItem, fixedItem(-10)
-                    ]
-                }
+        var toolbarItems: [UIBarButtonItem] = []
+
+        if streamKind.isGridLayout {
+            if commentVisibility.isVisible {
+                toolbarItems.append(fixedItem(-15))
+                toolbarItems.append(commentsItem)
             }
+
+            if repostVisibility.isVisible || shareVisibility.isVisible {
+                toolbarItems.append(flexibleItem())
+                if repostVisibility.isVisible {
+                    toolbarItems.append(repostItem)
+                }
+                if shareVisibility.isVisible {
+                    toolbarItems.append(shareItem)
+                }
+                toolbarItems.append(fixedItem(-10))
+            }
+
+            self.toolBar.items = toolbarItems
+            self.bottomToolBar.items = []
+        }
+        else {
+            toolbarItems.append(viewsItem)
+            if commentVisibility.isVisible {
+                toolbarItems.append(commentsItem)
+            }
+            if repostVisibility.isVisible {
+                toolbarItems.append(repostItem)
+            }
+            self.toolBar.items = toolbarItems
+
+            var bottomItems: [UIBarButtonItem] = [flexibleItem()]
+            if shareVisibility.isVisible {
+                bottomItems.append(shareItem)
+            }
+            if deleteVisibility.isVisible {
+                bottomItems.append(deleteItem)
+            }
+            else {
+                bottomItems.append(flagItem)
+            }
+            bottomItems.append(fixedItem(-10))
+            self.bottomToolBar.items = bottomItems
         }
     }
 
@@ -190,20 +224,8 @@ public class StreamFooterCell: UICollectionViewCell {
     }
 
     @IBAction func commentsButtonTapped(sender: ImageLabelControl) {
-        if let streamKind = footerConfig.streamKind {
-            if streamKind.isGridLayout {
-                delegate?.viewsButtonTapped(self)
-                return
-            }
-        }
-
-        sender.highlighted = true
-        if !commentsOpened {
-            sender.animate()
-        }
-        sender.selected = !commentsOpened
-        delegate?.commentsButtonTapped(self, imageLabelControl: sender)
         commentsOpened = !commentsOpened
+        delegate?.commentsButtonTapped(self, imageLabelControl: sender)
     }
 
     func cancelCommentLoading() {

@@ -30,10 +30,26 @@ public class PostbarController: NSObject, PostbarDelegate {
 
     public func viewsButtonTapped(cell:UICollectionViewCell) {
         Tracker.sharedTracker.viewsButtonTapped()
-        postTappedForCell(cell)
+        if let post = postForCell(cell) {
+            let items = self.dataSource.cellItemsForPost(post)
+            // This is a bit dirty, we should not call a method on a compositionally held
+            // controller's postTappedDelegate. Need to chat about this with the crew.
+            presentingController?.postTappedDelegate?.postTapped(post)
+        }
     }
 
     public func commentsButtonTapped(cell:StreamFooterCell, imageLabelControl: ImageLabelControl) {
+        if dataSource.streamKind.isGridLayout {
+            cell.cancelCommentLoading()
+            self.viewsButtonTapped(cell)
+            return
+        }
+
+        imageLabelControl.highlighted = true
+        if cell.commentsOpened {
+            imageLabelControl.animate()
+        }
+        imageLabelControl.selected = cell.commentsOpened
 
         if !toggleableComments {
             cell.cancelCommentLoading()
@@ -45,7 +61,7 @@ public class PostbarController: NSObject, PostbarDelegate {
            let post = item.jsonable as? Post
         {
             cell.commentsControl.enabled = false
-            if cell.commentsOpened {
+            if !cell.commentsOpened {
                 let indexPaths = self.dataSource.removeCommentsForPost(post)
                 self.collectionView.deleteItemsAtIndexPaths(indexPaths)
                 imageLabelControl.enabled = true
@@ -267,15 +283,6 @@ public class PostbarController: NSObject, PostbarDelegate {
             return dataSource.commentForIndexPath(indexPath)
         }
         return nil
-    }
-
-    private func postTappedForCell(cell: UICollectionViewCell) {
-        if let post = postForCell(cell) {
-            let items = self.dataSource.cellItemsForPost(post)
-            // This is a bit dirty, we should not call a method on a compositionally held
-            // controller's postTappedDelegate. Need to chat about this with the crew.
-            presentingController?.postTappedDelegate?.postTapped(post)
-        }
     }
 
     private func commentLoadSuccess(post: Post, comments jsonables:[JSONAble], indexPath: NSIndexPath, cell: StreamFooterCell) {
