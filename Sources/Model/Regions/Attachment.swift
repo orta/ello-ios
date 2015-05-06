@@ -12,7 +12,6 @@ import SwiftyJSON
 let AttachmentVersion = 1
 
 public final class Attachment: JSONAble {
-    public let version = AttachmentVersion
 
     // required
     public let url: NSURL
@@ -25,6 +24,7 @@ public final class Attachment: JSONAble {
 // MARK: Initialization
 
     public init(url: NSURL) {
+        self.version = AttachmentVersion
         self.url = url
         super.init()
     }

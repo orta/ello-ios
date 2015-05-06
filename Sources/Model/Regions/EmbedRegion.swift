@@ -22,7 +22,6 @@ public enum EmbedType: String {
 }
 
 public final class EmbedRegion: JSONAble, Regionable {
-    public let version = EmbedRegionVersion
     public var isRepost: Bool = false
     
     // active record
@@ -47,6 +46,7 @@ public final class EmbedRegion: JSONAble, Regionable {
         thumbnailLargeUrl: NSURL
         )
     {
+        self.version = EmbedRegionVersion
         self.id = id
         self.service = service
         self.url = url

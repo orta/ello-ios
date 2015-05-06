@@ -42,6 +42,8 @@ public enum MappingType: String {
             return AmazonCredentials.fromJSON
         case AvailabilityType:
             return Availability.fromJSON
+        case RelationshipsType:
+            return Relationship.fromJSON
         default:
             return UnknownJSONAble.fromJSON
         }

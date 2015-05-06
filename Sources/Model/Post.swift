@@ -21,7 +21,6 @@ public protocol Authorable {
 let PostVersion = 1
 
 public final class Post: JSONAble, Authorable {
-    public let version = PostVersion
 
     // active record
     public let id: String
@@ -89,6 +88,7 @@ public final class Post: JSONAble, Authorable {
         summary: [Regionable]
         )
     {
+        self.version = PostVersion
         // active record
         self.id = id
         self.createdAt = createdAt

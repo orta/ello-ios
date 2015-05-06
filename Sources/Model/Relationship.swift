@@ -24,3 +24,68 @@ public enum RelationshipPriority: String {
         self = RelationshipPriority(rawValue: stringValue) ?? .None
     }
 }
+
+let RelationshipVersion = 1
+
+public final class Relationship: JSONAble {
+
+    // active record
+    public let id: String
+    public let createdAt: NSDate
+    public let ownerId: String
+    public let subjectId: String
+    // computed
+    public var owner: User? {
+        return ElloLinkedStore.sharedInstance.getObject(self.ownerId, inCollection: MappingType.UsersType.rawValue) as? User
+    }
+
+    public var subject: User? {
+        return ElloLinkedStore.sharedInstance.getObject(self.subjectId, inCollection: MappingType.UsersType.rawValue) as? User
+    }
+
+    public init(id: String, createdAt: NSDate, ownerId: String, subjectId: String) {
+        self.version = RelationshipVersion
+        self.id = id
+        self.createdAt = createdAt
+        self.ownerId = ownerId
+        self.subjectId = subjectId
+        super.init()
+    }
+
+// MARK: NSCoding
+
+    public required init(coder aDecoder: NSCoder) {
+        let decoder = Decoder(aDecoder)
+        // active record
+        self.id = decoder.decodeKey("id")
+        self.createdAt = decoder.decodeKey("createdAt")
+        // required
+        self.ownerId = decoder.decodeKey("ownerId")
+        self.subjectId = decoder.decodeKey("subjectId")
+        super.init(coder: aDecoder)
+    }
+
+    public override func encodeWithCoder(encoder: NSCoder) {
+        // active record
+        encoder.encodeObject(id, forKey: "id")
+        encoder.encodeObject(createdAt, forKey: "createdAt")
+        // required
+        encoder.encodeObject(ownerId, forKey: "ownerId")
+        encoder.encodeObjec
+        t(subjectId, forKey: "subjectId")
+        super.encodeWithCoder(encoder)
+    }
+
+// MARK: JSONAble
+
+    override public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
+        let json = JSON(data)
+        var relationship = Relationship(
+            id: json["id"].stringValue,
+            createdAt: json["created_at"].stringValue.toNSDate()!,
+            ownerId: json["links"]["owner"]["id"].stringValue,
+            subjectId: json["links"]["subject"]["id"].stringValue
+        )
+        return relationship
+    }
+}

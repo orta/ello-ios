@@ -14,7 +14,6 @@ import SwiftyJSON
 let UserVersion: Int = 1
 
 public final class User: JSONAble {
-    public let version = UserVersion
 
     // active record
     public let id: String
@@ -62,6 +61,7 @@ public final class User: JSONAble {
         hasSharingEnabled: Bool,
         hasRepostingEnabled: Bool)
     {
+        self.version = UserVersion
         self.id = id
         self.href = href
         self.username = username

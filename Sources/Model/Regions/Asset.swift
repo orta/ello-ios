@@ -12,7 +12,6 @@ import SwiftyJSON
 let AssetVersion = 1
 
 public final class Asset: JSONAble {
-    public let version = AssetVersion
 
     // active record
     public let id: String
@@ -54,6 +53,7 @@ public final class Asset: JSONAble {
 
     public init(id: String)
     {
+        self.version = AssetVersion
         self.id = id
         super.init()
     }

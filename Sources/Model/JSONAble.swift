@@ -14,6 +14,7 @@ public typealias FromJSONClosure = (data: [String: AnyObject], fromLinked: Bool)
 public class JSONAble: NSObject, NSCoding {
     // links
     public var links: [String: AnyObject]?
+    public var version: Int
 
     public override init() {
         super.init()
@@ -22,10 +23,12 @@ public class JSONAble: NSObject, NSCoding {
     public required init(coder aDecoder: NSCoder) {
         let decoder = Decoder(aDecoder)
         self.links = decoder.decodeOptionalKey("links")
+        self.version = decoder.decodeKey("version")
     }
 
     public func encodeWithCoder(encoder: NSCoder) {
         encoder.encodeObject(links, forKey: "links")
+        encoder.encodeObject(version, forKey: "version")
     }
 
     public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {

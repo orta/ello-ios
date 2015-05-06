@@ -120,7 +120,7 @@ public class BlockUserModalViewController: BaseElloViewController {
             relationship = newRelationship
         }
         relationshipDelegate?.relationshipTapped(userId, relationship: relationship) {
-            [unowned self] status in
+            [unowned self] (status, relationship) in
             switch status {
             case .Success:
                 self.changeClosure(relationship: self.relationship)

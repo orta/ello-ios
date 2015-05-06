@@ -59,7 +59,7 @@ public class RelationshipView: UIView {
             relationship = newRelationship
         }
         relationshipDelegate?.relationshipTapped(userId, relationship: relationship!) {
-            [unowned self] status in
+            [unowned self] (status, relationship) in
             if status == .Failure {
                 self.relationship = prevRelationship
             }

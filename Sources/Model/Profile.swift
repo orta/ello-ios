@@ -12,7 +12,6 @@ import SwiftyJSON
 let ProfileVersion: Int = 1
 
 public final class Profile: JSONAble {
-    public let version = ProfileVersion
 
     // active record
     public let createdAt: NSDate
@@ -44,6 +43,7 @@ public final class Profile: JSONAble {
         notifyOfNewFollowersViaEmail: Bool,
         subscribeToUsersEmailList: Bool)
     {
+        self.version = ProfileVersion
         self.createdAt = createdAt
         self.shortBio = shortBio
         self.externalLinksList = externalLinksList

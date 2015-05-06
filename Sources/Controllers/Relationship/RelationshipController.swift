@@ -16,7 +16,7 @@ public enum RelationshipRequestStatus: String {
 }
 
 public protocol RelationshipDelegate: NSObjectProtocol {
-    func relationshipTapped(userId: String, relationship: RelationshipPriority, complete: (status: RelationshipRequestStatus) -> ())
+    func relationshipTapped(userId: String, relationship: RelationshipPriority, complete: (status: RelationshipRequestStatus, relationship: Relationship) -> ())
     func launchBlockModal(userId: String, userAtName: String, relationship: RelationshipPriority, changeClosure: RelationshipChangeClosure)
 }
 
@@ -28,16 +28,21 @@ public class RelationshipController: NSObject, RelationshipDelegate {
         self.presentingController = presentingController
     }
 
-    public func relationshipTapped(userId: String, relationship: RelationshipPriority, complete: (status: RelationshipRequestStatus) -> ()) {
+    public func relationshipTapped(userId: String, relationship: RelationshipPriority, complete: (status: RelationshipRequestStatus, relationship: Relationship?) -> ()) {
         RelationshipService().updateRelationship(ElloAPI.Relationship(userId: userId,
             relationship: relationship.rawValue),
             success: {
                 (data, responseConfig) in
-                complete(status: .Success)
+                if let relationship = data as? Relationship {
+                    complete(status: .Success, relationship: relationship)
+                }
+                else {
+                    complete(status: .Success, relationship: nil)
+                }
             },
             failure: {
                 (error, statusCode) in
-                complete(status: .Failure)
+                complete(status: .Failure, relationship: nil)
             }
         )
     }
