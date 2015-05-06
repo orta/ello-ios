@@ -61,6 +61,8 @@ public class CredentialSettingsViewController: UITableViewController {
 
         ElloTextFieldView.styleAsPassword(passwordView)
         passwordView.textFieldDidChange = self.passwordChanged
+
+        currentPasswordField.addTarget(self, action: Selector("currentPasswordChanged"), forControlEvents: .EditingChanged)
     }
 
     private func emailChanged(text: String) {
@@ -136,8 +138,6 @@ public class CredentialSettingsViewController: UITableViewController {
                 })
             }
         }
-
-        currentPasswordField.addTarget(self, action: Selector("passwordChanged"), forControlEvents: .EditingChanged)
     }
 
     private func passwordChanged(text: String) {
@@ -181,7 +181,7 @@ public class CredentialSettingsViewController: UITableViewController {
         return height + (errorLabel.text != "" ? errorLabel.frame.height + 8 : 0)
     }
 
-    public func passwordChanged() {
+    public func currentPasswordChanged() {
         saveButton.enabled = currentPasswordField.text.isValidPassword()
     }
 
