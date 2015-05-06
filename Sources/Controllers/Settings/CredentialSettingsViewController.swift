@@ -219,6 +219,7 @@ public class CredentialSettingsViewController: UITableViewController {
         usernameView.clearState()
         emailView.clearState()
         passwordView.clearState()
+        currentPasswordChanged()
         updateView()
     }
 
