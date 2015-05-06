@@ -26,6 +26,7 @@ public class SettingsContainerViewController: BaseElloViewController {
     @IBOutlet weak public var containerView: UIView!
     @IBOutlet weak var navigationBarTopConstraint: NSLayoutConstraint!
     public var navBarsVisible: Bool = true
+    private var settingsViewController: SettingsViewController?
 
     func showNavBars() {
         navigationBarTopConstraint.constant = 0
@@ -40,6 +41,7 @@ public class SettingsContainerViewController: BaseElloViewController {
     public override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "SettingsContainerSegue" {
             let settings = segue.destinationViewController as! SettingsViewController
+            settingsViewController = settings
             if navBarsVisible {
                 showNavBars()
             }
@@ -50,6 +52,10 @@ public class SettingsContainerViewController: BaseElloViewController {
             settings.currentUser = currentUser
             settings.scrollLogic.isShowing = navBarsVisible
         }
+    }
+
+    override func didSetCurrentUser() {
+        settingsViewController?.currentUser = currentUser
     }
 }
 
