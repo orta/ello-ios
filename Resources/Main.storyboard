@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jJZ-zI-fFG">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7703" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jJZ-zI-fFG">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6711"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="AtlasTypewriterRegular.otf">
+            <string>AtlasTypewriter-Regular</string>
+        </mutableArray>
+    </customFonts>
     <scenes>
         <!--Ello Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
@@ -123,9 +128,9 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yZW-gK-AYq" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3289" y="62"/>
+            <point key="canvasLocation" x="2407" y="389"/>
         </scene>
-        <!--Landing View Controller-->
+        <!--App View Controller-->
         <scene sceneID="YOJ-27-8ul">
             <objects>
                 <viewController storyboardIdentifier="AppViewController" id="jJZ-zI-fFG" customClass="AppViewController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
@@ -148,7 +153,7 @@
                                         </constraints>
                                     </imageView>
                                 </subviews>
-                                <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="oHS-RL-ubg" firstAttribute="top" secondItem="bvm-6v-S7r" secondAttribute="top" constant="176" id="PZj-Ab-6hR"/>
                                     <constraint firstAttribute="centerX" secondItem="oHS-RL-ubg" secondAttribute="centerX" id="fbE-OP-dvp"/>
@@ -157,9 +162,13 @@
                                     <outlet property="delegate" destination="jJZ-zI-fFG" id="39U-Kc-gZl"/>
                                 </connections>
                             </scrollView>
-                            <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="war-Oo-BBs" customClass="ElloButton" customModule="Ello" customModuleProvider="target">
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Social Revolution." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uu0-hE-zse">
+                                <rect key="frame" x="113" y="363" width="352" height="17"/>
+                                <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="14"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="war-Oo-BBs" customClass="LightElloButton" customModule="Ello" customModuleProvider="target">
                                 <rect key="frame" x="113" y="490" width="374" height="60"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="374" id="bWh-Iy-OGp"/>
                                     <constraint firstAttribute="height" constant="60" id="nzB-YX-5wq"/>
@@ -173,7 +182,7 @@
                                     <action selector="signInTapped:" destination="jJZ-zI-fFG" eventType="touchUpInside" id="HW1-xd-aWe"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qIL-al-gUD" customClass="LightElloButton" customModule="Ello" customModuleProvider="target">
+                            <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qIL-al-gUD" customClass="ElloButton" customModule="Ello" customModuleProvider="target">
                                 <rect key="frame" x="113" y="400" width="374" height="60"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -190,17 +199,19 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.14901960784313725" green="0.14901960784313725" blue="0.14901960784313725" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="war-Oo-BBs" secondAttribute="trailing" priority="999" constant="20" placeholder="YES" id="9vj-pZ-JXy"/>
                             <constraint firstItem="war-Oo-BBs" firstAttribute="top" secondItem="qIL-al-gUD" secondAttribute="bottom" constant="30" id="D4l-jr-R0c"/>
                             <constraint firstAttribute="bottom" secondItem="bvm-6v-S7r" secondAttribute="bottom" id="GPR-AZ-w8e"/>
                             <constraint firstAttribute="trailing" secondItem="bvm-6v-S7r" secondAttribute="trailing" id="Qhe-tE-OXT"/>
+                            <constraint firstItem="qIL-al-gUD" firstAttribute="leading" secondItem="Uu0-hE-zse" secondAttribute="leading" id="SrH-Gi-7g1"/>
                             <constraint firstItem="bvm-6v-S7r" firstAttribute="top" secondItem="apv-Ip-wbz" secondAttribute="top" id="W8Y-SS-qld"/>
                             <constraint firstItem="war-Oo-BBs" firstAttribute="leading" secondItem="apv-Ip-wbz" secondAttribute="leading" priority="999" constant="20" id="csZ-tW-ldu"/>
                             <constraint firstAttribute="centerX" secondItem="war-Oo-BBs" secondAttribute="centerX" id="fdB-ve-9FO"/>
                             <constraint firstAttribute="bottom" secondItem="war-Oo-BBs" secondAttribute="bottom" constant="50" id="h3K-f5-9ZY"/>
                             <constraint firstAttribute="centerX" secondItem="qIL-al-gUD" secondAttribute="centerX" id="kAo-1W-Ufk"/>
+                            <constraint firstItem="qIL-al-gUD" firstAttribute="top" secondItem="Uu0-hE-zse" secondAttribute="bottom" constant="20" id="sQ9-hO-bXa"/>
                             <constraint firstItem="bvm-6v-S7r" firstAttribute="leading" secondItem="apv-Ip-wbz" secondAttribute="leading" id="wQW-3Z-AOj"/>
                             <constraint firstAttribute="trailing" secondItem="qIL-al-gUD" secondAttribute="trailing" priority="999" constant="20" id="wl7-9j-fcT"/>
                             <constraint firstItem="qIL-al-gUD" firstAttribute="leading" secondItem="apv-Ip-wbz" secondAttribute="leading" priority="999" constant="20" id="ycK-Vw-ez5"/>
@@ -212,6 +223,7 @@
                         <outlet property="logoView" destination="oHS-RL-ubg" id="8hG-UY-axZ"/>
                         <outlet property="scrollView" destination="bvm-6v-S7r" id="FYi-8e-de2"/>
                         <outlet property="signInButton" destination="war-Oo-BBs" id="YNK-dV-vhB"/>
+                        <outlet property="socialRevolution" destination="Uu0-hE-zse" id="ojA-A4-Az5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jjg-AH-34k" userLabel="First Responder" sceneMemberID="firstResponder"/>
