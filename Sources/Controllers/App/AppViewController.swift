@@ -26,11 +26,18 @@ public class AppViewController: BaseElloViewController {
     var visibleViewController: UIViewController?
     private var userLoggedOutObserver: NotificationObserver?
     private var systemLoggedOutObserver: NotificationObserver?
+    private var receivedPushNotificationObserver: NotificationObserver?
+
+    private var pushPayload: PushPayload?
+
+    public required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setupNotificationObservers()
+    }
 
     override public func viewDidLoad() {
         super.viewDidLoad()
         setupStyles()
-        setupNotificationObservers()
     }
 
     deinit {
@@ -111,11 +118,13 @@ public class AppViewController: BaseElloViewController {
     private func setupNotificationObservers() {
         userLoggedOutObserver = NotificationObserver(notification: AuthenticationNotifications.userLoggedOut, block: userLoggedOut)
         systemLoggedOutObserver = NotificationObserver(notification: AuthenticationNotifications.systemLoggedOut, block: systemLoggedOut)
+        receivedPushNotificationObserver = NotificationObserver(notification: PushNotificationNotifications.interactedWithPushNotification, block: receivedPushNotification)
     }
 
     private func removeNotificationObservers() {
         userLoggedOutObserver?.removeObserver()
         systemLoggedOutObserver?.removeObserver()
+        receivedPushNotificationObserver?.removeObserver()
     }
 
 }
@@ -141,6 +150,11 @@ extension AppViewController {
 
         var vc = ElloTabBarController.instantiateFromStoryboard()
         vc.setProfileData(user, responseConfig: responseConfig)
+        if let payload = pushPayload {
+            vc.selectedTab = .Notifications
+            pushPayload = .None
+        }
+
         swapViewController(vc) {
             if let alert = PushNotificationController.sharedController.requestPushAccessIfNeeded() {
                 vc.presentViewController(alert, animated: true, completion: .None)
@@ -218,15 +232,12 @@ extension AppViewController {
 
 // MARK: Logout events
 extension AppViewController {
-
-    @objc
     func userLoggedOut() {
         let authToken = AuthToken()
         authToken.reset()
         removeViewController()
     }
 
-    @objc
     func systemLoggedOut() {
         let authToken = AuthToken()
         authToken.reset()
@@ -241,7 +252,17 @@ extension AppViewController {
             self.presentViewController(alertController, animated: true, completion: nil)
         }
     }
+}
 
+// MARK: Push Notification Handling
+extension AppViewController {
+    func receivedPushNotification(payload: PushPayload) {
+        if let vc = self.visibleViewController as? ElloTabBarController {
+            vc.selectedTab = .Notifications
+        } else {
+            self.pushPayload = payload
+        }
+    }
 }
 
 
