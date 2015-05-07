@@ -32,7 +32,7 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         super.viewDidLoad()
         setupNavigationBar()
         streamViewController.streamKind = .PostDetail(postParam: postParam)
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = .whiteColor()
     }
 
     // used to provide StreamableViewController access to the container it then

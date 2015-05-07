@@ -71,7 +71,6 @@ public class StreamViewController: BaseElloViewController {
 
     public var streamKind: StreamKind = StreamKind.Unknown {
         didSet {
-            println("setter = \(streamKind.name)")
             dataSource.streamKind = streamKind
             setupCollectionViewLayout()
         }

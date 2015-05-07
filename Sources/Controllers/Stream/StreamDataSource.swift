@@ -55,7 +55,6 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         profileHeaderSizeCalculator: ProfileHeaderCellSizeCalculator,
         imageSizeCalculator: StreamImageCellSizeCalculator)
     {
-        println("StreamDataSource init() streamKind = \(streamKind.name)")
         self.streamKind = streamKind
         self.textSizeCalculator = textSizeCalculator
         self.notificationSizeCalculator = notificationSizeCalculator
