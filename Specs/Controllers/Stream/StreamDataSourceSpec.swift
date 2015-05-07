@@ -16,6 +16,14 @@ public class FakeCollectionView: UICollectionView {
     public override func insertItemsAtIndexPaths(indexPaths: [AnyObject]) {
         // noop
     }
+
+    public override func deleteItemsAtIndexPaths(indexPaths: [AnyObject]) {
+        // noop
+    }
+
+    public override func reloadItemsAtIndexPaths(indexPaths: [AnyObject]) {
+        // noop
+    }
 }
 
 class StreamDataSourceSpec: QuickSpec {
@@ -331,7 +339,7 @@ class StreamDataSourceSpec: QuickSpec {
                             multiColumnCellHeight: StreamCreateCommentCell.Size.Height,
                             isFullWidth: true)
                         ]
-                        let commentCellItems = parser.parse([Comment.stub(["postId": "456"])], streamKind: .Friend)
+                        let commentCellItems = parser.parse([Comment.stub(["postId": "456", "id" : "111"])], streamKind: .Friend)
                         var cellItems = postCellItems
                         if commentsVisible {
                             cellItems = cellItems + commentButtonCellItem + commentCellItems
@@ -358,35 +366,161 @@ class StreamDataSourceSpec: QuickSpec {
                             subject.modifyItems(Comment.stub(["id": "new_comment", "postId": "456"]), change: .Create, collectionView: fakeCollectionView)
                             expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 3
                         }
+                        
+                    }
 
+                    describe(".Delete") {
+
+                        it("removes the deleted comment") {
+                            stubCommentCellItems(commentsVisible: true)
+                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 6
+                            subject.modifyItems(Comment.stub(["id": "111", "postId": "456"]), change: .Delete, collectionView: fakeCollectionView)
+                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 4
+
+                        }
+
+                        it("doesn't remove the deleted comment") {
+                            stubCommentCellItems(commentsVisible: false)
+                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 3
+                            subject.modifyItems(Comment.stub(["id": "111", "postId": "456"]), change: .Delete, collectionView: fakeCollectionView)
+                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 3
+                        }
+                        
                     }
                 }
 
                 context("with posts") {
 
+                    beforeEach {
+                        var posts = [Post]()
+                        for index in 1...5 {
+                            posts.append(Post.stub([
+                                "id": "\(index)",
+                                "commentsCount" : 5,
+                                "content": [TextRegion.stub([:])]
+                                ])
+                            )
+                        }
+
+                        var cellItems = StreamCellItemParser().parse(posts, streamKind: .Friend)
+                        subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
+                            vc.collectionView.dataSource = subject
+                            vc.collectionView.reloadData()
+                        }
+                    }
+
                     describe(".Create") {
 
                         context("StreamKind.Friend") {
 
-                            beforeEach {
-                                subject.streamKind = .Friend
-                                var posts = [Post]()
-                                for index in 1...5 {
-                                    posts.append(Post.stub([
-                                        "id": "\(index)",
-                                        "repostContent": [TextRegion.stub([:])],
-                                        "content": [TextRegion.stub([:])]
-                                        ])
-                                    )
-                                }
-                            }
-
                             it("inserts the new post at 0, 0") {
+                                subject.streamKind = .Friend
+                                expect(count(subject.streamCellItems)) == 15
                                 subject.modifyItems(Post.stub(["id": "new_post"]), change: .Create, collectionView: fakeCollectionView)
                                 expect(subject.postForIndexPath(indexPath0)!.id) == "new_post"
+                                expect(count(subject.streamCellItems)) == 18
+                            }
+                            
+                        }
+
+                        context("StreamKind.Profile") {
+
+                            it("inserts the new post at 1, 0") {
+                                subject.streamKind = .Profile(perPage: 10)
+                                expect(count(subject.streamCellItems)) == 15
+                                subject.modifyItems(Post.stub(["id": "new_post"]), change: .Create, collectionView: fakeCollectionView)
+                                expect(subject.postForIndexPath(indexPath0)!.id) == "1"
+                                expect(subject.postForIndexPath(NSIndexPath(forItem: 1, inSection: 0))!.id) == "new_post"
+                                expect(count(subject.streamCellItems)) == 18
+                            }
+                            
+                        }
+
+                        context("StreamKind.UserStream") {
+
+                            it("inserts the new post at 1, 0") {
+                                subject.currentUser = User.stub(["id" : "user-id-here"])
+                                subject.streamKind = .UserStream(userParam: "user-id-here")
+
+                                expect(count(subject.streamCellItems)) == 15
+
+                                subject.modifyItems(Post.stub(["id": "new_post"]), change: .Create, collectionView: fakeCollectionView)
+
+                                expect(subject.postForIndexPath(indexPath0)!.id) == "1"
+                                expect(subject.postForIndexPath(NSIndexPath(forItem: 1, inSection: 0))!.id) == "new_post"
+                                expect(count(subject.streamCellItems)) == 18
                             }
 
+                            it("does not insert a post in other user's profiles") {
+                                subject.currentUser = User.stub(["id" : "not-current-user-id-here"])
+                                subject.streamKind = .UserStream(userParam: "user-id-here")
+
+                                expect(count(subject.streamCellItems)) == 15
+
+                                subject.modifyItems(Post.stub(["id": "new_post"]), change: .Create, collectionView: fakeCollectionView)
+
+                                expect(count(subject.streamCellItems)) == 15
+                            }
                         }
+
+                        context("StreamKind.Noise") {
+
+                            it("does not insert a post") {
+                                subject.streamKind = .Noise
+
+                                expect(count(subject.streamCellItems)) == 15
+
+                                subject.modifyItems(Post.stub(["id": "new_post"]), change: .Create, collectionView: fakeCollectionView)
+                                
+                                expect(count(subject.streamCellItems)) == 15
+                            }
+                        }
+                    }
+
+                    describe(".Delete") {
+
+                        beforeEach {
+                            subject.streamKind = .Friend
+                        }
+
+                        it("removes the deleted post") {
+
+                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 15
+                            subject.modifyItems(Post.stub(["id": "1"]), change: .Delete, collectionView: fakeCollectionView)
+                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 12
+
+                        }
+
+                        it("doesn't remove the deleted comment") {
+                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 15
+                            subject.modifyItems(Post.stub(["id": "not-present"]), change: .Delete, collectionView: fakeCollectionView)
+                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 15
+                        }
+                        
+                    }
+
+                    describe(".Update") {
+
+                        beforeEach {
+                            subject.streamKind = .Friend
+                        }
+
+                        it("updates the updated post") {
+                            expect(subject.postForIndexPath(NSIndexPath(forItem: 3, inSection: 0))!.commentsCount) == 5
+                            subject.modifyItems(Post.stub(["id": "2", "commentsCount" : 9]), change: .Update, collectionView: fakeCollectionView)
+                            expect(subject.postForIndexPath(NSIndexPath(forItem: 3, inSection: 0))!.commentsCount) == 9
+
+                        }
+
+                        it("doesn't update the updated post") {
+
+                            subject.modifyItems(Post.stub(["id": "not-present", "commentsCount" : 88]), change: .Update, collectionView: fakeCollectionView)
+
+                            for (index, item) in enumerate(subject.streamCellItems) {
+                                expect((item.jsonable as! Post).commentsCount) == 5
+                            }
+                        }
+                        
                     }
 
                 }
