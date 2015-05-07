@@ -21,7 +21,7 @@ pod 'TimeAgoInWords', '~> 0.1.0'
 pod 'YapDatabase', git: 'https://github.com/ello/YapDatabase.git'
 pod 'LUKeychainAccess', '~> 1.2.4'
 
-pod 'NewRelicAgent', '~> 4.186'
+pod 'NewRelicAgent', '~> 5.0.1'
 
 # swift pods
 pod 'Alamofire', '~> 1.2.0'
