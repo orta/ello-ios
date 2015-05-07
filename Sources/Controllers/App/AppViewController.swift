@@ -134,12 +134,14 @@ public class AppViewController: BaseElloViewController {
 extension AppViewController {
 
     public func showJoinScreen() {
+        pushPayload = .None
         let joinController = JoinViewController()
         joinController.parentAppController = self
         swapViewController(joinController)
     }
 
     public func showSignInScreen() {
+        pushPayload = .None
         let signInController = SignInViewController()
         signInController.parentAppController = self
         swapViewController(signInController)
