@@ -17,6 +17,7 @@ public class StreamImageCell: StreamRegionableCell {
 
     @IBOutlet weak var imageView: FLAnimatedImageView!
     @IBOutlet weak var imageButton: UIButton!
+    @IBOutlet weak var imageSizeWarning: UIView!
     @IBOutlet weak var errorLabel: ElloErrorLabel!
     @IBOutlet weak var circle:PulsingCircle!
     @IBOutlet weak var imageLeftContraint: NSLayoutConstraint!
@@ -24,7 +25,12 @@ public class StreamImageCell: StreamRegionableCell {
     @IBOutlet weak var leadingConstraint:NSLayoutConstraint!
 
     weak var delegate: StreamImageCellDelegate?
+    var presentedImageUrl:NSURL?
     var serverProvidedAspectRatio:CGFloat?
+    public var showImageSizeWarning: Bool {
+        get { return !imageSizeWarning.hidden }
+        set { imageSizeWarning.hidden = !newValue }
+    }
     private let defaultAspectRatio:CGFloat = 4.0/3.0
     private var aspectRatio:CGFloat = 4.0/3.0
 
@@ -79,6 +85,14 @@ public class StreamImageCell: StreamRegionableCell {
 
             }
         })
+    }
+
+    override public func prepareForReuse() {
+        super.prepareForReuse()
+
+        self.imageView.image = nil
+        self.presentedImageUrl = nil
+        self.showImageSizeWarning = false
     }
 
     @IBAction func imageTapped(sender: UIButton) {

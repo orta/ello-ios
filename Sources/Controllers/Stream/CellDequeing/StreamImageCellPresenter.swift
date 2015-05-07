@@ -11,6 +11,16 @@ import Foundation
 public struct StreamImageCellPresenter {
     private static let padding: CGFloat = 15
 
+    static func preventImageStretching(cell: StreamImageCell, attachmentWidth: Int?, columnWidth: CGFloat, padding: CGFloat = 0) {
+        if let attachmentWidth = attachmentWidth {
+            let width = CGFloat(attachmentWidth)
+            if width < columnWidth - padding * 2 {
+                cell.imageLeftContraint.constant = padding
+                cell.imageRightConstraint.constant = columnWidth - width - padding
+            }
+        }
+    }
+
     static func configure(
         cell:UICollectionViewCell,
         streamCellItem:StreamCellItem,
@@ -19,44 +29,45 @@ public struct StreamImageCellPresenter {
         currentUser: User?)
     {
         if let cell = cell as? StreamImageCell {
-            if let photoData = streamCellItem.data as? ImageRegion {
+            if let imageRegion = streamCellItem.data as? ImageRegion {
                 cell.imageLeftContraint.constant = 0
                 cell.imageRightConstraint.constant = 0
 
-                var photoToLoad: NSURL?
-                if let asset = photoData.asset where asset.isGif && (streamKind.supportsLargeImages || !asset.isLargeGif) {
-                    photoToLoad = asset.optimized?.url
-                }
-                else if streamKind.isGridLayout {
-                    photoToLoad = photoData.asset?.gridLayoutAttachment?.url
-
-                    var screenWidth = (UIScreen.screenWidth() - 10.0) / 2
-                    if let assetWidth = photoData.asset?.gridLayoutAttachment?.width {
-                        let width = CGFloat(assetWidth)
-                        if width < screenWidth {
-                            cell.imageRightConstraint.constant = screenWidth - width
-                        }
+                var attachmentToLoad: Attachment?
+                var imageToLoad: NSURL?
+                if let asset = imageRegion.asset where asset.isGif {
+                    if streamKind.supportsLargeImages || !asset.isLargeGif {
+                        attachmentToLoad = asset.optimized
+                        imageToLoad = asset.optimized?.url
                     }
+                    else {
+                        cell.presentedImageUrl = asset.optimized?.url
+                        cell.showImageSizeWarning = true
+                    }
+                }
+
+                let columnWidth: CGFloat
+                if streamKind.isGridLayout {
+                    attachmentToLoad = attachmentToLoad ?? imageRegion.asset?.gridLayoutAttachment
+
+                    let innerMargin = CGFloat(10)
+                    columnWidth = (UIScreen.screenWidth() - innerMargin) / 2
                 }
                 else {
-                    photoToLoad = photoData.asset?.oneColumnAttachment?.url
+                    attachmentToLoad = attachmentToLoad ?? imageRegion.asset?.oneColumnAttachment
 
-                    var screenWidth = UIScreen.screenWidth()
-                    if let assetWidth = photoData.asset?.oneColumnAttachment?.width {
-                        let width = CGFloat(assetWidth)
-                        if width < (screenWidth - padding * 2) {
-                            cell.imageLeftContraint.constant = padding
-                            cell.imageRightConstraint.constant = screenWidth - width - padding
-                        }
-                    }
+                    columnWidth = UIScreen.screenWidth()
                 }
 
-                if let photoURL = photoToLoad {
-                    cell.serverProvidedAspectRatio = StreamImageCellSizeCalculator.aspectRatioForImageRegion(photoData)
-                    cell.setImageURL(photoURL)
+                imageToLoad = imageToLoad ?? attachmentToLoad?.url
+                preventImageStretching(cell, attachmentWidth: attachmentToLoad?.width, columnWidth: columnWidth)
+
+                if let imageURL = imageToLoad {
+                    cell.serverProvidedAspectRatio = StreamImageCellSizeCalculator.aspectRatioForImageRegion(imageRegion)
+                    cell.setImageURL(imageURL)
                 }
-                else if let photoURL = photoData.url {
-                    cell.setImageURL(photoURL)
+                else if let imageURL = imageRegion.url {
+                    cell.setImageURL(imageURL)
                 }
                 cell.hideBorder()
                 // Repost specifics

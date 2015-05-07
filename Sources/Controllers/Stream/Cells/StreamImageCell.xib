@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="AtlasTypewriterRegular.otf">
+            <string>AtlasTypewriter-Regular</string>
+        </mutableArray>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -35,6 +40,23 @@
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Rk-CG-ls1" userLabel="Image Size Warning">
+                        <rect key="frame" x="0.0" y="67" width="587" height="44"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Large image size. Tap to view." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EYs-ax-pVm">
+                                <rect key="frame" x="124" y="13" width="338" height="17"/>
+                                <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.75" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="centerY" secondItem="EYs-ax-pVm" secondAttribute="centerY" constant="0.5" id="9ig-bm-nU4"/>
+                            <constraint firstAttribute="height" constant="44" id="eBG-MP-4xy"/>
+                            <constraint firstAttribute="centerX" secondItem="EYs-ax-pVm" secondAttribute="centerX" constant="0.5" id="qLN-gf-mpQ"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
@@ -46,10 +68,13 @@
                 <constraint firstAttribute="trailing" secondItem="Et8-CY-fvV" secondAttribute="trailing" constant="15" id="Lwl-qa-J46" userLabel="ErrorLabel - Right"/>
                 <constraint firstItem="cba-zi-ctG" firstAttribute="top" secondItem="miB-hg-eZF" secondAttribute="top" id="NiB-iX-BJq" userLabel="imageButton Top"/>
                 <constraint firstAttribute="bottom" secondItem="gia-lK-VuN" secondAttribute="bottom" constant="10" id="Oan-UI-8ly" userLabel="imageView Bottom"/>
+                <constraint firstItem="8Rk-CG-ls1" firstAttribute="bottom" secondItem="gia-lK-VuN" secondAttribute="bottom" constant="2" id="QLu-Zp-9Kr"/>
                 <constraint firstAttribute="centerY" secondItem="Et8-CY-fvV" secondAttribute="centerY" id="RP1-WU-CpR" userLabel="ErrorLabel - Vert Center"/>
                 <constraint firstItem="gia-lK-VuN" firstAttribute="leading" secondItem="miB-hg-eZF" secondAttribute="leading" id="fgY-B3-cIH" userLabel="imageView Left"/>
                 <constraint firstAttribute="trailing" secondItem="cba-zi-ctG" secondAttribute="trailing" id="hZc-Jx-yHS" userLabel="imageButton Right"/>
                 <constraint firstAttribute="trailing" secondItem="gia-lK-VuN" secondAttribute="trailing" id="hhW-aX-ev5" userLabel="imageView Right"/>
+                <constraint firstItem="8Rk-CG-ls1" firstAttribute="trailing" secondItem="gia-lK-VuN" secondAttribute="trailing" id="ilt-rD-eQE"/>
+                <constraint firstItem="8Rk-CG-ls1" firstAttribute="leading" secondItem="gia-lK-VuN" secondAttribute="leading" id="j07-jc-Ere"/>
                 <constraint firstItem="gia-lK-VuN" firstAttribute="top" secondItem="miB-hg-eZF" secondAttribute="top" id="k2F-Aw-sEU" userLabel="imageView Top"/>
                 <constraint firstAttribute="bottom" secondItem="cba-zi-ctG" secondAttribute="bottom" constant="10" id="laR-DL-WFc" userLabel="imageButton Bottom"/>
                 <constraint firstItem="oJN-Vf-OgU" firstAttribute="top" secondItem="gia-lK-VuN" secondAttribute="top" id="ldy-Lp-cGf"/>
@@ -63,6 +88,7 @@
                 <outlet property="imageButton" destination="cba-zi-ctG" id="uab-aZ-n0v"/>
                 <outlet property="imageLeftContraint" destination="fgY-B3-cIH" id="2mI-kC-c8s"/>
                 <outlet property="imageRightConstraint" destination="hhW-aX-ev5" id="0Ty-BU-Dbi"/>
+                <outlet property="imageSizeWarning" destination="8Rk-CG-ls1" id="aQI-ju-kUs"/>
                 <outlet property="imageView" destination="gia-lK-VuN" id="hJr-41-RmY"/>
                 <outlet property="leadingConstraint" destination="fgY-B3-cIH" id="vKS-04-wDq"/>
             </connections>

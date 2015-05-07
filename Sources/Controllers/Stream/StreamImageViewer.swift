@@ -30,19 +30,17 @@ StreamImageCellDelegate {
     }
 
     public func imageTapped(imageView: FLAnimatedImageView, cell: UICollectionViewCell) {
-        if presentingController.streamKind.isGridLayout {
-            postTappedForCell(cell)
+        self.imageView = imageView
+        imageView.hidden = true
+        let imageInfo = JTSImageInfo()
+        if let cell = cell as? StreamImageCell,
+            let presentedUrl = cell.presentedImageUrl
+        {
+            imageInfo.imageURL = presentedUrl
         }
         else {
-            showImageView(imageView)
+            imageInfo.image = imageView.image
         }
-    }
-
-    private func showImageView(imageView: FLAnimatedImageView) {
-        self.imageView = imageView
-        self.imageView?.hidden = true
-        let imageInfo = JTSImageInfo()
-        imageInfo.image = imageView.image
         imageInfo.referenceRect = imageView.frame
         imageInfo.referenceView = imageView.superview
         let imageViewer = JTSImageViewController(imageInfo: imageInfo, mode: JTSImageViewControllerMode.Image, backgroundStyle: JTSImageViewControllerBackgroundOptions.None)
@@ -50,18 +48,8 @@ StreamImageCellDelegate {
         imageViewer.showFromViewController(presentingController, transition: transition)
         imageViewer.optionsDelegate = self
         imageViewer.dismissalDelegate = self
-        Tracker.sharedTracker.viewedImage()
-    }
 
-    private func postTappedForCell(cell: UICollectionViewCell) {
-        if let indexPath = collectionView.indexPathForCell(cell) {
-            if let post = dataSource.postForIndexPath(indexPath) {
-                let items = self.dataSource.cellItemsForPost(post)
-                // This is a bit dirty, we should not call a method on a compositionally held
-                // controller's postTappedDelegate. Need to chat about this with the crew.
-                presentingController.postTappedDelegate?.postTapped(post)
-            }
-        }
+        Tracker.sharedTracker.viewedImage()
     }
 
 // MARK: JTSImageViewControllerOptionsDelegate
