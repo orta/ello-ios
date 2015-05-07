@@ -22,8 +22,9 @@ public struct StreamImageCellPresenter {
             if let photoData = streamCellItem.data as? ImageRegion {
                 cell.imageLeftContraint.constant = 0
                 cell.imageRightConstraint.constant = 0
+
                 var photoToLoad: NSURL?
-                if let asset = photoData.asset where asset.isGif && !asset.isLargeGif {
+                if let asset = photoData.asset where asset.isGif && (streamKind.supportsLargeImages || !asset.isLargeGif) {
                     photoToLoad = asset.optimized?.url
                 }
                 else if streamKind.isGridLayout {

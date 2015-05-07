@@ -111,5 +111,12 @@ public enum StreamKind {
         }
     }
 
+    public var supportsLargeImages: Bool {
+        switch self {
+        case .PostDetail: return true
+        default: return false
+        }
+    }
+
     static let streamValues = [Friend, Noise]
 }
