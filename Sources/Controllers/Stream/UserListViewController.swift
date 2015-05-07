@@ -16,8 +16,9 @@ public class UserListViewController: StreamableViewController {
     required public init(endpoint: ElloAPI, title: String) {
         self.endpoint = endpoint
         super.init(nibName: nil, bundle: nil)
+        ElloHUD.showLoadingHudInView(streamViewController.view)
         self.title = title
-        self.view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = .whiteColor()
     }
 
     required public init(coder aDecoder: NSCoder) {
@@ -27,6 +28,8 @@ public class UserListViewController: StreamableViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
+        streamViewController.streamKind = StreamKind.UserList(endpoint: endpoint, title: title ?? "")
+        streamViewController.loadInitialPage()
     }
 
     override func viewForStream() -> UIView {
@@ -34,7 +37,7 @@ public class UserListViewController: StreamableViewController {
     }
 
     override public func didSetCurrentUser() {
-        if self.isViewLoaded() {
+        if isViewLoaded() {
             streamViewController.currentUser = currentUser
         }
         super.didSetCurrentUser()
@@ -43,13 +46,13 @@ public class UserListViewController: StreamableViewController {
     // MARK: Private
 
     private func setupNavigationBar() {
-        navigationBar = ElloNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: ElloNavigationBar.Size.height))
+        navigationBar = ElloNavigationBar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: ElloNavigationBar.Size.height))
         navigationBar.autoresizingMask = .FlexibleBottomMargin | .FlexibleWidth
-        self.view.addSubview(navigationBar)
+        view.addSubview(navigationBar)
         let item = UIBarButtonItem.backChevronWithTarget(self, action: Selector("backTapped:"))
-        self.navigationItem.leftBarButtonItems = [item]
-        self.navigationItem.fixNavBarItemPadding()
-        navigationBar.items = [self.navigationItem]
+        navigationItem.leftBarButtonItems = [item]
+        navigationItem.fixNavBarItemPadding()
+        navigationBar.items = [navigationItem]
     }
 
     override func showNavBars(scrollToBottom : Bool) {
