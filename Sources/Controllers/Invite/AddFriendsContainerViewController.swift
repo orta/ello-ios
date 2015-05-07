@@ -106,12 +106,14 @@ public class AddFriendsContainerViewController: StreamableViewController {
 
         ElloHUD.showLoadingHud()
         InviteService().find(["contacts": hashedEmails], success: { users in
-            self.findFriendsViewController.setUsers(users) // THANKS AGAIN FOR YOUR HELP TONY!
+            let filteredUsers = users.filter { $0.identifiableBy != .None && $0.id != self.currentUser?.id }
+            self.findFriendsViewController.setUsers(filteredUsers)
 
-            let matched = users.map { $0.identifiableBy ?? "" }
+            let matched = filteredUsers.map { $0.identifiableBy ?? "" }
+
             let mixed: [(LocalPerson, User?)] = self.addressBook.localPeople.map {
                 if let index = find(matched, $0.identifier) {
-                    return ($0, users[index])
+                    return ($0, filteredUsers[index])
                 }
                 return ($0, .None)
             }
