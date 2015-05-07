@@ -12,6 +12,7 @@ public let ExperienceUpdatedNotification = TypedNotification<ExperienceUpdate>(n
 
 public let CommentChangedNotification = TypedNotification<(Comment, ContentChange)>(name: "commentChangedNotification")
 public let PostChangedNotification = TypedNotification<(Post, ContentChange)>(name: "postChangedNotification")
+public let RelationshipChangedNotification = TypedNotification<(User)>(name: "relationshipChangedNotification")
 
 // comment created/updated/deleted - changes / creates comment
 // post created/updated/deleted(also deletes comments) - changes / creates post

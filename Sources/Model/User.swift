@@ -22,7 +22,7 @@ public final class User: JSONAble {
     public let username: String
     public let name: String
     public let experimentalFeatures: Bool
-    public let relationshipPriority: RelationshipPriority
+    public var relationshipPriority: RelationshipPriority
     public let postsAdultContent: Bool
     public let viewsAdultContent: Bool
     public let hasCommentingEnabled: Bool

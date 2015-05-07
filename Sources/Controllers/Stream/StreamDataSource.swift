@@ -111,16 +111,11 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         return visibleCellItems.safeValue(indexPath.item)
     }
 
-    // TODO: this should grab comments to hand to post detail
-    // and post detail should handle loading/paging them better
     public func cellItemsForPost(post:Post) -> [StreamCellItem] {
         return visibleCellItems.filter({ (item) -> Bool in
             if let cellPost = item.jsonable as? Post {
                 return post.id == cellPost.id
             }
-//            else if let commentPost = item.jsonable as? Comment {
-//                return post.id == commentPost.postId
-//            }
             else {
                 return false
             }
@@ -293,6 +288,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         // based on change decide to update/remove those items
         switch change {
         case .Create:
+            var indexPath: NSIndexPath?
             // if comment, add new comment cells
             if  let comment = jsonable as? Comment,
                 let parentPost = comment.parentPost
@@ -300,66 +296,35 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                 let indexPaths = self.commentIndexPathsForPost(parentPost)
                 if let first = indexPaths.first {
                     if self.visibleCellItems[first.item].type == .CreateComment {
-                        self.insertUnsizedCellItems(
-                            StreamCellItemParser().parse([comment], streamKind: self.streamKind),
-                            withWidth: 375.0,
-                            startingIndexPath: NSIndexPath(forItem: first.item + 1, inSection: first.section)
-                        )
-                        {
-                            newIndexPaths in
-                            collectionView.insertItemsAtIndexPaths(newIndexPaths)
-                        }
+                        indexPath = NSIndexPath(forItem: first.item + 1, inSection: first.section)
                     }
                 }
             }
 
             // else if post, add new post cells
             else if let post = jsonable as? Post {
-                println("streamKind = \(streamKind.name)")
-                switch streamKind {
-                case .Friend:
-                    self.insertUnsizedCellItems(
-                        StreamCellItemParser().parse([post], streamKind: self.streamKind),
-                        withWidth: 375.0,
-                        startingIndexPath: NSIndexPath(forItem: 0, inSection: 0)
-                        )
-                        {
-                            newIndexPaths in
-                            collectionView.performBatchUpdates({
-                                collectionView.insertItemsAtIndexPaths(newIndexPaths)
-                            }, completion: nil)
 
-                        }
-                case let .Profile:
-                    self.insertUnsizedCellItems(
-                        StreamCellItemParser().parse([post], streamKind: self.streamKind),
-                        withWidth: 375.0,
-                        startingIndexPath: NSIndexPath(forItem: 1, inSection: 0)
-                    )
-                    {
-                        newIndexPaths in
-                        collectionView.performBatchUpdates({
-                            collectionView.insertItemsAtIndexPaths(newIndexPaths)
-                            }, completion: nil)
-                    }
+                switch streamKind {
+                case .Friend: indexPath = NSIndexPath(forItem: 0, inSection: 0)
+                case let .Profile: indexPath = NSIndexPath(forItem: 1, inSection: 0)
                 case let .UserStream(userParam):
                     if currentUser?.id == userParam {
-                        self.insertUnsizedCellItems(
-                            StreamCellItemParser().parse([post], streamKind: self.streamKind),
-                            withWidth: 375.0,
-                            startingIndexPath: NSIndexPath(forItem: 1, inSection: 0)
-                            )
-                            {
-                                newIndexPaths in
-                                collectionView.performBatchUpdates({
-                                    collectionView.insertItemsAtIndexPaths(newIndexPaths)
-                                    }, completion: nil)
-                        }
+                        indexPath = NSIndexPath(forItem: 1, inSection: 0)
                     }
-                default:
-                    println("no op")
+                default: _ = "no op"
                 }
             }
+
+            if let indexPath = indexPath {
+                self.insertUnsizedCellItems(
+                    StreamCellItemParser().parse([jsonable], streamKind: self.streamKind),
+                    withWidth: 375.0,
+                    startingIndexPath: indexPath)
+                    { newIndexPaths in
+                        collectionView.insertItemsAtIndexPaths(newIndexPaths)
+                    }
+            }
+
 
         case .Delete:
             collectionView.deleteItemsAtIndexPaths(removeItemsForJSONAble(jsonable, change: change))
@@ -367,8 +332,31 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
             let (indexPaths, items) = elementsForJSONAble(jsonable, change: change)
             items.map { $0.jsonable = jsonable }
             collectionView.reloadItemsAtIndexPaths(indexPaths)
-        default:
-            println("")
+        default: _ = "noop"
+        }
+    }
+
+    public func modifyUserItems(user: User, collectionView: UICollectionView) {
+        switch user.relationshipPriority {
+        case .Block:
+            collectionView.deleteItemsAtIndexPaths(removeItemsForJSONAble(user, change: .Delete))
+        case .Friend, .Noise, .Inactive:
+            var changedItems = elementsForJSONAble(user, change: .Update)
+            for item in changedItems.1 {
+                if let oldUser = item.jsonable as? User {
+                    oldUser.relationshipPriority = user.relationshipPriority
+                    oldUser.followersCount = user.followersCount
+                    oldUser.followingCount = user.followingCount
+                }
+            }
+            collectionView.reloadItemsAtIndexPaths(changedItems.0)
+        case .Mute:
+            switch  streamKind {
+            case .Notifications:
+                collectionView.deleteItemsAtIndexPaths(removeItemsForJSONAble(user, change: .Delete))
+            default: _ = "noop"
+            }
+        default: _ = "noop"
         }
     }
 
@@ -410,6 +398,28 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                 }
                 else if change == .Delete {
                     if let itemComment = item.jsonable as? Comment where itemComment.postId == post.id {
+                        indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
+                        items.append(item)
+                    }
+                }
+            }
+        }
+        else if let user = jsonable as? User {
+            for (index, item) in enumerate(visibleCellItems) {
+                if let itemUser = item.jsonable as? User where user.id == itemUser.id {
+                    indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
+                    items.append(item)
+                }
+                else if user.relationshipPriority == .Block {
+                    if let itemComment = item.jsonable as? Comment {
+                        if  user.id == itemComment.authorId ||
+                            user.id == itemComment.parentPost?.authorId
+                        {
+                            indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
+                            items.append(item)
+                        }
+                    }
+                    else if let itemPost = item.jsonable as? Post where user.id == itemPost.authorId {
                         indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
                         items.append(item)
                     }

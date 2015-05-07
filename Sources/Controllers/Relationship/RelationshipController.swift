@@ -35,6 +35,12 @@ public class RelationshipController: NSObject, RelationshipDelegate {
                 (data, responseConfig) in
                 if let relationship = data as? Relationship {
                     complete(status: .Success, relationship: relationship)
+                    if let owner = relationship.owner {
+                        postNotification(RelationshipChangedNotification, owner)
+                    }
+                    if let subject = relationship.subject {
+                        postNotification(RelationshipChangedNotification, subject)
+                    }
                 }
                 else {
                     complete(status: .Success, relationship: nil)

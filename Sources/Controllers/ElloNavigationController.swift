@@ -15,6 +15,7 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
     var interactionController: UIPercentDrivenInteractiveTransition?
     var externalWebObserver: NotificationObserver?
     var postChangedNotification:NotificationObserver?
+    var relationshipChangedNotification:NotificationObserver?
     let externalWebController: UINavigationController = KINWebBrowserViewController.navigationControllerWithWebBrowser()
     var rootViewControllerName : String?
     public var currentUser : User? {
@@ -89,8 +90,27 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
                     }
                 }
                 self.setViewControllers(keepers, animated: true)
+            default: _ = "noop"
+            }
+        }
+
+        relationshipChangedNotification = NotificationObserver(notification: RelationshipChangedNotification) { user in
+            switch user.relationshipPriority {
+            case .Block:
+                var keepers = [AnyObject]()
+                for controller in self.childViewControllers {
+                    if let userStreamVC = controller as? ProfileViewController {
+                        if let userId = userStreamVC.user?.id where userId != user.id {
+                            keepers.append(controller)
+                        }
+                    }
+                    else {
+                        keepers.append(controller)
+                    }
+                }
+                self.setViewControllers(keepers, animated: true)
             default:
-                println("do nothing")
+                _ = "noop"
             }
         }
     }

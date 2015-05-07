@@ -80,6 +80,7 @@ public class StreamViewController: BaseElloViewController {
     var relayoutNotification:NotificationObserver?
     var commentChangedNotification:NotificationObserver?
     var postChangedNotification:NotificationObserver?
+    var relationshipChangedNotification: NotificationObserver?
 
     weak var createCommentDelegate : CreateCommentDelegate?
     weak var postTappedDelegate : PostTappedDelegate?
@@ -298,6 +299,9 @@ public class StreamViewController: BaseElloViewController {
             }
         }
 
+        relationshipChangedNotification = NotificationObserver(notification: RelationshipChangedNotification) { user in
+            self.dataSource.modifyUserItems(user, collectionView: self.collectionView)
+        }
     }
 
     private func removeNotificationObservers() {
@@ -317,6 +321,9 @@ public class StreamViewController: BaseElloViewController {
 
         postChangedNotification?.removeObserver()
         postChangedNotification = nil
+
+        relationshipChangedNotification?.removeObserver()
+        relationshipChangedNotification = nil
     }
 
     private func updateCellHeight(indexPath:NSIndexPath, height:CGFloat) {
