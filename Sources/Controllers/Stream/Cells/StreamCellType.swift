@@ -55,7 +55,7 @@ public enum StreamCellType {
 
     public var selectable: Bool {
         switch self {
-        case .Header, .CreateComment, .Toggle, .UserListItem:
+        case .Header, .CreateComment, .Toggle, .UserListItem, .Notification:
              return true
         default: return false
         }

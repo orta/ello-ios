@@ -80,17 +80,35 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         updateFilteredItems()
     }
 
+    public func userForIndexPath(indexPath: NSIndexPath) -> User? {
+        let item = visibleStreamCellItem(at: indexPath)
+
+        if let authorable = item?.jsonable as? Authorable {
+            return authorable.author
+        }
+        return item?.jsonable as? User
+    }
+
     public func postForIndexPath(indexPath: NSIndexPath) -> Post? {
-        return visibleStreamCellItem(at: indexPath)?.jsonable as? Post
+        let item = visibleStreamCellItem(at: indexPath)
+
+        if let notification = item?.jsonable as? Notification {
+            if let comment = notification.activity.subject as? Comment {
+                return comment.parentPost
+            }
+            return notification.activity.subject as? Post
+        }
+        return item?.jsonable as? Post
     }
 
     public func commentForIndexPath(indexPath: NSIndexPath) -> Comment? {
-        return visibleStreamCellItem(at: indexPath)?.jsonable as? Comment
+        let item = visibleStreamCellItem(at: indexPath)
+        return item?.jsonable as? Comment
     }
 
     public func visibleStreamCellItem(at indexPath: NSIndexPath) -> StreamCellItem? {
         if !isValidIndexPath(indexPath) { return nil }
-        return visibleCellItems[indexPath.item]
+        return visibleCellItems.safeValue(indexPath.item)
     }
 
     // TODO: this should grab comments to hand to post detail
@@ -107,18 +125,6 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                 return false
             }
         })
-    }
-
-    public func userForIndexPath(indexPath: NSIndexPath) -> User? {
-        if !isValidIndexPath(indexPath) { return nil }
-
-        if let user = visibleCellItems[indexPath.item].jsonable as? User {
-            return user
-        }
-        else if let authorable = visibleCellItems[indexPath.item].jsonable as? Authorable {
-            return authorable.author
-        }
-        return nil
     }
 
     // this includes the `createComment` cell, since it contains a comment item
