@@ -48,18 +48,18 @@ public class LightElloButton: ElloButton {
 
     override public var enabled: Bool {
         didSet {
-            self.backgroundColor = enabled ? UIColor.greyA() : UIColor.greyA()
+            self.backgroundColor = UIColor.greyA()
         }
     }
-   
+
     override public func sharedSetup() {
         self.titleLabel?.font = UIFont.typewriterFont(14.0)
         self.titleLabel?.numberOfLines = 1
         self.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
         self.setTitleColor(UIColor.blackColor(), forState: UIControlState.Disabled)
-        self.backgroundColor = enabled ? UIColor.greyA() : UIColor.greyA()
+        self.backgroundColor = UIColor.greyA()
     }
-    
+
 }
 
 public class WhiteElloButton: LightElloButton {
@@ -67,7 +67,7 @@ public class WhiteElloButton: LightElloButton {
     required public init(frame: CGRect) {
         super.init(frame: frame)
     }
-    
+
     required public init(coder: NSCoder) {
         super.init(coder: coder)
     }
