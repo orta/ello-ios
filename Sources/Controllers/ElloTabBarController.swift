@@ -39,7 +39,6 @@ public class ElloTabBarController: UIViewController, HasAppController {
         }
         didSet {
             updateVisibleViewController()
-            tabBar.selectedItem = selectedViewController.tabBarItem
         }
     }
 
@@ -55,25 +54,13 @@ public class ElloTabBarController: UIViewController, HasAppController {
     var currentUser : User?
     var profileResponseConfig: ResponseConfig?
 
-    private var userLoggedOutObserver: NotificationObserver?
-    private var systemLoggedOutObserver: NotificationObserver?
-    private var receivedPushNotificationObserver: NotificationObserver?
-
     required public init(coder aDecoder: NSCoder) {
         _tabBarHidden = false
         tabBar = ElloTabBar()
 
         super.init(coder: aDecoder)
 
-        receivedPushNotificationObserver = NotificationObserver(notification: PushNotificationNotifications.interactedWithPushNotification) { _ in
-            self.selectedTab = .Notifications
-        }
     }
-
-    deinit {
-        receivedPushNotificationObserver?.removeObserver()
-    }
-
 }
 
 public extension ElloTabBarController {
@@ -87,13 +74,11 @@ public extension ElloTabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(tabBar)
-        showViewController(childViewControllers[ElloTab.Stream.rawValue] as! UIViewController)
         tabBar.delegate = self
+        modalTransitionStyle = .CrossDissolve
 
         updateTabBarItems()
-        selectedTab = .Stream
-        modalTransitionStyle = .CrossDissolve
-        tabBar.selectedItem = selectedViewController.tabBarItem
+        updateVisibleViewController()
     }
 
     override func viewDidLayoutSubviews() {
@@ -184,7 +169,11 @@ private extension ElloTabBarController {
     }
 
     func updateVisibleViewController() {
-        if visibleViewController != selectedViewController {
+        tabBar.selectedItem = selectedViewController.tabBarItem
+        if visibleViewController.parentViewController != self {
+            showViewController(childViewControllers[selectedTab.rawValue] as! UIViewController)
+        }
+        else if visibleViewController != selectedViewController {
             transitionControllers(visibleViewController, selectedViewController)
         }
     }
