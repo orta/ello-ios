@@ -25,10 +25,11 @@ public class NotificationsViewController: StreamableViewController, Notification
         super.viewDidLoad()
 
         self.screen.delegate = self
-        streamViewController.streamKind = .Notifications
-        streamViewController.loadInitialPage()
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
         scrollLogic.navBarHeight = 44
+        streamViewController.streamKind = .Notifications
+        ElloHUD.showLoadingHudInView(streamViewController.view)
+        streamViewController.loadInitialPage()
     }
 
     override public func viewWillAppear(animated: Bool) {

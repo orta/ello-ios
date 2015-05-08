@@ -16,7 +16,6 @@ public class UserListViewController: StreamableViewController {
     required public init(endpoint: ElloAPI, title: String) {
         self.endpoint = endpoint
         super.init(nibName: nil, bundle: nil)
-        ElloHUD.showLoadingHudInView(streamViewController.view)
         self.title = title
         view.backgroundColor = .whiteColor()
     }
@@ -29,6 +28,7 @@ public class UserListViewController: StreamableViewController {
         super.viewDidLoad()
         setupNavigationBar()
         streamViewController.streamKind = StreamKind.UserList(endpoint: endpoint, title: title ?? "")
+        ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.loadInitialPage()
     }
 
