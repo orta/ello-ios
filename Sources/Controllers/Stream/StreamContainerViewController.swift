@@ -40,10 +40,48 @@ public class StreamContainerViewController: StreamableViewController {
         scrollLogic.prevOffset = (childViewControllers[0] as! StreamViewController).collectionView.contentOffset
     }
 
+    override public func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        updateInsets()
+    }
+
+    private func navBarsVisible() -> Bool {
+        return navigationBarTopConstraint.constant == 0
+    }
+    private func positionNavBar(#visible: Bool, animated: Bool) {
+        let y: CGFloat
+        if visible {
+            y = 0
+        }
+        else {
+            y = navigationBar.frame.height + 1
+        }
+        navigationBarTopConstraint.constant = y
+        animate(animated: animated) {
+            self.navigationBar.frame.origin.y = y
+        }
+    }
+    private func updateInsets() {
+        let topInset: CGFloat
+        let bottomInset: CGFloat
+        if navBarsVisible() {
+            topInset = ElloNavigationBar.Size.height
+            bottomInset = ElloTabBar.Size.height
+        }
+        else {
+            topInset = 0
+            bottomInset = 0
+        }
+        for controller in self.childViewControllers as! [StreamViewController] {
+            controller.contentInset.top = topInset
+            controller.contentInset.bottom = bottomInset
+        }
+    }
+
     override public func showNavBars(scrollToBottom : Bool) {
         super.showNavBars(scrollToBottom)
-        navigationBarTopConstraint.constant = 0
-        self.view.layoutIfNeeded()
+        positionNavBar(visible: true, animated: true)
+        self.updateInsets()
 
         if scrollToBottom {
             for controller in childViewControllers as! [StreamViewController] {
@@ -61,8 +99,8 @@ public class StreamContainerViewController: StreamableViewController {
 
     override public func hideNavBars() {
         super.hideNavBars()
-        navigationBarTopConstraint.constant = navigationBar.frame.height + 1
-        self.view.layoutIfNeeded()
+        positionNavBar(visible: false, animated: true)
+        self.updateInsets()
     }
 
     public class func instantiateFromStoryboard() -> StreamContainerViewController {

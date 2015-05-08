@@ -9,6 +9,9 @@
 import UIKit
 
 public class ElloTabBar: UITabBar {
+    struct Size {
+        static let height = CGFloat(49)
+    }
 
     required public init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

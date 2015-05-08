@@ -84,16 +84,16 @@ public extension ElloTabBarController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
+        positionTabBar()
+        selectedViewController.view.frame = view.bounds
+    }
+
+    private func positionTabBar() {
         var upAmount = CGFloat(0)
         if !tabBarHidden {
             upAmount = tabBar.frame.height
         }
         tabBar.frame = view.bounds.fromBottom().withHeight(tabBar.frame.height).shiftUp(upAmount)
-
-        selectedViewController.view.frame = view.bounds
-        if !tabBarHidden {
-            selectedViewController.view.frame = selectedViewController.view.frame.shrinkUp(tabBar.frame.height)
-        }
     }
 }
 
@@ -113,16 +113,8 @@ public extension ElloTabBarController {
     func setTabBarHidden(hidden: Bool, animated: Bool) {
         _tabBarHidden = hidden
 
-        let animations: ElloEmptyCompletion = {
-            self.view.setNeedsLayout()
-            self.view.layoutIfNeeded()
-        }
-
-        if animated {
-            UIView.animateWithDuration(0.2, animations: animations)
-        }
-        else {
-            animations()
+        animate(animated: animated) {
+            self.positionTabBar()
         }
     }
 }
