@@ -31,7 +31,7 @@ class ElloHUD: NSObject {
 
         let rotate = CABasicAnimation(keyPath: "transform.rotation")
         rotate.fromValue = 0.0
-        rotate.toValue = ((360*M_PI)/180)
+        rotate.toValue = 2 * M_PI
         rotate.duration = 0.35
         rotate.repeatCount = 1_000_000
         elloLogo.layer.addAnimation(rotate, forKey: "10")
