@@ -198,6 +198,7 @@ public class PostbarController: NSObject, PostbarDelegate {
             let service = RePostService()
             service.repost(post: post,
                 success: { repost in
+                    postNotification(PostChangedNotification, (repost, .Create))
                     alertController.contentView = nil
                     alertController.message = NSLocalizedString("Success!", comment: "Successful repost alert")
                     Functional.delay(1) {

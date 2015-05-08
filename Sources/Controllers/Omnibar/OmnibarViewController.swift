@@ -180,7 +180,8 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
     private func emitCommentSuccess(comment: Comment) {
         postNotification(CommentChangedNotification, (comment, .Create))
-        if let post = comment.parentPost {
+        if let post = comment.parentPost, let count = post.commentsCount {
+            post.commentsCount = count + 1
             postNotification(PostChangedNotification, (post, .Update))
         }
         for listener in self.commentSuccessListeners {

@@ -351,11 +351,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
             }
             collectionView.reloadItemsAtIndexPaths(changedItems.0)
         case .Mute:
-            switch  streamKind {
-            case .Notifications:
-                collectionView.deleteItemsAtIndexPaths(removeItemsForJSONAble(user, change: .Delete))
-            default: _ = "noop"
-            }
+            collectionView.deleteItemsAtIndexPaths(removeItemsForJSONAble(user, change: .Delete))
         default: _ = "noop"
         }
     }
@@ -410,18 +406,30 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                     indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
                     items.append(item)
                 }
-                else if user.relationshipPriority == .Block {
-                    if let itemComment = item.jsonable as? Comment {
-                        if  user.id == itemComment.authorId ||
-                            user.id == itemComment.parentPost?.authorId
-                        {
+                else {
+                    switch user.relationshipPriority {
+                    case .Block:
+                        if let itemComment = item.jsonable as? Comment {
+                            if  user.id == itemComment.authorId ||
+                                user.id == itemComment.parentPost?.authorId
+                            {
+                                indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
+                                items.append(item)
+                            }
+                        }
+                        else if let itemPost = item.jsonable as? Post where user.id == itemPost.authorId {
                             indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
                             items.append(item)
                         }
-                    }
-                    else if let itemPost = item.jsonable as? Post where user.id == itemPost.authorId {
-                        indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
-                        items.append(item)
+                    case .Mute:
+                        if streamKind.name == StreamKind.Notifications.name {
+                            if let itemNotification = item.jsonable as? Notification where user.id == itemNotification.author?.id {
+                                indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
+                                items.append(item)
+                            }
+                        }
+                    default:
+                        _ = "noop"
                     }
                 }
             }

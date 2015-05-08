@@ -602,8 +602,25 @@ class StreamDataSourceSpec: QuickSpec {
 
                 describe("muting a user") {
 
-                    it("clears out notifications from that user when on notifications") {
+                    beforeEach {
+                        var streamKind: StreamKind = .Notifications
+                        var user1: User = stub(["id": "user1"])
+                        var post1: Post = stub(["id": "post1", "authorId" : "other-user"])
+                        var activity1: Activity = stub(["id": "activity1", "subject" : user1])
+                        var activity2: Activity = stub(["id": "activity2", "subject" : post1])
+                        let parser = StreamCellItemParser()
+                        let notificationCellItems = parser.parse([activity1, activity2], streamKind: streamKind)
+                        subject.streamKind = streamKind
+                        subject.appendUnsizedCellItems(notificationCellItems, withWidth: webView.frame.width) { cellCount in
+                            vc.collectionView.dataSource = subject
+                            vc.collectionView.reloadData()
+                        }
+                    }
 
+                    it("clears out notifications from that user when on notifications") {
+                        expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 2
+                        subject.modifyUserItems(User.stub(["id": "user1", "relationshipPriority": RelationshipPriority.Mute.rawValue]), collectionView: fakeCollectionView)
+                        expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 1
                     }
 
                     it("does not clear out content from that user when elsewhere") {
