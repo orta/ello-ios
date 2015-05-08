@@ -318,7 +318,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
             if let indexPath = indexPath {
                 self.insertUnsizedCellItems(
                     StreamCellItemParser().parse([jsonable], streamKind: self.streamKind),
-                    withWidth: 375.0,
+                    withWidth: UIScreen.screenWidth(),
                     startingIndexPath: indexPath)
                     { newIndexPaths in
                         collectionView.insertItemsAtIndexPaths(newIndexPaths)
@@ -338,8 +338,6 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     public func modifyUserItems(user: User, collectionView: UICollectionView) {
         switch user.relationshipPriority {
-        case .Block:
-            collectionView.deleteItemsAtIndexPaths(removeItemsForJSONAble(user, change: .Delete))
         case .Friend, .Noise, .Inactive:
             var changedItems = elementsForJSONAble(user, change: .Update)
             for item in changedItems.1 {
@@ -350,7 +348,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                 }
             }
             collectionView.reloadItemsAtIndexPaths(changedItems.0)
-        case .Mute:
+        case .Block, .Mute:
             collectionView.deleteItemsAtIndexPaths(removeItemsForJSONAble(user, change: .Delete))
         default: _ = "noop"
         }
@@ -402,35 +400,38 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         }
         else if let user = jsonable as? User {
             for (index, item) in enumerate(visibleCellItems) {
-                if let itemUser = item.jsonable as? User where user.id == itemUser.id {
-                    indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
-                    items.append(item)
-                }
-                else {
-                    switch user.relationshipPriority {
-                    case .Block:
-                        if let itemComment = item.jsonable as? Comment {
-                            if  user.id == itemComment.authorId ||
-                                user.id == itemComment.parentPost?.authorId
-                            {
-                                indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
-                                items.append(item)
-                            }
-                        }
-                        else if let itemPost = item.jsonable as? Post where user.id == itemPost.authorId {
+                switch user.relationshipPriority {
+                case .Block:
+                    if let itemUser = item.jsonable as? User where user.id == itemUser.id {
+                        indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
+                        items.append(item)
+                    }
+                    else if let itemComment = item.jsonable as? Comment {
+                        if  user.id == itemComment.authorId ||
+                            user.id == itemComment.parentPost?.authorId
+                        {
                             indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
                             items.append(item)
                         }
-                    case .Mute:
-                        if streamKind.name == StreamKind.Notifications.name {
-                            if let itemNotification = item.jsonable as? Notification where user.id == itemNotification.author?.id {
-                                indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
-                                items.append(item)
-                            }
-                        }
-                    default:
-                        _ = "noop"
                     }
+                    else if let itemPost = item.jsonable as? Post where user.id == itemPost.authorId {
+                        indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
+                        items.append(item)
+                    }
+                case .Friend, .Noise, .Inactive:
+                    if let itemUser = item.jsonable as? User where user.id == itemUser.id {
+                        indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
+                        items.append(item)
+                    }
+                case .Mute:
+                    if streamKind.name == StreamKind.Notifications.name {
+                        if let itemNotification = item.jsonable as? Notification where user.id == itemNotification.author?.id {
+                            indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
+                            items.append(item)
+                        }
+                    }
+                default:
+                    _ = "noop"
                 }
             }
         }

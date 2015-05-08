@@ -151,7 +151,7 @@ extension AppViewController {
         Tracker.sharedTracker.identify(user)
 
         var vc = ElloTabBarController.instantiateFromStoryboard()
-        vc.setProfileData(user, responseConfig: responseConfig)
+        vc.setProfileData(user)
         if let payload = pushPayload {
             vc.selectedTab = .Notifications
             pushPayload = .None
