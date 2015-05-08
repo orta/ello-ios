@@ -25,9 +25,9 @@ public enum ElloPostToolBarOption {
         case .Views:
             return imageLabelControl("eye")
         case .Comments:
-            return commentControl()
+            return imageLabelControl("bubble")
         case .Loves:
-            return imageLabelControl("hearts")
+            return imageLabelControl("heartplus")
         case .Repost:
             return imageLabelControl("repost")
         case .Share:
@@ -54,10 +54,6 @@ public enum ElloPostToolBarOption {
         let iconSelected = UIImageView(image: iconSelectedImage)
         let basicIcon = BasicIcon(normalIconView: icon, selectedIconView: iconSelected)
         return ImageLabelControl(icon: basicIcon, title: title(count: count))
-    }
-
-    private func commentControl(count: Int? = nil) -> UIControl {
-        return ImageLabelControl(icon: CommentIcon(), title: title(count: count))
     }
 
     private func title(count: Int? = nil) -> String {
