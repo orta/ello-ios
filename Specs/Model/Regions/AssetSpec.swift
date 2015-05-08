@@ -15,22 +15,22 @@ class AssetSpec: QuickSpec {
     override func spec() {
         context("gifs") {
             it("should return 'true' for 'isGif'") {
-                let attachment: Attachment = stub("type": "image/gif")
-                let asset: Asset = stub("optimized": attachment)
+                let attachment: Attachment = stub(["type": "image/gif"])
+                let asset: Asset = stub(["optimized": attachment])
                 expect(asset.isGif).to(beTrue())
             }
         }
         context("large gifs") {
             it("should return 'true' for 'isLargeGif'") {
-                let attachment: Attachment = stub("size": 2_100_000, "type": "image/gif")
-                let asset: Asset = stub("optimized": attachment)
+                let attachment: Attachment = stub(["size": 2_100_000, "type": "image/gif"])
+                let asset: Asset = stub(["optimized": attachment])
                 expect(asset.isLargeGif).to(beTrue())
             }
         }
         context("small gifs") {
             it("should return 'false' for 'isLargeGif'") {
-                let attachment: Attachment = stub("size": 2_000_000, "type": "image/gif")
-                let asset: Asset = stub("optimized": attachment)
+                let attachment: Attachment = stub(["size": 2_000_000, "type": "image/gif"])
+                let asset: Asset = stub(["optimized": attachment])
                 expect(asset.isGif).to(beTrue())
                 expect(asset.isLargeGif).to(beFalse())
             }
