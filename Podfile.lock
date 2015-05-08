@@ -12,7 +12,7 @@ PODS:
     - CocoaLumberjack/Default
   - FLAnimatedImage (1.0.8)
   - JTSImageViewController (1.5)
-  - Keys (1.0.2)
+  - Keys (1.0.0)
   - KINWebBrowser (1.1.0)
   - LUKeychainAccess (1.2.4)
   - MBProgressHUD (0.9.1)
@@ -45,10 +45,10 @@ PODS:
 DEPENDENCIES:
   - 1PasswordExtension (~> 1.2.0)
   - Alamofire (~> 1.2.0)
-  - FLAnimatedImage (~> 1.0.0)
-  - JTSImageViewController (from `https://github.com/ello/JTSImageViewController.git`)
-  - Keys (from `https://github.com/ashfurrow/empty-podspec.git`)
-  - KINWebBrowser (from `https://github.com/ello/KINWebBrowser.git`)
+  - FLAnimatedImage (from `https://github.com/ello/FLAnimatedImage`)
+  - JTSImageViewController (from `https://github.com/ello/JTSImageViewController`)
+  - Keys (from `Pods/CocoaPodsKeys/`)
+  - KINWebBrowser (from `https://github.com/ello/KINWebBrowser`)
   - LUKeychainAccess (~> 1.2.4)
   - MBProgressHUD (~> 0.9.0)
   - Moya (from `https://github.com/ello/Moya`, branch `cg-hybrid`)
@@ -58,39 +58,40 @@ DEPENDENCIES:
   - Result (~> 0.4.0)
   - SDWebImage (~> 3.7)
   - SSPullToRefresh (~> 1.2)
-  - SVGKit (from `https://github.com/SVGKit/SVGKit`, branch `2.x`)
+  - SVGKit (from `https://github.com/SVGKit/SVGKit`)
   - SwiftyJSON (~> 2.2.0)
   - SwiftyUserDefaults (~> 1.1.0)
   - TimeAgoInWords (~> 0.1.0)
   - WebLinking (~> 0.2.0)
-  - YapDatabase (from `https://github.com/ello/YapDatabase.git`)
+  - YapDatabase (from `https://github.com/ello/YapDatabase`)
 
 EXTERNAL SOURCES:
+  FLAnimatedImage:
+    :git: https://github.com/ello/FLAnimatedImage
   JTSImageViewController:
-    :git: https://github.com/ello/JTSImageViewController.git
+    :git: https://github.com/ello/JTSImageViewController
   Keys:
-    :git: https://github.com/ashfurrow/empty-podspec.git
+    :path: Pods/CocoaPodsKeys/
   KINWebBrowser:
-    :git: https://github.com/ello/KINWebBrowser.git
+    :git: https://github.com/ello/KINWebBrowser
   Moya:
     :branch: cg-hybrid
     :git: https://github.com/ello/Moya
   SVGKit:
-    :branch: 2.x
     :git: https://github.com/SVGKit/SVGKit
   YapDatabase:
-    :git: https://github.com/ello/YapDatabase.git
+    :git: https://github.com/ello/YapDatabase
 
 CHECKOUT OPTIONS:
+  FLAnimatedImage:
+    :commit: 7f1d9a29597b45aef8686da22f33a3634d84c686
+    :git: https://github.com/ello/FLAnimatedImage
   JTSImageViewController:
     :commit: f161d5ad38a6032b84f68ec78e823925bc411850
-    :git: https://github.com/ello/JTSImageViewController.git
-  Keys:
-    :commit: dfc3c5e75dd23e5e9f938f4552eaceec4a8b4b73
-    :git: https://github.com/ashfurrow/empty-podspec.git
+    :git: https://github.com/ello/JTSImageViewController
   KINWebBrowser:
     :commit: c5f49457e7fb7939cf5882c3f310b9b15e340d4e
-    :git: https://github.com/ello/KINWebBrowser.git
+    :git: https://github.com/ello/KINWebBrowser
   Moya:
     :commit: 3199b781225ee5cdd59d6b70fd4c038a80f47f74
     :git: https://github.com/ello/Moya
@@ -99,7 +100,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/SVGKit/SVGKit
   YapDatabase:
     :commit: d76b838c53d5525663fd8bd279829c75ff1bd0ce
-    :git: https://github.com/ello/YapDatabase.git
+    :git: https://github.com/ello/YapDatabase
 
 SPEC CHECKSUMS:
   1PasswordExtension: fcf300204bda5b5c78936dbb937a7d661f1ca796
@@ -108,7 +109,7 @@ SPEC CHECKSUMS:
   CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
   FLAnimatedImage: f9422f796135aff80d8c00b2afc48015bb746e24
   JTSImageViewController: 89ae3c003060c65418fd3224ebbd67acc6046608
-  Keys: 80485232b6d580368f08f1df19ebfc4f0077b66a
+  Keys: 253e4d01f8fe0a795e628b0040257c99f6ab7eab
   KINWebBrowser: 5700a9e2d891ce43f726dd9e04c929312933bb18
   LUKeychainAccess: 6479edb12cf06e11ff3336f796959eedbc58f714
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
@@ -126,4 +127,4 @@ SPEC CHECKSUMS:
   WebLinking: 8e267eed3f7b2d040bf6468681cc1325141ab7fe
   YapDatabase: ca25874766045bca7f4c2632f61067351353ecf3
 
-COCOAPODS: 0.36.4
+COCOAPODS: 0.37.1
