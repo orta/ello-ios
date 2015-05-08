@@ -76,13 +76,13 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
 
     func showNavBars(scrollToBottom : Bool) {
         if let tabBarController = self.elloTabBarController {
-            tabBarController.setTabBarHidden(false, animated: true)
+            tabBarController.setTabBarHidden(false, animated: false)
         }
     }
 
     func hideNavBars() {
         if let tabBarController = self.elloTabBarController {
-            tabBarController.setTabBarHidden(true, animated: true)
+            tabBarController.setTabBarHidden(true, animated: false)
         }
     }
 
