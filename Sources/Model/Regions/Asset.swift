@@ -33,6 +33,14 @@ public final class Asset: JSONAble {
     var isGif: Bool {
         return self.optimized?.type == "image/gif"
     }
+    var isLargeGif: Bool {
+        if isGif {
+            if let size = self.optimized?.size {
+                return size >= 2_097_152
+            }
+        }
+        return false
+    }
 
 	public var oneColumnAttachment: Attachment? {
         return self.hdpi
@@ -43,7 +51,7 @@ public final class Asset: JSONAble {
     }
 
 // MARK: Initialization
-    
+
     public init(id: String)
     {
         self.id = id
@@ -90,7 +98,7 @@ public final class Asset: JSONAble {
         encoder.encodeObject(small, forKey: "small")
         super.encodeWithCoder(encoder)
     }
-    
+
 // MARK: JSONAble
 
     override class public func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {

@@ -61,6 +61,7 @@ class AttachmentSpec: QuickSpec {
                     expect(unArchivedAttachment.type) == "png"
                 }
             }
+
         }
     }
 }

@@ -549,7 +549,14 @@ extension StreamViewController: SSPullToRefreshViewDelegate {
 extension StreamViewController: StreamImageCellDelegate {
 
     public func imageTapped(imageView: FLAnimatedImageView, cell: UICollectionViewCell) {
-        if let imageViewerDelegate = imageViewerDelegate {
+        if streamKind.isGridLayout {
+            if let indexPath = collectionView.indexPathForCell(cell) {
+                if let post = dataSource.postForIndexPath(indexPath) {
+                    postTappedDelegate?.postTapped(post)
+                }
+            }
+        }
+        else if let imageViewerDelegate = imageViewerDelegate {
             imageViewerDelegate.imageTapped(imageView, cell: cell)
         }
     }
