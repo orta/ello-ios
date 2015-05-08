@@ -29,10 +29,10 @@ public final class Asset: JSONAble {
     public var regular: Attachment?
     public var small: Attachment?
     // computed
-    var isGif: Bool {
+    public var isGif: Bool {
         return self.optimized?.type == "image/gif"
     }
-    var isLargeGif: Bool {
+    public var isLargeGif: Bool {
         if isGif {
             if let size = self.optimized?.size {
                 return size >= 2_097_152
