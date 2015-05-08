@@ -11,6 +11,7 @@ public protocol NotificationsScreenDelegate {
     func activatedFilter(filter : String)
 }
 
+import SVGKit
 
 public class NotificationsScreen : UIView {
     private class func filterButton() -> UIButton {
@@ -45,12 +46,12 @@ public class NotificationsScreen : UIView {
         filterBarVisible = true
 
         let filterAllButton = NotificationsScreen.filterButton("All")
-        let filterMiscButton = NotificationsScreen.filterButton("…")
+        let filterMiscButton = NotificationsScreen.filterButton(SVGKImage(named: "dots_normal.svg").UIImage!)
         let filterMentionButton = NotificationsScreen.filterButton("@")
         // no loves yet!
-        // let filterHeartButton = NotificationsScreen.filterButton(UIImage(named: "heart-icon")!)
-        let filterRepostButton = NotificationsScreen.filterButton(UIImage(named: "repost-icon")!)
-        let filterInviteButton = NotificationsScreen.filterButton(UIImage(named: "profile-icon")!)
+        // let filterHeartButton = NotificationsScreen.filterButton(SVGKImage(named: "heartplus_normal.svg").UIImage!)
+        let filterRepostButton = NotificationsScreen.filterButton(SVGKImage(named: "repost_normal.svg").UIImage!)
+        let filterInviteButton = NotificationsScreen.filterButton(SVGKImage(named: "relationships_normal.svg").UIImage!)
 
         streamContainer = UIView()
         super.init(frame: frame)
