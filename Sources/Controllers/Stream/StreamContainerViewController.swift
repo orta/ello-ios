@@ -159,13 +159,4 @@ public class StreamContainerViewController: StreamableViewController {
         let stream = StreamKind.streamValues[sender.selectedSegmentIndex]
         Tracker.sharedTracker.screenAppeared(stream.name)
     }
-
-    // MARK: Comment creation
-
-//    override public func commentCreated(comment: Comment, fromController streamViewController: StreamViewController) {
-//        let newCommentItems = StreamCellItemParser().parse([comment], streamKind: streamViewController.streamKind)
-//        // let the streamViewController insert the new items above the old
-//        // comments, and below the 'create comment' button
-//        streamViewController.insertNewCommentItems(newCommentItems)
-//    }
 }

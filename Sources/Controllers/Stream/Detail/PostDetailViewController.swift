@@ -130,13 +130,4 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
             }
         }
     }
-
-//    override public func commentCreated(comment: Comment, fromController streamViewController: StreamViewController) {
-//        let newCommentItems = StreamCellItemParser().parse([comment], streamKind: streamViewController.streamKind)
-//
-//        let startingIndexPath = NSIndexPath(forRow: startOfComments, inSection: 0)
-//        streamViewController.insertUnsizedCellItems(newCommentItems, startingIndexPath: startingIndexPath)
-//        // load comments again?
-//    }
-
 }

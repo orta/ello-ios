@@ -180,7 +180,7 @@ extension ElloNavigationController: UINavigationControllerDelegate {
 
     public func navigationController(navigationController: UINavigationController, didShowViewController viewController: UIViewController, animated: Bool) {
         backGesture?.edges = viewController.backGestureEdges
-//        Tracker.sharedTracker.screenAppeared(viewController.title ?? viewController.readableClassName())
+        Tracker.sharedTracker.screenAppeared(viewController.title ?? viewController.readableClassName())
     }
 
     public func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {

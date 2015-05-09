@@ -108,17 +108,6 @@ public class NotificationsScreen : UIView {
             .shrinkDown(bottom)
     }
 
-//    func insertStreamView(streamView : UIView) {
-//
-////        streamContainer.addSubview(streamView)
-////        streamViewController.view.frame = streamView.bounds
-////        streamViewController.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
-//
-//        streamContainer.addSubview(streamView)
-//        streamView.frame = streamContainer.bounds
-//        streamView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
-//    }
-
     func allButtonTapped(sender : NotificationFilterButton) {
         filterBar.selectButton(sender)
         delegate?.activatedFilter(NotificationFilterType.All.rawValue)

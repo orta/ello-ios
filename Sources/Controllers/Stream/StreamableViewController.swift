@@ -47,16 +47,10 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
     }
 
     var scrollLogic: ElloScrollLogic!
-//    var experienceUpdatable: ExperienceUpdatable? {
-//        return streamViewDidScroll
-//    }
 
     func viewForStream() -> UIView {
         return viewContainer
     }
-//    func addStreamView() {
-//        viewContainer.addSubview(streamViewController.view)
-//    }
 
     override public func viewDidLoad() {
         super.viewDidLoad()

@@ -11,7 +11,6 @@ import FLAnimatedImage
 
 public class ProfileViewController: StreamableViewController, EditProfileResponder {
 
-    var shouldReload = false
     var user: User?
     var responseConfig: ResponseConfig?
     var userParam: String!
@@ -71,14 +70,6 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
             coverWidthSet = true
             coverImageHeight.constant = view.frame.width / ratio
             coverImageHeightStart = coverImageHeight.constant
-        }
-    }
-
-    public override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        if shouldReload {
-            shouldReload = false
-            streamViewController.loadInitialPage()
         }
     }
 
