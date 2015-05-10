@@ -42,6 +42,8 @@ public enum MappingType: String {
             return AmazonCredentials.fromJSON
         case AvailabilityType:
             return Availability.fromJSON
+        case RelationshipsType:
+            return Relationship.fromJSON
         default:
             return UnknownJSONAble.fromJSON
         }
@@ -56,8 +58,10 @@ public enum MappingType: String {
 
 }
 
+let UnknownJSONAbleVersion = 1
+
 public class UnknownJSONAble : JSONAble {
      override class public func fromJSON(data: [String : AnyObject], fromLinked: Bool = false) -> JSONAble {
-        return UnknownJSONAble()
+        return UnknownJSONAble(version: UnknownJSONAbleVersion)
     }
 }

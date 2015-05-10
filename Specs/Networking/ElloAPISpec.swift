@@ -46,7 +46,7 @@ class ElloAPISpec: QuickSpec {
                 expect(ElloAPI.NotificationsStream.path) == "/api/edge/notifications"
                 expect(ElloAPI.PostDetail(postParam: "some-param").path) == "/api/edge/posts/some-param"
                 expect(ElloAPI.PostComments(postId: "fake-id").path) == "/api/edge/posts/fake-id/comments"
-                expect(ElloAPI.Profile.path) == "/api/edge/profile"
+                expect(ElloAPI.Profile(perPage: 10).path) == "/api/edge/profile"
                 expect(ElloAPI.ProfileUpdate(body: [:]).path) == "/api/edge/profile"
                 expect(ElloAPI.ProfileDelete.path) == "/api/edge/profile"
                 expect(ElloAPI.ProfileFollowing(priority: "anything").path) == "/api/edge/profile/following"

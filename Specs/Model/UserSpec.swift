@@ -26,7 +26,7 @@ class UserSpec: QuickSpec {
                 expect(user.username) == "pam"
                 expect(user.name) == "Pamilanderson"
                 expect(user.experimentalFeatures) == true
-                expect(user.relationshipPriority) == Relationship.None
+                expect(user.relationshipPriority) == RelationshipPriority.None
                 // optional
                 expect(user.avatar).to(beAKindOf(Asset.self))
                 expect(user.identifiableBy) == ""

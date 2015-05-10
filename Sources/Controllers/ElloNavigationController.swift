@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import KINWebBrowser
 
 public let externalWebNotification = TypedNotification<String>(name: "externalWebNotification")
 
@@ -13,12 +14,13 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
 
     var interactionController: UIPercentDrivenInteractiveTransition?
     var externalWebObserver: NotificationObserver?
-    let externalWebController: UINavigationController = ElloWebBrowserViewController.navigationControllerWithWebBrowser()
+    var postChangedNotification:NotificationObserver?
+    var relationshipChangedNotification:NotificationObserver?
+    let externalWebController: UINavigationController = KINWebBrowserViewController.navigationControllerWithWebBrowser()
     var rootViewControllerName : String?
     public var currentUser : User? {
         didSet { didSetCurrentUser() }
     }
-    var profileResponseConfig: ResponseConfig?
 
     var backGesture: UIScreenEdgePanGestureRecognizer?
 
@@ -28,22 +30,21 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
         case Omnibar = "OmnibarViewController"
         case Discover = "DiscoverViewController"
 
-        func controllerInstance(user: User, responseConfig: ResponseConfig) -> BaseElloViewController {
+        func controllerInstance(user: User) -> BaseElloViewController {
             switch self {
             case Notifications: return NotificationsViewController()
-            case Profile: return ProfileViewController(user: user, responseConfig: responseConfig)
+            case Profile: return ProfileViewController(user: user)
             case Omnibar: return OmnibarViewController()
             case Discover: return DiscoverViewController()
             }
         }
     }
 
-    func setProfileData(currentUser: User, responseConfig: ResponseConfig) {
+    func setProfileData(currentUser: User) {
         self.currentUser = currentUser
-        self.profileResponseConfig = responseConfig
         if self.viewControllers.count == 0 {
             if let rootViewControllerName = rootViewControllerName {
-                if let controller = RootViewControllers(rawValue:rootViewControllerName)?.controllerInstance(currentUser, responseConfig: responseConfig) {
+                if let controller = RootViewControllers(rawValue:rootViewControllerName)?.controllerInstance(currentUser) {
                     controller.currentUser = currentUser
                     self.viewControllers = [controller]
                 }
@@ -72,6 +73,45 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
 
         externalWebObserver = NotificationObserver(notification: externalWebNotification) { url in
             self.showExternalWebView(url)
+        }
+
+        postChangedNotification = NotificationObserver(notification: PostChangedNotification) { (post, change) in
+            switch change {
+            case .Delete:
+                var keepers = [AnyObject]()
+                for controller in self.childViewControllers {
+                    if let postDetailVC = controller as? PostDetailViewController {
+                        if let postId = postDetailVC.post?.id where postId != post.id {
+                            keepers.append(controller)
+                        }
+                    }
+                    else {
+                        keepers.append(controller)
+                    }
+                }
+                self.setViewControllers(keepers, animated: true)
+            default: _ = "noop"
+            }
+        }
+
+        relationshipChangedNotification = NotificationObserver(notification: RelationshipChangedNotification) { user in
+            switch user.relationshipPriority {
+            case .Block:
+                var keepers = [AnyObject]()
+                for controller in self.childViewControllers {
+                    if let userStreamVC = controller as? ProfileViewController {
+                        if let userId = userStreamVC.user?.id where userId != user.id {
+                            keepers.append(controller)
+                        }
+                    }
+                    else {
+                        keepers.append(controller)
+                    }
+                }
+                self.setViewControllers(keepers, animated: true)
+            default:
+                _ = "noop"
+            }
         }
     }
 

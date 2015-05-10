@@ -14,7 +14,6 @@ import SwiftyJSON
 let UserVersion: Int = 1
 
 public final class User: JSONAble {
-    public let version = UserVersion
 
     // active record
     public let id: String
@@ -23,7 +22,7 @@ public final class User: JSONAble {
     public let username: String
     public let name: String
     public let experimentalFeatures: Bool
-    public let relationshipPriority: Relationship
+    public var relationshipPriority: RelationshipPriority
     public let postsAdultContent: Bool
     public let viewsAdultContent: Bool
     public let hasCommentingEnabled: Bool
@@ -55,7 +54,7 @@ public final class User: JSONAble {
         username: String,
         name: String,
         experimentalFeatures: Bool,
-        relationshipPriority: Relationship,
+        relationshipPriority: RelationshipPriority,
         postsAdultContent: Bool,
         viewsAdultContent: Bool,
         hasCommentingEnabled: Bool,
@@ -73,7 +72,7 @@ public final class User: JSONAble {
         self.hasCommentingEnabled = hasCommentingEnabled
         self.hasSharingEnabled = hasSharingEnabled
         self.hasRepostingEnabled = hasRepostingEnabled
-        super.init()
+        super.init(version: UserVersion)
     }
 
 // MARK: NSCoding
@@ -88,7 +87,7 @@ public final class User: JSONAble {
         self.name = decoder.decodeKey("name")
         self.experimentalFeatures = decoder.decodeKey("experimentalFeatures")
         let relationshipPriorityRaw: String = decoder.decodeKey("relationshipPriorityRaw")
-        self.relationshipPriority = Relationship(stringValue: relationshipPriorityRaw)
+        self.relationshipPriority = RelationshipPriority(stringValue: relationshipPriorityRaw)
         self.postsAdultContent = decoder.decodeKey("postsAdultContent")
         self.viewsAdultContent = decoder.decodeKey("viewsAdultContent")
         self.hasCommentingEnabled = decoder.decodeKey("hasCommentingEnabled")
@@ -154,7 +153,7 @@ public final class User: JSONAble {
             username: json["username"].stringValue,
             name: json["name"].stringValue,
             experimentalFeatures: json["experimental_features"].boolValue,
-            relationshipPriority: Relationship(stringValue: json["relationship_priority"].stringValue),
+            relationshipPriority: RelationshipPriority(stringValue: json["relationship_priority"].stringValue),
             postsAdultContent: json["posts_adult_content"].boolValue,
             viewsAdultContent: json["views_adult_content"].boolValue,
             hasCommentingEnabled: json["has_commenting_enabled"].boolValue,

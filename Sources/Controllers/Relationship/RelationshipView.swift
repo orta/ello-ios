@@ -18,7 +18,7 @@ public class RelationshipView: UIView {
     public var noiseButton: UIButton
     public var blockButton: UIButton?
     public weak var relationshipDelegate: RelationshipDelegate?
-    public var relationship:Relationship? {
+    public var relationship:RelationshipPriority? {
         didSet {
             selectButton(relationship!)
         }
@@ -34,12 +34,12 @@ public class RelationshipView: UIView {
 
     @IBAction func friendTapped(sender: UIButton) {
         Tracker.sharedTracker.friendAdded()
-        handleTapped(sender, newRelationship: Relationship.Friend)
+        handleTapped(sender, newRelationship: RelationshipPriority.Friend)
     }
 
     @IBAction func noiseTapped(sender: UIButton) {
         Tracker.sharedTracker.noiseAdded()
-        handleTapped(sender, newRelationship: Relationship.Noise)
+        handleTapped(sender, newRelationship: RelationshipPriority.Noise)
     }
 
     @IBAction func blockTapped(sender: UIButton) {
@@ -51,15 +51,15 @@ public class RelationshipView: UIView {
 
 // MARK: Internal
 
-    private func handleTapped(sender: UIButton, newRelationship: Relationship) {
+    private func handleTapped(sender: UIButton, newRelationship: RelationshipPriority) {
         let prevRelationship = relationship
         if sender.selected == true {
-            relationship = Relationship.Inactive
+            relationship = RelationshipPriority.Inactive
         } else {
             relationship = newRelationship
         }
         relationshipDelegate?.relationshipTapped(userId, relationship: relationship!) {
-            [unowned self] status in
+            [unowned self] (status, relationship) in
             if status == .Failure {
                 self.relationship = prevRelationship
             }
@@ -76,7 +76,7 @@ public class RelationshipView: UIView {
         blockButton?.layer.borderColor = backgroundColorSelected.CGColor
     }
 
-    private func selectButton(relationship: Relationship) {
+    private func selectButton(relationship: RelationshipPriority) {
         resetButtons()
         switch relationship {
         case .Friend:

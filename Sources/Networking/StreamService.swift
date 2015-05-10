@@ -27,7 +27,7 @@ public class StreamService: NSObject {
             endpoint,
             method: .GET,
             success: { (data, responseConfig) in
-                if let jsonables:[JSONAble] = data as? [JSONAble] {
+                if let jsonables = data as? [JSONAble] {
                     if let streamKind = streamKind {
                         Preloader().preloadImages(jsonables,  streamKind: streamKind)
                     }

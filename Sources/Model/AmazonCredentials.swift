@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+let AmazonCredentialsVersion = 1
+
 public class AmazonCredentials : JSONAble {
     public let accessKey : String
     public let endpoint : String
@@ -19,7 +21,7 @@ public class AmazonCredentials : JSONAble {
         self.policy = policy
         self.prefix = prefix
         self.signature = signature
-        super.init()
+        super.init(version: AmazonCredentialsVersion)
     }
 
     public required init(coder aDecoder: NSCoder) {

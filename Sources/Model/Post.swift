@@ -21,7 +21,6 @@ public protocol Authorable {
 let PostVersion = 1
 
 public final class Post: JSONAble, Authorable {
-    public let version = PostVersion
 
     // active record
     public let id: String
@@ -99,7 +98,7 @@ public final class Post: JSONAble, Authorable {
         self.contentWarning = contentWarning
         self.allowComments = allowComments
         self.summary = summary
-        super.init()
+        super.init(version: PostVersion)
         collapsed = self.contentWarning != ""
         registerNotifications()
     }

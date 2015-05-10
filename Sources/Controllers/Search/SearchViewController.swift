@@ -71,6 +71,7 @@ extension SearchViewController: SearchScreenDelegate {
         let endpoint = ElloAPI.SearchForUsers(terms: text)
         streamViewController.streamKind = .UserList(endpoint: endpoint, title: "")
         streamViewController.removeRefreshables()
+        ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.loadInitialPage()
     }
 

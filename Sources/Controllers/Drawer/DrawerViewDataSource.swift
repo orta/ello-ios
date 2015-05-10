@@ -12,7 +12,7 @@ public protocol DrawerViewDataSourceDelegate: NSObjectProtocol {
 }
 
 public class DrawerViewDataSource {
-    private let relationship: Relationship
+    private let relationship: RelationshipPriority
     private let streamService = StreamService()
 
     private var users: [User] = []
@@ -25,7 +25,7 @@ public class DrawerViewDataSource {
         return loading ? users.count + 1 : users.count
     }
 
-    public init(relationship: Relationship) {
+    public init(relationship: RelationshipPriority) {
         self.relationship = relationship
     }
 

@@ -13,10 +13,11 @@ public enum StreamKind {
     case Noise
     case Discover(type: DiscoverType, seed: Int, perPage: Int)
     case PostDetail(postParam: String)
-    case Profile
+    case Profile(perPage: Int)
     case UserStream(userParam: String)
     case Notifications
     case UserList(endpoint: ElloAPI, title: String)
+    case Unknown
 
     public var name:String {
         switch self {
@@ -28,6 +29,7 @@ public enum StreamKind {
         case .Profile: return "Profile"
         case .UserStream: return "User Stream"
         case let .UserList(_, title): return title
+        case .Unknown: return "unknown"
         }
     }
 
@@ -42,16 +44,17 @@ public enum StreamKind {
         switch self {
         case .Friend: return .FriendStream
         case .Noise: return .NoiseStream
-        case .Discover(let type, let seed, let perPage): return ElloAPI.Discover(type: type, seed: seed, perPage: perPage)
+        case let .Discover(type, seed, perPage): return ElloAPI.Discover(type: type, seed: seed, perPage: perPage)
         case .Notifications: return .NotificationsStream
-        case .PostDetail(let postParam): return .PostDetail(postParam: postParam)
-        case .Profile: return .Profile
-        case .UserStream(let userParam): return .UserStream(userParam: userParam)
-        case .UserList(let endpoint, let title): return endpoint
+        case let .PostDetail(postParam): return .PostDetail(postParam: postParam)
+        case let .Profile(perPage): return .Profile(perPage: perPage)
+        case let .UserStream(userParam): return .UserStream(userParam: userParam)
+        case let .UserList(endpoint, title): return endpoint
+        case .Unknown: return .NotificationsStream // doesn't really get used
         }
     }
 
-    public var relationship: Relationship {
+    public var relationship: RelationshipPriority {
         switch self {
         case .Friend: return .Friend
         case .Noise: return .Noise
@@ -120,3 +123,4 @@ public enum StreamKind {
 
     static let streamValues = [Friend, Noise]
 }
+

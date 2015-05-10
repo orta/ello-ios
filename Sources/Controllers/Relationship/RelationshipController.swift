@@ -8,7 +8,7 @@
 
 import Foundation
 
-public typealias RelationshipChangeClosure = (relationship: Relationship) -> ()
+public typealias RelationshipChangeClosure = (relationship: RelationshipPriority) -> ()
 
 public enum RelationshipRequestStatus: String {
     case Success = "success"
@@ -16,8 +16,8 @@ public enum RelationshipRequestStatus: String {
 }
 
 public protocol RelationshipDelegate: NSObjectProtocol {
-    func relationshipTapped(userId: String, relationship: Relationship, complete: (status: RelationshipRequestStatus) -> ())
-    func launchBlockModal(userId: String, userAtName: String, relationship: Relationship, changeClosure: RelationshipChangeClosure)
+    func relationshipTapped(userId: String, relationship: RelationshipPriority, complete: (status: RelationshipRequestStatus, relationship: Relationship?) -> ())
+    func launchBlockModal(userId: String, userAtName: String, relationship: RelationshipPriority, changeClosure: RelationshipChangeClosure)
 }
 
 public class RelationshipController: NSObject, RelationshipDelegate {
@@ -28,21 +28,32 @@ public class RelationshipController: NSObject, RelationshipDelegate {
         self.presentingController = presentingController
     }
 
-    public func relationshipTapped(userId: String, relationship: Relationship, complete: (status: RelationshipRequestStatus) -> ()) {
+    public func relationshipTapped(userId: String, relationship: RelationshipPriority, complete: (status: RelationshipRequestStatus, relationship: Relationship?) -> ()) {
         RelationshipService().updateRelationship(ElloAPI.Relationship(userId: userId,
             relationship: relationship.rawValue),
             success: {
                 (data, responseConfig) in
-                complete(status: .Success)
+                if let relationship = data as? Relationship {
+                    complete(status: .Success, relationship: relationship)
+                    if let owner = relationship.owner {
+                        postNotification(RelationshipChangedNotification, owner)
+                    }
+                    if let subject = relationship.subject {
+                        postNotification(RelationshipChangedNotification, subject)
+                    }
+                }
+                else {
+                    complete(status: .Success, relationship: nil)
+                }
             },
             failure: {
                 (error, statusCode) in
-                complete(status: .Failure)
+                complete(status: .Failure, relationship: nil)
             }
         )
     }
 
-    public func launchBlockModal(userId: String, userAtName: String, relationship: Relationship, changeClosure: RelationshipChangeClosure) {
+    public func launchBlockModal(userId: String, userAtName: String, relationship: RelationshipPriority, changeClosure: RelationshipChangeClosure) {
         let vc = BlockUserModalViewController(userId: userId, userAtName: userAtName, relationship: relationship, changeClosure: changeClosure)
         vc.relationshipDelegate = self
         presentingController.presentViewController(vc, animated: true, completion: nil)

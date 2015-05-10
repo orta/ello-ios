@@ -49,7 +49,7 @@ let RelayoutStreamViewControllerNotification = TypedNotification<UICollectionVie
 public class StreamViewController: BaseElloViewController {
 
     @IBOutlet weak public var collectionView: UICollectionView!
-
+    var shouldReload = false
     var streamables:[Streamable]?
     var refreshableIndex: Int?
     public var dataSource:StreamDataSource!
@@ -69,7 +69,7 @@ public class StreamViewController: BaseElloViewController {
         return nil
     }
 
-    public var streamKind:StreamKind = StreamKind.Friend {
+    public var streamKind: StreamKind = StreamKind.Unknown {
         didSet {
             dataSource.streamKind = streamKind
             setupCollectionViewLayout()
@@ -78,6 +78,9 @@ public class StreamViewController: BaseElloViewController {
     var imageViewerDelegate:StreamImageViewer?
     var updatedStreamImageCellHeightNotification:NotificationObserver?
     var relayoutNotification:NotificationObserver?
+    var commentChangedNotification:NotificationObserver?
+    var postChangedNotification:NotificationObserver?
+    var relationshipChangedNotification: NotificationObserver?
 
     weak var createCommentDelegate : CreateCommentDelegate?
     weak var postTappedDelegate : PostTappedDelegate?
@@ -133,6 +136,14 @@ public class StreamViewController: BaseElloViewController {
         pullToRefreshView = SSPullToRefreshView(scrollView:collectionView, delegate: self)
         pullToRefreshView?.contentView = ElloPullToRefreshView(frame:CGRectZero)
         setupCollectionView()
+    }
+
+    public override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        if shouldReload {
+            shouldReload = false
+            loadInitialPage()
+        }
     }
 
     public class func instantiateFromStoryboard() -> StreamViewController {
@@ -210,27 +221,40 @@ public class StreamViewController: BaseElloViewController {
         self.doneLoading()
     }
 
+    public var initialLoadClosure: ElloEmptyCompletion?
+
     public func loadInitialPage() {
-        let localToken = NSUUID().UUIDString
-        loadInitialPageLoadingToken = localToken
+        if let initialLoadClosure = initialLoadClosure {
+            initialLoadClosure()
+        }
+        else {
+            let localToken = NSUUID().UUIDString
+            loadInitialPageLoadingToken = localToken
 
-        ElloHUD.showLoadingHudInView(view)
-        streamService.loadStream(
-            streamKind.endpoint,
-            streamKind: streamKind,
-            success: { (jsonables, responseConfig) in
-                if self.loadInitialPageLoadingToken != localToken { return }
+            streamService.loadStream(
+                streamKind.endpoint,
+                streamKind: streamKind,
+                success: { (jsonables, responseConfig) in
+                    if self.loadInitialPageLoadingToken != localToken { return }
 
-                self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind), withWidth: nil)
-                self.responseConfig = responseConfig
-                self.doneLoading()
-            }, failure: { (error, statusCode) in
-                if self.loadInitialPageLoadingToken != localToken { return }
+                    let index = self.refreshableIndex ?? 0
+                    self.allOlderPagesLoaded = false
+                    self.dataSource.removeCellItemsBelow(index)
+                    self.collectionView.reloadData()
 
-                println("failed to load \(self.streamKind.name) stream (reason: \(error))")
-                self.doneLoading()
-            }
-        )
+                    self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind), withWidth: nil)
+                    self.responseConfig = responseConfig
+
+                    self.doneLoading()
+                }, failure: { (error, statusCode) in
+                    println("failed to load \(self.streamKind.name) stream (reason: \(error))")
+                    self.doneLoading()
+                }, noContent: {
+                    println("nothing new")
+                    self.doneLoading()
+                }
+            )
+        }
     }
 
 // MARK: Private Functions
@@ -241,6 +265,42 @@ public class StreamViewController: BaseElloViewController {
         }
         relayoutNotification = NotificationObserver(notification: RelayoutStreamViewControllerNotification) { streamTextCell in
             self.collectionView.collectionViewLayout.invalidateLayout()
+        }
+
+        commentChangedNotification = NotificationObserver(notification: CommentChangedNotification) { (comment, change) in
+            switch change {
+            case .Create, .Delete, .Update:
+                self.dataSource.modifyItems(comment, change: change, collectionView: self.collectionView)
+            case .Read:
+                println("do nothing")
+            }
+        }
+
+        postChangedNotification = NotificationObserver(notification: PostChangedNotification) { (post, change) in
+            switch change {
+            case .Create:
+                self.dataSource.modifyItems(post, change: change, collectionView: self.collectionView)
+                // if comments are shown, add comment to the top of the list
+                // update the comment count
+                println("handle create")
+            case .Delete:
+                switch self.streamKind {
+                case .PostDetail:
+                    println("no-op")
+                default:
+                    self.dataSource.modifyItems(post, change: change, collectionView: self.collectionView)
+                }   
+                println("handle deletes")
+                // reload page
+            case .Update:
+                self.dataSource.modifyItems(post, change: change, collectionView: self.collectionView)
+            case .Read:
+                println("do nothing")
+            }
+        }
+
+        relationshipChangedNotification = NotificationObserver(notification: RelationshipChangedNotification) { user in
+            self.dataSource.modifyUserItems(user, collectionView: self.collectionView)
         }
     }
 
@@ -255,6 +315,15 @@ public class StreamViewController: BaseElloViewController {
 
         relayoutNotification?.removeObserver()
         relayoutNotification = nil
+
+        commentChangedNotification?.removeObserver()
+        commentChangedNotification = nil
+
+        postChangedNotification?.removeObserver()
+        postChangedNotification = nil
+
+        relationshipChangedNotification?.removeObserver()
+        relationshipChangedNotification = nil
     }
 
     private func updateCellHeight(indexPath:NSIndexPath, height:CGFloat) {
@@ -349,6 +418,9 @@ public class StreamViewController: BaseElloViewController {
                 if self.pullToRefreshLoadLoadingToken != localToken { return }
 
                 println("failed to load \(self.streamKind.name) stream (reason: \(error))")
+                self.pullToRefreshView?.finishLoading()
+            }, noContent: {
+                println("nothing new")
                 self.pullToRefreshView?.finishLoading()
             }
         )
@@ -536,16 +608,18 @@ extension StreamViewController : UIScrollViewDelegate {
     }
 }
 
+// MARK: StreamViewController: SSPullToRefreshViewDelegate
 extension StreamViewController: SSPullToRefreshViewDelegate {
     public func pullToRefreshViewShouldStartLoading(view: SSPullToRefreshView!) -> Bool {
         return true
     }
 
     public func pullToRefreshViewDidStartLoading(view: SSPullToRefreshView!) {
-        self.pullToRefreshLoad()
+        self.loadInitialPage()
     }
 }
 
+// MARK: StreamViewController: StreamImageCellDelegate
 extension StreamViewController: StreamImageCellDelegate {
 
     public func imageTapped(imageView: FLAnimatedImageView, cell: UICollectionViewCell) {
@@ -562,3 +636,4 @@ extension StreamViewController: StreamImageCellDelegate {
     }
 
 }
+

@@ -12,7 +12,6 @@ import SwiftyJSON
 let ElloNetworkErrorVersion = 1
 
 public class ElloNetworkError: JSONAble {
-    public let version = ElloNetworkErrorVersion
 
     public enum CodeType: String {
         case blacklisted = "blacklisted"
@@ -53,7 +52,7 @@ public class ElloNetworkError: JSONAble {
         self.messages = messages
         self.status = status
         self.title = title
-        super.init()
+        super.init(version: ElloNetworkErrorVersion)
     }
 
     public required init(coder aDecoder: NSCoder) {

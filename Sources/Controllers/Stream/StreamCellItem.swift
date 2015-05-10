@@ -17,7 +17,7 @@ public enum StreamCellState {
 
 
 public class StreamCellItem: NSObject, NSCopying {
-    public let jsonable: JSONAble
+    public var jsonable: JSONAble
     public let type: StreamCellType
     public let data:Regionable?
     public let isFullWidth: Bool

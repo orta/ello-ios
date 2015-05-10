@@ -8,6 +8,8 @@
 
 import SwiftyJSON
 
+let AvailabilityVersion = 1
+
 public final class Availability: JSONAble {
     public let isUsernameAvailable: Bool
     public let isEmailAvailable: Bool
@@ -21,7 +23,7 @@ public final class Availability: JSONAble {
         self.isInvitationCodeAvailable = isInvitationCodeAvailable
         self.usernameSuggestions = usernameSuggestions
         self.emailSuggestion = emailSuggestion
-        super.init()
+        super.init(version: AvailabilityVersion)
     }
 
     public required init(coder aDecoder: NSCoder) {

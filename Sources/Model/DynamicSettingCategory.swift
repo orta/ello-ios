@@ -8,6 +8,8 @@
 
 import SwiftyJSON
 
+let DynamicSettingCategoryVersion = 1
+
 public final class DynamicSettingCategory: JSONAble {
     public let label: String
     public let settings: [DynamicSetting]
@@ -15,7 +17,7 @@ public final class DynamicSettingCategory: JSONAble {
     public init(label: String, settings: [DynamicSetting]) { 
         self.label = label
         self.settings = settings
-        super.init()
+        super.init(version: DynamicSettingCategoryVersion)
     }
 
     public required init(coder aDecoder: NSCoder) {

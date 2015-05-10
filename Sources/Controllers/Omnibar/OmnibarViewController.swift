@@ -179,14 +179,20 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     }
 
     private func emitCommentSuccess(comment: Comment) {
-        Tracker.sharedTracker.contentCreated(.Comment)
+        postNotification(CommentChangedNotification, (comment, .Create))
+        if let post = comment.parentPost, let count = post.commentsCount {
+            post.commentsCount = count + 1
+            postNotification(PostChangedNotification, (post, .Update))
+        }
         for listener in self.commentSuccessListeners {
             listener(comment: comment)
         }
+        Tracker.sharedTracker.contentCreated(.Comment)
     }
 
 
     private func emitPostSuccess(post: Post) {
+        postNotification(PostChangedNotification, (post, .Create))
         Tracker.sharedTracker.contentCreated(.Post)
         elloTabBarController?.selectedTab = previousTab
         self.screen.reportSuccess(NSLocalizedString("Post successfully created!", comment: "Post successfully created!"))

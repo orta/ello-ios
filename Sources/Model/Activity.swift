@@ -11,7 +11,6 @@ import SwiftyJSON
 let ActivityVersion = 1
 
 public final class Activity: JSONAble {
-    public let version = ActivityVersion
 
     // active record
     public let id: String
@@ -75,7 +74,7 @@ public final class Activity: JSONAble {
         self.createdAt = createdAt
         self.kind = kind
         self.subjectType = subjectType
-        super.init()
+        super.init(version: ActivityVersion)
     }
 
 // MARK: NSCoding

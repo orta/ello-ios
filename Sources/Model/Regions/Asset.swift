@@ -12,7 +12,6 @@ import SwiftyJSON
 let AssetVersion = 1
 
 public final class Asset: JSONAble {
-    public let version = AssetVersion
 
     // active record
     public let id: String
@@ -30,10 +29,10 @@ public final class Asset: JSONAble {
     public var regular: Attachment?
     public var small: Attachment?
     // computed
-    var isGif: Bool {
+    public var isGif: Bool {
         return self.optimized?.type == "image/gif"
     }
-    var isLargeGif: Bool {
+    public var isLargeGif: Bool {
         if isGif {
             if let size = self.optimized?.size {
                 return size >= 2_097_152
@@ -55,7 +54,7 @@ public final class Asset: JSONAble {
     public init(id: String)
     {
         self.id = id
-        super.init()
+        super.init(version: AssetVersion)
     }
 
 // MARK: NSCoding

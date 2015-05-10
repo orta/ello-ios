@@ -14,13 +14,13 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
     var user: User?
     var responseConfig: ResponseConfig?
     var userParam: String!
-    let streamViewController = StreamViewController.instantiateFromStoryboard()
     var coverImageHeightStart: CGFloat?
     var coverWidthSet = false
     let ratio:CGFloat = 16.0/9.0
+    let initialStreamKind: StreamKind
 
     private var isSetup = false
-    @IBOutlet weak var viewContainer: UIView!
+
     @IBOutlet weak var navigationBar: ElloNavigationBar!
     @IBOutlet weak var navigationBarTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var coverImage: FLAnimatedImageView!
@@ -28,29 +28,23 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
 
     required public init(userParam: String) {
         self.userParam = userParam
-        self.streamViewController.streamKind = .UserStream(userParam: self.userParam)
+        self.initialStreamKind = .UserStream(userParam: self.userParam)
         super.init(nibName: "ProfileViewController", bundle: nil)
-        ElloHUD.showLoadingHudInView(streamViewController.view)
-        streamViewController.streamService.loadUser(
-            streamViewController.streamKind.endpoint,
-            streamKind: streamViewController.streamKind,
-            success: userLoaded,
-            failure: { (error, statusCode) in
-                println("failed to load user (reason: \(error))")
-                self.streamViewController.doneLoading()
-            }
-        )
+
+        streamViewController.streamKind = initialStreamKind
+        streamViewController.initialLoadClosure = reloadEntireProfile
     }
 
     // this should only be initialized this way for currentUser in tab nav
-    required public init(user: User, responseConfig: ResponseConfig) {
+    required public init(user: User) {
         // this user should have the .proifle on it since it is currentUser
-        ElloHUD.showLoadingHudInView(streamViewController.view)
         self.user = user
-        self.responseConfig = responseConfig
         self.userParam = self.user!.id
-        self.streamViewController.streamKind = .Profile
+        self.initialStreamKind = .Profile(perPage: 10)
         super.init(nibName: "ProfileViewController", bundle: nil)
+
+        streamViewController.streamKind = initialStreamKind
+        streamViewController.initialLoadClosure = reloadEntireProfile
     }
 
     required public init(coder aDecoder: NSCoder) {
@@ -63,9 +57,10 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         if isRootViewController() {
             hideNavBar()
         }
-        setupStreamController()
         setupNavigationBar()
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
+        ElloHUD.showLoadingHudInView(streamViewController.view)
+        streamViewController.loadInitialPage()
     }
 
     override public func viewWillAppear(animated: Bool) {
@@ -75,12 +70,6 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
             coverWidthSet = true
             coverImageHeight.constant = view.frame.width / ratio
             coverImageHeightStart = coverImageHeight.constant
-        }
-        if let user = self.user, let responseConfig = self.responseConfig {
-            if !isSetup {
-                isSetup = true
-                userLoaded(user, responseConfig: responseConfig)
-            }
         }
     }
 
@@ -129,21 +118,18 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         }
     }
 
-// MARK : private
+    // MARK : private
 
-    private func setupStreamController() {
-        streamViewController.currentUser = currentUser
-        streamViewController.streamScrollDelegate = self
-        streamViewController.userTappedDelegate = self
-        streamViewController.postTappedDelegate = self
-        streamViewController.createCommentDelegate = self
-
-        streamViewController.willMoveToParentViewController(self)
-        viewContainer.addSubview(streamViewController.view)
-        streamViewController.view.frame = viewContainer.bounds
-        streamViewController.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
-        addChildViewController(streamViewController)
-        streamViewController.didMoveToParentViewController(self)
+    private func reloadEntireProfile() {
+        streamViewController.streamService.loadUser(
+            initialStreamKind.endpoint,
+            streamKind: initialStreamKind,
+            success: userLoaded,
+            failure: { (error, statusCode) in
+                println("failed to load user (reason: \(error))")
+                self.streamViewController.doneLoading()
+            }
+        )
     }
 
     private func setupNavigationBar() {
@@ -168,16 +154,20 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         if !isRootViewController() {
             self.title = user.atName ?? "Profile"
         }
-        if let cover = user.coverImageURL {
-            if let coverImage = coverImage {
-                coverImage.sd_setImageWithURL(cover) {
-                    (image, error, type, url) in
-                    UIView.animateWithDuration(0.15) {
-                        self.coverImage.alpha = 1.0
-                    }
+        if  let cover = user.coverImageURL,
+            let coverImage = coverImage
+        {
+            coverImage.sd_setImageWithURL(cover) {
+                (image, error, type, url) in
+                UIView.animateWithDuration(0.15) {
+                    self.coverImage.alpha = 1.0
                 }
             }
         }
+        let index = streamViewController.refreshableIndex ?? 0
+        streamViewController.allOlderPagesLoaded = false
+        streamViewController.dataSource.removeCellItemsBelow(index)
+        streamViewController.collectionView.reloadData()
 
         var items: [StreamCellItem] = [StreamCellItem(jsonable: user, type: StreamCellType.ProfileHeader, data: nil, oneColumnCellHeight: 0.0, multiColumnCellHeight: 0.0, isFullWidth: true)]
         if let posts = user.posts {
@@ -197,8 +187,7 @@ extension ProfileViewController: StreamScrollDelegate {
         {
             coverImageHeight.constant = max(start - scrollView.contentOffset.y, start)
         }
-
+        
         super.streamViewDidScroll(scrollView)
     }
 }
-

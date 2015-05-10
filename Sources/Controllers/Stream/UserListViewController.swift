@@ -10,7 +10,6 @@ import Foundation
 
 public class UserListViewController: StreamableViewController {
 
-    var streamViewController : StreamViewController!
     var navigationBar: ElloNavigationBar!
     let endpoint: ElloAPI
 
@@ -18,7 +17,7 @@ public class UserListViewController: StreamableViewController {
         self.endpoint = endpoint
         super.init(nibName: nil, bundle: nil)
         self.title = title
-        self.view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = .whiteColor()
     }
 
     required public init(coder aDecoder: NSCoder) {
@@ -28,11 +27,17 @@ public class UserListViewController: StreamableViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
-        setupStreamController()
+        streamViewController.streamKind = StreamKind.UserList(endpoint: endpoint, title: title ?? "")
+        ElloHUD.showLoadingHudInView(streamViewController.view)
+        streamViewController.loadInitialPage()
+    }
+
+    override func viewForStream() -> UIView {
+        return view
     }
 
     override public func didSetCurrentUser() {
-        if self.isViewLoaded() {
+        if isViewLoaded() {
             streamViewController.currentUser = currentUser
         }
         super.didSetCurrentUser()
@@ -41,28 +46,13 @@ public class UserListViewController: StreamableViewController {
     // MARK: Private
 
     private func setupNavigationBar() {
-        navigationBar = ElloNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: ElloNavigationBar.Size.height))
+        navigationBar = ElloNavigationBar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: ElloNavigationBar.Size.height))
         navigationBar.autoresizingMask = .FlexibleBottomMargin | .FlexibleWidth
-        self.view.addSubview(navigationBar)
+        view.addSubview(navigationBar)
         let item = UIBarButtonItem.backChevronWithTarget(self, action: Selector("backTapped:"))
-        self.navigationItem.leftBarButtonItems = [item]
-        self.navigationItem.fixNavBarItemPadding()
-        navigationBar.items = [self.navigationItem]
-    }
-
-    private func setupStreamController() {
-        streamViewController = StreamViewController.instantiateFromStoryboard()
-        streamViewController.currentUser = currentUser
-        streamViewController.streamKind = .UserList(endpoint: endpoint, title: self.title!)
-        streamViewController.userTappedDelegate = self
-
-        self.view.addSubview(streamViewController.view)
-        streamViewController.willMoveToParentViewController(self)
-        streamViewController.view.frame = self.view.bounds
-        streamViewController.view.autoresizingMask = .FlexibleWidth | .FlexibleHeight
-        self.addChildViewController(streamViewController)
-
-        streamViewController.loadInitialPage()
+        navigationItem.leftBarButtonItems = [item]
+        navigationItem.fixNavBarItemPadding()
+        navigationBar.items = [navigationItem]
     }
 
     override func showNavBars(scrollToBottom : Bool) {

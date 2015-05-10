@@ -11,7 +11,6 @@ import SwiftyJSON
 let CommentVersion = 1
 
 public final class Comment: JSONAble, Authorable {
-    public let version = CommentVersion
 
     // active record
     public let id: String
@@ -48,7 +47,7 @@ public final class Comment: JSONAble, Authorable {
         self.authorId = authorId
         self.postId = postId
         self.content = content
-        super.init()
+        super.init(version: CommentVersion)
     }
 
 

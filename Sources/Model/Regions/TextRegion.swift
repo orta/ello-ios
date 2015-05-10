@@ -12,7 +12,6 @@ import SwiftyJSON
 let TextRegionVersion = 1
 
 public final class TextRegion: JSONAble, Regionable {
-    public let version = TextRegionVersion
     public var isRepost: Bool = false
     
     public let content: String
@@ -21,7 +20,7 @@ public final class TextRegion: JSONAble, Regionable {
 
     public init(content: String) {
         self.content = content
-        super.init()
+        super.init(version: TextRegionVersion)
     }
 
 // MARK: NSCoding

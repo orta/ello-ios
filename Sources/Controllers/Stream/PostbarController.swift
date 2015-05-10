@@ -110,7 +110,7 @@ public class PostbarController: NSObject, PostbarDelegate {
             if let post = self.postForCell(cell) {
                 service.deletePost(post.id,
                     success: {
-                        postNotification(ExperienceUpdatedNotification, .PostChanged(id: post.id, change: .Delete))
+                        postNotification(PostChangedNotification, (post, .Delete))
                     }, failure: { (error, statusCode)  in
                         // TODO: add error handling
                         println("failed to delete post, error: \(error.elloErrorMessage ?? error.localizedDescription)")
@@ -136,10 +136,16 @@ public class PostbarController: NSObject, PostbarDelegate {
             if let comment = self.commentForCell(cell), let postId = comment.parentPost?.id {
                 service.deleteComment(postId, commentId: comment.id,
                     success: {
-                        postNotification(ExperienceUpdatedNotification, .CommentChanged(commentId: comment.id, postId: postId, change: .Delete))
+                        // comment deleted
+                        postNotification(CommentChangedNotification, (comment, .Delete))
+                        // post comment count updated
+                        if let post = comment.parentPost, let count = post.commentsCount {
+                            post.commentsCount = count - 1
+                            postNotification(PostChangedNotification, (post, .Update))
+                        }
                     }, failure: { (error, statusCode)  in
                         // TODO: add error handling
-                        println("failed to delete post, error: \(error.elloErrorMessage ?? error.localizedDescription)")
+                        println("failed to delete comment, error: \(error.elloErrorMessage ?? error.localizedDescription)")
                     }
                 )
             }
@@ -192,6 +198,7 @@ public class PostbarController: NSObject, PostbarDelegate {
             let service = RePostService()
             service.repost(post: post,
                 success: { repost in
+                    postNotification(PostChangedNotification, (repost, .Create))
                     alertController.contentView = nil
                     alertController.message = NSLocalizedString("Success!", comment: "Successful repost alert")
                     Functional.delay(1) {

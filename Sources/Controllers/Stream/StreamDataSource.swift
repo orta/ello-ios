@@ -16,7 +16,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     let imageBottomPadding:CGFloat = 10.0
     public var streamKind:StreamKind
-    var currentUser: User?
+    public var currentUser: User?
 
     // these are the items assigned from the parent controller
     public var streamCellItems:[StreamCellItem] = []
@@ -111,16 +111,11 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         return visibleCellItems.safeValue(indexPath.item)
     }
 
-    // TODO: this should grab comments to hand to post detail
-    // and post detail should handle loading/paging them better
     public func cellItemsForPost(post:Post) -> [StreamCellItem] {
         return visibleCellItems.filter({ (item) -> Bool in
             if let cellPost = item.jsonable as? Post {
                 return post.id == cellPost.id
             }
-//            else if let commentPost = item.jsonable as? Comment {
-//                return post.id == commentPost.postId
-//            }
             else {
                 return false
             }
@@ -129,8 +124,8 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     // this includes the `createComment` cell, since it contains a comment item
     public func commentIndexPathsForPost(post: Post) -> [NSIndexPath] {
-        var indexPaths:[NSIndexPath] = []
-        for (index,value) in enumerate(visibleCellItems) {
+        var indexPaths = [NSIndexPath]()
+        for (index, value) in enumerate(visibleCellItems) {
             if let comment = value.jsonable as? Comment {
                 if comment.postId == post.id {
                     indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
@@ -286,6 +281,161 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
 
         }
         return UICollectionViewCell()
+    }
+
+    public func modifyItems(jsonable: JSONAble, change: ContentChange, collectionView: UICollectionView) {
+        // get items that match id and type -> [IndexPath]
+        // based on change decide to update/remove those items
+        switch change {
+        case .Create:
+            var indexPath: NSIndexPath?
+            // if comment, add new comment cells
+            if  let comment = jsonable as? Comment,
+                let parentPost = comment.parentPost
+            {
+                let indexPaths = self.commentIndexPathsForPost(parentPost)
+                if let first = indexPaths.first {
+                    if self.visibleCellItems[first.item].type == .CreateComment {
+                        indexPath = NSIndexPath(forItem: first.item + 1, inSection: first.section)
+                    }
+                }
+            }
+
+            // else if post, add new post cells
+            else if let post = jsonable as? Post {
+
+                switch streamKind {
+                case .Friend: indexPath = NSIndexPath(forItem: 0, inSection: 0)
+                case let .Profile: indexPath = NSIndexPath(forItem: 1, inSection: 0)
+                case let .UserStream(userParam):
+                    if currentUser?.id == userParam {
+                        indexPath = NSIndexPath(forItem: 1, inSection: 0)
+                    }
+                default: _ = "no op"
+                }
+            }
+
+            if let indexPath = indexPath {
+                self.insertUnsizedCellItems(
+                    StreamCellItemParser().parse([jsonable], streamKind: self.streamKind),
+                    withWidth: UIScreen.screenWidth(),
+                    startingIndexPath: indexPath)
+                    { newIndexPaths in
+                        collectionView.insertItemsAtIndexPaths(newIndexPaths)
+                    }
+            }
+
+
+        case .Delete:
+            collectionView.deleteItemsAtIndexPaths(removeItemsForJSONAble(jsonable, change: change))
+        case .Update:
+            let (indexPaths, items) = elementsForJSONAble(jsonable, change: change)
+            items.map { $0.jsonable = jsonable }
+            collectionView.reloadItemsAtIndexPaths(indexPaths)
+        default: _ = "noop"
+        }
+    }
+
+    public func modifyUserItems(user: User, collectionView: UICollectionView) {
+        switch user.relationshipPriority {
+        case .Friend, .Noise, .Inactive:
+            var changedItems = elementsForJSONAble(user, change: .Update)
+            for item in changedItems.1 {
+                if let oldUser = item.jsonable as? User {
+                    oldUser.relationshipPriority = user.relationshipPriority
+                    oldUser.followersCount = user.followersCount
+                    oldUser.followingCount = user.followingCount
+                }
+            }
+            collectionView.reloadItemsAtIndexPaths(changedItems.0)
+        case .Block, .Mute:
+            collectionView.deleteItemsAtIndexPaths(removeItemsForJSONAble(user, change: .Delete))
+        default: _ = "noop"
+        }
+    }
+
+    public func removeItemsForJSONAble(jsonable: JSONAble, change: ContentChange) -> [NSIndexPath] {
+        let indexPaths = self.elementsForJSONAble(jsonable, change: change).0
+        temporarilyUnfilter() {
+            // these paths might be different depending on the filter
+            let unfilteredIndexPaths = self.elementsForJSONAble(jsonable, change: change).0
+            var newItems = [StreamCellItem]()
+            for (index, item) in enumerate(self.streamCellItems) {
+                var remove = unfilteredIndexPaths.reduce(false) { remove, path in
+                    return remove || path.item == index
+                }
+                if !remove {
+                    newItems.append(item)
+                }
+            }
+            self.streamCellItems = newItems
+        }
+        return indexPaths
+    }
+
+    private func elementsForJSONAble(jsonable: JSONAble, change: ContentChange) -> ([NSIndexPath], [StreamCellItem]) {
+        var indexPaths = [NSIndexPath]()
+        var items = [StreamCellItem]()
+        if let comment = jsonable as? Comment {
+            for (index, item) in enumerate(visibleCellItems) {
+                if let itemComment = item.jsonable as? Comment where comment.id == itemComment.id {
+                    indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
+                    items.append(item)
+                }
+            }
+        }
+        else if let post = jsonable as? Post {
+            for (index, item) in enumerate(visibleCellItems) {
+                if let itemPost = item.jsonable as? Post where post.id == itemPost.id {
+                    indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
+                    items.append(item)
+                }
+                else if change == .Delete {
+                    if let itemComment = item.jsonable as? Comment where itemComment.postId == post.id {
+                        indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
+                        items.append(item)
+                    }
+                }
+            }
+        }
+        else if let user = jsonable as? User {
+            for (index, item) in enumerate(visibleCellItems) {
+                switch user.relationshipPriority {
+                case .Block:
+                    if let itemUser = item.jsonable as? User where user.id == itemUser.id {
+                        indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
+                        items.append(item)
+                    }
+                    else if let itemComment = item.jsonable as? Comment {
+                        if  user.id == itemComment.authorId ||
+                            user.id == itemComment.parentPost?.authorId
+                        {
+                            indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
+                            items.append(item)
+                        }
+                    }
+                    else if let itemPost = item.jsonable as? Post where user.id == itemPost.authorId {
+                        indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
+                        items.append(item)
+                    }
+                case .Friend, .Noise, .Inactive:
+                    if let itemUser = item.jsonable as? User where user.id == itemUser.id {
+                        indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
+                        items.append(item)
+                    }
+                case .Mute:
+                    if streamKind.name == StreamKind.Notifications.name {
+                        if let itemNotification = item.jsonable as? Notification where user.id == itemNotification.author?.id {
+                            indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
+                            items.append(item)
+                        }
+                    }
+                default:
+                    _ = "noop"
+                }
+            }
+        }
+        return (indexPaths, items)
     }
 
     // MARK: Adding items

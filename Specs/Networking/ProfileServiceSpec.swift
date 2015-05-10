@@ -27,7 +27,7 @@ class ProfileServiceSpec: QuickSpec {
                 it("Calls success with a User") {
                     var loadedUser: User?
 
-                    profileService.loadCurrentUser({ (user, responseConfig) in
+                    profileService.loadCurrentUser(ElloAPI.Profile(perPage: 10), success: { user in
                         loadedUser = user
                     }, failure: nil)
 
@@ -53,7 +53,7 @@ class ProfileServiceSpec: QuickSpec {
                     let profileService = ProfileService()
                     var loadedUsers: [User]?
 
-                    profileService.loadCurrentUserFollowing(forRelationship: Relationship.Friend, success: { users, _ in
+                    profileService.loadCurrentUserFollowing(forRelationship: RelationshipPriority.Friend, success: { users, _ in
                         loadedUsers = users
                     }, failure: .None)
 
@@ -77,7 +77,7 @@ class ProfileServiceSpec: QuickSpec {
                 it("Calls success with a User") {
                     var returnedUser: User?
 
-                    profileService.updateUserProfile([:], success: { user, responseConfig in
+                    profileService.updateUserProfile([:], success: { user in
                         returnedUser = user
                     }, failure: nil)
 

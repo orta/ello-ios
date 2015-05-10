@@ -12,7 +12,6 @@ import SwiftyJSON
 let ImageRegionVersion = 1
 
 public final class ImageRegion: JSONAble, Regionable {
-    public let version = ImageRegionVersion
     public var isRepost: Bool  = false
     
     // required
@@ -27,7 +26,7 @@ public final class ImageRegion: JSONAble, Regionable {
     public init(alt: String)
     {
         self.alt = alt
-        super.init()
+        super.init(version: ImageRegionVersion)
     }
 
 // MARK: NSCoding

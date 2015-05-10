@@ -10,23 +10,18 @@ import UIKit
 
 public class PostDetailViewController: StreamableViewController, CreateCommentDelegate {
 
+    var shouldReload = false
     var post: Post?
     var postParam: String!
-    let streamViewController : StreamViewController = StreamViewController.instantiateFromStoryboard()
     var startOfComments: Int = 0
     var navigationBar: ElloNavigationBar!
 
     required public init(postParam: String) {
         self.postParam = postParam
         super.init(nibName: nil, bundle: nil)
-        setupNavigationBar()
-        setupStreamViewController()
         ElloHUD.showLoadingHudInView(streamViewController.view)
-        PostService().loadPost(postParam,
-            streamKind: .PostDetail(postParam: postParam),
-            success: postLoaded,
-            failure: nil
-        )
+        streamViewController.initialLoadClosure = reloadEntirePostDetail
+        streamViewController.loadInitialPage()
     }
 
     required public init(coder aDecoder: NSCoder) {
@@ -35,7 +30,23 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
 
     override public func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.whiteColor()
+        setupNavigationBar()
+        streamViewController.streamKind = .PostDetail(postParam: postParam)
+        view.backgroundColor = .whiteColor()
+    }
+
+    // used to provide StreamableViewController access to the container it then
+    // loads the StreamViewController's content into
+    override func viewForStream() -> UIView {
+        return view
+    }
+
+    public override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        if shouldReload {
+            shouldReload = false
+            streamViewController.loadInitialPage()
+        }
     }
 
     override public func showNavBars(scrollToBottom : Bool) {
@@ -61,7 +72,16 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         streamViewController.view.frame = navigationBar.frame.fromBottom().withHeight(self.view.frame.height)
     }
 
-// MARK : private
+    // MARK : private
+
+    private func reloadEntirePostDetail() {
+        PostService().loadPost(
+            postParam,
+            streamKind: .PostDetail(postParam: postParam),
+            success: postLoaded,
+            failure: nil
+        )
+    }
 
     private func setupNavigationBar() {
         navigationBar = ElloNavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: ElloNavigationBar.Size.height))
@@ -71,24 +91,6 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         navigationItem.leftBarButtonItems = [item]
         navigationItem.fixNavBarItemPadding()
         navigationBar.items = [self.navigationItem]
-    }
-
-    private func setupStreamViewController() {
-        streamViewController.currentUser = currentUser
-        streamViewController.streamKind = .PostDetail(postParam: postParam)
-        streamViewController.createCommentDelegate = self
-        streamViewController.postTappedDelegate = self
-        streamViewController.streamScrollDelegate = self
-        streamViewController.userTappedDelegate = self
-        streamViewController.postbarController?.toggleableComments = false
-
-        streamViewController.willMoveToParentViewController(self)
-        view.insertSubview(streamViewController.view, belowSubview: navigationBar)
-        addChildViewController(streamViewController)
-        streamViewController.didMoveToParentViewController(self)
-
-        streamViewController.view.frame = navigationBar.frame.fromBottom().withHeight(view.frame.height - navigationBar.frame.height)
-        streamViewController.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
     }
 
     private func postLoaded(post: Post, responseConfig: ResponseConfig) {
@@ -128,13 +130,4 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
             }
         }
     }
-
-    override public func commentCreated(comment: Comment, fromController streamViewController: StreamViewController) {
-        let newCommentItems = StreamCellItemParser().parse([comment], streamKind: streamViewController.streamKind)
-
-        let startingIndexPath = NSIndexPath(forRow: startOfComments, inSection: 0)
-        streamViewController.insertUnsizedCellItems(newCommentItems, startingIndexPath: startingIndexPath)
-        // load comments again?
-    }
-
 }

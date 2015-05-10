@@ -98,15 +98,14 @@ public extension ElloTabBarController {
 }
 
 public extension ElloTabBarController {
-    func setProfileData(currentUser: User, responseConfig: ResponseConfig) {
+    func setProfileData(currentUser: User) {
         self.currentUser = currentUser
-        self.profileResponseConfig = responseConfig
         for controller in childViewControllers {
             if let controller = controller as? BaseElloViewController {
                 controller.currentUser = currentUser
             }
             else if let controller = controller as? ElloNavigationController {
-                controller.setProfileData(currentUser, responseConfig: responseConfig)
+                controller.setProfileData(currentUser)
             }
         }
     }

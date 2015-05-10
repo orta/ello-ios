@@ -8,6 +8,8 @@
 
 import SwiftyJSON
 
+let DynamicSettingVersion = 1
+
 public final class DynamicSetting: JSONAble {
     public let label: String
     public let key: String
@@ -21,7 +23,7 @@ public final class DynamicSetting: JSONAble {
         self.info = info
         self.linkLabel = linkLabel
         self.linkURL = linkURL
-        super.init()
+        super.init(version: DynamicSettingVersion)
     }
 
     public required init(coder aDecoder: NSCoder) {

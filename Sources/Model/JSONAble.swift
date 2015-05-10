@@ -11,25 +11,31 @@ import YapDatabase
 
 public typealias FromJSONClosure = (data: [String: AnyObject], fromLinked: Bool) -> JSONAble
 
+let JSONAbleVersion = 1
+
 public class JSONAble: NSObject, NSCoding {
     // links
     public var links: [String: AnyObject]?
+    public let version: Int
 
-    public override init() {
+    public init(version: Int) {
+        self.version = version
         super.init()
     }
 
     public required init(coder aDecoder: NSCoder) {
         let decoder = Decoder(aDecoder)
         self.links = decoder.decodeOptionalKey("links")
+        self.version = decoder.decodeKey("version")
     }
 
     public func encodeWithCoder(encoder: NSCoder) {
         encoder.encodeObject(links, forKey: "links")
+        encoder.encodeInt64(Int64(version), forKey: "version")
     }
 
     public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
-        return JSONAble()
+        return JSONAble(version: JSONAbleVersion)
     }
 }
 

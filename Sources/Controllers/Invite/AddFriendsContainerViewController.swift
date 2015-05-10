@@ -41,6 +41,11 @@ public class AddFriendsContainerViewController: StreamableViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // TODO: remove this and convert to streamViewController
+    override func setupStreamController() {
+        // noop
+    }
+
     override public func viewDidLoad() {
         super.viewDidLoad()
         setupNavBar()

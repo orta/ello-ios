@@ -22,7 +22,6 @@ public enum EmbedType: String {
 }
 
 public final class EmbedRegion: JSONAble, Regionable {
-    public let version = EmbedRegionVersion
     public var isRepost: Bool = false
     
     // active record
@@ -52,7 +51,7 @@ public final class EmbedRegion: JSONAble, Regionable {
         self.url = url
         self.thumbnailSmallUrl = thumbnailSmallUrl
         self.thumbnailLargeUrl = thumbnailLargeUrl
-        super.init()
+        super.init(version: EmbedRegionVersion)
     }
 
     // MARK: NSCoding
