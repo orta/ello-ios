@@ -11,5 +11,4 @@
 #import <SVGKit/SVGKit.h>
 #import <OnePasswordExtension/OnePasswordExtension.h>
 #import <YapDatabase/YapDatabase.h>
-#import <NewRelicAgent/NewRelic.h>
 #import <LUKeychainAccess/LUKeychainAccess.h>
