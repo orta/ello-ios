@@ -47,9 +47,7 @@ public class AppViewController: BaseElloViewController {
 
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        if self.view.frame.height < CGFloat(568) {
-            logoTopConstraint.constant = 56
-        }
+        scrollView.contentSize = view.frame.size
     }
 
     var isStartup = true
