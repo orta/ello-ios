@@ -7,7 +7,8 @@ class AlertViewControllerSpec: QuickSpec {
         describe("nib") {
             it("outlets are set") {
                 let controller = AlertViewController(message: .None)
-                _ = controller.view
+                controller.loadView()
+                controller.viewDidLoad()
 
                 expect(controller.tableView).toNot(beNil())
                 expect(controller.topPadding).toNot(beNil())
