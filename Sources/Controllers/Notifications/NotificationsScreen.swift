@@ -43,6 +43,7 @@ public class NotificationsScreen : UIView {
 
     override public init(frame: CGRect) {
         filterBar = NotificationsFilterBar()
+        filterBar.backgroundColor = .whiteColor()
         filterBarVisible = true
 
         let filterAllButton = NotificationsScreen.filterButton("All")
