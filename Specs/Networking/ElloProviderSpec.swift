@@ -61,7 +61,7 @@ class ElloProviderSpec: QuickSpec {
                         ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
                     }
 
-                    xcontext("401") {
+                    context("401") {
 
                         it("posts a notification with a status of 401") {
 
