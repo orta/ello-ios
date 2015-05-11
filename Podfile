@@ -15,7 +15,6 @@ pod 'JTSImageViewController', git: 'https://github.com/ello/JTSImageViewControll
 pod 'KINWebBrowser', git: 'https://github.com/ello/KINWebBrowser'
 pod 'LUKeychainAccess', '~> 1.2.4'
 pod 'MBProgressHUD', '~> 0.9.0'
-pod 'NewRelicAgent', '~> 5.0.1'
 pod 'SDWebImage', '~> 3.7'
 pod 'SSPullToRefresh', '~> 1.2'
 pod 'SVGKit', git: 'https://github.com/SVGKit/SVGKit'
@@ -43,7 +42,6 @@ plugin 'cocoapods-keys', {
     'ClientSecret',
     'CrashlyticsKey',
     'Domain',
-    'NewRelicKey',
     'Salt',
   ]
 }
