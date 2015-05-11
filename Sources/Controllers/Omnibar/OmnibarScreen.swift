@@ -296,6 +296,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
     public func profileImageTapped() {
         if let userParam = currentUser?.id {
             let profileVC = ProfileViewController(userParam: userParam)
+            profileVC.currentUser = self.currentUser
             self.delegate?.omnibarPushController(profileVC)
         }
     }
