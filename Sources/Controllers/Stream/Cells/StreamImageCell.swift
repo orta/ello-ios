@@ -28,8 +28,8 @@ public class StreamImageCell: StreamRegionableCell {
     var presentedImageUrl:NSURL?
     var serverProvidedAspectRatio:CGFloat?
     public var showImageSizeWarning: Bool {
-        get { return !imageSizeWarning.hidden }
-        set { imageSizeWarning.hidden = !newValue }
+        get { return !(imageSizeWarning?.hidden ?? true) }
+        set { imageSizeWarning?.hidden = !newValue }
     }
     private let defaultAspectRatio:CGFloat = 4.0/3.0
     private var aspectRatio:CGFloat = 4.0/3.0
