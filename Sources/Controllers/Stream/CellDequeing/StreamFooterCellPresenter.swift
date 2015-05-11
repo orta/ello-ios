@@ -105,8 +105,8 @@ public struct StreamFooterCellPresenter {
                     cell.reposts = ""
                 }
                 else {
-                    cell.views = post.viewsCount?.localizedStringFromNumber()
-                    cell.reposts = post.repostsCount?.localizedStringFromNumber()
+                    cell.views = post.viewsCount?.numberToHuman()
+                    cell.reposts = post.repostsCount?.numberToHuman()
                 }
             }
         }
