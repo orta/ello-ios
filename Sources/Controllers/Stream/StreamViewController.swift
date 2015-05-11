@@ -297,7 +297,7 @@ public class StreamViewController: BaseElloViewController {
                     println("no-op")
                 default:
                     self.dataSource.modifyItems(post, change: change, collectionView: self.collectionView)
-                }   
+                }
                 println("handle deletes")
                 // reload page
             case .Update:
