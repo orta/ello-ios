@@ -24,7 +24,7 @@ public class NotificationsViewController: StreamableViewController, Notification
     override public func viewDidLoad() {
         super.viewDidLoad()
 
-        self.screen.delegate = self
+        screen.delegate = self
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
         scrollLogic.navBarHeight = 44
         streamViewController.streamKind = .Notifications
@@ -34,19 +34,28 @@ public class NotificationsViewController: StreamableViewController, Notification
 
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.navigationBarHidden = true
+        navigationController?.navigationBarHidden = true
+    }
+
+    override public func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        updateInsets()
     }
 
     override public func showNavBars(scrollToBottom: Bool) {
         super.showNavBars(scrollToBottom)
-        self.screen.showFilterBar()
-        self.screen.layoutIfNeeded()
+        screen.animateFilterBar(visible: true)
+        updateInsets()
     }
 
     override public func hideNavBars() {
         super.hideNavBars()
-        self.screen.hideFilterBar()
-        self.screen.layoutIfNeeded()
+        screen.animateFilterBar(visible: false)
+        updateInsets()
+    }
+
+    private func updateInsets() {
+        updateInsets(navBar: screen.filterBar, streamController: streamViewController)
     }
 
     // used to provide StreamableViewController access to the container it then
