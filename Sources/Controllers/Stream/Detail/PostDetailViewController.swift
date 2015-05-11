@@ -51,9 +51,8 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
 
     override public func showNavBars(scrollToBottom : Bool) {
         super.showNavBars(scrollToBottom)
-        animate {
-            navigationBar.frame = navigationBar.frame.atY(0)
-        }
+        positionNavBar(navigationBar, visible: true)
+        updateInsets(navBarsVisible: true, navBar: navigationBar, streamController: streamViewController)
 
         if scrollToBottom {
             if let scrollView = streamViewController.collectionView {
@@ -69,9 +68,8 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
 
     override public func hideNavBars() {
         super.hideNavBars()
-        animate {
-            navigationBar.frame = navigationBar.frame.atY(-navigationBar.frame.height - 1)
-        }
+        positionNavBar(navigationBar, visible: false)
+        updateInsets(navBarsVisible: false, navBar: navigationBar, streamController: streamViewController)
     }
 
     // MARK : private
