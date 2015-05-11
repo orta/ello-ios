@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7528.3" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7518.3"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
@@ -21,14 +21,14 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="A2p-8r-avy" userLabel="coverImage" customClass="FLAnimatedImageView">
-                    <rect key="frame" x="0.0" y="44" width="600" height="338"/>
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="338"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="338" id="Uoo-CU-1JR" userLabel="coverImageHeight"/>
                         <constraint firstAttribute="width" secondItem="A2p-8r-avy" secondAttribute="height" multiplier="16:9" id="kN1-ds-Pba" userLabel="coverImage - ratio"/>
                     </constraints>
                 </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wlf-zL-93E" userLabel="viewContainer">
-                    <rect key="frame" x="0.0" y="44" width="600" height="556"/>
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dl8-ha-LxN" customClass="ElloNavigationBar" customModule="Ello" customModuleProvider="target">
@@ -43,12 +43,12 @@
                 <constraint firstAttribute="trailing" secondItem="Dl8-ha-LxN" secondAttribute="trailing" id="4VW-hR-wV5" userLabel="navigationBar - right"/>
                 <constraint firstAttribute="top" secondItem="Dl8-ha-LxN" secondAttribute="top" id="HAg-hv-aOW" userLabel="navigationBar - top"/>
                 <constraint firstItem="wlf-zL-93E" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="K3x-o1-2W5" userLabel="viewContainer - left"/>
-                <constraint firstAttribute="bottom" secondItem="wlf-zL-93E" secondAttribute="bottom" id="Kzz-uf-eqd" userLabel="viewContainer - bottom"/>
-                <constraint firstAttribute="trailing" secondItem="wlf-zL-93E" secondAttribute="trailing" id="Rwp-mf-G91" userLabel="viewContainer - right"/>
-                <constraint firstItem="wlf-zL-93E" firstAttribute="top" secondItem="Dl8-ha-LxN" secondAttribute="bottom" id="aZg-M0-wHe" userLabel="viewContainer - top"/>
+                <constraint firstItem="wlf-zL-93E" firstAttribute="bottom" secondItem="iN0-l3-epB" secondAttribute="bottom" id="Kzz-uf-eqd" userLabel="viewContainer - bottom"/>
+                <constraint firstItem="wlf-zL-93E" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailing" id="Rwp-mf-G91" userLabel="viewContainer - right"/>
                 <constraint firstAttribute="centerX" secondItem="A2p-8r-avy" secondAttribute="centerX" id="naz-Ui-54x" userLabel="coverImage - centerX"/>
                 <constraint firstItem="Dl8-ha-LxN" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="sky-eS-kcB" userLabel="navigationBar - left"/>
                 <constraint firstItem="A2p-8r-avy" firstAttribute="top" secondItem="wlf-zL-93E" secondAttribute="top" id="wz7-ye-x4t" userLabel="coverImage - top"/>
+                <constraint firstItem="wlf-zL-93E" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="xTE-z7-na0" userLabel="viewContainer - top"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
         </view>
