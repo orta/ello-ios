@@ -26,15 +26,15 @@ public class JoinViewController: BaseElloViewController, HasAppController {
     weak var parentAppController: AppViewController?
 
     // error checking
-    var queueEmailValidation: Functional.BasicBlock!
-    var queueUsernameValidation: Functional.BasicBlock!
-    var queuePasswordValidation: Functional.BasicBlock!
+    var queueEmailValidation: BasicBlock!
+    var queueUsernameValidation: BasicBlock!
+    var queuePasswordValidation: BasicBlock!
 
     required public init() {
         super.init(nibName: "JoinViewController", bundle: nil)
-        queueEmailValidation = Functional.debounce(0.5) { [unowned self] in self.validateEmail(self.emailView.textField.text) }
-        queueUsernameValidation = Functional.debounce(0.5) { [unowned self] in self.validateUsername(self.usernameView.textField.text) }
-        queuePasswordValidation = Functional.debounce(0.5) { [unowned self] in self.validatePassword(self.passwordView.textField.text) }
+        queueEmailValidation = debounce(0.5) { [unowned self] in self.validateEmail(self.emailView.textField.text) }
+        queueUsernameValidation = debounce(0.5) { [unowned self] in self.validateUsername(self.usernameView.textField.text) }
+        queuePasswordValidation = debounce(0.5) { [unowned self] in self.validatePassword(self.passwordView.textField.text) }
         modalTransitionStyle = .CrossDissolve
     }
 

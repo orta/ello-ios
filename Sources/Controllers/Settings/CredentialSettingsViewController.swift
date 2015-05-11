@@ -32,7 +32,7 @@ public class CredentialSettingsViewController: UITableViewController {
 
     public var currentUser: User?
     public var delegate: CredentialSettingsDelegate?
-    var validationCancel: Functional.BasicBlock?
+    var validationCancel: BasicBlock?
 
     public var isUpdatable: Bool {
         return currentUser?.username != usernameView.textField.text
