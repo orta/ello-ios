@@ -32,6 +32,8 @@ class NotificationsViewControllerSpec: QuickSpec {
             it("is a NotificationsViewController") {
                 expect(controller).to(beAKindOf(NotificationsViewController.self))
             }
+
+            xit("streamViewController responds to NotificationDelegate") {}
         }
     }
 }
