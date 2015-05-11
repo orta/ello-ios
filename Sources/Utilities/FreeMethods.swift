@@ -94,6 +94,31 @@ public func until(times: Int, block: BasicBlock) -> BasicBlock {
     }
 }
 
+public func once(block: BasicBlock) -> BasicBlock {
+    return until(1, block)
+}
+
+public func timeout(duration: NSTimeInterval, block: BasicBlock) -> BasicBlock {
+    let handler = once(block)
+    _ = delay(duration) {
+        handler()
+    }
+    return handler
+}
+
+public func delay(duration: NSTimeInterval, block: BasicBlock) {
+    let proc = Proc(block)
+    let timer = NSTimer.scheduledTimerWithTimeInterval(duration, target: proc, selector: "run", userInfo: nil, repeats: false)
+}
+
+public func cancelableDelay(duration: NSTimeInterval, block: BasicBlock) -> BasicBlock {
+    let proc = Proc(block)
+    let timer = NSTimer.scheduledTimerWithTimeInterval(duration, target: proc, selector: "run", userInfo: nil, repeats: false)
+    return {
+        timer.invalidate()
+    }
+}
+
 public func debounce(timeout: NSTimeInterval, block: BasicBlock) -> BasicBlock {
     var timer: NSTimer? = nil
     let proc = Proc(block)

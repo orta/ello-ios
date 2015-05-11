@@ -71,7 +71,7 @@ public class CredentialSettingsViewController: UITableViewController {
         self.updateView()
 
         self.validationCancel?()
-        self.validationCancel = Functional.cancelableDelay(0.5) { [unowned self] in
+        self.validationCancel = cancelableDelay(0.5) { [unowned self] in
             if text.isEmpty {
                 self.emailView.setState(.Error)
                 self.updateView()
@@ -109,7 +109,7 @@ public class CredentialSettingsViewController: UITableViewController {
         self.updateView()
 
         self.validationCancel?()
-        self.validationCancel = Functional.cancelableDelay(0.5) { [unowned self] in
+        self.validationCancel = cancelableDelay(0.5) { [unowned self] in
             if text.isEmpty {
                 self.usernameView.setState(.Error)
                 self.updateView()
