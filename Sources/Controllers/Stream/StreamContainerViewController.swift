@@ -53,23 +53,10 @@ public class StreamContainerViewController: StreamableViewController {
             updateInsets(navBarsVisible: navBarsVisible(), navBar: navigationBar, streamController: controller)
         }
     }
-    private func positionNavBar(#visible: Bool, animated: Bool) {
-        let upAmount: CGFloat
-        if visible {
-            upAmount = 0
-        }
-        else {
-            upAmount = navigationBar.frame.height + 1
-        }
-        navigationBarTopConstraint.constant = upAmount
-        animate(animated: animated) {
-            self.navigationBar.frame.origin.y = -upAmount
-        }
-    }
 
     override public func showNavBars(scrollToBottom : Bool) {
         super.showNavBars(scrollToBottom)
-        positionNavBar(visible: true, animated: true)
+        positionNavBar(navigationBar, visible: true, withConstraint: navigationBarTopConstraint)
         updateInsets()
 
         if scrollToBottom {
@@ -88,7 +75,7 @@ public class StreamContainerViewController: StreamableViewController {
 
     override public func hideNavBars() {
         super.hideNavBars()
-        positionNavBar(visible: false, animated: true)
+        positionNavBar(navigationBar, visible: false, withConstraint: navigationBarTopConstraint)
         updateInsets()
     }
 

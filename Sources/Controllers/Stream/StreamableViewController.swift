@@ -90,6 +90,20 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
         controller.contentInset.bottom = bottomInset
     }
 
+    func positionNavBar(navBar: UIView, visible: Bool, withConstraint navigationBarTopConstraint: NSLayoutConstraint? = nil, animated: Bool = true) {
+        let upAmount: CGFloat
+        if visible {
+            upAmount = 0
+        }
+        else {
+            upAmount = navBar.frame.height + 1
+        }
+        navigationBarTopConstraint?.constant = upAmount
+        animate(animated: animated) {
+            navBar.frame.origin.y = -upAmount
+        }
+    }
+
     func showNavBars(scrollToBottom : Bool) {
         if let tabBarController = self.elloTabBarController {
             tabBarController.setTabBarHidden(false, animated: true)
