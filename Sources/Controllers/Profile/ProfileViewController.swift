@@ -101,7 +101,8 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         return !(elloTabBarController?.tabBarHidden ?? false)
     }
     private func updateInsets() {
-        updateInsets(navBarsVisible: navBarsVisible(), navBar: navigationBar, streamController: streamViewController)
+        let navBar: ElloNavigationBar? = isRootViewController() ? nil : navigationBar
+        updateInsets(navBarsVisible: navBarsVisible(), navBar: navBar, streamController: streamViewController)
     }
 
     private func showNavBarIfNotRoot() {
@@ -195,7 +196,7 @@ extension ProfileViewController: StreamScrollDelegate {
         {
             coverImageHeight.constant = max(start - scrollView.contentOffset.y, start)
         }
-        
+
         super.streamViewDidScroll(scrollView)
     }
 }
