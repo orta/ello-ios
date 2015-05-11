@@ -29,16 +29,16 @@ class SignInViewControllerSpec: QuickSpec {
             describe("nib") {
 
                 it("IBOutlets are  not nil") {
-                    expect(controller.scrollView).notTo(beNil())
-                    expect(controller.enterButton).notTo(beNil())
-                    expect(controller.forgotPasswordButton).notTo(beNil())
-                    expect(controller.emailTextField).notTo(beNil())
-                    expect(controller.passwordTextField).notTo(beNil())
-                    expect(controller.joinButton).notTo(beNil())
-                    expect(controller.enterButtonTopContraint).notTo(beNil())
-                    expect(controller.containerHeightContraint).notTo(beNil())
-                    expect(controller.errorLabel).notTo(beNil())
-                    expect(controller.onePasswordButton).notTo(beNil())
+                    expect(subject.scrollView).notTo(beNil())
+                    expect(subject.enterButton).notTo(beNil())
+                    expect(subject.forgotPasswordButton).notTo(beNil())
+                    expect(subject.emailTextField).notTo(beNil())
+                    expect(subject.passwordTextField).notTo(beNil())
+                    expect(subject.joinButton).notTo(beNil())
+                    expect(subject.enterButtonTopContraint).notTo(beNil())
+                    expect(subject.containerHeightContraint).notTo(beNil())
+                    expect(subject.errorLabel).notTo(beNil())
+                    expect(subject.onePasswordButton).notTo(beNil())
                 }
 
                 it("IBActions are wired up") {
