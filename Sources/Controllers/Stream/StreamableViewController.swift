@@ -74,10 +74,14 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
         scrollLogic.isShowing = navBarsVisible
     }
 
-    func updateInsets(#navBarsVisible: Bool, navBar: ElloNavigationBar?, streamController controller: StreamViewController) {
+    func navBarsVisible() -> Bool {
+        return !(elloTabBarController?.tabBarHidden ?? false)
+    }
+
+    func updateInsets(#navBar: UIView?, streamController controller: StreamViewController, navBarsVisible visible: Bool? = nil) {
         let topInset: CGFloat
         let bottomInset: CGFloat
-        if navBarsVisible {
+        if visible ?? navBarsVisible() {
             topInset = navBar?.frame.size.height ?? 0
             bottomInset = ElloTabBar.Size.height
         }

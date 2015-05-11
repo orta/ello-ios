@@ -45,12 +45,9 @@ public class StreamContainerViewController: StreamableViewController {
         updateInsets()
     }
 
-    private func navBarsVisible() -> Bool {
-        return navigationBarTopConstraint.constant == 0
-    }
     private func updateInsets() {
         for controller in self.childViewControllers as! [StreamViewController] {
-            updateInsets(navBarsVisible: navBarsVisible(), navBar: navigationBar, streamController: controller)
+            updateInsets(navBar: navigationBar, streamController: controller)
         }
     }
 

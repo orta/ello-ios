@@ -97,12 +97,9 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         updateInsets()
     }
 
-    private func navBarsVisible() -> Bool {
-        return !(elloTabBarController?.tabBarHidden ?? false)
-    }
     private func updateInsets() {
         let navBar: ElloNavigationBar? = isRootViewController() ? nil : navigationBar
-        updateInsets(navBarsVisible: navBarsVisible(), navBar: navBar, streamController: streamViewController)
+        updateInsets(navBar: navBar, streamController: streamViewController)
     }
 
     private func showNavBarIfNotRoot() {
