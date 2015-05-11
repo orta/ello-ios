@@ -268,6 +268,8 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                 (cell as! UserListItemCell).relationshipControl.relationshipDelegate = relationshipDelegate
                 (cell as! UserListItemCell).userDelegate = userDelegate
                 (cell as! UserListItemCell).currentUser = currentUser
+            case .RepostHeader:
+                (cell as! StreamRepostHeaderCell).userDelegate = userDelegate
             case .Toggle:
                 // (cell as! StreamToggleCell)
                 break
