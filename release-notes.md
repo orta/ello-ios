@@ -1,3 +1,82 @@
+### Ello Build 1596(v1.0.0) May 8, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #251 - Update notification filter buttons with SVG
+* Had to update the dots svg also
+
+[Finishes #94204666]
+
+------
+
+#### #247 - Do not download "large gifs"
+Where "large" is >= 2MB.  We added a label to the image view to show "large image, tap to view", and tapping the image loads the full image in the JTSImageView.
+
+On PostDetail we show the image.
+
+------
+
+#### #249 - Update project dependencies to latest usable versions
+* Rename travis-build.sh to ci.sh
+* Also adds the export of the LANG for UTF-8
+* Update gem dependencies
+* Update cocoapods to ~> 0.37.1
+* Bump keys version to 1.2.0 as this fixes the need to type the target several times when running a `pod install` and works with 0.37.1 and above (so far)
+* Update pod dependencies
+* Remove the .git from git repos as it is not needed
+* Add Crashlytics and NewRelic keys to the plugin section for cocoa pods keys
+* Point SVGKit to master as the 2.x branch is merged in
+* Alphabetize pods for fun
+
+------
+
+#### #250 - Update SVG icon assets.
+* Remove unused ones
+* Add in new ones
+* Customize the question mark
+* Customize the comment bubble
+* Customize the heart variants for loves
+* Change the comment button to the new one
+
+[#94136162]
+
+------
+
+#### #244 - tapping a notification cell opens the post
+You can tap on whitespace or the image
+
+------
+
+#### #242 - Login/Join/App screens are now white
+* pretty self explanatory
+
+------
+
+#### #241 - Refactored StreamFooterCell/Presenter, and PostbarController
+Moved all the 'application logic' stuff out of the Cell, and into the StreamFooterCellPresenter and the PostbarController.  Now shows or hides the comments/sharing/reposting buttons, according to the 'visibility' setting (Enabled, Disabled, or NotAllowed).
+
+So now the Cell focuses on View-related state, and the Presenter hands that state to the Cell _en masse_. Also, when the comments button is tapped, the PostbarController decides whether to show the detail, or start loading comments.  So yeah, much less logic in the cell class.
+
+------
+
+#### #240 - Fix the specs!
+* Removes the `ForgotPasswordViewController` and it’s specs
+* Fix Join spec
+* Fix Keyboard specs
+* Fix Omnibar specs
+* Update to keys…
+
+------
+
+#### #238 - Unimportant changes
+While reviewing the app with @codelance we found some warts in syntax and such.  Kill em with fire.
+
+Also fixes the search screen so that scrolling dismisses the keyboard.
+    
+------------
+
 ### Ello Build 1541(v1.0.0) May 5, 2015
 
     RELEASE NOTES
