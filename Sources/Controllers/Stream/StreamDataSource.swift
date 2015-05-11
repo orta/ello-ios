@@ -495,7 +495,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         let profileHeaderItems = cellItems.filter {
             return $0.type == StreamCellType.ProfileHeader
         }
-        let afterAll = Functional.after(4, block: completion)
+        let afterAll = after(4, completion)
 
         self.imageSizeCalculator.processCells(imageCells.normal, withWidth: withWidth) {
             self.imageSizeCalculator.processCells(imageCells.repost, withWidth: withWidth - 30.0, completion: afterAll)

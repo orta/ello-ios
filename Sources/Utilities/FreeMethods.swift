@@ -48,6 +48,52 @@ public class Proc {
 }
 
 
+public func times(times: Int, @noescape block: BasicBlock) {
+    times_(times) { (index: Int) in block() }
+}
+
+public func times(times: Int, @noescape block: TakesIndexBlock) {
+    times_(times, block)
+}
+
+private func times_(times: Int, @noescape block: TakesIndexBlock) {
+    if times <= 0 {
+        return
+    }
+    for var i = 0 ; i < times ; ++i {
+        block(i)
+    }
+}
+
+public func after(times: Int, block: BasicBlock) -> BasicBlock {
+    if times == 0 {
+        block()
+        return {}
+    }
+
+    var remaining = times
+    return {
+        remaining -= 1
+        if remaining == 0 {
+            block()
+        }
+    }
+}
+
+public func until(times: Int, block: BasicBlock) -> BasicBlock {
+    if times == 0 {
+        return {}
+    }
+
+    var remaining = times
+    return {
+        remaining -= 1
+        if remaining >= 0 {
+            block()
+        }
+    }
+}
+
 public func debounce(timeout: NSTimeInterval, block: BasicBlock) -> BasicBlock {
     var timer: NSTimer? = nil
     let proc = Proc(block)
