@@ -57,6 +57,7 @@ public class NotificationsScreen : UIView {
         streamContainer = UIView()
         super.init(frame: frame)
         backgroundColor = UIColor.whiteColor()
+        self.addSubview(streamContainer)
 
         for (button, action) in [
             (filterAllButton, "allButtonTapped:"),
@@ -71,7 +72,6 @@ public class NotificationsScreen : UIView {
         }
         filterBar.selectButton(filterAllButton)
         self.addSubview(filterBar)
-        self.addSubview(streamContainer)
     }
 
     required public init(coder: NSCoder) {
