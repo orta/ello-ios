@@ -24,14 +24,12 @@ public class AddFriendsContainerViewController: StreamableViewController {
     public let pageViewController: UIPageViewController
     public let findFriendsViewController: FindFriendsViewController
     public let inviteFriendsViewController: InviteFriendsViewController
-    let controllers: [UIViewController]
     let addressBook: ContactList
 
     required public init(addressBook: ContactList) {
         self.pageViewController = UIPageViewController(transitionStyle: .Scroll, navigationOrientation: .Horizontal, options: nil)
         self.findFriendsViewController = FindFriendsViewController()
         self.inviteFriendsViewController = InviteFriendsViewController()
-        self.controllers = [self.findFriendsViewController, self.inviteFriendsViewController]
         self.addressBook = addressBook
         super.init(nibName: "AddFriendsContainerViewController", bundle: NSBundle(forClass: FindFriendsViewController.self))
         self.title = "Add Friends"
@@ -56,18 +54,28 @@ public class AddFriendsContainerViewController: StreamableViewController {
     override public func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         findFriendsFromContacts()
+        updateInsets()
     }
 
     override func showNavBars(scrollToBottom : Bool) {
         super.showNavBars(scrollToBottom)
-        navigationBarTopConstraint.constant = 0
-        self.view.layoutIfNeeded()
+        positionNavBar(navigationBar, visible: false, withConstraint: navigationBarTopConstraint)
     }
 
     override func hideNavBars() {
         super.hideNavBars()
-        navigationBarTopConstraint.constant = navigationBar.frame.height + 1
-        self.view.layoutIfNeeded()
+        positionNavBar(navigationBar, visible: false, withConstraint: navigationBarTopConstraint)
+    }
+
+    private func updateInsets() {
+        if let tableView = findFriendsViewController.tableView {
+            tableView.contentInset.bottom = ElloTabBar.Size.height
+            tableView.scrollIndicatorInsets.bottom = ElloTabBar.Size.height
+        }
+        if let tableView = inviteFriendsViewController.tableView {
+            tableView.contentInset.bottom = ElloTabBar.Size.height
+            tableView.scrollIndicatorInsets.bottom = ElloTabBar.Size.height
+        }
     }
 
     // MARK: - Private
@@ -147,18 +155,22 @@ public class AddFriendsContainerViewController: StreamableViewController {
     @IBAction func findFriendsTapped(sender: FindInviteButton) {
         selectButton(.Find)
         Tracker.sharedTracker.screenAppeared("Find Friends")
-        pageViewController.setViewControllers([controllers[0]],
+        pageViewController.setViewControllers([findFriendsViewController],
             direction: .Reverse,
-            animated: true) { finished in
+            animated: true)
+        { finished in
+            self.updateInsets()
         }
     }
 
     @IBAction func inviteFriendsTapped(sender: FindInviteButton) {
         selectButton(.Invite)
         Tracker.sharedTracker.screenAppeared("Invite Friends")
-        pageViewController.setViewControllers([controllers[1]],
+        pageViewController.setViewControllers([inviteFriendsViewController],
             direction: .Forward,
-            animated: true) { finished in
+            animated: true)
+        { finished in
+            self.updateInsets()
         }
     }
 }
