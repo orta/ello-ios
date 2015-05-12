@@ -13,6 +13,11 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     var keyboardWillShowObserver: NotificationObserver?
     var keyboardWillHideObserver: NotificationObserver?
 
+    override public var tabBarItem: UITabBarItem? {
+        get { return UITabBarItem.svgItem("omni") }
+        set { self.tabBarItem = newValue }
+    }
+
     var previousTab: ElloTab = .DefaultTab
     var parentPost: Post?
     var defaultText: String?

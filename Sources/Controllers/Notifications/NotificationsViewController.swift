@@ -13,6 +13,11 @@ import WebKit
 
 public class NotificationsViewController: StreamableViewController, NotificationDelegate, NotificationsScreenDelegate {
 
+    override public var tabBarItem: UITabBarItem? {
+        get { return UITabBarItem.svgItem("bolt") }
+        set { self.tabBarItem = newValue }
+    }
+
     override public func loadView() {
         self.view = NotificationsScreen(frame: UIScreen.mainScreen().bounds)
     }
@@ -42,7 +47,7 @@ public class NotificationsViewController: StreamableViewController, Notification
         updateInsets()
     }
 
-    func setupStreamController() {
+    override func setupStreamController() {
         super.setupStreamController()
 
         streamViewController.notificationDelegate = self

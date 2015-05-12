@@ -24,6 +24,11 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
 
     var backGesture: UIScreenEdgePanGestureRecognizer?
 
+    override public var tabBarItem: UITabBarItem? {
+        get { return childViewControllers.first?.tabBarItem ?? super.tabBarItem }
+        set { self.tabBarItem = newValue }
+    }
+
     enum RootViewControllers: String {
         case Notifications = "NotificationsViewController"
         case Profile = "ProfileViewController"
@@ -40,7 +45,7 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
         }
     }
 
-    func setProfileData(currentUser: User) {
+    public func setProfileData(currentUser: User) {
         self.currentUser = currentUser
         if self.viewControllers.count == 0 {
             if let rootViewControllerName = rootViewControllerName {
@@ -213,5 +218,4 @@ extension ElloNavigationController: UINavigationControllerDelegate {
         default: return .None
         }
     }
-
 }

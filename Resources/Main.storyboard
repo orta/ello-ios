@@ -241,11 +241,8 @@
             <objects>
                 <navigationController storyboardIdentifier="StreamContainerViewController" navigationBarHidden="YES" id="6gB-P3-Psq" userLabel="StreamContainer Navigation Controller" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <tabBarItem key="tabBarItem" title="" image="friends-icon" id="aLZ-c4-Yur">
+                    <tabBarItem key="tabBarItem" title="" id="aLZ-c4-Yur">
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="friends-icon-selected"/>
-                        </userDefinedRuntimeAttributes>
                     </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="Tgb-bf-SEj">
@@ -272,11 +269,8 @@
         <scene sceneID="hm1-Di-XPS">
             <objects>
                 <navigationController storyboardIdentifier="NotificationsViewController" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="OLo-wM-vov" userLabel="Notifications Navigation Controller" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="notifications-icon" id="cPa-gy-q4n">
+                    <tabBarItem key="tabBarItem" title="" id="cPa-gy-q4n">
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="notifications-icon-selected"/>
-                        </userDefinedRuntimeAttributes>
                     </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Lwj-gZ-4Ny">
@@ -296,11 +290,8 @@
         <scene sceneID="hfY-Uc-rBK">
             <objects>
                 <navigationController storyboardIdentifier="ProfileViewController" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="HTb-EB-4Yn" userLabel="Profile View Controller" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="profile-icon" id="6NF-g8-Kfc">
+                    <tabBarItem key="tabBarItem" title="" id="6NF-g8-Kfc">
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="profile-icon-selected"/>
-                        </userDefinedRuntimeAttributes>
                     </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" hidden="YES" contentMode="scaleToFill" id="Hgb-rg-okC">
@@ -321,11 +312,8 @@
             <objects>
                 <navigationController storyboardIdentifier="DiscoverViewController" id="rfd-p2-XSV" userLabel="Discover Navigation Controller" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <tabBarItem key="tabBarItem" title="" image="discover-icon" id="acW-dT-cKf">
+                    <tabBarItem key="tabBarItem" title="" id="acW-dT-cKf">
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="discover-icon-selected"/>
-                        </userDefinedRuntimeAttributes>
                     </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="F8U-89-LVE">
@@ -344,12 +332,9 @@
         <!--Omnibar Navigation Controller-->
         <scene sceneID="3Vb-Rm-HKL">
             <objects>
-                <navigationController storyboardIdentifier="OmnibarViewController" automaticallyAdjustsScrollViewInsets="NO" id="jRU-db-VFH" userLabel="Omnibar Navigation Controller" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="post-icon" id="kAH-dT-zG0">
+                <navigationController storyboardIdentifier="OmnibarViewController" automaticallyAdjustsScrollViewInsets="NO" id="jRU-db-VFH" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="" id="kAH-dT-zG0">
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="post-icon-selected"/>
-                        </userDefinedRuntimeAttributes>
                     </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="4Of-Xc-qiM">
@@ -367,18 +352,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="discover-icon" width="49" height="49"/>
-        <image name="discover-icon-selected" width="49" height="49"/>
         <image name="ello-logo" width="166" height="166"/>
-        <image name="friends-icon" width="49" height="49"/>
-        <image name="friends-icon-selected" width="49" height="49"/>
         <image name="hamburger-icon" width="49" height="49"/>
-        <image name="notifications-icon" width="49" height="49"/>
-        <image name="notifications-icon-selected" width="49" height="49"/>
-        <image name="post-icon" width="49" height="49"/>
-        <image name="post-icon-selected" width="49" height="49"/>
-        <image name="profile-icon" width="49" height="49"/>
-        <image name="profile-icon-selected" width="49" height="49"/>
         <image name="search-icon" width="49" height="49"/>
     </resources>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>

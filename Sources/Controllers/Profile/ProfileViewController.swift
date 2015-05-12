@@ -11,6 +11,11 @@ import FLAnimatedImage
 
 public class ProfileViewController: StreamableViewController, EditProfileResponder {
 
+    override public var tabBarItem: UITabBarItem? {
+        get { return UITabBarItem.svgItem("person") }
+        set { self.tabBarItem = newValue }
+    }
+    
     var user: User?
     var responseConfig: ResponseConfig?
     var userParam: String!

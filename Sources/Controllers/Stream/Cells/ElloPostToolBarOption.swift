@@ -39,7 +39,7 @@ public enum ElloPostToolBarOption {
         case .Reply:
             return imageLabelControl("reply")
         case .Flag:
-            return imageLabelControl("danger")
+            return imageLabelControl("flag")
         }
     }
 
