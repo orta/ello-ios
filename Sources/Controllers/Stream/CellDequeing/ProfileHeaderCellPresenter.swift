@@ -52,6 +52,8 @@ public struct ProfileHeaderCellPresenter {
             cell.countsTextView.appendTextWithAction(" \(followingCount) ", link: "following", object: user, extraAttrs: extraAttrs)
 
             var fCount: String
+            // The user.followersCount is a String due to a special case where that can return ∞ for the ello user. 
+            // toInt() returns an optional that will fail when not an Int allowing the ∞ to display for the ello user.
             if let followerCountInt = user.followersCount?.toInt() {
                 fCount = followerCountInt.numberToHuman()
             }
