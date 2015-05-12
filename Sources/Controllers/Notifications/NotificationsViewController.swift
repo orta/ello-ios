@@ -42,7 +42,7 @@ public class NotificationsViewController: StreamableViewController, Notification
         updateInsets()
     }
 
-    func setupStreamController() {
+    override func setupStreamController() {
         super.setupStreamController()
 
         streamViewController.notificationDelegate = self
