@@ -31,13 +31,9 @@ public class AppViewController: BaseElloViewController {
 
     private var pushPayload: PushPayload?
 
-    public required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        setupNotificationObservers()
-    }
-
     override public func viewDidLoad() {
         super.viewDidLoad()
+        setupNotificationObservers()
         setupStyles()
     }
 
