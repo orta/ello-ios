@@ -13,6 +13,8 @@ extension UITabBarItem {
     public static func svgItem(imageName: String) -> UITabBarItem {
         let iconImage = SVGKImage(named: "\(imageName)_normal.svg").UIImage!
         let iconSelectedImage = SVGKImage(named: "\(imageName)_selected.svg").UIImage!
-        return UITabBarItem(title: nil, image: iconImage, selectedImage: iconSelectedImage)
+        let item = UITabBarItem(title: nil, image: iconImage, selectedImage: iconSelectedImage)
+        item.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
+        return item
     }
 }

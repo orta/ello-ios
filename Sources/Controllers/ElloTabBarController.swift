@@ -137,6 +137,7 @@ extension ElloTabBarController: UITabBarDelegate {
 
 // MARK: Child View Controller handling
 public extension ElloTabBarController {
+
     override func addChildViewController(childController: UIViewController) {
         super.addChildViewController(childController)
         updateTabBarItems()
@@ -148,6 +149,7 @@ public extension ElloTabBarController {
 }
 
 private extension ElloTabBarController {
+
     func updateTabBarItems() {
         let controllers = childViewControllers as! [UIViewController]
         tabBar.items = controllers.map { controller in

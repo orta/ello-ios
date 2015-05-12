@@ -24,6 +24,11 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
 
     var backGesture: UIScreenEdgePanGestureRecognizer?
 
+    override public var tabBarItem: UITabBarItem? {
+        get { return childViewControllers.first?.tabBarItem ?? super.tabBarItem }
+        set { self.tabBarItem = newValue }
+    }
+
     enum RootViewControllers: String {
         case Notifications = "NotificationsViewController"
         case Profile = "ProfileViewController"
