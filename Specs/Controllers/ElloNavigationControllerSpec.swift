@@ -18,6 +18,7 @@ class ElloNavigationControllerSpec: QuickSpec {
         describe("NotificationsViewController NavigationController") {
             beforeEach() {
                 controller = UIStoryboard.storyboardWithId(.Notifications) as! ElloNavigationController
+                controller.setProfileData(User.stub(["id": "fakeuser"]))
             }
 
             it("has a tab bar item") {
@@ -25,13 +26,14 @@ class ElloNavigationControllerSpec: QuickSpec {
             }
 
             it("has a selected tab bar item") {
-               expect(controller.tabBarItem.selectedImage).notTo(beNil())
+               expect(controller.tabBarItem!.selectedImage).notTo(beNil())
             }
         }
 
         describe("ProfileViewController NavigationController") {
             beforeEach() {
                 controller = UIStoryboard.storyboardWithId(.Profile) as! ElloNavigationController
+                controller.setProfileData(User.stub(["id": "fakeuser"]))
             }
 
             it("has a tab bar item") {
@@ -39,13 +41,14 @@ class ElloNavigationControllerSpec: QuickSpec {
             }
 
             it("has a selected tab bar item") {
-               expect(controller.tabBarItem.selectedImage).notTo(beNil())
+               expect(controller.tabBarItem!.selectedImage).notTo(beNil())
             }
         }
 
         describe("OmnibarViewController NavigationController") {
             beforeEach() {
                 controller = UIStoryboard.storyboardWithId(.Omnibar) as! ElloNavigationController
+                controller.setProfileData(User.stub(["id": "fakeuser"]))
             }
 
             it("has a tab bar item") {
@@ -53,7 +56,7 @@ class ElloNavigationControllerSpec: QuickSpec {
             }
 
             it("has a selected tab bar item") {
-               expect(controller.tabBarItem.selectedImage).notTo(beNil())
+               expect(controller.tabBarItem!.selectedImage).notTo(beNil())
             }
         }
     }

@@ -7,12 +7,18 @@
 //
 
 import UIKit
+import SVGKit
 
 public class DiscoverViewController: StreamableViewController {
 
     @IBOutlet weak var navigationBar: UIView!
     @IBOutlet weak var inviteButton: UIButton!
     @IBOutlet weak var navigationBarTopConstraint: NSLayoutConstraint!
+
+    override public var tabBarItem: UITabBarItem? {
+        get { return UITabBarItem.svgItem("sparkles") }
+        set { self.tabBarItem = newValue }
+    }
 
     required public init() {
         super.init(nibName: "DiscoverViewController", bundle: nil)

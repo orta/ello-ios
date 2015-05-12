@@ -15,6 +15,11 @@ public class StreamContainerViewController: StreamableViewController {
         case StreamDetailTapped = "StreamDetailTappedNotification"
     }
 
+    override public var tabBarItem: UITabBarItem? {
+        get { return UITabBarItem.svgItem("circbig") }
+        set { self.tabBarItem = newValue }
+    }
+
     @IBOutlet weak public var scrollView: UIScrollView!
     @IBOutlet weak public var navigationBar: ElloNavigationBar!
     @IBOutlet weak public var navigationBarTopConstraint: NSLayoutConstraint!
@@ -30,7 +35,6 @@ public class StreamContainerViewController: StreamableViewController {
 
     override public func viewDidLoad() {
         super.viewDidLoad()
-
         setupNavigationBar()
         setupStreamsSegmentedControl()
         setupChildViewControllers()
