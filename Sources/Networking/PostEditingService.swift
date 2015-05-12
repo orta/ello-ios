@@ -127,7 +127,7 @@ public class PostEditingService: NSObject {
         var anyError: NSError?
         var anyStatusCode: Int?
 
-        let allDone = Functional.after(imageEntries.count) {
+        let allDone = after(imageEntries.count) {
             if let error = anyError {
                 failure?(error: error, statusCode: anyStatusCode)
             }

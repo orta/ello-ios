@@ -25,7 +25,7 @@ public protocol SearchScreenProtocol {
 public class SearchScreen: UIView, SearchScreenProtocol {
     var keyboardWillShowObserver: NotificationObserver?
     var keyboardWillHideObserver: NotificationObserver?
-    private var throttled: Functional.ThrottledBlock
+    private var throttled: ThrottledBlock
     private var navigationBar: ElloNavigationBar!
     private var searchField: UITextField!
     private var streamViewContainer: UIView!
@@ -35,7 +35,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
 // MARK: init
 
     override public init(frame: CGRect) {
-        throttled = Functional.debounce(0.5)
+        throttled = debounce(0.5)
         super.init(frame: frame)
         self.backgroundColor = UIColor.whiteColor()
 

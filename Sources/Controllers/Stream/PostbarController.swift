@@ -201,7 +201,7 @@ public class PostbarController: NSObject, PostbarDelegate {
                     postNotification(PostChangedNotification, (repost, .Create))
                     alertController.contentView = nil
                     alertController.message = NSLocalizedString("Success!", comment: "Successful repost alert")
-                    Functional.delay(1) {
+                    delay(1) {
                         alertController.dismiss()
                     }
                 }, failure: { (error, statusCode)  in
