@@ -155,25 +155,17 @@ class FreeMethodsTests: XCTestCase {
         var debounced = debounce(0.1)
         XCTAssertEqual(called, 0, "value starts out as 0")
 
-        debounced() {
-            println("=============== \(__FILE__.lastPathComponent) line \(__LINE__) ===============")
-            called += 1
-        }
+        debounced() { called += 1 }
         XCTAssertEqual(called, 0, "value remains 0 after block is called")
 
         // reset the timer
         delay(0.05) {
-            debounced() {
-                println("=============== \(__FILE__.lastPathComponent) line \(__LINE__) ===============")
-                called += 1
-            }
+            debounced() { called += 1 }
         }
         wait(0.1, "value is still 0") {
-            println("value is \(called)")
             XCTAssertEqual(called, 0, "value is still 0, because it has debounced")
         }
         wait(0.3,  "value is 1") {
-            println("value is \(called)")
             XCTAssertEqual(called, 1, "value is 1, because timer expired")
         }
         waitForExpectationsWithTimeout(0.5) { error in }
