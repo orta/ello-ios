@@ -45,7 +45,7 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
         }
     }
 
-    func setProfileData(currentUser: User) {
+    public func setProfileData(currentUser: User) {
         self.currentUser = currentUser
         if self.viewControllers.count == 0 {
             if let rootViewControllerName = rootViewControllerName {
@@ -218,5 +218,4 @@ extension ElloNavigationController: UINavigationControllerDelegate {
         default: return .None
         }
     }
-
 }
