@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class StreamRepostHeaderCell: UICollectionViewCell {
+public class StreamRepostHeaderCell: UICollectionViewCell, ElloTextViewDelegate {
 
     @IBOutlet weak var viaTextViewHeight: NSLayoutConstraint!
     @IBOutlet weak var viaTextView: ElloTextView!
@@ -20,10 +20,12 @@ public class StreamRepostHeaderCell: UICollectionViewCell {
         viaTextView.textViewDelegate = self
         sourceTextView.textViewDelegate = self
     }
-}
 
-extension StreamRepostHeaderCell: ElloTextViewDelegate {
     func textViewTapped(link: String, object: ElloAttributedObject) {
-        userDelegate?.userTappedCell(self)
+        switch object {
+        case let .AttributedUserId(userId):
+            userDelegate?.userTappedParam(userId)
+        default: break
+        }
     }
 }

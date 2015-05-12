@@ -45,7 +45,11 @@ public class SearchViewController: BaseElloViewController {
 // MARK: UserTappedDelegate
 extension SearchViewController: UserTappedDelegate {
     public func userTapped(user: User) {
-        let vc = ProfileViewController(userParam: user.id)
+        userParamTapped(user.id)
+    }
+
+    public func userParamTapped(param: String) {
+        let vc = ProfileViewController(userParam: param)
         vc.currentUser = currentUser
         self.navigationController?.pushViewController(vc, animated: true)
     }
