@@ -15,9 +15,9 @@ let thousand = 1_000.0
 public extension Int {
 
     func numberToHuman() -> String {
-        var double = Double(self)
-        var num: Float
-        var suffix: String
+        let double = Double(self)
+        let num: Float
+        let suffix: String
         if double >= billion {
             num = Float(round(double / billion * 100.0) / 100.0)
             suffix = "B"
@@ -35,7 +35,7 @@ public extension Int {
             suffix = ""
         }
         var strNum = "\(num)"
-        var strArr = split(strNum) { $0 == "." }
+        let strArr = split(strNum) { $0 == "." }
         if strArr.last == "0" {
             strNum = strArr.first!
         }
