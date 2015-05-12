@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7703" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jJZ-zI-fFG">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7703" systemVersion="14E11f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jJZ-zI-fFG">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6711"/>
     </dependencies>
@@ -145,11 +145,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bvm-6v-S7r">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bvm-6v-S7r">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ello-logo" translatesAutoresizingMaskIntoConstraints="NO" id="oHS-RL-ubg">
-                                        <rect key="frame" x="217" y="176" width="166" height="166"/>
+                                        <rect key="frame" x="217" y="149" width="166" height="166"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="166" id="Nv2-Ge-lE0"/>
                                             <constraint firstAttribute="height" constant="166" id="gVQ-RZ-fPx"/>
@@ -158,23 +158,26 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="oHS-RL-ubg" firstAttribute="top" secondItem="bvm-6v-S7r" secondAttribute="top" constant="176" id="PZj-Ab-6hR"/>
+                                    <constraint firstAttribute="trailing" secondItem="oHS-RL-ubg" secondAttribute="trailing" constant="217" placeholder="YES" id="7Xf-Cj-xcy"/>
+                                    <constraint firstItem="oHS-RL-ubg" firstAttribute="top" secondItem="bvm-6v-S7r" secondAttribute="top" constant="149" id="TKI-se-gRf"/>
+                                    <constraint firstItem="oHS-RL-ubg" firstAttribute="leading" secondItem="bvm-6v-S7r" secondAttribute="leading" constant="217" placeholder="YES" id="XAK-3V-dhW"/>
                                     <constraint firstAttribute="centerX" secondItem="oHS-RL-ubg" secondAttribute="centerX" id="fbE-OP-dvp"/>
+                                    <constraint firstAttribute="bottom" secondItem="oHS-RL-ubg" secondAttribute="bottom" constant="500" placeholder="YES" id="iYy-fS-yBr"/>
                                 </constraints>
                                 <connections>
                                     <outlet property="delegate" destination="jJZ-zI-fFG" id="39U-Kc-gZl"/>
                                 </connections>
                             </scrollView>
-                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Social Revolution." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uu0-hE-zse">
-                                <rect key="frame" x="113" y="363" width="352" height="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Social Revolution." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uu0-hE-zse">
+                                <rect key="frame" x="107" y="442" width="162" height="14"/>
                                 <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="14"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="war-Oo-BBs" userLabel="signInButton" customClass="LightElloButton" customModule="Ello" customModuleProvider="target">
-                                <rect key="frame" x="113" y="490" width="374" height="60"/>
+                                <rect key="frame" x="107" y="534" width="386" height="49"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="374" id="bWh-Iy-OGp"/>
-                                    <constraint firstAttribute="height" constant="60" id="nzB-YX-5wq"/>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="386" id="bWh-Iy-OGp"/>
+                                    <constraint firstAttribute="height" constant="49" id="nzB-YX-5wq"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <state key="normal" title="Login">
@@ -186,11 +189,11 @@
                                 </connections>
                             </button>
                             <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qIL-al-gUD" userLabel="joinButton" customClass="ElloButton" customModule="Ello" customModuleProvider="target">
-                                <rect key="frame" x="113" y="400" width="374" height="60"/>
+                                <rect key="frame" x="107" y="476" width="386" height="49"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="3DB-oB-ywl"/>
-                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="374" id="v2u-JR-PVN"/>
+                                    <constraint firstAttribute="height" constant="49" id="3DB-oB-ywl"/>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="386" id="v2u-JR-PVN"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <state key="normal" title="Sign Up">
@@ -205,14 +208,14 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="war-Oo-BBs" secondAttribute="trailing" priority="999" constant="20" placeholder="YES" id="9vj-pZ-JXy"/>
-                            <constraint firstItem="war-Oo-BBs" firstAttribute="top" secondItem="qIL-al-gUD" secondAttribute="bottom" constant="30" id="D4l-jr-R0c"/>
+                            <constraint firstItem="war-Oo-BBs" firstAttribute="top" secondItem="qIL-al-gUD" secondAttribute="bottom" constant="9" id="D4l-jr-R0c"/>
                             <constraint firstAttribute="bottom" secondItem="bvm-6v-S7r" secondAttribute="bottom" id="GPR-AZ-w8e"/>
                             <constraint firstAttribute="trailing" secondItem="bvm-6v-S7r" secondAttribute="trailing" id="Qhe-tE-OXT"/>
                             <constraint firstItem="qIL-al-gUD" firstAttribute="leading" secondItem="Uu0-hE-zse" secondAttribute="leading" id="SrH-Gi-7g1"/>
                             <constraint firstItem="bvm-6v-S7r" firstAttribute="top" secondItem="apv-Ip-wbz" secondAttribute="top" id="W8Y-SS-qld"/>
                             <constraint firstItem="war-Oo-BBs" firstAttribute="leading" secondItem="apv-Ip-wbz" secondAttribute="leading" priority="999" constant="20" id="csZ-tW-ldu"/>
                             <constraint firstAttribute="centerX" secondItem="war-Oo-BBs" secondAttribute="centerX" id="fdB-ve-9FO"/>
-                            <constraint firstAttribute="bottom" secondItem="war-Oo-BBs" secondAttribute="bottom" constant="50" id="h3K-f5-9ZY"/>
+                            <constraint firstAttribute="bottom" secondItem="war-Oo-BBs" secondAttribute="bottom" constant="17" id="h3K-f5-9ZY"/>
                             <constraint firstAttribute="centerX" secondItem="qIL-al-gUD" secondAttribute="centerX" id="kAo-1W-Ufk"/>
                             <constraint firstItem="qIL-al-gUD" firstAttribute="top" secondItem="Uu0-hE-zse" secondAttribute="bottom" constant="20" id="sQ9-hO-bXa"/>
                             <constraint firstItem="bvm-6v-S7r" firstAttribute="leading" secondItem="apv-Ip-wbz" secondAttribute="leading" id="wQW-3Z-AOj"/>
@@ -222,7 +225,7 @@
                     </view>
                     <connections>
                         <outlet property="joinButton" destination="qIL-al-gUD" id="Qg2-Bt-HgK"/>
-                        <outlet property="logoTopConstraint" destination="PZj-Ab-6hR" id="JKL-fm-peI"/>
+                        <outlet property="logoTopConstraint" destination="TKI-se-gRf" id="CbF-Eu-x6C"/>
                         <outlet property="logoView" destination="oHS-RL-ubg" id="8hG-UY-axZ"/>
                         <outlet property="scrollView" destination="bvm-6v-S7r" id="FYi-8e-de2"/>
                         <outlet property="signInButton" destination="war-Oo-BBs" id="YNK-dV-vhB"/>

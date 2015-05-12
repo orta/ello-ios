@@ -20,7 +20,6 @@ PODS:
     - Moya/Core (= 0.6.1)
   - Moya/Core (0.6.1):
     - Alamofire (~> 1.2.0)
-  - NewRelicAgent (5.0.1)
   - Nimble (0.4.2)
   - Quick (0.3.1)
   - Result (0.4):
@@ -52,7 +51,6 @@ DEPENDENCIES:
   - LUKeychainAccess (~> 1.2.4)
   - MBProgressHUD (~> 0.9.0)
   - Moya (from `https://github.com/ello/Moya`, branch `cg-hybrid`)
-  - NewRelicAgent (~> 5.0.1)
   - Nimble (~> 0.4.0)
   - Quick (~> 0.3.0)
   - Result (~> 0.4.0)
@@ -114,7 +112,6 @@ SPEC CHECKSUMS:
   LUKeychainAccess: 6479edb12cf06e11ff3336f796959eedbc58f714
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
   Moya: f652dec673d9dd177376d2c9366c76c9ed7b0343
-  NewRelicAgent: 2597fb3c4b974e4a37f51d942a6ef51982ccaed2
   Nimble: 49b7a7da8919f42823d37c6d68cc6d15a7009f32
   Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
   Result: 03957bbe943dd96a9f12ff1c6b5ac65c8a6b64aa
