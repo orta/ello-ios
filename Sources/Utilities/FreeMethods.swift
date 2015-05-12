@@ -173,9 +173,3 @@ public func throttle(interval: NSTimeInterval) -> ThrottledBlock {
         }
     }
 }
-
-func isRunningTests() -> Bool {
-    let environment = NSProcessInfo.processInfo().environment
-    let injectBundle = environment["XCInjectBundle"] as? String
-    return (injectBundle?.pathExtension == "xctest") ?? false
-}
