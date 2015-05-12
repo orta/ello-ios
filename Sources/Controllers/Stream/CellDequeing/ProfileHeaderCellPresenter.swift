@@ -44,12 +44,22 @@ public struct ProfileHeaderCellPresenter {
             let extraAttrs = [NSForegroundColorAttributeName: UIColor.blackColor()]
 
             cell.countsTextView.appendTextWithAction(NSLocalizedString("Posts", comment: "posts"))
-            cell.countsTextView.appendTextWithAction(" \(user.postsCount ?? 0) ", extraAttrs: extraAttrs)
+            let postCount = user.postsCount?.numberToHuman() ?? "0"
+            cell.countsTextView.appendTextWithAction(" \(postCount) ", extraAttrs: extraAttrs)
 
             cell.countsTextView.appendTextWithAction(NSLocalizedString("Following", comment: "following"), link: "following", object: user)
-            cell.countsTextView.appendTextWithAction(" \(user.followingCount ?? 0) ", link: "following", object: user, extraAttrs: extraAttrs)
+            let followingCount = user.followingCount?.numberToHuman() ?? "0"
+            cell.countsTextView.appendTextWithAction(" \(followingCount) ", link: "following", object: user, extraAttrs: extraAttrs)
 
-            let fCount = user.followersCount ?? "0"
+            // The user.followersCount is a String due to a special case where that can return ∞ for the ello user. 
+            // toInt() returns an optional that will fail when not an Int allowing the ∞ to display for the ello user.
+            let fCount: String
+            if let followerCountInt = user.followersCount?.toInt() {
+                fCount = followerCountInt.numberToHuman()
+            }
+            else {
+                fCount = user.followersCount ?? "0"
+            }
             cell.countsTextView.appendTextWithAction(NSLocalizedString("Followers", comment: "followers"), link: "followers", object: user)
             cell.countsTextView.appendTextWithAction(" \(fCount) ", link: "followers", object: user, extraAttrs: extraAttrs)
         }
