@@ -10,6 +10,7 @@ import UIKit
 import Foundation
 import FLAnimatedImage
 import SDWebImage
+import SVGKit
 
 let updateStreamImageCellHeightNotification = TypedNotification<StreamImageCell>(name: "updateStreamImageCellHeightNotification")
 
@@ -17,7 +18,7 @@ public class StreamImageCell: StreamRegionableCell {
 
     @IBOutlet weak var imageView: FLAnimatedImageView!
     @IBOutlet weak var imageButton: UIButton!
-    @IBOutlet weak var imageSizeWarning: UIView!
+    @IBOutlet weak var largeImagePlayButton: UIImageView!
     @IBOutlet weak var errorLabel: ElloErrorLabel!
     @IBOutlet weak var circle:PulsingCircle!
     @IBOutlet weak var imageLeftContraint: NSLayoutConstraint!
@@ -27,15 +28,20 @@ public class StreamImageCell: StreamRegionableCell {
     weak var delegate: StreamImageCellDelegate?
     var presentedImageUrl:NSURL?
     var serverProvidedAspectRatio:CGFloat?
-    public var showImageSizeWarning: Bool {
-        get { return !(imageSizeWarning?.hidden ?? true) }
-        set { imageSizeWarning?.hidden = !newValue }
+    public var isLargeImage: Bool {
+        get { return !(largeImagePlayButton?.hidden ?? true) }
+        set { largeImagePlayButton?.hidden = !newValue }
     }
     private let defaultAspectRatio:CGFloat = 4.0/3.0
     private var aspectRatio:CGFloat = 4.0/3.0
 
     var calculatedHeight:CGFloat {
         return self.frame.width / self.aspectRatio
+    }
+
+    override public func awakeFromNib() {
+        super.awakeFromNib()
+        largeImagePlayButton.image = SVGKImage(named: "embetter_video_play.svg").UIImage
     }
 
     func setImageURL(url:NSURL) {
@@ -92,7 +98,7 @@ public class StreamImageCell: StreamRegionableCell {
 
         self.imageView.image = nil
         self.presentedImageUrl = nil
-        self.showImageSizeWarning = false
+        self.isLargeImage = false
     }
 
     @IBAction func imageTapped(sender: UIButton) {

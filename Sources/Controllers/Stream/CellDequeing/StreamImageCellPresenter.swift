@@ -42,7 +42,7 @@ public struct StreamImageCellPresenter {
                     }
                     else {
                         cell.presentedImageUrl = asset.optimized?.url
-                        cell.showImageSizeWarning = true
+                        cell.isLargeImage = true
                     }
                 }
 
