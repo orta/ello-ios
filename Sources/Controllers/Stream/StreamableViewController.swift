@@ -37,9 +37,6 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
         streamViewController.userTappedDelegate = self
         streamViewController.postTappedDelegate = self
         streamViewController.createCommentDelegate = self
-        if let this = self as? NotificationDelegate {
-            streamViewController.notificationDelegate = this
-        }
 
         streamViewController.willMoveToParentViewController(self)
         let streamViewContainer = viewForStream()

@@ -42,6 +42,12 @@ public class NotificationsViewController: StreamableViewController, Notification
         updateInsets()
     }
 
+    func setupStreamController() {
+        super.setupStreamController()
+
+        streamViewController.notificationDelegate = self
+    }
+
     override public func showNavBars(scrollToBottom: Bool) {
         super.showNavBars(scrollToBottom)
         screen.animateFilterBar(visible: true)
