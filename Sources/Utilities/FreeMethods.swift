@@ -28,8 +28,7 @@ public func animate(options: AnimationOptions, animated: Bool = true, animations
 
 
 public typealias BasicBlock = (()->())
-public typealias TakesBasicBlock = ((BasicBlock)->())
-public typealias ThrottledBlock = TakesBasicBlock
+public typealias ThrottledBlock = ((BasicBlock)->())
 public typealias CancellableBlock = Bool -> ()
 public typealias TakesIndexBlock = ((Int)->())
 
