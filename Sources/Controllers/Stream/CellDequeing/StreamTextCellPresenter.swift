@@ -20,7 +20,6 @@ public struct StreamTextCellPresenter {
         currentUser: User?)
     {
         if let cell = cell as? StreamTextCell {
-            cell.contentView.alpha = 0.0
             cell.onWebContentReady { webView in
                 if let actualHeight = webView.windowContentSize()?.height {
                     if actualHeight != streamCellItem.calculatedWebHeight {

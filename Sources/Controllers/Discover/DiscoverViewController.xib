@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DiscoverViewController" customModule="Ello" customModuleProvider="target">
@@ -18,6 +18,10 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nIP-YD-8Kd" userLabel="viewContainer">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cxP-9p-Wfe" userLabel="navigationBar">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                     <subviews>
@@ -55,18 +59,14 @@
                         <constraint firstItem="0gA-HT-4By" firstAttribute="leading" secondItem="cxP-9p-Wfe" secondAttribute="leading" constant="10" id="xwa-hb-xzs" userLabel="Invite Label - Left"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nIP-YD-8Kd" userLabel="viewContainer">
-                    <rect key="frame" x="0.0" y="44" width="600" height="556"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="nIP-YD-8Kd" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="30a-Db-gCe" userLabel="viewContainer - Left"/>
                 <constraint firstAttribute="trailing" secondItem="nIP-YD-8Kd" secondAttribute="trailing" id="590-Cb-nsO" userLabel="viewContainer - Right"/>
+                <constraint firstItem="nIP-YD-8Kd" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="5fa-BA-Qfn" userLabel="viewContainer - Top"/>
                 <constraint firstItem="cxP-9p-Wfe" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="FLm-e3-m4X" userLabel="navigationBar - Left"/>
-                <constraint firstItem="nIP-YD-8Kd" firstAttribute="top" secondItem="cxP-9p-Wfe" secondAttribute="bottom" id="GTZ-AP-U7c" userLabel="Vertical Space - viewContainer | navigationBar"/>
-                <constraint firstItem="cxP-9p-Wfe" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Qah-bH-Ngd" userLabel="navigationBarTopConstraint"/>
+                <constraint firstAttribute="top" secondItem="cxP-9p-Wfe" secondAttribute="top" id="Qah-bH-Ngd" userLabel="navigationBarTopConstraint"/>
                 <constraint firstAttribute="trailing" secondItem="cxP-9p-Wfe" secondAttribute="trailing" id="WXS-zG-j8J" userLabel="navigationBar - Right"/>
                 <constraint firstAttribute="bottom" secondItem="nIP-YD-8Kd" secondAttribute="bottom" id="h6e-v0-YcE" userLabel="viewContainer - Bottom"/>
             </constraints>

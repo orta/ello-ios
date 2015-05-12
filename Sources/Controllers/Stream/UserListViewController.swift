@@ -57,8 +57,9 @@ public class UserListViewController: StreamableViewController {
 
     override func showNavBars(scrollToBottom : Bool) {
         super.showNavBars(scrollToBottom)
-        navigationBar.frame = navigationBar.frame.atY(0)
-        streamViewController.view.frame = navigationBar.frame.fromBottom().shiftDown(1).withHeight(self.view.frame.height - navigationBar.frame.height)
+        animate {
+            self.navigationBar.frame = self.navigationBar.frame.atY(0)
+        }
 
         if scrollToBottom {
             if let scrollView = streamViewController.collectionView {

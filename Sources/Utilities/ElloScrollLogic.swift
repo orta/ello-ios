@@ -44,10 +44,8 @@ public class ElloScrollLogic : NSObject, UIScrollViewDelegate {
         if !wasShowing {
             let prevIgnore = self.shouldIgnoreScroll
             self.shouldIgnoreScroll = true
-            UIView.animateWithDuration(0.2) {
-                self.onShow(scrollToBottom)
-                self.shouldIgnoreScroll = prevIgnore
-            }
+            self.onShow(scrollToBottom)
+            self.shouldIgnoreScroll = prevIgnore
         }
         showingState = true
     }
@@ -58,10 +56,8 @@ public class ElloScrollLogic : NSObject, UIScrollViewDelegate {
         if wasShowing {
             let prevIgnore = self.shouldIgnoreScroll
             self.shouldIgnoreScroll = true
-            UIView.animateWithDuration(0.2) {
-                self.onHide()
-                self.shouldIgnoreScroll = prevIgnore
-            }
+            self.onHide()
+            self.shouldIgnoreScroll = prevIgnore
         }
         showingState = false
     }

@@ -37,6 +37,7 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
         streamViewController.userTappedDelegate = self
         streamViewController.postTappedDelegate = self
         streamViewController.createCommentDelegate = self
+
         streamViewController.willMoveToParentViewController(self)
         let streamViewContainer = viewForStream()
         streamViewContainer.addSubview(streamViewController.view)
@@ -72,6 +73,40 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
             hideNavBars()
         }
         scrollLogic.isShowing = navBarsVisible
+    }
+
+    func navBarsVisible() -> Bool {
+        return !(elloTabBarController?.tabBarHidden ?? false)
+    }
+
+    func updateInsets(#navBar: UIView?, streamController controller: StreamViewController, navBarsVisible visible: Bool? = nil) {
+        let topInset: CGFloat
+        let bottomInset: CGFloat
+        if visible ?? navBarsVisible() {
+            topInset = navBar?.frame.size.height ?? 0
+            bottomInset = ElloTabBar.Size.height
+        }
+        else {
+            topInset = 0
+            bottomInset = 0
+        }
+
+        controller.contentInset.top = topInset
+        controller.contentInset.bottom = bottomInset
+    }
+
+    func positionNavBar(navBar: UIView, visible: Bool, withConstraint navigationBarTopConstraint: NSLayoutConstraint? = nil, animated: Bool = true) {
+        let upAmount: CGFloat
+        if visible {
+            upAmount = 0
+        }
+        else {
+            upAmount = navBar.frame.height + 1
+        }
+        navigationBarTopConstraint?.constant = upAmount
+        animate(animated: animated) {
+            navBar.frame.origin.y = -upAmount
+        }
     }
 
     func showNavBars(scrollToBottom : Bool) {

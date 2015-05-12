@@ -31,10 +31,19 @@ public class DiscoverViewController: StreamableViewController {
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
     }
 
-    override public func showNavBars(scrollToBottom : Bool) {
+    override public func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        updateInsets()
+    }
+
+    private func updateInsets() {
+        updateInsets(navBar: navigationBar, streamController: streamViewController)
+    }
+
+    override public func showNavBars(scrollToBottom: Bool) {
         super.showNavBars(scrollToBottom)
-        navigationBarTopConstraint.constant = 0
-        self.view.layoutIfNeeded()
+        positionNavBar(navigationBar, visible: true, withConstraint: navigationBarTopConstraint)
+        updateInsets()
 
         if scrollToBottom {
             if let scrollView = streamViewController.collectionView {
@@ -50,8 +59,8 @@ public class DiscoverViewController: StreamableViewController {
 
     override public func hideNavBars() {
         super.hideNavBars()
-        navigationBarTopConstraint.constant = -navigationBar.frame.height - 1
-        self.view.layoutIfNeeded()
+        positionNavBar(navigationBar, visible: false, withConstraint: navigationBarTopConstraint)
+        updateInsets()
     }
 
     // MARK: - IBActions

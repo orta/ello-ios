@@ -40,10 +40,21 @@ public class StreamContainerViewController: StreamableViewController {
         scrollLogic.prevOffset = (childViewControllers[0] as! StreamViewController).collectionView.contentOffset
     }
 
+    override public func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        updateInsets()
+    }
+
+    private func updateInsets() {
+        for controller in self.childViewControllers as! [StreamViewController] {
+            updateInsets(navBar: navigationBar, streamController: controller)
+        }
+    }
+
     override public func showNavBars(scrollToBottom : Bool) {
         super.showNavBars(scrollToBottom)
-        navigationBarTopConstraint.constant = 0
-        self.view.layoutIfNeeded()
+        positionNavBar(navigationBar, visible: true, withConstraint: navigationBarTopConstraint)
+        updateInsets()
 
         if scrollToBottom {
             for controller in childViewControllers as! [StreamViewController] {
@@ -61,8 +72,8 @@ public class StreamContainerViewController: StreamableViewController {
 
     override public func hideNavBars() {
         super.hideNavBars()
-        navigationBarTopConstraint.constant = navigationBar.frame.height + 1
-        self.view.layoutIfNeeded()
+        positionNavBar(navigationBar, visible: false, withConstraint: navigationBarTopConstraint)
+        updateInsets()
     }
 
     public class func instantiateFromStoryboard() -> StreamContainerViewController {

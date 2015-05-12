@@ -42,14 +42,14 @@
                         <viewControllerLayoutGuide type="bottom" id="Cu5-ro-RnE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="b3f-dm-11N">
-                        <rect key="frame" x="0.0" y="64" width="600" height="551"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sxq-dN-l1X">
-                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" directionalLockEnabled="YES" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sxq-dN-l1X">
+                                <rect key="frame" x="0.0" y="20" width="600" height="531"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </scrollView>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BcZ-aZ-i5r" customClass="ElloNavigationBar" customModule="Ello" customModuleProvider="target">
+                            <navigationBar contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BcZ-aZ-i5r" customClass="ElloNavigationBar" customModule="Ello" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                                 <items>
                                     <navigationItem title="Title" id="N7N-z9-gvV"/>
@@ -59,12 +59,12 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="BcZ-aZ-i5r" secondAttribute="centerX" id="4cK-kW-zHF" userLabel="navBarCentered"/>
-                            <constraint firstItem="Sxq-dN-l1X" firstAttribute="top" secondItem="BcZ-aZ-i5r" secondAttribute="bottom" id="4cm-4c-YRi" userLabel="scrollViewTop"/>
                             <constraint firstItem="yLi-cj-Iz8" firstAttribute="top" secondItem="BcZ-aZ-i5r" secondAttribute="top" id="5XO-kR-FiI" userLabel="navBarTop"/>
                             <constraint firstItem="Sxq-dN-l1X" firstAttribute="leading" secondItem="b3f-dm-11N" secondAttribute="leading" id="Gfr-6R-MUN" userLabel="scrollViewLeft"/>
                             <constraint firstItem="BcZ-aZ-i5r" firstAttribute="width" secondItem="b3f-dm-11N" secondAttribute="width" id="Qdp-1k-5Ko" userLabel="navBarWidth"/>
                             <constraint firstItem="Cu5-ro-RnE" firstAttribute="top" secondItem="Sxq-dN-l1X" secondAttribute="bottom" id="eDu-5J-ZZS" userLabel="scrollViewBottom"/>
                             <constraint firstAttribute="trailing" secondItem="Sxq-dN-l1X" secondAttribute="trailing" id="hew-hv-gFc" userLabel="scrollviewRight"/>
+                            <constraint firstItem="Sxq-dN-l1X" firstAttribute="top" secondItem="yLi-cj-Iz8" secondAttribute="bottom" id="nzc-eD-hZR"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
@@ -82,6 +82,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="navigationBar" destination="BcZ-aZ-i5r" id="nZ6-1J-SlE"/>
                         <outlet property="navigationBarTopConstraint" destination="5XO-kR-FiI" id="KY4-37-Wuv"/>
@@ -233,10 +236,10 @@
             </objects>
             <point key="canvasLocation" x="-796" y="0.0"/>
         </scene>
-        <!--Ello Navigation Controller-->
+        <!--StreamContainer Navigation Controller-->
         <scene sceneID="c48-ys-FOn">
             <objects>
-                <navigationController storyboardIdentifier="StreamContainerViewController" navigationBarHidden="YES" id="6gB-P3-Psq" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="StreamContainerViewController" navigationBarHidden="YES" id="6gB-P3-Psq" userLabel="StreamContainer Navigation Controller" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <tabBarItem key="tabBarItem" title="" image="friends-icon" id="aLZ-c4-Yur">
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
@@ -313,10 +316,10 @@
             </objects>
             <point key="canvasLocation" x="774" y="1054"/>
         </scene>
-        <!--Ello Navigation Controller-->
+        <!--Discover Navigation Controller-->
         <scene sceneID="N4e-A4-BeS">
             <objects>
-                <navigationController storyboardIdentifier="DiscoverViewController" id="rfd-p2-XSV" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="DiscoverViewController" id="rfd-p2-XSV" userLabel="Discover Navigation Controller" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <tabBarItem key="tabBarItem" title="" image="discover-icon" id="acW-dT-cKf">
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
@@ -338,10 +341,10 @@
             </objects>
             <point key="canvasLocation" x="774" y="-992"/>
         </scene>
-        <!--Ello Navigation Controller-->
+        <!--Omnibar Navigation Controller-->
         <scene sceneID="3Vb-Rm-HKL">
             <objects>
-                <navigationController storyboardIdentifier="OmnibarViewController" automaticallyAdjustsScrollViewInsets="NO" id="jRU-db-VFH" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="OmnibarViewController" automaticallyAdjustsScrollViewInsets="NO" id="jRU-db-VFH" userLabel="Omnibar Navigation Controller" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="post-icon" id="kAH-dT-zG0">
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
                         <userDefinedRuntimeAttributes>

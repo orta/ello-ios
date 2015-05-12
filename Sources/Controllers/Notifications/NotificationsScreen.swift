@@ -43,6 +43,7 @@ public class NotificationsScreen : UIView {
 
     override public init(frame: CGRect) {
         filterBar = NotificationsFilterBar()
+        filterBar.backgroundColor = .whiteColor()
         filterBarVisible = true
 
         let filterAllButton = NotificationsScreen.filterButton("All")
@@ -56,6 +57,7 @@ public class NotificationsScreen : UIView {
         streamContainer = UIView()
         super.init(frame: frame)
         backgroundColor = UIColor.whiteColor()
+        self.addSubview(streamContainer)
 
         for (button, action) in [
             (filterAllButton, "allButtonTapped:"),
@@ -70,7 +72,6 @@ public class NotificationsScreen : UIView {
         }
         filterBar.selectButton(filterAllButton)
         self.addSubview(filterBar)
-        self.addSubview(streamContainer)
     }
 
     required public init(coder: NSCoder) {
@@ -80,9 +81,21 @@ public class NotificationsScreen : UIView {
         super.init(coder: coder)
     }
 
-    func showFilterBar() {
-        filterBarVisible = true
-        self.setNeedsLayout()
+    func animateFilterBar(#visible: Bool) {
+        filterBarVisible = visible
+        animate {
+            self.positionFilterBar()
+        }
+    }
+
+    private func positionFilterBar() {
+        filterBar.frame = self.bounds.withHeight(NotificationsFilterBar.Size.height)
+        if filterBarVisible {
+            filterBar.frame.origin.y = 0
+        }
+        else {
+            filterBar.frame.origin.y = -NotificationsFilterBar.Size.height
+        }
     }
 
     func hideFilterBar() {
@@ -93,19 +106,9 @@ public class NotificationsScreen : UIView {
     override public func layoutSubviews() {
         super.layoutSubviews()
 
-        let bottom: CGFloat
-        filterBar.frame = self.bounds.withHeight(NotificationsFilterBar.Size.height)
-        if filterBarVisible {
-            filterBar.frame = filterBar.frame.atY(0)
-            bottom = filterBar.frame.maxY
-        }
-        else {
-            filterBar.frame = filterBar.frame.atY(-NotificationsFilterBar.Size.height)
-            bottom = CGFloat(0)
-        }
+        positionFilterBar()
         streamContainer.frame = self.bounds.fromTop()
             .withHeight(self.frame.height)
-            .shrinkDown(bottom)
     }
 
     func allButtonTapped(sender : NotificationFilterButton) {

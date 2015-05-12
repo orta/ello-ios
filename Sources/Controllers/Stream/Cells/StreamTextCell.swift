@@ -36,9 +36,6 @@ public class StreamTextCell: StreamRegionableCell, UIWebViewDelegate {
     }
 
     public func webViewDidFinishLoad(webView: UIWebView) {
-        UIView.animateWithDuration(0.15) {
-            self.contentView.alpha = 1.0
-        }
         webContentReady?(webView: webView)
     }
 }

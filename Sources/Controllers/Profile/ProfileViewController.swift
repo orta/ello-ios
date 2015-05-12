@@ -55,7 +55,7 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         super.viewDidLoad()
         coverImage.alpha = 0
         if isRootViewController() {
-            hideNavBar()
+            hideNavBar(animated: false)
         }
         setupNavigationBar()
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
@@ -65,6 +65,7 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
 
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        updateInsets()
 
         if !coverWidthSet {
             coverWidthSet = true
@@ -75,9 +76,8 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
 
     override func showNavBars(scrollToBottom : Bool) {
         super.showNavBars(scrollToBottom)
-        if !isRootViewController() {
-            showNavBar()
-        }
+        showNavBarIfNotRoot()
+        updateInsets()
 
         if scrollToBottom {
             if let scrollView = streamViewController.collectionView {
@@ -91,19 +91,25 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         }
     }
 
-    func showNavBar() {
-        navigationBarTopConstraint.constant = 0
-        self.view.layoutIfNeeded()
-    }
-
     override func hideNavBars() {
         super.hideNavBars()
-        hideNavBar()
+        hideNavBar(animated: true)
+        updateInsets()
     }
 
-    func hideNavBar() {
-        navigationBarTopConstraint.constant = navigationBar.frame.height + 1
-        self.view.layoutIfNeeded()
+    private func updateInsets() {
+        let navBar: ElloNavigationBar? = isRootViewController() ? nil : navigationBar
+        updateInsets(navBar: navBar, streamController: streamViewController)
+    }
+
+    private func showNavBarIfNotRoot() {
+        if !isRootViewController() {
+            positionNavBar(navigationBar, visible: true, withConstraint: navigationBarTopConstraint)
+        }
+    }
+
+    private func hideNavBar(#animated: Bool) {
+        positionNavBar(navigationBar, visible: false, withConstraint: navigationBarTopConstraint, animated: animated)
     }
 
     @IBAction func logOutTapped(sender: ElloTextButton) {
@@ -187,7 +193,7 @@ extension ProfileViewController: StreamScrollDelegate {
         {
             coverImageHeight.constant = max(start - scrollView.contentOffset.y, start)
         }
-        
+
         super.streamViewDidScroll(scrollView)
     }
 }
