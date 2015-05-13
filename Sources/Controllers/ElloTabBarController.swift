@@ -129,12 +129,6 @@ extension ElloTabBarController: UITabBarDelegate {
 
 // MARK: Child View Controller handling
 public extension ElloTabBarController {
-
-    override func addChildViewController(childController: UIViewController) {
-        super.addChildViewController(childController)
-        updateTabBarItems()
-    }
-
     override func sizeForChildContentContainer(container: UIContentContainer, withParentContainerSize size: CGSize) -> CGSize {
         return view.frame.size
     }
