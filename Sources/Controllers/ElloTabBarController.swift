@@ -163,11 +163,13 @@ private extension ElloTabBarController {
 
     func updateVisibleViewController() {
         tabBar.selectedItem = selectedViewController.tabBarItem
-        if visibleViewController.parentViewController != self {
-            showViewController(childViewControllers[selectedTab.rawValue] as! UIViewController)
-        }
-        else if visibleViewController != selectedViewController {
-            transitionControllers(visibleViewController, selectedViewController)
+        dispatch_async(dispatch_get_main_queue()) {
+            if self.visibleViewController.parentViewController != self {
+                self.showViewController(self.childViewControllers[self.selectedTab.rawValue] as! UIViewController)
+            }
+            else if self.visibleViewController != self.selectedViewController {
+                self.transitionControllers(self.visibleViewController, self.selectedViewController)
+            }
         }
     }
 
