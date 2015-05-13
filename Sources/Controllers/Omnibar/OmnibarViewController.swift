@@ -25,8 +25,6 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     typealias CommentSuccessListener = (comment : Comment)->()
     var commentSuccessListeners = [CommentSuccessListener]()
 
-    // the _mockScreen is only for testing - otherwise `self.screen` is always
-    // just an appropriately typed accessor for `self.view`
     var _mockScreen: OmnibarScreenProtocol?
     public var screen: OmnibarScreenProtocol {
         set(screen) { _mockScreen = screen }
