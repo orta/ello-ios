@@ -19,12 +19,12 @@ public enum ElloTab: Int {
 }
 
 public class ElloTabBarController: UIViewController, HasAppController {
-    public private(set) var tabBar: ElloTabBar
+    public let tabBar = ElloTabBar()
 
     private var visibleViewController = UIViewController()
     var parentAppController: AppViewController?
 
-    private var _tabBarHidden: Bool
+    private var _tabBarHidden = false
     public var tabBarHidden: Bool {
         get { return _tabBarHidden }
         set { setTabBarHidden(newValue, animated: false) }
@@ -53,14 +53,6 @@ public class ElloTabBarController: UIViewController, HasAppController {
 
     var currentUser : User?
     var profileResponseConfig: ResponseConfig?
-
-    required public init(coder aDecoder: NSCoder) {
-        _tabBarHidden = false
-        tabBar = ElloTabBar()
-
-        super.init(coder: aDecoder)
-
-    }
 }
 
 public extension ElloTabBarController {
