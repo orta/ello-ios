@@ -41,7 +41,9 @@ public class StreamImageCell: StreamRegionableCell {
 
     override public func awakeFromNib() {
         super.awakeFromNib()
-        largeImagePlayButton.image = SVGKImage(named: "embetter_video_play.svg").UIImage
+        if let playButton = largeImagePlayButton {
+            playButton.image = SVGKImage(named: "embetter_video_play.svg").UIImage!
+        }
     }
 
     func setImageURL(url:NSURL) {
