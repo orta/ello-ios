@@ -229,15 +229,12 @@ extension AppViewController {
 // MARK: Logout events
 extension AppViewController {
     func userLoggedOut() {
-        let authToken = AuthToken()
-        authToken.reset()
+        logOutCurrentUser()
         removeViewController()
     }
 
     func systemLoggedOut() {
-        let authToken = AuthToken()
-        authToken.reset()
-
+        logOutCurrentUser()
         removeViewController() {
             let alertController = AlertViewController(
                 message: "You have been automatically logged out")
@@ -247,6 +244,11 @@ extension AppViewController {
 
             self.presentViewController(alertController, animated: true, completion: nil)
         }
+    }
+
+    private func logOutCurrentUser() {
+        PushNotificationController.sharedController.deregisterStoredToken()
+        AuthToken().reset()
     }
 }
 
