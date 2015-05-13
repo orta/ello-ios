@@ -45,9 +45,8 @@ public class ElloTabBarController: UIViewController, HasAppController {
     public var selectedViewController: UIViewController {
         get { return childViewControllers[selectedTab.rawValue] as! UIViewController }
         set(controller) {
-            if let index = find(childViewControllers as! [UIViewController], controller) {
-                selectedTab = ElloTab(rawValue: index) ?? .Stream
-            }
+            let index = find(childViewControllers as! [UIViewController], controller)
+            selectedTab = index.flatMap { ElloTab(rawValue: $0) } ?? .DefaultTab
         }
     }
 
@@ -135,7 +134,6 @@ public extension ElloTabBarController {
 }
 
 private extension ElloTabBarController {
-
     func updateTabBarItems() {
         let controllers = childViewControllers as! [UIViewController]
         tabBar.items = controllers.map { controller in
