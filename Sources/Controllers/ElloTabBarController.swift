@@ -146,7 +146,6 @@ private extension ElloTabBarController {
     }
 
     func updateVisibleViewController() {
-        tabBar.selectedItem = selectedViewController.tabBarItem
         if visibleViewController.parentViewController != self {
             showViewController(childViewControllers[selectedTab.rawValue] as! UIViewController)
         }
@@ -162,6 +161,7 @@ private extension ElloTabBarController {
     }
 
     func showViewController(showViewController: UIViewController) {
+        tabBar.selectedItem = tabBar.items?[selectedTab.rawValue] as? UITabBarItem
         let controller = (showViewController as? UINavigationController)?.topViewController ?? showViewController
         Tracker.sharedTracker.screenAppeared(controller.title ?? controller.readableClassName())
         view.insertSubview(showViewController.view, belowSubview: tabBar)
