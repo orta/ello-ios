@@ -16,7 +16,7 @@ public class DiscoverViewController: StreamableViewController {
     @IBOutlet weak var navigationBarTopConstraint: NSLayoutConstraint!
 
     override public var tabBarItem: UITabBarItem? {
-        get { return UITabBarItem.svgItem("sparkles") }
+        get { return UITabBarItem.svgItem("sparkles", insets: UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)) }
         set { self.tabBarItem = newValue }
     }
 
