@@ -19,12 +19,12 @@ public enum ElloTab: Int {
 }
 
 public class ElloTabBarController: UIViewController, HasAppController {
-    public private(set) var tabBar: ElloTabBar
+    public let tabBar = ElloTabBar()
 
     private var visibleViewController = UIViewController()
     var parentAppController: AppViewController?
 
-    private var _tabBarHidden: Bool
+    private var _tabBarHidden = false
     public var tabBarHidden: Bool {
         get { return _tabBarHidden }
         set { setTabBarHidden(newValue, animated: false) }
@@ -45,22 +45,13 @@ public class ElloTabBarController: UIViewController, HasAppController {
     public var selectedViewController: UIViewController {
         get { return childViewControllers[selectedTab.rawValue] as! UIViewController }
         set(controller) {
-            if let index = find(childViewControllers as! [UIViewController], controller) {
-                selectedTab = ElloTab(rawValue: index) ?? .Stream
-            }
+            let index = find(childViewControllers as! [UIViewController], controller)
+            selectedTab = index.flatMap { ElloTab(rawValue: $0) } ?? .DefaultTab
         }
     }
 
     var currentUser : User?
     var profileResponseConfig: ResponseConfig?
-
-    required public init(coder aDecoder: NSCoder) {
-        _tabBarHidden = false
-        tabBar = ElloTabBar()
-
-        super.init(coder: aDecoder)
-
-    }
 }
 
 public extension ElloTabBarController {
@@ -137,19 +128,12 @@ extension ElloTabBarController: UITabBarDelegate {
 
 // MARK: Child View Controller handling
 public extension ElloTabBarController {
-
-    override func addChildViewController(childController: UIViewController) {
-        super.addChildViewController(childController)
-        updateTabBarItems()
-    }
-
     override func sizeForChildContentContainer(container: UIContentContainer, withParentContainerSize size: CGSize) -> CGSize {
         return view.frame.size
     }
 }
 
 private extension ElloTabBarController {
-
     func updateTabBarItems() {
         let controllers = childViewControllers as! [UIViewController]
         tabBar.items = controllers.map { controller in
@@ -162,7 +146,6 @@ private extension ElloTabBarController {
     }
 
     func updateVisibleViewController() {
-        tabBar.selectedItem = selectedViewController.tabBarItem
         dispatch_async(dispatch_get_main_queue()) {
             if self.visibleViewController.parentViewController != self {
                 self.showViewController(self.childViewControllers[self.selectedTab.rawValue] as! UIViewController)
@@ -180,6 +163,7 @@ private extension ElloTabBarController {
     }
 
     func showViewController(showViewController: UIViewController) {
+        tabBar.selectedItem = tabBar.items?[selectedTab.rawValue] as? UITabBarItem
         let controller = (showViewController as? UINavigationController)?.topViewController ?? showViewController
         Tracker.sharedTracker.screenAppeared(controller.title ?? controller.readableClassName())
         view.insertSubview(showViewController.view, belowSubview: tabBar)
