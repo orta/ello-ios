@@ -52,7 +52,13 @@ public class AppViewController: BaseElloViewController {
 
         if isStartup {
             isStartup = false
-            checkIfLoggedIn()
+            // <restore later>
+            // checkIfLoggedIn()
+            // </restore later>
+            // <debugging code>
+            let vc = OnboardingViewController()
+            swapViewController(vc)
+            // </debugging code>
         }
     }
 
