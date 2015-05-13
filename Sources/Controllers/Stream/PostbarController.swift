@@ -301,7 +301,7 @@ public class PostbarController: NSObject, PostbarDelegate {
             items.append(StreamCellItem(jsonable: post, type: .SeeMoreComments, data: nil, oneColumnCellHeight: 60.0, multiColumnCellHeight: 60.0, isFullWidth: true))
         }
         else {
-            items.append(StreamCellItem(jsonable: post, type: .Spacer, data: nil, oneColumnCellHeight: 45.0, multiColumnCellHeight: 45.0, isFullWidth: true))
+            items.append(StreamCellItem(jsonable: post, type: .Spacer, data: nil, oneColumnCellHeight: 25.0, multiColumnCellHeight: 25.0, isFullWidth: true))
         }
         self.dataSource.insertUnsizedCellItems(items,
             withWidth: self.collectionView.frame.width,
