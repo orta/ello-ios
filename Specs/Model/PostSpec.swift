@@ -42,6 +42,8 @@ class PostSpec: QuickSpec {
                 expect(post.viewsCount) == 1
                 expect(post.commentsCount) == 0
                 expect(post.repostsCount) == 0
+                expect(post.reposted) == false
+                expect(post.loved) == false
                 // TODO: create a JSON that has all of these optionals in it
                 // links
                 expect(post.author).to(beAKindOf(User.self))
@@ -210,6 +212,8 @@ class PostSpec: QuickSpec {
                         "viewsCount" : 78,
                         "commentsCount" : 6,
                         "repostsCount" : 99,
+                        "reposted" : true,
+                        "loved" : true,
                         // links
                         "assets" : [asset],
                         "author" : author,
@@ -241,6 +245,8 @@ class PostSpec: QuickSpec {
                     expect(unArchivedPost.viewsCount) == 78
                     expect(unArchivedPost.commentsCount) == 6
                     expect(unArchivedPost.repostsCount) == 99
+                    expect(unArchivedPost.reposted) == true
+                    expect(unArchivedPost.loved) == true
                     // links
                     expect(unArchivedPost.author!.id) == "555"
                     expect(count(unArchivedPost.assets!)) == 1

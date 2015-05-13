@@ -31,7 +31,7 @@ public final class Attachment: JSONAble {
 // MARK: NSCoding
 
     required public init(coder aDecoder: NSCoder) {
-        let decoder = Decoder(aDecoder)
+        let decoder = Coder(aDecoder)
         // required
         self.url = decoder.decodeKey("url")
         // optional
@@ -39,24 +39,19 @@ public final class Attachment: JSONAble {
         self.width = decoder.decodeOptionalKey("width")
         self.size = decoder.decodeOptionalKey("size")
         self.type = decoder.decodeOptionalKey("type")
-        super.init(coder: aDecoder)
+        super.init(coder: decoder.coder)
     }
 
     public override func encodeWithCoder(encoder: NSCoder) {
+        let coder = Coder(encoder)
         // required
-        encoder.encodeObject(url, forKey: "url")
+        coder.encodeObject(url, forKey: "url")
         // optional
-        if let height = self.height {
-            encoder.encodeInt64(Int64(height), forKey: "height")
-        }
-        if let width = self.width {
-            encoder.encodeInt64(Int64(width), forKey: "width")
-        }
-        encoder.encodeObject(type, forKey: "type")
-        if let size = self.size {
-            encoder.encodeInt64(Int64(size), forKey: "size")
-        }
-        super.encodeWithCoder(encoder)
+        coder.encodeObject(height, forKey: "height")
+        coder.encodeObject(width, forKey: "width")
+        coder.encodeObject(size, forKey: "size")
+        coder.encodeObject(type, forKey: "type")
+        super.encodeWithCoder(coder.coder)
     }
 
 // MARK: JSONAble

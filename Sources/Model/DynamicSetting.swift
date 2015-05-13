@@ -27,22 +27,23 @@ public final class DynamicSetting: JSONAble {
     }
 
     public required init(coder aDecoder: NSCoder) {
-        let decoder = Decoder(aDecoder)
+        let decoder = Coder(aDecoder)
         self.label = decoder.decodeKey("label")
         self.key = decoder.decodeKey("key")
         self.info = decoder.decodeOptionalKey("info")
         self.linkLabel = decoder.decodeOptionalKey("linkLabel")
         self.linkURL = decoder.decodeOptionalKey("linkURL")
-        super.init(coder: aDecoder)
+        super.init(coder: decoder.coder)
     }
 
     public override func encodeWithCoder(encoder: NSCoder) {
-        encoder.encodeObject(label, forKey: "label")
-        encoder.encodeObject(key, forKey: "key")
-        encoder.encodeObject(info, forKey: "info")
-        encoder.encodeObject(linkLabel, forKey: "linkLabel")
-        encoder.encodeObject(linkURL, forKey: "linkURL")
-        super.encodeWithCoder(encoder)
+        let coder = Coder(encoder)
+        coder.encodeObject(label, forKey: "label")
+        coder.encodeObject(key, forKey: "key")
+        coder.encodeObject(info, forKey: "info")
+        coder.encodeObject(linkLabel, forKey: "linkLabel")
+        coder.encodeObject(linkURL, forKey: "linkURL")
+        super.encodeWithCoder(coder.coder)
     }
 }
 

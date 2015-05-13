@@ -27,7 +27,7 @@ public final class Availability: JSONAble {
     }
 
     public required init(coder aDecoder: NSCoder) {
-        let decoder = Decoder(aDecoder)
+        let decoder = Coder(aDecoder)
         self.isUsernameAvailable = decoder.decodeKey("isUsernameAvailable")
         self.isEmailAvailable = decoder.decodeKey("isEmailAvailable")
         self.isInvitationCodeAvailable = decoder.decodeKey("isInvitationCodeAvailable")

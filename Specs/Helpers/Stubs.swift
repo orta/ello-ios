@@ -114,6 +114,8 @@ extension Post: Stubbable {
             token: (values["token"] as? String) ?? "sample-token",
             contentWarning: (values["contentWarning"] as? String) ?? "",
             allowComments: (values["allowComments"] as? Bool) ?? false,
+            reposted: (values["reposted"] as? Bool) ?? false,
+            loved: (values["loved"] as? Bool) ?? false,
             summary: (values["summary"] as? [Regionable]) ?? [stubbedTextRegion]
         )
 

@@ -56,7 +56,7 @@ public class ElloNetworkError: JSONAble {
     }
 
     public required init(coder aDecoder: NSCoder) {
-        let decoder = Decoder(aDecoder)
+        let decoder = Coder(aDecoder)
         self.attrs = decoder.decodeOptionalKey("attrs")
         self.code = decoder.decodeKey("code")
         self.detail = decoder.decodeOptionalKey("detail")
