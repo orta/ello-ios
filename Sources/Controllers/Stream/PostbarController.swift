@@ -45,6 +45,10 @@ public class PostbarController: NSObject, PostbarDelegate {
             return
         }
 
+        if dataSource.streamKind.isDetail {
+            return
+        }
+
         imageLabelControl.highlighted = true
         if cell.commentsOpened {
             imageLabelControl.animate()
