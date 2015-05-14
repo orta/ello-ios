@@ -57,7 +57,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .PostDetail(postParam: "768"), indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
                     expect(cell.isOpen).to(beFalse())
-                    expect(cell.commentsControl.selected).to(beFalse())
+                    expect(cell.commentsControl.selected).to(beTrue())
                     expect(cell.scrollView.scrollEnabled).to(beTrue())
                     expect(cell.chevronButton.hidden).to(beFalse())
                     expect(cell.views) == "9"

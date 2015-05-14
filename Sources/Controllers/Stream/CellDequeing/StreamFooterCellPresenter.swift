@@ -69,6 +69,7 @@ public struct StreamFooterCellPresenter {
                     )
 
                 if streamKind.isDetail {
+                    cell.commentsControl.selected = true
                     cell.commentsOpened = true
                 }
                 else {

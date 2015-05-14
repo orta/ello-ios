@@ -45,6 +45,10 @@ public class PostbarController: NSObject, PostbarDelegate {
             return
         }
 
+        if dataSource.streamKind.isDetail {
+            return
+        }
+
         imageLabelControl.highlighted = true
         if cell.commentsOpened {
             imageLabelControl.animate()
@@ -296,7 +300,13 @@ public class PostbarController: NSObject, PostbarDelegate {
         self.appendCreateCommentItem(post, at: indexPath)
         let commentsStartingIndexPath = NSIndexPath(forRow: indexPath.row + 1, inSection: indexPath.section)
 
-        let items = StreamCellItemParser().parse(jsonables, streamKind: StreamKind.Friend)
+        var items = StreamCellItemParser().parse(jsonables, streamKind: StreamKind.Friend)
+        if post.commentsCount > 25 {
+            items.append(StreamCellItem(jsonable: post, type: .SeeMoreComments, data: nil, oneColumnCellHeight: 60.0, multiColumnCellHeight: 60.0, isFullWidth: true))
+        }
+        else {
+            items.append(StreamCellItem(jsonable: post, type: .Spacer, data: nil, oneColumnCellHeight: 25.0, multiColumnCellHeight: 25.0, isFullWidth: true))
+        }
         self.dataSource.insertUnsizedCellItems(items,
             withWidth: self.collectionView.frame.width,
             startingIndexPath: commentsStartingIndexPath) { (indexPaths) in
