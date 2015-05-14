@@ -10,8 +10,8 @@ import Foundation
 
 
 public class StreamSeeMoreCommentsCell: UICollectionViewCell {
-    @IBOutlet weak var buttonContainer: UIView!
-    @IBOutlet weak var seeMoreButton: UIButton!
+    @IBOutlet weak public var buttonContainer: UIView!
+    @IBOutlet weak public var seeMoreButton: UIButton!
 
     override public func awakeFromNib() {
         super.awakeFromNib()
