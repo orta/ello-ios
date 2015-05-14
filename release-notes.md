@@ -1,3 +1,137 @@
+### Ello Build 1711(v1.0.0) May 13, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #264 - Send push subscriptions to the correct endpoint
+This was mistakenly set to the wrong endpoint.
+
+------
+
+#### #263 - Fixes ElloProvider specs
+Also prevents AppViewController from being created while running specs. (via <http://www.objc.io/issue-1/testing-view-controllers.html>)
+
+------
+
+#### #261 - Adds play button to "large gif" images
+And replaces the "image too large" text.
+
+------
+
+#### #260 - Moves Functional methods into FreeMethods
+These helpers just look more "swifty" to me as free functions, but this PR is definitely up for debate.  Do we like this style more?  Less?  It's doesn't add any features, it just removes the `Functional.` prefix.
+
+As a side effect, there are some closure types that enter the global namespace, and `BasicBlock` is identical to `ElloEmptyCompletion`.  Is this an issue?  Just because they *do* the same thing doesn't mean they *represent* the same thing, but it also seems to me like we could get rid of the `ElloEmptyCompletion`.
+
+Updated the tests, they pass if you run them "carefully", but they are disabled in the Specs targets.
+
+------
+
+#### #262 - Use SVGs for TabBar icons
+The tab bar now uses SVG images. The svg images we're using are not final but should be updated in the next day or so.
+
+------
+
+#### #258 - Fixes strange resizing issues
+The thing that caused the stranged animation bug was, essentially, calling `self.view.layoutIfNeeded` from inside an `animateWithDuration` block.  The reason we were using this method was to update the layout constraints.
+
+The fix is to animate *just the* `navigationbar.frame`, while *also* updating the constraint, and avoiding the call to `layoutIfNeeded`.
+
+Since changing the bounds of the `collectionView` also triggered a re-layout, I had to change the views to use the ios7-style fullscreen views, in combination with setting the `contentInset`.  On the upside, the `SSPullToRefresh` control was causing a minor content-inset related bug in there that has been fixed. :tada: 
+
+Touched a lot of code on this one, because all the controllers needed to be changed to use a full-screen layout.  I tried to rely on methods that are in the `StreamViewController` as much as possible.
+
+------
+
+#### #259 - Adds abbreviations to count values.
+* Posts
+* Following
+* Followers
+* Views
+* Reposts
+* Might need to be updated to match the web version better
+
+![image](https://cloud.githubusercontent.com/assets/96433/7575658/bf8bd986-f7f3-11e4-919f-79dd0b12d5c5.png)
+
+[Finishes #93639484]
+
+------
+
+#### #257 - Set the `currentUser` on the ProfileVC from Omni.
+* Fixes ability to friend/noise/mute/block yourself
+
+![image](https://cloud.githubusercontent.com/assets/96433/7570722/8ad4b0d8-f7cf-11e4-89e3-ddd889362a7a.png)
+
+[Fixes #94117910]
+
+------
+
+#### #254 - Update sign in UI
+This PR updates the layout of the landing screen and the login screen to match the v9 comps. 
+
+Fixes: https://www.pivotaltracker.com/story/show/94285260
+
+![screen shot 2015-05-11 at 6 13 34 am](https://cloud.githubusercontent.com/assets/12459/7564535/e953ccb4-f7a4-11e4-9f9a-5c258f180560.png)
+
+![screen shot 2015-05-11 at 6 13 38 am](https://cloud.githubusercontent.com/assets/12459/7564534/e9402e3e-f7a4-11e4-82c9-0690d30bb51f.png)
+
+![screen shot 2015-05-11 at 6 11 38 am](https://cloud.githubusercontent.com/assets/12459/7564511/b12cce08-f7a4-11e4-8d10-505aebf2024c.png)
+
+------
+
+#### #256 - Makes imageSizeWarning check for existence.
+* This was causing a crash in the stream when accessed for the first time.
+
+------
+
+#### #255 - Remove New Relic
+Fixes: https://www.pivotaltracker.com/story/show/94285488
+![screen shot 2015-05-11 at 6 29 35 am](https://cloud.githubusercontent.com/assets/12459/7564789/4b3cea12-f7a7-11e4-918a-bb9b1c177032.png)
+
+------
+
+#### #253 - automatically submit 1password login
+* 1Password now automatically submits if an email and password are found
+* manually inputting email/password and submitting disables interactions with the form
+
+https://www.pivotaltracker.com/story/show/94245500
+https://www.pivotaltracker.com/story/show/94245504
+![screen shot 2015-05-10 at 7 47 13 am](https://cloud.githubusercontent.com/assets/12459/7554516/d2fc0524-f6e8-11e4-8ab9-88f51dec8842.png)
+
+------
+
+#### #252 - Update displayed content from in-app interactions
+#### What's this PR do?
+Removes, reloads or adds content in in-memory Streams when interactions in the app affect it.
+#### Where should the reviewer start?
+`StreamDataSourceSpec` is a good place to start
+#### How should this be manually tested?
+* Posting should add the post to the profile and friends stream.
+* Commenting should add the comment to the PostDetail and any stream showing the comment's post if the comments are visible.
+* Muting a user should remove any notifications from that user
+* Blocking a user should remove all posts, profiles, notifications and comments from that user
+* Friending/Noising/UnFriending/UnNoising should change the following/follower counts on a profile
+* Commenting should update the comment count on a post
+* Posting should update the post count on a user
+
+#### Any background context you want to provide?
+The original plan was to simply reload content when some aspect of that content changes. The problem is that many of the actions, such as post creation are background tasks on the server and are not guaranteed  to happen right away. This PR aims to handle these issues client side by adding/removing client side UI.
+
+This PR does not address settings updates.
+#### What are the relevant tickets?
+https://www.pivotaltracker.com/story/show/86543968
+https://www.pivotaltracker.com/story/show/88945512
+https://www.pivotaltracker.com/story/show/92493884
+https://www.pivotaltracker.com/story/show/86548448
+
+#### Screenshots (if appropriate)
+
+#### Questions:
+- Did we miss anything?
+    
+------------
+
 ### Ello Build 1596(v1.0.0) May 8, 2015
 
     RELEASE NOTES
