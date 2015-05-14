@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import UIKit
-
 public struct StreamTextCellPresenter {
     static let commentMargin = CGFloat(60)
     static let postMargin = CGFloat(15)
@@ -26,7 +24,7 @@ public struct StreamTextCellPresenter {
                         streamCellItem.multiColumnCellHeight = actualHeight
                         streamCellItem.oneColumnCellHeight = actualHeight
                         streamCellItem.calculatedWebHeight = actualHeight
-                        postNotification(RelayoutStreamViewControllerNotification, cell)
+                        postNotification(StreamNotification.UpdateCellHeightNotification, cell)
                     }
                 }
             }

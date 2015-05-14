@@ -44,7 +44,11 @@ public protocol StreamScrollDelegate: NSObjectProtocol {
 }
 
 
-let RelayoutStreamViewControllerNotification = TypedNotification<UICollectionViewCell>(name: "RelayoutStreamViewControllerNotification")
+public struct StreamNotification {
+    static let AnimateCellHeightNotification = TypedNotification<StreamImageCell>(name: "AnimateCellHeightNotification")
+    static let UpdateCellHeightNotification = TypedNotification<UICollectionViewCell>(name: "UpdateCellHeightNotification")
+}
+
 
 public class StreamViewController: BaseElloViewController {
 
@@ -278,10 +282,10 @@ public class StreamViewController: BaseElloViewController {
 // MARK: Private Functions
 
     private func addNotificationObservers() {
-        updatedStreamImageCellHeightNotification = NotificationObserver(notification: updateStreamImageCellHeightNotification) { streamTextCell in
-            self.imageCellHeightUpdated(streamTextCell)
+        updatedStreamImageCellHeightNotification = NotificationObserver(notification: StreamNotification.AnimateCellHeightNotification) { streamImageCell in
+            self.imageCellHeightUpdated(streamImageCell)
         }
-        relayoutNotification = NotificationObserver(notification: RelayoutStreamViewControllerNotification) { streamTextCell in
+        relayoutNotification = NotificationObserver(notification: StreamNotification.UpdateCellHeightNotification) { streamTextCell in
             self.collectionView.collectionViewLayout.invalidateLayout()
         }
 

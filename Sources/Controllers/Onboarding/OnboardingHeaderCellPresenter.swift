@@ -20,6 +20,12 @@ public struct OnboardingHeaderCellPresenter {
         {
             cell.header = header
             cell.message = message
+
+            if streamCellItem.oneColumnCellHeight != cell.height() {
+                streamCellItem.oneColumnCellHeight = cell.height()
+                streamCellItem.multiColumnCellHeight = cell.height()
+                postNotification(StreamNotification.UpdateCellHeightNotification, cell)
+            }
         }
     }
 }

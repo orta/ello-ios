@@ -12,8 +12,6 @@ import FLAnimatedImage
 import SDWebImage
 import SVGKit
 
-let updateStreamImageCellHeightNotification = TypedNotification<StreamImageCell>(name: "updateStreamImageCellHeightNotification")
-
 public class StreamImageCell: StreamRegionableCell {
 
     @IBOutlet weak var imageView: FLAnimatedImageView!
@@ -62,7 +60,7 @@ public class StreamImageCell: StreamRegionableCell {
                 self.aspectRatio = (image.size.width / image.size.height)
 
                 if self.serverProvidedAspectRatio == nil {
-                    postNotification(updateStreamImageCellHeightNotification, self)
+                    postNotification(StreamNotification.AnimateCellHeightNotification, self)
                 }
                 if type != .Memory {
                     self.imageView.alpha = 0
