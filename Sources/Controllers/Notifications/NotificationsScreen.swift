@@ -16,7 +16,7 @@ import SVGKit
 public class NotificationsScreen : UIView {
     private class func filterButton() -> UIButton {
         let button = UIButton()
-        button.titleLabel!.font = UIFont.typewriterFont(12)
+        button.titleLabel!.font = UIFont.typewriterFont(14)
         button.setTitleColor(UIColor.whiteColor(), forState: .Selected)
         button.setTitleColor(UIColor.greyA(), forState: .Normal)
         button.setBackgroundImage(UIImage.imageWithColor(UIColor.blackColor()), forState: .Selected)
