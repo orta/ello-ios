@@ -76,6 +76,10 @@ public class OnboardingViewController: BaseElloViewController, HasAppController 
         let foundersController = FoundersSelectionViewController()
         foundersController.onboardingViewController = self
         addSubsequentViewController(foundersController)
+
+        let findFriendsController = OnboardingFindFriendsViewController()
+        findFriendsController.onboardingViewController = self
+        addSubsequentViewController(findFriendsController)
     }
 
 }
