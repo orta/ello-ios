@@ -8,14 +8,21 @@
 
 public class OnboardingUserListViewController: StreamableViewController, OnboardingStep {
     weak var onboardingViewController: OnboardingViewController?
-    var streamKind: StreamKind = .UserList(endpoint: .CommunitiesStream, title: "Communities")
 
-    override public func viewDidLoad() {
-        super.viewDidLoad()
+    override func setupStreamController() {
+        super.setupStreamController()
 
         streamViewController.pullToRefreshEnabled = false
         streamViewController.allOlderPagesLoaded = true
         streamViewController.initialLoadClosure = self.loadUsers
+    }
+
+    override public func viewDidLoad() {
+        super.viewDidLoad()
+
+        streamViewController.loadInitialPage()
+
+        onboardingViewController?.canGoNext = false
         ElloHUD.showLoadingHudInView(streamViewController.view)
     }
 

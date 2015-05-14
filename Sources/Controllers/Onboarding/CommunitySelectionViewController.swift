@@ -8,13 +8,10 @@
 
 public class CommunitySelectionViewController: OnboardingUserListViewController {
 
-    override public func viewDidLoad() {
-        super.viewDidLoad()
+    override func setupStreamController() {
+        super.setupStreamController()
 
         streamViewController.streamKind = .UserList(endpoint: .CommunitiesStream, title: "Communities")
-        streamViewController.loadInitialPage()
-
-        onboardingViewController?.canGoNext = false
     }
 
     override func usersLoaded(users: [User]) {

@@ -8,13 +8,10 @@
 
 public class AwesomePeopleSelectionViewController: OnboardingUserListViewController {
 
-    override public func viewDidLoad() {
-        super.viewDidLoad()
+    override func setupStreamController() {
+        super.setupStreamController()
 
         streamViewController.streamKind = .UserList(endpoint: .AwesomePeopleStream, title: "Awesome People")
-        streamViewController.loadInitialPage()
-
-        onboardingViewController?.canGoNext = false
     }
 
     override func usersLoaded(users: [User]) {

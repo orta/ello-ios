@@ -8,13 +8,10 @@
 
 public class FoundersSelectionViewController: OnboardingUserListViewController {
 
-    override public func viewDidLoad() {
-        super.viewDidLoad()
+    override func setupStreamController() {
+        super.setupStreamController()
 
         streamViewController.streamKind = .UserList(endpoint: .FoundersStream, title: "Founders")
-        streamViewController.loadInitialPage()
-
-        onboardingViewController?.canGoNext = false
     }
 
     override func usersLoaded(users: [User]) {
