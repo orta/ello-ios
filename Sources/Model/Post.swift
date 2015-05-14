@@ -47,6 +47,9 @@ public final class Post: JSONAble, Authorable {
     public var author: User? {
         return ElloLinkedStore.sharedInstance.getObject(self.authorId, inCollection: MappingType.UsersType.rawValue) as? User
     }
+    public var repostAuthor: User? {
+        return getLinkObject("repost_author") as? User
+    }
     // nested resources
     public var comments: [Comment]? {
         return getLinkArray(MappingType.CommentsType.rawValue) as? [Comment]
