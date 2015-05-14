@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7703" systemVersion="14E11f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jJZ-zI-fFG">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jJZ-zI-fFG">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="AtlasTypewriterRegular.otf">
@@ -42,7 +42,7 @@
                         <viewControllerLayoutGuide type="bottom" id="Cu5-ro-RnE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="b3f-dm-11N">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" directionalLockEnabled="YES" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sxq-dN-l1X">
@@ -68,22 +68,9 @@
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="Streams" id="3ES-HP-ulE">
-                        <barButtonItem key="leftBarButtonItem" image="hamburger-icon" style="done" id="zlg-gM-1Tc" userLabel="Hamburger Button">
-                            <color key="tintColor" red="0.66274509800000003" green="0.66274509800000003" blue="0.66274509800000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <connections>
-                                <action selector="hamburgerButtonTapped" destination="hkH-y2-vf2" id="C5h-pK-Bcq"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="search-icon" style="done" id="erj-L9-Ry4" userLabel="Search Button">
-                            <color key="tintColor" red="0.66274509800000003" green="0.66274509800000003" blue="0.66274509800000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <connections>
-                                <action selector="searchButtonTapped" destination="hkH-y2-vf2" id="zTF-oE-GEk"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Streams" id="3ES-HP-ulE"/>
                     <nil key="simulatedStatusBarMetrics"/>
-                    <nil key="simulatedTopBarMetrics"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="navigationBar" destination="BcZ-aZ-i5r" id="nZ6-1J-SlE"/>
@@ -329,7 +316,7 @@
             </objects>
             <point key="canvasLocation" x="774" y="-992"/>
         </scene>
-        <!--Omnibar Navigation Controller-->
+        <!--Ello Navigation Controller-->
         <scene sceneID="3Vb-Rm-HKL">
             <objects>
                 <navigationController storyboardIdentifier="OmnibarViewController" automaticallyAdjustsScrollViewInsets="NO" id="jRU-db-VFH" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
@@ -353,8 +340,6 @@
     </scenes>
     <resources>
         <image name="ello-logo" width="166" height="166"/>
-        <image name="hamburger-icon" width="49" height="49"/>
-        <image name="search-icon" width="49" height="49"/>
     </resources>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
 </document>

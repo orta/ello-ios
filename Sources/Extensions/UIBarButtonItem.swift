@@ -7,15 +7,16 @@
 //
 
 import Foundation
+import SVGKit
 
 extension UIBarButtonItem {
 
     class func backChevronWithTarget(target:AnyObject, action:Selector) -> UIBarButtonItem {
-        let frame = CGRect(x: 10, y: 0, width: 29.0, height: 44.0)
+        let frame = CGRect(x: 0, y: 0, width: 36.0, height: 44.0)
         let button = UIButton(frame: frame)
-        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
-        let image = UIImage(named: "chevron-back-icon")
-        button.setImage(image, forState: .Normal)
+        button.setImage(SVGKImage(named: "abracket_normal.svg").UIImage!, forState: .Normal)
+        // rotate 180 degrees to flip
+        button.transform = CGAffineTransformMakeRotation(CGFloat((180.0 * M_PI) / 180.0))
         button.addTarget(target, action: action, forControlEvents: .TouchUpInside)
 
         return UIBarButtonItem(customView: button)

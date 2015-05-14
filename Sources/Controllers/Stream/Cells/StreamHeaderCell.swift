@@ -121,6 +121,7 @@ public class StreamHeaderCell: UICollectionViewCell {
         containerView.frame = bounds
         scrollView.frame = bounds
         bottomToolBar.frame = bounds
+        chevronButton.setSVGImages("abracket")
         scrollView.contentSize = CGSizeMake(contentView.frame.size.width + revealWidth, scrollView.frame.size.height)
         positionTopContent()
         repositionBottomContent()

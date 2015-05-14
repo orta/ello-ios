@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import SVGKit
 
 public class StreamContainerViewController: StreamableViewController {
 
@@ -39,6 +39,8 @@ public class StreamContainerViewController: StreamableViewController {
         setupStreamsSegmentedControl()
         setupChildViewControllers()
         navigationItem.titleView = streamsSegmentedControl
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: SVGKImage(named: "burger_normal.svg").UIImage!, style: .Done, target: self, action: Selector("hamburgerButtonTapped"))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: SVGKImage(named: "search_normal.svg").UIImage!, style: .Done, target: self, action: Selector("searchButtonTapped"))
         navigationBar.items = [navigationItem]
 
         scrollLogic.prevOffset = (childViewControllers[0] as! StreamViewController).collectionView.contentOffset

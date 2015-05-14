@@ -28,6 +28,7 @@
 import UIKit
 import MobileCoreServices
 import FLAnimatedImage
+import SVGKit
 
 @objc
 public protocol OmnibarScreenDelegate {
@@ -206,7 +207,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
         imageSelectedOverlay.contentMode = .Center
         imageSelectedOverlay.layer.cornerRadius = 13
         imageSelectedOverlay.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.7)
-        imageSelectedOverlay.image = ElloDrawable.imageOfTrashIconSelected
+        imageSelectedOverlay.image = SVGKImage(named: "trash_white.svg").UIImage!
         imageSelectedOverlay.frame = CGRect.at(x: imageSelectedButton.frame.width / 2, y: imageSelectedButton.frame.height / 2).grow(all: imageSelectedOverlay.layer.cornerRadius)
         imageSelectedOverlay.autoresizingMask = .FlexibleBottomMargin | .FlexibleTopMargin | .FlexibleLeftMargin | .FlexibleRightMargin
         imageSelectedButton.addSubview(imageSelectedOverlay)
@@ -221,13 +222,13 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
     }
     // buttons that make up the "toolbar"
     private func setupToolbarButtons() {
-        cameraButton.setImage(ElloDrawable.imageOfCameraIcon, forState: .Normal)
+        cameraButton.setSVGImages("camera")
         cameraButton.addTarget(self, action: Selector("addImageAction"), forControlEvents: .TouchUpInside)
 
-        cancelButton.setImage(ElloDrawable.imageOfCancelIcon, forState: .Normal)
+        cancelButton.setSVGImages("x")
         cancelButton.addTarget(self, action: Selector("cancelEditingAction"), forControlEvents: .TouchUpInside)
 
-        submitButton.setImage(ElloDrawable.imageOfSubmitIcon, forState: .Normal)
+        submitButton.setSVGImages("arrow")
         submitButton.addTarget(self, action: Selector("submitAction"), forControlEvents: .TouchUpInside)
     }
     // The textContainer is the outetr gray background.  The text view is
@@ -406,12 +407,12 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
 
     private func updateUndoState() {
         if canUndo() {
-            cancelButton.setImage(ElloDrawable.imageOfUndoIcon, forState: .Normal)
+            cancelButton.setSVGImages("reply")
             cancelButton.removeTarget(self, action: Selector("cancelEditingAction"), forControlEvents: .TouchUpInside)
             cancelButton.addTarget(self, action: Selector("undoCancelAction"), forControlEvents: .TouchUpInside)
         }
         else {
-            cancelButton.setImage(ElloDrawable.imageOfCancelIcon, forState: .Normal)
+            cancelButton.setSVGImages("x")
             cancelButton.removeTarget(self, action: Selector("undoCancelAction"), forControlEvents: .TouchUpInside)
             cancelButton.addTarget(self, action: Selector("cancelEditingAction"), forControlEvents: .TouchUpInside)
         }

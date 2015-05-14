@@ -280,6 +280,7 @@ public class StreamFooterCell: UICollectionViewCell {
         scrollView.frame = newBounds
         toolBar.frame = newBounds
         bottomToolBar.frame = newBounds
+        chevronButton.setSVGImages("abracket")
         chevronButton.frame = CGRectMake(newBounds.width - chevronButton.bounds.width - 10, newBounds.height/2 - chevronButton.bounds.height/2, chevronButton.bounds.size.width, chevronButton.bounds.size.height)
         scrollView.contentSize = CGSizeMake(contentView.frame.size.width + revealWidth, scrollView.frame.size.height)
         repositionBottomContent()

@@ -16,7 +16,7 @@ import SVGKit
 public class NotificationsScreen : UIView {
     private class func filterButton() -> UIButton {
         let button = UIButton()
-        button.titleLabel!.font = UIFont.typewriterFont(12)
+        button.titleLabel!.font = UIFont.typewriterFont(14)
         button.setTitleColor(UIColor.whiteColor(), forState: .Selected)
         button.setTitleColor(UIColor.greyA(), forState: .Normal)
         button.setBackgroundImage(UIImage.imageWithColor(UIColor.blackColor()), forState: .Selected)
@@ -47,7 +47,7 @@ public class NotificationsScreen : UIView {
         filterBarVisible = true
 
         let filterAllButton = NotificationsScreen.filterButton("All")
-        let filterMiscButton = NotificationsScreen.filterButton(SVGKImage(named: "dots_normal.svg").UIImage!)
+        let filterMiscButton = NotificationsScreen.filterButton(SVGKImage(named: "bubble_normal.svg").UIImage!)
         let filterMentionButton = NotificationsScreen.filterButton("@")
         // no loves yet!
         // let filterHeartButton = NotificationsScreen.filterButton(SVGKImage(named: "heartplus_normal.svg").UIImage!)
