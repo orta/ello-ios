@@ -222,13 +222,13 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
     }
     // buttons that make up the "toolbar"
     private func setupToolbarButtons() {
-        cameraButton.setSVGImages("camera", rotation: 0.0)
+        cameraButton.setSVGImages("camera")
         cameraButton.addTarget(self, action: Selector("addImageAction"), forControlEvents: .TouchUpInside)
 
-        cancelButton.setSVGImages("x", rotation: 0.0)
+        cancelButton.setSVGImages("x")
         cancelButton.addTarget(self, action: Selector("cancelEditingAction"), forControlEvents: .TouchUpInside)
 
-        submitButton.setSVGImages("arrow", rotation: 0.0)
+        submitButton.setSVGImages("arrow")
         submitButton.addTarget(self, action: Selector("submitAction"), forControlEvents: .TouchUpInside)
     }
     // The textContainer is the outetr gray background.  The text view is
@@ -407,12 +407,12 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
 
     private func updateUndoState() {
         if canUndo() {
-            cancelButton.setImage(ElloDrawable.imageOfUndoIcon, forState: .Normal)
+            cancelButton.setSVGImages("reply")
             cancelButton.removeTarget(self, action: Selector("cancelEditingAction"), forControlEvents: .TouchUpInside)
             cancelButton.addTarget(self, action: Selector("undoCancelAction"), forControlEvents: .TouchUpInside)
         }
         else {
-            cancelButton.setSVGImages("x", rotation: 0.0)
+            cancelButton.setSVGImages("x")
             cancelButton.removeTarget(self, action: Selector("undoCancelAction"), forControlEvents: .TouchUpInside)
             cancelButton.addTarget(self, action: Selector("cancelEditingAction"), forControlEvents: .TouchUpInside)
         }

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SVGKit
 
 public class DrawerViewController: BaseElloViewController {
     @IBOutlet weak public var collectionView: UICollectionView!
@@ -127,8 +128,10 @@ private extension DrawerViewController {
     }
 
     func addHamburgerButton() {
-        let button = UIBarButtonItem(image: UIImage(named: "hamburger-icon"), style: .Done, target: self, action: Selector("hamburgerButtonTapped"))
-        self.navigationItem.rightBarButtonItem = button
+        let padding = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+        padding.width = 21
+        let button = UIBarButtonItem(image: SVGKImage(named: "burger_normal.svg").UIImage!, style: .Done, target: self, action: Selector("hamburgerButtonTapped"))
+        self.navigationItem.rightBarButtonItems = [padding, button]
     }
 
     func registerCells() {

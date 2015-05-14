@@ -14,6 +14,8 @@ public class DiscoverViewController: StreamableViewController {
     @IBOutlet weak var navigationBar: UIView!
     @IBOutlet weak var inviteButton: UIButton!
     @IBOutlet weak var navigationBarTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var chevron: UIImageView!
+    @IBOutlet weak var inviteLabel: UILabel!
 
     override public var tabBarItem: UITabBarItem? {
         get { return UITabBarItem.svgItem("sparkles", insets: UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)) }
@@ -33,8 +35,12 @@ public class DiscoverViewController: StreamableViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBarHidden = true
-        streamViewController.loadInitialPage()
+        chevron.image = SVGKImage(named: "abracket_white.svg").UIImage!
+        inviteLabel.font = UIFont.typewriterFont(14)
+        inviteLabel.textColor = .whiteColor()
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
+        ElloHUD.showLoadingHudInView(streamViewController.view)
+        streamViewController.loadInitialPage()
     }
 
     override public func viewDidAppear(animated: Bool) {
