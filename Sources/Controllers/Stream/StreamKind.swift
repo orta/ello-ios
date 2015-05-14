@@ -11,8 +11,6 @@ import Foundation
 public enum StreamKind {
     case Friend
     case Noise
-    case Communities
-    case AwesomePeople
     case Discover(type: DiscoverType, seed: Int, perPage: Int)
     case PostDetail(postParam: String)
     case Profile(perPage: Int)
@@ -25,8 +23,6 @@ public enum StreamKind {
         switch self {
         case .Friend: return "Friends"
         case .Noise: return "Noise"
-        case .Communities: return "Communities"
-        case .AwesomePeople: return "AwesomePeople"
         case .Notifications: return "Notifications"
         case .Discover: return "Discover"
         case .PostDetail: return "Post Detail"
@@ -48,8 +44,6 @@ public enum StreamKind {
         switch self {
         case .Friend: return .FriendStream
         case .Noise: return .NoiseStream
-        case .Communities: return .CommunitiesStream
-        case .AwesomePeople: return .CommunitiesStream
         case let .Discover(type, seed, perPage): return ElloAPI.Discover(type: type, seed: seed, perPage: perPage)
         case .Notifications: return .NotificationsStream
         case let .PostDetail(postParam): return .PostDetail(postParam: postParam)
@@ -70,7 +64,7 @@ public enum StreamKind {
 
     public func filter(jsonables: [JSONAble]) -> [JSONAble] {
         switch self {
-        case .UserList, .Communities, .AwesomePeople: return jsonables
+        case .UserList: return jsonables
         case .Discover:
             if let users = jsonables as? [User] {
                 return users.reduce([]) { accum, user in

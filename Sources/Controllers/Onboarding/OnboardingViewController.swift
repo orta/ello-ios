@@ -11,8 +11,10 @@ protocol OnboardingStep {
 }
 
 
-public class OnboardingViewController: BaseElloViewController {
-    private var visibleViewController: UIViewController?
+public class OnboardingViewController: BaseElloViewController, HasAppController {
+    var parentAppController: AppViewController?
+    private var visibleViewControllerIndex: Int = 0
+    private var onboardingViewControllers = [UIViewController]()
 
     public private(set) var controllerContainer: UIView = { return UIView() }()
     public private(set) var buttonContainer: UIView = { return UIView() }()
@@ -50,6 +52,7 @@ public class OnboardingViewController: BaseElloViewController {
             height: buttonContainer.frame.height - 2*inset
         )
         skipButton.autoresizingMask = .FlexibleRightMargin | .FlexibleHeight
+        skipButton.addTarget(self, action: Selector("goToNextStep"), forControlEvents: .TouchUpInside)
         buttonContainer.addSubview(skipButton)
 
         nextButton.frame = CGRect(
@@ -59,13 +62,16 @@ public class OnboardingViewController: BaseElloViewController {
             height: buttonContainer.frame.height - 2*inset
         )
         nextButton.autoresizingMask = .FlexibleLeftMargin | .FlexibleHeight
+        nextButton.addTarget(self, action: Selector("goToNextStep"), forControlEvents: .TouchUpInside)
         buttonContainer.addSubview(nextButton)
 
-        let initialController = CommunitySelectionViewController()
-        initialController.onboardingViewController = self
-        addChildViewController(initialController)
+        let communityController = CommunitySelectionViewController()
+        communityController.onboardingViewController = self
+        showFirstViewController(communityController)
 
-        showViewController(initialController)
+        let awesomePeopleController = AwesomePeopleSelectionViewController()
+        awesomePeopleController.onboardingViewController = self
+        addSubsequentViewController(awesomePeopleController)
     }
 
 }
@@ -74,25 +80,68 @@ public class OnboardingViewController: BaseElloViewController {
 // MARK: Screen transitions
 extension OnboardingViewController {
 
-    public func showViewController(newViewController: UIViewController) {
-        visibleViewController?.willMoveToParentViewController(nil)
-        newViewController.willMoveToParentViewController(self)
+    private func showFirstViewController(viewController: UIViewController) {
+        Tracker.sharedTracker.screenAppeared(viewController.title ?? viewController.readableClassName())
 
-        let controller = (newViewController as? UINavigationController)?.topViewController ?? newViewController
-        Tracker.sharedTracker.screenAppeared(controller.title ?? controller.readableClassName())
+        addChildViewController(viewController)
+        controllerContainer.addSubview(viewController.view)
+        viewController.view.frame = controllerContainer.bounds
+        viewController.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        viewController.didMoveToParentViewController(self)
 
-        controllerContainer.addSubview(newViewController.view)
-        newViewController.view.frame = controllerContainer.bounds
-        newViewController.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        visibleViewControllerIndex = 0
+        onboardingViewControllers.append(viewController)
+    }
 
-        visibleViewController?.view.removeFromSuperview()
-        visibleViewController?.removeFromParentViewController()
+    private func addSubsequentViewController(viewController: UIViewController) {
+        onboardingViewControllers.append(viewController)
+    }
 
-        addChildViewController(newViewController)
+    public func goToNextStep() {
+        if let visibleViewController = onboardingViewControllers.safeValue(visibleViewControllerIndex),
+            let nextViewController = onboardingViewControllers.safeValue(visibleViewControllerIndex + 1)
+        {
+            transitionFromViewController(visibleViewController, toViewController: nextViewController)
+        }
+        else if let visibleViewController = onboardingViewControllers.safeValue(visibleViewControllerIndex),
+            let nextViewController = onboardingViewControllers.safeValue(0)
+            where visibleViewControllerIndex == count(onboardingViewControllers) - 1
+        {
+            transitionFromViewController(visibleViewController, toViewController: nextViewController)
+        }
+    }
 
-        newViewController.didMoveToParentViewController(self)
+    private func transitionFromViewController(visibleViewController: UIViewController, toViewController nextViewController: UIViewController) {
+        Tracker.sharedTracker.screenAppeared(nextViewController.title ?? nextViewController.readableClassName())
 
-        visibleViewController = newViewController
+        visibleViewController.willMoveToParentViewController(nil)
+        addChildViewController(nextViewController)
+
+        nextViewController.view.alpha = 1
+        nextViewController.view.frame = CGRect(
+            x: controllerContainer.frame.width,
+            y: 0,
+            width: controllerContainer.frame.width,
+            height: controllerContainer.frame.height
+        )
+
+        transitionFromViewController(visibleViewController,
+            toViewController: nextViewController,
+            duration: 0.4,
+            options: UIViewAnimationOptions(0),
+            animations: {
+                self.controllerContainer.insertSubview(nextViewController.view, aboveSubview: visibleViewController.view)
+                visibleViewController.view.frame.origin.x = -visibleViewController.view.frame.width
+                nextViewController.view.frame.origin.x = 0
+            },
+            completion: { _ in
+                self.visibleViewControllerIndex += 1
+                if self.visibleViewControllerIndex == count(self.onboardingViewControllers) {
+                    self.visibleViewControllerIndex = 0
+                }
+                nextViewController.didMoveToParentViewController(self)
+                visibleViewController.removeFromParentViewController()
+            })
     }
 
 }

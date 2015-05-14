@@ -92,6 +92,7 @@ public class AppViewController: BaseElloViewController {
             // </restore later>
             // <debugging code>
             let vc = OnboardingViewController()
+            vc.parentAppController = self
             vc.currentUser = user
             self.swapViewController(vc)
             // </debugging code>

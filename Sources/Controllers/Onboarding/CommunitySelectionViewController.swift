@@ -12,7 +12,7 @@ public class CommunitySelectionViewController: StreamableViewController, Onboard
     override public func viewDidLoad() {
         super.viewDidLoad()
 
-        streamViewController.streamKind = StreamKind.Communities
+        streamViewController.streamKind = .UserList(endpoint: .CommunitiesStream, title: "Communities")
         streamViewController.pullToRefreshEnabled = false
         streamViewController.allOlderPagesLoaded = true
         ElloHUD.showLoadingHudInView(streamViewController.view)
@@ -59,9 +59,11 @@ public class CommunitySelectionViewController: StreamableViewController, Onboard
         streamViewController.dataSource.removeCellItemsBelow(index)
         streamViewController.collectionView.reloadData()
 
-        var header = StreamCellItem(jsonable: JSONAble(version: 1), type: StreamCellType.OnboardingHeader, data: nil, oneColumnCellHeight: OnboardingHeaderCellHeight, multiColumnCellHeight: OnboardingHeaderCellHeight, isFullWidth: true)
+        let header = NSLocalizedString("What are you interested in?", comment: "Community Selection Header text")
+        let message = NSLocalizedString("Follow the Ello communities that you find most inspiring.", comment: "Community Selection Description text")
+        var headerItem = StreamCellItem(jsonable: JSONAble(version: 1), type: StreamCellType.OnboardingHeader, data: (header, message), oneColumnCellHeight: OnboardingHeaderCellHeight, multiColumnCellHeight: OnboardingHeaderCellHeight, isFullWidth: true)
         var items: [StreamCellItem] = StreamCellItemParser().parse(users, streamKind: streamViewController.streamKind)
-        streamViewController.appendStreamCellItems([header])
+        streamViewController.appendStreamCellItems([headerItem])
         streamViewController.appendUnsizedCellItems(items, withWidth: view.frame.width)
         streamViewController.doneLoading()
     }

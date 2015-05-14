@@ -34,8 +34,9 @@ public enum StreamCellType {
     case SeeMoreComments
     case Spacer
     case OnboardingHeader
+    case FollowAll
 
-    static let all = [CommentHeader, Header, Footer, Image, Text, Embed, RepostHeader, Unknown, ProfileHeader, Notification, UserListItem, CreateComment, StreamLoading, Toggle, SeeMoreComments, Spacer, OnboardingHeader]
+    static let all = [CommentHeader, Header, Footer, Image, Text, Embed, RepostHeader, Unknown, ProfileHeader, Notification, UserListItem, CreateComment, StreamLoading, Toggle, SeeMoreComments, Spacer, OnboardingHeader, FollowAll]
 
     public var name: String {
         switch self {
@@ -56,6 +57,7 @@ public enum StreamCellType {
         case SeeMoreComments: return "StreamSeeMoreCommentsCell"
         case Spacer: return "StreamSpacerCell"
         case OnboardingHeader: return OnboardingHeaderCell.reuseIdentifier()
+        case FollowAll: return FollowAllCell.reuseIdentifier()
         }
     }
 
@@ -85,6 +87,7 @@ public enum StreamCellType {
         case Toggle: return StreamToggleCellPresenter.configure
         case Spacer: return { (cell, _, _, _, _) in cell.backgroundColor = .whiteColor() }
         case OnboardingHeader: return OnboardingHeaderCellPresenter.configure
+        case FollowAll: return FollowAllCellPresenter.configure
         default: return { (_, _, _, _, _) in }
         }
     }
@@ -107,6 +110,7 @@ public enum StreamCellType {
         case Toggle: return StreamToggleCell.self
         case SeeMoreComments: return StreamSeeMoreCommentsCell.self
         case OnboardingHeader: return OnboardingHeaderCell.self
+        case FollowAll: return FollowAllCell.self
         }
     }
 
@@ -118,8 +122,9 @@ public enum StreamCellType {
     }
 
     static func registerAll(collectionView: UICollectionView) {
+        let noNibTypes: [StreamCellType] = [.Unknown, .Notification, .CreateComment, .StreamLoading, .Spacer, .OnboardingHeader, .FollowAll]
         for type in all {
-            if type == .Unknown || type == .Notification || type == .CreateComment || type == .StreamLoading || type == .Spacer || type == .OnboardingHeader {
+            if find(noNibTypes, type) != nil {
                 collectionView.registerClass(type.classType, forCellWithReuseIdentifier: type.name)
             } else {
                 let nib = UINib(nibName: type.name, bundle: NSBundle(forClass: type.classType))

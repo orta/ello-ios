@@ -14,14 +14,14 @@ public class OnboardingHeaderCell: UICollectionViewCell {
         return "OnboardingHeaderCell"
     }
 
-    var headerLabel: UILabel = {
+    lazy var headerLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.regularBoldFont(20)
         label.numberOfLines = 0
         return label
     }()
 
-    var messageLabel: ElloLabel = {
+    lazy var messageLabel: ElloLabel = {
         let label = ElloLabel()
         label.font = UIFont.typewriterFont(14)
         label.numberOfLines = 0

@@ -19,14 +19,15 @@ public enum StreamCellState {
 public class StreamCellItem: NSObject, NSCopying {
     public var jsonable: JSONAble
     public let type: StreamCellType
-    public let data:Regionable?
+    public let data: Any?
+    public var region: Regionable? { return data as? Regionable }
     public let isFullWidth: Bool
     public var calculatedWebHeight: CGFloat = 0
     public var oneColumnCellHeight: CGFloat = 0
     public var multiColumnCellHeight: CGFloat = 0
     public var state: StreamCellState = .None
 
-    public required init(jsonable: JSONAble, type:StreamCellType, data:Regionable?, oneColumnCellHeight:CGFloat, multiColumnCellHeight:CGFloat, isFullWidth: Bool) {
+    public required init(jsonable: JSONAble, type: StreamCellType, data: Any?, oneColumnCellHeight: CGFloat, multiColumnCellHeight: CGFloat, isFullWidth: Bool) {
         self.jsonable = jsonable
         self.type = type
         self.data = data

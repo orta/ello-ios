@@ -71,7 +71,7 @@ public struct StreamImageCellPresenter {
                 }
                 cell.hideBorder()
                 // Repost specifics
-                if streamCellItem.data?.isRepost == true {
+                if streamCellItem.region?.isRepost == true {
                     cell.leadingConstraint.constant = 30.0
                     cell.showBorder()
                 }
