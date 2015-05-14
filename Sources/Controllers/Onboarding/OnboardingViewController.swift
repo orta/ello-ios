@@ -6,13 +6,18 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-public class OnboardingViewController: UIViewController {
+protocol OnboardingStep {
+    var onboardingViewController: OnboardingViewController? { get set }
+}
+
+
+public class OnboardingViewController: BaseElloViewController {
     private var visibleViewController: UIViewController?
 
     public private(set) var controllerContainer: UIView = { return UIView() }()
     public private(set) var buttonContainer: UIView = { return UIView() }()
-    public private(set) var skipButton: WhiteElloButton = {
-        let button = WhiteElloButton()
+    public private(set) var skipButton: ClearElloButton = {
+        let button = ClearElloButton()
         button.setTitle(NSLocalizedString("Skip", comment: "Skip button"), forState: .Normal)
         return button
     }()
@@ -21,6 +26,10 @@ public class OnboardingViewController: UIViewController {
         button.setTitle(NSLocalizedString("Next", comment: "Next button"), forState: .Normal)
         return button
     }()
+    public var canGoNext: Bool {
+        get { return nextButton.enabled }
+        set { return nextButton.enabled = newValue }
+    }
 
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -35,25 +44,28 @@ public class OnboardingViewController: UIViewController {
 
         let inset = CGFloat(15)
         skipButton.frame = CGRect(
-            x: 0,
+            x: inset,
             y: inset,
-            width: 104,
+            width: 89,
             height: buttonContainer.frame.height - 2*inset
         )
         skipButton.autoresizingMask = .FlexibleRightMargin | .FlexibleHeight
         buttonContainer.addSubview(skipButton)
 
         nextButton.frame = CGRect(
-            x: skipButton.frame.maxX,
+            x: skipButton.frame.maxX + inset,
             y: inset,
-            width: buttonContainer.frame.width - skipButton.frame.width - inset,
+            width: buttonContainer.frame.width - skipButton.frame.maxX - 2*inset,
             height: buttonContainer.frame.height - 2*inset
         )
         nextButton.autoresizingMask = .FlexibleLeftMargin | .FlexibleHeight
         buttonContainer.addSubview(nextButton)
 
         let initialController = CommunitySelectionViewController()
+        initialController.onboardingViewController = self
+        addChildViewController(initialController)
 
+        showViewController(initialController)
     }
 
 }
@@ -62,7 +74,7 @@ public class OnboardingViewController: UIViewController {
 // MARK: Screen transitions
 extension OnboardingViewController {
 
-    public func swapViewController(newViewController: UIViewController) {
+    public func showViewController(newViewController: UIViewController) {
         visibleViewController?.willMoveToParentViewController(nil)
         newViewController.willMoveToParentViewController(self)
 

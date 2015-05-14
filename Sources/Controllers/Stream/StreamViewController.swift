@@ -142,7 +142,7 @@ public class StreamViewController: BaseElloViewController {
 
     override public func viewDidLoad() {
         super.viewDidLoad()
-        pullToRefreshView = SSPullToRefreshView(scrollView:collectionView, delegate: self)
+        pullToRefreshView = SSPullToRefreshView(scrollView: collectionView, delegate: self)
         pullToRefreshView?.contentView = ElloPullToRefreshView(frame:CGRectZero)
         setupCollectionView()
     }
@@ -639,8 +639,17 @@ extension StreamViewController: SSPullToRefreshViewDelegate {
         return true
     }
 
+    public func pullToRefreshViewEnabled() -> Bool {
+        return pullToRefreshView?.superview != nil
+    }
+
     public func pullToRefreshViewDidStartLoading(view: SSPullToRefreshView!) {
-        self.loadInitialPage()
+        if pullToRefreshViewEnabled() {
+            self.loadInitialPage()
+        }
+        else {
+            pullToRefreshView?.finishLoading()
+        }
     }
 }
 

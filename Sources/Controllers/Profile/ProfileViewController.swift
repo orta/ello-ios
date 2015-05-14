@@ -15,7 +15,7 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         get { return UITabBarItem.svgItem("person") }
         set { self.tabBarItem = newValue }
     }
-    
+
     var user: User?
     var responseConfig: ResponseConfig?
     var userParam: String!
@@ -115,10 +115,6 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
 
     private func hideNavBar(#animated: Bool) {
         positionNavBar(navigationBar, visible: false, withConstraint: navigationBarTopConstraint, animated: animated)
-    }
-
-    @IBAction func logOutTapped(sender: ElloTextButton) {
-        postNotification(AuthenticationNotifications.userLoggedOut, ())
     }
 
     public func onEditProfile() {

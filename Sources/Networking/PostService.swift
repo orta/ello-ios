@@ -13,8 +13,6 @@ public typealias DeletePostSuccessCompletion = () -> ()
 
 public struct PostService {
 
-    public init(){}
-
     public func loadPost(
         postParam: String,
         streamKind: StreamKind?,

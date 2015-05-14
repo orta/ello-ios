@@ -52,13 +52,7 @@ public class AppViewController: BaseElloViewController {
 
         if isStartup {
             isStartup = false
-            // <restore later>
-            // checkIfLoggedIn()
-            // </restore later>
-            // <debugging code>
-            let vc = OnboardingViewController()
-            swapViewController(vc)
-            // </debugging code>
+            checkIfLoggedIn()
         }
     }
 
@@ -93,7 +87,14 @@ public class AppViewController: BaseElloViewController {
     private func loadCurrentUser() {
         let profileService = ProfileService()
         profileService.loadCurrentUser(ElloAPI.Profile(perPage: 1), success: { user in
-            self.showMainScreen(user)
+            // <restore later>
+            // self.showMainScreen(user)
+            // </restore later>
+            // <debugging code>
+            let vc = OnboardingViewController()
+            vc.currentUser = user
+            self.swapViewController(vc)
+            // </debugging code>
         }, failure: { error in
             self.failedToLoadCurrentUser()
         })
