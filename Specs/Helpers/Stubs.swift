@@ -47,7 +47,8 @@ extension User: Stubbable {
             viewsAdultContent: (values["viewsAdultContent"] as? Bool) ?? false,
             hasCommentingEnabled: (values["hasCommentingEnabled"] as? Bool) ?? true,
             hasSharingEnabled: (values["hasSharingEnabled"] as? Bool) ?? true,
-            hasRepostingEnabled: (values["hasRepostingEnabled"] as? Bool) ?? true
+            hasRepostingEnabled: (values["hasRepostingEnabled"] as? Bool) ?? true,
+            hasLovesEnabled: (values["hasLovesEnabled"] as? Bool) ?? true
         )
         user.avatar = values["avatar"] as? Asset
         user.identifiableBy = (values["identifiableBy"] as? String) ?? "stub-user-identifiable-by"
