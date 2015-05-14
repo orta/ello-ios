@@ -42,6 +42,7 @@ public final class Post: JSONAble, Authorable {
     public var viewsCount: Int?
     public var commentsCount: Int?
     public var repostsCount: Int?
+    public var loveCount: Int?
     // links
     public var assets: [Asset]? {
         return getLinkArray("assets") as? [Asset]
@@ -134,6 +135,7 @@ public final class Post: JSONAble, Authorable {
         self.viewsCount = decoder.decodeOptionalKey("viewsCount")
         self.commentsCount = decoder.decodeOptionalKey("commentsCount")
         self.repostsCount = decoder.decodeOptionalKey("repostsCount")
+        self.loveCount = decoder.decodeOptionalKey("loveCount")
         super.init(coder: decoder.coder)
     }
 
@@ -161,6 +163,7 @@ public final class Post: JSONAble, Authorable {
         coder.encodeObject(viewsCount, forKey: "viewsCount")
         coder.encodeObject(commentsCount, forKey: "commentsCount")
         coder.encodeObject(repostsCount, forKey: "repostsCount")
+        coder.encodeObject(loveCount, forKey: "loveCount")
         super.encodeWithCoder(coder.coder)
     }
 
@@ -192,6 +195,7 @@ public final class Post: JSONAble, Authorable {
         post.viewsCount = json["views_count"].int
         post.commentsCount = json["comments_count"].int
         post.repostsCount = json["reposts_count"].int
+        post.loveCount = json["loveCount"].int
         // links
         post.links = data["links"] as? [String: AnyObject]
         // store self in collection
