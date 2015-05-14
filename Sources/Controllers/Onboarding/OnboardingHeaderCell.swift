@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-let OnboardingHeaderCellHeight = CGFloat(160)
-
 
 public class OnboardingHeaderCell: UICollectionViewCell {
     class func reuseIdentifier() -> String {

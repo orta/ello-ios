@@ -72,6 +72,10 @@ public class OnboardingViewController: BaseElloViewController, HasAppController 
         let awesomePeopleController = AwesomePeopleSelectionViewController()
         awesomePeopleController.onboardingViewController = self
         addSubsequentViewController(awesomePeopleController)
+
+        let foundersController = FoundersSelectionViewController()
+        foundersController.onboardingViewController = self
+        addSubsequentViewController(foundersController)
     }
 
 }
