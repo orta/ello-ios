@@ -9,23 +9,6 @@
 let OnboardingHeaderCellHeight = CGFloat(160)
 
 
-public struct OnboardingHeaderCellPresenter {
-
-    static func configure(
-        cell:UICollectionViewCell,
-        streamCellItem:StreamCellItem,
-        streamKind: StreamKind,
-        indexPath: NSIndexPath,
-        currentUser: User?)
-    {
-        if let cell = cell as? OnboardingHeaderCell {
-            cell.header = NSLocalizedString("What are you interested in?", comment: "Community Selection Header text")
-            cell.message = NSLocalizedString("Follow the Ello communities that you find most inspiring.", comment: "Community Selection Description text")
-        }
-    }
-}
-
-
 public class OnboardingHeaderCell: UICollectionViewCell {
     class func reuseIdentifier() -> String {
         return "OnboardingHeaderCell"

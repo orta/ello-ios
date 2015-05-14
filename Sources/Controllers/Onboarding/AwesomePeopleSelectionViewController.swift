@@ -1,22 +1,22 @@
 //
-//  CommunitySelectionViewController.swift
+//  AwesomePeopleSelectionViewController.swift
 //  Ello
 //
-//  Created by Colin Gray on 5/12/2015.
+//  Created by Colin Gray on 5/14/2015.
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-public class CommunitySelectionViewController: StreamableViewController, OnboardingStep {
+public class AwesomePeopleSelectionViewController: StreamableViewController {
     weak var onboardingViewController: OnboardingViewController?
 
     override public func viewDidLoad() {
         super.viewDidLoad()
 
-        streamViewController.streamKind = StreamKind.Communities
+        streamViewController.streamKind = StreamKind.AwesomePeople
         streamViewController.pullToRefreshEnabled = false
         streamViewController.allOlderPagesLoaded = true
         ElloHUD.showLoadingHudInView(streamViewController.view)
-        streamViewController.initialLoadClosure = self.loadCommunity
+        streamViewController.initialLoadClosure = self.loadAwesomePeople
         streamViewController.loadInitialPage()
 
         onboardingViewController?.canGoNext = false
@@ -33,7 +33,7 @@ public class CommunitySelectionViewController: StreamableViewController, Onboard
         super.didSetCurrentUser()
     }
 
-    private func loadCommunity() {
+    private func loadAwesomePeople() {
         ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
         streamViewController.streamService.loadStream(
             streamViewController.streamKind.endpoint,
@@ -59,9 +59,12 @@ public class CommunitySelectionViewController: StreamableViewController, Onboard
         streamViewController.dataSource.removeCellItemsBelow(index)
         streamViewController.collectionView.reloadData()
 
-        var header = StreamCellItem(jsonable: JSONAble(version: 1), type: StreamCellType.OnboardingHeader, data: nil, oneColumnCellHeight: OnboardingHeaderCellHeight, multiColumnCellHeight: OnboardingHeaderCellHeight, isFullWidth: true)
+        let header = NSLocalizedString("What are you interested in?", comment: "Community Selection Header text")
+        let message = NSLocalizedString("Follow the Ello communities that you find most inspiring.", comment: "Community Selection Description text")
+        var headerItem = StreamCellItem(jsonable: JSONAble(version: 1), type: StreamCellType.OnboardingHeader, data: nil, oneColumnCellHeight: OnboardingHeaderCellHeight, multiColumnCellHeight: OnboardingHeaderCellHeight, isFullWidth: true)
+//        var followAllItem = StreamCellItem(jsonable: JSONAble(version: 1), type: StreamCellType.FollowAll, data: nil, oneColumnCellHeight: OnboardingHeaderCellHeight, multiColumnCellHeight: OnboardingHeaderCellHeight, isFullWidth: true)
         var items: [StreamCellItem] = StreamCellItemParser().parse(users, streamKind: streamViewController.streamKind)
-        streamViewController.appendStreamCellItems([header])
+        streamViewController.appendStreamCellItems([headerItem])
         streamViewController.appendUnsizedCellItems(items, withWidth: view.frame.width)
         streamViewController.doneLoading()
     }

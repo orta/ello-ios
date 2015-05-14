@@ -109,6 +109,10 @@ public class StreamViewController: BaseElloViewController {
         }
     }
 
+    var pullToRefreshEnabled: Bool = true {
+        didSet { pullToRefreshView?.hidden = !pullToRefreshEnabled }
+    }
+
     override public func awakeFromNib() {
         super.awakeFromNib()
         initialSetup()
@@ -144,6 +148,10 @@ public class StreamViewController: BaseElloViewController {
         super.viewDidLoad()
         pullToRefreshView = SSPullToRefreshView(scrollView: collectionView, delegate: self)
         pullToRefreshView?.contentView = ElloPullToRefreshView(frame:CGRectZero)
+        if pullToRefreshEnabled {
+            pullToRefreshView?.hidden = true
+        }
+
         setupCollectionView()
     }
 
@@ -639,12 +647,8 @@ extension StreamViewController: SSPullToRefreshViewDelegate {
         return true
     }
 
-    public func pullToRefreshViewEnabled() -> Bool {
-        return pullToRefreshView?.superview != nil
-    }
-
     public func pullToRefreshViewDidStartLoading(view: SSPullToRefreshView!) {
-        if pullToRefreshViewEnabled() {
+        if pullToRefreshEnabled {
             self.loadInitialPage()
         }
         else {
