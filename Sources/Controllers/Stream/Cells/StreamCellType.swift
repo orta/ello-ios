@@ -81,7 +81,6 @@ public enum StreamCellType {
         case CreateComment: return StreamCreateCommentCellPresenter.configure
         case StreamLoading: return StreamLoadingCellPresenter.configure
         case Toggle: return StreamToggleCellPresenter.configure
-        case SeeMoreComments: return StreamSeeMoreCommentsCellPresenter.configure
         default: return { (cell, streamCellItem, streamKind, indexPath, currentUser) in }
         }
     }
