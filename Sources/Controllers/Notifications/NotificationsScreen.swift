@@ -47,7 +47,7 @@ public class NotificationsScreen : UIView {
         filterBarVisible = true
 
         let filterAllButton = NotificationsScreen.filterButton("All")
-        let filterMiscButton = NotificationsScreen.filterButton(SVGKImage(named: "dots_normal.svg").UIImage!)
+        let filterMiscButton = NotificationsScreen.filterButton(SVGKImage(named: "bubble_normal.svg").UIImage!)
         let filterMentionButton = NotificationsScreen.filterButton("@")
         // no loves yet!
         // let filterHeartButton = NotificationsScreen.filterButton(SVGKImage(named: "heartplus_normal.svg").UIImage!)
