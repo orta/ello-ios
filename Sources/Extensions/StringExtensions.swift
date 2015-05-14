@@ -312,9 +312,13 @@ public extension String {
         return entitiesEncoded
     }
 
-    var SHA1String: String? {
+    var saltedSHA1String: String? {
         let salt = ElloKeys().salt()
-        if let data = (salt + self).dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+        return (salt + self).SHA1String
+    }
+
+    var SHA1String: String? {
+        if let data = self.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
             
             var digest = [UInt8](count: Int(CC_SHA1_DIGEST_LENGTH), repeatedValue: 0)
             CC_SHA1(data.bytes, CC_LONG(data.length), &digest)

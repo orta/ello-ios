@@ -16,7 +16,7 @@ class LocalPersonSpec: QuickSpec {
             it("returns an array of hashed emails") {
                 let emails = ["tester@test.com", "coolemail@bro.com"]
                 let person = LocalPerson(name: "", emails: emails, id: 123)
-                expect(person.emailHashes) == emails.map { $0.SHA1String! }
+                expect(person.emailHashes) == emails.map { $0.saltedSHA1String! }
             }
         }
     }
