@@ -130,6 +130,7 @@ extension Post: Stubbable {
         post.viewsCount = values["viewsCount"] as? Int
         post.commentsCount = values["commentsCount"] as? Int
         post.repostsCount = values["repostsCount"] as? Int
+        post.loveCount = values["loveCount"] as? Int
         // links / nested resources
         if let assets = values["assets"] as? [Asset] {
             var assetIds = [String]()

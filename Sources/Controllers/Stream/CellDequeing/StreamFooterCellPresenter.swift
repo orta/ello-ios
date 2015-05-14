@@ -28,88 +28,111 @@ public struct StreamFooterCellPresenter {
         indexPath: NSIndexPath,
         currentUser: User?)
     {
-        if let cell = cell as? StreamFooterCell {
+        if  let cell = cell as? StreamFooterCell,
+            let post = streamCellItem.jsonable as? Post
+        {
             cell.close()
-            if let post = streamCellItem.jsonable as? Post {
-                cell.comments = post.commentsCount?.numberToHuman()
+            configureToolBarItems(cell, post: post, currentUser: currentUser, streamKind: streamKind)
+            configureCommentControl(cell, streamCellItem: streamCellItem, streamKind: streamKind)
+            configureGridSpecificLayout(cell, streamKind: streamKind)
+            configureDisplayCounts(cell, post: post, streamKind: streamKind)
+        }
+    }
 
-                var ownPost = false
-                if let currentUser = currentUser {
-                    if post.authorId == currentUser.id {
-                        ownPost = true
-                    }
-                }
+    private static func configureToolBarItems(
+        cell: StreamFooterCell,
+        post: Post,
+        currentUser: User?,
+        streamKind: StreamKind)
+    {
+        cell.comments = post.commentsCount?. numberToHuman()
 
-                let repostingEnabled = post.author?.hasRepostingEnabled ?? true
+        var ownPost = currentUser?.id == post.authorId
 
-                let repostVisibility: InteractionVisibility
-                if !repostingEnabled {
-                    repostVisibility = .Disabled
-                }
-                else if ownPost {
-                    repostVisibility = .NotAllowed
-                }
-                else {
-                    repostVisibility = .Enabled
-                }
+        let repostingEnabled = post.author?.hasRepostingEnabled ?? true
+        var repostVisibility: InteractionVisibility = .Enabled
+        if !repostingEnabled { repostVisibility = .Disabled }
+        else if ownPost { repostVisibility = .NotAllowed }
 
-                let commentingEnabled = post.author?.hasCommentingEnabled ?? true
-                let commentVisibility: InteractionVisibility = commentingEnabled ? .Enabled : .Disabled
+        let commentingEnabled = post.author?.hasCommentingEnabled ?? true
+        let commentVisibility: InteractionVisibility = commentingEnabled ? .Enabled : .Disabled
 
-                let sharingEnabled = post.author?.hasSharingEnabled ?? true
-                let shareVisibility: InteractionVisibility = sharingEnabled ? .Enabled : .Disabled
-                let deleteVisibility: InteractionVisibility = ownPost ? .Enabled : .Disabled
+        let sharingEnabled = post.author?.hasSharingEnabled ?? true
+        let shareVisibility: InteractionVisibility = sharingEnabled ? .Enabled : .Disabled
+        let deleteVisibility: InteractionVisibility = ownPost ? .Enabled : .Disabled
 
-                cell.updateToolbarItems(
-                    streamKind: streamKind,
-                    repostVisibility: repostVisibility,
-                    commentVisibility: commentVisibility,
-                    shareVisibility: shareVisibility,
-                    deleteVisibility: deleteVisibility
-                    )
+        let lovingEnabled = post.author?.hasLovesEnabled ?? true
+        var loveVisibility: InteractionVisibility = .Enabled
+        if !lovingEnabled { loveVisibility = .Disabled }
+        else if ownPost { loveVisibility = .NotAllowed }
 
-                if streamKind.isDetail {
+        cell.updateToolbarItems(
+            streamKind: streamKind,
+            repostVisibility: repostVisibility,
+            commentVisibility: commentVisibility,
+            shareVisibility: shareVisibility,
+            deleteVisibility: deleteVisibility,
+            loveVisibility: loveVisibility
+        )
+    }
+
+    private static func configureCommentControl(
+        cell: StreamFooterCell,
+        streamCellItem:StreamCellItem,
+        streamKind: StreamKind )
+    {
+        if streamKind.isDetail {
+            cell.commentsOpened = true
+        }
+        else {
+            let isLoading = streamCellItem.state == .Loading
+            let isExpanded = streamCellItem.state == .Expanded
+
+            if isLoading {
+                // this should be set via a custom accessor or method,
+                // me thinks.
+                // `StreamFooterCell.state = streamCellItem.state` ??
+                cell.commentsControl.animate()
+                cell.commentsControl.selected = true
+            }
+            else {
+                cell.commentsControl.finishAnimation()
+
+                if isExpanded {
                     cell.commentsControl.selected = true
                     cell.commentsOpened = true
                 }
                 else {
-                    let isLoading = streamCellItem.state == .Loading
-                    let isExpanded = streamCellItem.state == .Expanded
-
-                    if isLoading {
-                        // this should be set via a custom accessor or method,
-                        // me thinks.
-                        // `StreamFooterCell.state = streamCellItem.state` ??
-                        cell.commentsControl.animate()
-                        cell.commentsControl.selected = true
-                    }
-                    else {
-                        cell.commentsControl.finishAnimation()
-
-                        if isExpanded {
-                            cell.commentsControl.selected = true
-                            cell.commentsOpened = true
-                        }
-                        else {
-                            cell.commentsControl.selected = false
-                            cell.commentsOpened = false
-                            streamCellItem.state = .Collapsed
-                        }
-                    }
-                }
-
-                cell.scrollView.scrollEnabled = !streamKind.isGridLayout
-                cell.chevronButton.hidden = streamKind.isGridLayout
-
-                if streamKind.isGridLayout {
-                    cell.views = ""
-                    cell.reposts = ""
-                }
-                else {
-                    cell.views = post.viewsCount?.numberToHuman()
-                    cell.reposts = post.repostsCount?.numberToHuman()
+                    cell.commentsControl.selected = false
+                    cell.commentsOpened = false
+                    streamCellItem.state = .Collapsed
                 }
             }
+        }
+    }
+
+    private static func configureGridSpecificLayout(
+        cell: StreamFooterCell,
+        streamKind: StreamKind)
+    {
+        cell.scrollView.scrollEnabled = !streamKind.isGridLayout
+        cell.chevronButton.hidden = streamKind.isGridLayout
+    }
+
+    private static func configureDisplayCounts(
+        cell: StreamFooterCell,
+        post: Post,
+        streamKind: StreamKind)
+    {
+        if streamKind.isGridLayout {
+            cell.views = ""
+            cell.reposts = ""
+            cell.loves = ""
+        }
+        else {
+            cell.views = post.viewsCount?.numberToHuman()
+            cell.reposts = post.repostsCount?.numberToHuman()
+            cell.loves = post.loveCount?.numberToHuman()
         }
     }
 }

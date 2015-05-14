@@ -36,12 +36,12 @@ public class StreamFooterCell: UICollectionViewCell {
     weak var delegate: PostbarDelegate?
 
     public let viewsItem = ElloPostToolBarOption.Views.barButtonItem()
-    var viewsControl: ImageLabelControl {
+    public var viewsControl: ImageLabelControl {
         return self.viewsItem.customView as! ImageLabelControl
     }
 
     public let lovesItem = ElloPostToolBarOption.Loves.barButtonItem()
-    var lovesControl: ImageLabelControl {
+    public var lovesControl: ImageLabelControl {
         return self.lovesItem.customView as! ImageLabelControl
     }
 
@@ -56,22 +56,22 @@ public class StreamFooterCell: UICollectionViewCell {
     }
 
     public let flagItem = ElloPostToolBarOption.Flag.barButtonItem()
-    var flagControl: ImageLabelControl {
+    public var flagControl: ImageLabelControl {
         return self.flagItem.customView as! ImageLabelControl
     }
 
     public let shareItem = ElloPostToolBarOption.Share.barButtonItem()
-    var shareControl: ImageLabelControl {
+    public var shareControl: ImageLabelControl {
         return self.shareItem.customView as! ImageLabelControl
     }
 
     public let replyItem = ElloPostToolBarOption.Reply.barButtonItem()
-    var replyControl: ImageLabelControl {
+    public var replyControl: ImageLabelControl {
         return self.replyItem.customView as! ImageLabelControl
     }
 
     public let deleteItem = ElloPostToolBarOption.Delete.barButtonItem()
-    var deleteControl: ImageLabelControl {
+    public var deleteControl: ImageLabelControl {
        return self.deleteItem.customView as! ImageLabelControl
     }
 
@@ -85,17 +85,24 @@ public class StreamFooterCell: UICollectionViewCell {
         repostVisibility: InteractionVisibility,
         commentVisibility: InteractionVisibility,
         shareVisibility: InteractionVisibility,
-        deleteVisibility: InteractionVisibility
+        deleteVisibility: InteractionVisibility,
+        loveVisibility: InteractionVisibility
         )
     {
         updateButtonVisibility(self.repostControl, visibility: repostVisibility)
+        updateButtonVisibility(self.lovesControl, visibility: loveVisibility)
 
         var toolbarItems: [UIBarButtonItem] = []
 
         if streamKind.isGridLayout {
+
             if commentVisibility.isVisible {
                 toolbarItems.append(fixedItem(-15))
                 toolbarItems.append(commentsItem)
+            }
+
+            if loveVisibility.isVisible {
+                toolbarItems.append(lovesItem)
             }
 
             if repostVisibility.isVisible || shareVisibility.isVisible {
@@ -114,9 +121,15 @@ public class StreamFooterCell: UICollectionViewCell {
         }
         else {
             toolbarItems.append(viewsItem)
+
             if commentVisibility.isVisible {
                 toolbarItems.append(commentsItem)
             }
+
+            if loveVisibility.isVisible {
+                toolbarItems.append(lovesItem)
+            }
+
             if repostVisibility.isVisible {
                 toolbarItems.append(repostItem)
             }
@@ -273,16 +286,21 @@ public class StreamFooterCell: UICollectionViewCell {
 
     override public func layoutSubviews() {
         super.layoutSubviews()
-        let newBounds = CGRectMake(0, 0, bounds.width, 44)
+        let newBounds = CGRect(x: 0, y: 0, width: bounds.width, height: 44)
         contentView.frame = newBounds
         innerContentView.frame = newBounds
         containerView.frame = newBounds
         scrollView.frame = newBounds
         toolBar.frame = newBounds
         bottomToolBar.frame = newBounds
-        chevronButton.setSVGImages("abracket")
-        chevronButton.frame = CGRectMake(newBounds.width - chevronButton.bounds.width - 10, newBounds.height/2 - chevronButton.bounds.height/2, chevronButton.bounds.size.width, chevronButton.bounds.size.height)
-        scrollView.contentSize = CGSizeMake(contentView.frame.size.width + revealWidth, scrollView.frame.size.height)
+		chevronButton.setSVGImages("abracket")
+        chevronButton.frame = CGRect(
+            x: newBounds.width - chevronButton.bounds.width - 10,
+            y: newBounds.height/2 - chevronButton.bounds.height/2,
+            width: chevronButton.bounds.size.width,
+            height: chevronButton.bounds.size.height
+        )
+        scrollView.contentSize = CGSize(width: contentView.frame.size.width + revealWidth, height: contentView.frame.size.height)
         repositionBottomContent()
     }
 

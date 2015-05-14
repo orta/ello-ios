@@ -74,7 +74,7 @@ public final class User: JSONAble {
         self.hasCommentingEnabled = hasCommentingEnabled
         self.hasSharingEnabled = hasSharingEnabled
         self.hasRepostingEnabled = hasRepostingEnabled
-        self.hasLovesEnabled = hasRepostingEnabled
+        self.hasLovesEnabled = hasLovesEnabled
         super.init(version: UserVersion)
     }
 
