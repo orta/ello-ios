@@ -60,6 +60,7 @@ public class StreamViewController: BaseElloViewController {
     public let streamService = StreamService()
     public var pullToRefreshView: SSPullToRefreshView?
     var allOlderPagesLoaded = false
+    var initialDataLoaded = false
     var parentTabBarController: ElloTabBarController? {
         if  let parentViewController = self.parentViewController,
             let elloController = parentViewController as? BaseElloViewController
@@ -252,13 +253,14 @@ public class StreamViewController: BaseElloViewController {
 
                     self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind), withWidth: nil)
                     self.responseConfig = responseConfig
-
+                    self.initialDataLoaded = true
                     self.doneLoading()
                 }, failure: { (error, statusCode) in
                     println("failed to load \(self.streamKind.name) stream (reason: \(error))")
                     self.doneLoading()
                 }, noContent: {
                     println("nothing new")
+                    self.initialDataLoaded = true
                     self.doneLoading()
                 }
             )
@@ -276,6 +278,9 @@ public class StreamViewController: BaseElloViewController {
         }
 
         commentChangedNotification = NotificationObserver(notification: CommentChangedNotification) { (comment, change) in
+            if !self.initialDataLoaded {
+                return
+            }
             switch change {
             case .Create, .Delete, .Update:
                 self.dataSource.modifyItems(comment, change: change, collectionView: self.collectionView)
@@ -285,6 +290,9 @@ public class StreamViewController: BaseElloViewController {
         }
 
         postChangedNotification = NotificationObserver(notification: PostChangedNotification) { (post, change) in
+            if !self.initialDataLoaded {
+                return
+            }
             switch change {
             case .Create:
                 self.dataSource.modifyItems(post, change: change, collectionView: self.collectionView)
@@ -308,6 +316,9 @@ public class StreamViewController: BaseElloViewController {
         }
 
         relationshipChangedNotification = NotificationObserver(notification: RelationshipChangedNotification) { user in
+            if !self.initialDataLoaded {
+                return
+            }
             self.dataSource.modifyUserItems(user, collectionView: self.collectionView)
         }
     }

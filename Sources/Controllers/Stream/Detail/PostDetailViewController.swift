@@ -121,6 +121,7 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         streamViewController.doneLoading()
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
         streamViewController.refreshableIndex = startOfComments
+        streamViewController.initialDataLoaded = true
     }
 
     override public func postTapped(post: Post) {
