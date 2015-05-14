@@ -16,6 +16,6 @@ public extension LocalPerson {
     }
 
     var emailHashes: [String] {
-        return emails.reduce([]) { $0 + ($1.SHA1String.map { [$0] } ?? []) }
+        return emails.reduce([]) { $0 + ($1.saltedSHA1String.map { [$0] } ?? []) }
     }
 }
