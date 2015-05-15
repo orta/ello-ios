@@ -74,7 +74,8 @@ class PostSpec: QuickSpec {
                 expect(post.summary[0].kind) == "text"
                 expect(post.summary[1].kind) == "image"
                 // optional
-                expect(count(post.content!)) == 0
+                expect(count(post.content!)) == 1
+                expect(post.repostContent![0].kind) == "text"
                 expect(post.viewsCount) == 0
                 expect(post.commentsCount) == 0
                 expect(post.repostsCount) == 2
@@ -89,7 +90,7 @@ class PostSpec: QuickSpec {
                 expect(post.assets![0]).to(beAKindOf(Asset.self))
                 // computed
                 expect(post.groupId) == "201"
-                expect(post.shareLink) == "https://ello.co/lanakane32d/post/NAk0KZtpCB7xLGZtmUuhWA"
+                expect(post.shareLink) == "https://ello.co/archer/post/NAk0KZtpCB7xLGZtmUuhWA"
                 expect(post.collapsed).to(beFalse())
             }
 
