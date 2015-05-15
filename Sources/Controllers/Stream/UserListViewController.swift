@@ -27,9 +27,20 @@ public class UserListViewController: StreamableViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
+        scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
+        scrollLogic.navBarHeight = 44
         streamViewController.streamKind = StreamKind.UserList(endpoint: endpoint, title: title ?? "")
         ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.loadInitialPage()
+    }
+
+    override public func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        updateInsets()
+    }
+
+    private func updateInsets() {
+        updateInsets(navBar: navigationBar, streamController: streamViewController)
     }
 
     override func viewForStream() -> UIView {
@@ -41,6 +52,12 @@ public class UserListViewController: StreamableViewController {
             streamViewController.currentUser = currentUser
         }
         super.didSetCurrentUser()
+    }
+
+    override public func hideNavBars() {
+        super.hideNavBars()
+        positionNavBar(navigationBar, visible: false)
+        updateInsets(navBar: navigationBar, streamController: streamViewController, navBarsVisible: false)
     }
 
     // MARK: Private
@@ -60,7 +77,7 @@ public class UserListViewController: StreamableViewController {
         animate {
             self.navigationBar.frame = self.navigationBar.frame.atY(0)
         }
-
+        updateInsets()
         if scrollToBottom {
             if let scrollView = streamViewController.collectionView {
                 let contentOffsetY : CGFloat = scrollView.contentSize.height - scrollView.frame.size.height
