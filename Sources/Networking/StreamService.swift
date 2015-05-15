@@ -73,17 +73,18 @@ public class StreamService: NSObject {
     }
 
     public func loadMoreCommentsForPost(
-        postID:String,
+        postId:String,
         streamKind: StreamKind?,
         success: StreamSuccessCompletion,
         failure: ElloFailureCompletion?,
         noContent: ElloEmptyCompletion? = nil)
     {
         ElloProvider.elloRequest(
-            .PostComments(postId: postID),
+            .PostComments(postId: postId),
             method: .GET,
             success: { (data, responseConfig) in
-                if let comments:[JSONAble] = data as? [JSONAble] {
+                if let comments:[Comment] = data as? [Comment] {
+                    comments.map { $0.loadedFromPostId = postId }
                     if let streamKind = streamKind {
                         Preloader().preloadImages(comments, streamKind: streamKind)
                     }
