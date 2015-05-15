@@ -60,35 +60,6 @@ class PostSpec: QuickSpec {
 
         }
 
-        describe("UpdatePostCommentCountNotification") {
-            it("responds to notification") {
-                let parsedPost = stubbedJSONData("posts", "posts")
-                let post = Post.fromJSON(parsedPost) as! Post
-                post.commentsCount = 1
-                let user: User = stub(["username": "ello"])
-                let comment = Comment.newCommentForPost(post, currentUser: user)
-                postNotification(UpdatePostCommentCountNotification, comment)
-                expect(post.commentsCount).to(equal(2))
-            }
-
-            it("ignores notifications from other posts") {
-                var parsedPost1 = stubbedJSONData("posts", "posts")
-                parsedPost1["id"] = "1"
-                let post1 = Post.fromJSON(parsedPost1) as! Post
-                post1.commentsCount = 1
-
-                var parsedPost2 = stubbedJSONData("posts", "posts")
-                parsedPost2["id"] = "2"
-                let post2 = Post.fromJSON(parsedPost2) as! Post
-                post2.commentsCount = 1
-
-                let user: User = stub(["username": "ello"])
-                let comment = Comment.newCommentForPost(post2, currentUser: user)
-                postNotification(UpdatePostCommentCountNotification, comment)
-                expect(post1.commentsCount).to(equal(1))
-            }
-        }
-
         context("NSCoding") {
 
             var filePath = ""

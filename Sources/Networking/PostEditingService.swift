@@ -103,7 +103,6 @@ public class PostEditingService: NSObject {
                         content: regionsCopy
                     )
                     post = localComment
-                    postNotification(UpdatePostCommentCountNotification, localComment)
                 default:
                     break
                 }
