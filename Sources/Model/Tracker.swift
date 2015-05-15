@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Analytics
 
 public enum ContentType: String {
     case Post = "Post"

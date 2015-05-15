@@ -13,3 +13,4 @@
 #import <YapDatabase/YapDatabase.h>
 #import <LUKeychainAccess/LUKeychainAccess.h>
 #import <CRToast/CRToast.h>
+#import <Analytics/Analytics.h>
