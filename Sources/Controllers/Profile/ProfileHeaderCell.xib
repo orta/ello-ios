@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7528.3" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E17e" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7518.3"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -79,8 +79,14 @@
                                         </state>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kzz-fr-myT" userLabel="inviteButton">
-                                        <rect key="frame" x="69" y="-2" width="30" height="34"/>
+                                        <rect key="frame" x="4" y="-2" width="30" height="34"/>
                                         <state key="normal" title="Inv">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V5e-RY-yEM" userLabel="lovesButton">
+                                        <rect key="frame" x="59" y="-2" width="40" height="34"/>
+                                        <state key="normal" title="Love">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
@@ -88,11 +94,13 @@
                                 <color key="backgroundColor" red="0.05276594215375896" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="164" id="3Zt-4u-cGH" userLabel="profileButtonsView - width"/>
-                                    <constraint firstItem="5A8-1y-eA5" firstAttribute="leading" secondItem="kzz-fr-myT" secondAttribute="trailing" constant="25" id="5q2-84-9YF" userLabel="settingsButton - inviteButton - horiz"/>
                                     <constraint firstAttribute="centerY" secondItem="5A8-1y-eA5" secondAttribute="centerY" id="EbB-CO-wKv" userLabel="settingsButton - vert center"/>
                                     <constraint firstAttribute="trailing" secondItem="5A8-1y-eA5" secondAttribute="trailing" constant="10" id="Fzh-4i-v41" userLabel="settingsButton - right"/>
+                                    <constraint firstAttribute="centerY" secondItem="V5e-RY-yEM" secondAttribute="centerY" id="IUO-I2-e1I"/>
+                                    <constraint firstItem="5A8-1y-eA5" firstAttribute="leading" secondItem="V5e-RY-yEM" secondAttribute="trailing" constant="25" id="KVT-QB-ebK"/>
                                     <constraint firstAttribute="centerY" secondItem="kzz-fr-myT" secondAttribute="centerY" id="WIf-oo-vaa" userLabel="inviteButton - vert center"/>
                                     <constraint firstAttribute="height" constant="30" id="eEd-xT-8Lk" userLabel="profileButtonsView - height"/>
+                                    <constraint firstItem="V5e-RY-yEM" firstAttribute="leading" secondItem="kzz-fr-myT" secondAttribute="trailing" constant="25" id="rsm-Zq-n83"/>
                                 </constraints>
                             </view>
                             <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PtF-QI-fk2" userLabel="bioWebView">
@@ -139,6 +147,7 @@
                 <outlet property="bioWebView" destination="PtF-QI-fk2" id="WKn-ZP-Rnw"/>
                 <outlet property="countsTextView" destination="L0b-tg-J5z" id="ozw-Ib-Oij"/>
                 <outlet property="inviteButton" destination="kzz-fr-myT" id="BfZ-yc-FUH"/>
+                <outlet property="lovesButton" destination="V5e-RY-yEM" id="Zma-4p-iXW"/>
                 <outlet property="nameLabel" destination="4sI-yA-gkk" id="I9n-2e-2mB"/>
                 <outlet property="profileButtonsView" destination="qUL-8u-vZD" id="BzV-jE-ocb"/>
                 <outlet property="relationshipView" destination="z1n-fe-u7L" id="x1H-nI-qZz"/>

@@ -9,8 +9,7 @@
 import Foundation
 
 public protocol UserListDelegate: NSObjectProtocol {
-    func show(endpoint: ElloAPI, title: String
-    )
+    func show(endpoint: ElloAPI, title: String)
 }
 
 public class UserListPresentationController: NSObject, UserListDelegate {

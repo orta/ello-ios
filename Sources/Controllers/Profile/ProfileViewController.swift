@@ -9,7 +9,7 @@
 import UIKit
 import FLAnimatedImage
 
-public class ProfileViewController: StreamableViewController, EditProfileResponder {
+public class ProfileViewController: StreamableViewController {
 
     override public var tabBarItem: UITabBarItem? {
         get { return UITabBarItem.svgItem("person") }
@@ -192,6 +192,26 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         streamViewController.doneLoading()
     }
 }
+
+// MARK: ProfileViewController: EditProfileResponder
+extension ProfileViewController: EditProfileResponder {
+    public func onEditProfile() {
+        if let settings = UIStoryboard(name: "Settings", bundle: .None).instantiateInitialViewController() as? SettingsContainerViewController {
+            settings.currentUser = currentUser
+            settings.navBarsVisible = scrollLogic.isShowing
+            navigationController?.pushViewController(settings, animated: true)
+        }
+    }
+}
+
+// MARK: ProfileViewController: ViewUsersLovesResponder
+extension ProfileViewController: ViewUsersLovesResponder {
+    public func onViewUsersLoves() {
+        let vc = LovesViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
 
 // MARK: ProfileViewController: StreamScrollDelegate
 extension ProfileViewController: StreamScrollDelegate {
