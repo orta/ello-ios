@@ -276,9 +276,10 @@ class StreamDataSourceSpec: QuickSpec {
                     let parser = StreamCellItemParser()
                     let postCellItems = parser.parse([Post.stub(["id": "666"])], streamKind: .Friend)
                     let commentCellItems = parser.parse([Comment.stub(["parentPostId": "666"]), Comment.stub(["parentPostId": "666"])], streamKind: .Friend)
+                    let seeMoreCellItem = StreamCellItem(jsonable: Comment.stub(["parentPostId": "666"]), type: .SeeMoreComments, data: nil, oneColumnCellHeight: 60.0, multiColumnCellHeight: 60.0, isFullWidth: true)
                     let otherPostCellItems = parser.parse([Post.stub(["id": "777"])], streamKind: .Friend)
                     let otherCommentCellItems = parser.parse([Comment.stub(["parentPostId": "777"])], streamKind: .Friend)
-                    let cellItems = postCellItems + commentCellItems + otherPostCellItems + otherCommentCellItems
+                    let cellItems = postCellItems + commentCellItems + [seeMoreCellItem] + otherPostCellItems + otherCommentCellItems
                     subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
                         vc.collectionView.reloadData()
@@ -289,11 +290,12 @@ class StreamDataSourceSpec: QuickSpec {
                     var post = subject.postForIndexPath(indexPath0)
                     let indexPaths = subject.commentIndexPathsForPost(post!)
 
-                    expect(count(indexPaths)) == 4
+                    expect(count(indexPaths)) == 5
                     expect(indexPaths[0].item) == 3
                     expect(indexPaths[1].item) == 4
                     expect(indexPaths[2].item) == 5
                     expect(indexPaths[3].item) == 6
+                    expect(indexPaths[4].item) == 7
                 }
 
                 it("does not return index paths for comments from another post") {
@@ -301,8 +303,8 @@ class StreamDataSourceSpec: QuickSpec {
                     let indexPaths = subject.commentIndexPathsForPost(post!)
 
                     expect(count(indexPaths)) == 2
-                    expect(indexPaths[0].item) == 10
-                    expect(indexPaths[1].item) == 11
+                    expect(indexPaths[0].item) == 11
+                    expect(indexPaths[1].item) == 12
                 }
             }
 

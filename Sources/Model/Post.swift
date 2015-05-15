@@ -62,6 +62,9 @@ public final class Post: JSONAble, Authorable {
             if let author = self.author {
                 return "\(ElloURI.baseURL)/\(author.username)/post/\(self.token)"
             }
+            else if let repostAuthor = self.repostAuthor {
+                return "\(ElloURI.baseURL)/\(repostAuthor.username)/post/\(self.token)"
+            }
             else {
                 return nil
             }
@@ -176,7 +179,7 @@ public final class Post: JSONAble, Authorable {
             token: json["token"].stringValue,
             contentWarning: json["content_warning"].stringValue,
             allowComments: json["allow_comments"].boolValue,
-            summary: RegionParser.regions("summary", json: json, isRepostContent: false)
+            summary: RegionParser.regions("summary", json: json)
             )
         // optional
         post.content = RegionParser.regions("content", json: json, isRepostContent: repostContent.count > 0)
