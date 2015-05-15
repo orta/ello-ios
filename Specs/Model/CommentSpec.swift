@@ -29,7 +29,6 @@ class CommentSpec: QuickSpec {
                 expect(comment.createdAt) == createdAt
                 // required
                 expect(comment.postId) == "40"
-                expect(comment.loadedFromPostId) == "40"
                 expect(count(comment.content)) == 2
                 expect(comment.content[0].kind) == "text"
                 expect(comment.content[1].kind) == "image"
@@ -155,7 +154,6 @@ class CommentSpec: QuickSpec {
                     expect(unArchivedComment.createdAt) == expectedCreatedAt
                     // required
                     expect(unArchivedComment.postId) == "sample-parent-post-id"
-                    expect(unArchivedComment.loadedFromPostId) == "sample-parent-post-id"
                     testRegionContent(unArchivedComment.content)
                 }
             }
