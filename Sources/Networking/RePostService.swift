@@ -15,7 +15,7 @@ public class RePostService: NSObject {
             method: .POST,
             success: { data, responseConfig in
                 if let repost = data as? Post {
-                    success(repost: post)
+                    success(repost: repost)
                 }
                 else {
                     ElloProvider.unCastableJSONAble(failure)
