@@ -7,21 +7,19 @@
 //
 
 import Analytics
+import Keys
 
 public enum ContentType: String {
     case Post = "Post"
     case Comment = "Comment"
 }
 
-private let AnalyticsAPIKey = ""
-
 public struct Tracker {
     public static let sharedTracker = Tracker()
 
     public init() {
-        // authenticate with Segment.io
-        // let configuration = SEGAnalyticsConfiguration.configurationWithKey(AnalyticsAPIKey)
-        // SEGAnalytics.setupWithConfiguration(configuration)
+        let configuration = SEGAnalyticsConfiguration(writeKey: ElloKeys().segmentKey())
+         SEGAnalytics.setupWithConfiguration(configuration)
     }
 }
 
