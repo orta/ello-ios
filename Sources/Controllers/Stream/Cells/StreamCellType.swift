@@ -81,7 +81,8 @@ public enum StreamCellType {
         case CreateComment: return StreamCreateCommentCellPresenter.configure
         case StreamLoading: return StreamLoadingCellPresenter.configure
         case Toggle: return StreamToggleCellPresenter.configure
-        default: return { (cell, streamCellItem, streamKind, indexPath, currentUser) in }
+        case Spacer: return { (cell, _, _, _, _) in cell.backgroundColor = .whiteColor() }
+        default: return { (_, _, _, _, _) in }
         }
     }
 
