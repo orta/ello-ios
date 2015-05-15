@@ -19,19 +19,6 @@ public protocol UserDelegate: NSObjectProtocol {
     func userTappedCell(cell: UICollectionViewCell)
 }
 
-public protocol PostbarDelegate : NSObjectProtocol {
-    func viewsButtonTapped(cell:UICollectionViewCell)
-    func commentsButtonTapped(cell:StreamFooterCell, imageLabelControl: ImageLabelControl)
-    func deletePostButtonTapped(cell:UICollectionViewCell)
-    func deleteCommentButtonTapped(cell:UICollectionViewCell)
-    func lovesButtonTapped(cell:UICollectionViewCell)
-    func repostButtonTapped(cell:UICollectionViewCell)
-    func shareButtonTapped(cell:UICollectionViewCell)
-    func flagPostButtonTapped(cell:UICollectionViewCell)
-    func flagCommentButtonTapped(cell:UICollectionViewCell)
-    func replyToCommentButtonTapped(cell:UICollectionViewCell)
-}
-
 public protocol StreamImageCellDelegate : NSObjectProtocol {
     func imageTapped(imageView: FLAnimatedImageView, cell: StreamImageCell)
 }

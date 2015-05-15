@@ -31,6 +31,7 @@ public struct StreamFooterCellPresenter {
         if  let cell = cell as? StreamFooterCell,
             let post = streamCellItem.jsonable as? Post
         {
+            cell.indexPath = indexPath
             cell.close()
             configureToolBarItems(cell, post: post, currentUser: currentUser, streamKind: streamKind)
             configureCommentControl(cell, streamCellItem: streamCellItem, streamKind: streamKind)
@@ -83,6 +84,7 @@ public struct StreamFooterCellPresenter {
     {
         if streamKind.isDetail {
             cell.commentsOpened = true
+            cell.commentsControl.selected = true
         }
         else {
             let isLoading = streamCellItem.state == .Loading

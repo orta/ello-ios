@@ -12,7 +12,7 @@ import Foundation
 let streamCellDidOpenNotification = TypedNotification<UICollectionViewCell>(name: "StreamCellDidOpenNotification")
 
 public class StreamFooterCell: UICollectionViewCell {
-
+    public var indexPath = NSIndexPath(forItem: 0, inSection: 0)
     var revealWidth: CGFloat {
         if let items = bottomToolBar.items {
             let numberOfSpacingItems = 2
@@ -236,7 +236,7 @@ public class StreamFooterCell: UICollectionViewCell {
 // MARK: - IBActions
 
     @IBAction func viewsButtonTapped(sender: ImageLabelControl) {
-        delegate?.viewsButtonTapped(self)
+        delegate?.viewsButtonTapped(self.indexPath)
     }
 
     @IBAction func commentsButtonTapped(sender: ImageLabelControl) {
@@ -252,23 +252,23 @@ public class StreamFooterCell: UICollectionViewCell {
     }
 
     @IBAction func lovesButtonTapped(sender: ImageLabelControl) {
-        delegate?.lovesButtonTapped(self)
+        delegate?.lovesButtonTapped(self.indexPath)
     }
 
     @IBAction func repostButtonTapped(sender: ImageLabelControl) {
-        delegate?.repostButtonTapped(self)
+        delegate?.repostButtonTapped(self.indexPath)
     }
 
     @IBAction func flagButtonTapped(sender: ImageLabelControl) {
-        delegate?.flagPostButtonTapped(self)
+        delegate?.flagPostButtonTapped(self.indexPath)
     }
 
     @IBAction func shareButtonTapped(sender: ImageLabelControl) {
-        delegate?.shareButtonTapped(self)
+        delegate?.shareButtonTapped(self.indexPath)
     }
 
     @IBAction func deleteButtonTapped(sender: ImageLabelControl) {
-        delegate?.deletePostButtonTapped(self)
+        delegate?.deletePostButtonTapped(self.indexPath)
     }
 
     @IBAction func replyButtonTapped(sender: ImageLabelControl) {

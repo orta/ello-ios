@@ -8,13 +8,25 @@
 
 import Foundation
 
+public protocol PostbarDelegate : NSObjectProtocol {
+    func viewsButtonTapped(indexPath: NSIndexPath)
+    func commentsButtonTapped(cell: StreamFooterCell, imageLabelControl: ImageLabelControl)
+    func deletePostButtonTapped(indexPath: NSIndexPath)
+    func deleteCommentButtonTapped(indexPath: NSIndexPath)
+    func lovesButtonTapped(indexPath: NSIndexPath)
+    func repostButtonTapped(indexPath: NSIndexPath)
+    func shareButtonTapped(indexPath: NSIndexPath)
+    func flagPostButtonTapped(indexPath: NSIndexPath)
+    func flagCommentButtonTapped(indexPath: NSIndexPath)
+    func replyToCommentButtonTapped(indexPath: NSIndexPath)
+}
 
 public class PostbarController: NSObject, PostbarDelegate {
 
     weak var presentingController: StreamViewController?
-    let collectionView: UICollectionView
-    let dataSource: StreamDataSource
-    var currentUser: User?
+    public var collectionView: UICollectionView
+    public let dataSource: StreamDataSource
+    public var currentUser: User?
 
     // on the post detail screen, the comments don't show/hide
     var toggleableComments: Bool = true
@@ -28,9 +40,9 @@ public class PostbarController: NSObject, PostbarDelegate {
 
     // MARK:
 
-    public func viewsButtonTapped(cell:UICollectionViewCell) {
+    public func viewsButtonTapped(indexPath: NSIndexPath) {
         Tracker.sharedTracker.viewsButtonTapped()
-        if let post = postForCell(cell) {
+        if let post = postForIndexPath(indexPath) {
             let items = self.dataSource.cellItemsForPost(post)
             // This is a bit dirty, we should not call a method on a compositionally held
             // controller's postTappedDelegate. Need to chat about this with the crew.
@@ -41,7 +53,9 @@ public class PostbarController: NSObject, PostbarDelegate {
     public func commentsButtonTapped(cell:StreamFooterCell, imageLabelControl: ImageLabelControl) {
         if dataSource.streamKind.isGridLayout {
             cell.cancelCommentLoading()
-            self.viewsButtonTapped(cell)
+            if let indexPath = collectionView.indexPathForCell(cell) {
+                self.viewsButtonTapped(indexPath)
+            }
             return
         }
 
@@ -61,8 +75,8 @@ public class PostbarController: NSObject, PostbarDelegate {
         }
 
         if let indexPath = collectionView.indexPathForCell(cell),
-           let item = dataSource.visibleStreamCellItem(at: indexPath),
-           let post = item.jsonable as? Post
+            let item = dataSource.visibleStreamCellItem(at: indexPath),
+            let post = item.jsonable as? Post
         {
             cell.commentsControl.enabled = false
             if !cell.commentsOpened {
@@ -104,14 +118,14 @@ public class PostbarController: NSObject, PostbarDelegate {
         }
     }
 
-    public func deletePostButtonTapped(cell:UICollectionViewCell) {
+    public func deletePostButtonTapped(indexPath: NSIndexPath) {
         let message = NSLocalizedString("Delete Post?", comment: "Delete Post")
         let alertController = AlertViewController(message: message)
 
         let yesAction = AlertAction(title: NSLocalizedString("Yes", comment: "Yes"), style: .Dark) {
             action in
             let service = PostService()
-            if let post = self.postForCell(cell) {
+            if let post = self.postForIndexPath(indexPath) {
                 service.deletePost(post.id,
                     success: {
                         postNotification(PostChangedNotification, (post, .Delete))
@@ -130,14 +144,14 @@ public class PostbarController: NSObject, PostbarDelegate {
         presentingController?.presentViewController(alertController, animated: true, completion: .None)
     }
 
-    public func deleteCommentButtonTapped(cell:UICollectionViewCell) {
+    public func deleteCommentButtonTapped(indexPath: NSIndexPath) {
         let message = NSLocalizedString("Delete Comment?", comment: "Delete Comment")
         let alertController = AlertViewController(message: message)
 
         let yesAction = AlertAction(title: NSLocalizedString("Yes", comment: "Yes"), style: .Dark) {
             action in
             let service = PostService()
-            if let comment = self.commentForCell(cell), let postId = comment.parentPost?.id {
+            if let comment = self.commentForIndexPath(indexPath), let postId = comment.parentPost?.id {
                 service.deleteComment(postId, commentId: comment.id,
                     success: {
                         // comment deleted
@@ -163,71 +177,105 @@ public class PostbarController: NSObject, PostbarDelegate {
     }
 
 
-    public func lovesButtonTapped(cell: UICollectionViewCell) {
-        println("lovesButtonTapped")
-        Tracker.sharedTracker.postLoved()
+    public func lovesButtonTapped(indexPath: NSIndexPath) {
+        if let post = self.postForIndexPath(indexPath) {
+            if post.loved { unlovePost(post) }
+            else { lovePost(post) }
+        }
     }
 
-    public func repostButtonTapped(cell: UICollectionViewCell) {
-        Tracker.sharedTracker.postReposted()
-        let message = NSLocalizedString("Repost?", comment: "Repost acknowledgment")
-        let alertController = AlertViewController(message: message)
-        alertController.autoDismiss = false
-
-        let yesAction = AlertAction(title: NSLocalizedString("Yes", comment: "Yes button"), style: .Dark) { action in
-            self.createRepost(cell, alertController: alertController)
-        }
-        let noAction = AlertAction(title: NSLocalizedString("No", comment: "No button"), style: .Light) { action in
-            alertController.dismiss()
-        }
-
-        alertController.addAction(yesAction)
-        alertController.addAction(noAction)
-
-        presentingController?.presentViewController(alertController, animated: true, completion: .None)
-    }
-
-    public func createRepost(cell: UICollectionViewCell, alertController: AlertViewController) {
-        if let post = self.postForCell(cell) {
-            alertController.resetActions()
-            alertController.dismissable = false
-
-            let spinnerContainer = UIView(frame: CGRect(x: 0, y: 0, width: alertController.view.frame.size.width, height: 200))
-            let spinner = ElloLogoView(frame: CGRect(origin: CGPointZero, size: ElloLogoView.Size.natural))
-            spinner.center = spinnerContainer.bounds.center
-            spinnerContainer.addSubview(spinner)
-            alertController.contentView = spinnerContainer
-            spinner.animateLogo()
-
-            let service = RePostService()
-            service.repost(post: post,
-                success: { repost in
-                    postNotification(PostChangedNotification, (repost, .Create))
-                    alertController.contentView = nil
-                    alertController.message = NSLocalizedString("Success!", comment: "Successful repost alert")
-                    delay(1) {
-                        alertController.dismiss()
-                    }
-                }, failure: { (error, statusCode)  in
-                    alertController.contentView = nil
-                    alertController.message = NSLocalizedString("Could not create repost", comment: "Could not create repost message")
-                    alertController.autoDismiss = true
-                    alertController.dismissable = true
-                    let okAction = AlertAction(title: NSLocalizedString("OK", comment: "OK button"), style: .Light, handler: .None)
-                    alertController.addAction(okAction)
+    private func unlovePost(post: Post) {
+        let service = LovesService()
+        service.unlovePost(
+            postId: post.id,
+            success: {
+                if let count = post.loveCount {
+                    post.loveCount = count - 1
+                    postNotification(PostChangedNotification, (post, .Update))
                 }
-            )
-        }
-        else {
-            alertController.dismiss()
+                Tracker.sharedTracker.postUnloved()
+            },
+            failure: { error, statusCode in
+                println("failed to unlove post \(post.id), error: \(error.elloErrorMessage ?? error.localizedDescription)")
+            }
+        )
+    }
+
+    private func lovePost(post: Post) {
+        let service = LovesService()
+        service.lovePost(
+            postId: post.id,
+            success: {
+                if let count = post.loveCount {
+                    post.loveCount = count + 1
+                    postNotification(PostChangedNotification, (post, .Update))
+                }
+                Tracker.sharedTracker.postLoved()
+            },
+            failure: { error, statusCode in
+                println("failed to love post \(post.id), error: \(error.elloErrorMessage ?? error.localizedDescription)")
+            }
+        )
+    }
+
+    public func repostButtonTapped(indexPath: NSIndexPath) {
+        if let post = self.postForIndexPath(indexPath) {
+            Tracker.sharedTracker.postReposted()
+            let message = NSLocalizedString("Repost?", comment: "Repost acknowledgment")
+            let alertController = AlertViewController(message: message)
+            alertController.autoDismiss = false
+
+            let yesAction = AlertAction(title: NSLocalizedString("Yes", comment: "Yes button"), style: .Dark) { action in
+                self.createRepost(post, alertController: alertController)
+            }
+            let noAction = AlertAction(title: NSLocalizedString("No", comment: "No button"), style: .Light) { action in
+                alertController.dismiss()
+            }
+
+            alertController.addAction(yesAction)
+            alertController.addAction(noAction)
+
+            presentingController?.presentViewController(alertController, animated: true, completion: .None)
         }
     }
 
-    public func shareButtonTapped(cell: UICollectionViewCell) {
-        if let indexPath = collectionView.indexPathForCell(cell),
-           let post = dataSource.postForIndexPath(indexPath),
-           let shareLink = post.shareLink
+    private func createRepost(post: Post, alertController: AlertViewController)
+    {
+        alertController.resetActions()
+        alertController.dismissable = false
+
+        let spinnerContainer = UIView(frame: CGRect(x: 0, y: 0, width: alertController.view.frame.size.width, height: 200))
+        let spinner = ElloLogoView(frame: CGRect(origin: CGPointZero, size: ElloLogoView.Size.natural))
+        spinner.center = spinnerContainer.bounds.center
+        spinnerContainer.addSubview(spinner)
+        alertController.contentView = spinnerContainer
+        spinner.animateLogo()
+
+        let service = RePostService()
+        service.repost(post: post,
+            success: { repost in
+                postNotification(PostChangedNotification, (repost, .Create))
+                alertController.contentView = nil
+                alertController.message = NSLocalizedString("Success!", comment: "Successful repost alert")
+                delay(1) {
+                    alertController.dismiss()
+                }
+            }, failure: { (error, statusCode)  in
+                alertController.contentView = nil
+                alertController.message = NSLocalizedString("Could not create repost", comment: "Could not create repost message")
+                alertController.autoDismiss = true
+                alertController.dismissable = true
+                let okAction = AlertAction(title: NSLocalizedString("OK", comment: "OK button"), style: .Light, handler: .None)
+                alertController.addAction(okAction)
+            }
+        )
+    }
+
+    public func shareButtonTapped(indexPath: NSIndexPath) {
+        if  let post = dataSource.postForIndexPath(indexPath),
+            let shareLink = post.shareLink
         {
+            let cell = dataSource.collectionView(collectionView, cellForItemAtIndexPath: indexPath)
             Tracker.sharedTracker.postShared()
             let activityVC = UIActivityViewController(activityItems: [shareLink], applicationActivities:nil)
             if UI_USER_INTERFACE_IDIOM() == .Phone {
@@ -241,33 +289,31 @@ public class PostbarController: NSObject, PostbarDelegate {
         }
     }
 
-    public func flagPostButtonTapped(cell: UICollectionViewCell) {
-        if let indexPath = collectionView.indexPathForCell(cell),
-           let post = dataSource.postForIndexPath(indexPath)
-        {
+    public func flagPostButtonTapped(indexPath: NSIndexPath) {
+        if let post = dataSource.postForIndexPath(indexPath) {
             let flagger = ContentFlagger(presentingController: presentingController,
-                flaggableId: post.id,
-                contentType: .Post,
-                commentPostId: nil)
+            flaggableId: post.id,
+            contentType: .Post,
+            commentPostId: nil)
             flagger.displayFlaggingSheet()
         }
     }
 
-    public func flagCommentButtonTapped(cell: UICollectionViewCell) {
-        if let indexPath = collectionView.indexPathForCell(cell),
-           let comment = dataSource.commentForIndexPath(indexPath)
-        {
-            let flagger = ContentFlagger(presentingController: presentingController,
+    public func flagCommentButtonTapped(indexPath: NSIndexPath) {
+        if let comment = dataSource.commentForIndexPath(indexPath) {
+            let flagger = ContentFlagger(
+                presentingController: presentingController,
                 flaggableId: comment.id,
                 contentType: .Comment,
-                commentPostId: comment.postId)
+                commentPostId: comment.postId
+            )
 
             flagger.displayFlaggingSheet()
         }
     }
 
-    public func replyToCommentButtonTapped(cell:UICollectionViewCell) {
-        if let comment = commentForCell(cell) {
+    public func replyToCommentButtonTapped(indexPath: NSIndexPath) {
+        if let comment = commentForIndexPath(indexPath) {
             // This is a bit dirty, we should not call a method on a compositionally held
             // controller's createCommentDelegate. Can this use the responder chain when we have
             // parameters to pass?
@@ -282,18 +328,12 @@ public class PostbarController: NSObject, PostbarDelegate {
 
 // MARK: - Private
 
-    private func postForCell(cell: UICollectionViewCell) -> Post? {
-        if let indexPath = collectionView.indexPathForCell(cell) {
-            return dataSource.postForIndexPath(indexPath)
-        }
-        return nil
+    private func postForIndexPath(indexPath: NSIndexPath) -> Post? {
+        return dataSource.postForIndexPath(indexPath)
     }
 
-    private func commentForCell(cell: UICollectionViewCell) -> Comment? {
-        if let indexPath = collectionView.indexPathForCell(cell) {
-            return dataSource.commentForIndexPath(indexPath)
-        }
-        return nil
+    private func commentForIndexPath(indexPath: NSIndexPath) -> Comment? {
+        return dataSource.commentForIndexPath(indexPath)
     }
 
     private func commentLoadSuccess(post: Post, comments jsonables:[JSONAble], indexPath: NSIndexPath, cell: StreamFooterCell) {
@@ -340,4 +380,3 @@ public class PostbarController: NSObject, PostbarDelegate {
     }
 
 }
-

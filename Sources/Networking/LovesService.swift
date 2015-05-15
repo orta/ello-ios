@@ -37,5 +37,34 @@ public struct LovesService {
             failure: failure
         )
     }
-}
 
+    public func lovePost(
+        #postId: String,
+        success: ElloEmptyCompletion,
+        failure: ElloFailureCompletion?)
+    {
+        let endpoint = ElloAPI.CreateLove(postId: postId)
+        ElloProvider.elloRequest(endpoint,
+            method: .POST,
+            success: { _, _ in
+                success()
+            },
+            failure: failure
+        )
+    }
+
+    public func unlovePost(
+        #postId: String,
+        success: ElloEmptyCompletion,
+        failure: ElloFailureCompletion?)
+    {
+        let endpoint = ElloAPI.DeleteLove(postId: postId)
+        ElloProvider.elloRequest(endpoint,
+            method: .DELETE,
+            success: { _, _ in
+                success()
+            },
+            failure: failure
+        )
+    }
+}

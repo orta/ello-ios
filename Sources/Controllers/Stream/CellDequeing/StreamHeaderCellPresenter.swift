@@ -20,6 +20,7 @@ public struct StreamHeaderCellPresenter {
     {
         if let cell = cell as? StreamHeaderCell {
             cell.close()
+            cell.indexPath = indexPath
             let authorable = streamCellItem.jsonable as! Authorable
 
             cell.ownPost = false
