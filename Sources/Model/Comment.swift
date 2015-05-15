@@ -30,9 +30,11 @@ public final class Comment: JSONAble, Authorable {
         return ElloLinkedStore.sharedInstance.getObject(self.postId, inCollection: MappingType.PostsType.rawValue) as? Post
     }
     // computed properties
-    public var groupId:String {
+    public var groupId: String {
         get { return postId }
     }
+    // to show hide in the stream
+    public var loadedFromPostId: String
 
 // MARK: Initialization
 
@@ -47,6 +49,7 @@ public final class Comment: JSONAble, Authorable {
         self.authorId = authorId
         self.postId = postId
         self.content = content
+        self.loadedFromPostId = postId
         super.init(version: CommentVersion)
     }
 
@@ -57,11 +60,12 @@ public final class Comment: JSONAble, Authorable {
         let decoder = Decoder(aDecoder)
         // active record
         self.id = decoder.decodeKey("id")
-        self.createdAt = decoder.decodeKey("createdAt") 
+        self.createdAt = decoder.decodeKey("createdAt")
         // required
         self.authorId = decoder.decodeKey("authorId")
         self.postId = decoder.decodeKey("postId")
         self.content = decoder.decodeKey("content")
+        self.loadedFromPostId = decoder.decodeKey("loadedFromPostId")
         super.init(coder: aDecoder)
     }
 
@@ -73,6 +77,7 @@ public final class Comment: JSONAble, Authorable {
         encoder.encodeObject(authorId, forKey: "authorId")
         encoder.encodeObject(postId, forKey: "postId")
         encoder.encodeObject(content, forKey: "content")
+        encoder.encodeObject(loadedFromPostId, forKey: "loadedFromPostId")
         super.encodeWithCoder(encoder)
     }
 

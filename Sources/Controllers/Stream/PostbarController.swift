@@ -301,12 +301,17 @@ public class PostbarController: NSObject, PostbarDelegate {
         let commentsStartingIndexPath = NSIndexPath(forRow: indexPath.row + 1, inSection: indexPath.section)
 
         var items = StreamCellItemParser().parse(jsonables, streamKind: StreamKind.Friend)
-        if post.commentsCount > 25 {
-            items.append(StreamCellItem(jsonable: post, type: .SeeMoreComments, data: nil, oneColumnCellHeight: 60.0, multiColumnCellHeight: 60.0, isFullWidth: true))
+
+        if let currentUser = currentUser {
+            let newComment = Comment.newCommentForPost(post, currentUser: currentUser)
+            if post.commentsCount > 25 {
+                items.append(StreamCellItem(jsonable: newComment, type: .SeeMoreComments, data: nil, oneColumnCellHeight: 60.0, multiColumnCellHeight: 60.0, isFullWidth: true))
+            }
+            else {
+                items.append(StreamCellItem(jsonable: newComment, type: .Spacer, data: nil, oneColumnCellHeight: 25.0, multiColumnCellHeight: 25.0, isFullWidth: true))
+            }
         }
-        else {
-            items.append(StreamCellItem(jsonable: post, type: .Spacer, data: nil, oneColumnCellHeight: 25.0, multiColumnCellHeight: 25.0, isFullWidth: true))
-        }
+
         self.dataSource.insertUnsizedCellItems(items,
             withWidth: self.collectionView.frame.width,
             startingIndexPath: commentsStartingIndexPath) { (indexPaths) in

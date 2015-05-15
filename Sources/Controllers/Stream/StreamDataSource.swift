@@ -122,12 +122,12 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         })
     }
 
-    // this includes the `createComment` cell, since it contains a comment item
+    // this includes the `createComment` cell, `spacer` cell, and `seeMoreComments` cell since they contain a comment item
     public func commentIndexPathsForPost(post: Post) -> [NSIndexPath] {
         var indexPaths = [NSIndexPath]()
         for (index, value) in enumerate(visibleCellItems) {
             if let comment = value.jsonable as? Comment {
-                if comment.postId == post.id {
+                if comment.loadedFromPostId == post.id {
                     indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
                 }
             }

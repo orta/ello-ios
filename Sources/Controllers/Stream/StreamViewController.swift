@@ -491,8 +491,14 @@ extension StreamViewController : UICollectionViewDelegate {
                     userTappedDelegate?.userTapped(user)
                 }
             }
+            else if tappedCell is StreamSeeMoreCommentsCell {
+                if  let comment = dataSource.commentForIndexPath(indexPath),
+                    let post = comment.parentPost
+                {
+                    postTappedDelegate?.postTapped(post)
+                }
+            }
             else if let post = dataSource.postForIndexPath(indexPath) {
-                let items = dataSource.cellItemsForPost(post)
                 postTappedDelegate?.postTapped(post)
             }
             else if let comment = dataSource.commentForIndexPath(indexPath),
