@@ -17,6 +17,11 @@ public final class User: JSONAble {
 
     // active record
     public let id: String
+
+    public var analyticsId: String {
+        return "ello-tracking-\(id)".SHA1String ?? "no-tracking-id"
+    }
+
     // required
     public let href: String
     public let username: String

@@ -25,11 +25,8 @@ public struct Tracker {
 
 public extension Tracker {
     func identify(user: User) {
-        // SEGAnalytics.sharedAnalytics().identify(user.userId,
-        //                                          traits: {
-        //                                              "name": user.name,
-        //                                              "email": user.email ?? "None Provided"
-        //                                          })
+        SEGAnalytics.sharedAnalytics().identify(user.analyticsId,
+                                        traits: [ "name": user.name ])
     }
 }
 
