@@ -62,9 +62,6 @@ public final class Post: JSONAble, Authorable {
             if let author = self.author {
                 return "\(ElloURI.baseURL)/\(author.username)/post/\(self.token)"
             }
-            else if let repostAuthor = self.repostAuthor {
-                return "\(ElloURI.baseURL)/\(repostAuthor.username)/post/\(self.token)"
-            }
             else {
                 return nil
             }
