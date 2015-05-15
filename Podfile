@@ -43,6 +43,7 @@ plugin 'cocoapods-keys', {
     'ClientKey',
     'ClientSecret',
     'CrashlyticsKey',
+    'SegmentKey',
     'Domain',
     'Salt',
     'HttpProtocol',
