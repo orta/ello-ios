@@ -18,15 +18,32 @@
                     "url": "https://abc123.cloudfront.net/uploads/user/avatar/43/ello-small-e5fcdb7d.png"
                 }
             },
+            "background_position": null,
+            "cover_image": {
+                "optimized": {
+                    "metadata": null,
+                    "url": "https://abc123.cloudfront.net/uploads/user/cover_image/43/ello-optimized-41d0e299.jpg"
+                },
+                "original": {
+                    "url": "https://abc123.cloudfront.net/uploads/user/cover_image/43/cover.png"
+                }
+            },
             "experimental_features": true,
+            "external_links": "http://isis.com http://ello.co",
             "followers_count": 1,
             "following_count": 0,
+            "formatted_short_bio": "<p>Have been spying for a while now.</p>",
+            "has_commenting_enabled": false,
+            "has_reposting_enabled": true,
+            "has_sharing_enabled": true,
             "href": "/api/edge/users/43",
             "id": "43",
             "name": "Lana Kane (official)",
+            "posts_adult_content": false,
             "posts_count": 0,
             "relationship_priority": "friend",
-            "username": "lanakane32d"
+            "username": "lanakane32d",
+            "views_adult_content": false
         },
         {
             "avatar": {
@@ -46,15 +63,32 @@
                     "url": "https://abc123.cloudfront.net/uploads/user/avatar/55/ello-small-aaca0f5e.png"
                 }
             },
+            "background_position": null,
+            "cover_image": {
+                "optimized": {
+                    "metadata": null,
+                    "url": "https://abc123.cloudfront.net/uploads/user/cover_image/55/ello-optimized-41d0e299.jpg"
+                },
+                "original": {
+                    "url": "https://abc123.cloudfront.net/uploads/user/cover_image/55/cover.png"
+                }
+            },
             "experimental_features": true,
+            "external_links": "http://isis.com http://ello.co",
             "followers_count": 0,
             "following_count": 0,
+            "formatted_short_bio": "<p>Have been spying for a while now.</p>",
+            "has_commenting_enabled": true,
+            "has_reposting_enabled": true,
+            "has_sharing_enabled": true,
             "href": "/api/edge/users/55",
             "id": "55",
             "name": "Lana Kane",
+            "posts_adult_content": false,
             "posts_count": 3,
             "relationship_priority": null,
-            "username": "lanakane"
+            "username": "lanakane",
+            "views_adult_content": false
         }
     ]
 }

@@ -21,12 +21,17 @@
             "experimental_features": true,
             "followers_count": 0,
             "following_count": 0,
+            "has_commenting_enabled": true,
+            "has_reposting_enabled": true,
+            "has_sharing_enabled": true,
             "href": "/api/edge/users/31337",
             "id": "31337",
             "name": "Dr. Algernop Krieger",
+            "posts_adult_content": false,
             "posts_count": 0,
             "relationship_priority": "block",
-            "username": "kr1eg3r"
+            "username": "kr1eg3r",
+            "views_adult_content": false
         }
     ]
 }

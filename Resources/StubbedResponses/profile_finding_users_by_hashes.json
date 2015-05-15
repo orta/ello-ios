@@ -21,13 +21,18 @@
             "experimental_features": true,
             "followers_count": 0,
             "following_count": 0,
+            "has_commenting_enabled": false,
+            "has_reposting_enabled": true,
+            "has_sharing_enabled": true,
             "href": "/api/edge/users/43",
             "id": "43",
             "identifiable_by": "7ce4a483b475895573be1add698625511d951f85",
             "name": "Lana Kane",
+            "posts_adult_content": false,
             "posts_count": 0,
             "relationship_priority": null,
-            "username": "lanakane32d"
+            "username": "lanakane32d",
+            "views_adult_content": false
         },
         {
             "avatar": {
@@ -50,13 +55,18 @@
             "experimental_features": true,
             "followers_count": 0,
             "following_count": 0,
+            "has_commenting_enabled": true,
+            "has_reposting_enabled": true,
+            "has_sharing_enabled": true,
             "href": "/api/edge/users/420",
             "id": "420",
             "identifiable_by": "f80a824ad174588701b72c5b0ba40846182a34b6",
             "name": "Pamilanderson",
+            "posts_adult_content": true,
             "posts_count": 0,
             "relationship_priority": null,
-            "username": "pam"
+            "username": "pam",
+            "views_adult_content": false
         },
         {
             "avatar": {
@@ -79,13 +89,18 @@
             "experimental_features": true,
             "followers_count": 0,
             "following_count": 0,
+            "has_commenting_enabled": true,
+            "has_reposting_enabled": true,
+            "has_sharing_enabled": true,
             "href": "/api/edge/users/421",
             "id": "421",
             "identifiable_by": "f80a824ad174588701b72c5b0ba40846182a34b6",
             "name": "Secret Spy",
+            "posts_adult_content": false,
             "posts_count": 0,
             "relationship_priority": null,
-            "username": "duso"
+            "username": "duso",
+            "views_adult_content": false
         }
     ]
 }

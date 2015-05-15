@@ -131,7 +131,7 @@
                         "kind": "text"
                     }
                 ],
-                "created_at": "2015-04-23T20:27:48.582Z",
+                "created_at": "2015-04-29T23:33:23.785Z",
                 "id": "21",
                 "links": {
                     "assets": [],
@@ -151,7 +151,7 @@
                         "kind": "text"
                     }
                 ],
-                "created_at": "2015-04-23T20:27:48.523Z",
+                "created_at": "2015-04-29T23:33:23.746Z",
                 "id": "19",
                 "links": {
                     "assets": [],
@@ -166,7 +166,6 @@
         ],
         "posts": [
             {
-                "allow_comments": true,
                 "author_id": "11",
                 "comments_count": 0,
                 "content": [
@@ -176,7 +175,7 @@
                     }
                 ],
                 "content_warning": null,
-                "created_at": "2015-04-23T20:27:48.596Z",
+                "created_at": "2015-04-29T23:33:23.798Z",
                 "href": "/api/edge/posts/22",
                 "id": "22",
                 "links": {
@@ -211,7 +210,7 @@
                     }
                 ],
                 "repost_id": "20",
-                "repost_path": "/archer/post/FFiFRNO-9uwnnRy6JSVJ5A",
+                "repost_path": "/archer/post/B3_ypwQXnnNLyI_QlvO_vA",
                 "reposts_count": 1,
                 "summary": [
                     {
@@ -229,11 +228,10 @@
                         }
                     }
                 ],
-                "token": "P7hMks-FVbiEZ_dBqHib_w",
+                "token": "Hgq1gRLF36Z3xGtL0G1QYw",
                 "views_count": 0
             },
             {
-                "allow_comments": false,
                 "author_id": "43",
                 "comments_count": 1,
                 "content": [
@@ -243,7 +241,7 @@
                     }
                 ],
                 "content_warning": null,
-                "created_at": "2015-04-23T20:27:48.500Z",
+                "created_at": "2015-04-29T23:33:23.735Z",
                 "href": "/api/edge/posts/18",
                 "id": "18",
                 "links": {
@@ -261,7 +259,7 @@
                         "kind": "text"
                     }
                 ],
-                "token": "CSRsJMBmFs0onnwToErE3A",
+                "token": "vzzzEySCZj7vJHPXME3vvw",
                 "views_count": 0
             }
         ],
@@ -285,11 +283,16 @@
                     }
                 },
                 "experimental_features": true,
+                "has_commenting_enabled": true,
+                "has_reposting_enabled": true,
+                "has_sharing_enabled": true,
                 "href": "/api/edge/users/11",
                 "id": "11",
                 "name": "Odin Spy Agency (official)",
+                "posts_adult_content": false,
                 "relationship_priority": null,
-                "username": "odinspy"
+                "username": "odinspy",
+                "views_adult_content": false
             },
             {
                 "avatar": {
@@ -310,11 +313,16 @@
                     }
                 },
                 "experimental_features": false,
+                "has_commenting_enabled": true,
+                "has_reposting_enabled": true,
+                "has_sharing_enabled": true,
                 "href": "/api/edge/users/42",
                 "id": "42",
                 "name": "Sterling",
+                "posts_adult_content": true,
                 "relationship_priority": "self",
-                "username": "archer"
+                "username": "archer",
+                "views_adult_content": true
             },
             {
                 "avatar": {
@@ -335,11 +343,16 @@
                     }
                 },
                 "experimental_features": true,
+                "has_commenting_enabled": false,
+                "has_reposting_enabled": true,
+                "has_sharing_enabled": true,
                 "href": "/api/edge/users/43",
                 "id": "43",
                 "name": "Lana Kane",
+                "posts_adult_content": false,
                 "relationship_priority": null,
-                "username": "lanakane32d"
+                "username": "lanakane32d",
+                "views_adult_content": false
             }
         ]
     }
