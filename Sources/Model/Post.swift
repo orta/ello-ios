@@ -9,8 +9,6 @@
 import SwiftyJSON
 import YapDatabase
 
-public let UpdatePostCommentCountNotification = TypedNotification<Comment>(name: "UpdatePostCommentCountNotification")
-
 @objc
 public protocol Authorable {
     var createdAt : NSDate { get }
@@ -100,31 +98,6 @@ public final class Post: JSONAble, Authorable {
         self.summary = summary
         super.init(version: PostVersion)
         collapsed = self.contentWarning != ""
-        registerNotifications()
-    }
-
-    deinit {
-        self.unregisterNotifications()
-    }
-
-    private func registerNotifications() {
-        commentCountNotification = NotificationObserver(notification: UpdatePostCommentCountNotification) { comment in
-            if comment.postId == self.id {
-                if let count = self.commentsCount {
-                    self.commentsCount = count + 1
-                }
-                else {
-                    self.commentsCount = 1
-                }
-            }
-        }
-    }
-
-    private func unregisterNotifications() {
-        if let commentCountNotification = commentCountNotification {
-            commentCountNotification.removeObserver()
-            self.commentCountNotification = nil
-        }
     }
 
 // MARK: NSCoding
@@ -153,8 +126,6 @@ public final class Post: JSONAble, Authorable {
         self.commentsCount = decoder.decodeOptionalKey("commentsCount")
         self.repostsCount = decoder.decodeOptionalKey("repostsCount")
         super.init(coder: aDecoder)
-        // register for updates
-        registerNotifications()
     }
 
     public override func encodeWithCoder(encoder: NSCoder) {
