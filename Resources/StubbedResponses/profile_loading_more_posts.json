@@ -1,8 +1,47 @@
 {
+    "linked": {
+        "users": [
+            {
+                "avatar": {
+                    "large": {
+                        "metadata": null,
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/ello-large-97fbdf62.png"
+                    },
+                    "original": {
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/archer.jpg"
+                    },
+                    "regular": {
+                        "metadata": null,
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/ello-regular-97fbdf62.png"
+                    },
+                    "small": {
+                        "metadata": null,
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/42/ello-small-97fbdf62.png"
+                    }
+                },
+                "experimental_features": false,
+                "has_commenting_enabled": true,
+                "has_reposting_enabled": true,
+                "has_sharing_enabled": true,
+                "href": "/api/edge/users/42",
+                "id": "42",
+                "name": "Sterling",
+                "posts_adult_content": true,
+                "relationship_priority": "self",
+                "username": "archer",
+                "views_adult_content": true
+            }
+        ]
+    },
     "posts": [
         {
-            "allow_comments": true,
             "author_id": "42",
+            "body": [
+                {
+                    "data": "woodhouse?",
+                    "kind": "text"
+                }
+            ],
             "comments_count": 0,
             "content": [
                 {
@@ -12,10 +51,23 @@
             ],
             "content_warning": null,
             "created_at": "2014-06-02T00:00:00.000Z",
-            "href": "/api/edge/posts/245",
-            "id": "245",
+            "href": "/api/edge/posts/264",
+            "id": "264",
             "links": {
-                "assets": []
+                "assets": [],
+                "author": {
+                    "href": "/api/edge/users/42",
+                    "id": "42",
+                    "type": "users"
+                },
+                "comments": {
+                    "ids": [],
+                    "pagination": {
+                        "total_count": "0",
+                        "total_pages": "0",
+                        "total_pages_remaining": "0"
+                    }
+                }
             },
             "reposts_count": 0,
             "summary": [
@@ -24,12 +76,17 @@
                     "kind": "text"
                 }
             ],
-            "token": "pSkdOkl8D6GfIBiW_EexCw",
+            "token": "Xy-bo4MYpT5c1ASACJSPHA",
             "views_count": 1
         },
         {
-            "allow_comments": true,
             "author_id": "42",
+            "body": [
+                {
+                    "data": "woodhouse.",
+                    "kind": "text"
+                }
+            ],
             "comments_count": 0,
             "content": [
                 {
@@ -39,10 +96,23 @@
             ],
             "content_warning": null,
             "created_at": "2014-06-01T00:00:00.000Z",
-            "href": "/api/edge/posts/244",
-            "id": "244",
+            "href": "/api/edge/posts/263",
+            "id": "263",
             "links": {
-                "assets": []
+                "assets": [],
+                "author": {
+                    "href": "/api/edge/users/42",
+                    "id": "42",
+                    "type": "users"
+                },
+                "comments": {
+                    "ids": [],
+                    "pagination": {
+                        "total_count": "0",
+                        "total_pages": "0",
+                        "total_pages_remaining": "0"
+                    }
+                }
             },
             "reposts_count": 0,
             "summary": [
@@ -51,7 +121,7 @@
                     "kind": "text"
                 }
             ],
-            "token": "Uo2unOVkotwxvcNjfeoGlA",
+            "token": "zw9l63IH-Zo1sw-kKquBcg",
             "views_count": 1
         }
     ]

@@ -2,22 +2,22 @@
     "invitations": [
         {
             "accepted_at": null,
-            "code": "8d7d1560265d1abab00e64d0b6704ccf",
-            "created_at": "2015-04-23T20:28:19.254Z",
+            "code": "ad5726cb3ba585efbd4ce3d27c6583ac",
+            "created_at": "2015-04-29T23:33:46.345Z",
             "email": null,
             "id": "9"
         },
         {
             "accepted_at": null,
-            "code": "ae3248ca58eedb7fc0ad5bb87dbdb1c4",
-            "created_at": "2015-04-23T20:28:19.258Z",
+            "code": "ac8409808f265221a4c1d524be74a3bc",
+            "created_at": "2015-04-29T23:33:46.348Z",
             "email": "raygillette@isisagency.com",
             "id": "10"
         },
         {
-            "accepted_at": "2015-04-23T20:28:19.261Z",
-            "code": "b9b6b05e91b8f64c3438c18ef95119af",
-            "created_at": "2015-04-23T20:28:19.261Z",
+            "accepted_at": "2015-04-29T23:33:46.350Z",
+            "code": "0ce9c674861cd87c006f0b66342a3598",
+            "created_at": "2015-04-29T23:33:46.350Z",
             "email": "lanakane@isisagency.com",
             "id": "11",
             "links": {
@@ -50,11 +50,16 @@
                     }
                 },
                 "experimental_features": true,
+                "has_commenting_enabled": false,
+                "has_reposting_enabled": true,
+                "has_sharing_enabled": true,
                 "href": "/api/edge/users/43",
                 "id": "43",
                 "name": "Lana Kane",
+                "posts_adult_content": false,
                 "relationship_priority": null,
-                "username": "lanakane32d"
+                "username": "lanakane32d",
+                "views_adult_content": false
             }
         ]
     }

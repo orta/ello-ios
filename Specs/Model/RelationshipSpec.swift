@@ -34,7 +34,7 @@ class RelationshipSpec: QuickSpec {
                 it("parses correctly") {
                     let parsedRelationship = stubbedJSONData("relationships_following_a_user_as_friend", "relationships")
                     let relationship = Relationship.fromJSON(parsedRelationship) as! Relationship
-                    expect(relationship.id) == "51"
+                    expect(relationship.id) == "52"
                     expect(relationship.createdAt).to(beAKindOf(NSDate.self))
                     expect(relationship.owner!.relationshipPriority.rawValue) == "self"
                     expect(relationship.subject!.relationshipPriority.rawValue) == "friend"
@@ -45,7 +45,7 @@ class RelationshipSpec: QuickSpec {
                 it("parses correctly") {
                     let parsedRelationship = stubbedJSONData("relationships_blocking_an_abusive_user", "relationships")
                     let relationship = Relationship.fromJSON(parsedRelationship) as! Relationship
-                    expect(relationship.id) == "52"
+                    expect(relationship.id) == "53"
                     expect(relationship.createdAt).to(beAKindOf(NSDate.self))
                     expect(relationship.owner!.relationshipPriority.rawValue) == "self"
                     expect(relationship.subject!.relationshipPriority.rawValue) == "block"
@@ -56,7 +56,7 @@ class RelationshipSpec: QuickSpec {
                 it("parses correctly") {
                     let parsedRelationship = stubbedJSONData("relationships_making_a_relationship_inactive", "relationships")
                     let relationship = Relationship.fromJSON(parsedRelationship) as! Relationship
-                    expect(relationship.id) == "53"
+                    expect(relationship.id) == "54"
                     expect(relationship.createdAt).to(beAKindOf(NSDate.self))
                     expect(relationship.owner!.relationshipPriority.rawValue) == "self"
                     expect(relationship.subject!.relationshipPriority.rawValue) == "inactive"

@@ -22,7 +22,7 @@
                         "kind": "text"
                     }
                 ],
-                "created_at": "2015-04-23T20:27:49.696Z",
+                "created_at": "2015-04-29T23:33:24.606Z",
                 "id": "26",
                 "links": {
                     "assets": [],
@@ -55,11 +55,16 @@
                     }
                 },
                 "experimental_features": true,
+                "has_commenting_enabled": false,
+                "has_reposting_enabled": true,
+                "has_sharing_enabled": true,
                 "href": "/api/edge/users/43",
                 "id": "43",
                 "name": "Lana Kane",
+                "posts_adult_content": false,
                 "relationship_priority": null,
-                "username": "lanakane32d"
+                "username": "lanakane32d",
+                "views_adult_content": false
             }
         ]
     }

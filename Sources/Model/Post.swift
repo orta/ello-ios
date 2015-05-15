@@ -47,6 +47,9 @@ public final class Post: JSONAble, Authorable {
     public var author: User? {
         return ElloLinkedStore.sharedInstance.getObject(self.authorId, inCollection: MappingType.UsersType.rawValue) as? User
     }
+    public var repostAuthor: User? {
+        return getLinkObject("repost_author") as? User
+    }
     // nested resources
     public var comments: [Comment]? {
         return getLinkArray(MappingType.CommentsType.rawValue) as? [Comment]
@@ -173,7 +176,7 @@ public final class Post: JSONAble, Authorable {
             token: json["token"].stringValue,
             contentWarning: json["content_warning"].stringValue,
             allowComments: json["allow_comments"].boolValue,
-            summary: RegionParser.regions("summary", json: json, isRepostContent: false)
+            summary: RegionParser.regions("summary", json: json)
             )
         // optional
         post.content = RegionParser.regions("content", json: json, isRepostContent: repostContent.count > 0)

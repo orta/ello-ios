@@ -5,20 +5,66 @@
                 "attachment": {
                     "optimized": {
                         "metadata": null,
-                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/33/ello-optimized-97fbdf62.jpg"
+                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/34/ello-optimized-97fbdf62.jpg"
                     },
                     "original": {
-                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/33/archer.jpg"
+                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/34/archer.jpg"
                     }
                 },
-                "id": "33"
+                "id": "34"
+            }
+        ],
+        "users": [
+            {
+                "avatar": {
+                    "large": {
+                        "metadata": null,
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/420/ello-large-pixellated-91c0f710.png"
+                    },
+                    "original": {
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/420/pam.jpg"
+                    },
+                    "regular": {
+                        "metadata": null,
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/420/ello-regular-pixellated-91c0f710.png"
+                    },
+                    "small": {
+                        "metadata": null,
+                        "url": "https://abc123.cloudfront.net/uploads/user/avatar/420/ello-small-pixellated-91c0f710.png"
+                    }
+                },
+                "experimental_features": true,
+                "has_commenting_enabled": true,
+                "has_reposting_enabled": true,
+                "has_sharing_enabled": true,
+                "href": "/api/edge/users/420",
+                "id": "420",
+                "name": "Pamilanderson",
+                "posts_adult_content": true,
+                "relationship_priority": null,
+                "username": "pam",
+                "views_adult_content": false
             }
         ]
     },
     "posts": [
         {
-            "allow_comments": true,
             "author_id": "420",
+            "body": [
+                {
+                    "data": "Hello, I am a post with awesome content!",
+                    "kind": "text"
+                },
+                {
+                    "data": {
+                        "alt": "archer.jpg",
+                        "asset_id": 34,
+                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/34/archer.jpg",
+                        "via": "direct"
+                    },
+                    "kind": "image"
+                }
+            ],
             "comments_count": 0,
             "content": [
                 {
@@ -28,22 +74,35 @@
                 {
                     "data": {
                         "alt": "archer.jpg",
-                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/33/archer.jpg"
+                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/34/archer.jpg"
                     },
                     "kind": "image",
                     "links": {
-                        "assets": "33"
+                        "assets": "34"
                     }
                 }
             ],
             "content_warning": "NSFW.",
             "created_at": "2014-06-02T00:00:00.000Z",
-            "href": "/api/edge/posts/312",
-            "id": "312",
+            "href": "/api/edge/posts/331",
+            "id": "331",
             "links": {
                 "assets": [
-                    "33"
-                ]
+                    "34"
+                ],
+                "author": {
+                    "href": "/api/edge/users/420",
+                    "id": "420",
+                    "type": "users"
+                },
+                "comments": {
+                    "ids": [],
+                    "pagination": {
+                        "total_count": "0",
+                        "total_pages": "0",
+                        "total_pages_remaining": "0"
+                    }
+                }
             },
             "reposts_count": 0,
             "summary": [
@@ -54,15 +113,15 @@
                 {
                     "data": {
                         "alt": "archer.jpg",
-                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/33/archer.jpg"
+                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/34/archer.jpg"
                     },
                     "kind": "image",
                     "links": {
-                        "assets": "33"
+                        "assets": "34"
                     }
                 }
             ],
-            "token": "3j-rdXi24eIP1_1Cw4hJMA",
+            "token": "0o_d3v_QXtx0YE-KjQtzVg",
             "views_count": 1
         }
     ]

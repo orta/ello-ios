@@ -21,12 +21,17 @@
             "experimental_features": true,
             "followers_count": 1,
             "following_count": 0,
+            "has_commenting_enabled": true,
+            "has_reposting_enabled": true,
+            "has_sharing_enabled": true,
             "href": "/api/edge/users/420",
             "id": "420",
             "name": "Pamilanderson",
+            "posts_adult_content": true,
             "posts_count": 0,
             "relationship_priority": "noise",
-            "username": "pam"
+            "username": "pam",
+            "views_adult_content": false
         },
         {
             "avatar": {
@@ -49,12 +54,17 @@
             "experimental_features": true,
             "followers_count": 1,
             "following_count": 0,
+            "has_commenting_enabled": true,
+            "has_reposting_enabled": true,
+            "has_sharing_enabled": true,
             "href": "/api/edge/users/666",
             "id": "666",
             "name": "Cyril Figgis",
+            "posts_adult_content": false,
             "posts_count": 0,
             "relationship_priority": "friend",
-            "username": "cfiggis"
+            "username": "cfiggis",
+            "views_adult_content": false
         }
     ]
 }

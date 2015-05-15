@@ -5,18 +5,17 @@
                 "attachment": {
                     "optimized": {
                         "metadata": null,
-                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/26/ello-optimized-97fbdf62.jpg"
+                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/27/ello-optimized-97fbdf62.jpg"
                     },
                     "original": {
-                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/26/archer.jpg"
+                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/27/archer.jpg"
                     }
                 },
-                "id": "26"
+                "id": "27"
             }
         ],
         "posts": [
             {
-                "allow_comments": true,
                 "author_id": "420",
                 "comments_count": 0,
                 "content": [
@@ -27,21 +26,21 @@
                     {
                         "data": {
                             "alt": "archer.jpg",
-                            "url": "https://abc123.cloudfront.net/uploads/asset/attachment/26/archer.jpg"
+                            "url": "https://abc123.cloudfront.net/uploads/asset/attachment/27/archer.jpg"
                         },
                         "kind": "image",
                         "links": {
-                            "assets": "26"
+                            "assets": "27"
                         }
                     }
                 ],
                 "content_warning": "NSFW.",
                 "created_at": "2014-06-06T00:00:00.000Z",
-                "href": "/api/edge/posts/274",
-                "id": "274",
+                "href": "/api/edge/posts/293",
+                "id": "293",
                 "links": {
                     "assets": [
-                        "26"
+                        "27"
                     ]
                 },
                 "reposts_count": 0,
@@ -53,19 +52,18 @@
                     {
                         "data": {
                             "alt": "archer.jpg",
-                            "url": "https://abc123.cloudfront.net/uploads/asset/attachment/26/archer.jpg"
+                            "url": "https://abc123.cloudfront.net/uploads/asset/attachment/27/archer.jpg"
                         },
                         "kind": "image",
                         "links": {
-                            "assets": "26"
+                            "assets": "27"
                         }
                     }
                 ],
-                "token": "5WEafKJ71aYrX24oI56LVA",
+                "token": "uI2pQklSS2kZBHgXLg6Fjg",
                 "views_count": 0
             },
             {
-                "allow_comments": true,
                 "author_id": "420",
                 "comments_count": 0,
                 "content": [
@@ -76,8 +74,8 @@
                 ],
                 "content_warning": "NSFW.",
                 "created_at": "2014-06-05T00:00:00.000Z",
-                "href": "/api/edge/posts/273",
-                "id": "273",
+                "href": "/api/edge/posts/292",
+                "id": "292",
                 "links": {
                     "assets": []
                 },
@@ -88,7 +86,7 @@
                         "kind": "text"
                     }
                 ],
-                "token": "8Rr8qvn9_tNA46jrLKYvXg",
+                "token": "2-hFvcWtr3QPDkW_gHjDBw",
                 "views_count": 0
             }
         ]
@@ -126,13 +124,16 @@
         "followers_count": 0,
         "following_count": 0,
         "formatted_short_bio": "<p>Have been spying for a while now.</p>",
+        "has_commenting_enabled": true,
+        "has_reposting_enabled": true,
+        "has_sharing_enabled": true,
         "href": "/api/edge/users/420",
         "id": "420",
         "links": {
             "posts": {
                 "ids": [
-                    "274",
-                    "273"
+                    "293",
+                    "292"
                 ],
                 "pagination": {
                     "last": "http://ello.co/api/edge/users/420/posts?after=true",
@@ -144,8 +145,10 @@
             }
         },
         "name": "Pamilanderson",
+        "posts_adult_content": true,
         "posts_count": 3,
         "relationship_priority": null,
-        "username": "pam"
+        "username": "pam",
+        "views_adult_content": false
     }
 }

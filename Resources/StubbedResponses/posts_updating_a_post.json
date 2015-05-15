@@ -1,6 +1,5 @@
 {
     "posts": {
-        "allow_comments": true,
         "author_id": "42",
         "body": [
             {
@@ -51,9 +50,9 @@
             }
         ],
         "content_warning": null,
-        "created_at": "2015-04-23T20:28:30.992Z",
-        "href": "/api/edge/posts/186",
-        "id": "186",
+        "created_at": "2015-04-29T23:33:55.730Z",
+        "href": "/api/edge/posts/205",
+        "id": "205",
         "links": {
             "assets": []
         },
@@ -71,7 +70,7 @@
                 "kind": "image"
             }
         ],
-        "token": "oG_prFvdPn1tbU13oI9rLw",
+        "token": "0WcVE1-Pe6nyUYjhU4WaSw",
         "views_count": 0
     }
 }

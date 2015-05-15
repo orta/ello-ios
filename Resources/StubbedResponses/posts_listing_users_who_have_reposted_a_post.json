@@ -19,11 +19,16 @@
                 }
             },
             "experimental_features": true,
+            "has_commenting_enabled": false,
+            "has_reposting_enabled": true,
+            "has_sharing_enabled": true,
             "href": "/api/edge/users/43",
             "id": "43",
             "name": "Lana Kane",
+            "posts_adult_content": false,
             "relationship_priority": null,
-            "username": "lanakane32d"
+            "username": "lanakane32d",
+            "views_adult_content": false
         },
         {
             "avatar": {
@@ -44,11 +49,16 @@
                 }
             },
             "experimental_features": true,
+            "has_commenting_enabled": true,
+            "has_reposting_enabled": true,
+            "has_sharing_enabled": true,
             "href": "/api/edge/users/666",
             "id": "666",
             "name": "Cyril Figgis",
+            "posts_adult_content": false,
             "relationship_priority": null,
-            "username": "cfiggis"
+            "username": "cfiggis",
+            "views_adult_content": false
         }
     ]
 }

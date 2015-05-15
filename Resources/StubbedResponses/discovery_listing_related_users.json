@@ -21,12 +21,17 @@
             "experimental_features": true,
             "followers_count": 1,
             "following_count": 0,
+            "has_commenting_enabled": true,
+            "has_reposting_enabled": true,
+            "has_sharing_enabled": true,
             "href": "/api/edge/users/11",
             "id": "11",
             "name": "Odin Spy Agency (official)",
+            "posts_adult_content": false,
             "posts_count": 3,
             "relationship_priority": null,
-            "username": "odinspy"
+            "username": "odinspy",
+            "views_adult_content": false
         },
         {
             "avatar": {
@@ -49,12 +54,17 @@
             "experimental_features": true,
             "followers_count": 1,
             "following_count": 0,
+            "has_commenting_enabled": true,
+            "has_reposting_enabled": true,
+            "has_sharing_enabled": true,
             "href": "/api/edge/users/1969",
             "id": "1969",
             "name": "Malory Archer",
-            "posts_count": 0,
+            "posts_adult_content": false,
+            "posts_count": 3,
             "relationship_priority": null,
-            "username": "malory"
+            "username": "malory",
+            "views_adult_content": false
         }
     ]
 }

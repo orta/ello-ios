@@ -5,18 +5,17 @@
                 "attachment": {
                     "optimized": {
                         "metadata": null,
-                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/25/ello-optimized-97fbdf62.jpg"
+                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/26/ello-optimized-97fbdf62.jpg"
                     },
                     "original": {
-                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/25/archer.jpg"
+                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/26/archer.jpg"
                     }
                 },
-                "id": "25"
+                "id": "26"
             }
         ],
         "posts": [
             {
-                "allow_comments": true,
                 "author_id": "42",
                 "comments_count": 0,
                 "content": [
@@ -27,8 +26,8 @@
                 ],
                 "content_warning": null,
                 "created_at": "2014-06-03T00:00:00.000Z",
-                "href": "/api/edge/posts/243",
-                "id": "243",
+                "href": "/api/edge/posts/262",
+                "id": "262",
                 "links": {
                     "assets": []
                 },
@@ -39,11 +38,10 @@
                         "kind": "text"
                     }
                 ],
-                "token": "2qee52goDap81C3-uvE78g",
+                "token": "Onrspifhf0vGP-7oAuqmkQ",
                 "views_count": 0
             },
             {
-                "allow_comments": true,
                 "author_id": "42",
                 "comments_count": 0,
                 "content": [
@@ -54,21 +52,21 @@
                     {
                         "data": {
                             "alt": "archer.jpg",
-                            "url": "https://abc123.cloudfront.net/uploads/asset/attachment/25/archer.jpg"
+                            "url": "https://abc123.cloudfront.net/uploads/asset/attachment/26/archer.jpg"
                         },
                         "kind": "image",
                         "links": {
-                            "assets": "25"
+                            "assets": "26"
                         }
                     }
                 ],
                 "content_warning": null,
                 "created_at": "2014-06-02T00:00:00.000Z",
-                "href": "/api/edge/posts/242",
-                "id": "242",
+                "href": "/api/edge/posts/261",
+                "id": "261",
                 "links": {
                     "assets": [
-                        "25"
+                        "26"
                     ]
                 },
                 "reposts_count": 0,
@@ -80,15 +78,15 @@
                     {
                         "data": {
                             "alt": "archer.jpg",
-                            "url": "https://abc123.cloudfront.net/uploads/asset/attachment/25/archer.jpg"
+                            "url": "https://abc123.cloudfront.net/uploads/asset/attachment/26/archer.jpg"
                         },
                         "kind": "image",
                         "links": {
-                            "assets": "25"
+                            "assets": "26"
                         }
                     }
                 ],
-                "token": "8LYCAz_w5COitFlu6AaAiw",
+                "token": "pP-jqNb-lhGvtzdMMPG0Hg",
                 "views_count": 0
             }
         ]
@@ -113,7 +111,7 @@
             }
         },
         "background_position": "50% 100%",
-        "confirmed_at": "2015-04-23T20:28:40.080Z",
+        "confirmed_at": "2015-04-29T23:34:02.539Z",
         "cover_image": {
             "optimized": {
                 "metadata": null,
@@ -123,7 +121,7 @@
                 "url": "https://abc123.cloudfront.net/uploads/user/cover_image/42/cover.png"
             }
         },
-        "created_at": "2015-04-23T20:28:40.116Z",
+        "created_at": "2015-04-29T23:34:02.565Z",
         "email": "sterling@isisagency.com",
         "experimental_features": false,
         "external_links": "http://isisagency.com http://ello.co",
@@ -144,14 +142,14 @@
         "is_public": false,
         "links": {
             "most_recent_post": {
-                "href": "/api/edge/posts/243",
-                "id": "243",
+                "href": "/api/edge/posts/262",
+                "id": "262",
                 "type": "posts"
             },
             "posts": {
                 "ids": [
-                    "243",
-                    "242"
+                    "262",
+                    "261"
                 ],
                 "pagination": {
                     "last": "http://ello.co/api/edge/profile/posts?after=true",
