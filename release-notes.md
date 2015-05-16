@@ -1,3 +1,63 @@
+### Ello Build 1753(v1.0.0) May 15, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #280 - Make spacer cell have a white bg.
+This was showing through to the profile headers..
+
+------
+
+#### #279 - Lock iPads to Portrait mode.
+[skip ci]
+
+------
+
+#### #275 - Fix reposting woes
+* Fixes an issue with the repost crashing when trying to add a post to a VC that hasn't been visited yet
+* Adds `repostAuthor` to `Post` 
+
+You can skip all of the updates to the stubbed responses by starting here: https://github.com/ello/ello-ios/pull/275/files#diff-21e3befc93afa5189775ba37c0aee5f1L50
+
+------
+
+#### #278 - Adding a comment should only increment count by 1.
+* Removes the comment notification in a post
+
+[Fixes #94680228]
+
+------
+
+#### #276 - Fixes show/hide of comments in stream for reposts.
+With comment unification for reposts we could no longer rely on comments to come back with a `postId` that was related to the repost since the id would be tied to the original or a reposted version of the post and not the repost that requested the comments. This uses the request to hack in a `loadedFromPostId` property to comments so we can show and hide them in the stream. Also, this fixes the see more and spacer cells showing and hiding properly in the stream.
+
+![image](https://cloud.githubusercontent.com/assets/96433/7660589/b01a227e-fb08-11e4-8423-560de6f54d85.png)
+
+------
+
+#### #272 - Update the omnibar to use SVG assets.
+* Use generated SVG assets for almost all icons in the entire app
+* Remove old ElloDrawable file generated from Paint Code
+* Remove most of the `Images.xcassets`
+* Update all chevrons with SVG asset
+* Add back in the spinning loader for Discover
+* Style Discover label
+
+------
+
+#### #269 - Adds a "See More" button to the end of comments when there are more than 25
+* Adds padding below comments
+* Adds selected state of comment button on detail
+* Prevents detail from loading more comments since it uses the infinite scroll
+
+![image](https://cloud.githubusercontent.com/assets/96433/7622661/b3988100-f98e-11e4-8384-ad52800fbc32.png)
+
+
+[Finishes #92452724]
+    
+------------
+
 ### Ello Build 1711(v1.0.0) May 13, 2015
 
     RELEASE NOTES
