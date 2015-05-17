@@ -44,6 +44,10 @@ public struct StreamImageCellPresenter {
                         cell.presentedImageUrl = asset.optimized?.url
                         cell.isLargeImage = true
                     }
+                    imageToLoad = nil
+                    cell.presentedImageUrl = nil
+                    println("url = \(attachmentToLoad?.url) \(attachmentToLoad?.size)")
+//                    attachmentToLoad = nil
                 }
 
                 let columnWidth: CGFloat
@@ -59,12 +63,19 @@ public struct StreamImageCellPresenter {
                     columnWidth = UIScreen.screenWidth()
                 }
 
+                println("url = \(attachmentToLoad?.url) \(attachmentToLoad?.size)")
                 imageToLoad = imageToLoad ?? attachmentToLoad?.url
+                
                 preventImageStretching(cell, attachmentWidth: attachmentToLoad?.width, columnWidth: columnWidth)
 
                 if let imageURL = imageToLoad {
                     cell.serverProvidedAspectRatio = StreamImageCellSizeCalculator.aspectRatioForImageRegion(imageRegion)
-                    cell.setImageURL(imageURL)
+                    if let isGif = imageRegion.asset?.isGif where isGif == true {
+                        cell.setGifImageURL(imageURL)
+                    }
+                    else {
+                        cell.setImageURL(imageURL)
+                    }
                 }
                 else if let imageURL = imageRegion.url {
                     cell.setImageURL(imageURL)

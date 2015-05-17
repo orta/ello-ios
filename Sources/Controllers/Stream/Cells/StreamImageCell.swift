@@ -49,6 +49,36 @@ public class StreamImageCell: StreamRegionableCell {
         }
     }
 
+    func setGifImageURL(url:NSURL) {
+        self.imageView.image = nil
+        self.imageView.alpha = 0
+        circle.pulse()
+        self.errorLabel.hidden = true
+        self.errorLabel.alpha = 1.0
+        self.imageView.backgroundColor = UIColor.whiteColor()
+        self.errorLabel.alpha = 0
+        var animatedImage: FLAnimatedImage?
+        SDWebImageManager.sharedManager().downloadImageWithURL(url,
+            options: SDWebImageOptions.HighPriority,
+            progress: { (_, _) in },
+            completed: { (image, _, type, _) in
+
+            }
+        )
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            let data = NSData(contentsOfURL: url)
+            animatedImage = FLAnimatedImage(animatedGIFData: data)
+            dispatch_async(dispatch_get_main_queue()) {
+                self.imageView.alpha = 1.0
+                if let animatedImage = animatedImage {
+                    self.aspectRatio = (animatedImage.size.width / animatedImage.size.height)
+                }
+                self.imageView.animatedImage = animatedImage
+                self.circle.stopPulse()
+            }
+        }
+    }
+
     func setImageURL(url:NSURL) {
         self.imageView.image = nil
         self.imageView.alpha = 0
@@ -107,6 +137,6 @@ public class StreamImageCell: StreamRegionableCell {
     }
 
     @IBAction func imageTapped(sender: UIButton) {
-         delegate?.imageTapped(self.imageView, cell: self)
+//         delegate?.imageTapped(self.imageView, cell: self)
     }
 }
