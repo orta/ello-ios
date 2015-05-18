@@ -130,12 +130,14 @@ public class FollowAllElloButton: ElloButton {
     override public var enabled: Bool {
         didSet {
             self.backgroundColor = selected ? .whiteColor() : .blackColor()
+            updateOutline()
         }
     }
 
     override public var selected: Bool {
         didSet {
             self.backgroundColor = selected ? .whiteColor() : .blackColor()
+            updateOutline()
         }
     }
 
@@ -146,6 +148,12 @@ public class FollowAllElloButton: ElloButton {
         self.setTitleColor(UIColor.blackColor(), forState: .Selected)
         self.setTitleColor(UIColor.greyA(), forState: .Disabled)
         self.backgroundColor = selected ? .whiteColor() : .blackColor()
+        updateOutline()
+    }
+
+    private func updateOutline() {
+        self.layer.borderColor = (currentTitleColor ?? UIColor.whiteColor()).CGColor
+        self.layer.borderWidth = 1
     }
 
 }

@@ -150,11 +150,10 @@ public class StreamViewController: BaseElloViewController {
 
     override public func viewDidLoad() {
         super.viewDidLoad()
+
         pullToRefreshView = SSPullToRefreshView(scrollView: collectionView, delegate: self)
         pullToRefreshView?.contentView = ElloPullToRefreshView(frame:CGRectZero)
-        if pullToRefreshEnabled {
-            pullToRefreshView?.hidden = true
-        }
+        pullToRefreshView?.hidden = !pullToRefreshEnabled
 
         setupCollectionView()
     }
@@ -180,6 +179,10 @@ public class StreamViewController: BaseElloViewController {
     public func doneLoading() {
         ElloHUD.hideLoadingHudInView(view)
         pullToRefreshView?.finishLoading()
+    }
+
+    public func reloadCells() {
+        collectionView.reloadData()
     }
 
     public func removeRefreshables() {
@@ -648,7 +651,7 @@ extension StreamViewController : UIScrollViewDelegate {
 // MARK: StreamViewController: SSPullToRefreshViewDelegate
 extension StreamViewController: SSPullToRefreshViewDelegate {
     public func pullToRefreshViewShouldStartLoading(view: SSPullToRefreshView!) -> Bool {
-        return true
+        return pullToRefreshEnabled
     }
 
     public func pullToRefreshViewDidStartLoading(view: SSPullToRefreshView!) {

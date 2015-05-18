@@ -28,7 +28,10 @@ extension AddressBook {
         var error: Unmanaged<CFError>?
         let ab = ABAddressBookCreateWithOptions(nil, &error) as Unmanaged<ABAddressBook>?
 
-        if error != nil { completion(.failure(.Unauthorized)); return }
+        if error != nil {
+            completion(.failure(.Unauthorized))
+            return
+        }
 
         if let book: ABAddressBook = ab?.takeRetainedValue() {
             switch ABAddressBookGetAuthorizationStatus() {
@@ -45,11 +48,8 @@ extension AddressBook {
         }
     }
 
-    static func needsAuthentication() -> Bool {
-        switch ABAddressBookGetAuthorizationStatus() {
-        case .NotDetermined: return true
-        default: return false
-        }
+    static func authenticationStatus() -> ABAuthorizationStatus {
+        return ABAddressBookGetAuthorizationStatus()
     }
 }
 

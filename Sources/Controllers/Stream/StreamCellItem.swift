@@ -19,7 +19,7 @@ public enum StreamCellState {
 public class StreamCellItem: NSObject, NSCopying {
     public var jsonable: JSONAble
     public let type: StreamCellType
-    public let data: Any?
+    public var data: Any?
     public var region: Regionable? { return data as? Regionable }
     public let isFullWidth: Bool
     public var calculatedWebHeight: CGFloat = 0
