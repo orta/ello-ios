@@ -131,12 +131,7 @@ public extension ElloTabBarController {
     }
 
     func systemLoggedOut() {
-        let alertController = AlertViewController(message: "You have been automatically logged out")
-
-        let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
-        alertController.addAction(action)
-
-        self.presentViewController(alertController, animated: true, completion: nil)
+        parentAppController?.forceLogOut()
     }
 }
 
