@@ -44,17 +44,23 @@ public struct Tracker {
     }
 }
 
+// MARK: Session Info
 public extension Tracker {
     func identify(user: User) {
         // set the user's tracking preference to `shouldTrackUser`
         agent.identify(user.analyticsId, traits: [ "name": user.name ])
     }
+
+    func sessionStarted() {
+        agent.track("Session Began")
+    }
+
+    func sessionEnded() {
+        agent.track("Session Ended")
+    }
 }
 
 public extension Tracker {
-    func sessionStarted() { }
-    func sessionEnded() { }
-
     func screenAppeared(name: String) { }
 
     func contentCreated(type: ContentType) { }
