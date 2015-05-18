@@ -558,7 +558,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
 // MARK: Camera / Image Picker
 
     public func addImageAction() {
-        let alert = alertControllerForImagePicker(openImagePicker)
+        let alert = UIImagePickerController.alertControllerForImagePicker(openImagePicker)
         alert.map { self.delegate?.omnibarPresentController($0) }
     }
 
