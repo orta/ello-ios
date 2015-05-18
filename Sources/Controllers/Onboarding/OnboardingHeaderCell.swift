@@ -7,11 +7,7 @@
 //
 
 
-public class OnboardingHeaderCell: UICollectionViewCell {
-    class func reuseIdentifier() -> String {
-        return "OnboardingHeaderCell"
-    }
-
+public class OnboardingHeaderView: UIView {
     lazy var headerLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.regularBoldFont(20)
@@ -19,8 +15,8 @@ public class OnboardingHeaderCell: UICollectionViewCell {
         return label
     }()
 
-    lazy var messageLabel: ElloLabel = {
-        let label = ElloLabel()
+    lazy var messageLabel: ElloSizeableLabel = {
+        let label = ElloSizeableLabel()
         label.font = UIFont.typewriterFont(14)
         label.numberOfLines = 0
         return label
@@ -44,37 +40,84 @@ public class OnboardingHeaderCell: UICollectionViewCell {
 
     override public init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = UIColor.whiteColor()
-
-        setupHeaderLabel()
-        setupDescriptionLabel()
+        addSubview(headerLabel)
+        addSubview(messageLabel)
     }
 
     required public init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func setupHeaderLabel() {
-        contentView.addSubview(headerLabel)
-    }
-
-    private func setupDescriptionLabel() {
-        contentView.addSubview(messageLabel)
-    }
-
-    public override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
 
-        headerLabel.frame = CGRect(x: 15, y: 15, width: self.frame.width - 30, height: 0)
+        var labelWidth = self.frame.width - 30
+        headerLabel.frame = CGRect(x: 15, y: 24, width: labelWidth, height: 0)
         headerLabel.sizeToFit()
 
-        messageLabel.frame = CGRect(x: 15, y: headerLabel.frame.maxY + 25, width: headerLabel.frame.width, height: 0)
+        messageLabel.frame = CGRect(x: 15, y: headerLabel.frame.maxY + 25, width: labelWidth, height: 0)
         messageLabel.sizeToFit()
     }
 
-    public func height() -> CGFloat {
+    override public func sizeToFit() {
+        super.sizeToFit()
         layoutIfNeeded()
-        return messageLabel.frame.maxY + 15
+        frame.size.height = intrinsicContentSize().height
+    }
+
+    override public func intrinsicContentSize() -> CGSize {
+        layoutIfNeeded()
+        return CGSize(width: frame.width, height: messageLabel.frame.maxY + 15)
+    }
+
+}
+
+
+public class OnboardingHeaderCell: UICollectionViewCell {
+    class func reuseIdentifier() -> String {
+        return "OnboardingHeaderCell"
+    }
+
+    lazy var onboardingHeaderView: OnboardingHeaderView = {
+        let view = OnboardingHeaderView()
+        view.frame = self.frame
+        view.autoresizingMask = .FlexibleWidth | .FlexibleHeight
+        return view
+    }()
+    var headerLabel: UILabel { return onboardingHeaderView.headerLabel }
+    var messageLabel: ElloLabel { return onboardingHeaderView.messageLabel }
+
+    var header: String {
+        get { return headerLabel.text ?? "" }
+        set {
+            headerLabel.text = newValue
+        }
+    }
+
+    var message: String {
+        get { return messageLabel.text ?? "" }
+        set {
+            messageLabel.setLabelText(newValue, color: .greyA())
+        }
+    }
+
+    override public init(frame: CGRect) {
+        super.init(frame: frame)
+        self.backgroundColor = UIColor.whiteColor()
+
+        setupHeaderView()
+    }
+
+    required public init(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func setupHeaderView() {
+        contentView.addSubview(onboardingHeaderView)
+    }
+
+    public func height() -> CGFloat {
+        return onboardingHeaderView.intrinsicContentSize().height
     }
 
 }

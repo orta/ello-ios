@@ -13,17 +13,19 @@ protocol OnboardingStep {
 
 public class OnboardingViewController: BaseElloViewController, HasAppController {
     var parentAppController: AppViewController?
+    var isTransitioning = false
+    private var visibleViewController: UIViewController?
     private var visibleViewControllerIndex: Int = 0
     private var onboardingViewControllers = [UIViewController]()
 
-    public private(set) var controllerContainer: UIView = { return UIView() }()
-    public private(set) var buttonContainer: UIView = { return UIView() }()
-    public private(set) var skipButton: ClearElloButton = {
+    public private(set) lazy var controllerContainer: UIView = { return UIView() }()
+    public private(set) lazy var buttonContainer: UIView = { return UIView() }()
+    public private(set) lazy var skipButton: ClearElloButton = {
         let button = ClearElloButton()
         button.setTitle(NSLocalizedString("Skip", comment: "Skip button"), forState: .Normal)
         return button
     }()
-    public private(set) var nextButton: LightElloButton = {
+    public private(set) lazy var nextButton: LightElloButton = {
         let button = LightElloButton()
         button.setTitle(NSLocalizedString("Next", comment: "Next button"), forState: .Normal)
         return button
@@ -31,6 +33,15 @@ public class OnboardingViewController: BaseElloViewController, HasAppController 
     public var canGoNext: Bool {
         get { return nextButton.enabled }
         set { return nextButton.enabled = newValue }
+    }
+
+    override func didSetCurrentUser() {
+        super.didSetCurrentUser()
+        for controller in onboardingViewControllers {
+            if let controller = onboardingViewControllers as? ControllerThatMightHaveTheCurrentUser {
+                controller.currentUser = currentUser
+            }
+        }
     }
 
     override public func viewDidLoad() {
@@ -67,19 +78,28 @@ public class OnboardingViewController: BaseElloViewController, HasAppController 
 
         let communityController = CommunitySelectionViewController()
         communityController.onboardingViewController = self
-        showFirstViewController(communityController)
+        communityController.currentUser = currentUser
+        addOnboardingViewController(communityController)
 
         let awesomePeopleController = AwesomePeopleSelectionViewController()
         awesomePeopleController.onboardingViewController = self
-        addSubsequentViewController(awesomePeopleController)
+        awesomePeopleController.currentUser = currentUser
+        addOnboardingViewController(awesomePeopleController)
 
         let foundersController = FoundersSelectionViewController()
         foundersController.onboardingViewController = self
-        addSubsequentViewController(foundersController)
+        foundersController.currentUser = currentUser
+        addOnboardingViewController(foundersController)
 
-        let findFriendsController = OnboardingFindFriendsViewController()
-        findFriendsController.onboardingViewController = self
-        addSubsequentViewController(findFriendsController)
+        let importPromptController = ImportPromptViewController()
+        importPromptController.onboardingViewController = self
+        importPromptController.currentUser = currentUser
+        addOnboardingViewController(importPromptController)
+
+        let headerImageSelectionController = HeaderImageSelectionViewController()
+        headerImageSelectionController.onboardingViewController = self
+        headerImageSelectionController.currentUser = currentUser
+        addOnboardingViewController(headerImageSelectionController)
     }
 
 }
@@ -97,31 +117,50 @@ extension OnboardingViewController {
         viewController.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
         viewController.didMoveToParentViewController(self)
 
+        visibleViewController = viewController
         visibleViewControllerIndex = 0
         onboardingViewControllers.append(viewController)
     }
 
-    private func addSubsequentViewController(viewController: UIViewController) {
-        onboardingViewControllers.append(viewController)
+    private func addOnboardingViewController(viewController: UIViewController) {
+        if visibleViewController == nil {
+            showFirstViewController(viewController)
+        }
+        else {
+            onboardingViewControllers.append(viewController)
+        }
     }
 
     public func goToNextStep() {
-        if let visibleViewController = onboardingViewControllers.safeValue(visibleViewControllerIndex),
-            let nextViewController = onboardingViewControllers.safeValue(visibleViewControllerIndex + 1)
-        {
-            transitionFromViewController(visibleViewController, toViewController: nextViewController)
+        self.visibleViewControllerIndex += 1
+
+        // <debugging start over at first step>
+        if self.visibleViewControllerIndex == count(self.onboardingViewControllers) {
+            self.visibleViewControllerIndex = 0
         }
-        else if let visibleViewController = onboardingViewControllers.safeValue(visibleViewControllerIndex),
-            let nextViewController = onboardingViewControllers.safeValue(0)
-            where visibleViewControllerIndex == count(onboardingViewControllers) - 1
+        // </debugging>
+
+        if let nextViewController = onboardingViewControllers.safeValue(visibleViewControllerIndex)
         {
-            transitionFromViewController(visibleViewController, toViewController: nextViewController)
+            goToController(nextViewController)
+        }
+        else {
+            // DONE!
+        }
+    }
+
+    public func goToController(viewController: UIViewController) {
+        if let visibleViewController = visibleViewController {
+            transitionFromViewController(visibleViewController, toViewController: viewController)
         }
     }
 
     private func transitionFromViewController(visibleViewController: UIViewController, toViewController nextViewController: UIViewController) {
-        Tracker.sharedTracker.screenAppeared(nextViewController.title ?? nextViewController.readableClassName())
+        if isTransitioning {
+            return
+        }
 
+        Tracker.sharedTracker.screenAppeared(nextViewController.title ?? nextViewController.readableClassName())
         visibleViewController.willMoveToParentViewController(nil)
         addChildViewController(nextViewController)
 
@@ -133,6 +172,7 @@ extension OnboardingViewController {
             height: controllerContainer.frame.height
         )
 
+        isTransitioning = true
         transitionFromViewController(visibleViewController,
             toViewController: nextViewController,
             duration: 0.4,
@@ -143,12 +183,10 @@ extension OnboardingViewController {
                 nextViewController.view.frame.origin.x = 0
             },
             completion: { _ in
-                self.visibleViewControllerIndex += 1
-                if self.visibleViewControllerIndex == count(self.onboardingViewControllers) {
-                    self.visibleViewControllerIndex = 0
-                }
                 nextViewController.didMoveToParentViewController(self)
                 visibleViewController.removeFromParentViewController()
+                self.visibleViewController = nextViewController
+                self.isTransitioning = false
             })
     }
 

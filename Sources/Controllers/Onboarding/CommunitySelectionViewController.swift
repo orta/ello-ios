@@ -14,11 +14,15 @@ public class CommunitySelectionViewController: OnboardingUserListViewController 
         streamViewController.streamKind = .UserList(endpoint: .CommunitiesStream, title: "Communities")
     }
 
+    override func loadUsers() {
+        ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
+        super.loadUsers()
+    }
+
     override func usersLoaded(users: [User]) {
-        let headerHeight = CGFloat(120)
         let header = NSLocalizedString("What are you interested in?", comment: "Community Selection Header text")
         let message = NSLocalizedString("Follow the Ello communities that you find most inspiring.", comment: "Community Selection Description text")
-        appendHeaderCellItem(header: header, message: message, headerHeight: headerHeight)
+        appendHeaderCellItem(header: header, message: message)
 
         super.usersLoaded(users)
     }

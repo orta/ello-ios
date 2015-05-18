@@ -14,11 +14,15 @@ public class FoundersSelectionViewController: OnboardingUserListViewController {
         streamViewController.streamKind = .UserList(endpoint: .FoundersStream, title: "Founders")
     }
 
+    override func loadUsers() {
+        ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
+        super.loadUsers()
+    }
+
     override func usersLoaded(users: [User]) {
-        let headerHeight = CGFloat(100)
         let header = NSLocalizedString("Follow the founders.", comment: "Founders Selection Header text")
         let message = NSLocalizedString("PLACEHOLDER TEXT.", comment: "Founders Selection Description text")
-        appendHeaderCellItem(header: header, message: message, headerHeight: headerHeight)
+        appendHeaderCellItem(header: header, message: message)
         appendFollowAllCellItem(userCount: count(users))
 
         super.usersLoaded(users)

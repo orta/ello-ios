@@ -13,7 +13,7 @@
         </mutableArray>
     </customFonts>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="OnboardingFindFriendsViewController" customModule="Ello" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ImportPromptViewController" customModule="Ello" customModuleProvider="target">
             <connections>
                 <outlet property="view" destination="iN0-l3-epB" id="Lg8-6D-ART"/>
             </connections>
@@ -24,28 +24,31 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Find your friends!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tnC-by-6Q2">
-                    <rect key="frame" x="15" y="15" width="570" height="17"/>
-                    <fontDescription key="fontDescription" name="AtlasGrotesk-Bold" family="Atlas Grotesk" pointSize="17"/>
+                    <rect key="frame" x="15" y="15" width="570" height="21"/>
+                    <fontDescription key="fontDescription" name="AtlasGrotesk-Bold" family="Atlas Grotesk" pointSize="20"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Import and invite friends from your address book." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CuF-vs-4yi" customClass="ElloLabel" customModule="Ello" customModuleProvider="target">
-                    <rect key="frame" x="15" y="52" width="570" height="14"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Import and invite friends from your address book." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CuF-vs-4yi" customClass="ElloSizeableLabel" customModule="Ello" customModuleProvider="target">
+                    <rect key="frame" x="15" y="56" width="570" height="14"/>
                     <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="14"/>
                     <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="azV-oJ-CKt" customClass="ElloButton" customModule="Ello" customModuleProvider="target">
-                    <rect key="frame" x="15" y="126" width="577" height="60"/>
+                    <rect key="frame" x="15" y="130" width="570" height="60"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="60" id="N7x-uL-7tN"/>
                     </constraints>
                     <state key="normal" title="Import Your Contacts">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="importContactsTapped" destination="-1" eventType="touchUpInside" id="uCN-ph-yJE"/>
+                    </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ello does not sell user data and never contacts anyone without your permission." lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GO0-A7-rY0" customClass="ElloLabel" customModule="Ello" customModuleProvider="target">
-                    <rect key="frame" x="15" y="206" width="570" height="28"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ello does not sell user data and never contacts anyone without your permission." lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GO0-A7-rY0" customClass="ElloSizeableLabel" customModule="Ello" customModuleProvider="target">
+                    <rect key="frame" x="15" y="210" width="570" height="28"/>
                     <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="14"/>
                     <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
@@ -54,7 +57,7 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="GO0-A7-rY0" firstAttribute="trailing" secondItem="tnC-by-6Q2" secondAttribute="trailing" id="8IM-Ec-oki"/>
-                <constraint firstItem="CuF-vs-4yi" firstAttribute="trailing" secondItem="azV-oJ-CKt" secondAttribute="trailing" constant="-7" id="JPy-IL-Hhh"/>
+                <constraint firstItem="CuF-vs-4yi" firstAttribute="trailing" secondItem="azV-oJ-CKt" secondAttribute="trailing" id="JPy-IL-Hhh"/>
                 <constraint firstAttribute="trailing" secondItem="tnC-by-6Q2" secondAttribute="trailing" constant="15" id="LK3-hj-AZB"/>
                 <constraint firstItem="CuF-vs-4yi" firstAttribute="leading" secondItem="azV-oJ-CKt" secondAttribute="leading" id="Qg1-3D-3KM"/>
                 <constraint firstItem="CuF-vs-4yi" firstAttribute="top" secondItem="tnC-by-6Q2" secondAttribute="bottom" constant="20" id="Sj4-Io-yWI"/>

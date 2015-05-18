@@ -6,8 +6,12 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-public class OnboardingUserListViewController: StreamableViewController, OnboardingStep {
+public class OnboardingUserListViewController: StreamableViewController, OnboardingStep, FollowAllButtonResponder {
     weak var onboardingViewController: OnboardingViewController?
+
+    var headerItem: StreamCellItem?
+    var followAllItem: StreamCellItem?
+    var users: [User]?
 
     override func setupStreamController() {
         super.setupStreamController()
@@ -38,7 +42,6 @@ public class OnboardingUserListViewController: StreamableViewController, Onboard
     }
 
     func loadUsers() {
-        ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
         streamViewController.streamService.loadStream(
             streamViewController.streamKind.endpoint,
             streamKind: streamViewController.streamKind,
@@ -59,18 +62,30 @@ public class OnboardingUserListViewController: StreamableViewController, Onboard
     }
 
     func usersLoaded(users: [User]) {
+        self.users = users
         var items: [StreamCellItem] = StreamCellItemParser().parse(users, streamKind: streamViewController.streamKind)
         streamViewController.appendUnsizedCellItems(items, withWidth: view.frame.width)
         streamViewController.doneLoading()
     }
 
-    func appendHeaderCellItem(#header: String, message: String, headerHeight: CGFloat) {
-        var headerItem = StreamCellItem(jsonable: JSONAble(version: 1), type: StreamCellType.OnboardingHeader, data: (header, message), oneColumnCellHeight: headerHeight, multiColumnCellHeight: headerHeight, isFullWidth: true)
+    func onFollowAll() {
+        if let users = users {
+            let userCount = count(users)
+            followAllItem?.data = (userCount, userCount)
+            streamViewController.reloadCells()
+        }
+    }
+
+    func appendHeaderCellItem(#header: String, message: String) {
+        let anyHeight = CGFloat(120)
+        let headerItem = StreamCellItem(jsonable: JSONAble(version: 1), type: StreamCellType.OnboardingHeader, data: (header, message), oneColumnCellHeight: anyHeight, multiColumnCellHeight: anyHeight, isFullWidth: true)
+        self.headerItem = headerItem
         streamViewController.appendStreamCellItems([headerItem])
     }
 
     func appendFollowAllCellItem(#userCount: Int) {
-        var followAllItem = StreamCellItem(jsonable: JSONAble(version: 1), type: StreamCellType.FollowAll, data: userCount, oneColumnCellHeight: FollowAllCellHeight, multiColumnCellHeight: FollowAllCellHeight, isFullWidth: true)
+        let followAllItem = StreamCellItem(jsonable: JSONAble(version: 1), type: StreamCellType.FollowAll, data: (userCount, 0), oneColumnCellHeight: FollowAllCellHeight, multiColumnCellHeight: FollowAllCellHeight, isFullWidth: true)
+        self.followAllItem = followAllItem
         streamViewController.appendStreamCellItems([followAllItem])
     }
 
