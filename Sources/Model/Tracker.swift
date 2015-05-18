@@ -60,9 +60,36 @@ public extension Tracker {
     }
 }
 
+// MARK: View Appearance
 public extension Tracker {
-    func screenAppeared(name: String) { }
+    func screenAppeared(name: String) {
+        agent.screen(name)
+    }
 
+    func viewedImage() {
+        agent.track("Viewed Image")
+    }
+
+    func postBarVisibilityChanged(visible: Bool) {
+        let visibility = visible ? "shown" : "hidden"
+        agent.track("Post bar \(visibility)")
+    }
+
+    func commentBarVisibilityChanged(visible: Bool) {
+        let visibility = visible ? "shown" : "hidden"
+        agent.track("Comment bar \(visibility)")
+    }
+
+    func drawerClosed() {
+        agent.track("Drawer closed")
+    }
+
+    func viewsButtonTapped() {
+        agent.track("Views button tapped")
+    }
+}
+
+public extension Tracker {
     func contentCreated(type: ContentType) { }
     func contentCreationCanceled(type: ContentType) { }
     func contentCreationFailed(type: ContentType, message: String) { }
@@ -71,14 +98,9 @@ public extension Tracker {
     func contentFlaggingCanceled(type: ContentType) { }
     func contentFlaggingFailed(type: ContentType, message: String) { }
 
-    func viewedImage() { }
-
-    func postBarVisibilityChanged(visible: Bool) { }
     func postReposted() { }
     func postShared() { }
     func postLoved() { }
-
-    func commentBarVisibilityChanged(visible: Bool) { }
 
     func userBlocked() { }
     func userMuted() { }
@@ -98,10 +120,6 @@ public extension Tracker {
 
     func pushNotificationPreferenceChanged(enabled: Bool) { }
     func contactAccessPreferenceChanged(enabled: Bool) { }
-
-    func drawerClosed() { }
-
-    func viewsButtonTapped() { }
 
     func encounteredNetworkError(error: NSError) { }
 }
