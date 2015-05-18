@@ -25,16 +25,21 @@ public struct InviteService {
             failure: failure)
     }
 
-    public func find(contacts:[String: AnyObject], success: FindFriendsSuccessCompletion, failure: ElloFailureCompletion?) {
+    public func find(contacts: [String: [String]], currentUser: User?, success: FindFriendsSuccessCompletion, failure: ElloFailureCompletion?) {
         ElloProvider.elloRequest(ElloAPI.FindFriends(contacts: contacts),
             method: .POST,
             success: { (data, responseConfig) -> () in
                 if let data = data as? [User] {
-                    success(data)
+                    success(InviteService.filterUsers(data, currentUser: currentUser))
                 }
                 else {
                     ElloProvider.unCastableJSONAble(failure)
                 }
             }, failure: failure)
     }
+
+    static func filterUsers(users: [User], currentUser: User?) -> [User] {
+        return users.filter { $0.identifiableBy != .None && $0.id != currentUser?.id }
+    }
+
 }

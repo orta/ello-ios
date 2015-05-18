@@ -12,11 +12,11 @@ class LocalPersonSpec: QuickSpec {
             }
         }
 
-        describe("emailHashes") {
-            it("returns an array of hashed emails") {
+        describe("emails") {
+            it("returns an array of emails") {
                 let emails = ["tester@test.com", "coolemail@bro.com"]
                 let person = LocalPerson(name: "", emails: emails, id: 123)
-                expect(person.emailHashes) == emails.map { $0.saltedSHA1String! }
+                expect(person.emails) == emails
             }
         }
     }
