@@ -23,7 +23,7 @@ public class ElloLabel: UILabel {
 
     func attributes(color: UIColor, alignment: NSTextAlignment) -> [NSObject : AnyObject] {
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 8
+        paragraphStyle.lineSpacing = 10
         paragraphStyle.alignment = alignment
 
         return [
