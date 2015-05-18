@@ -32,10 +32,16 @@ class DynamicSettingsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let data = stubbedData("dynamic_settings")
-        let json = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) as? [String: AnyObject]
-        let categoryArray = json?["categories"] as? [[String: AnyObject]]
-        dynamicCategories = categoryArray?.map { DynamicSettingCategory.fromJSON($0) as DynamicSettingCategory } ?? []
+        StreamService().loadStream(.ProfileToggles,
+            streamKind: nil,
+            success: { (data, responseConfig) in
+                if let categories = data as? [DynamicSettingCategory] {
+                    self.dynamicCategories = categories
+                }
+            },
+            failure: { (_, _) in },
+            noContent: {}
+        )
     }
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
