@@ -128,19 +128,36 @@ public extension Tracker {
     }
 }
 
+// MARK: User Actions
 public extension Tracker {
-    func userBlocked() { }
-    func userMuted() { }
-    func userBlockCanceled() { }
+    func userBlocked() {
+        agent.track("User blocked")
+    }
 
-    func imageAddedFromCamera() { }
-    func imageAddedFromLibrary() { }
-    func addImageCanceled() { }
+    func userMuted() {
+        agent.track("User muted")
+    }
+
+    func userBlockCanceled() {
+        agent.track("User block canceled")
+    }
+
+    func friendAdded() {
+        agent.track("Friend added")
+    }
+
+    func noiseAdded() {
+        agent.track("Noise added")
+    }
+
+    func friendInvited() {
+        agent.track("User invited")
+    }
+}
+
+public extension Tracker {
 
     func inviteFriendsTapped() { }
-    func friendAdded() { }
-    func noiseAdded() { }
-    func friendInvited() { }
     func importContactsInitiated() { }
     func importContactsDenied() { }
     func addressBookAccessed() { }
