@@ -30,7 +30,7 @@ public struct NullAgent: AnalyticsAgent {
 
 extension SEGAnalytics: AnalyticsAgent { }
 
-public struct Tracker {
+public class Tracker {
     public static let sharedTracker = Tracker()
 
     private var shouldTrackUser = true
@@ -47,7 +47,7 @@ public struct Tracker {
 // MARK: Session Info
 public extension Tracker {
     func identify(user: User) {
-        // set the user's tracking preference to `shouldTrackUser`
+        shouldTrackUser = user.profile?.allowsAnalytics ?? true
         agent.identify(user.analyticsId, traits: [ "name": user.name ])
     }
 
