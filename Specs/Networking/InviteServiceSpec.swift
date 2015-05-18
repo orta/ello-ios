@@ -49,7 +49,7 @@ class InviteServiceSpec: QuickSpec {
                 ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.endpointsClosure, stubResponses: true)
                 var loadedSuccessfully = false
                 var expectedUsers = [User]()
-                subject.find(["contacts": ["1":["blah"], "2":["blah"]]], success: {
+                subject.find(["1":["blah"], "2":["blah"]], currentUser: nil, success: {
                     users in
                     expectedUsers = users
                 }, failure: nil)
@@ -61,7 +61,7 @@ class InviteServiceSpec: QuickSpec {
                 ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.errorEndpointsClosure, stubResponses: true)
                 var loadedSuccessfully = true
 
-                subject.find(["contacts": ["1":["blah"], "2":["blah"]]], success: {
+                subject.find(["1":["blah"], "2":["blah"]], currentUser: nil, success: {
                     users in
                     loadedSuccessfully = true
                 }, failure: { (error, statusCode) -> () in
