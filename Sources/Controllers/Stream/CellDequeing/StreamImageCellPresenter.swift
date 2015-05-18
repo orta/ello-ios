@@ -21,9 +21,26 @@ public struct StreamImageCellPresenter {
         }
     }
 
+    static func configureRepostLayout(
+        cell: StreamImageCell,
+        streamCellItem: StreamCellItem)
+    {
+        // Repost specifics
+        if streamCellItem.data?.isRepost == true {
+            cell.leadingConstraint.constant = 30.0
+            cell.showBorder()
+        }
+        else if let comment = streamCellItem.jsonable as? Comment {
+            cell.leadingConstraint.constant = StreamTextCellPresenter.commentMargin
+        }
+        else {
+            cell.leadingConstraint.constant = 0.0
+        }
+    }
+
     static func configure(
-        cell:UICollectionViewCell,
-        streamCellItem:StreamCellItem,
+        cell: UICollectionViewCell,
+        streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: NSIndexPath,
         currentUser: User?)
@@ -44,56 +61,35 @@ public struct StreamImageCellPresenter {
                         cell.presentedImageUrl = asset.optimized?.url
                         cell.isLargeImage = true
                     }
-                    imageToLoad = nil
-                    cell.presentedImageUrl = nil
-                    println("url = \(attachmentToLoad?.url) \(attachmentToLoad?.size)")
-//                    attachmentToLoad = nil
                 }
 
                 let columnWidth: CGFloat
                 if streamKind.isGridLayout {
                     attachmentToLoad = attachmentToLoad ?? imageRegion.asset?.gridLayoutAttachment
-
-                    let innerMargin = CGFloat(10)
-                    columnWidth = (UIScreen.screenWidth() - innerMargin) / 2
+                    columnWidth = (UIScreen.screenWidth() - CGFloat(10)) / 2
                 }
                 else {
                     attachmentToLoad = attachmentToLoad ?? imageRegion.asset?.oneColumnAttachment
-
                     columnWidth = UIScreen.screenWidth()
                 }
 
-                println("url = \(attachmentToLoad?.url) \(attachmentToLoad?.size)")
                 imageToLoad = imageToLoad ?? attachmentToLoad?.url
                 
                 preventImageStretching(cell, attachmentWidth: attachmentToLoad?.width, columnWidth: columnWidth)
 
                 if let imageURL = imageToLoad {
                     cell.serverProvidedAspectRatio = StreamImageCellSizeCalculator.aspectRatioForImageRegion(imageRegion)
-                    if let isGif = imageRegion.asset?.isGif where isGif == true {
-                        cell.setGifImageURL(imageURL)
-                    }
-                    else {
-                        cell.setImageURL(imageURL)
-                    }
+                    let isGif = imageRegion.asset?.isGif == true
+                    cell.setImage(imageURL, isGif: isGif)
                 }
                 else if let imageURL = imageRegion.url {
-                    cell.setImageURL(imageURL)
+                    let isGif = imageURL.pathExtension?.lowercaseString == "gif"
+                    cell.setImage(imageURL, isGif: isGif)
                 }
+
                 cell.hideBorder()
-                // Repost specifics
-                if streamCellItem.region?.isRepost == true {
-                    cell.leadingConstraint.constant = 30.0
-                    cell.showBorder()
-                }
-                else if let comment = streamCellItem.jsonable as? Comment {
-                    cell.leadingConstraint.constant = StreamTextCellPresenter.commentMargin
-                }
-                else {
-                    cell.leadingConstraint.constant = 0.0
-                }
+                configureRepostLayout(cell, streamCellItem: streamCellItem)
             }
         }
     }
-
 }

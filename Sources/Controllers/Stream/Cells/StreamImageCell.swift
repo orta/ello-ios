@@ -49,7 +49,7 @@ public class StreamImageCell: StreamRegionableCell {
         }
     }
 
-    func setGifImageURL(url:NSURL) {
+    public func setImage(url: NSURL, isGif: Bool) {
         self.imageView.image = nil
         self.imageView.alpha = 0
         circle.pulse()
@@ -57,14 +57,11 @@ public class StreamImageCell: StreamRegionableCell {
         self.errorLabel.alpha = 1.0
         self.imageView.backgroundColor = UIColor.whiteColor()
         self.errorLabel.alpha = 0
-        var animatedImage: FLAnimatedImage?
-        SDWebImageManager.sharedManager().downloadImageWithURL(url,
-            options: SDWebImageOptions.HighPriority,
-            progress: { (_, _) in },
-            completed: { (image, _, type, _) in
+        isGif ? loadGif(url) : loadNonGif(url)
+    }
 
-            }
-        )
+    private func loadGif(url:NSURL) {
+        var animatedImage: FLAnimatedImage?
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             let data = NSData(contentsOfURL: url)
             animatedImage = FLAnimatedImage(animatedGIFData: data)
@@ -79,21 +76,11 @@ public class StreamImageCell: StreamRegionableCell {
         }
     }
 
-    func setImageURL(url:NSURL) {
-        self.imageView.image = nil
-        self.imageView.alpha = 0
-        circle.pulse()
-        self.errorLabel.hidden = true
-        self.errorLabel.alpha = 1.0
-        self.imageView.backgroundColor = UIColor.whiteColor()
-        self.errorLabel.alpha = 0
-        self.imageView.sd_setImageWithURL(url, completed: {
+    private func loadNonGif(url:NSURL) {
+        self.imageView.sd_setImageWithURL(url) {
             (image, _, type, _) in
-
             if let image = image {
-
                 self.aspectRatio = (image.size.width / image.size.height)
-
                 if self.serverProvidedAspectRatio == nil {
                     postNotification(StreamNotification.AnimateCellHeightNotification, self)
                 }
@@ -125,7 +112,7 @@ public class StreamImageCell: StreamRegionableCell {
                 }
 
             }
-        })
+        }
     }
 
     override public func prepareForReuse() {
@@ -137,6 +124,6 @@ public class StreamImageCell: StreamRegionableCell {
     }
 
     @IBAction func imageTapped(sender: UIButton) {
-//         delegate?.imageTapped(self.imageView, cell: self)
+         delegate?.imageTapped(self.imageView, cell: self)
     }
 }
