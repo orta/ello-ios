@@ -155,7 +155,20 @@ public extension Tracker {
     }
 }
 
+// MARK: Image Actions
 public extension Tracker {
+    func imageAddedFromCamera() {
+        agent.track("Image added from camera")
+    }
+
+    func imageAddedFromLibrary() {
+        agent.track("Image added from library")
+    }
+
+    func addImageCanceled() {
+        agent.track("Image addition canceled")
+    }
+}
 
     func inviteFriendsTapped() { }
     func importContactsInitiated() { }
