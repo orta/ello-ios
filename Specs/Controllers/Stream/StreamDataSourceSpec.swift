@@ -523,7 +523,7 @@ class StreamDataSourceSpec: QuickSpec {
                 }
             }
 
-            describe("modifyUserItems(_:collectionView:)") {
+            describe("modifyUserRelationshipItems(_:collectionView:)") {
 
                 let stubCellItems: (streamKind: StreamKind) -> Void = { streamKind in
                     var user1: User = stub(["id": "user1"])
@@ -556,7 +556,7 @@ class StreamDataSourceSpec: QuickSpec {
                         it("removes blocked user, their post and all comments on that post") {
                             stubCellItems(streamKind: StreamKind.UserList(endpoint: ElloAPI.FriendStream, title: "some title"))
                             expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 8
-                            subject.modifyUserItems(User.stub(["id": "user1", "relationshipPriority": RelationshipPriority.Block.rawValue]), collectionView: fakeCollectionView)
+                            subject.modifyUserRelationshipItems(User.stub(["id": "user1", "relationshipPriority": RelationshipPriority.Block.rawValue]), collectionView: fakeCollectionView)
                             expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 0
                         }
                     }
@@ -565,7 +565,7 @@ class StreamDataSourceSpec: QuickSpec {
                         it("removes blocked user's comments") {
                             stubCellItems(streamKind: StreamKind.UserList(endpoint: ElloAPI.FriendStream, title: "some title"))
                             expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 8
-                            subject.modifyUserItems(User.stub(["id": "user2", "relationshipPriority": RelationshipPriority.Block.rawValue]), collectionView: fakeCollectionView)
+                            subject.modifyUserRelationshipItems(User.stub(["id": "user2", "relationshipPriority": RelationshipPriority.Block.rawValue]), collectionView: fakeCollectionView)
                             expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 6
                         }
                     }
@@ -573,7 +573,7 @@ class StreamDataSourceSpec: QuickSpec {
                     it("does not remove cells tied to other users") {
                         stubCellItems(streamKind: StreamKind.UserList(endpoint: ElloAPI.FriendStream, title: "some title"))
                         expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 8
-                        subject.modifyUserItems(User.stub(["id": "unrelated-user", "relationshipPriority": RelationshipPriority.Block.rawValue]), collectionView: fakeCollectionView)
+                        subject.modifyUserRelationshipItems(User.stub(["id": "unrelated-user", "relationshipPriority": RelationshipPriority.Block.rawValue]), collectionView: fakeCollectionView)
                         expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 8
                     }
 
@@ -586,7 +586,7 @@ class StreamDataSourceSpec: QuickSpec {
                         var user1 = subject.userForIndexPath(indexPath0)
                         expect(user1!.followersCount) == "stub-user-followers-count"
                         expect(user1!.relationshipPriority.rawValue) == RelationshipPriority.None.rawValue
-                        subject.modifyUserItems(User.stub(["id": "user1", "followersCount": "2", "followingCount": 2, "relationshipPriority": RelationshipPriority.Friend.rawValue]), collectionView: fakeCollectionView)
+                        subject.modifyUserRelationshipItems(User.stub(["id": "user1", "followersCount": "2", "followingCount": 2, "relationshipPriority": RelationshipPriority.Friend.rawValue]), collectionView: fakeCollectionView)
                         user1 = subject.userForIndexPath(indexPath0)
                         expect(user1!.followersCount) == "2"
                         expect(user1!.relationshipPriority.rawValue) == RelationshipPriority.Friend.rawValue
@@ -621,7 +621,7 @@ class StreamDataSourceSpec: QuickSpec {
 
                     it("clears out notifications from that user when on notifications") {
                         expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 2
-                        subject.modifyUserItems(User.stub(["id": "user1", "relationshipPriority": RelationshipPriority.Mute.rawValue]), collectionView: fakeCollectionView)
+                        subject.modifyUserRelationshipItems(User.stub(["id": "user1", "relationshipPriority": RelationshipPriority.Mute.rawValue]), collectionView: fakeCollectionView)
                         expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 1
                     }
 
@@ -630,6 +630,30 @@ class StreamDataSourceSpec: QuickSpec {
                     }
                 }
 
+            }
+
+            describe("modifyUserSettingsItems(_:collectionView:)") {
+
+                let stubCellItems: (streamKind: StreamKind) -> Void = { streamKind in
+                    var user1: User = stub(["id": "user1", "username": "sweet"])
+                    var user2: User = stub(["id": "user2", "username": "unsweet"])
+                    let userCellItems = StreamCellItemParser().parse([user1, user2], streamKind: streamKind)
+                    var cellItems = userCellItems
+                    subject.streamKind = streamKind
+                    subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
+                        vc.collectionView.dataSource = subject
+                        vc.collectionView.reloadData()
+                    }
+                }
+
+                it("modifies a user when it is the currentUser") {
+                    it("removes blocked user, their post and all comments on that post") {
+                        stubCellItems(streamKind: StreamKind.UserList(endpoint: ElloAPI.FriendStream, title: "some title"))
+                        expect(subject.userForIndexPath(indexPath0)!.username) == "sweet"
+                        subject.modifyUserSettingsItems(User.stub(["id": "user1", "username": "sweetness"]), collectionView: fakeCollectionView)
+                        expect(subject.userForIndexPath(indexPath0)!.username) == "sweetness"
+                    }
+                }
             }
 
 //            describe("createCommentIndexPathForPost(_:)") {

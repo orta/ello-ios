@@ -76,12 +76,13 @@ public class StreamViewController: BaseElloViewController {
             setupCollectionViewLayout()
         }
     }
-    var imageViewerDelegate:StreamImageViewer?
-    var updatedStreamImageCellHeightNotification:NotificationObserver?
-    var relayoutNotification:NotificationObserver?
-    var commentChangedNotification:NotificationObserver?
-    var postChangedNotification:NotificationObserver?
+    var imageViewerDelegate: StreamImageViewer?
+    var updatedStreamImageCellHeightNotification: NotificationObserver?
+    var relayoutNotification: NotificationObserver?
+    var commentChangedNotification: NotificationObserver?
+    var postChangedNotification: NotificationObserver?
     var relationshipChangedNotification: NotificationObserver?
+    var settingChangedNotification: NotificationObserver?
 
     weak var createCommentDelegate : CreateCommentDelegate?
     weak var postTappedDelegate : PostTappedDelegate?
@@ -284,8 +285,7 @@ public class StreamViewController: BaseElloViewController {
             switch change {
             case .Create, .Delete, .Update:
                 self.dataSource.modifyItems(comment, change: change, collectionView: self.collectionView)
-            case .Read:
-                println("do nothing")
+            case .Read: break
             }
         }
 
@@ -296,22 +296,16 @@ public class StreamViewController: BaseElloViewController {
             switch change {
             case .Create:
                 self.dataSource.modifyItems(post, change: change, collectionView: self.collectionView)
-                // if comments are shown, add comment to the top of the list
-                // update the comment count
-                println("handle create")
             case .Delete:
                 switch self.streamKind {
-                case .PostDetail:
-                    println("no-op")
+                case .PostDetail: break
                 default:
                     self.dataSource.modifyItems(post, change: change, collectionView: self.collectionView)
                 }
-                println("handle deletes")
                 // reload page
             case .Update:
                 self.dataSource.modifyItems(post, change: change, collectionView: self.collectionView)
-            case .Read:
-                println("do nothing")
+            case .Read: break
             }
         }
 
@@ -319,7 +313,14 @@ public class StreamViewController: BaseElloViewController {
             if !self.initialDataLoaded {
                 return
             }
-            self.dataSource.modifyUserItems(user, collectionView: self.collectionView)
+            self.dataSource.modifyUserRelationshipItems(user, collectionView: self.collectionView)
+        }
+
+        settingChangedNotification = NotificationObserver(notification: SettingChangedNotification) { user in
+            if !self.initialDataLoaded {
+                return
+            }
+            self.dataSource.modifyUserSettingsItems(user, collectionView: self.collectionView)
         }
     }
 

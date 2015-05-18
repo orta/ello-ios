@@ -10,7 +10,8 @@ import Foundation
 
 public let CommentChangedNotification = TypedNotification<(Comment, ContentChange)>(name: "commentChangedNotification")
 public let PostChangedNotification = TypedNotification<(Post, ContentChange)>(name: "postChangedNotification")
-public let RelationshipChangedNotification = TypedNotification<(User)>(name: "relationshipChangedNotification")
+public let RelationshipChangedNotification = TypedNotification<User>(name: "relationshipChangedNotification")
+public let SettingChangedNotification = TypedNotification<User>(name: "settingChangedNotification")
 
 public enum ContentChange {
     case Create
