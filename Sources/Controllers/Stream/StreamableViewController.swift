@@ -208,25 +208,38 @@ extension StreamableViewController : StreamScrollDelegate {
 extension StreamableViewController: InviteResponder {
     public func onInviteFriends() {
         Tracker.sharedTracker.inviteFriendsTapped()
-        if AddressBook.needsAuthentication() {
-            displayContactActionSheet()
-        } else {
-            getAddressBook(AlertAction(title: "", style: .Light, handler: .None))
+        switch AddressBook.authenticationStatus() {
+        case .Authorized:
+            proceedWithImport()
+        case .NotDetermined:
+            promptForAddressBookAccess()
+        case .Denied:
+            let message = NSLocalizedString("Access to your contacts has been denied.  If you want to search for friends, you will need to grant access from Settings.",
+                comment: "Access to contacts denied by user")
+            displayAddressBookAlert(message)
+        case .Restricted:
+            let message = NSLocalizedString("Access to your contacts has been denied by the system.",
+                comment: "Access to contacts denied by system")
+            displayAddressBookAlert(message)
         }
     }
 
     // MARK: - Private
 
-    private func displayContactActionSheet() {
-        let alertController = AlertViewController(message: "Import your contacts fo find your friends on Ello.\n\nEllo does not sell user data and never contacts anyone without your permission.")
+    private func promptForAddressBookAccess() {
+        let message = NSLocalizedString("Import your contacts fo find your friends on Ello.\n\nEllo does not sell user data and never contacts anyone without your permission.",
+            comment: "Import your contacts permission prompt")
+        let alertController = AlertViewController(message: message)
 
-        let action = AlertAction(title: "Import my contacts", style: .Dark) { action in
+        let importMessage = NSLocalizedString("Import my contacts", comment: "Import my contacts action")
+        let action = AlertAction(title: importMessage, style: .Dark) { action in
             Tracker.sharedTracker.importContactsInitiated()
-            self.getAddressBook(action)
+            self.proceedWithImport()
         }
         alertController.addAction(action)
 
-        let cancelAction = AlertAction(title: "Not now", style: .Light) { _ in
+        let cancelMessage = NSLocalizedString("Not now", comment: "Not now action")
+        let cancelAction = AlertAction(title: cancelMessage, style: .Light) { _ in
             Tracker.sharedTracker.importContactsDenied()
         }
         alertController.addAction(cancelAction)
@@ -234,7 +247,7 @@ extension StreamableViewController: InviteResponder {
         presentViewController(alertController, animated: true, completion: .None)
     }
 
-    private func getAddressBook(action: AlertAction) {
+    private func proceedWithImport() {
         Tracker.sharedTracker.addressBookAccessed()
         AddressBook.getAddressBook { result in
             dispatch_async(dispatch_get_main_queue()) {
