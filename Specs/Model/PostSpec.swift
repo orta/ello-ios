@@ -16,6 +16,7 @@ class PostSpec: QuickSpec {
 
         beforeEach {
             ElloURI.domain = "ello.co"
+            ElloURI.httpProtocol = "https"
         }
         
         describe("+fromJSON:") {

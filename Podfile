@@ -43,5 +43,6 @@ plugin 'cocoapods-keys', {
     'CrashlyticsKey',
     'Domain',
     'Salt',
+    'HttpProtocol',
   ]
 }

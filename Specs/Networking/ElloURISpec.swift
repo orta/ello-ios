@@ -19,11 +19,13 @@ class ElloURISpec: QuickSpec {
 
             it("uses staging if AppSetup.sharedState.useStaging is true") {
                 ElloURI.domain = "ello-staging.herokuapp.com"
-                expect(ElloURI.baseURL).to(equal("https://ello-staging.herokuapp.com"))
+                ElloURI.httpProtocol = "http"
+                expect(ElloURI.baseURL).to(equal("http://ello-staging.herokuapp.com"))
             }
 
             it("uses production if AppSetup.sharedState.useStaging is false") {
                 ElloURI.domain = "ello.co"
+                ElloURI.httpProtocol = "https"
                 expect(ElloURI.baseURL).to(equal("https://ello.co"))
             }
 
@@ -33,6 +35,7 @@ class ElloURISpec: QuickSpec {
 
             beforeEach {
                 ElloURI.domain = "ello.co"
+                ElloURI.httpProtocol = "https"
             }
 
             describe("with Post urls") {
@@ -92,7 +95,7 @@ class ElloURISpec: QuickSpec {
                     expect(type).to(equal(ElloURI.External))
                     expect(data).to(equal("https://www.vimeo.com/anything/"))
                 }
-                
+
             }
 
         }
@@ -101,6 +104,7 @@ class ElloURISpec: QuickSpec {
 
             beforeEach {
                 ElloURI.domain = "ello-staging.herokuapp.com"
+                ElloURI.httpProtocol = "https"
             }
 
             describe("with Post urls") {

@@ -29,7 +29,7 @@ public final class Attachment: JSONAble {
     }
 
 // MARK: NSCoding
-    
+
     required public init(coder aDecoder: NSCoder) {
         let decoder = Decoder(aDecoder)
         // required
@@ -65,7 +65,7 @@ public final class Attachment: JSONAble {
         let json = JSON(data)
         var url = json["url"].stringValue
         if url.hasPrefix("//") {
-            url = "https:" + url
+            url = ElloURI.httpProtocol + ":" + url
         }
         // create attachment
         var attachment = Attachment(url: NSURL(string: url)!)

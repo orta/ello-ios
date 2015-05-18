@@ -38,6 +38,10 @@ class AssetSpec: QuickSpec {
 
         describe("+fromJSON:") {
 
+            beforeEach {
+                ElloURI.httpProtocol = "https"
+            }
+
             it("parses correctly") {
                 let data = stubbedJSONData("asset", "assets")
                 let asset = Asset.fromJSON(data) as! Asset
