@@ -39,8 +39,8 @@ class DynamicSettingsViewController: UITableViewController {
                     self.dynamicCategories = categories
                 }
             },
-            failure: { (_, _) in },
-            noContent: {}
+            failure: nil,
+            noContent: nil
         )
     }
 

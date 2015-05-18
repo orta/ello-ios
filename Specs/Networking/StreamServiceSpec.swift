@@ -103,7 +103,6 @@ class StreamServiceSpec: QuickSpec {
                         let expectedCreatedAt = "2014-06-02T00:00:00.000Z".toNSDate()!
                         let comment:Comment = loadedComments![0] as Comment
 
-                        expect(comment.id) == "219"
                         expect(comment.createdAt) == expectedCreatedAt
 
                         let contentRegion0:TextRegion = comment.content[0] as! TextRegion

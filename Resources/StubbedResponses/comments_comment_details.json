@@ -33,7 +33,7 @@
             }
         ],
         "created_at": "2014-06-02T00:00:00.000Z",
-        "id": "41",
+        "id": "43",
         "links": {
             "assets": [
                 "5"
@@ -44,12 +44,12 @@
                 "type": "users"
             },
             "parent_post": {
-                "href": "/api/edge/posts/40",
-                "id": "40",
+                "href": "/api/edge/posts/42",
+                "id": "42",
                 "type": "posts"
             }
         },
-        "post_id": "40"
+        "post_id": "42"
     },
     "linked": {
         "assets": [

@@ -73,7 +73,7 @@
                     }
                 ],
                 "content_warning": null,
-                "created_at": "2015-04-29T23:33:23.060Z",
+                "created_at": "2015-05-18T18:05:03.429Z",
                 "href": "/api/edge/posts/14",
                 "id": "14",
                 "links": {
@@ -103,7 +103,7 @@
                         }
                     }
                 ],
-                "token": "ikpFGl99X6Xa9IWFKLIXQw",
+                "token": "_0-MEU8DoZCARm1Z9FULgA",
                 "views_count": 0
             },
             {
@@ -116,7 +116,7 @@
                     }
                 ],
                 "content_warning": null,
-                "created_at": "2015-04-29T23:33:23.101Z",
+                "created_at": "2015-05-18T18:05:03.463Z",
                 "href": "/api/edge/posts/16",
                 "id": "16",
                 "links": {
@@ -151,8 +151,8 @@
                     }
                 ],
                 "repost_id": "13",
-                "repost_path": "/archer/post/NkkzCNoWPZ66UI_JnKPdlw",
-                "reposts_count": 1,
+                "repost_path": "/archer/post/LnrB4oP-sS0BMjEFrS4Obw",
+                "reposts_count": 0,
                 "summary": [
                     {
                         "data": "<p>Me in an awesome turtle neck.</p>",
@@ -169,7 +169,7 @@
                         }
                     }
                 ],
-                "token": "rLnl6wrjO5LN4vR7JXscFQ",
+                "token": "jJybOYVt_0p5-Y1E4FogPw",
                 "views_count": 0
             }
         ],

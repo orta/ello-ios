@@ -67,8 +67,8 @@
                         "kind": "text"
                     }
                 ],
-                "created_at": "2015-04-29T23:33:45.411Z",
-                "id": "154",
+                "created_at": "2015-05-18T18:05:20.346Z",
+                "id": "156",
                 "links": {
                     "assets": [],
                     "author": {
@@ -77,7 +77,7 @@
                         "type": "users"
                     }
                 },
-                "post_id": "151"
+                "post_id": "153"
             },
             {
                 "author_id": "420",
@@ -87,8 +87,8 @@
                         "kind": "text"
                     }
                 ],
-                "created_at": "2015-04-29T23:33:45.399Z",
-                "id": "153",
+                "created_at": "2015-05-18T18:05:20.337Z",
+                "id": "155",
                 "links": {
                     "assets": [],
                     "author": {
@@ -97,7 +97,7 @@
                         "type": "users"
                     }
                 },
-                "post_id": "151"
+                "post_id": "153"
             },
             {
                 "author_id": "420",
@@ -107,8 +107,8 @@
                         "kind": "text"
                     }
                 ],
-                "created_at": "2015-04-29T23:33:45.387Z",
-                "id": "152",
+                "created_at": "2015-05-18T18:05:20.327Z",
+                "id": "154",
                 "links": {
                     "assets": [],
                     "author": {
@@ -117,7 +117,7 @@
                         "type": "users"
                     }
                 },
-                "post_id": "151"
+                "post_id": "153"
             }
         ],
         "users": [
@@ -236,7 +236,7 @@
                 "kind": "embed"
             }
         ],
-        "comments_count": 3,
+        "comments_count": 0,
         "content": [
             {
                 "data": "<p>archer, I'm sorry, did you say \"mancrush\"? I saw Burt at the mall today in The Body Shop\u2122 rubbing himself down with essential oils and thought of you.</p>",
@@ -264,9 +264,9 @@
             }
         ],
         "content_warning": null,
-        "created_at": "2015-04-29T23:33:45.254Z",
-        "href": "/api/edge/posts/151",
-        "id": "151",
+        "created_at": "2015-05-18T18:05:20.248Z",
+        "href": "/api/edge/posts/153",
+        "id": "153",
         "links": {
             "assets": [
                 "12",
@@ -279,9 +279,9 @@
             },
             "comments": {
                 "ids": [
-                    "154",
-                    "153",
-                    "152"
+                    "156",
+                    "155",
+                    "154"
                 ],
                 "pagination": {
                     "total_count": "3",
@@ -307,7 +307,7 @@
                 }
             }
         ],
-        "token": "lyAkOqBrmtHwlqG_9XLGJg",
+        "token": "mf2R_0ZdTiibfvYX0WD8PA",
         "views_count": 1
     }
 }

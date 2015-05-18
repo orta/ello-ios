@@ -16,7 +16,7 @@ class CommentSpec: QuickSpec {
 
             it("parses correctly") {
                 // add stubs for references in json
-                ElloLinkedStore.sharedInstance.setObject(Post.stub(["id": "40"]), forKey: "40", inCollection: MappingType.PostsType.rawValue)
+                ElloLinkedStore.sharedInstance.setObject(Post.stub(["id": "42"]), forKey: "42", inCollection: MappingType.PostsType.rawValue)
                 ElloLinkedStore.sharedInstance.setObject(User.stub(["userId": "420"]), forKey: "420", inCollection: MappingType.UsersType.rawValue)
 
                 let parsedComment = stubbedJSONData("comments_comment_details", "comments")
@@ -25,10 +25,9 @@ class CommentSpec: QuickSpec {
                 let comment = Comment.fromJSON(parsedComment) as! Comment
                 var createdAt: NSDate = createdAtString.toNSDate()!
                 // active record
-                expect(comment.id) == "41"
                 expect(comment.createdAt) == createdAt
                 // required
-                expect(comment.postId) == "40"
+                expect(comment.postId) == "42"
                 expect(count(comment.content)) == 2
                 expect(comment.content[0].kind) == "text"
                 expect(comment.content[1].kind) == "image"
@@ -38,7 +37,7 @@ class CommentSpec: QuickSpec {
                 expect(count(comment.assets!)) == 1
                 expect(comment.assets![0]).to(beAKindOf(Asset.self))
                 // computed
-                expect(comment.groupId) == "40"
+                expect(comment.groupId) == comment.postId
             }
         }
 

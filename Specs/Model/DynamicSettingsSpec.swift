@@ -13,7 +13,7 @@ import Nimble
 class DynamicSettingsSpec: QuickSpec {
     override func spec() {
         it("coverts from JSON") {
-            let parsedDynamicSettings = stubbedJSONDataArray("dynamic_settings", "categories")
+            let parsedDynamicSettings = stubbedJSONDataArray("profile_available_user_profile_toggles", "categories")
             let dynamicSettings = parsedDynamicSettings.map { DynamicSettingCategory.fromJSON($0) as DynamicSettingCategory }
 
             expect(dynamicSettings.count) == 4

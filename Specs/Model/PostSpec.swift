@@ -27,11 +27,9 @@ class PostSpec: QuickSpec {
                 let post = Post.fromJSON(parsedPost) as! Post
                 var createdAt: NSDate = createdAtString.toNSDate()!
                 // active record
-                expect(post.id) == "156"
                 expect(post.createdAt) == createdAt
                 // required
-                expect(post.href) == "/api/edge/posts/156"
-                expect(post.token) == "zBusVQHki_mBNJsNbBNg5w"
+                expect(post.token) == "JcSS9Ah9kkBW0mKFFY57mg"
                 expect(post.contentWarning) == ""
                 expect(count(post.summary)) == 2
                 expect(post.summary[0].kind) == "text"
@@ -41,7 +39,7 @@ class PostSpec: QuickSpec {
                 expect(post.content![0].kind) == "text"
                 expect(post.content![1].kind) == "image"
                 expect(post.viewsCount) == 1
-                expect(post.commentsCount) == 3
+                expect(post.commentsCount) == 0
                 expect(post.repostsCount) == 0
                 // TODO: create a JSON that has all of these optionals in it
                 // links
@@ -52,23 +50,21 @@ class PostSpec: QuickSpec {
                 expect(count(post.assets!)) == 1
                 expect(post.assets![0]).to(beAKindOf(Asset.self))
                 // computed
-                expect(post.groupId) == "156"
-                expect(post.shareLink) == "https://ello.co/cfiggis/post/zBusVQHki_mBNJsNbBNg5w"
+                expect(post.groupId) == post.id
+                expect(post.shareLink) == "https://ello.co/cfiggis/post/\(post.token)"
                 expect(post.collapsed).to(beFalse())
             }
 
             it("parses created reposts correctly") {
                 let parsedPost = stubbedJSONData("posts_creating_a_repost", "posts")
 
-                let createdAtString = "2015-04-29T23:33:54.738Z"
+                let createdAtString = "2015-05-18T18:05:27.633Z"
                 let post = Post.fromJSON(parsedPost) as! Post
                 var createdAt: NSDate = createdAtString.toNSDate()!
                 // active record
-                expect(post.id) == "201"
                 expect(post.createdAt) == createdAt
                 // required
-                expect(post.href) == "/api/edge/posts/201"
-                expect(post.token) == "NAk0KZtpCB7xLGZtmUuhWA"
+                expect(post.token) == "WJqGz_eC7l_9r4gZESTEdw"
                 expect(post.contentWarning) == ""
                 expect(count(post.summary)) == 2
                 expect(post.summary[0].kind) == "text"
@@ -89,8 +85,8 @@ class PostSpec: QuickSpec {
                 expect(count(post.assets!)) == 1
                 expect(post.assets![0]).to(beAKindOf(Asset.self))
                 // computed
-                expect(post.groupId) == "201"
-                expect(post.shareLink) == "https://ello.co/archer/post/NAk0KZtpCB7xLGZtmUuhWA"
+                expect(post.groupId) == post.id
+                expect(post.shareLink) == "https://ello.co/archer/post/\(post.token)"
                 expect(post.collapsed).to(beFalse())
             }
 

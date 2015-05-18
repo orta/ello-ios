@@ -51,8 +51,8 @@
             ],
             "content_warning": null,
             "created_at": "2014-06-02T00:00:00.000Z",
-            "href": "/api/edge/posts/264",
-            "id": "264",
+            "href": "/api/edge/posts/269",
+            "id": "269",
             "links": {
                 "assets": [],
                 "author": {
@@ -76,7 +76,7 @@
                     "kind": "text"
                 }
             ],
-            "token": "Xy-bo4MYpT5c1ASACJSPHA",
+            "token": "LEHGu4gR5QMsmlpMkf5FOw",
             "views_count": 1
         },
         {
@@ -96,8 +96,8 @@
             ],
             "content_warning": null,
             "created_at": "2014-06-01T00:00:00.000Z",
-            "href": "/api/edge/posts/263",
-            "id": "263",
+            "href": "/api/edge/posts/268",
+            "id": "268",
             "links": {
                 "assets": [],
                 "author": {
@@ -121,7 +121,7 @@
                     "kind": "text"
                 }
             ],
-            "token": "zw9l63IH-Zo1sw-kKquBcg",
+            "token": "D_KS49Hqy-HrOFxtkiB8YA",
             "views_count": 1
         }
     ]
