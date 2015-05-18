@@ -170,11 +170,26 @@ public extension Tracker {
     }
 }
 
-    func inviteFriendsTapped() { }
-    func importContactsInitiated() { }
-    func importContactsDenied() { }
-    func addressBookAccessed() { }
+// MARK: Import Friend Actions
+public extension Tracker {
+    func inviteFriendsTapped() {
+        agent.track("Invite Friends tapped")
+    }
 
+    func importContactsInitiated() {
+        agent.track("Import Contacts initiated")
+    }
+
+    func importContactsDenied() {
+        agent.track("Import Contacts denied")
+    }
+
+    func addressBookAccessed() {
+        agent.track("Address book accessed")
+    }
+}
+
+public extension Tracker {
     func pushNotificationPreferenceChanged(enabled: Bool) { }
     func contactAccessPreferenceChanged(enabled: Bool) { }
 
