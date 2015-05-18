@@ -14,8 +14,29 @@ public enum ContentType: String {
     case Comment = "Comment"
 }
 
+public protocol AnalyticsAgent {
+    func identify(userId: String!, traits: [NSObject : AnyObject]!)
+    func track(event: String!)
+    func screen(screenTitle: String!)
+    func reset()
+}
+
+public struct NullAgent: AnalyticsAgent {
+    public func identify(userId: String!, traits: [NSObject : AnyObject]!) { }
+    public func track(event: String!) { }
+    public func screen(screenTitle: String!) { }
+    public func reset() { }
+}
+
+extension SEGAnalytics: AnalyticsAgent { }
+
 public struct Tracker {
     public static let sharedTracker = Tracker()
+
+    private var shouldTrackUser = true
+    private var agent: AnalyticsAgent {
+        return shouldTrackUser ? SEGAnalytics.sharedAnalytics() : NullAgent()
+    }
 
     public init() {
         let configuration = SEGAnalyticsConfiguration(writeKey: ElloKeys().segmentKey())
@@ -25,8 +46,8 @@ public struct Tracker {
 
 public extension Tracker {
     func identify(user: User) {
-        SEGAnalytics.sharedAnalytics().identify(user.analyticsId,
-                                        traits: [ "name": user.name ])
+        // set the user's tracking preference to `shouldTrackUser`
+        agent.identify(user.analyticsId, traits: [ "name": user.name ])
     }
 }
 
