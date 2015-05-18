@@ -15,8 +15,8 @@ public struct StreamImageCellPresenter {
         if let attachmentWidth = attachmentWidth {
             let width = CGFloat(attachmentWidth)
             if width < columnWidth - padding * 2 {
-                cell.imageLeftContraint.constant = padding
-                cell.imageRightConstraint.constant = columnWidth - width - padding
+                cell.imageLeftContraint?.constant = padding
+                cell.imageRightConstraint?.constant = columnWidth - width - padding
             }
         }
     }
@@ -30,8 +30,8 @@ public struct StreamImageCellPresenter {
     {
         if let cell = cell as? StreamImageCell {
             if let imageRegion = streamCellItem.data as? ImageRegion {
-                cell.imageLeftContraint.constant = 0
-                cell.imageRightConstraint.constant = 0
+                cell.imageLeftContraint?.constant = 0
+                cell.imageRightConstraint?.constant = 0
 
                 var attachmentToLoad: Attachment?
                 var imageToLoad: NSURL?

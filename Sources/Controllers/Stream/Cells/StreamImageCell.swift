@@ -16,19 +16,24 @@ public class StreamImageCell: StreamRegionableCell {
 
     @IBOutlet weak var imageView: FLAnimatedImageView!
     @IBOutlet weak var imageButton: UIButton!
-    @IBOutlet weak var largeImagePlayButton: UIImageView!
     @IBOutlet weak var errorLabel: ElloErrorLabel!
     @IBOutlet weak var circle:PulsingCircle!
-    @IBOutlet weak var imageLeftContraint: NSLayoutConstraint!
-    @IBOutlet weak var imageRightConstraint: NSLayoutConstraint!
     @IBOutlet weak var leadingConstraint:NSLayoutConstraint!
+
+    // not used in StreamEmbedCell
+    @IBOutlet weak var largeImagePlayButton: UIImageView?
+    @IBOutlet weak var imageLeftContraint: NSLayoutConstraint?
+    @IBOutlet weak var imageRightConstraint: NSLayoutConstraint?
 
     weak var delegate: StreamImageCellDelegate?
     var presentedImageUrl:NSURL?
     var serverProvidedAspectRatio:CGFloat?
     public var isLargeImage: Bool {
         get { return !(largeImagePlayButton?.hidden ?? true) }
-        set { largeImagePlayButton?.hidden = !newValue }
+        set {
+            largeImagePlayButton?.image = SVGKImage(named: "embetter_video_play.svg").UIImage
+            largeImagePlayButton?.hidden = !newValue
+        }
     }
     private let defaultAspectRatio:CGFloat = 4.0/3.0
     private var aspectRatio:CGFloat = 4.0/3.0
