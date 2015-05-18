@@ -204,7 +204,6 @@ extension ElloProvider {
     static private func handleInvalidToken(data: NSData?, statusCode: Int?, failure: ElloFailureCompletion?, error: NSError?) {
         ElloProvider.postNetworkFailureNotification(data, error: error, statusCode: statusCode)
         postNotification(AuthenticationNotifications.invalidToken, ())
-        ElloProvider.handleNetworkFailure(failure, data: data, error: error, statusCode: statusCode)
     }
 
     static private func parseLinked(elloAPI: ElloAPI, dict: [String:AnyObject], var responseConfig: ResponseConfig, success: ElloSuccessCompletion, failure:ElloFailureCompletion?) {

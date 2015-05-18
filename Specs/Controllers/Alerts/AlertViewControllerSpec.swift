@@ -18,7 +18,8 @@ class AlertViewControllerSpec: QuickSpec {
         describe("contentView") {
             it("accepts a contentView") {
                 let controller = AlertViewController(message: .None)
-                _ = controller.view
+                controller.loadView()
+                controller.viewDidLoad()
                 let view = UIView()
                 controller.contentView = view
 
@@ -26,7 +27,8 @@ class AlertViewControllerSpec: QuickSpec {
             }
             it("hides its tableView") {
                 let controller = AlertViewController(message: .None)
-                _ = controller.view
+                controller.loadView()
+                controller.viewDidLoad()
                 let view = UIView()
                 controller.contentView = view
 
@@ -34,7 +36,8 @@ class AlertViewControllerSpec: QuickSpec {
             }
             it("resizes") {
                 let controller = AlertViewController(message: .None)
-                _ = controller.view
+                controller.loadView()
+                controller.viewDidLoad()
                 let view = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
                 controller.contentView = view
 
@@ -43,7 +46,8 @@ class AlertViewControllerSpec: QuickSpec {
             }
             it("centers") {
                 let controller = AlertViewController(message: .None)
-                _ = controller.view
+                controller.loadView()
+                controller.viewDidLoad()
                 let superview = UIView(frame: CGRect(x: 0, y: 0, width: 102, height: 102))
                 let view = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
                 superview.addSubview(controller.view)
