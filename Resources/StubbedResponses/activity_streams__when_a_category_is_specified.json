@@ -1,11 +1,33 @@
 {
     "activities": [
         {
+            "created_at": "2014-06-10T00:00:00.000Z",
+            "kind": "comment_on_original_post_notification",
+            "links": {
+                "subject": {
+                    "id": "29",
+                    "type": "comments"
+                }
+            },
+            "subject_type": "Post"
+        },
+        {
+            "created_at": "2014-06-09T00:00:00.000Z",
+            "kind": "comment_on_repost_notification",
+            "links": {
+                "subject": {
+                    "id": "29",
+                    "type": "comments"
+                }
+            },
+            "subject_type": "Post"
+        },
+        {
             "created_at": "2014-06-08T00:00:00.000Z",
             "kind": "comment_notification",
             "links": {
                 "subject": {
-                    "id": "26",
+                    "id": "27",
                     "type": "comments"
                 }
             },
@@ -18,12 +40,12 @@
                 "author_id": "43",
                 "content": [
                     {
-                        "data": "<p>right.</p>",
+                        "data": "<p>repost comment</p>",
                         "kind": "text"
                     }
                 ],
-                "created_at": "2015-04-29T23:33:24.606Z",
-                "id": "26",
+                "created_at": "2015-05-18T18:05:04.839Z",
+                "id": "29",
                 "links": {
                     "assets": [],
                     "author": {
@@ -32,7 +54,27 @@
                         "type": "users"
                     }
                 },
-                "post_id": "25"
+                "post_id": "28"
+            },
+            {
+                "author_id": "43",
+                "content": [
+                    {
+                        "data": "<p>right.</p>",
+                        "kind": "text"
+                    }
+                ],
+                "created_at": "2015-05-18T18:05:04.809Z",
+                "id": "27",
+                "links": {
+                    "assets": [],
+                    "author": {
+                        "href": "/api/edge/users/43",
+                        "id": "43",
+                        "type": "users"
+                    }
+                },
+                "post_id": "26"
             }
         ],
         "users": [

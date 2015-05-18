@@ -63,9 +63,9 @@
             }
         ],
         "content_warning": null,
-        "created_at": "2015-04-29T23:33:54.738Z",
-        "href": "/api/edge/posts/201",
-        "id": "201",
+        "created_at": "2015-05-18T18:05:27.633Z",
+        "href": "/api/edge/posts/203",
+        "id": "203",
         "links": {
             "assets": [
                 "24"
@@ -92,10 +92,10 @@
                 }
             }
         ],
-        "repost_id": "199",
-        "repost_path": "/lanakane32d/post/LdDxFHMN05Jg-6wLjntdjg",
-        "repost_via_id": "200",
-        "repost_via_path": "/pam/post/Yvj23rw4fBKdO3VP24qm8A",
+        "repost_id": "201",
+        "repost_path": "/lanakane32d/post/PtUOB6C8HFkVVyFS42Mk2A",
+        "repost_via_id": "202",
+        "repost_via_path": "/pam/post/bpNtxEOkwLgXApTAgUP3yg",
         "reposts_count": 2,
         "summary": [
             {
@@ -113,7 +113,7 @@
                 }
             }
         ],
-        "token": "NAk0KZtpCB7xLGZtmUuhWA",
+        "token": "WJqGz_eC7l_9r4gZESTEdw",
         "views_count": 0
     }
 }

@@ -1,13 +1,13 @@
 {
     "errors": {
         "attrs": {
-            "body": [
+            "subjects": [
                 "can't be blank"
             ]
         },
         "code": "invalid_resource",
         "messages": [
-            "Body can't be blank"
+            "Subjects can't be blank"
         ],
         "status": "422",
         "title": "The current resource was invalid."

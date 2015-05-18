@@ -1,13 +1,15 @@
 {
     "errors": {
         "attrs": {
-            "body": [
-                "can't be blank"
+            "priority": [
+                "can't be blank",
+                "is not included in the list"
             ]
         },
         "code": "invalid_resource",
         "messages": [
-            "Body can't be blank"
+            "Priority can't be blank",
+            "Priority is not included in the list"
         ],
         "status": "422",
         "title": "The current resource was invalid."

@@ -21,6 +21,7 @@ public enum MappingType: String {
     case AmazonCredentialsType = "credentials"
     case NoContentType = "204"
     case AvailabilityType = "availability"
+    case CategoriesType = "categories"
 
     var fromJSON: FromJSONClosure {
         switch self {
@@ -44,6 +45,8 @@ public enum MappingType: String {
             return Availability.fromJSON
         case RelationshipsType:
             return Relationship.fromJSON
+        case CategoriesType:
+            return DynamicSettingCategory.fromJSON
         default:
             return UnknownJSONAble.fromJSON
         }

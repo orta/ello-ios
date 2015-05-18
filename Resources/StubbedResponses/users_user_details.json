@@ -5,13 +5,13 @@
                 "attachment": {
                     "optimized": {
                         "metadata": null,
-                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/27/ello-optimized-97fbdf62.jpg"
+                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/28/ello-optimized-97fbdf62.jpg"
                     },
                     "original": {
-                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/27/archer.jpg"
+                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/28/archer.jpg"
                     }
                 },
-                "id": "27"
+                "id": "28"
             }
         ],
         "posts": [
@@ -26,21 +26,21 @@
                     {
                         "data": {
                             "alt": "archer.jpg",
-                            "url": "https://abc123.cloudfront.net/uploads/asset/attachment/27/archer.jpg"
+                            "url": "https://abc123.cloudfront.net/uploads/asset/attachment/28/archer.jpg"
                         },
                         "kind": "image",
                         "links": {
-                            "assets": "27"
+                            "assets": "28"
                         }
                     }
                 ],
                 "content_warning": "NSFW.",
                 "created_at": "2014-06-06T00:00:00.000Z",
-                "href": "/api/edge/posts/293",
-                "id": "293",
+                "href": "/api/edge/posts/301",
+                "id": "301",
                 "links": {
                     "assets": [
-                        "27"
+                        "28"
                     ]
                 },
                 "reposts_count": 0,
@@ -52,15 +52,15 @@
                     {
                         "data": {
                             "alt": "archer.jpg",
-                            "url": "https://abc123.cloudfront.net/uploads/asset/attachment/27/archer.jpg"
+                            "url": "https://abc123.cloudfront.net/uploads/asset/attachment/28/archer.jpg"
                         },
                         "kind": "image",
                         "links": {
-                            "assets": "27"
+                            "assets": "28"
                         }
                     }
                 ],
-                "token": "uI2pQklSS2kZBHgXLg6Fjg",
+                "token": "Hqn-9YX4G442EMW_pL_hlg",
                 "views_count": 0
             },
             {
@@ -74,8 +74,8 @@
                 ],
                 "content_warning": "NSFW.",
                 "created_at": "2014-06-05T00:00:00.000Z",
-                "href": "/api/edge/posts/292",
-                "id": "292",
+                "href": "/api/edge/posts/300",
+                "id": "300",
                 "links": {
                     "assets": []
                 },
@@ -86,7 +86,7 @@
                         "kind": "text"
                     }
                 ],
-                "token": "2-hFvcWtr3QPDkW_gHjDBw",
+                "token": "buHyhnxlU1oieL-Rjuv2HA",
                 "views_count": 0
             }
         ]
@@ -132,8 +132,8 @@
         "links": {
             "posts": {
                 "ids": [
-                    "293",
-                    "292"
+                    "301",
+                    "300"
                 ],
                 "pagination": {
                     "last": "http://ello.co/api/edge/users/420/posts?after=true",
