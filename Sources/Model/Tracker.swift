@@ -89,19 +89,46 @@ public extension Tracker {
     }
 }
 
+// MARK: Content Actions
 public extension Tracker {
-    func contentCreated(type: ContentType) { }
-    func contentCreationCanceled(type: ContentType) { }
-    func contentCreationFailed(type: ContentType, message: String) { }
+    func contentCreated(type: ContentType) {
+        agent.track("\(type.rawValue) created")
+    }
 
-    func contentFlagged(type: ContentType, flag: ContentFlagger.AlertOption) { }
-    func contentFlaggingCanceled(type: ContentType) { }
-    func contentFlaggingFailed(type: ContentType, message: String) { }
+    func contentCreationCanceled(type: ContentType) {
+        agent.track("\(type.rawValue) creation canceled")
+    }
 
-    func postReposted() { }
-    func postShared() { }
-    func postLoved() { }
+    func contentCreationFailed(type: ContentType, message: String) {
+        agent.track("\(type.rawValue) creation failed: \(message)")
+    }
 
+    func contentFlagged(type: ContentType, flag: ContentFlagger.AlertOption) {
+        agent.track("\(type.rawValue) flagged: \(flag.rawValue)")
+    }
+
+    func contentFlaggingCanceled(type: ContentType) {
+        agent.track("\(type.rawValue) flagging canceled")
+    }
+
+    func contentFlaggingFailed(type: ContentType, message: String) {
+        agent.track("\(type.rawValue) flagging failed: \(message)")
+    }
+
+    func postReposted() {
+        agent.track("Post reposted")
+    }
+
+    func postShared() {
+        agent.track("Post shared")
+    }
+
+    func postLoved() {
+        agent.track("Post loved")
+    }
+}
+
+public extension Tracker {
     func userBlocked() { }
     func userMuted() { }
     func userBlockCanceled() { }
