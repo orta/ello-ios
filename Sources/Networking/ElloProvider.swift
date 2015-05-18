@@ -177,14 +177,13 @@ extension ElloProvider {
                         ElloProvider.sharedProvider.request(token, method: method, parameters: token.defaultParameters, completion: { (data, statusCode, response, error) in
                             ElloProvider.handleRequest(token, method: method, data: data, response: response as? NSHTTPURLResponse, statusCode: statusCode, success: success, failure: failure, isRetry: true, error: error)
                         })
-                        },
-                        failure: { _ in
-                            ElloProvider.postNetworkFailureNotification(data, error: error, statusCode: statusCode)
-                            postNotification(AuthenticationNotifications.systemLoggedOut, ())
+                    },
+                    failure: { _ in
+                        self.handleInvalidToken(data, statusCode: statusCode, failure: failure, error: error)
                     })
-                } else {
-                    ElloProvider.postNetworkFailureNotification(data, error: error, statusCode: statusCode)
-                    postNotification(AuthenticationNotifications.systemLoggedOut, ())
+                }
+                else {
+                    handleInvalidToken(data, statusCode: statusCode, failure: failure, error: error)
                 }
             case 410:
                 ElloProvider.postNetworkFailureNotification(data, error: error, statusCode: statusCode)
@@ -203,6 +202,12 @@ extension ElloProvider {
         else {
             ElloProvider.handleNetworkFailure(failure, data: data, error: error, statusCode: statusCode)
         }
+    }
+
+    static private func handleInvalidToken(data: NSData?, statusCode: Int?, failure: ElloFailureCompletion?, error: NSError?) {
+        ElloProvider.postNetworkFailureNotification(data, error: error, statusCode: statusCode)
+        postNotification(AuthenticationNotifications.invalidToken, ())
+        ElloProvider.handleNetworkFailure(failure, data: data, error: error, statusCode: statusCode)
     }
 
     static private func parseLinked(elloAPI: ElloAPI, dict: [String:AnyObject], var responseConfig: ResponseConfig, success: ElloSuccessCompletion, failure:ElloFailureCompletion?) {

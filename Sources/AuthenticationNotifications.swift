@@ -11,5 +11,5 @@ import Foundation
 
 public struct AuthenticationNotifications {
     static let userLoggedOut = TypedNotification<()>(name: "UserElloLoggedOutNotification")
-    static let systemLoggedOut = TypedNotification<()>(name:"ElloSystemLoggedOutNotification")
+    static let invalidToken = TypedNotification<()>(name:"ElloInvalidTokenNotification")
 }

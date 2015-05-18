@@ -20,6 +20,7 @@ public enum ElloTab: Int {
 
 public class ElloTabBarController: UIViewController, HasAppController {
     public let tabBar = ElloTabBar()
+    private var systemLoggedOutObserver: NotificationObserver?
 
     private var visibleViewController = UIViewController()
     var parentAppController: AppViewController?
@@ -86,6 +87,26 @@ public extension ElloTabBarController {
         }
         tabBar.frame = view.bounds.fromBottom().withHeight(tabBar.frame.height).shiftUp(upAmount)
     }
+
+    func setTabBarHidden(hidden: Bool, animated: Bool) {
+        _tabBarHidden = hidden
+
+        animate(animated: animated) {
+            self.positionTabBar()
+        }
+    }
+}
+
+// listen for system logged out event
+public extension ElloTabBarController {
+    private func setupNotificationObservers() {
+        systemLoggedOutObserver = NotificationObserver(notification: AuthenticationNotifications.invalidToken, block: systemLoggedOut)
+    }
+
+    private func removeNotificationObservers() {
+        systemLoggedOutObserver?.removeObserver()
+    }
+
 }
 
 public extension ElloTabBarController {
@@ -101,12 +122,13 @@ public extension ElloTabBarController {
         }
     }
 
-    func setTabBarHidden(hidden: Bool, animated: Bool) {
-        _tabBarHidden = hidden
+    func systemLoggedOut() {
+        let alertController = AlertViewController(message: "You have been automatically logged out")
 
-        animate(animated: animated) {
-            self.positionTabBar()
-        }
+        let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
+        alertController.addAction(action)
+
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
 }
 
