@@ -311,7 +311,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                     if currentUser?.id == userParam {
                         indexPath = NSIndexPath(forItem: 1, inSection: 0)
                     }
-                default: _ = "no op"
+                default: break
                 }
             }
 
@@ -332,16 +332,17 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
             let (indexPaths, items) = elementsForJSONAble(jsonable, change: change)
             items.map { $0.jsonable = jsonable }
             collectionView.reloadItemsAtIndexPaths(indexPaths)
-        default: _ = "noop"
+        default: break
         }
     }
 
-    public func modifyUserItems(user: User, collectionView: UICollectionView) {
+    public func modifyUserRelationshipItems(user: User, collectionView: UICollectionView) {
         switch user.relationshipPriority {
         case .Friend, .Noise, .Inactive:
             var changedItems = elementsForJSONAble(user, change: .Update)
             for item in changedItems.1 {
                 if let oldUser = item.jsonable as? User {
+                    // relationship changes
                     oldUser.relationshipPriority = user.relationshipPriority
                     oldUser.followersCount = user.followersCount
                     oldUser.followingCount = user.followingCount
@@ -350,8 +351,18 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
             collectionView.reloadItemsAtIndexPaths(changedItems.0)
         case .Block, .Mute:
             collectionView.deleteItemsAtIndexPaths(removeItemsForJSONAble(user, change: .Delete))
-        default: _ = "noop"
+        default: break
         }
+    }
+
+    public func modifyUserSettingsItems(user: User, collectionView: UICollectionView) {
+        var changedItems = elementsForJSONAble(user, change: .Update)
+        for item in changedItems.1 {
+            if let oldUser = item.jsonable as? User {
+                item.jsonable = user
+            }
+        }
+        collectionView.reloadItemsAtIndexPaths(changedItems.0)
     }
 
     public func removeItemsForJSONAble(jsonable: JSONAble, change: ContentChange) -> [NSIndexPath] {
@@ -418,11 +429,6 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                         indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
                         items.append(item)
                     }
-                case .Friend, .Noise, .Inactive:
-                    if let itemUser = item.jsonable as? User where user.id == itemUser.id {
-                        indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
-                        items.append(item)
-                    }
                 case .Mute:
                     if streamKind.name == StreamKind.Notifications.name {
                         if let itemNotification = item.jsonable as? Notification where user.id == itemNotification.author?.id {
@@ -431,7 +437,10 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                         }
                     }
                 default:
-                    _ = "noop"
+                    if let itemUser = item.jsonable as? User where user.id == itemUser.id {
+                        indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
+                        items.append(item)
+                    }
                 }
             }
         }

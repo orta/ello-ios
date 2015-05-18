@@ -46,6 +46,7 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
     }
 
     public func setProfileData(currentUser: User) {
+        postNotification(SettingChangedNotification, currentUser)
         self.currentUser = currentUser
         if self.viewControllers.count == 0 {
             if let rootViewControllerName = rootViewControllerName {

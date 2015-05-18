@@ -523,7 +523,7 @@ class StreamDataSourceSpec: QuickSpec {
                 }
             }
 
-            describe("modifyUserItems(_:collectionView:)") {
+            describe("modifyUserRelationshipItems(_:collectionView:)") {
 
                 let stubCellItems: (streamKind: StreamKind) -> Void = { streamKind in
                     var user1: User = stub(["id": "user1"])
