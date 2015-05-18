@@ -271,7 +271,7 @@ extension StreamableViewController: InviteResponder {
             message: "We were unable to access your address book\n\(message)"
         )
 
-        let action = AlertAction(title: "OK", style: .Dark, handler: .None)
+        let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: .None)
         alertController.addAction(action)
 
         presentViewController(alertController, animated: true, completion: .None)
