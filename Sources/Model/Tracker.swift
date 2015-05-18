@@ -189,9 +189,19 @@ public extension Tracker {
     }
 }
 
+// MARK:  Preferences
 public extension Tracker {
-    func pushNotificationPreferenceChanged(enabled: Bool) { }
-    func contactAccessPreferenceChanged(enabled: Bool) { }
+    func pushNotificationPreferenceChanged(enabled: Bool) {
+        let accessLevel = enabled ? "enabled" : "denied"
+        agent.track("Push notification access \(accessLevel)")
+    }
 
+    func contactAccessPreferenceChanged(enabled: Bool) {
+        let accessLevel = enabled ? "enabled" : "denied"
+        agent.track("Address book access \(accessLevel)")
+    }
+}
+
+public extension Tracker {
     func encounteredNetworkError(error: NSError) { }
 }
