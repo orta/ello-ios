@@ -87,14 +87,15 @@ public class AppViewController: BaseElloViewController {
         let profileService = ProfileService()
         profileService.loadCurrentUser(ElloAPI.Profile(perPage: 1), success: { user in
             // <restore later>
-            // self.showMainScreen(user)
+            self.showMainScreen(user)
             // </restore later>
-            // <debugging code>
-            let vc = OnboardingViewController()
-            vc.parentAppController = self
-            vc.currentUser = user
-            self.swapViewController(vc)
-            // </debugging code>
+
+            // <onboarding code>
+            // let vc = OnboardingViewController()
+            // vc.parentAppController = self
+            // vc.currentUser = user
+            // self.swapViewController(vc)
+            // </onboarding code>
         }, failure: { error in
             self.failedToLoadCurrentUser()
         })
