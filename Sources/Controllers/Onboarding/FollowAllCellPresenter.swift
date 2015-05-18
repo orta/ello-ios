@@ -6,6 +6,11 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+public struct FollowAllCounts {
+    let userCount: Int
+    let followedCount: Int
+}
+
 public struct FollowAllCellPresenter {
 
     static func configure(
@@ -16,10 +21,10 @@ public struct FollowAllCellPresenter {
         currentUser: User?)
     {
         if let cell = cell as? FollowAllCell,
-            let (userCount, followedCount) = streamCellItem.data as? (Int, Int)
+            let counts = streamCellItem.data as? FollowAllCounts
         {
-            cell.userCount = userCount
-            cell.followedCount = followedCount
+            cell.userCount = counts.userCount
+            cell.followedCount = counts.followedCount
         }
     }
 
