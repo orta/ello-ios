@@ -202,6 +202,9 @@ public extension Tracker {
     }
 }
 
+// MARK: Errors
 public extension Tracker {
-    func encounteredNetworkError(error: NSError) { }
+    func encounteredNetworkError(error: NSError) {
+        agent.track("Encountered network error: \(error.description)")
+    }
 }
