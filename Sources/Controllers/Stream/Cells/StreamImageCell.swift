@@ -11,6 +11,7 @@ import Foundation
 import FLAnimatedImage
 import SDWebImage
 import SVGKit
+import Alamofire
 
 public class StreamImageCell: StreamRegionableCell {
 
@@ -26,6 +27,7 @@ public class StreamImageCell: StreamRegionableCell {
     @IBOutlet weak var imageRightConstraint: NSLayoutConstraint?
 
     weak var delegate: StreamImageCellDelegate?
+    var request: Request?
     var presentedImageUrl:NSURL?
     var serverProvidedAspectRatio:CGFloat?
     public var isLargeImage: Bool {
@@ -61,24 +63,34 @@ public class StreamImageCell: StreamRegionableCell {
     }
 
     private func loadGif(url:NSURL) {
-        var animatedImage: FLAnimatedImage?
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            let data = NSData(contentsOfURL: url)
-            animatedImage = FLAnimatedImage(animatedGIFData: data)
-            dispatch_async(dispatch_get_main_queue()) {
-                self.imageView.alpha = 1.0
-                if let animatedImage = animatedImage {
-                    self.aspectRatio = (animatedImage.size.width / animatedImage.size.height)
+        if let path = url.absoluteString {
+            if let data = GifCache.objectForKey(path) as? NSData {
+                self.displayAnimatedGif(data)
+            }
+            else {
+                self.request?.cancel()
+                self.request = Alamofire.request(.GET, path).response { (request, _, data, error) in
+                    if let data = data as? NSData where error == nil {
+                        GifCache.setObject(data, forKey: request.URLString)
+                        self.displayAnimatedGif(data)
+                    }
                 }
-                self.imageView.animatedImage = animatedImage
-                self.circle.stopPulse()
             }
         }
     }
 
+    private func displayAnimatedGif(data: NSData) {
+        var animatedImage = FLAnimatedImage(animatedGIFData: data)
+        dispatch_async(dispatch_get_main_queue()) {
+            self.imageView.alpha = 1.0
+            self.aspectRatio = (animatedImage.size.width / animatedImage.size.height)
+            self.imageView.animatedImage = animatedImage
+            self.circle.stopPulse()
+        }
+    }
+
     private func loadNonGif(url:NSURL) {
-        self.imageView.sd_setImageWithURL(url) {
-            (image, _, type, _) in
+        self.imageView.sd_setImageWithURL(url) { (image, _, type, _) in
             if let image = image {
                 self.aspectRatio = (image.size.width / image.size.height)
                 if self.serverProvidedAspectRatio == nil {
