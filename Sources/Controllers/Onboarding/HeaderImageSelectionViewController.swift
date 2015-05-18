@@ -8,12 +8,11 @@
 
 public class HeaderImageSelectionViewController: BaseElloViewController, OnboardingStep {
     var onboardingViewController: OnboardingViewController?
-    var onboardingHeader: OnboardingHeaderView!
 
     override public func viewDidLoad() {
         super.viewDidLoad()
 
-        onboardingHeader = OnboardingHeaderView(frame: CGRect(
+        let onboardingHeader = OnboardingHeaderView(frame: CGRect(
             x: 0,
             y: 0,
             width: view.frame.width,
@@ -48,7 +47,38 @@ public class HeaderImageSelectionViewController: BaseElloViewController, Onboard
             ).inset(all: 15))
         chooseHeaderButton.autoresizingMask = .FlexibleLeftMargin | .FlexibleRightMargin | .FlexibleBottomMargin
         chooseHeaderButton.setTitle(NSLocalizedString("Choose Your Header", comment: "Choose your header button"), forState: .Normal)
+        chooseHeaderButton.addTarget(self, action: Selector("chooseHeaderTapped"), forControlEvents: .TouchUpInside)
         view.addSubview(chooseHeaderButton)
+    }
+
+    @objc
+    func chooseHeaderTapped() {
+        let alert = UIImagePickerController.alertControllerForImagePicker(openImagePicker)
+        alert.map { self.presentViewController($0, animated: true, completion: nil) }
+    }
+
+    private func openImagePicker(imageController : UIImagePickerController) {
+        imageController.delegate = self
+        self.presentViewController(imageController, animated: true, completion: nil)
+    }
+
+    public func userSetCurrentImage(oriented: UIImage) {
+        onboardingViewController?.goToNextStep()
+    }
+
+}
+
+extension HeaderImageSelectionViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    public func imagePickerController(controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            let oriented = image.copyWithCorrectOrientation()
+            userSetCurrentImage(oriented)
+        }
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+
+    public func imagePickerControllerDidCancel(controller: UIImagePickerController) {
+        dismissViewControllerAnimated(true, completion: nil)
     }
 
 }
