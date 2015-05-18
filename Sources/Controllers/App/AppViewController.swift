@@ -157,6 +157,7 @@ extension AppViewController {
         }
 
         swapViewController(vc) {
+            vc.activateTabBar()
             if let alert = PushNotificationController.sharedController.requestPushAccessIfNeeded() {
                 vc.presentViewController(alert, animated: true, completion: .None)
             }
@@ -176,6 +177,10 @@ extension AppViewController {
         newViewController.willMoveToParentViewController(self)
 
         prepareToShowViewController(newViewController)
+
+        if let tabBarController = visibleViewController as? ElloTabBarController {
+            tabBarController.deactivateTabBar()
+        }
 
         UIView.animateWithDuration(0.2, animations: {
             self.visibleViewController?.view.alpha = 0
@@ -200,6 +205,10 @@ extension AppViewController {
     public func removeViewController(completion: ElloEmptyCompletion? = nil) {
         if let visibleViewController = visibleViewController {
             visibleViewController.willMoveToParentViewController(nil)
+
+            if let tabBarController = visibleViewController as? ElloTabBarController {
+                tabBarController.deactivateTabBar()
+            }
 
             UIView.animateWithDuration(0.2, animations: {
                 self.showButtons()

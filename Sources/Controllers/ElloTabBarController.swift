@@ -99,6 +99,14 @@ public extension ElloTabBarController {
 
 // listen for system logged out event
 public extension ElloTabBarController {
+    public func activateTabBar() {
+        setupNotificationObservers()
+    }
+
+    public func deactivateTabBar() {
+        removeNotificationObservers()
+    }
+
     private func setupNotificationObservers() {
         systemLoggedOutObserver = NotificationObserver(notification: AuthenticationNotifications.invalidToken, block: systemLoggedOut)
     }
