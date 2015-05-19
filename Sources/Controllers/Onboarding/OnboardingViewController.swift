@@ -105,7 +105,7 @@ public class OnboardingViewController: BaseElloViewController, HasAppController 
         importPromptController.currentUser = currentUser
         addOnboardingViewController(importPromptController)
 
-        let headerImageSelectionController = HeaderImageSelectionViewController()
+        let headerImageSelectionController = CoverImageSelectionViewController()
         headerImageSelectionController.onboardingViewController = self
         headerImageSelectionController.currentUser = currentUser
         addOnboardingViewController(headerImageSelectionController)

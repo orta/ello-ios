@@ -1,12 +1,12 @@
 //
-//  HeaderImageSelectionViewController.swift
+//  CoverImageSelectionViewController.swift
 //  Ello
 //
 //  Created by Colin Gray on 5/15/2015.
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-public class HeaderImageSelectionViewController: BaseElloViewController, OnboardingStep {
+public class CoverImageSelectionViewController: BaseElloViewController, OnboardingStep {
     weak var onboardingViewController: OnboardingViewController?
     var onboardingData: OnboardingData?
 
@@ -69,7 +69,7 @@ public class HeaderImageSelectionViewController: BaseElloViewController, Onboard
 
 }
 
-extension HeaderImageSelectionViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension CoverImageSelectionViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     public func imagePickerController(controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             let oriented = image.copyWithCorrectOrientation()
