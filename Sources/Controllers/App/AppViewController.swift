@@ -77,24 +77,18 @@ public class AppViewController: BaseElloViewController {
         }
     }
 
-    private func loadCurrentUser() {
+    public func loadCurrentUser(failure: ElloErrorCompletion? = nil) {
         let profileService = ProfileService()
-        profileService.loadCurrentUser(ElloAPI.Profile(perPage: 1), success: { user in
-            // <restore later>
-            self.showMainScreen(user)
-            // </restore later>
-
-            // <onboarding code>
-            // let vc = OnboardingViewController()
-            // vc.parentAppController = self
-            // vc.currentUser = user
-            // self.swapViewController(vc)
-            // </onboarding code>
-        }, failure: { error in
-            self.failedToLoadCurrentUser()
-        })
-
-        //TODO: Need to get failure back to AppViewController when loading the current user fails
+        profileService.loadCurrentUser(ElloAPI.Profile(perPage: 1),
+            success: self.showMainScreen,
+            failure: { (error, _) in
+                if let failure = failure {
+                    failure(error: error)
+                }
+                else {
+                    self.failedToLoadCurrentUser()
+                }
+            })
     }
 
     func failedToLoadCurrentUser() {

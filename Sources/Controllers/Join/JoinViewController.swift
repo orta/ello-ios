@@ -126,14 +126,7 @@ public class JoinViewController: BaseElloViewController, HasAppController {
     }
 
     private func showMainScreen(user: User) {
-        let vc = ElloTabBarController.instantiateFromStoryboard()
-        vc.setProfileData(user)
-        self.elloLogo.stopAnimatingLogo()
-        parentAppController?.swapViewController(vc) {
-            if let alert = PushNotificationController.sharedController.requestPushAccessIfNeeded() {
-                vc.presentViewController(alert, animated: true, completion: .None)
-            }
-        }
+        parentAppController?.showMainScreen(user)
     }
 
     private func showSignInScreen(email: String, _ password: String) {
