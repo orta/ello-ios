@@ -116,9 +116,11 @@ public struct Preloader {
     }
 
     private func preloadUrl(url: NSURL) {
-        manager.downloadImageWithURL(url,
-            options: SDWebImageOptions.LowPriority,
-            progress: { (_, _) in }, completed: { (_, _, _, _, _) in}
-        )
+        if !url.hasGifExtension {
+            manager.downloadImageWithURL(url,
+                options: SDWebImageOptions.LowPriority,
+                progress: { (_, _) in }, completed: { (_, _, _, _, _) in}
+            )
+        }
     }
 }

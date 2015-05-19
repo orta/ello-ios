@@ -35,7 +35,7 @@ public struct StreamEmbedCellPresenter {
                 }
 
                 if let photoURL = photoToLoad {
-                    cell.setImageURL(photoURL)
+                    cell.setImage(photoURL, isGif: false)
                 }
                 cell.hideBorder()
                 // Repost specifics

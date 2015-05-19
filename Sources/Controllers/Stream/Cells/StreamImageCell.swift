@@ -11,6 +11,7 @@ import Foundation
 import FLAnimatedImage
 import SDWebImage
 import SVGKit
+import Alamofire
 
 public class StreamImageCell: StreamRegionableCell {
 
@@ -26,6 +27,7 @@ public class StreamImageCell: StreamRegionableCell {
     @IBOutlet weak var imageRightConstraint: NSLayoutConstraint?
 
     weak var delegate: StreamImageCellDelegate?
+    var request: Request?
     var presentedImageUrl:NSURL?
     var serverProvidedAspectRatio:CGFloat?
     public var isLargeImage: Bool {
@@ -49,7 +51,7 @@ public class StreamImageCell: StreamRegionableCell {
         }
     }
 
-    func setImageURL(url:NSURL) {
+    public func setImage(url: NSURL, isGif: Bool) {
         self.imageView.image = nil
         self.imageView.alpha = 0
         circle.pulse()
@@ -57,13 +59,39 @@ public class StreamImageCell: StreamRegionableCell {
         self.errorLabel.alpha = 1.0
         self.imageView.backgroundColor = UIColor.whiteColor()
         self.errorLabel.alpha = 0
-        self.imageView.sd_setImageWithURL(url, completed: {
-            (image, _, type, _) in
+        isGif ? loadGif(url) : loadNonGif(url)
+    }
 
+    private func loadGif(url:NSURL) {
+        if let path = url.absoluteString {
+            if let data = GifCache.objectForKey(path) as? NSData {
+                self.displayAnimatedGif(data)
+            }
+            else {
+                self.request = Alamofire.request(.GET, path).response { (request, _, data, error) in
+                    if let data = data as? NSData where error == nil {
+                        GifCache.setObject(data, forKey: request.URLString)
+                        self.displayAnimatedGif(data)
+                    }
+                }
+            }
+        }
+    }
+
+    private func displayAnimatedGif(data: NSData) {
+        var animatedImage = FLAnimatedImage(animatedGIFData: data)
+        dispatch_async(dispatch_get_main_queue()) {
+            self.imageView.alpha = 1.0
+            self.aspectRatio = (animatedImage.size.width / animatedImage.size.height)
+            self.imageView.animatedImage = animatedImage
+            self.circle.stopPulse()
+        }
+    }
+
+    private func loadNonGif(url:NSURL) {
+        self.imageView.sd_setImageWithURL(url) { (image, _, type, _) in
             if let image = image {
-
                 self.aspectRatio = (image.size.width / image.size.height)
-
                 if self.serverProvidedAspectRatio == nil {
                     postNotification(StreamNotification.AnimateCellHeightNotification, self)
                 }
@@ -95,15 +123,15 @@ public class StreamImageCell: StreamRegionableCell {
                 }
 
             }
-        })
+        }
     }
 
     override public func prepareForReuse() {
         super.prepareForReuse()
-
-        self.imageView.image = nil
-        self.presentedImageUrl = nil
-        self.isLargeImage = false
+        request?.cancel()
+        imageView.image = nil
+        presentedImageUrl = nil
+        isLargeImage = false
     }
 
     @IBAction func imageTapped(sender: UIButton) {
