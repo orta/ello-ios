@@ -76,30 +76,35 @@ public class OnboardingViewController: BaseElloViewController, HasAppController 
         nextButton.addTarget(self, action: Selector("goToNextStep"), forControlEvents: .TouchUpInside)
         buttonContainer.addSubview(nextButton)
 
-        let communityController = CommunitySelectionViewController()
-        communityController.onboardingViewController = self
-        communityController.currentUser = currentUser
-        addOnboardingViewController(communityController)
+        // let communityController = CommunitySelectionViewController()
+        // communityController.onboardingViewController = self
+        // communityController.currentUser = currentUser
+        // addOnboardingViewController(communityController)
 
-        let awesomePeopleController = AwesomePeopleSelectionViewController()
-        awesomePeopleController.onboardingViewController = self
-        awesomePeopleController.currentUser = currentUser
-        addOnboardingViewController(awesomePeopleController)
+        // let awesomePeopleController = AwesomePeopleSelectionViewController()
+        // awesomePeopleController.onboardingViewController = self
+        // awesomePeopleController.currentUser = currentUser
+        // addOnboardingViewController(awesomePeopleController)
 
-        let foundersController = FoundersSelectionViewController()
-        foundersController.onboardingViewController = self
-        foundersController.currentUser = currentUser
-        addOnboardingViewController(foundersController)
+        // let foundersController = FoundersSelectionViewController()
+        // foundersController.onboardingViewController = self
+        // foundersController.currentUser = currentUser
+        // addOnboardingViewController(foundersController)
 
-        let importPromptController = ImportPromptViewController()
-        importPromptController.onboardingViewController = self
-        importPromptController.currentUser = currentUser
-        addOnboardingViewController(importPromptController)
+        // let importPromptController = ImportPromptViewController()
+        // importPromptController.onboardingViewController = self
+        // importPromptController.currentUser = currentUser
+        // addOnboardingViewController(importPromptController)
 
         let headerImageSelectionController = HeaderImageSelectionViewController()
         headerImageSelectionController.onboardingViewController = self
         headerImageSelectionController.currentUser = currentUser
         addOnboardingViewController(headerImageSelectionController)
+
+        let avatarImageSelectionController = AvatarImageSelectionViewController()
+        avatarImageSelectionController.onboardingViewController = self
+        avatarImageSelectionController.currentUser = currentUser
+        addOnboardingViewController(avatarImageSelectionController)
     }
 
 }
