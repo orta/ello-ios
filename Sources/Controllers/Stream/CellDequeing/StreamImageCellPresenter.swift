@@ -26,7 +26,7 @@ public struct StreamImageCellPresenter {
         streamCellItem: StreamCellItem)
     {
         // Repost specifics
-        if streamCellItem.data?.isRepost == true {
+        if streamCellItem.region?.isRepost == true {
             cell.leadingConstraint.constant = 30.0
             cell.showBorder()
         }
@@ -83,8 +83,7 @@ public struct StreamImageCellPresenter {
                     cell.setImage(imageURL, isGif: isGif)
                 }
                 else if let imageURL = imageRegion.url {
-                    let isGif = imageURL.pathExtension?.lowercaseString == "gif"
-                    cell.setImage(imageURL, isGif: isGif)
+                    cell.setImage(imageURL, isGif: imageURL.hasGifExtension)
                 }
 
                 cell.hideBorder()

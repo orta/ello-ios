@@ -68,7 +68,6 @@ public class StreamImageCell: StreamRegionableCell {
                 self.displayAnimatedGif(data)
             }
             else {
-                self.request?.cancel()
                 self.request = Alamofire.request(.GET, path).response { (request, _, data, error) in
                     if let data = data as? NSData where error == nil {
                         GifCache.setObject(data, forKey: request.URLString)
@@ -129,10 +128,10 @@ public class StreamImageCell: StreamRegionableCell {
 
     override public func prepareForReuse() {
         super.prepareForReuse()
-
-        self.imageView.image = nil
-        self.presentedImageUrl = nil
-        self.isLargeImage = false
+        request?.cancel()
+        imageView.image = nil
+        presentedImageUrl = nil
+        isLargeImage = false
     }
 
     @IBAction func imageTapped(sender: UIButton) {

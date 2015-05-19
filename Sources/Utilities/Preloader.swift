@@ -116,8 +116,7 @@ public struct Preloader {
     }
 
     private func preloadUrl(url: NSURL) {
-        let isGif = url.pathExtension?.lowercaseString == "gif"
-        if !isGif {
+        if !url.hasGifExtension {
             manager.downloadImageWithURL(url,
                 options: SDWebImageOptions.LowPriority,
                 progress: { (_, _) in }, completed: { (_, _, _, _, _) in}
