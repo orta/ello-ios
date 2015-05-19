@@ -30,7 +30,7 @@ extension UIImagePickerController {
         return controller
     }
 
-    class func alertControllerForImagePicker(callback: UIImagePickerController -> ()) -> AlertViewController? {
+    class func alertControllerForImagePicker(callback: UIImagePickerController -> Void) -> AlertViewController? {
         let alertController: AlertViewController
 
         if UIImagePickerController.isSourceTypeAvailable(.Camera) {

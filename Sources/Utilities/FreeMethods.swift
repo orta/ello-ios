@@ -10,12 +10,12 @@ public struct AnimationOptions {
     let duration: NSTimeInterval
 }
 
-public func animate(duration: NSTimeInterval = 0.2, animated: Bool = true, animations: ()->()) {
+public func animate(duration: NSTimeInterval = 0.2, animated: Bool = true, animations: () -> Void) {
     let options = AnimationOptions(duration: duration)
     animate(options, animated: animated, animations)
 }
 
-public func animate(options: AnimationOptions, animated: Bool = true, animations: ()->()) {
+public func animate(options: AnimationOptions, animated: Bool = true, animations: () -> Void) {
     let duration = options.duration
     if animated {
         UIView.animateWithDuration(duration, animations: animations)
@@ -27,10 +27,10 @@ public func animate(options: AnimationOptions, animated: Bool = true, animations
 
 
 
-public typealias BasicBlock = (()->())
-public typealias ThrottledBlock = ((BasicBlock)->())
-public typealias CancellableBlock = Bool -> ()
-public typealias TakesIndexBlock = ((Int)->())
+public typealias BasicBlock = (() -> Void)
+public typealias ThrottledBlock = ((BasicBlock) -> Void)
+public typealias CancellableBlock = Bool -> Void
+public typealias TakesIndexBlock = ((Int) -> Void)
 
 
 public class Proc {

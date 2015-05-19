@@ -20,7 +20,7 @@ public class ElloTextFieldView: UIView {
     @IBOutlet private var messageLabelHeight: NSLayoutConstraint!
     @IBOutlet private weak var errorLabelSeparationSpacing: NSLayoutConstraint!
 
-    public var textFieldDidChange: (String -> ())? {
+    public var textFieldDidChange: (String -> Void)? {
         didSet {
             textField.addTarget(self, action: Selector("valueChanged"), forControlEvents: .EditingChanged)
         }

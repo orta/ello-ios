@@ -22,9 +22,9 @@ public class ElloS3 {
     let contentType : String
     let credentials : AmazonCredentials
 
-    typealias SuccessHandler = ((response : NSData) -> ())
-    typealias FailureHandler = ((error : NSError) -> ())
-    typealias ProgressHandler = ((progress : Float) -> ())
+    typealias SuccessHandler = (response : NSData) -> Void
+    typealias FailureHandler = (error : NSError) -> Void
+    typealias ProgressHandler = (progress : Float) -> Void
 
     private var successHandler : SuccessHandler?
     private var failureHandler : FailureHandler?

@@ -14,9 +14,9 @@ public protocol InviteDelegate {
 
 public struct InviteController: InviteDelegate {
     public let person: LocalPerson
-    public let didUpdate: () -> ()
+    public let didUpdate: () -> Void
 
-    public init(person: LocalPerson, didUpdate: () -> ()) {
+    public init(person: LocalPerson, didUpdate: () -> Void) {
         self.person = person
         self.didUpdate = didUpdate
     }

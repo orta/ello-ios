@@ -22,19 +22,19 @@ public class ElloScrollLogic : NSObject, UIScrollViewDelegate {
         set { showingState = newValue }
     }
 
-    private var onShow: ((Bool)->())!
-    private var onHide: (()->())!
+    private var onShow: ((Bool) -> Void)!
+    private var onHide: (() -> Void)!
 
-    public init(onShow: (Bool)->(), onHide: ()->()) {
+    public init(onShow: (Bool) -> Void, onHide: () -> Void) {
         self.onShow = onShow
         self.onHide = onHide
     }
 
-    func onShow(handler: (Bool)->()) {
+    func onShow(handler: (Bool) -> Void) {
         self.onShow = handler
     }
 
-    func onHide(handler: ()->()) {
+    func onHide(handler: () -> Void) {
         self.onHide = handler
     }
 

@@ -143,7 +143,7 @@ class StreamServiceSpec: QuickSpec {
 
                         streamService.loadStream(ElloAPI.FriendStream, streamKind: nil, success: { (jsonables, responseConfig) in
                             loadedJsonables = jsonables
-                        }, failure: { (error, statusCode) -> () in
+                        }, failure: { (error, statusCode) in
                             loadedError = error
                             loadedStatusCode = statusCode
                         })

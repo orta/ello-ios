@@ -10,9 +10,10 @@ import Foundation
 import Moya
 import WebLinking
 
-public typealias ElloSuccessCompletion = (data: AnyObject, responseConfig: ResponseConfig) -> ()
-public typealias ElloFailureCompletion = (error: NSError, statusCode:Int?) -> ()
-public typealias ElloEmptyCompletion = () -> ()
+public typealias ElloSuccessCompletion = (data: AnyObject, responseConfig: ResponseConfig) -> Void
+public typealias ElloFailureCompletion = (error: NSError, statusCode:Int?) -> Void
+public typealias ElloErrorCompletion = (error: NSError) -> Void
+public typealias ElloEmptyCompletion = () -> Void
 
 public struct ElloProvider {
 

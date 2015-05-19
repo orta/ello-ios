@@ -24,7 +24,7 @@ public struct AddressBook: ContactList {
 }
 
 extension AddressBook {
-    static func getAddressBook(completion: Result<AddressBook, AddressBookError> -> ()) {
+    static func getAddressBook(completion: Result<AddressBook, AddressBookError> -> Void) {
         var error: Unmanaged<CFError>?
         let ab = ABAddressBookCreateWithOptions(nil, &error) as Unmanaged<ABAddressBook>?
 

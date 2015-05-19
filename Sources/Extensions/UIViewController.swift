@@ -10,7 +10,7 @@ import UIKit
 
 @objc protocol GestureNavigation {
     var backGestureEdges: UIRectEdge { get }
-    func backGestureAction() -> ()
+    func backGestureAction() -> Void
 }
 
 extension UIViewController: GestureNavigation {

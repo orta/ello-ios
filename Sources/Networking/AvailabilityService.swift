@@ -9,7 +9,7 @@
 import Moya
 import SwiftyJSON
 
-public typealias AvailabilitySuccessCompletion = (Availability) -> ()
+public typealias AvailabilitySuccessCompletion = (Availability) -> Void
 
 public struct AvailabilityService {
 

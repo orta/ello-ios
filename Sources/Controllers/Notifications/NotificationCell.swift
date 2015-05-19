@@ -55,7 +55,7 @@ public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
         }
     }
 
-    typealias WebContentReady = (webView : UIWebView)->()
+    typealias WebContentReady = (webView : UIWebView) -> Void
 
     var webLinkDelegate: WebLinkDelegate?
     var userDelegate: UserDelegate?

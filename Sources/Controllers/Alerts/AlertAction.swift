@@ -15,5 +15,5 @@ public enum ActionStyle {
 public struct AlertAction {
     public let title: String
     public let style: ActionStyle
-    public let handler: ((AlertAction) -> ())?
+    public let handler: ((AlertAction) -> Void)?
 }

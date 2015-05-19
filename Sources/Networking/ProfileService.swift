@@ -12,14 +12,14 @@ import UIKit
 import Moya
 import SwiftyJSON
 
-public typealias ProfileFollowingSuccessCompletion = (users: [User], responseConfig: ResponseConfig) -> ()
-public typealias AccountDeletionSuccessCompletion = () -> ()
-public typealias ProfileSuccessCompletion = (user: User) -> ()
+public typealias ProfileFollowingSuccessCompletion = (users: [User], responseConfig: ResponseConfig) -> Void
+public typealias AccountDeletionSuccessCompletion = () -> Void
+public typealias ProfileSuccessCompletion = (user: User) -> Void
 
 public struct ProfileService {
 
     public init(){}
-    
+
     public func loadCurrentUser(endpoint: ElloAPI, success: ProfileSuccessCompletion, failure: ElloFailureCompletion?) {
         ElloProvider.elloRequest(endpoint,
             method: .GET,

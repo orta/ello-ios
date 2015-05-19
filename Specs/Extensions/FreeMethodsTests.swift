@@ -12,7 +12,7 @@ import XCTest
 
 class FreeMethodsTests: XCTestCase {
 
-    func wait(timeout: NSTimeInterval, _ description: String = "waiting", tests: ()->()) {
+    func wait(timeout: NSTimeInterval, _ description: String = "waiting", tests: () -> Void) {
         let assertion = expectationWithDescription(description)
         let proc = Proc() {
             tests()

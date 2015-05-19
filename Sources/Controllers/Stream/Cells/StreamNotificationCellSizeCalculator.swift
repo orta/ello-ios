@@ -11,7 +11,7 @@ private let textViewForSizing = ElloTextView(frame: CGRectZero, textContainer: n
 
 public class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
 
-    public typealias StreamTextCellSizeCalculated = () -> ()
+    public typealias StreamTextCellSizeCalculated = () -> Void
 
     let webView:UIWebView
     var originalWidth:CGFloat

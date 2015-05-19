@@ -8,7 +8,7 @@
 
 import Foundation
 
-public typealias RelationshipChangeClosure = (relationship: RelationshipPriority) -> ()
+public typealias RelationshipChangeClosure = (relationship: RelationshipPriority) -> Void
 
 public enum RelationshipRequestStatus: String {
     case Success = "success"
@@ -16,7 +16,7 @@ public enum RelationshipRequestStatus: String {
 }
 
 public protocol RelationshipDelegate: NSObjectProtocol {
-    func relationshipTapped(userId: String, relationship: RelationshipPriority, complete: (status: RelationshipRequestStatus, relationship: Relationship?) -> ())
+    func relationshipTapped(userId: String, relationship: RelationshipPriority, complete: (status: RelationshipRequestStatus, relationship: Relationship?) -> Void)
     func launchBlockModal(userId: String, userAtName: String, relationship: RelationshipPriority, changeClosure: RelationshipChangeClosure)
 }
 
@@ -28,7 +28,7 @@ public class RelationshipController: NSObject, RelationshipDelegate {
         self.presentingController = presentingController
     }
 
-    public func relationshipTapped(userId: String, relationship: RelationshipPriority, complete: (status: RelationshipRequestStatus, relationship: Relationship?) -> ()) {
+    public func relationshipTapped(userId: String, relationship: RelationshipPriority, complete: (status: RelationshipRequestStatus, relationship: Relationship?) -> Void) {
         RelationshipService().updateRelationship(ElloAPI.Relationship(userId: userId,
             relationship: relationship.rawValue),
             success: {
@@ -58,5 +58,5 @@ public class RelationshipController: NSObject, RelationshipDelegate {
         vc.relationshipDelegate = self
         presentingController.presentViewController(vc, animated: true, completion: nil)
     }
-    
+
 }
