@@ -69,17 +69,11 @@ public class AppViewController: BaseElloViewController {
 
     private func checkIfLoggedIn() {
         let authToken = AuthToken()
-        if authToken.isValid {
+        if authToken.isPresent {
             self.loadCurrentUser()
         }
         else {
-            let authService = AuthService()
-            authService.reAuthenticate({
-                self.loadCurrentUser()
-            },
-            failure: { (_,_) in
-                self.showButtons()
-            })
+            self.showButtons()
         }
     }
 
