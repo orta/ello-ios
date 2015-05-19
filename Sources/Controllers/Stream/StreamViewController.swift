@@ -261,12 +261,7 @@ public class StreamViewController: BaseElloViewController {
                 streamKind: streamKind,
                 success: { (jsonables, responseConfig) in
                     if self.loadInitialPageLoadingToken != localToken { return }
-
-                    let index = self.refreshableIndex ?? 0
-                    self.allOlderPagesLoaded = false
-                    self.dataSource.removeCellItemsBelow(index)
-                    self.collectionView.reloadData()
-
+                    self.clearForInitialLoad()
                     self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind), withWidth: nil)
                     self.responseConfig = responseConfig
                     self.initialDataLoaded = true
@@ -281,6 +276,12 @@ public class StreamViewController: BaseElloViewController {
                 }
             )
         }
+    }
+
+    public func clearForInitialLoad() {
+        allOlderPagesLoaded = false
+        dataSource.removeCellItemsBelow(refreshableIndex ?? 0)
+        collectionView.reloadData()
     }
 
 // MARK: Private Functions
@@ -432,34 +433,6 @@ public class StreamViewController: BaseElloViewController {
         collectionView.dataSource = dataSource
     }
 
-    var pullToRefreshLoadLoadingToken: String = ""
-    private func pullToRefreshLoad() {
-        let localToken = NSUUID().UUIDString
-        pullToRefreshLoadLoadingToken = localToken
-
-        streamService.loadStream(streamKind.endpoint,
-            streamKind: streamKind,
-            success: { (jsonables, responseConfig) in
-                if self.pullToRefreshLoadLoadingToken != localToken { return }
-
-                let index = self.refreshableIndex ?? 0
-                self.allOlderPagesLoaded = false
-                self.dataSource.removeCellItemsBelow(index)
-                self.collectionView.reloadData()
-                self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind), withWidth: nil)
-                self.responseConfig = responseConfig
-                self.pullToRefreshView?.finishLoading()
-            }, failure: { (error, statusCode) in
-                if self.pullToRefreshLoadLoadingToken != localToken { return }
-
-                println("failed to load \(self.streamKind.name) stream (reason: \(error))")
-                self.pullToRefreshView?.finishLoading()
-            }, noContent: {
-                println("nothing new")
-                self.pullToRefreshView?.finishLoading()
-            }
-        )
-    }
 }
 
 // MARK: StreamViewController : WebLinkDelegate
