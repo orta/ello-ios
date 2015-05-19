@@ -138,19 +138,27 @@ extension AppViewController {
     public func showMainScreen(user: User) {
         Tracker.sharedTracker.identify(user)
 
-        var vc = ElloTabBarController.instantiateFromStoryboard()
-        vc.setProfileData(user)
-        if let payload = pushPayload {
-            vc.selectedTab = .Notifications
-            pushPayload = .None
-        }
+        // <onboarding code>
+        let vc = OnboardingViewController()
+        vc.parentAppController = self
+        vc.currentUser = user
+        self.swapViewController(vc)
+        // </onboarding code>
+        // <restore later>
+        // var vc = ElloTabBarController.instantiateFromStoryboard()
+        // vc.setProfileData(user)
+        // if let payload = pushPayload {
+        //     vc.selectedTab = .Notifications
+        //     pushPayload = .None
+        // }
 
-        swapViewController(vc) {
-            vc.activateTabBar()
-            if let alert = PushNotificationController.sharedController.requestPushAccessIfNeeded() {
-                vc.presentViewController(alert, animated: true, completion: .None)
-            }
-        }
+        // swapViewController(vc) {
+        //     vc.activateTabBar()
+        //     if let alert = PushNotificationController.sharedController.requestPushAccessIfNeeded() {
+        //         vc.presentViewController(alert, animated: true, completion: .None)
+        //     }
+        // }
+        // </restore later>
     }
 
 }
