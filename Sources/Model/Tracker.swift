@@ -48,7 +48,7 @@ public class Tracker {
 public extension Tracker {
     func identify(user: User) {
         shouldTrackUser = user.profile?.allowsAnalytics ?? true
-        agent.identify(user.analyticsId, traits: [ "name": user.name ])
+        agent.identify(user.analyticsId, traits: [ "created_at": user.profile?.createdAt.toNSString() ?? "no-creation-date" ])
     }
 
     func sessionStarted() {
