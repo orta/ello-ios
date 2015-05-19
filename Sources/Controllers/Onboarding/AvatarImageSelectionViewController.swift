@@ -8,30 +8,16 @@
 
 public class AvatarImageSelectionViewController: BaseElloViewController, OnboardingStep {
     var onboardingViewController: OnboardingViewController?
+    var chooseAvatarImageView: UIImageView?
 
     override public func viewDidLoad() {
         super.viewDidLoad()
-
-        let onboardingHeader = OnboardingHeaderView(frame: CGRect(
-            x: 0,
-            y: 0,
-            width: view.frame.width,
-            height: 0
-            ))
-        onboardingHeader.autoresizingMask = .FlexibleWidth
-        let header = NSLocalizedString("Customize your profile.", comment: "Header Image Selection text")
-        let message = NSLocalizedString("This is what other people will see when viewing your profile, make it look good!", comment: "Header Image Selection text")
-        onboardingHeader.header = header
-        onboardingHeader.message = message
-        onboardingHeader.autoresizingMask = .FlexibleWidth | .FlexibleBottomMargin
-        onboardingHeader.sizeToFit()
-        view.addSubview(onboardingHeader)
 
         let chooseHeaderImage = UIImage(named: "choose-header-image")!
         let aspect = view.frame.width / chooseHeaderImage.size.width
         let chooseHeaderImageView = UIImageView(frame: CGRect(
             x: 0,
-            y: onboardingHeader.frame.maxY + 23,
+            y: 0,
             width: view.frame.width,
             height: chooseHeaderImage.size.height * aspect
             ))
@@ -39,9 +25,24 @@ public class AvatarImageSelectionViewController: BaseElloViewController, Onboard
         chooseHeaderImageView.image = chooseHeaderImage
         view.addSubview(chooseHeaderImageView)
 
+        let chooseAvatarImage = UIImage(named: "choose-avatar-image")!
+        let chooseAvatarImageView = UIImageView(frame: CGRect(
+            x: 17.5,
+            y: chooseHeaderImageView.frame.maxY - 65,
+            width: chooseAvatarImage.size.width,
+            height: chooseAvatarImage.size.height
+            ))
+        chooseAvatarImageView.autoresizingMask = .FlexibleBottomMargin | .FlexibleRightMargin
+        chooseAvatarImageView.image = chooseAvatarImage
+        chooseAvatarImageView.clipsToBounds = true
+        chooseAvatarImageView.layer.cornerRadius = chooseAvatarImage.size.width / 2
+        chooseAvatarImageView.contentMode = .ScaleAspectFill
+        view.addSubview(chooseAvatarImageView)
+        self.chooseAvatarImageView = chooseAvatarImageView
+
         let chooseHeaderButton = ElloButton(frame: CGRect(
             x: 0,
-            y: chooseHeaderImageView.frame.maxY + 8,
+            y: chooseAvatarImageView.frame.maxY + 24,
             width: view.frame.width,
             height: 90
             ).inset(all: 15))
@@ -63,7 +64,8 @@ public class AvatarImageSelectionViewController: BaseElloViewController, Onboard
     }
 
     public func userSetCurrentImage(oriented: UIImage) {
-        onboardingViewController?.goToNextStep()
+        chooseAvatarImageView?.image = oriented
+        // onboardingViewController?.goToNextStep()
     }
 
 }
