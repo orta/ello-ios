@@ -158,6 +158,8 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         // same for when tapping on a username in a post this will replace '~666' with the correct id for paging to work
         streamViewController.streamKind = .UserStream(userParam: userParam)
         streamViewController.responseConfig = responseConfig
+        // clear out this view
+        streamViewController.clearForInitialLoad()
         if !isRootViewController() {
             self.title = user.atName ?? "Profile"
         }
@@ -171,11 +173,6 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
                 }
             }
         }
-        let index = streamViewController.refreshableIndex ?? 0
-        streamViewController.allOlderPagesLoaded = false
-        streamViewController.dataSource.removeCellItemsBelow(index)
-        streamViewController.collectionView.reloadData()
-
         var items: [StreamCellItem] = [StreamCellItem(jsonable: user, type: StreamCellType.ProfileHeader, data: nil, oneColumnCellHeight: 0.0, multiColumnCellHeight: 0.0, isFullWidth: true)]
         if let posts = user.posts {
             items += StreamCellItemParser().parse(posts, streamKind: streamViewController.streamKind)

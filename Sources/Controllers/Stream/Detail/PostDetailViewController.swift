@@ -13,7 +13,6 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
     var shouldReload = false
     var post: Post?
     var postParam: String!
-    var startOfComments: Int = 0
     var navigationBar: ElloNavigationBar!
 
     required public init(postParam: String) {
@@ -79,7 +78,10 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
             postParam,
             streamKind: .PostDetail(postParam: postParam),
             success: postLoaded,
-            failure: nil
+            failure: { (error, statusCode) in
+                println("failed to load user (reason: \(error))")
+                self.streamViewController.doneLoading()
+            }
         )
     }
 
@@ -101,6 +103,9 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         // same for when tapping on a post token in a post this will replace '~CRAZY-TOKEN' with the correct id for paging to work
         streamViewController.streamKind = .PostDetail(postParam: postParam)
         streamViewController.responseConfig = responseConfig
+        // clear out this view
+        streamViewController.clearForInitialLoad()
+        // set name
         title = post.author?.atName ?? "Post Detail"
         let parser = StreamCellItemParser()
         var items = parser.parse([post], streamKind: streamViewController.streamKind)
@@ -113,15 +118,13 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
             multiColumnCellHeight: StreamCreateCommentCell.Size.Height,
             isFullWidth: true)
         )
-        startOfComments = items.count
         if let comments = post.comments {
             items += parser.parse(comments, streamKind: streamViewController.streamKind)
         }
-        streamViewController.appendUnsizedCellItems(items, withWidth: view.frame.width)
-        streamViewController.doneLoading()
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
-        streamViewController.refreshableIndex = startOfComments
+        streamViewController.appendUnsizedCellItems(items, withWidth: view.frame.width)
         streamViewController.initialDataLoaded = true
+        streamViewController.doneLoading()
     }
 
     override public func postTapped(post: Post) {
