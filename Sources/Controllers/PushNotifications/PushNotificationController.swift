@@ -90,20 +90,19 @@ public extension PushNotificationController {
 
 private extension PushNotificationController {
     func alertViewController() -> AlertViewController {
-        let alert = AlertViewController(message: NSLocalizedString("Allow Push Notifications?", comment: "Turn on Push Notifications?"))
+        let alert = AlertViewController(message: NSLocalizedString("Ello would like to send you push notifications.\n\nWe will let you know when you have new notifications. You can adjust this in your settings.\n", comment: "Turn on Push Notifications?"))
         alert.dismissable = false
 
-        let disallowAction = AlertAction(title: NSLocalizedString("Disallow", comment: "Disallow"), style: .Dark) { _ in
-            self.needsPermission = false
-            self.permissionDenied = true
-        }
-        alert.addAction(disallowAction)
-
-        let allowAction = AlertAction(title: NSLocalizedString("Allow", comment: "Allow"), style: .Light) { _ in
+        let allowAction = AlertAction(title: NSLocalizedString("Yes Please", comment: "Allow"), style: .Dark) { _ in
             self.registerForRemoteNotifications()
         }
         alert.addAction(allowAction)
 
+        let disallowAction = AlertAction(title: NSLocalizedString("No Thanks", comment: "Disallow"), style: .Light) { _ in
+            self.needsPermission = false
+            self.permissionDenied = true
+        }
+        alert.addAction(disallowAction)
         return alert
     }
 }
