@@ -266,11 +266,12 @@ extension AppViewController {
 // MARK: URL Handling
 extension AppViewController {
     func handleURL(url: NSURL) {
+        let vc = self.visibleViewController as? ElloTabBarController
         switch url.host ?? "" {
+        case "stream":
+            vc?.selectedTab = .Stream
         case "notifications":
-            if let vc = self.visibleViewController as? ElloTabBarController {
-                vc.selectedTab = .Notifications
-            }
+            vc?.selectedTab = .Notifications
         default:
             break
         }
