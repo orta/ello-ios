@@ -26,7 +26,6 @@ public class AppViewController: BaseElloViewController {
 
     var visibleViewController: UIViewController?
     private var userLoggedOutObserver: NotificationObserver?
-    private var systemLoggedOutObserver: NotificationObserver?
     private var receivedPushNotificationObserver: NotificationObserver?
 
     private var pushPayload: PushPayload?
@@ -87,7 +86,16 @@ public class AppViewController: BaseElloViewController {
     private func loadCurrentUser() {
         let profileService = ProfileService()
         profileService.loadCurrentUser(ElloAPI.Profile(perPage: 1), success: { user in
+            // <restore later>
             self.showMainScreen(user)
+            // </restore later>
+
+            // <onboarding code>
+            // let vc = OnboardingViewController()
+            // vc.parentAppController = self
+            // vc.currentUser = user
+            // self.swapViewController(vc)
+            // </onboarding code>
         }, failure: { error in
             self.failedToLoadCurrentUser()
         })
@@ -111,13 +119,11 @@ public class AppViewController: BaseElloViewController {
 
     private func setupNotificationObservers() {
         userLoggedOutObserver = NotificationObserver(notification: AuthenticationNotifications.userLoggedOut, block: userLoggedOut)
-        systemLoggedOutObserver = NotificationObserver(notification: AuthenticationNotifications.systemLoggedOut, block: systemLoggedOut)
         receivedPushNotificationObserver = NotificationObserver(notification: PushNotificationNotifications.interactedWithPushNotification, block: receivedPushNotification)
     }
 
     private func removeNotificationObservers() {
         userLoggedOutObserver?.removeObserver()
-        systemLoggedOutObserver?.removeObserver()
         receivedPushNotificationObserver?.removeObserver()
     }
 
@@ -152,6 +158,7 @@ extension AppViewController {
         }
 
         swapViewController(vc) {
+            vc.activateTabBar()
             if let alert = PushNotificationController.sharedController.requestPushAccessIfNeeded() {
                 vc.presentViewController(alert, animated: true, completion: .None)
             }
@@ -171,6 +178,10 @@ extension AppViewController {
         newViewController.willMoveToParentViewController(self)
 
         prepareToShowViewController(newViewController)
+
+        if let tabBarController = visibleViewController as? ElloTabBarController {
+            tabBarController.deactivateTabBar()
+        }
 
         UIView.animateWithDuration(0.2, animations: {
             self.visibleViewController?.view.alpha = 0
@@ -195,6 +206,10 @@ extension AppViewController {
     public func removeViewController(completion: ElloEmptyCompletion? = nil) {
         if let visibleViewController = visibleViewController {
             visibleViewController.willMoveToParentViewController(nil)
+
+            if let tabBarController = visibleViewController as? ElloTabBarController {
+                tabBarController.deactivateTabBar()
+            }
 
             UIView.animateWithDuration(0.2, animations: {
                 self.showButtons()
@@ -227,23 +242,37 @@ extension AppViewController {
 
 
 // MARK: Logout events
-extension AppViewController {
+public extension AppViewController {
     func userLoggedOut() {
-        logOutCurrentUser()
-        removeViewController()
+        if isLoggedIn() {
+            logOutCurrentUser()
+            removeViewController()
+        }
     }
 
-    func systemLoggedOut() {
-        logOutCurrentUser()
-        removeViewController() {
-            let alertController = AlertViewController(
-                message: "You have been automatically logged out")
+    public func forceLogOut() {
+        if isLoggedIn() {
+            logOutCurrentUser()
 
-            let action = AlertAction(title: "OK", style: .Dark, handler: nil)
-            alertController.addAction(action)
+            removeViewController() {
+                let message = NSLocalizedString("You have been automatically logged out", comment: "Automatically logged out message")
+                let alertController = AlertViewController(message: message)
 
-            self.presentViewController(alertController, animated: true, completion: nil)
+                let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
+                alertController.addAction(action)
+
+                self.presentViewController(alertController, animated: true, completion: nil)
+            }
         }
+    }
+
+    func isLoggedIn() -> Bool {
+        if let visibleViewController = visibleViewController
+        where visibleViewController is ElloTabBarController
+        {
+            return true
+        }
+        return false
     }
 
     private func logOutCurrentUser() {

@@ -278,7 +278,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     }
 
     private func openImagePicker() {
-        let alertViewController = alertControllerForImagePicker { imagePicker in
+        let alertViewController = UIImagePickerController.alertControllerForImagePicker { imagePicker in
             imagePicker.delegate = self
             self.presentViewController(imagePicker, animated: true, completion: .None)
         }

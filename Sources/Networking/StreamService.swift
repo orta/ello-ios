@@ -23,9 +23,17 @@ public class StreamService: NSObject {
         failure: ElloFailureCompletion?,
         noContent: ElloEmptyCompletion? = nil)
     {
+        let httpMethod: Moya.Method
+        switch endpoint {
+        case .FindFriends:
+            httpMethod = .POST
+        default:
+            httpMethod = .GET
+        }
+
         ElloProvider.elloRequest(
             endpoint,
-            method: .GET,
+            method: httpMethod,
             success: { (data, responseConfig) in
                 if let jsonables = data as? [JSONAble] {
                     if let streamKind = streamKind {
@@ -43,7 +51,7 @@ public class StreamService: NSObject {
                 }
             },
             failure: { (error, statusCode) in
-                failure!(error: error, statusCode: statusCode)
+                failure?(error: error, statusCode: statusCode)
             }
         )
     }

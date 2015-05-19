@@ -12,7 +12,7 @@ public class ElloButton: UIButton {
 
     override public var enabled: Bool {
         didSet {
-            self.backgroundColor = enabled ? UIColor.blackColor() : UIColor.grey231F20()
+            self.backgroundColor = enabled ? .blackColor() : .grey231F20()
         }
     }
 
@@ -29,9 +29,9 @@ public class ElloButton: UIButton {
     func sharedSetup() {
         self.titleLabel?.font = UIFont.typewriterFont(14.0)
         self.titleLabel?.numberOfLines = 1
-        self.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        self.setTitleColor(UIColor.greyA(), forState: UIControlState.Disabled)
-        self.backgroundColor = enabled ? UIColor.blackColor() : UIColor.grey231F20()
+        self.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        self.setTitleColor(UIColor.greyA(), forState: .Disabled)
+        self.backgroundColor = enabled ? .blackColor() : .grey231F20()
     }
 
 }
@@ -48,16 +48,16 @@ public class LightElloButton: ElloButton {
 
     override public var enabled: Bool {
         didSet {
-            self.backgroundColor = UIColor.greyA()
+            self.backgroundColor = enabled ? .greyA() : .greyE5()
         }
     }
 
     override public func sharedSetup() {
         self.titleLabel?.font = UIFont.typewriterFont(14.0)
         self.titleLabel?.numberOfLines = 1
-        self.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
-        self.setTitleColor(UIColor.blackColor(), forState: UIControlState.Disabled)
-        self.backgroundColor = UIColor.greyA()
+        self.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        self.setTitleColor(UIColor.greyA(), forState: .Disabled)
+        self.backgroundColor = enabled ? .greyA() : .greyE5()
     }
 
 }
@@ -74,19 +74,86 @@ public class WhiteElloButton: LightElloButton {
 
     override public var enabled: Bool {
         didSet {
-            self.backgroundColor = enabled ? UIColor.whiteColor() : UIColor.greyA()
+            self.backgroundColor = enabled ? .whiteColor() : .greyA()
         }
     }
 
     override public var selected: Bool {
         didSet {
-            self.backgroundColor = selected ? UIColor.blackColor() : UIColor.whiteColor()
+            self.backgroundColor = selected ? .blackColor() : .whiteColor()
         }
     }
 
     override public func sharedSetup() {
         super.sharedSetup()
         self.titleLabel?.font = UIFont.typewriterFont(12.0)
-        self.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
+        self.setTitleColor(UIColor.whiteColor(), forState: .Selected)
     }
+}
+
+public class ClearElloButton: ElloButton {
+
+    required public init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+
+    required public init(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+
+    override public var enabled: Bool {
+        didSet {
+            self.backgroundColor = .greyA()
+        }
+    }
+
+    override public func sharedSetup() {
+        self.titleLabel?.font = UIFont.typewriterFont(14.0)
+        self.titleLabel?.numberOfLines = 1
+        self.setTitleColor(UIColor.greyA(), forState: .Normal)
+        self.setTitleColor(UIColor.greyA(), forState: .Disabled)
+        self.backgroundColor = .clearColor()
+    }
+
+}
+
+public class FollowAllElloButton: ElloButton {
+
+    required public init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+
+    required public init(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+
+    override public var enabled: Bool {
+        didSet {
+            self.backgroundColor = selected ? .whiteColor() : .blackColor()
+            updateOutline()
+        }
+    }
+
+    override public var selected: Bool {
+        didSet {
+            self.backgroundColor = selected ? .whiteColor() : .blackColor()
+            updateOutline()
+        }
+    }
+
+    override public func sharedSetup() {
+        self.titleLabel?.font = UIFont.typewriterFont(14.0)
+        self.titleLabel?.numberOfLines = 1
+        self.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        self.setTitleColor(UIColor.blackColor(), forState: .Selected)
+        self.setTitleColor(UIColor.greyA(), forState: .Disabled)
+        self.backgroundColor = selected ? .whiteColor() : .blackColor()
+        updateOutline()
+    }
+
+    private func updateOutline() {
+        self.layer.borderColor = (currentTitleColor ?? UIColor.whiteColor()).CGColor
+        self.layer.borderWidth = 1
+    }
+
 }

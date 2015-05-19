@@ -20,6 +20,10 @@ public class Keyboard {
         return sharedKeyboard
     }
 
+    public class func setup() {
+        let _ = shared()
+    }
+
     public var visible = false
     public var topEdge: CGFloat = 0.0
     public var endFrame = CGRectZero

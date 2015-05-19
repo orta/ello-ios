@@ -44,7 +44,11 @@ public protocol StreamScrollDelegate: NSObjectProtocol {
 }
 
 
-let RelayoutStreamViewControllerNotification = TypedNotification<UICollectionViewCell>(name: "RelayoutStreamViewControllerNotification")
+public struct StreamNotification {
+    static let AnimateCellHeightNotification = TypedNotification<StreamImageCell>(name: "AnimateCellHeightNotification")
+    static let UpdateCellHeightNotification = TypedNotification<UICollectionViewCell>(name: "UpdateCellHeightNotification")
+}
+
 
 public class StreamViewController: BaseElloViewController {
 
@@ -110,6 +114,10 @@ public class StreamViewController: BaseElloViewController {
         }
     }
 
+    var pullToRefreshEnabled: Bool = true {
+        didSet { pullToRefreshView?.hidden = !pullToRefreshEnabled }
+    }
+
     override public func awakeFromNib() {
         super.awakeFromNib()
         initialSetup()
@@ -143,8 +151,11 @@ public class StreamViewController: BaseElloViewController {
 
     override public func viewDidLoad() {
         super.viewDidLoad()
-        pullToRefreshView = SSPullToRefreshView(scrollView:collectionView, delegate: self)
+
+        pullToRefreshView = SSPullToRefreshView(scrollView: collectionView, delegate: self)
         pullToRefreshView?.contentView = ElloPullToRefreshView(frame:CGRectZero)
+        pullToRefreshView?.hidden = !pullToRefreshEnabled
+
         setupCollectionView()
     }
 
@@ -169,6 +180,10 @@ public class StreamViewController: BaseElloViewController {
     public func doneLoading() {
         ElloHUD.hideLoadingHudInView(view)
         pullToRefreshView?.finishLoading()
+    }
+
+    public func reloadCells() {
+        collectionView.reloadData()
     }
 
     public func removeRefreshables() {
@@ -271,10 +286,10 @@ public class StreamViewController: BaseElloViewController {
 // MARK: Private Functions
 
     private func addNotificationObservers() {
-        updatedStreamImageCellHeightNotification = NotificationObserver(notification: updateStreamImageCellHeightNotification) { streamTextCell in
-            self.imageCellHeightUpdated(streamTextCell)
+        updatedStreamImageCellHeightNotification = NotificationObserver(notification: StreamNotification.AnimateCellHeightNotification) { streamImageCell in
+            self.imageCellHeightUpdated(streamImageCell)
         }
-        relayoutNotification = NotificationObserver(notification: RelayoutStreamViewControllerNotification) { streamTextCell in
+        relayoutNotification = NotificationObserver(notification: StreamNotification.UpdateCellHeightNotification) { streamTextCell in
             self.collectionView.collectionViewLayout.invalidateLayout()
         }
 
@@ -637,11 +652,16 @@ extension StreamViewController : UIScrollViewDelegate {
 // MARK: StreamViewController: SSPullToRefreshViewDelegate
 extension StreamViewController: SSPullToRefreshViewDelegate {
     public func pullToRefreshViewShouldStartLoading(view: SSPullToRefreshView!) -> Bool {
-        return true
+        return pullToRefreshEnabled
     }
 
     public func pullToRefreshViewDidStartLoading(view: SSPullToRefreshView!) {
-        self.loadInitialPage()
+        if pullToRefreshEnabled {
+            self.loadInitialPage()
+        }
+        else {
+            pullToRefreshView?.finishLoading()
+        }
     }
 }
 

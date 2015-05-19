@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="AtlasGroteskBold.otf">
+            <string>AtlasGrotesk-Bold</string>
+        </mutableArray>
+        <mutableArray key="AtlasTypewriterRegular.otf">
+            <string>AtlasTypewriter-Regular</string>
+            <string>AtlasTypewriter-Regular</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ImportPromptViewController" customModule="Ello" customModuleProvider="target">
+            <connections>
+                <outlet property="view" destination="iN0-l3-epB" id="Lg8-6D-ART"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Find your friends!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tnC-by-6Q2">
+                    <rect key="frame" x="15" y="15" width="570" height="21"/>
+                    <fontDescription key="fontDescription" name="AtlasGrotesk-Bold" family="Atlas Grotesk" pointSize="20"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Import and invite friends from your address book." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CuF-vs-4yi" customClass="ElloSizeableLabel" customModule="Ello" customModuleProvider="target">
+                    <rect key="frame" x="15" y="56" width="570" height="14"/>
+                    <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="14"/>
+                    <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="azV-oJ-CKt" customClass="ElloButton" customModule="Ello" customModuleProvider="target">
+                    <rect key="frame" x="15" y="130" width="570" height="60"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="N7x-uL-7tN"/>
+                    </constraints>
+                    <state key="normal" title="Import Your Contacts">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="importContactsTapped" destination="-1" eventType="touchUpInside" id="uCN-ph-yJE"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ello does not sell user data and never contacts anyone without your permission." lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GO0-A7-rY0" customClass="ElloSizeableLabel" customModule="Ello" customModuleProvider="target">
+                    <rect key="frame" x="15" y="210" width="570" height="28"/>
+                    <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="14"/>
+                    <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="GO0-A7-rY0" firstAttribute="trailing" secondItem="tnC-by-6Q2" secondAttribute="trailing" id="8IM-Ec-oki"/>
+                <constraint firstItem="CuF-vs-4yi" firstAttribute="trailing" secondItem="azV-oJ-CKt" secondAttribute="trailing" id="JPy-IL-Hhh"/>
+                <constraint firstAttribute="trailing" secondItem="tnC-by-6Q2" secondAttribute="trailing" constant="15" id="LK3-hj-AZB"/>
+                <constraint firstItem="CuF-vs-4yi" firstAttribute="leading" secondItem="azV-oJ-CKt" secondAttribute="leading" id="Qg1-3D-3KM"/>
+                <constraint firstItem="CuF-vs-4yi" firstAttribute="top" secondItem="tnC-by-6Q2" secondAttribute="bottom" constant="20" id="Sj4-Io-yWI"/>
+                <constraint firstItem="tnC-by-6Q2" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="UdE-hT-zbT"/>
+                <constraint firstItem="GO0-A7-rY0" firstAttribute="top" secondItem="azV-oJ-CKt" secondAttribute="bottom" constant="20" id="UoB-UT-MPE"/>
+                <constraint firstItem="CuF-vs-4yi" firstAttribute="trailing" secondItem="tnC-by-6Q2" secondAttribute="trailing" id="ajM-li-KiH"/>
+                <constraint firstItem="GO0-A7-rY0" firstAttribute="leading" secondItem="tnC-by-6Q2" secondAttribute="leading" id="hvG-AP-n28"/>
+                <constraint firstItem="CuF-vs-4yi" firstAttribute="leading" secondItem="tnC-by-6Q2" secondAttribute="leading" id="iAK-9y-3k0"/>
+                <constraint firstItem="azV-oJ-CKt" firstAttribute="top" secondItem="CuF-vs-4yi" secondAttribute="bottom" constant="60" id="kpY-X4-S4H"/>
+                <constraint firstItem="tnC-by-6Q2" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="15" id="ven-JC-Vpr"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+        </view>
+    </objects>
+</document>

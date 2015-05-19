@@ -20,6 +20,18 @@ public class ElloLabel: UILabel {
     public init() {
         super.init(frame: CGRectZero)
     }
+
+    func attributes(color: UIColor, alignment: NSTextAlignment) -> [NSObject : AnyObject] {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 10
+        paragraphStyle.alignment = alignment
+
+        return [
+            NSFontAttributeName : UIFont.typewriterFont(12.0),
+            NSForegroundColorAttributeName : color,
+            NSParagraphStyleAttributeName : paragraphStyle
+        ]
+    }
 }
 
 // MARK: UIView Overrides
@@ -46,20 +58,7 @@ public extension ElloLabel {
             options: .UsesLineFragmentOrigin | .UsesFontLeading,
             context: nil).size.height).map(ceil) ?? 0
     }
-}
 
-private extension ElloLabel {
-    func attributes(color: UIColor, alignment: NSTextAlignment) -> [NSObject : AnyObject] {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 10
-        paragraphStyle.alignment = alignment
-
-        return [
-            NSFontAttributeName : UIFont.typewriterFont(12.0),
-            NSForegroundColorAttributeName : color,
-            NSParagraphStyleAttributeName : paragraphStyle
-        ]
-    }
 }
 
 public class ElloToggleLabel: ElloLabel {
@@ -71,5 +70,19 @@ public class ElloToggleLabel: ElloLabel {
 public class ElloErrorLabel: ElloLabel {
     public override func setLabelText(title: String, color: UIColor = UIColor.redColor(), alignment: NSTextAlignment = .Left) {
         super.setLabelText(title, color: color, alignment: alignment)
+    }
+}
+
+public class ElloSizeableLabel: ElloLabel {
+    override public func attributes(color: UIColor, alignment: NSTextAlignment) -> [NSObject : AnyObject] {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 8
+        paragraphStyle.alignment = alignment
+
+        return [
+            NSFontAttributeName : font,
+            NSForegroundColorAttributeName : color,
+            NSParagraphStyleAttributeName : paragraphStyle
+        ]
     }
 }

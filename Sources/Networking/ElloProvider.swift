@@ -63,23 +63,20 @@ public struct ElloProvider {
     public static var endpointsClosure = { (target: ElloAPI, method: Moya.Method, parameters: [String: AnyObject]) -> Endpoint<ElloAPI> in
         let sampleResponse = EndpointSampleResponse.Closure({ return EndpointSampleResponse.SuccessWithResponse(200, target.sampleData, target.sampleResponse) })
 
+        let encoding: Moya.ParameterEncoding
         switch target {
-        case .Auth, .ReAuth:
-            return Endpoint<ElloAPI>(URL: url(target), sampleResponse: sampleResponse, method: method, parameters: parameters)
+        case .CreatePost, .CreateComment, .ProfileUpdate, .RePost, .FindFriends:
+            encoding = Moya.ParameterEncoding.JSON
         default:
-            break
+            encoding = Moya.ParameterEncoding.URL
         }
 
-        var endpoint: Endpoint<ElloAPI>
-        switch target {
-        case .CreatePost, .CreateComment, .ProfileUpdate, .RePost:
-            // the important thing here is `parameterEncoding: .JSON`
-            endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponse: sampleResponse, method: method, parameters: parameters, parameterEncoding: Moya.ParameterEncoding.JSON)
-        default:
-            endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponse: sampleResponse, method: method, parameters: parameters)
+        var endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponse: sampleResponse, method: method, parameters: parameters, parameterEncoding: encoding)
+        if target.requiresToken {
+            endpoint = endpoint.endpointByAddingHTTPHeaderFields(["Authorization": AuthToken().tokenWithBearer ?? "", "Accept-Language": ""])
         }
 
-        return endpoint.endpointByAddingHTTPHeaderFields(["Authorization": AuthToken().tokenWithBearer ?? "", "Accept-Language": ""])
+        return endpoint
     }
 
     public static func DefaultProvider() -> MoyaProvider<ElloAPI> {
@@ -120,10 +117,10 @@ extension ElloProvider {
 
     // MARK: - Public
 
-    public static func elloRequest(token: ElloAPI, method: Moya.Method, success: ElloSuccessCompletion, failure: ElloFailureCompletion?) {
-        ElloProvider.sharedProvider.request(token, method: method, parameters: token.defaultParameters, completion: {
+    public static func elloRequest(target: ElloAPI, method: Moya.Method, success: ElloSuccessCompletion, failure: ElloFailureCompletion?) {
+        ElloProvider.sharedProvider.request(target, method: method, parameters: target.defaultParameters, completion: {
             (data, statusCode, response, error) in
-            ElloProvider.handleRequest(token, method: method, data: data, response: response as? NSHTTPURLResponse, statusCode: statusCode, success: success, failure: failure, isRetry: false, error: error)
+            ElloProvider.handleRequest(target, method: method, data: data, response: response as? NSHTTPURLResponse, statusCode: statusCode, success: success, failure: failure, isRetry: false, error: error)
         })
     }
 
@@ -162,29 +159,28 @@ extension ElloProvider {
 
     // MARK: - Private
 
-    static private func handleRequest(token: ElloAPI, method: Moya.Method, data:NSData?, response: NSHTTPURLResponse?, var statusCode:Int?, success: ElloSuccessCompletion, failure: ElloFailureCompletion?, isRetry: Bool, error:NSError?) {
+    static private func handleRequest(target: ElloAPI, method: Moya.Method, data: NSData?, response: NSHTTPURLResponse?, var statusCode: Int?, success: ElloSuccessCompletion, failure: ElloFailureCompletion?, isRetry: Bool, error: NSError?) {
         if data != nil && statusCode != nil {
             switch statusCode! {
             case 200...299:
-                ElloProvider.handleNetworkSuccess(data!, elloAPI: token, statusCode:statusCode, response: response, success: success, failure: failure)
+                ElloProvider.handleNetworkSuccess(data!, elloAPI: target, statusCode:statusCode, response: response, success: success, failure: failure)
             case 300...399:
-                ElloProvider.handleNetworkSuccess(data!, elloAPI: token, statusCode:statusCode, response: response, success: success, failure: failure)
+                ElloProvider.handleNetworkSuccess(data!, elloAPI: target, statusCode:statusCode, response: response, success: success, failure: failure)
             case 401:
                 if !isRetry {
                     let authService = AuthService()
                     authService.reAuthenticate({
                         // now retry the previous request that generated the original 401
-                        ElloProvider.sharedProvider.request(token, method: method, parameters: token.defaultParameters, completion: { (data, statusCode, response, error) in
-                            ElloProvider.handleRequest(token, method: method, data: data, response: response as? NSHTTPURLResponse, statusCode: statusCode, success: success, failure: failure, isRetry: true, error: error)
+                        ElloProvider.sharedProvider.request(target, method: method, parameters: target.defaultParameters, completion: { (data, statusCode, response, error) in
+                            ElloProvider.handleRequest(target, method: method, data: data, response: response as? NSHTTPURLResponse, statusCode: statusCode, success: success, failure: failure, isRetry: true, error: error)
                         })
-                        },
-                        failure: { _ in
-                            ElloProvider.postNetworkFailureNotification(data, error: error, statusCode: statusCode)
-                            postNotification(AuthenticationNotifications.systemLoggedOut, ())
+                    },
+                    failure: { _ in
+                        self.handleInvalidToken(data, statusCode: statusCode, failure: failure, error: error)
                     })
-                } else {
-                    ElloProvider.postNetworkFailureNotification(data, error: error, statusCode: statusCode)
-                    postNotification(AuthenticationNotifications.systemLoggedOut, ())
+                }
+                else {
+                    handleInvalidToken(data, statusCode: statusCode, failure: failure, error: error)
                 }
             case 410:
                 ElloProvider.postNetworkFailureNotification(data, error: error, statusCode: statusCode)
@@ -203,6 +199,11 @@ extension ElloProvider {
         else {
             ElloProvider.handleNetworkFailure(failure, data: data, error: error, statusCode: statusCode)
         }
+    }
+
+    static private func handleInvalidToken(data: NSData?, statusCode: Int?, failure: ElloFailureCompletion?, error: NSError?) {
+        ElloProvider.postNetworkFailureNotification(data, error: error, statusCode: statusCode)
+        postNotification(AuthenticationNotifications.invalidToken, ())
     }
 
     static private func parseLinked(elloAPI: ElloAPI, dict: [String:AnyObject], var responseConfig: ResponseConfig, success: ElloSuccessCompletion, failure:ElloFailureCompletion?) {

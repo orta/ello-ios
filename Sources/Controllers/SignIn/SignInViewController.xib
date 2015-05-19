@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7703" systemVersion="14E11f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6711"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="AtlasTypewriterRegular.otf">
@@ -73,7 +73,7 @@
                                             <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yyP-gN-IdD" userLabel="enterButton" customClass="ElloButton" customModule="Ello" customModuleProvider="target">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yyP-gN-IdD" userLabel="enterButton" customClass="ElloButton" customModule="Ello" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="116" width="374" height="49"/>
                                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
@@ -125,12 +125,12 @@
                                         <constraint firstItem="vG2-tp-zKA" firstAttribute="leading" secondItem="sjY-tc-zbR" secondAttribute="leading" id="YWg-U5-z0J" userLabel="passwordTextField - Left"/>
                                         <constraint firstItem="ciS-FV-Pbi" firstAttribute="leading" secondItem="sjY-tc-zbR" secondAttribute="leading" id="aaI-wX-3qT" userLabel="emailTextField - Left"/>
                                         <constraint firstItem="iwD-nO-HjU" firstAttribute="leading" secondItem="sjY-tc-zbR" secondAttribute="leading" id="eVj-XU-ycb" userLabel="errorLabel - Left"/>
-                                        <constraint firstAttribute="height" constant="165" id="gPw-PP-6Zm" userLabel="centered - height"/>
                                         <constraint firstItem="vG2-tp-zKA" firstAttribute="centerY" secondItem="7Pc-ZP-WqS" secondAttribute="centerY" id="iBY-8T-KYi" userLabel="onePasswordButton - vert align"/>
                                         <constraint firstAttribute="trailing" secondItem="ciS-FV-Pbi" secondAttribute="trailing" id="iaa-L4-Cm8" userLabel="emailTextField - Right"/>
                                         <constraint firstItem="yyP-gN-IdD" firstAttribute="leading" secondItem="sjY-tc-zbR" secondAttribute="leading" id="iuo-Ed-fgQ" userLabel="enterButton - Left"/>
                                         <constraint firstItem="vG2-tp-zKA" firstAttribute="trailing" secondItem="7Pc-ZP-WqS" secondAttribute="trailing" id="rT4-H1-b1V" userLabel="onePasswordButton - Right"/>
                                         <constraint firstItem="ciS-FV-Pbi" firstAttribute="top" secondItem="sjY-tc-zbR" secondAttribute="top" id="rly-gp-NcN" userLabel="emailTextField - Top"/>
+                                        <constraint firstAttribute="bottom" secondItem="yyP-gN-IdD" secondAttribute="bottom" id="wEP-Eu-Vos"/>
                                         <constraint firstItem="iwD-nO-HjU" firstAttribute="top" secondItem="vG2-tp-zKA" secondAttribute="bottom" constant="9" id="zBU-bo-NXQ" userLabel="passwordTextField | errorLabel vert spacing"/>
                                     </constraints>
                                 </view>

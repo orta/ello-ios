@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import Foundation
-
 public struct NotificationCellPresenter {
 
     static func configure(
@@ -24,7 +22,7 @@ public struct NotificationCellPresenter {
                 if let actualHeight = webView.windowContentSize()?.height {
                     if actualHeight != streamCellItem.calculatedWebHeight {
                         StreamNotificationCellSizeCalculator.assignTotalHeight(actualHeight, cellItem: streamCellItem, cellWidth: cell.frame.width)
-                        postNotification(RelayoutStreamViewControllerNotification, cell)
+                        postNotification(StreamNotification.UpdateCellHeightNotification, cell)
                     }
                 }
             }
