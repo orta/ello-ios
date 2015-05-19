@@ -8,6 +8,7 @@
 
 public class OnboardingUserListViewController: StreamableViewController, OnboardingStep, FollowAllButtonResponder {
     weak var onboardingViewController: OnboardingViewController?
+    var onboardingData: OnboardingData?
 
     var headerItem: StreamCellItem?
     var followAllItem: StreamCellItem?

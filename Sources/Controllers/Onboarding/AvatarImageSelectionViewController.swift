@@ -7,7 +7,8 @@
 //
 
 public class AvatarImageSelectionViewController: BaseElloViewController, OnboardingStep {
-    var onboardingViewController: OnboardingViewController?
+    weak var onboardingViewController: OnboardingViewController?
+    var onboardingData: OnboardingData?
     var chooseAvatarImageView: UIImageView?
 
     override public func viewDidLoad() {

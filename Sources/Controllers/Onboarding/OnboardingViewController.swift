@@ -8,6 +8,14 @@
 
 protocol OnboardingStep {
     var onboardingViewController: OnboardingViewController? { get set }
+    var onboardingData: OnboardingData? { get set }
+}
+
+
+public struct OnboardingData {
+    var communityFollows: [User] = []
+    var coverImage: UIImage? = nil
+    var avatarImage: UIImage? = nil
 }
 
 
@@ -46,6 +54,7 @@ public class OnboardingViewController: BaseElloViewController, HasAppController 
 
     override public func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .whiteColor()
 
         buttonContainer.frame = view.bounds.fromBottom().growUp(94)
         buttonContainer.autoresizingMask = .FlexibleWidth | .FlexibleTopMargin
@@ -76,25 +85,25 @@ public class OnboardingViewController: BaseElloViewController, HasAppController 
         nextButton.addTarget(self, action: Selector("goToNextStep"), forControlEvents: .TouchUpInside)
         buttonContainer.addSubview(nextButton)
 
-        // let communityController = CommunitySelectionViewController()
-        // communityController.onboardingViewController = self
-        // communityController.currentUser = currentUser
-        // addOnboardingViewController(communityController)
+        let communityController = CommunitySelectionViewController()
+        communityController.onboardingViewController = self
+        communityController.currentUser = currentUser
+        addOnboardingViewController(communityController)
 
-        // let awesomePeopleController = AwesomePeopleSelectionViewController()
-        // awesomePeopleController.onboardingViewController = self
-        // awesomePeopleController.currentUser = currentUser
-        // addOnboardingViewController(awesomePeopleController)
+        let awesomePeopleController = AwesomePeopleSelectionViewController()
+        awesomePeopleController.onboardingViewController = self
+        awesomePeopleController.currentUser = currentUser
+        addOnboardingViewController(awesomePeopleController)
 
-        // let foundersController = FoundersSelectionViewController()
-        // foundersController.onboardingViewController = self
-        // foundersController.currentUser = currentUser
-        // addOnboardingViewController(foundersController)
+        let foundersController = FoundersSelectionViewController()
+        foundersController.onboardingViewController = self
+        foundersController.currentUser = currentUser
+        addOnboardingViewController(foundersController)
 
-        // let importPromptController = ImportPromptViewController()
-        // importPromptController.onboardingViewController = self
-        // importPromptController.currentUser = currentUser
-        // addOnboardingViewController(importPromptController)
+        let importPromptController = ImportPromptViewController()
+        importPromptController.onboardingViewController = self
+        importPromptController.currentUser = currentUser
+        addOnboardingViewController(importPromptController)
 
         let headerImageSelectionController = HeaderImageSelectionViewController()
         headerImageSelectionController.onboardingViewController = self
@@ -116,6 +125,11 @@ extension OnboardingViewController {
     private func showFirstViewController(viewController: UIViewController) {
         Tracker.sharedTracker.screenAppeared(viewController.title ?? viewController.readableClassName())
 
+        let data = OnboardingData()
+        if var onboardingStep = viewController as? OnboardingStep {
+            onboardingStep.onboardingData = data
+        }
+
         addChildViewController(viewController)
         controllerContainer.addSubview(viewController.view)
         viewController.view.frame = controllerContainer.bounds
@@ -136,7 +150,7 @@ extension OnboardingViewController {
         }
     }
 
-    public func goToNextStep() {
+    public func goToNextStep(data: OnboardingData?) {
         self.visibleViewControllerIndex += 1
 
         // <debugging start over at first step>
@@ -147,18 +161,22 @@ extension OnboardingViewController {
 
         if let nextViewController = onboardingViewControllers.safeValue(visibleViewControllerIndex)
         {
-            goToController(nextViewController)
+            goToController(nextViewController, data: data)
         }
         else {
             // DONE!
         }
     }
 
-    public func goToController(viewController: UIViewController) {
+    public func goToController(viewController: UIViewController, data: OnboardingData?) {
         if let visibleViewController = visibleViewController {
             transitionFromViewController(visibleViewController, toViewController: viewController)
         }
-    }
+
+        if var onboardingStep = viewController as? OnboardingStep {
+            onboardingStep.onboardingData = data
+        }
+}
 
     private func transitionFromViewController(visibleViewController: UIViewController, toViewController nextViewController: UIViewController) {
         if isTransitioning {

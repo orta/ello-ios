@@ -7,7 +7,8 @@
 //
 
 public class HeaderImageSelectionViewController: BaseElloViewController, OnboardingStep {
-    var onboardingViewController: OnboardingViewController?
+    weak var onboardingViewController: OnboardingViewController?
+    var onboardingData: OnboardingData?
 
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -63,7 +64,7 @@ public class HeaderImageSelectionViewController: BaseElloViewController, Onboard
     }
 
     public func userSetCurrentImage(oriented: UIImage) {
-        onboardingViewController?.goToNextStep()
+        onboardingViewController?.goToNextStep(onboardingData)
     }
 
 }
