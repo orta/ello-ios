@@ -20,6 +20,7 @@ class AttachmentSpec: QuickSpec {
 
             beforeEach {
                 filePath = NSFileManager.ElloDocumentsDir().stringByAppendingPathComponent("ImageAttachmentSpec")
+                ElloURI.httpProtocol = "https"
             }
 
             afterEach {
@@ -42,7 +43,7 @@ class AttachmentSpec: QuickSpec {
 
                 it("decodes successfully") {
                     let imageAttachment: Attachment = stub([
-                        "url" : NSURL(string: "http://www.example12.com")!,
+                        "url" : NSURL(string: "https://www.example12.com")!,
                         "height" : 456,
                         "width" : 110,
                         "type" : "png",
@@ -54,7 +55,7 @@ class AttachmentSpec: QuickSpec {
 
                     expect(unArchivedAttachment).toNot(beNil())
                     expect(unArchivedAttachment.version) == 1
-                    expect(unArchivedAttachment.url.absoluteString) == "http://www.example12.com"
+                    expect(unArchivedAttachment.url.absoluteString) == "https://www.example12.com"
                     expect(unArchivedAttachment.height) == 456
                     expect(unArchivedAttachment.width) == 110
                     expect(unArchivedAttachment.size) == 78787

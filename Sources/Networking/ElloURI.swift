@@ -15,7 +15,17 @@ public enum ElloURI {
     case External
 
     // get the proper domain
-    static let httpProtocol: String = "https://"
+    private static var _httpProtocol: String?
+    public static var httpProtocol: String {
+        get {
+            return ElloURI._httpProtocol ?? ElloKeys().httpProtocol()
+        }
+        set {
+            if AppSetup.sharedState.isTesting {
+                ElloURI._httpProtocol = newValue
+            }
+        }
+    }
     private static var _domain: String?
     public static var domain: String {
         get {
@@ -27,7 +37,7 @@ public enum ElloURI {
             }
         }
     }
-    public static var baseURL: String { return "\(ElloURI.httpProtocol)\(ElloURI.domain)" }
+    public static var baseURL: String { return "\(ElloURI.httpProtocol)://\(ElloURI.domain)" }
 
     // this is taken directly from app/models/user.rb
     static let usernameRegex = "[\\w\\-]+"
