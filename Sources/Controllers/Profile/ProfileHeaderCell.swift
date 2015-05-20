@@ -73,7 +73,7 @@ public class ProfileHeaderCell: UICollectionViewCell {
         inviteButton.addTarget(self, action: Selector("inviteTapped:"), forControlEvents: UIControlEvents.TouchUpInside)
 
         lovesButton.setTitle("", forState: UIControlState.Normal)
-        lovesButton.setSVGImages("heartlist")
+        lovesButton.setSVGImages("heartslist")
         lovesButton.addTarget(self, action: Selector("lovesTapped:"), forControlEvents: UIControlEvents.TouchUpInside)
     }
 
