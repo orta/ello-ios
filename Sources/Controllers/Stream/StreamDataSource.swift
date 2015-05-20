@@ -255,11 +255,11 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                 (cell as! StreamFooterCell).delegate = postbarDelegate
             case .ProfileHeader:
                 (cell as! ProfileHeaderCell).currentUser = currentUser
-                (cell as! ProfileHeaderCell).relationshipView.relationshipDelegate = relationshipDelegate
+                (cell as! ProfileHeaderCell).relationshipControl.relationshipDelegate = relationshipDelegate
                 (cell as! ProfileHeaderCell).userListDelegate = userListDelegate
                 (cell as! ProfileHeaderCell).webLinkDelegate = webLinkDelegate
             case .UserListItem:
-                (cell as! UserListItemCell).relationshipView.relationshipDelegate = relationshipDelegate
+                (cell as! UserListItemCell).relationshipControl.relationshipDelegate = relationshipDelegate
                 (cell as! UserListItemCell).userDelegate = userDelegate
                 (cell as! UserListItemCell).currentUser = currentUser
             case .Toggle:

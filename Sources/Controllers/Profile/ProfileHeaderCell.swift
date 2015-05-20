@@ -20,7 +20,7 @@ public class ProfileHeaderCell: UICollectionViewCell {
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var countsTextView: ElloTextView!
-    @IBOutlet weak var relationshipView: RelationshipView!
+    @IBOutlet weak var relationshipControl: RelationshipControl!
     @IBOutlet weak var viewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var bioWebView: UIWebView!
     @IBOutlet weak var profileButtonsView: UIView!

@@ -20,20 +20,19 @@ public struct UserListItemCellPresenter {
         if let cell = cell as? UserListItemCell,
             let user = streamCellItem.jsonable as? User
         {
-            cell.relationshipView.hidden = false
+            cell.relationshipControl.hidden = false
 
             if let currentUser = cell.currentUser {
-                cell.relationshipView.hidden = user.id == currentUser.id
+                cell.relationshipControl.hidden = user.id == currentUser.id
             }
 
             if let avatarURL = user.avatarURL {
                 cell.setAvatarURL(avatarURL)
             }
 
-            cell.relationshipView.buildSmallButtons()
-            cell.relationshipView.userId = user.id
-            cell.relationshipView.userAtName = user.atName
-            cell.relationshipView.relationship = user.relationshipPriority
+            cell.relationshipControl.userId = user.id
+            cell.relationshipControl.userAtName = user.atName
+            cell.relationshipControl.relationship = user.relationshipPriority
             cell.usernameLabel.text = user.atName
         }
     }
