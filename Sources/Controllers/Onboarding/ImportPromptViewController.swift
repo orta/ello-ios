@@ -20,7 +20,9 @@ public class ImportPromptViewController: BaseElloViewController, OnboardingStep 
 
     override public func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "Onboarding Import Friends Prompt"
     }
+
 }
 
 

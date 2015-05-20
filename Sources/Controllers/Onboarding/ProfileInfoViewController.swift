@@ -37,6 +37,8 @@ public class ProfileInfoViewController: BaseElloViewController, OnboardingStep {
 
     override public func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "Onboarding Profile Info"
+
 
         let chooseCoverImage = UIImage(named: "choose-header-image")!
         let aspect = view.frame.width / chooseCoverImage.size.width

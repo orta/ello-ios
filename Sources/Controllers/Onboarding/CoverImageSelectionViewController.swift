@@ -20,6 +20,7 @@ public class CoverImageSelectionViewController: BaseElloViewController, Onboardi
 
     override public func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "Onboarding Cover Image Selection"
 
         let onboardingHeader = OnboardingHeaderView(frame: CGRect(
             x: 0,

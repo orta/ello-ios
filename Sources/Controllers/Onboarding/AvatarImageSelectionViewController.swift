@@ -24,6 +24,7 @@ public class AvatarImageSelectionViewController: BaseElloViewController, Onboard
 
     override public func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "Onboarding Avatar Image Selection"
 
         let chooseCoverImage = UIImage(named: "choose-header-image")!
         let aspect = view.frame.width / chooseCoverImage.size.width

@@ -8,6 +8,11 @@
 
 public class FoundersSelectionViewController: OnboardingUserListViewController {
 
+    override public func viewDidLoad() {
+        super.viewDidLoad()
+        self.title = "Onboarding Founders Selection"
+    }
+
     override func setupStreamController() {
         super.setupStreamController()
 
