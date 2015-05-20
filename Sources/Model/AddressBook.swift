@@ -55,8 +55,8 @@ extension AddressBook {
 
 private func getAllPeopleWithEmailAddresses(addressBook: ABAddressBook) -> [LocalPerson] {
     return records(addressBook)?.map { person in
-        let name = ABRecordCopyCompositeName(person)?.takeUnretainedValue() as String? ?? "NO NAME"
         let emails = getEmails(person)
+        let name = ABRecordCopyCompositeName(person)?.takeUnretainedValue() as String? ?? emails.first ?? "NO NAME"
         let id = ABRecordGetRecordID(person)
         return LocalPerson(name: name, emails: emails, id: id)
     }.filter { $0.emails.count > 0 } ?? []
