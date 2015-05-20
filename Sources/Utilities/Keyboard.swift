@@ -25,7 +25,7 @@ public class Keyboard {
     }
 
     public var visible = false
-    public var topEdge: CGFloat = 0.0
+    public var bottomInset: CGFloat = 0.0
     public var endFrame = CGRectZero
     public var curve = UIViewAnimationCurve.Linear
     public var options = UIViewAnimationOptions.CurveLinear
@@ -45,7 +45,7 @@ public class Keyboard {
     }
 
     public func keyboardBottomInset(#inView: UIView) -> CGFloat {
-        let kbdHeight = Keyboard.shared().topEdge
+        let kbdHeight = Keyboard.shared().bottomInset
         let window : UIView = inView.window ?? inView
         let bottom = window.convertPoint(CGPoint(x: 0, y: window.bounds.size.height - kbdHeight), toView: inView.superview).y
         let inset = inView.frame.size.height - bottom
@@ -62,7 +62,7 @@ public class Keyboard {
         visible = true
         setFromNotification(notification)
         endFrame = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-        topEdge = endFrame.size.height
+        bottomInset = endFrame.size.height
 
         postNotification(Notifications.KeyboardWillShow, self)
     }
@@ -77,7 +77,7 @@ public class Keyboard {
         visible = false
         setFromNotification(notification)
         endFrame = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-        topEdge = 0
+        bottomInset = 0
 
         postNotification(Notifications.KeyboardWillHide, self)
     }

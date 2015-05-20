@@ -41,7 +41,7 @@ class KeyboardSpec: QuickSpec {
             }
 
             it("sets the 'height' property") {
-                expect(keyboard.topEdge).toNot(equal(0))
+                expect(keyboard.bottomInset).toNot(equal(0))
             }
 
             it("sets the 'endFrame' property") {
@@ -50,7 +50,7 @@ class KeyboardSpec: QuickSpec {
 
             it("can calculate the location of the top of the keyboard") {
                 let height = textView.frame.size.height
-                let calculatedKeyboardTop = height - keyboard.topEdge
+                let calculatedKeyboardTop = height - keyboard.bottomInset
                 expect(calculatedKeyboardTop) > 0
                 expect(calculatedKeyboardTop) < height
                 expect(keyboard.keyboardBottomInset(inView: textView)).to(equal(calculatedKeyboardTop))
