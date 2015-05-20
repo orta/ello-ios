@@ -12,20 +12,21 @@ import Nimble
 
 class KeyboardSpec: QuickSpec {
     override func spec() {
-        var keyboard : Keyboard = Keyboard.shared()
-        var textView : UITextView!
-        var insetScrollView : UIScrollView!
+        var window: UIWindow!
+        var keyboard: Keyboard = Keyboard.shared()
+        var textView: UITextView!
+        var insetScrollView: UIScrollView!
 
         xdescribe("Responds to keyboard being shown") {
             beforeEach() {
                 let controller = UIViewController()
-                let window = self.showController(controller)
+                window = self.showController(controller)
 
                 textView = UITextView(frame: window.bounds)
                 textView.becomeFirstResponder()
                 controller.view.addSubview(textView)
 
-                insetScrollView = UIScrollView(frame: window.bounds.inset(bottom: 20))
+                insetScrollView = UIScrollView(frame: window.bounds.growUp(20))
                 insetScrollView.becomeFirstResponder()
                 controller.view.addSubview(insetScrollView)
             }
@@ -64,8 +65,8 @@ class KeyboardSpec: QuickSpec {
 
             it("can calculate insets of the inset scrollview") {
                 // 20
-                    let height = controller.view.frame.size.height
-                let bottomSpace = controller.view.frame.height - insetScrollView.frame.maxY
+                let height = window.frame.size.height
+                let bottomSpace = window.frame.height - insetScrollView.frame.maxY
                 let calculatedKeyboardTop = keyboard.bottomInset - bottomSpace
                 expect(calculatedKeyboardTop) > 0
                 expect(calculatedKeyboardTop) < height
