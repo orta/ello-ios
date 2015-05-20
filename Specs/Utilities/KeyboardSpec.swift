@@ -14,14 +14,20 @@ class KeyboardSpec: QuickSpec {
     override func spec() {
         var keyboard : Keyboard = Keyboard.shared()
         var textView : UITextView!
+        var insetScrollView : UIScrollView!
 
         xdescribe("Responds to keyboard being shown") {
             beforeEach() {
                 let controller = UIViewController()
                 let window = self.showController(controller)
+
                 textView = UITextView(frame: window.bounds)
                 textView.becomeFirstResponder()
                 controller.view.addSubview(textView)
+
+                insetScrollView = UIScrollView(frame: window.bounds.inset(bottom: 20))
+                insetScrollView.becomeFirstResponder()
+                controller.view.addSubview(insetScrollView)
             }
 
             it("sets the 'visible' property") {
@@ -48,12 +54,22 @@ class KeyboardSpec: QuickSpec {
                 expect(keyboard.endFrame).toNot(equal(CGRectZero))
             }
 
-            it("can calculate the location of the top of the keyboard") {
+            it("can calculate insets of the scrollview") {
                 let height = textView.frame.size.height
                 let calculatedKeyboardTop = height - keyboard.bottomInset
                 expect(calculatedKeyboardTop) > 0
                 expect(calculatedKeyboardTop) < height
                 expect(keyboard.keyboardBottomInset(inView: textView)).to(equal(calculatedKeyboardTop))
+            }
+
+            it("can calculate insets of the inset scrollview") {
+                // 20
+                    let height = controller.view.frame.size.height
+                let bottomSpace = controller.view.frame.height - insetScrollView.frame.maxY
+                let calculatedKeyboardTop = keyboard.bottomInset - bottomSpace
+                expect(calculatedKeyboardTop) > 0
+                expect(calculatedKeyboardTop) < height
+                expect(keyboard.keyboardBottomInset(inView: insetScrollView)).to(equal(calculatedKeyboardTop))
             }
         }
     }
