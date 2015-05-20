@@ -16,6 +16,7 @@ public class FindFriendsCell: UITableViewCell {
 
     override public func layoutSubviews() {
         super.layoutSubviews()
+        selectionStyle = .None
 
         profileImageView?.layer.cornerRadius = 15.0
 

@@ -59,8 +59,10 @@ public class AddFriendsContainerViewController: StreamableViewController {
 
     override public func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        findFriendsFromContacts()
-        updateInsets()
+        if isMovingToParentViewController() {
+            findFriendsFromContacts()
+            updateInsets()
+        }
     }
 
     override func showNavBars(scrollToBottom : Bool) {

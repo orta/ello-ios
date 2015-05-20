@@ -51,6 +51,7 @@ public class InviteFriendsViewController: BaseElloViewController {
 
         tableView.dataSource = dataSource
         tableView.delegate = self
+        tableView.allowsSelection = true
     }
 
     private func setupFilterField() {
@@ -83,6 +84,12 @@ public class InviteFriendsViewController: BaseElloViewController {
 extension InviteFriendsViewController : UITableViewDelegate {
     public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 60.0
+    }
+
+    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if let addFriendsCellItem = dataSource.itemAtIndexPath(indexPath), let user = addFriendsCellItem.user {
+            userTappedDelegate?.userTapped(user)
+        }
     }
 }
 
