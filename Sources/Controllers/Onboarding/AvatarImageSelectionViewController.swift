@@ -8,49 +8,76 @@
 
 public class AvatarImageSelectionViewController: BaseElloViewController, OnboardingStep {
     weak var onboardingViewController: OnboardingViewController?
-    var onboardingData: OnboardingData?
+    var onboardingData: OnboardingData? {
+        didSet {
+            if let image = onboardingData?.coverImage {
+                chooseCoverImageView?.image = image
+            }
+            if let image = onboardingData?.avatarImage {
+                chooseAvatarImageView?.image = image
+            }
+        }
+    }
+    var chooseCoverImageView: UIImageView?
     var chooseAvatarImageView: UIImageView?
+    var chooseImageButton: UIButton?
 
     override public func viewDidLoad() {
         super.viewDidLoad()
 
-        let chooseHeaderImage = UIImage(named: "choose-header-image")!
-        let aspect = view.frame.width / chooseHeaderImage.size.width
-        let chooseHeaderImageView = UIImageView(frame: CGRect(
+        let chooseCoverImage = UIImage(named: "choose-header-image")!
+        let aspect = view.frame.width / chooseCoverImage.size.width
+        let chooseCoverImageView = UIImageView(frame: CGRect(
             x: 0,
             y: 0,
             width: view.frame.width,
-            height: chooseHeaderImage.size.height * aspect
+            height: chooseCoverImage.size.height * aspect
             ))
-        chooseHeaderImageView.autoresizingMask = .FlexibleLeftMargin | .FlexibleRightMargin | .FlexibleBottomMargin
-        chooseHeaderImageView.image = chooseHeaderImage
-        view.addSubview(chooseHeaderImageView)
+        chooseCoverImageView.contentMode = .ScaleAspectFill
+        chooseCoverImageView.clipsToBounds = true
+        chooseCoverImageView.autoresizingMask = .FlexibleLeftMargin | .FlexibleRightMargin | .FlexibleBottomMargin
+        chooseCoverImageView.image = onboardingData?.coverImage ?? chooseCoverImage
+        view.addSubview(chooseCoverImageView)
+        self.chooseCoverImageView = chooseCoverImageView
 
         let chooseAvatarImage = UIImage(named: "choose-avatar-image")!
+        let scale = view.frame.width / CGFloat(375)
         let chooseAvatarImageView = UIImageView(frame: CGRect(
-            x: 17.5,
-            y: chooseHeaderImageView.frame.maxY - 65,
-            width: chooseAvatarImage.size.width,
-            height: chooseAvatarImage.size.height
+            x: 17.5 * scale,
+            y: chooseCoverImageView.frame.maxY - 65,
+            width: chooseAvatarImage.size.width * scale,
+            height: chooseAvatarImage.size.height * scale
             ))
         chooseAvatarImageView.autoresizingMask = .FlexibleBottomMargin | .FlexibleRightMargin
-        chooseAvatarImageView.image = chooseAvatarImage
+        chooseAvatarImageView.image = onboardingData?.avatarImage ?? chooseAvatarImage
         chooseAvatarImageView.clipsToBounds = true
-        chooseAvatarImageView.layer.cornerRadius = chooseAvatarImage.size.width / 2
+        chooseAvatarImageView.layer.cornerRadius = chooseAvatarImageView.frame.size.width / 2
         chooseAvatarImageView.contentMode = .ScaleAspectFill
         view.addSubview(chooseAvatarImageView)
         self.chooseAvatarImageView = chooseAvatarImageView
 
-        let chooseHeaderButton = ElloButton(frame: CGRect(
+        let chooseImageButton = ElloButton(frame: CGRect(
             x: 0,
             y: chooseAvatarImageView.frame.maxY + 24,
             width: view.frame.width,
             height: 90
             ).inset(all: 15))
-        chooseHeaderButton.autoresizingMask = .FlexibleLeftMargin | .FlexibleRightMargin | .FlexibleBottomMargin
-        chooseHeaderButton.setTitle(NSLocalizedString("Choose Your Header", comment: "Choose your header button"), forState: .Normal)
-        chooseHeaderButton.addTarget(self, action: Selector("chooseHeaderTapped"), forControlEvents: .TouchUpInside)
-        view.addSubview(chooseHeaderButton)
+        chooseImageButton.autoresizingMask = .FlexibleLeftMargin | .FlexibleRightMargin | .FlexibleBottomMargin
+        chooseImageButton.setTitle(NSLocalizedString("Pick an Avatar", comment: "Pick an avatar button"), forState: .Normal)
+        chooseImageButton.addTarget(self, action: Selector("chooseHeaderTapped"), forControlEvents: .TouchUpInside)
+        view.addSubview(chooseImageButton)
+        self.chooseImageButton = chooseImageButton
+    }
+
+    override public func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        if let button = chooseImageButton {
+            let bottomMargin = CGFloat(10)
+            if button.frame.maxY + bottomMargin > view.frame.height {
+                button.frame.origin.y = view.frame.height - (button.frame.height + bottomMargin)
+            }
+        }
     }
 
     @objc
@@ -64,9 +91,10 @@ public class AvatarImageSelectionViewController: BaseElloViewController, Onboard
         self.presentViewController(imageController, animated: true, completion: nil)
     }
 
-    public func userSetCurrentImage(oriented: UIImage) {
-        chooseAvatarImageView?.image = oriented
-        // onboardingViewController?.goToNextStep()
+    public func userSetCurrentImage(orientedImage: UIImage) {
+        onboardingData?.avatarImage = orientedImage
+        chooseAvatarImageView?.image = orientedImage
+        chooseImageButton?.setTitle(NSLocalizedString("Pick Another", comment: "Pick another button"), forState: .Normal)
     }
 
 }
