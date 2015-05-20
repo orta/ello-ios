@@ -37,15 +37,14 @@ public class NotificationsScreen : UIView {
 
 
     weak var delegate : NotificationsScreenDelegate?
-    let filterBar : NotificationsFilterBar
-    var filterBarVisible : Bool
-    let streamContainer : UIView
+    let filterBar = NotificationsFilterBar()
+    var filterBarVisible = false
+    let streamContainer = UIView()
+
+    let temporaryNavBar = ElloNavigationBar()
+    var navBarVisible = true
 
     override public init(frame: CGRect) {
-        filterBar = NotificationsFilterBar()
-        filterBar.backgroundColor = .whiteColor()
-        filterBarVisible = true
-
         let filterAllButton = NotificationsScreen.filterButton("All")
         let filterMiscButton = NotificationsScreen.filterButton(SVGKImage(named: "bubble_normal.svg").UIImage!)
         let filterMentionButton = NotificationsScreen.filterButton("@")
@@ -54,7 +53,6 @@ public class NotificationsScreen : UIView {
         let filterRepostButton = NotificationsScreen.filterButton(SVGKImage(named: "repost_normal.svg").UIImage!)
         let filterInviteButton = NotificationsScreen.filterButton(SVGKImage(named: "relationships_normal.svg").UIImage!)
 
-        streamContainer = UIView()
         super.init(frame: frame)
         backgroundColor = UIColor.whiteColor()
         self.addSubview(streamContainer)
@@ -71,13 +69,12 @@ public class NotificationsScreen : UIView {
             button.addTarget(self, action: Selector(action), forControlEvents: .TouchUpInside)
         }
         filterBar.selectButton(filterAllButton)
-        self.addSubview(filterBar)
+        // self.addSubview(filterBar)
+
+        self.addSubview(temporaryNavBar)
     }
 
     required public init(coder: NSCoder) {
-        filterBar = NotificationsFilterBar()
-        filterBarVisible = true
-        streamContainer = UIView()
         super.init(coder: coder)
     }
 
@@ -98,15 +95,11 @@ public class NotificationsScreen : UIView {
         }
     }
 
-    func hideFilterBar() {
-        filterBarVisible = false
-        self.setNeedsLayout()
-    }
-
     override public func layoutSubviews() {
         super.layoutSubviews()
 
-        positionFilterBar()
+        // positionFilterBar()
+        positionNavigationBar()
         streamContainer.frame = self.bounds.fromTop()
             .withHeight(self.frame.height)
     }
@@ -140,4 +133,27 @@ public class NotificationsScreen : UIView {
         filterBar.selectButton(sender)
         delegate?.activatedFilter(NotificationFilterType.Relationship.rawValue)
     }
+}
+
+
+// MARK: Temporary Navigation Bar
+extension NotificationsScreen {
+
+    func animateNavigationBar(#visible: Bool) {
+        navBarVisible = visible
+        animate {
+            self.positionNavigationBar()
+        }
+    }
+
+    private func positionNavigationBar() {
+        temporaryNavBar.frame = self.bounds.withHeight(ElloNavigationBar.Size.height)
+        if navBarVisible {
+            temporaryNavBar.frame.origin.y = 0
+        }
+        else {
+            temporaryNavBar.frame.origin.y = -ElloNavigationBar.Size.height
+        }
+    }
+
 }

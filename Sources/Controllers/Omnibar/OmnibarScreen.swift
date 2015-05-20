@@ -168,6 +168,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
         setupToolbarButtons()
         setupTextViews()
         setupViewHierarchy()
+        setupSwipeGesture()
     }
 
     required public init(coder aDecoder: NSCoder) {
@@ -256,28 +257,14 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
         sayElloOverlay.addSubview(sayElloLabel)
         textContainer.addSubview(textView)
     }
+    private func setupSwipeGesture() {
+        let gesture = UISwipeGestureRecognizer()
+        gesture.direction = .Down
+        gesture.addTarget(self, action: Selector("swipedDown"))
+        self.addGestureRecognizer(gesture)
+    }
 
 // MARK: Public interface
-
-    // Removes the undo state, and updates the text view, including the overlay
-    // and first responder state.  This method is meant to be used during
-    // initialization.
-    private func userSetCurrentText(value : NSAttributedString?) {
-        if currentText != value {
-            if let text = value {
-                textView.attributedText = text
-                sayElloOverlay.hidden = true
-            }
-            else {
-                textView.text = ""
-                sayElloOverlay.hidden = false
-            }
-        }
-
-        currentText = value
-        textView.resignFirstResponder()
-        resetUndoState()
-    }
 
     public func reportSuccess(title : String) {
         let alertController = AlertViewController(message: title)
@@ -343,6 +330,13 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
                 self.layoutIfNeeded()
             },
             completion: nil)
+    }
+
+    private func resignKeyboard() {
+        if text == nil || text! == "" {
+            sayElloOverlay.hidden = false
+        }
+        textView.resignFirstResponder()
     }
 
 // MARK: Layout and update views
@@ -457,6 +451,10 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
 
     public func removeButtonAction() {
         userSetCurrentImage(nil)
+    }
+
+    public func swipedDown() {
+        resignKeyboard()
     }
 
 // MARK: Undo logic
@@ -584,6 +582,26 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
     }
 
 // MARK: Text View editing
+
+    // Removes the undo state, and updates the text view, including the overlay
+    // and first responder state.  This method is meant to be used during
+    // initialization.
+    private func userSetCurrentText(value : NSAttributedString?) {
+        if currentText != value {
+            if let text = value {
+                textView.attributedText = text
+                sayElloOverlay.hidden = true
+            }
+            else {
+                textView.text = ""
+                sayElloOverlay.hidden = false
+            }
+        }
+
+        currentText = value
+        textView.resignFirstResponder()
+        resetUndoState()
+    }
 
     public func textViewShouldBeginEditing(textView : UITextView) -> Bool {
         return true

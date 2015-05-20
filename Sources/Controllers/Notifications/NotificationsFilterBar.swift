@@ -19,6 +19,16 @@ public class NotificationsFilterBar : UIView {
     }
     var buttonPadding : CGFloat = 1
 
+    override public init(frame: CGRect) {
+        super.init(frame: frame)
+        backgroundColor = .whiteColor()
+    }
+
+    required public init(coder: NSCoder) {
+        super.init(coder: coder)
+        backgroundColor = .whiteColor()
+    }
+
     override public func layoutSubviews() {
         super.layoutSubviews()
 
