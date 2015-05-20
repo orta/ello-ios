@@ -72,7 +72,12 @@ public struct StreamCellItemParser {
                 }
             }
             cellItems += footerStreamCellItems(post)
-            cellItems.map { $0.state = post.collapsed ? .Collapsed : .Expanded }
+        }
+        // set initial state on the items, but don't toggle the footer's state, it is used by comment open/closed
+        for item in cellItems {
+            if let post = item.jsonable as? Post where item.type != .Footer {
+                item.state = post.collapsed ? .Collapsed : .Expanded
+            }
         }
         return cellItems
     }

@@ -31,7 +31,7 @@ public struct StreamFooterCellPresenter {
         if let cell = cell as? StreamFooterCell {
             cell.close()
             if let post = streamCellItem.jsonable as? Post {
-                cell.comments = post.commentsCount?.localizedStringFromNumber()
+                cell.comments = post.commentsCount?.numberToHuman()
 
                 var ownPost = false
                 if let currentUser = currentUser {
