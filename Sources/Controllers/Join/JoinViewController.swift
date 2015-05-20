@@ -111,7 +111,7 @@ public class JoinViewController: BaseElloViewController, HasAppController {
                 authService.authenticate(email: email,
                     password: password,
                     success: {
-                        self.showMainScreen(user)
+                        self.showOnboardingScreen(user)
                     },
                     failure: { _, _ in
                         self.view.userInteractionEnabled = true
@@ -125,8 +125,8 @@ public class JoinViewController: BaseElloViewController, HasAppController {
         }
     }
 
-    private func showMainScreen(user: User) {
-        parentAppController?.showMainScreen(user)
+    private func showOnboardingScreen(user: User) {
+        parentAppController?.showOnboardingScreen(user)
     }
 
     private func showSignInScreen(email: String, _ password: String) {
