@@ -176,8 +176,9 @@ public class JoinViewController: BaseElloViewController, HasAppController {
 extension JoinViewController {
 
     private func keyboardWillChangeFrame(keyboard: Keyboard) {
-        scrollView.contentInset.bottom = keyboard.topEdge
-        scrollView.scrollIndicatorInsets.bottom = keyboard.topEdge
+        let bottomInset = keyboard.keyboardBottomInset(inView: scrollView)
+        scrollView.contentInset.bottom = bottomInset
+        scrollView.scrollIndicatorInsets.bottom = bottomInset
     }
 
 }

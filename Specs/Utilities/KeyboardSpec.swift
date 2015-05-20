@@ -53,7 +53,7 @@ class KeyboardSpec: QuickSpec {
                 let calculatedKeyboardTop = height - keyboard.topEdge
                 expect(calculatedKeyboardTop) > 0
                 expect(calculatedKeyboardTop) < height
-                expect(keyboard.keyboardTop(inView: textView)).to(equal(calculatedKeyboardTop))
+                expect(keyboard.keyboardBottomInset(inView: textView)).to(equal(calculatedKeyboardTop))
             }
         }
     }

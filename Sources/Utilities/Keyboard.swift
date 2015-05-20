@@ -44,11 +44,17 @@ public class Keyboard {
         center.removeObserver(self)
     }
 
-    public func keyboardTop(#inView: UIView) -> CGFloat {
+    public func keyboardBottomInset(#inView: UIView) -> CGFloat {
         let kbdHeight = Keyboard.shared().topEdge
         let window : UIView = inView.window ?? inView
-        let bottom = window.convertPoint(CGPoint(x: 0, y: window.bounds.size.height), toView: inView).y
-        return bottom - kbdHeight
+        let bottom = window.convertPoint(CGPoint(x: 0, y: window.bounds.size.height - kbdHeight), toView: inView.superview).y
+        let inset = inView.frame.size.height - bottom
+        if inset < 0 {
+            return 0
+        }
+        else {
+            return inset
+        }
     }
 
     @objc
