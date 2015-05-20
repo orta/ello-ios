@@ -160,7 +160,7 @@ public class JoinViewController: BaseElloViewController, HasAppController {
     private func showTerms() {
         let nav = ElloWebBrowserViewController.navigationControllerWithWebBrowser()
         let browser = nav.rootWebBrowser()
-        browser.loadURLString("\(ElloURI.baseURL)/wtf/post/privacy")
+        browser.loadURLString("\(ElloURI.baseURL)/wtf/post/terms-of-use")
         browser.tintColor = UIColor.greyA()
         browser.showsURLInNavigationBar = false
         browser.showsPageTitleInNavigationBar = false
