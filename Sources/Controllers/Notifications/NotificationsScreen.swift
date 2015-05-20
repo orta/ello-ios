@@ -41,6 +41,9 @@ public class NotificationsScreen : UIView {
     var filterBarVisible = false
     let streamContainer = UIView()
 
+    let temporaryNavBar = ElloNavigationBar()
+    var navBarVisible = true
+
     override public init(frame: CGRect) {
         let filterAllButton = NotificationsScreen.filterButton("All")
         let filterMiscButton = NotificationsScreen.filterButton(SVGKImage(named: "bubble_normal.svg").UIImage!)
@@ -66,7 +69,9 @@ public class NotificationsScreen : UIView {
             button.addTarget(self, action: Selector(action), forControlEvents: .TouchUpInside)
         }
         filterBar.selectButton(filterAllButton)
-        self.addSubview(filterBar)
+        // self.addSubview(filterBar)
+
+        self.addSubview(temporaryNavBar)
     }
 
     required public init(coder: NSCoder) {
@@ -93,7 +98,8 @@ public class NotificationsScreen : UIView {
     override public func layoutSubviews() {
         super.layoutSubviews()
 
-        positionFilterBar()
+        // positionFilterBar()
+        positionNavigationBar()
         streamContainer.frame = self.bounds.fromTop()
             .withHeight(self.frame.height)
     }
@@ -127,4 +133,27 @@ public class NotificationsScreen : UIView {
         filterBar.selectButton(sender)
         delegate?.activatedFilter(NotificationFilterType.Relationship.rawValue)
     }
+}
+
+
+// MARK: Temporary Navigation Bar
+extension NotificationsScreen {
+
+    func animateNavigationBar(#visible: Bool) {
+        navBarVisible = visible
+        animate {
+            self.positionNavigationBar()
+        }
+    }
+
+    private func positionNavigationBar() {
+        temporaryNavBar.frame = self.bounds.withHeight(ElloNavigationBar.Size.height)
+        if navBarVisible {
+            temporaryNavBar.frame.origin.y = 0
+        }
+        else {
+            temporaryNavBar.frame.origin.y = -ElloNavigationBar.Size.height
+        }
+    }
+
 }
