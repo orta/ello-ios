@@ -112,24 +112,26 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     public func cellItemsForPost(post:Post) -> [StreamCellItem] {
-        return visibleCellItems.filter({ (item) -> Bool in
-            if let cellPost = item.jsonable as? Post {
-                return post.id == cellPost.id
-            }
-            else {
-                return false
-            }
-        })
+        var tmp = [StreamCellItem]()
+        temporarilyUnfilter {
+            tmp = self.visibleCellItems.filter({ (item) -> Bool in
+                if let cellPost = item.jsonable as? Post {
+                    return post.id == cellPost.id
+                }
+                else {
+                    return false
+                }
+            })
+        }
+        return tmp
     }
 
     // this includes the `createComment` cell, `spacer` cell, and `seeMoreComments` cell since they contain a comment item
     public func commentIndexPathsForPost(post: Post) -> [NSIndexPath] {
         var indexPaths = [NSIndexPath]()
         for (index, value) in enumerate(visibleCellItems) {
-            if let comment = value.jsonable as? Comment {
-                if comment.loadedFromPostId == post.id {
-                    indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
-                }
+            if let comment = value.jsonable as? Comment where comment.loadedFromPostId == post.id {
+                indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
             }
         }
         return indexPaths
@@ -469,6 +471,9 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                 arrayIndex = foundIndex
             }
         }
+        else if arrayIndex == count(visibleCellItems) {
+            arrayIndex = count(streamCellItems)
+        }
 
         var indexPaths:[NSIndexPath] = []
 
@@ -490,7 +495,15 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     public func toggleCollapsedForIndexPath(indexPath: NSIndexPath) {
         if let post = self.postForIndexPath(indexPath) {
-            post.collapsed = !post.collapsed
+            let cellItem = self.visibleStreamCellItem(at: indexPath)
+            let newState: StreamCellState = cellItem?.state == .Expanded ? .Collapsed : .Expanded
+            let cellItems = self.cellItemsForPost(post)
+            for item in cellItems {
+                // don't toggle the footer's state, it is used by comment open/closed
+                if item.type != .Footer {
+                    item.state = newState
+                }
+            }
             self.updateFilteredItems()
         }
     }

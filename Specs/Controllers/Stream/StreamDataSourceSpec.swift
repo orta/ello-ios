@@ -273,13 +273,33 @@ class StreamDataSourceSpec: QuickSpec {
             describe("commentIndexPathsForPost(_:)") {
 
                 beforeEach {
+                    var cellItems = [StreamCellItem]()
                     let parser = StreamCellItemParser()
-                    let postCellItems = parser.parse([Post.stub(["id": "666"])], streamKind: .Friend)
-                    let commentCellItems = parser.parse([Comment.stub(["parentPostId": "666"]), Comment.stub(["parentPostId": "666"])], streamKind: .Friend)
+                    // creates 3 cells
+                    let post1CellItems = parser.parse([Post.stub(["id": "666"])], streamKind: .Friend)
+                    cellItems = post1CellItems
+                    // creates 4 cells 2x2
+                    let comment1CellItems = parser.parse([Comment.stub(["parentPostId": "666"]), Comment.stub(["parentPostId": "666"])], streamKind: .Friend)
+                    cellItems += comment1CellItems
+                    // one cell
                     let seeMoreCellItem = StreamCellItem(jsonable: Comment.stub(["parentPostId": "666"]), type: .SeeMoreComments, data: nil, oneColumnCellHeight: 60.0, multiColumnCellHeight: 60.0, isFullWidth: true)
-                    let otherPostCellItems = parser.parse([Post.stub(["id": "777"])], streamKind: .Friend)
-                    let otherCommentCellItems = parser.parse([Comment.stub(["parentPostId": "777"])], streamKind: .Friend)
-                    let cellItems = postCellItems + commentCellItems + [seeMoreCellItem] + otherPostCellItems + otherCommentCellItems
+                    cellItems.append(seeMoreCellItem)
+                    // creates 3 cells
+                    let post2CellItems = parser.parse([Post.stub(["id": "777"])], streamKind: .Friend)
+                    cellItems += post2CellItems
+                    // creates 2 cells
+                    let comment2CellItems = parser.parse([Comment.stub(["parentPostId": "777"])], streamKind: .Friend)
+                    cellItems += comment2CellItems
+                    // creates 4 cells
+                    let post3CellItems = parser.parse([Post.stub(["id": "888", "contentWarning": "NSFW"])], streamKind: .Friend)
+                    cellItems += post3CellItems
+                    // create 1 cell
+                    let createCommentCellItem = StreamCellItem(jsonable: Comment.stub(["parentPostId": "888"]), type: .CreateComment, data: nil, oneColumnCellHeight: StreamCreateCommentCell.Size.Height, multiColumnCellHeight: StreamCreateCommentCell.Size.Height, isFullWidth: true)
+                    cellItems.append(createCommentCellItem)
+                    // creates 2 cells
+                    let comment3CellItems = parser.parse([Comment.stub(["parentPostId": "888"])], streamKind: .Friend)
+                    cellItems += comment3CellItems
+                    println("cellItems: \(cellItems.count)")
                     subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
                         vc.collectionView.reloadData()
@@ -299,12 +319,22 @@ class StreamDataSourceSpec: QuickSpec {
                 }
 
                 it("does not return index paths for comments from another post") {
-                    var post = subject.postForIndexPath(NSIndexPath(forItem: 9, inSection: 0))
+                    var post = subject.postForIndexPath(NSIndexPath(forItem: 8, inSection: 0))
                     let indexPaths = subject.commentIndexPathsForPost(post!)
 
                     expect(count(indexPaths)) == 2
                     expect(indexPaths[0].item) == 11
                     expect(indexPaths[1].item) == 12
+                }
+
+                it("returns an array of comment index paths when collapsed") {
+                    var post = subject.postForIndexPath(NSIndexPath(forItem: 13, inSection: 0))
+                    let indexPaths = subject.commentIndexPathsForPost(post!)
+
+                    expect(count(indexPaths)) == 3
+                    expect(indexPaths[0].item) == 16
+                    expect(indexPaths[1].item) == 17
+                    expect(indexPaths[2].item) == 18
                 }
             }
 
