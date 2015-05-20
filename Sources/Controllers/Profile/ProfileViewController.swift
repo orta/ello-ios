@@ -117,14 +117,6 @@ public class ProfileViewController: StreamableViewController {
         positionNavBar(navigationBar, visible: false, withConstraint: navigationBarTopConstraint, animated: animated)
     }
 
-    public func onEditProfile() {
-        if let settings = UIStoryboard(name: "Settings", bundle: .None).instantiateInitialViewController() as? SettingsContainerViewController {
-            settings.currentUser = currentUser
-            settings.navBarsVisible = scrollLogic.isShowing
-            navigationController?.pushViewController(settings, animated: true)
-        }
-    }
-
     // MARK : private
 
     private func reloadEntireProfile() {
