@@ -13,6 +13,7 @@ public class FindFriendsViewController: BaseElloViewController {
     @IBOutlet weak public var tableView: UITableView!
     public let dataSource = AddFriendsDataSource()
     public let inviteService = InviteService()
+    public var userTappedDelegate: UserTappedDelegate?
     var relationshipController: RelationshipController?
 
     required public init() {

@@ -17,6 +17,7 @@ public class InviteFriendsViewController: BaseElloViewController {
     public let inviteService = InviteService()
     private var relationshipController: RelationshipController?
     public var allContacts: [(LocalPerson, User?)] = []
+    public var userTappedDelegate: UserTappedDelegate?
 
     required public init() {
         super.init(nibName: "InviteFriendsViewController", bundle: NSBundle(forClass: InviteFriendsViewController.self))
