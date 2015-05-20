@@ -10,9 +10,11 @@ import Foundation
 
 public class LovesViewController: StreamableViewController {
 
+    var user: User
     var navigationBar: ElloNavigationBar!
 
-    required public init() {
+    required public init(user: User) {
+        self.user = user
         super.init(nibName: nil, bundle: nil)
         self.title = NSLocalizedString("Loves", comment: "love stream")
         view.backgroundColor = .whiteColor()
@@ -27,7 +29,7 @@ public class LovesViewController: StreamableViewController {
         setupNavigationBar()
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
         scrollLogic.navBarHeight = 44
-        streamViewController.streamKind = StreamKind.Friend
+        streamViewController.streamKind = StreamKind.Loves(userId: self.user.id)
         ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.loadInitialPage()
     }
@@ -87,7 +89,4 @@ public class LovesViewController: StreamableViewController {
             }
         }
     }
-
-
 }
-
