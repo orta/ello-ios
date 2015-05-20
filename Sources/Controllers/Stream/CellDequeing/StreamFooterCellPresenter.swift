@@ -134,7 +134,7 @@ public struct StreamFooterCellPresenter {
         else {
             cell.views = post.viewsCount?.numberToHuman()
             cell.reposts = post.repostsCount?.numberToHuman()
-            cell.loves = post.loveCount?.numberToHuman()
+            cell.loves = post.lovesCount?.numberToHuman()
         }
     }
 }

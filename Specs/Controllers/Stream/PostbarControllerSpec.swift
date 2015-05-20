@@ -50,7 +50,7 @@ class PostbarControllerSpec: QuickSpec {
                     var post: Post = stub([
                         "id": "post1",
                         "authorId" : "user1",
-                        "loveCount" : 5,
+                        "lovesCount" : 5,
                         "loved" : loved
                         ])
                     let parser = StreamCellItemParser()
@@ -65,14 +65,14 @@ class PostbarControllerSpec: QuickSpec {
 
                     it("loves the post") {
                         stubCellItems(loved: false)
-                        var loveCount = 0
+                        var lovesCount = 0
                         var observer = NotificationObserver(notification: PostChangedNotification) { (post, change) in
-                            loveCount = post.loveCount!
+                            lovesCount = post.lovesCount!
                         }
                         subject.lovesButtonTapped(NSIndexPath(forItem: 2, inSection: 0))
                         observer.removeObserver()
 
-                        expect(loveCount) == 6
+                        expect(lovesCount) == 6
                     }
                 }
 
@@ -80,14 +80,14 @@ class PostbarControllerSpec: QuickSpec {
 
                     it("unloves the post") {
                         stubCellItems(loved: true)
-                        var loveCount = 0
+                        var lovesCount = 0
                         var observer = NotificationObserver(notification: PostChangedNotification) { (post, change) in
-                            loveCount = post.loveCount!
+                            lovesCount = post.lovesCount!
                         }
                         subject.lovesButtonTapped(NSIndexPath(forItem: 2, inSection: 0))
                         observer.removeObserver()
 
-                        expect(loveCount) == 4
+                        expect(lovesCount) == 4
                     }
                 }
             }

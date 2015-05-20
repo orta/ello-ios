@@ -78,6 +78,30 @@ extension User: Stubbable {
     }
 }
 
+extension Love: Stubbable {
+    class func stub(values: [String : AnyObject]) -> Love {
+
+        // create necessary links
+
+        let post: Post = (values["post"] as? Post) ?? Post.stub(["id": values["postId"] ?? "stub-post-id"])
+        ElloLinkedStore.sharedInstance.setObject(post, forKey: post.id, inCollection: MappingType.PostsType.rawValue)
+
+        let user: User = (values["user"] as? User) ?? User.stub(["id": values["userId"] ?? "stub-user-id"])
+        ElloLinkedStore.sharedInstance.setObject(user, forKey: user.id, inCollection: MappingType.UsersType.rawValue)
+
+        var love = Love(
+            id: (values["id"] as? String) ?? "stub-love-id",
+            createdAt: (values["createdAt"] as? NSDate) ?? NSDate(),
+            updatedAt: (values["updatedAt"] as? NSDate) ?? NSDate(),
+            deleted: (values["deleted"] as? Bool) ?? true,
+            postId: (values["postId"] as? String) ?? "stub-post-id",
+            userId: (values["userId"] as? String) ?? "stub-user-id"
+        )
+
+        return love
+    }
+}
+
 extension Profile: Stubbable {
     class func stub(values: [String : AnyObject]) -> Profile {
         var profile = Profile(
@@ -130,7 +154,7 @@ extension Post: Stubbable {
         post.viewsCount = values["viewsCount"] as? Int
         post.commentsCount = values["commentsCount"] as? Int
         post.repostsCount = values["repostsCount"] as? Int
-        post.loveCount = values["loveCount"] as? Int
+        post.lovesCount = values["lovesCount"] as? Int
         // links / nested resources
         if let assets = values["assets"] as? [Asset] {
             var assetIds = [String]()

@@ -189,8 +189,9 @@ public class PostbarController: NSObject, PostbarDelegate {
         service.unlovePost(
             postId: post.id,
             success: {
-                if let count = post.loveCount {
-                    post.loveCount = count - 1
+                if let count = post.lovesCount {
+                    post.lovesCount = count - 1
+                    post.loved = false
                     postNotification(PostChangedNotification, (post, .Update))
                 }
                 Tracker.sharedTracker.postUnloved()
@@ -206,8 +207,9 @@ public class PostbarController: NSObject, PostbarDelegate {
         service.lovePost(
             postId: post.id,
             success: {
-                if let count = post.loveCount {
-                    post.loveCount = count + 1
+                if let count = post.lovesCount {
+                    post.lovesCount = count + 1
+                    post.loved = true
                     postNotification(PostChangedNotification, (post, .Update))
                 }
                 Tracker.sharedTracker.postLoved()

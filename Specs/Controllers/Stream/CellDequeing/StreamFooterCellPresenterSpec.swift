@@ -15,7 +15,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "viewsCount" : 9,
                         "repostsCount" : 4,
                         "commentsCount" : 6,
-                        "loveCount" : 14
+                        "lovesCount" : 14
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -42,7 +42,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "viewsCount" : 9,
                         "repostsCount" : 4,
                         "commentsCount" : 6,
-                        "loveCount" : 14
+                        "lovesCount" : 14
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -69,7 +69,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "viewsCount" : 9,
                         "repostsCount" : 4,
                         "commentsCount" : 6,
-                        "loveCount" : 22
+                        "lovesCount" : 22
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -98,7 +98,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "viewsCount" : 9,
                         "repostsCount" : 4,
                         "commentsCount" : 6,
-                        "loveCount" : 22
+                        "lovesCount" : 22
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -116,7 +116,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "repostsCount" : 4,
                         "commentsCount" : 6,
                         "author" : author,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -134,7 +134,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "repostsCount" : 4,
                         "commentsCount" : 6,
                         "author" : author,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -152,7 +152,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "repostsCount" : 4,
                         "commentsCount" : 6,
                         "author" : author,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -170,7 +170,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "repostsCount" : 4,
                         "commentsCount" : 6,
                         "author" : author,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -189,7 +189,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "viewsCount" : 9,
                         "repostsCount" : 4,
                         "commentsCount" : 6,
-                        "loveCount" : 22
+                        "lovesCount" : 22
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -207,7 +207,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "repostsCount" : 4,
                         "commentsCount" : 6,
                         "author" : author,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -225,7 +225,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "repostsCount" : 4,
                         "commentsCount" : 6,
                         "author" : author,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -243,7 +243,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "repostsCount" : 4,
                         "commentsCount" : 6,
                         "author" : author,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -261,7 +261,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "repostsCount" : 4,
                         "commentsCount" : 6,
                         "author" : author,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -280,7 +280,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "viewsCount" : 9,
                         "repostsCount" : 4,
                         "commentsCount" : 6,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -299,7 +299,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "repostsCount" : 4,
                         "commentsCount" : 6,
                         "author" : author,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -317,7 +317,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "repostsCount" : 4,
                         "commentsCount" : 6,
                         "author" : author,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -335,7 +335,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "repostsCount" : 4,
                         "commentsCount" : 6,
                         "author" : author,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -353,7 +353,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "repostsCount" : 4,
                         "commentsCount" : 6,
                         "author" : author,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -371,7 +371,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "repostsCount" : 4,
                         "commentsCount" : 6,
                         "author" : author,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -390,7 +390,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "repostsCount" : 4,
                         "commentsCount" : 6,
                         "author" : author,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -409,7 +409,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "repostsCount" : 4,
                         "commentsCount" : 6,
                         "author" : author,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -427,7 +427,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "repostsCount" : 4,
                         "commentsCount" : 6,
                         "author" : author,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -446,7 +446,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "viewsCount" : 9,
                         "repostsCount" : 4,
                         "commentsCount" : 6,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -465,7 +465,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "repostsCount" : 4,
                         "commentsCount" : 6,
                         "author" : author,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -483,7 +483,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "repostsCount" : 4,
                         "commentsCount" : 6,
                         "author" : author,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -501,7 +501,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "repostsCount" : 4,
                         "commentsCount" : 6,
                         "author" : author,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -519,7 +519,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "repostsCount" : 4,
                         "commentsCount" : 6,
                         "author" : author,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -537,7 +537,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "repostsCount" : 4,
                         "commentsCount" : 6,
                         "author" : author,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -556,7 +556,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "repostsCount" : 4,
                         "commentsCount" : 6,
                         "author" : author,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -575,7 +575,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "repostsCount" : 4,
                         "commentsCount" : 6,
                         "author" : author,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -593,7 +593,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "repostsCount" : 4,
                         "commentsCount" : 6,
                         "author" : author,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -612,7 +612,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "viewsCount" : 9,
                         "repostsCount" : 4,
                         "commentsCount" : 6,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -630,7 +630,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "repostsCount" : 4,
                         "commentsCount" : 6,
                         "author" : author,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -648,7 +648,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "repostsCount" : 4,
                         "commentsCount" : 6,
                         "author" : author,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -667,7 +667,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "repostsCount" : 4,
                         "commentsCount" : 6,
                         "author" : author,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -686,7 +686,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "viewsCount" : 9,
                         "repostsCount" : 4,
                         "commentsCount" : 6,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -704,7 +704,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "repostsCount" : 4,
                         "commentsCount" : 6,
                         "author" : author,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -723,7 +723,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "repostsCount" : 4,
                         "commentsCount" : 6,
                         "author" : author,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -742,7 +742,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "repostsCount" : 4,
                         "commentsCount" : 6,
                         "author" : author,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -761,7 +761,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                         "viewsCount" : 9,
                         "repostsCount" : 4,
                         "commentsCount" : 6,
-                        "loveCount" : 55
+                        "lovesCount" : 55
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -794,7 +794,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                             "viewsCount" : 9,
                             "repostsCount" : 4,
                             "commentsCount" : 6,
-                            "loveCount" : 55
+                            "lovesCount" : 55
                         ])
                         let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                         let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
@@ -826,7 +826,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                             "viewsCount" : 9,
                             "repostsCount" : 4,
                             "commentsCount" : 6,
-                            "loveCount" : 55
+                            "lovesCount" : 55
                         ])
                         let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                         let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer, data: nil, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)

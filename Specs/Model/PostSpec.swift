@@ -212,7 +212,7 @@ class PostSpec: QuickSpec {
                         "viewsCount" : 78,
                         "commentsCount" : 6,
                         "repostsCount" : 99,
-                        "loveCount" : 100,
+                        "lovesCount" : 100,
                         "reposted" : true,
                         "loved" : true,
                         // links
@@ -246,7 +246,7 @@ class PostSpec: QuickSpec {
                     expect(unArchivedPost.viewsCount) == 78
                     expect(unArchivedPost.commentsCount) == 6
                     expect(unArchivedPost.repostsCount) == 99
-                    expect(unArchivedPost.loveCount) == 100
+                    expect(unArchivedPost.lovesCount) == 100
                     expect(unArchivedPost.reposted) == true
                     expect(unArchivedPost.loved) == true
                     // links
