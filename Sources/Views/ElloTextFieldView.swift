@@ -164,7 +164,7 @@ public extension ElloTextFieldView {
         passwordView.textField.spellCheckingType = .No
         passwordView.textField.keyboardAppearance = .Dark
         passwordView.textField.enablesReturnKeyAutomatically = true
-        passwordView.textField.returnKeyType = .Default
+        passwordView.textField.returnKeyType = .Go
         passwordView.textField.keyboardType = .Default
         passwordView.textField.secureTextEntry = true
     }

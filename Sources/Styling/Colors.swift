@@ -14,6 +14,7 @@ private struct ElloColors {
     static let grey4D           : UIColor = UIColor(hex: 0x4D4D4D)
     static let grey6            : UIColor = UIColor(hex: 0x666666)
     static let greyA            : UIColor = UIColor(hex: 0xAAAAAA)
+    static let greyC            : UIColor = UIColor(hex: 0xCCCCCC)
     static let greyE5           : UIColor = UIColor(hex: 0xE5E5E5)
     static let greyF1           : UIColor = UIColor(hex: 0xF1F1F1)
     static let yellowFFFFCC     : UIColor = UIColor(hex: 0xFFFFCC)
@@ -38,6 +39,9 @@ public extension UIColor {
 
     // often used for text:
     class func greyA() -> UIColor { return ElloColors.greyA }
+
+    // often used for disabled text:
+    class func greyC() -> UIColor { return ElloColors.greyC }
 
     // background color for text fields
     class func greyE5() -> UIColor { return ElloColors.greyE5 }

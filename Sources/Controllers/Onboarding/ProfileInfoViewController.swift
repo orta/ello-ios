@@ -39,6 +39,7 @@ public class ProfileInfoViewController: BaseElloViewController, OnboardingStep {
         super.viewDidLoad()
         self.title = "Onboarding Profile Info"
 
+        scrollView.keyboardDismissMode = .OnDrag
 
         let chooseCoverImage = UIImage(named: "choose-header-image")!
         let aspect = view.frame.width / chooseCoverImage.size.width
@@ -80,12 +81,16 @@ public class ProfileInfoViewController: BaseElloViewController, OnboardingStep {
         let bioField = generateTextField(placeholder: NSLocalizedString("Bio (optional)", comment: "Bio (optional) placeholder text"),
             font: UIFont.typewriterFont(17),
             y: nameField.frame.maxY + 26)
+        bioField.autocapitalizationType = .Sentences
+        bioField.autocorrectionType = .Default
+        bioField.spellCheckingType = .Default
         view.addSubview(bioField)
         self.bioField = bioField
 
         let linksField = generateTextField(placeholder: NSLocalizedString("Links (optional)", comment: "Links (optional) placeholder text"),
             font: UIFont.typewriterFont(17),
             y: bioField.frame.maxY + 26)
+        linksField.returnKeyType = .Go
         view.addSubview(linksField)
         self.linksField = linksField
     }
@@ -130,6 +135,31 @@ public extension ProfileInfoViewController {
         let bottomInset = keyboard.keyboardBottomInset(inView: scrollView)
         scrollView.contentInset.bottom = bottomInset
         scrollView.scrollIndicatorInsets.bottom = bottomInset
+
+        if keyboard.bottomInset == 0 {
+            scrollView.scrollEnabled = false
+        }
+        else {
+            scrollView.scrollEnabled = true
+        }
+    }
+
+}
+
+extension ProfileInfoViewController: UITextFieldDelegate {
+
+    public func textFieldShouldReturn(textField: UITextField) -> Bool {
+        switch textField {
+        case nameField!:
+            bioField!.becomeFirstResponder()
+        case bioField!:
+            linksField!.becomeFirstResponder()
+        case linksField!:
+            linksField!.resignFirstResponder()
+        default:
+            return false
+        }
+        return true
     }
 
 }
@@ -146,6 +176,16 @@ extension ProfileInfoViewController {
         field.autoresizingMask = .FlexibleWidth | .FlexibleBottomMargin
         field.font = font
         field.placeholder = placeholder
+        field.delegate = self
+
+        field.autocapitalizationType = .None
+        field.autocorrectionType = .No
+        field.spellCheckingType = .No
+        field.keyboardAppearance = .Dark
+        field.enablesReturnKeyAutomatically = false
+        field.returnKeyType = .Next
+        field.keyboardType = .Default
+
         let line = UIView(frame: CGRect(x: 0, y: field.frame.height - 2, width: field.frame.width, height: 2))
         line.backgroundColor = .greyE5()
         line.autoresizingMask = .FlexibleWidth | .FlexibleTopMargin

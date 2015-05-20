@@ -96,6 +96,8 @@ public class AvatarImageSelectionViewController: BaseElloViewController, Onboard
         onboardingData?.avatarImage = orientedImage
         chooseAvatarImageView?.image = orientedImage
         chooseImageButton?.setTitle(NSLocalizedString("Pick Another", comment: "Pick another button"), forState: .Normal)
+
+        onboardingViewController?.goToNextStep(onboardingData)
     }
 
 }

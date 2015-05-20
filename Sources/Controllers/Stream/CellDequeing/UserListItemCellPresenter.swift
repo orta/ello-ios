@@ -17,9 +17,9 @@ public struct UserListItemCellPresenter {
         indexPath: NSIndexPath,
         currentUser: User?)
     {
-        if let cell = cell as? UserListItemCell {
-            let user = streamCellItem.jsonable as! User
-            
+        if let cell = cell as? UserListItemCell,
+            let user = streamCellItem.jsonable as? User
+        {
             cell.relationshipView.hidden = false
 
             if let currentUser = cell.currentUser {

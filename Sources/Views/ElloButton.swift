@@ -48,16 +48,17 @@ public class LightElloButton: ElloButton {
 
     override public var enabled: Bool {
         didSet {
-            self.backgroundColor = enabled ? .greyA() : .greyE5()
+            self.backgroundColor = enabled ? .greyE5() : .greyF1()
         }
     }
 
     override public func sharedSetup() {
         self.titleLabel?.font = UIFont.typewriterFont(14.0)
         self.titleLabel?.numberOfLines = 1
-        self.setTitleColor(UIColor.blackColor(), forState: .Normal)
-        self.setTitleColor(UIColor.greyA(), forState: .Disabled)
-        self.backgroundColor = enabled ? .greyA() : .greyE5()
+        self.setTitleColor(UIColor.grey6(), forState: .Normal)
+        self.setTitleColor(UIColor.blackColor(), forState: .Highlighted)
+        self.setTitleColor(UIColor.greyC(), forState: .Disabled)
+        self.backgroundColor = enabled ? .greyE5() : .greyF1()
     }
 
 }
@@ -89,32 +90,6 @@ public class WhiteElloButton: LightElloButton {
         self.titleLabel?.font = UIFont.typewriterFont(12.0)
         self.setTitleColor(UIColor.whiteColor(), forState: .Selected)
     }
-}
-
-public class ClearElloButton: ElloButton {
-
-    required public init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-
-    required public init(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-
-    override public var enabled: Bool {
-        didSet {
-            self.backgroundColor = .greyA()
-        }
-    }
-
-    override public func sharedSetup() {
-        self.titleLabel?.font = UIFont.typewriterFont(14.0)
-        self.titleLabel?.numberOfLines = 1
-        self.setTitleColor(UIColor.greyA(), forState: .Normal)
-        self.setTitleColor(UIColor.greyA(), forState: .Disabled)
-        self.backgroundColor = .clearColor()
-    }
-
 }
 
 public class FollowAllElloButton: ElloButton {

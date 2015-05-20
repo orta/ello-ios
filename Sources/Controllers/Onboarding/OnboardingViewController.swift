@@ -10,7 +10,7 @@
 protocol OnboardingStep {
     var onboardingViewController: OnboardingViewController? { get set }
     var onboardingData: OnboardingData? { get set }
-    optional func onboardingWillSkip()
+    optional func onboardingWillProceed()
 }
 
 
@@ -19,6 +19,12 @@ public class OnboardingData {
     var communityFollows: [User] = []
     var coverImage: UIImage? = nil
     var avatarImage: UIImage? = nil
+}
+
+
+private enum OnboardingDirection: CGFloat {
+    case Left = -1
+    case Right = 1
 }
 
 
@@ -32,13 +38,12 @@ public class OnboardingViewController: BaseElloViewController, HasAppController 
 
     public private(set) lazy var controllerContainer: UIView = { return UIView() }()
     public private(set) lazy var buttonContainer: UIView = { return UIView() }()
-    public private(set) lazy var skipButton: ClearElloButton = {
-        let button = ClearElloButton()
-        button.setTitle(NSLocalizedString("Skip", comment: "Skip button"), forState: .Normal)
+    public private(set) lazy var backButton: OnboardingBackButton = {
+        let button = OnboardingBackButton()
         return button
     }()
-    public private(set) lazy var nextButton: LightElloButton = {
-        let button = LightElloButton()
+    public private(set) lazy var nextButton: OnboardingNextButton = {
+        let button = OnboardingNextButton()
         button.setTitle(NSLocalizedString("Next", comment: "Next button"), forState: .Normal)
         return button
     }()
@@ -56,11 +61,21 @@ public class OnboardingViewController: BaseElloViewController, HasAppController 
         }
     }
 
+    required public init() {
+        super.init(nibName: nil, bundle: NSBundle(forClass: ProfileInfoViewController.self))
+        modalTransitionStyle = .CrossDissolve
+    }
+
+    required public init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override public func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .whiteColor()
 
-        buttonContainer.frame = view.bounds.fromBottom().growUp(94)
+        let buttonContainerHeight = CGFloat(80)
+        buttonContainer.frame = view.bounds.fromBottom().growUp(buttonContainerHeight)
         buttonContainer.autoresizingMask = .FlexibleWidth | .FlexibleTopMargin
         buttonContainer.backgroundColor = .whiteColor()
         view.addSubview(buttonContainer)
@@ -70,47 +85,47 @@ public class OnboardingViewController: BaseElloViewController, HasAppController 
         view.insertSubview(controllerContainer, belowSubview: buttonContainer)
 
         let inset = CGFloat(15)
-        skipButton.frame = CGRect(
-            x: inset,
-            y: inset,
-            width: 89,
-            height: buttonContainer.frame.height - 2*inset
-        )
-        skipButton.autoresizingMask = .FlexibleRightMargin | .FlexibleHeight
-        skipButton.addTarget(self, action: Selector("skipToNextStep"), forControlEvents: .TouchUpInside)
-        buttonContainer.addSubview(skipButton)
+        backButton.frame = CGRect(
+            x: 0,
+            y: 0,
+            width: buttonContainerHeight,
+            height: buttonContainerHeight
+        ).inset(all: inset)
+        backButton.autoresizingMask = .FlexibleRightMargin | .FlexibleTopMargin | .FlexibleBottomMargin
+        backButton.addTarget(self, action: Selector("goToPreviousStep"), forControlEvents: .TouchUpInside)
+        buttonContainer.addSubview(backButton)
 
         nextButton.frame = CGRect(
-            x: skipButton.frame.maxX + inset,
-            y: inset,
-            width: buttonContainer.frame.width - skipButton.frame.maxX - 2*inset,
-            height: buttonContainer.frame.height - 2*inset
-        )
-        nextButton.autoresizingMask = .FlexibleLeftMargin | .FlexibleHeight
-        nextButton.addTarget(self, action: Selector("skipToNextStep"), forControlEvents: .TouchUpInside)
+            x: backButton.frame.maxX,
+            y: 0,
+            width: buttonContainer.frame.width - backButton.frame.maxX,
+            height: buttonContainerHeight
+        ).inset(all: inset)
+        nextButton.autoresizingMask = .FlexibleWidth | .FlexibleTopMargin | .FlexibleBottomMargin
+        nextButton.addTarget(self, action: Selector("proceedToNextStep"), forControlEvents: .TouchUpInside)
         buttonContainer.addSubview(nextButton)
 
         onboardingData = OnboardingData()
 
-        // let communityController = CommunitySelectionViewController()
-        // communityController.onboardingViewController = self
-        // communityController.currentUser = currentUser
-        // addOnboardingViewController(communityController)
+        let communityController = CommunitySelectionViewController()
+        communityController.onboardingViewController = self
+        communityController.currentUser = currentUser
+        addOnboardingViewController(communityController)
 
-        // let awesomePeopleController = AwesomePeopleSelectionViewController()
-        // awesomePeopleController.onboardingViewController = self
-        // awesomePeopleController.currentUser = currentUser
-        // addOnboardingViewController(awesomePeopleController)
+        let awesomePeopleController = AwesomePeopleSelectionViewController()
+        awesomePeopleController.onboardingViewController = self
+        awesomePeopleController.currentUser = currentUser
+        addOnboardingViewController(awesomePeopleController)
 
-        // let foundersController = FoundersSelectionViewController()
-        // foundersController.onboardingViewController = self
-        // foundersController.currentUser = currentUser
-        // addOnboardingViewController(foundersController)
+        let foundersController = FoundersSelectionViewController()
+        foundersController.onboardingViewController = self
+        foundersController.currentUser = currentUser
+        addOnboardingViewController(foundersController)
 
-        // let importPromptController = ImportPromptViewController()
-        // importPromptController.onboardingViewController = self
-        // importPromptController.currentUser = currentUser
-        // addOnboardingViewController(importPromptController)
+        let importPromptController = ImportPromptViewController()
+        importPromptController.onboardingViewController = self
+        importPromptController.currentUser = currentUser
+        addOnboardingViewController(importPromptController)
 
         let headerImageSelectionController = CoverImageSelectionViewController()
         headerImageSelectionController.onboardingViewController = self
@@ -161,10 +176,9 @@ extension OnboardingViewController {
         }
     }
 
-    @objc
-    public func skipToNextStep() {
+    public func proceedToNextStep() {
         if let onboardingStep = visibleViewController as? OnboardingStep {
-            onboardingStep.onboardingWillSkip?()
+            onboardingStep.onboardingWillProceed?()
         }
         goToNextStep(onboardingData)
     }
@@ -172,24 +186,39 @@ extension OnboardingViewController {
     public func goToNextStep(data: OnboardingData?) {
         self.visibleViewControllerIndex += 1
 
-        // <debugging start over at first step>
-        if self.visibleViewControllerIndex == count(self.onboardingViewControllers) {
-            self.visibleViewControllerIndex = 0
-        }
-        // </debugging>
-
-        if let nextViewController = onboardingViewControllers.safeValue(visibleViewControllerIndex)
-        {
-            goToController(nextViewController, data: data)
+        if let nextViewController = onboardingViewControllers.safeValue(visibleViewControllerIndex) {
+            goToController(nextViewController, data: data, direction: .Right)
         }
         else {
-            // DONE!
+            done()
         }
     }
 
+    public func goToPreviousStep() {
+        self.visibleViewControllerIndex -= 1
+
+        if self.visibleViewControllerIndex == -1 {
+            self.visibleViewControllerIndex = 0
+            return
+        }
+
+        if let prevViewController = onboardingViewControllers.safeValue(visibleViewControllerIndex)
+        {
+            goToController(prevViewController, data: onboardingData, direction: .Left)
+        }
+    }
+
+    private func done() {
+        parentAppController?.dismissViewControllerAnimated(true, completion: nil)
+    }
+
     public func goToController(viewController: UIViewController, data: OnboardingData?) {
+        goToController(viewController, data: data, direction: .Right)
+    }
+
+    private func goToController(viewController: UIViewController, data: OnboardingData?, direction: OnboardingDirection) {
         if let visibleViewController = visibleViewController {
-            transitionFromViewController(visibleViewController, toViewController: viewController)
+            transitionFromViewController(visibleViewController, toViewController: viewController, direction: direction)
         }
 
         if var onboardingStep = viewController as? OnboardingStep {
@@ -198,22 +227,30 @@ extension OnboardingViewController {
         }
     }
 
-    private func transitionFromViewController(visibleViewController: UIViewController, toViewController nextViewController: UIViewController) {
+    private func transitionFromViewController(visibleViewController: UIViewController, toViewController nextViewController: UIViewController, direction: OnboardingDirection) {
         if isTransitioning {
             return
         }
 
         Tracker.sharedTracker.screenAppeared(nextViewController.title ?? nextViewController.readableClassName())
+
+        if visibleViewController == onboardingViewControllers.last {
+            nextButton.setTitle("Done", forState: .Normal)
+        }
+        else {
+            nextButton.setTitle("Next", forState: .Normal)
+        }
+
         visibleViewController.willMoveToParentViewController(nil)
         addChildViewController(nextViewController)
 
         nextViewController.view.alpha = 1
         nextViewController.view.frame = CGRect(
-            x: controllerContainer.frame.width,
-            y: 0,
-            width: controllerContainer.frame.width,
-            height: controllerContainer.frame.height
-        )
+                x: direction.rawValue * controllerContainer.frame.width,
+                y: 0,
+                width: controllerContainer.frame.width,
+                height: controllerContainer.frame.height
+            )
 
         isTransitioning = true
         transitionFromViewController(visibleViewController,
@@ -222,7 +259,7 @@ extension OnboardingViewController {
             options: UIViewAnimationOptions(0),
             animations: {
                 self.controllerContainer.insertSubview(nextViewController.view, aboveSubview: visibleViewController.view)
-                visibleViewController.view.frame.origin.x = -visibleViewController.view.frame.width
+                visibleViewController.view.frame.origin.x = -direction.rawValue * visibleViewController.view.frame.width
                 nextViewController.view.frame.origin.x = 0
             },
             completion: { _ in

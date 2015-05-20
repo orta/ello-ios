@@ -76,7 +76,13 @@ public class CoverImageSelectionViewController: BaseElloViewController, Onboardi
         }
     }
 
-    @objc
+    public func onboardingWillProceed() {
+        println("=============== \(__FILE__.lastPathComponent) line \(__LINE__) ===============")
+    }
+
+}
+
+extension CoverImageSelectionViewController {
     func chooseHeaderTapped() {
         let alert = UIImagePickerController.alertControllerForImagePicker(openImagePicker)
         alert.map { self.presentViewController($0, animated: true, completion: nil) }
@@ -89,9 +95,11 @@ public class CoverImageSelectionViewController: BaseElloViewController, Onboardi
 
     public func userSetCurrentImage(orientedImage: UIImage) {
         onboardingData?.coverImage = orientedImage
+        chooseCoverImageView?.image = orientedImage
+        chooseImageButton?.setTitle(NSLocalizedString("Pick Another", comment: "Pick another button"), forState: .Normal)
+
         onboardingViewController?.goToNextStep(onboardingData)
     }
-
 }
 
 extension CoverImageSelectionViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
