@@ -37,15 +37,11 @@ public class NotificationsScreen : UIView {
 
 
     weak var delegate : NotificationsScreenDelegate?
-    let filterBar : NotificationsFilterBar
-    var filterBarVisible : Bool
-    let streamContainer : UIView
+    let filterBar = NotificationsFilterBar()
+    var filterBarVisible = false
+    let streamContainer = UIView()
 
     override public init(frame: CGRect) {
-        filterBar = NotificationsFilterBar()
-        filterBar.backgroundColor = .whiteColor()
-        filterBarVisible = true
-
         let filterAllButton = NotificationsScreen.filterButton("All")
         let filterMiscButton = NotificationsScreen.filterButton(SVGKImage(named: "bubble_normal.svg").UIImage!)
         let filterMentionButton = NotificationsScreen.filterButton("@")
@@ -54,7 +50,6 @@ public class NotificationsScreen : UIView {
         let filterRepostButton = NotificationsScreen.filterButton(SVGKImage(named: "repost_normal.svg").UIImage!)
         let filterInviteButton = NotificationsScreen.filterButton(SVGKImage(named: "relationships_normal.svg").UIImage!)
 
-        streamContainer = UIView()
         super.init(frame: frame)
         backgroundColor = UIColor.whiteColor()
         self.addSubview(streamContainer)
@@ -75,9 +70,6 @@ public class NotificationsScreen : UIView {
     }
 
     required public init(coder: NSCoder) {
-        filterBar = NotificationsFilterBar()
-        filterBarVisible = true
-        streamContainer = UIView()
         super.init(coder: coder)
     }
 
@@ -96,11 +88,6 @@ public class NotificationsScreen : UIView {
         else {
             filterBar.frame.origin.y = -NotificationsFilterBar.Size.height
         }
-    }
-
-    func hideFilterBar() {
-        filterBarVisible = false
-        self.setNeedsLayout()
     }
 
     override public func layoutSubviews() {
