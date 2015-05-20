@@ -40,7 +40,6 @@ public struct StreamFooterCellPresenter {
             configureToolBarItems(cell, post: post, currentUser: currentUser, streamKind: streamKind)
             configureCommentControl(cell, streamCellItem: streamCellItem, streamKind: streamKind)
             configureGridSpecificLayout(cell, streamKind: streamKind)
-
         }
     }
 
@@ -50,7 +49,7 @@ public struct StreamFooterCellPresenter {
         currentUser: User?,
         streamKind: StreamKind)
     {
-        cell.comments = post.commentsCount?. numberToHuman()
+        cell.comments = post.commentsCount?.numberToHuman()
 
         var ownPost = currentUser?.id == post.authorId
 
@@ -71,7 +70,6 @@ public struct StreamFooterCellPresenter {
         var loveVisibility: InteractionVisibility = .Enabled
         if post.loved { loveVisibility = .SelectedAndEnabled }
         if !lovingEnabled { loveVisibility = .Disabled }
-        else if ownPost { loveVisibility = .NotAllowed }
 
         cell.updateToolbarItems(
             streamKind: streamKind,
