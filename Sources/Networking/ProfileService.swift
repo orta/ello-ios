@@ -20,7 +20,7 @@ public struct ProfileService {
 
     public init(){}
 
-    public func loadCurrentUser(endpoint: ElloAPI, success: ProfileSuccessCompletion, failure: ElloFailureCompletion?) {
+    public func loadCurrentUser(endpoint: ElloAPI, success: ProfileSuccessCompletion, failure: ElloFailureCompletion?, invalidToken: ElloErrorCompletion? = nil) {
         ElloProvider.elloRequest(endpoint,
             method: .GET,
             success: { (data, _) in
@@ -31,7 +31,8 @@ public struct ProfileService {
                     ElloProvider.unCastableJSONAble(failure)
                 }
             },
-            failure: failure
+            failure: failure,
+            invalidToken: invalidToken
         )
     }
 

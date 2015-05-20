@@ -82,16 +82,14 @@ public class AppViewController: BaseElloViewController {
         profileService.loadCurrentUser(ElloAPI.Profile(perPage: 1),
             success: self.showMainScreen,
             failure: { (error, _) in
-                if let failure = failure {
-                    failure(error: error)
-                }
-                else {
-                    self.failedToLoadCurrentUser()
-                }
+                self.failedToLoadCurrentUser(failure, error: error)
+            },
+            invalidToken: { error in
+                self.failedToLoadCurrentUser(failure, error: error)
             })
     }
 
-    func failedToLoadCurrentUser() {
+    func failedToLoadCurrentUser(failure: ElloErrorCompletion?, error: NSError) {
         let authToken = AuthToken()
         authToken.reset()
         showButtons()
