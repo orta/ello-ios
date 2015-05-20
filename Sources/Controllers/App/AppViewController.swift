@@ -95,12 +95,18 @@ public class AppViewController: BaseElloViewController {
         showButtons()
     }
 
-    private func showButtons() {
-        UIView.animateWithDuration(0.2) {
+    private func showButtons(animated: Bool = true) {
+        animate(animated: animated) {
             self.joinButton.alpha = 1.0
             self.signInButton.alpha = 1.0
             self.socialRevolution.alpha = 1.0
         }
+    }
+
+    private func hideButtons() {
+        self.joinButton.alpha = 0.0
+        self.signInButton.alpha = 0.0
+        self.socialRevolution.alpha = 0.0
     }
 
     private func setupNotificationObservers() {
@@ -193,6 +199,7 @@ extension AppViewController {
 
             newViewController.didMoveToParentViewController(self)
 
+            self.hideButtons()
             self.visibleViewController = newViewController
             completion?()
         })
@@ -207,7 +214,7 @@ extension AppViewController {
             }
 
             UIView.animateWithDuration(0.2, animations: {
-                self.showButtons()
+                self.showButtons(animated: false)
                 visibleViewController.view.alpha = 0
                 self.scrollView.alpha = 1
             }, completion: { _ in
