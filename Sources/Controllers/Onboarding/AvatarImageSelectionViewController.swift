@@ -81,6 +81,16 @@ public class AvatarImageSelectionViewController: BaseElloViewController, Onboard
         }
     }
 
+}
+
+public extension AvatarImageSelectionViewController {
+    public func onboardingWillProceed() {
+        println("=============== \(__FILE__.lastPathComponent) line \(__LINE__) ===============")
+    }
+}
+
+extension AvatarImageSelectionViewController {
+
     @objc
     func chooseHeaderTapped() {
         let alert = UIImagePickerController.alertControllerForImagePicker(openImagePicker)

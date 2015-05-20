@@ -118,6 +118,14 @@ public class ProfileInfoViewController: BaseElloViewController, OnboardingStep {
 
 public extension ProfileInfoViewController {
 
+    public func onboardingWillProceed() {
+        println("=============== \(__FILE__.lastPathComponent) line \(__LINE__) ===============")
+    }
+
+}
+
+public extension ProfileInfoViewController {
+
     private func setupNotificationObservers() {
         keyboardWillShowObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillShow, block: keyboardWillChangeFrame)
         keyboardWillHideObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillHide, block: keyboardWillChangeFrame)

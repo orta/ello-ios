@@ -76,6 +76,10 @@ public class CoverImageSelectionViewController: BaseElloViewController, Onboardi
         }
     }
 
+}
+
+public extension CoverImageSelectionViewController {
+
     public func onboardingWillProceed() {
         println("=============== \(__FILE__.lastPathComponent) line \(__LINE__) ===============")
     }
