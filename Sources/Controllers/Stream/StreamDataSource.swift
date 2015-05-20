@@ -114,14 +114,12 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     public func cellItemsForPost(post:Post) -> [StreamCellItem] {
         var tmp = [StreamCellItem]()
         temporarilyUnfilter {
-            tmp = self.visibleCellItems.filter({ (item) -> Bool in
-                if let cellPost = item.jsonable as? Post {
-                    return post.id == cellPost.id
+            tmp = self.visibleCellItems.reduce([]) { arr, item in
+                if let cellPost = item.jsonable as? Post where post.id == cellPost.id {
+                    return arr + [item]
                 }
-                else {
-                    return false
-                }
-            })
+                return arr
+            }
         }
         return tmp
     }
