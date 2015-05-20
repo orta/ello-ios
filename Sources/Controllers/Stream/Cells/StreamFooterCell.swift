@@ -78,6 +78,7 @@ public class StreamFooterCell: UICollectionViewCell {
     private func updateButtonVisibility(button: UIControl, visibility: InteractionVisibility) {
         button.hidden = !visibility.isVisible
         button.enabled = visibility.isEnabled
+        button.selected = visibility.isSelected
     }
 
     public func updateToolbarItems(
@@ -91,7 +92,6 @@ public class StreamFooterCell: UICollectionViewCell {
     {
         updateButtonVisibility(self.repostControl, visibility: repostVisibility)
         updateButtonVisibility(self.lovesControl, visibility: loveVisibility)
-
         var toolbarItems: [UIBarButtonItem] = []
 
         if streamKind.isGridLayout {
@@ -252,7 +252,7 @@ public class StreamFooterCell: UICollectionViewCell {
     }
 
     @IBAction func lovesButtonTapped(sender: ImageLabelControl) {
-        delegate?.lovesButtonTapped(self.indexPath)
+        delegate?.lovesButtonTapped(self)
     }
 
     @IBAction func repostButtonTapped(sender: ImageLabelControl) {

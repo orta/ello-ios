@@ -10,12 +10,15 @@ import Foundation
 
 
 public enum InteractionVisibility: String {
+    case SelectedAndDisabled = "SelectedAndDisabled"
+    case SelectedAndEnabled = "SelectedAndEnabled"
     case Enabled = "Enabled"
     case Disabled = "Disabled"
     case NotAllowed = "NotAllowed"
 
     var isVisible: Bool { return self != .Disabled }
-    var isEnabled: Bool { return self == .Enabled }
+    var isEnabled: Bool { return self == .Enabled || self == .SelectedAndEnabled }
+    var isSelected: Bool { return self == .SelectedAndDisabled || self == .SelectedAndEnabled }
 }
 
 
@@ -33,10 +36,11 @@ public struct StreamFooterCellPresenter {
         {
             cell.indexPath = indexPath
             cell.close()
+            configureDisplayCounts(cell, post: post, streamKind: streamKind)
             configureToolBarItems(cell, post: post, currentUser: currentUser, streamKind: streamKind)
             configureCommentControl(cell, streamCellItem: streamCellItem, streamKind: streamKind)
             configureGridSpecificLayout(cell, streamKind: streamKind)
-            configureDisplayCounts(cell, post: post, streamKind: streamKind)
+
         }
     }
 
@@ -52,6 +56,7 @@ public struct StreamFooterCellPresenter {
 
         let repostingEnabled = post.author?.hasRepostingEnabled ?? true
         var repostVisibility: InteractionVisibility = .Enabled
+        if post.reposted { repostVisibility = .SelectedAndDisabled }
         if !repostingEnabled { repostVisibility = .Disabled }
         else if ownPost { repostVisibility = .NotAllowed }
 
@@ -64,6 +69,7 @@ public struct StreamFooterCellPresenter {
 
         let lovingEnabled = post.author?.hasLovesEnabled ?? true
         var loveVisibility: InteractionVisibility = .Enabled
+        if post.loved { loveVisibility = .SelectedAndEnabled }
         if !lovingEnabled { loveVisibility = .Disabled }
         else if ownPost { loveVisibility = .NotAllowed }
 

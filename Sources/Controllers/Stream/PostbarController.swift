@@ -13,7 +13,7 @@ public protocol PostbarDelegate : NSObjectProtocol {
     func commentsButtonTapped(cell: StreamFooterCell, imageLabelControl: ImageLabelControl)
     func deletePostButtonTapped(indexPath: NSIndexPath)
     func deleteCommentButtonTapped(indexPath: NSIndexPath)
-    func lovesButtonTapped(indexPath: NSIndexPath)
+    func lovesButtonTapped(cell: StreamFooterCell)
     func repostButtonTapped(indexPath: NSIndexPath)
     func shareButtonTapped(indexPath: NSIndexPath)
     func flagPostButtonTapped(indexPath: NSIndexPath)
@@ -177,44 +177,52 @@ public class PostbarController: NSObject, PostbarDelegate {
     }
 
 
-    public func lovesButtonTapped(indexPath: NSIndexPath) {
-        if let post = self.postForIndexPath(indexPath) {
-            if post.loved { unlovePost(post) }
-            else { lovePost(post) }
+    public func lovesButtonTapped(cell: StreamFooterCell) {
+        if let indexPath = collectionView.indexPathForCell(cell),
+           let post = self.postForIndexPath(indexPath)
+        {
+            cell.lovesControl.userInteractionEnabled = false
+            if post.loved { unlovePost(post, cell: cell) }
+            else { lovePost(post, cell: cell) }
         }
     }
 
-    private func unlovePost(post: Post) {
+    private func unlovePost(post: Post, cell: StreamFooterCell) {
+        if let count = post.lovesCount {
+            post.lovesCount = count - 1
+            post.loved = false
+            postNotification(PostChangedNotification, (post, .Update))
+        }
+
         let service = LovesService()
         service.unlovePost(
             postId: post.id,
             success: {
-                if let count = post.lovesCount {
-                    post.lovesCount = count - 1
-                    post.loved = false
-                    postNotification(PostChangedNotification, (post, .Update))
-                }
+                cell.lovesControl.userInteractionEnabled = true
                 Tracker.sharedTracker.postUnloved()
             },
             failure: { error, statusCode in
+                cell.lovesControl.userInteractionEnabled = true
                 println("failed to unlove post \(post.id), error: \(error.elloErrorMessage ?? error.localizedDescription)")
             }
         )
     }
 
-    private func lovePost(post: Post) {
+    private func lovePost(post: Post, cell: StreamFooterCell) {
+        if let count = post.lovesCount {
+            post.lovesCount = count + 1
+            post.loved = true
+            postNotification(PostChangedNotification, (post, .Update))
+        }
         let service = LovesService()
         service.lovePost(
             postId: post.id,
             success: {
-                if let count = post.lovesCount {
-                    post.lovesCount = count + 1
-                    post.loved = true
-                    postNotification(PostChangedNotification, (post, .Update))
-                }
+                cell.lovesControl.userInteractionEnabled = true
                 Tracker.sharedTracker.postLoved()
             },
             failure: { error, statusCode in
+                cell.lovesControl.userInteractionEnabled = true
                 println("failed to love post \(post.id), error: \(error.elloErrorMessage ?? error.localizedDescription)")
             }
         )
