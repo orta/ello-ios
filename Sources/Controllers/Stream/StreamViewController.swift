@@ -410,7 +410,7 @@ public class StreamViewController: BaseElloViewController {
                 return true
             }
             if let post = item.jsonable as? Post {
-                return !post.collapsed
+                return item.state != .Collapsed
             }
             return true
         }

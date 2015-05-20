@@ -19,7 +19,7 @@ public struct StreamToggleCellPresenter {
     {
         if let cell = cell as? StreamToggleCell {
             if let post = streamCellItem.jsonable as? Post {
-                let message = post.collapsed ? cell.closedMessage : cell.openedMessage
+                let message = streamCellItem.state == .Collapsed ? cell.closedMessage : cell.openedMessage
                 cell.label.setLabelText(post.contentWarning + " " + message)
             }
         }

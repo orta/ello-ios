@@ -72,6 +72,7 @@ public struct StreamCellItemParser {
                 }
             }
             cellItems += footerStreamCellItems(post)
+            cellItems.map { $0.state = post.collapsed ? .Collapsed : .Expanded }
         }
         return cellItems
     }
