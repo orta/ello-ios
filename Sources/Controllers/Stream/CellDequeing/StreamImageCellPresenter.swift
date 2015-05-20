@@ -52,10 +52,12 @@ public struct StreamImageCellPresenter {
 
                 var attachmentToLoad: Attachment?
                 var imageToLoad: NSURL?
+                var showGifInThisCell = false
                 if let asset = imageRegion.asset where asset.isGif {
                     if streamKind.supportsLargeImages || !asset.isLargeGif {
                         attachmentToLoad = asset.optimized
                         imageToLoad = asset.optimized?.url
+                        showGifInThisCell = true
                     }
                     else {
                         cell.presentedImageUrl = asset.optimized?.url
@@ -79,8 +81,7 @@ public struct StreamImageCellPresenter {
 
                 if let imageURL = imageToLoad {
                     cell.serverProvidedAspectRatio = StreamImageCellSizeCalculator.aspectRatioForImageRegion(imageRegion)
-                    let isGif = imageRegion.asset?.isGif == true
-                    cell.setImage(imageURL, isGif: isGif)
+                    cell.setImage(imageURL, isGif: showGifInThisCell)
                 }
                 else if let imageURL = imageRegion.url {
                     cell.setImage(imageURL, isGif: imageURL.hasGifExtension)
