@@ -80,9 +80,9 @@ public class DeleteAccountConfirmationViewController: BaseElloViewController {
             self.dismissViewControllerAnimated(true) {
                 postNotification(AuthenticationNotifications.userLoggedOut, ())
             }
-        }) { _, _ in
+        }, failure: { _, _ in
             ElloHUD.hideLoadingHud()
-        }
+        })
     }
 
     @IBAction func yesButtonTapped() {

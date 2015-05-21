@@ -126,7 +126,7 @@ extension AvatarImageSelectionViewController {
         ProfileService().updateUserAvatarImage(image, success: { _ in
             ElloHUD.hideLoadingHud()
             self.onboardingViewController?.goToNextStep(self.onboardingData)
-        }) { _, _ in
+        }, failure: { _, _ in
             ElloHUD.hideLoadingHud()
             self.chooseAvatarImageView?.image = self.chooseAvatarImageDefault()
             self.onboardingData?.avatarImage = nil
@@ -138,7 +138,7 @@ extension AvatarImageSelectionViewController {
             alertController.addAction(action)
 
             self.presentViewController(alertController, animated: true, completion: nil)
-        }
+        })
     }
 
 }

@@ -120,7 +120,7 @@ extension CoverImageSelectionViewController {
         ProfileService().updateUserCoverImage(image, success: { _ in
             ElloHUD.hideLoadingHud()
             self.onboardingViewController?.goToNextStep(self.onboardingData)
-        }) { _, _ in
+        }, failure: { _, _ in
             ElloHUD.hideLoadingHud()
             self.chooseCoverImageView?.image = self.chooseCoverImageDefault()
             self.onboardingData?.coverImage = nil
@@ -132,7 +132,7 @@ extension CoverImageSelectionViewController {
             alertController.addAction(action)
 
             self.presentViewController(alertController, animated: true, completion: nil)
-        }
+        })
     }
 }
 

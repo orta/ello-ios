@@ -163,9 +163,9 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
                 } else {
                     self.nameTextFieldView.setState(.Error)
                 }
-            }) { _, _ in
+            }, failure: { _, _ in
                 self.nameTextFieldView.setState(.Error)
-            }
+            })
         }
 
         nameTextFieldView.textFieldDidChange = { _ in
@@ -185,9 +185,9 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
                 } else {
                     self.linksTextFieldView.setState(.Error)
                 }
-            }) { _, _ in
+            }, failure: { _, _ in
                 self.linksTextFieldView.setState(.Error)
-            }
+            })
         }
 
         linksTextFieldView.textFieldDidChange = { _ in
@@ -208,9 +208,9 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
                 } else {
                     self.bioTextStatusImage.image = ValidationState.Error.imageRepresentation
                 }
-            }) { _, _ in
+            }, failure: { _, _ in
                 self.bioTextStatusImage.image = ValidationState.Error.imageRepresentation
-            }
+            })
         }
     }
 
@@ -257,9 +257,9 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
             ProfileService().updateUserCoverImage(image, success: { _ in
                 ElloHUD.hideLoadingHud()
                 self.alertUserOfImageProcessing()
-            }) { _, _ in
+            }, failure: { _, _ in
                 ElloHUD.hideLoadingHud()
-            }
+            })
         }
         openImagePicker()
     }
@@ -271,9 +271,9 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
             ProfileService().updateUserAvatarImage(image, success: { user in
                 ElloHUD.hideLoadingHud()
                 self.alertUserOfImageProcessing()
-            }) { _, _ in
+            }, failure: { _, _ in
                 ElloHUD.hideLoadingHud()
-            }
+            })
         }
         openImagePicker()
     }
