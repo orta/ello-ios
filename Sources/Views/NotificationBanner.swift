@@ -11,7 +11,7 @@ import CRToast
 public struct NotificationBanner {
     public static func displayAlertForPayload(payload: PushPayload) {
         configureDefaults()
-        CRToastManager.showNotificationWithMessage("Hello World") { }
+        CRToastManager.showNotificationWithMessage(payload.message) { }
     }
 }
 

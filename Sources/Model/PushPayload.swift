@@ -14,4 +14,9 @@ public extension PushPayload {
     var applicationTarget: String {
         return info["application_target"] as? String ?? ""
     }
+
+    var message: String {
+        let aps = info["aps"] as? [String: AnyObject]
+        return aps?["alert"] as? String ?? "New Notification"
+    }
 }
