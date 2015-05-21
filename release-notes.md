@@ -1,3 +1,145 @@
+### Ello Build 1839(v1.0.0) May 20, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #300 - Allows tapping on users in find/invite.
+* Only find friends when it is the parent controller
+* Set selection style to none on `FindFriendsCell`
+* Allow table views to be tappable
+
+[Finishes #94032914]
+
+------
+
+#### #299 - Some fixes
+Adds "swipe to dismiss" in the omnibar
+Replaces Notification filter bar with Navigation bar.
+
+------
+
+#### #298 - Updates the search and hamburger icons.
+* Now they are slightly bigger!
+
+------
+
+#### #297 - Update cell items to set collapsed state properly
+
+------
+
+#### #295 - Fix gif crash
+The app was crashing when a GIF larger than 2MB was displayed in a stream with other posts due to a logic error.
+
+The fix was to route the loading of the placeholder through the non-gif flow.
+
+This PR also includes a project update to get rid of the warnings in Xcode.
+
+![screen shot 2015-05-20 at 11 38 04 am](https://cloud.githubusercontent.com/assets/12459/7732421/47c9f77c-fee5-11e4-807e-c0614bb58af3.png)
+
+------
+
+#### #294 - Show user’s email if no name exists.
+* Fixes the issue where ‘NO NAME’ was showing in find/invite friends
+
+[Finishes #94011664]
+
+------
+
+#### #293 - Collapsed cells should behave when comments added.
+* Sets a collapsed or expanded state on the cell instead of the model
+* Makes the collapsed property of `Post` computed since it shouldn’t change
+* Updates specs a bit…
+
+![image](https://cloud.githubusercontent.com/assets/96433/7719130/655829b0-fe79-11e4-8f4b-42d0f62bf014.png)
+
+
+[#94680018]
+
+------
+
+#### #287 - Add local configuration; Load the env-specific protocol from config
+We previously assumed https for every request, but this makes issuing requests against a local app instance difficult. This commit changes ElloURI to load the protocol from ElloKeys, and also adds local entries to .env.example and Rakefile.
+
+TODO:
+
+- [x] Address extra '//' in Attachment urls
+
+------
+
+#### #285 - Use FLAnimatedImage for gifs
+#### What's this PR do?
+
+Some gif files displayed in-app were using up to 1GB or more of the device's RAM. This was causing the system to terminate the app due to memory use.
+
+This PR makes proper use of `FLAnimatedImage` for gifs shown in `StreamImageCell`s
+
+#### Possible issues
+
+`SDWebImage` is no longer handling caching of gifs so they are downloaded more frequently than we'd like. The temporary solution is using a global `NSCache` for gifs. We'll want to remove all of this custom gif handling when `FLAnimatedImage` is a `UIImage` subclass and `SDWebImage` adds support for `FLAnimatedImage`.
+
+------
+
+#### #292 - Update Push Notification confirmation modal to match comps
+Fixes: https://www.pivotaltracker.com/story/show/94978354
+
+![screen shot 2015-05-19 at 11 57 05 am](https://cloud.githubusercontent.com/assets/12459/7710054/6f6dba74-fe1e-11e4-8504-986bc041324b.png)
+
+------
+
+#### #286 - Onboarding, and changes to auto-logout.
+Not sure if these changes will fix things, but it should at least make the "system-log-out" a little less painful.  In my testing, though, it appears that the refresh token is doing what it should, I think the logout is because the *refresh token* is expiring. @jayzes is that sensical or no?
+
+The biggest change is I moved the `systemLoggedOut` handling into `ElloTabBarController`.  This means that if this notification is sent out during startup/login/join, it will be properly ignored.
+
+Fixes the broken 'Enter Ello' button during login. [Finishes #94857974]
+
+Other changes (lots, sorry for the massive PR)
+
+###### new Endpoints
+- CommunitiesStream
+- AwesomePeopleStream
+- FoundersStream
+
+###### Onboarding
+- first few steps, all the `UserList` screens, and getting into settings.
+- these all use the `StreamViewController`, but with pull-to-refresh and infinite-scroll disabled
+- adds `FollowAllCell` and `OnboardingHeaderView / Cell`
+
+###### Refactors
+- moved the hashing of emails into the network layer (shared in FindFriends and Onboarding)
+- added `ElloSizeableLabel`, which "respects" the font size set in the .XIB or from code.  This should probably be made into the default `ElloLabel` behavior, but I didn't want to refactor all that code.
+  as it stands, the `ElloLabel` forces its text to be 12.0pt size.
+- Changes to the `ElloButton` background colors
+  added a disabled bg color to `ElloLightButton`
+  added a `ClearElloButton`, which is used as the "Skip" button
+  added a `FollowAllElloButton`, which can be "selected", which makes its bg white w/ black border
+- Support `FindFriends` stream in `StreamService`, by using `.POST` instead of `.GET`
+- Refactored `ElloProvider` to use sensible variable names (`target` instead of `token`) and tried to clear up the `endpointsClosure` by adding `requiresToken` to `ElloAPI`
+- Changed `.ReAuth` logic to check for a previously "authenticated" token, otherwise it always grabs an "anonymous" token.
+- added ability to disable `pulToRefresh` feature in `StreamViewController` (not used during onboarding).
+- `StreamCellItem.data` now accepts `Any?` instead of `Regionable`.  Added `.region` to make the code easy to update. `var region { return data as? Regionable }`
+
+###### Find Friends changes
+- instead of `needsAuthentication`, changed the code to use `authenticationStatus`, so we can provide more articulate error messages.
+- changed some method names, and added more alerts, to `StreamableViewController`'s `InviteResponder` code.
+
+------
+
+#### #283 - Settings experience updates.
+* Updates the current user if displayed anywhere in the app
+
+[Finishes #94623164]
+
+------
+
+#### #284 - Update settings to be dynamic from the API.
+* We should not need to update the toggles moving forward.
+
+[Will Eventually Finish #94589564][Will Eventually Finish #94589660][Will Eventually Finish #92959812]
+    
+------------
+
 ### Ello Build 1753(v1.0.0) May 15, 2015
 
     RELEASE NOTES
