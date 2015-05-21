@@ -17,6 +17,7 @@ public class InviteFriendsViewController: BaseElloViewController {
     public let inviteService = InviteService()
     private var relationshipController: RelationshipController?
     public var allContacts: [(LocalPerson, User?)] = []
+    public var userTappedDelegate: UserTappedDelegate?
 
     required public init() {
         super.init(nibName: "InviteFriendsViewController", bundle: NSBundle(forClass: InviteFriendsViewController.self))
@@ -50,6 +51,7 @@ public class InviteFriendsViewController: BaseElloViewController {
 
         tableView.dataSource = dataSource
         tableView.delegate = self
+        tableView.allowsSelection = true
     }
 
     private func setupFilterField() {
@@ -82,6 +84,12 @@ public class InviteFriendsViewController: BaseElloViewController {
 extension InviteFriendsViewController : UITableViewDelegate {
     public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 60.0
+    }
+
+    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if let addFriendsCellItem = dataSource.itemAtIndexPath(indexPath), let user = addFriendsCellItem.user {
+            userTappedDelegate?.userTapped(user)
+        }
     }
 }
 

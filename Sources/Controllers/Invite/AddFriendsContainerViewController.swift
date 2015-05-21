@@ -24,6 +24,12 @@ public class AddFriendsContainerViewController: StreamableViewController {
     public let pageViewController: UIPageViewController
     public let findFriendsViewController: FindFriendsViewController
     public let inviteFriendsViewController: InviteFriendsViewController
+    public var userTappedDelegate: UserTappedDelegate? {
+        didSet {
+            self.findFriendsViewController.userTappedDelegate = self.userTappedDelegate
+            self.inviteFriendsViewController.userTappedDelegate = self.userTappedDelegate
+        }
+    }
     let addressBook: ContactList
 
     required public init(addressBook: ContactList) {
@@ -53,8 +59,10 @@ public class AddFriendsContainerViewController: StreamableViewController {
 
     override public func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        findFriendsFromContacts()
-        updateInsets()
+        if isMovingToParentViewController() {
+            findFriendsFromContacts()
+            updateInsets()
+        }
     }
 
     override func showNavBars(scrollToBottom : Bool) {

@@ -13,6 +13,7 @@ public class FindFriendsViewController: BaseElloViewController {
     @IBOutlet weak public var tableView: UITableView!
     public let dataSource = AddFriendsDataSource()
     public let inviteService = InviteService()
+    public var userTappedDelegate: UserTappedDelegate?
     var relationshipController: RelationshipController?
 
     required public init() {
@@ -43,6 +44,7 @@ public class FindFriendsViewController: BaseElloViewController {
 
         tableView.dataSource = dataSource
         tableView.delegate = self
+        tableView.allowsSelection = true
     }
 
     private func registerCells() {
@@ -59,5 +61,11 @@ extension FindFriendsViewController : UITableViewDelegate {
 
     public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 60.0
+    }
+
+    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if let addFriendsCellItem = dataSource.itemAtIndexPath(indexPath), let user = addFriendsCellItem.user {
+            userTappedDelegate?.userTapped(user)
+        }
     }
 }
