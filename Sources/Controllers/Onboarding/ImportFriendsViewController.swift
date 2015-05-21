@@ -19,6 +19,11 @@ public class ImportFriendsViewController: OnboardingUserListViewController, Onbo
         fatalError("init(coder:) has not been implemented")
     }
 
+    override public func viewDidLoad() {
+        super.viewDidLoad()
+        self.title = "Onboarding Import Friends"
+    }
+
     override func setupStreamController() {
         super.setupStreamController()
 

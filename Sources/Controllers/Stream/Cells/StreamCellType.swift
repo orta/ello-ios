@@ -14,7 +14,7 @@ public typealias CellConfigClosure = (
     streamKind: StreamKind,
     indexPath: NSIndexPath,
     currentUser: User?
-) -> ()
+) -> Void
 
 public enum StreamCellType {
     case CommentHeader

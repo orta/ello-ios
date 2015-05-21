@@ -63,7 +63,7 @@ public class ProfileHeaderCell: UICollectionViewCell {
         settingsButton.addTarget(self, action: Selector("settingsTapped:"), forControlEvents: UIControlEvents.TouchUpInside)
 
         inviteButton.setTitle("", forState: UIControlState.Normal)
-        inviteButton.setSVGImages("xpmcirc", rotation: 90)
+        inviteButton.setSVGImages("xpmcirc")
         inviteButton.addTarget(self, action: Selector("inviteTapped:"), forControlEvents: UIControlEvents.TouchUpInside)
     }
 

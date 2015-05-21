@@ -6,8 +6,9 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-public class OnboardingUserListViewController: StreamableViewController, OnboardingStep, FollowAllButtonResponder {
+public class OnboardingUserListViewController: StreamableViewController, OnboardingStep, FollowAllButtonResponder, RelationshipControllerDelegate {
     weak var onboardingViewController: OnboardingViewController?
+    var onboardingData: OnboardingData?
 
     var headerItem: StreamCellItem?
     var followAllItem: StreamCellItem?
@@ -19,6 +20,7 @@ public class OnboardingUserListViewController: StreamableViewController, Onboard
         streamViewController.pullToRefreshEnabled = false
         streamViewController.allOlderPagesLoaded = true
         streamViewController.initialLoadClosure = self.loadUsers
+        streamViewController.relationshipController?.delegate = self
     }
 
     override public func viewDidLoad() {
@@ -26,12 +28,25 @@ public class OnboardingUserListViewController: StreamableViewController, Onboard
 
         streamViewController.loadInitialPage()
 
-        onboardingViewController?.canGoNext = false
         ElloHUD.showLoadingHudInView(streamViewController.view)
     }
 
     override func viewForStream() -> UIView {
         return view
+    }
+
+    public func relationshipChanged(userId: String, status: RelationshipRequestStatus, relationship: Relationship?) {
+        if status == .Failure {
+            let message = NSLocalizedString("Oh no! Something went wrong.\n\nTry that again maybe?", comment: "Relationship status update failed during onboarding message")
+            let alertController = AlertViewController(message: message)
+
+            let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
+            alertController.addAction(action)
+
+            self.presentViewController(alertController, animated: true, completion: nil)
+        }
+        // add or remove userId to the "followed" list, which gets passed from
+        // "community selection" to the "awesome people" endpoint
     }
 
     override public func didSetCurrentUser() {
@@ -70,9 +85,25 @@ public class OnboardingUserListViewController: StreamableViewController, Onboard
 
     func onFollowAll() {
         if let users = users {
-            let userCount = count(users)
-            followAllItem?.data = FollowAllCounts(userCount: userCount, followedCount: userCount)
-            streamViewController.reloadCells()
+            let userIds = users.map { $0.id }
+            ElloHUD.showLoadingHud()
+            RelationshipService().bulkUpdateRelationships(userIds: userIds, relationship: .Friend,
+                success: { data in
+                    ElloHUD.hideLoadingHud()
+                    let userCount = count(users)
+                    self.followAllItem?.data = FollowAllCounts(userCount: userCount, followedCount: userCount)
+
+                    let userItems = self.streamViewController.dataSource.streamCellItems.filter { (item: StreamCellItem) in return item.type == .UserListItem }
+                    for streamCellItem in userItems {
+                        if let user = streamCellItem.jsonable as? User {
+                            user.relationshipPriority = .Friend
+                        }
+                    }
+                    self.streamViewController.reloadCells()
+                },
+                failure: { _ in
+                    ElloHUD.hideLoadingHud()
+                })
         }
     }
 

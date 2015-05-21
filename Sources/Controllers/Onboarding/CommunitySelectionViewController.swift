@@ -8,6 +8,11 @@
 
 public class CommunitySelectionViewController: OnboardingUserListViewController {
 
+    override public func viewDidLoad() {
+        super.viewDidLoad()
+        self.title = "Onboarding Community Selection"
+    }
+
     override func setupStreamController() {
         super.setupStreamController()
 

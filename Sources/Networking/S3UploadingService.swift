@@ -10,7 +10,7 @@ import Moya
 
 
 public class S3UploadingService: NSObject {
-    typealias S3UploadSuccessCompletion = (url : NSURL?) -> ()
+    typealias S3UploadSuccessCompletion = (url : NSURL?) -> Void
 
     var uploader : ElloS3?
 

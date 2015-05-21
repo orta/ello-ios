@@ -365,11 +365,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
         // make sure the textContainer is above the keboard, with a 1pt line
         // margin at the bottom.
         // size the textContainer and sayElloOverlay to be identical.
-        let kbdHeight = Keyboard.shared().topEdge
-        let window : UIView = self.window ?? self
-        let bottom = self.convertPoint(CGPoint(x: 0, y: self.bounds.height), toView: window).y
-        let bottomHeight = window.frame.height - bottom
-        var localKbdHeight = kbdHeight - bottomHeight
+        var localKbdHeight = Keyboard.shared().keyboardBottomInset(inView: self)
         if localKbdHeight < 0 {
             localKbdHeight = Size.margins
         }

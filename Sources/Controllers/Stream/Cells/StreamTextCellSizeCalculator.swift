@@ -9,7 +9,7 @@
 import Foundation
 
 public class StreamTextCellSizeCalculator: NSObject, UIWebViewDelegate {
-    public typealias StreamTextCellSizeCalculated = () -> ()
+    public typealias StreamTextCellSizeCalculated = () -> Void
 
     let webView: UIWebView
     var maxWidth: CGFloat

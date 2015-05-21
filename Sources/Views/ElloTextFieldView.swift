@@ -20,7 +20,7 @@ public class ElloTextFieldView: UIView {
     @IBOutlet private var messageLabelHeight: NSLayoutConstraint!
     @IBOutlet private weak var errorLabelSeparationSpacing: NSLayoutConstraint!
 
-    public var textFieldDidChange: (String -> ())? {
+    public var textFieldDidChange: (String -> Void)? {
         didSet {
             textField.addTarget(self, action: Selector("valueChanged"), forControlEvents: .EditingChanged)
         }
@@ -164,7 +164,7 @@ public extension ElloTextFieldView {
         passwordView.textField.spellCheckingType = .No
         passwordView.textField.keyboardAppearance = .Dark
         passwordView.textField.enablesReturnKeyAutomatically = true
-        passwordView.textField.returnKeyType = .Default
+        passwordView.textField.returnKeyType = .Go
         passwordView.textField.keyboardType = .Default
         passwordView.textField.secureTextEntry = true
     }

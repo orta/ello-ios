@@ -42,7 +42,7 @@ class PulsingCircle: UIView {
         }
     }
 
-    func stopPulse(completion: ((Bool)->())? = nil) {
+    func stopPulse(completion: ((Bool) -> Void)? = nil) {
         shouldReanimate = false
         isPulsing = false
         UIView.animateWithDuration(0.65,

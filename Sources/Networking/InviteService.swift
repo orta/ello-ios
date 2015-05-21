@@ -11,8 +11,8 @@ import Moya
 import SwiftyJSON
 
 
-public typealias InviteFriendsSuccessCompletion = () -> ()
-public typealias FindFriendsSuccessCompletion = ([User]) -> ()
+public typealias InviteFriendsSuccessCompletion = () -> Void
+public typealias FindFriendsSuccessCompletion = ([User]) -> Void
 
 public struct InviteService {
 
@@ -28,7 +28,7 @@ public struct InviteService {
     public func find(contacts: [String: [String]], currentUser: User?, success: FindFriendsSuccessCompletion, failure: ElloFailureCompletion?) {
         ElloProvider.elloRequest(ElloAPI.FindFriends(contacts: contacts),
             method: .POST,
-            success: { (data, responseConfig) -> () in
+            success: { (data, responseConfig) in
                 if let data = data as? [User] {
                     success(InviteService.filterUsers(data, currentUser: currentUser))
                 }

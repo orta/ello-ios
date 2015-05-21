@@ -69,52 +69,44 @@ public class AppViewController: BaseElloViewController {
 
     private func checkIfLoggedIn() {
         let authToken = AuthToken()
-        if authToken.isValid {
+        if authToken.isPresent {
             self.loadCurrentUser()
         }
         else {
-            let authService = AuthService()
-            authService.reAuthenticate({
-                self.loadCurrentUser()
-            },
-            failure: { (_,_) in
-                self.showButtons()
-            })
+            self.showButtons()
         }
     }
 
-    private func loadCurrentUser() {
+    public func loadCurrentUser(failure: ElloErrorCompletion? = nil) {
         let profileService = ProfileService()
-        profileService.loadCurrentUser(ElloAPI.Profile(perPage: 1), success: { user in
-            // <restore later>
-            self.showMainScreen(user)
-            // </restore later>
-
-            // <onboarding code>
-            // let vc = OnboardingViewController()
-            // vc.parentAppController = self
-            // vc.currentUser = user
-            // self.swapViewController(vc)
-            // </onboarding code>
-        }, failure: { error in
-            self.failedToLoadCurrentUser()
-        })
-
-        //TODO: Need to get failure back to AppViewController when loading the current user fails
+        profileService.loadCurrentUser(ElloAPI.Profile(perPage: 1),
+            success: self.showMainScreen,
+            failure: { (error, _) in
+                self.failedToLoadCurrentUser(failure, error: error)
+            },
+            invalidToken: { error in
+                self.failedToLoadCurrentUser(failure, error: error)
+            })
     }
 
-    func failedToLoadCurrentUser() {
+    func failedToLoadCurrentUser(failure: ElloErrorCompletion?, error: NSError) {
         let authToken = AuthToken()
         authToken.reset()
         showButtons()
     }
 
-    private func showButtons() {
-        UIView.animateWithDuration(0.2) {
+    private func showButtons(animated: Bool = true) {
+        animate(animated: animated) {
             self.joinButton.alpha = 1.0
             self.signInButton.alpha = 1.0
             self.socialRevolution.alpha = 1.0
         }
+    }
+
+    private func hideButtons() {
+        self.joinButton.alpha = 0.0
+        self.signInButton.alpha = 0.0
+        self.socialRevolution.alpha = 0.0
     }
 
     private func setupNotificationObservers() {
@@ -145,6 +137,15 @@ extension AppViewController {
         let signInController = SignInViewController()
         signInController.parentAppController = self
         swapViewController(signInController)
+    }
+
+    public func showOnboardingScreen(user: User) {
+        let vc = OnboardingViewController()
+        vc.parentAppController = self
+        vc.currentUser = user
+        self.presentViewController(vc, animated: true) {
+            self.showMainScreen(user)
+        }
     }
 
     public func showMainScreen(user: User) {
@@ -198,6 +199,7 @@ extension AppViewController {
 
             newViewController.didMoveToParentViewController(self)
 
+            self.hideButtons()
             self.visibleViewController = newViewController
             completion?()
         })
@@ -212,7 +214,7 @@ extension AppViewController {
             }
 
             UIView.animateWithDuration(0.2, animations: {
-                self.showButtons()
+                self.showButtons(animated: false)
                 visibleViewController.view.alpha = 0
                 self.scrollView.alpha = 1
             }, completion: { _ in

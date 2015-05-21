@@ -22,7 +22,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     var parentPost: Post?
     var defaultText: String?
 
-    typealias CommentSuccessListener = (comment : Comment)->()
+    typealias CommentSuccessListener = (comment : Comment) -> Void
     var commentSuccessListeners = [CommentSuccessListener]()
 
     var _mockScreen: OmnibarScreenProtocol?

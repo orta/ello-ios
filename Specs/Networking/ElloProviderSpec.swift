@@ -81,7 +81,7 @@ class ElloProviderSpec: QuickSpec {
                             let endpoint: ElloAPI = .FriendStream
                             ElloProvider.elloRequest(endpoint, method: Moya.Method.GET, success: { (data, responseConfig) in
                                     loadedJSONAbles = data as? [JSONAble]
-                                }, failure: { (error, statusCode) -> () in
+                                }, failure: { (error, statusCode) in
                                     loadedError = error
                                     loadedStatusCode = statusCode
                             })

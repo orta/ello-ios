@@ -11,7 +11,7 @@ import WebKit
 
 public class StreamDataSource: NSObject, UICollectionViewDataSource {
 
-    public typealias StreamContentReady = (indexPaths:[NSIndexPath]) -> ()
+    public typealias StreamContentReady = (indexPaths:[NSIndexPath]) -> Void
     public typealias StreamFilter = (StreamCellItem -> Bool)?
 
     let imageBottomPadding:CGFloat = 10.0

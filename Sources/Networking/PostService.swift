@@ -8,8 +8,8 @@
 
 import Foundation
 
-public typealias PostSuccessCompletion = (post: Post, responseConfig: ResponseConfig) -> ()
-public typealias DeletePostSuccessCompletion = () -> ()
+public typealias PostSuccessCompletion = (post: Post, responseConfig: ResponseConfig) -> Void
+public typealias DeletePostSuccessCompletion = () -> Void
 
 public struct PostService {
 

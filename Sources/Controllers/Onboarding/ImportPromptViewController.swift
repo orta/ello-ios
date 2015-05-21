@@ -8,6 +8,7 @@
 
 public class ImportPromptViewController: BaseElloViewController, OnboardingStep {
     weak var onboardingViewController: OnboardingViewController?
+    var onboardingData: OnboardingData?
 
     required public init() {
         super.init(nibName: "ImportPromptViewController", bundle: NSBundle(forClass: ImportPromptViewController.self))
@@ -19,7 +20,9 @@ public class ImportPromptViewController: BaseElloViewController, OnboardingStep 
 
     override public func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "Onboarding Import Friends Prompt"
     }
+
 }
 
 
@@ -94,7 +97,7 @@ extension ImportPromptViewController {
         let vc = ImportFriendsViewController(addressBook: addressBook)
         vc.onboardingViewController = onboardingViewController
         vc.currentUser = currentUser
-        onboardingViewController?.goToController(vc)
+        onboardingViewController?.goToController(vc, data: onboardingData)
     }
 
     private func displayAddressBookAlert(message: String) {

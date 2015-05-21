@@ -111,7 +111,7 @@ public class JoinViewController: BaseElloViewController, HasAppController {
                 authService.authenticate(email: email,
                     password: password,
                     success: {
-                        self.showMainScreen(user)
+                        self.showOnboardingScreen(user)
                     },
                     failure: { _, _ in
                         self.view.userInteractionEnabled = true
@@ -125,15 +125,8 @@ public class JoinViewController: BaseElloViewController, HasAppController {
         }
     }
 
-    private func showMainScreen(user: User) {
-        let vc = ElloTabBarController.instantiateFromStoryboard()
-        vc.setProfileData(user)
-        self.elloLogo.stopAnimatingLogo()
-        parentAppController?.swapViewController(vc) {
-            if let alert = PushNotificationController.sharedController.requestPushAccessIfNeeded() {
-                vc.presentViewController(alert, animated: true, completion: .None)
-            }
-        }
+    private func showOnboardingScreen(user: User) {
+        parentAppController?.showOnboardingScreen(user)
     }
 
     private func showSignInScreen(email: String, _ password: String) {
@@ -167,7 +160,7 @@ public class JoinViewController: BaseElloViewController, HasAppController {
     private func showTerms() {
         let nav = ElloWebBrowserViewController.navigationControllerWithWebBrowser()
         let browser = nav.rootWebBrowser()
-        browser.loadURLString("\(ElloURI.baseURL)/wtf/post/privacy")
+        browser.loadURLString("\(ElloURI.baseURL)/wtf/post/terms-of-use")
         browser.tintColor = UIColor.greyA()
         browser.showsURLInNavigationBar = false
         browser.showsPageTitleInNavigationBar = false
@@ -183,8 +176,9 @@ public class JoinViewController: BaseElloViewController, HasAppController {
 extension JoinViewController {
 
     private func keyboardWillChangeFrame(keyboard: Keyboard) {
-        scrollView.contentInset.bottom = keyboard.topEdge
-        scrollView.scrollIndicatorInsets.bottom = keyboard.topEdge
+        let bottomInset = keyboard.keyboardBottomInset(inView: scrollView)
+        scrollView.contentInset.bottom = bottomInset
+        scrollView.scrollIndicatorInsets.bottom = bottomInset
     }
 
 }

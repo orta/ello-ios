@@ -7,8 +7,8 @@
 //
 
 public protocol DrawerViewDataSourceDelegate: NSObjectProtocol {
-    func dataSourceStartedLoadingUsers(dataSource: DrawerViewDataSource) -> ()
-    func dataSourceFinishedLoadingUsers(dataSource: DrawerViewDataSource) -> ()
+    func dataSourceStartedLoadingUsers(dataSource: DrawerViewDataSource)
+    func dataSourceFinishedLoadingUsers(dataSource: DrawerViewDataSource)
 }
 
 public class DrawerViewDataSource {

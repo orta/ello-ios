@@ -11,8 +11,8 @@ import Moya
 import SwiftyJSON
 import SDWebImage
 
-public typealias StreamSuccessCompletion = (jsonables: [JSONAble], responseConfig: ResponseConfig) -> ()
-public typealias UserSuccessCompletion = (user: User, responseConfig: ResponseConfig) -> ()
+public typealias StreamSuccessCompletion = (jsonables: [JSONAble], responseConfig: ResponseConfig) -> Void
+public typealias UserSuccessCompletion = (user: User, responseConfig: ResponseConfig) -> Void
 
 public class StreamService: NSObject {
 

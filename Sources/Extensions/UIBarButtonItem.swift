@@ -16,7 +16,7 @@ extension UIBarButtonItem {
         let button = UIButton(frame: frame)
         button.setImage(SVGKImage(named: "abracket_normal.svg").UIImage!, forState: .Normal)
         // rotate 180 degrees to flip
-        button.transform = CGAffineTransformMakeRotation(CGFloat((180.0 * M_PI) / 180.0))
+        button.transform = CGAffineTransformMakeRotation(CGFloat(M_PI))
         button.addTarget(target, action: action, forControlEvents: .TouchUpInside)
 
         return UIBarButtonItem(customView: button)

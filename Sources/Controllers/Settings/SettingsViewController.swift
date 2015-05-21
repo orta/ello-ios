@@ -74,7 +74,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     @IBOutlet weak public var bioTextCountLabel: ElloErrorLabel!
     @IBOutlet weak public var bioTextStatusImage: UIImageView!
 
-    private var bioTextViewDidChange: (() -> ())?
+    private var bioTextViewDidChange: (() -> Void)?
 
     public var currentUser: User? {
         didSet {
@@ -85,7 +85,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
 
     var credentialSettingsViewController: CredentialSettingsViewController?
     var dynamicSettingsViewController: DynamicSettingsViewController?
-    var photoSaveCallback: (UIImage -> ())?
+    var photoSaveCallback: (UIImage -> Void)?
 
     override public func awakeFromNib() {
         super.awakeFromNib()
@@ -267,6 +267,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     @IBAction func avatarImageTapped() {
         photoSaveCallback = { image in
             ElloHUD.showLoadingHud()
+
             ProfileService().updateUserAvatarImage(image, success: { user in
                 ElloHUD.hideLoadingHud()
                 self.alertUserOfImageProcessing()

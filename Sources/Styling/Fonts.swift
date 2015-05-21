@@ -12,6 +12,7 @@ extension UIFont {
     // HEADING (Profile Header) uses Atlas Grotesk
     public class func regularBoldFont(size:CGFloat) -> UIFont { return UIFont(name: "AtlasGrotesk-Bold", size: size)! }
     public class func typewriterFont(size:CGFloat) -> UIFont { return UIFont(name: "AtlasTypewriter-Regular", size: size)! }
+    public class func typewriterBoldFont(size:CGFloat) -> UIFont { return UIFont(name: "AtlasTypewriter-Medium", size: size)! }
 
     public class func printAvailableFonts() {
         for familyName:AnyObject in UIFont.familyNames()

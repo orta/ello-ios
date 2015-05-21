@@ -54,7 +54,7 @@ class ElloTextFieldViewSpec: QuickSpec {
                 expect(passwordView.textField.spellCheckingType) == UITextSpellCheckingType.No
                 expect(passwordView.textField.keyboardAppearance) == UIKeyboardAppearance.Dark
                 expect(passwordView.textField.enablesReturnKeyAutomatically) == true
-                expect(passwordView.textField.returnKeyType) == UIReturnKeyType.Default
+                expect(passwordView.textField.returnKeyType) == UIReturnKeyType.Go
                 expect(passwordView.textField.keyboardType) == UIKeyboardType.Default
                 expect(passwordView.textField.secureTextEntry) == true
             }

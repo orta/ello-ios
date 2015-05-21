@@ -8,6 +8,11 @@
 
 public class AwesomePeopleSelectionViewController: OnboardingUserListViewController {
 
+    override public func viewDidLoad() {
+        super.viewDidLoad()
+        self.title = "Onboarding Awesome People Selection"
+    }
+
     override func setupStreamController() {
         super.setupStreamController()
 

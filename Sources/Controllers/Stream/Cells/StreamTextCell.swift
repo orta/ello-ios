@@ -10,7 +10,7 @@ import WebKit
 import Foundation
 
 public class StreamTextCell: StreamRegionableCell, UIWebViewDelegate {
-    typealias WebContentReady = (webView : UIWebView)->()
+    typealias WebContentReady = (webView : UIWebView) -> Void
 
     @IBOutlet weak var webView:UIWebView!
     @IBOutlet weak var leadingConstraint:NSLayoutConstraint!
