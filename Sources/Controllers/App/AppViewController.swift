@@ -153,7 +153,7 @@ extension AppViewController {
         var vc = ElloTabBarController.instantiateFromStoryboard()
         vc.setProfileData(user)
         if let payload = pushPayload {
-            vc.selectedTab = .Notifications
+            navigateToDeepLink(payload.applicationTarget)
             pushPayload = .None
         }
 
@@ -285,7 +285,7 @@ public extension AppViewController {
 extension AppViewController {
     func receivedPushNotification(payload: PushPayload) {
         if let vc = self.visibleViewController as? ElloTabBarController {
-            vc.selectedTab = .Notifications
+            navigateToDeepLink(payload.applicationTarget)
         } else {
             self.pushPayload = payload
         }
@@ -294,9 +294,9 @@ extension AppViewController {
 
 // MARK: URL Handling
 extension AppViewController {
-    func handleURL(url: NSURL) {
+    func navigateToDeepLink(path: String) {
         let vc = self.visibleViewController as? ElloTabBarController
-        switch url.host ?? "" {
+        switch path.pathComponents.first ?? "" {
         case "stream":
             vc?.selectedTab = .Stream
         case "notifications":

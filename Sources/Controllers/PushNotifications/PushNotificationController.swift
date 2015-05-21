@@ -11,10 +11,6 @@ import SwiftyUserDefaults
 private let NeedsPermissionKey = "PushNotificationNeedsPermission"
 private let DeniedPermissionKey = "PushNotificationDeniedPermission"
 
-public struct PushPayload {
-    let info: [NSObject: AnyObject]
-}
-
 public struct PushNotificationNotifications {
     static let interactedWithPushNotification = TypedNotification<PushPayload>(name: "com.Ello.PushNotification.Interaction")
     static let receivedPushNotification = TypedNotification<PushPayload>(name: "com.Ello.PushNotification.Received")
@@ -80,10 +76,11 @@ public extension PushNotificationController {
     }
 
     func receivedNotification(application: UIApplication, userInfo: [NSObject: AnyObject]) {
+        let payload = PushPayload(info: userInfo as! [String: AnyObject])
         switch application.applicationState {
         case .Active: println("The app is active")
         default:
-            postNotification(PushNotificationNotifications.interactedWithPushNotification, PushPayload(info: userInfo))
+            postNotification(PushNotificationNotifications.interactedWithPushNotification, payload)
         }
     }
 }

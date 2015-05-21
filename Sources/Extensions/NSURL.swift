@@ -11,3 +11,9 @@ extension NSURL {
         return pathExtension?.lowercaseString == "gif"
     }
 }
+
+public extension NSURL {
+    var absoluteStringWithoutProtocol: String {
+        return (host ?? "") + (path ?? "")
+    }
+}
