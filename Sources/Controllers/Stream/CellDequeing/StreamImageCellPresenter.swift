@@ -38,7 +38,7 @@ public struct StreamImageCellPresenter {
         }
     }
 
-    static func configure(
+    public static func configure(
         cell: UICollectionViewCell,
         streamCellItem: StreamCellItem,
         streamKind: StreamKind,
@@ -63,7 +63,9 @@ public struct StreamImageCellPresenter {
                         cell.presentedImageUrl = asset.optimized?.url
                         cell.isLargeImage = true
                     }
+                    cell.isGif = true
                 }
+                
 
                 let columnWidth: CGFloat
                 if streamKind.isGridLayout {
@@ -81,9 +83,11 @@ public struct StreamImageCellPresenter {
 
                 if let imageURL = imageToLoad {
                     cell.serverProvidedAspectRatio = StreamImageCellSizeCalculator.aspectRatioForImageRegion(imageRegion)
+                    cell.isGif = imageURL.hasGifExtension
                     cell.setImage(imageURL, isGif: showGifInThisCell)
                 }
                 else if let imageURL = imageRegion.url {
+                    cell.isGif = imageURL.hasGifExtension
                     cell.setImage(imageURL, isGif: imageURL.hasGifExtension)
                 }
 

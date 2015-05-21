@@ -22,13 +22,15 @@ public class StreamImageCell: StreamRegionableCell {
     @IBOutlet weak var leadingConstraint:NSLayoutConstraint!
 
     // not used in StreamEmbedCell
-    @IBOutlet weak var largeImagePlayButton: UIImageView?
+    @IBOutlet public weak var largeImagePlayButton: UIImageView?
     @IBOutlet weak var imageLeftContraint: NSLayoutConstraint?
     @IBOutlet weak var imageRightConstraint: NSLayoutConstraint?
 
-    weak var delegate: StreamImageCellDelegate?
+    weak var streamImageCellDelegate: StreamImageCellDelegate?
+    weak var postbarDelegate: PostbarDelegate?
+    public var isGif = false
     var request: Request?
-    var presentedImageUrl:NSURL?
+    public var presentedImageUrl:NSURL?
     var serverProvidedAspectRatio:CGFloat?
     public var isLargeImage: Bool {
         get { return !(largeImagePlayButton?.hidden ?? true) }
@@ -51,7 +53,7 @@ public class StreamImageCell: StreamRegionableCell {
         }
     }
 
-    public func setImage(url: NSURL, isGif: Bool) {
+    public func setImage(url: NSURL, isGif: Bool) {        
         self.imageView.image = nil
         self.imageView.alpha = 0
         circle.pulse()
@@ -130,11 +132,17 @@ public class StreamImageCell: StreamRegionableCell {
         super.prepareForReuse()
         request?.cancel()
         imageView.image = nil
+        isGif = false
         presentedImageUrl = nil
         isLargeImage = false
     }
 
     @IBAction func imageTapped(sender: UIButton) {
-         delegate?.imageTapped(self.imageView, cell: self)
+        if isGif {
+            postbarDelegate?.viewsButtonTapped(self)
+        }
+        else {
+            streamImageCellDelegate?.imageTapped(self.imageView, cell: self)
+        }
     }
 }

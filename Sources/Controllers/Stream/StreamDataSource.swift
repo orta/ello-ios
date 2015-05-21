@@ -248,7 +248,8 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                 (cell as! StreamHeaderCell).postbarDelegate = postbarDelegate
                 (cell as! StreamHeaderCell).userDelegate = userDelegate
             case .Image:
-                (cell as! StreamImageCell).delegate = imageDelegate
+                (cell as! StreamImageCell).streamImageCellDelegate = imageDelegate
+                (cell as! StreamImageCell).postbarDelegate = postbarDelegate
             case .Text:
                 (cell as! StreamTextCell).webLinkDelegate = webLinkDelegate
             case .Footer:
