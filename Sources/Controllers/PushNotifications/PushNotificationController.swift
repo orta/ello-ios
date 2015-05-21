@@ -78,7 +78,8 @@ public extension PushNotificationController {
     func receivedNotification(application: UIApplication, userInfo: [NSObject: AnyObject]) {
         let payload = PushPayload(info: userInfo as! [String: AnyObject])
         switch application.applicationState {
-        case .Active: println("The app is active")
+        case .Active:
+            NotificationBanner.displayAlertForPayload(payload)
         default:
             postNotification(PushNotificationNotifications.interactedWithPushNotification, payload)
         }
