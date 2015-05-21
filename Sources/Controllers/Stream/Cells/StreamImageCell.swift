@@ -138,11 +138,6 @@ public class StreamImageCell: StreamRegionableCell {
     }
 
     @IBAction func imageTapped(sender: UIButton) {
-        if isGif {
-            postbarDelegate?.viewsButtonTapped(self)
-        }
-        else {
-            streamImageCellDelegate?.imageTapped(self.imageView, cell: self)
-        }
+        streamImageCellDelegate?.imageTapped(self.imageView, cell: self)
     }
 }

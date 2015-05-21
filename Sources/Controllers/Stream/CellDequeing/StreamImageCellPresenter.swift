@@ -83,7 +83,6 @@ public struct StreamImageCellPresenter {
 
                 if let imageURL = imageToLoad {
                     cell.serverProvidedAspectRatio = StreamImageCellSizeCalculator.aspectRatioForImageRegion(imageRegion)
-                    cell.isGif = imageURL.hasGifExtension
                     cell.setImage(imageURL, isGif: showGifInThisCell)
                 }
                 else if let imageURL = imageRegion.url {

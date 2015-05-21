@@ -33,7 +33,7 @@ public protocol PostbarDelegate : NSObjectProtocol {
 }
 
 public protocol StreamImageCellDelegate : NSObjectProtocol {
-    func imageTapped(imageView: FLAnimatedImageView, cell: UICollectionViewCell)
+    func imageTapped(imageView: FLAnimatedImageView, cell: StreamImageCell)
 }
 
 @objc
@@ -641,8 +641,8 @@ extension StreamViewController: SSPullToRefreshViewDelegate {
 // MARK: StreamViewController: StreamImageCellDelegate
 extension StreamViewController: StreamImageCellDelegate {
 
-    public func imageTapped(imageView: FLAnimatedImageView, cell: UICollectionViewCell) {
-        if streamKind.isGridLayout {
+    public func imageTapped(imageView: FLAnimatedImageView, cell: StreamImageCell) {
+        if streamKind.isGridLayout || cell.isGif {
             if let indexPath = collectionView.indexPathForCell(cell) {
                 if let post = dataSource.postForIndexPath(indexPath) {
                     postTappedDelegate?.postTapped(post)
@@ -653,6 +653,5 @@ extension StreamViewController: StreamImageCellDelegate {
             imageViewerDelegate.imageTapped(imageView, cell: cell)
         }
     }
-
 }
 
