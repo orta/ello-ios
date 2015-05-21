@@ -6,11 +6,11 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-private let defaultDuration: NSTimeInterval = 0.25
+let DefaultAnimationDuration: NSTimeInterval = 0.25
 
 public class ForwardAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     public func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
-        return defaultDuration
+        return DefaultAnimationDuration
     }
 
     public func animateTransition(context: UIViewControllerContextTransitioning) {
@@ -37,7 +37,7 @@ public class ForwardAnimator: NSObject, UIViewControllerAnimatedTransitioning {
 
 public class BackAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     public func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
-        return defaultDuration
+        return DefaultAnimationDuration
     }
 
     public func animateTransition(context: UIViewControllerContextTransitioning) {

@@ -19,7 +19,7 @@ pod 'SDWebImage', '~> 3.7'
 pod 'SSPullToRefresh', '~> 1.2'
 pod 'SVGKit', git: 'https://github.com/SVGKit/SVGKit'
 pod 'YapDatabase', git: 'https://github.com/ello/YapDatabase'
-
+pod 'CRToast', git: 'https://github.com/ello/CRToast'
 
 # swift pods
 pod 'Alamofire', '~> 1.2.0'
