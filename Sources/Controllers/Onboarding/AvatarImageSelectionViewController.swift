@@ -46,7 +46,14 @@ public class AvatarImageSelectionViewController: BaseElloViewController, Onboard
 
 public extension AvatarImageSelectionViewController {
     public func onboardingWillProceed() {
-        println("=============== \(__FILE__.lastPathComponent) line \(__LINE__) ===============")
+        if let image = onboardingData?.avatarImage {
+            ElloHUD.showLoadingHud()
+            ProfileService().updateUserAvatarImage(image, success: { _ in
+                    ElloHUD.hideLoadingHud()
+                }) { _, _ in
+                    ElloHUD.hideLoadingHud()
+                }
+        }
     }
 }
 

@@ -44,7 +44,14 @@ public class CoverImageSelectionViewController: BaseElloViewController, Onboardi
 public extension CoverImageSelectionViewController {
 
     public func onboardingWillProceed() {
-        println("=============== \(__FILE__.lastPathComponent) line \(__LINE__) ===============")
+        if let image = onboardingData?.coverImage {
+            ElloHUD.showLoadingHud()
+            ProfileService().updateUserCoverImage(image, success: { _ in
+                    ElloHUD.hideLoadingHud()
+                }) { _, _ in
+                    ElloHUD.hideLoadingHud()
+                }
+        }
     }
 
 }
