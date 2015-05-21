@@ -22,6 +22,7 @@ PODS:
   - Moya/Core (0.6.1):
     - Alamofire (~> 1.2.0)
   - Nimble (0.4.2)
+  - OHHTTPStubs (4.0.2)
   - Quick (0.3.1)
   - Result (0.4):
     - Box (~> 1.2)
@@ -54,6 +55,7 @@ DEPENDENCIES:
   - MBProgressHUD (~> 0.9.0)
   - Moya (from `https://github.com/ello/Moya`, branch `cg-hybrid`)
   - Nimble (~> 0.4.0)
+  - OHHTTPStubs (~> 4.0)
   - Quick (~> 0.3.0)
   - Result (~> 0.4.0)
   - SDWebImage (~> 3.7)
@@ -121,6 +123,7 @@ SPEC CHECKSUMS:
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
   Moya: f652dec673d9dd177376d2c9366c76c9ed7b0343
   Nimble: 49b7a7da8919f42823d37c6d68cc6d15a7009f32
+  OHHTTPStubs: dbd1957d414659783e07b49c961940b7564c23d9
   Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
   Result: 03957bbe943dd96a9f12ff1c6b5ac65c8a6b64aa
   SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29

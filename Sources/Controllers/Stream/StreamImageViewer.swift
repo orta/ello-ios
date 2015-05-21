@@ -29,13 +29,11 @@ StreamImageCellDelegate {
         self.dataSource = dataSource
     }
 
-    public func imageTapped(imageView: FLAnimatedImageView, cell: UICollectionViewCell) {
+    public func imageTapped(imageView: FLAnimatedImageView, cell: StreamImageCell) {
         self.imageView = imageView
         imageView.hidden = true
         let imageInfo = JTSImageInfo()
-        if let cell = cell as? StreamImageCell,
-            let presentedUrl = cell.presentedImageUrl
-        {
+        if let presentedUrl = cell.presentedImageUrl {
             imageInfo.imageURL = presentedUrl
         }
         else {

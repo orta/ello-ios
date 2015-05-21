@@ -33,6 +33,7 @@ pod 'WebLinking', '~> 0.2.0'
 target 'Specs' do
   pod 'Nimble', '~> 0.4.0'
   pod 'Quick', '~> 0.3.0'
+  pod 'OHHTTPStubs', '~> 4.0'
 end
 
 plugin 'cocoapods-keys', {
