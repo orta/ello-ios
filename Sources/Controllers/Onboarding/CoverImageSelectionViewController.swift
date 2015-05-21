@@ -41,16 +41,11 @@ public class CoverImageSelectionViewController: BaseElloViewController, Onboardi
 
 }
 
-public extension CoverImageSelectionViewController {
-
-    public func onboardingWillProceed() {
-        println("=============== \(__FILE__.lastPathComponent) line \(__LINE__) ===============")
-    }
-
-}
-
 // MARK: View setup
 private extension CoverImageSelectionViewController {
+    private func chooseCoverImageDefault() -> UIImage { return UIImage(named: "choose-header-image")! }
+    private func chooseAvatarImageDefault() -> UIImage { return UIImage(named: "choose-avatar-image")! }
+
     func setupOnboardingHeader() {
         let onboardingHeader = OnboardingHeaderView(frame: CGRect(
             x: 0,
@@ -70,7 +65,7 @@ private extension CoverImageSelectionViewController {
     }
 
     func setupChooseHeaderImage() {
-        let chooseHeaderImage = UIImage(named: "choose-header-image")!
+        let chooseHeaderImage = chooseCoverImageDefault()
         let aspect = view.frame.width / chooseHeaderImage.size.width
         let chooseCoverImageView = UIImageView(frame: CGRect(
             x: 0,
@@ -113,22 +108,46 @@ extension CoverImageSelectionViewController {
         self.presentViewController(imageController, animated: true, completion: nil)
     }
 
-    public func userSetCurrentImage(orientedImage: UIImage) {
-        onboardingData?.coverImage = orientedImage
-        chooseCoverImageView?.image = orientedImage
+    public func userSetImage(image: UIImage) {
+        chooseCoverImageView?.image = image
         chooseImageButton?.setTitle(NSLocalizedString("Pick Another", comment: "Pick another button"), forState: .Normal)
+        ElloHUD.showLoadingHud()
+    }
 
-        onboardingViewController?.goToNextStep(onboardingData)
+    public func userUploadImage(image: UIImage) {
+        onboardingData?.coverImage = image
+
+        ProfileService().updateUserCoverImage(image, success: { _ in
+            ElloHUD.hideLoadingHud()
+            self.onboardingViewController?.goToNextStep(self.onboardingData)
+        }, failure: { _, _ in
+            ElloHUD.hideLoadingHud()
+            self.chooseCoverImageView?.image = self.chooseCoverImageDefault()
+            self.onboardingData?.coverImage = nil
+
+            let message = NSLocalizedString("Oh no! Something went wrong.\n\nTry that again maybe?", comment: "Cover image upload failed during onboarding message")
+            let alertController = AlertViewController(message: message)
+
+            let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
+            alertController.addAction(action)
+
+            self.presentViewController(alertController, animated: true, completion: nil)
+        })
     }
 }
 
 extension CoverImageSelectionViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     public func imagePickerController(controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
-        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            let oriented = image.copyWithCorrectOrientation()
-            userSetCurrentImage(oriented)
+        let orientedImage = (info[UIImagePickerControllerOriginalImage] as? UIImage)?.copyWithCorrectOrientation()
+        if let orientedImage = orientedImage {
+            userSetImage(orientedImage)
         }
-        dismissViewControllerAnimated(true, completion: nil)
+
+        dismissViewControllerAnimated(true) {
+            if let orientedImage = orientedImage {
+                self.userUploadImage(orientedImage)
+            }
+        }
     }
 
     public func imagePickerControllerDidCancel(controller: UIImagePickerController) {

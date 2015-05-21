@@ -70,7 +70,17 @@ public class ProfileInfoViewController: BaseElloViewController, OnboardingStep {
 public extension ProfileInfoViewController {
 
     public func onboardingWillProceed() {
-        println("=============== \(__FILE__.lastPathComponent) line \(__LINE__) ===============")
+        let name = nameField?.text ?? ""
+        let links = linksField?.text ?? ""
+        let bio = bioField?.text ?? ""
+
+        ProfileService().updateUserProfile([
+            "name": name,
+            "external_links": links,
+            "unsanitized_short_bio": bio
+        ], success: { _ in
+            println("updateUserProfile success!")
+        }, failure: nil)
     }
 
 }

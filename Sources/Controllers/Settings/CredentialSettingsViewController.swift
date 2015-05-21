@@ -201,14 +201,14 @@ public class CredentialSettingsViewController: UITableViewController {
             ProfileService().updateUserProfile(content, success: {
                 nav.setProfileData($0)
                 self.resetViews()
-            }) { error, _ in
+            }, failure: { error, _ in
                 self.currentPasswordField.text = ""
                 self.passwordView.textField.text = ""
 
                 if let err = error.userInfo?[NSLocalizedFailureReasonErrorKey] as? ElloNetworkError {
                     self.handleError(err)
                 }
-            }
+            })
         }
     }
 
