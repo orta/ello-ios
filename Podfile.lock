@@ -10,6 +10,7 @@ PODS:
     - CocoaLumberjack/Core
   - CocoaLumberjack/Extensions (2.0.0):
     - CocoaLumberjack/Default
+  - CRToast (0.0.7)
   - FLAnimatedImage (1.0.8)
   - JTSImageViewController (1.5)
   - Keys (1.0.0)
@@ -44,6 +45,7 @@ PODS:
 DEPENDENCIES:
   - 1PasswordExtension (~> 1.2.0)
   - Alamofire (~> 1.2.0)
+  - CRToast (from `https://github.com/ello/CRToast`)
   - FLAnimatedImage (from `https://github.com/ello/FLAnimatedImage`)
   - JTSImageViewController (from `https://github.com/ello/JTSImageViewController`)
   - Keys (from `Pods/CocoaPodsKeys/`)
@@ -64,6 +66,8 @@ DEPENDENCIES:
   - YapDatabase (from `https://github.com/ello/YapDatabase`)
 
 EXTERNAL SOURCES:
+  CRToast:
+    :git: https://github.com/ello/CRToast
   FLAnimatedImage:
     :git: https://github.com/ello/FLAnimatedImage
   JTSImageViewController:
@@ -81,6 +85,9 @@ EXTERNAL SOURCES:
     :git: https://github.com/ello/YapDatabase
 
 CHECKOUT OPTIONS:
+  CRToast:
+    :commit: 6a171301dfd247560cc9ada31874fb6ecdd28e8b
+    :git: https://github.com/ello/CRToast
   FLAnimatedImage:
     :commit: 7f1d9a29597b45aef8686da22f33a3634d84c686
     :git: https://github.com/ello/FLAnimatedImage
@@ -105,6 +112,7 @@ SPEC CHECKSUMS:
   Alamofire: 1acfdf179aff68b41a48dff70c1ac7fa263e2bcb
   Box: 3345df1dee5c8cd639a663e368427c51f931d095
   CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
+  CRToast: eb22641501990233c53cb8f83f7d2ea87e0ddf73
   FLAnimatedImage: f9422f796135aff80d8c00b2afc48015bb746e24
   JTSImageViewController: 89ae3c003060c65418fd3224ebbd67acc6046608
   Keys: 7d2ff6ff42f6903358267ce56e9392f83c31acfe
