@@ -44,6 +44,13 @@ public class AvatarImageSelectionViewController: BaseElloViewController, Onboard
 
 }
 
+public extension AvatarImageSelectionViewController {
+    public func onboardingWillProceed() {
+        println("=============== \(__FILE__.lastPathComponent) line \(__LINE__) ===============")
+    }
+}
+
+// MARK: View setup
 private extension AvatarImageSelectionViewController {
 
     private func setupChooseCoverImage() {
@@ -95,12 +102,6 @@ private extension AvatarImageSelectionViewController {
         self.chooseImageButton = chooseImageButton
     }
 
-}
-
-public extension AvatarImageSelectionViewController {
-    public func onboardingWillProceed() {
-        println("=============== \(__FILE__.lastPathComponent) line \(__LINE__) ===============")
-    }
 }
 
 extension AvatarImageSelectionViewController {

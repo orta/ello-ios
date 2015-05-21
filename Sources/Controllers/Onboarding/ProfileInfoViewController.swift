@@ -41,58 +41,9 @@ public class ProfileInfoViewController: BaseElloViewController, OnboardingStep {
 
         scrollView.keyboardDismissMode = .OnDrag
 
-        let chooseCoverImage = UIImage(named: "choose-header-image")!
-        let aspect = view.frame.width / chooseCoverImage.size.width
-        let chooseCoverImageView = UIImageView(frame: CGRect(
-            x: 0,
-            y: -87,
-            width: view.frame.width,
-            height: chooseCoverImage.size.height * aspect
-            ))
-        chooseCoverImageView.contentMode = .ScaleAspectFill
-        chooseCoverImageView.clipsToBounds = true
-        chooseCoverImageView.autoresizingMask = .FlexibleLeftMargin | .FlexibleRightMargin | .FlexibleBottomMargin
-        chooseCoverImageView.image = onboardingData?.coverImage ?? chooseCoverImage
-        view.addSubview(chooseCoverImageView)
-        self.chooseCoverImageView = chooseCoverImageView
-
-        let chooseAvatarImage = UIImage(named: "choose-avatar-image")!
-        let scale = view.frame.width / CGFloat(375)
-        let chooseAvatarImageView = UIImageView(frame: CGRect(
-            x: 17.5 * scale,
-            y: chooseCoverImageView.frame.maxY - 65,
-            width: chooseAvatarImage.size.width * scale,
-            height: chooseAvatarImage.size.height * scale
-            ))
-        chooseAvatarImageView.autoresizingMask = .FlexibleBottomMargin | .FlexibleRightMargin
-        chooseAvatarImageView.image = onboardingData?.avatarImage ?? chooseAvatarImage
-        chooseAvatarImageView.clipsToBounds = true
-        chooseAvatarImageView.layer.cornerRadius = chooseAvatarImageView.frame.size.width / 2
-        chooseAvatarImageView.contentMode = .ScaleAspectFill
-        view.addSubview(chooseAvatarImageView)
-        self.chooseAvatarImageView = chooseAvatarImageView
-
-        let nameField = generateTextField(placeholder: NSLocalizedString("Name (optional)", comment: "Name (optional) placeholder text"),
-            font: UIFont.typewriterBoldFont(21),
-            y: chooseAvatarImageView.frame.maxY + 44)
-        view.addSubview(nameField)
-        self.nameField = nameField
-
-        let bioField = generateTextField(placeholder: NSLocalizedString("Bio (optional)", comment: "Bio (optional) placeholder text"),
-            font: UIFont.typewriterFont(17),
-            y: nameField.frame.maxY + 26)
-        bioField.autocapitalizationType = .Sentences
-        bioField.autocorrectionType = .Default
-        bioField.spellCheckingType = .Default
-        view.addSubview(bioField)
-        self.bioField = bioField
-
-        let linksField = generateTextField(placeholder: NSLocalizedString("Links (optional)", comment: "Links (optional) placeholder text"),
-            font: UIFont.typewriterFont(17),
-            y: bioField.frame.maxY + 26)
-        linksField.returnKeyType = .Go
-        view.addSubview(linksField)
-        self.linksField = linksField
+        setupChooseCoverImageView()
+        setupChooseAvatarImageView()
+        setupTextFields()
     }
 
     override public func viewDidLayoutSubviews() {
@@ -122,6 +73,68 @@ public extension ProfileInfoViewController {
         println("=============== \(__FILE__.lastPathComponent) line \(__LINE__) ===============")
     }
 
+}
+
+// MARK: View setup
+private extension ProfileInfoViewController {
+    func setupChooseCoverImageView() {
+        let chooseCoverImage = UIImage(named: "choose-header-image")!
+        let aspect = view.frame.width / chooseCoverImage.size.width
+        let chooseCoverImageView = UIImageView(frame: CGRect(
+            x: 0,
+            y: -87,
+            width: view.frame.width,
+            height: chooseCoverImage.size.height * aspect
+            ))
+        chooseCoverImageView.contentMode = .ScaleAspectFill
+        chooseCoverImageView.clipsToBounds = true
+        chooseCoverImageView.autoresizingMask = .FlexibleLeftMargin | .FlexibleRightMargin | .FlexibleBottomMargin
+        chooseCoverImageView.image = onboardingData?.coverImage ?? chooseCoverImage
+        view.addSubview(chooseCoverImageView)
+        self.chooseCoverImageView = chooseCoverImageView
+    }
+
+    func setupChooseAvatarImageView() {
+        let chooseAvatarImage = UIImage(named: "choose-avatar-image")!
+        let scale = view.frame.width / CGFloat(375)
+        let chooseAvatarImageView = UIImageView(frame: CGRect(
+            x: 17.5 * scale,
+            y: chooseCoverImageView!.frame.maxY - 65,
+            width: chooseAvatarImage.size.width * scale,
+            height: chooseAvatarImage.size.height * scale
+            ))
+        chooseAvatarImageView.autoresizingMask = .FlexibleBottomMargin | .FlexibleRightMargin
+        chooseAvatarImageView.image = onboardingData?.avatarImage ?? chooseAvatarImage
+        chooseAvatarImageView.clipsToBounds = true
+        chooseAvatarImageView.layer.cornerRadius = chooseAvatarImageView.frame.size.width / 2
+        chooseAvatarImageView.contentMode = .ScaleAspectFill
+        view.addSubview(chooseAvatarImageView)
+        self.chooseAvatarImageView = chooseAvatarImageView
+    }
+
+    func setupTextFields() {
+        let nameField = generateTextField(placeholder: NSLocalizedString("Name (optional)", comment: "Name (optional) placeholder text"),
+            font: UIFont.typewriterBoldFont(21),
+            y: chooseAvatarImageView!.frame.maxY + 44)
+        view.addSubview(nameField)
+        self.nameField = nameField
+
+        let bioField = generateTextField(placeholder: NSLocalizedString("Bio (optional)", comment: "Bio (optional) placeholder text"),
+            font: UIFont.typewriterFont(17),
+            y: nameField.frame.maxY + 26)
+        bioField.autocapitalizationType = .Sentences
+        bioField.autocorrectionType = .Default
+        bioField.spellCheckingType = .Default
+        view.addSubview(bioField)
+        self.bioField = bioField
+
+        let linksField = generateTextField(placeholder: NSLocalizedString("Links (optional)", comment: "Links (optional) placeholder text"),
+            font: UIFont.typewriterFont(17),
+            y: bioField.frame.maxY + 26)
+        linksField.returnKeyType = .Go
+        view.addSubview(linksField)
+        self.linksField = linksField
+    }
 }
 
 public extension ProfileInfoViewController {

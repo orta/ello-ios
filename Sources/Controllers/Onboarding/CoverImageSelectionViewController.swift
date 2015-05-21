@@ -41,6 +41,15 @@ public class CoverImageSelectionViewController: BaseElloViewController, Onboardi
 
 }
 
+public extension CoverImageSelectionViewController {
+
+    public func onboardingWillProceed() {
+        println("=============== \(__FILE__.lastPathComponent) line \(__LINE__) ===============")
+    }
+
+}
+
+// MARK: View setup
 private extension CoverImageSelectionViewController {
     func setupOnboardingHeader() {
         let onboardingHeader = OnboardingHeaderView(frame: CGRect(
@@ -89,14 +98,6 @@ private extension CoverImageSelectionViewController {
         chooseImageButton.addTarget(self, action: Selector("chooseHeaderTapped"), forControlEvents: .TouchUpInside)
         view.addSubview(chooseImageButton)
         self.chooseImageButton = chooseImageButton
-    }
-
-}
-
-public extension CoverImageSelectionViewController {
-
-    public func onboardingWillProceed() {
-        println("=============== \(__FILE__.lastPathComponent) line \(__LINE__) ===============")
     }
 
 }
