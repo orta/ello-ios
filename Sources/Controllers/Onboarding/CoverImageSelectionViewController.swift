@@ -138,7 +138,7 @@ extension CoverImageSelectionViewController {
 
 extension CoverImageSelectionViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     public func imagePickerController(controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
-        let orientedImage = (info[UIImagePickerControllerOriginalImage] as? UIImage)?.copyWithCorrectOrientation()
+        let orientedImage = (info[UIImagePickerControllerOriginalImage] as? UIImage)?.copyWithCorrectOrientationAndSize()
         if let orientedImage = orientedImage {
             userSetImage(orientedImage)
         }
@@ -155,3 +155,4 @@ extension CoverImageSelectionViewController: UIImagePickerControllerDelegate, UI
     }
 
 }
+

@@ -13,24 +13,56 @@ import Nimble
 
 class UIImageSpecs: QuickSpec {
     override func spec() {
-        let image = UIImage(named: "specs-avatar")!
+        var image: UIImage!
         var oriented: UIImage!
 
-        describe("-copyWithCorrectOrientation") {
-            beforeEach {
-                oriented = image.copyWithCorrectOrientation()
+        describe("-copyWithCorrectOrientationAndSize") {
+
+            context("no scaling") {
+                beforeEach {
+                    image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
+                    oriented = image.copyWithCorrectOrientationAndSize()
+                }
+
+                it("returns an image") {
+                    expect(oriented).to(beAKindOf(UIImage.self))
+                }
+
+                it("with the correct size") {
+                    expect(oriented.size).to(equal(image.size))
+                }
+
+                it("with the correct scale") {
+                    expect(oriented.scale).to(equal(image.scale))
+                }
             }
 
-            it("returns an image") {
-                expect(oriented).to(beAKindOf(UIImage.self))
+            context("scaling when width is greater than max") {
+                beforeEach {
+                    image = UIImage(named: "specs-4000x1000", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
+                    oriented = image.copyWithCorrectOrientationAndSize()
+                }
+
+                it("scales to the maxWidth") {
+                    expect(image.size.width).to(equal(4000.0))
+                    expect(image.size.height).to(equal(1000.0))
+                    expect(oriented.size.width).to(equal(1200.0))
+                    expect(oriented.size.height).to(equal(300.0))
+                }
             }
 
-            it("with the correct size") {
-                expect(oriented.size).to(equal(image.size))
-            }
+            context("scaling when height is greater than max") {
+                beforeEach {
+                    image = UIImage(named: "specs-1000x4000", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
+                    oriented = image.copyWithCorrectOrientationAndSize()
+                }
 
-            it("with the correct scale") {
-                expect(oriented.scale).to(equal(image.scale))
+                it("scales to the maxWidth") {
+                    expect(image.size.width).to(equal(1000.0))
+                    expect(image.size.height).to(equal(4000.0))
+                    expect(oriented.size.width).to(equal(900.0))
+                    expect(oriented.size.height).to(equal(3600.0))
+                }
             }
         }
     }

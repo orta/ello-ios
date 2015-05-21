@@ -8,15 +8,35 @@
 
 public extension UIImage {
 
-    func copyWithCorrectOrientation() -> UIImage {
-        if self.imageOrientation == .Up {
-            return self
+    class func scaleToMaxSize(image: UIImage, maxSize: CGSize = CGSize(width: 1200.0, height: 3600.0)) -> UIImage {
+        var newImage = image
+        var newSize = image.size
+        if newSize.width > maxSize.width {
+            let scale = maxSize.width / newSize.width
+            newSize = CGSizeMake(newSize.width * scale, newSize.height * scale)
+        }
+        if newSize.height > maxSize.height {
+            let scale = maxSize.height / newSize.height
+            newSize = CGSizeMake(newSize.width * scale, newSize.height * scale)
         }
 
+        if newSize != image.size {
+            UIGraphicsBeginImageContextWithOptions(newSize, true, 0.0)
+            image.drawInRect(CGRect(origin: CGPointZero, size: newSize))
+            newImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+        }
+        return newImage
+    }
+
+    func copyWithCorrectOrientationAndSize() -> UIImage {
+        if self.imageOrientation == .Up {
+            return UIImage.scaleToMaxSize(self)
+        }
         UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
         self.drawInRect(CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height))
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return image
+        return UIImage.scaleToMaxSize(image)
     }
 }

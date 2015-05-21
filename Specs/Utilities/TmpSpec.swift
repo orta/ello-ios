@@ -81,7 +81,7 @@ class TmpSpec: QuickSpec {
             }
 
             it("+Tmp.write(UIImage)") {
-                let originalImage = UIImage(named: "specs-avatar")!
+                let originalImage = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)!
                 let fileURL = Tmp.write(originalImage, to: "image")
                 if let readImage : UIImage = Tmp.read("image") {
                     let readData = UIImagePNGRepresentation(readImage)

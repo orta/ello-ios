@@ -60,23 +60,23 @@ class ElloTabBarControllerSpec: QuickSpec {
             var tabBarItem: UITabBarItem
             var child1 = UINavigationController(rootViewController: UIViewController())
             tabBarItem = child1.tabBarItem
-            tabBarItem.image = UIImage(named: "specs-avatar")
-            tabBarItem.selectedImage = UIImage(named: "specs-avatar")
+            tabBarItem.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
+            tabBarItem.selectedImage = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
 
             var child2 = UINavigationController(rootViewController: UIViewController())
             tabBarItem = child2.tabBarItem
-            tabBarItem.image = UIImage(named: "specs-avatar")
-            tabBarItem.selectedImage = UIImage(named: "specs-avatar")
+            tabBarItem.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
+            tabBarItem.selectedImage = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
 
             var child3 = UINavigationController(rootViewController: UIViewController())
             tabBarItem = child3.tabBarItem
-            tabBarItem.image = UIImage(named: "specs-avatar")
-            tabBarItem.selectedImage = UIImage(named: "specs-avatar")
+            tabBarItem.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
+            tabBarItem.selectedImage = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
 
             var child4 = UINavigationController(rootViewController: UIViewController())
             tabBarItem = child4.tabBarItem
-            tabBarItem.image = UIImage(named: "specs-avatar")
-            tabBarItem.selectedImage = UIImage(named: "specs-avatar")
+            tabBarItem.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
+            tabBarItem.selectedImage = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
 
             beforeEach() {
                 controller = ElloTabBarController.instantiateFromStoryboard()

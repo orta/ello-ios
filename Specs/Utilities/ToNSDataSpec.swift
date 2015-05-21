@@ -16,7 +16,7 @@ class ToNSDataSpec: QuickSpec {
         let emptyData = NSData()
         let someData = NSData(base64EncodedString: "dGVzdA==", options: NSDataBase64DecodingOptions())!
         let string = "test"
-        let image = UIImage(named: "specs-avatar")!
+        let image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)!
 
         describe("NSData") {
             it("should return self (empty data)") {
