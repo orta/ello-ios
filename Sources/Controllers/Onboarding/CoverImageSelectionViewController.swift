@@ -15,6 +15,7 @@ public class CoverImageSelectionViewController: BaseElloViewController, Onboardi
             }
         }
     }
+    var onboardingHeader: UIView?
     var chooseCoverImageView: UIImageView?
     var chooseImageButton: UIButton?
 
@@ -22,6 +23,26 @@ public class CoverImageSelectionViewController: BaseElloViewController, Onboardi
         super.viewDidLoad()
         self.title = "Onboarding Cover Image Selection"
 
+        setupOnboardingHeader()
+        setupChooseHeaderImage()
+        setupChooseImageButton()
+    }
+
+    override public func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        if let button = chooseImageButton {
+            let bottomMargin = CGFloat(10)
+            if button.frame.maxY + bottomMargin > view.frame.height {
+                button.frame.origin.y = view.frame.height - (button.frame.height + bottomMargin)
+            }
+        }
+    }
+
+}
+
+private extension CoverImageSelectionViewController {
+    func setupOnboardingHeader() {
         let onboardingHeader = OnboardingHeaderView(frame: CGRect(
             x: 0,
             y: 0,
@@ -36,12 +57,15 @@ public class CoverImageSelectionViewController: BaseElloViewController, Onboardi
         onboardingHeader.autoresizingMask = .FlexibleWidth | .FlexibleBottomMargin
         onboardingHeader.sizeToFit()
         view.addSubview(onboardingHeader)
+        self.onboardingHeader = onboardingHeader
+    }
 
+    func setupChooseHeaderImage() {
         let chooseHeaderImage = UIImage(named: "choose-header-image")!
         let aspect = view.frame.width / chooseHeaderImage.size.width
         let chooseCoverImageView = UIImageView(frame: CGRect(
             x: 0,
-            y: onboardingHeader.frame.maxY + 23,
+            y: onboardingHeader!.frame.maxY + 23,
             width: view.frame.width,
             height: chooseHeaderImage.size.height * aspect
             ))
@@ -51,10 +75,12 @@ public class CoverImageSelectionViewController: BaseElloViewController, Onboardi
         chooseCoverImageView.image = chooseHeaderImage
         view.addSubview(chooseCoverImageView)
         self.chooseCoverImageView = chooseCoverImageView
+    }
 
+    func setupChooseImageButton() {
         let chooseImageButton = ElloButton(frame: CGRect(
             x: 0,
-            y: chooseCoverImageView.frame.maxY + 8,
+            y: chooseCoverImageView!.frame.maxY + 8,
             width: view.frame.width,
             height: 90
             ).inset(all: 15))
@@ -63,17 +89,6 @@ public class CoverImageSelectionViewController: BaseElloViewController, Onboardi
         chooseImageButton.addTarget(self, action: Selector("chooseHeaderTapped"), forControlEvents: .TouchUpInside)
         view.addSubview(chooseImageButton)
         self.chooseImageButton = chooseImageButton
-    }
-
-    override public func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-        if let button = chooseImageButton {
-            let bottomMargin = CGFloat(10)
-            if button.frame.maxY + bottomMargin > view.frame.height {
-                button.frame.origin.y = view.frame.height - (button.frame.height + bottomMargin)
-            }
-        }
     }
 
 }
