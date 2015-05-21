@@ -27,7 +27,6 @@ public class StreamImageCell: StreamRegionableCell {
     @IBOutlet weak var imageRightConstraint: NSLayoutConstraint?
 
     weak var streamImageCellDelegate: StreamImageCellDelegate?
-    weak var postbarDelegate: PostbarDelegate?
     public var isGif = false
     var request: Request?
     public var presentedImageUrl:NSURL?
