@@ -42,6 +42,10 @@ public class AppViewController: BaseElloViewController {
 
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        if view.frame.height - logoView.frame.maxY < 250 {
+            let top = view.frame.height - 250 - logoView.frame.height
+            logoTopConstraint.constant = top
+        }
         scrollView.contentSize = view.frame.size
     }
 
