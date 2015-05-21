@@ -35,26 +35,77 @@ public class OnboardingUserListViewController: StreamableViewController, Onboard
         return view
     }
 
-    public func relationshipChanged(userId: String, status: RelationshipRequestStatus, relationship: Relationship?) {
-        if status == .Failure {
-            let message = NSLocalizedString("Oh no! Something went wrong.\n\nTry that again maybe?", comment: "Relationship status update failed during onboarding message")
-            let alertController = AlertViewController(message: message)
-
-            let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
-            alertController.addAction(action)
-
-            self.presentViewController(alertController, animated: true, completion: nil)
-        }
-        // add or remove userId to the "followed" list, which gets passed from
-        // "community selection" to the "awesome people" endpoint
-    }
-
     override public func didSetCurrentUser() {
         if isViewLoaded() {
             streamViewController.currentUser = currentUser
         }
         super.didSetCurrentUser()
     }
+
+    func appendHeaderCellItem(#header: String, message: String) {
+        let anyHeight = CGFloat(120)
+        let headerItem = StreamCellItem(jsonable: JSONAble(version: 1), type: StreamCellType.OnboardingHeader, data: (header, message), oneColumnCellHeight: anyHeight, multiColumnCellHeight: anyHeight, isFullWidth: true)
+        self.headerItem = headerItem
+        streamViewController.appendStreamCellItems([headerItem])
+    }
+
+    func appendFollowAllCellItem(#userCount: Int) {
+        let data = FollowAllCounts(userCount: userCount, followedCount: 0)
+        let followAllItem = StreamCellItem(jsonable: JSONAble(version: 1), type: StreamCellType.FollowAll, data: data, oneColumnCellHeight: FollowAllCellHeight, multiColumnCellHeight: FollowAllCellHeight, isFullWidth: true)
+        self.followAllItem = followAllItem
+        streamViewController.appendStreamCellItems([followAllItem])
+    }
+
+}
+
+extension OnboardingUserListViewController {
+
+    public func relationshipChanged(userId: String, status: RelationshipRequestStatus, relationship: Relationship?) {
+        if status == .Failure {
+            showRelationshipFailureAlert()
+        }
+        // add or remove userId to the "followed" list, which gets passed from
+        // "community selection" to the "awesome people" endpoint
+    }
+
+    func onFollowAll() {
+        if let users = users {
+            let userIds = users.map { $0.id }
+            ElloHUD.showLoadingHud()
+            RelationshipService().bulkUpdateRelationships(userIds: userIds, relationship: .Friend,
+                success: { data in
+                    ElloHUD.hideLoadingHud()
+                    let userCount = count(users)
+                    self.followAllItem?.data = FollowAllCounts(userCount: userCount, followedCount: userCount)
+
+                    let userItems = self.streamViewController.dataSource.streamCellItems.filter { (item: StreamCellItem) in return item.type == .UserListItem }
+                    for streamCellItem in userItems {
+                        if let user = streamCellItem.jsonable as? User {
+                            user.relationshipPriority = .Friend
+                        }
+                    }
+                    self.streamViewController.reloadCells()
+                },
+                failure: { _ in
+                    ElloHUD.hideLoadingHud()
+                    self.showRelationshipFailureAlert()
+                })
+        }
+    }
+
+    private func showRelationshipFailureAlert() {
+        let message = NSLocalizedString("Oh no! Something went wrong.\n\nTry that again maybe?", comment: "Relationship status update failed during onboarding message")
+        let alertController = AlertViewController(message: message)
+
+        let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
+        alertController.addAction(action)
+
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
+
+}
+
+extension OnboardingUserListViewController {
 
     func loadUsers() {
         streamViewController.streamService.loadStream(
@@ -81,44 +132,6 @@ public class OnboardingUserListViewController: StreamableViewController, Onboard
         var items: [StreamCellItem] = StreamCellItemParser().parse(users, streamKind: streamViewController.streamKind)
         streamViewController.appendUnsizedCellItems(items, withWidth: view.frame.width)
         streamViewController.doneLoading()
-    }
-
-    func onFollowAll() {
-        if let users = users {
-            let userIds = users.map { $0.id }
-            ElloHUD.showLoadingHud()
-            RelationshipService().bulkUpdateRelationships(userIds: userIds, relationship: .Friend,
-                success: { data in
-                    ElloHUD.hideLoadingHud()
-                    let userCount = count(users)
-                    self.followAllItem?.data = FollowAllCounts(userCount: userCount, followedCount: userCount)
-
-                    let userItems = self.streamViewController.dataSource.streamCellItems.filter { (item: StreamCellItem) in return item.type == .UserListItem }
-                    for streamCellItem in userItems {
-                        if let user = streamCellItem.jsonable as? User {
-                            user.relationshipPriority = .Friend
-                        }
-                    }
-                    self.streamViewController.reloadCells()
-                },
-                failure: { _ in
-                    ElloHUD.hideLoadingHud()
-                })
-        }
-    }
-
-    func appendHeaderCellItem(#header: String, message: String) {
-        let anyHeight = CGFloat(120)
-        let headerItem = StreamCellItem(jsonable: JSONAble(version: 1), type: StreamCellType.OnboardingHeader, data: (header, message), oneColumnCellHeight: anyHeight, multiColumnCellHeight: anyHeight, isFullWidth: true)
-        self.headerItem = headerItem
-        streamViewController.appendStreamCellItems([headerItem])
-    }
-
-    func appendFollowAllCellItem(#userCount: Int) {
-        let data = FollowAllCounts(userCount: userCount, followedCount: 0)
-        let followAllItem = StreamCellItem(jsonable: JSONAble(version: 1), type: StreamCellType.FollowAll, data: data, oneColumnCellHeight: FollowAllCellHeight, multiColumnCellHeight: FollowAllCellHeight, isFullWidth: true)
-        self.followAllItem = followAllItem
-        streamViewController.appendStreamCellItems([followAllItem])
     }
 
 }
