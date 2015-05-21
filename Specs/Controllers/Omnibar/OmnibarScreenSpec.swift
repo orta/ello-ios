@@ -99,7 +99,7 @@ class OmnibarScreenSpec: QuickSpec {
         describe("pressing cancel") {
             beforeEach {
                 screen.text = "text"
-                screen.image = UIImage(named: "specs-avatar")!
+                screen.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)!
                 screen.cancelEditingAction()
             }
             it("should clear the text") {
@@ -128,7 +128,7 @@ class OmnibarScreenSpec: QuickSpec {
         describe("pressing undo") {
             beforeEach {
                 screen.text = "text"
-                screen.image = UIImage(named: "specs-avatar")!
+                screen.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)!
                 screen.cancelEditingAction()
                 screen.undoCancelAction()
             }
@@ -136,7 +136,7 @@ class OmnibarScreenSpec: QuickSpec {
                 expect(screen.text) == "text"
             }
             it("should assign the image") {
-                expect(screen.image) == UIImage(named: "specs-avatar")!
+                expect(screen.image) == UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)!
             }
             it("should hide the overlay") {
                 expect(screen.sayElloOverlay.hidden) == true
@@ -154,13 +154,13 @@ class OmnibarScreenSpec: QuickSpec {
             }
             it("should respond if there is an image (no text)") {
                 screen.text = nil
-                screen.image = UIImage(named: "specs-avatar")!
+                screen.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)!
                 screen.submitAction()
                 expect(delegate.submitted) == true
             }
             it("should respond if there is text and image") {
                 screen.text = "text"
-                screen.image = UIImage(named: "specs-avatar")!
+                screen.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)!
                 screen.submitAction()
                 expect(delegate.submitted) == true
             }
@@ -173,7 +173,7 @@ class OmnibarScreenSpec: QuickSpec {
         }
         describe("pressing remove image") {
             beforeEach {
-                screen.image = UIImage(named: "specs-avatar")!
+                screen.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)!
                 screen.removeButtonAction()
             }
             it("should clear the image") {
@@ -206,7 +206,7 @@ class OmnibarScreenSpec: QuickSpec {
                     }
                     it("should be false (after setting text and image)") {
                         screen.text = "text"
-                        screen.image = UIImage(named: "specs-avatar")!
+                        screen.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)!
                         expect(screen.canUndo()) == false
                     }
                 }
@@ -220,14 +220,14 @@ class OmnibarScreenSpec: QuickSpec {
                     }
                     it("should be true (image only)") {
                         screen.text = nil
-                        screen.image = UIImage(named: "specs-avatar")!
+                        screen.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)!
                         expect(screen.canUndo()) == false
                         screen.cancelEditingAction()
                         expect(screen.canUndo()) == true
                     }
                     it("should be true (text and image)") {
                         screen.text = "text"
-                        screen.image = UIImage(named: "specs-avatar")!
+                        screen.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)!
                         expect(screen.canUndo()) == false
                         screen.cancelEditingAction()
                         expect(screen.canUndo()) == true

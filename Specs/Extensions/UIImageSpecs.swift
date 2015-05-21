@@ -20,7 +20,7 @@ class UIImageSpecs: QuickSpec {
 
             context("no scaling") {
                 beforeEach {
-                    image = UIImage(named: "specs-avatar")
+                    image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
                     oriented = image.copyWithCorrectOrientationAndSize()
                 }
 
@@ -37,17 +37,31 @@ class UIImageSpecs: QuickSpec {
                 }
             }
 
-            context("scaling") {
+            context("scaling when width is greater than max") {
                 beforeEach {
-                    image = UIImage(named: "specs-xcode")
+                    image = UIImage(named: "specs-4000x1000", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
                     oriented = image.copyWithCorrectOrientationAndSize()
                 }
 
                 it("scales to the maxWidth") {
-                    expect(image.size.width).to(equal(2672.0))
-                    expect(image.size.height).to(equal(1525.0))
+                    expect(image.size.width).to(equal(4000.0))
+                    expect(image.size.height).to(equal(1000.0))
                     expect(oriented.size.width).to(equal(1200.0))
-                    expect(oriented.size.height).to(equal(685.0))
+                    expect(oriented.size.height).to(equal(300.0))
+                }
+            }
+
+            context("scaling when height is greater than max") {
+                beforeEach {
+                    image = UIImage(named: "specs-1000x4000", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
+                    oriented = image.copyWithCorrectOrientationAndSize()
+                }
+
+                it("scales to the maxWidth") {
+                    expect(image.size.width).to(equal(1000.0))
+                    expect(image.size.height).to(equal(4000.0))
+                    expect(oriented.size.width).to(equal(900.0))
+                    expect(oriented.size.height).to(equal(3600.0))
                 }
             }
         }

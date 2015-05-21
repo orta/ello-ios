@@ -131,7 +131,7 @@ class OmnibarViewControllerSpec: QuickSpec {
 
                 controller = OmnibarViewController(parentPost: post)
                 let attributedString = ElloAttributedString.style("text")
-                let image = UIImage(named: "specs-avatar")
+                let image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
                 let omnibarData = OmnibarData(attributedText: attributedString, image: image)
                 let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
                 Tmp.write(data, to: controller.omnibarDataName())
@@ -177,7 +177,7 @@ class OmnibarViewControllerSpec: QuickSpec {
                 controller.endAppearanceTransition()
 
                 screen.attributedText = ElloAttributedString.style("text")
-                screen.image = UIImage(named: "specs-avatar")
+                screen.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
             }
 
             afterEach() {
