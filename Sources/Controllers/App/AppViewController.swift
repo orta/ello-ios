@@ -143,9 +143,9 @@ extension AppViewController {
         let vc = OnboardingViewController()
         vc.parentAppController = self
         vc.currentUser = user
-        self.presentViewController(vc, animated: true, completion: {
+        self.presentViewController(vc, animated: true) {
             self.showMainScreen(user)
-        })
+        }
     }
 
     public func showMainScreen(user: User) {
