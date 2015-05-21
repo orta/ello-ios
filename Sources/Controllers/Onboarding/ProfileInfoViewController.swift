@@ -80,8 +80,7 @@ public extension ProfileInfoViewController {
             "unsanitized_short_bio": bio
         ], success: { _ in
             println("updateUserProfile success!")
-        }, failure: { _, _ in
-        })
+        }, failure: nil)
     }
 
 }
