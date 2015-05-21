@@ -10,15 +10,21 @@ import CRToast
 
 public struct NotificationBanner {
     public static func displayAlertForPayload(payload: PushPayload) {
-        configureDefaults()
+        configureDefaultsWithPayload(payload)
         CRToastManager.showNotificationWithMessage(payload.message) { }
     }
 }
 
 private extension NotificationBanner {
-    static func configureDefaults() {
+    static func configureDefaultsWithPayload(payload: PushPayload) {
+        let interactionResponder = CRToastInteractionResponder(interactionType: CRToastInteractionType.TapOnce, automaticallyDismiss: true) { _ in
+            postNotification(PushNotificationNotifications.interactedWithPushNotification, payload)
+        }
+
         CRToastManager.setDefaultOptions(
             [
+                kCRToastInteractionRespondersKey: [interactionResponder],
+
                 kCRToastNotificationTypeKey: CRToastType.NavigationBar.rawValue,
                 kCRToastNotificationPresentationTypeKey: CRToastPresentationType.Cover.rawValue,
 
@@ -34,6 +40,5 @@ private extension NotificationBanner {
                 kCRToastTextAlignmentKey: NSTextAlignment.Left.rawValue,
             ]
         )
-
     }
 }
