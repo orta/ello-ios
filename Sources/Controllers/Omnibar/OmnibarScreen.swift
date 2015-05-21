@@ -567,7 +567,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
 
     public func imagePickerController(controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            let oriented = image.copyWithCorrectOrientation()
+            let oriented = image.copyWithCorrectOrientationAndSize()
             userSetCurrentImage(oriented)
         }
         delegate?.omnibarDismissController(controller)

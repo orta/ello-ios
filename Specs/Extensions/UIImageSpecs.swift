@@ -13,24 +13,42 @@ import Nimble
 
 class UIImageSpecs: QuickSpec {
     override func spec() {
-        let image = UIImage(named: "specs-avatar")!
+        var image: UIImage!
         var oriented: UIImage!
 
-        describe("-copyWithCorrectOrientation") {
-            beforeEach {
-                oriented = image.copyWithCorrectOrientation()
+        describe("-copyWithCorrectOrientationAndSize") {
+
+            context("no scaling") {
+                beforeEach {
+                    image = UIImage(named: "specs-avatar")
+                    oriented = image.copyWithCorrectOrientationAndSize()
+                }
+
+                it("returns an image") {
+                    expect(oriented).to(beAKindOf(UIImage.self))
+                }
+
+                it("with the correct size") {
+                    expect(oriented.size).to(equal(image.size))
+                }
+
+                it("with the correct scale") {
+                    expect(oriented.scale).to(equal(image.scale))
+                }
             }
 
-            it("returns an image") {
-                expect(oriented).to(beAKindOf(UIImage.self))
-            }
+            context("scaling") {
+                beforeEach {
+                    image = UIImage(named: "specs-xcode")
+                    oriented = image.copyWithCorrectOrientationAndSize()
+                }
 
-            it("with the correct size") {
-                expect(oriented.size).to(equal(image.size))
-            }
-
-            it("with the correct scale") {
-                expect(oriented.scale).to(equal(image.scale))
+                it("scales to the maxWidth") {
+                    expect(image.size.width).to(equal(2672.0))
+                    expect(image.size.height).to(equal(1525.0))
+                    expect(oriented.size.width).to(equal(1200.0))
+                    expect(oriented.size.height).to(equal(685.0))
+                }
             }
         }
     }
