@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7703" systemVersion="14E11f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6711"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+            <rect key="frame" x="0.0" y="0.0" width="678" height="746"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ello-logo" translatesAutoresizingMaskIntoConstraints="NO" id="MtF-D7-87b">
-                    <rect key="frame" x="157" y="149" width="166" height="166"/>
+                    <rect key="frame" x="256" y="149" width="166" height="166"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="166" id="5U9-C5-O8S"/>
                         <constraint firstAttribute="height" constant="166" id="O1Y-l7-wUY"/>
@@ -21,11 +21,12 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="centerX" secondItem="MtF-D7-87b" secondAttribute="centerX" id="Fpn-UN-l63"/>
-                <constraint firstItem="MtF-D7-87b" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="149" id="tmv-OU-jRI"/>
+                <constraint firstItem="MtF-D7-87b" firstAttribute="bottom" relation="lessThanOrEqual" secondItem="iN0-l3-epB" secondAttribute="bottom" constant="-250" id="faZ-OA-ekm"/>
+                <constraint firstItem="MtF-D7-87b" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" priority="750" constant="149" id="tmv-OU-jRI"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="548" y="455"/>
+            <point key="canvasLocation" x="647" y="588"/>
         </view>
     </objects>
     <resources>
