@@ -36,6 +36,15 @@ public class OnboardingUserListViewController: StreamableViewController, Onboard
     }
 
     public func relationshipChanged(userId: String, status: RelationshipRequestStatus, relationship: Relationship?) {
+        if status == .Failure {
+            let message = NSLocalizedString("Oh no! Something went wrong.\n\nTry that again maybe?", comment: "Relationship status update failed during onboarding message")
+            let alertController = AlertViewController(message: message)
+
+            let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
+            alertController.addAction(action)
+
+            self.presentViewController(alertController, animated: true, completion: nil)
+        }
         // add or remove userId to the "followed" list, which gets passed from
         // "community selection" to the "awesome people" endpoint
     }
