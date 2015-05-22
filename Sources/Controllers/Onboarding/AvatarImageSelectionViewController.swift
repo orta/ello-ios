@@ -6,21 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-public class AvatarImageSelectionViewController: BaseElloViewController, OnboardingStep {
-    weak var onboardingViewController: OnboardingViewController?
-    var onboardingData: OnboardingData? {
-        didSet {
-            if let image = onboardingData?.coverImage {
-                chooseCoverImageView?.image = image
-            }
-            if let image = onboardingData?.avatarImage {
-                chooseAvatarImageView?.image = image
-            }
-        }
-    }
-    var chooseCoverImageView: UIImageView?
-    var chooseAvatarImageView: UIImageView?
-    var chooseImageButton: UIButton?
+public class AvatarImageSelectionViewController: OnboardingUploadImageViewController {
 
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -31,14 +17,9 @@ public class AvatarImageSelectionViewController: BaseElloViewController, Onboard
         setupChooseImageButton()
     }
 
-    override public func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-        if let button = chooseImageButton {
-            let bottomMargin = CGFloat(10)
-            if button.frame.maxY + bottomMargin > view.frame.height {
-                button.frame.origin.y = view.frame.height - (button.frame.height + bottomMargin)
-            }
+    public func onboardingWillProceed(proceed: (OnboardingData?) -> Void) {
+        if let image = selectedImage {
+            self.userUploadImage(image, proceed: proceed)
         }
     }
 
@@ -46,9 +27,6 @@ public class AvatarImageSelectionViewController: BaseElloViewController, Onboard
 
 // MARK: View setup
 private extension AvatarImageSelectionViewController {
-
-    private func chooseCoverImageDefault() -> UIImage { return UIImage(named: "choose-header-image")! }
-    private func chooseAvatarImageDefault() -> UIImage { return UIImage(named: "choose-avatar-image")! }
 
     private func setupChooseCoverImage() {
         let chooseCoverImage = chooseCoverImageDefault()
@@ -94,7 +72,7 @@ private extension AvatarImageSelectionViewController {
             ).inset(all: 15))
         chooseImageButton.autoresizingMask = .FlexibleLeftMargin | .FlexibleRightMargin | .FlexibleBottomMargin
         chooseImageButton.setTitle(NSLocalizedString("Pick an Avatar", comment: "Pick an avatar button"), forState: .Normal)
-        chooseImageButton.addTarget(self, action: Selector("chooseHeaderTapped"), forControlEvents: .TouchUpInside)
+        chooseImageButton.addTarget(self, action: Selector("chooseImageTapped"), forControlEvents: .TouchUpInside)
         view.addSubview(chooseImageButton)
         self.chooseImageButton = chooseImageButton
     }
@@ -103,62 +81,28 @@ private extension AvatarImageSelectionViewController {
 
 extension AvatarImageSelectionViewController {
 
-    @objc
-    func chooseHeaderTapped() {
-        let alert = UIImagePickerController.alertControllerForImagePicker(openImagePicker)
-        alert.map { self.presentViewController($0, animated: true, completion: nil) }
-    }
-
-    private func openImagePicker(imageController : UIImagePickerController) {
-        imageController.delegate = self
-        self.presentViewController(imageController, animated: true, completion: nil)
-    }
-
-    public func userSetImage(image: UIImage) {
+    override public func userSetImage(image: UIImage) {
         chooseAvatarImageView?.image = image
-        chooseImageButton?.setTitle(NSLocalizedString("Pick Another", comment: "Pick another button"), forState: .Normal)
-        ElloHUD.showLoadingHud()
+        super.userSetImage(image)
     }
 
-    public func userUploadImage(image: UIImage) {
-        onboardingData?.avatarImage = image
+    public func userUploadImage(image: UIImage, proceed: (OnboardingData?) -> Void) {
+        ElloHUD.showLoadingHud()
 
-        ProfileService().updateUserAvatarImage(image, success: { _ in
+        ProfileService().updateUserCoverImage(image, success: { _ in
             ElloHUD.hideLoadingHud()
-            self.onboardingViewController?.goToNextStep(self.onboardingData)
+            self.onboardingData?.avatarImage = image
+            proceed(self.onboardingData)
         }, failure: { _, _ in
             ElloHUD.hideLoadingHud()
-            self.chooseAvatarImageView?.image = self.chooseAvatarImageDefault()
-            self.onboardingData?.avatarImage = nil
-
-            let message = NSLocalizedString("Oh no! Something went wrong.\n\nTry that again maybe?", comment: "Avatar image upload failed during onboarding message")
-            let alertController = AlertViewController(message: message)
-
-            let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
-            alertController.addAction(action)
-
-            self.presentViewController(alertController, animated: true, completion: nil)
+            self.userUploadFailed()
         })
     }
 
-}
-
-extension AvatarImageSelectionViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    public func imagePickerController(controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
-        let orientedImage = (info[UIImagePickerControllerOriginalImage] as? UIImage)?.copyWithCorrectOrientationAndSize()
-        if let orientedImage = orientedImage {
-            userSetImage(orientedImage)
-        }
-
-        dismissViewControllerAnimated(true) {
-            if let orientedImage = orientedImage {
-                self.userUploadImage(orientedImage)
-            }
-        }
-    }
-
-    public func imagePickerControllerDidCancel(controller: UIImagePickerController) {
-        dismissViewControllerAnimated(true, completion: nil)
+    override public func userUploadFailed() {
+        chooseAvatarImageView?.image = chooseAvatarImageDefault()
+        onboardingData?.avatarImage = nil
+        super.userUploadFailed()
     }
 
 }
