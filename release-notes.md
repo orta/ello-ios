@@ -1,3 +1,60 @@
+### Ello Build 1895(v1.0.0) May 22, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #302 - Scale images down to fit 1200 width.
+* Update UIImage extension to scale images down to a max 1200.0 width
+* Update function name to `copyWithCorrectOrientationAndSize`
+* Move spec specific resources to only be included in the `Spec` and `FastSpecs` targets
+* Add tests
+
+![image](https://cloud.githubusercontent.com/assets/96433/7754644/7d0dbe84-ffab-11e4-8fa5-a05ee87c301b.png)
+
+
+[Finishes #94624304]
+
+------
+
+#### #306 - Wraps up onboarding!  For now...
+The onboarding user list endpoints aren't ready, so those are still "placeholders".  Careful, though!  Pressing the "F/N" buttons *will* send friend a user (random user ids).
+
+Uploading cover image and avatar work, and you can set your name/bio/links.
+
+Whee!
+
+------
+
+#### #305 - Prevent fullscreen gifs
+When tapping on a gif in any stream the fullscreen gif was not using our new and improved gif rendering via `FLAnimatedImage`. The library we use for our full screen images, `JTSImageViewController` does not have built in support for `FLAnimatedImage`.
+
+As a temporary fix disable full screen gif viewing. Tapping on a gif in a multi post stream transitions to the gif's post detail.
+
+![screen shot 2015-05-21 at 1 23 13 pm](https://cloud.githubusercontent.com/assets/12459/7757047/90651d0e-ffbc-11e4-817f-b1025e83496e.png)
+
+------
+
+#### #303 - Make launch logo placement consistent
+Tested the startup image on iphone 4, 5, 6, 6+, to make sure transitioning from the `LaunchScreen.xib` to the AppViewController screen doesn't move the logo.
+
+------
+
+#### #301 - Second round of onboarding
+Onboarding will now show after signup!  Fun stuff.  For debugging, just change the `success: self.showMainScreen` to `success: self.showOnboardingScreen` in AppViewController.
+
+- Fixes the "frozen startup screen" issue.
+- Changes `-> ()` to `-> Void` in all places. (most of the file changes are from this)
+- updates the Terms URL to `/wtf/terms-of-use`
+- fixes the keyboard bottom inset calculation, and renames it to `bottomInset` and `keyboardBottomInset(inView: UIView)`
+- implements "Relationship batch update" (aka Follow All button)
+- Removes `Functional.swift`!  These are free functions now
+- adds the `invalidToken:` handler to `ElloProvider.elloRequest`.  This is a stop gap, because in the past *NO* callback was fired on a 401 error.  This caused the "frozen startup screen" issue
+
+And most importantly: fixes the "sign in buttons" issue (all for you, @steam! :smiley:)
+    
+------------
+
 ### Ello Build 1839(v1.0.0) May 20, 2015
 
     RELEASE NOTES
