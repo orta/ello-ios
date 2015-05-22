@@ -209,7 +209,7 @@ extension OnboardingViewController {
     }
 
     private func done() {
-        parentAppController?.dismissViewControllerAnimated(true, completion: nil)
+        parentAppController?.doneOnboarding()
     }
 
     public func goToController(viewController: UIViewController, data: OnboardingData?) {

@@ -84,7 +84,10 @@ public class AppViewController: BaseElloViewController {
     public func loadCurrentUser(failure: ElloErrorCompletion? = nil) {
         let profileService = ProfileService()
         profileService.loadCurrentUser(ElloAPI.Profile(perPage: 1),
-            success: self.showMainScreen,
+            success: { user in
+                self.currentUser = user
+                self.showMainScreen(user)
+            },
             failure: { (error, _) in
                 self.failedToLoadCurrentUser(failure, error: error)
             },
@@ -147,9 +150,12 @@ extension AppViewController {
         let vc = OnboardingViewController()
         vc.parentAppController = self
         vc.currentUser = user
-        self.presentViewController(vc, animated: true) {
-            self.showMainScreen(user)
-        }
+        self.presentViewController(vc, animated: true, completion: nil)
+    }
+
+    public func doneOnboarding() {
+        dismissViewControllerAnimated(true, completion: nil)
+        self.showMainScreen(currentUser!)
     }
 
     public func showMainScreen(user: User) {
@@ -284,6 +290,7 @@ public extension AppViewController {
     private func logOutCurrentUser() {
         PushNotificationController.sharedController.deregisterStoredToken()
         AuthToken().reset()
+        currentUser = nil
     }
 }
 
