@@ -133,10 +133,20 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
             streamKind: initialStreamKind,
             success: userLoaded,
             failure: { (error, statusCode) in
-                println("failed to load user (reason: \(error))")
+                self.showUserLoadFailure()
                 self.streamViewController.doneLoading()
             }
         )
+    }
+
+    private func showUserLoadFailure() {
+        let message = NSLocalizedString("Sorry, but that user’s profile doesn’t exist anymore.", comment: "User doesn't exist failure")
+        let alertController = AlertViewController(message: message)
+        let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
+        alertController.addAction(action)
+        self.presentViewController(alertController, animated: true) {
+            self.navigationController?.popViewControllerAnimated(true)
+        }
     }
 
     private func setupNavigationBar() {
