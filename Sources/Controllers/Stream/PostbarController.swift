@@ -215,7 +215,8 @@ public class PostbarController: NSObject, PostbarDelegate {
         let service = LovesService()
         service.lovePost(
             postId: post.id,
-            success: {
+            success: { (love, responseConfig) in
+                postNotification(LoveChangedNotification, (love, .Create))
                 cell.lovesControl.userInteractionEnabled = true
                 Tracker.sharedTracker.postLoved()
             },

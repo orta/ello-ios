@@ -72,6 +72,7 @@ public class StreamViewController: BaseElloViewController {
     var relayoutNotification: NotificationObserver?
     var commentChangedNotification: NotificationObserver?
     var postChangedNotification: NotificationObserver?
+    var loveChangedNotification: NotificationObserver?
     var relationshipChangedNotification: NotificationObserver?
     var settingChangedNotification: NotificationObserver?
 
@@ -312,6 +313,13 @@ public class StreamViewController: BaseElloViewController {
             }
         }
 
+        loveChangedNotification  = NotificationObserver(notification: LoveChangedNotification) { (love, change) in
+            if !self.initialDataLoaded {
+                return
+            }
+            self.dataSource.modifyItems(love, change: change, collectionView: self.collectionView)
+        }
+
         relationshipChangedNotification = NotificationObserver(notification: RelationshipChangedNotification) { user in
             if !self.initialDataLoaded {
                 return
@@ -347,6 +355,9 @@ public class StreamViewController: BaseElloViewController {
 
         relationshipChangedNotification?.removeObserver()
         relationshipChangedNotification = nil
+
+        loveChangedNotification?.removeObserver()
+        loveChangedNotification = nil
     }
 
     private func updateCellHeight(indexPath:NSIndexPath, height:CGFloat) {

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public typealias LovesSuccessCompletion = (posts: [Post], responseConfig: ResponseConfig) -> () 
+public typealias LovesCreateSuccessCompletion = (love: Love, responseConfig: ResponseConfig) -> ()
 
 public struct LovesService {
 
@@ -16,14 +16,19 @@ public struct LovesService {
 
     public func lovePost(
         #postId: String,
-        success: ElloEmptyCompletion,
+        success: LovesCreateSuccessCompletion,
         failure: ElloFailureCompletion?)
     {
         let endpoint = ElloAPI.CreateLove(postId: postId)
         ElloProvider.elloRequest(endpoint,
             method: .POST,
-            success: { _, _ in
-                success()
+            success: { (data, responseConfig) in
+                if let love = data as? Love {
+                    success(love: love, responseConfig: responseConfig)
+                }
+                else {
+                    ElloProvider.unCastableJSONAble(failure)
+                }
             },
             failure: failure
         )

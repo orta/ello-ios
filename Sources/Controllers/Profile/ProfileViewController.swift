@@ -201,6 +201,7 @@ extension ProfileViewController: ViewUsersLovesResponder {
     public func onViewUsersLoves() {
         if let user = self.user {
             let vc = LovesViewController(user: user)
+            vc.currentUser = self.currentUser
             navigationController?.pushViewController(vc, animated: true)
         }
     }

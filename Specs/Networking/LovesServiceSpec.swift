@@ -27,7 +27,7 @@ class LovesServiceSpec: QuickSpec {
                         var successCalled = false
                         var failedCalled = false
                         subject.lovePost(postId: "fake-post-id",
-                            success: {
+                            success: { (love, responseConfig) in
                                 successCalled = true
                             }, failure: { (_, _) in
                                 failedCalled = true
@@ -53,7 +53,7 @@ class LovesServiceSpec: QuickSpec {
                         var successCalled = false
                         var failedCalled = false
                         subject.lovePost(postId: "fake-post-id",
-                            success: {
+                            success: { (love, responseConfig) in
                                 successCalled = true
                             }, failure: { (_, _) in
                                 failedCalled = true
