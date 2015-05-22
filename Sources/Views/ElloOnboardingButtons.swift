@@ -31,8 +31,22 @@ public class OnboardingBackButton: UIButton {
 
 }
 
+public class OnboardingSkipButton: WhiteElloButton {
+
+    override public func sharedSetup() {
+        super.sharedSetup()
+        self.setTitle(NSLocalizedString("Skip", comment: "Skip button"), forState: .Normal)
+    }
+
+}
+
 public class OnboardingNextButton: LightElloButton {
     var chevron: UIImageView?
+
+    override public func updateStyle() {
+        super.updateStyle()
+        updateImage()
+    }
 
     override public func sharedSetup() {
         super.sharedSetup()
@@ -43,7 +57,6 @@ public class OnboardingNextButton: LightElloButton {
         chevron.contentMode = .Center
         addSubview(chevron)
         self.chevron = chevron
-        updateImage()
 
         addTarget(self, action: Selector("updateImage"), forControlEvents: .TouchDown | .TouchDragEnter | .TouchUpInside | .TouchCancel | .TouchDragExit)
     }
@@ -56,12 +69,46 @@ public class OnboardingNextButton: LightElloButton {
     }
 
     func updateImage() {
-        if highlighted {
+        if !enabled {
+            chevron?.setSVGImage("abracket_disabled")
+        }
+        else if highlighted {
             chevron?.setSVGImage("abracket_selected")
         }
         else {
             chevron?.setSVGImage("abracket_normal")
         }
+    }
+
+}
+
+public class FollowAllElloButton: ElloButton {
+
+    required public init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+
+    required public init(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+
+    override public func updateStyle() {
+        self.backgroundColor = selected ? .blackColor() : .whiteColor()
+        updateOutline()
+    }
+
+    override public func sharedSetup() {
+        self.titleLabel?.font = UIFont.typewriterFont(14.0)
+        self.titleLabel?.numberOfLines = 1
+        self.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        self.setTitleColor(UIColor.whiteColor(), forState: .Selected)
+        self.setTitleColor(UIColor.greyA(), forState: .Disabled)
+        self.backgroundColor = selected ? .blackColor() : .whiteColor()
+    }
+
+    private func updateOutline() {
+        self.layer.borderColor = (currentTitleColor ?? UIColor.whiteColor()).CGColor
+        self.layer.borderWidth = 1
     }
 
 }
