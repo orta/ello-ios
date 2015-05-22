@@ -89,7 +89,7 @@ extension AvatarImageSelectionViewController {
     public func userUploadImage(image: UIImage, proceed: (OnboardingData?) -> Void) {
         ElloHUD.showLoadingHud()
 
-        ProfileService().updateUserCoverImage(image, success: { _ in
+        ProfileService().updateUserAvatarImage(image, success: { _ in
             ElloHUD.hideLoadingHud()
             self.onboardingData?.avatarImage = image
             proceed(self.onboardingData)
