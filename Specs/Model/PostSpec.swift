@@ -30,7 +30,7 @@ class PostSpec: QuickSpec {
                 // active record
                 expect(post.createdAt) == createdAt
                 // required
-                expect(post.token) == "JcSS9Ah9kkBW0mKFFY57mg"
+                expect(post.token) == "tThn9GP4HXth_rigKefSiQ"
                 expect(post.contentWarning) == ""
                 expect(count(post.summary)) == 2
                 expect(post.summary[0].kind) == "text"
@@ -61,13 +61,13 @@ class PostSpec: QuickSpec {
             it("parses created reposts correctly") {
                 let parsedPost = stubbedJSONData("posts_creating_a_repost", "posts")
 
-                let createdAtString = "2015-05-18T18:05:27.633Z"
+                let createdAtString = "2015-05-20T17:20:30.988Z"
                 let post = Post.fromJSON(parsedPost) as! Post
                 var createdAt: NSDate = createdAtString.toNSDate()!
                 // active record
                 expect(post.createdAt) == createdAt
                 // required
-                expect(post.token) == "WJqGz_eC7l_9r4gZESTEdw"
+                expect(post.token) == "FfxEZGO3ucaiaT82cID4jQ"
                 expect(post.contentWarning) == ""
                 expect(count(post.summary)) == 2
                 expect(post.summary[0].kind) == "text"
