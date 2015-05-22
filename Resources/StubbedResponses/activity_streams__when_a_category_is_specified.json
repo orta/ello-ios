@@ -44,7 +44,7 @@
                         "kind": "text"
                     }
                 ],
-                "created_at": "2015-05-18T18:05:04.839Z",
+                "created_at": "2015-05-20T17:20:02.067Z",
                 "id": "29",
                 "links": {
                     "assets": [],
@@ -64,7 +64,7 @@
                         "kind": "text"
                     }
                 ],
-                "created_at": "2015-05-18T18:05:04.809Z",
+                "created_at": "2015-05-20T17:20:02.039Z",
                 "id": "27",
                 "links": {
                     "assets": [],
@@ -98,6 +98,7 @@
                 },
                 "experimental_features": true,
                 "has_commenting_enabled": false,
+                "has_loves_enabled": true,
                 "has_reposting_enabled": true,
                 "has_sharing_enabled": true,
                 "href": "/api/edge/users/43",

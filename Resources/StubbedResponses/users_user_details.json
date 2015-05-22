@@ -5,13 +5,13 @@
                 "attachment": {
                     "optimized": {
                         "metadata": null,
-                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/28/ello-optimized-97fbdf62.jpg"
+                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/31/ello-optimized-97fbdf62.jpg"
                     },
                     "original": {
-                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/28/archer.jpg"
+                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/31/archer.jpg"
                     }
                 },
-                "id": "28"
+                "id": "31"
             }
         ],
         "posts": [
@@ -26,23 +26,24 @@
                     {
                         "data": {
                             "alt": "archer.jpg",
-                            "url": "https://abc123.cloudfront.net/uploads/asset/attachment/28/archer.jpg"
+                            "url": "https://abc123.cloudfront.net/uploads/asset/attachment/31/archer.jpg"
                         },
                         "kind": "image",
                         "links": {
-                            "assets": "28"
+                            "assets": "31"
                         }
                     }
                 ],
                 "content_warning": "NSFW.",
                 "created_at": "2014-06-06T00:00:00.000Z",
-                "href": "/api/edge/posts/301",
-                "id": "301",
+                "href": "/api/edge/posts/333",
+                "id": "333",
                 "links": {
                     "assets": [
-                        "28"
+                        "31"
                     ]
                 },
+                "loves_count": 0,
                 "reposts_count": 0,
                 "summary": [
                     {
@@ -52,15 +53,15 @@
                     {
                         "data": {
                             "alt": "archer.jpg",
-                            "url": "https://abc123.cloudfront.net/uploads/asset/attachment/28/archer.jpg"
+                            "url": "https://abc123.cloudfront.net/uploads/asset/attachment/31/archer.jpg"
                         },
                         "kind": "image",
                         "links": {
-                            "assets": "28"
+                            "assets": "31"
                         }
                     }
                 ],
-                "token": "Hqn-9YX4G442EMW_pL_hlg",
+                "token": "0GwohtJxiuTsq7kH_0J2lQ",
                 "views_count": 0
             },
             {
@@ -74,11 +75,12 @@
                 ],
                 "content_warning": "NSFW.",
                 "created_at": "2014-06-05T00:00:00.000Z",
-                "href": "/api/edge/posts/300",
-                "id": "300",
+                "href": "/api/edge/posts/332",
+                "id": "332",
                 "links": {
                     "assets": []
                 },
+                "loves_count": 0,
                 "reposts_count": 0,
                 "summary": [
                     {
@@ -86,7 +88,7 @@
                         "kind": "text"
                     }
                 ],
-                "token": "buHyhnxlU1oieL-Rjuv2HA",
+                "token": "WmHDbJLHeADjTfPA27ZZxQ",
                 "views_count": 0
             }
         ]
@@ -125,6 +127,7 @@
         "following_count": 0,
         "formatted_short_bio": "<p>Have been spying for a while now.</p>",
         "has_commenting_enabled": true,
+        "has_loves_enabled": true,
         "has_reposting_enabled": true,
         "has_sharing_enabled": true,
         "href": "/api/edge/users/420",
@@ -132,8 +135,8 @@
         "links": {
             "posts": {
                 "ids": [
-                    "301",
-                    "300"
+                    "333",
+                    "332"
                 ],
                 "pagination": {
                     "last": "http://ello.co/api/edge/users/420/posts?after=true",
