@@ -10,7 +10,8 @@
 protocol OnboardingStep {
     var onboardingViewController: OnboardingViewController? { get set }
     var onboardingData: OnboardingData? { get set }
-    optional func onboardingWillProceed()
+    optional func onboardingWillProceed((OnboardingData?) -> Void)
+    optional func onboardingStepBegin()
 }
 
 
@@ -20,7 +21,6 @@ public class OnboardingData {
     var coverImage: UIImage? = nil
     var avatarImage: UIImage? = nil
 }
-
 
 private enum OnboardingDirection: CGFloat {
     case Left = -1
@@ -81,6 +81,31 @@ public class OnboardingViewController: BaseElloViewController, HasAppController 
         setupButtonContainer()
         setupControllerContainer()
         setupOnboardingControllers()
+    }
+
+}
+
+// MARK: Button Actions
+extension OnboardingViewController {
+
+    public func proceedToNextStep() {
+        let proceedClosure: (OnboardingData?) -> Void = { data in
+            self.onboardingData = data
+            self.goToNextStep(data)
+        }
+
+        if let onboardingStep = visibleViewController as? OnboardingStep,
+            let proceed = onboardingStep.onboardingWillProceed
+        {
+            proceed(proceedClosure)
+        }
+        else {
+            proceedClosure(self.onboardingData)
+        }
+    }
+
+    public func skipToNextStep() {
+        goToNextStep(onboardingData)
     }
 
 }
@@ -162,7 +187,6 @@ private extension OnboardingViewController {
 
 }
 
-
 // MARK: Screen transitions
 extension OnboardingViewController {
 
@@ -193,12 +217,10 @@ extension OnboardingViewController {
         }
     }
 
-    public func proceedToNextStep() {
-        if let onboardingStep = visibleViewController as? OnboardingStep {
-            onboardingStep.onboardingWillProceed?()
-        }
-        goToNextStep(onboardingData)
-    }
+}
+
+// MARK: Moving through the screens
+extension OnboardingViewController {
 
     public func goToNextStep(data: OnboardingData?) {
         self.visibleViewControllerIndex += 1
@@ -233,14 +255,28 @@ extension OnboardingViewController {
         goToController(viewController, data: data, direction: .Right)
     }
 
+}
+
+// MARK: Controller transitions
+extension OnboardingViewController {
+
     private func goToController(viewController: UIViewController, data: OnboardingData?, direction: OnboardingDirection) {
         if let visibleViewController = visibleViewController {
+            canGoNext = false
             transitionFromViewController(visibleViewController, toViewController: viewController, direction: direction)
+        }
+
+        if viewController == onboardingViewControllers.last {
+            nextButton.setTitle("Done", forState: .Normal)
+        }
+        else {
+            nextButton.setTitle("Next", forState: .Normal)
         }
 
         if var onboardingStep = viewController as? OnboardingStep {
             onboardingData = data
             onboardingStep.onboardingData = data
+            onboardingStep.onboardingStepBegin?()
         }
     }
 
@@ -250,13 +286,6 @@ extension OnboardingViewController {
         }
 
         Tracker.sharedTracker.screenAppeared(nextViewController.title ?? nextViewController.readableClassName())
-
-        if visibleViewController == onboardingViewControllers.last {
-            nextButton.setTitle("Done", forState: .Normal)
-        }
-        else {
-            nextButton.setTitle("Next", forState: .Normal)
-        }
 
         visibleViewController.willMoveToParentViewController(nil)
         addChildViewController(nextViewController)
