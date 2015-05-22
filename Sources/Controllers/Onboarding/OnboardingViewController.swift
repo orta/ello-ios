@@ -29,6 +29,10 @@ private enum OnboardingDirection: CGFloat {
 
 
 public class OnboardingViewController: BaseElloViewController, HasAppController {
+    public struct Size {
+        static let buttonContainerHeight = CGFloat(80)
+    }
+
     var parentAppController: AppViewController?
     var isTransitioning = false
     private var visibleViewController: UIViewController?
@@ -38,8 +42,8 @@ public class OnboardingViewController: BaseElloViewController, HasAppController 
 
     public private(set) lazy var controllerContainer: UIView = { return UIView() }()
     public private(set) lazy var buttonContainer: UIView = { return UIView() }()
-    public private(set) lazy var backButton: OnboardingBackButton = {
-        let button = OnboardingBackButton()
+    public private(set) lazy var skipButton: OnboardingSkipButton = {
+        let button = OnboardingSkipButton()
         return button
     }()
     public private(set) lazy var nextButton: OnboardingNextButton = {
@@ -49,7 +53,7 @@ public class OnboardingViewController: BaseElloViewController, HasAppController 
     }()
     public var canGoNext: Bool {
         get { return nextButton.enabled }
-        set { return nextButton.enabled = newValue }
+        set { if nextButton.enabled != newValue { nextButton.enabled = newValue } }
     }
 
     override func didSetCurrentUser() {
@@ -74,37 +78,50 @@ public class OnboardingViewController: BaseElloViewController, HasAppController 
         super.viewDidLoad()
         view.backgroundColor = .whiteColor()
 
-        let buttonContainerHeight = CGFloat(80)
-        buttonContainer.frame = view.bounds.fromBottom().growUp(buttonContainerHeight)
+        setupButtonContainer()
+        setupControllerContainer()
+        setupOnboardingControllers()
+    }
+
+}
+
+private extension OnboardingViewController {
+
+    func setupButtonContainer() {
+        buttonContainer.frame = view.bounds.fromBottom().growUp(Size.buttonContainerHeight)
         buttonContainer.autoresizingMask = .FlexibleWidth | .FlexibleTopMargin
         buttonContainer.backgroundColor = .whiteColor()
         view.addSubview(buttonContainer)
 
-        controllerContainer.frame = view.bounds.shrinkUp(buttonContainer.frame.height)
-        controllerContainer.autoresizingMask = .FlexibleWidth | .FlexibleHeight
-        view.insertSubview(controllerContainer, belowSubview: buttonContainer)
-
         let inset = CGFloat(15)
-        backButton.frame = CGRect(
+        skipButton.frame = CGRect(
             x: 0,
             y: 0,
-            width: buttonContainerHeight,
-            height: buttonContainerHeight
+            width: Size.buttonContainerHeight,
+            height: Size.buttonContainerHeight
         ).inset(all: inset)
-        backButton.autoresizingMask = .FlexibleRightMargin | .FlexibleTopMargin | .FlexibleBottomMargin
-        backButton.addTarget(self, action: Selector("goToPreviousStep"), forControlEvents: .TouchUpInside)
-        buttonContainer.addSubview(backButton)
+        skipButton.autoresizingMask = .FlexibleRightMargin | .FlexibleTopMargin | .FlexibleBottomMargin
+        skipButton.addTarget(self, action: Selector("skipToNextStep"), forControlEvents: .TouchUpInside)
+        buttonContainer.addSubview(skipButton)
 
         nextButton.frame = CGRect(
-            x: backButton.frame.maxX,
+            x: skipButton.frame.maxX,
             y: 0,
-            width: buttonContainer.frame.width - backButton.frame.maxX,
-            height: buttonContainerHeight
+            width: buttonContainer.frame.width - skipButton.frame.maxX,
+            height: Size.buttonContainerHeight
         ).inset(all: inset)
         nextButton.autoresizingMask = .FlexibleWidth | .FlexibleTopMargin | .FlexibleBottomMargin
         nextButton.addTarget(self, action: Selector("proceedToNextStep"), forControlEvents: .TouchUpInside)
         buttonContainer.addSubview(nextButton)
+    }
 
+    func setupControllerContainer() {
+        controllerContainer.frame = view.bounds.shrinkUp(buttonContainer.frame.height)
+        controllerContainer.autoresizingMask = .FlexibleWidth | .FlexibleHeight
+        view.insertSubview(controllerContainer, belowSubview: buttonContainer)
+    }
+
+    func setupOnboardingControllers() {
         onboardingData = OnboardingData()
 
         let communityController = CommunitySelectionViewController()
