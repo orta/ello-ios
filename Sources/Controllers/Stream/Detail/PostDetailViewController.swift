@@ -79,10 +79,20 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
             streamKind: .PostDetail(postParam: postParam),
             success: postLoaded,
             failure: { (error, statusCode) in
-                println("failed to load user (reason: \(error))")
+                self.showPostLoadFailure()
                 self.streamViewController.doneLoading()
             }
         )
+    }
+
+    private func showPostLoadFailure() {
+        let message = NSLocalizedString("Sorry, but that post doesn’t exist anymore", comment: "Post doesn't exist failure")
+        let alertController = AlertViewController(message: message)
+        let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
+        alertController.addAction(action)
+        self.presentViewController(alertController, animated: true) {
+            self.navigationController?.popViewControllerAnimated(true)
+        }
     }
 
     private func setupNavigationBar() {
