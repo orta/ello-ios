@@ -17,25 +17,24 @@ class LoveSpec: QuickSpec {
         describe("+fromJSON:") {
 
             it("parses correctly") {
-                let data = stubbedJSONData("love", "loves")
+                let data = stubbedJSONData("loves_creating_a_love", "loves")
                 let love = Love.fromJSON(data) as! Love
 
-                let createdAtString = "2014-06-01T00:00:00.000Z"
+                let createdAtString = "2015-05-20T17:20:22.607Z"
                 var createdAt: NSDate = createdAtString.toNSDate()!
 
-                let updatedAtString = "2014-06-01T00:00:00.000Z"
+                let updatedAtString = "2015-05-20T17:20:22.607Z"
                 var updatedAt: NSDate = updatedAtString.toNSDate()!
 
                 // active record
-                expect(love.id) == "5381"
+                expect(love.id) == "9"
                 expect(love.createdAt) == createdAt
                 expect(love.updatedAt) == updatedAt
                 // required
-                expect(love.deleted) == true
-                expect(love.postId) == "1234"
-                expect(love.userId) == "666"
+                expect(love.deleted) == false
+                expect(love.postId) == "161"
+                expect(love.userId) == "42"
                 expect(love.post).to(beAKindOf(Post.self))
-                expect(love.user).to(beAKindOf(User.self))
             }
         }
 

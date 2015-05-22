@@ -52,7 +52,7 @@ class PostbarControllerSpec: QuickSpec {
                         "authorId" : "user1",
                         "lovesCount" : 5,
                         "loved" : loved
-                        ])
+                    ])
                     let parser = StreamCellItemParser()
                     let postCellItems = parser.parse([post], streamKind: streamKind)
                     controller.dataSource.appendUnsizedCellItems(postCellItems, withWidth: 320.0) { cellCount in
@@ -65,11 +65,14 @@ class PostbarControllerSpec: QuickSpec {
 
                     it("loves the post") {
                         stubCellItems(loved: false)
+                        let indexPath = NSIndexPath(forItem: 2, inSection: 0)
+                        let cell = StreamFooterCell.loadFromNib() as StreamFooterCell
+
                         var lovesCount = 0
                         var observer = NotificationObserver(notification: PostChangedNotification) { (post, change) in
                             lovesCount = post.lovesCount!
                         }
-                        subject.lovesButtonTapped(NSIndexPath(forItem: 2, inSection: 0))
+                        subject.lovesButtonTapped(cell, indexPath: indexPath)
                         observer.removeObserver()
 
                         expect(lovesCount) == 6
@@ -80,11 +83,14 @@ class PostbarControllerSpec: QuickSpec {
 
                     it("unloves the post") {
                         stubCellItems(loved: true)
+                        let indexPath = NSIndexPath(forItem: 2, inSection: 0)
+                        let cell = StreamFooterCell.loadFromNib() as StreamFooterCell
+
                         var lovesCount = 0
                         var observer = NotificationObserver(notification: PostChangedNotification) { (post, change) in
                             lovesCount = post.lovesCount!
                         }
-                        subject.lovesButtonTapped(NSIndexPath(forItem: 2, inSection: 0))
+                        subject.lovesButtonTapped(cell, indexPath: indexPath)
                         observer.removeObserver()
 
                         expect(lovesCount) == 4

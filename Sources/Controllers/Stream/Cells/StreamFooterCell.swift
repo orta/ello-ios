@@ -252,7 +252,7 @@ public class StreamFooterCell: UICollectionViewCell {
     }
 
     @IBAction func lovesButtonTapped(sender: ImageLabelControl) {
-        delegate?.lovesButtonTapped(self)
+        delegate?.lovesButtonTapped(self, indexPath: self.indexPath)
     }
 
     @IBAction func repostButtonTapped(sender: ImageLabelControl) {

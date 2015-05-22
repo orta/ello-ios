@@ -13,7 +13,7 @@ public protocol PostbarDelegate : NSObjectProtocol {
     func commentsButtonTapped(cell: StreamFooterCell, imageLabelControl: ImageLabelControl)
     func deletePostButtonTapped(indexPath: NSIndexPath)
     func deleteCommentButtonTapped(indexPath: NSIndexPath)
-    func lovesButtonTapped(cell: StreamFooterCell)
+    func lovesButtonTapped(cell: StreamFooterCell, indexPath: NSIndexPath)
     func repostButtonTapped(indexPath: NSIndexPath)
     func shareButtonTapped(indexPath: NSIndexPath)
     func flagPostButtonTapped(indexPath: NSIndexPath)
@@ -177,10 +177,8 @@ public class PostbarController: NSObject, PostbarDelegate {
     }
 
 
-    public func lovesButtonTapped(cell: StreamFooterCell) {
-        if let indexPath = collectionView.indexPathForCell(cell),
-           let post = self.postForIndexPath(indexPath)
-        {
+    public func lovesButtonTapped(cell: StreamFooterCell, indexPath: NSIndexPath) {
+        if let post = self.postForIndexPath(indexPath) {
             cell.lovesControl.userInteractionEnabled = false
             if post.loved { unlovePost(post, cell: cell) }
             else { lovePost(post, cell: cell) }

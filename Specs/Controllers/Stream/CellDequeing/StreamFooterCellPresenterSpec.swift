@@ -529,7 +529,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     expect(cell.lovesItem.customView).toNot(beVisibleIn(cell))
                 }
 
-                it("disabled if author is current user") {
+                it("enabled if author is current user") {
                     let author: User = stub(["id" : "1", "hasLovesEnabled" : true])
                     let post: Post = stub([
                         "id" : "768",
@@ -544,11 +544,11 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: author)
 
-                    expect(cell.lovesControl.enabled).to(beFalse())
+                    expect(cell.lovesControl.enabled) == true
                     expect(cell.lovesItem.customView).to(beVisibleIn(cell))
                 }
 
-                it("disabled if author is current user in grid view") {
+                it("enabled if author is current user in grid view") {
                     let author: User = stub(["id" : "1", "hasLovesEnabled" : true])
                     let post: Post = stub([
                         "id" : "768",
@@ -563,7 +563,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Noise, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: author)
 
-                    expect(cell.lovesControl.enabled).to(beFalse())
+                    expect(cell.lovesControl.enabled) == true
                     expect(cell.lovesItem.customView).to(beVisibleIn(cell))
                 }
 
