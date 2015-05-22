@@ -17,9 +17,9 @@ public final class Love: JSONAble {
 
     // active record
     public let id: String
-    // required
     public let createdAt: NSDate
     public let updatedAt: NSDate
+    // required
     public var deleted: Bool
     public let postId: String
     public let userId: String

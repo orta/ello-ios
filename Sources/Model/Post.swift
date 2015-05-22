@@ -181,10 +181,10 @@ public final class Post: JSONAble, Authorable {
             token: json["token"].stringValue,
             contentWarning: json["content_warning"].stringValue,
             allowComments: json["allow_comments"].boolValue,
-			reposted: json["reposted"].bool ?? false,
+            reposted: json["reposted"].bool ?? false,
             loved: json["loved"].bool ?? false,
             summary: RegionParser.regions("summary", json: json)
-            )
+        )
         // optional
         post.content = RegionParser.regions("content", json: json, isRepostContent: repostContent.count > 0)
         post.repostContent = repostContent

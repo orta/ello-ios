@@ -293,7 +293,7 @@ public class StreamFooterCell: UICollectionViewCell {
         scrollView.frame = newBounds
         toolBar.frame = newBounds
         bottomToolBar.frame = newBounds
-		chevronButton.setSVGImages("abracket")
+        chevronButton.setSVGImages("abracket")
         chevronButton.frame = CGRect(
             x: newBounds.width - chevronButton.bounds.width - 10,
             y: newBounds.height/2 - chevronButton.bounds.height/2,

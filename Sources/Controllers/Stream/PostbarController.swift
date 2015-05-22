@@ -74,7 +74,7 @@ public class PostbarController: NSObject, PostbarDelegate {
             return
         }
 
-        if let indexPath = collectionView.indexPathForCell(cell),
+        if  let indexPath = collectionView.indexPathForCell(cell),
             let item = dataSource.visibleStreamCellItem(at: indexPath),
             let post = item.jsonable as? Post
         {
@@ -186,6 +186,7 @@ public class PostbarController: NSObject, PostbarDelegate {
     }
 
     private func unlovePost(post: Post, cell: StreamFooterCell) {
+        Tracker.sharedTracker.postUnloved()
         if let count = post.lovesCount {
             post.lovesCount = count - 1
             post.loved = false
@@ -197,7 +198,6 @@ public class PostbarController: NSObject, PostbarDelegate {
             postId: post.id,
             success: {
                 cell.lovesControl.userInteractionEnabled = true
-                Tracker.sharedTracker.postUnloved()
             },
             failure: { error, statusCode in
                 cell.lovesControl.userInteractionEnabled = true
@@ -207,6 +207,7 @@ public class PostbarController: NSObject, PostbarDelegate {
     }
 
     private func lovePost(post: Post, cell: StreamFooterCell) {
+        Tracker.sharedTracker.postLoved()
         if let count = post.lovesCount {
             post.lovesCount = count + 1
             post.loved = true
@@ -218,7 +219,7 @@ public class PostbarController: NSObject, PostbarDelegate {
             success: { (love, responseConfig) in
                 postNotification(LoveChangedNotification, (love, .Create))
                 cell.lovesControl.userInteractionEnabled = true
-                Tracker.sharedTracker.postLoved()
+
             },
             failure: { error, statusCode in
                 cell.lovesControl.userInteractionEnabled = true
