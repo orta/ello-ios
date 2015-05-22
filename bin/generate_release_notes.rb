@@ -54,7 +54,7 @@ class GenerateReleaseNotes
 
   def update_release_notes
     # new release notes
-    release_notes = "### Ello Build #{@number_of_commits}(#{@git_release_version}) #{Time.now.strftime("%B %-d, %Y")}\n\n"
+    release_notes = "### Ello Build #{@git_release_version}(#{@number_of_commits}) #{Time.now.strftime("%B %-d, %Y")}\n\n"
     release_notes << <<-EOF
     #{@pull_request_notes.count > 1 ? @pull_request_notes.join("\n\n------\n\n") : 'No completed pull requests since last distribution.'}
     #{"\n------------\n"}
