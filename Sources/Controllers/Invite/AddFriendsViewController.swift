@@ -27,7 +27,7 @@ public class AddFriendsViewController: StreamableViewController {
     required public init(addressBook: ContactList) {
         self.addressBook = addressBook
         super.init(nibName: "AddFriendsViewController", bundle: NSBundle(forClass: AddFriendsViewController.self))
-        self.title = "Find Friends"
+        self.title = NSLocalizedString("Find Friends", comment: "Find Friends")
     }
 
     required public init(coder aDecoder: NSCoder) {
