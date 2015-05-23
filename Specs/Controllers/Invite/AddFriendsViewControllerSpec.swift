@@ -38,10 +38,9 @@ class AddFriendsViewControllerSpec: QuickSpec {
 
                 it("IBActions are wired up") {
                     let filterActions = subject.filterField.actionsForTarget(subject, forControlEvent: UIControlEvents.EditingChanged)
-
                     expect(filterActions).to(contain("filterFieldDidChange:"))
-
-                    expect(filterActions?.count) == 1                }
+                    expect(filterActions?.count) == 1
+                }
             }
 
             it("can be instantiated from nib") {
