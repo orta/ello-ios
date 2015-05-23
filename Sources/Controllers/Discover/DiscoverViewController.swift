@@ -36,6 +36,7 @@ public class DiscoverViewController: StreamableViewController {
         super.viewDidLoad()
         self.navigationController?.navigationBarHidden = true
         chevron.image = SVGKImage(named: "abracket_white.svg").UIImage!
+        inviteLabel.text = NSLocalizedString("Find & invite your friends", comment: "Find & invite")
         inviteLabel.font = UIFont.typewriterFont(14)
         inviteLabel.textColor = .whiteColor()
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
