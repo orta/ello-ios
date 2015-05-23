@@ -254,7 +254,7 @@ extension StreamableViewController: InviteResponder {
                 switch result {
                 case let .Success(box):
                     Tracker.sharedTracker.contactAccessPreferenceChanged(true)
-                    let vc = AddFriendsContainerViewController(addressBook: box.value)
+                    let vc = AddFriendsViewController(addressBook: box.value)
                     vc.currentUser = self.currentUser
                     vc.userTappedDelegate = self
                     self.navigationController?.pushViewController(vc, animated: true)
