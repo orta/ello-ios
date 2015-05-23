@@ -118,7 +118,7 @@ public class AddFriendsViewController: StreamableViewController {
             contacts[person.identifier] = person.emails
         }
 
-        ElloHUD.showLoadingHudInView(streamViewController.view)
+        ElloHUD.showLoadingHudInView(self.tableView)
         InviteService().find(contacts, currentUser: self.currentUser, success: { users in
             let userIdentifiers = users.map { $0.identifiableBy ?? "" }
             let mixed: [(LocalPerson, User?)] = self.addressBook.localPeople.map {
@@ -128,11 +128,11 @@ public class AddFriendsViewController: StreamableViewController {
                 return ($0, .None)
             }
             self.setContacts(mixed)
-            ElloHUD.hideLoadingHudInView(self.streamViewController.view)
+            ElloHUD.hideLoadingHudInView(self.tableView)
             }, failure: { _ in
                 let contacts: [(LocalPerson, User?)] = self.addressBook.localPeople.map { ($0, .None) }
                 self.setContacts(contacts)
-                ElloHUD.hideLoadingHudInView(self.streamViewController.view)
+                ElloHUD.hideLoadingHudInView(self.tableView)
         })
     }
 
