@@ -24,7 +24,7 @@ public class ProfileHeaderCell: UICollectionViewCell {
     @IBOutlet weak var viewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var bioWebView: UIWebView!
     @IBOutlet weak var profileButtonsView: UIView!
-    @IBOutlet weak var settingsButton: UIButton!
+    @IBOutlet weak var editProfileButton: OutlineElloButton!
     @IBOutlet weak var inviteButton: UIButton!
     weak var webLinkDelegate: WebLinkDelegate?
     weak var userListDelegate: UserListDelegate?
@@ -58,16 +58,11 @@ public class ProfileHeaderCell: UICollectionViewCell {
 
         profileButtonsView.backgroundColor = UIColor.whiteColor()
 
-        settingsButton.setTitle("", forState: .Normal)
-        settingsButton.setSVGImages("gear")
-        settingsButton.addTarget(self, action: Selector("settingsTapped:"), forControlEvents: .TouchUpInside)
-
         inviteButton.setTitle("", forState: .Normal)
         inviteButton.setSVGImages("xpmcirc")
-        inviteButton.addTarget(self, action: Selector("inviteTapped:"), forControlEvents: .TouchUpInside)
     }
 
-    @IBAction func settingsTapped(sender: UIButton) {
+    @IBAction func editProfileTapped(sender: UIButton) {
         let responder = targetForAction("onEditProfile", withSender: self) as? EditProfileResponder
         responder?.onEditProfile()
     }

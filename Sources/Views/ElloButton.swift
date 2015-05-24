@@ -95,3 +95,67 @@ public class WhiteElloButton: LightElloButton {
         self.setTitleColor(UIColor.whiteColor(), forState: .Selected)
     }
 }
+
+public class OutlineElloButton: WhiteElloButton {
+
+    override public func sharedSetup() {
+        super.sharedSetup()
+        self.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        self.setTitleColor(UIColor.greyE5(), forState: .Highlighted)
+        self.setTitleColor(UIColor.greyC(), forState: .Disabled)
+        self.backgroundColor = .whiteColor()
+        updateOutline()
+    }
+
+    override public var highlighted: Bool {
+        didSet {
+            updateOutline()
+        }
+    }
+
+    private func updateOutline() {
+        self.layer.borderColor = highlighted ? UIColor.greyE5().CGColor : UIColor.blackColor().CGColor
+        self.layer.borderWidth = 1
+    }
+}
+
+public class FollowAllElloButton: ElloButton {
+
+    required public init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+
+    required public init(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+
+    override public var enabled: Bool {
+        didSet {
+            self.backgroundColor = selected ? .whiteColor() : .blackColor()
+            updateOutline()
+        }
+    }
+
+    override public var selected: Bool {
+        didSet {
+            self.backgroundColor = selected ? .whiteColor() : .blackColor()
+            updateOutline()
+        }
+    }
+
+    override public func sharedSetup() {
+        self.titleLabel?.font = UIFont.typewriterFont(14.0)
+        self.titleLabel?.numberOfLines = 1
+        self.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        self.setTitleColor(UIColor.blackColor(), forState: .Selected)
+        self.setTitleColor(UIColor.greyA(), forState: .Disabled)
+        self.backgroundColor = selected ? .whiteColor() : .blackColor()
+        updateOutline()
+    }
+
+    private func updateOutline() {
+        self.layer.borderColor = (currentTitleColor ?? UIColor.whiteColor()).CGColor
+        self.layer.borderWidth = 1
+    }
+
+}
