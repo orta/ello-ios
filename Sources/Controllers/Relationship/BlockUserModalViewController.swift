@@ -115,7 +115,7 @@ public class BlockUserModalViewController: BaseElloViewController {
     private func handleTapped(sender: UIButton, newRelationship: RelationshipPriority) {
         let prevRelationship = relationship
         if sender.selected == true {
-            relationship = RelationshipPriority.Inactive
+            relationship = .Inactive
         } else {
             relationship = newRelationship
         }

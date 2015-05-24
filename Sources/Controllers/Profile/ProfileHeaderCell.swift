@@ -58,13 +58,13 @@ public class ProfileHeaderCell: UICollectionViewCell {
 
         profileButtonsView.backgroundColor = UIColor.whiteColor()
 
-        settingsButton.setTitle("", forState: UIControlState.Normal)
+        settingsButton.setTitle("", forState: .Normal)
         settingsButton.setSVGImages("gear")
-        settingsButton.addTarget(self, action: Selector("settingsTapped:"), forControlEvents: UIControlEvents.TouchUpInside)
+        settingsButton.addTarget(self, action: Selector("settingsTapped:"), forControlEvents: .TouchUpInside)
 
-        inviteButton.setTitle("", forState: UIControlState.Normal)
+        inviteButton.setTitle("", forState: .Normal)
         inviteButton.setSVGImages("xpmcirc")
-        inviteButton.addTarget(self, action: Selector("inviteTapped:"), forControlEvents: UIControlEvents.TouchUpInside)
+        inviteButton.addTarget(self, action: Selector("inviteTapped:"), forControlEvents: .TouchUpInside)
     }
 
     @IBAction func settingsTapped(sender: UIButton) {

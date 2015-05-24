@@ -27,6 +27,7 @@ public struct ProfileHeaderCellPresenter {
                 cell.relationshipControl.hidden = user.id == currentUser.id
             }
             cell.profileButtonsView.hidden = !cell.relationshipControl.hidden
+            cell.relationshipControl.showMareButton = !cell.relationshipControl.hidden
 
             if let avatarURL = user.avatarURL {
                 cell.setAvatarURL(avatarURL)

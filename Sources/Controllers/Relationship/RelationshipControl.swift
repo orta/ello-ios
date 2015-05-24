@@ -11,6 +11,7 @@ import Foundation
 public class RelationshipControl: UIControl {
 
     private let size = CGSize(width: 90, height: 30)
+    private let sizeWithMore = CGSize(width: 134, height: 30)
 
     private var followNormalBackgroundColor: UIColor = .whiteColor()
     private var followSelectedBackgroundColor: UIColor = .blackColor()
@@ -42,14 +43,23 @@ public class RelationshipControl: UIControl {
         return self.styleText("Friend", color: .whiteColor())
     }()
 
-    private var attributedNormalTitle = NSAttributedString(string: "")
-    private var attributedSelectedTitle = NSAttributedString(string: "")
+    public private(set) var attributedNormalTitle = NSAttributedString(string: "")
+    public private(set) var attributedSelectedTitle = NSAttributedString(string: "")
     private var normalBackgroundColor: UIColor = .whiteColor()
     private var selectedBackgroundColor: UIColor = .blackColor()
 
     private let contentContainer = UIView(frame: CGRectZero)
     private let label = UILabel(frame: CGRectZero)
-    private let button = UIButton(frame: CGRectZero)
+    private let mainButton = UIButton(frame: CGRectZero)
+    lazy private var moreButton: UIButton = {
+        let button = UIButton.buttonWithType(.Custom) as! UIButton
+        button.frame = CGRect(x:0, y: 0, width: 44, height: 30)
+        button.setTitle("", forState: .Normal)
+        button.setSVGImages("dots")
+        button.addTarget(self, action: Selector("moreTapped:"), forControlEvents: .TouchUpInside)
+        return button
+    }()
+    private let mainButtonBackground = UIView(frame: CGRectZero)
 
     public var userId: String
     public var userAtName: String
@@ -71,48 +81,72 @@ public class RelationshipControl: UIControl {
         }
     }
 
+    public var showMareButton = false {
+        didSet {
+            moreButton.hidden = !showMareButton
+            updateLayout()
+            invalidateIntrinsicContentSize()
+        }
+    }
+
     required public init(coder: NSCoder) {
         self.userId = ""
         self.userAtName = ""
         super.init(coder: coder)
         addSubviews()
         addTargets()
-        self.backgroundColor = UIColor.redColor()
-        self.attributedNormalTitle = followNormalAttributedTitle
-        self.attributedSelectedTitle = followSelectedAttributedTitle
-        layer.borderColor = UIColor.blackColor().CGColor
-        layer.borderWidth = 1
+        moreButton.hidden = true
+        attributedNormalTitle = followNormalAttributedTitle
+        attributedSelectedTitle = followSelectedAttributedTitle
+        mainButtonBackground.layer.borderColor = UIColor.blackColor().CGColor
+        mainButtonBackground.layer.borderWidth = 1
     }
 
     // MARK: IBActions
 
-    @IBAction func buttonTouchUpInside(sender: ImageLabelControl) {
-        sendActionsForControlEvents(.TouchUpInside)
+    @IBAction func moreTapped(sender: UIButton) {
+        relationshipDelegate?.launchBlockModal(userId, userAtName: userAtName, relationship: relationship) {
+            [unowned self] relationship in
+            self.relationship = relationship
+        }
+    }
+
+    @IBAction func buttonTouchUpInside(sender: UIButton) {
+        handleTapped(sender)
         highlighted = false
     }
 
-    @IBAction func buttonTouchUpOutside(sender: ImageLabelControl) {
-        sendActionsForControlEvents(.TouchUpOutside)
+    @IBAction func buttonTouchUpOutside(sender: UIButton) {
         highlighted = false
     }
 
-    @IBAction func buttonTouchDown(sender: ImageLabelControl) {
-        sendActionsForControlEvents(.TouchDown)
+    @IBAction func buttonTouchDown(sender: UIButton) {
         highlighted = true
     }
 
-    // MARK: Private
+    private func handleTapped(sender: UIButton) {
+        relationshipDelegate?.relationshipTapped(userId, relationship: relationship) {
+            [unowned self] (status, relationship) in
+        }
+    }
 
+    public override func intrinsicContentSize() -> CGSize {
+        return showMareButton ? sizeWithMore : size
+    }
+
+    // MARK: Private
     private func addSubviews() {
-        addSubview(contentContainer)
-        addSubview(button)
+        addSubview(mainButtonBackground)
+        addSubview(moreButton)
+        mainButtonBackground.addSubview(contentContainer)
         contentContainer.addSubview(label)
+        addSubview(mainButton)
     }
 
     private func addTargets() {
-        button.addTarget(self, action: Selector("buttonTouchUpInside:"), forControlEvents: .TouchUpInside)
-        button.addTarget(self, action: Selector("buttonTouchDown:"), forControlEvents: .TouchDown | .TouchDragEnter)
-        button.addTarget(self, action: Selector("buttonTouchUpOutside:"), forControlEvents: .TouchCancel | .TouchDragExit)
+        mainButton.addTarget(self, action: Selector("buttonTouchUpInside:"), forControlEvents: .TouchUpInside)
+        mainButton.addTarget(self, action: Selector("buttonTouchDown:"), forControlEvents: .TouchDown | .TouchDragEnter)
+        mainButton.addTarget(self, action: Selector("buttonTouchUpOutside:"), forControlEvents: .TouchCancel | .TouchDragExit)
     }
 
     private func updateTitles(active: Bool) {
@@ -134,7 +168,7 @@ public class RelationshipControl: UIControl {
             selectedBackgroundColor = followSelectedBackgroundColor
         }
         label.attributedText = active ? attributedSelectedTitle : attributedNormalTitle
-        backgroundColor = active ? selectedBackgroundColor : normalBackgroundColor
+        mainButtonBackground.backgroundColor = active ? selectedBackgroundColor : normalBackgroundColor
 
         updateLayout()
     }
@@ -155,9 +189,12 @@ public class RelationshipControl: UIControl {
                 height: size.height
         )
 
-        button.frame.size.width = size.width
-        button.frame.size.height = size.height
+        mainButton.frame.size.width = size.width
+        mainButton.frame.size.height = size.height
         label.frame.origin.y = size.height / 2 - label.frame.size.height / 2
+        let mainButtonX = !showMareButton ? 0 : moreButton.frame.size.width
+        mainButton.frame.origin.x = mainButtonX
+        mainButtonBackground.frame = mainButton.frame
     }
 
     private func styleText(title: String, color: UIColor) -> NSAttributedString {

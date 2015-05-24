@@ -34,8 +34,8 @@
                         <rect key="frame" x="539" y="18" width="90" height="30"/>
                         <color key="backgroundColor" red="1" green="0.059496439829999997" blue="0.93599406699999999" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="30" id="Ths-f1-orS" userLabel="relationshipView - height"/>
-                            <constraint firstAttribute="width" constant="90" id="qM1-oe-tuw" userLabel="relationshipView - width"/>
+                            <constraint firstAttribute="height" constant="30" id="Ths-f1-orS" userLabel="relationshipControl - height"/>
+                            <constraint firstAttribute="width" constant="90" id="qM1-oe-tuw" userLabel="relationshipControl - width"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -44,8 +44,8 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="Iji-as-2iN" firstAttribute="top" secondItem="61z-pJ-LrK" secondAttribute="top" constant="18" id="7kI-Z0-QbA" userLabel="avatarButton - top"/>
-                <constraint firstAttribute="trailing" secondItem="Erd-4A-4rH" secondAttribute="trailing" constant="15" id="CN4-Z5-KwT" userLabel="relationshipView - right"/>
-                <constraint firstAttribute="centerY" secondItem="Erd-4A-4rH" secondAttribute="centerY" id="Djf-wz-93O" userLabel="relationshipView - vert center"/>
+                <constraint firstAttribute="trailing" secondItem="Erd-4A-4rH" secondAttribute="trailing" constant="15" id="CN4-Z5-KwT" userLabel="relationshipControl - right"/>
+                <constraint firstAttribute="centerY" secondItem="Erd-4A-4rH" secondAttribute="centerY" id="Djf-wz-93O" userLabel="relationshipControl - vert center"/>
                 <constraint firstAttribute="bottom" secondItem="Iji-as-2iN" secondAttribute="bottom" constant="18" id="T4h-dP-U9W" userLabel="avatarButton - bottom"/>
                 <constraint firstAttribute="centerY" secondItem="WxT-0L-Vvg" secondAttribute="centerY" id="Zdy-54-gCn" userLabel="usernameLabel - vert center"/>
                 <constraint firstItem="Iji-as-2iN" firstAttribute="leading" secondItem="61z-pJ-LrK" secondAttribute="leading" constant="15" id="cv7-jA-J6m" userLabel="avatarButton - left"/>

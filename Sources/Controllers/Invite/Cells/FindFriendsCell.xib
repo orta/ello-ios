@@ -46,10 +46,10 @@
                     <constraint firstAttribute="bottom" secondItem="enR-r6-hzH" secondAttribute="bottom" id="6oX-93-BZZ" userLabel="Bottom Line - Bottom"/>
                     <constraint firstAttribute="centerY" secondItem="Fxz-FJ-RK5" secondAttribute="centerY" id="7Bq-Rs-vcQ" userLabel="nameLabel - center vert"/>
                     <constraint firstItem="enR-r6-hzH" firstAttribute="leading" secondItem="fKX-sH-Ozb" secondAttribute="leading" id="AiK-wG-xHh" userLabel="Bottom Line - Left"/>
-                    <constraint firstAttribute="centerY" secondItem="MQx-yo-eta" secondAttribute="centerY" id="Mie-nM-JZD" userLabel="relationshipView - center vert"/>
-                    <constraint firstItem="Fxz-FJ-RK5" firstAttribute="leading" secondItem="jjK-dE-anZ" secondAttribute="trailing" constant="8" id="OXZ-IZ-AGd" userLabel="profileImageView | nameLabel"/>
-                    <constraint firstAttribute="trailing" secondItem="MQx-yo-eta" secondAttribute="trailing" constant="14" id="aGn-aJ-ZoJ" userLabel="relationshipView - Right"/>
-                    <constraint firstItem="MQx-yo-eta" firstAttribute="leading" secondItem="Fxz-FJ-RK5" secondAttribute="trailing" constant="8" id="g7E-jt-NDx" userLabel="nameLabel | relationshipView"/>
+                    <constraint firstAttribute="centerY" secondItem="MQx-yo-eta" secondAttribute="centerY" id="Mie-nM-JZD" userLabel="relationshipControl - center vert"/>
+                    <constraint firstItem="Fxz-FJ-RK5" firstAttribute="leading" secondItem="jjK-dE-anZ" secondAttribute="trailing" constant="8" id="OXZ-IZ-AGd" userLabel="profileImageControl | nameLabel"/>
+                    <constraint firstAttribute="trailing" secondItem="MQx-yo-eta" secondAttribute="trailing" constant="14" id="aGn-aJ-ZoJ" userLabel="relationshipControl - Right"/>
+                    <constraint firstItem="MQx-yo-eta" firstAttribute="leading" secondItem="Fxz-FJ-RK5" secondAttribute="trailing" constant="8" id="g7E-jt-NDx" userLabel="nameLabel | relationshipControl"/>
                     <constraint firstAttribute="trailing" secondItem="enR-r6-hzH" secondAttribute="trailing" id="ml8-DI-SXD" userLabel="Bottom Line - Right"/>
                     <constraint firstAttribute="centerY" secondItem="jjK-dE-anZ" secondAttribute="centerY" id="ynD-6y-n5G" userLabel="profileImageView - center vert"/>
                 </constraints>
