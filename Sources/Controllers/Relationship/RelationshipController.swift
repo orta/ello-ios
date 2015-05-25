@@ -24,6 +24,7 @@ public protocol RelationshipControllerDelegate: NSObjectProtocol {
 public protocol RelationshipDelegate: NSObjectProtocol {
     func relationshipTapped(userId: String, relationship: RelationshipPriority, complete: RelationshipChangeCompletion)
     func launchBlockModal(userId: String, userAtName: String, relationship: RelationshipPriority, changeClosure: RelationshipChangeClosure)
+    func updateRelationship(userId: String, relationship: RelationshipPriority, complete: RelationshipChangeCompletion)
 }
 
 public class RelationshipController: NSObject, RelationshipDelegate {
@@ -84,9 +85,7 @@ public class RelationshipController: NSObject, RelationshipDelegate {
         presentingController.presentViewController(vc, animated: true, completion: nil)
     }
 
-    // MARK: Private
-
-    private func updateRelationship(userId: String, relationship: RelationshipPriority, complete: RelationshipChangeCompletion){
+    public func updateRelationship(userId: String, relationship: RelationshipPriority, complete: RelationshipChangeCompletion){
         RelationshipService().updateRelationship(ElloAPI.Relationship(userId: userId,
             relationship: relationship.rawValue),
             success: { (data, responseConfig) in
