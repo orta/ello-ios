@@ -58,6 +58,7 @@ public class RelationshipControl: UIControl {
     public private(set) var attributedSelectedTitle = NSAttributedString(string: "")
     private var normalBackgroundColor: UIColor = .whiteColor()
     private var selectedBackgroundColor: UIColor = .blackColor()
+    private var borderColor: UIColor = .blackColor()
 
     private let contentContainer = UIView(frame: CGRectZero)
     private let label = UILabel(frame: CGRectZero)
@@ -109,7 +110,7 @@ public class RelationshipControl: UIControl {
         moreButton.hidden = true
         attributedNormalTitle = followNormalAttributedTitle
         attributedSelectedTitle = followSelectedAttributedTitle
-        mainButtonBackground.layer.borderColor = UIColor.blackColor().CGColor
+        mainButtonBackground.layer.borderColor = borderColor.CGColor
         mainButtonBackground.layer.borderWidth = 1
     }
 
@@ -175,25 +176,29 @@ public class RelationshipControl: UIControl {
             attributedSelectedTitle = friendSelectedAttributedTitle
             normalBackgroundColor = establishedNormalBackgroundColor
             selectedBackgroundColor = establishedSelectedBackgroundColor
+            borderColor = .blackColor()
         case .Noise:
             attributedNormalTitle = noiseNormalAttributedTitle
             attributedSelectedTitle = noiseSelectedAttributedTitle
             normalBackgroundColor = establishedNormalBackgroundColor
             selectedBackgroundColor = establishedSelectedBackgroundColor
+            borderColor = .blackColor()
         case .Mute:
             attributedNormalTitle = muteNormalAttributedTitle
             attributedSelectedTitle = muteSelectedAttributedTitle
             normalBackgroundColor = muteNormalBackgroundColor
             selectedBackgroundColor = muteSelectedBackgroundColor
+            borderColor = .redColor()
         default:
             attributedNormalTitle = followNormalAttributedTitle
             attributedSelectedTitle = followSelectedAttributedTitle
             normalBackgroundColor = followNormalBackgroundColor
             selectedBackgroundColor = followSelectedBackgroundColor
+            borderColor = .blackColor()
         }
         label.attributedText = active ? attributedSelectedTitle : attributedNormalTitle
         mainButtonBackground.backgroundColor = active ? selectedBackgroundColor : normalBackgroundColor
-
+        mainButtonBackground.layer.borderColor = borderColor.CGColor
         updateLayout()
     }
 
@@ -235,5 +240,4 @@ public class RelationshipControl: UIControl {
         attributed.addAttributes(attributes, range: range)
         return attributed
     }
-
 }
