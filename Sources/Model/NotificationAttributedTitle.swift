@@ -105,14 +105,18 @@ public struct NotificationAttributedTitle {
                         .append(style(" mentioned you in a comment."))
                 }
             case .CommentOnOriginalPostNotification:
-                if let comment = subject as? Comment {
+                if let comment = subject as? Comment,
+                    let repost = comment.parentPost,
+                    let repostAuthor = repost.author,
+                    let source = repost.repostSource
+                {
                     return style(author)
                         .append(style(" commented on "))
-                        .append(style(author))
+                        .append(style(repostAuthor))
                         .append(style("’s "))
-                        .append(style("repost", comment))
+                        .append(style("repost", repost))
                         .append(style(" of your "))
-                        .append(style("post", comment))
+                        .append(style("post", source))
                         .append(style("."))
                 }
                 else {
