@@ -267,10 +267,10 @@ extension OnboardingViewController {
         }
 
         if viewController == onboardingViewControllers.last {
-            nextButton.setTitle("Done", forState: .Normal)
+            nextButton.setTitle(NSLocalizedString("Done", comment: "Done button title"), forState: .Normal)
         }
         else {
-            nextButton.setTitle("Next", forState: .Normal)
+            nextButton.setTitle(NSLocalizedString("Next", comment: "Next button title"), forState: .Normal)
         }
 
         if var onboardingStep = viewController as? OnboardingStep {
