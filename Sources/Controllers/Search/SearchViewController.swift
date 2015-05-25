@@ -33,6 +33,7 @@ public class SearchViewController: BaseElloViewController {
         streamViewController.currentUser = currentUser
 
         streamViewController.userTappedDelegate = self
+        streamViewController.contentInset.bottom = ElloTabBar.Size.height
 
         streamViewController.willMoveToParentViewController(self)
         self.addChildViewController(streamViewController)
