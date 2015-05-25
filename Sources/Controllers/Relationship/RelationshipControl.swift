@@ -12,58 +12,11 @@ public class RelationshipControl: UIControl {
 
     private let size = CGSize(width: 90, height: 30)
     private let sizeWithMore = CGSize(width: 134, height: 30)
-
-    private var followNormalBackgroundColor: UIColor = .whiteColor()
-    private var followSelectedBackgroundColor: UIColor = .blackColor()
-
-    private var establishedNormalBackgroundColor: UIColor = .blackColor()
-    private var establishedSelectedBackgroundColor: UIColor = .grey4D()
-
-    private var muteNormalBackgroundColor: UIColor = .redColor()
-    private var muteSelectedBackgroundColor: UIColor = .redColor()
-
-    lazy private var followNormalAttributedTitle: NSAttributedString = {
-        return self.styleText("+ Follow", color: .blackColor())
-    }()
-
-    lazy private var followSelectedAttributedTitle: NSAttributedString = {
-        return self.styleText("+ Follow", color: .whiteColor())
-    }()
-
-    lazy private var noiseNormalAttributedTitle: NSAttributedString = {
-        return self.styleText("Noise", color: .whiteColor())
-    }()
-
-    lazy private var noiseSelectedAttributedTitle: NSAttributedString = {
-        return self.styleText("Noise", color: .whiteColor())
-    }()
-
-    lazy private var friendNormalAttributedTitle: NSAttributedString = {
-        return self.styleText("Friend", color: .whiteColor())
-    }()
-
-    lazy private var friendSelectedAttributedTitle: NSAttributedString = {
-        return self.styleText("Friend", color: .whiteColor())
-    }()
-
-    lazy private var muteNormalAttributedTitle: NSAttributedString = {
-        return self.styleText("Muted", color: .whiteColor())
-    }()
-
-    lazy private var muteSelectedAttributedTitle: NSAttributedString = {
-        return self.styleText("Muted", color: .whiteColor())
-    }()
-
-    public private(set) var attributedNormalTitle = NSAttributedString(string: "")
-    public private(set) var attributedSelectedTitle = NSAttributedString(string: "")
-    private var normalBackgroundColor: UIColor = .whiteColor()
-    private var selectedBackgroundColor: UIColor = .blackColor()
-    private var borderColor: UIColor = .blackColor()
-
+    private var config = Config.Follow
     private let contentContainer = UIView(frame: CGRectZero)
-    private let label = UILabel(frame: CGRectZero)
-    private let mainButton = UIButton(frame: CGRectZero)
-    lazy private var moreButton: UIButton = {
+    public let label = UILabel(frame: CGRectZero)
+    public let mainButton = UIButton(frame: CGRectZero)
+    lazy public var moreButton: UIButton = {
         let button = UIButton.buttonWithType(.Custom) as! UIButton
         button.frame = CGRect(x:0, y: 0, width: 44, height: 30)
         button.setTitle("", forState: .Normal)
@@ -71,7 +24,7 @@ public class RelationshipControl: UIControl {
         button.addTarget(self, action: Selector("moreTapped:"), forControlEvents: .TouchUpInside)
         return button
     }()
-    private let mainButtonBackground = UIView(frame: CGRectZero)
+    public let mainButtonBackground = UIView(frame: CGRectZero)
 
     public var userId: String
     public var userAtName: String
@@ -108,10 +61,12 @@ public class RelationshipControl: UIControl {
         addSubviews()
         addTargets()
         moreButton.hidden = true
-        attributedNormalTitle = followNormalAttributedTitle
-        attributedSelectedTitle = followSelectedAttributedTitle
-        mainButtonBackground.layer.borderColor = borderColor.CGColor
+        label.attributedText = styleText(config.name, color: config.normalTextColor)
         mainButtonBackground.layer.borderWidth = 1
+    }
+
+    public override func intrinsicContentSize() -> CGSize {
+        return showMareButton ? sizeWithMore : size
     }
 
     // MARK: IBActions
@@ -150,10 +105,6 @@ public class RelationshipControl: UIControl {
         }
     }
 
-    public override func intrinsicContentSize() -> CGSize {
-        return showMareButton ? sizeWithMore : size
-    }
-
     // MARK: Private
     private func addSubviews() {
         addSubview(mainButtonBackground)
@@ -170,45 +121,26 @@ public class RelationshipControl: UIControl {
     }
 
     private func updateTitles(active: Bool) {
-        switch relationship {
-        case .Friend:
-            attributedNormalTitle = friendNormalAttributedTitle
-            attributedSelectedTitle = friendSelectedAttributedTitle
-            normalBackgroundColor = establishedNormalBackgroundColor
-            selectedBackgroundColor = establishedSelectedBackgroundColor
-            borderColor = .blackColor()
-        case .Noise:
-            attributedNormalTitle = noiseNormalAttributedTitle
-            attributedSelectedTitle = noiseSelectedAttributedTitle
-            normalBackgroundColor = establishedNormalBackgroundColor
-            selectedBackgroundColor = establishedSelectedBackgroundColor
-            borderColor = .blackColor()
-        case .Mute:
-            attributedNormalTitle = muteNormalAttributedTitle
-            attributedSelectedTitle = muteSelectedAttributedTitle
-            normalBackgroundColor = muteNormalBackgroundColor
-            selectedBackgroundColor = muteSelectedBackgroundColor
-            borderColor = .redColor()
-        default:
-            attributedNormalTitle = followNormalAttributedTitle
-            attributedSelectedTitle = followSelectedAttributedTitle
-            normalBackgroundColor = followNormalBackgroundColor
-            selectedBackgroundColor = followSelectedBackgroundColor
-            borderColor = .blackColor()
-        }
-        label.attributedText = active ? attributedSelectedTitle : attributedNormalTitle
-        mainButtonBackground.backgroundColor = active ? selectedBackgroundColor : normalBackgroundColor
-        mainButtonBackground.layer.borderColor = borderColor.CGColor
+        label.attributedText = styleText(config.name, color: active ? config.selectedTextColor : config.normalTextColor)
+        mainButtonBackground.backgroundColor = active ? config.selectedBackgroundColor : config.normalBackgroundColor
+        mainButtonBackground.layer.borderColor = config.borderColor.CGColor
         updateLayout()
     }
 
     private func updateRelationship(relationship: RelationshipPriority) {
+        switch relationship {
+        case .Friend: config = .Friend
+        case .Noise: config = .Noise
+        case .Mute: config = .Muted
+        default: config = .Follow
+        }
+
         updateTitles(false)
     }
 
     private func updateLayout() {
         label.sizeToFit()
-        let textWidth = attributedNormalTitle.widthForHeight(0)
+        let textWidth = label.attributedText.widthForHeight(0)
         let contentX: CGFloat = size.width / 2 - textWidth / 2
         contentContainer.frame =
             CGRect(
@@ -239,5 +171,55 @@ public class RelationshipControl: UIControl {
         ]
         attributed.addAttributes(attributes, range: range)
         return attributed
+    }
+
+    private enum Config {
+        case Follow
+        case Noise
+        case Friend
+        case Muted
+
+        var name: String {
+            switch self {
+            case .Follow: return "+ Follow"
+            case .Noise: return "Noise"
+            case .Friend: return "Friend"
+            case .Muted: return "Muted"
+            }
+        }
+
+        var normalTextColor: UIColor {
+            switch self {
+            case .Follow: return .blackColor()
+            default: return .whiteColor()
+            }
+        }
+
+        var selectedTextColor: UIColor {
+            return .whiteColor()
+        }
+
+        var borderColor: UIColor {
+            switch self {
+            case .Muted: return .redColor()
+            default: return .blackColor()
+            }
+        }
+
+        var normalBackgroundColor: UIColor {
+            switch self {
+            case .Muted: return .redColor()
+            case .Follow: return .whiteColor()
+            default: return .blackColor()
+            }
+        }
+
+        var selectedBackgroundColor: UIColor {
+            switch self {
+            case .Muted: return .redColor()
+            case .Follow: return .blackColor()
+            default: return .grey4D()
+            }
+        }
     }
 }
