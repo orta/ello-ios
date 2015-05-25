@@ -36,6 +36,11 @@ public class UserListViewController: StreamableViewController {
         return view
     }
 
+    public override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        updateInsets()
+    }
+
     override public func didSetCurrentUser() {
         if isViewLoaded() {
             streamViewController.currentUser = currentUser
@@ -43,7 +48,27 @@ public class UserListViewController: StreamableViewController {
         super.didSetCurrentUser()
     }
 
+    override public func showNavBars(scrollToBottom : Bool) {
+        super.showNavBars(scrollToBottom)
+        positionNavBar(navigationBar, visible: true)
+        updateInsets()
+
+        if scrollToBottom {
+            self.scrollToBottom(streamViewController)
+        }
+    }
+
+    override public func hideNavBars() {
+        super.hideNavBars()
+        positionNavBar(navigationBar, visible: false)
+        updateInsets()
+    }
+
     // MARK: Private
+
+    private func updateInsets() {
+        updateInsets(navBar: navigationBar, streamController: streamViewController)
+    }
 
     private func setupNavigationBar() {
         navigationBar = ElloNavigationBar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: ElloNavigationBar.Size.height))
@@ -55,14 +80,4 @@ public class UserListViewController: StreamableViewController {
         navigationBar.items = [navigationItem]
     }
 
-    override func showNavBars(scrollToBottom : Bool) {
-        super.showNavBars(scrollToBottom)
-        animate {
-            self.navigationBar.frame = self.navigationBar.frame.atY(0)
-        }
-
-        if scrollToBottom {
-            self.scrollToBottom(streamViewController)
-        }
-    }
 }
