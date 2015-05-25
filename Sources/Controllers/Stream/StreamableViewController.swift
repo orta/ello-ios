@@ -25,10 +25,6 @@ public protocol InviteResponder: NSObjectProtocol {
     func onInviteFriends()
 }
 
-public protocol MoreResponder: NSObjectProtocol {
-    func onMore()
-}
-
 public class StreamableViewController : BaseElloViewController, PostTappedDelegate {
 
     @IBOutlet weak var viewContainer: UIView!
@@ -215,13 +211,6 @@ extension StreamableViewController : StreamScrollDelegate {
 
     public func streamViewDidEndDragging(scrollView: UIScrollView, willDecelerate: Bool) {
         scrollLogic.scrollViewDidEndDragging(scrollView, willDecelerate: willDecelerate)
-    }
-}
-
-// MARK: MoreResponder
-extension StreamableViewController: MoreResponder {
-    public func onMore() {
-        println("more")
     }
 }
 
