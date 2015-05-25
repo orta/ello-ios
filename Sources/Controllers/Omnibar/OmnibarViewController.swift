@@ -86,6 +86,11 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         }
     }
 
+    override public func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        elloTabBarController?.setTabBarHidden(false, animated: animated)
+    }
+
     override public func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
 
