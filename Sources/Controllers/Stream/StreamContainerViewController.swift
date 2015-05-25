@@ -46,8 +46,8 @@ public class StreamContainerViewController: StreamableViewController {
         scrollLogic.prevOffset = (childViewControllers[0] as! StreamViewController).collectionView.contentOffset
     }
 
-    override public func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+    override public func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         updateInsets()
     }
 

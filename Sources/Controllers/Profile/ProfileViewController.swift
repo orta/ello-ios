@@ -50,7 +50,7 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
 
         streamViewController.streamKind = initialStreamKind
         streamViewController.initialLoadClosure = reloadEntireProfile
-    } 
+    }
 
     required public init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -68,9 +68,13 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         streamViewController.loadInitialPage()
     }
 
+    override public func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        updateInsets()
+    }
+
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        updateInsets()
 
         if !coverWidthSet {
             coverWidthSet = true
