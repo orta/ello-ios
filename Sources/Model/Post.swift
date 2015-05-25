@@ -50,6 +50,9 @@ public final class Post: JSONAble, Authorable {
     public var repostAuthor: User? {
         return getLinkObject("repost_author") as? User
     }
+    public var repostSource: Post? {
+        return getLinkObject("reposted_source") as? Post
+    }
     // nested resources
     public var comments: [Comment]? {
         return getLinkArray(MappingType.CommentsType.rawValue) as? [Comment]

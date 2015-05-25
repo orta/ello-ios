@@ -39,6 +39,8 @@ public final class Activity: JSONAble {
         case PostMentionNotification = "post_mention_notification" // 'you were mentioned in a post'
         case CommentMentionNotification = "comment_mention_notification" // 'you were mentioned in a comment'
         case CommentNotification = "comment_notification" // 'someone commented on your post'
+        case CommentOnOriginalPostNotification = "comment_on_original_post_notification"
+        case CommentOnRepostNotification = "comment_on_repost_notification"
         case WelcomeNotification = "welcome_notification" // 'welcome to Ello'
         case RepostNotification = "repost_notification" // main feed (but collapsable) 'someone reposted your post'
 
@@ -49,8 +51,8 @@ public final class Activity: JSONAble {
         case Unknown = "Unknown"
 
         // Notification categories
-        static public func allNotifications() -> [Kind] { return [.NewFollowerPost, .NewFollowedUserPost, .InvitationAcceptedPost, .PostMentionNotification, .CommentMentionNotification, .CommentNotification, .WelcomeNotification, .RepostNotification] }
-        static public func commentNotifications() -> [Kind] { return [.CommentNotification] }
+        static public func allNotifications() -> [Kind] { return [.NewFollowerPost, .NewFollowedUserPost, .InvitationAcceptedPost, .PostMentionNotification, .CommentMentionNotification, .CommentNotification, .CommentOnOriginalPostNotification, .CommentOnRepostNotification, .WelcomeNotification, .RepostNotification] }
+        static public func commentNotifications() -> [Kind] { return [.CommentNotification, .CommentOnOriginalPostNotification, .CommentOnRepostNotification] }
         static public func mentionNotifications() -> [Kind] { return [.PostMentionNotification, .CommentMentionNotification, .WelcomeNotification] }
         static public func repostNotifications() -> [Kind] { return [.RepostNotification]}
         static public func relationshipNotifications() -> [Kind] { return [.NewFollowerPost, .NewFollowedUserPost, .InvitationAcceptedPost] }
