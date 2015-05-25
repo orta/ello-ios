@@ -147,6 +147,8 @@ extension AppViewController {
     }
 
     public func showOnboardingScreen(user: User) {
+        currentUser = user
+
         let vc = OnboardingViewController()
         vc.parentAppController = self
         vc.currentUser = user
