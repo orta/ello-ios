@@ -25,13 +25,17 @@ class RelationshipControllerSpec: QuickSpec {
 
         context("RelationshipDelegate") {
 
-            describe("-launchBlockModal:relationship:complete:") {
+            describe("-relationshipTapped:relationship:complete:") {
+                // extensively tested in RelationshipControlSpec
+            }
+
+            describe("-updateRelationship:relationship:complete:") {
 
                 it("succeeds") {
                     ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.endpointsClosure, stubResponses: true)
                     var expectedStatus = RelationshipRequestStatus.Failure
 
-                    subject.relationshipTapped("test-user-id", relationship: RelationshipPriority.Friend) {
+                    subject.updateRelationship("test-user-id", relationship: RelationshipPriority.Friend) {
                         (status, relationship) in
                         expectedStatus = status
                     }
@@ -43,7 +47,7 @@ class RelationshipControllerSpec: QuickSpec {
 
                     var expectedStatus = RelationshipRequestStatus.Success
 
-                    subject.relationshipTapped("test-user-id", relationship: RelationshipPriority.Friend) {
+                    subject.updateRelationship("test-user-id", relationship: RelationshipPriority.Friend) {
                         (status, relationship) in
                         expectedStatus = status
                     }
