@@ -121,6 +121,17 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
         }
     }
 
+    func scrollToBottom(controller: StreamViewController) {
+        if let scrollView = streamViewController.collectionView {
+            let contentOffsetY : CGFloat = scrollView.contentSize.height - scrollView.frame.size.height
+            if contentOffsetY > 0 {
+                scrollView.scrollEnabled = false
+                scrollView.setContentOffset(CGPoint(x: 0, y: contentOffsetY), animated: true)
+                scrollView.scrollEnabled = true
+            }
+        }
+    }
+
     @IBAction func backTapped(sender: UIButton) {
         if let controllers = self.navigationController?.childViewControllers {
             if controllers.count > 1 {

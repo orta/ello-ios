@@ -85,14 +85,7 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         updateInsets()
 
         if scrollToBottom {
-            if let scrollView = streamViewController.collectionView {
-                let contentOffsetY : CGFloat = scrollView.contentSize.height - scrollView.frame.size.height
-                if contentOffsetY > 0 {
-                    scrollView.scrollEnabled = false
-                    scrollView.setContentOffset(CGPoint(x: 0, y: contentOffsetY), animated: true)
-                    scrollView.scrollEnabled = true
-                }
-            }
+            self.scrollToBottom(streamViewController)
         }
     }
 

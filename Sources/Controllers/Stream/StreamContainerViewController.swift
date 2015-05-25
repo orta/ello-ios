@@ -64,14 +64,7 @@ public class StreamContainerViewController: StreamableViewController {
 
         if scrollToBottom {
             for controller in childViewControllers as! [StreamViewController] {
-                if let scrollView = controller.collectionView {
-                    let contentOffsetY : CGFloat = scrollView.contentSize.height - scrollView.frame.size.height
-                    if contentOffsetY > 0 {
-                        scrollView.scrollEnabled = false
-                        scrollView.setContentOffset(CGPoint(x: 0, y: contentOffsetY), animated: true)
-                        scrollView.scrollEnabled = true
-                    }
-                }
+                self.scrollToBottom(controller)
             }
         }
     }

@@ -60,6 +60,10 @@ public class NotificationsViewController: StreamableViewController, Notification
         super.showNavBars(scrollToBottom)
         screen.animateNavigationBar(visible: true)
         updateInsets()
+
+        if scrollToBottom {
+            self.scrollToBottom(streamViewController)
+        }
     }
 
     override public func hideNavBars() {
