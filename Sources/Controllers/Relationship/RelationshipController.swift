@@ -16,6 +16,7 @@ public enum RelationshipRequestStatus: String {
 }
 
 public protocol RelationshipControllerDelegate: NSObjectProtocol {
+    func shouldSubmitRelationship(userId: String, relationshipPriority: RelationshipPriority) -> Bool
     func relationshipChanged(userId: String, status: RelationshipRequestStatus, relationship: Relationship?)
 }
 
@@ -33,10 +34,14 @@ public class RelationshipController: NSObject, RelationshipDelegate {
     }
 
     public func relationshipTapped(userId: String, relationship: RelationshipPriority, complete: (status: RelationshipRequestStatus, relationship: Relationship?) -> Void) {
+        if let shouldSubmit = delegate?.shouldSubmitRelationship(userId, relationshipPriority: relationship) where !shouldSubmit {
+            complete(status: .Success, relationship: nil)
+            return
+        }
+
         RelationshipService().updateRelationship(ElloAPI.Relationship(userId: userId,
             relationship: relationship.rawValue),
-            success: {
-                (data, responseConfig) in
+            success: { (data, responseConfig) in
                 if let relationship = data as? Relationship {
                     complete(status: .Success, relationship: relationship)
                     self.delegate?.relationshipChanged(userId, status: .Success, relationship: relationship)

@@ -30,6 +30,7 @@ public class AwesomePeopleSelectionViewController: OnboardingUserListViewControl
         appendHeaderCellItem(header: header, message: message)
         appendFollowAllCellItem(userCount: count(users))
 
+        friendAll(users)
         super.usersLoaded(users)
     }
 
