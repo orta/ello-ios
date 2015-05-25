@@ -37,7 +37,7 @@ public class RelationshipController: NSObject, RelationshipDelegate {
 
     public func relationshipTapped(userId: String, relationship: RelationshipPriority, complete: RelationshipChangeCompletion) {
 
-		if let shouldSubmit = delegate?.shouldSubmitRelationship(userId, relationshipPriority: relationship) where !shouldSubmit {
+        if let shouldSubmit = delegate?.shouldSubmitRelationship(userId, relationshipPriority: relationship) where !shouldSubmit {
             complete(status: .Success, relationship: nil)
             return
         }
