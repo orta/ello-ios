@@ -19,6 +19,9 @@ public class RelationshipControl: UIControl {
     private var establishedNormalBackgroundColor: UIColor = .blackColor()
     private var establishedSelectedBackgroundColor: UIColor = .grey4D()
 
+    private var muteNormalBackgroundColor: UIColor = .redColor()
+    private var muteSelectedBackgroundColor: UIColor = .redColor()
+
     lazy private var followNormalAttributedTitle: NSAttributedString = {
         return self.styleText("+ Follow", color: .blackColor())
     }()
@@ -41,6 +44,14 @@ public class RelationshipControl: UIControl {
 
     lazy private var friendSelectedAttributedTitle: NSAttributedString = {
         return self.styleText("Friend", color: .whiteColor())
+    }()
+
+    lazy private var muteNormalAttributedTitle: NSAttributedString = {
+        return self.styleText("Muted", color: .whiteColor())
+    }()
+
+    lazy private var muteSelectedAttributedTitle: NSAttributedString = {
+        return self.styleText("Muted", color: .whiteColor())
     }()
 
     public private(set) var attributedNormalTitle = NSAttributedString(string: "")
@@ -112,7 +123,15 @@ public class RelationshipControl: UIControl {
     }
 
     @IBAction func buttonTouchUpInside(sender: UIButton) {
-        handleTapped(sender)
+        if relationship == .Mute {
+            relationshipDelegate?.launchBlockModal(userId, userAtName: userAtName, relationship: relationship) {
+                [unowned self] relationship in
+                self.relationship = relationship
+            }
+        }
+        else {
+            handleTapped(sender)
+        }
         highlighted = false
     }
 
@@ -161,6 +180,11 @@ public class RelationshipControl: UIControl {
             attributedSelectedTitle = noiseSelectedAttributedTitle
             normalBackgroundColor = establishedNormalBackgroundColor
             selectedBackgroundColor = establishedSelectedBackgroundColor
+        case .Mute:
+            attributedNormalTitle = muteNormalAttributedTitle
+            attributedSelectedTitle = muteSelectedAttributedTitle
+            normalBackgroundColor = muteNormalBackgroundColor
+            selectedBackgroundColor = muteSelectedBackgroundColor
         default:
             attributedNormalTitle = followNormalAttributedTitle
             attributedSelectedTitle = followSelectedAttributedTitle
