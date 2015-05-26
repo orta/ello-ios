@@ -46,9 +46,9 @@ public class RelationshipControl: UIControl {
         }
     }
 
-    public var showMareButton = false {
+    public var showMoreButton = false {
         didSet {
-            moreButton.hidden = !showMareButton
+            moreButton.hidden = !showMoreButton
             updateLayout()
             invalidateIntrinsicContentSize()
         }
@@ -66,7 +66,7 @@ public class RelationshipControl: UIControl {
     }
 
     public override func intrinsicContentSize() -> CGSize {
-        return showMareButton ? sizeWithMore : size
+        return showMoreButton ? sizeWithMore : size
     }
 
     // MARK: IBActions
@@ -153,7 +153,7 @@ public class RelationshipControl: UIControl {
         mainButton.frame.size.width = size.width
         mainButton.frame.size.height = size.height
         label.frame.origin.y = size.height / 2 - label.frame.size.height / 2
-        let mainButtonX = !showMareButton ? 0 : moreButton.frame.size.width
+        let mainButtonX = !showMoreButton ? 0 : moreButton.frame.size.width
         mainButton.frame.origin.x = mainButtonX
         mainButtonBackground.frame = mainButton.frame
     }
