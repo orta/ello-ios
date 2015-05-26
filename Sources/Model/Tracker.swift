@@ -134,24 +134,20 @@ public extension Tracker {
 
 // MARK: User Actions
 public extension Tracker {
-    func userBlocked() {
-        agent.track("User blocked")
+    func userBlocked(userId: String) {
+        agent.track("User blocked", properties: ["blocked_user_id": userId])
     }
 
-    func userMuted() {
-        agent.track("User muted")
+    func userMuted(userId: String) {
+        agent.track("User muted", properties: ["muted_user_id": userId])
     }
 
-    func userBlockCanceled() {
-        agent.track("User block canceled")
+    func userBlockCanceled(userId: String) {
+        agent.track("User block canceled", properties: ["blocked_user_id": userId])
     }
 
-    func friendAdded() {
-        agent.track("Friend added")
-    }
-
-    func noiseAdded() {
-        agent.track("Noise added")
+    func relationshipStatusUpdated(relationship: RelationshipPriority, userId: String) {
+        agent.track("Relationship Priority changed to \(relationship.rawValue)", properties: ["user_id": userId])
     }
 
     func friendInvited() {
