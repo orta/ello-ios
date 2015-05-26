@@ -29,8 +29,8 @@ public class PostbarController: NSObject, PostbarDelegate {
     // MARK:
 
     public func viewsButtonTapped(cell:UICollectionViewCell) {
-        Tracker.sharedTracker.viewsButtonTapped()
         if let post = postForCell(cell) {
+            Tracker.sharedTracker.viewsButtonTapped(post: post)
             let items = self.dataSource.cellItemsForPost(post)
             // This is a bit dirty, we should not call a method on a compositionally held
             // controller's postTappedDelegate. Need to chat about this with the crew.

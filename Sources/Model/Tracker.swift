@@ -88,8 +88,8 @@ public extension Tracker {
         agent.track("Drawer closed")
     }
 
-    func viewsButtonTapped() {
-        agent.track("Views button tapped")
+    func viewsButtonTapped(#post: Post) {
+        agent.track("Views button tapped", properties: ["post_id": post.id])
     }
 }
 
