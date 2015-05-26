@@ -51,8 +51,8 @@ PODS:
 DEPENDENCIES:
   - 1PasswordExtension (~> 1.2.0)
   - Alamofire (~> 1.2.0)
-  - CRToast (from `https://github.com/ello/CRToast`)
   - Analytics/Segmentio
+  - CRToast (from `https://github.com/ello/CRToast`)
   - FLAnimatedImage (from `https://github.com/ello/FLAnimatedImage`)
   - JTSImageViewController (from `https://github.com/ello/JTSImageViewController`)
   - Keys (from `Pods/CocoaPodsKeys/`)
