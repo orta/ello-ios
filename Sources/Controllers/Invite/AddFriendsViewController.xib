@@ -63,7 +63,7 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="AtY-CJ-oUx" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="9Yy-nT-mTU" userLabel="navigationBarTopConstraint"/>
+                <constraint firstAttribute="top" secondItem="AtY-CJ-oUx" secondAttribute="top" id="9Yy-nT-mTU" userLabel="navigationBarTopConstraint"/>
                 <constraint firstAttribute="trailing" secondItem="C9b-Ej-5C6" secondAttribute="trailing" id="HFp-Qr-H0N" userLabel="tableView - right"/>
                 <constraint firstItem="IBq-IX-6Cj" firstAttribute="top" secondItem="AtY-CJ-oUx" secondAttribute="bottom" id="Ko5-0x-ZV2" userLabel="filterHolder - navigationBar - vert"/>
                 <constraint firstItem="AtY-CJ-oUx" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="R9E-ds-mDf" userLabel="navigationBar - left"/>

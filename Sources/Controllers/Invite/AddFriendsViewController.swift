@@ -56,7 +56,7 @@ public class AddFriendsViewController: StreamableViewController {
 
     override func showNavBars(scrollToBottom : Bool) {
         super.showNavBars(scrollToBottom)
-        positionNavBar(navigationBar, visible: false, withConstraint: navigationBarTopConstraint)
+        positionNavBar(navigationBar, visible: true, withConstraint: navigationBarTopConstraint)
     }
 
     override func hideNavBars() {
