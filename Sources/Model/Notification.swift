@@ -62,7 +62,12 @@ public final class Notification: JSONAble, Authorable {
             assignRegionsFromContent(post.summary)
         }
         else if let comment = activity.subject as? Comment {
-            assignRegionsFromContent(comment.summary)
+            if let summary = comment.summary {
+                assignRegionsFromContent(summary)
+            }
+            else {
+                assignRegionsFromContent(comment.content)
+            }
         }
         subject = activity.subject
     }
