@@ -68,6 +68,8 @@ public final class Comment: JSONAble, Authorable {
         self.postId = decoder.decodeKey("postId")
         self.content = decoder.decodeKey("content")
         self.loadedFromPostId = decoder.decodeKey("loadedFromPostId")
+        // optional
+        self.summary = decoder.decodeOptionalKey("summary")
         super.init(coder: aDecoder)
     }
 
@@ -80,6 +82,8 @@ public final class Comment: JSONAble, Authorable {
         encoder.encodeObject(postId, forKey: "postId")
         encoder.encodeObject(content, forKey: "content")
         encoder.encodeObject(loadedFromPostId, forKey: "loadedFromPostId")
+        // optional
+        encoder.encodeObject(summary, forKey: "summary")
         super.encodeWithCoder(encoder)
     }
 
