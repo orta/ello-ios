@@ -107,16 +107,16 @@ public extension Tracker {
         agent.track("\(type.rawValue) creation failed: \(message)")
     }
 
-    func contentFlagged(type: ContentType, flag: ContentFlagger.AlertOption) {
-        agent.track("\(type.rawValue) flagged: \(flag.rawValue)")
+    func contentFlagged(type: ContentType, flag: ContentFlagger.AlertOption, contentId: String) {
+        agent.track("\(type.rawValue) flagged", properties: ["content_id": contentId, "flag": flag.rawValue])
     }
 
-    func contentFlaggingCanceled(type: ContentType) {
-        agent.track("\(type.rawValue) flagging canceled")
+    func contentFlaggingCanceled(type: ContentType, contentId: String) {
+        agent.track("\(type.rawValue) flagging canceled", properties: ["content_id": contentId])
     }
 
-    func contentFlaggingFailed(type: ContentType, message: String) {
-        agent.track("\(type.rawValue) flagging failed: \(message)")
+    func contentFlaggingFailed(type: ContentType, message: String, contentId: String) {
+        agent.track("\(type.rawValue) flagging failed", properties: ["content_id": contentId, "message": message])
     }
 
     func postReposted() {
