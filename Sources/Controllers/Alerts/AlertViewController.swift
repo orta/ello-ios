@@ -12,11 +12,27 @@ private let MaxHeight = UIScreen.mainScreen().applicationFrame.height - 20
 public enum AlertType {
     case Normal
     case Danger
+    case Clear
 
     var backgroundColor: UIColor {
         switch self {
-            case .Danger: return .redColor()
-            default:      return .whiteColor()
+        case .Danger: return .redColor()
+        case .Clear: return .clearColor()
+        default: return .whiteColor()
+        }
+    }
+
+    var headerTextColor: UIColor {
+        switch self {
+        case .Clear: return .whiteColor()
+        default: return .blackColor()
+        }
+    }
+
+    var cellColor: UIColor {
+        switch self {
+        case .Clear: return .clearColor()
+        default: return .whiteColor()
         }
     }
 }
@@ -25,6 +41,7 @@ public class AlertViewController: UIViewController {
     @IBOutlet public weak var tableView: UITableView!
     @IBOutlet public weak var topPadding: NSLayoutConstraint!
     @IBOutlet public weak var leftPadding: NSLayoutConstraint!
+    @IBOutlet public weak var rightPadding: NSLayoutConstraint!
 
     // assign a contentView to show a message or spinner.  The contentView frame
     // size must be set.
@@ -72,7 +89,7 @@ public class AlertViewController: UIViewController {
     }()
 
     private var totalHorizontalPadding: CGFloat {
-        return 2 * leftPadding.constant
+        return leftPadding.constant + rightPadding.constant
     }
 
     private var totalVerticalPadding: CGFloat {
@@ -86,8 +103,9 @@ public class AlertViewController: UIViewController {
         modalPresentationStyle = .Custom
         transitioningDelegate = self
         if let text = message {
-            headerLabel.setLabelText(text, color: UIColor.blackColor())
+            headerLabel.setLabelText(text, color: type.headerTextColor)
         }
+
 
         view.backgroundColor = type.backgroundColor
         tableView.backgroundColor = type.backgroundColor
@@ -104,6 +122,14 @@ public extension AlertViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.registerNib(AlertCell.nib(), forCellReuseIdentifier: AlertCell.reuseIdentifier())
+    }
+
+    public override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        if type == .Clear {
+            leftPadding.constant = 5
+            rightPadding.constant = 5
+        }
     }
 
     public override func viewDidAppear(animated: Bool) {
@@ -197,6 +223,7 @@ extension AlertViewController: UITableViewDataSource {
             let presenter = AlertCellPresenter(action: action, textAlignment: textAlignment)
             presenter.configureCell(cell, type: self.type)
         }
+        cell.backgroundColor = type.cellColor
         return cell
     }
 }

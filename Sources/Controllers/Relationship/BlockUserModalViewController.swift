@@ -115,11 +115,11 @@ public class BlockUserModalViewController: BaseElloViewController {
     private func handleTapped(sender: UIButton, newRelationship: RelationshipPriority) {
         let prevRelationship = relationship
         if sender.selected == true {
-            relationship = RelationshipPriority.Inactive
+            relationship = .Inactive
         } else {
             relationship = newRelationship
         }
-        relationshipDelegate?.relationshipTapped(userId, relationship: relationship) {
+        relationshipDelegate?.updateRelationship(userId, relationship: relationship) {
             [unowned self] (status, relationship) in
             switch status {
             case .Success:

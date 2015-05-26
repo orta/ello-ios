@@ -9,6 +9,7 @@
 import Foundation
 
 public typealias RelationshipChangeClosure = (relationship: RelationshipPriority) -> Void
+public typealias RelationshipChangeCompletion = (status: RelationshipRequestStatus, relationship: Relationship?) -> Void
 
 public enum RelationshipRequestStatus: String {
     case Success = "success"
@@ -21,8 +22,9 @@ public protocol RelationshipControllerDelegate: NSObjectProtocol {
 }
 
 public protocol RelationshipDelegate: NSObjectProtocol {
-    func relationshipTapped(userId: String, relationship: RelationshipPriority, complete: (status: RelationshipRequestStatus, relationship: Relationship?) -> Void)
+    func relationshipTapped(userId: String, relationship: RelationshipPriority, complete: RelationshipChangeCompletion)
     func launchBlockModal(userId: String, userAtName: String, relationship: RelationshipPriority, changeClosure: RelationshipChangeClosure)
+    func updateRelationship(userId: String, relationship: RelationshipPriority, complete: RelationshipChangeCompletion)
 }
 
 public class RelationshipController: NSObject, RelationshipDelegate {
@@ -33,12 +35,57 @@ public class RelationshipController: NSObject, RelationshipDelegate {
         self.presentingController = presentingController
     }
 
-    public func relationshipTapped(userId: String, relationship: RelationshipPriority, complete: (status: RelationshipRequestStatus, relationship: Relationship?) -> Void) {
+    public func relationshipTapped(userId: String, relationship: RelationshipPriority, complete: RelationshipChangeCompletion) {
+
         if let shouldSubmit = delegate?.shouldSubmitRelationship(userId, relationshipPriority: relationship) where !shouldSubmit {
             complete(status: .Success, relationship: nil)
             return
         }
 
+        var message = ""
+        switch relationship {
+        case .Noise, .Friend: message = NSLocalizedString("Following as", comment: "Following as")
+        default: message = NSLocalizedString("Follow as", comment: "Follow as")
+        }
+
+        let alertController = AlertViewController(message: message, textAlignment: .Center, type: .Clear)
+
+        // Friend
+        let friendStyle: ActionStyle = relationship == .Friend ? .Dark : .White
+        let friendAction = AlertAction(title: NSLocalizedString("Friend", comment: "Friend"), style: friendStyle) { _ in
+            if relationship != .Friend {
+                self.updateRelationship(userId, relationship: .Friend, complete: complete)
+            }
+        }
+        alertController.addAction(friendAction)
+
+        // Noise
+        let noiseStyle: ActionStyle = relationship == .Noise ? .Dark : .White
+        let noiseAction = AlertAction(title: NSLocalizedString("Noise", comment: "Noise"), style: noiseStyle) { _ in
+            if relationship != .Noise {
+                self.updateRelationship(userId, relationship: .Noise, complete: complete)
+            }
+        }
+        alertController.addAction(noiseAction)
+
+        // Unfollow
+        if relationship == .Noise || relationship == .Friend {
+            let unfollowAction = AlertAction(title: NSLocalizedString("Unfollow", comment: "Unfollow"), style: .Light) { _ in
+                self.updateRelationship(userId, relationship: .Inactive, complete: complete)
+            }
+            alertController.addAction(unfollowAction)
+        }
+
+        presentingController.presentViewController(alertController, animated: true, completion: .None)
+    }
+
+    public func launchBlockModal(userId: String, userAtName: String, relationship: RelationshipPriority, changeClosure: RelationshipChangeClosure) {
+        let vc = BlockUserModalViewController(userId: userId, userAtName: userAtName, relationship: relationship, changeClosure: changeClosure)
+        vc.relationshipDelegate = self
+        presentingController.presentViewController(vc, animated: true, completion: nil)
+    }
+
+    public func updateRelationship(userId: String, relationship: RelationshipPriority, complete: RelationshipChangeCompletion){
         RelationshipService().updateRelationship(ElloAPI.Relationship(userId: userId,
             relationship: relationship.rawValue),
             success: { (data, responseConfig) in
@@ -64,11 +111,4 @@ public class RelationshipController: NSObject, RelationshipDelegate {
             }
         )
     }
-
-    public func launchBlockModal(userId: String, userAtName: String, relationship: RelationshipPriority, changeClosure: RelationshipChangeClosure) {
-        let vc = BlockUserModalViewController(userId: userId, userAtName: userAtName, relationship: relationship, changeClosure: changeClosure)
-        vc.relationshipDelegate = self
-        presentingController.presentViewController(vc, animated: true, completion: nil)
-    }
-
 }

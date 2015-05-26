@@ -95,3 +95,26 @@ public class WhiteElloButton: LightElloButton {
         self.setTitleColor(UIColor.whiteColor(), forState: .Selected)
     }
 }
+
+public class OutlineElloButton: WhiteElloButton {
+
+    override public func sharedSetup() {
+        super.sharedSetup()
+        self.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        self.setTitleColor(UIColor.greyE5(), forState: .Highlighted)
+        self.setTitleColor(UIColor.greyC(), forState: .Disabled)
+        self.backgroundColor = .whiteColor()
+        updateOutline()
+    }
+
+    override public var highlighted: Bool {
+        didSet {
+            updateOutline()
+        }
+    }
+
+    private func updateOutline() {
+        self.layer.borderColor = highlighted ? UIColor.greyE5().CGColor : UIColor.blackColor().CGColor
+        self.layer.borderWidth = 1
+    }
+}

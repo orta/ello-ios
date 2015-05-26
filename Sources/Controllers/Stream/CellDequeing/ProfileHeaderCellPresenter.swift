@@ -21,21 +21,21 @@ public struct ProfileHeaderCellPresenter {
         if let cell = cell as? ProfileHeaderCell {
             let ratio:CGFloat = 16.0/9.0
             let user = streamCellItem.jsonable as! User
-            cell.relationshipView.hidden = false
+            cell.relationshipControl.hidden = false
 
             if let currentUser = cell.currentUser {
-                cell.relationshipView.hidden = user.id == currentUser.id
+                cell.relationshipControl.hidden = user.id == currentUser.id
             }
-            cell.profileButtonsView.hidden = !cell.relationshipView.hidden
+            cell.profileButtonsView.hidden = !cell.relationshipControl.hidden
+            cell.relationshipControl.showMoreButton = !cell.relationshipControl.hidden
 
             if let avatarURL = user.avatarURL {
                 cell.setAvatarURL(avatarURL)
             }
             cell.viewTopConstraint.constant = UIScreen.screenWidth() / ratio
-            cell.relationshipView.buildLargeButtons()
-            cell.relationshipView.userId = user.id
-            cell.relationshipView.userAtName = user.atName
-            cell.relationshipView.relationship = user.relationshipPriority
+            cell.relationshipControl.userId = user.id
+            cell.relationshipControl.userAtName = user.atName
+            cell.relationshipControl.relationship = user.relationshipPriority
             cell.usernameLabel.text = user.atName
             cell.nameLabel.text = user.name
             cell.bioWebView.loadHTMLString(StreamTextCellHTML.postHTML(user.formattedShortBio ?? ""), baseURL: NSURL(string: "/"))

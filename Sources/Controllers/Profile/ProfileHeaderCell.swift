@@ -20,11 +20,11 @@ public class ProfileHeaderCell: UICollectionViewCell {
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var countsTextView: ElloTextView!
-    @IBOutlet weak var relationshipView: RelationshipView!
+    @IBOutlet weak var relationshipControl: RelationshipControl!
     @IBOutlet weak var viewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var bioWebView: UIWebView!
     @IBOutlet weak var profileButtonsView: UIView!
-    @IBOutlet weak var settingsButton: UIButton!
+    @IBOutlet weak var editProfileButton: OutlineElloButton!
     @IBOutlet weak var inviteButton: UIButton!
     weak var webLinkDelegate: WebLinkDelegate?
     weak var userListDelegate: UserListDelegate?
@@ -58,16 +58,11 @@ public class ProfileHeaderCell: UICollectionViewCell {
 
         profileButtonsView.backgroundColor = UIColor.whiteColor()
 
-        settingsButton.setTitle("", forState: UIControlState.Normal)
-        settingsButton.setSVGImages("gear")
-        settingsButton.addTarget(self, action: Selector("settingsTapped:"), forControlEvents: UIControlEvents.TouchUpInside)
-
-        inviteButton.setTitle("", forState: UIControlState.Normal)
+        inviteButton.setTitle("", forState: .Normal)
         inviteButton.setSVGImages("xpmcirc")
-        inviteButton.addTarget(self, action: Selector("inviteTapped:"), forControlEvents: UIControlEvents.TouchUpInside)
     }
 
-    @IBAction func settingsTapped(sender: UIButton) {
+    @IBAction func editProfileTapped(sender: UIButton) {
         let responder = targetForAction("onEditProfile", withSender: self) as? EditProfileResponder
         responder?.onEditProfile()
     }
