@@ -52,7 +52,7 @@ class ElloAPISpec: QuickSpec {
                     expect(ElloAPI.CreatePost(body: [:]).path) == "/api/edge/posts"
                 }
                 it("Discover is valid") {
-                    expect(ElloAPI.Discover(type: DiscoverType.Recommended, perPage: 5).path) == "/api/edge/discover/users/recommended"
+                    expect(ElloAPI.Discover(type: DiscoverType.Recommended, seed: 5, perPage: 5).path) == "/api/edge/discover/users/recommended"
                 }
                 it("FlagComment is valid") {
                     expect(ElloAPI.FlagComment(postId: "555", commentId: "666", kind: "some-string").path) == "/api/edge/posts/555/comments/666/flag/some-string"
