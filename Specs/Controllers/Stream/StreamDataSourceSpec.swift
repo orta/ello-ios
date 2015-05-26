@@ -190,6 +190,32 @@ class StreamDataSourceSpec: QuickSpec {
                 }
             }
 
+            describe("imageAssetForIndexPath(_:)") {
+
+                beforeEach {
+                    let asset = Asset.stub([:])
+                    let region = ImageRegion.stub(["asset": asset])
+                    let post = Post.stub(["content": [region]])
+                    let cellItems = StreamCellItemParser().parse([post], streamKind: .Friend)
+                    subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
+                        vc.collectionView.dataSource = subject
+                        vc.collectionView.reloadData()
+                    }
+                }
+
+                it("returns an image asset") {
+                    expect(subject.imageAssetForIndexPath(NSIndexPath(forItem: 1, inSection: 0))).to(beAKindOf(Asset.self))
+                }
+
+                it("returns nil when out of bounds") {
+                    expect(subject.imageAssetForIndexPath(indexPathOutOfBounds)).to(beNil())
+                }
+
+                it("returns nil when invalid section") {
+                    expect(subject.imageAssetForIndexPath(indexPathInvalidSection)).to(beNil())
+                }
+            }
+
             describe("commentForIndexPath(_:)") {
 
                 beforeEach {

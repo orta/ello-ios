@@ -28,6 +28,8 @@ public final class Profile: JSONAble {
     public let notifyOfMentionsViaEmail: Bool
     public let notifyOfNewFollowersViaEmail: Bool
     public let subscribeToUsersEmailList: Bool
+    // optional
+    public var gaUniqueId: String?
 
     public init(createdAt: NSDate,
         shortBio: String,
@@ -120,6 +122,7 @@ public final class Profile: JSONAble {
             notifyOfNewFollowersViaEmail: json["notify_of_new_followers_via_email"].boolValue,
             subscribeToUsersEmailList: json["subscribe_to_users_email_list"].boolValue
         )
+        profile.gaUniqueId = json["ga_unique_id"].string
         return profile
     }
 }

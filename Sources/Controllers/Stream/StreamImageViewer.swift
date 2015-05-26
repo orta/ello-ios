@@ -46,8 +46,6 @@ StreamImageCellDelegate {
         imageViewer.showFromViewController(presentingController, transition: transition)
         imageViewer.optionsDelegate = self
         imageViewer.dismissalDelegate = self
-
-        Tracker.sharedTracker.viewedImage()
     }
 
 // MARK: JTSImageViewControllerOptionsDelegate

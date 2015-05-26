@@ -67,10 +67,11 @@ public class ContentFlagger {
 
             let service = ContentFlaggingService()
             service.flagContent(endPoint, success: {
-                Tracker.sharedTracker.contentFlagged(self.contentType, flag: option)
+                Tracker.sharedTracker.contentFlagged(self.contentType, flag: option, contentId: self.flaggableId)
                 self.contentFlagged = true
             }, failure: { (error, statusCode) in
-                Tracker.sharedTracker.contentCreationFailed(self.contentType, message: error.elloErrorMessage ?? error.localizedDescription)
+                let message = error.elloErrorMessage ?? error.localizedDescription
+                Tracker.sharedTracker.contentFlaggingFailed(self.contentType, message: message, contentId: self.flaggableId)
                 self.contentFlagged = false
             })
         }
@@ -86,7 +87,7 @@ public class ContentFlagger {
         }
 
         let cancelAction = AlertAction(title: "Cancel", style: .Light) { _ in
-            Tracker.sharedTracker.contentFlaggingCanceled(self.contentType)
+            Tracker.sharedTracker.contentFlaggingCanceled(self.contentType, contentId: self.flaggableId)
         }
 
         alertController.addAction(cancelAction)
