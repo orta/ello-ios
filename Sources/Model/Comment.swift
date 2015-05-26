@@ -19,6 +19,8 @@ public final class Comment: JSONAble, Authorable {
     public let authorId: String
     public let postId: String
     public let content: [Regionable]
+    // optional
+    public var summary: [Regionable]?
     // links
     public var assets: [Asset]? {
         return getLinkArray("assets") as? [Asset]
@@ -93,6 +95,8 @@ public final class Comment: JSONAble, Authorable {
             postId: json["post_id"].stringValue,
             content: RegionParser.regions("content", json: json)
             )
+        // optional
+        comment.summary = RegionParser.regions("summary", json: json)
         // links
         comment.links = data["links"] as? [String: AnyObject]
         // store self in collection
