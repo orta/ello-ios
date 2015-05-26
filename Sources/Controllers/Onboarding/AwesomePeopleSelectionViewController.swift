@@ -19,11 +19,6 @@ public class AwesomePeopleSelectionViewController: OnboardingUserListViewControl
         streamViewController.streamKind = .UserList(endpoint: .AwesomePeopleStream, title: "Awesome People")
     }
 
-    override func loadUsers() {
-        ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
-        super.loadUsers()
-    }
-
     override func usersLoaded(users: [User]) {
         let header = NSLocalizedString("Follow some awesome people.", comment: "Awesome People Selection Header text")
         let message = NSLocalizedString("Ello is full of interesting and creative people committed to building a positive community.", comment: "Awesome People Selection Description text")
