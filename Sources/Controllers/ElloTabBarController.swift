@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyUserDefaults
 
 public enum ElloTab: Int {
     case Discovery
@@ -16,6 +17,29 @@ public enum ElloTab: Int {
     case Post
 
     static let DefaultTab = ElloTab.Stream
+
+    var title: String {
+        switch self {
+            case Discovery:     return "Discovery"
+            case Notifications: return "Notifications"
+            case Stream:        return "Stream"
+            case Profile:       return "Profile"
+            case Post:          return "Omnibar"
+        }
+    }
+
+    var narrationDefaultKey: String { return "ElloTabBarControllerDidShowNarration\(title)" }
+
+    var narrationText: String {
+        switch self {
+            case Discovery:     return "Find friends, interesting people & amazing content."
+            case Notifications: return "Keep up to date with real-time Ello alerts."
+            case Stream:        return "Stay organized by following people in Friends or Noise."
+            case Profile:       return "Everything you’ve posted in one place."
+            case Post:          return "One easy place to post: text, images & gifs!"
+        }
+    }
+
 }
 
 public class ElloTabBarController: UIViewController, HasAppController {
@@ -53,6 +77,25 @@ public class ElloTabBarController: UIViewController, HasAppController {
 
     var currentUser : User?
     var profileResponseConfig: ResponseConfig?
+
+    var narrationView = NarrationView()
+    var isShowingNarration = false
+    var shouldShowNarration: Bool {
+        get { return !ElloTabBarController.didShowNarration(selectedTab) }
+        set { ElloTabBarController.didShowNarration(selectedTab, !newValue) }
+    }
+}
+
+public extension ElloTabBarController {
+
+    class func didShowNarration(tab: ElloTab) -> Bool {
+        return Defaults[tab.narrationDefaultKey].bool ?? false
+    }
+
+    class func didShowNarration(tab: ElloTab, _ value: Bool) {
+        Defaults[tab.narrationDefaultKey] = value
+    }
+
 }
 
 public extension ElloTabBarController {
@@ -69,8 +112,17 @@ public extension ElloTabBarController {
         tabBar.delegate = self
         modalTransitionStyle = .CrossDissolve
 
+        let gesture = UITapGestureRecognizer(target: self, action: Selector("dismissNarrationView"))
+        narrationView.userInteractionEnabled = true
+        narrationView.addGestureRecognizer(gesture)
+
         updateTabBarItems()
         updateVisibleViewController()
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        updateNarrationTitle(animated: animated)
     }
 
     override func viewDidLayoutSubviews() {
@@ -82,7 +134,7 @@ public extension ElloTabBarController {
 
     private func positionTabBar() {
         var upAmount = CGFloat(0)
-        if !tabBarHidden {
+        if !tabBarHidden || isShowingNarration {
             upAmount = tabBar.frame.height
         }
         tabBar.frame = view.bounds.fromBottom().withHeight(tabBar.frame.height).shiftUp(upAmount)
@@ -171,14 +223,20 @@ private extension ElloTabBarController {
     }
 
     func updateVisibleViewController() {
+        let currentViewController = visibleViewController
+        let nextViewController = selectedViewController
+
         dispatch_async(dispatch_get_main_queue()) {
-            if self.visibleViewController.parentViewController != self {
-                self.showViewController(self.childViewControllers[self.selectedTab.rawValue] as! UIViewController)
+            if currentViewController.parentViewController != self {
+                self.showViewController(nextViewController)
+                self.prepareNarration()
             }
-            else if self.visibleViewController != self.selectedViewController {
-                self.transitionControllers(self.visibleViewController, self.selectedViewController)
+            else if currentViewController != nextViewController {
+                self.transitionControllers(currentViewController, nextViewController)
             }
         }
+
+        visibleViewController = nextViewController
     }
 
     func hideViewController(hideViewController: UIViewController) {
@@ -194,7 +252,6 @@ private extension ElloTabBarController {
         view.insertSubview(showViewController.view, belowSubview: tabBar)
         showViewController.view.frame = tabBar.frame.fromBottom().growUp(view.frame.height - tabBar.frame.height)
         showViewController.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
-        visibleViewController = showViewController
     }
 
     func transitionControllers(hideViewController: UIViewController, _ showViewController: UIViewController) {
@@ -206,6 +263,88 @@ private extension ElloTabBarController {
                 self.hideViewController(hideViewController)
                 self.showViewController(showViewController)
             },
-            completion: nil)
+            completion: { _ in
+                self.prepareNarration()
+            })
     }
+
+}
+
+extension ElloTabBarController {
+
+    private func prepareNarration() {
+        if shouldShowNarration {
+            if !isShowingNarration {
+                animateInNarrationView()
+            }
+            updateNarrationTitle()
+        }
+        else if isShowingNarration {
+            animateOutNarrationView()
+        }
+    }
+
+    func dismissNarrationView() {
+        shouldShowNarration = false
+        animateOutNarrationView()
+    }
+
+    private func updateNarrationTitle(animated: Bool = true) {
+        animate(animated: animated, options: .CurveEaseOut | .BeginFromCurrentState) {
+            if let rect = self.tabBar.itemPositionsIn(self.narrationView).safeValue(self.selectedTab.rawValue) {
+                self.narrationView.pointerX = rect.midX
+            }
+        }
+        narrationView.text = NSLocalizedString(selectedTab.narrationText, comment: "\(selectedTab.title) narration text")
+    }
+
+    private func animateInStartFrame() -> CGRect {
+        let upAmount = CGFloat(20)
+        let narrationHeight = NarrationView.Size.height
+        let pointerHeight = NarrationView.Size.pointer.height
+        let bottomMargin = ElloTabBar.Size.height - NarrationView.Size.pointer.height
+        return CGRect(
+            x: 0,
+            y: view.frame.height - bottomMargin - narrationHeight - upAmount,
+            width: view.frame.width,
+            height: narrationHeight
+            )
+    }
+
+    private func animateInFinalFrame() -> CGRect {
+        let narrationHeight = NarrationView.Size.height
+        let pointerHeight = NarrationView.Size.pointer.height
+        let bottomMargin = ElloTabBar.Size.height - NarrationView.Size.pointer.height
+        return CGRect(
+            x: 0,
+            y: view.frame.height - bottomMargin - narrationHeight,
+            width: view.frame.width,
+            height: narrationHeight
+            )
+    }
+
+    private func animateInNarrationView() {
+        let narrationHeight = NarrationView.Size.height
+        let pointerHeight = NarrationView.Size.pointer.height
+        let bottomMargin = ElloTabBar.Size.height - NarrationView.Size.pointer.height
+
+        narrationView.alpha = 0
+        narrationView.frame = animateInStartFrame()
+        view.addSubview(narrationView)
+        updateNarrationTitle(animated: false)
+        animate() {
+            self.narrationView.alpha = 1
+            self.narrationView.frame = self.animateInFinalFrame()
+        }
+        isShowingNarration = true
+    }
+
+    private func animateOutNarrationView() {
+        animate() {
+            self.narrationView.alpha = 0
+            self.narrationView.frame = self.animateInStartFrame()
+        }
+        isShowingNarration = false
+    }
+
 }
