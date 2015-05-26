@@ -159,11 +159,6 @@ private extension OnboardingViewController {
         awesomePeopleController.currentUser = currentUser
         addOnboardingViewController(awesomePeopleController)
 
-        let foundersController = FoundersSelectionViewController()
-        foundersController.onboardingViewController = self
-        foundersController.currentUser = currentUser
-        addOnboardingViewController(foundersController)
-
         let importPromptController = ImportPromptViewController()
         importPromptController.onboardingViewController = self
         importPromptController.currentUser = currentUser

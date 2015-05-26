@@ -29,34 +29,95 @@ class ElloAPISpec: QuickSpec {
 
         describe("paths") {
 
-            it("are valid") {
-                expect(ElloAPI.AmazonCredentials.path) ==  "/api/edge/assets/credentials"
-                expect(ElloAPI.Auth(email: "", password: "").path) == "/api/oauth/token"
-                expect(ElloAPI.Availability(content: [:]).path) == "/api/edge/availability"
-                expect(ElloAPI.CreatePost(body: [:]).path) == "/api/edge/posts"
-                expect(ElloAPI.Discover(type: DiscoverType.Recommended, seed: 5, perPage: 5).path) == "/api/edge/discover/users/recommended"
-                expect(ElloAPI.FlagComment(postId: "555", commentId: "666", kind: "some-string").path) == "/api/edge/posts/555/comments/666/flag/some-string"
-                expect(ElloAPI.FlagPost(postId: "456", kind: "another-kind").path) == "/api/edge/posts/456/flag/another-kind"
-                expect(ElloAPI.FindFriends(contacts: [:]).path) == "/api/edge/profile/find_friends"
-                expect(ElloAPI.FriendStream.path) == "/api/edge/streams/friend"
-                let infiniteScrollEndpoint = ElloAPI.InfiniteScroll(queryItems: []) { return ElloAPI.FriendStream }
-                expect(infiniteScrollEndpoint.path) == "/api/edge/streams/friend"
-                expect(ElloAPI.InviteFriends(contact: "someContact").path) == "/api/edge/invitations"
-                expect(ElloAPI.NoiseStream.path) == "/api/edge/streams/noise"
-                expect(ElloAPI.NotificationsStream.path) == "/api/edge/notifications"
-                expect(ElloAPI.PostDetail(postParam: "some-param").path) == "/api/edge/posts/some-param"
-                expect(ElloAPI.PostComments(postId: "fake-id").path) == "/api/edge/posts/fake-id/comments"
-                expect(ElloAPI.Profile(perPage: 10).path) == "/api/edge/profile"
-                expect(ElloAPI.ProfileUpdate(body: [:]).path) == "/api/edge/profile"
-                expect(ElloAPI.ProfileDelete.path) == "/api/edge/profile"
-                expect(ElloAPI.ProfileFollowing(priority: "anything").path) == "/api/edge/profile/following"
-                expect(ElloAPI.ReAuth.path) == "/api/oauth/token"
-                expect(ElloAPI.Relationship(userId: "1234", relationship: "friend").path) == "/api/edge/users/1234/add/friend"
-                expect(ElloAPI.UserStream(userParam: "999").path) == "/api/edge/users/999"
-                expect(ElloAPI.UserStreamFollowers(userId: "321").path) == "/api/edge/users/321/followers"
-                expect(ElloAPI.UserStreamFollowing(userId: "123").path) == "/api/edge/users/123/following"
-                expect(ElloAPI.DeletePost(postId: "666").path) == "/api/edge/posts/666"
-                expect(ElloAPI.DeleteComment(postId: "666", commentId: "777").path) == "/api/edge/posts/666/comments/777"
+            context("are valid") {
+                it("AmazonCredentials is valid") {
+                    expect(ElloAPI.AmazonCredentials.path) ==  "/api/edge/assets/credentials"
+                }
+                it("Auth is valid") {
+                    expect(ElloAPI.Auth(email: "", password: "").path) == "/api/oauth/token"
+                }
+                it("Availability is valid") {
+                    expect(ElloAPI.Availability(content: [:]).path) == "/api/edge/availability"
+                }
+                it("AwesomePeopleStream is valid") {
+                    expect(ElloAPI.AwesomePeopleStream.path) == "/api/edge/discover/users/recommended"
+                }
+                it("CommunitiesStream is valid") {
+                    expect(ElloAPI.CommunitiesStream.path) == "/api/edge/communities"
+                }
+                xit("FoundersStream is valid") {
+                    expect(ElloAPI.FoundersStream.path) == "/api/edge/not-implemented-yet!"
+                }
+                it("CreatePost is valid") {
+                    expect(ElloAPI.CreatePost(body: [:]).path) == "/api/edge/posts"
+                }
+                it("Discover is valid") {
+                    expect(ElloAPI.Discover(type: DiscoverType.Recommended, perPage: 5).path) == "/api/edge/discover/users/recommended"
+                }
+                it("FlagComment is valid") {
+                    expect(ElloAPI.FlagComment(postId: "555", commentId: "666", kind: "some-string").path) == "/api/edge/posts/555/comments/666/flag/some-string"
+                }
+                it("FlagPost is valid") {
+                    expect(ElloAPI.FlagPost(postId: "456", kind: "another-kind").path) == "/api/edge/posts/456/flag/another-kind"
+                }
+                it("FindFriends is valid") {
+                    expect(ElloAPI.FindFriends(contacts: [:]).path) == "/api/edge/profile/find_friends"
+                }
+                it("FriendStream is valid") {
+                    expect(ElloAPI.FriendStream.path) == "/api/edge/streams/friend"
+                }
+                it("InfiniteScroll is valid") {
+                    let infiniteScrollEndpoint = ElloAPI.InfiniteScroll(queryItems: []) { return ElloAPI.FriendStream }
+                    expect(infiniteScrollEndpoint.path) == "/api/edge/streams/friend"
+                }
+                it("InviteFriends is valid") {
+                    expect(ElloAPI.InviteFriends(contact: "someContact").path) == "/api/edge/invitations"
+                }
+                it("NoiseStream is valid") {
+                    expect(ElloAPI.NoiseStream.path) == "/api/edge/streams/noise"
+                }
+                it("NotificationsStream is valid") {
+                    expect(ElloAPI.NotificationsStream.path) == "/api/edge/notifications"
+                }
+                it("PostDetail is valid") {
+                    expect(ElloAPI.PostDetail(postParam: "some-param").path) == "/api/edge/posts/some-param"
+                }
+                it("PostComments is valid") {
+                    expect(ElloAPI.PostComments(postId: "fake-id").path) == "/api/edge/posts/fake-id/comments"
+                }
+                it("Profile is valid") {
+                    expect(ElloAPI.Profile(perPage: 10).path) == "/api/edge/profile"
+                }
+                it("ProfileUpdate is valid") {
+                    expect(ElloAPI.ProfileUpdate(body: [:]).path) == "/api/edge/profile"
+                }
+                it("ProfileDelete is valid") {
+                    expect(ElloAPI.ProfileDelete.path) == "/api/edge/profile"
+                }
+                it("ProfileFollowing is valid") {
+                    expect(ElloAPI.ProfileFollowing(priority: "anything").path) == "/api/edge/profile/following"
+                }
+                it("ReAuth is valid") {
+                    expect(ElloAPI.ReAuth.path) == "/api/oauth/token"
+                }
+                it("Relationship is valid") {
+                    expect(ElloAPI.Relationship(userId: "1234", relationship: "friend").path) == "/api/edge/users/1234/add/friend"
+                }
+                it("UserStream is valid") {
+                    expect(ElloAPI.UserStream(userParam: "999").path) == "/api/edge/users/999"
+                }
+                it("UserStreamFollowers is valid") {
+                    expect(ElloAPI.UserStreamFollowers(userId: "321").path) == "/api/edge/users/321/followers"
+                }
+                it("UserStreamFollowing is valid") {
+                    expect(ElloAPI.UserStreamFollowing(userId: "123").path) == "/api/edge/users/123/following"
+                }
+                it("DeletePost is valid") {
+                    expect(ElloAPI.DeletePost(postId: "666").path) == "/api/edge/posts/666"
+                }
+                it("DeleteComment is valid") {
+                    expect(ElloAPI.DeleteComment(postId: "666", commentId: "777").path) == "/api/edge/posts/666/comments/777"
+                }
             }
         }
 

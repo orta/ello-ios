@@ -11,7 +11,7 @@ import Foundation
 public enum StreamKind {
     case Friend
     case Noise
-    case Discover(type: DiscoverType, seed: Int, perPage: Int)
+    case Discover(type: DiscoverType, perPage: Int)
     case PostDetail(postParam: String)
     case Profile(perPage: Int)
     case UserStream(userParam: String)
@@ -44,7 +44,7 @@ public enum StreamKind {
         switch self {
         case .Friend: return .FriendStream
         case .Noise: return .NoiseStream
-        case let .Discover(type, seed, perPage): return ElloAPI.Discover(type: type, seed: seed, perPage: perPage)
+        case let .Discover(type, perPage): return ElloAPI.Discover(type: type, perPage: perPage)
         case .Notifications: return .NotificationsStream
         case let .PostDetail(postParam): return .PostDetail(postParam: postParam)
         case let .Profile(perPage): return .Profile(perPage: perPage)
