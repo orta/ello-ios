@@ -101,6 +101,12 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         return item?.jsonable as? Post
     }
 
+    public func imageAssetForIndexPath(indexPath: NSIndexPath) -> Asset? {
+        let item = visibleStreamCellItem(at: indexPath)
+        let region = item?.region as? ImageRegion
+        return region?.asset
+    }
+
     public func commentForIndexPath(indexPath: NSIndexPath) -> Comment? {
         let item = visibleStreamCellItem(at: indexPath)
         return item?.jsonable as? Comment

@@ -17,6 +17,7 @@ public enum ContentType: String {
 public protocol AnalyticsAgent {
     func identify(userId: String!, traits: [NSObject : AnyObject]!)
     func track(event: String!)
+    func track(event: String!, properties: [NSObject: AnyObject]!)
     func screen(screenTitle: String!)
     func reset()
 }
@@ -24,6 +25,7 @@ public protocol AnalyticsAgent {
 public struct NullAgent: AnalyticsAgent {
     public func identify(userId: String!, traits: [NSObject : AnyObject]!) { }
     public func track(event: String!) { }
+    public func track(event: String!, properties: [NSObject: AnyObject]!) { }
     public func screen(screenTitle: String!) { }
     public func reset() { }
 }
@@ -68,8 +70,8 @@ public extension Tracker {
         agent.screen(name)
     }
 
-    func viewedImage() {
-        agent.track("Viewed Image")
+    func viewedImage(asset: Asset, post: Post) {
+        agent.track("Viewed Image", properties: ["asset_id": asset.id, "post_id": post.id])
     }
 
     func postBarVisibilityChanged(visible: Bool) {
