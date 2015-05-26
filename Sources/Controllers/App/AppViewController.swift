@@ -27,6 +27,8 @@ public class AppViewController: BaseElloViewController {
     var visibleViewController: UIViewController?
     private var userLoggedOutObserver: NotificationObserver?
     private var receivedPushNotificationObserver: NotificationObserver?
+    private var externalWebObserver: NotificationObserver?
+    private let externalWebController: UINavigationController = ElloWebBrowserViewController.navigationControllerWithWebBrowser()
 
     private var pushPayload: PushPayload?
 
@@ -34,6 +36,10 @@ public class AppViewController: BaseElloViewController {
         super.viewDidLoad()
         setupNotificationObservers()
         setupStyles()
+
+        externalWebObserver = NotificationObserver(notification: externalWebNotification) { url in
+            self.showExternalWebView(url)
+        }
     }
 
     deinit {
@@ -180,6 +186,18 @@ extension AppViewController {
 
 }
 
+extension AppViewController {
+
+    func showExternalWebView(url: String) {
+        Tracker.sharedTracker.screenAppeared("Web View: \(url)")
+        presentViewController(externalWebController, animated: true, completion: nil)
+        if let externalWebView = externalWebController.rootWebBrowser() {
+            externalWebView.tintColor = UIColor.greyA()
+            externalWebView.loadURLString(url)
+        }
+    }
+
+}
 
 // MARK: Screen transitions
 extension AppViewController {

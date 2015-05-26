@@ -13,10 +13,8 @@ public let externalWebNotification = TypedNotification<String>(name: "externalWe
 public class ElloNavigationController: UINavigationController, UIGestureRecognizerDelegate {
 
     var interactionController: UIPercentDrivenInteractiveTransition?
-    var externalWebObserver: NotificationObserver?
     var postChangedNotification:NotificationObserver?
     var relationshipChangedNotification:NotificationObserver?
-    let externalWebController: UINavigationController = KINWebBrowserViewController.navigationControllerWithWebBrowser()
     var rootViewControllerName : String?
     public var currentUser : User? {
         didSet { didSetCurrentUser() }
@@ -77,10 +75,6 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
         backGesture = UIScreenEdgePanGestureRecognizer(target: self, action: Selector("handleBackGesture:"))
         backGesture.map(self.view.addGestureRecognizer)
 
-        externalWebObserver = NotificationObserver(notification: externalWebNotification) { url in
-            self.showExternalWebView(url)
-        }
-
         postChangedNotification = NotificationObserver(notification: PostChangedNotification) { (post, change) in
             switch change {
             case .Delete:
@@ -118,15 +112,6 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
             default:
                 _ = "noop"
             }
-        }
-    }
-
-    func showExternalWebView(url: String) {
-        Tracker.sharedTracker.screenAppeared("Web View: \(url)")
-        presentViewController(externalWebController, animated: true, completion: nil)
-        if let externalWebView = externalWebController.rootWebBrowser() {
-            externalWebView.tintColor = UIColor.greyA()
-            externalWebView.loadURLString(url)
         }
     }
 
