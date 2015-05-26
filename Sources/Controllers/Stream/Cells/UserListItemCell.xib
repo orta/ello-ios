@@ -30,13 +30,9 @@
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Erd-4A-4rH" userLabel="relationshipControl" customClass="RelationshipControl" customModule="Ello" customModuleProvider="target">
-                        <rect key="frame" x="539" y="18" width="90" height="30"/>
-                        <color key="backgroundColor" red="1" green="0.059496439829999997" blue="0.93599406699999999" alpha="1" colorSpace="calibratedRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="30" id="Ths-f1-orS" userLabel="relationshipControl - height"/>
-                            <constraint firstAttribute="width" constant="90" id="qM1-oe-tuw" userLabel="relationshipControl - width"/>
-                        </constraints>
+                    <view clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="82" placeholderIntrinsicHeight="30" translatesAutoresizingMaskIntoConstraints="NO" id="Erd-4A-4rH" userLabel="relationshipControl" customClass="RelationshipControl" customModule="Ello" customModuleProvider="target">
+                        <rect key="frame" x="547" y="18" width="82" height="30"/>
+                        <color key="backgroundColor" red="1" green="0.00083137051919999995" blue="0.69331204690000003" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

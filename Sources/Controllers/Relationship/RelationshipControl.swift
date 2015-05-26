@@ -7,14 +7,16 @@
 //
 
 import Foundation
+import SVGKit
 
 public class RelationshipControl: UIControl {
 
-    private let size = CGSize(width: 90, height: 30)
-    private let sizeWithMore = CGSize(width: 134, height: 30)
+    private let size = CGSize(width: 82, height: 30)
+    private let sizeWithMore = CGSize(width: 132, height: 30)
     private var config = Config.Follow
     private let contentContainer = UIView(frame: CGRectZero)
     public let label = UILabel(frame: CGRectZero)
+    private let icon = UIImageView(frame: CGRectZero)
     public let mainButton = UIButton(frame: CGRectZero)
     lazy public var moreButton: UIButton = {
         let button = UIButton.buttonWithType(.Custom) as! UIButton
@@ -110,6 +112,7 @@ public class RelationshipControl: UIControl {
         addSubview(mainButtonBackground)
         addSubview(moreButton)
         mainButtonBackground.addSubview(contentContainer)
+        contentContainer.addSubview(icon)
         contentContainer.addSubview(label)
         addSubview(mainButton)
     }
@@ -121,6 +124,7 @@ public class RelationshipControl: UIControl {
     }
 
     private func updateTitles(active: Bool) {
+        icon.image = config.normalIcon
         label.attributedText = styleText(config.name, color: active ? config.selectedTextColor : config.normalTextColor)
         mainButtonBackground.backgroundColor = active ? config.selectedBackgroundColor : config.normalBackgroundColor
         mainButtonBackground.layer.borderColor = config.borderColor.CGColor
@@ -141,19 +145,29 @@ public class RelationshipControl: UIControl {
     private func updateLayout() {
         label.sizeToFit()
         let textWidth = label.attributedText.widthForHeight(0)
-        let contentX: CGFloat = size.width / 2 - textWidth / 2
+        let iconWidth = config.normalIcon?.size.width ?? 0
+        let contentWidth = textWidth + iconWidth
+
+        // subtract 3 pts if icon is showing
+        let contentX: CGFloat = (size.width / 2 - contentWidth / 2) - (iconWidth > 0 ? 3 : 0)
+
         contentContainer.frame =
             CGRect(
                 x: contentX,
                 y: 0,
-                width: textWidth,
+                width: contentWidth,
                 height: size.height
         )
 
+        icon.frame.size.width = config.normalIcon?.size.width ?? 0
+        icon.frame.size.height = config.normalIcon?.size.height ?? 0
+        icon.frame.origin.x = 0
+        icon.frame.origin.y = size.height / 2 - icon.frame.size.height / 2
         mainButton.frame.size.width = size.width
         mainButton.frame.size.height = size.height
+        label.frame.origin.x = config.normalIcon?.size.width ?? 0
         label.frame.origin.y = size.height / 2 - label.frame.size.height / 2
-        let mainButtonX = !showMoreButton ? 0 : moreButton.frame.size.width
+        let mainButtonX = !showMoreButton ? 0 : moreButton.frame.size.width + 6
         mainButton.frame.origin.x = mainButtonX
         mainButtonBackground.frame = mainButton.frame
     }
@@ -181,10 +195,26 @@ public class RelationshipControl: UIControl {
 
         var name: String {
             switch self {
-            case .Follow: return "+ Follow"
+            case .Follow: return "Follow"
             case .Noise: return "Noise"
             case .Friend: return "Friend"
             case .Muted: return "Muted"
+            }
+        }
+
+        var normalIcon: UIImage? {
+            switch self {
+            case .Follow: return SVGKImage(named: "plussmall_selected.svg").UIImage!
+            case .Noise, .Friend: return SVGKImage(named: "checksmall_white.svg").UIImage!
+            case .Muted: return .None
+            }
+        }
+
+        var selectedIcon: UIImage? {
+            switch self {
+            case .Follow: return SVGKImage(named: "plussmall_white.svg").UIImage!
+            case .Noise, .Friend: return SVGKImage(named: "checksmall_selected.svg").UIImage!
+            case .Muted: return .None
             }
         }
 

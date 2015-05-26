@@ -71,7 +71,7 @@ public class RelationshipController: NSObject, RelationshipDelegate {
 
         // Unfollow
         if relationship == .Noise || relationship == .Friend {
-            let unfollowAction = AlertAction(title: NSLocalizedString("Unfollow", comment: "Unfollow"), style: .Light) { _ in
+            let unfollowAction = AlertAction(title: NSLocalizedString("Unfollow", comment: "Unfollow"), style: .White) { _ in
                 self.updateRelationship(userId, relationship: .Inactive, complete: complete)
             }
             alertController.addAction(unfollowAction)

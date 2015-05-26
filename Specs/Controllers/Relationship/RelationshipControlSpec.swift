@@ -43,7 +43,7 @@ class RelationshipControlSpec: QuickSpec {
             it("sets button state properly when set to anything else") {
                 for relationship in [RelationshipPriority.Inactive, RelationshipPriority.None, RelationshipPriority.Null, RelationshipPriority.Me] {
                     subject.relationship = relationship
-                    expect(subject.label.text) == "+ Follow"
+                    expect(subject.label.text) == "Follow"
                     expect(subject.mainButtonBackground.backgroundColor) == UIColor.whiteColor()
                 }
             }
@@ -85,7 +85,7 @@ class RelationshipControlSpec: QuickSpec {
                             expect(presentedVC!.actions[1].title) == "Noise"
                             expect(presentedVC!.actions[1].style).to(equal(ActionStyle.White))
                             expect(presentedVC!.actions[2].title) == "Unfollow"
-                            expect(presentedVC!.actions[2].style).to(equal(ActionStyle.Light))
+                            expect(presentedVC!.actions[2].style).to(equal(ActionStyle.White))
                             expect(count(presentedVC!.actions)) == 3
                         }
                     }
@@ -103,7 +103,7 @@ class RelationshipControlSpec: QuickSpec {
                             expect(presentedVC!.actions[1].title) == "Noise"
                             expect(presentedVC!.actions[1].style).to(equal(ActionStyle.Dark))
                             expect(presentedVC!.actions[2].title) == "Unfollow"
-                            expect(presentedVC!.actions[2].style).to(equal(ActionStyle.Light))
+                            expect(presentedVC!.actions[2].style).to(equal(ActionStyle.White))
                             expect(count(presentedVC!.actions)) == 3
                         }
                     }
