@@ -8,12 +8,14 @@
 
 import UIKit
 
+struct NavigationNotifications {
+    static let showingNotificationsTab = TypedNotification<()>(name: "co.ello.NavigationNotification.NotificationsTab")
+}
 
 @objc
 protocol HasAppController {
     var parentAppController: AppViewController? { get set }
 }
-
 
 public class AppViewController: BaseElloViewController {
 
@@ -334,6 +336,7 @@ extension AppViewController {
             vc?.selectedTab = .Stream
         case "notifications":
             vc?.selectedTab = .Notifications
+            postNotification(NavigationNotifications.showingNotificationsTab, ())
         default:
             break
         }
