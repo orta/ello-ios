@@ -43,7 +43,7 @@ class RelationshipControlSpec: QuickSpec {
             it("sets button state properly when set to anything else") {
                 for relationship in [RelationshipPriority.Inactive, RelationshipPriority.None, RelationshipPriority.Null, RelationshipPriority.Me] {
                     subject.relationship = relationship
-                    expect(subject.label.text) == "+ Follow"
+                    expect(subject.label.text) == "Follow"
                     expect(subject.mainButtonBackground.backgroundColor) == UIColor.whiteColor()
                 }
             }
