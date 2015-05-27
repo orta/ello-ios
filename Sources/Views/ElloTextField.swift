@@ -69,7 +69,7 @@ public class ElloTextField: UITextField {
     }
 
     private func rectForBounds(bounds: CGRect) -> CGRect {
-        return CGRectInset( bounds , 30 , 10 );
+        return CGRectInset( bounds , 15 , 10 );
     }
 
 }

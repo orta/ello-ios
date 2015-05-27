@@ -55,6 +55,7 @@ public class SettingsContainerViewController: BaseElloViewController {
     public override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "SettingsContainerSegue" {
             let settings = segue.destinationViewController as! SettingsViewController
+            settings.currentUser = currentUser
             settingsViewController = settings
             if navBarsVisible {
                 showNavBars()
@@ -63,7 +64,6 @@ public class SettingsContainerViewController: BaseElloViewController {
                 hideNavBars()
             }
             elloNavBar.items = [settings.navigationItem]
-            settings.currentUser = currentUser
             settings.scrollLogic.isShowing = navBarsVisible
         }
     }
