@@ -258,7 +258,7 @@ private extension ElloTabBarController {
         transitionFromViewController(hideViewController,
             toViewController: showViewController,
             duration: 0,
-            options: UIViewAnimationOptions(0),
+            options: nil,
             animations: {
                 self.hideViewController(hideViewController)
                 self.showViewController(showViewController)

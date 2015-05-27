@@ -12,7 +12,7 @@ public struct AnimationOptions {
     let options: UIViewAnimationOptions
 }
 
-public func animate(duration: NSTimeInterval = 0.2, delay: NSTimeInterval = 0, options: UIViewAnimationOptions = UIViewAnimationOptions(0), animated: Bool = true, animations: () -> Void) {
+public func animate(duration: NSTimeInterval = 0.2, delay: NSTimeInterval = 0, options: UIViewAnimationOptions = nil, animated: Bool = true, animations: () -> Void) {
     let options = AnimationOptions(duration: duration, delay: 0, options: options)
     animate(options, animated: animated, animations)
 }

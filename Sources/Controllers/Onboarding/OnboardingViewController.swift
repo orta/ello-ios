@@ -304,7 +304,7 @@ extension OnboardingViewController {
         transitionFromViewController(visibleViewController,
             toViewController: nextViewController,
             duration: 0.4,
-            options: UIViewAnimationOptions(0),
+            options: nil,
             animations: {
                 self.controllerContainer.insertSubview(nextViewController.view, aboveSubview: visibleViewController.view)
                 visibleViewController.view.frame.origin.x = -direction.rawValue * visibleViewController.view.frame.width
