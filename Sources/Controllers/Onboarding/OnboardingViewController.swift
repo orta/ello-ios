@@ -85,6 +85,13 @@ public class OnboardingViewController: BaseElloViewController, HasAppController 
 
 }
 
+// MARK: Child View Controller handling
+extension OnboardingViewController {
+    override public func sizeForChildContentContainer(container: UIContentContainer, withParentContainerSize: CGSize) -> CGSize {
+        return controllerContainer.frame.size
+    }
+}
+
 // MARK: Button Actions
 extension OnboardingViewController {
 
@@ -297,7 +304,7 @@ extension OnboardingViewController {
         transitionFromViewController(visibleViewController,
             toViewController: nextViewController,
             duration: 0.4,
-            options: UIViewAnimationOptions(0),
+            options: nil,
             animations: {
                 self.controllerContainer.insertSubview(nextViewController.view, aboveSubview: visibleViewController.view)
                 visibleViewController.view.frame.origin.x = -direction.rawValue * visibleViewController.view.frame.width
