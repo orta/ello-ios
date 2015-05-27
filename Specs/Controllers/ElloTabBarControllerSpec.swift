@@ -95,7 +95,7 @@ class ElloTabBarControllerSpec: QuickSpec {
                 controller.addChildViewController(child3)
                 controller.addChildViewController(child4)
                 controller.addChildViewController(child5)
-                _ = controller.view
+                let view = controller.view
             }
 
             it("should load child1") {
