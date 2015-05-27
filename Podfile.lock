@@ -1,11 +1,11 @@
 PODS:
   - 1PasswordExtension (1.2)
   - Alamofire (1.2.2)
-  - Analytics/Core-iOS (1.11.8):
+  - Analytics/Core-iOS (1.11.10):
     - TRVSDictionaryWithCaseInsensitivity (= 0.0.2)
-  - Analytics/Segmentio (1.11.8):
+  - Analytics/Segmentio (1.11.10):
     - Analytics/Core-iOS
-  - Box (1.2.0)
+  - Box (1.2.2)
   - CocoaLumberjack (2.0.0):
     - CocoaLumberjack/Default (= 2.0.0)
     - CocoaLumberjack/Extensions (= 2.0.0)
@@ -28,7 +28,7 @@ PODS:
   - Nimble (0.4.2)
   - OHHTTPStubs (4.0.2)
   - Quick (0.3.1)
-  - Result (0.4):
+  - Result (0.4.3):
     - Box (~> 1.2)
   - SDWebImage (3.7.2):
     - SDWebImage/Core (= 3.7.2)
@@ -118,8 +118,8 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   1PasswordExtension: fcf300204bda5b5c78936dbb937a7d661f1ca796
   Alamofire: 11a6022f5089887d92ffb5a3014c97a0a915ab98
-  Analytics: 8c476a147c05c93bb64c5d8c20424c9e2caa0519
-  Box: 3345df1dee5c8cd639a663e368427c51f931d095
+  Analytics: 785e3fdc4d3c0b9ad001f478a80e51b531fa4492
+  Box: a92e8aa4c099e6bc0733829665caf9e668ef53b8
   CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
   CRToast: eb22641501990233c53cb8f83f7d2ea87e0ddf73
   FLAnimatedImage: f9422f796135aff80d8c00b2afc48015bb746e24
@@ -132,7 +132,7 @@ SPEC CHECKSUMS:
   Nimble: 49b7a7da8919f42823d37c6d68cc6d15a7009f32
   OHHTTPStubs: dbd1957d414659783e07b49c961940b7564c23d9
   Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
-  Result: 03957bbe943dd96a9f12ff1c6b5ac65c8a6b64aa
+  Result: 910839ce03c5c573ec94026678b7cecb69ee862e
   SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
   SSPullToRefresh: ae69778f6961120bd906e6349602c6918e609368
   SVGKit: cf06ac3067c4d5e927e5f93ba6a7e4d7171a7502
