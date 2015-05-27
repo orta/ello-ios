@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SVGKit
 
 public typealias RelationshipChangeClosure = (relationship: RelationshipPriority) -> Void
 public typealias RelationshipChangeCompletion = (status: RelationshipRequestStatus, relationship: Relationship?) -> Void
@@ -27,7 +28,7 @@ public protocol RelationshipDelegate: NSObjectProtocol {
     func updateRelationship(userId: String, relationship: RelationshipPriority, complete: RelationshipChangeCompletion)
 }
 
-public class RelationshipController: NSObject, RelationshipDelegate {
+public class RelationshipController: NSObject {
     public weak var delegate: RelationshipControllerDelegate?
     public let presentingController: UIViewController
 
@@ -35,6 +36,10 @@ public class RelationshipController: NSObject, RelationshipDelegate {
         self.presentingController = presentingController
     }
 
+}
+
+// MARK: RelationshipController: RelationshipDelegate
+extension RelationshipController: RelationshipDelegate {
     public func relationshipTapped(userId: String, relationship: RelationshipPriority, complete: RelationshipChangeCompletion) {
         Tracker.sharedTracker.relationshipStatusUpdated(relationship, userId: userId)
 
@@ -49,30 +54,43 @@ public class RelationshipController: NSObject, RelationshipDelegate {
         default: message = NSLocalizedString("Follow as", comment: "Follow as")
         }
 
-        let alertController = AlertViewController(message: message, textAlignment: .Center, type: .Clear)
+        let helpText = NSLocalizedString("Follow the people you care about most in FRIENDS, which displays each post in an expanded, list format. It's a great way to look at full-sized content by people you are really interested in following.\n\nPut everyone else in NOISE, which offers a compressed, fluid-grid based layout that makes it easy for browsing lots of posts quickly.", comment: "Follow instructions")
+
+        let alertController = AlertViewController(message: message, textAlignment: .Center, type: .Clear, helpText: helpText)
 
         // Friend
         let friendStyle: ActionStyle = relationship == .Friend ? .Dark : .White
-        let friendAction = AlertAction(title: NSLocalizedString("Friend", comment: "Friend"), style: friendStyle) { _ in
-            if relationship != .Friend {
-                self.updateRelationship(userId, relationship: .Friend, complete: complete)
-            }
+        let friendIcon: UIImage = relationship == .Friend ?  SVGKImage(named: "checksmall_white.svg").UIImage! : SVGKImage(named: "plussmall_selected.svg").UIImage!
+        let friendAction = AlertAction(
+            title: NSLocalizedString("Friend", comment: "Friend"),
+            icon: friendIcon,
+            style: friendStyle) { _ in
+                if relationship != .Friend {
+                    self.updateRelationship(userId, relationship: .Friend, complete: complete)
+                }
         }
         alertController.addAction(friendAction)
 
         // Noise
         let noiseStyle: ActionStyle = relationship == .Noise ? .Dark : .White
-        let noiseAction = AlertAction(title: NSLocalizedString("Noise", comment: "Noise"), style: noiseStyle) { _ in
-            if relationship != .Noise {
-                self.updateRelationship(userId, relationship: .Noise, complete: complete)
-            }
+        let noiseIcon: UIImage = relationship == .Noise ?  SVGKImage(named: "checksmall_white.svg").UIImage! : SVGKImage(named: "plussmall_selected.svg").UIImage!
+        let noiseAction = AlertAction(
+            title: NSLocalizedString("Noise", comment: "Noise"),
+            icon: noiseIcon,
+            style: noiseStyle) { _ in
+                if relationship != .Noise {
+                    self.updateRelationship(userId, relationship: .Noise, complete: complete)
+                }
         }
         alertController.addAction(noiseAction)
 
         // Unfollow
         if relationship == .Noise || relationship == .Friend {
-            let unfollowAction = AlertAction(title: NSLocalizedString("Unfollow", comment: "Unfollow"), style: .White) { _ in
-                self.updateRelationship(userId, relationship: .Inactive, complete: complete)
+            let unfollowAction = AlertAction(
+                title: NSLocalizedString("Unfollow", comment: "Unfollow"),
+                icon: nil,
+                style: .Light) { _ in
+                    self.updateRelationship(userId, relationship: .Inactive, complete: complete)
             }
             alertController.addAction(unfollowAction)
         }

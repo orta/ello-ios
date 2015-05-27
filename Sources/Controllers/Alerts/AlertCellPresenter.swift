@@ -18,7 +18,7 @@ struct AlertCellPresenter {
         case .Light: configureForLightAction(alertCell)
         case .Dark: configureForDarkAction(alertCell)
         }
-
+        alertCell.iconImageView.image = action.icon
         cell.contentView.backgroundColor = type.backgroundColor
     }
 

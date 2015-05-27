@@ -85,7 +85,7 @@ class RelationshipControlSpec: QuickSpec {
                             expect(presentedVC!.actions[1].title) == "Noise"
                             expect(presentedVC!.actions[1].style).to(equal(ActionStyle.White))
                             expect(presentedVC!.actions[2].title) == "Unfollow"
-                            expect(presentedVC!.actions[2].style).to(equal(ActionStyle.White))
+                            expect(presentedVC!.actions[2].style).to(equal(ActionStyle.Light))
                             expect(count(presentedVC!.actions)) == 3
                         }
                     }
@@ -103,7 +103,7 @@ class RelationshipControlSpec: QuickSpec {
                             expect(presentedVC!.actions[1].title) == "Noise"
                             expect(presentedVC!.actions[1].style).to(equal(ActionStyle.Dark))
                             expect(presentedVC!.actions[2].title) == "Unfollow"
-                            expect(presentedVC!.actions[2].style).to(equal(ActionStyle.White))
+                            expect(presentedVC!.actions[2].style).to(equal(ActionStyle.Light))
                             expect(count(presentedVC!.actions)) == 3
                         }
                     }
