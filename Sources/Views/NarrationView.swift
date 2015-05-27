@@ -32,7 +32,7 @@ public class NarrationView: UIView {
         label.allowsEditingTextAttributes = false
         label.selectable = false
         label.textColor = .whiteColor()
-        label.font = .typewriterFont(12)
+        label.font = .typewriterFont(14)
         label.textContainer.lineFragmentPadding = 0
         label.backgroundColor = .clearColor()
         return label
@@ -50,7 +50,17 @@ public class NarrationView: UIView {
     }
 
     public var text: String = "" {
-        didSet { label.text = text }
+        didSet {
+            let style = NSMutableParagraphStyle()
+            style.lineSpacing = 12
+
+            var attributes = [
+                NSFontAttributeName : label.font,
+                NSForegroundColorAttributeName : label.textColor,
+                NSParagraphStyleAttributeName : style
+            ]
+            label.attributedText = NSMutableAttributedString(string: text, attributes: attributes)
+        }
     }
 
     override public init(frame: CGRect) {
