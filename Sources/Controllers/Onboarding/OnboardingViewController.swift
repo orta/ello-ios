@@ -85,6 +85,13 @@ public class OnboardingViewController: BaseElloViewController, HasAppController 
 
 }
 
+// MARK: Child View Controller handling
+extension OnboardingViewController {
+    override public func sizeForChildContentContainer(container: UIContentContainer, withParentContainerSize: CGSize) -> CGSize {
+        return controllerContainer.frame.size
+    }
+}
+
 // MARK: Button Actions
 extension OnboardingViewController {
 
