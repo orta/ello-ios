@@ -450,14 +450,14 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hnU-BR-Xdc" id="Bqj-Gp-r26">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Re-enter your Ello password (8+ characters) to save changes to your account." lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EeE-Bu-dku">
-                                                    <rect key="frame" x="15" y="8" width="208" height="36"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Re-enter your Ello password to save changes to your account." lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EeE-Bu-dku">
+                                                    <rect key="frame" x="15" y="8" width="246" height="24"/>
                                                     <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="12"/>
                                                     <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Current Password *" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Znt-wY-XbZ" customClass="ElloTextField" customModule="Ello" customModuleProvider="target">
-                                                    <rect key="frame" x="15" y="52" width="492" height="52"/>
+                                                    <rect key="frame" x="15" y="40" width="492" height="52"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="52" id="dM5-ly-sIX"/>
                                                     </constraints>
@@ -465,7 +465,7 @@
                                                     <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                                 </textField>
                                                 <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h0e-7m-r6C" customClass="ElloButton" customModule="Ello" customModuleProvider="target">
-                                                    <rect key="frame" x="515" y="53" width="70" height="50"/>
+                                                    <rect key="frame" x="515" y="41" width="70" height="50"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="70" id="gHW-2S-08U"/>
                                                         <constraint firstAttribute="height" constant="50" id="vam-ap-oNb"/>
@@ -476,7 +476,7 @@
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hCs-KV-8Pu" customClass="ElloErrorLabel" customModule="Ello" customModuleProvider="target">
-                                                    <rect key="frame" x="15" y="112" width="0.0" height="0.0"/>
+                                                    <rect key="frame" x="15" y="100" width="0.0" height="0.0"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
