@@ -133,7 +133,7 @@ class ElloTabBarControllerSpec: QuickSpec {
             }
         }
 
-        fcontext("showing the narration") {
+        context("showing the narration") {
             beforeEach() {
                 controller = ElloTabBarController.instantiateFromStoryboard()
                 let children = controller.childViewControllers as! [UIViewController]
