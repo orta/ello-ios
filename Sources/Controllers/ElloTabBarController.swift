@@ -18,7 +18,7 @@ public enum ElloTab: Int {
 
     static let DefaultTab = ElloTab.Stream
 
-    var title: String {
+    public var title: String {
         switch self {
             case Discovery:     return "Discovery"
             case Notifications: return "Notifications"
@@ -28,9 +28,9 @@ public enum ElloTab: Int {
         }
     }
 
-    var narrationDefaultKey: String { return "ElloTabBarControllerDidShowNarration\(title)" }
+    public var narrationDefaultKey: String { return "ElloTabBarControllerDidShowNarration\(title)" }
 
-    var narrationText: String {
+    public var narrationText: String {
         switch self {
             case Discovery:     return "Find friends, interesting people & amazing content."
             case Notifications: return "Keep up to date with real-time Ello alerts."
@@ -79,8 +79,8 @@ public class ElloTabBarController: UIViewController, HasAppController {
     var profileResponseConfig: ResponseConfig?
 
     var narrationView = NarrationView()
-    var isShowingNarration = false
-    var shouldShowNarration: Bool {
+    public var isShowingNarration = false
+    public var shouldShowNarration: Bool {
         get { return !ElloTabBarController.didShowNarration(selectedTab) }
         set { ElloTabBarController.didShowNarration(selectedTab, !newValue) }
     }
