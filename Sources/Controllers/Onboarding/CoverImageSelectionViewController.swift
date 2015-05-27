@@ -6,36 +6,21 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-public class CoverImageSelectionViewController: BaseElloViewController, OnboardingStep {
-    weak var onboardingViewController: OnboardingViewController?
-    var onboardingData: OnboardingData? {
-        didSet {
-            if let image = onboardingData?.coverImage {
-                chooseCoverImageView?.image = image
-            }
-        }
-    }
+public class CoverImageSelectionViewController: OnboardingUploadImageViewController {
     var onboardingHeader: UIView?
-    var chooseCoverImageView: UIImageView?
-    var chooseImageButton: UIButton?
 
     override public func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Onboarding Cover Image Selection"
 
         setupOnboardingHeader()
-        setupChooseHeaderImage()
+        setupChooseCoverImage()
         setupChooseImageButton()
     }
 
-    override public func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-        if let button = chooseImageButton {
-            let bottomMargin = CGFloat(10)
-            if button.frame.maxY + bottomMargin > view.frame.height {
-                button.frame.origin.y = view.frame.height - (button.frame.height + bottomMargin)
-            }
+    public func onboardingWillProceed(proceed: (OnboardingData?) -> Void) {
+        if let image = selectedImage {
+            self.userUploadImage(image, proceed: proceed)
         }
     }
 
@@ -43,8 +28,6 @@ public class CoverImageSelectionViewController: BaseElloViewController, Onboardi
 
 // MARK: View setup
 private extension CoverImageSelectionViewController {
-    private func chooseCoverImageDefault() -> UIImage { return UIImage(named: "choose-header-image")! }
-    private func chooseAvatarImageDefault() -> UIImage { return UIImage(named: "choose-avatar-image")! }
 
     func setupOnboardingHeader() {
         let onboardingHeader = OnboardingHeaderView(frame: CGRect(
@@ -64,19 +47,19 @@ private extension CoverImageSelectionViewController {
         self.onboardingHeader = onboardingHeader
     }
 
-    func setupChooseHeaderImage() {
-        let chooseHeaderImage = chooseCoverImageDefault()
-        let aspect = view.frame.width / chooseHeaderImage.size.width
+    func setupChooseCoverImage() {
+        let chooseCoverImage = chooseCoverImageDefault()
+        let aspect = view.frame.width / chooseCoverImage.size.width
         let chooseCoverImageView = UIImageView(frame: CGRect(
             x: 0,
             y: onboardingHeader!.frame.maxY + 23,
             width: view.frame.width,
-            height: chooseHeaderImage.size.height * aspect
+            height: chooseCoverImage.size.height * aspect
             ))
         chooseCoverImageView.contentMode = .ScaleAspectFill
         chooseCoverImageView.clipsToBounds = true
         chooseCoverImageView.autoresizingMask = .FlexibleLeftMargin | .FlexibleRightMargin | .FlexibleBottomMargin
-        chooseCoverImageView.image = chooseHeaderImage
+        chooseCoverImageView.image = chooseCoverImage
         view.addSubview(chooseCoverImageView)
         self.chooseCoverImageView = chooseCoverImageView
     }
@@ -90,7 +73,7 @@ private extension CoverImageSelectionViewController {
             ).inset(all: 15))
         chooseImageButton.autoresizingMask = .FlexibleLeftMargin | .FlexibleRightMargin | .FlexibleBottomMargin
         chooseImageButton.setTitle(NSLocalizedString("Choose Your Header", comment: "Choose your header button"), forState: .Normal)
-        chooseImageButton.addTarget(self, action: Selector("chooseHeaderTapped"), forControlEvents: .TouchUpInside)
+        chooseImageButton.addTarget(self, action: Selector("chooseImageTapped"), forControlEvents: .TouchUpInside)
         view.addSubview(chooseImageButton)
         self.chooseImageButton = chooseImageButton
     }
@@ -98,60 +81,29 @@ private extension CoverImageSelectionViewController {
 }
 
 extension CoverImageSelectionViewController {
-    func chooseHeaderTapped() {
-        let alert = UIImagePickerController.alertControllerForImagePicker(openImagePicker)
-        alert.map { self.presentViewController($0, animated: true, completion: nil) }
-    }
 
-    private func openImagePicker(imageController : UIImagePickerController) {
-        imageController.delegate = self
-        self.presentViewController(imageController, animated: true, completion: nil)
-    }
-
-    public func userSetImage(image: UIImage) {
+    override public func userSetImage(image: UIImage) {
         chooseCoverImageView?.image = image
-        chooseImageButton?.setTitle(NSLocalizedString("Pick Another", comment: "Pick another button"), forState: .Normal)
-        ElloHUD.showLoadingHud()
+        super.userSetImage(image)
     }
 
-    public func userUploadImage(image: UIImage) {
-        onboardingData?.coverImage = image
+    public func userUploadImage(image: UIImage, proceed: (OnboardingData?) -> Void) {
+        ElloHUD.showLoadingHud()
 
         ProfileService().updateUserCoverImage(image, success: { _ in
             ElloHUD.hideLoadingHud()
-            self.onboardingViewController?.goToNextStep(self.onboardingData)
+            self.onboardingData?.coverImage = image
+            proceed(self.onboardingData)
         }, failure: { _, _ in
             ElloHUD.hideLoadingHud()
-            self.chooseCoverImageView?.image = self.chooseCoverImageDefault()
-            self.onboardingData?.coverImage = nil
-
-            let message = NSLocalizedString("Oh no! Something went wrong.\n\nTry that again maybe?", comment: "Cover image upload failed during onboarding message")
-            let alertController = AlertViewController(message: message)
-
-            let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
-            alertController.addAction(action)
-
-            self.presentViewController(alertController, animated: true, completion: nil)
+            self.userUploadFailed()
         })
     }
-}
 
-extension CoverImageSelectionViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    public func imagePickerController(controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
-        let orientedImage = (info[UIImagePickerControllerOriginalImage] as? UIImage)?.copyWithCorrectOrientationAndSize()
-        if let orientedImage = orientedImage {
-            userSetImage(orientedImage)
-        }
-
-        dismissViewControllerAnimated(true) {
-            if let orientedImage = orientedImage {
-                self.userUploadImage(orientedImage)
-            }
-        }
-    }
-
-    public func imagePickerControllerDidCancel(controller: UIImagePickerController) {
-        dismissViewControllerAnimated(true, completion: nil)
+    override public func userUploadFailed() {
+        chooseCoverImageView?.image = chooseCoverImageDefault()
+        onboardingData?.coverImage = nil
+        super.userUploadFailed()
     }
 
 }

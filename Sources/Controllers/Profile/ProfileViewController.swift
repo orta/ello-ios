@@ -50,7 +50,7 @@ public class ProfileViewController: StreamableViewController {
 
         streamViewController.streamKind = initialStreamKind
         streamViewController.initialLoadClosure = reloadEntireProfile
-    } 
+    }
 
     required public init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -68,9 +68,13 @@ public class ProfileViewController: StreamableViewController {
         streamViewController.loadInitialPage()
     }
 
+    override public func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        updateInsets()
+    }
+
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        updateInsets()
 
         if !coverWidthSet {
             coverWidthSet = true
@@ -85,14 +89,7 @@ public class ProfileViewController: StreamableViewController {
         updateInsets()
 
         if scrollToBottom {
-            if let scrollView = streamViewController.collectionView {
-                let contentOffsetY : CGFloat = scrollView.contentSize.height - scrollView.frame.size.height
-                if contentOffsetY > 0 {
-                    scrollView.scrollEnabled = false
-                    scrollView.setContentOffset(CGPoint(x: 0, y: contentOffsetY), animated: true)
-                    scrollView.scrollEnabled = true
-                }
-            }
+            self.scrollToBottom(streamViewController)
         }
     }
 

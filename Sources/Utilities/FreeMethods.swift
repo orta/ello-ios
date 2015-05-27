@@ -8,17 +8,18 @@
 
 public struct AnimationOptions {
     let duration: NSTimeInterval
+    let delay: NSTimeInterval
+    let options: UIViewAnimationOptions
 }
 
-public func animate(duration: NSTimeInterval = 0.2, animated: Bool = true, animations: () -> Void) {
-    let options = AnimationOptions(duration: duration)
+public func animate(duration: NSTimeInterval = 0.2, delay: NSTimeInterval = 0, options: UIViewAnimationOptions = nil, animated: Bool = true, animations: () -> Void) {
+    let options = AnimationOptions(duration: duration, delay: 0, options: options)
     animate(options, animated: animated, animations)
 }
 
 public func animate(options: AnimationOptions, animated: Bool = true, animations: () -> Void) {
-    let duration = options.duration
     if animated {
-        UIView.animateWithDuration(duration, animations: animations)
+        UIView.animateWithDuration(options.duration, delay: options.delay, options: options.options, animations: animations, completion: nil)
     }
     else {
         animations()

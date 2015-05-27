@@ -41,8 +41,8 @@ public class PostbarController: NSObject, PostbarDelegate {
     // MARK:
 
     public func viewsButtonTapped(indexPath: NSIndexPath) {
-        Tracker.sharedTracker.viewsButtonTapped()
         if let post = postForIndexPath(indexPath) {
+            Tracker.sharedTracker.viewsButtonTapped(post: post)
             let items = self.dataSource.cellItemsForPost(post)
             // This is a bit dirty, we should not call a method on a compositionally held
             // controller's postTappedDelegate. Need to chat about this with the crew.
@@ -176,9 +176,9 @@ public class PostbarController: NSObject, PostbarDelegate {
         presentingController?.presentViewController(alertController, animated: true, completion: .None)
     }
 
-
     public func lovesButtonTapped(cell: StreamFooterCell, indexPath: NSIndexPath) {
         if let post = self.postForIndexPath(indexPath) {
+            Tracker.sharedTracker.postLoved(post)
             cell.lovesControl.userInteractionEnabled = false
             if post.loved { unlovePost(post, cell: cell) }
             else { lovePost(post, cell: cell) }
@@ -186,7 +186,7 @@ public class PostbarController: NSObject, PostbarDelegate {
     }
 
     private func unlovePost(post: Post, cell: StreamFooterCell) {
-        Tracker.sharedTracker.postUnloved()
+        Tracker.sharedTracker.postUnloved(post)
         if let count = post.lovesCount {
             post.lovesCount = count - 1
             post.loved = false
@@ -207,7 +207,7 @@ public class PostbarController: NSObject, PostbarDelegate {
     }
 
     private func lovePost(post: Post, cell: StreamFooterCell) {
-        Tracker.sharedTracker.postLoved()
+        Tracker.sharedTracker.postLoved(post)
         if let count = post.lovesCount {
             post.lovesCount = count + 1
             post.loved = true
@@ -230,7 +230,7 @@ public class PostbarController: NSObject, PostbarDelegate {
 
     public func repostButtonTapped(indexPath: NSIndexPath) {
         if let post = self.postForIndexPath(indexPath) {
-            Tracker.sharedTracker.postReposted()
+            Tracker.sharedTracker.postReposted(post)
             let message = NSLocalizedString("Repost?", comment: "Repost acknowledgment")
             let alertController = AlertViewController(message: message)
             alertController.autoDismiss = false
@@ -285,13 +285,13 @@ public class PostbarController: NSObject, PostbarDelegate {
         if  let post = dataSource.postForIndexPath(indexPath),
             let shareLink = post.shareLink
         {
-            let cell = dataSource.collectionView(collectionView, cellForItemAtIndexPath: indexPath)
-            Tracker.sharedTracker.postShared()
+            Tracker.sharedTracker.postShared(post)
             let activityVC = UIActivityViewController(activityItems: [shareLink], applicationActivities:nil)
             if UI_USER_INTERFACE_IDIOM() == .Phone {
                 presentingController?.presentViewController(activityVC, animated: true) { }
             }
             else {
+                let cell = dataSource.collectionView(collectionView, cellForItemAtIndexPath: indexPath)
                 activityVC.popoverPresentationController?.sourceView = cell
                 activityVC.modalPresentationStyle = .Popover
                 presentingController?.presentViewController(activityVC, animated: true) { }

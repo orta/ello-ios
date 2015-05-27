@@ -1,6 +1,10 @@
 PODS:
   - 1PasswordExtension (1.2)
   - Alamofire (1.2.2)
+  - Analytics/Core-iOS (1.11.8):
+    - TRVSDictionaryWithCaseInsensitivity (= 0.0.2)
+  - Analytics/Segmentio (1.11.8):
+    - Analytics/Core-iOS
   - Box (1.2.0)
   - CocoaLumberjack (2.0.0):
     - CocoaLumberjack/Default (= 2.0.0)
@@ -35,6 +39,7 @@ PODS:
   - SwiftyJSON (2.2.0)
   - SwiftyUserDefaults (1.1.0)
   - TimeAgoInWords (0.1.0)
+  - TRVSDictionaryWithCaseInsensitivity (0.0.2)
   - WebLinking (0.2.0)
   - YapDatabase (2.6.1):
     - YapDatabase/standard (= 2.6.1)
@@ -46,6 +51,7 @@ PODS:
 DEPENDENCIES:
   - 1PasswordExtension (~> 1.2.0)
   - Alamofire (~> 1.2.0)
+  - Analytics/Segmentio
   - CRToast (from `https://github.com/ello/CRToast`)
   - FLAnimatedImage (from `https://github.com/ello/FLAnimatedImage`)
   - JTSImageViewController (from `https://github.com/ello/JTSImageViewController`)
@@ -112,6 +118,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   1PasswordExtension: fcf300204bda5b5c78936dbb937a7d661f1ca796
   Alamofire: 11a6022f5089887d92ffb5a3014c97a0a915ab98
+  Analytics: 8c476a147c05c93bb64c5d8c20424c9e2caa0519
   Box: 3345df1dee5c8cd639a663e368427c51f931d095
   CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
   CRToast: eb22641501990233c53cb8f83f7d2ea87e0ddf73
@@ -132,6 +139,7 @@ SPEC CHECKSUMS:
   SwiftyJSON: 0b3e6c07af17ff745e77e8e9984097b55c956e5c
   SwiftyUserDefaults: ae600cd466daa1420a058d09aefbf45ccb6caf1e
   TimeAgoInWords: bd651f6532327035b41fd3b512ca9d3e90d2e379
+  TRVSDictionaryWithCaseInsensitivity: 51d2ccf52c6d645d27b63467a98fa02c556e01b0
   WebLinking: 8e267eed3f7b2d040bf6468681cc1325141ab7fe
   YapDatabase: ca25874766045bca7f4c2632f61067351353ecf3
 

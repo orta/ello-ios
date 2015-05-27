@@ -42,33 +42,32 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
 
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        updateInsets()
+
         if shouldReload {
             shouldReload = false
             streamViewController.loadInitialPage()
         }
     }
 
+    private func updateInsets() {
+        updateInsets(navBar: navigationBar, streamController: streamViewController)
+    }
+
     override public func showNavBars(scrollToBottom : Bool) {
         super.showNavBars(scrollToBottom)
         positionNavBar(navigationBar, visible: true)
-        updateInsets(navBar: navigationBar, streamController: streamViewController, navBarsVisible: true)
+        updateInsets()
 
         if scrollToBottom {
-            if let scrollView = streamViewController.collectionView {
-                let contentOffsetY : CGFloat = scrollView.contentSize.height - scrollView.frame.size.height
-                if contentOffsetY > 0 {
-                    scrollView.scrollEnabled = false
-                    scrollView.setContentOffset(CGPoint(x: 0, y: contentOffsetY), animated: true)
-                    scrollView.scrollEnabled = true
-                }
-            }
+            self.scrollToBottom(streamViewController)
         }
     }
 
     override public func hideNavBars() {
         super.hideNavBars()
         positionNavBar(navigationBar, visible: false)
-        updateInsets(navBar: navigationBar, streamController: streamViewController, navBarsVisible: false)
+        updateInsets()
     }
 
     // MARK : private

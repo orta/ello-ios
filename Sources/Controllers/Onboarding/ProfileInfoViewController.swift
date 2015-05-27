@@ -55,6 +55,10 @@ public class ProfileInfoViewController: BaseElloViewController, OnboardingStep {
         }
     }
 
+    public func onboardingStepBegin() {
+        onboardingViewController?.canGoNext = true
+    }
+
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         setupNotificationObservers()
@@ -69,18 +73,40 @@ public class ProfileInfoViewController: BaseElloViewController, OnboardingStep {
 
 public extension ProfileInfoViewController {
 
-    public func onboardingWillProceed() {
+    public func onboardingWillProceed(proceed: (OnboardingData?) -> Void) {
         let name = nameField?.text ?? ""
         let links = linksField?.text ?? ""
         let bio = bioField?.text ?? ""
+        var info = [String:String]()
+        if !name.isEmpty {
+            info["name"] = name
+        }
+        if !links.isEmpty {
+            info["external_links"] = links
+        }
+        if !bio.isEmpty {
+            info["unsanitized_short_bio"] = bio
+        }
 
-        ProfileService().updateUserProfile([
-            "name": name,
-            "external_links": links,
-            "unsanitized_short_bio": bio
-        ], success: { _ in
-            println("updateUserProfile success!")
-        }, failure: nil)
+        if !info.isEmpty {
+            ElloHUD.showLoadingHud()
+            ProfileService().updateUserProfile(info, success: { _ in
+                ElloHUD.hideLoadingHud()
+                proceed(self.onboardingData)
+            }, failure: { _ in
+                ElloHUD.hideLoadingHud()
+                let message = NSLocalizedString("Something is wrong with those links.\n\nThey need to start with ‘http://’ or ‘https://’", comment: "Updating Links failed during onboarding message")
+                let alertController = AlertViewController(message: message)
+
+                let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
+                alertController.addAction(action)
+
+                self.presentViewController(alertController, animated: true, completion: nil)
+            })
+        }
+        else {
+            proceed(self.onboardingData)
+        }
     }
 
 }
@@ -141,6 +167,7 @@ private extension ProfileInfoViewController {
         let linksField = generateTextField(placeholder: NSLocalizedString("Links (optional)", comment: "Links (optional) placeholder text"),
             font: UIFont.typewriterFont(17),
             y: bioField.frame.maxY + 26)
+        linksField.keyboardType = .URL
         linksField.returnKeyType = .Go
         view.addSubview(linksField)
         self.linksField = linksField

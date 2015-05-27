@@ -7,6 +7,7 @@
 //
 
 import Ello
+import SwiftyUserDefaults
 import Quick
 import Nimble
 
@@ -15,6 +16,31 @@ class ElloTabBarControllerSpec: QuickSpec {
     override func spec() {
 
         var controller: ElloTabBarController!
+        var tabBarItem: UITabBarItem
+        var child1 = UINavigationController(rootViewController: UIViewController())
+        tabBarItem = child1.tabBarItem
+        tabBarItem.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
+        tabBarItem.selectedImage = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
+
+        var child2 = UINavigationController(rootViewController: UIViewController())
+        tabBarItem = child2.tabBarItem
+        tabBarItem.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
+        tabBarItem.selectedImage = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
+
+        var child3 = UINavigationController(rootViewController: UIViewController())
+        tabBarItem = child3.tabBarItem
+        tabBarItem.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
+        tabBarItem.selectedImage = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
+
+        var child4 = UINavigationController(rootViewController: UIViewController())
+        tabBarItem = child4.tabBarItem
+        tabBarItem.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
+        tabBarItem.selectedImage = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
+
+        var child5 = UINavigationController(rootViewController: UIViewController())
+        tabBarItem = child5.tabBarItem
+        tabBarItem.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
+        tabBarItem.selectedImage = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
 
         describe("initialization") {
 
@@ -57,26 +83,6 @@ class ElloTabBarControllerSpec: QuickSpec {
         }
 
         context("selecting tab bar items") {
-            var tabBarItem: UITabBarItem
-            var child1 = UINavigationController(rootViewController: UIViewController())
-            tabBarItem = child1.tabBarItem
-            tabBarItem.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
-            tabBarItem.selectedImage = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
-
-            var child2 = UINavigationController(rootViewController: UIViewController())
-            tabBarItem = child2.tabBarItem
-            tabBarItem.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
-            tabBarItem.selectedImage = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
-
-            var child3 = UINavigationController(rootViewController: UIViewController())
-            tabBarItem = child3.tabBarItem
-            tabBarItem.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
-            tabBarItem.selectedImage = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
-
-            var child4 = UINavigationController(rootViewController: UIViewController())
-            tabBarItem = child4.tabBarItem
-            tabBarItem.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
-            tabBarItem.selectedImage = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
 
             beforeEach() {
                 controller = ElloTabBarController.instantiateFromStoryboard()
@@ -87,6 +93,8 @@ class ElloTabBarControllerSpec: QuickSpec {
                 controller.addChildViewController(child1)
                 controller.addChildViewController(child2)
                 controller.addChildViewController(child3)
+                controller.addChildViewController(child4)
+                controller.addChildViewController(child5)
                 let view = controller.view
             }
 
@@ -124,5 +132,60 @@ class ElloTabBarControllerSpec: QuickSpec {
                 expect(child2.topViewController).to(equal(vc1))
             }
         }
+
+        context("showing the narration") {
+            beforeEach() {
+                controller = ElloTabBarController.instantiateFromStoryboard()
+                let children = controller.childViewControllers as! [UIViewController]
+                for child in children {
+                    child.removeFromParentViewController()
+                }
+                controller.addChildViewController(child1)
+                controller.addChildViewController(child2)
+                controller.addChildViewController(child3)
+                controller.addChildViewController(child4)
+                controller.addChildViewController(child5)
+                let view = controller.view
+            }
+            it("should set the narration values") {
+                let tab = ElloTab.Stream
+                ElloTabBarController.didShowNarration(tab, false)
+                expect(Defaults[tab.narrationDefaultKey].bool).to(beFalse())
+                ElloTabBarController.didShowNarration(tab, true)
+                expect(Defaults[tab.narrationDefaultKey].bool).to(beTrue())
+            }
+            it("should get the narration values") {
+                let tab = ElloTab.Stream
+                Defaults[tab.narrationDefaultKey] = false
+                expect(ElloTabBarController.didShowNarration(tab)).to(beFalse())
+                Defaults[tab.narrationDefaultKey] = true
+                expect(ElloTabBarController.didShowNarration(tab)).to(beTrue())
+            }
+            it("should NOT show the narrationView when changing to a tab that has already shown the narrationView") {
+                ElloTabBarController.didShowNarration(.Discovery, true)
+                ElloTabBarController.didShowNarration(.Notifications, true)
+                ElloTabBarController.didShowNarration(.Stream, true)
+                ElloTabBarController.didShowNarration(.Profile, true)
+                ElloTabBarController.didShowNarration(.Post, true)
+
+                controller.tabBar(controller.tabBar, didSelectItem: child1.tabBarItem)
+                expect(controller.selectedViewController).to(equal(child1))
+                expect(controller.shouldShowNarration).toEventually(beFalse())
+                expect(controller.isShowingNarration).toEventually(beFalse())
+            }
+            it("should show the narrationView when changing to a tab that hasn't shown the narrationView yet") {
+                ElloTabBarController.didShowNarration(.Discovery, false)
+                ElloTabBarController.didShowNarration(.Notifications, false)
+                ElloTabBarController.didShowNarration(.Stream, false)
+                ElloTabBarController.didShowNarration(.Profile, false)
+                ElloTabBarController.didShowNarration(.Post, false)
+
+                controller.tabBar(controller.tabBar, didSelectItem: child1.tabBarItem)
+                expect(controller.selectedViewController).to(equal(child1))
+                expect(controller.shouldShowNarration).toEventually(beTrue())
+                expect(controller.isShowingNarration).toEventually(beTrue())
+            }
+        }
+
     }
 }

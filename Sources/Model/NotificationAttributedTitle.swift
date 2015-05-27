@@ -8,7 +8,7 @@
 
 public struct NotificationAttributedTitle {
 
-    static func attrs(_ addlAttrs : [String : AnyObject] = [:]) -> [NSObject : AnyObject] {
+    static private func attrs(_ addlAttrs : [String : AnyObject] = [:]) -> [NSObject : AnyObject] {
         let attrs : [String : AnyObject] = [
             NSFontAttributeName : UIFont.typewriterFont(12),
             NSForegroundColorAttributeName : UIColor.greyA(),
@@ -16,11 +16,11 @@ public struct NotificationAttributedTitle {
         return attrs + addlAttrs
     }
 
-    static func text(text : String) -> NSAttributedString {
+    static private func style(text : String) -> NSAttributedString {
         return NSAttributedString(string: text, attributes: attrs())
     }
 
-    static func profile(user : User?) -> NSAttributedString {
+    static private func style(user : User?) -> NSAttributedString {
         if let user = user {
             return NSAttributedString(string: user.atName, attributes: attrs([
                 ElloAttributedText.Link : "user",
@@ -29,11 +29,11 @@ public struct NotificationAttributedTitle {
             ]))
         }
         else {
-            return text("Someone")
+            return style("Someone")
         }
     }
 
-    static func post(text : String, _ post : Post) -> NSAttributedString {
+    static private func style(text : String, _ post : Post) -> NSAttributedString {
         var attrs = self.attrs([
             ElloAttributedText.Link : "post",
             ElloAttributedText.Object : post,
@@ -42,7 +42,7 @@ public struct NotificationAttributedTitle {
         return NSAttributedString(string: text, attributes: attrs)
     }
 
-    static func comment(text : String, _ comment : Comment) -> NSAttributedString {
+    static private func style(text : String, _ comment : Comment) -> NSAttributedString {
         var attrs = self.attrs([
             ElloAttributedText.Link : "comment",
             ElloAttributedText.Object : comment,
@@ -55,60 +55,90 @@ public struct NotificationAttributedTitle {
         switch kind {
             case .RepostNotification:
                 if let post = subject as? Post {
-                    return self.profile(author)
-                        .append(self.text(" reposted your "))
-                        .append(self.post("post", post))
-                        .append(self.text("."))
+                    return style(author)
+                        .append(style(" reposted your "))
+                        .append(style("post", post))
+                        .append(style("."))
                 }
                 else {
-                    return self.profile(author)
-                        .append(self.text(" reposted your post."))
+                    return style(author)
+                        .append(style(" reposted your post."))
                 }
             case .NewFollowedUserPost:
-                return self.text("You started following ")
-                    .append(self.profile(author))
-                    .append(self.text("."))
+                return style("You started following ")
+                    .append(style(author))
+                    .append(style("."))
             case .NewFollowerPost:
-                return self.profile(author)
-                    .append(self.text(" started following you."))
+                return style(author)
+                    .append(style(" started following you."))
             case .PostMentionNotification:
                 if let post = subject as? Post {
-                    return self.profile(author)
-                        .append(self.text(" mentioned you in a "))
-                        .append(self.post("post", post))
-                        .append(self.text("."))
+                    return style(author)
+                        .append(style(" mentioned you in a "))
+                        .append(style("post", post))
+                        .append(style("."))
                 }
                 else {
-                    return self.profile(author)
-                        .append(self.text(" mentioned you in a post."))
+                    return style(author)
+                        .append(style(" mentioned you in a post."))
+                }
+            case .CommentNotification:
+                if let comment = subject as? Comment {
+                    return style(author)
+                        .append(style(" commented on your "))
+                        .append(style("post", comment))
+                        .append(style("."))
+                }
+                else {
+                    return style(author)
+                        .append(style(" commented on a post."))
                 }
             case .CommentMentionNotification:
                 if let comment = subject as? Comment {
-                    return self.profile(author)
-                        .append(self.text(" mentioned you in a "))
-                        .append(self.comment("comment", comment))
-                        .append(self.text("."))
+                    return style(author)
+                        .append(style(" mentioned you in a "))
+                        .append(style("comment", comment))
+                        .append(style("."))
                 }
                 else {
-                    return self.profile(author)
-                        .append(self.text(" mentioned you in a comment."))
+                    return style(author)
+                        .append(style(" mentioned you in a comment."))
+                }
+            case .CommentOnOriginalPostNotification:
+                if let comment = subject as? Comment,
+                    let repost = comment.parentPost,
+                    let repostAuthor = repost.author,
+                    let source = repost.repostSource
+                {
+                    return style(author)
+                        .append(style(" commented on "))
+                        .append(style(repostAuthor))
+                        .append(style("’s "))
+                        .append(style("repost", repost))
+                        .append(style(" of your "))
+                        .append(style("post", source))
+                        .append(style("."))
+                }
+                else {
+                    return style(author)
+                        .append(style(" commented on your post"))
+                }
+            case .CommentOnRepostNotification:
+                if let comment = subject as? Comment {
+                    return style(author)
+                        .append(style(" commented on your "))
+                        .append(style("repost", comment))
+                        .append(style("."))
+                }
+                else {
+                    return style(author)
+                        .append(style(" commented on your repost"))
                 }
             case .InvitationAcceptedPost:
-                return self.profile(author)
-                    .append(self.text(" accepted your invitation."))
-            case .CommentNotification:
-                if let comment = subject as? Comment {
-                    return self.profile(author)
-                        .append(self.text(" commented on your "))
-                        .append(self.comment("post", comment))
-                        .append(self.text("."))
-                }
-                else {
-                    return self.profile(author)
-                        .append(self.text(" commented on a post."))
-                }
+                return style(author)
+                    .append(style(" accepted your invitation."))
             case .WelcomeNotification:
-                return self.text("Welcome to Ello!")
+                return style("Welcome to Ello!")
             default:
                 return NSAttributedString(string: "")
         }

@@ -23,7 +23,6 @@ public class UserListPresentationController: NSObject, UserListDelegate {
     public func show(endpoint: ElloAPI, title: String) {
         var vc = UserListViewController(endpoint: endpoint, title: title)
         vc.currentUser = currentUser
-        vc.willPresentStreamable(vc.scrollLogic.isShowing)
         presentingController.navigationController?.pushViewController(vc, animated: true)
     }
 

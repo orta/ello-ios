@@ -53,6 +53,13 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
         return viewContainer
     }
 
+    override public func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        if let hidden = elloTabBarController?.tabBarHidden {
+            willPresentStreamable(!hidden)
+        }
+    }
+
     override public func viewDidLoad() {
         super.viewDidLoad()
 
@@ -63,15 +70,15 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
         )
     }
 
-    func willPresentStreamable(navBarsVisible : Bool) {
-        let view = self.view
-
+    private func willPresentStreamable(navBarsVisible : Bool) {
+        UIView.setAnimationsEnabled(false)
         if navBarsVisible {
             showNavBars(false)
         }
         else {
             hideNavBars()
         }
+        UIView.setAnimationsEnabled(true)
         scrollLogic.isShowing = navBarsVisible
     }
 
@@ -121,17 +128,22 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
         }
     }
 
-    @IBAction func backTapped(sender: UIButton) {
-        if let controllers = self.navigationController?.childViewControllers {
-            if controllers.count > 1 {
-                if let prev = controllers[controllers.count - 2] as? StreamableViewController {
-                    prev.willPresentStreamable(scrollLogic.isShowing)
-                    self.navigationController?.popViewControllerAnimated(true)
-                }
-                else {
-                    self.navigationController?.popViewControllerAnimated(true)
-                }
+    func scrollToBottom(controller: StreamViewController) {
+        if let scrollView = streamViewController.collectionView {
+            let contentOffsetY : CGFloat = scrollView.contentSize.height - scrollView.frame.size.height
+            if contentOffsetY > 0 {
+                scrollView.scrollEnabled = false
+                scrollView.setContentOffset(CGPoint(x: 0, y: contentOffsetY), animated: true)
+                scrollView.scrollEnabled = true
             }
+        }
+    }
+
+    @IBAction func backTapped(sender: UIButton) {
+        if let controllers = self.navigationController?.childViewControllers
+            where controllers.count > 1
+        {
+            self.navigationController?.popViewControllerAnimated(true)
         }
     }
 
@@ -158,7 +170,6 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
     public func postTapped(#postId: String) {
         let vc = PostDetailViewController(postParam: postId)
         vc.currentUser = currentUser
-        vc.willPresentStreamable(scrollLogic.isShowing)
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }
@@ -172,7 +183,6 @@ extension StreamableViewController: UserTappedDelegate {
 
         let vc = ProfileViewController(userParam: user.id)
         vc.currentUser = currentUser
-        vc.willPresentStreamable(scrollLogic.isShowing)
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }
@@ -254,7 +264,7 @@ extension StreamableViewController: InviteResponder {
                 switch result {
                 case let .Success(box):
                     Tracker.sharedTracker.contactAccessPreferenceChanged(true)
-                    let vc = AddFriendsContainerViewController(addressBook: box.value)
+                    let vc = AddFriendsViewController(addressBook: box.value)
                     vc.currentUser = self.currentUser
                     vc.userTappedDelegate = self
                     self.navigationController?.pushViewController(vc, animated: true)

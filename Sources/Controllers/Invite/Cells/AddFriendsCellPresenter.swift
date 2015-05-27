@@ -65,11 +65,10 @@ public struct AddFriendsCellPresenter {
         user: User?)
     {
         cell.profileImageView?.sd_setImageWithURL(user?.avatarURL)
-        cell.relationshipView?.relationshipDelegate = relationshipDelegate
-        cell.relationshipView?.buildSmallButtons()
-        cell.relationshipView?.userId = user?.id ?? ""
-        cell.relationshipView?.userAtName = user?.atName ?? ""
-        cell.relationshipView?.relationship = user?.relationshipPriority ?? .Null
-        cell.relationshipView?.hidden = user?.isCurrentUser ?? false
+        cell.relationshipControl?.relationshipDelegate = relationshipDelegate
+        cell.relationshipControl?.userId = user?.id ?? ""
+        cell.relationshipControl?.userAtName = user?.atName ?? ""
+        cell.relationshipControl?.relationship = user?.relationshipPriority ?? .Null
+        cell.relationshipControl?.hidden = user?.isCurrentUser ?? false
     }
 }

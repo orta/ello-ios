@@ -71,17 +71,17 @@ public class BlockUserModalViewController: BaseElloViewController {
     }
 
     @IBAction func blockTapped(sender: UIButton) {
-        Tracker.sharedTracker.userBlocked()
+        Tracker.sharedTracker.userBlocked(userId)
         handleTapped(sender, newRelationship: RelationshipPriority.Block)
     }
 
     @IBAction func muteTapped(sender: UIButton) {
-        Tracker.sharedTracker.userMuted()
+        Tracker.sharedTracker.userMuted(userId)
         handleTapped(sender, newRelationship: RelationshipPriority.Mute)
     }
 
     @IBAction func closeModal(sender: UIButton?) {
-        Tracker.sharedTracker.userBlockCanceled()
+        Tracker.sharedTracker.userBlockCanceled(userId)
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 
@@ -115,11 +115,11 @@ public class BlockUserModalViewController: BaseElloViewController {
     private func handleTapped(sender: UIButton, newRelationship: RelationshipPriority) {
         let prevRelationship = relationship
         if sender.selected == true {
-            relationship = RelationshipPriority.Inactive
+            relationship = .Inactive
         } else {
             relationship = newRelationship
         }
-        relationshipDelegate?.relationshipTapped(userId, relationship: relationship) {
+        relationshipDelegate?.updateRelationship(userId, relationship: relationship) {
             [unowned self] (status, relationship) in
             switch status {
             case .Success:

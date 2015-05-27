@@ -8,14 +8,25 @@
 
 import Foundation
 
-let ServerDateFormatter = NSDateFormatter()
+let ServerDateFormatter: NSDateFormatter = {
+    let formatter = NSDateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+    formatter.timeZone = NSTimeZone(abbreviation: "UTC")
+    return formatter
+}()
 
 public extension NSString {
 
     func toNSDate() -> NSDate? {
-        ServerDateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-        ServerDateFormatter.timeZone = NSTimeZone(abbreviation: "UTC")
         return ServerDateFormatter.dateFromString(self as String)
+    }
+
+}
+
+public extension NSDate {
+
+    func toNSString() -> NSString {
+        return ServerDateFormatter.stringFromDate(self)
     }
 
 }

@@ -20,10 +20,13 @@ public class FollowAllCell: UICollectionViewCell {
     var followedCount: Int = 0 { didSet { updateTitle() } }
     var userCount: Int = 0 { didSet { updateTitle() } }
     private func updateTitle() {
+        followAllButton.selected = (followedCount == userCount)
         if followedCount == userCount {
-            followAllButton.selected = true
+            followAllButton.setTitle("Following (\(followedCount))", forState: .Normal)
         }
-        followAllButton.setTitle("Follow All (\(userCount - followedCount))", forState: .Normal)
+        else {
+            followAllButton.setTitle("Follow All (\(userCount))", forState: .Normal)
+        }
     }
 
     lazy var followAllButton: FollowAllElloButton = {

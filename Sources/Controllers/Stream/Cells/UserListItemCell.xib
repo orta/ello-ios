@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E17e" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
@@ -30,13 +30,9 @@
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Erd-4A-4rH" userLabel="relationshipView" customClass="RelationshipView" customModule="Ello" customModuleProvider="target">
-                        <rect key="frame" x="570" y="18" width="59" height="30"/>
-                        <color key="backgroundColor" red="1" green="0.059496439829999997" blue="0.93599406699999999" alpha="1" colorSpace="calibratedRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="30" id="Ths-f1-orS" userLabel="relationshipView - height"/>
-                            <constraint firstAttribute="width" constant="59" id="qM1-oe-tuw" userLabel="relationshipView - width"/>
-                        </constraints>
+                    <view clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="82" placeholderIntrinsicHeight="30" translatesAutoresizingMaskIntoConstraints="NO" id="Erd-4A-4rH" userLabel="relationshipControl" customClass="RelationshipControl" customModule="Ello" customModuleProvider="target">
+                        <rect key="frame" x="547" y="18" width="82" height="30"/>
+                        <color key="backgroundColor" red="1" green="0.00083137051919999995" blue="0.69331204690000003" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -44,8 +40,8 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="Iji-as-2iN" firstAttribute="top" secondItem="61z-pJ-LrK" secondAttribute="top" constant="18" id="7kI-Z0-QbA" userLabel="avatarButton - top"/>
-                <constraint firstAttribute="trailing" secondItem="Erd-4A-4rH" secondAttribute="trailing" constant="15" id="CN4-Z5-KwT" userLabel="relationshipView - right"/>
-                <constraint firstAttribute="centerY" secondItem="Erd-4A-4rH" secondAttribute="centerY" id="Djf-wz-93O" userLabel="relationshipView - vert center"/>
+                <constraint firstAttribute="trailing" secondItem="Erd-4A-4rH" secondAttribute="trailing" constant="15" id="CN4-Z5-KwT" userLabel="relationshipControl - right"/>
+                <constraint firstAttribute="centerY" secondItem="Erd-4A-4rH" secondAttribute="centerY" id="Djf-wz-93O" userLabel="relationshipControl - vert center"/>
                 <constraint firstAttribute="bottom" secondItem="Iji-as-2iN" secondAttribute="bottom" constant="18" id="T4h-dP-U9W" userLabel="avatarButton - bottom"/>
                 <constraint firstAttribute="centerY" secondItem="WxT-0L-Vvg" secondAttribute="centerY" id="Zdy-54-gCn" userLabel="usernameLabel - vert center"/>
                 <constraint firstItem="Iji-as-2iN" firstAttribute="leading" secondItem="61z-pJ-LrK" secondAttribute="leading" constant="15" id="cv7-jA-J6m" userLabel="avatarButton - left"/>
@@ -54,7 +50,7 @@
             <size key="customSize" width="644" height="66"/>
             <connections>
                 <outlet property="avatarButton" destination="Iji-as-2iN" id="nI2-rU-yaB"/>
-                <outlet property="relationshipView" destination="Erd-4A-4rH" id="33W-tJ-7Bh"/>
+                <outlet property="relationshipControl" destination="Erd-4A-4rH" id="GFe-eD-KKY"/>
                 <outlet property="usernameLabel" destination="WxT-0L-Vvg" id="VXI-0v-jU5"/>
             </connections>
             <point key="canvasLocation" x="387" y="270"/>
