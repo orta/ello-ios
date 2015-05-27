@@ -57,7 +57,7 @@ extension User: Stubbable {
         user.followersCount = (values["followersCount"] as? String) ?? "stub-user-followers-count"
         user.followingCount = (values["followingCount"] as? Int) ?? 0
         user.formattedShortBio = (values["formattedShortBio"] as? String) ?? "stub-user-formatted-short-bio"
-        user.externalLinks = (values["externalLinks"] as? String) ?? "stub-user-external-links"
+        user.externalLinksList = (values["externalLinksList"] as? [[String:String]]) ?? [["text": "ello.co", "url": "http://ello.co"]]
         user.coverImage = values["coverImage"] as? Asset
         user.backgroundPosition = (values["backgroundPosition"] as? String) ?? "stub-user-background-position"
         // links / nested resources
@@ -108,7 +108,6 @@ extension Profile: Stubbable {
         var profile = Profile(
             createdAt: (values["createdAt"] as? NSDate) ?? NSDate(),
             shortBio: (values["shortBio"] as? String) ?? "shortBio",
-            externalLinksList: (values["externalLinksList"] as? [String]) ?? ["externalLinksList"],
             email: (values["email"] as? String) ?? "email@example.com",
             confirmedAt: (values["confirmedAt"] as? NSDate) ?? NSDate(),
             isPublic: (values["isPublic"] as? Bool) ?? true,

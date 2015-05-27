@@ -17,7 +17,6 @@ public final class Profile: JSONAble {
     public let createdAt: NSDate
     // required
     public let shortBio: String
-    public let externalLinksList: [String]
     public let email: String
     public let confirmedAt: NSDate
     public let isPublic: Bool
@@ -40,7 +39,6 @@ public final class Profile: JSONAble {
 
     public init(createdAt: NSDate,
         shortBio: String,
-        externalLinksList: [String],
         email: String,
         confirmedAt: NSDate,
         isPublic: Bool,
@@ -61,7 +59,6 @@ public final class Profile: JSONAble {
     {
         self.createdAt = createdAt
         self.shortBio = shortBio
-        self.externalLinksList = externalLinksList
         self.email = email
         self.confirmedAt = confirmedAt
         self.isPublic = isPublic
@@ -90,7 +87,6 @@ public final class Profile: JSONAble {
         self.createdAt = decoder.decodeKey("createdAt")
         // required
         self.shortBio = decoder.decodeKey("shortBio")
-        self.externalLinksList = decoder.decodeKey("externalLinksList")
         self.email = decoder.decodeKey("email")
         self.confirmedAt = decoder.decodeKey("confirmedAt")
         self.isPublic = decoder.decodeKey("isPublic")
@@ -117,7 +113,6 @@ public final class Profile: JSONAble {
         coder.encodeObject(createdAt, forKey: "createdAt")
         // required
         coder.encodeObject(shortBio, forKey: "shortBio")
-        coder.encodeObject(externalLinksList, forKey: "externalLinksList")
         coder.encodeObject(email, forKey: "email")
         coder.encodeObject(confirmedAt, forKey: "confirmedAt")
         coder.encodeObject(isPublic, forKey: "isPublic")
@@ -146,7 +141,6 @@ public final class Profile: JSONAble {
         var profile = Profile(
             createdAt: (json["created_at"].stringValue.toNSDate() ?? NSDate()),
             shortBio: json["short_bio"].stringValue,
-            externalLinksList: json["external_links_list"].arrayValue.map { $0.stringValue },
             email: json["email"].stringValue,
             confirmedAt: (json["confirmed_at"].stringValue.toNSDate() ?? NSDate()),
             isPublic: json["is_public"].boolValue,

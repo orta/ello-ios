@@ -37,7 +37,7 @@ public final class User: JSONAble {
     public var followersCount: String? // string due to this returning "∞" for the ello user
     public var followingCount: Int?
     public var formattedShortBio: String?
-    public var externalLinks: String? // this will change to an object when incoming
+    public var externalLinksList: [[String: String]]?
     public var coverImage: Asset?
     public var backgroundPosition: String?
     // links
@@ -106,7 +106,7 @@ public final class User: JSONAble {
         self.followersCount = decoder.decodeOptionalKey("followersCount")
         self.followingCount = decoder.decodeOptionalKey("followingCount")
         self.formattedShortBio = decoder.decodeOptionalKey("formattedShortBio")
-        self.externalLinks = decoder.decodeOptionalKey("externalLinks")
+        self.externalLinksList = decoder.decodeOptionalKey("externalLinksList")
         self.coverImage = decoder.decodeOptionalKey("coverImage")
         self.backgroundPosition = decoder.decodeOptionalKey("backgroundPosition")
         // profile
@@ -138,7 +138,7 @@ public final class User: JSONAble {
         coder.encodeObject(followingCount, forKey: "followingCount")
         coder.encodeObject(followersCount, forKey: "followersCount")
         coder.encodeObject(formattedShortBio, forKey: "formattedShortBio")
-        coder.encodeObject(externalLinks, forKey: "externalLinks")
+        coder.encodeObject(externalLinksList, forKey: "externalLinksList")
         coder.encodeObject(coverImage, forKey: "coverImage")
         coder.encodeObject(backgroundPosition, forKey: "backgroundPosition")
         // profile
@@ -175,7 +175,8 @@ public final class User: JSONAble {
         user.followersCount = json["followers_count"].stringValue
         user.followingCount = json["following_count"].int
         user.formattedShortBio = json["formatted_short_bio"].stringValue
-        user.externalLinks = json["external_links"].stringValue
+        // grab links
+        user.externalLinksList = json["external_links_list"].arrayValue.map { ["text": $0["text"].stringValue, "url": $0["url"].stringValue] }
         user.coverImage = Asset.parseAsset("user_cover_image_\(user.id)", node: data["cover_image"] as? [String: AnyObject])
         user.backgroundPosition = json["background_positiion"].stringValue
         // links

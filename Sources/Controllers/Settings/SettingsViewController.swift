@@ -189,7 +189,16 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         }
 
         linksTextFieldView.label.setLabelText(NSLocalizedString("Links", comment: "links setting"))
-        linksTextFieldView.textField.text = (currentUser?.profile?.externalLinksList).map { ", ".join($0) }
+        linksTextFieldView.textField.keyboardType = UIKeyboardType.URL
+        if let user = currentUser, let links = user.externalLinksList {
+            var urls = [String]()
+            for link in links {
+                if let url = link["url"] {
+                    urls.append(url)
+                }
+            }
+            linksTextFieldView.textField.text = ", ".join(urls)
+        }
 
         let updateLinksFunction = debounce(0.5) { [unowned self] in
             let links = self.linksTextFieldView.textField.text
