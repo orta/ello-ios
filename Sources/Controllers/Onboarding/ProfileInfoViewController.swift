@@ -101,7 +101,6 @@ public extension ProfileInfoViewController {
                 let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
                 alertController.addAction(action)
 
-                self.linksField?.text = "http://\(links)"
                 self.presentViewController(alertController, animated: true, completion: nil)
             })
         }
@@ -168,6 +167,7 @@ private extension ProfileInfoViewController {
         let linksField = generateTextField(placeholder: NSLocalizedString("Links (optional)", comment: "Links (optional) placeholder text"),
             font: UIFont.typewriterFont(17),
             y: bioField.frame.maxY + 26)
+        linksField.keyboardType = .URL
         linksField.returnKeyType = .Go
         view.addSubview(linksField)
         self.linksField = linksField
