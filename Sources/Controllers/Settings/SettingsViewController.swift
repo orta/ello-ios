@@ -157,7 +157,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     private func setupNavigationBar() {
         let backItem = UIBarButtonItem.backChevronWithTarget(self, action: Selector("backAction"))
         navigationItem.leftBarButtonItem = backItem
-        navigationItem.title = NSLocalizedString("Settings", comment: "settings title")
+        navigationItem.title = NSLocalizedString("Edit Profile", comment: "Edit Profile Screen Title")
         navigationItem.fixNavBarItemPadding()
     }
 
