@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import SwiftyUserDefaults
 
 @objc
 protocol HasAppController {
@@ -73,12 +73,19 @@ public class AppViewController: BaseElloViewController {
 
     private func checkIfLoggedIn() {
         let authToken = AuthToken()
-        if authToken.isPresent {
-            self.loadCurrentUser()
-        }
-        else {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        var introDisplayed = Defaults["IntroDisplayed"].bool ?? false
+        //if authToken.isPresent {
+        //    self.loadCurrentUser()
+        //}
+        //else if !introDisplayed {
+            presentViewController(IntroController(), animated: false, completion:{ () -> Void in })
+            Defaults["IntroDisplayed"] = true
             self.showButtons()
-        }
+        //}
+        //else {
+            self.showButtons()
+        //}
     }
 
     public func loadCurrentUser(failure: ElloErrorCompletion? = nil) {
