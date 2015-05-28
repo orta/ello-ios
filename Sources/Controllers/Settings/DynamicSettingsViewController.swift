@@ -38,9 +38,14 @@ class DynamicSettingsViewController: UITableViewController {
                 if let categories = data as? [DynamicSettingCategory] {
                     self.dynamicCategories = categories
                 }
+                ElloHUD.hideLoadingHud()
             },
-            failure: nil,
-            noContent: nil
+            failure: { _, _ in
+                ElloHUD.hideLoadingHud()
+            },
+            noContent: {
+                ElloHUD.hideLoadingHud()
+            }
         )
     }
 

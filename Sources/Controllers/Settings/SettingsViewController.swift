@@ -137,6 +137,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
 
     override public func viewDidLoad() {
         super.viewDidLoad()
+        ElloHUD.showLoadingHud()
         setupViews()
     }
 
