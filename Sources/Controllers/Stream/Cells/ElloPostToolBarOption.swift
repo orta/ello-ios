@@ -47,20 +47,13 @@ public enum ElloPostToolBarOption {
         return UIBarButtonItem(customView: self.imageLabelControl())
     }
 
-    private func imageLabelControl(imageName: String, count: Int? = nil) -> UIControl {
+    private func imageLabelControl(imageName: String, count: Int = 0) -> UIControl {
         let iconImage = SVGKImage(named: "\(imageName)_normal.svg").UIImage!
         let iconSelectedImage = SVGKImage(named: "\(imageName)_selected.svg").UIImage!
         let icon = UIImageView(image: iconImage)
         let iconSelected = UIImageView(image: iconSelectedImage)
         let basicIcon = BasicIcon(normalIconView: icon, selectedIconView: iconSelected)
-        return ImageLabelControl(icon: basicIcon, title: title(count: count))
+        return ImageLabelControl(icon: basicIcon, title: count.numberToHuman())
     }
 
-    private func title(count: Int? = nil) -> String {
-        var title = ""
-        if let count = count {
-            title = String(count)
-        }
-        return title
-    }
 }

@@ -14,7 +14,9 @@ let thousand = 1_000.0
 
 public extension Int {
 
-    func numberToHuman() -> String {
+    func numberToHuman(showZero: Bool = false) -> String {
+        if self == 0 && !showZero { return "" }
+
         let double = Double(self)
         let num: Float
         let suffix: String
