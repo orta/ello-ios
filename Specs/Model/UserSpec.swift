@@ -22,7 +22,7 @@ class UserSpec: QuickSpec {
                 // active record
                 expect(user.id) == "420"
                 // required
-                expect(user.href) == "/api/edge/users/420"
+                expect(user.href) == "/api/v2/users/420"
                 expect(user.username) == "pam"
                 expect(user.name) == "Pamilanderson"
                 expect(user.experimentalFeatures) == true

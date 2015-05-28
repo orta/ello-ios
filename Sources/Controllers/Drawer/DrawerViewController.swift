@@ -137,7 +137,7 @@ private extension DrawerViewController {
     func registerCells() {
         let fakeUser = User(
             id: "fakeUser",
-            href: "/api/edge/users/42",
+            href: "/api/v2/users/42",
             username: "username",
             name: "Unknown",
             experimentalFeatures: false,

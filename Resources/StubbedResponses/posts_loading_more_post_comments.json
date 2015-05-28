@@ -9,21 +9,21 @@
                 }
             ],
             "created_at": "2014-06-02T00:00:00.000Z",
-            "id": "254",
+            "id": "263",
             "links": {
                 "assets": [],
                 "author": {
-                    "href": "/api/edge/users/420",
+                    "href": "/api/v2/users/420",
                     "id": "420",
                     "type": "users"
                 },
                 "parent_post": {
-                    "href": "/api/edge/posts/253",
-                    "id": "253",
+                    "href": "/api/v2/posts/262",
+                    "id": "262",
                     "type": "posts"
                 }
             },
-            "post_id": "253"
+            "post_id": "262"
         }
     ],
     "linked": {
@@ -51,7 +51,7 @@
                 "has_loves_enabled": true,
                 "has_reposting_enabled": true,
                 "has_sharing_enabled": true,
-                "href": "/api/edge/users/420",
+                "href": "/api/v2/users/420",
                 "id": "420",
                 "name": "Pamilanderson",
                 "posts_adult_content": true,

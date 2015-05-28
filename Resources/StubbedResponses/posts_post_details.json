@@ -28,7 +28,7 @@
                 "links": {
                     "assets": [],
                     "author": {
-                        "href": "/api/edge/users/43",
+                        "href": "/api/v2/users/43",
                         "id": "43",
                         "type": "users"
                     }
@@ -48,7 +48,7 @@
                 "links": {
                     "assets": [],
                     "author": {
-                        "href": "/api/edge/users/420",
+                        "href": "/api/v2/users/420",
                         "id": "420",
                         "type": "users"
                     }
@@ -80,7 +80,7 @@
                 "has_loves_enabled": true,
                 "has_reposting_enabled": true,
                 "has_sharing_enabled": true,
-                "href": "/api/edge/users/666",
+                "href": "/api/v2/users/666",
                 "id": "666",
                 "name": "Cyril Figgis",
                 "posts_adult_content": false,
@@ -111,7 +111,7 @@
                 "has_loves_enabled": true,
                 "has_reposting_enabled": true,
                 "has_sharing_enabled": true,
-                "href": "/api/edge/users/43",
+                "href": "/api/v2/users/43",
                 "id": "43",
                 "name": "Lana Kane",
                 "posts_adult_content": false,
@@ -142,7 +142,7 @@
                 "has_loves_enabled": true,
                 "has_reposting_enabled": true,
                 "has_sharing_enabled": true,
-                "href": "/api/edge/users/420",
+                "href": "/api/v2/users/420",
                 "id": "420",
                 "name": "Pamilanderson",
                 "posts_adult_content": true,
@@ -188,14 +188,14 @@
         ],
         "content_warning": null,
         "created_at": "2014-06-01T00:00:00.000Z",
-        "href": "/api/edge/posts/174",
+        "href": "/api/v2/posts/174",
         "id": "174",
         "links": {
             "assets": [
                 "14"
             ],
             "author": {
-                "href": "/api/edge/users/666",
+                "href": "/api/v2/users/666",
                 "id": "666",
                 "type": "users"
             },
@@ -205,8 +205,8 @@
                     "176"
                 ],
                 "pagination": {
-                    "last": "http://ello.co/api/edge/posts/174/comments?after=true",
-                    "next": "http://ello.co/api/edge/posts/174/comments?before=2014-06-03T00%3A00%3A00.000000000%2B0000",
+                    "last": "http://ello.co/api/v2/posts/174/comments?after=true",
+                    "next": "http://ello.co/api/v2/posts/174/comments?before=2014-06-03T00%3A00%3A00.000000000%2B0000",
                     "total_count": "3",
                     "total_pages": "2",
                     "total_pages_remaining": "1"

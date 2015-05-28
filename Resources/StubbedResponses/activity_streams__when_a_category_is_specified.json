@@ -44,17 +44,23 @@
                         "kind": "text"
                     }
                 ],
-                "created_at": "2015-05-20T17:20:02.067Z",
+                "created_at": "2015-05-28T15:35:17.149Z",
                 "id": "29",
                 "links": {
                     "assets": [],
                     "author": {
-                        "href": "/api/edge/users/43",
+                        "href": "/api/v2/users/43",
                         "id": "43",
                         "type": "users"
                     }
                 },
-                "post_id": "28"
+                "post_id": "28",
+                "summary": [
+                    {
+                        "data": "<p>repost comment</p>",
+                        "kind": "text"
+                    }
+                ]
             },
             {
                 "author_id": "43",
@@ -64,17 +70,23 @@
                         "kind": "text"
                     }
                 ],
-                "created_at": "2015-05-20T17:20:02.039Z",
+                "created_at": "2015-05-28T15:35:17.110Z",
                 "id": "27",
                 "links": {
                     "assets": [],
                     "author": {
-                        "href": "/api/edge/users/43",
+                        "href": "/api/v2/users/43",
                         "id": "43",
                         "type": "users"
                     }
                 },
-                "post_id": "26"
+                "post_id": "26",
+                "summary": [
+                    {
+                        "data": "<p>right.</p>",
+                        "kind": "text"
+                    }
+                ]
             }
         ],
         "users": [
@@ -101,7 +113,7 @@
                 "has_loves_enabled": true,
                 "has_reposting_enabled": true,
                 "has_sharing_enabled": true,
-                "href": "/api/edge/users/43",
+                "href": "/api/v2/users/43",
                 "id": "43",
                 "name": "Lana Kane",
                 "posts_adult_content": false,

@@ -39,12 +39,12 @@
                 "5"
             ],
             "author": {
-                "href": "/api/edge/users/420",
+                "href": "/api/v2/users/420",
                 "id": "420",
                 "type": "users"
             },
             "parent_post": {
-                "href": "/api/edge/posts/42",
+                "href": "/api/v2/posts/42",
                 "id": "42",
                 "type": "posts"
             }

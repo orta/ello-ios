@@ -13,17 +13,17 @@
                 "kind": "text"
             }
         ],
-        "created_at": "2015-05-20T17:20:07.578Z",
+        "created_at": "2015-05-28T15:35:25.847Z",
         "id": "61",
         "links": {
             "assets": [],
             "author": {
-                "href": "/api/edge/users/42",
+                "href": "/api/v2/users/42",
                 "id": "42",
                 "type": "users"
             },
             "parent_post": {
-                "href": "/api/edge/posts/60",
+                "href": "/api/v2/posts/60",
                 "id": "60",
                 "type": "posts"
             }

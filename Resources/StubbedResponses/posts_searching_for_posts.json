@@ -38,7 +38,7 @@
                 "has_loves_enabled": true,
                 "has_reposting_enabled": true,
                 "has_sharing_enabled": true,
-                "href": "/api/edge/users/43",
+                "href": "/api/v2/users/43",
                 "id": "43",
                 "name": "Lana Kane (official)",
                 "posts_adult_content": false,
@@ -85,14 +85,14 @@
             ],
             "content_warning": null,
             "created_at": "2014-07-01T00:00:00.000Z",
-            "href": "/api/edge/posts/173",
+            "href": "/api/v2/posts/173",
             "id": "173",
             "links": {
                 "assets": [
                     "13"
                 ],
                 "author": {
-                    "href": "/api/edge/users/43",
+                    "href": "/api/v2/users/43",
                     "id": "43",
                     "type": "users"
                 },
@@ -118,7 +118,7 @@
                     }
                 }
             ],
-            "token": "zCtcoXxUIbWSlPic1qFLSQ",
+            "token": "4Mu03TgJh5_72TeY6c6OCA",
             "views_count": 1
         }
     ]
