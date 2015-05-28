@@ -53,10 +53,7 @@ public enum ElloPostToolBarOption {
         let icon = UIImageView(image: iconImage)
         let iconSelected = UIImageView(image: iconSelectedImage)
         let basicIcon = BasicIcon(normalIconView: icon, selectedIconView: iconSelected)
-        return ImageLabelControl(icon: basicIcon, title: title(count: count))
+        return ImageLabelControl(icon: basicIcon, title: count.numberToHuman())
     }
 
-    private func title(count: Int = 0) -> String {
-        return count > 0 ? String(count) : ""
-    }
 }
