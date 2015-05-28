@@ -20,7 +20,7 @@ protocol HasAppController {
 public class AppViewController: BaseElloViewController {
 
     @IBOutlet weak public var scrollView: UIScrollView!
-    @IBOutlet weak public var logoView: UIView!
+    @IBOutlet weak public var logoView: ElloLogoView!
     @IBOutlet weak public var logoTopConstraint: NSLayoutConstraint!
     @IBOutlet weak public var socialRevolution: UILabel!
     @IBOutlet weak public var signInButton: LightElloButton!
@@ -90,16 +90,20 @@ public class AppViewController: BaseElloViewController {
     }
 
     public func loadCurrentUser(failure: ElloErrorCompletion? = nil) {
+        logoView.animateLogo()
         let profileService = ProfileService()
         profileService.loadCurrentUser(ElloAPI.Profile(perPage: 1),
             success: { user in
+                self.logoView.stopAnimatingLogo()
                 self.currentUser = user
                 self.showMainScreen(user)
             },
             failure: { (error, _) in
+                self.logoView.stopAnimatingLogo()
                 self.failedToLoadCurrentUser(failure, error: error)
             },
             invalidToken: { error in
+                self.logoView.stopAnimatingLogo()
                 self.failedToLoadCurrentUser(failure, error: error)
             })
     }

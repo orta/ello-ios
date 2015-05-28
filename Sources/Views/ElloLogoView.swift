@@ -14,6 +14,7 @@ import FLAnimatedImage
 public class ElloLogoView: FLAnimatedImageView {
     struct Size {
         static let natural = CGSize(width: 60, height: 60)
+        static let big = CGSize(width: 166, height: 166)
     }
 
     let toValue = (360.0 * M_PI) / 180.0

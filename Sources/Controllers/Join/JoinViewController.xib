@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7703" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6711"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="JoinViewController" customModule="Ello" customModuleProvider="target">
@@ -29,14 +29,6 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ajo-sA-4uh" userLabel="Container">
                             <rect key="frame" x="113" y="0.0" width="374" height="600"/>
                             <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ello-logo" translatesAutoresizingMaskIntoConstraints="NO" id="9jX-bg-MMX" customClass="ElloLogoView" customModule="Ello" customModuleProvider="target">
-                                    <rect key="frame" x="157" y="50" width="60" height="60"/>
-                                    <accessibility key="accessibilityConfiguration" label="smiley face logo"/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="60" id="dco-3I-hrR"/>
-                                        <constraint firstAttribute="height" constant="60" id="ktI-pp-jtJ"/>
-                                    </constraints>
-                                </imageView>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tyb-rJ-Zeg" userLabel="Go to Login Button" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
                                     <rect key="frame" x="329" y="30" width="45" height="34"/>
                                     <state key="normal" title="Login">
@@ -115,7 +107,6 @@
                                 <constraint firstAttribute="trailing" secondItem="rhW-dT-sOr" secondAttribute="trailing" id="DXF-IQ-qnl"/>
                                 <constraint firstItem="5Ak-T0-AxJ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="iY9-d8-Pt2" secondAttribute="bottom" constant="20" id="FLT-zd-g2z"/>
                                 <constraint firstItem="uvx-Cc-aUr" firstAttribute="leading" secondItem="ajo-sA-4uh" secondAttribute="leading" id="G74-P7-2k7"/>
-                                <constraint firstItem="9jX-bg-MMX" firstAttribute="top" secondItem="ajo-sA-4uh" secondAttribute="top" constant="50" id="JQF-K2-r0T"/>
                                 <constraint firstAttribute="trailing" secondItem="gRX-YT-5aA" secondAttribute="trailing" id="ODG-9x-S5K"/>
                                 <constraint firstAttribute="trailing" secondItem="Tyb-rJ-Zeg" secondAttribute="trailing" id="Rwy-BX-W7Y"/>
                                 <constraint firstItem="uvx-Cc-aUr" firstAttribute="top" secondItem="ajo-sA-4uh" secondAttribute="top" constant="30" id="Tpa-hj-ugL"/>
@@ -125,16 +116,24 @@
                                 <constraint firstAttribute="trailing" secondItem="g3x-Zq-MBV" secondAttribute="trailing" id="hff-Va-c9M"/>
                                 <constraint firstItem="rhW-dT-sOr" firstAttribute="leading" secondItem="ajo-sA-4uh" secondAttribute="leading" id="knG-Bu-C4R"/>
                                 <constraint firstAttribute="trailing" secondItem="iY9-d8-Pt2" secondAttribute="trailing" id="llj-TY-Q85"/>
-                                <constraint firstAttribute="centerX" secondItem="9jX-bg-MMX" secondAttribute="centerX" id="qef-Vs-8TK"/>
                                 <constraint firstItem="5Ak-T0-AxJ" firstAttribute="leading" secondItem="ajo-sA-4uh" secondAttribute="leading" id="s8A-Ky-fkW"/>
                                 <constraint firstItem="Tyb-rJ-Zeg" firstAttribute="top" secondItem="uvx-Cc-aUr" secondAttribute="top" id="vw3-MR-d0L"/>
                                 <constraint firstItem="gRX-YT-5aA" firstAttribute="leading" secondItem="ajo-sA-4uh" secondAttribute="leading" id="wSP-w4-zAt"/>
                                 <constraint firstItem="iY9-d8-Pt2" firstAttribute="leading" secondItem="ajo-sA-4uh" secondAttribute="leading" id="z3V-8w-Yrz"/>
                             </constraints>
                         </view>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ello-logo" translatesAutoresizingMaskIntoConstraints="NO" id="9jX-bg-MMX" customClass="ElloLogoView" customModule="Ello" customModuleProvider="target">
+                            <rect key="frame" x="270" y="50" width="60" height="60"/>
+                            <accessibility key="accessibilityConfiguration" label="smiley face logo"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="60" id="dco-3I-hrR"/>
+                                <constraint firstAttribute="height" constant="60" id="ktI-pp-jtJ"/>
+                            </constraints>
+                        </imageView>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
+                        <constraint firstItem="gRX-YT-5aA" firstAttribute="top" secondItem="9jX-bg-MMX" secondAttribute="bottom" constant="27" id="5SQ-lL-WLq"/>
                         <constraint firstAttribute="height" secondItem="ajo-sA-4uh" secondAttribute="height" id="7nX-EY-ifI"/>
                         <constraint firstItem="ajo-sA-4uh" firstAttribute="width" secondItem="Z9R-YG-xaY" secondAttribute="width" priority="999" constant="-40" id="97s-Qz-y3v"/>
                         <constraint firstAttribute="trailing" secondItem="ajo-sA-4uh" secondAttribute="trailing" constant="113" placeholder="YES" id="D7s-aO-dLD"/>
@@ -145,6 +144,7 @@
                         <constraint firstItem="ajo-sA-4uh" firstAttribute="top" secondItem="Z9R-YG-xaY" secondAttribute="top" id="oDz-6t-lUe"/>
                         <constraint firstAttribute="bottom" secondItem="ajo-sA-4uh" secondAttribute="bottom" id="pKL-Ar-pO7"/>
                         <constraint firstAttribute="centerX" secondItem="ajo-sA-4uh" secondAttribute="centerX" id="zKG-fx-nDL"/>
+                        <constraint firstAttribute="centerX" secondItem="9jX-bg-MMX" secondAttribute="centerX" id="zfc-pP-YjT"/>
                     </constraints>
                 </scrollView>
             </subviews>
