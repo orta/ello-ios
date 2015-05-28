@@ -204,11 +204,12 @@ extension User {
     }
 
     func propertyForSettingsKey(key: String) -> Bool {
-        if !hasProperty(key) {
-            return false
+        var value: Bool? = false
+        if respondsToSelector(Selector(key.camelCase)) {
+            value = valueForKey(key.camelCase) as? Bool
+        } else if profile?.respondsToSelector(Selector(key.camelCase)) ?? false {
+            value = profile?.valueForKey(key.camelCase) as? Bool
         }
-        else {
-            return (valueForKey(key.camelCase) as? Bool) ?? (profile?.valueForKey(key.camelCase) as? Bool) ?? false
-        }
+        return value ?? false
     }
 }

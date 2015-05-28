@@ -36,7 +36,7 @@ class DynamicSettingsViewController: UITableViewController {
             streamKind: nil,
             success: { (data, responseConfig) in
                 if var categories = data as? [DynamicSettingCategory] {
-                    self.dynamicCategories =  = categories.reduce([]) { categoryArr, category in
+                    self.dynamicCategories = categories.reduce([]) { categoryArr, category in
                         category.settings = category.settings.reduce([]) { settingsArr, setting in
                             if self.currentUser?.hasProperty(setting.key) == true {
                                 return settingsArr + [setting]
