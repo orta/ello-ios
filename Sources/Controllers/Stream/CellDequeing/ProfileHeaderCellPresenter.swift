@@ -41,16 +41,16 @@ public struct ProfileHeaderCellPresenter {
             cell.nameLabel.text = user.name
             cell.bioWebView.loadHTMLString(StreamTextCellHTML.postHTML(user.formattedShortBio ?? ""), baseURL: NSURL(string: "/"))
 
-            let postCount = user.postsCount?.numberToHuman() ?? "0"
+            let postCount = user.postsCount?.numberToHuman() ?? ""
             cell.postsButton.title = NSLocalizedString("Posts", comment: "Posts")
             cell.postsButton.count = postCount
 
-            let followingCount = user.followingCount?.numberToHuman() ?? "0"
+            let followingCount = user.followingCount?.numberToHuman() ?? ""
             cell.followingButton.title = NSLocalizedString("Following", comment: "Following")
             cell.followingButton.count = followingCount
 
 
-            let lovesCount = user.lovesCount?.numberToHuman() ?? "0"
+            let lovesCount = user.lovesCount?.numberToHuman() ?? ""
             cell.lovesButton.title = NSLocalizedString("Loves", comment: "Loves")
             cell.lovesButton.count = lovesCount
 

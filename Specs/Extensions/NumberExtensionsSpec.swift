@@ -32,5 +32,17 @@ class NumberExtensionsSpec: QuickSpec {
         it("returns 1.23B with 1234567890") {
             expect(1234567890.numberToHuman()).to(equal("1.23B"))
         }
+
+        context("when told to show zero") {
+            it("returns 0 for 0") {
+                expect(0.numberToHuman(showZero: true)).to(equal("0"))
+            }
+        }
+
+        context("when not told to show zero") {
+            it("returns an empty string for 0") {
+                expect(0.numberToHuman(showZero: false)).to(equal(""))
+            }
+        }
     }
 }
