@@ -21,6 +21,7 @@ public struct ProfileHeaderCellPresenter {
         if let cell = cell as? ProfileHeaderCell {
             let ratio:CGFloat = 16.0/9.0
             let user = streamCellItem.jsonable as! User
+            cell.user = user
             cell.relationshipControl.hidden = false
 
             if let currentUser = cell.currentUser {
@@ -39,17 +40,19 @@ public struct ProfileHeaderCellPresenter {
             cell.usernameLabel.text = user.atName
             cell.nameLabel.text = user.name
             cell.bioWebView.loadHTMLString(StreamTextCellHTML.postHTML(user.formattedShortBio ?? ""), baseURL: NSURL(string: "/"))
-            cell.countsTextView.clearText()
 
-            let extraAttrs = [NSForegroundColorAttributeName: UIColor.blackColor()]
-
-            cell.countsTextView.appendTextWithAction(NSLocalizedString("Posts", comment: "posts"))
             let postCount = user.postsCount?.numberToHuman() ?? "0"
-            cell.countsTextView.appendTextWithAction(" \(postCount) ", extraAttrs: extraAttrs)
+            cell.postsButton.title = NSLocalizedString("Posts", comment: "Posts")
+            cell.postsButton.count = postCount
 
-            cell.countsTextView.appendTextWithAction(NSLocalizedString("Following", comment: "following"), link: "following", object: user)
             let followingCount = user.followingCount?.numberToHuman() ?? "0"
-            cell.countsTextView.appendTextWithAction(" \(followingCount) ", link: "following", object: user, extraAttrs: extraAttrs)
+            cell.followingButton.title = NSLocalizedString("Following", comment: "Following")
+            cell.followingButton.count = followingCount
+
+
+            let lovesCount = user.lovesCount?.numberToHuman() ?? "0"
+            cell.lovesButton.title = NSLocalizedString("Loves", comment: "Loves")
+            cell.lovesButton.count = lovesCount
 
             // The user.followersCount is a String due to a special case where that can return ∞ for the ello user. 
             // toInt() returns an optional that will fail when not an Int allowing the ∞ to display for the ello user.
@@ -60,8 +63,8 @@ public struct ProfileHeaderCellPresenter {
             else {
                 fCount = user.followersCount ?? "0"
             }
-            cell.countsTextView.appendTextWithAction(NSLocalizedString("Followers", comment: "followers"), link: "followers", object: user)
-            cell.countsTextView.appendTextWithAction(" \(fCount) ", link: "followers", object: user, extraAttrs: extraAttrs)
+            cell.followersButton.title = NSLocalizedString("Followers", comment: "Followers")
+            cell.followersButton.count = fCount
         }
     }
 }

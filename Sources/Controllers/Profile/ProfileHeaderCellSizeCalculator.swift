@@ -51,7 +51,7 @@ public class ProfileHeaderCellSizeCalculator: NSObject {
     private func setHeight(hv: CGFloat) {
         var cellItem = self.cellItems.removeAtIndex(0)
         var height: CGFloat = maxWidth / ratio // cover image size
-        height += 178.0 // top of webview
+        height += 193.0 // top of webview
         // add web view height and bottom padding
         if hv > 0.0 {
             height += hv
