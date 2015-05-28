@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import KINWebBrowser
-
 public let externalWebNotification = TypedNotification<String>(name: "externalWebNotification")
 
 public class ElloNavigationController: UINavigationController, UIGestureRecognizerDelegate {
