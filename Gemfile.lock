@@ -72,7 +72,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  cocoapods (~> 0.37.1)
+  cocoapods (~> 0.37.2)
   cocoapods-keys (~> 1.2.0)
   dotenv
   git
