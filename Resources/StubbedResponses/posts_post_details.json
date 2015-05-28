@@ -24,7 +24,7 @@
                     }
                 ],
                 "created_at": "2014-06-04T00:00:00.000Z",
-                "id": "161",
+                "id": "177",
                 "links": {
                     "assets": [],
                     "author": {
@@ -33,7 +33,7 @@
                         "type": "users"
                     }
                 },
-                "post_id": "158"
+                "post_id": "174"
             },
             {
                 "author_id": "420",
@@ -44,7 +44,7 @@
                     }
                 ],
                 "created_at": "2014-06-03T00:00:00.000Z",
-                "id": "160",
+                "id": "176",
                 "links": {
                     "assets": [],
                     "author": {
@@ -53,7 +53,7 @@
                         "type": "users"
                     }
                 },
-                "post_id": "158"
+                "post_id": "174"
             }
         ],
         "users": [
@@ -77,6 +77,7 @@
                 },
                 "experimental_features": true,
                 "has_commenting_enabled": true,
+                "has_loves_enabled": true,
                 "has_reposting_enabled": true,
                 "has_sharing_enabled": true,
                 "href": "/api/edge/users/666",
@@ -107,6 +108,7 @@
                 },
                 "experimental_features": true,
                 "has_commenting_enabled": false,
+                "has_loves_enabled": true,
                 "has_reposting_enabled": true,
                 "has_sharing_enabled": true,
                 "href": "/api/edge/users/43",
@@ -137,6 +139,7 @@
                 },
                 "experimental_features": true,
                 "has_commenting_enabled": true,
+                "has_loves_enabled": true,
                 "has_reposting_enabled": true,
                 "has_sharing_enabled": true,
                 "href": "/api/edge/users/420",
@@ -185,8 +188,8 @@
         ],
         "content_warning": null,
         "created_at": "2014-06-01T00:00:00.000Z",
-        "href": "/api/edge/posts/158",
-        "id": "158",
+        "href": "/api/edge/posts/174",
+        "id": "174",
         "links": {
             "assets": [
                 "14"
@@ -198,18 +201,21 @@
             },
             "comments": {
                 "ids": [
-                    "161",
-                    "160"
+                    "177",
+                    "176"
                 ],
                 "pagination": {
-                    "last": "http://ello.co/api/edge/posts/158/comments?after=true",
-                    "next": "http://ello.co/api/edge/posts/158/comments?before=2014-06-03T00%3A00%3A00.000000000%2B0000",
+                    "last": "http://ello.co/api/edge/posts/174/comments?after=true",
+                    "next": "http://ello.co/api/edge/posts/174/comments?before=2014-06-03T00%3A00%3A00.000000000%2B0000",
                     "total_count": "3",
                     "total_pages": "2",
                     "total_pages_remaining": "1"
                 }
             }
         },
+        "loved": false,
+        "loves_count": 0,
+        "reposted": false,
         "reposts_count": 0,
         "summary": [
             {
@@ -227,7 +233,7 @@
                 }
             }
         ],
-        "token": "JcSS9Ah9kkBW0mKFFY57mg",
+        "token": "tThn9GP4HXth_rigKefSiQ",
         "views_count": 1
     }
 }

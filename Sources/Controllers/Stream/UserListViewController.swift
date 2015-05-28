@@ -27,18 +27,20 @@ public class UserListViewController: StreamableViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
+        scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
+        scrollLogic.navBarHeight = 44
         streamViewController.streamKind = StreamKind.UserList(endpoint: endpoint, title: title ?? "")
         ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.loadInitialPage()
     }
 
-    override func viewForStream() -> UIView {
-        return view
-    }
-
-    public override func viewDidAppear(animated: Bool) {
+    override public func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         updateInsets()
+    }
+
+    override func viewForStream() -> UIView {
+        return view
     }
 
     override public func didSetCurrentUser() {

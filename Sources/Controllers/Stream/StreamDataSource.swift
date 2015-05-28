@@ -309,7 +309,6 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
 
             // else if post, add new post cells
             else if let post = jsonable as? Post {
-
                 switch streamKind {
                 case .Friend: indexPath = NSIndexPath(forItem: 0, inSection: 0)
                 case let .Profile: indexPath = NSIndexPath(forItem: 1, inSection: 0)
@@ -317,6 +316,14 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                     if currentUser?.id == userParam {
                         indexPath = NSIndexPath(forItem: 1, inSection: 0)
                     }
+                default: break
+                }
+            }
+
+            // else if love, add post to loves
+            else if let love = jsonable as? Love {
+                switch streamKind {
+                case .Loves: indexPath = NSIndexPath(forItem: 0, inSection: 0)
                 default: break
                 }
             }
@@ -335,9 +342,21 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         case .Delete:
             collectionView.deleteItemsAtIndexPaths(removeItemsForJSONAble(jsonable, change: change))
         case .Update:
-            let (indexPaths, items) = elementsForJSONAble(jsonable, change: change)
-            items.map { $0.jsonable = jsonable }
-            collectionView.reloadItemsAtIndexPaths(indexPaths)
+            var shouldReload = true
+            switch streamKind {
+            case .Loves:
+                if let post = jsonable as? Post where !post.loved {
+                    // the post was unloved
+                    collectionView.deleteItemsAtIndexPaths(removeItemsForJSONAble(jsonable, change: .Delete))
+                    shouldReload = false
+                }
+            default: shouldReload = true
+            }
+            if shouldReload {
+                let (indexPaths, items) = elementsForJSONAble(jsonable, change: change)
+                items.map { $0.jsonable = jsonable }
+                collectionView.reloadItemsAtIndexPaths(indexPaths)
+            }
         default: break
         }
     }

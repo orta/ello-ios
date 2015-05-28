@@ -57,7 +57,7 @@ public final class EmbedRegion: JSONAble, Regionable {
     // MARK: NSCoding
 
     public required init(coder aDecoder: NSCoder) {
-        let decoder = Decoder(aDecoder)
+        let decoder = Coder(aDecoder)
         // active record
         self.id = decoder.decodeKey("id")
         // required
@@ -67,19 +67,20 @@ public final class EmbedRegion: JSONAble, Regionable {
         self.url = decoder.decodeKey("url")
         self.thumbnailSmallUrl = decoder.decodeKey("thumbnailSmallUrl")
         self.thumbnailLargeUrl = decoder.decodeKey("thumbnailLargeUrl")
-        super.init(coder: aDecoder)
+        super.init(coder: decoder.coder)
     }
 
     public override func encodeWithCoder(encoder: NSCoder) {
+        let coder = Coder(encoder)
         // active record
-        encoder.encodeObject(id, forKey: "id")
+        coder.encodeObject(id, forKey: "id")
         // required
-        encoder.encodeBool(isRepost, forKey: "isRepost")
-        encoder.encodeObject(service.rawValue, forKey: "serviceRaw")
-        encoder.encodeObject(url, forKey: "url")
-        encoder.encodeObject(thumbnailSmallUrl, forKey: "thumbnailSmallUrl")
-        encoder.encodeObject(thumbnailLargeUrl, forKey: "thumbnailLargeUrl")
-        super.encodeWithCoder(encoder)
+        coder.encodeObject(isRepost, forKey: "isRepost")
+        coder.encodeObject(service.rawValue, forKey: "serviceRaw")
+        coder.encodeObject(url, forKey: "url")
+        coder.encodeObject(thumbnailSmallUrl, forKey: "thumbnailSmallUrl")
+        coder.encodeObject(thumbnailLargeUrl, forKey: "thumbnailLargeUrl")
+        super.encodeWithCoder(coder.coder)
     }
 
     // MARK: JSONAble

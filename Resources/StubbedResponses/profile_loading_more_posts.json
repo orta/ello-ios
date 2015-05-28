@@ -21,6 +21,7 @@
                 },
                 "experimental_features": false,
                 "has_commenting_enabled": true,
+                "has_loves_enabled": true,
                 "has_reposting_enabled": true,
                 "has_sharing_enabled": true,
                 "href": "/api/edge/users/42",
@@ -51,8 +52,8 @@
             ],
             "content_warning": null,
             "created_at": "2014-06-02T00:00:00.000Z",
-            "href": "/api/edge/posts/269",
-            "id": "269",
+            "href": "/api/edge/posts/301",
+            "id": "301",
             "links": {
                 "assets": [],
                 "author": {
@@ -69,6 +70,9 @@
                     }
                 }
             },
+            "loved": false,
+            "loves_count": 0,
+            "reposted": false,
             "reposts_count": 0,
             "summary": [
                 {
@@ -76,7 +80,7 @@
                     "kind": "text"
                 }
             ],
-            "token": "LEHGu4gR5QMsmlpMkf5FOw",
+            "token": "dDdhxuvMlhReZLokcVrZhA",
             "views_count": 1
         },
         {
@@ -96,8 +100,8 @@
             ],
             "content_warning": null,
             "created_at": "2014-06-01T00:00:00.000Z",
-            "href": "/api/edge/posts/268",
-            "id": "268",
+            "href": "/api/edge/posts/300",
+            "id": "300",
             "links": {
                 "assets": [],
                 "author": {
@@ -114,6 +118,9 @@
                     }
                 }
             },
+            "loved": false,
+            "loves_count": 0,
+            "reposted": false,
             "reposts_count": 0,
             "summary": [
                 {
@@ -121,7 +128,7 @@
                     "kind": "text"
                 }
             ],
-            "token": "D_KS49Hqy-HrOFxtkiB8YA",
+            "token": "hzAjiNJDrdcRke9CDGGTpg",
             "views_count": 1
         }
     ]

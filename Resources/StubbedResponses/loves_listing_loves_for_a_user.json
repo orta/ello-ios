@@ -1,0 +1,49 @@
+{
+    "linked": {
+        "posts": [
+            {
+                "author_id": "42",
+                "comments_count": 0,
+                "content": [
+                    {
+                        "data": "<p>Hello, I am a post with awesome content!</p>",
+                        "kind": "text"
+                    }
+                ],
+                "content_warning": null,
+                "created_at": "2015-01-13T00:00:00.000Z",
+                "href": "/api/edge/posts/157",
+                "id": "157",
+                "loved": false,
+                "loves_count": 0,
+                "reposted": false,
+                "reposts_count": 0,
+                "summary": [
+                    {
+                        "data": "<p>Hello, I am a post with awesome content!</p>",
+                        "kind": "text"
+                    }
+                ],
+                "token": "Ye87pymGWlW5GdEy-dnPog",
+                "views_count": 0
+            }
+        ]
+    },
+    "loves": [
+        {
+            "created_at": "2015-05-22T02:46:01.285Z",
+            "deleted": false,
+            "id": "5",
+            "links": {
+                "post": {
+                    "href": "/api/edge/posts/157",
+                    "id": "157",
+                    "type": "posts"
+                }
+            },
+            "post_id": "157",
+            "updated_at": "2015-05-22T02:46:01.285Z",
+            "user_id": "43"
+        }
+    ]
+}

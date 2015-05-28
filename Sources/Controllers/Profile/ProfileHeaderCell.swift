@@ -14,6 +14,11 @@ public protocol EditProfileResponder {
     func onEditProfile()
 }
 
+@objc
+public protocol ViewUsersLovesResponder {
+    func onViewUsersLoves()
+}
+
 public class ProfileHeaderCell: UICollectionViewCell {
 
     @IBOutlet weak var avatarButton: AvatarButton!
@@ -26,6 +31,7 @@ public class ProfileHeaderCell: UICollectionViewCell {
     @IBOutlet weak var profileButtonsView: UIView!
     @IBOutlet weak var editProfileButton: OutlineElloButton!
     @IBOutlet weak var inviteButton: UIButton!
+    @IBOutlet weak var lovesButton: UIButton!
     weak var webLinkDelegate: WebLinkDelegate?
     weak var userListDelegate: UserListDelegate?
     var currentUser: User?
@@ -60,6 +66,12 @@ public class ProfileHeaderCell: UICollectionViewCell {
 
         inviteButton.setTitle("", forState: .Normal)
         inviteButton.setSVGImages("xpmcirc")
+
+        inviteButton.addTarget(self, action: Selector("inviteTapped:"), forControlEvents: UIControlEvents.TouchUpInside)
+
+        lovesButton.setTitle("", forState: UIControlState.Normal)
+        lovesButton.setSVGImages("heartslist")
+        lovesButton.addTarget(self, action: Selector("lovesTapped:"), forControlEvents: UIControlEvents.TouchUpInside)
     }
 
     @IBAction func editProfileTapped(sender: UIButton) {
@@ -70,6 +82,11 @@ public class ProfileHeaderCell: UICollectionViewCell {
     @IBAction func inviteTapped(sender: UIButton) {
         let responder = targetForAction("onInviteFriends", withSender: self) as? InviteResponder
         responder?.onInviteFriends()
+    }
+
+    @IBAction func lovesTapped(sender: UIButton) {
+        let responder = targetForAction("onViewUsersLoves", withSender: self) as? ViewUsersLovesResponder
+        responder?.onViewUsersLoves()
     }
 }
 

@@ -24,5 +24,4 @@ public class RePostService: NSObject {
             failure: failure
         )
     }
-
 }

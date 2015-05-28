@@ -21,16 +21,17 @@ public final class DynamicSettingCategory: JSONAble {
     }
 
     public required init(coder aDecoder: NSCoder) {
-        let decoder = Decoder(aDecoder)
+        let decoder = Coder(aDecoder)
         self.label = decoder.decodeKey("label")
         self.settings = decoder.decodeKey("settings")
-        super.init(coder: aDecoder)
+        super.init(coder: decoder.coder)
     }
 
     public override func encodeWithCoder(encoder: NSCoder) {
-        encoder.encodeObject(label, forKey: "label")
-        encoder.encodeObject(settings, forKey: "settings")
-        super.encodeWithCoder(encoder)
+        let coder = Coder(encoder)
+        coder.encodeObject(label, forKey: "label")
+        coder.encodeObject(settings, forKey: "settings")
+        super.encodeWithCoder(coder.coder)
     }
 }
 

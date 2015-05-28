@@ -5,13 +5,13 @@
                 "attachment": {
                     "optimized": {
                         "metadata": null,
-                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/24/ello-optimized-97fbdf62.jpg"
+                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/27/ello-optimized-97fbdf62.jpg"
                     },
                     "original": {
-                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/24/archer.jpg"
+                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/27/archer.jpg"
                     }
                 },
-                "id": "24"
+                "id": "27"
             }
         ],
         "users": [
@@ -35,6 +35,7 @@
                 },
                 "experimental_features": true,
                 "has_commenting_enabled": false,
+                "has_loves_enabled": true,
                 "has_reposting_enabled": true,
                 "has_sharing_enabled": true,
                 "href": "/api/edge/users/43",
@@ -63,12 +64,12 @@
             }
         ],
         "content_warning": null,
-        "created_at": "2015-05-18T18:05:27.633Z",
-        "href": "/api/edge/posts/203",
-        "id": "203",
+        "created_at": "2015-05-20T17:20:30.988Z",
+        "href": "/api/edge/posts/233",
+        "id": "233",
         "links": {
             "assets": [
-                "24"
+                "27"
             ],
             "repost_author": {
                 "href": "/api/edge/users/43",
@@ -76,6 +77,8 @@
                 "type": "users"
             }
         },
+        "loved": false,
+        "loves_count": 0,
         "repost_content": [
             {
                 "data": "<p>Have you ever heard of ISIS?</p>",
@@ -84,18 +87,19 @@
             {
                 "data": {
                     "alt": "archer.jpg",
-                    "url": "https://abc123.cloudfront.net/uploads/asset/attachment/24/archer.jpg"
+                    "url": "https://abc123.cloudfront.net/uploads/asset/attachment/27/archer.jpg"
                 },
                 "kind": "image",
                 "links": {
-                    "assets": "24"
+                    "assets": "27"
                 }
             }
         ],
-        "repost_id": "201",
-        "repost_path": "/lanakane32d/post/PtUOB6C8HFkVVyFS42Mk2A",
-        "repost_via_id": "202",
-        "repost_via_path": "/pam/post/bpNtxEOkwLgXApTAgUP3yg",
+        "repost_id": "231",
+        "repost_path": "/lanakane32d/post/ZcS4LdWbL_6IQKGyV6c82A",
+        "repost_via_id": "232",
+        "repost_via_path": "/pam/post/9MpXSa1jt1mXpOxOMP3O4Q",
+        "reposted": true,
         "reposts_count": 2,
         "summary": [
             {
@@ -105,15 +109,15 @@
             {
                 "data": {
                     "alt": "archer.jpg",
-                    "url": "https://abc123.cloudfront.net/uploads/asset/attachment/24/archer.jpg"
+                    "url": "https://abc123.cloudfront.net/uploads/asset/attachment/27/archer.jpg"
                 },
                 "kind": "image",
                 "links": {
-                    "assets": "24"
+                    "assets": "27"
                 }
             }
         ],
-        "token": "WJqGz_eC7l_9r4gZESTEdw",
+        "token": "FfxEZGO3ucaiaT82cID4jQ",
         "views_count": 0
     }
 }

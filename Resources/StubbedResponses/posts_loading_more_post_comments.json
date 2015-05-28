@@ -9,7 +9,7 @@
                 }
             ],
             "created_at": "2014-06-02T00:00:00.000Z",
-            "id": "224",
+            "id": "254",
             "links": {
                 "assets": [],
                 "author": {
@@ -18,12 +18,12 @@
                     "type": "users"
                 },
                 "parent_post": {
-                    "href": "/api/edge/posts/223",
-                    "id": "223",
+                    "href": "/api/edge/posts/253",
+                    "id": "253",
                     "type": "posts"
                 }
             },
-            "post_id": "223"
+            "post_id": "253"
         }
     ],
     "linked": {
@@ -48,6 +48,7 @@
                 },
                 "experimental_features": true,
                 "has_commenting_enabled": true,
+                "has_loves_enabled": true,
                 "has_reposting_enabled": true,
                 "has_sharing_enabled": true,
                 "href": "/api/edge/users/420",

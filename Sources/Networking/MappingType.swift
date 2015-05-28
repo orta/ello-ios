@@ -22,6 +22,7 @@ public enum MappingType: String {
     case NoContentType = "204"
     case AvailabilityType = "availability"
     case CategoriesType = "categories"
+    case LovesType = "loves"
 
     var fromJSON: FromJSONClosure {
         switch self {
@@ -47,6 +48,8 @@ public enum MappingType: String {
             return Relationship.fromJSON
         case CategoriesType:
             return DynamicSettingCategory.fromJSON
+        case LovesType:
+            return Love.fromJSON
         default:
             return UnknownJSONAble.fromJSON
         }

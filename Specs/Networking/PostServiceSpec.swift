@@ -18,14 +18,6 @@ class PostServiceSpec: QuickSpec {
 
             var subject = PostService()
 
-            beforeSuite {
-                ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
-            }
-
-            afterSuite {
-                ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
-            }
-
             describe("loadPost(_:success:failure)") {
 
                 context("success") {

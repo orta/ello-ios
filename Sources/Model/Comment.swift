@@ -59,7 +59,7 @@ public final class Comment: JSONAble, Authorable {
 // MARK: NSCoding
 
     public required init(coder aDecoder: NSCoder) {
-        let decoder = Decoder(aDecoder)
+        let decoder = Coder(aDecoder)
         // active record
         self.id = decoder.decodeKey("id")
         self.createdAt = decoder.decodeKey("createdAt")
@@ -70,21 +70,22 @@ public final class Comment: JSONAble, Authorable {
         self.loadedFromPostId = decoder.decodeKey("loadedFromPostId")
         // optional
         self.summary = decoder.decodeOptionalKey("summary")
-        super.init(coder: aDecoder)
+        super.init(coder: decoder.coder)
     }
 
     public override func encodeWithCoder(encoder: NSCoder) {
+        let coder = Coder(encoder)
         // active record
-        encoder.encodeObject(id, forKey: "id")
-        encoder.encodeObject(createdAt, forKey: "createdAt")
+        coder.encodeObject(id, forKey: "id")
+        coder.encodeObject(createdAt, forKey: "createdAt")
         // required
-        encoder.encodeObject(authorId, forKey: "authorId")
-        encoder.encodeObject(postId, forKey: "postId")
-        encoder.encodeObject(content, forKey: "content")
-        encoder.encodeObject(loadedFromPostId, forKey: "loadedFromPostId")
+        coder.encodeObject(authorId, forKey: "authorId")
+        coder.encodeObject(postId, forKey: "postId")
+        coder.encodeObject(content, forKey: "content")
+        coder.encodeObject(loadedFromPostId, forKey: "loadedFromPostId")
         // optional
-        encoder.encodeObject(summary, forKey: "summary")
-        super.encodeWithCoder(encoder)
+        coder.encodeObject(summary, forKey: "summary")
+        super.encodeWithCoder(coder.coder)
     }
 
 // MARK: JSONAble

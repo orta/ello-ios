@@ -1,7 +1,7 @@
 {
     "activities": [
         {
-            "created_at": "2014-06-12T00:00:00.000Z",
+            "created_at": "2014-06-15T00:00:00.000Z",
             "kind": "repost_notification",
             "links": {
                 "subject": {
@@ -13,7 +13,7 @@
             "subject_type": "Post"
         },
         {
-            "created_at": "2014-06-11T00:00:00.000Z",
+            "created_at": "2014-06-14T00:00:00.000Z",
             "kind": "new_follower_post",
             "links": {
                 "subject": {
@@ -23,6 +23,39 @@
                 }
             },
             "subject_type": "User"
+        },
+        {
+            "created_at": "2014-06-13T00:00:00.000Z",
+            "kind": "love_on_original_post_notification",
+            "links": {
+                "subject": {
+                    "id": "2",
+                    "type": "loves"
+                }
+            },
+            "subject_type": "Love"
+        },
+        {
+            "created_at": "2014-06-12T00:00:00.000Z",
+            "kind": "love_on_repost_notification",
+            "links": {
+                "subject": {
+                    "id": "2",
+                    "type": "loves"
+                }
+            },
+            "subject_type": "Love"
+        },
+        {
+            "created_at": "2014-06-11T00:00:00.000Z",
+            "kind": "love_notification",
+            "links": {
+                "subject": {
+                    "id": "1",
+                    "type": "loves"
+                }
+            },
+            "subject_type": "Love"
         },
         {
             "created_at": "2014-06-10T00:00:00.000Z",
@@ -153,7 +186,7 @@
                         "kind": "text"
                     }
                 ],
-                "created_at": "2015-05-18T18:05:03.993Z",
+                "created_at": "2015-05-20T17:20:01.093Z",
                 "id": "23",
                 "links": {
                     "assets": [],
@@ -173,7 +206,7 @@
                         "kind": "text"
                     }
                 ],
-                "created_at": "2015-05-18T18:05:03.965Z",
+                "created_at": "2015-05-20T17:20:01.060Z",
                 "id": "21",
                 "links": {
                     "assets": [],
@@ -193,7 +226,7 @@
                         "kind": "text"
                     }
                 ],
-                "created_at": "2015-05-18T18:05:03.931Z",
+                "created_at": "2015-05-20T17:20:01.015Z",
                 "id": "19",
                 "links": {
                     "assets": [],
@@ -204,6 +237,24 @@
                     }
                 },
                 "post_id": "18"
+            }
+        ],
+        "loves": [
+            {
+                "created_at": "2015-05-20T17:20:01.097Z",
+                "deleted": false,
+                "id": "2",
+                "post_id": "22",
+                "updated_at": "2015-05-20T17:20:01.097Z",
+                "user_id": "11"
+            },
+            {
+                "created_at": "2015-05-20T17:20:01.023Z",
+                "deleted": false,
+                "id": "1",
+                "post_id": "18",
+                "updated_at": "2015-05-20T17:20:01.023Z",
+                "user_id": "11"
             }
         ],
         "posts": [
@@ -217,7 +268,7 @@
                     }
                 ],
                 "content_warning": null,
-                "created_at": "2015-05-18T18:05:03.974Z",
+                "created_at": "2015-05-20T17:20:01.071Z",
                 "href": "/api/edge/posts/22",
                 "id": "22",
                 "links": {
@@ -235,6 +286,8 @@
                         "type": "users"
                     }
                 },
+                "loved": false,
+                "loves_count": 0,
                 "repost_content": [
                     {
                         "data": "<p>Calling Kenny Loggins... lanakane32d</p>",
@@ -252,7 +305,8 @@
                     }
                 ],
                 "repost_id": "20",
-                "repost_path": "/archer/post/KZKDQR1e8hbEUSPGXVuLDw",
+                "repost_path": "/archer/post/b3RWsspr6NSkoS_sD2bITQ",
+                "reposted": false,
                 "reposts_count": 0,
                 "summary": [
                     {
@@ -270,7 +324,7 @@
                         }
                     }
                 ],
-                "token": "PuT3oCCYoYbKlkvA6umOgw",
+                "token": "w_JgWXVyrh9jQKKngbgu-g",
                 "views_count": 0
             },
             {
@@ -283,7 +337,7 @@
                     }
                 ],
                 "content_warning": null,
-                "created_at": "2015-05-18T18:05:03.920Z",
+                "created_at": "2015-05-20T17:20:01.005Z",
                 "href": "/api/edge/posts/18",
                 "id": "18",
                 "links": {
@@ -294,6 +348,9 @@
                         "type": "users"
                     }
                 },
+                "loved": false,
+                "loves_count": 0,
+                "reposted": false,
                 "reposts_count": 0,
                 "summary": [
                     {
@@ -301,7 +358,7 @@
                         "kind": "text"
                     }
                 ],
-                "token": "BCTOWaF_ln-w1XdsGfrkFQ",
+                "token": "V8kxzuGhH24Fb6JcALa8_w",
                 "views_count": 0
             }
         ],
@@ -326,6 +383,7 @@
                 },
                 "experimental_features": true,
                 "has_commenting_enabled": true,
+                "has_loves_enabled": true,
                 "has_reposting_enabled": true,
                 "has_sharing_enabled": true,
                 "href": "/api/edge/users/11",
@@ -356,6 +414,7 @@
                 },
                 "experimental_features": false,
                 "has_commenting_enabled": true,
+                "has_loves_enabled": true,
                 "has_reposting_enabled": true,
                 "has_sharing_enabled": true,
                 "href": "/api/edge/users/42",
@@ -386,6 +445,7 @@
                 },
                 "experimental_features": true,
                 "has_commenting_enabled": false,
+                "has_loves_enabled": true,
                 "has_reposting_enabled": true,
                 "has_sharing_enabled": true,
                 "href": "/api/edge/users/43",

@@ -255,7 +255,7 @@ public class OmnibarData : NSObject, NSCoding {
     }
 
     required public init(coder aDecoder: NSCoder) {
-        let decoder = Decoder(aDecoder)
+        let decoder = Coder(aDecoder)
         self.attributedText = decoder.decodeOptionalKey("attributedText")
         self.image = decoder.decodeOptionalKey("image")
     }

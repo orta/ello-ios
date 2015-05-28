@@ -11,6 +11,7 @@ import Foundation
 
 public class StreamHeaderCell: UICollectionViewCell {
 
+    public var indexPath = NSIndexPath(forItem: 0, inSection: 0)
     public var ownPost = false {
         didSet {
             self.updateItems()
@@ -240,7 +241,7 @@ public class StreamHeaderCell: UICollectionViewCell {
 // MARK: - IBActions
 
     func postTapped(recognizer: UITapGestureRecognizer) {
-        postbarDelegate?.viewsButtonTapped(self)
+        postbarDelegate?.viewsButtonTapped(self.indexPath)
     }
 
     @IBAction func userTapped(sender: AvatarButton) {
@@ -248,15 +249,15 @@ public class StreamHeaderCell: UICollectionViewCell {
     }
 
     @IBAction func flagButtonTapped(sender: StreamFooterButton) {
-        postbarDelegate?.flagCommentButtonTapped(self)
+        postbarDelegate?.flagCommentButtonTapped(self.indexPath)
     }
 
     @IBAction func replyButtonTapped(sender: StreamFooterButton) {
-        postbarDelegate?.replyToCommentButtonTapped(self)
+        postbarDelegate?.replyToCommentButtonTapped(self.indexPath)
     }
 
     @IBAction func deleteButtonTapped(sender: StreamFooterButton) {
-        postbarDelegate?.deleteCommentButtonTapped(self)
+        postbarDelegate?.deleteCommentButtonTapped(self.indexPath)
     }
 
     @IBAction func chevronButtonTapped(sender: StreamFooterButton) {

@@ -27,6 +27,8 @@ class UserSpec: QuickSpec {
                 expect(user.name) == "Pamilanderson"
                 expect(user.experimentalFeatures) == true
                 expect(user.relationshipPriority) == RelationshipPriority.None
+                //TODO: test for "has_commenting_enabled", "has_reposting_enabled", "has_sharing_enabled" and 
+                // "has_loves_enabled"
                 // optional
                 expect(user.avatar).to(beAKindOf(Asset.self))
                 expect(user.identifiableBy) == ""
@@ -113,6 +115,10 @@ class UserSpec: QuickSpec {
                     expect(unArchivedUser.followingCount) == 8
                     expect(unArchivedUser.href) == "sample-href"
                     expect(unArchivedUser.name) == "sample-name"
+                    expect(unArchivedUser.hasCommentingEnabled) == true
+                    expect(unArchivedUser.hasLovesEnabled) == true
+                    expect(unArchivedUser.hasSharingEnabled) == true
+                    expect(unArchivedUser.hasRepostingEnabled) == true
 
                     let firstPost = unArchivedUser.posts!.first!
                     expect(firstPost.id) == "sample-post-id"

@@ -28,6 +28,7 @@ public final class User: JSONAble {
     public let hasCommentingEnabled: Bool
     public let hasSharingEnabled: Bool
     public let hasRepostingEnabled: Bool
+    public let hasLovesEnabled: Bool
     // optional
     public var avatar: Asset? // required, but kinda optional due to it being nested in json
     public var identifiableBy: String?
@@ -59,7 +60,8 @@ public final class User: JSONAble {
         viewsAdultContent: Bool,
         hasCommentingEnabled: Bool,
         hasSharingEnabled: Bool,
-        hasRepostingEnabled: Bool)
+        hasRepostingEnabled: Bool,
+        hasLovesEnabled: Bool)
     {
         self.id = id
         self.href = href
@@ -72,13 +74,14 @@ public final class User: JSONAble {
         self.hasCommentingEnabled = hasCommentingEnabled
         self.hasSharingEnabled = hasSharingEnabled
         self.hasRepostingEnabled = hasRepostingEnabled
+        self.hasLovesEnabled = hasLovesEnabled
         super.init(version: UserVersion)
     }
 
 // MARK: NSCoding
 
     public required init(coder aDecoder: NSCoder) {
-        let decoder = Decoder(aDecoder)
+        let decoder = Coder(aDecoder)
         // active record
         self.id = decoder.decodeKey("id")
         // required
@@ -93,6 +96,7 @@ public final class User: JSONAble {
         self.hasCommentingEnabled = decoder.decodeKey("hasCommentingEnabled")
         self.hasSharingEnabled = decoder.decodeKey("hasSharingEnabled")
         self.hasRepostingEnabled = decoder.decodeKey("hasRepostingEnabled")
+        self.hasLovesEnabled = decoder.decodeKey("hasLovesEnabled")
         // optional
         self.avatar = decoder.decodeOptionalKey("avatar")
         self.identifiableBy = decoder.decodeOptionalKey("identifiableBy")
@@ -105,40 +109,38 @@ public final class User: JSONAble {
         self.backgroundPosition = decoder.decodeOptionalKey("backgroundPosition")
         // profile
         self.profile = decoder.decodeOptionalKey("profile")
-        super.init(coder: aDecoder)
+        super.init(coder: decoder.coder)
     }
 
     public override func encodeWithCoder(encoder: NSCoder) {
+        let coder = Coder(encoder)
         // active record
-        encoder.encodeObject(id, forKey: "id")
+        coder.encodeObject(id, forKey: "id")
         // required
-        encoder.encodeObject(href, forKey: "href")
-        encoder.encodeObject(username, forKey: "username")
-        encoder.encodeObject(name, forKey: "name")
-        encoder.encodeBool(experimentalFeatures, forKey: "experimentalFeatures")
-        encoder.encodeObject(relationshipPriority.rawValue, forKey: "relationshipPriorityRaw")
-        encoder.encodeBool(postsAdultContent, forKey: "postsAdultContent")
-        encoder.encodeBool(viewsAdultContent, forKey: "viewsAdultContent")
-        encoder.encodeBool(hasCommentingEnabled, forKey: "hasCommentingEnabled")
-        encoder.encodeBool(hasSharingEnabled, forKey: "hasSharingEnabled")
-        encoder.encodeBool(hasRepostingEnabled, forKey: "hasRepostingEnabled")
+        coder.encodeObject(href, forKey: "href")
+        coder.encodeObject(username, forKey: "username")
+        coder.encodeObject(name, forKey: "name")
+        coder.encodeObject(experimentalFeatures, forKey: "experimentalFeatures")
+        coder.encodeObject(relationshipPriority.rawValue, forKey: "relationshipPriorityRaw")
+        coder.encodeObject(postsAdultContent, forKey: "postsAdultContent")
+        coder.encodeObject(viewsAdultContent, forKey: "viewsAdultContent")
+        coder.encodeObject(hasCommentingEnabled, forKey: "hasCommentingEnabled")
+        coder.encodeObject(hasSharingEnabled, forKey: "hasSharingEnabled")
+        coder.encodeObject(hasRepostingEnabled, forKey: "hasRepostingEnabled")
+        coder.encodeObject(hasLovesEnabled, forKey: "hasLovesEnabled")
         // optional
-        encoder.encodeObject(avatar, forKey: "avatar")
-        encoder.encodeObject(identifiableBy, forKey: "identifiableBy")
-        if let postsCount = self.postsCount {
-            encoder.encodeInt64(Int64(postsCount), forKey: "postsCount")
-        }
-        encoder.encodeObject(followersCount, forKey: "followersCount")
-        if let followingCount = self.followingCount {
-            encoder.encodeInt64(Int64(followingCount), forKey: "followingCount")
-        }
-        encoder.encodeObject(formattedShortBio, forKey: "formattedShortBio")
-        encoder.encodeObject(externalLinks, forKey: "externalLinks")
-        encoder.encodeObject(coverImage, forKey: "coverImage")
-        encoder.encodeObject(backgroundPosition, forKey: "backgroundPosition")
+        coder.encodeObject(avatar, forKey: "avatar")
+        coder.encodeObject(identifiableBy, forKey: "identifiableBy")
+        coder.encodeObject(postsCount, forKey: "postsCount")
+        coder.encodeObject(followingCount, forKey: "followingCount")
+        coder.encodeObject(followersCount, forKey: "followersCount")
+        coder.encodeObject(formattedShortBio, forKey: "formattedShortBio")
+        coder.encodeObject(externalLinks, forKey: "externalLinks")
+        coder.encodeObject(coverImage, forKey: "coverImage")
+        coder.encodeObject(backgroundPosition, forKey: "backgroundPosition")
         // profile
-        encoder.encodeObject(profile, forKey: "profile")
-        super.encodeWithCoder(encoder)
+        coder.encodeObject(profile, forKey: "profile")
+        super.encodeWithCoder(coder.coder)
     }
 
 // MARK: JSONAble
@@ -158,7 +160,8 @@ public final class User: JSONAble {
             viewsAdultContent: json["views_adult_content"].boolValue,
             hasCommentingEnabled: json["has_commenting_enabled"].boolValue,
             hasSharingEnabled: json["has_sharing_enabled"].boolValue,
-            hasRepostingEnabled: json["has_reposting_enabled"].boolValue
+            hasRepostingEnabled: json["has_reposting_enabled"].boolValue,
+            hasLovesEnabled: json["has_loves_enabled"].boolValue
         )
 
         // optional

@@ -32,22 +32,23 @@ public final class ImageRegion: JSONAble, Regionable {
 // MARK: NSCoding
 
     public required init(coder aDecoder: NSCoder) {
-        let decoder = Decoder(aDecoder)
+        let decoder = Coder(aDecoder)
         // required
         self.alt = decoder.decodeKey("alt")
         self.isRepost = decoder.decodeKey("isRepost")
         // optional
         self.url = decoder.decodeOptionalKey("url")
-        super.init(coder: aDecoder)
+        super.init(coder: decoder.coder)
     }
 
     public override func encodeWithCoder(encoder: NSCoder) {
+        let coder = Coder(encoder)
         // required
-        encoder.encodeObject(alt, forKey: "alt")
-        encoder.encodeBool(isRepost, forKey: "isRepost")
+        coder.encodeObject(alt, forKey: "alt")
+        coder.encodeObject(isRepost, forKey: "isRepost")
         // optional
-        encoder.encodeObject(url, forKey: "url")
-        super.encodeWithCoder(encoder)
+        coder.encodeObject(url, forKey: "url")
+        super.encodeWithCoder(coder.coder)
     }
 
 // MARK: JSONAble

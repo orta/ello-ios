@@ -26,16 +26,17 @@ public final class TextRegion: JSONAble, Regionable {
 // MARK: NSCoding
 
     public override func encodeWithCoder(encoder: NSCoder) {
-        encoder.encodeObject(content, forKey: "content")
-        encoder.encodeBool(isRepost, forKey: "isRepost")
-        super.encodeWithCoder(encoder)
+        let coder = Coder(encoder)
+        coder.encodeObject(content, forKey: "content")
+        coder.encodeObject(isRepost, forKey: "isRepost")
+        super.encodeWithCoder(coder.coder)
     }
 
     public required init(coder aDecoder: NSCoder) {
-        let decoder = Decoder(aDecoder)
+        let decoder = Coder(aDecoder)
         self.content = decoder.decodeKey("content")
         self.isRepost = decoder.decodeKey("isRepost")
-        super.init(coder: aDecoder)
+        super.init(coder: decoder.coder)
     }
     
 // MARK: JSONAble

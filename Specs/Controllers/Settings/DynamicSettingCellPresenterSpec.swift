@@ -22,7 +22,7 @@ class DynamicSettingCellPresenterSpec: QuickSpec {
                     
                     expect(cell.titleLabel.text) == setting.label
                     expect(cell.descriptionLabel.text) == setting.info
-                    expect(cell.toggleButton.value) == true
+                    expect(cell.toggleButton.value) == false
                     expect(cell.toggleButton.hidden) == false
                     expect(cell.deleteButton.hidden) == true
                 }

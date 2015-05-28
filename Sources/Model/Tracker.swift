@@ -130,6 +130,10 @@ public extension Tracker {
     func postLoved(post: Post) {
         agent.track("Post loved", properties: ["post_id": post.id])
     }
+
+    func postUnloved(post: Post) {
+        agent.track("Post unloved", properties: ["post_id": post.id])
+    }
 }
 
 // MARK: User Actions

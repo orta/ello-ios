@@ -29,6 +29,8 @@ public final class Post: JSONAble, Authorable {
     public let token: String
     public let contentWarning: String
     public let allowComments: Bool
+    public var reposted: Bool
+    public var loved: Bool
     public let summary: [Regionable]
     // optional
     public var content: [Regionable]?
@@ -40,6 +42,7 @@ public final class Post: JSONAble, Authorable {
     public var viewsCount: Int?
     public var commentsCount: Int?
     public var repostsCount: Int?
+    public var lovesCount: Int?
     // links
     public var assets: [Asset]? {
         return getLinkArray("assets") as? [Asset]
@@ -89,6 +92,8 @@ public final class Post: JSONAble, Authorable {
         token: String,
         contentWarning: String,
         allowComments: Bool,
+        reposted: Bool,
+        loved: Bool,
         summary: [Regionable]
         )
     {
@@ -101,6 +106,8 @@ public final class Post: JSONAble, Authorable {
         self.token = token
         self.contentWarning = contentWarning
         self.allowComments = allowComments
+        self.reposted = reposted
+        self.loved = loved
         self.summary = summary
         super.init(version: PostVersion)
     }
@@ -108,7 +115,7 @@ public final class Post: JSONAble, Authorable {
 // MARK: NSCoding
 
     public required init(coder aDecoder: NSCoder) {
-        let decoder = Decoder(aDecoder)
+        let decoder = Coder(aDecoder)
         // active record
         self.id = decoder.decodeKey("id")
         self.createdAt = decoder.decodeKey("createdAt")
@@ -119,6 +126,8 @@ public final class Post: JSONAble, Authorable {
         self.contentWarning = decoder.decodeKey("contentWarning")
         self.allowComments = decoder.decodeKey("allowComments")
         self.summary = decoder.decodeKey("summary")
+        self.reposted = decoder.decodeKey("reposted")
+        self.loved = decoder.decodeKey("loved")
         // optional
         self.content = decoder.decodeOptionalKey("content")
         self.repostContent = decoder.decodeOptionalKey("repostContent")
@@ -129,37 +138,36 @@ public final class Post: JSONAble, Authorable {
         self.viewsCount = decoder.decodeOptionalKey("viewsCount")
         self.commentsCount = decoder.decodeOptionalKey("commentsCount")
         self.repostsCount = decoder.decodeOptionalKey("repostsCount")
-        super.init(coder: aDecoder)
+        self.lovesCount = decoder.decodeOptionalKey("lovesCount")
+        super.init(coder: decoder.coder)
     }
 
     public override func encodeWithCoder(encoder: NSCoder) {
+        let coder = Coder(encoder)
         // active record
-        encoder.encodeObject(id, forKey: "id")
-        encoder.encodeObject(createdAt, forKey: "createdAt")
+        coder.encodeObject(id, forKey: "id")
+        coder.encodeObject(createdAt, forKey: "createdAt")
         // required
-        encoder.encodeObject(authorId, forKey: "authorId")
-        encoder.encodeObject(href, forKey: "href")
-        encoder.encodeObject(token, forKey: "token")
-        encoder.encodeObject(contentWarning, forKey: "contentWarning")
-        encoder.encodeBool(allowComments, forKey: "allowComments")
-        encoder.encodeObject(summary, forKey: "summary")
+        coder.encodeObject(authorId, forKey: "authorId")
+        coder.encodeObject(href, forKey: "href")
+        coder.encodeObject(token, forKey: "token")
+        coder.encodeObject(contentWarning, forKey: "contentWarning")
+        coder.encodeObject(allowComments, forKey: "allowComments")
+        coder.encodeObject(summary, forKey: "summary")
         // optional
-        encoder.encodeObject(content, forKey: "content")
-        encoder.encodeObject(repostContent, forKey: "repostContent")
-        encoder.encodeObject(repostId, forKey: "repostId")
-        encoder.encodeObject(repostPath, forKey: "repostPath")
-        encoder.encodeObject(repostViaId, forKey: "repostViaId")
-        encoder.encodeObject(repostViaPath, forKey: "repostViaPath")
-        if let viewsCount = self.viewsCount {
-            encoder.encodeInt64(Int64(viewsCount), forKey: "viewsCount")
-        }
-        if let commentsCount = self.commentsCount {
-            encoder.encodeInt64(Int64(commentsCount), forKey: "commentsCount")
-        }
-        if let repostsCount = self.repostsCount {
-            encoder.encodeInt64(Int64(repostsCount), forKey: "repostsCount")
-        }
-        super.encodeWithCoder(encoder)
+        coder.encodeObject(content, forKey: "content")
+        coder.encodeObject(repostContent, forKey: "repostContent")
+        coder.encodeObject(repostId, forKey: "repostId")
+        coder.encodeObject(repostPath, forKey: "repostPath")
+        coder.encodeObject(repostViaId, forKey: "repostViaId")
+        coder.encodeObject(repostViaPath, forKey: "repostViaPath")
+        coder.encodeObject(reposted, forKey: "reposted")
+        coder.encodeObject(loved, forKey: "loved")
+        coder.encodeObject(viewsCount, forKey: "viewsCount")
+        coder.encodeObject(commentsCount, forKey: "commentsCount")
+        coder.encodeObject(repostsCount, forKey: "repostsCount")
+        coder.encodeObject(lovesCount, forKey: "lovesCount")
+        super.encodeWithCoder(coder.coder)
     }
 
 // MARK: JSONAble
@@ -176,8 +184,10 @@ public final class Post: JSONAble, Authorable {
             token: json["token"].stringValue,
             contentWarning: json["content_warning"].stringValue,
             allowComments: json["allow_comments"].boolValue,
+            reposted: json["reposted"].bool ?? false,
+            loved: json["loved"].bool ?? false,
             summary: RegionParser.regions("summary", json: json)
-            )
+        )
         // optional
         post.content = RegionParser.regions("content", json: json, isRepostContent: repostContent.count > 0)
         post.repostContent = repostContent
@@ -188,6 +198,7 @@ public final class Post: JSONAble, Authorable {
         post.viewsCount = json["views_count"].int
         post.commentsCount = json["comments_count"].int
         post.repostsCount = json["reposts_count"].int
+        post.lovesCount = json["loves_count"].int
         // links
         post.links = data["links"] as? [String: AnyObject]
         // store self in collection

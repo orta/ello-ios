@@ -19,19 +19,6 @@ public protocol UserDelegate: NSObjectProtocol {
     func userTappedCell(cell: UICollectionViewCell)
 }
 
-public protocol PostbarDelegate : NSObjectProtocol {
-    func viewsButtonTapped(cell:UICollectionViewCell)
-    func commentsButtonTapped(cell:StreamFooterCell, imageLabelControl: ImageLabelControl)
-    func deletePostButtonTapped(cell:UICollectionViewCell)
-    func deleteCommentButtonTapped(cell:UICollectionViewCell)
-    func lovesButtonTapped(cell:UICollectionViewCell)
-    func repostButtonTapped(cell:UICollectionViewCell)
-    func shareButtonTapped(cell:UICollectionViewCell)
-    func flagPostButtonTapped(cell:UICollectionViewCell)
-    func flagCommentButtonTapped(cell:UICollectionViewCell)
-    func replyToCommentButtonTapped(cell:UICollectionViewCell)
-}
-
 public protocol StreamImageCellDelegate : NSObjectProtocol {
     func imageTapped(imageView: FLAnimatedImageView, cell: StreamImageCell)
 }
@@ -85,6 +72,7 @@ public class StreamViewController: BaseElloViewController {
     var relayoutNotification: NotificationObserver?
     var commentChangedNotification: NotificationObserver?
     var postChangedNotification: NotificationObserver?
+    var loveChangedNotification: NotificationObserver?
     var relationshipChangedNotification: NotificationObserver?
     var settingChangedNotification: NotificationObserver?
 
@@ -325,6 +313,13 @@ public class StreamViewController: BaseElloViewController {
             }
         }
 
+        loveChangedNotification  = NotificationObserver(notification: LoveChangedNotification) { (love, change) in
+            if !self.initialDataLoaded {
+                return
+            }
+            self.dataSource.modifyItems(love, change: change, collectionView: self.collectionView)
+        }
+
         relationshipChangedNotification = NotificationObserver(notification: RelationshipChangedNotification) { user in
             if !self.initialDataLoaded {
                 return
@@ -360,6 +355,9 @@ public class StreamViewController: BaseElloViewController {
 
         relationshipChangedNotification?.removeObserver()
         relationshipChangedNotification = nil
+
+        loveChangedNotification?.removeObserver()
+        loveChangedNotification = nil
     }
 
     private func updateCellHeight(indexPath:NSIndexPath, height:CGFloat) {
