@@ -26,6 +26,7 @@ public final class Notification: JSONAble, Authorable {
     public let activity: Activity
     // optional
     public var author: User?
+    public var postId: String?
     // computed
     public var createdAt: NSDate { return activity.createdAt }
     public var groupId:String { return activity.id }
@@ -48,6 +49,7 @@ public final class Notification: JSONAble, Authorable {
     public init(activity: Activity) {
         self.activity = activity
         var author : User? = nil
+
         if let post = activity.subject as? Post {
             self.author = post.author
         }
@@ -57,7 +59,16 @@ public final class Notification: JSONAble, Authorable {
         else if let user = activity.subject as? User {
             self.author = user
         }
+
+        if let post = activity.subject as? Post {
+            self.postId = post.id
+        }
+        else if let comment = activity.subject as? Comment {
+            self.postId = comment.postId
+        }
+
         super.init(version: NotificationVersion)
+
         if let post = activity.subject as? Post {
             assignRegionsFromContent(post.summary)
         }
@@ -69,6 +80,7 @@ public final class Notification: JSONAble, Authorable {
                 assignRegionsFromContent(comment.content)
             }
         }
+
         subject = activity.subject
     }
 

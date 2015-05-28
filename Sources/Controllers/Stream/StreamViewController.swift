@@ -499,6 +499,11 @@ extension StreamViewController : UICollectionViewDelegate {
             else if let post = dataSource.postForIndexPath(indexPath) {
                 postTappedDelegate?.postTapped(post)
             }
+            else if let item = dataSource.visibleStreamCellItem(at: indexPath),
+                let postId = (item.jsonable as? Notification)?.postId
+            {
+                postTappedDelegate?.postTapped(postId: postId)
+            }
             else if let comment = dataSource.commentForIndexPath(indexPath),
                 let post = comment.parentPost
             {
