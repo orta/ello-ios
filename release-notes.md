@@ -1,3 +1,192 @@
+### Ello Build v1.0.0(2069) May 28, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #333 - Show the login button
+The login button should be visible. We were hiding it. :cry: 
+
+![screen shot 2015-05-27 at 11 54 41 pm](https://cloud.githubusercontent.com/assets/12459/7853453/c26637fc-04cb-11e5-939e-4ae78cb920ec.png)
+
+![screen shot 2015-05-27 at 11 56 03 pm](https://cloud.githubusercontent.com/assets/12459/7853472/f8212a00-04cb-11e5-9ec8-342f76b5fd70.png)
+
+------
+
+#### #332 - Round 1 profile update
+Profiles are changing a bit. They will have a clearer posts, followers, following, loves UI along with some other changes. This is the first round of changes moving towards the new comps.
+
+![screen shot 2015-05-27 at 11 17 01 pm](https://cloud.githubusercontent.com/assets/12459/7853098/847096f4-04c6-11e5-9763-1589d6f839e5.png)
+
+
+![screen shot 2015-05-27 at 11 13 42 pm](https://cloud.githubusercontent.com/assets/12459/7853080/37fcc202-04c6-11e5-8b3e-003129ab657d.png)
+
+------
+
+#### #326 - Settings fields are now padded properly.
+* 15px from the left edge
+* Updates the currentUser to work again (not sure what happened here)
+
+![image](https://cloud.githubusercontent.com/assets/96433/7843189/3281f4d4-0465-11e5-88ee-4b9ebb379871.png)
+
+
+[Fixes #93944182]
+
+------
+
+#### #331 - Communities endpoint
+This endpoint is live!  Adds it to onboarding.
+
+------
+
+#### #325 - Delay relationship creation during onboarding
+During on boarding relationships should be created in a single batched request. 
+
+![screen shot 2015-05-27 at 11 10 37 am](https://cloud.githubusercontent.com/assets/12459/7842548/09f53dcc-0461-11e5-9452-a95e8c06c8b4.png)
+
+------
+
+#### #330 - Narrative Buttonfix
+Fixes the 'X' bug.
+
+------
+
+#### #328 - double check the token
+to prevent requesting the user when the user isn't authenticated
+
+------
+
+#### #309 - Loves
+#### What's this PR do?
+
+Adds the ability to love/unlove a post (whose author has loving enabled) as well as view a stream of posts that the current user has loved.
+
+#### How should this be manually tested?
+
+1.) Since this feature is still in development on the server you'll need to point the app to staging2. Edit the .env `STAGING_DOMAIN=ello-staging2.herokuapp.com` and then run `rake generate:staging:staging_keys`
+
+2.) View a stream with posts. You should see hearts in the postbar. Tapping a heart loves the post, tapping it again unloves the post. Posts should be lovable if the user's `has_loves_enabled` is `true`. You should be able to love your own posts as well.
+
+3.) Once a post is loved it will appear in your loves stream. Access the loves stream by visiting your profile and tapping on the heartlist icon.
+
+4.) Unloving a post in your love stream should remove it from the stream. Loving a post elsewhere in the app should result in the post showing up in your loves stream.
+
+#### What are the relevant tickets?
+
+https://www.pivotaltracker.com/story/show/85642034
+https://www.pivotaltracker.com/story/show/85643946
+https://www.pivotaltracker.com/story/show/85642204
+
+#### Questions:
+Does it work fine when pointed to a server w/o loves?
+What happens if I love posts from users who are not yet on the app (the website does not have loves yet)?
+
+![screen shot 2015-05-22 at 2 38 23 pm](https://cloud.githubusercontent.com/assets/12459/7779294/68a39302-0090-11e5-9975-0f868133f5a6.png)
+
+![screen shot 2015-05-22 at 2 40 40 pm](https://cloud.githubusercontent.com/assets/12459/7779309/89edbcc2-0090-11e5-88fe-cf05f953b3fc.png)
+![screen shot 2015-05-22 at 2 40 30 pm](https://cloud.githubusercontent.com/assets/12459/7779310/8a0135f4-0090-11e5-8d7a-2fbef3ac9c25.png)
+![screen shot 2015-05-22 at 2 40 22 pm](https://cloud.githubusercontent.com/assets/12459/7779311/8a0234ae-0090-11e5-9c42-7099699efecc.png)
+
+------
+
+#### #327 - Implements the 'Narration' views on the tab bar
+New UI, adds info to the tabs.
+
+These show depending on NSUserDefaults, and once dismissed they never appear again in the app.
+
+There's a nice little show/hide animation, and when changing tabs the "pointy arrow" moves to the appropriate tab.
+
+```
+Test Suite 'Selected tests' passed at 2015-05-27 19:58:03 +0000.
+	 Executed 696 tests, with 0 failures (0 unexpected) in 29.641 (30.320) seconds
+```
+
+------
+
+#### #324 - removes the black line! cc @the-oem
+This was caused by `UIWebView`.  Setting 'opaque = false' and 'backgroundColor = .clearColor' fixed it.
+
+------
+
+#### #323 - Updated (updated relationship ui)
+Turns out I was looking at the wrong comps. This completes the real relationship UI updates.
+
+Completes: https://www.pivotaltracker.com/story/show/94135770
+
+![screen shot 2015-05-27 at 9 51 33 am](https://cloud.githubusercontent.com/assets/12459/7840722/f9434452-0455-11e5-8262-034f89da1df0.png)
+![screen shot 2015-05-27 at 9 51 44 am](https://cloud.githubusercontent.com/assets/12459/7840728/ff1d7e42-0455-11e5-9d95-54f2aec4f186.png)
+
+------
+
+#### #316 - uses `ElloWebBrowserViewController` instead of `KinWebBrowserViewController`
+This uses the shared 'X' button instead of 'Done', and I moved this code into the AppViewController so that it is shared app-wide.
+
+```
+Test Suite 'ValidatorSpec' passed at 2015-05-26 17:41:57 +0000.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.010 (0.012) seconds
+Test Suite 'Specs.xctest' passed at 2015-05-26 17:41:57 +0000.
+	 Executed 669 tests, with 0 failures (0 unexpected) in 25.650 (26.242) seconds
+Test Suite 'Quick.framework' started at 2015-05-26 17:41:57 +0000
+Test Suite 'Quick.framework' passed at 2015-05-26 17:41:57 +0000.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
+Test Suite 'Selected tests' passed at 2015-05-26 17:41:57 +0000.
+	 Executed 669 tests, with 0 failures (0 unexpected) in 25.650 (26.244) seconds
+```
+
+------
+
+#### #317 - Fixes the content size in the Join screen
+It was messed up on iPhone 4.  YES!  I TESTED ON iPHONE 4!
+
+------
+
+#### #318 - Fix the "Follow Awesome People" step of Onboarding
+Changes the `AwesomePeopleStream` to use the `Discover` endpoint, and remove the 'stubbing' code from this step.
+
+```
+Test Suite 'ValidatorSpec' passed at 2015-05-26 18:16:43 +0000.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.010 (0.011) seconds
+Test Suite 'Specs.xctest' passed at 2015-05-26 18:16:43 +0000.
+	 Executed 689 tests, with 0 failures (0 unexpected) in 28.126 (28.403) seconds
+Test Suite 'Quick.framework' started at 2015-05-26 18:16:43 +0000
+Test Suite 'Quick.framework' passed at 2015-05-26 18:16:43 +0000.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
+Test Suite 'Selected tests' passed at 2015-05-26 18:16:43 +0000.
+	 Executed 689 tests, with 0 failures (0 unexpected) in 28.126 (28.405) seconds
+```
+
+------
+
+#### #319 - Adds a summary to comment notifications.
+[Finishes #95449324]
+
+------
+
+#### #315 - Revamped relationships
+#### What's this PR do?
+
+Relationships are now established through a unified button. Tapping on the button launches a modal with straightforward language for following someone as a friend or noise.
+
+#### How should this be manually tested?
+
+Follow / Friend / Noise / Mute / Unfollow various users from search / followers / following / profiles.
+
+Tapping the "dots" icon should always display the mute/block modal. Tapping the main button (starts out as a "+ Follow" button) should display the new alert view unless it is red and says "Muted". When muted it should display the mute/block modal. Any selections made in the modals should be reflected in the button once complete.
+
+#### What are the relevant tickets?
+
+https://www.pivotaltracker.com/story/show/94135770
+
+![screen shot 2015-05-25 at 5 09 45 pm](https://cloud.githubusercontent.com/assets/12459/7802992/dd30c538-0300-11e5-9442-a641b26b5a6e.png)
+![screen shot 2015-05-25 at 5 09 33 pm](https://cloud.githubusercontent.com/assets/12459/7802994/dd476afe-0300-11e5-8f64-3b401ae2d10b.png)
+![screen shot 2015-05-25 at 5 09 27 pm](https://cloud.githubusercontent.com/assets/12459/7802993/dd44567a-0300-11e5-83f2-d77c78ccbe8f.png)
+![screen shot 2015-05-25 at 5 10 44 pm](https://cloud.githubusercontent.com/assets/12459/7802999/00563156-0301-11e5-98bd-15701d5ae160.png)
+
+
+![screen shot 2015-05-25 at 5 06 44 pm](https://cloud.githubusercontent.com/assets/12459/7802986/a99d50c4-0300-11e5-88d0-493aad53bcb7.png)
+    
+------------
+
 ### Ello Build 1895(v1.0.0) May 22, 2015
 
     RELEASE NOTES
