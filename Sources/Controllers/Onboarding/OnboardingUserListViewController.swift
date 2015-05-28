@@ -99,7 +99,12 @@ public class OnboardingUserListViewController: StreamableViewController, Onboard
         let jsonables = streamViewController.dataSource.streamCellItems.map { (item: StreamCellItem) in return item.jsonable }
         for jsonable in jsonables {
             if let user = jsonable as? User where user.id == userId {
-                user.relationshipPriority = relationshipPriority
+                if relationshipPriority == .None {
+                    user.relationshipPriority = .Friend
+                }
+                else {
+                    user.relationshipPriority = .None
+                }
                 break
             }
         }
