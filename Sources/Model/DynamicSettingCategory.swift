@@ -12,7 +12,7 @@ let DynamicSettingCategoryVersion = 1
 
 public final class DynamicSettingCategory: JSONAble {
     public let label: String
-    public let settings: [DynamicSetting]
+    public var settings: [DynamicSetting]
 
     public init(label: String, settings: [DynamicSetting]) { 
         self.label = label

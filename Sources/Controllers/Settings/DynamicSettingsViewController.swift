@@ -35,8 +35,19 @@ class DynamicSettingsViewController: UITableViewController {
         StreamService().loadStream(.ProfileToggles,
             streamKind: nil,
             success: { (data, responseConfig) in
-                if let categories = data as? [DynamicSettingCategory] {
-                    self.dynamicCategories = categories
+                if var categories = data as? [DynamicSettingCategory] {
+                    self.dynamicCategories =  = categories.reduce([]) { categoryArr, category in
+                        category.settings = category.settings.reduce([]) { settingsArr, setting in
+                            if self.currentUser?.hasProperty(setting.key) == true {
+                                return settingsArr + [setting]
+                            }
+                            return settingsArr
+                        }
+                        if category.settings.count > 0 {
+                            return categoryArr + [category]
+                        }
+                        return categoryArr
+                    }
                 }
                 ElloHUD.hideLoadingHud()
             },

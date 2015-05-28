@@ -193,13 +193,22 @@ public final class User: JSONAble {
 }
 
 extension User {
-    func propertyForSettingsKey(key: String) -> Bool {
-        var value: Bool? = false
+
+    func hasProperty(key: String) -> Bool {
         if respondsToSelector(Selector(key.camelCase)) {
-            value = valueForKey(key.camelCase) as? Bool
+            return true
         } else if profile?.respondsToSelector(Selector(key.camelCase)) ?? false {
-            value = profile?.valueForKey(key.camelCase) as? Bool
+            return true
         }
-        return value ?? false
+        return false
+    }
+
+    func propertyForSettingsKey(key: String) -> Bool {
+        if !hasProperty(key) {
+            return false
+        }
+        else {
+            return (valueForKey(key.camelCase) as? Bool) ?? (profile?.valueForKey(key.camelCase) as? Bool) ?? false
+        }
     }
 }
