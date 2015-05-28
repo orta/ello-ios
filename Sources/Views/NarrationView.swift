@@ -18,6 +18,7 @@ public class NarrationView: UIView {
         let closeButton = ElloButton()
         closeButton.setTitle("\u{2573}", forState: .Normal)
         closeButton.sizeToFit()
+        closeButton.userInteractionEnabled = false
         return closeButton
     }()
     private let bg: UIView = {
