@@ -59,9 +59,6 @@ public class ProfileViewController: StreamableViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         coverImage.alpha = 0
-        if isRootViewController() {
-            hideNavBar(animated: false)
-        }
         setupNavigationBar()
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
         ElloHUD.showLoadingHudInView(streamViewController.view)
@@ -85,7 +82,7 @@ public class ProfileViewController: StreamableViewController {
 
     override func showNavBars(scrollToBottom : Bool) {
         super.showNavBars(scrollToBottom)
-        showNavBarIfNotRoot()
+        positionNavBar(navigationBar, visible: true, withConstraint: navigationBarTopConstraint)
         updateInsets()
 
         if scrollToBottom {
@@ -100,14 +97,7 @@ public class ProfileViewController: StreamableViewController {
     }
 
     private func updateInsets() {
-        let navBar: ElloNavigationBar? = isRootViewController() ? nil : navigationBar
-        updateInsets(navBar: navBar, streamController: streamViewController)
-    }
-
-    private func showNavBarIfNotRoot() {
-        if !isRootViewController() {
-            positionNavBar(navigationBar, visible: true, withConstraint: navigationBarTopConstraint)
-        }
+        updateInsets(navBar: navigationBar, streamController: streamViewController)
     }
 
     private func hideNavBar(#animated: Bool) {
@@ -159,9 +149,7 @@ public class ProfileViewController: StreamableViewController {
         streamViewController.responseConfig = responseConfig
         // clear out this view
         streamViewController.clearForInitialLoad()
-        if !isRootViewController() {
-            self.title = user.atName ?? "Profile"
-        }
+        title = user.atName ?? "Profile"
         if  let cover = user.coverImageURL,
             let coverImage = coverImage
         {
