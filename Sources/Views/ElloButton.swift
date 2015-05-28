@@ -18,7 +18,6 @@ public class ElloButton: UIButton {
         didSet { updateStyle() }
     }
 
-
     public func updateStyle() {
         self.backgroundColor = enabled ? .blackColor() : .grey231F20()
     }
@@ -51,6 +50,11 @@ public class LightElloButton: ElloButton {
 
     required public init(coder: NSCoder) {
         super.init(coder: coder)
+    }
+
+    public override func awakeFromNib() {
+        super.awakeFromNib()
+        updateStyle()
     }
 
     override public func updateStyle() {
