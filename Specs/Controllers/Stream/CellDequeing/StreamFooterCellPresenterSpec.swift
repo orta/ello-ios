@@ -217,7 +217,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     expect(cell.shareItem.customView).to(beVisibleIn(cell))
                 }
 
-                it("shown if author allows it in grid view") {
+                it("never shown in grid view") {
                     let author: User = stub(["id" : "1", "hasSharingEnabled" : true])
                     let post: Post = stub([
                         "id" : "768",
@@ -232,7 +232,7 @@ class StreamFooterCellPresenterSpec: QuickSpec {
 
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Noise, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
-                    expect(cell.shareItem.customView).to(beVisibleIn(cell))
+                    expect(cell.shareItem.customView).notTo(beVisibleIn(cell))
                 }
 
                 it("hidden if author doesn't allow it") {

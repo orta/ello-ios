@@ -19,6 +19,11 @@ public protocol ViewUsersLovesResponder {
     func onViewUsersLoves()
 }
 
+@objc
+public protocol PostsTappedResponder {
+    func onPostsTapped()
+}
+
 public class ProfileHeaderCell: UICollectionViewCell {
 
     @IBOutlet weak var avatarButton: AvatarButton!
@@ -66,8 +71,6 @@ public class ProfileHeaderCell: UICollectionViewCell {
         inviteButton.setTitle("", forState: .Normal)
         inviteButton.setSVGImages("xpmcirc")
         inviteButton.addTarget(self, action: Selector("inviteTapped:"), forControlEvents: UIControlEvents.TouchUpInside)
-
-        postsButton.userInteractionEnabled = false
     }
 
     @IBAction func editProfileTapped(sender: UIButton) {
@@ -95,6 +98,11 @@ public class ProfileHeaderCell: UICollectionViewCell {
         if let user = user {
             userListDelegate?.show(.UserStreamFollowers(userId: user.id), title: NSLocalizedString("Followers", comment: "Followers title"))
         }
+    }
+
+    @IBAction func postsTapped(sender: UIButton) {
+        let responder = targetForAction("onPostsTapped", withSender: self) as? PostsTappedResponder
+        responder?.onPostsTapped()
     }
 }
 

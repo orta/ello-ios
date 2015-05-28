@@ -38,13 +38,13 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="@username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6nJ-r0-lN7" userLabel="usernameLabel">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6nJ-r0-lN7" userLabel="usernameLabel">
                                 <rect key="frame" x="15" y="120" width="290" height="18"/>
                                 <fontDescription key="fontDescription" name="AtlasGrotesk-Bold" family="Atlas Grotesk" pointSize="18"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="User Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="6" translatesAutoresizingMaskIntoConstraints="NO" id="4sI-yA-gkk" userLabel="nameLabel">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="6" translatesAutoresizingMaskIntoConstraints="NO" id="4sI-yA-gkk" userLabel="nameLabel">
                                 <rect key="frame" x="15" y="148" width="70" height="12"/>
                                 <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="12"/>
                                 <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -94,15 +94,18 @@
                                 <rect key="frame" x="15" y="178" width="290" height="172"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </webView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zV5-bQ-18e" customClass="TwoLineButton" customModule="Ello" customModuleProvider="target">
-                                <rect key="frame" x="15" y="59" width="66" height="34"/>
+                            <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="34" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zV5-bQ-18e" customClass="TwoLineButton" customModule="Ello" customModuleProvider="target">
+                                <rect key="frame" x="15" y="59" width="50" height="34"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Posts">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="postsTapped:" destination="OE9-ll-CIs" eventType="touchUpInside" id="AAh-LR-lbM"/>
+                                </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gWi-lG-cJp" customClass="TwoLineButton" customModule="Ello" customModuleProvider="target">
-                                <rect key="frame" x="91" y="59" width="65" height="34"/>
+                            <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="34" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gWi-lG-cJp" customClass="TwoLineButton" customModule="Ello" customModuleProvider="target">
+                                <rect key="frame" x="90" y="59" width="50" height="34"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Following">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -111,8 +114,8 @@
                                     <action selector="followingTapped:" destination="OE9-ll-CIs" eventType="touchUpInside" id="1U1-mi-ilG"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FV1-FS-QMz" customClass="TwoLineButton" customModule="Ello" customModuleProvider="target">
-                                <rect key="frame" x="166" y="59" width="66" height="34"/>
+                            <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="34" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FV1-FS-QMz" customClass="TwoLineButton" customModule="Ello" customModuleProvider="target">
+                                <rect key="frame" x="165" y="59" width="50" height="34"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Followers">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -121,8 +124,8 @@
                                     <action selector="followersTapped:" destination="OE9-ll-CIs" eventType="touchUpInside" id="EaW-fg-RT0"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rQa-MW-cCK" customClass="TwoLineButton" customModule="Ello" customModuleProvider="target">
-                                <rect key="frame" x="240" y="59" width="65" height="34"/>
+                            <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="34" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rQa-MW-cCK" customClass="TwoLineButton" customModule="Ello" customModuleProvider="target">
+                                <rect key="frame" x="240" y="59" width="50" height="34"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Loves">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -135,15 +138,12 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="GKO-1x-QWx" firstAttribute="leading" secondItem="U6M-uB-CWv" secondAttribute="leading" constant="15" id="2QO-Ec-DPT" userLabel="avatarButton - left"/>
-                            <constraint firstItem="FV1-FS-QMz" firstAttribute="width" secondItem="gWi-lG-cJp" secondAttribute="width" id="2fB-qu-D97"/>
-                            <constraint firstItem="FV1-FS-QMz" firstAttribute="width" secondItem="rQa-MW-cCK" secondAttribute="width" id="6fW-vA-5vg"/>
                             <constraint firstAttribute="trailing" secondItem="z1n-fe-u7L" secondAttribute="trailing" constant="15" id="9GS-Lt-V2i" userLabel="relationshipControl - right"/>
-                            <constraint firstItem="FV1-FS-QMz" firstAttribute="width" secondItem="zV5-bQ-18e" secondAttribute="width" id="CBL-tb-4r6"/>
                             <constraint firstItem="6nJ-r0-lN7" firstAttribute="top" secondItem="U6M-uB-CWv" secondAttribute="top" constant="120" id="Ddo-EZ-be4" userLabel="usernameLabel - top"/>
-                            <constraint firstItem="gWi-lG-cJp" firstAttribute="leading" secondItem="zV5-bQ-18e" secondAttribute="trailing" constant="10" id="L8y-zo-dCA"/>
+                            <constraint firstItem="gWi-lG-cJp" firstAttribute="leading" secondItem="zV5-bQ-18e" secondAttribute="trailing" constant="25" id="L8y-zo-dCA"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="4sI-yA-gkk" secondAttribute="trailing" constant="15" id="LRT-Ky-0HQ" userLabel="nameLabel - right"/>
                             <constraint firstItem="gWi-lG-cJp" firstAttribute="top" secondItem="zV5-bQ-18e" secondAttribute="top" id="TuL-FF-5Vx"/>
-                            <constraint firstItem="FV1-FS-QMz" firstAttribute="leading" secondItem="gWi-lG-cJp" secondAttribute="trailing" constant="10" id="WyN-Ml-Ufz"/>
+                            <constraint firstItem="FV1-FS-QMz" firstAttribute="leading" secondItem="gWi-lG-cJp" secondAttribute="trailing" constant="25" id="WyN-Ml-Ufz"/>
                             <constraint firstAttribute="trailing" secondItem="qUL-8u-vZD" secondAttribute="trailing" constant="15" id="Y5o-4P-9X5" userLabel="profileButtonsView - right"/>
                             <constraint firstItem="zV5-bQ-18e" firstAttribute="top" secondItem="U6M-uB-CWv" secondAttribute="top" constant="59" id="Ybu-by-AXv"/>
                             <constraint firstItem="PtF-QI-fk2" firstAttribute="top" secondItem="U6M-uB-CWv" secondAttribute="top" constant="178" id="aCa-OD-wbJ" userLabel="bioWebView - top"/>
@@ -158,9 +158,8 @@
                             <constraint firstItem="6nJ-r0-lN7" firstAttribute="leading" secondItem="U6M-uB-CWv" secondAttribute="leading" constant="15" id="hxF-e7-Mft" userLabel="usernameLabel - left"/>
                             <constraint firstItem="PtF-QI-fk2" firstAttribute="leading" secondItem="U6M-uB-CWv" secondAttribute="leading" constant="15" id="iXW-yx-3h5" userLabel="bioWebView - left"/>
                             <constraint firstItem="qUL-8u-vZD" firstAttribute="top" secondItem="U6M-uB-CWv" secondAttribute="top" constant="15" id="j0U-0u-ejJ" userLabel="profileButtonsView - top"/>
-                            <constraint firstItem="rQa-MW-cCK" firstAttribute="leading" secondItem="FV1-FS-QMz" secondAttribute="trailing" constant="8" id="nGC-2a-7Pa"/>
+                            <constraint firstItem="rQa-MW-cCK" firstAttribute="leading" secondItem="FV1-FS-QMz" secondAttribute="trailing" constant="25" id="nGC-2a-7Pa"/>
                             <constraint firstItem="z1n-fe-u7L" firstAttribute="top" secondItem="U6M-uB-CWv" secondAttribute="top" constant="10" id="qqq-bR-0mq" userLabel="relationshipControl - top"/>
-                            <constraint firstAttribute="trailing" secondItem="rQa-MW-cCK" secondAttribute="trailing" constant="15" id="rYO-59-Ct6"/>
                             <constraint firstItem="zV5-bQ-18e" firstAttribute="leading" secondItem="U6M-uB-CWv" secondAttribute="leading" constant="15" id="vbw-Bn-rGH"/>
                         </constraints>
                     </view>
