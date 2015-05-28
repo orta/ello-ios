@@ -5,7 +5,7 @@
             "kind": "own_post",
             "links": {
                 "subject": {
-                    "href": "/api/edge/posts/2",
+                    "href": "/api/v2/posts/2",
                     "id": "2",
                     "type": "posts"
                 }
@@ -17,7 +17,7 @@
             "kind": "friend_post",
             "links": {
                 "subject": {
-                    "href": "/api/edge/posts/1",
+                    "href": "/api/v2/posts/1",
                     "id": "1",
                     "type": "posts"
                 }
@@ -29,7 +29,7 @@
             "kind": "welcome_post",
             "links": {
                 "subject": {
-                    "href": "/api/edge/users/42",
+                    "href": "/api/v2/users/42",
                     "id": "42",
                     "type": "users"
                 }
@@ -49,13 +49,13 @@
                     }
                 ],
                 "content_warning": null,
-                "created_at": "2015-05-20T17:19:59.075Z",
-                "href": "/api/edge/posts/2",
+                "created_at": "2015-05-28T15:35:11.875Z",
+                "href": "/api/v2/posts/2",
                 "id": "2",
                 "links": {
                     "assets": [],
                     "author": {
-                        "href": "/api/edge/users/42",
+                        "href": "/api/v2/users/42",
                         "id": "42",
                         "type": "users"
                     }
@@ -70,7 +70,7 @@
                         "kind": "text"
                     }
                 ],
-                "token": "qaqs5qaubRXb8G6bxp3G6w",
+                "token": "27Nub-GG_rN7ZFm_G8TRhg",
                 "views_count": 0
             },
             {
@@ -83,13 +83,13 @@
                     }
                 ],
                 "content_warning": null,
-                "created_at": "2015-05-20T17:19:59.064Z",
-                "href": "/api/edge/posts/1",
+                "created_at": "2015-05-28T15:35:11.855Z",
+                "href": "/api/v2/posts/1",
                 "id": "1",
                 "links": {
                     "assets": [],
                     "author": {
-                        "href": "/api/edge/users/666",
+                        "href": "/api/v2/users/666",
                         "id": "666",
                         "type": "users"
                     }
@@ -104,7 +104,7 @@
                         "kind": "text"
                     }
                 ],
-                "token": "YLrt71C5YD7ZItPxlvPTiw",
+                "token": "Udje5Q84rCtP-0Doa-yNHQ",
                 "views_count": 0
             }
         ],
@@ -132,7 +132,7 @@
                 "has_loves_enabled": true,
                 "has_reposting_enabled": true,
                 "has_sharing_enabled": true,
-                "href": "/api/edge/users/42",
+                "href": "/api/v2/users/42",
                 "id": "42",
                 "name": "Sterling",
                 "posts_adult_content": true,
@@ -163,7 +163,7 @@
                 "has_loves_enabled": true,
                 "has_reposting_enabled": true,
                 "has_sharing_enabled": true,
-                "href": "/api/edge/users/666",
+                "href": "/api/v2/users/666",
                 "id": "666",
                 "name": "Cyril Figgis",
                 "posts_adult_content": false,

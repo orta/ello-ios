@@ -26,8 +26,9 @@
                 "has_loves_enabled": true,
                 "has_reposting_enabled": true,
                 "has_sharing_enabled": true,
-                "href": "/api/edge/users/42",
+                "href": "/api/v2/users/42",
                 "id": "42",
+                "loves_count": 0,
                 "name": "Sterling",
                 "posts_adult_content": true,
                 "posts_count": 0,
@@ -60,8 +61,9 @@
                 "has_loves_enabled": true,
                 "has_reposting_enabled": true,
                 "has_sharing_enabled": true,
-                "href": "/api/edge/users/666",
+                "href": "/api/v2/users/666",
                 "id": "666",
+                "loves_count": 0,
                 "name": "Cyril Figgis",
                 "posts_adult_content": false,
                 "posts_count": 2,
@@ -72,16 +74,16 @@
         ]
     },
     "relationships": {
-        "created_at": "2015-05-20T17:20:44.671Z",
+        "created_at": "2015-05-28T15:36:22.702Z",
         "id": "56",
         "links": {
             "owner": {
-                "href": "/api/edge/users/42",
+                "href": "/api/v2/users/42",
                 "id": "42",
                 "type": "users"
             },
             "subject": {
-                "href": "/api/edge/users/666",
+                "href": "/api/v2/users/666",
                 "id": "666",
                 "type": "users"
             }

@@ -42,7 +42,7 @@ class StreamServiceSpec: QuickSpec {
                         let post0:Post = loadedPosts![0] as Post
 
                         expect(post0.id) == "4718"
-                        expect(post0.href) == "/api/edge/posts/4718"
+                        expect(post0.href) == "/api/v2/posts/4718"
                         expect(post0.token) == "_axtKV8Q-MSWbUCWjGqykg"
                         expect(post0.collapsed) == false
                         expect(post0.viewsCount) == 6
@@ -55,7 +55,7 @@ class StreamServiceSpec: QuickSpec {
 
                         let post0Author:User = post0.author!
                         expect(post0Author.id) == "27"
-                        expect(post0Author.href) == "/api/edge/users/27"
+                        expect(post0Author.href) == "/api/v2/users/27"
                         expect(post0Author.username) == "dcdoran"
                         expect(post0Author.name) == "Sterling"
                         expect(post0Author.experimentalFeatures) == true
@@ -114,7 +114,7 @@ class StreamServiceSpec: QuickSpec {
                         expect(commentAuthor.name) == "Pamilanderson"
                         expect(commentAuthor.id) == "420"
                         expect(commentAuthor.username) == "pam"
-                        expect(commentAuthor.href) == "/api/edge/users/420"
+                        expect(commentAuthor.href) == "/api/v2/users/420"
                         expect(commentAuthor.experimentalFeatures) == true
                         expect(commentAuthor.avatarURL!.absoluteString) == "https://abc123.cloudfront.net/uploads/user/avatar/420/ello-regular-91c0f710.png"
                     }

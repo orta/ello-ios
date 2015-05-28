@@ -12,7 +12,7 @@
                 ],
                 "content_warning": null,
                 "created_at": "2015-05-20T17:20:22.499Z",
-                "href": "/api/edge/posts/161",
+                "href": "/api/v2/posts/161",
                 "id": "161",
                 "loved": true,
                 "loves_count": 1,
@@ -35,7 +35,7 @@
         "id": "9",
         "links": {
             "post": {
-                "href": "/api/edge/posts/161",
+                "href": "/api/v2/posts/161",
                 "id": "161",
                 "type": "posts"
             }

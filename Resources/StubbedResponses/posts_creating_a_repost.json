@@ -5,13 +5,13 @@
                 "attachment": {
                     "optimized": {
                         "metadata": null,
-                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/27/ello-optimized-97fbdf62.jpg"
+                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/29/ello-optimized-97fbdf62.jpg"
                     },
                     "original": {
-                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/27/archer.jpg"
+                        "url": "https://abc123.cloudfront.net/uploads/asset/attachment/29/archer.jpg"
                     }
                 },
-                "id": "27"
+                "id": "29"
             }
         ],
         "users": [
@@ -38,7 +38,7 @@
                 "has_loves_enabled": true,
                 "has_reposting_enabled": true,
                 "has_sharing_enabled": true,
-                "href": "/api/edge/users/43",
+                "href": "/api/v2/users/43",
                 "id": "43",
                 "name": "Lana Kane",
                 "posts_adult_content": false,
@@ -65,14 +65,14 @@
         ],
         "content_warning": null,
         "created_at": "2015-05-20T17:20:30.988Z",
-        "href": "/api/edge/posts/233",
-        "id": "233",
+        "href": "/api/v2/posts/242",
+        "id": "242",
         "links": {
             "assets": [
-                "27"
+                "29"
             ],
             "repost_author": {
-                "href": "/api/edge/users/43",
+                "href": "/api/v2/users/43",
                 "id": "43",
                 "type": "users"
             }
@@ -87,18 +87,18 @@
             {
                 "data": {
                     "alt": "archer.jpg",
-                    "url": "https://abc123.cloudfront.net/uploads/asset/attachment/27/archer.jpg"
+                    "url": "https://abc123.cloudfront.net/uploads/asset/attachment/29/archer.jpg"
                 },
                 "kind": "image",
                 "links": {
-                    "assets": "27"
+                    "assets": "29"
                 }
             }
         ],
-        "repost_id": "231",
-        "repost_path": "/lanakane32d/post/ZcS4LdWbL_6IQKGyV6c82A",
-        "repost_via_id": "232",
-        "repost_via_path": "/pam/post/9MpXSa1jt1mXpOxOMP3O4Q",
+        "repost_id": "240",
+        "repost_path": "/lanakane32d/post/S0kb33R--l_EN64sC3UFGQ",
+        "repost_via_id": "241",
+        "repost_via_path": "/pam/post/yiZDg1zW26HnGdtGabOcOg",
         "reposted": true,
         "reposts_count": 2,
         "summary": [
@@ -109,11 +109,11 @@
             {
                 "data": {
                     "alt": "archer.jpg",
-                    "url": "https://abc123.cloudfront.net/uploads/asset/attachment/27/archer.jpg"
+                    "url": "https://abc123.cloudfront.net/uploads/asset/attachment/29/archer.jpg"
                 },
                 "kind": "image",
                 "links": {
-                    "assets": "27"
+                    "assets": "29"
                 }
             }
         ],

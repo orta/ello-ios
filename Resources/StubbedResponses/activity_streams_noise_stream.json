@@ -5,7 +5,7 @@
             "kind": "noise_post",
             "links": {
                 "subject": {
-                    "href": "/api/edge/posts/14",
+                    "href": "/api/v2/posts/14",
                     "id": "14",
                     "type": "posts"
                 }
@@ -17,7 +17,7 @@
             "kind": "noise_post",
             "links": {
                 "subject": {
-                    "href": "/api/edge/posts/16",
+                    "href": "/api/v2/posts/16",
                     "id": "16",
                     "type": "posts"
                 }
@@ -73,15 +73,15 @@
                     }
                 ],
                 "content_warning": null,
-                "created_at": "2015-05-20T17:20:00.489Z",
-                "href": "/api/edge/posts/14",
+                "created_at": "2015-05-28T15:35:14.567Z",
+                "href": "/api/v2/posts/14",
                 "id": "14",
                 "links": {
                     "assets": [
                         "2"
                     ],
                     "author": {
-                        "href": "/api/edge/users/420",
+                        "href": "/api/v2/users/420",
                         "id": "420",
                         "type": "users"
                     }
@@ -106,7 +106,7 @@
                         }
                     }
                 ],
-                "token": "QjONsx4FzXy7jddcjA4Fmg",
+                "token": "RiIq1iX052DfzLgpVQlrFg",
                 "views_count": 0
             },
             {
@@ -119,22 +119,27 @@
                     }
                 ],
                 "content_warning": null,
-                "created_at": "2015-05-20T17:20:00.522Z",
-                "href": "/api/edge/posts/16",
+                "created_at": "2015-05-28T15:35:14.606Z",
+                "href": "/api/v2/posts/16",
                 "id": "16",
                 "links": {
                     "assets": [
                         "1"
                     ],
                     "author": {
-                        "href": "/api/edge/users/420",
+                        "href": "/api/v2/users/420",
                         "id": "420",
                         "type": "users"
                     },
                     "repost_author": {
-                        "href": "/api/edge/users/42",
+                        "href": "/api/v2/users/42",
                         "id": "42",
                         "type": "users"
+                    },
+                    "reposted_source": {
+                        "href": "/api/v2/posts/13",
+                        "id": "13",
+                        "type": "posts"
                     }
                 },
                 "loved": false,
@@ -156,7 +161,7 @@
                     }
                 ],
                 "repost_id": "13",
-                "repost_path": "/archer/post/iulFx4q2NWvZWvqUD53kJA",
+                "repost_path": "/archer/post/xaN7PM4_sn6ynZgkB1fM6A",
                 "reposted": false,
                 "reposts_count": 0,
                 "summary": [
@@ -175,8 +180,48 @@
                         }
                     }
                 ],
-                "token": "Irg8kVv_95RetM-bdAdB_Q",
+                "token": "t-3Jr76KU6gtfX4dSkWeSQ",
                 "views_count": 0
+            },
+            {
+                "author_id": "42",
+                "content": [
+                    {
+                        "data": "<p>Me in an awesome turtle neck.</p>",
+                        "kind": "text"
+                    },
+                    {
+                        "data": {
+                            "alt": "archer.jpg",
+                            "url": "https://abc123.cloudfront.net/uploads/asset/attachment/1/archer.jpg"
+                        },
+                        "kind": "image",
+                        "links": {
+                            "assets": "1"
+                        }
+                    }
+                ],
+                "content_warning": null,
+                "created_at": "2015-05-28T15:35:14.522Z",
+                "href": "/api/v2/posts/13",
+                "id": "13",
+                "summary": [
+                    {
+                        "data": "<p>Me in an awesome turtle neck.</p>",
+                        "kind": "text"
+                    },
+                    {
+                        "data": {
+                            "alt": "archer.jpg",
+                            "url": "https://abc123.cloudfront.net/uploads/asset/attachment/1/archer.jpg"
+                        },
+                        "kind": "image",
+                        "links": {
+                            "assets": "1"
+                        }
+                    }
+                ],
+                "token": "xaN7PM4_sn6ynZgkB1fM6A"
             }
         ],
         "users": [
@@ -203,7 +248,7 @@
                 "has_loves_enabled": true,
                 "has_reposting_enabled": true,
                 "has_sharing_enabled": true,
-                "href": "/api/edge/users/420",
+                "href": "/api/v2/users/420",
                 "id": "420",
                 "name": "Pamilanderson",
                 "posts_adult_content": true,
@@ -234,7 +279,7 @@
                 "has_loves_enabled": true,
                 "has_reposting_enabled": true,
                 "has_sharing_enabled": true,
-                "href": "/api/edge/users/42",
+                "href": "/api/v2/users/42",
                 "id": "42",
                 "name": "Sterling",
                 "posts_adult_content": true,
