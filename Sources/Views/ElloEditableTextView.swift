@@ -23,38 +23,7 @@ public class ElloEditableTextView: UITextView {
         backgroundColor = UIColor.greyE5()
         font = UIFont.typewriterFont(12.0)
         textColor = UIColor.blackColor()
-
+        contentInset = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 15.0)
         setNeedsDisplay()
-    }
-
-    override public func awakeFromNib() {
-        super.awakeFromNib()
-
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("textViewDidBeginEditing:"), name: UITextViewTextDidBeginEditingNotification, object: .None)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("textViewDidEndEditing:"), name: UITextViewTextDidEndEditingNotification, object: .None)
-    }
-
-    deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-
-    func textViewDidBeginEditing(notification: NSNotification) {
-        if let textView = notification.object as? UITextView {
-            if textView == self {
-                UIView.animateWithDuration(0.2) {
-                    self.backgroundColor = UIColor.whiteColor()
-                }
-            }
-        }
-    }
-
-    func textViewDidEndEditing(notification: NSNotification) {
-        if let textView = notification.object as? UITextView {
-            if textView == self {
-                UIView.animateWithDuration(0.2) {
-                    self.backgroundColor = UIColor.greyE5()
-                }
-            }
-        }
     }
 }
