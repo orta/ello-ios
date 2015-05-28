@@ -53,6 +53,7 @@ extension User: Stubbable {
         user.avatar = values["avatar"] as? Asset
         user.identifiableBy = (values["identifiableBy"] as? String) ?? "stub-user-identifiable-by"
         user.postsCount = (values["postsCount"] as? Int) ?? 0
+        user.lovesCount = (values["lovesCount"] as? Int) ?? 0
         user.followersCount = (values["followersCount"] as? String) ?? "stub-user-followers-count"
         user.followingCount = (values["followingCount"] as? Int) ?? 0
         user.formattedShortBio = (values["formattedShortBio"] as? String) ?? "stub-user-formatted-short-bio"

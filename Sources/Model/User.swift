@@ -33,6 +33,7 @@ public final class User: JSONAble {
     public var avatar: Asset? // required, but kinda optional due to it being nested in json
     public var identifiableBy: String?
     public var postsCount: Int?
+    public var lovesCount: Int?
     public var followersCount: String? // string due to this returning "∞" for the ello user
     public var followingCount: Int?
     public var formattedShortBio: String?
@@ -101,6 +102,7 @@ public final class User: JSONAble {
         self.avatar = decoder.decodeOptionalKey("avatar")
         self.identifiableBy = decoder.decodeOptionalKey("identifiableBy")
         self.postsCount = decoder.decodeOptionalKey("postsCount")
+        self.lovesCount = decoder.decodeOptionalKey("lovesCount")
         self.followersCount = decoder.decodeOptionalKey("followersCount")
         self.followingCount = decoder.decodeOptionalKey("followingCount")
         self.formattedShortBio = decoder.decodeOptionalKey("formattedShortBio")
@@ -132,6 +134,7 @@ public final class User: JSONAble {
         coder.encodeObject(avatar, forKey: "avatar")
         coder.encodeObject(identifiableBy, forKey: "identifiableBy")
         coder.encodeObject(postsCount, forKey: "postsCount")
+        coder.encodeObject(lovesCount, forKey: "lovesCount")
         coder.encodeObject(followingCount, forKey: "followingCount")
         coder.encodeObject(followersCount, forKey: "followersCount")
         coder.encodeObject(formattedShortBio, forKey: "formattedShortBio")
@@ -168,6 +171,7 @@ public final class User: JSONAble {
         user.avatar = Asset.parseAsset("user_avatar_\(user.id)", node: data["avatar"] as? [String: AnyObject])
         user.identifiableBy = json["identifiable_by"].stringValue
         user.postsCount = json["posts_count"].int
+        user.lovesCount = json["loves_count"].int
         user.followersCount = json["followers_count"].stringValue
         user.followingCount = json["following_count"].int
         user.formattedShortBio = json["formatted_short_bio"].stringValue
