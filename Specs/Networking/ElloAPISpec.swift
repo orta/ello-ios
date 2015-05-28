@@ -43,7 +43,7 @@ class ElloAPISpec: QuickSpec {
                     expect(ElloAPI.AwesomePeopleStream.path) == "/api/edge/discover/users/recommended"
                 }
                 it("CommunitiesStream is valid") {
-                    expect(ElloAPI.CommunitiesStream.path) == "/api/edge/communities"
+                    expect(ElloAPI.CommunitiesStream.path) == "/api/edge/interest_categories/members"
                 }
                 xit("FoundersStream is valid") {
                     expect(ElloAPI.FoundersStream.path) == "/api/edge/not-implemented-yet!"
