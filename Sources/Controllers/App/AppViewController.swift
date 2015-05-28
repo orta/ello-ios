@@ -81,7 +81,7 @@ public class AppViewController: BaseElloViewController {
 
     private func checkIfLoggedIn() {
         let authToken = AuthToken()
-        if authToken.isPresent {
+        if authToken.isPresent && authToken.isAuthenticated {
             self.loadCurrentUser()
         }
         else {
