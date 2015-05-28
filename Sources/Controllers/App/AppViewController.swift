@@ -7,10 +7,12 @@
 //
 
 import UIKit
+import SwiftyUserDefaults
 
 struct NavigationNotifications {
     static let showingNotificationsTab = TypedNotification<()>(name: "co.ello.NavigationNotification.NotificationsTab")
 }
+
 
 @objc
 protocol HasAppController {
@@ -81,8 +83,17 @@ public class AppViewController: BaseElloViewController {
 
     private func checkIfLoggedIn() {
         let authToken = AuthToken()
+
+        let defaults = NSUserDefaults.standardUserDefaults()
+        var introDisplayed = Defaults["IntroDisplayed"].bool ?? false
+        
         if authToken.isPresent && authToken.isAuthenticated {
             self.loadCurrentUser()
+        }
+        else if !introDisplayed {
+            presentViewController(IntroController(), animated: false, completion:nil)
+            Defaults["IntroDisplayed"] = true
+            self.showButtons()
         }
         else {
             self.showButtons()
