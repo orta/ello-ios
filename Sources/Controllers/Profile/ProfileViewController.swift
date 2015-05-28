@@ -182,6 +182,13 @@ public class ProfileViewController: StreamableViewController {
     }
 }
 
+// MARK: ProfileViewController: PostsTappedResponder
+extension ProfileViewController: PostsTappedResponder {
+    public func onPostsTapped() {
+        streamViewController.collectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: 1, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.Top, animated: true)
+    }
+}
+
 // MARK: ProfileViewController: EditProfileResponder
 extension ProfileViewController: EditProfileResponder {
     public func onEditProfile() {
