@@ -91,7 +91,7 @@ public class AppViewController: BaseElloViewController {
             self.loadCurrentUser()
         }
         else if !introDisplayed {
-            presentViewController(IntroController(), animated: false, completion:{ () -> Void in })
+            presentViewController(IntroController(), animated: false, completion:nil)
             Defaults["IntroDisplayed"] = true
             self.showButtons()
         }

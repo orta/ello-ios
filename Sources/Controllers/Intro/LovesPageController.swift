@@ -15,13 +15,13 @@ class LovesPageController: IntroPageController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.lovesLabel.font = UIFont.regularBoldFont(16)
-        self.getStartedButton.titleLabel!.font = UIFont.typewriterFont(12)
-        self.getStartedButton.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
-        self.getStartedButton.setBackgroundImage(UIImage.imageWithColor(UIColor.whiteColor()), forState: UIControlState.Normal)
+        lovesLabel.font = .regularBoldFont(16)
+        getStartedButton.titleLabel!.font = .typewriterFont(12)
+        getStartedButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        getStartedButton.setBackgroundImage(UIImage.imageWithColor(.whiteColor()), forState: .Normal)
     }
     
     @IBAction func didTouchGetStarted(sender: AnyObject) {
-        self.parentViewController?.dismissViewControllerAnimated(false, completion: { () -> Void in })
+        parentViewController?.dismissViewControllerAnimated(false, completion: nil)
     }
 }

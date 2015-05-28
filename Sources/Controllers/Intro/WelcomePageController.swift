@@ -15,6 +15,6 @@ class WelcomePageController: IntroPageController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.welcomeLabel.font = UIFont.regularBoldFont(16)
+        welcomeLabel.font = .regularBoldFont(16)
     }
 }
