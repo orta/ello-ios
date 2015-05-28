@@ -58,6 +58,7 @@ public class ProfileViewController: StreamableViewController {
 
     override public func viewDidLoad() {
         super.viewDidLoad()
+        view.clipsToBounds = true
         coverImage.alpha = 0
         setupNavigationBar()
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
