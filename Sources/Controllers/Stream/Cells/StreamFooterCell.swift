@@ -96,8 +96,8 @@ public class StreamFooterCell: UICollectionViewCell {
 
         if streamKind.isGridLayout {
 
+            toolbarItems.append(fixedItem(-15))
             if commentVisibility.isVisible {
-                toolbarItems.append(fixedItem(-15))
                 toolbarItems.append(commentsItem)
             }
 
@@ -105,15 +105,8 @@ public class StreamFooterCell: UICollectionViewCell {
                 toolbarItems.append(lovesItem)
             }
 
-            if repostVisibility.isVisible || shareVisibility.isVisible {
-                toolbarItems.append(flexibleItem())
-                if repostVisibility.isVisible {
-                    toolbarItems.append(repostItem)
-                }
-                if shareVisibility.isVisible {
-                    toolbarItems.append(shareItem)
-                }
-                toolbarItems.append(fixedItem(-10))
+            if repostVisibility.isVisible {
+                toolbarItems.append(repostItem)
             }
 
             self.toolBar.items = toolbarItems
