@@ -12,6 +12,7 @@ public enum StreamKind {
     case Friend
     case Noise
     case Discover(type: DiscoverType, seed: Int, perPage: Int)
+    case Loves(userId: String)
     case PostDetail(postParam: String)
     case Profile(perPage: Int)
     case UserStream(userParam: String)
@@ -25,6 +26,7 @@ public enum StreamKind {
         case .Noise: return "Noise"
         case .Notifications: return "Notifications"
         case .Discover: return "Discover"
+        case .Loves: return "Loves"
         case .PostDetail: return "Post Detail"
         case .Profile: return "Profile"
         case .UserStream: return "User Stream"
@@ -45,6 +47,7 @@ public enum StreamKind {
         case .Friend: return .FriendStream
         case .Noise: return .NoiseStream
         case let .Discover(type, seed, perPage): return ElloAPI.Discover(type: type, seed: seed, perPage: perPage)
+        case let .Loves(userId): return .Loves(userId: userId)
         case .Notifications: return .NotificationsStream
         case let .PostDetail(postParam): return .PostDetail(postParam: postParam)
         case let .Profile(perPage): return .Profile(perPage: perPage)
@@ -69,6 +72,18 @@ public enum StreamKind {
             if let users = jsonables as? [User] {
                 return users.reduce([]) { accum, user in
                     if let post = user.mostRecentPost {
+                        return accum + [post]
+                    }
+                    return accum
+                }
+            }
+            else {
+                return []
+            }
+        case .Loves:
+            if let loves = jsonables as? [Love] {
+                return loves.reduce([]) { accum, love in
+                    if let post = love.post {
                         return accum + [post]
                     }
                     return accum

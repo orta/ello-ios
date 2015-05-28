@@ -62,7 +62,12 @@ public final class Notification: JSONAble, Authorable {
             assignRegionsFromContent(post.summary)
         }
         else if let comment = activity.subject as? Comment {
-            assignRegionsFromContent(comment.content)
+            if let summary = comment.summary {
+                assignRegionsFromContent(summary)
+            }
+            else {
+                assignRegionsFromContent(comment.content)
+            }
         }
         subject = activity.subject
     }
@@ -70,16 +75,17 @@ public final class Notification: JSONAble, Authorable {
 // MARK: NSCoding
 
     public required init(coder aDecoder: NSCoder) {
-        let decoder = Decoder(aDecoder)
+        let decoder = Coder(aDecoder)
         self.activity = decoder.decodeKey("activity")
         self.author = decoder.decodeOptionalKey("author")
-        super.init(coder: aDecoder)
+        super.init(coder: decoder.coder)
     }
 
     public override func encodeWithCoder(encoder: NSCoder) {
-        encoder.encodeObject(activity, forKey: "activity")
-        encoder.encodeObject(author, forKey: "author")
-        super.encodeWithCoder(encoder)
+        let coder = Coder(encoder)
+        coder.encodeObject(activity, forKey: "activity")
+        coder.encodeObject(author, forKey: "author")
+        super.encodeWithCoder(coder.coder)
     }
 
 // MARK: Public

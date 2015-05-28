@@ -22,6 +22,14 @@ public class DynamicSettingCell: UITableViewCell {
     public var delegate: DynamicSettingCellDelegate?
     public var setting: DynamicSetting?
 
+    public override func awakeFromNib() {
+        super.awakeFromNib()
+        titleLabel.font = .typewriterFont(12.0)
+        titleLabel.textColor = .blackColor()
+        descriptionLabel.font = .typewriterFont(12.0)
+        descriptionLabel.textColor = .greyA()
+    }
+
     @IBAction public func toggleButtonTapped() {
         if let setting = setting {
             delegate?.toggleSetting(setting, value: !toggleButton.value)

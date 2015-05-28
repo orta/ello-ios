@@ -190,6 +190,32 @@ class StreamDataSourceSpec: QuickSpec {
                 }
             }
 
+            describe("imageAssetForIndexPath(_:)") {
+
+                beforeEach {
+                    let asset = Asset.stub([:])
+                    let region = ImageRegion.stub(["asset": asset])
+                    let post = Post.stub(["content": [region]])
+                    let cellItems = StreamCellItemParser().parse([post], streamKind: .Friend)
+                    subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
+                        vc.collectionView.dataSource = subject
+                        vc.collectionView.reloadData()
+                    }
+                }
+
+                it("returns an image asset") {
+                    expect(subject.imageAssetForIndexPath(NSIndexPath(forItem: 1, inSection: 0))).to(beAKindOf(Asset.self))
+                }
+
+                it("returns nil when out of bounds") {
+                    expect(subject.imageAssetForIndexPath(indexPathOutOfBounds)).to(beNil())
+                }
+
+                it("returns nil when invalid section") {
+                    expect(subject.imageAssetForIndexPath(indexPathInvalidSection)).to(beNil())
+                }
+            }
+
             describe("commentForIndexPath(_:)") {
 
                 beforeEach {
@@ -507,6 +533,21 @@ class StreamDataSourceSpec: QuickSpec {
                                 expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 15
                             }
                         }
+
+                        context("StreamKind.Loves") {
+
+                            it("adds the newly loved post") {
+                                subject.streamKind = StreamKind.Loves(userId: "fake-id")
+                                var post: Post = stub(["id": "post1", "authorId" : "user1"])
+                                var love: Love = stub(["id": "love1", "postId": "post1"])
+                                expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 15
+
+                                subject.modifyItems(love, change: .Create, collectionView: fakeCollectionView)
+
+                                expect(subject.postForIndexPath(indexPath0)!.id) == "post1"
+                                expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 18
+                            }
+                        }
                     }
 
                     describe(".Delete") {
@@ -547,9 +588,20 @@ class StreamDataSourceSpec: QuickSpec {
                                 expect((item.jsonable as! Post).commentsCount) == 5
                             }
                         }
-                        
-                    }
 
+                        context("StreamKind.Loves") {
+
+                            beforeEach {
+                                subject.streamKind = StreamKind.Loves(userId: "fake-id")
+                            }
+
+                            it("removes the unloved post") {
+                                expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 15
+                                subject.modifyItems(Post.stub(["id": "2", "commentsCount" : 9, "loved" : false]), change: .Update, collectionView: fakeCollectionView)
+                                expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 12
+                            }
+                        }
+                    }
                 }
             }
 
@@ -562,12 +614,12 @@ class StreamDataSourceSpec: QuickSpec {
                         "parentPost": post1,
                         "id" : "comment1",
                         "authorId": "user1"
-                        ])
+                    ])
                     var post1Comment2: Comment = stub([
                         "parentPost": post1,
                         "id" : "comment2",
                         "authorId": "user2"
-                        ])
+                    ])
                     let parser = StreamCellItemParser()
                     let userCellItems = parser.parse([user1], streamKind: streamKind)
                     let post1CellItems = parser.parse([post1], streamKind: streamKind)

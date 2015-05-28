@@ -9,7 +9,7 @@
 import UIKit
 import FLAnimatedImage
 
-public class ProfileViewController: StreamableViewController, EditProfileResponder {
+public class ProfileViewController: StreamableViewController {
 
     override public var tabBarItem: UITabBarItem? {
         get { return UITabBarItem.svgItem("person") }
@@ -50,7 +50,7 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
 
         streamViewController.streamKind = initialStreamKind
         streamViewController.initialLoadClosure = reloadEntireProfile
-    } 
+    }
 
     required public init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -68,9 +68,13 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         streamViewController.loadInitialPage()
     }
 
+    override public func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        updateInsets()
+    }
+
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        updateInsets()
 
         if !coverWidthSet {
             coverWidthSet = true
@@ -85,14 +89,7 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         updateInsets()
 
         if scrollToBottom {
-            if let scrollView = streamViewController.collectionView {
-                let contentOffsetY : CGFloat = scrollView.contentSize.height - scrollView.frame.size.height
-                if contentOffsetY > 0 {
-                    scrollView.scrollEnabled = false
-                    scrollView.setContentOffset(CGPoint(x: 0, y: contentOffsetY), animated: true)
-                    scrollView.scrollEnabled = true
-                }
-            }
+            self.scrollToBottom(streamViewController)
         }
     }
 
@@ -117,14 +114,6 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         positionNavBar(navigationBar, visible: false, withConstraint: navigationBarTopConstraint, animated: animated)
     }
 
-    public func onEditProfile() {
-        if let settings = UIStoryboard(name: "Settings", bundle: .None).instantiateInitialViewController() as? SettingsContainerViewController {
-            settings.currentUser = currentUser
-            settings.navBarsVisible = scrollLogic.isShowing
-            navigationController?.pushViewController(settings, animated: true)
-        }
-    }
-
     // MARK : private
 
     private func reloadEntireProfile() {
@@ -133,10 +122,20 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
             streamKind: initialStreamKind,
             success: userLoaded,
             failure: { (error, statusCode) in
-                println("failed to load user (reason: \(error))")
+                self.showUserLoadFailure()
                 self.streamViewController.doneLoading()
             }
         )
+    }
+
+    private func showUserLoadFailure() {
+        let message = NSLocalizedString("Sorry, but that user’s profile doesn’t exist anymore.", comment: "User doesn't exist failure")
+        let alertController = AlertViewController(message: message)
+        let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
+        alertController.addAction(action)
+        self.presentViewController(alertController, animated: true) {
+            self.navigationController?.popViewControllerAnimated(true)
+        }
     }
 
     private func setupNavigationBar() {
@@ -180,6 +179,28 @@ public class ProfileViewController: StreamableViewController, EditProfileRespond
         streamViewController.appendUnsizedCellItems(items, withWidth: self.view.frame.width)
         streamViewController.initialDataLoaded = true
         streamViewController.doneLoading()
+    }
+}
+
+// MARK: ProfileViewController: EditProfileResponder
+extension ProfileViewController: EditProfileResponder {
+    public func onEditProfile() {
+        if let settings = UIStoryboard(name: "Settings", bundle: .None).instantiateInitialViewController() as? SettingsContainerViewController {
+            settings.currentUser = currentUser
+            settings.navBarsVisible = scrollLogic.isShowing
+            navigationController?.pushViewController(settings, animated: true)
+        }
+    }
+}
+
+// MARK: ProfileViewController: ViewUsersLovesResponder
+extension ProfileViewController: ViewUsersLovesResponder {
+    public func onViewUsersLoves() {
+        if let user = self.user {
+            let vc = LovesViewController(user: user)
+            vc.currentUser = self.currentUser
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }
 

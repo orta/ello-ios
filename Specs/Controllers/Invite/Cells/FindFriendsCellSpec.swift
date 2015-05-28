@@ -30,7 +30,7 @@ class FindFriendsCellSpec: QuickSpec {
                 it("IBOutlets are  not nil") {
                     expect(subject.profileImageView).notTo(beNil())
                     expect(subject.nameLabel).notTo(beNil())
-                    expect(subject.relationshipView).notTo(beNil())
+                    expect(subject.relationshipControl).notTo(beNil())
                 }
                 
                 it("IBActions are wired up") {

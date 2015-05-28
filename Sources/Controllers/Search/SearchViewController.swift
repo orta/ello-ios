@@ -33,6 +33,7 @@ public class SearchViewController: BaseElloViewController {
         streamViewController.currentUser = currentUser
 
         streamViewController.userTappedDelegate = self
+        streamViewController.contentInset.bottom = ElloTabBar.Size.height
 
         streamViewController.willMoveToParentViewController(self)
         self.addChildViewController(streamViewController)
@@ -46,7 +47,6 @@ extension SearchViewController: UserTappedDelegate {
     public func userTapped(user: User) {
         let vc = ProfileViewController(userParam: user.id)
         vc.currentUser = currentUser
-        vc.willPresentStreamable(true)
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }

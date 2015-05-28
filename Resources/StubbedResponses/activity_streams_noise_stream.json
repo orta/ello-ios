@@ -73,7 +73,7 @@
                     }
                 ],
                 "content_warning": null,
-                "created_at": "2015-05-18T18:05:03.429Z",
+                "created_at": "2015-05-20T17:20:00.489Z",
                 "href": "/api/edge/posts/14",
                 "id": "14",
                 "links": {
@@ -86,6 +86,9 @@
                         "type": "users"
                     }
                 },
+                "loved": false,
+                "loves_count": 0,
+                "reposted": false,
                 "reposts_count": 0,
                 "summary": [
                     {
@@ -103,7 +106,7 @@
                         }
                     }
                 ],
-                "token": "_0-MEU8DoZCARm1Z9FULgA",
+                "token": "QjONsx4FzXy7jddcjA4Fmg",
                 "views_count": 0
             },
             {
@@ -116,7 +119,7 @@
                     }
                 ],
                 "content_warning": null,
-                "created_at": "2015-05-18T18:05:03.463Z",
+                "created_at": "2015-05-20T17:20:00.522Z",
                 "href": "/api/edge/posts/16",
                 "id": "16",
                 "links": {
@@ -134,6 +137,8 @@
                         "type": "users"
                     }
                 },
+                "loved": false,
+                "loves_count": 0,
                 "repost_content": [
                     {
                         "data": "<p>Me in an awesome turtle neck.</p>",
@@ -151,7 +156,8 @@
                     }
                 ],
                 "repost_id": "13",
-                "repost_path": "/archer/post/LnrB4oP-sS0BMjEFrS4Obw",
+                "repost_path": "/archer/post/iulFx4q2NWvZWvqUD53kJA",
+                "reposted": false,
                 "reposts_count": 0,
                 "summary": [
                     {
@@ -169,7 +175,7 @@
                         }
                     }
                 ],
-                "token": "jJybOYVt_0p5-Y1E4FogPw",
+                "token": "Irg8kVv_95RetM-bdAdB_Q",
                 "views_count": 0
             }
         ],
@@ -194,6 +200,7 @@
                 },
                 "experimental_features": true,
                 "has_commenting_enabled": true,
+                "has_loves_enabled": true,
                 "has_reposting_enabled": true,
                 "has_sharing_enabled": true,
                 "href": "/api/edge/users/420",
@@ -224,6 +231,7 @@
                 },
                 "experimental_features": false,
                 "has_commenting_enabled": true,
+                "has_loves_enabled": true,
                 "has_reposting_enabled": true,
                 "has_sharing_enabled": true,
                 "href": "/api/edge/users/42",

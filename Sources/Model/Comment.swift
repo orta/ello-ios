@@ -19,6 +19,8 @@ public final class Comment: JSONAble, Authorable {
     public let authorId: String
     public let postId: String
     public let content: [Regionable]
+    // optional
+    public var summary: [Regionable]?
     // links
     public var assets: [Asset]? {
         return getLinkArray("assets") as? [Asset]
@@ -57,7 +59,7 @@ public final class Comment: JSONAble, Authorable {
 // MARK: NSCoding
 
     public required init(coder aDecoder: NSCoder) {
-        let decoder = Decoder(aDecoder)
+        let decoder = Coder(aDecoder)
         // active record
         self.id = decoder.decodeKey("id")
         self.createdAt = decoder.decodeKey("createdAt")
@@ -66,19 +68,24 @@ public final class Comment: JSONAble, Authorable {
         self.postId = decoder.decodeKey("postId")
         self.content = decoder.decodeKey("content")
         self.loadedFromPostId = decoder.decodeKey("loadedFromPostId")
-        super.init(coder: aDecoder)
+        // optional
+        self.summary = decoder.decodeOptionalKey("summary")
+        super.init(coder: decoder.coder)
     }
 
     public override func encodeWithCoder(encoder: NSCoder) {
+        let coder = Coder(encoder)
         // active record
-        encoder.encodeObject(id, forKey: "id")
-        encoder.encodeObject(createdAt, forKey: "createdAt")
+        coder.encodeObject(id, forKey: "id")
+        coder.encodeObject(createdAt, forKey: "createdAt")
         // required
-        encoder.encodeObject(authorId, forKey: "authorId")
-        encoder.encodeObject(postId, forKey: "postId")
-        encoder.encodeObject(content, forKey: "content")
-        encoder.encodeObject(loadedFromPostId, forKey: "loadedFromPostId")
-        super.encodeWithCoder(encoder)
+        coder.encodeObject(authorId, forKey: "authorId")
+        coder.encodeObject(postId, forKey: "postId")
+        coder.encodeObject(content, forKey: "content")
+        coder.encodeObject(loadedFromPostId, forKey: "loadedFromPostId")
+        // optional
+        coder.encodeObject(summary, forKey: "summary")
+        super.encodeWithCoder(coder.coder)
     }
 
 // MARK: JSONAble
@@ -93,6 +100,8 @@ public final class Comment: JSONAble, Authorable {
             postId: json["post_id"].stringValue,
             content: RegionParser.regions("content", json: json)
             )
+        // optional
+        comment.summary = RegionParser.regions("summary", json: json)
         // links
         comment.links = data["links"] as? [String: AnyObject]
         // store self in collection

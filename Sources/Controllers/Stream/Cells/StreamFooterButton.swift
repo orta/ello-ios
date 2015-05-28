@@ -29,10 +29,7 @@ public class StreamFooterButton: UIButton {
         sizeToFit()
     }
 
-    private func setButtonTitle(title:String, color:UIColor, forState state:UIControlState) {
-        attributedText = NSMutableAttributedString(string: title)
-        var range = NSRange(location: 0, length: count(title))
-        contentHorizontalAlignment = .Center
+    private func setButtonTitle(title: String, color: UIColor, forState state: UIControlState) {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .Center
 
@@ -41,8 +38,9 @@ public class StreamFooterButton: UIButton {
             NSForegroundColorAttributeName : color,
             NSParagraphStyleAttributeName : paragraphStyle
         ]
+        attributedText = NSMutableAttributedString(string: title, attributes: attributes)
 
-        attributedText.addAttributes(attributes, range: range)
+        contentHorizontalAlignment = .Center
         self.titleLabel?.textAlignment = .Center
         self.setAttributedTitle(attributedText, forState: state)
     }

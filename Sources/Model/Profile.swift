@@ -28,6 +28,8 @@ public final class Profile: JSONAble {
     public let notifyOfMentionsViaEmail: Bool
     public let notifyOfNewFollowersViaEmail: Bool
     public let subscribeToUsersEmailList: Bool
+    // optional
+    public var gaUniqueId: String?
 
     public init(createdAt: NSDate,
         shortBio: String,
@@ -62,7 +64,7 @@ public final class Profile: JSONAble {
 // MARK: NSCoding
 
     public required init(coder aDecoder: NSCoder) {
-        let decoder = Decoder(aDecoder)
+        let decoder = Coder(aDecoder)
         // active record
         self.createdAt = decoder.decodeKey("createdAt")
         // required
@@ -78,26 +80,27 @@ public final class Profile: JSONAble {
         self.notifyOfMentionsViaEmail = decoder.decodeKey("notifyOfMentionsViaEmail")
         self.notifyOfNewFollowersViaEmail = decoder.decodeKey("notifyOfNewFollowersViaEmail")
         self.subscribeToUsersEmailList = decoder.decodeKey("subscribeToUsersEmailList")
-        super.init(coder: aDecoder)
+        super.init(coder: decoder.coder)
     }
 
     public override func encodeWithCoder(encoder: NSCoder) {
+        let coder = Coder(encoder)
         // active record
-        encoder.encodeObject(createdAt, forKey: "createdAt")
+        coder.encodeObject(createdAt, forKey: "createdAt")
         // required
-        encoder.encodeObject(shortBio, forKey: "shortBio")
-        encoder.encodeObject(externalLinksList, forKey: "externalLinksList")
-        encoder.encodeObject(email, forKey: "email")
-        encoder.encodeObject(confirmedAt, forKey: "confirmedAt")
-        encoder.encodeBool(isPublic, forKey: "isPublic")
-        encoder.encodeBool(hasAdNotificationsEnabled, forKey: "hasAdNotificationsEnabled")
-        encoder.encodeBool(allowsAnalytics, forKey: "allowsAnalytics")
-        encoder.encodeBool(notifyOfCommentsViaEmail, forKey: "notifyOfCommentsViaEmail")
-        encoder.encodeBool(notifyOfInvitationAcceptancesViaEmail, forKey: "notifyOfInvitationAcceptancesViaEmail")
-        encoder.encodeBool(notifyOfMentionsViaEmail, forKey: "notifyOfMentionsViaEmail")
-        encoder.encodeBool(notifyOfNewFollowersViaEmail, forKey: "notifyOfNewFollowersViaEmail")
-        encoder.encodeBool(subscribeToUsersEmailList, forKey: "subscribeToUsersEmailList")
-        super.encodeWithCoder(encoder)
+        coder.encodeObject(shortBio, forKey: "shortBio")
+        coder.encodeObject(externalLinksList, forKey: "externalLinksList")
+        coder.encodeObject(email, forKey: "email")
+        coder.encodeObject(confirmedAt, forKey: "confirmedAt")
+        coder.encodeObject(isPublic, forKey: "isPublic")
+        coder.encodeObject(hasAdNotificationsEnabled, forKey: "hasAdNotificationsEnabled")
+        coder.encodeObject(allowsAnalytics, forKey: "allowsAnalytics")
+        coder.encodeObject(notifyOfCommentsViaEmail, forKey: "notifyOfCommentsViaEmail")
+        coder.encodeObject(notifyOfInvitationAcceptancesViaEmail, forKey: "notifyOfInvitationAcceptancesViaEmail")
+        coder.encodeObject(notifyOfMentionsViaEmail, forKey: "notifyOfMentionsViaEmail")
+        coder.encodeObject(notifyOfNewFollowersViaEmail, forKey: "notifyOfNewFollowersViaEmail")
+        coder.encodeObject(subscribeToUsersEmailList, forKey: "subscribeToUsersEmailList")
+        super.encodeWithCoder(coder.coder)
     }
 
 // MARK: JSONAble
@@ -120,6 +123,7 @@ public final class Profile: JSONAble {
             notifyOfNewFollowersViaEmail: json["notify_of_new_followers_via_email"].boolValue,
             subscribeToUsersEmailList: json["subscribe_to_users_email_list"].boolValue
         )
+        profile.gaUniqueId = json["ga_unique_id"].string
         return profile
     }
 }

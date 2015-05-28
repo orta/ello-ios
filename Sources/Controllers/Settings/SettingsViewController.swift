@@ -30,17 +30,32 @@ public class SettingsContainerViewController: BaseElloViewController {
 
     func showNavBars() {
         navigationBarTopConstraint.constant = 0
-        self.view.layoutIfNeeded()
+        animate {
+            self.elloNavBar.frame.origin.y = self.navigationBarTopConstraint.constant
+        }
+
+        if let tableView = settingsViewController?.tableView {
+            tableView.contentInset.bottom = ElloTabBar.Size.height
+            tableView.scrollIndicatorInsets.bottom = ElloTabBar.Size.height
+        }
     }
 
     func hideNavBars() {
         navigationBarTopConstraint.constant = -elloNavBar.frame.height - 1
-        self.view.layoutIfNeeded()
+        animate {
+            self.elloNavBar.frame.origin.y = self.navigationBarTopConstraint.constant
+        }
+
+        if let tableView = settingsViewController?.tableView {
+            tableView.contentInset.bottom = 0
+            tableView.scrollIndicatorInsets.bottom = 0
+        }
     }
 
     public override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "SettingsContainerSegue" {
             let settings = segue.destinationViewController as! SettingsViewController
+            settings.currentUser = currentUser
             settingsViewController = settings
             if navBarsVisible {
                 showNavBars()
@@ -49,7 +64,6 @@ public class SettingsContainerViewController: BaseElloViewController {
                 hideNavBars()
             }
             elloNavBar.items = [settings.navigationItem]
-            settings.currentUser = currentUser
             settings.scrollLogic.isShowing = navBarsVisible
         }
     }

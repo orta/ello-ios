@@ -11,9 +11,15 @@ import UIKit
 public class ElloButton: UIButton {
 
     override public var enabled: Bool {
-        didSet {
-            self.backgroundColor = enabled ? .blackColor() : .grey231F20()
-        }
+        didSet { updateStyle() }
+    }
+
+    override public var selected: Bool {
+        didSet { updateStyle() }
+    }
+
+    public func updateStyle() {
+        self.backgroundColor = enabled ? .blackColor() : .grey231F20()
     }
 
     required override public init(frame: CGRect) {
@@ -31,7 +37,7 @@ public class ElloButton: UIButton {
         self.titleLabel?.numberOfLines = 1
         self.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.setTitleColor(UIColor.greyA(), forState: .Disabled)
-        self.backgroundColor = enabled ? .blackColor() : .grey231F20()
+        updateStyle()
     }
 
 }
@@ -46,10 +52,13 @@ public class LightElloButton: ElloButton {
         super.init(coder: coder)
     }
 
-    override public var enabled: Bool {
-        didSet {
-            self.backgroundColor = enabled ? .greyE5() : .greyF1()
-        }
+    public override func awakeFromNib() {
+        super.awakeFromNib()
+        updateStyle()
+    }
+
+    override public func updateStyle() {
+        self.backgroundColor = enabled ? .greyE5() : .greyF1()
     }
 
     override public func sharedSetup() {
@@ -58,7 +67,6 @@ public class LightElloButton: ElloButton {
         self.setTitleColor(UIColor.grey6(), forState: .Normal)
         self.setTitleColor(UIColor.blackColor(), forState: .Highlighted)
         self.setTitleColor(UIColor.greyC(), forState: .Disabled)
-        self.backgroundColor = enabled ? .greyE5() : .greyF1()
     }
 
 }
@@ -73,15 +81,15 @@ public class WhiteElloButton: LightElloButton {
         super.init(coder: coder)
     }
 
-    override public var enabled: Bool {
-        didSet {
-            self.backgroundColor = enabled ? .whiteColor() : .greyA()
+    override public func updateStyle() {
+        if !enabled {
+            self.backgroundColor = .greyA()
         }
-    }
-
-    override public var selected: Bool {
-        didSet {
-            self.backgroundColor = selected ? .blackColor() : .whiteColor()
+        else if selected {
+            self.backgroundColor = .blackColor()
+        }
+        else {
+            self.backgroundColor = .whiteColor()
         }
     }
 
@@ -92,43 +100,25 @@ public class WhiteElloButton: LightElloButton {
     }
 }
 
-public class FollowAllElloButton: ElloButton {
-
-    required public init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-
-    required public init(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-
-    override public var enabled: Bool {
-        didSet {
-            self.backgroundColor = selected ? .whiteColor() : .blackColor()
-            updateOutline()
-        }
-    }
-
-    override public var selected: Bool {
-        didSet {
-            self.backgroundColor = selected ? .whiteColor() : .blackColor()
-            updateOutline()
-        }
-    }
+public class OutlineElloButton: WhiteElloButton {
 
     override public func sharedSetup() {
-        self.titleLabel?.font = UIFont.typewriterFont(14.0)
-        self.titleLabel?.numberOfLines = 1
-        self.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        self.setTitleColor(UIColor.blackColor(), forState: .Selected)
-        self.setTitleColor(UIColor.greyA(), forState: .Disabled)
-        self.backgroundColor = selected ? .whiteColor() : .blackColor()
+        super.sharedSetup()
+        self.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        self.setTitleColor(UIColor.greyE5(), forState: .Highlighted)
+        self.setTitleColor(UIColor.greyC(), forState: .Disabled)
+        self.backgroundColor = .whiteColor()
         updateOutline()
     }
 
-    private func updateOutline() {
-        self.layer.borderColor = (currentTitleColor ?? UIColor.whiteColor()).CGColor
-        self.layer.borderWidth = 1
+    override public var highlighted: Bool {
+        didSet {
+            updateOutline()
+        }
     }
 
+    private func updateOutline() {
+        self.layer.borderColor = highlighted ? UIColor.greyE5().CGColor : UIColor.blackColor().CGColor
+        self.layer.borderWidth = 1
+    }
 }

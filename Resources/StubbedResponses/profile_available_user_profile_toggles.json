@@ -52,6 +52,11 @@
                     "label": "Mentions"
                 },
                 {
+                    "info": "Receive an e-mail when other people repost your posts.",
+                    "key": "notify_of_reposts_via_email",
+                    "label": "Reposts"
+                },
+                {
                     "info": "Receive an e-mail when other people follow you.",
                     "key": "notify_of_new_followers_via_email",
                     "label": "New Followers"
@@ -78,7 +83,7 @@
             "items": [
                 {
                     "key": "views_adult_content",
-                    "label": "View Adult Content",
+                    "label": "View Adult-oriented Content",
                     "link": {
                         "label": "What does this mean?",
                         "url": "https://ello.co/wtf/post/rules"
@@ -86,7 +91,7 @@
                 },
                 {
                     "key": "posts_adult_content",
-                    "label": "Post Adult Content",
+                    "label": "Post Adult-oriented Content",
                     "link": {
                         "label": "What does this mean?",
                         "url": "https://ello.co/wtf/post/rules"

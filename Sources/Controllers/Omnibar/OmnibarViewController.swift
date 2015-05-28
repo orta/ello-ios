@@ -81,9 +81,19 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
         keyboardWillShowObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillShow, block: self.willShow)
         keyboardWillHideObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillHide, block: self.willHide)
-        delay(0) {
-            self.screen.startEditing()
+
+        if !(elloTabBarController?.shouldShowNarration ?? false) {
+            // desired behavior: animate the keyboard in when this screen is
+            // shown.  without the delay, the keyboard just appears suddenly.
+            delay(0) {
+                self.screen.startEditing()
+            }
         }
+    }
+
+    override public func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        elloTabBarController?.setTabBarHidden(false, animated: animated)
     }
 
     override public func viewWillDisappear(animated: Bool) {
@@ -245,7 +255,7 @@ public class OmnibarData : NSObject, NSCoding {
     }
 
     required public init(coder aDecoder: NSCoder) {
-        let decoder = Decoder(aDecoder)
+        let decoder = Coder(aDecoder)
         self.attributedText = decoder.decodeOptionalKey("attributedText")
         self.image = decoder.decodeOptionalKey("image")
     }

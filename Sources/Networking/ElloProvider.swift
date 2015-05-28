@@ -260,6 +260,11 @@ extension ElloProvider {
     }
 
     static private func isEmptySuccess(data:NSData, statusCode: Int?) -> Bool {
+        // accepted
+        if statusCode == 202 {
+            return true
+        }
+        // no content
         return  NSString(data: data, encoding: NSUTF8StringEncoding) == "" &&
                 statusCode >= 200 &&
                 statusCode < 400

@@ -25,7 +25,7 @@ public class AmazonCredentials : JSONAble {
     }
 
     public required init(coder aDecoder: NSCoder) {
-        let decoder = Decoder(aDecoder)
+        let decoder = Coder(aDecoder)
         self.accessKey = decoder.decodeKey("accessKey")
         self.endpoint = decoder.decodeKey("endpoint")
         self.policy = decoder.decodeKey("policy")

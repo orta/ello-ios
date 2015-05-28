@@ -39,6 +39,8 @@ public final class Activity: JSONAble {
         case PostMentionNotification = "post_mention_notification" // 'you were mentioned in a post'
         case CommentMentionNotification = "comment_mention_notification" // 'you were mentioned in a comment'
         case CommentNotification = "comment_notification" // 'someone commented on your post'
+        case CommentOnOriginalPostNotification = "comment_on_original_post_notification"
+        case CommentOnRepostNotification = "comment_on_repost_notification"
         case WelcomeNotification = "welcome_notification" // 'welcome to Ello'
         case RepostNotification = "repost_notification" // main feed (but collapsable) 'someone reposted your post'
 
@@ -49,8 +51,8 @@ public final class Activity: JSONAble {
         case Unknown = "Unknown"
 
         // Notification categories
-        static public func allNotifications() -> [Kind] { return [.NewFollowerPost, .NewFollowedUserPost, .InvitationAcceptedPost, .PostMentionNotification, .CommentMentionNotification, .CommentNotification, .WelcomeNotification, .RepostNotification] }
-        static public func commentNotifications() -> [Kind] { return [.CommentNotification] }
+        static public func allNotifications() -> [Kind] { return [.NewFollowerPost, .NewFollowedUserPost, .InvitationAcceptedPost, .PostMentionNotification, .CommentMentionNotification, .CommentNotification, .CommentOnOriginalPostNotification, .CommentOnRepostNotification, .WelcomeNotification, .RepostNotification] }
+        static public func commentNotifications() -> [Kind] { return [.CommentNotification, .CommentOnOriginalPostNotification, .CommentOnRepostNotification] }
         static public func mentionNotifications() -> [Kind] { return [.PostMentionNotification, .CommentMentionNotification, .WelcomeNotification] }
         static public func repostNotifications() -> [Kind] { return [.RepostNotification]}
         static public func relationshipNotifications() -> [Kind] { return [.NewFollowerPost, .NewFollowedUserPost, .InvitationAcceptedPost] }
@@ -80,7 +82,7 @@ public final class Activity: JSONAble {
 // MARK: NSCoding
 
     public required init(coder aDecoder: NSCoder) {
-        let decoder = Decoder(aDecoder)
+        let decoder = Coder(aDecoder)
         // active record
         self.id = decoder.decodeKey("id")
         self.createdAt = decoder.decodeKey("createdAt")
@@ -89,17 +91,18 @@ public final class Activity: JSONAble {
         self.kind = Kind(rawValue: rawKind) ?? Kind.Unknown
         let rawSubjectType: String = decoder.decodeKey("rawSubjectType")
         self.subjectType = SubjectType(rawValue: rawSubjectType) ?? SubjectType.Unknown
-        super.init(coder: aDecoder)
+        super.init(coder: decoder.coder)
     }
 
     public override func encodeWithCoder(encoder: NSCoder) {
+        let coder = Coder(encoder)
         // active record
-        encoder.encodeObject(id, forKey: "id")
-        encoder.encodeObject(createdAt, forKey: "createdAt")
+        coder.encodeObject(id, forKey: "id")
+        coder.encodeObject(createdAt, forKey: "createdAt")
         // required
-        encoder.encodeObject(kind.rawValue, forKey: "rawKind")
-        encoder.encodeObject(subjectType.rawValue, forKey: "rawSubjectType")
-        super.encodeWithCoder(encoder)
+        coder.encodeObject(kind.rawValue, forKey: "rawKind")
+        coder.encodeObject(subjectType.rawValue, forKey: "rawSubjectType")
+        super.encodeWithCoder(coder.coder)
     }
 
 // MARK: JSONAble

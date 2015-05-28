@@ -22,6 +22,7 @@
             "followers_count": 0,
             "following_count": 0,
             "has_commenting_enabled": true,
+            "has_loves_enabled": true,
             "has_reposting_enabled": true,
             "has_sharing_enabled": true,
             "href": "/api/edge/users/420",

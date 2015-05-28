@@ -60,7 +60,7 @@ public final class Asset: JSONAble {
 // MARK: NSCoding
 
     public required init(coder aDecoder: NSCoder) {
-        let decoder = Decoder(aDecoder)
+        let decoder = Coder(aDecoder)
         // required
         self.id = decoder.decodeKey("id")
         // optional
@@ -76,26 +76,27 @@ public final class Asset: JSONAble {
         self.large = decoder.decodeOptionalKey("large")
         self.regular = decoder.decodeOptionalKey("regular")
         self.small = decoder.decodeOptionalKey("small")
-        super.init(coder: aDecoder)
+        super.init(coder: decoder.coder)
     }
 
     public override func encodeWithCoder(encoder: NSCoder) {
+        let coder = Coder(encoder)
         // required
-        encoder.encodeObject(id, forKey: "id")
+        coder.encodeObject(id, forKey: "id")
         // optional
-        encoder.encodeObject(optimized, forKey: "optimized")
-        encoder.encodeObject(smallScreen, forKey: "smallScreen")
-        encoder.encodeObject(ldpi, forKey: "ldpi")
-        encoder.encodeObject(mdpi, forKey: "mdpi")
-        encoder.encodeObject(hdpi, forKey: "hdpi")
-        encoder.encodeObject(xhdpi, forKey: "xhdpi")
-        encoder.encodeObject(xxhdpi, forKey: "xxhdpi")
-        encoder.encodeObject(original, forKey: "original")
+        coder.encodeObject(optimized, forKey: "optimized")
+        coder.encodeObject(smallScreen, forKey: "smallScreen")
+        coder.encodeObject(ldpi, forKey: "ldpi")
+        coder.encodeObject(mdpi, forKey: "mdpi")
+        coder.encodeObject(hdpi, forKey: "hdpi")
+        coder.encodeObject(xhdpi, forKey: "xhdpi")
+        coder.encodeObject(xxhdpi, forKey: "xxhdpi")
+        coder.encodeObject(original, forKey: "original")
         // optional avatar
-        encoder.encodeObject(large, forKey: "large")
-        encoder.encodeObject(regular, forKey: "regular")
-        encoder.encodeObject(small, forKey: "small")
-        super.encodeWithCoder(encoder)
+        coder.encodeObject(large, forKey: "large")
+        coder.encodeObject(regular, forKey: "regular")
+        coder.encodeObject(small, forKey: "small")
+        super.encodeWithCoder(coder.coder)
     }
 
 // MARK: JSONAble

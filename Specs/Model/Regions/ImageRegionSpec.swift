@@ -14,7 +14,7 @@ import Nimble
 class ImageRegionSpec: QuickSpec {
     override func spec() {
 
-        xdescribe("+fromJSON:") {
+        describe("+fromJSON:") {
 
             it("parses correctly") {
                 let data = stubbedJSONData("image-region", "region")

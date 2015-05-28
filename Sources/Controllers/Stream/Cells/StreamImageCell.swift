@@ -80,12 +80,13 @@ public class StreamImageCell: StreamRegionableCell {
     }
 
     private func displayAnimatedGif(data: NSData) {
-        var animatedImage = FLAnimatedImage(animatedGIFData: data)
-        dispatch_async(dispatch_get_main_queue()) {
-            self.imageView.alpha = 1.0
-            self.aspectRatio = (animatedImage.size.width / animatedImage.size.height)
-            self.imageView.animatedImage = animatedImage
-            self.circle.stopPulse()
+        if let animatedImage = FLAnimatedImage(animatedGIFData: data) {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.imageView.alpha = 1.0
+                self.aspectRatio = (animatedImage.size.width / animatedImage.size.height)
+                self.imageView.animatedImage = animatedImage
+                self.circle.stopPulse()
+            }
         }
     }
 

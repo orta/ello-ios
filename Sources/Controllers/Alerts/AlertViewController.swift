@@ -7,16 +7,33 @@
 //
 
 private let DesiredWidth: CGFloat = 300
+private let HelpButtonSpace: CGFloat = 49
 private let MaxHeight = UIScreen.mainScreen().applicationFrame.height - 20
 
 public enum AlertType {
     case Normal
     case Danger
+    case Clear
 
     var backgroundColor: UIColor {
         switch self {
-            case .Danger: return .redColor()
-            default:      return .whiteColor()
+        case .Danger: return .redColor()
+        case .Clear: return .clearColor()
+        default: return .whiteColor()
+        }
+    }
+
+    var headerTextColor: UIColor {
+        switch self {
+        case .Clear: return .whiteColor()
+        default: return .blackColor()
+        }
+    }
+
+    var cellColor: UIColor {
+        switch self {
+        case .Clear: return .clearColor()
+        default: return .whiteColor()
         }
     }
 }
@@ -25,6 +42,7 @@ public class AlertViewController: UIViewController {
     @IBOutlet public weak var tableView: UITableView!
     @IBOutlet public weak var topPadding: NSLayoutConstraint!
     @IBOutlet public weak var leftPadding: NSLayoutConstraint!
+    @IBOutlet public weak var rightPadding: NSLayoutConstraint!
 
     // assign a contentView to show a message or spinner.  The contentView frame
     // size must be set.
@@ -32,6 +50,8 @@ public class AlertViewController: UIViewController {
         willSet { willSetContentView() }
         didSet { didSetContentView() }
     }
+
+    public var modalBackgroundColor: UIColor = .modalBackground()
 
     public var desiredSize: CGSize {
         if let contentView = contentView {
@@ -54,44 +74,46 @@ public class AlertViewController: UIViewController {
             let backgroundColor = type.backgroundColor
             view.backgroundColor = backgroundColor
             tableView.backgroundColor = backgroundColor
-            headerLabel.backgroundColor = backgroundColor
+            headerView.backgroundColor = backgroundColor
             tableView.reloadData()
         }
     }
 
     public var message: String {
-        get { return headerLabel.text ?? "" }
-        set(text) { headerLabel.setLabelText(text, color: UIColor.blackColor())}
+        get { return headerView.label.text ?? "" }
+        set(text) { headerView.label.setLabelText(text, color: UIColor.blackColor())}
     }
 
-    private let headerLabel: ElloLabel = {
-        let label = ElloLabel()
-        label.numberOfLines = 0
-        label.backgroundColor = UIColor.whiteColor()
-        return label
+    public var helpText: String?
+
+    private let headerView: AlertHeaderView = {
+        return AlertHeaderView.loadFromNib()
     }()
 
     private var totalHorizontalPadding: CGFloat {
-        return 2 * leftPadding.constant
+        return leftPadding.constant + rightPadding.constant
     }
 
     private var totalVerticalPadding: CGFloat {
         return 2 * topPadding.constant
     }
 
-    public init(message: String?, textAlignment: NSTextAlignment = .Center, type: AlertType = .Normal) {
+    public init(message: String?, textAlignment: NSTextAlignment = .Center, type: AlertType = .Normal, helpText: String? = nil) {
+        self.helpText = helpText
         self.textAlignment = textAlignment
         super.init(nibName: "AlertViewController", bundle: NSBundle(forClass: AlertViewController.self))
 
         modalPresentationStyle = .Custom
         transitioningDelegate = self
         if let text = message {
-            headerLabel.setLabelText(text, color: UIColor.blackColor())
+            headerView.label.setLabelText(text, color: type.headerTextColor)
         }
+        headerView.helpButtonVisible = helpText != nil
+        headerView.delegate = self
 
         view.backgroundColor = type.backgroundColor
         tableView.backgroundColor = type.backgroundColor
-        headerLabel.backgroundColor = type.backgroundColor
+        headerView.backgroundColor = type.backgroundColor
         self.type = type
     }
 
@@ -104,6 +126,14 @@ public extension AlertViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.registerNib(AlertCell.nib(), forCellReuseIdentifier: AlertCell.reuseIdentifier())
+    }
+
+    public override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        if type == .Clear {
+            leftPadding.constant = 5
+            rightPadding.constant = 5
+        }
     }
 
     public override func viewDidAppear(animated: Bool) {
@@ -155,14 +185,32 @@ extension AlertViewController {
     }
 }
 
+// MARK: AlertHeaderDelegate
+extension AlertViewController: AlertHeaderDelegate {
+    public func helpTapped() {
+        let alertController = AlertViewController(message: helpText, textAlignment: .Center, type: .Normal)
+        alertController.modalBackgroundColor = .clearColor()
+        let gotItAction = AlertAction(
+            title: NSLocalizedString("Got it", comment: "Ok"),
+            icon: nil,
+            style: .Dark,
+            handler: nil)
+        alertController.addAction(gotItAction)
+        self.presentViewController(alertController, animated: true, completion: .None)
+    }
+}
+
+// MARK: UIViewControllerTransitioningDelegate
 extension AlertViewController: UIViewControllerTransitioningDelegate {
     public func presentationControllerForPresentedViewController(presented: UIViewController, presentingViewController presenting: UIViewController!, sourceViewController source: UIViewController) -> UIPresentationController? {
         if presented != self { return .None }
 
-        return AlertPresentationController(presentedViewController: presented, presentingViewController: presenting)
+        let controller = AlertPresentationController(presentedViewController: presented, presentingViewController: presenting, backgroundColor: self.modalBackgroundColor)
+        return controller
     }
 }
 
+// MARK: UITableViewDelegate
 extension AlertViewController: UITableViewDelegate {
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if autoDismiss {
@@ -177,15 +225,18 @@ extension AlertViewController: UITableViewDelegate {
     }
 
     public func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return headerLabel
+        return headerView
     }
 
     public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        let size = CGSize(width: DesiredWidth - totalHorizontalPadding, height: .max)
-        return headerLabel.sizeThatFits(size).height
+        let space = helpText == nil ? 0 : HelpButtonSpace
+        let size = CGSize(width: DesiredWidth - totalHorizontalPadding - space, height: .max)
+        let height = headerView.label.sizeThatFits(size).height
+        return height
     }
 }
 
+// MARK: UITableViewDataSource
 extension AlertViewController: UITableViewDataSource {
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return count(actions)
@@ -197,6 +248,7 @@ extension AlertViewController: UITableViewDataSource {
             let presenter = AlertCellPresenter(action: action, textAlignment: textAlignment)
             presenter.configureCell(cell, type: self.type)
         }
+        cell.backgroundColor = type.cellColor
         return cell
     }
 }

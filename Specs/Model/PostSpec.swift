@@ -30,11 +30,13 @@ class PostSpec: QuickSpec {
                 // active record
                 expect(post.createdAt) == createdAt
                 // required
-                expect(post.token) == "JcSS9Ah9kkBW0mKFFY57mg"
+                expect(post.token) == "tThn9GP4HXth_rigKefSiQ"
                 expect(post.contentWarning) == ""
                 expect(count(post.summary)) == 2
                 expect(post.summary[0].kind) == "text"
                 expect(post.summary[1].kind) == "image"
+                expect(post.reposted) == false
+                expect(post.loved) == false
                 // optional
                 expect(count(post.content!)) == 2
                 expect(post.content![0].kind) == "text"
@@ -59,13 +61,13 @@ class PostSpec: QuickSpec {
             it("parses created reposts correctly") {
                 let parsedPost = stubbedJSONData("posts_creating_a_repost", "posts")
 
-                let createdAtString = "2015-05-18T18:05:27.633Z"
+                let createdAtString = "2015-05-20T17:20:30.988Z"
                 let post = Post.fromJSON(parsedPost) as! Post
                 var createdAt: NSDate = createdAtString.toNSDate()!
                 // active record
                 expect(post.createdAt) == createdAt
                 // required
-                expect(post.token) == "WJqGz_eC7l_9r4gZESTEdw"
+                expect(post.token) == "FfxEZGO3ucaiaT82cID4jQ"
                 expect(post.contentWarning) == ""
                 expect(count(post.summary)) == 2
                 expect(post.summary[0].kind) == "text"
@@ -210,6 +212,9 @@ class PostSpec: QuickSpec {
                         "viewsCount" : 78,
                         "commentsCount" : 6,
                         "repostsCount" : 99,
+                        "lovesCount" : 100,
+                        "reposted" : true,
+                        "loved" : true,
                         // links
                         "assets" : [asset],
                         "author" : author,
@@ -241,6 +246,9 @@ class PostSpec: QuickSpec {
                     expect(unArchivedPost.viewsCount) == 78
                     expect(unArchivedPost.commentsCount) == 6
                     expect(unArchivedPost.repostsCount) == 99
+                    expect(unArchivedPost.lovesCount) == 100
+                    expect(unArchivedPost.reposted) == true
+                    expect(unArchivedPost.loved) == true
                     // links
                     expect(unArchivedPost.author!.id) == "555"
                     expect(count(unArchivedPost.assets!)) == 1

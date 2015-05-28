@@ -2,6 +2,7 @@
 
 require 'bundler/setup'
 require 'dotenv'
+require 'git'
 require 'octokit'
 require 'yaml'
 
@@ -18,10 +19,12 @@ class GenerateReleaseNotes
     @previous_sha_file = previous_sha_file
     @previous_sha_yaml = YAML::load_file(@previous_sha_file)
     set_versions
-    # create github api client and grab initial commits
+    # create github api client
     @client = Octokit::Client.new(access_token: access_token)
-    commits = @client.commits(repo_name, 'master')
-    @newest_sha = commits.first[:sha]
+    # create git
+    @git = Git.open('./')
+    commits = @git.log(100)
+    @newest_sha = commits.first.sha
     # start creating the notes
     scan_commits commits
     # update the notes
@@ -36,10 +39,9 @@ class GenerateReleaseNotes
 
   # add PRs from commits
   def scan_commits(commits)
-    last_sha = nil
     commits.each do |commit|
-      return true if @previous_sha_yaml['previous-sha'] == commit[:sha]
-      match = commit[:commit][:message].match(/pull request #(\d+) from/)
+      return true if @previous_sha_yaml['previous-sha'] == commit.sha
+      match = commit.message.match(/pull request #(\d+) from/)
       if match
         pr_num = match.captures[0]
         pr = @client.pull_request @repo_name, pr_num
@@ -47,14 +49,12 @@ class GenerateReleaseNotes
           @pull_request_notes << "#### ##{pr_num} - #{pr[:title]}\n#{pr[:body]}".strip()
         end
       end
-      last_sha = commit[:sha]
     end
-    scan_commits @client.commits(@repo_name, sha: last_sha)
   end
 
   def update_release_notes
     # new release notes
-    release_notes = "### Ello Build #{@number_of_commits}(#{@git_release_version}) #{Time.now.strftime("%B %-d, %Y")}\n\n"
+    release_notes = "### Ello Build #{@git_release_version}(#{@number_of_commits}) #{Time.now.strftime("%B %-d, %Y")}\n\n"
     release_notes << <<-EOF
     #{@pull_request_notes.count > 1 ? @pull_request_notes.join("\n\n------\n\n") : 'No completed pull requests since last distribution.'}
     #{"\n------------\n"}

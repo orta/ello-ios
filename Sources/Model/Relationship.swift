@@ -56,24 +56,25 @@ public final class Relationship: JSONAble {
 // MARK: NSCoding
 
     public required init(coder aDecoder: NSCoder) {
-        let decoder = Decoder(aDecoder)
+        let decoder = Coder(aDecoder)
         // active record
         self.id = decoder.decodeKey("id")
         self.createdAt = decoder.decodeKey("createdAt")
         // required
         self.ownerId = decoder.decodeKey("ownerId")
         self.subjectId = decoder.decodeKey("subjectId")
-        super.init(coder: aDecoder)
+        super.init(coder: decoder.coder)
     }
 
     public override func encodeWithCoder(encoder: NSCoder) {
+        let coder = Coder(encoder)
         // active record
-        encoder.encodeObject(id, forKey: "id")
-        encoder.encodeObject(createdAt, forKey: "createdAt")
+        coder.encodeObject(id, forKey: "id")
+        coder.encodeObject(createdAt, forKey: "createdAt")
         // required
-        encoder.encodeObject(ownerId, forKey: "ownerId")
-        encoder.encodeObject(subjectId, forKey: "subjectId")
-        super.encodeWithCoder(encoder)
+        coder.encodeObject(ownerId, forKey: "ownerId")
+        coder.encodeObject(subjectId, forKey: "subjectId")
+        super.encodeWithCoder(coder.coder)
     }
 
 // MARK: JSONAble

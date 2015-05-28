@@ -146,7 +146,8 @@ private extension DrawerViewController {
             viewsAdultContent: false,
             hasCommentingEnabled: true,
             hasSharingEnabled: true,
-            hasRepostingEnabled: true
+            hasRepostingEnabled: true,
+            hasLovesEnabled: true
         )
         collectionView.registerNib(AvatarCell.nib(), forCellWithReuseIdentifier: AvatarCellPresenter(user: fakeUser).reuseIdentifier)
         collectionView.registerClass(StreamLoadingCell.self, forCellWithReuseIdentifier: LoadingCellPresenter().reuseIdentifier)

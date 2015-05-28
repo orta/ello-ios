@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E17e" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AlertViewController" customModule="Ello" customModuleProvider="target">
             <connections>
                 <outlet property="leftPadding" destination="jwb-iW-mxg" id="5we-e3-8nD"/>
+                <outlet property="rightPadding" destination="qU8-W6-OAy" id="PP9-lE-7s5"/>
                 <outlet property="tableView" destination="Sf2-cb-n2T" id="9v2-8w-M0W"/>
                 <outlet property="topPadding" destination="UuI-DQ-RPH" id="jh1-SS-MxU"/>
                 <outlet property="view" destination="WvV-hs-oXY" id="exO-sE-Wic"/>
@@ -28,10 +29,10 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="Sf2-cb-n2T" firstAttribute="top" secondItem="WvV-hs-oXY" secondAttribute="top" constant="17" id="UuI-DQ-RPH"/>
-                <constraint firstAttribute="bottom" secondItem="Sf2-cb-n2T" secondAttribute="bottom" constant="17" id="hTv-m4-afz"/>
-                <constraint firstItem="Sf2-cb-n2T" firstAttribute="leading" secondItem="WvV-hs-oXY" secondAttribute="leading" constant="20" id="jwb-iW-mxg"/>
-                <constraint firstAttribute="trailing" secondItem="Sf2-cb-n2T" secondAttribute="trailing" constant="20" id="qU8-W6-OAy"/>
+                <constraint firstItem="Sf2-cb-n2T" firstAttribute="top" secondItem="WvV-hs-oXY" secondAttribute="top" constant="17" id="UuI-DQ-RPH" userLabel="topPadding"/>
+                <constraint firstAttribute="bottom" secondItem="Sf2-cb-n2T" secondAttribute="bottom" constant="17" id="hTv-m4-afz" userLabel="tableView - Bottom"/>
+                <constraint firstItem="Sf2-cb-n2T" firstAttribute="leading" secondItem="WvV-hs-oXY" secondAttribute="leading" constant="20" id="jwb-iW-mxg" userLabel="leftPadding"/>
+                <constraint firstAttribute="trailing" secondItem="Sf2-cb-n2T" secondAttribute="trailing" constant="20" id="qU8-W6-OAy" userLabel="rightPadding"/>
             </constraints>
             <point key="canvasLocation" x="14" y="480"/>
         </view>

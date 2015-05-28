@@ -49,7 +49,7 @@
                     }
                 ],
                 "content_warning": null,
-                "created_at": "2015-05-18T18:05:02.020Z",
+                "created_at": "2015-05-20T17:19:59.075Z",
                 "href": "/api/edge/posts/2",
                 "id": "2",
                 "links": {
@@ -60,6 +60,9 @@
                         "type": "users"
                     }
                 },
+                "loved": false,
+                "loves_count": 0,
+                "reposted": false,
                 "reposts_count": 0,
                 "summary": [
                     {
@@ -67,7 +70,7 @@
                         "kind": "text"
                     }
                 ],
-                "token": "9IoASWBj4Ghhc7fPi0iHgA",
+                "token": "qaqs5qaubRXb8G6bxp3G6w",
                 "views_count": 0
             },
             {
@@ -80,7 +83,7 @@
                     }
                 ],
                 "content_warning": null,
-                "created_at": "2015-05-18T18:05:02.008Z",
+                "created_at": "2015-05-20T17:19:59.064Z",
                 "href": "/api/edge/posts/1",
                 "id": "1",
                 "links": {
@@ -91,6 +94,9 @@
                         "type": "users"
                     }
                 },
+                "loved": false,
+                "loves_count": 0,
+                "reposted": false,
                 "reposts_count": 0,
                 "summary": [
                     {
@@ -98,7 +104,7 @@
                         "kind": "text"
                     }
                 ],
-                "token": "xDkFXIj0ur4Ri_QY9W_I4w",
+                "token": "YLrt71C5YD7ZItPxlvPTiw",
                 "views_count": 0
             }
         ],
@@ -123,6 +129,7 @@
                 },
                 "experimental_features": false,
                 "has_commenting_enabled": true,
+                "has_loves_enabled": true,
                 "has_reposting_enabled": true,
                 "has_sharing_enabled": true,
                 "href": "/api/edge/users/42",
@@ -153,6 +160,7 @@
                 },
                 "experimental_features": true,
                 "has_commenting_enabled": true,
+                "has_loves_enabled": true,
                 "has_reposting_enabled": true,
                 "has_sharing_enabled": true,
                 "href": "/api/edge/users/666",

@@ -27,9 +27,16 @@ public class UserListViewController: StreamableViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
+        scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
+        scrollLogic.navBarHeight = 44
         streamViewController.streamKind = StreamKind.UserList(endpoint: endpoint, title: title ?? "")
         ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.loadInitialPage()
+    }
+
+    override public func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        updateInsets()
     }
 
     override func viewForStream() -> UIView {
@@ -43,7 +50,27 @@ public class UserListViewController: StreamableViewController {
         super.didSetCurrentUser()
     }
 
+    override public func showNavBars(scrollToBottom : Bool) {
+        super.showNavBars(scrollToBottom)
+        positionNavBar(navigationBar, visible: true)
+        updateInsets()
+
+        if scrollToBottom {
+            self.scrollToBottom(streamViewController)
+        }
+    }
+
+    override public func hideNavBars() {
+        super.hideNavBars()
+        positionNavBar(navigationBar, visible: false)
+        updateInsets()
+    }
+
     // MARK: Private
+
+    private func updateInsets() {
+        updateInsets(navBar: navigationBar, streamController: streamViewController)
+    }
 
     private func setupNavigationBar() {
         navigationBar = ElloNavigationBar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: ElloNavigationBar.Size.height))
@@ -55,21 +82,4 @@ public class UserListViewController: StreamableViewController {
         navigationBar.items = [navigationItem]
     }
 
-    override func showNavBars(scrollToBottom : Bool) {
-        super.showNavBars(scrollToBottom)
-        animate {
-            self.navigationBar.frame = self.navigationBar.frame.atY(0)
-        }
-
-        if scrollToBottom {
-            if let scrollView = streamViewController.collectionView {
-                let contentOffsetY : CGFloat = scrollView.contentSize.height - scrollView.frame.size.height
-                if contentOffsetY > 0 {
-                    scrollView.scrollEnabled = false
-                    scrollView.setContentOffset(CGPoint(x: 0, y: contentOffsetY), animated: true)
-                    scrollView.scrollEnabled = true
-                }
-            }
-        }
-    }
 }

@@ -129,6 +129,8 @@ public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
 
         notificationImageView = FLAnimatedImageView()
         messageWebView = UIWebView()
+        messageWebView.opaque = false
+        messageWebView.backgroundColor = .clearColor()
         messageWebView.scrollView.scrollEnabled = false
         createdAtLabel = UILabel()
 
@@ -201,9 +203,7 @@ public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
     }
 
     public func webViewDidFinishLoad(webView: UIWebView) {
-        // UIView.animateWithDuration(0.15) {
-        // }
-        self.messageWebView.alpha = 1.0
+        messageWebView.alpha = 1.0
         webContentReady?(webView: webView)
     }
 }

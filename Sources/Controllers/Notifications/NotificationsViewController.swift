@@ -26,8 +26,19 @@ public class NotificationsViewController: StreamableViewController, Notification
         return self.view as! NotificationsScreen
     }
 
+    var navigationNotificationObserver: NotificationObserver?
+
+    deinit {
+        navigationNotificationObserver?.removeObserver()
+    }
+
     override public func viewDidLoad() {
         super.viewDidLoad()
+
+        navigationNotificationObserver = NotificationObserver(notification: NavigationNotifications.showingNotificationsTab) {
+            ElloHUD.showLoadingHudInView(self.streamViewController.view)
+            self.streamViewController.loadInitialPage()
+        }
 
         screen.delegate = self
         self.title = "Notifications"
@@ -60,6 +71,10 @@ public class NotificationsViewController: StreamableViewController, Notification
         super.showNavBars(scrollToBottom)
         screen.animateNavigationBar(visible: true)
         updateInsets()
+
+        if scrollToBottom {
+            self.scrollToBottom(streamViewController)
+        }
     }
 
     override public func hideNavBars() {

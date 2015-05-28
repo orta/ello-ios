@@ -47,11 +47,13 @@ extension User: Stubbable {
             viewsAdultContent: (values["viewsAdultContent"] as? Bool) ?? false,
             hasCommentingEnabled: (values["hasCommentingEnabled"] as? Bool) ?? true,
             hasSharingEnabled: (values["hasSharingEnabled"] as? Bool) ?? true,
-            hasRepostingEnabled: (values["hasRepostingEnabled"] as? Bool) ?? true
+            hasRepostingEnabled: (values["hasRepostingEnabled"] as? Bool) ?? true,
+            hasLovesEnabled: (values["hasLovesEnabled"] as? Bool) ?? true
         )
         user.avatar = values["avatar"] as? Asset
         user.identifiableBy = (values["identifiableBy"] as? String) ?? "stub-user-identifiable-by"
         user.postsCount = (values["postsCount"] as? Int) ?? 0
+        user.lovesCount = (values["lovesCount"] as? Int) ?? 0
         user.followersCount = (values["followersCount"] as? String) ?? "stub-user-followers-count"
         user.followingCount = (values["followingCount"] as? Int) ?? 0
         user.formattedShortBio = (values["formattedShortBio"] as? String) ?? "stub-user-formatted-short-bio"
@@ -74,6 +76,30 @@ extension User: Stubbable {
         user.profile = values["profile"] as? Profile
         ElloLinkedStore.sharedInstance.setObject(user, forKey: user.id, inCollection: MappingType.UsersType.rawValue)
         return user
+    }
+}
+
+extension Love: Stubbable {
+    class func stub(values: [String : AnyObject]) -> Love {
+
+        // create necessary links
+
+        let post: Post = (values["post"] as? Post) ?? Post.stub(["id": values["postId"] ?? "stub-post-id"])
+        ElloLinkedStore.sharedInstance.setObject(post, forKey: post.id, inCollection: MappingType.PostsType.rawValue)
+
+        let user: User = (values["user"] as? User) ?? User.stub(["id": values["userId"] ?? "stub-user-id"])
+        ElloLinkedStore.sharedInstance.setObject(user, forKey: user.id, inCollection: MappingType.UsersType.rawValue)
+
+        var love = Love(
+            id: (values["id"] as? String) ?? "stub-love-id",
+            createdAt: (values["createdAt"] as? NSDate) ?? NSDate(),
+            updatedAt: (values["updatedAt"] as? NSDate) ?? NSDate(),
+            deleted: (values["deleted"] as? Bool) ?? true,
+            postId: (values["postId"] as? String) ?? "stub-post-id",
+            userId: (values["userId"] as? String) ?? "stub-user-id"
+        )
+
+        return love
     }
 }
 
@@ -114,6 +140,8 @@ extension Post: Stubbable {
             token: (values["token"] as? String) ?? "sample-token",
             contentWarning: (values["contentWarning"] as? String) ?? "",
             allowComments: (values["allowComments"] as? Bool) ?? false,
+            reposted: (values["reposted"] as? Bool) ?? false,
+            loved: (values["loved"] as? Bool) ?? false,
             summary: (values["summary"] as? [Regionable]) ?? [stubbedTextRegion]
         )
 
@@ -127,6 +155,7 @@ extension Post: Stubbable {
         post.viewsCount = values["viewsCount"] as? Int
         post.commentsCount = values["commentsCount"] as? Int
         post.repostsCount = values["repostsCount"] as? Int
+        post.lovesCount = values["lovesCount"] as? Int
         // links / nested resources
         if let assets = values["assets"] as? [Asset] {
             var assetIds = [String]()

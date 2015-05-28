@@ -12,7 +12,7 @@ import FLAnimatedImage
 public class FindFriendsCell: UITableViewCell {
     @IBOutlet weak public var profileImageView: FLAnimatedImageView?
     @IBOutlet weak public var nameLabel: UILabel?
-    @IBOutlet weak public var relationshipView: RelationshipView?
+    @IBOutlet weak public var relationshipControl: RelationshipControl?
 
     override public func layoutSubviews() {
         super.layoutSubviews()

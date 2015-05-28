@@ -24,14 +24,15 @@ public class JSONAble: NSObject, NSCoding {
     }
 
     public required init(coder aDecoder: NSCoder) {
-        let decoder = Decoder(aDecoder)
+        let decoder = Coder(aDecoder)
         self.links = decoder.decodeOptionalKey("links")
         self.version = decoder.decodeKey("version")
     }
 
     public func encodeWithCoder(encoder: NSCoder) {
-        encoder.encodeObject(links, forKey: "links")
-        encoder.encodeInt64(Int64(version), forKey: "version")
+        let coder = Coder(encoder)
+        coder.encodeObject(links, forKey: "links")
+        coder.encodeObject(version, forKey: "version")
     }
 
     public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {

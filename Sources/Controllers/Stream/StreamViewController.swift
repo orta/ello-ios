@@ -19,19 +19,6 @@ public protocol UserDelegate: NSObjectProtocol {
     func userTappedCell(cell: UICollectionViewCell)
 }
 
-public protocol PostbarDelegate : NSObjectProtocol {
-    func viewsButtonTapped(cell:UICollectionViewCell)
-    func commentsButtonTapped(cell:StreamFooterCell, imageLabelControl: ImageLabelControl)
-    func deletePostButtonTapped(cell:UICollectionViewCell)
-    func deleteCommentButtonTapped(cell:UICollectionViewCell)
-    func lovesButtonTapped(cell:UICollectionViewCell)
-    func repostButtonTapped(cell:UICollectionViewCell)
-    func shareButtonTapped(cell:UICollectionViewCell)
-    func flagPostButtonTapped(cell:UICollectionViewCell)
-    func flagCommentButtonTapped(cell:UICollectionViewCell)
-    func replyToCommentButtonTapped(cell:UICollectionViewCell)
-}
-
 public protocol StreamImageCellDelegate : NSObjectProtocol {
     func imageTapped(imageView: FLAnimatedImageView, cell: StreamImageCell)
 }
@@ -85,6 +72,7 @@ public class StreamViewController: BaseElloViewController {
     var relayoutNotification: NotificationObserver?
     var commentChangedNotification: NotificationObserver?
     var postChangedNotification: NotificationObserver?
+    var loveChangedNotification: NotificationObserver?
     var relationshipChangedNotification: NotificationObserver?
     var settingChangedNotification: NotificationObserver?
 
@@ -325,6 +313,13 @@ public class StreamViewController: BaseElloViewController {
             }
         }
 
+        loveChangedNotification  = NotificationObserver(notification: LoveChangedNotification) { (love, change) in
+            if !self.initialDataLoaded {
+                return
+            }
+            self.dataSource.modifyItems(love, change: change, collectionView: self.collectionView)
+        }
+
         relationshipChangedNotification = NotificationObserver(notification: RelationshipChangedNotification) { user in
             if !self.initialDataLoaded {
                 return
@@ -360,6 +355,9 @@ public class StreamViewController: BaseElloViewController {
 
         relationshipChangedNotification?.removeObserver()
         relationshipChangedNotification = nil
+
+        loveChangedNotification?.removeObserver()
+        loveChangedNotification = nil
     }
 
     private func updateCellHeight(indexPath:NSIndexPath, height:CGFloat) {
@@ -642,15 +640,21 @@ extension StreamViewController: SSPullToRefreshViewDelegate {
 extension StreamViewController: StreamImageCellDelegate {
 
     public func imageTapped(imageView: FLAnimatedImageView, cell: StreamImageCell) {
+        let indexPath = collectionView.indexPathForCell(cell)
+        let post = indexPath.flatMap(dataSource.postForIndexPath)
+        let imageAsset = indexPath.flatMap(dataSource.imageAssetForIndexPath)
+
         if streamKind.isGridLayout || cell.isGif {
-            if let indexPath = collectionView.indexPathForCell(cell) {
-                if let post = dataSource.postForIndexPath(indexPath) {
-                    postTappedDelegate?.postTapped(post)
-                }
+            if let post = post {
+                postTappedDelegate?.postTapped(post)
             }
         }
         else if let imageViewerDelegate = imageViewerDelegate {
             imageViewerDelegate.imageTapped(imageView, cell: cell)
+            if let post = post,
+                    asset = imageAsset {
+                Tracker.sharedTracker.viewedImage(asset, post: post)
+            }
         }
     }
 }

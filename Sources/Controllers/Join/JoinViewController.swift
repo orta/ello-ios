@@ -59,10 +59,16 @@ public class JoinViewController: BaseElloViewController, HasAppController {
         removeNotificationObservers()
     }
 
+    override public func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        let margin = CGFloat(10)
+        let termsBottom = termsButton.frame.maxY + margin
+        scrollView.contentSize = view.bounds.withHeight(max(termsBottom, view.frame.size.height)).size
+    }
+
     // MARK: Private
 
     private func setupStyles() {
-        scrollView.contentSize = view.bounds.size
         scrollView.backgroundColor = .whiteColor()
         view.backgroundColor = .whiteColor()
     }

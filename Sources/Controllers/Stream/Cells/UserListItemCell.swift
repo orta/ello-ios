@@ -12,7 +12,7 @@ public class UserListItemCell: UICollectionViewCell {
 
     @IBOutlet weak var avatarButton: AvatarButton!
     @IBOutlet weak var usernameLabel: UILabel!
-    @IBOutlet weak var relationshipView: RelationshipView!
+    @IBOutlet weak var relationshipControl: RelationshipControl!
     weak var userDelegate: UserDelegate?
     var currentUser: User?
     var bottomBorder = CALayer()

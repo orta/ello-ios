@@ -9,11 +9,15 @@
 import UIKit
 import SwiftyUserDefaults
 
+struct NavigationNotifications {
+    static let showingNotificationsTab = TypedNotification<()>(name: "co.ello.NavigationNotification.NotificationsTab")
+}
+
+
 @objc
 protocol HasAppController {
     var parentAppController: AppViewController? { get set }
 }
-
 
 public class AppViewController: BaseElloViewController {
 
@@ -27,6 +31,8 @@ public class AppViewController: BaseElloViewController {
     var visibleViewController: UIViewController?
     private var userLoggedOutObserver: NotificationObserver?
     private var receivedPushNotificationObserver: NotificationObserver?
+    private var externalWebObserver: NotificationObserver?
+    private let externalWebController: UINavigationController = ElloWebBrowserViewController.navigationControllerWithWebBrowser()
 
     private var pushPayload: PushPayload?
 
@@ -34,6 +40,10 @@ public class AppViewController: BaseElloViewController {
         super.viewDidLoad()
         setupNotificationObservers()
         setupStyles()
+
+        externalWebObserver = NotificationObserver(notification: externalWebNotification) { url in
+            self.showExternalWebView(url)
+        }
     }
 
     deinit {
@@ -73,25 +83,30 @@ public class AppViewController: BaseElloViewController {
 
     private func checkIfLoggedIn() {
         let authToken = AuthToken()
+
         let defaults = NSUserDefaults.standardUserDefaults()
         var introDisplayed = Defaults["IntroDisplayed"].bool ?? false
-        //if authToken.isPresent {
-        //    self.loadCurrentUser()
-        //}
-        //else if !introDisplayed {
+        
+        if authToken.isPresent && authToken.isAuthenticated {
+            self.loadCurrentUser()
+        }
+        else if !introDisplayed {
             presentViewController(IntroController(), animated: false, completion:{ () -> Void in })
             Defaults["IntroDisplayed"] = true
             self.showButtons()
-        //}
-        //else {
+        }
+        else {
             self.showButtons()
-        //}
+        }
     }
 
     public func loadCurrentUser(failure: ElloErrorCompletion? = nil) {
         let profileService = ProfileService()
         profileService.loadCurrentUser(ElloAPI.Profile(perPage: 1),
-            success: self.showMainScreen,
+            success: { user in
+                self.currentUser = user
+                self.showMainScreen(user)
+            },
             failure: { (error, _) in
                 self.failedToLoadCurrentUser(failure, error: error)
             },
@@ -151,12 +166,17 @@ extension AppViewController {
     }
 
     public func showOnboardingScreen(user: User) {
+        currentUser = user
+
         let vc = OnboardingViewController()
         vc.parentAppController = self
         vc.currentUser = user
-        self.presentViewController(vc, animated: true) {
-            self.showMainScreen(user)
-        }
+        self.presentViewController(vc, animated: true, completion: nil)
+    }
+
+    public func doneOnboarding() {
+        dismissViewControllerAnimated(true, completion: nil)
+        self.showMainScreen(currentUser!)
     }
 
     public func showMainScreen(user: User) {
@@ -179,6 +199,18 @@ extension AppViewController {
 
 }
 
+extension AppViewController {
+
+    func showExternalWebView(url: String) {
+        Tracker.sharedTracker.screenAppeared("Web View: \(url)")
+        presentViewController(externalWebController, animated: true, completion: nil)
+        if let externalWebView = externalWebController.rootWebBrowser() {
+            externalWebView.tintColor = UIColor.greyA()
+            externalWebView.loadURLString(url)
+        }
+    }
+
+}
 
 // MARK: Screen transitions
 extension AppViewController {
@@ -291,6 +323,7 @@ public extension AppViewController {
     private func logOutCurrentUser() {
         PushNotificationController.sharedController.deregisterStoredToken()
         AuthToken().reset()
+        currentUser = nil
     }
 }
 
@@ -314,6 +347,7 @@ extension AppViewController {
             vc?.selectedTab = .Stream
         case "notifications":
             vc?.selectedTab = .Notifications
+            postNotification(NavigationNotifications.showingNotificationsTab, ())
         default:
             break
         }

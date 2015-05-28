@@ -25,7 +25,7 @@ public class DiscoverViewController: StreamableViewController {
     required public init() {
         super.init(nibName: "DiscoverViewController", bundle: nil)
         title = NSLocalizedString("Discover", comment: "Discover")
-        streamViewController.streamKind = .Discover(type: .Recommended, seed: Int(NSDate().timeIntervalSince1970), perPage: 50)
+        streamViewController.streamKind = .Discover(type: .Recommended, seed: ElloAPI.generateSeed(), perPage: 50)
     }
 
     required public init(coder aDecoder: NSCoder) {
@@ -36,6 +36,7 @@ public class DiscoverViewController: StreamableViewController {
         super.viewDidLoad()
         self.navigationController?.navigationBarHidden = true
         chevron.image = SVGKImage(named: "abracket_white.svg").UIImage!
+        inviteLabel.text = NSLocalizedString("Find & invite your friends", comment: "Find & invite")
         inviteLabel.font = UIFont.typewriterFont(14)
         inviteLabel.textColor = .whiteColor()
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
@@ -58,14 +59,7 @@ public class DiscoverViewController: StreamableViewController {
         updateInsets()
 
         if scrollToBottom {
-            if let scrollView = streamViewController.collectionView {
-                let contentOffsetY : CGFloat = scrollView.contentSize.height - scrollView.frame.size.height
-                if contentOffsetY > 0 {
-                    scrollView.scrollEnabled = false
-                    scrollView.setContentOffset(CGPoint(x: 0, y: contentOffsetY), animated: true)
-                    scrollView.scrollEnabled = true
-                }
-            }
+            self.scrollToBottom(streamViewController)
         }
     }
 
