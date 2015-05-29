@@ -38,6 +38,7 @@ private extension NotificationBanner {
 
                 kCRToastFontKey: UIFont.typewriterFont(12.0),
                 kCRToastTextAlignmentKey: NSTextAlignment.Left.rawValue,
+                kCRToastTextMaxNumberOfLinesKey: 2,
             ]
         )
     }
