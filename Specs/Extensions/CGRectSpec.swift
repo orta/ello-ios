@@ -114,6 +114,11 @@ class CGRectExtensionSpec: QuickSpec {
                 let newFrame = frame.inset(top: 1, left: 2, bottom: 3, right: 4)
                 expect(newFrame).to(equal(CGRect(x: 7, y: 8, width: 4, height: 10)))
             }
+            it("-inset(insets)") {
+                let insets = UIEdgeInsets(top: 1, left: 2, bottom: 3, right: 4)
+                let newFrame = frame.inset(insets)
+                expect(newFrame).to(equal(CGRect(x: 7, y: 8, width: 4, height: 10)))
+            }
         }
         describe("shrinkXyz") {
             let frame = CGRect(x: 5, y: 7, width: 10, height: 14)
