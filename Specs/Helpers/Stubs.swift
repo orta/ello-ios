@@ -124,7 +124,8 @@ extension Profile: Stubbable {
             notifyOfLovesViaPush : (values["notifyOfLovesViaPush"] as? Bool) ?? true,
             notifyOfMentionsViaPush: (values["notifyOfMentionsViaPush"] as? Bool) ?? true,
             notifyOfNewFollowersViaPush: (values["notifyOfNewFollowersViaPush"] as? Bool) ?? true,
-            notifyOfInvitationAcceptancesViaPush: (values["notifyOfInvitationAcceptancesViaPush"] as? Bool) ?? true
+            notifyOfInvitationAcceptancesViaPush: (values["notifyOfInvitationAcceptancesViaPush"] as? Bool) ?? true,
+            discoverable: (values["discoverable"] as? Bool) ?? true
         )
         return profile
     }
