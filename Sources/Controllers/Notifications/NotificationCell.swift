@@ -101,6 +101,7 @@ public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
         willSet(newValue) {
             if let date = newValue {
                 createdAtLabel.text = date.timeAgoInWords()
+                createdAtLabel.text = createdAtLabel.text!.stringByReplacingOccurrencesOfString("~", withString: "")
             }
             else {
                 createdAtLabel.text = ""
