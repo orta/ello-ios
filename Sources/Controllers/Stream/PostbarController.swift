@@ -196,11 +196,9 @@ public class PostbarController: NSObject, PostbarDelegate {
             post.loved = false
             postNotification(PostChangedNotification, (post, .Update))
         }
-        if let user = currentUser {
-            if let userLoveCount = user.lovesCount {
-                user.lovesCount = userLoveCount - 1
-                postNotification(CurrentUserChangedNotification, user)
-            }
+        if let user = currentUser, let userLoveCount = user.lovesCount {
+            user.lovesCount = userLoveCount - 1
+            postNotification(CurrentUserChangedNotification, user)
         }
         let service = LovesService()
         service.unlovePost(
@@ -222,11 +220,9 @@ public class PostbarController: NSObject, PostbarDelegate {
             post.loved = true
             postNotification(PostChangedNotification, (post, .Update))
         }
-        if let user = currentUser {
-            if let userLoveCount = user.lovesCount {
-                user.lovesCount = userLoveCount + 1
-                postNotification(CurrentUserChangedNotification, user)
-            }
+        if let user = currentUser, let userLoveCount = user.lovesCount {
+            user.lovesCount = userLoveCount + 1
+            postNotification(CurrentUserChangedNotification, user)
         }
         LovesService().lovePost(
             postId: post.id,
@@ -273,11 +269,9 @@ public class PostbarController: NSObject, PostbarDelegate {
         spinnerContainer.addSubview(spinner)
         alertController.contentView = spinnerContainer
         spinner.animateLogo()
-        if let user = currentUser {
-            if let userPostsCount = user.postsCount {
-                user.postsCount = userPostsCount + 1
-                postNotification(CurrentUserChangedNotification, user)
-            }
+        if let user = currentUser, let userPostsCount = user.postsCount {
+            user.postsCount = userPostsCount + 1
+            postNotification(CurrentUserChangedNotification, user)
         }
         RePostService().repost(post: post,
             success: { repost in
