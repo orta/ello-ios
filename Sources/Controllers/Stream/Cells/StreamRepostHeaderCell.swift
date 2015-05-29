@@ -29,7 +29,4 @@ public class StreamRepostHeaderCell: UICollectionViewCell, ElloTextViewDelegate 
         }
     }
 
-    override public func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
-        super.touchesEnded(touches, withEvent: event)
-    }
 }
