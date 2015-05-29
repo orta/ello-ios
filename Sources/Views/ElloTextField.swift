@@ -24,6 +24,7 @@ enum ValidationState: String {
 }
 
 public class ElloTextField: UITextField {
+    var hasOnePassword = false
 
     required override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -59,6 +60,9 @@ public class ElloTextField: UITextField {
     override public func clearButtonRectForBounds(bounds: CGRect) -> CGRect {
         var rect = super.clearButtonRectForBounds(bounds)
         rect.origin.x -= 10
+        if hasOnePassword {
+            rect.origin.x -= 44
+        }
         return rect
     }
 
