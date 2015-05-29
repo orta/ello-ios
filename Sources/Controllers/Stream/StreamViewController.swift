@@ -175,7 +175,7 @@ public class StreamViewController: BaseElloViewController {
         collectionView.reloadData()
     }
 
-    public func removeRefreshables() {
+    public func removeAllCellItems() {
         dataSource.removeAllCellItems()
         collectionView.reloadData()
     }
