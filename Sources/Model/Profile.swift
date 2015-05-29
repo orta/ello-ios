@@ -24,10 +24,16 @@ public final class Profile: JSONAble {
     public let hasAdNotificationsEnabled: Bool
     public let allowsAnalytics: Bool
     public let notifyOfCommentsViaEmail: Bool
+    public let notifyOfLovesViaEmail: Bool
     public let notifyOfInvitationAcceptancesViaEmail: Bool
     public let notifyOfMentionsViaEmail: Bool
     public let notifyOfNewFollowersViaEmail: Bool
     public let subscribeToUsersEmailList: Bool
+    public let notifyOfCommentsViaPush: Bool
+    public let notifyOfLovesViaPush: Bool
+    public let notifyOfMentionsViaPush: Bool
+    public let notifyOfNewFollowersViaPush: Bool
+    public let notifyOfInvitationAcceptancesViaPush: Bool
     // optional
     public var gaUniqueId: String?
 
@@ -40,10 +46,16 @@ public final class Profile: JSONAble {
         hasAdNotificationsEnabled: Bool,
         allowsAnalytics: Bool,
         notifyOfCommentsViaEmail: Bool,
+        notifyOfLovesViaEmail: Bool,
         notifyOfInvitationAcceptancesViaEmail: Bool,
         notifyOfMentionsViaEmail: Bool,
         notifyOfNewFollowersViaEmail: Bool,
-        subscribeToUsersEmailList: Bool)
+        subscribeToUsersEmailList: Bool,
+        notifyOfCommentsViaPush: Bool,
+        notifyOfLovesViaPush : Bool,
+        notifyOfMentionsViaPush: Bool,
+        notifyOfNewFollowersViaPush: Bool,
+        notifyOfInvitationAcceptancesViaPush: Bool)
     {
         self.createdAt = createdAt
         self.shortBio = shortBio
@@ -54,10 +66,16 @@ public final class Profile: JSONAble {
         self.hasAdNotificationsEnabled = hasAdNotificationsEnabled
         self.allowsAnalytics = allowsAnalytics
         self.notifyOfCommentsViaEmail = notifyOfCommentsViaEmail
+        self.notifyOfLovesViaEmail = notifyOfLovesViaEmail
         self.notifyOfInvitationAcceptancesViaEmail = notifyOfInvitationAcceptancesViaEmail
         self.notifyOfMentionsViaEmail = notifyOfMentionsViaEmail
         self.notifyOfNewFollowersViaEmail = notifyOfNewFollowersViaEmail
         self.subscribeToUsersEmailList = subscribeToUsersEmailList
+        self.notifyOfCommentsViaPush = notifyOfCommentsViaPush
+        self.notifyOfLovesViaPush = notifyOfLovesViaPush
+        self.notifyOfMentionsViaPush = notifyOfMentionsViaPush
+        self.notifyOfNewFollowersViaPush = notifyOfNewFollowersViaPush
+        self.notifyOfInvitationAcceptancesViaPush = notifyOfInvitationAcceptancesViaPush
         super.init(version: ProfileVersion)
     }
 
@@ -76,10 +94,16 @@ public final class Profile: JSONAble {
         self.hasAdNotificationsEnabled = decoder.decodeKey("hasAdNotificationsEnabled")
         self.allowsAnalytics = decoder.decodeKey("allowsAnalytics")
         self.notifyOfCommentsViaEmail = decoder.decodeKey("notifyOfCommentsViaEmail")
+        self.notifyOfLovesViaEmail = decoder.decodeKey("notifyOfLovesViaEmail")
         self.notifyOfInvitationAcceptancesViaEmail = decoder.decodeKey("notifyOfInvitationAcceptancesViaEmail")
         self.notifyOfMentionsViaEmail = decoder.decodeKey("notifyOfMentionsViaEmail")
         self.notifyOfNewFollowersViaEmail = decoder.decodeKey("notifyOfNewFollowersViaEmail")
         self.subscribeToUsersEmailList = decoder.decodeKey("subscribeToUsersEmailList")
+        self.notifyOfCommentsViaPush = decoder.decodeKey("notifyOfCommentsViaPush")
+        self.notifyOfLovesViaPush = decoder.decodeKey("notifyOfLovesViaPush")
+        self.notifyOfMentionsViaPush = decoder.decodeKey("notifyOfMentionsViaPush")
+        self.notifyOfNewFollowersViaPush = decoder.decodeKey("notifyOfNewFollowersViaPush")
+        self.notifyOfInvitationAcceptancesViaPush = decoder.decodeKey("notifyOfInvitationAcceptancesViaPush")
         super.init(coder: decoder.coder)
     }
 
@@ -96,10 +120,16 @@ public final class Profile: JSONAble {
         coder.encodeObject(hasAdNotificationsEnabled, forKey: "hasAdNotificationsEnabled")
         coder.encodeObject(allowsAnalytics, forKey: "allowsAnalytics")
         coder.encodeObject(notifyOfCommentsViaEmail, forKey: "notifyOfCommentsViaEmail")
+        coder.encodeObject(notifyOfLovesViaEmail, forKey: "notifyOfLovesViaEmail")
         coder.encodeObject(notifyOfInvitationAcceptancesViaEmail, forKey: "notifyOfInvitationAcceptancesViaEmail")
         coder.encodeObject(notifyOfMentionsViaEmail, forKey: "notifyOfMentionsViaEmail")
         coder.encodeObject(notifyOfNewFollowersViaEmail, forKey: "notifyOfNewFollowersViaEmail")
         coder.encodeObject(subscribeToUsersEmailList, forKey: "subscribeToUsersEmailList")
+        coder.encodeObject(notifyOfCommentsViaPush, forKey: "notifyOfCommentsViaPush")
+        coder.encodeObject(notifyOfLovesViaPush, forKey: "notifyOfLovesViaPush")
+        coder.encodeObject(notifyOfMentionsViaPush, forKey: "notifyOfMentionsViaPush")
+        coder.encodeObject(notifyOfNewFollowersViaPush, forKey: "notifyOfNewFollowersViaPush")
+        coder.encodeObject(notifyOfInvitationAcceptancesViaPush, forKey: "notifyOfInvitationAcceptancesViaPush")
         super.encodeWithCoder(coder.coder)
     }
 
@@ -118,10 +148,16 @@ public final class Profile: JSONAble {
             hasAdNotificationsEnabled: json["has_ad_notifications_enabled"].boolValue,
             allowsAnalytics: json["allows_analytics"].boolValue,
             notifyOfCommentsViaEmail: json["notify_of_comments_via_email"].boolValue,
+            notifyOfLovesViaEmail: json["notify_of_loves_via_email"].boolValue,
             notifyOfInvitationAcceptancesViaEmail: json["notify_of_invitation_acceptances_via_email"].boolValue,
             notifyOfMentionsViaEmail: json["notify_of_mentions_via_email"].boolValue,
             notifyOfNewFollowersViaEmail: json["notify_of_new_followers_via_email"].boolValue,
-            subscribeToUsersEmailList: json["subscribe_to_users_email_list"].boolValue
+            subscribeToUsersEmailList: json["subscribe_to_users_email_list"].boolValue,
+            notifyOfCommentsViaPush: json["notify_of_comments_via_push"].boolValue,
+            notifyOfLovesViaPush : json["notify_of_loves_via_push"].boolValue,
+            notifyOfMentionsViaPush: json["notify_of_mentions_via_push"].boolValue,
+            notifyOfNewFollowersViaPush: json["notify_of_new_followers_via_push"].boolValue,
+            notifyOfInvitationAcceptancesViaPush: json["notify_of_invitation_acceptances_via_push"].boolValue
         )
         profile.gaUniqueId = json["ga_unique_id"].string
         return profile

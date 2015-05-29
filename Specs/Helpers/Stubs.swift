@@ -115,11 +115,17 @@ extension Profile: Stubbable {
             hasAdNotificationsEnabled: (values["hasAdNotificationsEnabled"] as? Bool) ?? true,
             allowsAnalytics: (values["allowsAnalytics"] as? Bool) ?? true,
             notifyOfCommentsViaEmail: (values["notifyOfCommentsViaEmail"] as? Bool) ?? true,
+            notifyOfLovesViaEmail: (values["notifyOfLovesViaEmail"] as? Bool) ?? true,
             notifyOfInvitationAcceptancesViaEmail: (values["notifyOfInvitationAcceptancesViaEmail"] as? Bool) ?? true,
             notifyOfMentionsViaEmail: (values["notifyOfMentionsViaEmail"] as? Bool) ?? true,
             notifyOfNewFollowersViaEmail: (values["notifyOfNewFollowersViaEmail"] as? Bool) ?? true,
-            subscribeToUsersEmailList: (values["subscribeToUsersEmailList"] as? Bool) ?? true
-            )
+            subscribeToUsersEmailList: (values["subscribeToUsersEmailList"] as? Bool) ?? true,
+            notifyOfCommentsViaPush: (values["notifyOfCommentsViaPush"] as? Bool) ?? true,
+            notifyOfLovesViaPush : (values["notifyOfLovesViaPush"] as? Bool) ?? true,
+            notifyOfMentionsViaPush: (values["notifyOfMentionsViaPush"] as? Bool) ?? true,
+            notifyOfNewFollowersViaPush: (values["notifyOfNewFollowersViaPush"] as? Bool) ?? true,
+            notifyOfInvitationAcceptancesViaPush: (values["notifyOfInvitationAcceptancesViaPush"] as? Bool) ?? true
+        )
         return profile
     }
 }
