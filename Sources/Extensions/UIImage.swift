@@ -21,22 +21,32 @@ public extension UIImage {
         }
 
         if newSize != image.size {
-            UIGraphicsBeginImageContextWithOptions(newSize, true, 0.0)
+            UIGraphicsBeginImageContextWithOptions(newSize, true, 1.0)
             image.drawInRect(CGRect(origin: CGPointZero, size: newSize))
             newImage = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
         }
+
         return newImage
     }
 
-    func copyWithCorrectOrientationAndSize() -> UIImage {
-        if self.imageOrientation == .Up {
-            return UIImage.scaleToMaxSize(self)
+    func copyWithCorrectOrientationAndSize(completion:(image: UIImage) -> Void) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            let resizedImage: UIImage
+            if self.imageOrientation == .Up {
+                resizedImage = UIImage.scaleToMaxSize(self)
+            }
+            else {
+                UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
+                self.drawInRect(CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height))
+                let image = UIGraphicsGetImageFromCurrentImageContext()
+                UIGraphicsEndImageContext()
+                resizedImage = UIImage.scaleToMaxSize(image)
+            }
+
+            dispatch_async(dispatch_get_main_queue()) {
+                completion(image: resizedImage)
+            }
         }
-        UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
-        self.drawInRect(CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height))
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return UIImage.scaleToMaxSize(image)
     }
 }

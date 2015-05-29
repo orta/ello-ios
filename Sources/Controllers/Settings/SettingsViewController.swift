@@ -323,10 +323,14 @@ extension SettingsViewController: CredentialSettingsDelegate {
 extension SettingsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     public func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            let oriented = image.copyWithCorrectOrientationAndSize()
-            self.photoSaveCallback?(oriented)
+            image.copyWithCorrectOrientationAndSize() { image in
+                self.photoSaveCallback?(image)
+                self.dismissViewControllerAnimated(true, completion: .None)
+            }
         }
-        self.dismissViewControllerAnimated(true, completion: .None)
+        else {
+            self.dismissViewControllerAnimated(true, completion: .None)
+        }
     }
 
     public func imagePickerControllerDidCancel(picker: UIImagePickerController) {

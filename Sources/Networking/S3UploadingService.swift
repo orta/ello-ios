@@ -15,8 +15,14 @@ public class S3UploadingService: NSObject {
     var uploader : ElloS3?
 
     func upload(image : UIImage, filename: String, success: S3UploadSuccessCompletion, failure: ElloFailureCompletion?) {
-        let data = UIImagePNGRepresentation(image)
-        upload(data, filename: filename, contentType: "image/png", success: success, failure: failure)
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            let data = UIImageJPEGRepresentation(image, 0.8)
+
+            // Head back to the thread the original caller was on before heading into the service calls. I may be overthinking it.
+            dispatch_async(dispatch_get_main_queue()) {
+                self.upload(data, filename: filename, contentType: "image/jpeg", success: success, failure: failure)
+            }
+        }
     }
 
     func upload(data : NSData, filename: String, contentType: String, success: S3UploadSuccessCompletion, failure: ElloFailureCompletion?) {

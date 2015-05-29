@@ -74,12 +74,15 @@ extension OnboardingUploadImageViewController {
 // MARK: UIImagePickerControllerDelegate
 extension OnboardingUploadImageViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     public func imagePickerController(controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
-        let orientedImage = (info[UIImagePickerControllerOriginalImage] as? UIImage)?.copyWithCorrectOrientationAndSize()
-        if let orientedImage = orientedImage {
-            userSetImage(orientedImage)
+        if let orientedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            orientedImage.copyWithCorrectOrientationAndSize() { image in
+                self.userSetImage(image)
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }
         }
-
-        dismissViewControllerAnimated(true, completion: nil)
+        else {
+            dismissViewControllerAnimated(true, completion: nil)
+        }
     }
 
     public func imagePickerControllerDidCancel(controller: UIImagePickerController) {
