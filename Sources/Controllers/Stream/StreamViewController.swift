@@ -17,6 +17,7 @@ public protocol WebLinkDelegate: NSObjectProtocol {
 
 public protocol UserDelegate: NSObjectProtocol {
     func userTappedCell(cell: UICollectionViewCell)
+    func userTappedParam(param: String)
 }
 
 public protocol StreamImageCellDelegate : NSObjectProtocol {
@@ -469,6 +470,10 @@ extension StreamViewController : UserDelegate {
                 userTappedDelegate?.userTapped(user)
             }
         }
+    }
+
+    public func userTappedParam(param: String) {
+        userTappedDelegate?.userParamTapped(param)
     }
 
 }

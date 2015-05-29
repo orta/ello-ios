@@ -18,6 +18,7 @@ enum ElloAttributedObject {
     case AttributedUser(user: User)
     case AttributedFollowers(user: User)
     case AttributedFollowing(user: User)
+    case AttributedUserId(userId: String)
     case Unknown
 
     static func generate(link: String, _ object: AnyObject?) -> ElloAttributedObject {
@@ -32,6 +33,8 @@ enum ElloAttributedObject {
             if let user = object as? User { return ElloAttributedObject.AttributedFollowers(user: user) }
         case "following":
             if let user = object as? User { return ElloAttributedObject.AttributedFollowing(user: user) }
+        case "userId":
+            if let userId = object as? String { return ElloAttributedObject.AttributedUserId(userId: userId) }
         default: break
         }
         return .Unknown

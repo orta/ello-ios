@@ -1,64 +1,80 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E17e" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="StreamRepostHeaderCell" customModule="Ello" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="30"/>
-            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-            <subviews>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="f6X-Oz-fpw" userLabel="viaTextView" customClass="ElloTextView" customModule="Ello" customModuleProvider="target">
-                    <rect key="frame" x="15" y="0.0" width="585" height="15"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="15" id="Q7m-yW-8hD" userLabel="viaTextViewHeight"/>
-                    </constraints>
-                    <attributedString key="attributedText">
-                        <fragment content="via">
-                            <attributes>
-                                <font key="NSFont" size="14" name="HelveticaNeue"/>
-                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
-                            </attributes>
-                        </fragment>
-                    </attributedString>
-                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                </textView>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="G8P-5h-DhC" userLabel="sourceTextView" customClass="ElloTextView" customModule="Ello" customModuleProvider="target">
-                    <rect key="frame" x="15" y="15" width="585" height="15"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="15" id="VMN-Rv-3gV" userLabel="sourceTextView - height"/>
-                    </constraints>
-                    <attributedString key="attributedText">
-                        <fragment content="source">
-                            <attributes>
-                                <font key="NSFont" size="14" name="HelveticaNeue"/>
-                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
-                            </attributes>
-                        </fragment>
-                    </attributedString>
-                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                </textView>
-            </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="StreamRepostHeaderCell" id="b1s-9e-5FO" customClass="StreamRepostHeaderCell" customModule="Ello" customModuleProvider="target">
+            <rect key="frame" x="18" y="0.0" width="533" height="50"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="533" height="50"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PXe-dq-y1B" userLabel="containerView">
+                        <rect key="frame" x="0.0" y="0.0" width="533" height="50"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RS8-i1-2hD" userLabel="viaTextView" customClass="ElloTextView" customModule="Ello" customModuleProvider="target">
+                                <rect key="frame" x="15" y="0.0" width="518" height="15"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="15" id="zGD-89-SCa" userLabel="viaTextViewHeight"/>
+                                </constraints>
+                                <attributedString key="attributedText">
+                                    <fragment content="via">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="HelveticaNeue"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <textInputTraits key="textInputTraits"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Md8-kb-Y13" userLabel="sourceTextView" customClass="ElloTextView" customModule="Ello" customModuleProvider="target">
+                                <rect key="frame" x="15" y="15" width="518" height="15"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="15" id="a3k-O6-KEo" userLabel="sourceTextView - height"/>
+                                </constraints>
+                                <attributedString key="attributedText">
+                                    <fragment content="source">
+                                        <attributes>
+                                            <font key="NSFont" size="14" name="HelveticaNeue"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <textInputTraits key="textInputTraits"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="RS8-i1-2hD" firstAttribute="leading" secondItem="PXe-dq-y1B" secondAttribute="leading" constant="15" id="MRZ-Qz-xpz" userLabel="viaTextView - Left"/>
+                            <constraint firstAttribute="trailing" secondItem="RS8-i1-2hD" secondAttribute="trailing" id="UTw-KD-LaT" userLabel="viaTextView - Right"/>
+                            <constraint firstItem="Md8-kb-Y13" firstAttribute="top" secondItem="RS8-i1-2hD" secondAttribute="bottom" id="aTe-xo-z5i"/>
+                            <constraint firstItem="Md8-kb-Y13" firstAttribute="leading" secondItem="PXe-dq-y1B" secondAttribute="leading" constant="15" id="azq-pk-5f2" userLabel="sourceTextView - Left"/>
+                            <constraint firstItem="RS8-i1-2hD" firstAttribute="top" secondItem="PXe-dq-y1B" secondAttribute="top" id="bzN-cV-MRC" userLabel="viaTextView - Top"/>
+                            <constraint firstAttribute="trailing" secondItem="Md8-kb-Y13" secondAttribute="trailing" id="oJT-sz-3EW" userLabel="sourceTextView - Right"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
             <constraints>
-                <constraint firstItem="f6X-Oz-fpw" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Azb-I3-p7J" userLabel="viaTextView - top"/>
-                <constraint firstAttribute="trailing" secondItem="G8P-5h-DhC" secondAttribute="trailing" id="C2r-l1-Mp6" userLabel="sourceTextView - right"/>
-                <constraint firstItem="G8P-5h-DhC" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="FWW-5C-xhN" userLabel="sourceTextView - left"/>
-                <constraint firstItem="G8P-5h-DhC" firstAttribute="top" secondItem="f6X-Oz-fpw" secondAttribute="bottom" id="M3v-eO-AHu" userLabel="sourceTextView - viaTextView - vert"/>
-                <constraint firstAttribute="trailing" secondItem="f6X-Oz-fpw" secondAttribute="trailing" id="UUi-bz-aF7" userLabel="viaTextView - right"/>
-                <constraint firstItem="f6X-Oz-fpw" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="nJF-Sc-6Wp" userLabel="viaTextView - left"/>
+                <constraint firstItem="PXe-dq-y1B" firstAttribute="top" secondItem="b1s-9e-5FO" secondAttribute="top" id="07P-VR-ZUf"/>
+                <constraint firstAttribute="bottom" secondItem="PXe-dq-y1B" secondAttribute="bottom" id="2Em-F3-dcw"/>
+                <constraint firstAttribute="trailing" secondItem="PXe-dq-y1B" secondAttribute="trailing" id="f6w-ub-014"/>
+                <constraint firstItem="PXe-dq-y1B" firstAttribute="leading" secondItem="b1s-9e-5FO" secondAttribute="leading" id="yTM-4C-n6p"/>
             </constraints>
-            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <size key="customSize" width="533" height="50"/>
             <connections>
-                <outlet property="sourceTextView" destination="G8P-5h-DhC" id="097-vI-Why"/>
-                <outlet property="viaTextView" destination="f6X-Oz-fpw" id="PiP-gO-f39"/>
-                <outlet property="viaTextViewHeight" destination="Q7m-yW-8hD" id="JmO-Qo-8pa"/>
+                <outlet property="sourceTextView" destination="Md8-kb-Y13" id="g1Q-XK-8vs"/>
+                <outlet property="viaTextView" destination="RS8-i1-2hD" id="xcs-Qm-iis"/>
+                <outlet property="viaTextViewHeight" destination="zGD-89-SCa" id="1fB-V5-OUs"/>
             </connections>
-            <point key="canvasLocation" x="794" y="160"/>
-        </view>
+            <point key="canvasLocation" x="760.5" y="622"/>
+        </collectionViewCell>
     </objects>
 </document>

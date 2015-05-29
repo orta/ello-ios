@@ -15,6 +15,7 @@ public protocol PostTappedDelegate : NSObjectProtocol {
 
 public protocol UserTappedDelegate : NSObjectProtocol {
     func userTapped(user: User)
+    func userParamTapped(param: String)
 }
 
 public protocol CreateCommentDelegate: NSObjectProtocol {
@@ -177,11 +178,14 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
 // MARK: UserTappedDelegate
 extension StreamableViewController: UserTappedDelegate {
     public func userTapped(user: User) {
-        if alreadyOnUserProfile(user.id) {
+        userParamTapped(user.id)
+    }
+
+    public func userParamTapped(param: String) {
+        if alreadyOnUserProfile(param) {
             return
         }
-
-        let vc = ProfileViewController(userParam: user.id)
+        let vc = ProfileViewController(userParam: param)
         vc.currentUser = currentUser
         self.navigationController?.pushViewController(vc, animated: true)
     }
