@@ -43,7 +43,6 @@ public class StreamViewController: BaseElloViewController {
     @IBOutlet weak public var collectionView: UICollectionView!
     var shouldReload = false
     var streamables:[Streamable]?
-    var refreshableIndex: Int?
     public var dataSource:StreamDataSource!
     public var postbarController:PostbarController?
     var relationshipController: RelationshipController?
@@ -177,12 +176,7 @@ public class StreamViewController: BaseElloViewController {
     }
 
     public func removeRefreshables() {
-        if let refreshableIndex = refreshableIndex {
-            dataSource.removeCellItemsBelow(refreshableIndex)
-        }
-        else {
-            dataSource.removeAllCellItems()
-        }
+        dataSource.removeAllCellItems()
         collectionView.reloadData()
     }
 
@@ -270,7 +264,7 @@ public class StreamViewController: BaseElloViewController {
 
     public func clearForInitialLoad() {
         allOlderPagesLoaded = false
-        dataSource.removeCellItemsBelow(refreshableIndex ?? 0)
+        dataSource.removeAllCellItems()
         collectionView.reloadData()
     }
 
