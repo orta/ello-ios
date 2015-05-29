@@ -100,8 +100,14 @@ public class AppViewController: BaseElloViewController {
         }
     }
 
-    public func loadCurrentUser(failure: ElloErrorCompletion? = nil) {
-        logoView.animateLogo()
+    public func loadCurrentUser(var failure: ElloErrorCompletion? = nil) {
+        if failure == nil {
+            logoView.animateLogo()
+            failure = { _ in
+                self.logoView.stopAnimatingLogo()
+            }
+        }
+
         let profileService = ProfileService()
         profileService.loadCurrentUser(ElloAPI.Profile(perPage: 1),
             success: { user in
@@ -110,11 +116,9 @@ public class AppViewController: BaseElloViewController {
                 self.showMainScreen(user)
             },
             failure: { (error, _) in
-                self.logoView.stopAnimatingLogo()
                 self.failedToLoadCurrentUser(failure, error: error)
             },
             invalidToken: { error in
-                self.logoView.stopAnimatingLogo()
                 self.failedToLoadCurrentUser(failure, error: error)
             })
     }
@@ -123,6 +127,7 @@ public class AppViewController: BaseElloViewController {
         let authToken = AuthToken()
         authToken.reset()
         showButtons()
+        failure?(error: error)
     }
 
     private func showButtons(animated: Bool = true) {
