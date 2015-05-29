@@ -41,22 +41,22 @@ public struct PostService {
 
     public func deletePost(
         postId: String,
-        success: ElloEmptyCompletion,
+        success: ElloEmptyCompletion?,
         failure: ElloFailureCompletion?)
     {
         ElloProvider.elloRequest(ElloAPI.DeletePost(postId: postId),
             method: .DELETE,
             success: { (_, _) in
-                success()
+                success?()
             }, failure: failure
         )
     }
 
-    public func deleteComment(postId: String, commentId: String, success: ElloEmptyCompletion, failure: ElloFailureCompletion?) {
+    public func deleteComment(postId: String, commentId: String, success: ElloEmptyCompletion?, failure: ElloFailureCompletion?) {
         ElloProvider.elloRequest(ElloAPI.DeleteComment(postId: postId, commentId: commentId),
             method: .DELETE,
             success: { (_, _) in
-                success()
+                success?()
             }, failure: failure
         )
     }

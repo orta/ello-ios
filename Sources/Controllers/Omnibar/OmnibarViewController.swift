@@ -205,6 +205,10 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
 
     private func emitPostSuccess(post: Post) {
+        if let user = currentUser, let count = user.postsCount {
+            user.postsCount = count + 1
+            postNotification(CurrentUserChangedNotification, user)
+        }
         postNotification(PostChangedNotification, (post, .Create))
         Tracker.sharedTracker.contentCreated(.Post)
         elloTabBarController?.selectedTab = previousTab

@@ -124,12 +124,17 @@ public class PostbarController: NSObject, PostbarDelegate {
 
         let yesAction = AlertAction(title: NSLocalizedString("Yes", comment: "Yes"), style: .Dark) {
             action in
-            let service = PostService()
+            if let user = self.currentUser {
+                if let userPostCount = user.postsCount {
+                    user.postsCount = userPostCount - 1
+                    postNotification(CurrentUserChangedNotification, user)
+                }
+            }
             if let post = self.postForIndexPath(indexPath) {
-                service.deletePost(post.id,
-                    success: {
-                        postNotification(PostChangedNotification, (post, .Delete))
-                    }, failure: { (error, statusCode)  in
+                postNotification(PostChangedNotification, (post, .Delete))
+                PostService().deletePost(post.id,
+                    success: nil,
+                    failure: { (error, statusCode)  in
                         // TODO: add error handling
                         println("failed to delete post, error: \(error.elloErrorMessage ?? error.localizedDescription)")
                     }
@@ -150,18 +155,17 @@ public class PostbarController: NSObject, PostbarDelegate {
 
         let yesAction = AlertAction(title: NSLocalizedString("Yes", comment: "Yes"), style: .Dark) {
             action in
-            let service = PostService()
             if let comment = self.commentForIndexPath(indexPath), let postId = comment.parentPost?.id {
-                service.deleteComment(postId, commentId: comment.id,
-                    success: {
-                        // comment deleted
-                        postNotification(CommentChangedNotification, (comment, .Delete))
-                        // post comment count updated
-                        if let post = comment.parentPost, let count = post.commentsCount {
-                            post.commentsCount = count - 1
-                            postNotification(PostChangedNotification, (post, .Update))
-                        }
-                    }, failure: { (error, statusCode)  in
+                // comment deleted
+                postNotification(CommentChangedNotification, (comment, .Delete))
+                // post comment count updated
+                if let post = comment.parentPost, let count = post.commentsCount {
+                    post.commentsCount = count - 1
+                    postNotification(PostChangedNotification, (post, .Update))
+                }
+                PostService().deleteComment(postId, commentId: comment.id,
+                    success: nil,
+                    failure: { (error, statusCode)  in
                         // TODO: add error handling
                         println("failed to delete comment, error: \(error.elloErrorMessage ?? error.localizedDescription)")
                     }
@@ -192,7 +196,10 @@ public class PostbarController: NSObject, PostbarDelegate {
             post.loved = false
             postNotification(PostChangedNotification, (post, .Update))
         }
-
+        if let user = currentUser, let userLoveCount = user.lovesCount {
+            user.lovesCount = userLoveCount - 1
+            postNotification(CurrentUserChangedNotification, user)
+        }
         let service = LovesService()
         service.unlovePost(
             postId: post.id,
@@ -213,13 +220,15 @@ public class PostbarController: NSObject, PostbarDelegate {
             post.loved = true
             postNotification(PostChangedNotification, (post, .Update))
         }
-        let service = LovesService()
-        service.lovePost(
+        if let user = currentUser, let userLoveCount = user.lovesCount {
+            user.lovesCount = userLoveCount + 1
+            postNotification(CurrentUserChangedNotification, user)
+        }
+        LovesService().lovePost(
             postId: post.id,
             success: { (love, responseConfig) in
                 postNotification(LoveChangedNotification, (love, .Create))
                 cell.lovesControl.userInteractionEnabled = true
-
             },
             failure: { error, statusCode in
                 cell.lovesControl.userInteractionEnabled = true
@@ -260,9 +269,11 @@ public class PostbarController: NSObject, PostbarDelegate {
         spinnerContainer.addSubview(spinner)
         alertController.contentView = spinnerContainer
         spinner.animateLogo()
-
-        let service = RePostService()
-        service.repost(post: post,
+        if let user = currentUser, let userPostsCount = user.postsCount {
+            user.postsCount = userPostsCount + 1
+            postNotification(CurrentUserChangedNotification, user)
+        }
+        RePostService().repost(post: post,
             success: { repost in
                 postNotification(PostChangedNotification, (repost, .Create))
                 alertController.contentView = nil
