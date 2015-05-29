@@ -15,8 +15,6 @@ public class S3UploadingService: NSObject {
     var uploader : ElloS3?
 
     func upload(image : UIImage, filename: String, success: S3UploadSuccessCompletion, failure: ElloFailureCompletion?) {
-        let data = UIImageJPEGRepresentation(image, 0.8)
-
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             let data = UIImageJPEGRepresentation(image, 0.8)
             dispatch_async(dispatch_get_main_queue()) {
