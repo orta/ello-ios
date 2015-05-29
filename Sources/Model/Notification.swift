@@ -26,6 +26,7 @@ public final class Notification: JSONAble, Authorable {
     public let activity: Activity
     // optional
     public var author: User?
+    // if postId is present, this notification is opened using "PostDetailViewController"
     public var postId: String?
     // computed
     public var createdAt: NSDate { return activity.createdAt }
@@ -52,19 +53,14 @@ public final class Notification: JSONAble, Authorable {
 
         if let post = activity.subject as? Post {
             self.author = post.author
-        }
-        else if let comment = activity.subject as? Comment {
-            self.author = comment.author
-        }
-        else if let user = activity.subject as? User {
-            self.author = user
-        }
-
-        if let post = activity.subject as? Post {
             self.postId = post.id
         }
         else if let comment = activity.subject as? Comment {
+            self.author = comment.author
             self.postId = comment.postId
+        }
+        else if let user = activity.subject as? User {
+            self.author = user
         }
 
         super.init(version: NotificationVersion)
