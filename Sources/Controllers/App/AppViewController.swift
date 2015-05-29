@@ -127,7 +127,7 @@ public class AppViewController: BaseElloViewController {
         let authToken = AuthToken()
         authToken.reset()
         showButtons()
-        failure?()
+        failure?(error: error)
     }
 
     private func showButtons(animated: Bool = true) {
