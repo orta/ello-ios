@@ -34,6 +34,7 @@ public final class Profile: JSONAble {
     public let notifyOfMentionsViaPush: Bool
     public let notifyOfNewFollowersViaPush: Bool
     public let notifyOfInvitationAcceptancesViaPush: Bool
+    public let discoverable: Bool
     // optional
     public var gaUniqueId: String?
 
@@ -55,7 +56,8 @@ public final class Profile: JSONAble {
         notifyOfLovesViaPush : Bool,
         notifyOfMentionsViaPush: Bool,
         notifyOfNewFollowersViaPush: Bool,
-        notifyOfInvitationAcceptancesViaPush: Bool)
+        notifyOfInvitationAcceptancesViaPush: Bool,
+        discoverable: Bool)
     {
         self.createdAt = createdAt
         self.shortBio = shortBio
@@ -76,6 +78,7 @@ public final class Profile: JSONAble {
         self.notifyOfMentionsViaPush = notifyOfMentionsViaPush
         self.notifyOfNewFollowersViaPush = notifyOfNewFollowersViaPush
         self.notifyOfInvitationAcceptancesViaPush = notifyOfInvitationAcceptancesViaPush
+        self.discoverable = discoverable
         super.init(version: ProfileVersion)
     }
 
@@ -104,6 +107,7 @@ public final class Profile: JSONAble {
         self.notifyOfMentionsViaPush = decoder.decodeKey("notifyOfMentionsViaPush")
         self.notifyOfNewFollowersViaPush = decoder.decodeKey("notifyOfNewFollowersViaPush")
         self.notifyOfInvitationAcceptancesViaPush = decoder.decodeKey("notifyOfInvitationAcceptancesViaPush")
+        self.discoverable = decoder.decodeKey("discoverable")
         super.init(coder: decoder.coder)
     }
 
@@ -130,6 +134,7 @@ public final class Profile: JSONAble {
         coder.encodeObject(notifyOfMentionsViaPush, forKey: "notifyOfMentionsViaPush")
         coder.encodeObject(notifyOfNewFollowersViaPush, forKey: "notifyOfNewFollowersViaPush")
         coder.encodeObject(notifyOfInvitationAcceptancesViaPush, forKey: "notifyOfInvitationAcceptancesViaPush")
+        coder.encodeObject(discoverable, forKey: "discoverable")
         super.encodeWithCoder(coder.coder)
     }
 
@@ -157,7 +162,8 @@ public final class Profile: JSONAble {
             notifyOfLovesViaPush : json["notify_of_loves_via_push"].boolValue,
             notifyOfMentionsViaPush: json["notify_of_mentions_via_push"].boolValue,
             notifyOfNewFollowersViaPush: json["notify_of_new_followers_via_push"].boolValue,
-            notifyOfInvitationAcceptancesViaPush: json["notify_of_invitation_acceptances_via_push"].boolValue
+            notifyOfInvitationAcceptancesViaPush: json["notify_of_invitation_acceptances_via_push"].boolValue,
+            discoverable: json["discoverable"].boolValue
         )
         profile.gaUniqueId = json["ga_unique_id"].string
         return profile
