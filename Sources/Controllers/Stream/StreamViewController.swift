@@ -76,6 +76,7 @@ public class StreamViewController: BaseElloViewController {
     var loveChangedNotification: NotificationObserver?
     var relationshipChangedNotification: NotificationObserver?
     var settingChangedNotification: NotificationObserver?
+    var currentUserChangedNotification: NotificationObserver?
 
     weak var createCommentDelegate : CreateCommentDelegate?
     weak var postTappedDelegate : PostTappedDelegate?
@@ -333,6 +334,13 @@ public class StreamViewController: BaseElloViewController {
                 return
             }
             self.dataSource.modifyUserSettingsItems(user, collectionView: self.collectionView)
+        }
+
+        currentUserChangedNotification = NotificationObserver(notification: CurrentUserChangedNotification) { user in
+            if !self.initialDataLoaded {
+                return
+            }
+            self.dataSource.modifyItems(user, change: .Update, collectionView: self.collectionView)
         }
     }
 

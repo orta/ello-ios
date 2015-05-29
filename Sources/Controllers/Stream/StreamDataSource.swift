@@ -377,8 +377,12 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
             }
             collectionView.reloadItemsAtIndexPaths(changedItems.0)
         case .Block, .Mute:
-            collectionView.deleteItemsAtIndexPaths(removeItemsForJSONAble(user, change: .Delete))
+            modifyItems(user, change: .Delete, collectionView: collectionView)
         default: break
+        }
+        // TODO: figure out why the above doesn't update the counts.
+        if user.id == currentUser?.id {
+            modifyItems(user, change: .Update, collectionView: collectionView)
         }
     }
 

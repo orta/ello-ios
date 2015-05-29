@@ -12,6 +12,7 @@ public let CommentChangedNotification = TypedNotification<(Comment, ContentChang
 public let PostChangedNotification = TypedNotification<(Post, ContentChange)>(name: "postChangedNotification")
 public let LoveChangedNotification = TypedNotification<(Love, ContentChange)>(name: "loveChangedNotification")
 public let RelationshipChangedNotification = TypedNotification<User>(name: "relationshipChangedNotification")
+public let CurrentUserChangedNotification = TypedNotification<User>(name: "currentUserChangedNotification")
 public let SettingChangedNotification = TypedNotification<User>(name: "settingChangedNotification")
 
 public enum ContentChange {

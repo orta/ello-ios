@@ -41,16 +41,16 @@ public struct ProfileHeaderCellPresenter {
             cell.nameLabel.text = user.name
             cell.bioWebView.loadHTMLString(StreamTextCellHTML.postHTML(user.formattedShortBio ?? ""), baseURL: NSURL(string: "/"))
 
-            let postCount = user.postsCount?.numberToHuman() ?? ""
+            let postCount = user.postsCount?.numberToHuman(showZero: true) ?? "0"
             cell.postsButton.title = NSLocalizedString("Posts", comment: "Posts")
             cell.postsButton.count = postCount
 
-            let followingCount = user.followingCount?.numberToHuman() ?? ""
+            let followingCount = user.followingCount?.numberToHuman(showZero: true) ?? "0"
             cell.followingButton.title = NSLocalizedString("Following", comment: "Following")
             cell.followingButton.count = followingCount
 
 
-            let lovesCount = user.lovesCount?.numberToHuman() ?? ""
+            let lovesCount = user.lovesCount?.numberToHuman(showZero: true) ?? "0"
             cell.lovesButton.title = NSLocalizedString("Loves", comment: "Loves")
             cell.lovesButton.count = lovesCount
 
@@ -58,7 +58,7 @@ public struct ProfileHeaderCellPresenter {
             // toInt() returns an optional that will fail when not an Int allowing the ∞ to display for the ello user.
             let fCount: String
             if let followerCountInt = user.followersCount?.toInt() {
-                fCount = followerCountInt.numberToHuman()
+                fCount = followerCountInt.numberToHuman(showZero: true)
             }
             else {
                 fCount = user.followersCount ?? "0"
