@@ -67,14 +67,15 @@ public class IntroController: UIViewController, UIPageViewControllerDataSource, 
         let skipButtonRightMargin: CGFloat = 10
         skipButton.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
         skipButton.setTitle("Skip", forState: UIControlState.Normal)
+        skipButton.titleLabel?.font = UIFont.typewriterFont(10)
         skipButton.sizeToFit()
+
         // Set frame margin from right edge
         skipButton.frame = skipButton.frame.atX(view.frame.width - skipButtonRightMargin - skipButton.frame.width)
         skipButton.center.y = pageControl.center.y
         skipButton.setTitleColor(UIColor.greyA(), forState: .Normal)
-        skipButton.titleLabel?.font = UIFont.typewriterFont(8)
         skipButton.addTarget(self, action: "didTouchSkipIntro:", forControlEvents: .TouchUpInside)
-        
+
         // Add subviews
         view.addSubview(pageControl)
         view.addSubview(skipButton)
