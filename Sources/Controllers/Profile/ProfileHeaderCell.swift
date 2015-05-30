@@ -55,6 +55,11 @@ public class ProfileHeaderCell: UICollectionViewCell {
         bioWebView.scrollView.scrollEnabled = false
     }
 
+    override public func prepareForReuse() {
+        super.prepareForReuse()
+        bioWebView.stopLoading()
+    }
+
     func setAvatarURL(url:NSURL) {
         avatarButton.setAvatarURL(url)
     }

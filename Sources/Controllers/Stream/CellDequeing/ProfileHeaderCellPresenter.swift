@@ -28,6 +28,7 @@ public struct ProfileHeaderCellPresenter {
                 cell.relationshipControl.hidden = user.id == currentUser.id
             }
             cell.profileButtonsView.hidden = !cell.relationshipControl.hidden
+
             cell.relationshipControl.showMoreButton = !cell.relationshipControl.hidden
 
             if let avatarURL = user.avatarURL {
@@ -39,7 +40,18 @@ public struct ProfileHeaderCellPresenter {
             cell.relationshipControl.relationship = user.relationshipPriority
             cell.usernameLabel.text = user.atName
             cell.nameLabel.text = user.name
-            cell.bioWebView.loadHTMLString(StreamTextCellHTML.postHTML(user.formattedShortBio ?? ""), baseURL: NSURL(string: "/"))
+            var htmlContent = user.formattedShortBio ?? ""
+            if let links = user.externalLinksList {
+                htmlContent += "<p>"
+                for link in links {
+                    if let url = link["url"], let text = link["text"] {
+                        htmlContent += "<a href='\(url)' target='_blank'>\(text)</a> "
+                    }
+                }
+                htmlContent += "</p>"
+            }
+            println("htmlContent: \(htmlContent.URLString)")
+            cell.bioWebView.loadHTMLString(StreamTextCellHTML.postHTML(htmlContent.URLString), baseURL: NSURL(string: "/"))
 
             let postCount = user.postsCount?.numberToHuman(showZero: true) ?? "0"
             cell.postsButton.title = NSLocalizedString("Posts", comment: "Posts")

@@ -55,6 +55,7 @@ public class ProfileHeaderCellSizeCalculator: NSObject {
         // add web view height and bottom padding
         if hv > 0.0 {
             height += hv
+            println("height: \(height)")
         }
         cellItem.oneColumnCellHeight = height
         cellItem.multiColumnCellHeight = height
@@ -66,6 +67,7 @@ extension ProfileHeaderCellSizeCalculator: UIWebViewDelegate {
 
     public func webViewDidFinishLoad(webView: UIWebView) {
         let jsResult = webView.stringByEvaluatingJavaScriptFromString("window.contentHeight()") ?? "0.0"
+        println("jsResult: \(jsResult)")
         setHeight(CGFloat((jsResult as NSString).doubleValue))
     }
 
