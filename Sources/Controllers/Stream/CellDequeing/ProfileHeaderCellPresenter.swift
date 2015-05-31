@@ -28,7 +28,6 @@ public struct ProfileHeaderCellPresenter {
                 cell.relationshipControl.hidden = user.id == currentUser.id
             }
             cell.profileButtonsView.hidden = !cell.relationshipControl.hidden
-
             cell.relationshipControl.showMoreButton = !cell.relationshipControl.hidden
 
             if let avatarURL = user.avatarURL {
