@@ -34,14 +34,9 @@ public class ProfileHeaderCellSizeCalculator: NSObject {
     private func loadNext() {
         if !cellItems.isEmpty {
             let user = cellItems[0].jsonable as! User
-            if let shortBio = user.formattedShortBio {
-                let html = StreamTextCellHTML.postHTML(shortBio)
-                // needs to use the same width as the post text region
-                webView.loadHTMLString(html, baseURL: NSURL(string: "/"))
-            }
-            else {
-                setHeight(0.0)
-            }
+            let html = StreamTextCellHTML.postHTML(user.headerHTMLContent)
+            // needs to use the same width as the post text region
+            webView.loadHTMLString(html, baseURL: NSURL(string: "/"))
         }
         else {
             completion()
@@ -55,7 +50,6 @@ public class ProfileHeaderCellSizeCalculator: NSObject {
         // add web view height and bottom padding
         if hv > 0.0 {
             height += hv
-            println("height: \(height)")
         }
         cellItem.oneColumnCellHeight = height
         cellItem.multiColumnCellHeight = height
@@ -67,7 +61,6 @@ extension ProfileHeaderCellSizeCalculator: UIWebViewDelegate {
 
     public func webViewDidFinishLoad(webView: UIWebView) {
         let jsResult = webView.stringByEvaluatingJavaScriptFromString("window.contentHeight()") ?? "0.0"
-        println("jsResult: \(jsResult)")
         setHeight(CGFloat((jsResult as NSString).doubleValue))
     }
 
