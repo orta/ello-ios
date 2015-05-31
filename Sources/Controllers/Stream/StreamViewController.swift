@@ -258,6 +258,7 @@ public class StreamViewController: BaseElloViewController {
                     self.doneLoading()
                 }, failure: { (error, statusCode) in
                     println("failed to load \(self.streamKind.name) stream (reason: \(error))")
+                    self.initialLoadFailure()
                     self.doneLoading()
                 }, noContent: {
                     println("nothing new")
@@ -275,6 +276,16 @@ public class StreamViewController: BaseElloViewController {
     }
 
 // MARK: Private Functions
+
+    private func initialLoadFailure() {
+        let message = NSLocalizedString("Something went wrong. Thank you for your patience with Ello Beta!", comment: "Initial stream load failure")
+        let alertController = AlertViewController(message: message)
+        let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
+        alertController.addAction(action)
+        self.presentViewController(alertController, animated: true) {
+            self.navigationController?.popViewControllerAnimated(true)
+        }
+    }
 
     private func addNotificationObservers() {
         updatedStreamImageCellHeightNotification = NotificationObserver(notification: StreamNotification.AnimateCellHeightNotification) { streamImageCell in
