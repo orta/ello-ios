@@ -9,8 +9,8 @@
                 <outlet property="chevron" destination="JGV-dN-iGK" id="BMD-T2-CWT"/>
                 <outlet property="inviteButton" destination="IIQ-FI-RMS" id="8k1-kU-EI3"/>
                 <outlet property="inviteLabel" destination="0gA-HT-4By" id="CjJ-3R-kua"/>
-                <outlet property="navigationBar" destination="cxP-9p-Wfe" id="jfM-rf-fZP"/>
-                <outlet property="navigationBarTopConstraint" destination="Qah-bH-Ngd" id="7Zo-hl-7XP"/>
+                <outlet property="navigationBar" destination="y5q-qn-qfv" id="ru9-38-OcB"/>
+                <outlet property="navigationContainer" destination="kEk-JT-OUF" id="wfa-9Y-TuM"/>
                 <outlet property="view" destination="iN0-l3-epB" id="EVA-cW-n44"/>
                 <outlet property="viewContainer" destination="nIP-YD-8Kd" id="tcO-dS-I5w"/>
             </connections>
@@ -24,45 +24,67 @@
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cxP-9p-Wfe" userLabel="navigationBar">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kEk-JT-OUF" userLabel="navigationContainer">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="103"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Find &amp; invite your friends" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0gA-HT-4By" userLabel="inviteLabel" customClass="ElloLabel" customModule="Ello" customModuleProvider="target">
-                            <rect key="frame" x="15" y="11" width="575" height="21"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JGV-dN-iGK" userLabel="chevron">
-                            <rect key="frame" x="567" y="0.0" width="28" height="44"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cxP-9p-Wfe" userLabel="findFriends">
+                            <rect key="frame" x="15" y="43.5" width="570" height="44.5"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Find &amp; invite your friends" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0gA-HT-4By" userLabel="inviteLabel" customClass="ElloLabel" customModule="Ello" customModuleProvider="target">
+                                    <rect key="frame" x="15" y="12" width="545" height="20.5"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JGV-dN-iGK" userLabel="chevron">
+                                    <rect key="frame" x="537" y="0.0" width="28" height="44.5"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="28" id="0eG-SF-pzh" userLabel="chevron - width"/>
+                                        <constraint firstAttribute="height" constant="44" id="CIo-G8-3Tj" userLabel="chevron - height"/>
+                                    </constraints>
+                                </imageView>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IIQ-FI-RMS" userLabel="inviteButton">
+                                    <rect key="frame" x="0.0" y="0.0" width="570" height="44.5"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <state key="normal">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="importMyContactsTapped:" destination="-1" eventType="touchUpInside" id="aPs-Kx-p5l"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="28" id="0eG-SF-pzh" userLabel="chevron - width"/>
-                                <constraint firstAttribute="height" constant="44" id="CIo-G8-3Tj" userLabel="chevron - height"/>
+                                <constraint firstAttribute="bottom" secondItem="IIQ-FI-RMS" secondAttribute="bottom" id="1Ye-aX-JuC" userLabel="inviteButton - Bottom"/>
+                                <constraint firstAttribute="trailing" secondItem="0gA-HT-4By" secondAttribute="trailing" constant="10" id="EZK-TJ-NWq" userLabel="inviteLabel - Right"/>
+                                <constraint firstItem="IIQ-FI-RMS" firstAttribute="leading" secondItem="cxP-9p-Wfe" secondAttribute="leading" id="JRa-iE-wQR" userLabel="inviteButton - Left"/>
+                                <constraint firstAttribute="trailing" secondItem="JGV-dN-iGK" secondAttribute="trailing" constant="5" id="LSN-KI-mpT" userLabel="chevron - right"/>
+                                <constraint firstAttribute="centerY" secondItem="0gA-HT-4By" secondAttribute="centerY" id="MaQ-Cj-Ssh" userLabel="inviteLabel - Vertical Center"/>
+                                <constraint firstAttribute="height" constant="44" id="Mq1-vB-lBa" userLabel="navigationBar - Height"/>
+                                <constraint firstAttribute="centerY" secondItem="JGV-dN-iGK" secondAttribute="centerY" id="NHZ-AA-HRW" userLabel="chevron - vert center"/>
+                                <constraint firstItem="IIQ-FI-RMS" firstAttribute="top" secondItem="cxP-9p-Wfe" secondAttribute="top" id="OGa-Xl-pqE" userLabel="inviteButton - Top"/>
+                                <constraint firstAttribute="trailing" secondItem="IIQ-FI-RMS" secondAttribute="trailing" id="SIz-JZ-r30" userLabel="inviteButton - Right"/>
+                                <constraint firstItem="0gA-HT-4By" firstAttribute="leading" secondItem="cxP-9p-Wfe" secondAttribute="leading" constant="15" id="xwa-hb-xzs" userLabel="inviteLabel - Left"/>
                             </constraints>
-                        </imageView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IIQ-FI-RMS" userLabel="inviteButton">
+                        </view>
+                        <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y5q-qn-qfv" customClass="ElloNavigationBar" customModule="Ello" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <state key="normal">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="importMyContactsTapped:" destination="-1" eventType="touchUpInside" id="aPs-Kx-p5l"/>
-                            </connections>
-                        </button>
+                            <items>
+                                <navigationItem title="Title" id="Z8R-Wm-V6o"/>
+                            </items>
+                        </navigationBar>
                     </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="bottom" secondItem="IIQ-FI-RMS" secondAttribute="bottom" id="1Ye-aX-JuC" userLabel="inviteButton - Bottom"/>
-                        <constraint firstAttribute="trailing" secondItem="0gA-HT-4By" secondAttribute="trailing" constant="10" id="EZK-TJ-NWq" userLabel="inviteLabel - Right"/>
-                        <constraint firstItem="IIQ-FI-RMS" firstAttribute="leading" secondItem="cxP-9p-Wfe" secondAttribute="leading" id="JRa-iE-wQR" userLabel="inviteButton - Left"/>
-                        <constraint firstAttribute="trailing" secondItem="JGV-dN-iGK" secondAttribute="trailing" constant="5" id="LSN-KI-mpT" userLabel="chevron - right"/>
-                        <constraint firstAttribute="centerY" secondItem="0gA-HT-4By" secondAttribute="centerY" id="MaQ-Cj-Ssh" userLabel="inviteLabel - Vertical Center"/>
-                        <constraint firstAttribute="height" constant="44" id="Mq1-vB-lBa" userLabel="navigationBar - Height"/>
-                        <constraint firstAttribute="centerY" secondItem="JGV-dN-iGK" secondAttribute="centerY" id="NHZ-AA-HRW" userLabel="chevron - vert center"/>
-                        <constraint firstItem="IIQ-FI-RMS" firstAttribute="top" secondItem="cxP-9p-Wfe" secondAttribute="top" id="OGa-Xl-pqE" userLabel="inviteButton - Top"/>
-                        <constraint firstAttribute="trailing" secondItem="IIQ-FI-RMS" secondAttribute="trailing" id="SIz-JZ-r30" userLabel="inviteButton - Right"/>
-                        <constraint firstItem="0gA-HT-4By" firstAttribute="leading" secondItem="cxP-9p-Wfe" secondAttribute="leading" constant="15" id="xwa-hb-xzs" userLabel="inviteLabel - Left"/>
+                        <constraint firstAttribute="height" constant="103" id="2rw-Kh-kH7"/>
+                        <constraint firstAttribute="bottom" secondItem="cxP-9p-Wfe" secondAttribute="bottom" constant="15" id="Bao-ch-SHe"/>
+                        <constraint firstItem="cxP-9p-Wfe" firstAttribute="leading" secondItem="kEk-JT-OUF" secondAttribute="leading" constant="15" id="Ye2-yf-Rq1"/>
+                        <constraint firstAttribute="trailing" secondItem="y5q-qn-qfv" secondAttribute="trailing" id="Yu5-xF-tqe"/>
+                        <constraint firstItem="IIQ-FI-RMS" firstAttribute="top" secondItem="y5q-qn-qfv" secondAttribute="bottom" id="d8M-Yx-Yw6"/>
+                        <constraint firstItem="y5q-qn-qfv" firstAttribute="leading" secondItem="kEk-JT-OUF" secondAttribute="leading" id="ehO-ya-XM4"/>
+                        <constraint firstAttribute="trailing" secondItem="cxP-9p-Wfe" secondAttribute="trailing" constant="15" id="jdU-ey-fYe"/>
+                        <constraint firstItem="y5q-qn-qfv" firstAttribute="top" secondItem="kEk-JT-OUF" secondAttribute="top" id="lDV-Nj-zvp"/>
                     </constraints>
                 </view>
             </subviews>
@@ -71,10 +93,10 @@
                 <constraint firstItem="nIP-YD-8Kd" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="30a-Db-gCe" userLabel="viewContainer - Left"/>
                 <constraint firstAttribute="trailing" secondItem="nIP-YD-8Kd" secondAttribute="trailing" id="590-Cb-nsO" userLabel="viewContainer - Right"/>
                 <constraint firstItem="nIP-YD-8Kd" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="5fa-BA-Qfn" userLabel="viewContainer - Top"/>
-                <constraint firstItem="cxP-9p-Wfe" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="FLm-e3-m4X" userLabel="navigationBar - Left"/>
-                <constraint firstAttribute="top" secondItem="cxP-9p-Wfe" secondAttribute="top" id="Qah-bH-Ngd" userLabel="navigationBarTopConstraint"/>
-                <constraint firstAttribute="trailing" secondItem="cxP-9p-Wfe" secondAttribute="trailing" id="WXS-zG-j8J" userLabel="navigationBar - Right"/>
+                <constraint firstItem="kEk-JT-OUF" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="5w2-cj-WCe"/>
+                <constraint firstAttribute="trailing" secondItem="kEk-JT-OUF" secondAttribute="trailing" id="YSk-iD-LeR"/>
                 <constraint firstAttribute="bottom" secondItem="nIP-YD-8Kd" secondAttribute="bottom" id="h6e-v0-YcE" userLabel="viewContainer - Bottom"/>
+                <constraint firstItem="kEk-JT-OUF" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="kgC-c2-Oxe"/>
             </constraints>
         </view>
     </objects>
