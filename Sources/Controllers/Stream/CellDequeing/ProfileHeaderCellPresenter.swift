@@ -39,7 +39,7 @@ public struct ProfileHeaderCellPresenter {
             cell.relationshipControl.relationship = user.relationshipPriority
             cell.usernameLabel.text = user.atName
             cell.nameLabel.text = user.name
-            cell.bioWebView.loadHTMLString(StreamTextCellHTML.postHTML(user.formattedShortBio ?? ""), baseURL: NSURL(string: "/"))
+            cell.bioWebView.loadHTMLString(StreamTextCellHTML.postHTML(user.headerHTMLContent), baseURL: NSURL(string: "/"))
 
             let postCount = user.postsCount?.numberToHuman(showZero: true) ?? "0"
             cell.postsButton.title = NSLocalizedString("Posts", comment: "Posts")

@@ -48,6 +48,19 @@ public final class User: JSONAble {
     public var avatarURL: NSURL? { return avatar?.regular?.url }
     public var coverImageURL: NSURL? { return coverImage?.hdpi?.url }
     public var isCurrentUser: Bool { return self.profile != nil }
+    public var headerHTMLContent: String {
+        var htmlContent = formattedShortBio ?? ""
+        if let links = externalLinksList {
+            htmlContent += "<p class='user-links'>"
+            for link in links {
+                if let url = link["url"], let text = link["text"] {
+                    htmlContent += "<a href='\(url)'>\(text)</a> "
+                }
+            }
+            htmlContent += "</p>"
+        }
+        return htmlContent
+    }
     // profile
     public var profile: Profile?
 
