@@ -23,6 +23,8 @@ public struct ProfileHeaderCellPresenter {
             let user = streamCellItem.jsonable as! User
             cell.user = user
             cell.relationshipControl.hidden = false
+            cell.nsfwLabel.hidden = !user.postsAdultContent
+            cell.usernameRightConstraint.constant = user.postsAdultContent ? 75.0 : 15.0
 
             if let currentUser = cell.currentUser {
                 cell.relationshipControl.hidden = user.id == currentUser.id
