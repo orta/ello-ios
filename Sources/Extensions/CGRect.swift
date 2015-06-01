@@ -88,6 +88,10 @@ public extension CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: top, left: left, bottom: bottom, right: right))
     }
 
+    func inset(insets: UIEdgeInsets) -> CGRect {
+        return UIEdgeInsetsInsetRect(self, insets)
+    }
+
 // MARK: shrinkXxx
     func shrinkLeft(amt:CGFloat) -> CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: 0, left: 0, bottom: 0, right: amt))
