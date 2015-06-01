@@ -23,6 +23,7 @@ public class ProfileViewController: StreamableViewController {
     var coverWidthSet = false
     let ratio:CGFloat = 16.0/9.0
     let initialStreamKind: StreamKind
+    var currentUserChangedNotification: NotificationObserver?
 
     private var isSetup = false
 
@@ -50,6 +51,14 @@ public class ProfileViewController: StreamableViewController {
 
         streamViewController.streamKind = initialStreamKind
         streamViewController.initialLoadClosure = reloadEntireProfile
+        currentUserChangedNotification = NotificationObserver(notification: CurrentUserChangedNotification) { [unowned self] _ in
+            self.updateCachedImages()
+        }
+    }
+
+     deinit {
+        currentUserChangedNotification?.removeObserver()
+        currentUserChangedNotification = nil
     }
 
     required public init(coder aDecoder: NSCoder) {
@@ -142,6 +151,8 @@ public class ProfileViewController: StreamableViewController {
 
     private func userLoaded(user: User, responseConfig: ResponseConfig) {
         self.user = user
+        updateCurrentUser(user)
+
         // need to reassign the userParam to the id for paging
         userParam = user.id
         // need to reassign the streamKind so that the currentUser can page based off the user.id from the ElloAPI.path
@@ -151,6 +162,7 @@ public class ProfileViewController: StreamableViewController {
         // clear out this view
         streamViewController.clearForInitialLoad()
         title = user.atName ?? "Profile"
+
         if let cachedImage = cachedImage(.CoverImage) {
             coverImage.image = cachedImage
             self.coverImage.alpha = 1.0
@@ -182,6 +194,29 @@ extension ProfileViewController {
             return TemporaryCache.load(key)
         }
         return nil
+    }
+
+    public func updateCachedImages() {
+        if let cachedImage = cachedImage(.CoverImage) {
+            coverImage.image = cachedImage
+            self.coverImage.alpha = 1.0
+        }
+    }
+
+    public func updateCurrentUser(user: User) {
+        if user.id == self.currentUser?.id {
+            // only update the avatar and coverImage assets if there is nothing
+            // in the cache.  If images are in the cache, that implies that the
+            // image could still be unprocessed, so don't set the avatar or
+            // coverImage to the old, stale value.
+            if cachedImage(.Avatar) == nil {
+                self.currentUser?.avatar = user.avatar
+            }
+
+            if cachedImage(.CoverImage) == nil {
+                self.currentUser?.coverImage = user.coverImage
+            }
+        }
     }
 }
 

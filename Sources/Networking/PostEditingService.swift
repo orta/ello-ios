@@ -151,13 +151,7 @@ public class PostEditingService: NSObject {
                     imageRegion.url = url
 
                     if let url = url {
-                        let attachment = Attachment(url: url)
-                        attachment.width = Int(image.size.width)
-                        attachment.height = Int(image.size.height)
-
-                        let asset = Asset(id: NSUUID().UUIDString)
-                        asset.optimized = attachment
-
+                        let asset = Asset(image: image, url: url)
                         ElloLinkedStore.sharedInstance.setObject(asset, forKey: asset.id, inCollection: MappingType.AssetsType.rawValue)
                         imageRegion.addLinkObject("assets", key: asset.id, collection: MappingType.AssetsType.rawValue)
                     }
