@@ -45,7 +45,6 @@ public struct StreamHeaderCellPresenter {
 
             cell.setAvatarURL(authorable.author?.avatarURL)
             cell.timeStamp = streamKind.isGridLayout ? "" : authorable.createdAt.timeAgoInWords()
-            cell.timeStamp = cell.timeStamp.stringByReplacingOccurrencesOfString("~", withString: "")
 
             if streamCellItem.type == .CommentHeader {
                 cell.avatarHeight = 30.0
