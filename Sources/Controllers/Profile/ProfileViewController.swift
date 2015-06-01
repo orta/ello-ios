@@ -44,7 +44,7 @@ public class ProfileViewController: StreamableViewController {
     required public init(user: User) {
         // this user should have the .proifle on it since it is currentUser
         self.user = user
-        self.userParam = self.user!.id
+        self.userParam = user.id
         self.initialStreamKind = .Profile(perPage: 10)
         super.init(nibName: "ProfileViewController", bundle: nil)
 
