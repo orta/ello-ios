@@ -27,10 +27,12 @@ public final class Profile: JSONAble {
     public let notifyOfInvitationAcceptancesViaEmail: Bool
     public let notifyOfMentionsViaEmail: Bool
     public let notifyOfNewFollowersViaEmail: Bool
+    public let notifyOfRepostsViaEmail: Bool
     public let subscribeToUsersEmailList: Bool
     public let notifyOfCommentsViaPush: Bool
     public let notifyOfLovesViaPush: Bool
     public let notifyOfMentionsViaPush: Bool
+    public let notifyOfRepostsViaPush: Bool
     public let notifyOfNewFollowersViaPush: Bool
     public let notifyOfInvitationAcceptancesViaPush: Bool
     public let discoverable: Bool
@@ -49,10 +51,12 @@ public final class Profile: JSONAble {
         notifyOfInvitationAcceptancesViaEmail: Bool,
         notifyOfMentionsViaEmail: Bool,
         notifyOfNewFollowersViaEmail: Bool,
+        notifyOfRepostsViaEmail: Bool,
         subscribeToUsersEmailList: Bool,
         notifyOfCommentsViaPush: Bool,
         notifyOfLovesViaPush : Bool,
         notifyOfMentionsViaPush: Bool,
+        notifyOfRepostsViaPush: Bool,
         notifyOfNewFollowersViaPush: Bool,
         notifyOfInvitationAcceptancesViaPush: Bool,
         discoverable: Bool)
@@ -69,10 +73,12 @@ public final class Profile: JSONAble {
         self.notifyOfInvitationAcceptancesViaEmail = notifyOfInvitationAcceptancesViaEmail
         self.notifyOfMentionsViaEmail = notifyOfMentionsViaEmail
         self.notifyOfNewFollowersViaEmail = notifyOfNewFollowersViaEmail
+        self.notifyOfRepostsViaEmail = notifyOfRepostsViaEmail
         self.subscribeToUsersEmailList = subscribeToUsersEmailList
         self.notifyOfCommentsViaPush = notifyOfCommentsViaPush
         self.notifyOfLovesViaPush = notifyOfLovesViaPush
         self.notifyOfMentionsViaPush = notifyOfMentionsViaPush
+        self.notifyOfRepostsViaPush = notifyOfRepostsViaPush
         self.notifyOfNewFollowersViaPush = notifyOfNewFollowersViaPush
         self.notifyOfInvitationAcceptancesViaPush = notifyOfInvitationAcceptancesViaPush
         self.discoverable = discoverable
@@ -97,10 +103,12 @@ public final class Profile: JSONAble {
         self.notifyOfInvitationAcceptancesViaEmail = decoder.decodeKey("notifyOfInvitationAcceptancesViaEmail")
         self.notifyOfMentionsViaEmail = decoder.decodeKey("notifyOfMentionsViaEmail")
         self.notifyOfNewFollowersViaEmail = decoder.decodeKey("notifyOfNewFollowersViaEmail")
+        self.notifyOfRepostsViaEmail = decoder.decodeKey("notifyOfRepostsViaEmail")
         self.subscribeToUsersEmailList = decoder.decodeKey("subscribeToUsersEmailList")
         self.notifyOfCommentsViaPush = decoder.decodeKey("notifyOfCommentsViaPush")
         self.notifyOfLovesViaPush = decoder.decodeKey("notifyOfLovesViaPush")
         self.notifyOfMentionsViaPush = decoder.decodeKey("notifyOfMentionsViaPush")
+        self.notifyOfRepostsViaPush = decoder.decodeKey("notifyOfRepostsViaPush")
         self.notifyOfNewFollowersViaPush = decoder.decodeKey("notifyOfNewFollowersViaPush")
         self.notifyOfInvitationAcceptancesViaPush = decoder.decodeKey("notifyOfInvitationAcceptancesViaPush")
         self.discoverable = decoder.decodeKey("discoverable")
@@ -123,10 +131,12 @@ public final class Profile: JSONAble {
         coder.encodeObject(notifyOfInvitationAcceptancesViaEmail, forKey: "notifyOfInvitationAcceptancesViaEmail")
         coder.encodeObject(notifyOfMentionsViaEmail, forKey: "notifyOfMentionsViaEmail")
         coder.encodeObject(notifyOfNewFollowersViaEmail, forKey: "notifyOfNewFollowersViaEmail")
+        coder.encodeObject(notifyOfRepostsViaEmail, forKey: "notifyOfRepostsViaEmail")
         coder.encodeObject(subscribeToUsersEmailList, forKey: "subscribeToUsersEmailList")
         coder.encodeObject(notifyOfCommentsViaPush, forKey: "notifyOfCommentsViaPush")
         coder.encodeObject(notifyOfLovesViaPush, forKey: "notifyOfLovesViaPush")
         coder.encodeObject(notifyOfMentionsViaPush, forKey: "notifyOfMentionsViaPush")
+        coder.encodeObject(notifyOfRepostsViaPush, forKey: "notifyOfRepostsViaPush")
         coder.encodeObject(notifyOfNewFollowersViaPush, forKey: "notifyOfNewFollowersViaPush")
         coder.encodeObject(notifyOfInvitationAcceptancesViaPush, forKey: "notifyOfInvitationAcceptancesViaPush")
         coder.encodeObject(discoverable, forKey: "discoverable")
@@ -151,10 +161,12 @@ public final class Profile: JSONAble {
             notifyOfInvitationAcceptancesViaEmail: json["notify_of_invitation_acceptances_via_email"].boolValue,
             notifyOfMentionsViaEmail: json["notify_of_mentions_via_email"].boolValue,
             notifyOfNewFollowersViaEmail: json["notify_of_new_followers_via_email"].boolValue,
+            notifyOfRepostsViaEmail: json["notify_of_reposts_via_email"].boolValue,
             subscribeToUsersEmailList: json["subscribe_to_users_email_list"].boolValue,
             notifyOfCommentsViaPush: json["notify_of_comments_via_push"].boolValue,
             notifyOfLovesViaPush : json["notify_of_loves_via_push"].boolValue,
             notifyOfMentionsViaPush: json["notify_of_mentions_via_push"].boolValue,
+            notifyOfRepostsViaPush: json["notify_of_reposts_via_push"].boolValue,
             notifyOfNewFollowersViaPush: json["notify_of_new_followers_via_push"].boolValue,
             notifyOfInvitationAcceptancesViaPush: json["notify_of_invitation_acceptances_via_push"].boolValue,
             discoverable: json["discoverable"].boolValue
