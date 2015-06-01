@@ -85,7 +85,7 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
     }
 
     private func showPostLoadFailure() {
-        let message = NSLocalizedString("Sorry, the owner of this post has taken it down.", comment: "Initial post load failure")
+        let message = NSLocalizedString("Something went wrong. Thank you for your patience with Ello Beta!", comment: "Initial stream load failure")
         let alertController = AlertViewController(message: message)
         let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
         alertController.addAction(action)

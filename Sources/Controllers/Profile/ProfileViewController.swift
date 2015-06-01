@@ -120,7 +120,7 @@ public class ProfileViewController: StreamableViewController {
     }
 
     private func showUserLoadFailure() {
-        let message = NSLocalizedString("Sorry, this account has been deleted or renamed.", comment: "Initial profile load failure")
+        let message = NSLocalizedString("Something went wrong. Thank you for your patience with Ello Beta!", comment: "Initial stream load failure")
         let alertController = AlertViewController(message: message)
         let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
         alertController.addAction(action)
