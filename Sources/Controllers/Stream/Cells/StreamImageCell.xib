@@ -68,7 +68,6 @@
                 <outlet property="circle" destination="oJN-Vf-OgU" id="Q8k-qa-AY4"/>
                 <outlet property="errorLabel" destination="Et8-CY-fvV" id="QBu-5F-i2z"/>
                 <outlet property="imageButton" destination="cba-zi-ctG" id="uab-aZ-n0v"/>
-                <outlet property="imageLeftContraint" destination="fgY-B3-cIH" id="2mI-kC-c8s"/>
                 <outlet property="imageRightConstraint" destination="hhW-aX-ev5" id="0Ty-BU-Dbi"/>
                 <outlet property="imageView" destination="gia-lK-VuN" id="hJr-41-RmY"/>
                 <outlet property="largeImagePlayButton" destination="rkb-Ls-8Ph" id="BRt-qD-92K"/>

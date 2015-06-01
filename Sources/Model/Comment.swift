@@ -18,7 +18,7 @@ public final class Comment: JSONAble, Authorable {
     // required
     public let authorId: String
     public let postId: String
-    public let content: [Regionable]
+    public var content: [Regionable]
     // optional
     public var summary: [Regionable]?
     // links
