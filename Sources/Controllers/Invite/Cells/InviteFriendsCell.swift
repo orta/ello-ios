@@ -17,12 +17,9 @@ public class InviteFriendsCell: UITableViewCell {
     override public func awakeFromNib() {
         super.awakeFromNib()
 
-        nameLabel?.font = UIFont.typewriterFont(14)
+        nameLabel?.font = UIFont.typewriterFont(12)
         nameLabel?.textColor = UIColor.greyA()
-
-        inviteButton?.titleLabel?.font = UIFont.typewriterFont(14)
-        inviteButton?.layer.borderColor = UIColor.greyA().CGColor
-        inviteButton?.layer.borderWidth = 1.0
+        inviteButton?.titleLabel?.font = UIFont.typewriterFont(12)
     }
 
     @IBAction func invite() {
