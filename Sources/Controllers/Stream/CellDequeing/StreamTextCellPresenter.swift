@@ -9,7 +9,7 @@
 public struct StreamTextCellPresenter {
     static let commentMargin = CGFloat(60)
     static let postMargin = CGFloat(15)
-    static let repostMargin = CGFloat(15)
+    static let repostMargin = CGFloat(30)
 
     static func configure(
         cell:UICollectionViewCell,
