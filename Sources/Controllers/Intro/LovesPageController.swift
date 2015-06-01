@@ -15,7 +15,7 @@ class LovesPageController: IntroPageController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        lovesLabel.font = .regularBoldFont(16)
+        lovesLabel.font = .regularBoldFont(18)
         getStartedButton.titleLabel!.font = .typewriterFont(12)
         getStartedButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
         getStartedButton.setBackgroundImage(UIImage.imageWithColor(.whiteColor()), forState: .Normal)

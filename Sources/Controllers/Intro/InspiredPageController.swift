@@ -14,6 +14,6 @@ class InspiredPageController: IntroPageController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        inspiredLabel.font = .regularBoldFont(16)
+        inspiredLabel.font = .regularBoldFont(18)
     }
 }
