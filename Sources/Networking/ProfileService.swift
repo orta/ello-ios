@@ -66,11 +66,17 @@ public struct ProfileService {
     }
 
     public func updateUserCoverImage(image: UIImage, success: ProfileSuccessCompletion, failure: ElloFailureCompletion) {
-        updateUserImage(image, key: "remote_cover_image_url", success: success, failure: failure)
+        updateUserImage(image, key: "remote_cover_image_url", success: { user in
+            TemporaryCache.save(.CoverImage, image: image)
+            success(user: user)
+        }, failure: failure)
     }
 
     public func updateUserAvatarImage(image: UIImage, success: ProfileSuccessCompletion, failure: ElloFailureCompletion) {
-        updateUserImage(image, key: "remote_avatar_url", success: success, failure: failure)
+        updateUserImage(image, key: "remote_avatar_url", success: { user in
+            TemporaryCache.save(.Avatar, image: image)
+            success(user: user)
+        }, failure: failure)
     }
 
     public func updateUserDeviceToken(token: NSData) {

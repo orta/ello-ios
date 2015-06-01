@@ -151,7 +151,11 @@ public class ProfileViewController: StreamableViewController {
         // clear out this view
         streamViewController.clearForInitialLoad()
         title = user.atName ?? "Profile"
-        if  let cover = user.coverImageURL,
+        if let cachedImage = cachedImage(.CoverImage) {
+            coverImage.image = cachedImage
+            self.coverImage.alpha = 1.0
+        }
+        else if let cover = user.coverImageURL,
             let coverImage = coverImage
         {
             coverImage.sd_setImageWithURL(cover) {
@@ -168,6 +172,16 @@ public class ProfileViewController: StreamableViewController {
         streamViewController.appendUnsizedCellItems(items, withWidth: self.view.frame.width)
         streamViewController.initialDataLoaded = true
         streamViewController.doneLoading()
+    }
+}
+
+// MARK: Check for cached coverImage and avatar (only for currentUser)
+extension ProfileViewController {
+    public func cachedImage(key: CacheKey) -> UIImage? {
+        if user?.id == currentUser?.id {
+            return TemporaryCache.load(key)
+        }
+        return nil
     }
 }
 
