@@ -314,7 +314,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     }
 
     private func alertUserOfImageProcessing() {
-        let message = NSLocalizedString("Copy needed to explain caching of old avatar", comment: "Copy needed to explain caching of old avatar")
+        let message = NSLocalizedString("You've updated your Avatar/Header.\n\nIt may take a few minutes for your new avatar/header to appear on Ello, so please be patient. It'll be live soon!", comment: "Settings image updated copy")
         let alert = AlertViewController(message: message)
         let action = AlertAction(title: NSLocalizedString("OK", comment: "ok"), style: .Light, handler: .None)
         alert.addAction(action)
