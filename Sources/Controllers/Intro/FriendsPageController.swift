@@ -14,6 +14,6 @@ class FriendsPageController: IntroPageController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        friendsLabel.font = .regularBoldFont(16)
+        friendsLabel.font = .regularBoldFont(18)
     }
 }
