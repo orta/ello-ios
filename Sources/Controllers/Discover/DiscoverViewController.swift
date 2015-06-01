@@ -47,6 +47,7 @@ public class DiscoverViewController: StreamableViewController {
 
     private func updateInsets() {
         updateInsets(navBar: navigationContainer, streamController: streamViewController)
+        streamViewController.contentInset.top -= 15
     }
 
     override public func showNavBars(scrollToBottom: Bool) {

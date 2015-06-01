@@ -25,7 +25,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kEk-JT-OUF" userLabel="navigationContainer">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="88"/>
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="103"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cxP-9p-Wfe" userLabel="findFriends">
                             <rect key="frame" x="15" y="43.5" width="570" height="44.5"/>
@@ -75,9 +75,10 @@
                             </items>
                         </navigationBar>
                     </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="88" id="2rw-Kh-kH7"/>
-                        <constraint firstAttribute="bottom" secondItem="cxP-9p-Wfe" secondAttribute="bottom" id="Bao-ch-SHe"/>
+                        <constraint firstAttribute="height" constant="103" id="2rw-Kh-kH7"/>
+                        <constraint firstAttribute="bottom" secondItem="cxP-9p-Wfe" secondAttribute="bottom" constant="15" id="Bao-ch-SHe"/>
                         <constraint firstItem="cxP-9p-Wfe" firstAttribute="leading" secondItem="kEk-JT-OUF" secondAttribute="leading" constant="15" id="Ye2-yf-Rq1"/>
                         <constraint firstAttribute="trailing" secondItem="y5q-qn-qfv" secondAttribute="trailing" id="Yu5-xF-tqe"/>
                         <constraint firstItem="IIQ-FI-RMS" firstAttribute="top" secondItem="y5q-qn-qfv" secondAttribute="bottom" id="d8M-Yx-Yw6"/>
