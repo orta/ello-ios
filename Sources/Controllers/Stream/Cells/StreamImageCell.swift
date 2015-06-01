@@ -23,7 +23,6 @@ public class StreamImageCell: StreamRegionableCell {
 
     // not used in StreamEmbedCell
     @IBOutlet public weak var largeImagePlayButton: UIImageView?
-    @IBOutlet weak var imageLeftConstraint: NSLayoutConstraint?
     @IBOutlet weak var imageRightConstraint: NSLayoutConstraint?
 
     weak var streamImageCellDelegate: StreamImageCellDelegate?

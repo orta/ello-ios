@@ -47,7 +47,6 @@ public struct StreamImageCellPresenter {
     {
         if let cell = cell as? StreamImageCell {
             if let imageRegion = streamCellItem.data as? ImageRegion {
-                cell.imageLeftConstraint?.constant = 0
                 cell.imageRightConstraint?.constant = 0
 
                 var attachmentToLoad: Attachment?
