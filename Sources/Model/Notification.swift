@@ -45,6 +45,10 @@ public final class Notification: JSONAble, Authorable {
         return attributedTitleStore!
     }
 
+    public var isValidKind: Bool {
+        return activity.kind == .Unknown
+    }
+
 // MARK: Initialization
 
     public init(activity: Activity) {
