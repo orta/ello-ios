@@ -86,23 +86,10 @@ public class PostEditingService: NSObject {
                 switch endpoint {
                 case .CreateComment:
                     let comment = data as! Comment
-                    // this assumes that
-                    var regionsCopy = regions
-                    for (index, regionable) in enumerate(comment.content) {
-                        if  let textRegion = regionable as? TextRegion,
-                            let localTextRegion = regionsCopy[0] as? TextRegion
-                        {
-                            regionsCopy[0] = textRegion
-                        }
-                    }
-                    let localComment = Comment(
-                        id: comment.id,
-                        createdAt: comment.createdAt,
-                        authorId: comment.authorId,
-                        postId: comment.postId,
-                        content: regionsCopy
-                    )
-                    post = localComment
+                    comment.content = self.replaceLocalImageRegions(comment.content, regions: regions)
+                case .CreatePost:
+                    let post = data as! Post
+                    post.content = self.replaceLocalImageRegions(post.content ?? [], regions: regions)
                 default:
                     break
                 }
@@ -111,6 +98,17 @@ public class PostEditingService: NSObject {
             },
             failure: failure
         )
+    }
+
+    func replaceLocalImageRegions(var content: [Regionable], regions: [Regionable]) -> [Regionable] {
+        for (index, regionable) in enumerate(content) {
+            if let imageRegion = regionable as? ImageRegion,
+                let replaceRegion = regions.safeValue(index) as? ImageRegion
+            {
+                content[index] = replaceRegion
+            }
+        }
+        return content
     }
 
     // Each image is given its own "uploader", which will fetch new credentials

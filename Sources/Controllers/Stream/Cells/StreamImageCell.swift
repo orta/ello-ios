@@ -23,7 +23,6 @@ public class StreamImageCell: StreamRegionableCell {
 
     // not used in StreamEmbedCell
     @IBOutlet public weak var largeImagePlayButton: UIImageView?
-    @IBOutlet weak var imageLeftContraint: NSLayoutConstraint?
     @IBOutlet weak var imageRightConstraint: NSLayoutConstraint?
 
     weak var streamImageCellDelegate: StreamImageCellDelegate?
@@ -52,7 +51,7 @@ public class StreamImageCell: StreamRegionableCell {
         }
     }
 
-    public func setImage(url: NSURL, isGif: Bool) {        
+    public func setImage(url: NSURL, isGif: Bool) {
         self.imageView.image = nil
         self.imageView.alpha = 0
         circle.pulse()

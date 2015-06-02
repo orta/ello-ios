@@ -48,14 +48,14 @@ public struct AddFriendsCellPresenter {
     }
 
     private static func configureCellAfterInvited(cell: InviteFriendsCell) {
-        cell.inviteButton?.backgroundColor = UIColor.greyA()
-        cell.inviteButton?.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        cell.inviteButton?.setTitle("Resend", forState: .Normal)
+        cell.inviteButton?.backgroundColor = UIColor.greyE5()
+        cell.inviteButton?.setTitleColor(UIColor.grey6(), forState: .Normal)
+        cell.inviteButton?.setTitle("Re-send", forState: .Normal)
     }
 
     private static func configureCellBeforeInvited(cell: InviteFriendsCell) {
-        cell.inviteButton?.backgroundColor = UIColor.whiteColor()
-        cell.inviteButton?.setTitleColor(UIColor.greyA(), forState: .Normal)
+        cell.inviteButton?.backgroundColor = UIColor.greyA()
+        cell.inviteButton?.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         cell.inviteButton?.setTitle("Invite", forState: .Normal)
     }
 

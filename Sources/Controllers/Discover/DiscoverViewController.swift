@@ -11,9 +11,9 @@ import SVGKit
 
 public class DiscoverViewController: StreamableViewController {
 
-    @IBOutlet weak var navigationBar: UIView!
+    @IBOutlet weak var navigationContainer: UIView!
+    @IBOutlet weak var navigationBar: ElloNavigationBar!
     @IBOutlet weak var inviteButton: UIButton!
-    @IBOutlet weak var navigationBarTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var chevron: UIImageView!
     @IBOutlet weak var inviteLabel: UILabel!
 
@@ -34,11 +34,7 @@ public class DiscoverViewController: StreamableViewController {
 
     override public func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.navigationBarHidden = true
-        chevron.image = SVGKImage(named: "abracket_white.svg").UIImage!
-        inviteLabel.text = NSLocalizedString("Find & invite your friends", comment: "Find & invite")
-        inviteLabel.font = UIFont.typewriterFont(12)
-        inviteLabel.textColor = .whiteColor()
+        setupNavigationBar()
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
         ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.loadInitialPage()
@@ -50,12 +46,13 @@ public class DiscoverViewController: StreamableViewController {
     }
 
     private func updateInsets() {
-        updateInsets(navBar: navigationBar, streamController: streamViewController)
+        updateInsets(navBar: navigationContainer, streamController: streamViewController)
+        streamViewController.contentInset.top -= 15
     }
 
     override public func showNavBars(scrollToBottom: Bool) {
         super.showNavBars(scrollToBottom)
-        positionNavBar(navigationBar, visible: true, withConstraint: navigationBarTopConstraint)
+        positionNavBar(navigationContainer, visible: true)
         updateInsets()
 
         if scrollToBottom {
@@ -65,7 +62,7 @@ public class DiscoverViewController: StreamableViewController {
 
     override public func hideNavBars() {
         super.hideNavBars()
-        positionNavBar(navigationBar, visible: false, withConstraint: navigationBarTopConstraint)
+        positionNavBar(navigationContainer, visible: false)
         updateInsets()
     }
 
@@ -74,5 +71,21 @@ public class DiscoverViewController: StreamableViewController {
     @IBAction func importMyContactsTapped(sender: UIButton) {
         let responder = targetForAction("onInviteFriends", withSender: self) as? InviteResponder
         responder?.onInviteFriends()
+    }
+
+    // MARK: - Private
+
+    private func setupNavigationBar() {
+        navigationController?.navigationBarHidden = true
+        navigationItem.title = title
+        navigationBar.items = [navigationItem]
+        setupInviteFriendsButton()
+    }
+
+    private func setupInviteFriendsButton() {
+        chevron.image = SVGKImage(named: "abracket_white.svg").UIImage!
+        inviteLabel.text = NSLocalizedString("Find & invite your friends", comment: "Find & invite")
+        inviteLabel.font = UIFont.typewriterFont(12)
+        inviteLabel.textColor = .whiteColor()
     }
 }

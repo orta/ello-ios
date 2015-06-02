@@ -10,6 +10,7 @@ import Foundation
 
 public class StreamImageCellSizeCalculator: NSObject {
 
+    var screenWidth: CGFloat = 0.0
     var maxWidth: CGFloat = 0.0
     public var cellItems: [StreamCellItem] = []
     public var completion: ElloEmptyCompletion = {}
@@ -40,18 +41,23 @@ public class StreamImageCellSizeCalculator: NSObject {
     public func processCells(cellItems: [StreamCellItem], withWidth width: CGFloat, completion: ElloEmptyCompletion) {
         self.completion = completion
         self.cellItems = cellItems
-        self.maxWidth = width
+        self.screenWidth = width
         loadNext()
     }
 
 // MARK: Private
 
     private func loadNext() {
+        self.maxWidth = screenWidth
         if !self.cellItems.isEmpty {
             let item = cellItems.removeAtIndex(0)
-            if let comment = item.jsonable as? Comment {
+            if item.region?.isRepost == true {
+                maxWidth -= StreamTextCellPresenter.repostMargin
+            }
+            else if let comment = item.jsonable as? Comment {
                 maxWidth -= StreamTextCellPresenter.commentMargin
             }
+
             if let imageRegion = item.data as? ImageRegion {
                 item.oneColumnCellHeight = oneColumnImageHeight(imageRegion)
                 item.multiColumnCellHeight = multiColumnImageHeight(imageRegion)

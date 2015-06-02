@@ -118,10 +118,12 @@ extension Profile: Stubbable {
             notifyOfInvitationAcceptancesViaEmail: (values["notifyOfInvitationAcceptancesViaEmail"] as? Bool) ?? true,
             notifyOfMentionsViaEmail: (values["notifyOfMentionsViaEmail"] as? Bool) ?? true,
             notifyOfNewFollowersViaEmail: (values["notifyOfNewFollowersViaEmail"] as? Bool) ?? true,
+            notifyOfRepostsViaEmail: (values["notifyOfRepostsViaEmail"] as? Bool) ?? true,
             subscribeToUsersEmailList: (values["subscribeToUsersEmailList"] as? Bool) ?? true,
             notifyOfCommentsViaPush: (values["notifyOfCommentsViaPush"] as? Bool) ?? true,
             notifyOfLovesViaPush : (values["notifyOfLovesViaPush"] as? Bool) ?? true,
             notifyOfMentionsViaPush: (values["notifyOfMentionsViaPush"] as? Bool) ?? true,
+            notifyOfRepostsViaPush: (values["notifyOfRepostsViaPush"] as? Bool) ?? true,
             notifyOfNewFollowersViaPush: (values["notifyOfNewFollowersViaPush"] as? Bool) ?? true,
             notifyOfInvitationAcceptancesViaPush: (values["notifyOfInvitationAcceptancesViaPush"] as? Bool) ?? true,
             discoverable: (values["discoverable"] as? Bool) ?? true

@@ -9,25 +9,23 @@
 import Foundation
 
 public struct StreamImageCellPresenter {
-    private static let padding: CGFloat = 15
 
-    static func preventImageStretching(cell: StreamImageCell, attachmentWidth: Int?, columnWidth: CGFloat, padding: CGFloat = 0) {
+    static func preventImageStretching(cell: StreamImageCell, attachmentWidth: Int?, columnWidth: CGFloat, leftMargin: CGFloat = 0) {
         if let attachmentWidth = attachmentWidth {
             let width = CGFloat(attachmentWidth)
-            if width < columnWidth - padding * 2 {
-                cell.imageLeftContraint?.constant = padding
-                cell.imageRightConstraint?.constant = columnWidth - width - padding
+            if width < columnWidth - leftMargin {
+                cell.imageRightConstraint?.constant = columnWidth - width - leftMargin
             }
         }
     }
 
-    static func configureRepostLayout(
+    static func configureCellWidthAndLayout(
         cell: StreamImageCell,
-        streamCellItem: StreamCellItem)
+        streamCellItem: StreamCellItem) -> CGFloat
     {
         // Repost specifics
         if streamCellItem.region?.isRepost == true {
-            cell.leadingConstraint.constant = 30.0
+            cell.leadingConstraint.constant = StreamTextCellPresenter.repostMargin
             cell.showBorder()
         }
         else if let comment = streamCellItem.jsonable as? Comment {
@@ -36,6 +34,8 @@ public struct StreamImageCellPresenter {
         else {
             cell.leadingConstraint.constant = 0.0
         }
+
+        return cell.leadingConstraint.constant
     }
 
     public static func configure(
@@ -47,7 +47,6 @@ public struct StreamImageCellPresenter {
     {
         if let cell = cell as? StreamImageCell {
             if let imageRegion = streamCellItem.data as? ImageRegion {
-                cell.imageLeftContraint?.constant = 0
                 cell.imageRightConstraint?.constant = 0
 
                 var attachmentToLoad: Attachment?
@@ -65,7 +64,7 @@ public struct StreamImageCellPresenter {
                     }
                     cell.isGif = true
                 }
-                
+
 
                 let columnWidth: CGFloat
                 if streamKind.isGridLayout {
@@ -78,8 +77,10 @@ public struct StreamImageCellPresenter {
                 }
 
                 imageToLoad = imageToLoad ?? attachmentToLoad?.url
-                
-                preventImageStretching(cell, attachmentWidth: attachmentToLoad?.width, columnWidth: columnWidth)
+
+                cell.hideBorder()
+                let margin = configureCellWidthAndLayout(cell, streamCellItem: streamCellItem)
+                preventImageStretching(cell, attachmentWidth: attachmentToLoad?.width, columnWidth: columnWidth, leftMargin: margin)
 
                 if let imageURL = imageToLoad {
                     cell.serverProvidedAspectRatio = StreamImageCellSizeCalculator.aspectRatioForImageRegion(imageRegion)
@@ -89,9 +90,6 @@ public struct StreamImageCellPresenter {
                     cell.isGif = imageURL.hasGifExtension
                     cell.setImage(imageURL, isGif: imageURL.hasGifExtension)
                 }
-
-                cell.hideBorder()
-                configureRepostLayout(cell, streamCellItem: streamCellItem)
             }
         }
     }

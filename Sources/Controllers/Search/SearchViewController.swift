@@ -63,7 +63,7 @@ extension SearchViewController: SearchScreenDelegate {
 
     public func searchFieldCleared() {
         userSearchText = ""
-        streamViewController.removeRefreshables()
+        streamViewController.removeAllCellItems()
         streamViewController.cancelInitialPage()
     }
 
@@ -74,7 +74,7 @@ extension SearchViewController: SearchScreenDelegate {
 
         let endpoint = ElloAPI.SearchForUsers(terms: text)
         streamViewController.streamKind = .UserList(endpoint: endpoint, title: "")
-        streamViewController.removeRefreshables()
+        streamViewController.removeAllCellItems()
         ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.loadInitialPage()
     }
