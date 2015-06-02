@@ -34,7 +34,7 @@ public class ProfileHeaderCell: UICollectionViewCell {
     @IBOutlet weak var bioWebView: UIWebView!
     @IBOutlet weak var profileButtonsView: UIView!
     @IBOutlet weak var editProfileButton: OutlineElloButton!
-    @IBOutlet weak var postsButton: TwoLineButton!
+    @IBOutlet weak public var postsButton: TwoLineButton!
     @IBOutlet weak var followersButton: TwoLineButton!
     @IBOutlet weak var followingButton: TwoLineButton!
     @IBOutlet weak var lovesButton: TwoLineButton!
