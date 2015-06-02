@@ -6,9 +6,8 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-public class SearchViewController: BaseElloViewController {
+public class SearchViewController: StreamableViewController {
     var userSearchText: String?
-    var streamViewController: StreamViewController!
 
     var _mockScreen: SearchScreenProtocol?
     public var screen: SearchScreenProtocol {
@@ -24,35 +23,24 @@ public class SearchViewController: BaseElloViewController {
 
     override public func viewDidLoad() {
         super.viewDidLoad()
-        setupStreamViewController()
-        self.screen.insertStreamView(streamViewController.view)
+        updateInsets()
     }
 
-    private func setupStreamViewController() {
-        streamViewController = StreamViewController.instantiateFromStoryboard()
-        streamViewController.currentUser = currentUser
+    override func viewForStream() -> UIView {
+        return screen.viewForStream()
+    }
 
-        streamViewController.userTappedDelegate = self
+    override func showNavBars(scrollToBottom : Bool) {
+    }
+
+    override func hideNavBars() {
+    }
+
+    private func updateInsets() {
         streamViewController.contentInset.bottom = ElloTabBar.Size.height
-
-        streamViewController.willMoveToParentViewController(self)
-        self.addChildViewController(streamViewController)
-        streamViewController.didMoveToParentViewController(self)
+        screen.updateInsets(bottom: ElloTabBar.Size.height)
     }
 
-}
-
-// MARK: UserTappedDelegate
-extension SearchViewController: UserTappedDelegate {
-    public func userTapped(user: User) {
-        userParamTapped(user.id)
-    }
-
-    public func userParamTapped(param: String) {
-        let vc = ProfileViewController(userParam: param)
-        vc.currentUser = currentUser
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
 }
 
 extension SearchViewController: SearchScreenDelegate {
@@ -77,6 +65,11 @@ extension SearchViewController: SearchScreenDelegate {
         streamViewController.removeAllCellItems()
         ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.loadInitialPage()
+    }
+
+    public func findFriendsTapped() {
+        let responder = targetForAction("onInviteFriends", withSender: self) as? InviteResponder
+        responder?.onInviteFriends()
     }
 
 }
