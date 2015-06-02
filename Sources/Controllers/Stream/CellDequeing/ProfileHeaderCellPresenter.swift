@@ -57,7 +57,7 @@ public struct ProfileHeaderCellPresenter {
             let postCount = user.postsCount?.numberToHuman(showZero: true) ?? "0"
             cell.postsButton.title = NSLocalizedString("Posts", comment: "Posts")
             cell.postsButton.count = postCount
-            if let hasPosts = user.postsCount where hasPosts > 0 {
+            if let postCount = user.postsCount where postCount > 0 {
                 cell.postsButton.enabled = true
             }
             else {
