@@ -9,13 +9,13 @@
 public struct DrawerItem {
     let name: String
     var link: String?
-    var closure: ((controller: UIViewController) -> Void)?
     let type: DrawerItemType
 }
 
 public enum DrawerItemType {
     case External
-    case Internal
+    case Invite
+    case Logout
     case Plain
 }
 
@@ -33,18 +33,13 @@ public class DrawerViewDataSource: NSObject {
         }
 
         return [
-            DrawerItem(name: NSLocalizedString("Store", comment:"Store"), link: "http://ello.threadless.com/", closure: nil, type: .External),
-            DrawerItem(name: NSLocalizedString("Invite", comment:"Invite"), link: nil, closure: { controller in
-                let responder = controller.targetForAction("onInviteFriends", withSender: controller) as? InviteResponder
-                responder?.onInviteFriends()
-            }, type: .Internal),
-            DrawerItem(name: NSLocalizedString("Help", comment:"Help"), link: "https://ello.co/wtf/post/help", closure: nil, type: .External),
-            DrawerItem(name: NSLocalizedString("Resources", comment:"Resources"), link: "https://ello.co/wtf/post/resources", closure: nil, type: .External),
-            DrawerItem(name: NSLocalizedString("About", comment:"About"), link: "https://ello.co/wtf/post/about", closure: nil, type: .External),
-            DrawerItem(name: NSLocalizedString("Logout", comment:"Logout"), link: nil, closure: { controller in
-                postNotification(AuthenticationNotifications.userLoggedOut, ())
-            }, type: .Internal),
-            DrawerItem(name: NSLocalizedString("Ello v\(marketingVersion) b\(buildVersion)", comment:"version number"), link: nil, closure: nil, type: .Plain),
+            DrawerItem(name: NSLocalizedString("Store", comment:"Store"), link: "http://ello.threadless.com/", type: .External),
+            DrawerItem(name: NSLocalizedString("Invite", comment:"Invite"), link: nil, type: .Invite),
+            DrawerItem(name: NSLocalizedString("Help", comment:"Help"), link: "https://ello.co/wtf/post/help", type: .External),
+            DrawerItem(name: NSLocalizedString("Resources", comment:"Resources"), link: "https://ello.co/wtf/post/resources", type: .External),
+            DrawerItem(name: NSLocalizedString("About", comment:"About"), link: "https://ello.co/wtf/post/about", type: .External),
+            DrawerItem(name: NSLocalizedString("Logout", comment:"Logout"), link: nil, type: .Logout),
+            DrawerItem(name: NSLocalizedString("Ello v\(marketingVersion) b\(buildVersion)", comment:"version number"), link: nil, type: .Plain),
         ]
     }()
 

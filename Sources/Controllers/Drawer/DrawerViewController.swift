@@ -72,8 +72,11 @@ extension DrawerViewController: UITableViewDelegate {
                 if let link = item.link {
                     postNotification(externalWebNotification, link)
                 }
-            case .Internal:
-                item.closure?(controller: self)
+            case .Invite:
+                let responder = targetForAction("onInviteFriends", withSender: self) as? InviteResponder
+                responder?.onInviteFriends()
+            case .Logout:
+                postNotification(AuthenticationNotifications.userLoggedOut, ())
             default: break
             }
         }
