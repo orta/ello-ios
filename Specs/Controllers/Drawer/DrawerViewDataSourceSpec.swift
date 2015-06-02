@@ -5,68 +5,17 @@ import Nimble
 
 class DrawerViewDataSourceSpec: QuickSpec {
     override func spec() {
-        describe("loadUsers") {
-            it("updates the number of users by hitting the API") {
-                ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
-                let dataSource = DrawerViewDataSource(relationship: .Friend)
-                expect(dataSource.numberOfUsers).to(equal(0))
+        context("UITableViewDataSource") {
 
-                dataSource.loadUsers()
-                expect(dataSource.numberOfUsers).to(equal(2))
-                ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
-            }
-        }
+            describe("tableView(_:numberOfrowsInSection:)") {
 
-        describe("userForIndexPath") {
-            context("when passed a valid indexPath for a user") {
-                it("returns the user for the requested row") {
-                    ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
-                    let indexPath = NSIndexPath(forItem: 0, inSection: 0)
-                    let dataSource = DrawerViewDataSource(relationship: .Friend)
-                    dataSource.loadUsers()
-
-                    expect(dataSource.userForIndexPath(indexPath)?.name).to(equal("Cyril Figgis"))
-                    ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
+                it("returns 7") {
+                    let dataSource = DrawerViewDataSource()
+                    expect(dataSource.tableView(UITableView(frame: CGRectZero), numberOfRowsInSection: 0)) == 7
                 }
+
             }
 
-            context("when passed an invalid indexPath for a user") {
-                it("returns .None") {
-                    ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
-                    let indexPath = NSIndexPath(forItem: 0, inSection: 0)
-                    let dataSource = DrawerViewDataSource(relationship: .Friend)
-
-                    expect(dataSource.userForIndexPath(indexPath)).to(beNil())
-                    ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
-                }
-            }
-        }
-
-        describe("cellPresenterForIndexPath") {
-            context("when passed a valid indexPath for a user") {
-                it("returns an AvatarCellPresenter") {
-                    ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
-                    let indexPath = NSIndexPath(forItem: 0, inSection: 0)
-                    let dataSource = DrawerViewDataSource(relationship: .Friend)
-                    dataSource.loadUsers()
-
-                    let cellPresenter = dataSource.cellPresenterForIndexPath(indexPath) as? AvatarCellPresenter
-                    expect(cellPresenter).toNot(beNil())
-                    ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
-                }
-            }
-
-            context("when passed an invalid indexPath for a user") {
-                it("returns a LoadingCellPresenter") {
-                    ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
-                    let indexPath = NSIndexPath(forItem: 0, inSection: 0)
-                    let dataSource = DrawerViewDataSource(relationship: .Friend)
-
-                    let cellPresenter = dataSource.cellPresenterForIndexPath(indexPath) as? LoadingCellPresenter
-                    expect(cellPresenter).toNot(beNil())
-                    ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
-                }
-            }
         }
     }
 }

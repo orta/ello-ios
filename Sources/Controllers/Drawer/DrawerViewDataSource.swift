@@ -6,70 +6,59 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-public protocol DrawerViewDataSourceDelegate: NSObjectProtocol {
-    func dataSourceStartedLoadingUsers(dataSource: DrawerViewDataSource)
-    func dataSourceFinishedLoadingUsers(dataSource: DrawerViewDataSource)
+public struct DrawerItem {
+    let name: String
+    var link: String?
+    let type: DrawerItemType
 }
 
-public class DrawerViewDataSource {
-    private let relationship: RelationshipPriority
-    private let streamService = StreamService()
+public enum DrawerItemType {
+    case External
+    case Invite
+    case Logout
+    case Plain
+}
 
-    private var users: [User] = []
-    private var responseConfig = ResponseConfig()
-    private var loading = false
+public class DrawerViewDataSource: NSObject {
+    lazy var items: [DrawerItem] = {
 
-    weak public var delegate: DrawerViewDataSourceDelegate?
+        var marketingVersion = ""
+        if let version = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String {
+            marketingVersion = version
+        }
 
-    public var numberOfUsers: Int {
-        return loading ? users.count + 1 : users.count
+        var buildVersion = ""
+        if let bundleVersion = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String {
+            buildVersion = bundleVersion
+        }
+
+        return [
+            DrawerItem(name: NSLocalizedString("Store", comment:"Store"), link: "http://ello.threadless.com/", type: .External),
+            DrawerItem(name: NSLocalizedString("Invite", comment:"Invite"), link: nil, type: .Invite),
+            DrawerItem(name: NSLocalizedString("Help", comment:"Help"), link: "https://ello.co/wtf/post/help", type: .External),
+            DrawerItem(name: NSLocalizedString("Resources", comment:"Resources"), link: "https://ello.co/wtf/post/resources", type: .External),
+            DrawerItem(name: NSLocalizedString("About", comment:"About"), link: "https://ello.co/wtf/post/about", type: .External),
+            DrawerItem(name: NSLocalizedString("Logout", comment:"Logout"), link: nil, type: .Logout),
+            DrawerItem(name: NSLocalizedString("Ello v\(marketingVersion) b\(buildVersion)", comment:"version number"), link: nil, type: .Plain),
+        ]
+    }()
+
+    public func itemForIndexPath(indexPath: NSIndexPath) -> DrawerItem? {
+        return items.safeValue(indexPath.row)
+    }
+}
+
+// MARK: UITableViewDataSource
+extension DrawerViewDataSource: UITableViewDataSource {
+    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return count(items)
     }
 
-    public init(relationship: RelationshipPriority) {
-        self.relationship = relationship
-    }
-
-    public func loadUsers() {
-        ProfileService().loadCurrentUserFollowing(forRelationship: relationship, success: { users, responseConfig in
-            self.users = users
-            self.responseConfig = responseConfig
-            dispatch_async(dispatch_get_main_queue()) {
-                self.delegate?.dataSourceFinishedLoadingUsers(self)
-            }
-        }, failure: .None)
-    }
-
-    func loadNextUsers() {
-        if responseConfig.isOutOfData() { return }
-        loading = true
-        delegate?.dataSourceStartedLoadingUsers(self)
-        let nextQueryItems = responseConfig.nextQueryItems ?? []
-        let endpoint = ElloAPI.InfiniteScroll(queryItems: nextQueryItems) { return ElloAPI.ProfileFollowing(priority: self.relationship.rawValue) }
-        streamService.loadStream(endpoint,
-            streamKind: nil,
-            success: { jsonables, responseConfig in
-            self.responseConfig = responseConfig
-            if let users = jsonables as? [User] {
-                self.users += users
-            }
-            self.loading = false
-            self.delegate?.dataSourceFinishedLoadingUsers(self)
-            }, failure: { _, _ in
-                self.loading = false
-                self.delegate?.dataSourceFinishedLoadingUsers(self)
-            }, noContent: { _ in
-                self.loading = false
-                self.delegate?.dataSourceFinishedLoadingUsers(self)
-        })
-    }
-
-    public func userForIndexPath(indexPath: NSIndexPath) -> User?  {
-        return users.safeValue(indexPath.row)
-    }
-
-    public func cellPresenterForIndexPath(indexPath: NSIndexPath) -> CellPresenter {
-        let user = userForIndexPath(indexPath)
-        let presenter = user.map { AvatarCellPresenter(user: $0) }
-        return presenter ?? LoadingCellPresenter()
+    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(DrawerCell.reuseIdentifier(), forIndexPath: indexPath) as! DrawerCell
+        if let item = items.safeValue(indexPath.row) {
+            DrawerCellPresenter.configure(cell, item: item)
+        }
+        return cell
     }
 }
