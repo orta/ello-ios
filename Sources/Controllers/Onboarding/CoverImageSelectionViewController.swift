@@ -90,8 +90,13 @@ extension CoverImageSelectionViewController {
     public func userUploadImage(image: UIImage, proceed: (OnboardingData?) -> Void) {
         ElloHUD.showLoadingHud()
 
-        ProfileService().updateUserCoverImage(image, success: { _ in
+        ProfileService().updateUserCoverImage(image, success: { (url, _) in
             ElloHUD.hideLoadingHud()
+            if let user = self.currentUser {
+                let asset = Asset(image: image, url: url)
+                user.coverImage = asset
+            }
+
             self.onboardingData?.coverImage = image
             proceed(self.onboardingData)
         }, failure: { _, _ in
