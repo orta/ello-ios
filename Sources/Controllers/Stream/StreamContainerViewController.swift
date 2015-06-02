@@ -40,7 +40,7 @@ public class StreamContainerViewController: StreamableViewController {
         setupChildViewControllers()
         navigationItem.titleView = streamsSegmentedControl
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: SVGKImage(named: "burger_normal.svg").UIImage!, style: .Done, target: self, action: Selector("hamburgerButtonTapped"))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: SVGKImage(named: "search_normal.svg").UIImage!, style: .Done, target: self, action: Selector("searchButtonTapped"))
+        addSearchButton()
         navigationBar.items = [navigationItem]
 
         scrollLogic.prevOffset = (childViewControllers[0] as! StreamViewController).collectionView.contentOffset
@@ -151,12 +151,6 @@ public class StreamContainerViewController: StreamableViewController {
         let drawer = DrawerViewController()
 
         self.navigationController?.pushViewController(drawer, animated: true)
-    }
-
-    @IBAction func searchButtonTapped() {
-        let search = SearchViewController()
-        search.currentUser = currentUser
-        self.navigationController?.pushViewController(search, animated: true)
     }
 
     @IBAction func streamSegmentTapped(sender: UISegmentedControl) {
