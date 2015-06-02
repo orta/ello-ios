@@ -118,15 +118,17 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         title = post.author?.atName ?? "Post Detail"
         let parser = StreamCellItemParser()
         var items = parser.parse([post], streamKind: streamViewController.streamKind)
-        // add in the comment button
-        items.append(StreamCellItem(
-            jsonable: Comment.newCommentForPost(post, currentUser: currentUser!),
-            type: .CreateComment,
-            data: nil,
-            oneColumnCellHeight: StreamCreateCommentCell.Size.Height,
-            multiColumnCellHeight: StreamCreateCommentCell.Size.Height,
-            isFullWidth: true)
-        )
+        // add in the comment button if we have a current user
+        if let currentUser = currentUser {
+            items.append(StreamCellItem(
+                jsonable: Comment.newCommentForPost(post, currentUser: currentUser),
+                type: .CreateComment,
+                data: nil,
+                oneColumnCellHeight: StreamCreateCommentCell.Size.Height,
+                multiColumnCellHeight: StreamCreateCommentCell.Size.Height,
+                isFullWidth: true)
+            )
+        }
         if let comments = post.comments {
             items += parser.parse(comments, streamKind: streamViewController.streamKind)
         }
