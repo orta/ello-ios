@@ -39,6 +39,8 @@ public class ProfileHeaderCell: UICollectionViewCell {
     @IBOutlet weak var followingButton: TwoLineButton!
     @IBOutlet weak var lovesButton: TwoLineButton!
     @IBOutlet weak var inviteButton: UIButton!
+    @IBOutlet weak var nsfwLabel: ElloLabel!
+    @IBOutlet weak var usernameRightConstraint: NSLayoutConstraint!
     weak var webLinkDelegate: WebLinkDelegate?
     weak var userListDelegate: UserListDelegate?
     var user: User?
@@ -68,8 +70,13 @@ public class ProfileHeaderCell: UICollectionViewCell {
     }
 
     private func style() {
-        usernameLabel.font = UIFont.regularBoldFont(24.0)
+        usernameLabel.font = UIFont.regularBoldFont(18.0)
         usernameLabel.textColor = UIColor.blackColor()
+
+        nsfwLabel.font = UIFont.typewriterFont(10.0)
+        nsfwLabel.textColor = UIColor.greyA()
+        nsfwLabel.backgroundColor = UIColor.greyE5()
+        nsfwLabel.text = NSLocalizedString("NSFW", comment: "Not Safe For Work")
 
         nameLabel.font = UIFont.typewriterFont(12.0)
         nameLabel.textColor = UIColor.greyA()
