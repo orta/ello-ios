@@ -382,7 +382,7 @@ class StreamDataSourceSpec: QuickSpec {
                 }
             }
 
-           describe("modifyItems(_:change:collectioView:)") {
+           describe("modifyItems(_:change:collectionView:)") {
 
                 context("with comments") {
 
@@ -424,7 +424,7 @@ class StreamDataSourceSpec: QuickSpec {
                             subject.modifyItems(Comment.stub(["id": "new_comment", "postId": "456"]), change: .Create, collectionView: fakeCollectionView)
                             expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 3
                         }
-                        
+
                     }
 
                     describe(".Delete") {
@@ -443,7 +443,7 @@ class StreamDataSourceSpec: QuickSpec {
                             subject.modifyItems(Comment.stub(["id": "111", "postId": "456"]), change: .Delete, collectionView: fakeCollectionView)
                             expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 3
                         }
-                        
+
                     }
                 }
 
@@ -478,7 +478,7 @@ class StreamDataSourceSpec: QuickSpec {
                                 expect(subject.postForIndexPath(indexPath0)!.id) == "new_post"
                                 expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 18
                             }
-                            
+
                         }
 
                         context("StreamKind.Profile") {
@@ -491,7 +491,7 @@ class StreamDataSourceSpec: QuickSpec {
                                 expect(subject.postForIndexPath(NSIndexPath(forItem: 1, inSection: 0))!.id) == "new_post"
                                 expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 18
                             }
-                            
+
                         }
 
                         context("StreamKind.UserStream") {
@@ -529,7 +529,7 @@ class StreamDataSourceSpec: QuickSpec {
                                 expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 15
 
                                 subject.modifyItems(Post.stub(["id": "new_post"]), change: .Create, collectionView: fakeCollectionView)
-                                
+
                                 expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 15
                             }
                         }
@@ -678,7 +678,7 @@ class StreamDataSourceSpec: QuickSpec {
                         // comments are not yet affected by User.RelationshipPriority changes
                         // left intentionally empty for documentation
                     }
-                    
+
                     it("updates cells tied to that user") {
 
                     }
