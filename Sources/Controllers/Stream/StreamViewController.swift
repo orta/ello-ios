@@ -632,8 +632,8 @@ extension StreamViewController : UIScrollViewDelegate {
 
     public func scrollViewDidScroll(scrollView : UIScrollView) {
         streamScrollDelegate?.streamViewDidScroll(scrollView)
-        noResultsTopConstraint.constant = -scrollView.contentOffset.y + defaultNoResultsTopConstant
         if !noResultsLabel.hidden {
+            noResultsTopConstraint.constant = -scrollView.contentOffset.y + defaultNoResultsTopConstant
             self.view.layoutIfNeeded()
         }
     }
