@@ -71,7 +71,7 @@ public class LightElloButton: ElloButton {
 
 }
 
-public class WhiteElloButton: LightElloButton {
+public class WhiteElloButton: ElloButton {
 
     required public init(frame: CGRect) {
         super.init(frame: frame)
@@ -96,6 +96,9 @@ public class WhiteElloButton: LightElloButton {
     override public func sharedSetup() {
         super.sharedSetup()
         self.titleLabel?.font = UIFont.typewriterFont(12.0)
+        self.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        self.setTitleColor(UIColor.grey6(), forState: .Highlighted)
+        self.setTitleColor(UIColor.greyC(), forState: .Disabled)
         self.setTitleColor(UIColor.whiteColor(), forState: .Selected)
     }
 }

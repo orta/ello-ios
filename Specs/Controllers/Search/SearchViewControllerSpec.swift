@@ -14,12 +14,12 @@ import Nimble
 @objc
 class SearchMockScreen: NSObject, SearchScreenProtocol {
     var delegate : SearchScreenDelegate?
-    var didDismissKeyboard = false
 
-    func insertStreamView(view: UIView) {
+    func viewForStream() -> UIView {
+        return UIView()
     }
 
-    func dismissKeyboard() {
+    func updateInsets(#bottom: CGFloat) {
     }
 
 }

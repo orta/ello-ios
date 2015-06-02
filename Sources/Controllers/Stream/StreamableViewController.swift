@@ -149,20 +149,6 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
         }
     }
 
-    private func alreadyOnUserProfile(user: User) -> Bool {
-        if let profileVC = self.navigationController?.topViewController as? ProfileViewController {
-            let param = profileVC.userParam
-            if param[param.startIndex] == "~" {
-                let usernamePart = param[advance(param.startIndex, 1)..<param.endIndex]
-                return user.username == usernamePart
-            }
-            else {
-                return user.id == profileVC.userParam
-            }
-        }
-        return false
-    }
-
 // MARK: PostTappedDelegate
 
     public func postTapped(post: Post) {
@@ -202,6 +188,20 @@ extension StreamableViewController: UserTappedDelegate {
         let vc = ProfileViewController(userParam: param)
         vc.currentUser = currentUser
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+
+    private func alreadyOnUserProfile(user: User) -> Bool {
+        if let profileVC = self.navigationController?.topViewController as? ProfileViewController {
+            let param = profileVC.userParam
+            if param[param.startIndex] == "~" {
+                let usernamePart = param[advance(param.startIndex, 1)..<param.endIndex]
+                return user.username == usernamePart
+            }
+            else {
+                return user.id == profileVC.userParam
+            }
+        }
+        return false
     }
 }
 
