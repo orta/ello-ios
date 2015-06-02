@@ -11,7 +11,7 @@ import Foundation
 
 public struct ProfileHeaderCellPresenter {
 
-    static func configure(
+    public static func configure(
         cell:UICollectionViewCell,
         streamCellItem:StreamCellItem,
         streamKind: StreamKind,
@@ -57,6 +57,12 @@ public struct ProfileHeaderCellPresenter {
             let postCount = user.postsCount?.numberToHuman(showZero: true) ?? "0"
             cell.postsButton.title = NSLocalizedString("Posts", comment: "Posts")
             cell.postsButton.count = postCount
+            if let postCount = user.postsCount where postCount > 0 {
+                cell.postsButton.enabled = true
+            }
+            else {
+                cell.postsButton.enabled = false
+            }
 
             let followingCount = user.followingCount?.numberToHuman(showZero: true) ?? "0"
             cell.followingButton.title = NSLocalizedString("Following", comment: "Following")
