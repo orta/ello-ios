@@ -147,6 +147,7 @@ public class ProfileViewController: StreamableViewController {
             self.navigationItem.leftBarButtonItems = [item]
             self.navigationItem.fixNavBarItemPadding()
         }
+        addSearchButton()
     }
 
     private func userLoaded(user: User, responseConfig: ResponseConfig) {

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SVGKit
 
 public protocol PostTappedDelegate : NSObjectProtocol {
     func postTapped(post: Post)
@@ -172,6 +173,19 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
         let vc = PostDetailViewController(postParam: postId)
         vc.currentUser = currentUser
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+// MARK: Search
+public extension StreamableViewController {
+    func addSearchButton() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: SVGKImage(named: "search_normal.svg").UIImage!, style: .Done, target: self, action: Selector("searchButtonTapped"))
+    }
+
+    func searchButtonTapped() {
+        let search = SearchViewController()
+        search.currentUser = currentUser
+        self.navigationController?.pushViewController(search, animated: true)
     }
 }
 
