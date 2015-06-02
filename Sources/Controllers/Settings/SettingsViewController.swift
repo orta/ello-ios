@@ -163,8 +163,19 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     }
 
     private func setupDefaultValues() {
-        currentUser?.coverImageURL.map(coverImage.sd_setImageWithURL)
-        (currentUser?.avatar?.large?.url).map(avatarImage.sd_setImageWithURL)
+        if let cachedImage = TemporaryCache.load(.CoverImage) {
+            coverImage.image = cachedImage
+        }
+        else if let imageURL = currentUser?.coverImageURL {
+            coverImage.sd_setImageWithURL(imageURL)
+        }
+
+        if let cachedImage = TemporaryCache.load(.Avatar) {
+            avatarImage.image = cachedImage
+        }
+        else if let imageURL = currentUser?.avatar?.large?.url {
+            avatarImage.sd_setImageWithURL(imageURL)
+        }
 
         nameTextFieldView.label.setLabelText(NSLocalizedString("Name", comment: "name setting"))
         nameTextFieldView.textField.text = currentUser?.name
@@ -278,8 +289,15 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     @IBAction func coverImageTapped() {
         photoSaveCallback = { image in
             ElloHUD.showLoadingHud()
-            ProfileService().updateUserCoverImage(image, success: { _ in
+            ProfileService().updateUserCoverImage(image, success: { url, _ in
                 ElloHUD.hideLoadingHud()
+                if let user = self.currentUser {
+                    let asset = Asset(image: image, url: url)
+                    user.coverImage = asset
+
+                    postNotification(CurrentUserChangedNotification, user)
+                }
+                self.coverImage.image = image
                 self.alertUserOfImageProcessing()
             }, failure: { _, _ in
                 ElloHUD.hideLoadingHud()
@@ -292,8 +310,15 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         photoSaveCallback = { image in
             ElloHUD.showLoadingHud()
 
-            ProfileService().updateUserAvatarImage(image, success: { user in
+            ProfileService().updateUserAvatarImage(image, success: { url, _ in
                 ElloHUD.hideLoadingHud()
+                if let user = self.currentUser {
+                    let asset = Asset(image: image, url: url)
+                    user.avatar = asset
+
+                    postNotification(CurrentUserChangedNotification, user)
+                }
+                self.avatarImage.image = image
                 self.alertUserOfImageProcessing()
             }, failure: { _, _ in
                 ElloHUD.hideLoadingHud()
@@ -314,7 +339,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     }
 
     private func alertUserOfImageProcessing() {
-        let message = NSLocalizedString("You've updated your Avatar/Header.\n\nIt may take a few minutes for your new avatar/header to appear on Ello, so please be patient. It'll be live soon!", comment: "Settings image updated copy")
+        let message = NSLocalizedString("You’ve updated your Avatar/Header.\n\nIt may take a few minutes for your new avatar/header to appear on Ello, so please be patient. It’ll be live soon!", comment: "Settings image updated copy")
         let alert = AlertViewController(message: message)
         let action = AlertAction(title: NSLocalizedString("OK", comment: "ok"), style: .Light, handler: .None)
         alert.addAction(action)

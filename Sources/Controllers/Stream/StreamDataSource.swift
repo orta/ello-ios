@@ -260,7 +260,6 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
             case .Footer:
                 (cell as! StreamFooterCell).delegate = postbarDelegate
             case .ProfileHeader:
-                (cell as! ProfileHeaderCell).currentUser = currentUser
                 (cell as! ProfileHeaderCell).relationshipControl.relationshipDelegate = relationshipDelegate
                 (cell as! ProfileHeaderCell).userListDelegate = userListDelegate
                 (cell as! ProfileHeaderCell).webLinkDelegate = webLinkDelegate

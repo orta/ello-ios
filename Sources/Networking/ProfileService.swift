@@ -15,6 +15,7 @@ import SwiftyJSON
 public typealias ProfileFollowingSuccessCompletion = (users: [User], responseConfig: ResponseConfig) -> Void
 public typealias AccountDeletionSuccessCompletion = () -> Void
 public typealias ProfileSuccessCompletion = (user: User) -> Void
+public typealias ProfileUploadSuccessCompletion = (url: NSURL, user: User) -> Void
 
 public struct ProfileService {
 
@@ -65,12 +66,18 @@ public struct ProfileService {
         )
     }
 
-    public func updateUserCoverImage(image: UIImage, success: ProfileSuccessCompletion, failure: ElloFailureCompletion) {
-        updateUserImage(image, key: "remote_cover_image_url", success: success, failure: failure)
+    public func updateUserCoverImage(image: UIImage, success: ProfileUploadSuccessCompletion, failure: ElloFailureCompletion) {
+        updateUserImage(image, key: "remote_cover_image_url", success: { (url, user) in
+            TemporaryCache.save(.CoverImage, image: image)
+            success(url: url, user: user)
+        }, failure: failure)
     }
 
-    public func updateUserAvatarImage(image: UIImage, success: ProfileSuccessCompletion, failure: ElloFailureCompletion) {
-        updateUserImage(image, key: "remote_avatar_url", success: success, failure: failure)
+    public func updateUserAvatarImage(image: UIImage, success: ProfileUploadSuccessCompletion, failure: ElloFailureCompletion) {
+        updateUserImage(image, key: "remote_avatar_url", success: { (url, user) in
+            TemporaryCache.save(.Avatar, image: image)
+            success(url: url, user: user)
+        }, failure: failure)
     }
 
     public func updateUserDeviceToken(token: NSData) {
@@ -87,10 +94,13 @@ public struct ProfileService {
             failure: .None)
     }
 
-    private func updateUserImage(image: UIImage, key: String, success: ProfileSuccessCompletion, failure: ElloFailureCompletion) {
+    private func updateUserImage(image: UIImage, key: String, success: ProfileUploadSuccessCompletion, failure: ElloFailureCompletion) {
         S3UploadingService().upload(image, filename: "\(NSUUID().UUIDString).png", success: { url in
-            if let urlString = url?.absoluteString {
-                self.updateUserProfile([key: urlString], success: success, failure: failure)
+            if let url = url,
+                let urlString = url.absoluteString {
+                self.updateUserProfile([key: urlString], success: { user in
+                    success(url: url, user: user)
+                }, failure: failure)
             }
         }, failure: failure)
     }

@@ -11,9 +11,8 @@ import Foundation
 public class AvatarButton: UIButton {
 
     func setAvatarURL(url:NSURL?) {
-        let state = UIControlState.Normal
         if let url = url {
-            self.sd_setImageWithURL(url, forState: state) { (image, error, type, url) in
+            self.sd_setImageWithURL(url, forState: .Normal) { (image, error, type, url) in
                 if image == nil {
                     self.setDefaultImage()
                 }
@@ -25,7 +24,7 @@ public class AvatarButton: UIButton {
     }
 
     func setDefaultImage() {
-        self.setImage(nil, forState: state)
+        self.setImage(nil, forState: .Normal)
     }
 
     override public func layoutSubviews() {

@@ -24,13 +24,24 @@ public struct ProfileHeaderCellPresenter {
             cell.user = user
             cell.relationshipControl.hidden = false
 
-            if let currentUser = cell.currentUser {
-                cell.relationshipControl.hidden = user.id == currentUser.id
+            let isCurrentUser: Bool
+            if let currentUser = currentUser {
+                isCurrentUser = user.id == currentUser.id
             }
+            else {
+                isCurrentUser = false
+            }
+            cell.relationshipControl.hidden = isCurrentUser
+
             cell.profileButtonsView.hidden = !cell.relationshipControl.hidden
             cell.relationshipControl.showMoreButton = !cell.relationshipControl.hidden
 
-            if let avatarURL = user.avatarURL {
+            if let cachedImage = TemporaryCache.load(.Avatar)
+                where isCurrentUser
+            {
+                cell.setAvatarImage(cachedImage)
+            }
+            else if let avatarURL = user.avatarURL {
                 cell.setAvatarURL(avatarURL)
             }
             cell.viewTopConstraint.constant = UIScreen.screenWidth() / ratio
@@ -54,7 +65,7 @@ public struct ProfileHeaderCellPresenter {
             cell.lovesButton.title = NSLocalizedString("Loves", comment: "Loves")
             cell.lovesButton.count = lovesCount
 
-            // The user.followersCount is a String due to a special case where that can return ∞ for the ello user. 
+            // The user.followersCount is a String due to a special case where that can return ∞ for the ello user.
             // toInt() returns an optional that will fail when not an Int allowing the ∞ to display for the ello user.
             let fCount: String
             if let followerCountInt = user.followersCount?.toInt() {
