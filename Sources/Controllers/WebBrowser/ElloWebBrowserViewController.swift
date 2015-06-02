@@ -18,8 +18,12 @@ public class ElloWebBrowserViewController: KINWebBrowserViewController {
 
     public class func navigationControllerWithBrowser(webBrowser: ElloWebBrowserViewController) -> UINavigationController {
         let xButton = UIBarButtonItem(title: "\u{2573}", style: .Done, target: webBrowser, action: Selector("doneButtonPressed:"))
+        let shareButton = UIBarButtonItem(barButtonSystemItem: .Action, target: webBrowser, action: Selector("actionButtonPressed:"))
+
         xButton.setTitleTextAttributes([NSForegroundColorAttributeName : UIColor.blackColor()], forState: .Normal)
-        webBrowser.navigationItem.rightBarButtonItem = xButton
+        webBrowser.navigationItem.leftBarButtonItem = xButton
+        webBrowser.navigationItem.rightBarButtonItem = shareButton
+        webBrowser.actionButtonHidden = true
 
         return UINavigationController(rootViewController: webBrowser)
     }
