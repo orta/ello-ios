@@ -58,7 +58,6 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         var screen = OmnibarScreen(frame: UIScreen.mainScreen().bounds)
         self.view = screen
         screen.hasParentPost = parentPost != nil
-        screen.avatarURL = currentUser?.avatarURL
         screen.currentUser = currentUser
         screen.text = self.defaultText
 
@@ -77,6 +76,13 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         super.viewWillAppear(animated)
         if let previousTab = elloTabBarController?.previousTab {
             self.previousTab = previousTab
+        }
+
+        if let cachedImage = TemporaryCache.load(.Avatar) {
+            screen.avatarImage = cachedImage
+        }
+        else {
+            screen.avatarURL = currentUser?.avatarURL
         }
 
         keyboardWillShowObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillShow, block: self.willShow)
@@ -120,7 +126,12 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     override func didSetCurrentUser() {
         super.didSetCurrentUser()
         if isViewLoaded() {
-            self.screen.avatarURL = currentUser?.avatarURL
+            if let cachedImage = TemporaryCache.load(.Avatar) {
+                screen.avatarImage = cachedImage
+            }
+            else {
+                screen.avatarURL = currentUser?.avatarURL
+            }
         }
     }
 
