@@ -9,22 +9,26 @@
 import Foundation
 import SVGKit
 
-public class DrawerViewController: BaseElloViewController {
-    @IBOutlet weak public var collectionView: UICollectionView!
+public class DrawerViewController: StreamableViewController {
+    @IBOutlet weak public var tableView: UITableView!
     @IBOutlet weak public var navigationBar: ElloNavigationBar!
 
     override var backGestureEdges: UIRectEdge { return .Right }
 
-    let dataSource: DrawerViewDataSource
+    public let dataSource = DrawerViewDataSource()
 
-    required public init(relationship: RelationshipPriority) {
-        dataSource = DrawerViewDataSource(relationship: relationship)
+    required public init() {
         super.init(nibName: "DrawerViewController", bundle: .None)
-        dataSource.delegate = self
     }
 
     required public init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    // Using a StreamableViewController to gain access to the InviteResponder
+    // Not a great longterm setup.
+    override func setupStreamController() {
+        // noop
     }
 }
 
@@ -40,91 +44,55 @@ extension DrawerViewController {
 
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        dataSource.loadUsers()
+        tableView.delegate = self
+        tableView.dataSource = dataSource
     }
 }
 
 // MARK: Actions
 extension DrawerViewController {
+
     func hamburgerButtonTapped() {
         Tracker.sharedTracker.drawerClosed()
         navigationController?.popViewControllerAnimated(true)
     }
 
-    func wtfButtonTapped() {
-        let wtfProfile = ProfileViewController(userParam: "~wtf")
-        navigationController?.pushViewController(wtfProfile, animated: true)
-    }
-
-    func storeButtonTapped() {
-        postNotification(externalWebNotification, "http://ello.threadless.com/")
+    @IBAction func elloTapped() {
+        // no op
     }
 }
 
-// MARK: DrawerViewDataSourceDelegate
-extension DrawerViewController: DrawerViewDataSourceDelegate {
-    public func dataSourceStartedLoadingUsers(dataSource: DrawerViewDataSource) {
-        dispatch_async(dispatch_get_main_queue()) {
-            self.collectionView.reloadData()
-        }
-    }
 
-    public func dataSourceFinishedLoadingUsers(dataSource: DrawerViewDataSource) {
-        dispatch_async(dispatch_get_main_queue()) {
-            self.collectionView.reloadData()
-        }
-    }
-}
-
-// MARK: UICollectionViewDataSource
-extension DrawerViewController: UICollectionViewDataSource {
-    public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataSource.numberOfUsers
-    }
-
-    public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let presenter = dataSource.cellPresenterForIndexPath(indexPath)
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(presenter.reuseIdentifier, forIndexPath: indexPath) as! UICollectionViewCell
-        presenter.configureCell(cell)
-        return cell
-    }
-}
-
-// MARK: UICollectionViewDelegate
-extension DrawerViewController: UICollectionViewDelegate {
-    public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let profile = dataSource.userForIndexPath(indexPath).map { ProfileViewController(userParam: $0.id) }
-
-        if let profileViewController = profile {
-            navigationController?.pushViewController(profileViewController, animated: true)
+// MARK: UITableViewDelegate
+extension DrawerViewController: UITableViewDelegate {
+    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if let item = dataSource.itemForIndexPath(indexPath) {
+            switch item.type {
+            case .External:
+                if let link = item.link {
+                    postNotification(externalWebNotification, link)
+                }
+            case .Internal:
+                item.closure?(controller: self)
+            default: break
+            }
         }
     }
 }
 
-extension DrawerViewController: UIScrollViewDelegate {
-    public func scrollViewDidScroll(scrollView: UIScrollView) {
-        if scrollView.contentOffset.y + view.frame.height + 200 > scrollView.contentSize.height {
-            dataSource.loadNextUsers()
-        }
-    }
-}
 
 // MARK: View Helpers
 private extension DrawerViewController {
     func setupNavigationBar() {
-        navigationBar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 30)
+        navigationBar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 44)
         navigationBar.items = [navigationItem]
         navigationBar.tintColor = UIColor.greyA()
     }
 
     func addLeftButtons() {
-        let counterPadding = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
-        counterPadding.width = 24
-        let wtf = UIBarButtonItem(title: "WTF", style: .Done, target: self, action: Selector("wtfButtonTapped"))
-        let padding = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
-        padding.width = 17
-        let store = UIBarButtonItem(title: "Store", style: .Done, target: self, action: Selector("storeButtonTapped"))
-        self.navigationItem.leftBarButtonItems = [counterPadding, wtf, padding, store]
+        let logoView = UIImageView(image: SVGKImage(named: "ello_logo.svg").UIImage!)
+        logoView.frame = CGRect(x: 15, y: 10, width: 24, height: 24)
+        navigationBar.addSubview(logoView)
     }
 
     func addHamburgerButton() {
@@ -135,21 +103,6 @@ private extension DrawerViewController {
     }
 
     func registerCells() {
-        let fakeUser = User(
-            id: "fakeUser",
-            href: "/api/v2/users/42",
-            username: "username",
-            name: "Unknown",
-            experimentalFeatures: false,
-            relationshipPriority: .None,
-            postsAdultContent: false,
-            viewsAdultContent: false,
-            hasCommentingEnabled: true,
-            hasSharingEnabled: true,
-            hasRepostingEnabled: true,
-            hasLovesEnabled: true
-        )
-        collectionView.registerNib(AvatarCell.nib(), forCellWithReuseIdentifier: AvatarCellPresenter(user: fakeUser).reuseIdentifier)
-        collectionView.registerClass(StreamLoadingCell.self, forCellWithReuseIdentifier: LoadingCellPresenter().reuseIdentifier)
+        tableView.registerNib(DrawerCell.nib(), forCellReuseIdentifier: DrawerCell.reuseIdentifier())
     }
 }

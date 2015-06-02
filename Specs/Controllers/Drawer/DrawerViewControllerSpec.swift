@@ -7,26 +7,28 @@ class DrawerViewControllerSpec: QuickSpec {
     override func spec() {
        describe("nib") {
             it("IBOutlets are not nil") {
-                let controller = DrawerViewController(relationship: .Friend)
+                let controller = DrawerViewController()
                 controller.loadView()
-                expect(controller.collectionView).toNot(beNil())
+                expect(controller.tableView).toNot(beNil())
                 expect(controller.navigationBar).toNot(beNil())
             }
 
             it("sets up the collectionView's delegate and dataSource") {
-                let controller = DrawerViewController(relationship: .Friend)
+                let controller = DrawerViewController()
                 controller.loadView()
-                let delegate = controller.collectionView.delegate! as! DrawerViewController
-                let dataSource = controller.collectionView.dataSource! as! DrawerViewController
+                controller.viewDidLoad()
+                controller.viewWillAppear(false)
+                let delegate = controller.tableView.delegate! as! DrawerViewController
+                let dataSource = controller.tableView.dataSource! as! DrawerViewDataSource
 
                 expect(delegate).to(equal(controller))
-                expect(dataSource).to(equal(controller))
+                expect(dataSource).to(equal(controller.dataSource))
             }
         }
 
         describe("viewDidLoad") {
             it("sets the right bar button item") {
-                let controller = DrawerViewController(relationship: .Friend)
+                let controller = DrawerViewController()
                 controller.loadView()
                 controller.viewDidLoad()
 

@@ -148,7 +148,7 @@ public class StreamContainerViewController: StreamableViewController {
     @IBAction func hamburgerButtonTapped() {
         let index = streamsSegmentedControl.selectedSegmentIndex
         let relationship = StreamKind.streamValues[index].relationship
-        let drawer = DrawerViewController(relationship: relationship)
+        let drawer = DrawerViewController()
 
         self.navigationController?.pushViewController(drawer, animated: true)
     }
