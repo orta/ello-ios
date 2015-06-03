@@ -23,7 +23,6 @@ public enum SettingsRow: Int {
 
 public class SettingsContainerViewController: BaseElloViewController {
     @IBOutlet weak public var elloNavBar: ElloNavigationBar!
-    @IBOutlet weak public var containerView: UIView!
     @IBOutlet weak var navigationBarTopConstraint: NSLayoutConstraint!
     public var navBarsVisible: Bool = true
     private var settingsViewController: SettingsViewController?

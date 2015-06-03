@@ -60,7 +60,6 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="600"/>
                     <connections>
-                        <outlet property="containerView" destination="aiC-5l-KQt" id="e99-W0-dJu"/>
                         <outlet property="elloNavBar" destination="RTz-hl-55m" id="my7-1H-NvW"/>
                         <outlet property="navigationBarTopConstraint" destination="cFG-gP-8bO" id="W2K-5H-bo5"/>
                         <outlet property="view" destination="g32-5c-X1W" id="Dpx-3b-JBx"/>
