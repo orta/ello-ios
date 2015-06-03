@@ -41,15 +41,4 @@ public class ElloNavigationBar : UINavigationBar {
         size.height = Size.height
         return size
     }
-
-    override public func layoutSubviews() {
-        super.layoutSubviews()
-        if let topItem = self.topItem {
-            if let view = topItem.titleView {
-                view.frame = view.frame
-                    .withHeight(Size.titleViewHeight)
-                    .atY((self.frame.height - Size.titleViewHeight) / 2)
-            }
-        }
-    }
 }
