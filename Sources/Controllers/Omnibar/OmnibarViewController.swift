@@ -151,7 +151,8 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     public func omnibarSubmitted(text: NSAttributedString?, image: UIImage?) {
         var content = [AnyObject]()
         if let text = text?.string {
-            if count(text) > 0 {
+            let alphanum = NSCharacterSet.alphanumericCharacterSet()
+            if (count(text) > 0 && text.rangeOfCharacterFromSet(alphanum) != nil) {
                 content.append(text)
             }
         }
