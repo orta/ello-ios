@@ -154,7 +154,14 @@ public struct NotificationAttributedTitle {
                     }
                 }
                 else {
-                    return style(author).append(style(" loved your post."))
+                    if let love = subject as? Love, let post = love.post {
+                        return style("Someone loved your ")
+                            .append(style("post", post))
+                            .append(style("."))
+                    }
+                    else {
+                        return style(author).append(style(" loved your post."))
+                    }
                 }
             case .LoveOnRepostNotification:
                 if let love = subject as? Love,
@@ -173,7 +180,14 @@ public struct NotificationAttributedTitle {
                     }
                 }
                 else {
-                    return style(author).append(style(" loved your repost."))
+                    if let love = subject as? Love, let post = love.post {
+                        return style("Someone loved your ")
+                            .append(style("post", post))
+                            .append(style("."))
+                    }
+                    else {
+                        return style(author).append(style(" loved your repost."))
+                    }
                 }
             case .LoveOnOriginalPostNotification:
                 if let love = subject as? Love,
@@ -192,7 +206,14 @@ public struct NotificationAttributedTitle {
                     }
                 }
                 else {
-                    return style(author).append(style(" loved your original post."))
+                    if let love = subject as? Love, let post = love.post {
+                        return style("Someone loved your ")
+                            .append(style("post", post))
+                            .append(style("."))
+                    }
+                    else {
+                        return style(author).append(style(" loved your original post."))
+                    }
                 }
             case .WelcomeNotification:
                 return style("Welcome to Ello!")
