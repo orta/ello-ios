@@ -72,6 +72,11 @@ public class SettingsContainerViewController: BaseElloViewController {
     override func didSetCurrentUser() {
         settingsViewController?.currentUser = currentUser
     }
+
+    public override func viewWillAppear(animated: Bool) {
+        let hidden = elloTabBarController?.tabBarHidden ?? true
+        UIApplication.sharedApplication().setStatusBarHidden(hidden, withAnimation: .Slide)
+    }
 }
 
 
