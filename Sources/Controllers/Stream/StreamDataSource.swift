@@ -507,7 +507,14 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
 
         for (index, cellItem) in enumerate(cellItems) {
             indexPaths.append(NSIndexPath(forItem: startingIndex + index, inSection: startingIndexPath.section))
-            self.streamCellItems.insert(cellItem, atIndex: arrayIndex + index)
+
+            let atIndex = arrayIndex + index
+            if atIndex <= count(streamCellItems) {
+                streamCellItems.insert(cellItem, atIndex: arrayIndex + index)
+            }
+            else {
+                streamCellItems.append(cellItem)
+            }
         }
 
         self.updateFilteredItems()
