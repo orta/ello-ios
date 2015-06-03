@@ -18,6 +18,8 @@ public enum EmbedType: String {
     case Soundcloud = "soundcloud"
     case Youtube = "youtube"
     case Vimeo = "vimeo"
+    case UStream = "ustream"
+    case Bandcamp = "bandcamp"
     case Unknown = "unknown"
 }
 
