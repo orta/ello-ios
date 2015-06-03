@@ -70,6 +70,13 @@ public class BlockUserModalViewController: BaseElloViewController {
         selectButton(relationship)
     }
 
+    override public func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        if let superView = self.view.superview {
+            self.view.center = superView.center
+        }
+    }
+
     @IBAction func blockTapped(sender: UIButton) {
         Tracker.sharedTracker.userBlocked(userId)
         handleTapped(sender, newRelationship: RelationshipPriority.Block)
