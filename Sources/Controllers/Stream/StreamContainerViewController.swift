@@ -46,6 +46,12 @@ public class StreamContainerViewController: StreamableViewController {
         scrollLogic.prevOffset = (childViewControllers[0] as! StreamViewController).collectionView.contentOffset
     }
 
+    public override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        let hidden = elloTabBarController?.tabBarHidden ?? true
+        UIApplication.sharedApplication().setStatusBarHidden(hidden, withAnimation: .Slide)
+    }
+
     override public func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         updateInsets()
