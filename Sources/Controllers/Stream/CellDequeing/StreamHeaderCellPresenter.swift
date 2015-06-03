@@ -52,13 +52,7 @@ public struct StreamHeaderCellPresenter {
                 cell.chevronHidden = false
                 cell.goToPostView.hidden = true
             }
-
-            let usernameText = authorable.author?.atName ?? ""
-            cell.usernameTextView.text = ""
-            cell.usernameTextView.appendTextWithAction(usernameText, link: "author", object: authorable.author)
-            cell.resetUsernameTextView()
-            cell.usernameTextView.sizeToFit()
-            cell.setNeedsLayout()
+            cell.updateUsername(authorable.author?.atName ?? "", isGridLayout: streamKind.isGridLayout)
             cell.layoutIfNeeded()
         }
     }

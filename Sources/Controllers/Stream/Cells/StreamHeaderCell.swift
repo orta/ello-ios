@@ -37,7 +37,6 @@ public class StreamHeaderCell: UICollectionViewCell {
     var maxUsernameWidth: CGFloat = 50.0
 
     @IBOutlet weak var avatarButton: AvatarButton!
-    @IBOutlet weak var usernameTextView: ElloTextView!
     @IBOutlet weak var goToPostView: UIView!
     @IBOutlet weak var bottomToolBar: UIToolbar!
     @IBOutlet weak var scrollView: UIScrollView!
@@ -46,6 +45,8 @@ public class StreamHeaderCell: UICollectionViewCell {
     @IBOutlet weak var bottomContentView: UIView!
     @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var chevronButton: StreamFooterButton!
+    @IBOutlet weak var usernameButton: UIButton!
+    var isGridLayout = false
 
     weak var postbarDelegate: PostbarDelegate?
 
@@ -95,7 +96,8 @@ public class StreamHeaderCell: UICollectionViewCell {
     override public func awakeFromNib() {
         super.awakeFromNib()
 
-        originalUsernameFrame = usernameTextView.frame
+        originalUsernameFrame = usernameButton.frame
+        println("originalUsernameFrame: \(originalUsernameFrame)")
         bottomToolBar.translucent = false
         bottomToolBar.barTintColor = UIColor.whiteColor()
         bottomToolBar.clipsToBounds = true
@@ -106,8 +108,7 @@ public class StreamHeaderCell: UICollectionViewCell {
         addObservers()
         addButtonHandlers()
 
-        usernameTextView.textViewDelegate = self
-        styleUsernameTextView()
+        styleUsernameButton()
         styleTimestampLabel()
 
         let goToPostTapRecognizer = UITapGestureRecognizer(target: self, action: Selector("postTapped:"))
@@ -130,9 +131,11 @@ public class StreamHeaderCell: UICollectionViewCell {
 
 // MARK: - Public
 
-    public func resetUsernameTextView() {
-        usernameTextView.frame = originalUsernameFrame
-        usernameTextView.textContainerInset = UIEdgeInsetsZero
+    public func updateUsername(username: String, isGridLayout: Bool = false) {
+        self.isGridLayout = isGridLayout
+        usernameButton.setTitle(username, forState: UIControlState.Normal)
+        usernameButton.frame = originalUsernameFrame
+        usernameButton.sizeToFit()
     }
 
     public func close() {
@@ -164,7 +167,7 @@ public class StreamHeaderCell: UICollectionViewCell {
 
     private func positionTopContent() {
         let sidePadding: CGFloat = 15.0
-        let minimumUsernameWidth: CGFloat = 60.0
+        let minimumUsernameWidth: CGFloat = 44.0
 
         avatarButton.frame = CGRectMake(sidePadding, innerContentView.frame.midY - avatarHeight/2, avatarHeight, avatarHeight)
 
@@ -179,17 +182,21 @@ public class StreamHeaderCell: UICollectionViewCell {
         timestampLabel.frame = CGRectMake(timestampX, innerContentView.frame.midY - timestampLabel.frame.height/2, timestampLabel.frame.width, timestampLabel.frame.height)
 
         let usernameX = avatarButton.frame.maxX + sidePadding
-        maxUsernameWidth = timestampX - usernameX
-        let usernameWidth = max(minimumUsernameWidth, min(usernameTextView.frame.width, maxUsernameWidth))
+        if !isGridLayout {
+            maxUsernameWidth = timestampX - usernameX - sidePadding
+        }
+        else {
+            maxUsernameWidth = innerContentView.frame.width - usernameX - sidePadding
+        }
+        let usernameWidth = max(minimumUsernameWidth, min(usernameButton.frame.width, maxUsernameWidth))
 
-        usernameTextView.frame = CGRectMake(usernameX, 0, usernameWidth, innerContentView.frame.height)
+        usernameButton.frame = CGRectMake(usernameX, 0, usernameWidth, innerContentView.frame.height)
 
-        var topoffset = (usernameTextView.frame.height - originalUsernameFrame.height) / 2.0
+        var topoffset = (usernameButton.frame.height - originalUsernameFrame.height) / 2.0
 
         topoffset = topoffset < 0.0 ? 0.0 : topoffset
-        usernameTextView.textContainerInset = UIEdgeInsetsMake(topoffset, 0, 0, 0)
 
-        goToPostView.frame = CGRectMake(usernameTextView.frame.maxX, 0, innerContentView.bounds.width - usernameTextView.frame.maxX, innerContentView.frame.height)
+        goToPostView.frame = CGRectMake(usernameButton.frame.maxX, 0, innerContentView.bounds.width - usernameButton.frame.maxX, innerContentView.frame.height)
     }
 
     private func fixedItem(width:CGFloat) -> UIBarButtonItem {
@@ -220,9 +227,11 @@ public class StreamHeaderCell: UICollectionViewCell {
         deleteControl.addTarget(self, action: Selector("deleteButtonTapped:"), forControlEvents: .TouchUpInside)
     }
 
-    private func styleUsernameTextView() {
-        usernameTextView.customFont = UIFont.typewriterFont(12.0)
-        usernameTextView.textColor = UIColor.greyA()
+    private func styleUsernameButton() {
+        usernameButton.titleLabel?.font = UIFont.typewriterFont(12.0)
+        usernameButton.setTitleColor(UIColor.greyA(), forState: UIControlState.Normal)
+        usernameButton.titleLabel?.lineBreakMode = NSLineBreakMode.ByTruncatingTail
+        usernameButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
     }
 
     private func styleTimestampLabel() {
@@ -246,6 +255,10 @@ public class StreamHeaderCell: UICollectionViewCell {
     }
 
     @IBAction func userTapped(sender: AvatarButton) {
+        userDelegate?.userTappedCell(self)
+    }
+
+    @IBAction func usernameTapped(sender: UIButton) {
         userDelegate?.userTappedCell(self)
     }
 
