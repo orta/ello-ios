@@ -576,7 +576,6 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
     }
 
     public func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
-        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .None)
     }
 
     public func imagePickerController(controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
