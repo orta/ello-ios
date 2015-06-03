@@ -34,7 +34,7 @@ extension SEGAnalytics: AnalyticsAgent { }
 
 public class Tracker {
     public static let sharedTracker = Tracker()
-
+    var settingChangedNotification: NotificationObserver?
     private var shouldTrackUser = true
     private var agent: AnalyticsAgent {
         return shouldTrackUser ? SEGAnalytics.sharedAnalytics() : NullAgent()
@@ -43,7 +43,12 @@ public class Tracker {
     public init() {
         let configuration = SEGAnalyticsConfiguration(writeKey: ElloKeys().segmentKey())
          SEGAnalytics.setupWithConfiguration(configuration)
+
+        settingChangedNotification = NotificationObserver(notification: SettingChangedNotification) { user in
+            self.shouldTrackUser = user.profile?.allowsAnalytics ?? true
+        }
     }
+
 }
 
 // MARK: Session Info
