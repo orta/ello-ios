@@ -54,6 +54,7 @@ public class ProfileHeaderCell: UICollectionViewCell {
     override public func layoutSubviews() {
         super.layoutSubviews()
         bioWebView.scrollView.scrollEnabled = false
+        bioWebView.scrollView.scrollsToTop = false
     }
 
     override public func prepareForReuse() {

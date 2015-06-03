@@ -20,6 +20,7 @@ public class StreamTextCell: StreamRegionableCell, UIWebViewDelegate {
     override public func awakeFromNib() {
         super.awakeFromNib()
         webView.scrollView.scrollEnabled = false
+        webView.scrollView.scrollsToTop = false
     }
 
     func onWebContentReady(handler: WebContentReady?) {
