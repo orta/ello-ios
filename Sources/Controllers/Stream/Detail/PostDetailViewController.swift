@@ -79,6 +79,7 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
             success: postLoaded,
             failure: { (error, statusCode) in
                 self.showPostLoadFailure()
+                Tracker.sharedTracker.initialLoadError(self.streamViewController.streamKind.name, errorMsg: error.localizedDescription)
                 self.streamViewController.doneLoading()
             }
         )

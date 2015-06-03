@@ -93,6 +93,13 @@ public extension Tracker {
     }
 }
 
+// MARK: Screen Appearance Errors
+public extension Tracker {
+    func initialLoadError(screen: String, errorMsg: String) {
+        agent.track("Initial load error", properties: ["screen": screen, "errorMsg": errorMsg])
+    }
+}
+
 // MARK: Content Actions
 public extension Tracker {
     func contentCreated(type: ContentType) {
