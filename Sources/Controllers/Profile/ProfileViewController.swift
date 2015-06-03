@@ -123,7 +123,6 @@ public class ProfileViewController: StreamableViewController {
             success: userLoaded,
             failure: { (error, statusCode) in
                 self.showUserLoadFailure()
-                Tracker.sharedTracker.initialLoadError(self.streamViewController.streamKind.name, errorMsg: error.localizedDescription)
                 self.streamViewController.doneLoading()
             }
         )

@@ -208,11 +208,7 @@ public extension Tracker {
 
 // MARK: Errors
 public extension Tracker {
-    func encounteredNetworkError(error: NSError) {
-        agent.track("Encountered network error: \(error.description)")
-    }
-
-    func initialLoadError(screen: String, errorMsg: String) {
-        agent.track("Initial load error", properties: ["screen": screen, "message": errorMsg])
+    func encounteredNetworkError(path: String, error: NSError, statusCode: Int?) {
+        agent.track("Encountered network error", properties: ["path": path, "message": error.description, "statusCode": statusCode ?? 0])
     }
 }

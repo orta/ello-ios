@@ -283,7 +283,6 @@ public class StreamViewController: BaseElloViewController {
                 }, failure: { (error, statusCode) in
                     println("failed to load \(self.streamKind.name) stream (reason: \(error))")
                     self.initialLoadFailure()
-                    Tracker.sharedTracker.initialLoadError(self.streamKind.name, errorMsg: error.localizedDescription)
                     self.doneLoading()
                 }, noContent: {
                     println("nothing new")
