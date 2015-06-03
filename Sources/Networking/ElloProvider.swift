@@ -192,19 +192,19 @@ extension ElloProvider {
             case 410:
                 ElloProvider.postNetworkFailureNotification(data, error: error, statusCode: statusCode)
             case 422:
-                ElloProvider.handleNetworkFailure(failure, data: data, error: error, statusCode: statusCode)
+                ElloProvider.handleNetworkFailure(target.path, failure: failure, data: data, error: error, statusCode: statusCode)
             case 402...409:
-                ElloProvider.handleNetworkFailure(failure, data: data, error: error, statusCode: statusCode)
+                ElloProvider.handleNetworkFailure(target.path, failure: failure, data: data, error: error, statusCode: statusCode)
             case 400...499:
-                ElloProvider.handleNetworkFailure(failure, data: data, error: error, statusCode: statusCode)
+                ElloProvider.handleNetworkFailure(target.path, failure: failure, data: data, error: error, statusCode: statusCode)
             case 500...599:
-                ElloProvider.handleNetworkFailure(failure, data: data, error: error, statusCode: statusCode)
+                ElloProvider.handleNetworkFailure(target.path, failure: failure, data: data, error: error, statusCode: statusCode)
             default:
-                ElloProvider.handleNetworkFailure(failure, data: data, error: error, statusCode: statusCode)
+                ElloProvider.handleNetworkFailure(target.path, failure: failure, data: data, error: error, statusCode: statusCode)
             }
         }
         else {
-            ElloProvider.handleNetworkFailure(failure, data: data, error: error, statusCode: statusCode)
+            ElloProvider.handleNetworkFailure(target.path, failure: failure, data: data, error: error, statusCode: statusCode)
         }
     }
 
@@ -300,9 +300,9 @@ extension ElloProvider {
         postNotification(notificationCase.notification, elloError)
     }
 
-    static private func handleNetworkFailure(failure:ElloFailureCompletion?, data:NSData?, error: NSError?, statusCode: Int?) {
+    static private func handleNetworkFailure(path: String, failure:ElloFailureCompletion?, data:NSData?, error: NSError?, statusCode: Int?) {
         let elloError = generateElloError(data, error: error, statusCode: statusCode)
-        Tracker.sharedTracker.encounteredNetworkError(elloError)
+        Tracker.sharedTracker.encounteredNetworkError(path, error: elloError, statusCode: statusCode)
         failure?(error: elloError, statusCode: statusCode)
     }
 
