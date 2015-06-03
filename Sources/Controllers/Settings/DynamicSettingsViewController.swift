@@ -32,6 +32,8 @@ class DynamicSettingsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        tableView.scrollsToTop = false
+
         StreamService().loadStream(.ProfileToggles,
             streamKind: nil,
             success: { (data, responseConfig) in

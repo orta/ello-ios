@@ -30,7 +30,8 @@ public class SettingsContainerViewController: BaseElloViewController {
     func showNavBars() {
         navigationBarTopConstraint.constant = 0
         animate {
-            self.elloNavBar.frame.origin.y = self.navigationBarTopConstraint.constant
+            UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Slide)
+            self.view.layoutIfNeeded()
         }
 
         if let tableView = settingsViewController?.tableView {
@@ -40,9 +41,10 @@ public class SettingsContainerViewController: BaseElloViewController {
     }
 
     func hideNavBars() {
-        navigationBarTopConstraint.constant = -elloNavBar.frame.height - 1
+        navigationBarTopConstraint.constant = -ElloNavigationBar.Size.height - 1
         animate {
-            self.elloNavBar.frame.origin.y = self.navigationBarTopConstraint.constant
+            UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .Slide)
+            self.view.layoutIfNeeded()
         }
 
         if let tableView = settingsViewController?.tableView {
@@ -122,7 +124,6 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         }
 
         containerController?.showNavBars()
-        self.view.layoutIfNeeded()
     }
 
     func hideNavBars() {
@@ -131,7 +132,6 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         }
 
         containerController?.hideNavBars()
-        self.view.layoutIfNeeded()
     }
 
     override public func viewDidLoad() {
