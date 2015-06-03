@@ -169,10 +169,10 @@ public class StreamHeaderCell: UICollectionViewCell {
         avatarButton.frame = CGRectMake(sidePadding, innerContentView.frame.midY - avatarHeight/2, avatarHeight, avatarHeight)
 
         if chevronHidden {
-            chevronButton.frame = CGRectMake(innerContentView.frame.width - sidePadding, innerContentView.frame.height/2 - chevronButton.bounds.height/2, 0, 44.0)
+            chevronButton.frame = CGRectMake(innerContentView.frame.width - sidePadding, innerContentView.frame.height/2 - 22.0, 0, 44.0)
         }
         else {
-            chevronButton.frame = CGRectMake(innerContentView.frame.width - 44.0, innerContentView.frame.height/2 - chevronButton.bounds.height/2, 44.0, 44.0)
+            chevronButton.frame = CGRectMake(innerContentView.frame.width - 44.0, innerContentView.frame.height/2 - 22.0, 44.0, 44.0)
         }
 
         let timestampX = chevronButton.frame.x - timestampLabel.frame.width
