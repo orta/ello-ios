@@ -105,6 +105,7 @@ class ElloTextView: UITextView {
         editable = false
         selectable = false
         scrollEnabled = false
+        scrollsToTop = false
         attributedText = NSAttributedString(string: "")
         textContainerInset = UIEdgeInsetsZero
         allowsEditingTextAttributes = false
