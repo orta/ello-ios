@@ -8,7 +8,7 @@
 
 public class ElloNavigationBar : UINavigationBar {
     struct Size {
-        static let height : CGFloat = 44
+        static let height : CGFloat = 64
         static let titleViewHeight : CGFloat = 20
     }
 
