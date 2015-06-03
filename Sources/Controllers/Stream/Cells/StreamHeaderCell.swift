@@ -87,8 +87,6 @@ public class StreamHeaderCell: UICollectionViewCell {
         avatarButton.setAvatarURL(url)
     }
 
-    private var originalUsernameFrame = CGRectZero
-
     override public func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
         super.touchesEnded(touches, withEvent: event)
     }
@@ -96,8 +94,6 @@ public class StreamHeaderCell: UICollectionViewCell {
     override public func awakeFromNib() {
         super.awakeFromNib()
 
-        originalUsernameFrame = usernameButton.frame
-        println("originalUsernameFrame: \(originalUsernameFrame)")
         bottomToolBar.translucent = false
         bottomToolBar.barTintColor = UIColor.whiteColor()
         bottomToolBar.clipsToBounds = true
@@ -134,7 +130,6 @@ public class StreamHeaderCell: UICollectionViewCell {
     public func updateUsername(username: String, isGridLayout: Bool = false) {
         self.isGridLayout = isGridLayout
         usernameButton.setTitle(username, forState: UIControlState.Normal)
-        usernameButton.frame = originalUsernameFrame
         usernameButton.sizeToFit()
     }
 
@@ -192,7 +187,7 @@ public class StreamHeaderCell: UICollectionViewCell {
 
         usernameButton.frame = CGRectMake(usernameX, 0, usernameWidth, innerContentView.frame.height)
 
-        var topoffset = (usernameButton.frame.height - originalUsernameFrame.height) / 2.0
+        var topoffset = usernameButton.frame.height / 2.0
 
         topoffset = topoffset < 0.0 ? 0.0 : topoffset
 
