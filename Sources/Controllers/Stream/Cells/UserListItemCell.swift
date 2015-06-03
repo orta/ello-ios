@@ -29,6 +29,8 @@ public class UserListItemCell: UICollectionViewCell {
     private func style() {
         usernameLabel.font = UIFont.typewriterFont(12.0)
         usernameLabel.textColor = UIColor.greyA()
+        usernameLabel.adjustsFontSizeToFitWidth = false
+        usernameLabel.lineBreakMode = NSLineBreakMode.ByTruncatingTail
         // bottom border
         bottomBorder.backgroundColor = UIColor.greyF1().CGColor
         self.layer.addSublayer(bottomBorder)
