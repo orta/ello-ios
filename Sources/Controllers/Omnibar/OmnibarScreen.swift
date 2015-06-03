@@ -44,6 +44,7 @@ public protocol OmnibarScreenDelegate {
 public protocol OmnibarScreenProtocol {
     var delegate : OmnibarScreenDelegate? { get set }
     var avatarURL : NSURL? { get set }
+    var avatarImage : UIImage? { get set }
     var currentUser : User? { get set }
     var hasParentPost : Bool { get set }
     var text : String? { get set }
@@ -113,6 +114,19 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
             if avatarURL != newValue {
                 if let avatarURL = newValue {
                     self.avatarButtonView.sd_setImageWithURL(avatarURL, forState: .Normal)
+                }
+                else {
+                    self.avatarButtonView.setImage(nil, forState: .Normal)
+                }
+            }
+        }
+    }
+
+    public var avatarImage : UIImage? {
+        willSet(newValue) {
+            if avatarImage != newValue {
+                if let avatarImage = newValue {
+                    self.avatarButtonView.setImage(avatarImage, forState: .Normal)
                 }
                 else {
                     self.avatarButtonView.setImage(nil, forState: .Normal)

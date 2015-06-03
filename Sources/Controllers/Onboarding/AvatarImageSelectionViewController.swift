@@ -89,8 +89,13 @@ extension AvatarImageSelectionViewController {
     public func userUploadImage(image: UIImage, proceed: (OnboardingData?) -> Void) {
         ElloHUD.showLoadingHud()
 
-        ProfileService().updateUserAvatarImage(image, success: { _ in
+        ProfileService().updateUserAvatarImage(image, success: { (url, _) in
             ElloHUD.hideLoadingHud()
+            if let user = self.currentUser {
+                let asset = Asset(image: image, url: url)
+                user.avatar = asset
+            }
+
             self.onboardingData?.avatarImage = image
             proceed(self.onboardingData)
         }, failure: { _, _ in

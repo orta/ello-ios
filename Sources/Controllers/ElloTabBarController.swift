@@ -108,6 +108,7 @@ public extension ElloTabBarController {
 public extension ElloTabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.opaque = true
         view.addSubview(tabBar)
         tabBar.delegate = self
         modalTransitionStyle = .CrossDissolve
