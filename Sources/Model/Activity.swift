@@ -41,8 +41,13 @@ public final class Activity: JSONAble {
         case CommentNotification = "comment_notification" // 'someone commented on your post'
         case CommentOnOriginalPostNotification = "comment_on_original_post_notification"
         case CommentOnRepostNotification = "comment_on_repost_notification"
+
         case WelcomeNotification = "welcome_notification" // 'welcome to Ello'
-        case RepostNotification = "repost_notification" // main feed (but collapsable) 'someone reposted your post'
+        case RepostNotification = "repost_notification" // 'someone reposted your post'
+
+        case LoveNotification = "love_notification" // 'someone loved your post'
+        case LoveOnRepostNotification = "love_on_repost_notification" //
+        case LoveOnOriginalPostNotification = "love_on_original_post_notification" //
 
         // Deprecated posts
         case CommentMention = "comment_mention"
