@@ -33,6 +33,8 @@ class OmnibarScreenMockDelegate : OmnibarScreenDelegate {
     @objc func omnibarSubmitted(text : NSAttributedString?, image: UIImage?) {
         submitted = true
     }
+    @objc func updatePostState() {
+    }
 }
 
 
@@ -112,8 +114,7 @@ class OmnibarScreenSpec: QuickSpec {
                 expect(screen.image).to(beNil())
             }
             it("should clear the image view") {
-                expect(screen.imageSelectedButton.superview) != screen.buttonContainer
-                expect(screen.cameraButton.superview) == screen.buttonContainer
+                expect(screen.cameraButton.superview).notTo(beNil())
             }
             it("should show the overlay") {
                 expect(screen.sayElloOverlay.hidden) == false
@@ -121,28 +122,8 @@ class OmnibarScreenSpec: QuickSpec {
             it("should resign the keyboard") {
                 expect(screen.textView.isFirstResponder()) == false
             }
-            it("should be undoable") {
-                expect(screen.canUndo()) == true
-            }
-        }
-        describe("pressing undo") {
-            beforeEach {
-                screen.text = "text"
-                screen.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)!
-                screen.cancelEditingAction()
-                screen.undoCancelAction()
-            }
-            it("should assign the text") {
-                expect(screen.text) == "text"
-            }
-            it("should assign the image") {
-                expect(screen.image) == UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)!
-            }
-            it("should hide the overlay") {
-                expect(screen.sayElloOverlay.hidden) == true
-            }
-            it("should not be undoable") {
-                expect(screen.canUndo()) == false
+            it("should not be postable") {
+                expect(screen.canPost()) == false
             }
         }
         describe("submitting") {
@@ -198,46 +179,46 @@ class OmnibarScreenSpec: QuickSpec {
                 expect(delegate.didPresentController) == true
             }
         }
-        describe("determining undo state") {
+        describe("determining post state") {
             describe("if there is text or image") {
                 describe("after initialization") {
                     it("should be false (default)") {
-                        expect(screen.canUndo()) == false
+                        expect(screen.canPost()) == false
                     }
-                    it("should be false (after setting text and image)") {
+                    it("should be true (after setting text and image)") {
                         screen.text = "text"
                         screen.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)!
-                        expect(screen.canUndo()) == false
+                        expect(screen.canPost()) == true
                     }
                 }
                 describe("after canceling") {
-                    it("should be true (text only)") {
+                    it("should be false (text only)") {
                         screen.text = "text"
                         screen.image = nil
-                        expect(screen.canUndo()) == false
+                        expect(screen.canPost()) == true
                         screen.cancelEditingAction()
-                        expect(screen.canUndo()) == true
+                        expect(screen.canPost()) == false
                     }
-                    it("should be true (image only)") {
+                    it("should be false (image only)") {
                         screen.text = nil
                         screen.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)!
-                        expect(screen.canUndo()) == false
+                        expect(screen.canPost()) == true
                         screen.cancelEditingAction()
-                        expect(screen.canUndo()) == true
+                        expect(screen.canPost()) == false
                     }
-                    it("should be true (text and image)") {
+                    it("should be false (text and image)") {
                         screen.text = "text"
                         screen.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)!
-                        expect(screen.canUndo()) == false
+                        expect(screen.canPost()) == true
                         screen.cancelEditingAction()
-                        expect(screen.canUndo()) == true
+                        expect(screen.canPost()) == false
                     }
                     it("should be false not text or image") {
                         screen.text = nil
                         screen.image = nil
-                        expect(screen.canUndo()) == false
+                        expect(screen.canPost()) == false
                         screen.cancelEditingAction()
-                        expect(screen.canUndo()) == false
+                        expect(screen.canPost()) == false
                     }
                 }
             }
