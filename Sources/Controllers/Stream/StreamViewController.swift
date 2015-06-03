@@ -41,8 +41,37 @@ public struct StreamNotification {
 public class StreamViewController: BaseElloViewController {
 
     @IBOutlet weak public var collectionView: UICollectionView!
+    @IBOutlet weak public var noResultsLabel: UILabel!
+    @IBOutlet weak public var noResultsTopConstraint: NSLayoutConstraint!
+    private let defaultNoResultsTopConstant: CGFloat = 113
     var shouldReload = false
     var streamables:[Streamable]?
+    public var noResultsMessages = (title: "", body: "") {
+        didSet {
+            let titleParagraphStyle = NSMutableParagraphStyle()
+            titleParagraphStyle.lineSpacing = 17
+
+            let titleAttributes = [
+                NSFontAttributeName : UIFont.regularBoldFont(18.0),
+                NSForegroundColorAttributeName : UIColor.blackColor(),
+                NSParagraphStyleAttributeName : titleParagraphStyle
+            ]
+
+            let bodyParagraphStyle = NSMutableParagraphStyle()
+            bodyParagraphStyle.lineSpacing = 8
+
+            let bodyAttributes = [
+                NSFontAttributeName : UIFont.typewriterFont(12.0),
+                NSForegroundColorAttributeName : UIColor.blackColor(),
+                NSParagraphStyleAttributeName : bodyParagraphStyle
+            ]
+
+            let title = NSAttributedString(string: self.noResultsMessages.title + "\n", attributes:titleAttributes)
+            let body = NSAttributedString(string: self.noResultsMessages.body, attributes:bodyAttributes)
+            self.noResultsLabel.attributedText = title.append(body)
+        }
+    }
+    
     public var dataSource:StreamDataSource!
     public var postbarController:PostbarController?
     var relationshipController: RelationshipController?
@@ -169,6 +198,7 @@ public class StreamViewController: BaseElloViewController {
     public func doneLoading() {
         ElloHUD.hideLoadingHudInView(view)
         pullToRefreshView?.finishLoading()
+        updateNoResultsLabel()
     }
 
     public func reloadCells() {
@@ -245,11 +275,11 @@ public class StreamViewController: BaseElloViewController {
                 streamKind: streamKind,
                 success: { (jsonables, responseConfig) in
                     if self.loadInitialPageLoadingToken != localToken { return }
-                    self.clearForInitialLoad()
                     self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind), withWidth: nil)
                     self.responseConfig = responseConfig
                     self.initialDataLoaded = true
                     self.doneLoading()
+                     self.updateNoResultsLabel()
                 }, failure: { (error, statusCode) in
                     println("failed to load \(self.streamKind.name) stream (reason: \(error))")
                     self.initialLoadFailure()
@@ -260,6 +290,23 @@ public class StreamViewController: BaseElloViewController {
                     self.doneLoading()
                 }
             )
+        }
+    }
+
+    private func updateNoResultsLabel() {
+        count(dataSource.visibleCellItems) > 0 ?
+        hideNoResults() : showNoResults()
+    }
+
+    private func hideNoResults() {
+        noResultsLabel.hidden = true
+        self.noResultsLabel.alpha = 0
+    }
+
+    private func showNoResults() {
+        noResultsLabel.hidden = false
+        UIView.animateWithDuration(0.25) {
+            self.noResultsLabel.alpha = 1
         }
     }
 
@@ -298,6 +345,7 @@ public class StreamViewController: BaseElloViewController {
                 self.dataSource.modifyItems(comment, change: change, collectionView: self.collectionView)
             case .Read: break
             }
+            self.updateNoResultsLabel()
         }
 
         postChangedNotification = NotificationObserver(notification: PostChangedNotification) { (post, change) in
@@ -318,6 +366,7 @@ public class StreamViewController: BaseElloViewController {
                 self.dataSource.modifyItems(post, change: change, collectionView: self.collectionView)
             case .Read: break
             }
+            self.updateNoResultsLabel()
         }
 
         loveChangedNotification  = NotificationObserver(notification: LoveChangedNotification) { (love, change) in
@@ -325,6 +374,7 @@ public class StreamViewController: BaseElloViewController {
                 return
             }
             self.dataSource.modifyItems(love, change: change, collectionView: self.collectionView)
+            self.updateNoResultsLabel()
         }
 
         relationshipChangedNotification = NotificationObserver(notification: RelationshipChangedNotification) { user in
@@ -332,6 +382,7 @@ public class StreamViewController: BaseElloViewController {
                 return
             }
             self.dataSource.modifyUserRelationshipItems(user, collectionView: self.collectionView)
+            self.updateNoResultsLabel()
         }
 
         settingChangedNotification = NotificationObserver(notification: SettingChangedNotification) { user in
@@ -339,6 +390,7 @@ public class StreamViewController: BaseElloViewController {
                 return
             }
             self.dataSource.modifyUserSettingsItems(user, collectionView: self.collectionView)
+            self.updateNoResultsLabel()
         }
 
         currentUserChangedNotification = NotificationObserver(notification: CurrentUserChangedNotification) { user in
@@ -346,6 +398,7 @@ public class StreamViewController: BaseElloViewController {
                 return
             }
             self.dataSource.modifyItems(user, change: .Update, collectionView: self.collectionView)
+            self.updateNoResultsLabel()
         }
     }
 
@@ -579,6 +632,10 @@ extension StreamViewController : UIScrollViewDelegate {
 
     public func scrollViewDidScroll(scrollView : UIScrollView) {
         streamScrollDelegate?.streamViewDidScroll(scrollView)
+        if !noResultsLabel.hidden {
+            noResultsTopConstraint.constant = -scrollView.contentOffset.y + defaultNoResultsTopConstant
+            self.view.layoutIfNeeded()
+        }
     }
 
     public func scrollViewWillBeginDragging(scrollView: UIScrollView) {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jJZ-zI-fFG">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E26a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="jJZ-zI-fFG">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
@@ -100,12 +100,20 @@
                                 <collectionViewLayout key="collectionViewLayout" id="RLZ-Kl-cg7" customClass="StreamCollectionViewLayout" customModule="Ello" customModuleProvider="target"/>
                                 <cells/>
                             </collectionView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mm7-D5-eh7" userLabel="noResultsLabel">
+                                <rect key="frame" x="15" y="113" width="570" height="0.0"/>
+                                <attributedString key="attributedText"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="hOT-bT-dJV" firstAttribute="top" secondItem="x9i-Ne-hXf" secondAttribute="top" id="1HK-ru-RpT"/>
+                            <constraint firstItem="mm7-D5-eh7" firstAttribute="top" secondItem="x9i-Ne-hXf" secondAttribute="top" constant="113" id="BCR-Qk-2Gm" userLabel="noResultsTopConstraint"/>
                             <constraint firstAttribute="bottom" secondItem="hOT-bT-dJV" secondAttribute="bottom" id="DEw-1c-2NU"/>
                             <constraint firstItem="hOT-bT-dJV" firstAttribute="leading" secondItem="x9i-Ne-hXf" secondAttribute="leading" id="MTC-u8-9cj"/>
+                            <constraint firstItem="mm7-D5-eh7" firstAttribute="leading" secondItem="x9i-Ne-hXf" secondAttribute="leading" constant="15" id="akm-OY-Stp"/>
+                            <constraint firstAttribute="trailing" secondItem="mm7-D5-eh7" secondAttribute="trailing" constant="15" id="mwC-eE-9A4"/>
                             <constraint firstAttribute="trailing" secondItem="hOT-bT-dJV" secondAttribute="trailing" id="uVh-8F-nfh"/>
                         </constraints>
                     </view>
@@ -114,6 +122,8 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="collectionView" destination="hOT-bT-dJV" id="SDn-Gj-Jnn"/>
+                        <outlet property="noResultsLabel" destination="mm7-D5-eh7" id="3UZ-c9-AUr"/>
+                        <outlet property="noResultsTopConstraint" destination="BCR-Qk-2Gm" id="jJm-yb-vw7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yZW-gK-AYq" sceneMemberID="firstResponder"/>
