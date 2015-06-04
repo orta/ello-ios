@@ -25,6 +25,7 @@ public class DiscoverViewController: StreamableViewController {
     required public init() {
         super.init(nibName: "DiscoverViewController", bundle: nil)
         title = NSLocalizedString("Discover", comment: "Discover")
+        streamViewController.initialLoadClosure = reloadDiscover
         streamViewController.streamKind = .Discover(type: .Recommended, seed: ElloAPI.generateSeed(), perPage: 50)
     }
 
@@ -74,6 +75,13 @@ public class DiscoverViewController: StreamableViewController {
     }
 
     // MARK: - Private
+
+    private func reloadDiscover() {
+        streamViewController.streamKind = .Discover(type: .Recommended, seed: ElloAPI.generateSeed(), perPage: 50)
+        streamViewController.initialLoadClosure = nil
+        streamViewController.loadInitialPage()
+        streamViewController.initialLoadClosure = reloadDiscover
+    }
 
     private func setupNavigationBar() {
         navigationController?.navigationBarHidden = true

@@ -71,6 +71,7 @@ public enum StreamKind {
         case .Discover:
             if let users = jsonables as? [User] {
                 return users.reduce([]) { accum, user in
+                    println("filter user: \(user.id)")
                     if let post = user.mostRecentPost {
                         return accum + [post]
                     }
