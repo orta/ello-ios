@@ -116,7 +116,7 @@ extension OnboardingViewController {
         else if self.isKindOfClass(AvatarImageSelectionViewController) {
             Tracker.sharedTracker.completedAvatar()
         }
-        else if self.isKindOfClass(Profile) {
+        else if self.isKindOfClass(ProfileInfoViewController) {
             Tracker.sharedTracker.addedNameBio()
         }
 
@@ -147,7 +147,7 @@ extension OnboardingViewController {
         else if self.isKindOfClass(AvatarImageSelectionViewController) {
             Tracker.sharedTracker.skippedAvatar()
         }
-        else if self.isKindOfClass(Profile) {
+        else if self.isKindOfClass(ProfileInfoViewController) {
             Tracker.sharedTracker.skippedNameBio()
         }
 
