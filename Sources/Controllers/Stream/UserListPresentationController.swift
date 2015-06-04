@@ -9,7 +9,7 @@
 import Foundation
 
 public protocol UserListDelegate: NSObjectProtocol {
-    func show(endpoint: ElloAPI, title: String)
+    func show(endpoint: ElloAPI, title: String, noResultsMessages: (title: String, body: String)?)
 }
 
 public class UserListPresentationController: NSObject, UserListDelegate {
@@ -20,9 +20,12 @@ public class UserListPresentationController: NSObject, UserListDelegate {
         self.presentingController = presentingController
     }
 
-    public func show(endpoint: ElloAPI, title: String) {
+    public func show(endpoint: ElloAPI, title: String, noResultsMessages: (title: String, body: String)? = nil ) {
         var vc = UserListViewController(endpoint: endpoint, title: title)
         vc.currentUser = currentUser
+        if let messages = noResultsMessages {
+            vc.streamViewController.noResultsMessages = messages
+        }
         presentingController.navigationController?.pushViewController(vc, animated: true)
     }
 

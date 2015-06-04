@@ -105,13 +105,17 @@ public class ProfileHeaderCell: UICollectionViewCell {
 
     @IBAction func followingTapped(sender: UIButton) {
         if let user = user {
-            userListDelegate?.show(.UserStreamFollowing(userId: user.id), title: NSLocalizedString("Following", comment: "Following title"))
+            let noResultsTitle = NSLocalizedString("You aren't following anyone yet!", comment: "No following results title")
+            let noResultsBody = NSLocalizedString("Use Ello Discover to find people you're interested in, and to find people you know using your address book. You can also use the magnifying glass button to search for people by subject!", comment: "No following results body.")
+            userListDelegate?.show(.UserStreamFollowing(userId: user.id), title: NSLocalizedString("Following", comment: "Following title"), noResultsMessages: (title: noResultsTitle, body: noResultsBody))
         }
     }
 
     @IBAction func followersTapped(sender: UIButton) {
         if let user = user {
-            userListDelegate?.show(.UserStreamFollowers(userId: user.id), title: NSLocalizedString("Followers", comment: "Followers title"))
+            let noResultsTitle = NSLocalizedString("You don’t have any followers yet!", comment: "No followers results title")
+            let noResultsBody = NSLocalizedString("Some hints on how to get new followers:\nuse Ello Discover to find people you’re interested in. You can also comment on posts you love. And of course, invite your friends to join you on Ello!", comment: "No followers results body.")
+            userListDelegate?.show(.UserStreamFollowers(userId: user.id), title: NSLocalizedString("Followers", comment: "Followers title"), noResultsMessages: (title: noResultsTitle, body: noResultsBody))
         }
     }
 
