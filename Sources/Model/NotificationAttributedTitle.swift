@@ -139,81 +139,45 @@ public struct NotificationAttributedTitle {
                     .append(style(" accepted your invitation."))
             case .LoveNotification:
                 if let love = subject as? Love,
-                    let user = love.user
+                    let post = love.post
                 {
-                    if let post = love.post {
-                        return style(user)
-                            .append(style(" loved your "))
-                            .append(style("post", post))
-                            .append(style("."))
-                    }
-                    else {
-                        return style(user)
-                            .append(style(" loved your "))
-                            .append(style("post."))
-                    }
+                    return style(author)
+                        .append(style(" loved your "))
+                        .append(style("post", post))
+                        .append(style("."))
                 }
                 else {
-                    if let love = subject as? Love, let post = love.post {
-                        return style("Someone loved your ")
-                            .append(style("post", post))
-                            .append(style("."))
-                    }
-                    else {
-                        return style(author).append(style(" loved your post."))
-                    }
+                    return style(author).append(style(" loved your post."))
                 }
             case .LoveOnRepostNotification:
                 if let love = subject as? Love,
-                    let user = love.user
+                    let post = love.post
                 {
-                    if let post = love.post {
-                        return style(user)
-                            .append(style(" loved your "))
-                            .append(style("repost", post))
-                            .append(style("."))
-                    }
-                    else {
-                        return style(user)
-                            .append(style(" loved your "))
-                            .append(style("repost."))
-                    }
+                    return style(author)
+                        .append(style(" loved your "))
+                        .append(style("repost", post))
+                        .append(style("."))
                 }
                 else {
-                    if let love = subject as? Love, let post = love.post {
-                        return style("Someone loved your ")
-                            .append(style("post", post))
-                            .append(style("."))
-                    }
-                    else {
-                        return style(author).append(style(" loved your repost."))
-                    }
+                    return style(author).append(style(" loved your repost."))
                 }
             case .LoveOnOriginalPostNotification:
                 if let love = subject as? Love,
-                    let user = love.user
+                    let repost = love.post,
+                    let repostAuthor = repost.author,
+                    let source = repost.repostSource
                 {
-                    if let post = love.post {
-                        return style(user)
-                            .append(style(" loved your "))
-                            .append(style("original post", post))
-                            .append(style("."))
-                    }
-                    else {
-                        return style(user)
-                            .append(style(" loved your "))
-                            .append(style("original post."))
-                    }
+                    return style(author)
+                        .append(style(" loved "))
+                        .append(style(repostAuthor))
+                        .append(style("’s "))
+                        .append(style("repost", repost))
+                        .append(style(" of your "))
+                        .append(style("post", source))
+                        .append(style("."))
                 }
                 else {
-                    if let love = subject as? Love, let post = love.post {
-                        return style("Someone loved your ")
-                            .append(style("post", post))
-                            .append(style("."))
-                    }
-                    else {
-                        return style(author).append(style(" loved your original post."))
-                    }
+                    return style(author).append(style(" loved a repost of your post."))
                 }
             case .WelcomeNotification:
                 return style("Welcome to Ello!")
