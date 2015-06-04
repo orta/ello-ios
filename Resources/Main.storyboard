@@ -63,8 +63,8 @@
                             <constraint firstItem="yLi-cj-Iz8" firstAttribute="top" secondItem="BcZ-aZ-i5r" secondAttribute="top" id="5XO-kR-FiI" userLabel="navBarTop"/>
                             <constraint firstItem="Sxq-dN-l1X" firstAttribute="leading" secondItem="b3f-dm-11N" secondAttribute="leading" id="Gfr-6R-MUN" userLabel="scrollViewLeft"/>
                             <constraint firstItem="BcZ-aZ-i5r" firstAttribute="width" secondItem="b3f-dm-11N" secondAttribute="width" id="Qdp-1k-5Ko" userLabel="navBarWidth"/>
-                            <constraint firstItem="Cu5-ro-RnE" firstAttribute="top" secondItem="Sxq-dN-l1X" secondAttribute="bottom" id="eDu-5J-ZZS" userLabel="scrollViewBottom"/>
-                            <constraint firstAttribute="trailing" secondItem="Sxq-dN-l1X" secondAttribute="trailing" id="hew-hv-gFc" userLabel="scrollviewRight"/>
+                            <constraint firstItem="Sxq-dN-l1X" firstAttribute="bottom" secondItem="b3f-dm-11N" secondAttribute="bottom" id="eDu-5J-ZZS" userLabel="scrollViewBottom"/>
+                            <constraint firstAttribute="trailing" secondItem="Sxq-dN-l1X" secondAttribute="trailing" id="hew-hv-gFc" userLabel="scrollViewRight"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
