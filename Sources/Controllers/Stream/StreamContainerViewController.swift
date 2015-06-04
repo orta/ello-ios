@@ -57,10 +57,21 @@ public class StreamContainerViewController: StreamableViewController {
         UIApplication.sharedApplication().setStatusBarHidden(hidden, withAnimation: .Slide)
     }
 
+    override public func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        updateInsets()
+    }
+
+    private func updateInsets() {
+        for controller in self.childViewControllers as! [StreamViewController] {
+            updateInsets(navBar: navigationBar, streamController: controller)
+        }
+    }
+
     override public func showNavBars(scrollToBottom : Bool) {
         super.showNavBars(scrollToBottom)
         positionNavBar(navigationBar, visible: true, withConstraint: navigationBarTopConstraint)
-        view.layoutIfNeeded()
+        updateInsets()
 
         if scrollToBottom {
             for controller in childStreamControllers {
@@ -72,7 +83,7 @@ public class StreamContainerViewController: StreamableViewController {
     override public func hideNavBars() {
         super.hideNavBars()
         positionNavBar(navigationBar, visible: false, withConstraint: navigationBarTopConstraint)
-        view.layoutIfNeeded()
+        updateInsets()
     }
 
     public class func instantiateFromStoryboard() -> StreamContainerViewController {
