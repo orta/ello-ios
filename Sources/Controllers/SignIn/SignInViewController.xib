@@ -47,7 +47,7 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EOF-M5-5od" userLabel="joinButton" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
-                                    <rect key="frame" x="250" y="15" width="124" height="34"/>
+                                    <rect key="frame" x="250" y="30" width="124" height="34"/>
                                     <state key="normal" title="Create account">
                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -148,7 +148,7 @@
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstItem="EOF-M5-5od" firstAttribute="top" secondItem="0kk-r2-Als" secondAttribute="top" constant="15" id="5bv-P5-bWh" userLabel="joinButton - top"/>
+                                <constraint firstItem="EOF-M5-5od" firstAttribute="top" secondItem="0kk-r2-Als" secondAttribute="top" constant="30" id="5bv-P5-bWh" userLabel="joinButton - top"/>
                                 <constraint firstAttribute="centerY" secondItem="sjY-tc-zbR" secondAttribute="centerY" id="FH6-fn-x3o" userLabel="container | centered vert alignment"/>
                                 <constraint firstAttribute="bottom" secondItem="fep-L6-6o2" secondAttribute="bottom" constant="15" id="FnC-Wk-hUe" userLabel="forgotPasswordButton - bottom"/>
                                 <constraint firstAttribute="trailing" secondItem="EOF-M5-5od" secondAttribute="trailing" id="MJf-Vv-Geg" userLabel="joinButton - right"/>
