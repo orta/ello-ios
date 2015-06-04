@@ -46,7 +46,7 @@ public final class Notification: JSONAble, Authorable {
     }
 
     public var isValidKind: Bool {
-        return activity.kind == .Unknown
+        return activity.kind != .Unknown
     }
 
 // MARK: Initialization

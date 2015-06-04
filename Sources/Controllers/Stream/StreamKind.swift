@@ -95,7 +95,7 @@ public enum StreamKind {
         case .Notifications:
             if let activities = jsonables as? [Activity] {
                 let notifications: [Notification] = activities.map { return Notification(activity: $0) }
-                return notifications.filter { return !$0.isValidKind }
+                return notifications.filter { return $0.isValidKind }
             }
             else {
                 return []
