@@ -18,7 +18,15 @@ public class StreamRepostHeaderCell: UICollectionViewCell, ElloTextViewDelegate 
     override public func awakeFromNib() {
         super.awakeFromNib()
         viaTextView.textViewDelegate = self
+        configureTextView(viaTextView)
         sourceTextView.textViewDelegate = self
+        configureTextView(sourceTextView)
+    }
+
+    func configureTextView(textview: UITextView) {
+        textview.scrollEnabled = false
+        textview.textContainer.maximumNumberOfLines = 0
+        textview.textContainer.lineBreakMode = NSLineBreakMode.ByTruncatingTail
     }
 
     func textViewTapped(link: String, object: ElloAttributedObject) {
