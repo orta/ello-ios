@@ -25,7 +25,7 @@ public class DiscoverViewController: StreamableViewController {
     required public init() {
         super.init(nibName: "DiscoverViewController", bundle: nil)
         title = NSLocalizedString("Discover", comment: "Discover")
-        streamViewController.streamKind = .Discover(type: .Recommended, seed: ElloAPI.generateSeed(), perPage: 50)
+        streamViewController.streamKind = .Discover(type: .Recommended, perPage: 50)
     }
 
     required public init(coder aDecoder: NSCoder) {
