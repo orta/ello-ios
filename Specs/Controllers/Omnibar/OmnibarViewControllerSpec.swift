@@ -50,6 +50,8 @@ class OmnibarMockScreen : OmnibarScreenProtocol {
     func startEditing() {
     }
 
+    func updatePostState() {
+    }
 }
 
 

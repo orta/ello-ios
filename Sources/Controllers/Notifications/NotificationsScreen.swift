@@ -6,12 +6,12 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import SVGKit
+
 @objc
 public protocol NotificationsScreenDelegate {
     func activatedFilter(filter : String)
 }
-
-import SVGKit
 
 public class NotificationsScreen : UIView {
     private class func filterButton() -> UIButton {
@@ -142,9 +142,9 @@ extension NotificationsScreen {
     func animateNavigationBar(#visible: Bool) {
         navBarVisible = visible
         animate {
-            UIApplication.sharedApplication().setStatusBarHidden(!visible, withAnimation: .Slide)
             self.positionNavigationBar()
         }
+        UIApplication.sharedApplication().setStatusBarHidden(!visible, withAnimation: .None)
     }
 
     private func positionNavigationBar() {

@@ -56,9 +56,8 @@ public class StreamImageCell: StreamRegionableCell {
         self.imageView.alpha = 0
         circle.pulse()
         self.errorLabel.hidden = true
-        self.errorLabel.alpha = 1.0
-        self.imageView.backgroundColor = UIColor.whiteColor()
         self.errorLabel.alpha = 0
+        self.imageView.backgroundColor = UIColor.whiteColor()
         isGif ? loadGif(url) : loadNonGif(url)
     }
 

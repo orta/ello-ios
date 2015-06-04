@@ -7,14 +7,10 @@
 //
 // This screen tracks two sets of "changes": the attributed text of the textView
 // (`currentText : NSAttributedString`), and the image uploaded by the image
-// picker (`currentImage`).  Both have a corresponding 'undo' state (`undoText` and
-// `undoImage`).
+// picker (`currentImage`).
 //
 // When the cancel button is tapped, the editor is reset and they keyboard is
-// dismissed, but if the text or image was set, they go into `undoText` and
-// `undoImage`, and the cancel button changes to the "undo" icon.  The logic for
-// when the button is undo vs cancel is stored in `canUndo()`.  To update the
-// button state, call `updateUndoState()`.
+// dismissed
 //
 // Lots of views and actions are exposed, this is for testing.
 //
@@ -56,19 +52,20 @@ public protocol OmnibarScreenProtocol {
     func keyboardWillShow()
     func keyboardWillHide()
     func startEditing()
+    func updatePostState()
 }
 
 
 public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     struct Size {
-        static let margins = CGFloat(10)
+        static let margins = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
         static let textMargins = UIEdgeInsets(top: 22, left: 30, bottom: 9, right: 30)
         static let labelCorrection = CGFloat(8.5)
         static let innerTextMargin = CGFloat(11)
         static let bottomTextMargin = CGFloat(1)
         static let toolbarHeight = CGFloat(60)
+        static let buttonHeight = CGFloat(45)
         static let buttonWidth = CGFloat(70)
-        static let buttonRightMargin = CGFloat(5)
     }
 
 // MARK: public access to text and image
@@ -136,9 +133,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
     }
 
     public var hasParentPost : Bool = false {
-        didSet {
-            setNeedsLayout()
-        }
+        didSet { setNeedsLayout() }
     }
 
     public var currentUser: User?
@@ -148,14 +143,15 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
     weak public var delegate : OmnibarScreenDelegate?
 
     public let avatarButtonView = UIButton()
-    public let cameraButton = UIButton()
 
-    public let imageSelectedButton = UIButton()
-    let imageSelectedOverlay = FLAnimatedImageView()
+    let cancelButton = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
+    public let cameraButton = UIButton(frame: CGRect(x: 44, y: 0, width: 44, height: 44))
+    public let imageSelectedButton = UIButton(frame: CGRect(x: 44, y: 0, width: 44, height: 44))
+    let imageTrashIcon = FLAnimatedImageView()
     let navigationBar = ElloNavigationBar(frame: CGRectZero)
-    let cancelButton = UIButton()
-    let submitButton = UIButton()
-    public let buttonContainer = ElloEquallySpacedLayout()
+    let submitButton = PostElloButton(frame: CGRect(x: 98, y: 0, width: 90, height: 44))
+    let buttonContainer = UIView(frame: CGRect(x: 0, y: 0, width: 190, height: 60))
+    let statusBarUnderlay = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 20))
 
     public let sayElloOverlay = UIControl()
     let sayElloLabel = UILabel()
@@ -165,9 +161,6 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
 
     private var currentText : NSAttributedString?
     private var currentImage : UIImage?
-
-    private var undoText : NSAttributedString?
-    private var undoImage : UIImage?
 
 // MARK: init
 
@@ -213,19 +206,16 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
     // button after an image is selected.  Tapping this button removes the
     // selected image.
     private func setupImageSelectedViews() {
-        // this rect will be adjusted by ElloEquallySpacedLayout, but I need it
-        // set to *something* so that autoresizingMask is calculated correctly
-        imageSelectedButton.frame = CGRect(x: 0, y: 0, width: 10, height: 10)
         imageSelectedButton.contentMode = .ScaleAspectFit
         imageSelectedButton.addTarget(self, action: Selector("removeButtonAction"), forControlEvents: .TouchUpInside)
 
-        imageSelectedOverlay.contentMode = .Center
-        imageSelectedOverlay.layer.cornerRadius = 13
-        imageSelectedOverlay.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.7)
-        imageSelectedOverlay.image = SVGKImage(named: "trash_white.svg").UIImage!
-        imageSelectedOverlay.frame = CGRect.at(x: imageSelectedButton.frame.width / 2, y: imageSelectedButton.frame.height / 2).grow(all: imageSelectedOverlay.layer.cornerRadius)
-        imageSelectedOverlay.autoresizingMask = .FlexibleBottomMargin | .FlexibleTopMargin | .FlexibleLeftMargin | .FlexibleRightMargin
-        imageSelectedButton.addSubview(imageSelectedOverlay)
+        imageTrashIcon.contentMode = .Center
+        imageTrashIcon.layer.cornerRadius = 13
+        imageTrashIcon.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.7)
+        imageTrashIcon.image = SVGKImage(named: "trash_white.svg").UIImage!
+        imageTrashIcon.frame = CGRect.at(x: imageSelectedButton.frame.width / 2, y: imageSelectedButton.frame.height / 2).grow(all: imageTrashIcon.layer.cornerRadius)
+        imageTrashIcon.autoresizingMask = .FlexibleBottomMargin | .FlexibleTopMargin | .FlexibleLeftMargin | .FlexibleRightMargin
+        imageSelectedButton.addSubview(imageTrashIcon)
     }
     private func setupNavigationBar() {
         let backItem = UIBarButtonItem.backChevronWithTarget(self, action: Selector("backAction"))
@@ -233,8 +223,14 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
         item.leftBarButtonItem = backItem
         item.title = NSLocalizedString("Leave a comment", comment: "leave a comment")
         item.fixNavBarItemPadding()
-        self.navigationBar.items = [item]
+        navigationBar.items = [item]
+
+        statusBarUnderlay.frame.size.width = frame.width
+        statusBarUnderlay.backgroundColor = .blackColor()
+        statusBarUnderlay.autoresizingMask = .FlexibleWidth | .FlexibleBottomMargin
+        addSubview(statusBarUnderlay)
     }
+
     // buttons that make up the "toolbar"
     private func setupToolbarButtons() {
         cameraButton.setSVGImages("camera")
@@ -243,10 +239,16 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
         cancelButton.setSVGImages("x")
         cancelButton.addTarget(self, action: Selector("cancelEditingAction"), forControlEvents: .TouchUpInside)
 
-        submitButton.setSVGImages("arrow")
-        submitButton.addTarget(self, action: Selector("submitAction"), forControlEvents: .TouchUpInside)
+        submitButton.setTitle(NSLocalizedString("Post", comment: "Post button"), forState: .Normal)
+        submitButton.setTitleColor(UIColor.whiteColor(), forState: .Disabled)
+        let image = SVGKImage(named: "arrow_white").UIImage!
+        let imageView = UIImageView(image: image)
+        imageView.center = CGPoint(x: submitButton.frame.width - image.size.width / 2 - 13, y: submitButton.frame.height / CGFloat(2))
+        imageView.autoresizingMask = .FlexibleLeftMargin | .FlexibleTopMargin | .FlexibleBottomMargin
+        submitButton.addSubview(imageView)
+        submitButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: submitButton.frame.width - imageView.frame.minX - 2)
     }
-    // The textContainer is the outetr gray background.  The text view is
+    // The textContainer is the outer gray background.  The text view is
     // configured to fill that container (only the container and the text view
     // insets are modified in layoutSubviews)
     private func setupTextViews() {
@@ -265,7 +267,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
         for view in [navigationBar, avatarButtonView, buttonContainer, textContainer, sayElloOverlay] as [UIView] {
             self.addSubview(view)
         }
-        for view in [cameraButton, cancelButton, submitButton] as [UIView] {
+        for view in [cancelButton, cameraButton, submitButton] as [UIView] {
             buttonContainer.addSubview(view)
         }
         sayElloOverlay.addSubview(sayElloLabel)
@@ -291,7 +293,6 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
     }
 
     private func resetAfterSuccessfulPost() {
-        resetUndoState()
         resetEditor()
     }
 
@@ -358,39 +359,39 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
     override public func layoutSubviews() {
         super.layoutSubviews()
 
-        let screenTop: CGFloat
+        var screenTop = CGFloat(20)
         if hasParentPost {
             UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Slide)
             navigationBar.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: ElloNavigationBar.Size.height)
-            screenTop = navigationBar.frame.height
-        } else {
-            screenTop = 20
+            screenTop += navigationBar.frame.height
+            statusBarUnderlay.hidden = true
+        }
+        else {
+            statusBarUnderlay.hidden = false
         }
 
-        var avatarViewLeft = Size.margins
-        avatarButtonView.frame = CGRect(x: avatarViewLeft, y: screenTop + Size.margins, width: Size.toolbarHeight, height: Size.toolbarHeight)
+        var avatarViewLeft = Size.margins.left
+        avatarButtonView.frame = CGRect(x: avatarViewLeft, y: screenTop + Size.margins.top, width: Size.toolbarHeight, height: Size.toolbarHeight)
         avatarButtonView.layer.cornerRadius = Size.toolbarHeight / CGFloat(2)
 
-        let buttonContainerWidth = Size.buttonWidth * CGFloat(buttonContainer.subviews.count)
-        buttonContainer.spacing = (buttonContainerWidth - buttonContainer.frame.height * CGFloat(buttonContainer.subviews.count)) / CGFloat(buttonContainer.subviews.count - 1)
-        if buttonContainer.spacing < 0 {
-            buttonContainer.spacing = 0
+        buttonContainer.frame = CGRect(x: frame.width - Size.margins.right, y: screenTop + Size.margins.top, width: 0, height: Size.toolbarHeight)
+            .growLeft(buttonContainer.frame.width)
+        for view in buttonContainer.subviews as! [UIView] {
+            view.center.y = buttonContainer.frame.height / 2
         }
-        buttonContainer.frame = CGRect(x: self.frame.width - Size.buttonRightMargin, y: screenTop + Size.margins, width: 0, height: Size.toolbarHeight)
-            .growLeft(buttonContainerWidth)
 
         // make sure the textContainer is above the keboard, with a 1pt line
         // margin at the bottom.
         // size the textContainer and sayElloOverlay to be identical.
         var localKbdHeight = Keyboard.shared().keyboardBottomInset(inView: self)
         if localKbdHeight < 0 {
-            localKbdHeight = Size.margins
+            localKbdHeight = Size.margins.bottom
         }
         else {
             localKbdHeight += Size.bottomTextMargin
         }
-        textContainer.frame = CGRect.make(x: Size.margins, y: buttonContainer.frame.maxY + Size.innerTextMargin,
-            right: self.bounds.size.width - Size.margins, bottom: self.bounds.size.height - localKbdHeight)
+        textContainer.frame = CGRect.make(x: Size.margins.left, y: buttonContainer.frame.maxY + Size.innerTextMargin,
+            right: bounds.size.width - Size.margins.right, bottom: bounds.size.height - localKbdHeight)
         sayElloOverlay.frame = textContainer.frame
         sayElloLabel.frame = CGRect(x: Size.textMargins.left, y: Size.textMargins.top + Size.labelCorrection, width: 0, height: 0)
         sayElloLabel.sizeToFit()
@@ -409,26 +410,17 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
         textView.text = ""
         currentText = nil
         setCurrentImage(nil)
-        updateUndoState()
+        updatePostState()
     }
 
-    private func updateUndoState() {
-        if canUndo() {
-            cancelButton.setSVGImages("reply")
-            cancelButton.removeTarget(self, action: Selector("cancelEditingAction"), forControlEvents: .TouchUpInside)
-            cancelButton.addTarget(self, action: Selector("undoCancelAction"), forControlEvents: .TouchUpInside)
-        }
-        else {
-            cancelButton.setSVGImages("x")
-            cancelButton.removeTarget(self, action: Selector("undoCancelAction"), forControlEvents: .TouchUpInside)
-            cancelButton.addTarget(self, action: Selector("cancelEditingAction"), forControlEvents: .TouchUpInside)
-        }
+    public func updatePostState() {
+        submitButton.enabled = canPost()
     }
 
 // MARK: Button Actions
 
     func backAction() {
-        self.delegate?.omnibarCancel()
+        delegate?.omnibarCancel()
     }
 
     public func startEditingAction() {
@@ -436,19 +428,12 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
     }
 
     public func cancelEditingAction() {
-        takeUndoSnapshot()
-        resetEditor()
-    }
-
-    public func undoCancelAction() {
-        currentText = undoText
-        textView.attributedText = undoText
-        setCurrentImage(undoImage)
-        if currentTextIsPresent() {
-            startEditingAction()
+        if canPost() {
+            resetEditor()
         }
-
-        resetUndoState()
+        else {
+            delegate?.omnibarCancel()
+        }
     }
 
     public func submitAction() {
@@ -470,7 +455,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
         resignKeyboard()
     }
 
-// MARK: Undo logic
+// MARK: Post logic
 
     private func currentTextIsPresent() -> Bool {
         return currentText != nil && count(currentText!.string) > 0
@@ -480,47 +465,18 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
         return currentImage != nil
     }
 
-    private func undoTextIsPresent() -> Bool {
-        return undoText != nil && count(undoText!.string) > 0
-    }
-
-    private func undoImageIsPresent() -> Bool {
-        return undoImage != nil
-    }
-
-    private func resetUndoState() {
-        undoText = nil
-        undoImage = nil
-        updateUndoState()
-    }
-
-    public func canUndo() -> Bool {
-        if currentTextIsPresent() || currentImageIsPresent() {
-            return false
-        }
-
-        if undoTextIsPresent() || undoImageIsPresent() {
-            return true
-        }
-
-        return false
-    }
-
-    private func takeUndoSnapshot() {
-        undoText = currentText
-        undoImage = currentImage
+    public func canPost() -> Bool {
+        return currentTextIsPresent() || currentImageIsPresent()
     }
 
 // MARK: Images
 
-    // this action has side effects; disabling undo for example
     func userSetCurrentImage(image : UIImage?) {
-        undoImage = nil
         setCurrentImage(image)
-        updateUndoState()
+        updatePostState()
     }
 
-    // this updates the currentImage and buttons, but doesn't mess with undo
+    // this updates the currentImage and buttons
     private func setCurrentImage(image : UIImage?) {
         self.currentImage = image
 
@@ -531,10 +487,11 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
                 imageSelectedImageView.contentMode = .ScaleAspectFill
                 imageSelectedImageView.clipsToBounds = true
             }
+            imageSelectedButton.center = cameraButton.center
             buttonContainer.insertSubview(imageSelectedButton, atIndex: 0)
             buttonContainer.layoutIfNeeded()
 
-            self.imageSelectedButton.transform = CGAffineTransformMakeScale(1.3, 1.3)
+            imageSelectedButton.transform = CGAffineTransformMakeScale(1.3, 1.3)
             imageSelectedButton.alpha = 0
             UIView.animateWithDuration(0.3) {
                 self.imageSelectedButton.transform = CGAffineTransformIdentity
@@ -569,6 +526,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
 // MARK: Camera / Image Picker
 
     public func addImageAction() {
+        textView.resignFirstResponder()
         let alert = UIImagePickerController.alertControllerForImagePicker(openImagePicker)
         alert.map { self.delegate?.omnibarPresentController($0) }
     }
@@ -599,7 +557,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
 
 // MARK: Text View editing
 
-    // Removes the undo state, and updates the text view, including the overlay
+    // Updates the text view, including the overlay
     // and first responder state.  This method is meant to be used during
     // initialization.
     private func userSetCurrentText(value : NSAttributedString?) {
@@ -616,7 +574,6 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
 
         currentText = value
         textView.resignFirstResponder()
-        resetUndoState()
     }
 
     public func textViewShouldBeginEditing(textView : UITextView) -> Bool {
@@ -625,9 +582,9 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
 
     public func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText: String) -> Bool {
         let newText = NSString(string: textView.text).stringByReplacingCharactersInRange(range, withString: replacementText)
-        self.currentText = ElloAttributedString.style(newText)
+        currentText = ElloAttributedString.style(newText)
 
-        updateUndoState()
+        updatePostState()
 
         return true
     }

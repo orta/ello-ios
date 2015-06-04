@@ -125,3 +125,17 @@ public class OutlineElloButton: WhiteElloButton {
         self.layer.borderWidth = 1
     }
 }
+
+public class PostElloButton: ElloButton {
+
+    override public func updateStyle() {
+        backgroundColor = enabled ? .blackColor() : .greyA()
+    }
+
+    override public func sharedSetup() {
+        titleLabel?.font = UIFont.typewriterFont(12.0)
+        setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        setTitleColor(UIColor.whiteColor(), forState: .Disabled)
+        updateStyle()
+    }
+}

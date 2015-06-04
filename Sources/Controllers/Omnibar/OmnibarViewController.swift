@@ -57,6 +57,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     override public func loadView() {
         var screen = OmnibarScreen(frame: UIScreen.mainScreen().bounds)
         self.view = screen
+
         screen.hasParentPost = parentPost != nil
         screen.currentUser = currentUser
         screen.text = self.defaultText
@@ -74,6 +75,9 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .None)
+        UIApplication.sharedApplication().statusBarStyle = .LightContent
+
         if let previousTab = elloTabBarController?.previousTab {
             self.previousTab = previousTab
         }
@@ -95,6 +99,8 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
                 self.screen.startEditing()
             }
         }
+
+        screen.updatePostState()
     }
 
     override public func viewDidAppear(animated: Bool) {
@@ -104,6 +110,8 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
     override public func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .None)
+        UIApplication.sharedApplication().statusBarStyle = .LightContent
 
         if let keyboardWillShowObserver = keyboardWillShowObserver {
             keyboardWillShowObserver.removeObserver()
@@ -136,16 +144,17 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     }
 
     public func omnibarCancel() {
-        var contentType: ContentType = .Post
         if let post = parentPost {
             let omnibarData = OmnibarData(attributedText: screen.attributedText, image: screen.image)
             let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
             Tmp.write(data, to: omnibarDataName())
-            contentType = .Comment
+            Tracker.sharedTracker.contentCreationCanceled(.Comment)
+            navigationController?.popViewControllerAnimated(true)
         }
-
-        Tracker.sharedTracker.contentCreationCanceled(contentType)
-        self.navigationController?.popViewControllerAnimated(true)
+        else {
+            Tracker.sharedTracker.contentCreationCanceled(.Post)
+            goToPreviousTab()
+        }
     }
 
     public func omnibarSubmitted(text: NSAttributedString?, image: UIImage?) {
@@ -223,8 +232,12 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         }
         postNotification(PostChangedNotification, (post, .Create))
         Tracker.sharedTracker.contentCreated(.Post)
-        elloTabBarController?.selectedTab = previousTab
+        goToPreviousTab()
         self.screen.reportSuccess(NSLocalizedString("Post successfully created!", comment: "Post successfully created!"))
+    }
+
+    private func goToPreviousTab() {
+        elloTabBarController?.selectedTab = previousTab
     }
 
     func contentCreationFailed(errorMessage: String) {
