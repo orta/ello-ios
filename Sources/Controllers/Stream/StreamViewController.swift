@@ -275,11 +275,11 @@ public class StreamViewController: BaseElloViewController {
                 streamKind: streamKind,
                 success: { (jsonables, responseConfig) in
                     if self.loadInitialPageLoadingToken != localToken { return }
+                    self.clearForInitialLoad()
                     self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind), withWidth: nil)
                     self.responseConfig = responseConfig
                     self.initialDataLoaded = true
                     self.doneLoading()
-                     self.updateNoResultsLabel()
                 }, failure: { (error, statusCode) in
                     println("failed to load \(self.streamKind.name) stream (reason: \(error))")
                     self.initialLoadFailure()
