@@ -27,6 +27,10 @@ public class StreamContainerViewController: StreamableViewController {
     public var streamsSegmentedControl: UISegmentedControl!
     public var streamControllerViews:[UIView] = []
 
+    private var childStreamControllers: [StreamViewController] {
+        return childViewControllers as! [StreamViewController]
+    }
+
     override public func backGestureAction() {
         hamburgerButtonTapped()
     }
@@ -35,7 +39,6 @@ public class StreamContainerViewController: StreamableViewController {
 
     override public func viewDidLoad() {
         super.viewDidLoad()
-        setupNavigationBar()
         setupStreamsSegmentedControl()
         setupChildViewControllers()
         navigationItem.titleView = streamsSegmentedControl
@@ -43,7 +46,9 @@ public class StreamContainerViewController: StreamableViewController {
         addSearchButton()
         navigationBar.items = [navigationItem]
 
-        scrollLogic.prevOffset = (childViewControllers[0] as! StreamViewController).collectionView.contentOffset
+        let initialStream = childStreamControllers[0]
+        scrollLogic.prevOffset = initialStream.collectionView.contentOffset
+        initialStream.collectionView.scrollsToTop = true
     }
 
     public override func viewWillAppear(animated: Bool) {
@@ -52,24 +57,13 @@ public class StreamContainerViewController: StreamableViewController {
         UIApplication.sharedApplication().setStatusBarHidden(hidden, withAnimation: .Slide)
     }
 
-    override public func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        updateInsets()
-    }
-
-    private func updateInsets() {
-        for controller in self.childViewControllers as! [StreamViewController] {
-            updateInsets(navBar: navigationBar, streamController: controller)
-        }
-    }
-
     override public func showNavBars(scrollToBottom : Bool) {
         super.showNavBars(scrollToBottom)
         positionNavBar(navigationBar, visible: true, withConstraint: navigationBarTopConstraint)
-        updateInsets()
+        view.layoutIfNeeded()
 
         if scrollToBottom {
-            for controller in childViewControllers as! [StreamViewController] {
+            for controller in childStreamControllers {
                 self.scrollToBottom(controller)
             }
         }
@@ -78,7 +72,7 @@ public class StreamContainerViewController: StreamableViewController {
     override public func hideNavBars() {
         super.hideNavBars()
         positionNavBar(navigationBar, visible: false, withConstraint: navigationBarTopConstraint)
-        updateInsets()
+        view.layoutIfNeeded()
     }
 
     public class func instantiateFromStoryboard() -> StreamContainerViewController {
@@ -104,6 +98,7 @@ public class StreamContainerViewController: StreamableViewController {
 
     private func setupChildViewControllers() {
         scrollView.scrollEnabled = false
+        scrollView.scrollsToTop = false
         let width:CGFloat = scrollView.frame.size.width
         let height:CGFloat = scrollView.frame.size.height
 
@@ -115,6 +110,7 @@ public class StreamContainerViewController: StreamableViewController {
             vc.postTappedDelegate = self
             vc.userTappedDelegate = self
             vc.streamScrollDelegate = self
+            vc.collectionView.scrollsToTop = false
 
             vc.willMoveToParentViewController(self)
 
@@ -131,19 +127,11 @@ public class StreamContainerViewController: StreamableViewController {
         }
     }
 
-    private func setupNavigationBar() {
-        navigationBar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 30)
-    }
-
     private func setupStreamsSegmentedControl() {
         let control = UISegmentedControl(items: StreamKind.streamValues.map{ $0.name })
         control.addTarget(self, action: Selector("streamSegmentTapped:"), forControlEvents: .ValueChanged)
-        var rect = control.bounds
-        rect.size = CGSize(width: rect.size.width, height: 19.0)
-        control.bounds = rect
-        control.layer.borderColor = UIColor.blackColor().CGColor
+        control.frame.size.height = 19.0
         control.layer.borderWidth = 1.0
-        control.layer.cornerRadius = 0.0
         control.selectedSegmentIndex = 0
         control.tintColor = .blackColor()
         streamsSegmentedControl = control
@@ -160,6 +148,12 @@ public class StreamContainerViewController: StreamableViewController {
     }
 
     @IBAction func streamSegmentTapped(sender: UISegmentedControl) {
+        for controller in childStreamControllers {
+            controller.collectionView.scrollsToTop = false
+        }
+
+        childStreamControllers[sender.selectedSegmentIndex].collectionView.scrollsToTop = true
+
         let width:CGFloat = view.bounds.size.width
         let height:CGFloat = view.bounds.size.height
         let x = CGFloat(sender.selectedSegmentIndex) * width
