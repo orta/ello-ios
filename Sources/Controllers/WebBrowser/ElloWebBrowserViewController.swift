@@ -19,11 +19,8 @@ public class ElloWebBrowserViewController: KINWebBrowserViewController {
 
     public class func navigationControllerWithBrowser(webBrowser: ElloWebBrowserViewController) -> UINavigationController {
         let xButton = UIBarButtonItem(image: SVGKImage(named: "x_normal.svg").UIImage!, style: UIBarButtonItemStyle.Plain, target: webBrowser, action: Selector("doneButtonPressed:"))
-        xButton.setTitleTextAttributes([NSForegroundColorAttributeName : UIColor.greyA()], forState: .Normal)
 
-        //let shareButton = UIBarButtonItem(barButtonSystemItem: .Action, target: webBrowser, action: Selector("actionButtonPressed:"))
         let shareButton = UIBarButtonItem(image: SVGKImage(named: "share_normal.svg").UIImage!, style: UIBarButtonItemStyle.Plain, target: webBrowser, action: Selector("actionButtonPressed:"))
-        shareButton.setTitleTextAttributes([NSForegroundColorAttributeName : UIColor.greyA()], forState: .Normal)
 
         webBrowser.navigationItem.leftBarButtonItem = xButton
         webBrowser.navigationItem.rightBarButtonItem = shareButton
