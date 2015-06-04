@@ -63,6 +63,8 @@ public class CredentialSettingsViewController: UITableViewController {
         passwordView.textFieldDidChange = self.passwordChanged
 
         currentPasswordField.addTarget(self, action: Selector("currentPasswordChanged"), forControlEvents: .EditingChanged)
+
+        tableView.scrollsToTop = false
     }
 
     private func emailChanged(text: String) {

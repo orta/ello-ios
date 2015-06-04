@@ -148,7 +148,7 @@ private extension OnboardingViewController {
     }
 
     func setupControllerContainer() {
-        controllerContainer.frame = view.bounds.shrinkUp(buttonContainer.frame.height)
+        controllerContainer.frame = view.bounds.shrinkUp(buttonContainer.frame.height).shrinkDown(20)
         controllerContainer.autoresizingMask = .FlexibleWidth | .FlexibleHeight
         view.insertSubview(controllerContainer, belowSubview: buttonContainer)
     }

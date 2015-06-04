@@ -358,10 +358,13 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
     override public func layoutSubviews() {
         super.layoutSubviews()
 
-        var screenTop = CGFloat(0)
+        let screenTop: CGFloat
         if hasParentPost {
+            UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Slide)
             navigationBar.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: ElloNavigationBar.Size.height)
-            screenTop += navigationBar.frame.height
+            screenTop = navigationBar.frame.height
+        } else {
+            screenTop = 20
         }
 
         var avatarViewLeft = Size.margins
@@ -576,7 +579,6 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
     }
 
     public func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
-        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .None)
     }
 
     public func imagePickerController(controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {

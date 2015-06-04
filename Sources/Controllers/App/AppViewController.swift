@@ -41,6 +41,8 @@ public class AppViewController: BaseElloViewController {
         setupNotificationObservers()
         setupStyles()
 
+        scrollView.scrollsToTop = false
+
         externalWebObserver = NotificationObserver(notification: externalWebNotification) { url in
             self.showExternalWebView(url)
         }

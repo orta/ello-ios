@@ -30,7 +30,6 @@ public class BaseElloViewController: UIViewController, ControllerThatMightHaveTh
 
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .None)
     }
 
     func didSetCurrentUser() {}
