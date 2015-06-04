@@ -56,8 +56,8 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="6" translatesAutoresizingMaskIntoConstraints="NO" id="4sI-yA-gkk" userLabel="nameLabel">
-                                <rect key="frame" x="15" y="148" width="70" height="12"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="4sI-yA-gkk" userLabel="nameLabel">
+                                <rect key="frame" x="15" y="148" width="290" height="12"/>
                                 <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="12"/>
                                 <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -154,7 +154,7 @@
                             <constraint firstItem="6nJ-r0-lN7" firstAttribute="top" secondItem="U6M-uB-CWv" secondAttribute="top" constant="120" id="Ddo-EZ-be4" userLabel="usernameLabel - top"/>
                             <constraint firstAttribute="trailing" secondItem="jg3-QQ-cbq" secondAttribute="trailing" constant="15" id="Fsb-5X-fVf" userLabel="nsfwLabel - right"/>
                             <constraint firstItem="gWi-lG-cJp" firstAttribute="leading" secondItem="zV5-bQ-18e" secondAttribute="trailing" constant="25" id="L8y-zo-dCA"/>
-                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="4sI-yA-gkk" secondAttribute="trailing" constant="15" id="LRT-Ky-0HQ" userLabel="nameLabel - right"/>
+                            <constraint firstAttribute="trailing" secondItem="4sI-yA-gkk" secondAttribute="trailing" constant="15" id="LRT-Ky-0HQ" userLabel="nameLabel - right"/>
                             <constraint firstItem="gWi-lG-cJp" firstAttribute="top" secondItem="zV5-bQ-18e" secondAttribute="top" id="TuL-FF-5Vx"/>
                             <constraint firstItem="FV1-FS-QMz" firstAttribute="leading" secondItem="gWi-lG-cJp" secondAttribute="trailing" constant="25" id="WyN-Ml-Ufz"/>
                             <constraint firstAttribute="trailing" secondItem="qUL-8u-vZD" secondAttribute="trailing" constant="15" id="Y5o-4P-9X5" userLabel="profileButtonsView - right"/>
