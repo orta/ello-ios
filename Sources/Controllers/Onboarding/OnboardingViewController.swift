@@ -101,6 +101,25 @@ extension OnboardingViewController {
             self.goToNextStep(data)
         }
 
+        if self.isKindOfClass(CommunitySelectionViewController) {
+            Tracker.sharedTracker.completedCommunities()
+        }
+        else if self.isKindOfClass(AwesomePeopleSelectionViewController) {
+            // handled in controller
+        }
+        else if self.isKindOfClass(ImportPromptViewController) {
+            Tracker.sharedTracker.completedContactImport()
+        }
+        else if self.isKindOfClass(CoverImageSelectionViewController) {
+            Tracker.sharedTracker.completedCoverImage()
+        }
+        else if self.isKindOfClass(AvatarImageSelectionViewController) {
+            Tracker.sharedTracker.completedAvatar()
+        }
+        else if self.isKindOfClass(Profile) {
+            Tracker.sharedTracker.addedNameBio()
+        }
+
         if let onboardingStep = visibleViewController as? OnboardingStep,
             let proceed = onboardingStep.onboardingWillProceed
         {
@@ -112,6 +131,26 @@ extension OnboardingViewController {
     }
 
     public func skipToNextStep() {
+
+        if self.isKindOfClass(CommunitySelectionViewController) {
+            Tracker.sharedTracker.skippedCommunities()
+        }
+        else if self.isKindOfClass(AwesomePeopleSelectionViewController) {
+            // handled in controller
+        }
+        else if self.isKindOfClass(ImportPromptViewController) {
+            Tracker.sharedTracker.skippedContactImport()
+        }
+        else if self.isKindOfClass(CoverImageSelectionViewController) {
+            Tracker.sharedTracker.skippedCoverImage()
+        }
+        else if self.isKindOfClass(AvatarImageSelectionViewController) {
+            Tracker.sharedTracker.skippedAvatar()
+        }
+        else if self.isKindOfClass(Profile) {
+            Tracker.sharedTracker.skippedNameBio()
+        }
+
         goToNextStep(onboardingData)
     }
 
