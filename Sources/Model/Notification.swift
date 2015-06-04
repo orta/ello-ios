@@ -66,6 +66,9 @@ public final class Notification: JSONAble, Authorable {
         else if let user = activity.subject as? User {
             self.author = user
         }
+        else if let user = (activity.subject as? Love)?.user {
+            self.author = user
+        }
 
         super.init(version: NotificationVersion)
 
