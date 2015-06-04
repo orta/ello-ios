@@ -98,16 +98,14 @@ public class AlertViewController: UIViewController {
         return 2 * topPadding.constant
     }
 
-    public init(message: String?, textAlignment: NSTextAlignment = .Center, type: AlertType = .Normal, helpText: String? = nil) {
+    public init(message: String? = nil, textAlignment: NSTextAlignment = .Center, type: AlertType = .Normal, helpText: String? = nil) {
         self.helpText = helpText
         self.textAlignment = textAlignment
         super.init(nibName: "AlertViewController", bundle: NSBundle(forClass: AlertViewController.self))
 
         modalPresentationStyle = .Custom
         transitioningDelegate = self
-        if let text = message {
-            headerView.label.setLabelText(text, color: type.headerTextColor)
-        }
+        headerView.label.setLabelText(message ?? "", color: type.headerTextColor)
         headerView.helpButtonVisible = helpText != nil
         headerView.delegate = self
 
@@ -225,10 +223,16 @@ extension AlertViewController: UITableViewDelegate {
     }
 
     public func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if count(message) == 0 {
+            return nil
+        }
         return headerView
     }
 
     public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if count(message) == 0 {
+            return 0
+        }
         let space = helpText == nil ? 0 : HelpButtonSpace
         let size = CGSize(width: DesiredWidth - totalHorizontalPadding - space, height: .max)
         let height = headerView.label.sizeThatFits(size).height
