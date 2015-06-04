@@ -83,6 +83,9 @@ public final class Notification: JSONAble, Authorable {
                 assignRegionsFromContent(comment.content)
             }
         }
+        else if let post = (activity.subject as? Love)?.post {
+            assignRegionsFromContent(post.summary)
+        }
 
         subject = activity.subject
     }
