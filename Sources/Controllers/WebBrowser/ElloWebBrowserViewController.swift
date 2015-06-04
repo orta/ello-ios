@@ -7,6 +7,7 @@
 //
 
 import KINWebBrowser
+import SVGKit
 
 public class ElloWebBrowserViewController: KINWebBrowserViewController {
     var toolbarHidden = false
@@ -17,10 +18,10 @@ public class ElloWebBrowserViewController: KINWebBrowserViewController {
     }
 
     public class func navigationControllerWithBrowser(webBrowser: ElloWebBrowserViewController) -> UINavigationController {
-        let xButton = UIBarButtonItem(title: "\u{2573}", style: .Done, target: webBrowser, action: Selector("doneButtonPressed:"))
-        let shareButton = UIBarButtonItem(barButtonSystemItem: .Action, target: webBrowser, action: Selector("actionButtonPressed:"))
+        let xButton = UIBarButtonItem(image: SVGKImage(named: "x_normal.svg").UIImage!, style: UIBarButtonItemStyle.Plain, target: webBrowser, action: Selector("doneButtonPressed:"))
 
-        xButton.setTitleTextAttributes([NSForegroundColorAttributeName : UIColor.blackColor()], forState: .Normal)
+        let shareButton = UIBarButtonItem(image: SVGKImage(named: "share_normal.svg").UIImage!, style: UIBarButtonItemStyle.Plain, target: webBrowser, action: Selector("actionButtonPressed:"))
+
         webBrowser.navigationItem.leftBarButtonItem = xButton
         webBrowser.navigationItem.rightBarButtonItem = shareButton
         webBrowser.actionButtonHidden = true
