@@ -58,7 +58,7 @@ class StreamCellItemParserSpec: QuickSpec {
                     },
                     failure: nil
                 )
-                expect(loadedNotifications.count) == 9
+                expect(loadedNotifications.count) == 14
             }
         }
     }
