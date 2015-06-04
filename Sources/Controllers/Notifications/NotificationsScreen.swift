@@ -6,12 +6,12 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import SVGKit
+
 @objc
 public protocol NotificationsScreenDelegate {
     func activatedFilter(filter : String)
 }
-
-import SVGKit
 
 public class NotificationsScreen : UIView {
     private class func filterButton() -> UIButton {
