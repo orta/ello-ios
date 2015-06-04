@@ -137,6 +137,48 @@ public struct NotificationAttributedTitle {
             case .InvitationAcceptedPost:
                 return style(author)
                     .append(style(" accepted your invitation."))
+            case .LoveNotification:
+                if let love = subject as? Love,
+                    let post = love.post
+                {
+                    return style(author)
+                        .append(style(" loved your "))
+                        .append(style("post", post))
+                        .append(style("."))
+                }
+                else {
+                    return style(author).append(style(" loved your post."))
+                }
+            case .LoveOnRepostNotification:
+                if let love = subject as? Love,
+                    let post = love.post
+                {
+                    return style(author)
+                        .append(style(" loved your "))
+                        .append(style("repost", post))
+                        .append(style("."))
+                }
+                else {
+                    return style(author).append(style(" loved your repost."))
+                }
+            case .LoveOnOriginalPostNotification:
+                if let love = subject as? Love,
+                    let repost = love.post,
+                    let repostAuthor = repost.author,
+                    let source = repost.repostSource
+                {
+                    return style(author)
+                        .append(style(" loved "))
+                        .append(style(repostAuthor))
+                        .append(style("’s "))
+                        .append(style("repost", repost))
+                        .append(style(" of your "))
+                        .append(style("post", source))
+                        .append(style("."))
+                }
+                else {
+                    return style(author).append(style(" loved a repost of your post."))
+                }
             case .WelcomeNotification:
                 return style("Welcome to Ello!")
             default:

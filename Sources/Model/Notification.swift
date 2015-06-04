@@ -45,6 +45,10 @@ public final class Notification: JSONAble, Authorable {
         return attributedTitleStore!
     }
 
+    public var isValidKind: Bool {
+        return activity.kind != .Unknown
+    }
+
 // MARK: Initialization
 
     public init(activity: Activity) {
@@ -62,6 +66,9 @@ public final class Notification: JSONAble, Authorable {
         else if let user = activity.subject as? User {
             self.author = user
         }
+        else if let user = (activity.subject as? Love)?.user {
+            self.author = user
+        }
 
         super.init(version: NotificationVersion)
 
@@ -75,6 +82,9 @@ public final class Notification: JSONAble, Authorable {
             else {
                 assignRegionsFromContent(comment.content)
             }
+        }
+        else if let post = (activity.subject as? Love)?.post {
+            assignRegionsFromContent(post.summary)
         }
 
         subject = activity.subject
