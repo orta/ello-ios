@@ -44,6 +44,7 @@ extension DrawerViewController {
 
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Slide)
         tableView.delegate = self
         tableView.dataSource = dataSource
     }
@@ -87,14 +88,14 @@ extension DrawerViewController: UITableViewDelegate {
 // MARK: View Helpers
 private extension DrawerViewController {
     func setupNavigationBar() {
-        navigationBar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 44)
+        navigationBar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: ElloNavigationBar.Size.height)
         navigationBar.items = [navigationItem]
         navigationBar.tintColor = UIColor.greyA()
     }
 
     func addLeftButtons() {
         let logoView = UIImageView(image: SVGKImage(named: "ello_logo.svg").UIImage!)
-        logoView.frame = CGRect(x: 15, y: 10, width: 24, height: 24)
+        logoView.frame = CGRect(x: 15, y: 30, width: 24, height: 24)
         navigationBar.addSubview(logoView)
     }
 

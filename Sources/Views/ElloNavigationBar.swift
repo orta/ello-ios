@@ -8,7 +8,7 @@
 
 public class ElloNavigationBar : UINavigationBar {
     struct Size {
-        static let height : CGFloat = 44
+        static let height : CGFloat = 64
         static let titleViewHeight : CGFloat = 20
     }
 
@@ -34,22 +34,16 @@ public class ElloNavigationBar : UINavigationBar {
         self.translucent = false
         self.opaque = true
         self.barTintColor = UIColor.whiteColor()
+
+        let bar = UIView(frame: CGRect(x: 0, y: 0, width: frame.width, height: 20))
+        bar.autoresizingMask = .FlexibleWidth | .FlexibleBottomMargin
+        bar.backgroundColor = UIColor.blackColor()
+        addSubview(bar)
     }
 
     override public func intrinsicContentSize() -> CGSize {
         var size = super.intrinsicContentSize()
         size.height = Size.height
         return size
-    }
-
-    override public func layoutSubviews() {
-        super.layoutSubviews()
-        if let topItem = self.topItem {
-            if let view = topItem.titleView {
-                view.frame = view.frame
-                    .withHeight(Size.titleViewHeight)
-                    .atY((self.frame.height - Size.titleViewHeight) / 2)
-            }
-        }
     }
 }

@@ -161,6 +161,7 @@ public class StreamFooterCell: UICollectionViewCell {
 
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = false
+        scrollView.scrollsToTop = false
         addObservers()
         addButtonHandlers()
     }

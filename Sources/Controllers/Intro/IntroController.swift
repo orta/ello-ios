@@ -55,7 +55,7 @@ public class IntroController: UIViewController, UIPageViewControllerDataSource, 
         pageViewController!.view.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height);
         
         // Setup the page control
-        pageControl.frame = CGRect(x: 0, y: 0, width: 80, height: 37)
+        pageControl.frame = CGRect(x: 0, y: 20, width: 80, height: 37)
         pageControl.frame.origin.x = UIScreen.mainScreen().bounds.size.width / 2 - pageControl.frame.size.width / 2
         pageControl.currentPage = 0;
         pageControl.numberOfPages = viewControllers.count;
@@ -65,7 +65,7 @@ public class IntroController: UIViewController, UIPageViewControllerDataSource, 
         // Setup skip button
         let skipButton = UIButton()
         let skipButtonRightMargin: CGFloat = 10
-        skipButton.frame = CGRect(x: 0, y: 0, width: 0, height: 0)
+        skipButton.frame = CGRect(x: 0, y: 20, width: 0, height: 0)
         skipButton.setTitle("Skip", forState: UIControlState.Normal)
         skipButton.titleLabel?.font = UIFont.typewriterFont(10)
         skipButton.sizeToFit()

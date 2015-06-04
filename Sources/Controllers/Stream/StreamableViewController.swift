@@ -110,12 +110,13 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
             upAmount = 0
         }
         else {
-            upAmount = navBar.frame.height + 1
+            upAmount = navBar.frame.size.height + 1
         }
         navigationBarTopConstraint?.constant = upAmount
         animate(animated: animated) {
             navBar.frame.origin.y = -upAmount
         }
+        UIApplication.sharedApplication().setStatusBarHidden(!visible, withAnimation: .None)
     }
 
     func showNavBars(scrollToBottom : Bool) {

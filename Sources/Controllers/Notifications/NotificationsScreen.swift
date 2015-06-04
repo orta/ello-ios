@@ -142,6 +142,7 @@ extension NotificationsScreen {
     func animateNavigationBar(#visible: Bool) {
         navBarVisible = visible
         animate {
+            UIApplication.sharedApplication().setStatusBarHidden(!visible, withAnimation: .Slide)
             self.positionNavigationBar()
         }
     }
