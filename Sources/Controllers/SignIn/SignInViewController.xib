@@ -30,7 +30,7 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EJr-Pr-Cuc">
+                <scrollView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EJr-Pr-Cuc">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0kk-r2-Als" userLabel="Container">
@@ -124,7 +124,7 @@
                                             </connections>
                                         </button>
                                     </subviews>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="yyP-gN-IdD" secondAttribute="trailing" id="1Wt-qz-tm6" userLabel="enterButton - Right"/>
                                         <constraint firstAttribute="trailing" secondItem="vG2-tp-zKA" secondAttribute="trailing" id="3Rl-EL-nb7" userLabel="passwordTextField - Right"/>
@@ -146,7 +146,7 @@
                                     </constraints>
                                 </view>
                             </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstItem="EOF-M5-5od" firstAttribute="top" secondItem="0kk-r2-Als" secondAttribute="top" constant="30" id="5bv-P5-bWh" userLabel="joinButton - top"/>
                                 <constraint firstAttribute="centerY" secondItem="sjY-tc-zbR" secondAttribute="centerY" id="FH6-fn-x3o" userLabel="container | centered vert alignment"/>
@@ -160,7 +160,7 @@
                             </constraints>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="0kk-r2-Als" firstAttribute="width" secondItem="EJr-Pr-Cuc" secondAttribute="width" priority="999" constant="-40" id="0GI-Ct-2YE" userLabel="ScrollView | Container equal widths"/>
                         <constraint firstAttribute="trailing" secondItem="0kk-r2-Als" secondAttribute="trailing" constant="113" placeholder="YES" id="Av6-Oq-M5t" userLabel="Conainer - Right"/>
@@ -171,12 +171,22 @@
                         <constraint firstAttribute="bottom" secondItem="0kk-r2-Als" secondAttribute="bottom" id="hs4-vo-Stn" userLabel="Container - Bottom"/>
                     </constraints>
                 </scrollView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Ej-gv-KIi" userLabel="statusBarBackground">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="20"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="0Qw-T5-cRk"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="EJr-Pr-Cuc" firstAttribute="leading" secondItem="XFW-Ne-HSx" secondAttribute="leading" id="3AE-Qj-0fe" userLabel="Scroll View - Left"/>
+                <constraint firstItem="0Ej-gv-KIi" firstAttribute="leading" secondItem="XFW-Ne-HSx" secondAttribute="leading" id="3Hs-qJ-OVZ"/>
                 <constraint firstAttribute="trailing" secondItem="EJr-Pr-Cuc" secondAttribute="trailing" id="4Cu-im-5OV" userLabel="Scroll View - Right"/>
+                <constraint firstItem="0Ej-gv-KIi" firstAttribute="top" secondItem="XFW-Ne-HSx" secondAttribute="top" id="4g6-7i-R7Q"/>
                 <constraint firstAttribute="bottom" secondItem="EJr-Pr-Cuc" secondAttribute="bottom" id="Gd2-iQ-88f" userLabel="Scroll View - Bottom"/>
+                <constraint firstAttribute="trailing" secondItem="0Ej-gv-KIi" secondAttribute="trailing" id="Vyh-pJ-1YR"/>
                 <constraint firstItem="EJr-Pr-Cuc" firstAttribute="top" secondItem="XFW-Ne-HSx" secondAttribute="top" id="dYp-G6-mXg" userLabel="Scroll View - Top"/>
             </constraints>
         </view>
