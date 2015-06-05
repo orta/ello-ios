@@ -147,13 +147,23 @@
                         <constraint firstAttribute="centerX" secondItem="9jX-bg-MMX" secondAttribute="centerX" id="zfc-pP-YjT"/>
                     </constraints>
                 </scrollView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F2W-yk-304" userLabel="statusBarBackground">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="20"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="geo-hJ-1i3"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="Z9R-YG-xaY" secondAttribute="bottom" id="9fS-Tb-odc"/>
                 <constraint firstAttribute="trailing" secondItem="Z9R-YG-xaY" secondAttribute="trailing" id="NGU-ZF-v9L"/>
                 <constraint firstItem="Z9R-YG-xaY" firstAttribute="top" secondItem="vJa-Mv-qia" secondAttribute="top" id="a3e-kx-lca"/>
+                <constraint firstItem="F2W-yk-304" firstAttribute="leading" secondItem="vJa-Mv-qia" secondAttribute="leading" id="qDY-0t-aR0"/>
+                <constraint firstAttribute="trailing" secondItem="F2W-yk-304" secondAttribute="trailing" id="rrO-jI-ifo"/>
                 <constraint firstItem="Z9R-YG-xaY" firstAttribute="leading" secondItem="vJa-Mv-qia" secondAttribute="leading" id="wQW-i4-3Nf"/>
+                <constraint firstItem="F2W-yk-304" firstAttribute="top" secondItem="vJa-Mv-qia" secondAttribute="top" id="yPJ-yk-Osu"/>
             </constraints>
         </view>
     </objects>

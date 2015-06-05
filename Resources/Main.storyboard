@@ -163,6 +163,13 @@
                                     <outlet property="delegate" destination="jJZ-zI-fFG" id="39U-Kc-gZl"/>
                                 </connections>
                             </scrollView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Pi-Jc-MjE" userLabel="statusBarBackground">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="20"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="9sa-VK-AG1"/>
+                                </constraints>
+                            </view>
                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Beautiful &amp; ad-free." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uu0-hE-zse">
                                 <rect key="frame" x="107" y="442" width="180" height="14"/>
                                 <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="14"/>
@@ -204,7 +211,9 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="war-Oo-BBs" secondAttribute="trailing" priority="999" constant="20" placeholder="YES" id="9vj-pZ-JXy"/>
                             <constraint firstItem="war-Oo-BBs" firstAttribute="top" secondItem="qIL-al-gUD" secondAttribute="bottom" constant="9" id="D4l-jr-R0c"/>
+                            <constraint firstItem="6Pi-Jc-MjE" firstAttribute="width" secondItem="apv-Ip-wbz" secondAttribute="width" id="GOx-bQ-GEY"/>
                             <constraint firstAttribute="bottom" secondItem="bvm-6v-S7r" secondAttribute="bottom" id="GPR-AZ-w8e"/>
+                            <constraint firstAttribute="centerX" secondItem="6Pi-Jc-MjE" secondAttribute="centerX" id="HY4-Me-2Jm"/>
                             <constraint firstAttribute="trailing" secondItem="bvm-6v-S7r" secondAttribute="trailing" id="Qhe-tE-OXT"/>
                             <constraint firstItem="qIL-al-gUD" firstAttribute="leading" secondItem="Uu0-hE-zse" secondAttribute="leading" id="SrH-Gi-7g1"/>
                             <constraint firstItem="bvm-6v-S7r" firstAttribute="top" secondItem="apv-Ip-wbz" secondAttribute="top" id="W8Y-SS-qld"/>
@@ -212,6 +221,7 @@
                             <constraint firstAttribute="centerX" secondItem="war-Oo-BBs" secondAttribute="centerX" id="fdB-ve-9FO"/>
                             <constraint firstAttribute="bottom" secondItem="war-Oo-BBs" secondAttribute="bottom" constant="17" id="h3K-f5-9ZY"/>
                             <constraint firstAttribute="centerX" secondItem="qIL-al-gUD" secondAttribute="centerX" id="kAo-1W-Ufk"/>
+                            <constraint firstItem="6Pi-Jc-MjE" firstAttribute="top" secondItem="apv-Ip-wbz" secondAttribute="top" id="qcJ-x2-ana"/>
                             <constraint firstItem="qIL-al-gUD" firstAttribute="top" secondItem="Uu0-hE-zse" secondAttribute="bottom" constant="20" id="sQ9-hO-bXa"/>
                             <constraint firstItem="bvm-6v-S7r" firstAttribute="leading" secondItem="apv-Ip-wbz" secondAttribute="leading" id="wQW-3Z-AOj"/>
                             <constraint firstAttribute="trailing" secondItem="qIL-al-gUD" secondAttribute="trailing" priority="999" constant="20" id="wl7-9j-fcT"/>

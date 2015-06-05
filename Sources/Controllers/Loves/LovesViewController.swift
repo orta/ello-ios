@@ -85,9 +85,7 @@ public class LovesViewController: StreamableViewController {
 
     override func showNavBars(scrollToBottom : Bool) {
         super.showNavBars(scrollToBottom)
-        animate {
-            self.navigationBar.frame = self.navigationBar.frame.atY(0)
-        }
+        positionNavBar(navigationBar, visible: true)
         updateInsets()
         if scrollToBottom {
             if let scrollView = streamViewController.collectionView {
