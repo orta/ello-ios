@@ -12,6 +12,7 @@ public class ElloScrollLogic : NSObject, UIScrollViewDelegate {
     var navBarHeight:CGFloat = 44
     var tabBarHeight:CGFloat = 49
     var barHeights:CGFloat { return navBarHeight + tabBarHeight }
+    var lastStateChange = CACurrentMediaTime()
 
     // showingState starts as "indeterminate".  That means that the first time
     // 'show' or 'hide' is called, it will call the appropriate handler no
@@ -38,28 +39,39 @@ public class ElloScrollLogic : NSObject, UIScrollViewDelegate {
         self.onHide = handler
     }
 
+    private func changedRecently() -> Bool {
+        let now = CACurrentMediaTime()
+        return now - lastStateChange < 0.5
+    }
+
     private func show(scrollToBottom : Bool = false) {
         let wasShowing = self.showingState ?? false
 
-        if !wasShowing {
-            let prevIgnore = self.shouldIgnoreScroll
-            self.shouldIgnoreScroll = true
-            self.onShow(scrollToBottom)
-            self.shouldIgnoreScroll = prevIgnore
+        if !changedRecently() {
+            if !wasShowing {
+                let prevIgnore = self.shouldIgnoreScroll
+                self.shouldIgnoreScroll = true
+                self.onShow(scrollToBottom)
+                self.shouldIgnoreScroll = prevIgnore
+                lastStateChange = CACurrentMediaTime()
+            }
+            showingState = true
         }
-        showingState = true
     }
 
     private func hide() {
         let wasShowing = self.showingState ?? true
 
-        if wasShowing {
-            let prevIgnore = self.shouldIgnoreScroll
-            self.shouldIgnoreScroll = true
-            self.onHide()
-            self.shouldIgnoreScroll = prevIgnore
+        if !changedRecently() {
+            if wasShowing {
+                let prevIgnore = self.shouldIgnoreScroll
+                self.shouldIgnoreScroll = true
+                self.onHide()
+                self.shouldIgnoreScroll = prevIgnore
+                lastStateChange = CACurrentMediaTime()
+            }
+            showingState = false
         }
-        showingState = false
     }
 
     public func scrollViewDidScroll(scrollView: UIScrollView) {
@@ -93,10 +105,7 @@ public class ElloScrollLogic : NSObject, UIScrollViewDelegate {
     }
 
     public func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate: Bool) {
-        if self.isAtBottom(scrollView) {
-            show(scrollToBottom: true)
-        }
-        else if self.isAtTop(scrollView) {
+        if self.isAtTop(scrollView) {
             show(scrollToBottom: false)
         }
         shouldIgnoreScroll = true
