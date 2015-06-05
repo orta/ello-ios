@@ -198,6 +198,7 @@ public class StreamViewController: BaseElloViewController {
     public func doneLoading() {
         ElloHUD.hideLoadingHudInView(view)
         pullToRefreshView?.finishLoading()
+        initialDataLoaded = true
         updateNoResultsLabel()
     }
 
@@ -276,17 +277,15 @@ public class StreamViewController: BaseElloViewController {
                 success: { (jsonables, responseConfig) in
                     if self.loadInitialPageLoadingToken != localToken { return }
                     self.clearForInitialLoad()
-                    self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind), withWidth: nil)
                     self.responseConfig = responseConfig
-                    self.initialDataLoaded = true
-                    self.doneLoading()
+                    // this calls doneLoading when cells are added
+                    self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind), withWidth: nil)
                 }, failure: { (error, statusCode) in
                     println("failed to load \(self.streamKind.name) stream (reason: \(error))")
                     self.initialLoadFailure()
                     self.doneLoading()
                 }, noContent: {
                     println("nothing new")
-                    self.initialDataLoaded = true
                     self.doneLoading()
                 }
             )
@@ -294,13 +293,12 @@ public class StreamViewController: BaseElloViewController {
     }
 
     private func updateNoResultsLabel() {
-        count(dataSource.visibleCellItems) > 0 ?
-        hideNoResults() : showNoResults()
+        count(dataSource.visibleCellItems) > 0 ? hideNoResults() : showNoResults()
     }
 
     private func hideNoResults() {
         noResultsLabel.hidden = true
-        self.noResultsLabel.alpha = 0
+        noResultsLabel.alpha = 0
     }
 
     private func showNoResults() {

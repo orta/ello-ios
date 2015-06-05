@@ -133,9 +133,8 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
             items += parser.parse(comments, streamKind: streamViewController.streamKind)
         }
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
+        // this calls doneLoading when cells are added
         streamViewController.appendUnsizedCellItems(items, withWidth: view.frame.width)
-        streamViewController.initialDataLoaded = true
-        streamViewController.doneLoading()
     }
 
     override public func postTapped(post: Post) {

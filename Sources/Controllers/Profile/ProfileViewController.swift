@@ -182,9 +182,8 @@ public class ProfileViewController: StreamableViewController {
         if let posts = user.posts {
             items += StreamCellItemParser().parse(posts, streamKind: streamViewController.streamKind)
         }
+        // this calls doneLoading when cells are added
         streamViewController.appendUnsizedCellItems(items, withWidth: self.view.frame.width)
-        streamViewController.initialDataLoaded = true
-        streamViewController.doneLoading()
     }
 }
 
