@@ -70,6 +70,13 @@ public class OnboardingUserListViewController: StreamableViewController, Onboard
             println("Submit this to Tracker?")
         }
 
+        if self.users?.count == count(friendUserIds) {
+            Tracker.sharedTracker.followedAllFeatured()
+        }
+        else if count(friendUserIds) > 0 {
+            Tracker.sharedTracker.followedSomeFeatured()
+        }
+
         ElloHUD.showLoadingHud()
         RelationshipService().bulkUpdateRelationships(userIds: friendUserIds, relationship: .Friend,
             success: { data in

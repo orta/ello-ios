@@ -69,6 +69,57 @@ public extension Tracker {
     }
 }
 
+// MARK: Onboarding
+public extension Tracker {
+    func skippedCommunities() {
+        agent.track("skipped communities")
+    }
+
+    func completedCommunities() {
+        agent.track("completed communities")
+    }
+
+    func followedAllFeatured() {
+        agent.track("followed all featured")
+    }
+
+    func followedSomeFeatured() {
+        agent.track("followed some featured")
+    }
+
+    func skippedContactImport() {
+        agent.track("skipped contact import")
+    }
+
+    func completedContactImport() {
+        agent.track("completed contact import")
+    }
+
+    func skippedCoverImage() {
+        agent.track("skipped cover image")
+    }
+
+    func completedCoverImage() {
+        agent.track("completed cover image")
+    }
+
+    func skippedAvatar() {
+        agent.track("skipped avatar")
+    }
+
+    func completedAvatar() {
+        agent.track("completed avatar")
+    }
+
+    func skippedNameBio() {
+        agent.track("skipped name_bio")
+    }
+
+    func addedNameBio() {
+        agent.track("added name_bio")
+    }
+}
+
 // MARK: View Appearance
 public extension Tracker {
     func screenAppeared(name: String) {
