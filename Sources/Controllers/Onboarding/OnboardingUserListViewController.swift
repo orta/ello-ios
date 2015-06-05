@@ -64,11 +64,6 @@ public class OnboardingUserListViewController: StreamableViewController, Onboard
     public func onboardingWillProceed(proceed: (OnboardingData?) -> Void) {
         let users = userItems().map { $0.jsonable as! User }
         let friendUserIds = users.filter { (user: User) -> Bool in return user.relationshipPriority == .Friend }.map { $0.id }
-        let noiseUserIds = users.filter { (user: User) -> Bool in return user.relationshipPriority == .Noise }.map { $0.id }
-
-        if count(noiseUserIds) > 0 {
-            println("Submit this to Tracker?")
-        }
 
         if self.users?.count == count(friendUserIds) {
             Tracker.sharedTracker.followedAllFeatured()
@@ -77,16 +72,21 @@ public class OnboardingUserListViewController: StreamableViewController, Onboard
             Tracker.sharedTracker.followedSomeFeatured()
         }
 
-        ElloHUD.showLoadingHud()
-        RelationshipService().bulkUpdateRelationships(userIds: friendUserIds, relationship: .Friend,
-            success: { data in
-                ElloHUD.hideLoadingHud()
-                proceed(self.onboardingData)
-            },
-            failure: { _ in
-                ElloHUD.hideLoadingHud()
-                self.showRelationshipFailureAlert()
-            })
+        if count(friendUserIds) > 0 {
+            ElloHUD.showLoadingHud()
+            RelationshipService().bulkUpdateRelationships(userIds: friendUserIds, relationship: .Friend,
+                success: { data in
+                    ElloHUD.hideLoadingHud()
+                    proceed(self.onboardingData)
+                },
+                failure: { _ in
+                    ElloHUD.hideLoadingHud()
+                    self.showRelationshipFailureAlert()
+                })
+        }
+        else {
+            proceed(self.onboardingData)
+        }
     }
 
     private func showRelationshipFailureAlert() {
@@ -220,6 +220,7 @@ extension OnboardingUserListViewController {
             failure: { (error, statusCode) in
                 ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
                 self.streamViewController.doneLoading()
+                self.onboardingViewController?.canGoNext = true
             }
         )
     }
