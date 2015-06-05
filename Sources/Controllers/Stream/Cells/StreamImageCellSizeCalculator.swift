@@ -16,7 +16,7 @@ public class StreamImageCellSizeCalculator: NSObject {
     public var completion: ElloEmptyCompletion = {}
 
 // MARK: Static
-
+ 
     public static func aspectRatioForImageRegion(imageRegion: ImageRegion) -> CGFloat {
         if let asset = imageRegion.asset {
             var attachment: Attachment?
@@ -64,7 +64,7 @@ public class StreamImageCellSizeCalculator: NSObject {
             }
             else if let embedRegion = item.data as? EmbedRegion {
                 var ratio: CGFloat!
-                if embedRegion.isAudioEmbed {
+                if embedRegion.isAudioEmbed || embedRegion.service == .UStream {
                     ratio = 1.0
                 }
                 else {

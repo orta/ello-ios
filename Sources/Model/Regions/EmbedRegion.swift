@@ -18,6 +18,8 @@ public enum EmbedType: String {
     case Soundcloud = "soundcloud"
     case Youtube = "youtube"
     case Vimeo = "vimeo"
+    case UStream = "ustream"
+    case Bandcamp = "bandcamp"
     case Unknown = "unknown"
 }
 
@@ -33,7 +35,7 @@ public final class EmbedRegion: JSONAble, Regionable {
     public let thumbnailLargeUrl: NSURL
     // computed
     public var isAudioEmbed: Bool {
-        return service == EmbedType.Mixcloud || service == EmbedType.Soundcloud
+        return service == EmbedType.Mixcloud || service == EmbedType.Soundcloud || service == EmbedType.Bandcamp
     }
 
     // MARK: Initialization
