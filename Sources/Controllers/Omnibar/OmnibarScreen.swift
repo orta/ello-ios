@@ -239,6 +239,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
         cancelButton.setSVGImages("x")
         cancelButton.addTarget(self, action: Selector("cancelEditingAction"), forControlEvents: .TouchUpInside)
 
+        submitButton.addTarget(self, action: Selector("submitAction"), forControlEvents: .TouchUpInside)
         submitButton.setTitle(NSLocalizedString("Post", comment: "Post button"), forState: .Normal)
         submitButton.setTitleColor(UIColor.whiteColor(), forState: .Disabled)
         let image = SVGKImage(named: "arrow_white").UIImage!
@@ -448,7 +449,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
     }
 
     public func submitAction() {
-        if currentTextIsPresent() || currentImageIsPresent() {
+        if canPost() {
             textView.resignFirstResponder()
             var submittedText : NSAttributedString?
             if currentTextIsPresent() {
