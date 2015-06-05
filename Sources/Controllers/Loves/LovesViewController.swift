@@ -52,8 +52,8 @@ public class LovesViewController: StreamableViewController {
             streamViewController.currentUser = currentUser
         }
         super.didSetCurrentUser()
-        var noResultsTitle: String
-        var noResultsBody: String
+        let noResultsTitle: String
+        let noResultsBody: String
         if user.isCurrentUser {
             noResultsTitle = NSLocalizedString("You haven't Loved any posts yet!", comment: "No loves results title")
             noResultsBody = NSLocalizedString("You can use Ello Loves as a way to bookmark the things you care about most. Go Love someone's post, and it will be added to this stream.", comment: "No loves results body.")
