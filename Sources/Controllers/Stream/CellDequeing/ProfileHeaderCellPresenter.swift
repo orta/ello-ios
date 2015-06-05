@@ -22,6 +22,7 @@ public struct ProfileHeaderCellPresenter {
             let ratio:CGFloat = 16.0/9.0
             let user = streamCellItem.jsonable as! User
             cell.user = user
+            cell.currentUser = currentUser
             cell.relationshipControl.hidden = false
             cell.nsfwLabel.hidden = !user.postsAdultContent
             cell.usernameRightConstraint.constant = user.postsAdultContent ? 75.0 : 15.0
