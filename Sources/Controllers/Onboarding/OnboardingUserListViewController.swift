@@ -64,11 +64,6 @@ public class OnboardingUserListViewController: StreamableViewController, Onboard
     public func onboardingWillProceed(proceed: (OnboardingData?) -> Void) {
         let users = userItems().map { $0.jsonable as! User }
         let friendUserIds = users.filter { (user: User) -> Bool in return user.relationshipPriority == .Friend }.map { $0.id }
-        let noiseUserIds = users.filter { (user: User) -> Bool in return user.relationshipPriority == .Noise }.map { $0.id }
-
-        if count(noiseUserIds) > 0 {
-            println("Submit this to Tracker?")
-        }
 
         if self.users?.count == count(friendUserIds) {
             Tracker.sharedTracker.followedAllFeatured()
