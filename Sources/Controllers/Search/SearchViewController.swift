@@ -23,6 +23,7 @@ public class SearchViewController: StreamableViewController {
 
     override public func viewDidLoad() {
         super.viewDidLoad()
+        streamViewController.pullToRefreshEnabled = false
         updateInsets()
     }
 
