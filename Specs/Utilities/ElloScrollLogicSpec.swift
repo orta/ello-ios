@@ -24,10 +24,7 @@ class ElloScrollLogicSpec: QuickSpec {
 
     override func spec() {
         describe("scrolling behavior") {
-            var logic = ElloScrollLogic(
-                onShow: { scrollToBottom in },
-                onHide: {}
-                )
+            var logic: ElloScrollLogic!
             let scrollView = UIScrollView(frame: CGRect(x: 0, y: 0, width: 320, height: 568))
             let scrollHeight = scrollView.frame.size.height * CGFloat(2)
             let scrollStart : CGFloat = 20
@@ -40,6 +37,8 @@ class ElloScrollLogicSpec: QuickSpec {
                     },
                     onHide: { self.didHide = true }
                     )
+                logic.disableRecentTimer = true
+
                 scrollView.contentOffset = CGPoint(x: 0, y: scrollStart)
                 scrollView.contentSize = CGSize(width: 320, height: scrollHeight)
                 logic.prevOffset = CGPoint(x: 0, y: scrollStart)
@@ -47,7 +46,7 @@ class ElloScrollLogicSpec: QuickSpec {
                 self.resetShowHide()
             }
 
-            it("should emit 'hide' when scrolling down") {
+            it("should 'hide' when scrolling down") {
                 scrollView.contentOffset = CGPoint(x: 0, y: scrollStart + CGFloat(2))
                 logic.scrollViewDidScroll(scrollView)
                 expect(self.didShow).to(beNil())
@@ -55,7 +54,7 @@ class ElloScrollLogicSpec: QuickSpec {
                 expect(self.didHide).to(equal(true))
             }
 
-            it("should emit 'show' when scrolling up") {
+            it("should 'show' when scrolling up") {
                 scrollView.contentOffset = CGPoint(x: 0, y: scrollStart - CGFloat(8))
                 logic.scrollViewDidScroll(scrollView)
                 expect(self.didShow).to(equal(true))
@@ -202,7 +201,7 @@ class ElloScrollLogicSpec: QuickSpec {
                 expect(self.didHide).to(beNil())
             }
 
-            it("should 'show' after the finger has lifted if past bottom") {
+            it("should not show after the finger has lifted if past bottom") {
                 scrollView.contentOffset = CGPoint(x: 0, y: scrollStart)
                 logic.scrollViewDidScroll(scrollView)
                 expect(self.didShow).to(beNil())
@@ -221,8 +220,8 @@ class ElloScrollLogicSpec: QuickSpec {
 
                 scrollView.contentOffset = CGPoint(x: 0, y: scrollView.contentSize.height + 10)
                 logic.scrollViewDidEndDragging(scrollView, willDecelerate: true)
-                expect(self.didShow).to(equal(true))
-                expect(self.didScrollToBottom).to(equal(true))
+                expect(self.didShow).to(beNil())
+                expect(self.didScrollToBottom).to(beNil())
                 expect(self.didHide).to(beNil())
             }
         }
