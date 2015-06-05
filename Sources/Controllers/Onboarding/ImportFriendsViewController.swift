@@ -41,7 +41,7 @@ public class ImportFriendsViewController: OnboardingUserListViewController, Onbo
     override func usersLoaded(users: [User]) {
         let filteredUsers = InviteService.filterUsers(users, currentUser: currentUser)
         let header = NSLocalizedString("Find your friends!", comment: "Find Friends Header text")
-        let message = NSLocalizedString("Import and invite friends from your address book.", comment: "Find Friends Description text")
+        let message = NSLocalizedString("Use your address book to find and invite your friends on Ello.", comment: "Find Friends Description text")
         appendHeaderCellItem(header: header, message: message)
         appendFollowAllCellItem(userCount: count(filteredUsers))
 
