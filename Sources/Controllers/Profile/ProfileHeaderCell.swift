@@ -106,16 +106,32 @@ public class ProfileHeaderCell: UICollectionViewCell {
 
     @IBAction func followingTapped(sender: UIButton) {
         if let user = user {
-            let noResultsTitle = NSLocalizedString("You aren't following anyone yet!", comment: "No following results title")
-            let noResultsBody = NSLocalizedString("Ello is way more rad when you're following lots of people.\n\nUse Discover to find people you're interested in, and to find or invite your friends.\nYou can also use Search (upper right) to look for new and excellent people!", comment: "No following results body.")
+            var noResultsTitle: String
+            var noResultsBody: String
+            if user.isCurrentUser {
+                noResultsTitle = NSLocalizedString("You aren't following anyone yet!", comment: "No following results title")
+                noResultsBody = NSLocalizedString("Ello is way more rad when you're following lots of people.\n\nUse Discover to find people you're interested in, and to find or invite your friends.\nYou can also use Search (upper right) to look for new and excellent people!", comment: "No following results body.")
+            }
+            else {
+                noResultsTitle = ""
+                noResultsBody = ""
+            }
             userListDelegate?.show(.UserStreamFollowing(userId: user.id), title: NSLocalizedString("Following", comment: "Following title"), noResultsMessages: (title: noResultsTitle, body: noResultsBody))
         }
     }
 
     @IBAction func followersTapped(sender: UIButton) {
         if let user = user {
-            let noResultsTitle = NSLocalizedString("You don’t have any followers yet!", comment: "No followers results title")
-            let noResultsBody = NSLocalizedString("Here's some tips on how to get new followers: use Discover to find people you're interested in, and to find or invite your friends. When you see things you like you can comment, repost, mention people and love the posts that you most enjoy. ", comment: "No followers results body.")
+            var noResultsTitle: String
+            var noResultsBody: String
+            if user.isCurrentUser {
+                noResultsTitle = NSLocalizedString("You don’t have any followers yet!", comment: "No followers results title")
+                noResultsBody = NSLocalizedString("Here's some tips on how to get new followers: use Discover to find people you're interested in, and to find or invite your friends. When you see things you like you can comment, repost, mention people and love the posts that you most enjoy. ", comment: "No followers results body.")
+            }
+            else {
+                noResultsTitle = ""
+                noResultsBody = ""
+            }
             userListDelegate?.show(.UserStreamFollowers(userId: user.id), title: NSLocalizedString("Followers", comment: "Followers title"), noResultsMessages: (title: noResultsTitle, body: noResultsBody))
         }
     }

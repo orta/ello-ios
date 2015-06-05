@@ -31,9 +31,6 @@ public class LovesViewController: StreamableViewController {
         scrollLogic.navBarHeight = 44
         streamViewController.streamKind = StreamKind.Loves(userId: self.user.id)
         ElloHUD.showLoadingHudInView(streamViewController.view)
-        let noResultsTitle = NSLocalizedString("You haven't Loved any posts yet!", comment: "No loves results title")
-        let noResultsBody = NSLocalizedString("You can use Ello Loves as a way to bookmark the things you care about most. Go Love someone's post, and it will be added to this stream.", comment: "No loves results body.")
-        streamViewController.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
         streamViewController.loadInitialPage()
     }
 
@@ -55,6 +52,17 @@ public class LovesViewController: StreamableViewController {
             streamViewController.currentUser = currentUser
         }
         super.didSetCurrentUser()
+        var noResultsTitle: String
+        var noResultsBody: String
+        if user.isCurrentUser {
+            noResultsTitle = NSLocalizedString("You haven't Loved any posts yet!", comment: "No loves results title")
+            noResultsBody = NSLocalizedString("You can use Ello Loves as a way to bookmark the things you care about most. Go Love someone's post, and it will be added to this stream.", comment: "No loves results body.")
+        }
+        else {
+            noResultsTitle = NSLocalizedString("This person hasn’t Loved any posts yet!", comment: "No loves results title")
+            noResultsBody = NSLocalizedString("Ello Loves are a way to bookmark the things you care about most. When they love something the posts will appear here.", comment: "No loves results body.")
+        }
+        streamViewController.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
     }
 
     override public func hideNavBars() {
