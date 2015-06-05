@@ -589,7 +589,7 @@
                             <constraint firstAttribute="width" secondItem="TqN-8X-tkG" secondAttribute="width" id="esA-GH-B0e"/>
                             <constraint firstItem="avo-sD-Kn2" firstAttribute="width" secondItem="o77-zi-6ls" secondAttribute="width" id="f58-ax-PId"/>
                             <constraint firstItem="TqN-8X-tkG" firstAttribute="top" secondItem="avo-sD-Kn2" secondAttribute="bottom" id="iRg-R0-SUR"/>
-                            <constraint firstItem="avo-sD-Kn2" firstAttribute="top" secondItem="XzQ-cg-7fe" secondAttribute="bottom" id="wPu-em-xYC"/>
+                            <constraint firstItem="avo-sD-Kn2" firstAttribute="top" secondItem="o77-zi-6ls" secondAttribute="top" id="wPu-em-xYC"/>
                         </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
