@@ -71,7 +71,7 @@ public class StreamViewController: BaseElloViewController {
             self.noResultsLabel.attributedText = title.append(body)
         }
     }
-    
+
     public var dataSource:StreamDataSource!
     public var postbarController:PostbarController?
     var relationshipController: RelationshipController?
@@ -636,6 +636,7 @@ extension StreamViewController : UIScrollViewDelegate {
             noResultsTopConstraint.constant = -scrollView.contentOffset.y + defaultNoResultsTopConstant
             self.view.layoutIfNeeded()
         }
+        self.loadNextPage(scrollView)
     }
 
     public func scrollViewWillBeginDragging(scrollView: UIScrollView) {
@@ -644,7 +645,6 @@ extension StreamViewController : UIScrollViewDelegate {
 
     public func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate: Bool) {
         streamScrollDelegate?.streamViewDidEndDragging?(scrollView, willDecelerate: willDecelerate)
-        self.loadNextPage(scrollView)
     }
 
     private func loadNextPage(scrollView: UIScrollView) {
