@@ -57,18 +57,18 @@ extension ImportPromptViewController {
     }
 
     private func promptForAddressBookAccess() {
-        let message = NSLocalizedString("Import your contacts fo find your friends on Ello.\n\nEllo does not sell user data and never contacts anyone without your permission.",
+        let message = NSLocalizedString("Are you sure you want to import your contacts so we can find your friends on Ello?",
             comment: "Import your contacts permission prompt")
         let alertController = AlertViewController(message: message)
 
-        let importMessage = NSLocalizedString("Import my contacts", comment: "Import my contacts action")
+        let importMessage = NSLocalizedString("Yes please", comment: "Yes please action")
         let action = AlertAction(title: importMessage, style: .Dark) { action in
             Tracker.sharedTracker.importContactsInitiated()
             self.proceedWithImport()
         }
         alertController.addAction(action)
 
-        let cancelMessage = NSLocalizedString("Not now", comment: "Not now action")
+        let cancelMessage = NSLocalizedString("Skip", comment: "Skip action")
         let cancelAction = AlertAction(title: cancelMessage, style: .Light) { _ in
             Tracker.sharedTracker.importContactsDenied()
         }
