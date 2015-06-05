@@ -44,6 +44,7 @@ public class ProfileHeaderCell: UICollectionViewCell {
     weak var webLinkDelegate: WebLinkDelegate?
     weak var userListDelegate: UserListDelegate?
     var user: User?
+    var currentUser: User?
 
     override public func awakeFromNib() {
         super.awakeFromNib()
@@ -108,7 +109,7 @@ public class ProfileHeaderCell: UICollectionViewCell {
         if let user = user {
             let noResultsTitle: String
             let noResultsBody: String
-            if user.isCurrentUser {
+            if user.id == currentUser?.id {
                 noResultsTitle = NSLocalizedString("You aren't following anyone yet!", comment: "No following results title")
                 noResultsBody = NSLocalizedString("Ello is way more rad when you're following lots of people.\n\nUse Discover to find people you're interested in, and to find or invite your friends.\nYou can also use Search (upper right) to look for new and excellent people!", comment: "No following results body.")
             }
@@ -124,7 +125,7 @@ public class ProfileHeaderCell: UICollectionViewCell {
         if let user = user {
             let noResultsTitle: String
             let noResultsBody: String
-            if user.isCurrentUser {
+            if user.id == currentUser?.id {
                 noResultsTitle = NSLocalizedString("You don't have any followers yet!", comment: "No followers results title")
                 noResultsBody = NSLocalizedString("Here's some tips on how to get new followers: use Discover to find people you're interested in, and to find or invite your friends. When you see things you like you can comment, repost, mention people and love the posts that you most enjoy. ", comment: "No followers results body.")
             }

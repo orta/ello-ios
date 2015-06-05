@@ -49,7 +49,7 @@ public class NotificationsViewController: StreamableViewController, Notification
         scrollLogic.navBarHeight = 44
         streamViewController.streamKind = .Notifications
         ElloHUD.showLoadingHudInView(streamViewController.view)
-        let noResultsTitle = NSLocalizedString("This is your notifications screen.", comment: "No notification results title")
+        let noResultsTitle = NSLocalizedString("Welcome to your Notifications Center!", comment: "No notification results title")
         let noResultsBody = NSLocalizedString("Whenever someone mentions you, follows you, accepts an invitation, comments, reposts or Loves one of your posts, you'll be notified here.", comment: "No notification results body.")
         streamViewController.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
         streamViewController.loadInitialPage()
