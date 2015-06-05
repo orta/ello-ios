@@ -125,7 +125,7 @@ public class ProfileHeaderCell: UICollectionViewCell {
             var noResultsTitle: String
             var noResultsBody: String
             if user.isCurrentUser {
-                noResultsTitle = NSLocalizedString("You don’t have any followers yet!", comment: "No followers results title")
+                noResultsTitle = NSLocalizedString("You don't have any followers yet!", comment: "No followers results title")
                 noResultsBody = NSLocalizedString("Here's some tips on how to get new followers: use Discover to find people you're interested in, and to find or invite your friends. When you see things you like you can comment, repost, mention people and love the posts that you most enjoy. ", comment: "No followers results body.")
             }
             else {
