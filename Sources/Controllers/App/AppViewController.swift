@@ -115,7 +115,14 @@ public class AppViewController: BaseElloViewController {
             success: { user in
                 self.logoView.stopAnimatingLogo()
                 self.currentUser = user
-                self.showMainScreen(user)
+                if let onboardingInProgress = Defaults["OnboardingInProgress"].bool
+                    where onboardingInProgress
+                {
+                    self.showOnboardingScreen(user)
+                }
+                else {
+                    self.showMainScreen(user)
+                }
             },
             failure: { (error, _) in
                 self.failedToLoadCurrentUser(failure, error: error)
@@ -177,6 +184,7 @@ extension AppViewController {
     }
 
     public func showOnboardingScreen(user: User) {
+        Defaults["OnboardingInProgress"] = true
         currentUser = user
 
         let vc = OnboardingViewController()
@@ -186,6 +194,7 @@ extension AppViewController {
     }
 
     public func doneOnboarding() {
+        Defaults["OnboardingInProgress"] = nil
         dismissViewControllerAnimated(true, completion: nil)
         self.showMainScreen(currentUser!)
     }
