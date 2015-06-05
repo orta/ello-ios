@@ -107,7 +107,7 @@ public class ProfileHeaderCell: UICollectionViewCell {
     @IBAction func followingTapped(sender: UIButton) {
         if let user = user {
             let noResultsTitle = NSLocalizedString("You aren't following anyone yet!", comment: "No following results title")
-            let noResultsBody = NSLocalizedString("Use Ello Discover to find people you're interested in, and to find people you know using your address book. You can also use the magnifying glass button to search for people by subject!", comment: "No following results body.")
+            let noResultsBody = NSLocalizedString("Ello is way more rad when you're following lots of people.\n\nUse Discover to find people you're interested in, and to find or invite your friends.\nYou can also use Search (upper right) to look for new and excellent people!", comment: "No following results body.")
             userListDelegate?.show(.UserStreamFollowing(userId: user.id), title: NSLocalizedString("Following", comment: "Following title"), noResultsMessages: (title: noResultsTitle, body: noResultsBody))
         }
     }
@@ -115,7 +115,7 @@ public class ProfileHeaderCell: UICollectionViewCell {
     @IBAction func followersTapped(sender: UIButton) {
         if let user = user {
             let noResultsTitle = NSLocalizedString("You don’t have any followers yet!", comment: "No followers results title")
-            let noResultsBody = NSLocalizedString("Some hints on how to get new followers:\nuse Ello Discover to find people you’re interested in. You can also comment on posts you love. And of course, invite your friends to join you on Ello!", comment: "No followers results body.")
+            let noResultsBody = NSLocalizedString("Here's some tips on how to get new followers: use Discover to find people you're interested in, and to find or invite your friends. When you see things you like you can comment, repost, mention people and love the posts that you most enjoy. ", comment: "No followers results body.")
             userListDelegate?.show(.UserStreamFollowers(userId: user.id), title: NSLocalizedString("Followers", comment: "Followers title"), noResultsMessages: (title: noResultsTitle, body: noResultsBody))
         }
     }

@@ -31,8 +31,8 @@ public class LovesViewController: StreamableViewController {
         scrollLogic.navBarHeight = 44
         streamViewController.streamKind = StreamKind.Loves(userId: self.user.id)
         ElloHUD.showLoadingHudInView(streamViewController.view)
-        let noResultsTitle = NSLocalizedString("You haven't Loved any posts yet!", comment: "No results title")
-        let noResultsBody = NSLocalizedString("You can use Ello Loves as a way to bookmark the things you care about most. Go Love someone's post, and it will be added to this stream.", comment: "No results body.")
+        let noResultsTitle = NSLocalizedString("You haven't Loved any posts yet!", comment: "No loves results title")
+        let noResultsBody = NSLocalizedString("You can use Ello Loves as a way to bookmark the things you care about most. Go Love someone's post, and it will be added to this stream.", comment: "No loves results body.")
         streamViewController.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
         streamViewController.loadInitialPage()
     }
