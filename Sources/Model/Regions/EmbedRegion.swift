@@ -35,7 +35,7 @@ public final class EmbedRegion: JSONAble, Regionable {
     public let thumbnailLargeUrl: NSURL
     // computed
     public var isAudioEmbed: Bool {
-        return service == EmbedType.Mixcloud || service == EmbedType.Soundcloud || service == EmbedType.UStream || service == EmbedType.Bandcamp
+        return service == EmbedType.Mixcloud || service == EmbedType.Soundcloud || service == EmbedType.Bandcamp
     }
 
     // MARK: Initialization
