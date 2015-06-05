@@ -66,7 +66,10 @@ public final class Notification: JSONAble, Authorable {
         else if let user = activity.subject as? User {
             self.author = user
         }
-        else if let user = (activity.subject as? Love)?.user {
+        else if let love = activity.subject as? Love,
+            let user = love.user
+        {
+            self.postId = love.postId
             self.author = user
         }
 
