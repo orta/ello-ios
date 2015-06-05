@@ -33,15 +33,15 @@ public class ImportFriendsViewController: OnboardingUserListViewController, Onbo
         }
 
         streamViewController.streamKind = .UserList(endpoint: .FindFriends(contacts: contacts), title: "Find Friends")
-        let noResultsTitle = NSLocalizedString("Thanks!", comment: "Import friends no results title")
-        let noResultsBody = NSLocalizedString("We didn’t find any of your friends on Ello.\n\nWhen your friends join Ello you’ll be able to find and invite them on the Discover screen.", comment: "Import friends no results body.")
+        let noResultsTitle = NSLocalizedString("Find your friends!", comment: "Import friends no results title")
+        let noResultsBody = NSLocalizedString("Thanks. We didn’t find any of your friends.\n\nWhen your friends join Ello you’ll be able to find and invite them on the Discover and Search screen.", comment: "Import friends no results body.")
         streamViewController.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
     }
 
     override func usersLoaded(users: [User]) {
         let filteredUsers = InviteService.filterUsers(users, currentUser: currentUser)
         let header = NSLocalizedString("Find your friends!", comment: "Find Friends Header text")
-        let message = NSLocalizedString("Import and invite friends from your address book.", comment: "Find Friends Description text")
+        let message = NSLocalizedString("Use your address book to find and invite your friends on Ello.", comment: "Find Friends Description text")
         appendHeaderCellItem(header: header, message: message)
         appendFollowAllCellItem(userCount: count(filteredUsers))
 

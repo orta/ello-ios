@@ -258,7 +258,7 @@ extension StreamableViewController: InviteResponder {
     // MARK: - Private
 
     private func promptForAddressBookAccess() {
-        let message = NSLocalizedString("Import your contacts fo find your friends on Ello.\n\nEllo does not sell user data and never contacts anyone without your permission.",
+        let message = NSLocalizedString("Import your contacts to find your friends on Ello.\n\nEllo does not sell user data and never contacts anyone without your permission.",
             comment: "Import your contacts permission prompt")
         let alertController = AlertViewController(message: message)
 
