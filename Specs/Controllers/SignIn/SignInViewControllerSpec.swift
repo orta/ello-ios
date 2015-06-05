@@ -107,10 +107,6 @@ class SignInViewControllerSpec: QuickSpec {
             it("has a cross dissolve modal transition style") {
                 expect(subject.modalTransitionStyle.rawValue) == UIModalTransitionStyle.CrossDissolve.rawValue
             }
-
-            it("has a disabled enter button") {
-                expect(subject.enterButton.enabled) == false
-            }
         }
 
         describe("IBActions") {
@@ -136,7 +132,6 @@ class SignInViewControllerSpec: QuickSpec {
                         subject.enterTapped(subject.enterButton)
                         expect(subject.emailTextField.enabled) == false
                         expect(subject.passwordTextField.enabled) == false
-                        expect(subject.enterButton.enabled) == false
                         expect(subject.view.userInteractionEnabled) == false
                     }
 
@@ -151,7 +146,6 @@ class SignInViewControllerSpec: QuickSpec {
                         subject.enterTapped(subject.enterButton)
                         expect(subject.emailTextField.enabled) == true
                         expect(subject.passwordTextField.enabled) == true
-                        expect(subject.enterButton.enabled) == false
                         expect(subject.view.userInteractionEnabled) == true
                     }
                 }
