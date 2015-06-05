@@ -57,8 +57,8 @@ extension ImportPromptViewController {
     }
 
     private func promptForAddressBookAccess() {
-        let message = NSLocalizedString("Are you sure you want to use your address book to search for your friends on Ello?",
-            comment: "Import your contacts permission prompt")
+        let message = NSLocalizedString("Would you like to use your address book to find your friends on Ello?",
+            comment: "Use address book permission prompt")
         let alertController = AlertViewController(message: message)
 
         let importMessage = NSLocalizedString("Yes please", comment: "Yes please action")
