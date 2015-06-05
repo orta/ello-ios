@@ -92,7 +92,8 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         keyboardWillShowObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillShow, block: self.willShow)
         keyboardWillHideObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillHide, block: self.willHide)
 
-        if !(elloTabBarController?.shouldShowNarration ?? false) {
+        let isShowingNarration = elloTabBarController?.shouldShowNarration ?? false
+        if !isShowingNarration && presentedViewController == nil {
             // desired behavior: animate the keyboard in when this screen is
             // shown.  without the delay, the keyboard just appears suddenly.
             delay(0) {

@@ -429,7 +429,18 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
 
     public func cancelEditingAction() {
         if canPost() {
-            resetEditor()
+            let alertController = AlertViewController()
+
+            let deleteAction = AlertAction(title: NSLocalizedString("Delete", comment: "Delete button"), style: ActionStyle.Dark, handler: { _ in
+                self.resetEditor()
+            })
+            alertController.addAction(deleteAction)
+
+            let cancelAction = AlertAction(title: NSLocalizedString("Cancel", comment: "Cancel button"), style: .Light, handler: .None)
+            alertController.addAction(cancelAction)
+
+            delegate?.omnibarPresentController(alertController)
+
         }
         else {
             delegate?.omnibarCancel()
@@ -526,7 +537,6 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
 // MARK: Camera / Image Picker
 
     public func addImageAction() {
-        textView.resignFirstResponder()
         let alert = UIImagePickerController.alertControllerForImagePicker(openImagePicker)
         alert.map { self.delegate?.omnibarPresentController($0) }
     }
