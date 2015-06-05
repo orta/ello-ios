@@ -104,6 +104,9 @@ public class RelationshipControl: UIControl {
     private func handleTapped(sender: UIButton) {
         relationshipDelegate?.relationshipTapped(userId, relationship: relationship) {
             [unowned self] (status, relationship) in
+            if let newRelationshipPriority = relationship?.subject?.relationshipPriority {
+                self.relationship = newRelationshipPriority
+            }
         }
     }
 
