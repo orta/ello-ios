@@ -88,7 +88,7 @@ public class AppViewController: BaseElloViewController {
 
         let defaults = NSUserDefaults.standardUserDefaults()
         var introDisplayed = Defaults["IntroDisplayed"].bool ?? false
-        
+
         if authToken.isPresent && authToken.isAuthenticated {
             self.loadCurrentUser()
         }
@@ -269,6 +269,9 @@ extension AppViewController {
     }
 
     public func removeViewController(completion: ElloEmptyCompletion? = nil) {
+        if let presentingViewController = presentingViewController {
+            dismissViewControllerAnimated(false, completion: .None)
+        }
         if let visibleViewController = visibleViewController {
             visibleViewController.willMoveToParentViewController(nil)
 
