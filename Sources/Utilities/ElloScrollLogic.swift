@@ -8,7 +8,7 @@
 
 public class ElloScrollLogic : NSObject, UIScrollViewDelegate {
     // for running specs
-    public var disableRecentTimer = false
+    public var isRunningSpecs = false
 
     public var prevOffset : CGPoint?
     var shouldIgnoreScroll:Bool = false
@@ -43,7 +43,7 @@ public class ElloScrollLogic : NSObject, UIScrollViewDelegate {
     }
 
     private func changedRecently() -> Bool {
-        if disableRecentTimer {
+        if isRunningSpecs {
             return false
         }
 
@@ -82,6 +82,10 @@ public class ElloScrollLogic : NSObject, UIScrollViewDelegate {
     }
 
     public func scrollViewDidScroll(scrollView: UIScrollView) {
+        if !scrollView.dragging && !isRunningSpecs {
+            return
+        }
+
         var nextOffset = scrollView.contentOffset
         let shouldAcceptScroll = self.shouldAcceptScroll(scrollView)
 

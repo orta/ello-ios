@@ -37,7 +37,7 @@ class ElloScrollLogicSpec: QuickSpec {
                     },
                     onHide: { self.didHide = true }
                     )
-                logic.disableRecentTimer = true
+                logic.isRunningSpecs = true
 
                 scrollView.contentOffset = CGPoint(x: 0, y: scrollStart)
                 scrollView.contentSize = CGSize(width: 320, height: scrollHeight)

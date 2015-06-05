@@ -60,6 +60,8 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
         if let hidden = elloTabBarController?.tabBarHidden {
             willPresentStreamable(!hidden)
         }
+        let hidden = elloTabBarController?.tabBarHidden ?? false
+        UIApplication.sharedApplication().setStatusBarHidden(hidden, withAnimation: .Slide)
     }
 
     override public func viewDidLoad() {
