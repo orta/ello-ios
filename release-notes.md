@@ -1,3 +1,156 @@
+### Ello Build v1.0.0(2321) June 4, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #403 - Updates crashlytics build script for push.
+
+------
+
+#### #404 - Much better infinite scrolling and show/hide of the bars
+added a throttle to the show/hide of the nav/tab bars.  feels great.
+
+moved the 'loadNextPage' code back to its original
+home.  I really can't remember why it was moved in
+the first place, but it feels much better this way,
+and a quick smoke screen test didn't show any
+problems.
+
+------
+
+#### #399 - Track Onboarding!!
+
+------
+
+#### #402 - Finishes the new Omnibar
+Adds the confirmation dialog and fixes keyboard behavior.
+
+------
+
+#### #400 - New Omnibar UI
+Moved buttons around, 'X' now goes "back", removed "undo" ability.
+
+```
+Test Suite 'Selected tests' failed at 2015-06-04 22:26:34 +0000.
+	 Executed 713 tests, with 0 failures (0 unexpected) in 30.816 (32.041) seconds
+```
+
+------
+
+#### #397 - Truncate "via" & "source" when usernames are to long in discover.
+thoughts on this?
+
+------
+
+#### #394 - Updates name field on profile to scale better.
+[Finishes #96024166]
+
+------
+
+#### #398 - adds a black bar to the ElloNavigationBar, and makes the status bar white text
+
+------
+
+#### #396 - Opens the nav bar on show.
+
+------
+
+#### #395 - Love Notifications and Notifications Filter
+1. Don't show notifications that we don't support
+2. Support Love Notifications.
+3. Updated the specs
+
+```
+Test Suite 'Selected tests' passed at 2015-06-04 19:09:36 +0000.
+	 Executed 715 tests, with 0 failures (0 unexpected) in 0.194 (0.197) seconds
+```
+
+------
+
+#### #393 - Add no results copy to following/followers.
+[Finishes #96021422]
+
+------
+
+#### #392 - Using share icon svg and making sure to use greyA tint color.
+
+------
+
+#### #391 - Pull to refresh on Discover should show different content each time.
+* Resets the stream kind to have a different seed on initial load
+* Adds back in the `clearForInitialLoad` on success of initial load
+
+------
+
+#### #380 - Configure a script for building App Store releases
+@rynbyjn would love your eyes on this one
+
+------
+
+#### #383 - Updates tracking when user changes analytics pref.
+[Finishes #96102254]
+
+------
+
+#### #382 - Truncates usernames to have an ellipsis at the end if too long
+* Truncates list views from running into the relationship toggle/invite buttons
+* Truncates header cells for the list and grid views
+
+![image](https://cloud.githubusercontent.com/assets/96433/7966170/7be5eb2e-09df-11e5-99cd-95dada07907e.png)
+
+![image](https://cloud.githubusercontent.com/assets/96433/7966355/c0a5a78a-09e0-11e5-993f-04d2609cac2a.png)
+
+
+[Finishes #93292674][Fixes #91791760]
+
+------
+
+#### #384 - center block modal for smaller screens.
+
+------
+
+#### #387 - Setting text size and text Color for Profile fields.
+
+------
+
+#### #388 - Make sure comment has alphanum characters in it.
+
+------
+
+#### #390 - Update SVG assets for larger invite and dots.
+
+------
+
+#### #389 - Guards 'items.insert(item, atIndex: idx)' to make sure 'idx' is <= count(items)'
+Hopefully fixes crashlytics issue #51
+
+------
+
+#### #386 - Allow long single line words to wrap.
+[Fixes #96113862]
+
+------
+
+#### #385 - Adds track for when stream fails to load initially
+[Finishes #96049836]
+
+------
+
+#### #381 - Fix comment header chevron position
+Hardcoding the height value of the chevron fixes a strange bug where some chevrons appear too low.
+
+This one is so simple I plan to merge it w/o review
+
+------
+
+#### #377 - Set the Omnibar screen avatar image to newly uploaded images.
+Tries to make sure that the avatar is up-to-date, so it looks in the `TemporaryCache` and `avatar.url`, and for the Omnibar *tab* it updates the avatar in `viewWillAppear`.
+
+I also set the ElloTabBarController's view to `opaque = true`.  Won't hurt, and might improve rendering performance a smidge.
+    
+------------
+
 ### Ello Build v1.0.0(2069) May 28, 2015
 
     RELEASE NOTES
