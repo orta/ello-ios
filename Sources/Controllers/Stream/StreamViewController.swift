@@ -293,7 +293,9 @@ public class StreamViewController: BaseElloViewController {
     }
 
     private func updateNoResultsLabel() {
-        count(dataSource.visibleCellItems) > 0 ? hideNoResults() : showNoResults()
+        delay(0.666) {
+            count(self.dataSource.visibleCellItems) > 0 ? self.hideNoResults() : self.showNoResults()
+        }
     }
 
     private func hideNoResults() {
