@@ -12,11 +12,6 @@ import SVGKit
 public class ElloWebBrowserViewController: KINWebBrowserViewController {
     var toolbarHidden = false
 
-    override public func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.setToolbarHidden(toolbarHidden, animated: false)
-    }
-
     public class func navigationControllerWithBrowser(webBrowser: ElloWebBrowserViewController) -> UINavigationController {
         let xButton = UIBarButtonItem(image: SVGKImage(named: "x_normal.svg").UIImage!, style: UIBarButtonItemStyle.Plain, target: webBrowser, action: Selector("doneButtonPressed:"))
 
@@ -32,6 +27,21 @@ public class ElloWebBrowserViewController: KINWebBrowserViewController {
     override public class func navigationControllerWithWebBrowser() -> UINavigationController {
         let browser = self()
         return navigationControllerWithBrowser(browser)
+    }
+
+    override public func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setToolbarHidden(toolbarHidden, animated: false)
+    }
+
+    override public func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        UIApplication.sharedApplication().statusBarStyle = .Default
+    }
+
+    override public func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        UIApplication.sharedApplication().statusBarStyle = .LightContent
     }
 
 }
