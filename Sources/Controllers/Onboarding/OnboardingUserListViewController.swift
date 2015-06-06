@@ -27,13 +27,13 @@ public class OnboardingUserListViewController: StreamableViewController, Onboard
         super.viewDidLoad()
 
         streamViewController.loadInitialPage()
-
-        ElloHUD.showLoadingHudInView(streamViewController.view)
     }
 
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         updateCanGoNextButton()
+
+        ElloHUD.showLoadingHudInView(streamViewController.view)
     }
 
     override func viewForStream() -> UIView {

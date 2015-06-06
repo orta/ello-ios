@@ -272,6 +272,7 @@ extension AppViewController {
         if let presentingViewController = presentingViewController {
             dismissViewControllerAnimated(false, completion: .None)
         }
+
         if let visibleViewController = visibleViewController {
             visibleViewController.willMoveToParentViewController(nil)
 
