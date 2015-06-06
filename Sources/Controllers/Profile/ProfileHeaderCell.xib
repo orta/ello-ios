@@ -26,7 +26,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U6M-uB-CWv">
                         <rect key="frame" x="0.0" y="110" width="320" height="350"/>
                         <subviews>
-                            <button opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GKO-1x-QWx" userLabel="avatarButton" customClass="AvatarButton" customModule="Ello" customModuleProvider="target">
+                            <button opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GKO-1x-QWx" userLabel="avatarButton" customClass="AvatarButton" customModule="Ello" customModuleProvider="target">
                                 <rect key="frame" x="15" y="-77" width="122" height="122"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
