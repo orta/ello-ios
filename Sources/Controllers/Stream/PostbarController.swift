@@ -94,10 +94,12 @@ public class PostbarController: NSObject, PostbarDelegate {
                     post.id,
                     streamKind: dataSource.streamKind,
                     success: { (comments, responseConfig) in
-                        item.state = .Expanded
-                        imageLabelControl.finishAnimation()
-                        let nextIndexPath = NSIndexPath(forRow: indexPath.row + 1, inSection: indexPath.section)
-                        self.commentLoadSuccess(post, comments: comments, indexPath: nextIndexPath, cell: cell)
+                        if let updatedIndexPath = self.dataSource.indexPathForItem(item) {
+                            item.state = .Expanded
+                            imageLabelControl.finishAnimation()
+                            let nextIndexPath = NSIndexPath(forRow: updatedIndexPath.row + 1, inSection: updatedIndexPath.section)
+                            self.commentLoadSuccess(post, comments: comments, indexPath: nextIndexPath, cell: cell)
+                        }
                     },
                     failure: { _ in
                         item.state = .Collapsed
@@ -105,10 +107,12 @@ public class PostbarController: NSObject, PostbarDelegate {
                         println("comment load failure")
                     },
                     noContent: {
-                        item.state = .Expanded
-                        imageLabelControl.finishAnimation()
-                        let nextIndexPath = NSIndexPath(forRow: indexPath.row + 1, inSection: indexPath.section)
-                        self.commentLoadSuccess(post, comments: [], indexPath: nextIndexPath, cell: cell)
+                        if let updatedIndexPath = self.dataSource.indexPathForItem(item) {
+                            item.state = .Expanded
+                            imageLabelControl.finishAnimation()
+                            let nextIndexPath = NSIndexPath(forRow: updatedIndexPath.row + 1, inSection: updatedIndexPath.section)
+                            self.commentLoadSuccess(post, comments: [], indexPath: nextIndexPath, cell: cell)
+                        }
                     }
                 )
             }

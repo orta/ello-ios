@@ -26,7 +26,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     public var visibleCellItems:[StreamCellItem] = []
 
     // if a filter is added or removed, we update the items
-    var streamFilter: StreamFilter {
+    public var streamFilter: StreamFilter {
         didSet { updateFilteredItems() }
     }
 
@@ -78,6 +78,13 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         let remainingCellItems = streamCellItems[0 ..< belowIndex]
         streamCellItems = Array(remainingCellItems)
         updateFilteredItems()
+    }
+
+    public func indexPathForItem(item: StreamCellItem) -> NSIndexPath? {
+        if let index = find(self.visibleCellItems, item) {
+            return NSIndexPath(forItem: index, inSection: 0)
+        }
+        return nil
     }
 
     public func userForIndexPath(indexPath: NSIndexPath) -> User? {
