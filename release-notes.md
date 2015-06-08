@@ -1,3 +1,131 @@
+### Ello Build v1.0.0(2383) June 6, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #424 - Make sure that post content actually has characters other than white space.
+
+------
+
+#### #423 - Fixes the things
+- spinner on communities during onboarding
+- trimmed email in login
+- change status bar style
+
+------
+
+#### #422 - Fix display of the following/followers on profile
+* Needs to check the ids since a relationship update doesn’t come back with the profile in it and that is how `isCurrentUser` is checking
+
+[Finishes #96305756]
+
+------
+
+#### #421 - If you start onboarding, you must *finish* onboarding.
+When onboarding starts, set 'OnboardingInProgress'
+flag to true.  If, during startup, the flag is true,
+open onboarding instead of the main screen. When
+onboarding is done, remove the flag.
+
+------
+
+#### #420 - update alert and label text on Import Friends
+
+------
+
+#### #418 - fixes status bar on startup, login, join, and loves
+Yay XML!
+
+------
+
+#### #419 - Disables the pull to refresh in search.
+[Finishes #96328102]
+
+------
+
+#### #417 - adds empty state to ImportFriends step of onboarding
+adds empty state to ImportFriends step of onboarding
+
+```
+http://media.colinta.com/tmp/4f24b1c.png
+```
+
+------
+
+#### #414 - Updates zero state copy…
+
+------
+
+#### #416 - ScrollLogic fix
+![screen shot 2015-06-05 at 2 11 33 pm](https://cloud.githubusercontent.com/assets/27570/8014297/cb232aae-0b8c-11e5-9c0e-b7ca86de98ec.png)
+
+------
+
+#### #415 - The app was completely broken, now it isn't broken
+OK, for reals: when flicking an image, the
+'backing image' was being shown and hidden
+correctly, but the JTSImageViewController
+was not updating its internal snapshot. I
+pushed a fix to ello/JTSImageViewController
+and updated Podfile.lock
+
+------
+
+#### #413 - UStream and Bandcamp embed support
+
+------
+
+#### #412 - specs updated for the new signin controller behavior
+The enterButton is never disabled
+
+------
+
+#### #411 - Tapping a Love notification cell (image or background) opens the post
+If a Notification has a 'postId' set, tapping that cell
+will open that post.  So setting the love.postId in the
+Notification.init() was all that was needed.
+
+------
+
+#### #410 - fixes the ElloScrollLogic specs by disabling the 'throttling timer'
+```
+Test Suite 'Selected tests' passed at 2015-06-05 17:01:50 +0000.
+	 Executed 708 tests, with 0 failures (0 unexpected) in 29.764 (30.384) seconds
+```
+
+------
+
+#### #408 - Remove spaces from text entered into email text field, and gives a reason for invalid inputs
+
+------
+
+#### #409 - Adds zero state to notifications.
+* Also fixes a bug where the zero state label would flash real quick the first time you went to the screen
+
+giddy up, giddy up
+
+![image](https://cloud.githubusercontent.com/assets/96433/8010746/05b5089e-0b70-11e5-973b-435b90b8d310.png)
+![image](https://cloud.githubusercontent.com/assets/96433/8010754/1e6d4126-0b70-11e5-88c9-62da3a649c48.png)
+
+
+[Finishes #96251682][Fixes #96260276]
+
+------
+
+#### #407 - fixes the nav bar in 'dynamic settings'
+
+------
+
+#### #406 - IT WAS @steam! No, it was @RYNBYJN.  No, it was POTUS!
+
+------
+
+#### #405 - OH WOW XML CHANGES
+Fixes the nav bar in settings.
+    
+------------
+
 ### Ello Build v1.0.0(2321) June 4, 2015
 
     RELEASE NOTES
