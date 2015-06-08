@@ -97,7 +97,7 @@ public class PostbarController: NSObject, PostbarDelegate {
                         if let updatedIndexPath = self.dataSource.indexPathForItem(item) {
                             item.state = .Expanded
                             imageLabelControl.finishAnimation()
-                            let nextIndexPath = NSIndexPath(forRow: updatedIndexPath.row + 1, inSection: updatedIndexPath.section)
+                            let nextIndexPath = NSIndexPath(forItem: updatedIndexPath.row + 1, inSection: updatedIndexPath.section)
                             self.commentLoadSuccess(post, comments: comments, indexPath: nextIndexPath, cell: cell)
                         }
                     },
@@ -110,7 +110,7 @@ public class PostbarController: NSObject, PostbarDelegate {
                         if let updatedIndexPath = self.dataSource.indexPathForItem(item) {
                             item.state = .Expanded
                             imageLabelControl.finishAnimation()
-                            let nextIndexPath = NSIndexPath(forRow: updatedIndexPath.row + 1, inSection: updatedIndexPath.section)
+                            let nextIndexPath = NSIndexPath(forItem: updatedIndexPath.row + 1, inSection: updatedIndexPath.section)
                             self.commentLoadSuccess(post, comments: [], indexPath: nextIndexPath, cell: cell)
                         }
                     }
