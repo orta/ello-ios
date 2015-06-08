@@ -21,6 +21,8 @@ pod 'SVGKit', git: 'https://github.com/SVGKit/SVGKit'
 pod 'YapDatabase', git: 'https://github.com/ello/YapDatabase'
 pod 'CRToast', git: 'https://github.com/ello/CRToast'
 pod 'Analytics/Segmentio'
+pod 'Fabric', '~> 1.3.0'
+pod 'Fabric/Crashlytics', '~> 1.3.0'
 
 # swift pods
 pod 'Alamofire', '~> 1.2.0'
