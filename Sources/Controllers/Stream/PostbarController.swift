@@ -94,7 +94,7 @@ public class PostbarController: NSObject, PostbarDelegate {
                     post.id,
                     streamKind: dataSource.streamKind,
                     success: { (comments, responseConfig) in
-                        if let updatedIndexPath = self.collectionView.indexPathForCell(cell) {
+                        if let updatedIndexPath = self.dataSource.indexPathForItem(item) {
                             item.state = .Expanded
                             imageLabelControl.finishAnimation()
                             let nextIndexPath = NSIndexPath(forRow: updatedIndexPath.row + 1, inSection: updatedIndexPath.section)
@@ -107,7 +107,7 @@ public class PostbarController: NSObject, PostbarDelegate {
                         println("comment load failure")
                     },
                     noContent: {
-                        if let updatedIndexPath = self.collectionView.indexPathForCell(cell) {
+                        if let updatedIndexPath = self.dataSource.indexPathForItem(item) {
                             item.state = .Expanded
                             imageLabelControl.finishAnimation()
                             let nextIndexPath = NSIndexPath(forRow: updatedIndexPath.row + 1, inSection: updatedIndexPath.section)

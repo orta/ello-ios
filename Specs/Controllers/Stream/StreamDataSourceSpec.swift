@@ -167,6 +167,32 @@ class StreamDataSourceSpec: QuickSpec {
                 }
             }
 
+            describe("indexPathForItem(_:)") {
+                var postItem: StreamCellItem!
+                beforeEach {
+                    let cellItems = StreamCellItemParser().parse([Post.stub([:])], streamKind: .Friend)
+                    postItem = cellItems[0]
+                    subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
+                        vc.collectionView.dataSource = subject
+                        vc.collectionView.reloadData()
+                    }
+                }
+
+                it("returns an indexPath") {
+                    expect(subject.indexPathForItem(postItem)).to(beAKindOf(NSIndexPath.self))
+                }
+
+                it("returns nil when cell doesn't exist") {
+                    let anyItem = StreamCellItem(jsonable: Comment.stub([:]), type: .SeeMoreComments, data: nil, oneColumnCellHeight: 60.0, multiColumnCellHeight: 60.0, isFullWidth: true)
+                    expect(subject.indexPathForItem(anyItem)).to(beNil())
+                }
+
+                it("returns nil when cell is hidden") {
+                    subject.streamFilter = { postItem in return false }
+                    expect(subject.indexPathForItem(postItem)).to(beNil())
+                }
+            }
+
             describe("postForIndexPath(_:)") {
 
                 beforeEach {
