@@ -198,8 +198,13 @@ extension ProfileViewController {
 
     public func updateCachedImages() {
         if let cachedImage = cachedImage(.CoverImage) {
-            coverImage.image = cachedImage
-            self.coverImage.alpha = 1.0
+            // this seemingly unecessary nil check is an attempt
+            // to guard against crash #6:
+            // https://www.crashlytics.com/ello/ios/apps/co.ello.ello/issues/55725749f505b5ccf00cf76d/sessions/55725654012a0001029d613137326264
+            if coverImage != nil {
+                coverImage.image = cachedImage
+                coverImage.alpha = 1.0
+            }
         }
     }
 
