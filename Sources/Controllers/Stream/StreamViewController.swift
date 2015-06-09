@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import SSPullToRefresh
 import FLAnimatedImage
+import Crashlytics
 
 public protocol WebLinkDelegate: NSObjectProtocol {
     func webLinkTapped(type: ElloURI, data: String)
@@ -92,6 +93,7 @@ public class StreamViewController: BaseElloViewController {
 
     public var streamKind: StreamKind = StreamKind.Unknown {
         didSet {
+            Crashlytics.setObjectValue(streamKind.name, forKey: CrashlyticsKey.StreamName.rawValue)
             dataSource.streamKind = streamKind
             setupCollectionViewLayout()
         }

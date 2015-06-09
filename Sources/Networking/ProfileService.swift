@@ -11,6 +11,7 @@ import Foundation
 import UIKit
 import Moya
 import SwiftyJSON
+import Crashlytics
 
 public typealias ProfileFollowingSuccessCompletion = (users: [User], responseConfig: ResponseConfig) -> Void
 public typealias AccountDeletionSuccessCompletion = () -> Void
@@ -27,6 +28,12 @@ public struct ProfileService {
             success: { (data, _) in
                 if let user = data as? User {
                     success(user: user)
+                    if user.profile?.allowsAnalytics == true {
+                        Crashlytics.setUserIdentifier(user.id)
+                    }
+                    else {
+                        Crashlytics.setUserIdentifier("")
+                    }
                 }
                 else {
                     ElloProvider.unCastableJSONAble(failure)
