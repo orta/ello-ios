@@ -138,16 +138,11 @@ extension ElloProvider {
                 if let node = mappedJSON?[MappingType.ErrorsType.rawValue] as? [String:AnyObject] {
                     elloNetworkError = Mapper.mapToObject(node, fromJSON: MappingType.ErrorType.fromJSON) as? ElloNetworkError
                 }
-                Crashlytics.sharedInstance().setObjectValue(mappedJSON!.description, forKey: CrashlyticsKey.ResponseJSON.rawValue)
-            }
-            else {
-                Crashlytics.sharedInstance().setObjectValue("network error without json", forKey: CrashlyticsKey.ResponseJSON.rawValue)
             }
         }
         else {
             let detail = error?.elloErrorMessage ?? error?.localizedDescription ?? "NEED DEFAULT HERE"
             let jsonMappingError = ElloNetworkError(attrs: nil, code: ElloNetworkError.CodeType.unknown, detail: detail,messages: nil, status: nil, title: "Error")
-            Crashlytics.sharedInstance().setObjectValue("error: \(detail)", forKey: CrashlyticsKey.ResponseJSON.rawValue)
         }
 
         var errorCodeType = (statusCode == nil) ? ElloErrorCode.Data : ElloErrorCode.StatusCode
@@ -163,7 +158,6 @@ extension ElloProvider {
         if let failure = failure {
             failure(error: elloError, statusCode: nil)
         }
-        Crashlytics.sharedInstance().setObjectValue("could not map objects", forKey: CrashlyticsKey.ResponseJSON.rawValue)
     }
 
     // MARK: - Private
@@ -211,10 +205,12 @@ extension ElloProvider {
                 ElloProvider.handleNetworkFailure(target.path, failure: failure, data: data, error: error, statusCode: statusCode)
             }
             Crashlytics.sharedInstance().setObjectValue("\(statusCode!)", forKey: CrashlyticsKey.ResponseStatusCode.rawValue)
+            Crashlytics.sharedInstance().setObjectValue(NSString(data: data!, encoding: NSUTF8StringEncoding), forKey: CrashlyticsKey.ResponseJSON.rawValue)
         }
         else {
             ElloProvider.handleNetworkFailure(target.path, failure: failure, data: data, error: error, statusCode: statusCode)
             Crashlytics.sharedInstance().setObjectValue("nil", forKey: CrashlyticsKey.ResponseStatusCode.rawValue)
+            Crashlytics.sharedInstance().setObjectValue("no json data", forKey: CrashlyticsKey.ResponseJSON.rawValue)
         }
     }
 
@@ -266,7 +262,6 @@ extension ElloProvider {
         if mappedJSON != nil && error == nil {
             if let dict = mappedJSON as? [String:AnyObject] {
                 parseLinked(elloAPI, dict: dict, responseConfig: responseConfig, success: success, failure: failure)
-                Crashlytics.sharedInstance().setObjectValue(dict.description, forKey: CrashlyticsKey.ResponseJSON.rawValue)
             }
             else {
                 failedToMapObjects(failure)
@@ -275,7 +270,6 @@ extension ElloProvider {
         else if isEmptySuccess(data, statusCode: statusCode) {
             let emptyString = ""
             success(data: emptyString, responseConfig: responseConfig)
-            Crashlytics.sharedInstance().setObjectValue(emptyString, forKey: CrashlyticsKey.ResponseJSON.rawValue)
         }
         else {
             failedToMapObjects(failure)
