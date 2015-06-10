@@ -146,6 +146,9 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     }
 
     public func omnibarCancel() {
+        if screen.text == "Crashlytics.crash('test')" {
+            Crashlytics.sharedInstance().crash()
+        }
         if let post = parentPost {
             let omnibarData = OmnibarData(attributedText: screen.attributedText, image: screen.image)
             let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
@@ -165,9 +168,6 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             let cleanedText = text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
             if count(cleanedText) > 0 {
                 content.append(text)
-            }
-            if text == "Crashlytics.crash('test')" {
-                Crashlytics.sharedInstance().crash()
             }
         }
 
