@@ -93,9 +93,9 @@ public class StreamViewController: BaseElloViewController {
 
     public var streamKind: StreamKind = StreamKind.Unknown {
         didSet {
-            Crashlytics.setObjectValue(streamKind.name, forKey: CrashlyticsKey.StreamName.rawValue)
             dataSource.streamKind = streamKind
             setupCollectionViewLayout()
+            Crashlytics.setObjectValue(streamKind.name, forKey: CrashlyticsKey.StreamName.rawValue)
         }
     }
     var imageViewerDelegate: StreamImageViewer?
