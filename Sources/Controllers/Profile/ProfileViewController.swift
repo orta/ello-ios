@@ -108,6 +108,8 @@ public class ProfileViewController: StreamableViewController {
 
     private func updateInsets() {
         updateInsets(navBar: navigationBar, streamController: streamViewController)
+        // reset the top inset to 0 to fix 'edit profile' button
+        streamViewController.contentInset.top = 0
     }
 
     private func hideNavBar(#animated: Bool) {
@@ -172,7 +174,7 @@ public class ProfileViewController: StreamableViewController {
             let coverImage = coverImage
         {
             coverImage.sd_setImageWithURL(cover) {
-                (image, error, type, url) in
+                (_, _, _, _) in
                 UIView.animateWithDuration(0.15) {
                     self.coverImage.alpha = 1.0
                 }
