@@ -47,7 +47,7 @@ public class Tracker {
 
         settingChangedNotification = NotificationObserver(notification: SettingChangedNotification) { user in
             self.shouldTrackUser = user.profile?.allowsAnalytics ?? true
-            Crashlytics.setUserIdentifier(self.shouldTrackUser ? user.id : "")
+            Crashlytics.sharedInstance().setUserIdentifier(self.shouldTrackUser ? user.id : "")
         }
     }
 
@@ -57,7 +57,7 @@ public class Tracker {
 public extension Tracker {
     func identify(user: User) {
         shouldTrackUser = user.profile?.allowsAnalytics ?? true
-        Crashlytics.setUserIdentifier(shouldTrackUser ? user.id : "")
+        Crashlytics.sharedInstance().setUserIdentifier(shouldTrackUser ? user.id : "")
         if let analyticsId = user.profile?.gaUniqueId {
             agent.identify(analyticsId, traits: [ "created_at": user.profile?.createdAt.toNSString() ?? "no-creation-date" ])
         }
