@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import Crashlytics
 
 public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
     var keyboardWillShowObserver: NotificationObserver?
@@ -107,6 +107,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     override public func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         elloTabBarController?.setTabBarHidden(false, animated: animated)
+        Crashlytics.sharedInstance().setObjectValue("Omnibar", forKey: CrashlyticsKey.StreamName.rawValue)
     }
 
     override public func viewWillDisappear(animated: Bool) {
@@ -145,6 +146,9 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     }
 
     public func omnibarCancel() {
+        if screen.text == "Crashlytics.crash('test')" {
+            Crashlytics.sharedInstance().crash()
+        }
         if let post = parentPost {
             let omnibarData = OmnibarData(attributedText: screen.attributedText, image: screen.image)
             let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)

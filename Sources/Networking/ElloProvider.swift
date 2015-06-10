@@ -9,6 +9,7 @@
 import Foundation
 import Moya
 import WebLinking
+import Crashlytics
 
 public typealias ElloSuccessCompletion = (data: AnyObject, responseConfig: ResponseConfig) -> Void
 public typealias ElloFailureCompletion = (error: NSError, statusCode:Int?) -> Void
@@ -123,6 +124,7 @@ extension ElloProvider {
             (data, statusCode, response, error) in
             ElloProvider.handleRequest(target, method: method, data: data, response: response as? NSHTTPURLResponse, statusCode: statusCode, success: success, failure: failure, invalidToken: invalidToken, isRetry: false, error: error)
         })
+        Crashlytics.sharedInstance().setObjectValue(target.path, forKey: CrashlyticsKey.RequestPath.rawValue)
     }
 
     public static func generateElloError(data:NSData?, error: NSError?, statusCode: Int?) -> NSError {
@@ -202,9 +204,13 @@ extension ElloProvider {
             default:
                 ElloProvider.handleNetworkFailure(target.path, failure: failure, data: data, error: error, statusCode: statusCode)
             }
+            Crashlytics.sharedInstance().setObjectValue("\(statusCode!)", forKey: CrashlyticsKey.ResponseStatusCode.rawValue)
+            Crashlytics.sharedInstance().setObjectValue(NSString(data: data!, encoding: NSUTF8StringEncoding), forKey: CrashlyticsKey.ResponseJSON.rawValue)
         }
         else {
             ElloProvider.handleNetworkFailure(target.path, failure: failure, data: data, error: error, statusCode: statusCode)
+            Crashlytics.sharedInstance().setObjectValue("nil", forKey: CrashlyticsKey.ResponseStatusCode.rawValue)
+            Crashlytics.sharedInstance().setObjectValue("no json data", forKey: CrashlyticsKey.ResponseJSON.rawValue)
         }
     }
 
@@ -252,7 +258,6 @@ extension ElloProvider {
 
     static private func handleNetworkSuccess(data:NSData, elloAPI: ElloAPI, statusCode: Int?, response: NSHTTPURLResponse?, success:ElloSuccessCompletion, failure:ElloFailureCompletion?) {
         let (mappedJSON: AnyObject?, error) = Mapper.mapJSON(data)
-
         var responseConfig = parseResponse(response)
         if mappedJSON != nil && error == nil {
             if let dict = mappedJSON as? [String:AnyObject] {
@@ -272,8 +277,8 @@ extension ElloProvider {
     }
 
     static private func isEmptySuccess(data:NSData, statusCode: Int?) -> Bool {
-        // accepted
-        if statusCode == 202 {
+        // accepted || no content
+        if statusCode == 202 || statusCode == 204 {
             return true
         }
         // no content
