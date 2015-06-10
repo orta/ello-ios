@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Crashlytics
+
 @objc
 protocol OnboardingStep {
     var onboardingViewController: OnboardingViewController? { get set }
@@ -103,18 +105,23 @@ extension OnboardingViewController {
 
         if self.isKindOfClass(CommunitySelectionViewController) {
             Tracker.sharedTracker.completedCommunities()
+            Crashlytics.sharedInstance().setObjectValue("OnboardingAwesomePropleSelection", forKey: CrashlyticsKey.StreamName.rawValue)
         }
         else if self.isKindOfClass(AwesomePeopleSelectionViewController) {
             // handled in controller
+            Crashlytics.sharedInstance().setObjectValue("OnboardingImportPrompt", forKey: CrashlyticsKey.StreamName.rawValue)
         }
         else if self.isKindOfClass(ImportPromptViewController) {
             Tracker.sharedTracker.completedContactImport()
+            Crashlytics.sharedInstance().setObjectValue("OnboardingCoverImageSelection", forKey: CrashlyticsKey.StreamName.rawValue)
         }
         else if self.isKindOfClass(CoverImageSelectionViewController) {
             Tracker.sharedTracker.completedCoverImage()
+            Crashlytics.sharedInstance().setObjectValue("OnboardingAvatarImageSelection", forKey: CrashlyticsKey.StreamName.rawValue)
         }
         else if self.isKindOfClass(AvatarImageSelectionViewController) {
             Tracker.sharedTracker.completedAvatar()
+            Crashlytics.sharedInstance().setObjectValue("OnboardingProfileInfo", forKey: CrashlyticsKey.StreamName.rawValue)
         }
         else if self.isKindOfClass(ProfileInfoViewController) {
             Tracker.sharedTracker.addedNameBio()
@@ -247,6 +254,8 @@ extension OnboardingViewController {
         visibleViewController = viewController
         visibleViewControllerIndex = 0
         onboardingViewControllers.append(viewController)
+
+        Crashlytics.sharedInstance().setObjectValue("OnboardingCommunities", forKey: CrashlyticsKey.StreamName.rawValue)
     }
 
     private func addOnboardingViewController(viewController: UIViewController) {
@@ -294,6 +303,9 @@ extension OnboardingViewController {
 
     public func goToController(viewController: UIViewController, data: OnboardingData?) {
         goToController(viewController, data: data, direction: .Right)
+        if self.isKindOfClass(ImportFriendsViewController) {
+            Crashlytics.sharedInstance().setObjectValue("OnboardingImportFriends", forKey: CrashlyticsKey.StreamName.rawValue)
+        }
     }
 
 }

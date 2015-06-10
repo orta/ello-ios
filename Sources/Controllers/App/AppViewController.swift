@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftyUserDefaults
+import Crashlytics
 
 struct NavigationNotifications {
     static let showingNotificationsTab = TypedNotification<()>(name: "co.ello.NavigationNotification.NotificationsTab")
@@ -174,6 +175,7 @@ extension AppViewController {
         let joinController = JoinViewController()
         joinController.parentAppController = self
         swapViewController(joinController)
+        Crashlytics.sharedInstance().setObjectValue("Join", forKey: CrashlyticsKey.StreamName.rawValue)
     }
 
     public func showSignInScreen() {
@@ -181,6 +183,7 @@ extension AppViewController {
         let signInController = SignInViewController()
         signInController.parentAppController = self
         swapViewController(signInController)
+        Crashlytics.sharedInstance().setObjectValue("Login", forKey: CrashlyticsKey.StreamName.rawValue)
     }
 
     public func showOnboardingScreen(user: User) {

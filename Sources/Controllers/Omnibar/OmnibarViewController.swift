@@ -107,6 +107,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     override public func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         elloTabBarController?.setTabBarHidden(false, animated: animated)
+        Crashlytics.sharedInstance().setObjectValue("Omnibar", forKey: CrashlyticsKey.StreamName.rawValue)
     }
 
     override public func viewWillDisappear(animated: Bool) {
