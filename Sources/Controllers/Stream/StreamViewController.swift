@@ -95,7 +95,6 @@ public class StreamViewController: BaseElloViewController {
         didSet {
             dataSource.streamKind = streamKind
             setupCollectionViewLayout()
-            Crashlytics.sharedInstance().setObjectValue(streamKind.name, forKey: CrashlyticsKey.StreamName.rawValue)
         }
     }
     var imageViewerDelegate: StreamImageViewer?
@@ -185,6 +184,7 @@ public class StreamViewController: BaseElloViewController {
             shouldReload = false
             loadInitialPage()
         }
+        Crashlytics.sharedInstance().setObjectValue(streamKind.name, forKey: CrashlyticsKey.StreamName.rawValue)
     }
 
     public class func instantiateFromStoryboard() -> StreamViewController {

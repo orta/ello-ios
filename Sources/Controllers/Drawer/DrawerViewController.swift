@@ -8,6 +8,7 @@
 
 import Foundation
 import SVGKit
+import Crashlytics
 
 public class DrawerViewController: StreamableViewController {
     @IBOutlet weak public var tableView: UITableView!
@@ -47,6 +48,11 @@ extension DrawerViewController {
         UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Slide)
         tableView.delegate = self
         tableView.dataSource = dataSource
+    }
+
+    override public func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        Crashlytics.sharedInstance().setObjectValue("Drawer", forKey: CrashlyticsKey.StreamName.rawValue)
     }
 }
 

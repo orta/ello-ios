@@ -8,6 +8,7 @@
 
 import KINWebBrowser
 import SVGKit
+import Crashlytics
 
 public class ElloWebBrowserViewController: KINWebBrowserViewController {
     var toolbarHidden = false
@@ -37,6 +38,7 @@ public class ElloWebBrowserViewController: KINWebBrowserViewController {
     override public func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         UIApplication.sharedApplication().statusBarStyle = .Default
+        Crashlytics.sharedInstance().setObjectValue("ElloWebBrowser", forKey: CrashlyticsKey.StreamName.rawValue)
     }
 
     override public func viewWillDisappear(animated: Bool) {
