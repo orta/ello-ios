@@ -124,7 +124,7 @@ public class StreamViewController: BaseElloViewController {
         }
     }
 
-    var contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0) {
+    public var contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0) {
         didSet {
             self.collectionView.contentInset = contentInset
             self.collectionView.scrollIndicatorInsets = contentInset
