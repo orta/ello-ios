@@ -303,7 +303,8 @@
     <script>
       var postContainer = document.getElementById('post-container');
       var contentHeight = function() {
-        return postContainer.offsetHeight;
+        /* adding an extra 5 accounts for hangers in links at bottom of a post */
+        return postContainer.offsetHeight + 5;
       };
     </script>
   </body>
