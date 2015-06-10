@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import Crashlytics
 
 public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
     var keyboardWillShowObserver: NotificationObserver?
@@ -164,6 +164,9 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             let cleanedText = text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
             if count(cleanedText) > 0 {
                 content.append(text)
+            }
+            if text == "Crashlytics.crash('test')" {
+                Crashlytics.sharedInstance().crash()
             }
         }
 
