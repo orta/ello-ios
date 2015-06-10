@@ -31,7 +31,7 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
 
     @IBOutlet weak var viewContainer: UIView!
 
-    let streamViewController = StreamViewController.instantiateFromStoryboard()
+    public let streamViewController = StreamViewController.instantiateFromStoryboard()
 
     func setupStreamController() {
         streamViewController.currentUser = currentUser

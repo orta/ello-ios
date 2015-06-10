@@ -15,22 +15,30 @@ class ProfileViewControllerSpec: QuickSpec {
     override func spec() {
 
         var user: User = stub(["id": "42"])
-        var controller = ProfileViewController(userParam: user.id)
+        var subject = ProfileViewController(userParam: user.id)
 
         describe("initialization") {
 
             it("can be instantiated") {
-                expect(controller).notTo(beNil())
+                expect(subject).notTo(beNil())
             }
 
             it("is a BaseElloViewController") {
-                expect(controller).to(beAKindOf(BaseElloViewController.self))
+                expect(subject).to(beAKindOf(BaseElloViewController.self))
             }
 
             it("is a ProfileViewController") {
-                expect(controller).to(beAKindOf(ProfileViewController.self))
+                expect(subject).to(beAKindOf(ProfileViewController.self))
             }
 
+        }
+
+        describe("viewDidAppear(:_)") {
+
+            it("does not update the top inset") {
+                subject.viewDidAppear(false)
+                expect(subject.streamViewController.contentInset.top) == 0
+            }
         }
     }
 }
