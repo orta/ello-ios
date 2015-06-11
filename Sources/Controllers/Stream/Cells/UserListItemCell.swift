@@ -29,7 +29,6 @@ public class UserListItemCell: UICollectionViewCell {
     private func style() {
         usernameLabel.font = UIFont.typewriterFont(12.0)
         usernameLabel.textColor = UIColor.greyA()
-        usernameLabel.adjustsFontSizeToFitWidth = false
         usernameLabel.lineBreakMode = NSLineBreakMode.ByTruncatingTail
         // bottom border
         bottomBorder.backgroundColor = UIColor.greyF1().CGColor
@@ -40,7 +39,6 @@ public class UserListItemCell: UICollectionViewCell {
         bottomBorder.frame = CGRect(x: 0, y: self.bounds.height - 1, width: self.bounds.width, height: 1)
         super.layoutSubviews()
     }
-
 
     @IBAction func userTapped(sender: AvatarButton) {
         userDelegate?.userTappedCell(self)

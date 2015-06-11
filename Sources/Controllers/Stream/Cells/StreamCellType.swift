@@ -18,52 +18,54 @@ public typealias CellConfigClosure = (
 
 public enum StreamCellType {
     case CommentHeader
-    case Header
-    case Footer
-    case Image
-    case Text
-    case Embed
-    case RepostHeader
-    case Unknown
-    case ProfileHeader
-    case Notification
-    case UserListItem
     case CreateComment
-    case StreamLoading
-    case Toggle
+    case Embed
+    case FollowAll
+    case Footer
+    case Header
+    case Image
+    case InviteFriends
+    case Notification
+    case OnboardingHeader
+    case ProfileHeader
+    case RepostHeader
     case SeeMoreComments
     case Spacer
-    case OnboardingHeader
-    case FollowAll
+    case StreamLoading
+    case Text
+    case Toggle
+    case Unknown
+    case UserListItem
 
-    static let all = [CommentHeader, Header, Footer, Image, Text, Embed, RepostHeader, Unknown, ProfileHeader, Notification, UserListItem, CreateComment, StreamLoading, Toggle, SeeMoreComments, Spacer, OnboardingHeader, FollowAll]
+    static let all = [CommentHeader, CreateComment, Embed, FollowAll, Footer, Header, Image, InviteFriends, Notification, OnboardingHeader, ProfileHeader, RepostHeader, SeeMoreComments, Spacer, StreamLoading, Text, Toggle, Unknown, UserListItem]
 
     public var name: String {
         switch self {
         case CommentHeader: return "StreamHeaderCell"
-        case Header: return "StreamHeaderCell"
-        case Footer: return "StreamFooterCell"
-        case Image: return "StreamImageCell"
-        case Text: return "StreamTextCell"
-        case Embed: return "StreamEmbedCell"
-        case RepostHeader: return "StreamRepostHeaderCell"
-        case Unknown: return "StreamUnknownCell"
-        case ProfileHeader: return "ProfileHeaderCell"
-        case Notification: return "NotificationCell"
-        case UserListItem: return "UserListItemCell"
         case CreateComment: return "StreamCreateCommentCell"
-        case StreamLoading: return "StreamLoadingCell"
-        case Toggle: return "StreamToggleCell"
+        case Embed: return "StreamEmbedCell"
+        case FollowAll: return FollowAllCell.reuseIdentifier()
+        case Footer: return "StreamFooterCell"
+        case Header: return "StreamHeaderCell"
+        case Image: return "StreamImageCell"
+        case InviteFriends: return "StreamInviteFriendsCell"
+        case Notification: return "NotificationCell"
+        case OnboardingHeader: return OnboardingHeaderCell.reuseIdentifier()
+        case ProfileHeader: return "ProfileHeaderCell"
+        case RepostHeader: return "StreamRepostHeaderCell"
         case SeeMoreComments: return "StreamSeeMoreCommentsCell"
         case Spacer: return "StreamSpacerCell"
-        case OnboardingHeader: return OnboardingHeaderCell.reuseIdentifier()
-        case FollowAll: return FollowAllCell.reuseIdentifier()
+        case StreamLoading: return "StreamLoadingCell"
+        case Text: return "StreamTextCell"
+        case Toggle: return "StreamToggleCell"
+        case Unknown: return "StreamUnknownCell"
+        case UserListItem: return "UserListItemCell"
         }
     }
 
     public var selectable: Bool {
         switch self {
-        case .Header, .CreateComment, .Toggle, .UserListItem, .Notification, .RepostHeader, .SeeMoreComments:
+        case CreateComment, Header, InviteFriends, Notification, RepostHeader, SeeMoreComments, Toggle, UserListItem:
              return true
         default: return false
         }
@@ -72,22 +74,23 @@ public enum StreamCellType {
     public var configure: CellConfigClosure {
         switch self {
         case CommentHeader: return StreamHeaderCellPresenter.configure
-        case Header: return StreamHeaderCellPresenter.configure
-        case Footer: return StreamFooterCellPresenter.configure
-        case Image: return StreamImageCellPresenter.configure
-        case Text: return StreamTextCellPresenter.configure
+        case CreateComment: return StreamCreateCommentCellPresenter.configure
         case Embed: return StreamEmbedCellPresenter.configure
-        case RepostHeader: return StreamRepostHeaderCellPresenter.configure
-        case ProfileHeader: return ProfileHeaderCellPresenter.configure
+        case FollowAll: return FollowAllCellPresenter.configure
+        case Footer: return StreamFooterCellPresenter.configure
+        case Header: return StreamHeaderCellPresenter.configure
+        case Image: return StreamImageCellPresenter.configure
+        case InviteFriends: return StreamInviteFriendsCellPresenter.configure
         case Notification: return NotificationCellPresenter.configure
+        case OnboardingHeader: return OnboardingHeaderCellPresenter.configure
+        case ProfileHeader: return ProfileHeaderCellPresenter.configure
+        case RepostHeader: return StreamRepostHeaderCellPresenter.configure
+        case Spacer: return { (cell, _, _, _, _) in cell.backgroundColor = .whiteColor() }
+        case StreamLoading: return StreamLoadingCellPresenter.configure
+        case Text: return StreamTextCellPresenter.configure
+        case Toggle: return StreamToggleCellPresenter.configure
         case Unknown: return ProfileHeaderCellPresenter.configure
         case UserListItem: return UserListItemCellPresenter.configure
-        case CreateComment: return StreamCreateCommentCellPresenter.configure
-        case StreamLoading: return StreamLoadingCellPresenter.configure
-        case Toggle: return StreamToggleCellPresenter.configure
-        case Spacer: return { (cell, _, _, _, _) in cell.backgroundColor = .whiteColor() }
-        case OnboardingHeader: return OnboardingHeaderCellPresenter.configure
-        case FollowAll: return FollowAllCellPresenter.configure
         default: return { (_, _, _, _, _) in }
         }
     }
@@ -95,22 +98,23 @@ public enum StreamCellType {
     public var classType: UICollectionViewCell.Type {
         switch self {
         case CommentHeader: return StreamHeaderCell.self
-        case Header: return StreamHeaderCell.self
-        case Footer: return StreamFooterCell.self
-        case Image: return StreamImageCell.self
-        case Text: return StreamTextCell.self
+        case CreateComment: return StreamCreateCommentCell.self
         case Embed: return StreamEmbedCell.self
-        case RepostHeader: return StreamRepostHeaderCell.self
-        case ProfileHeader: return ProfileHeaderCell.self
+        case FollowAll: return FollowAllCell.self
+        case Footer: return StreamFooterCell.self
+        case Header: return StreamHeaderCell.self
+        case Image: return StreamImageCell.self
+        case InviteFriends: return StreamInviteFriendsCell.self
         case Notification: return NotificationCell.self
+        case OnboardingHeader: return OnboardingHeaderCell.self
+        case ProfileHeader: return ProfileHeaderCell.self
+        case RepostHeader: return StreamRepostHeaderCell.self
+        case SeeMoreComments: return StreamSeeMoreCommentsCell.self
+        case StreamLoading: return StreamLoadingCell.self
+        case Text: return StreamTextCell.self
+        case Toggle: return StreamToggleCell.self
         case Unknown, Spacer: return UICollectionViewCell.self
         case UserListItem: return UserListItemCell.self
-        case CreateComment: return StreamCreateCommentCell.self
-        case StreamLoading: return StreamLoadingCell.self
-        case Toggle: return StreamToggleCell.self
-        case SeeMoreComments: return StreamSeeMoreCommentsCell.self
-        case OnboardingHeader: return OnboardingHeaderCell.self
-        case FollowAll: return FollowAllCell.self
         }
     }
 
@@ -122,7 +126,7 @@ public enum StreamCellType {
     }
 
     static func registerAll(collectionView: UICollectionView) {
-        let noNibTypes: [StreamCellType] = [.Unknown, .Notification, .CreateComment, .StreamLoading, .Spacer, .OnboardingHeader, .FollowAll]
+        let noNibTypes: [StreamCellType] = [.CreateComment, .FollowAll, .Notification, .OnboardingHeader, .Spacer, .StreamLoading, .Unknown]
         for type in all {
             if find(noNibTypes, type) != nil {
                 collectionView.registerClass(type.classType, forCellWithReuseIdentifier: type.name)

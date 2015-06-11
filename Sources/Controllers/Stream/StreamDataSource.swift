@@ -47,6 +47,8 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     weak public var userDelegate:UserDelegate?
     weak public var relationshipDelegate: RelationshipDelegate?
     weak public var userListDelegate: UserListDelegate?
+    weak public var inviteDelegate: InviteDelegate?
+    public let inviteCache = InviteCache()
 
     public init(
         streamKind:StreamKind,
@@ -248,35 +250,32 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
             var cell = collectionView.dequeueReusableCellWithReuseIdentifier(streamCellItem.type.name, forIndexPath: indexPath) as! UICollectionViewCell
 
             switch streamCellItem.type {
-            case .Notification:
-                (cell as! NotificationCell).webLinkDelegate = webLinkDelegate
-                (cell as! NotificationCell).userDelegate = userDelegate
-                (cell as! NotificationCell).delegate = notificationDelegate
-            case .CreateComment:
-                // (cell as! StreamCreateCommentCell)
-                break
+            case .Footer:
+                (cell as! StreamFooterCell).delegate = postbarDelegate
             case .Header, .CommentHeader:
                 (cell as! StreamHeaderCell).postbarDelegate = postbarDelegate
                 (cell as! StreamHeaderCell).userDelegate = userDelegate
             case .Image:
                 (cell as! StreamImageCell).streamImageCellDelegate = imageDelegate
-            case .Text:
-                (cell as! StreamTextCell).webLinkDelegate = webLinkDelegate
-            case .Footer:
-                (cell as! StreamFooterCell).delegate = postbarDelegate
+            case .InviteFriends:
+                (cell as! StreamInviteFriendsCell).inviteDelegate = inviteDelegate
+                (cell as! StreamInviteFriendsCell).inviteCache = inviteCache
+            case .Notification:
+                (cell as! NotificationCell).webLinkDelegate = webLinkDelegate
+                (cell as! NotificationCell).userDelegate = userDelegate
+                (cell as! NotificationCell).delegate = notificationDelegate
             case .ProfileHeader:
                 (cell as! ProfileHeaderCell).relationshipControl.relationshipDelegate = relationshipDelegate
                 (cell as! ProfileHeaderCell).userListDelegate = userListDelegate
                 (cell as! ProfileHeaderCell).webLinkDelegate = webLinkDelegate
+            case .RepostHeader:
+                (cell as! StreamRepostHeaderCell).userDelegate = userDelegate
+            case .Text:
+                (cell as! StreamTextCell).webLinkDelegate = webLinkDelegate
             case .UserListItem:
                 (cell as! UserListItemCell).relationshipControl.relationshipDelegate = relationshipDelegate
                 (cell as! UserListItemCell).userDelegate = userDelegate
                 (cell as! UserListItemCell).currentUser = currentUser
-            case .RepostHeader:
-                (cell as! StreamRepostHeaderCell).userDelegate = userDelegate
-            case .Toggle:
-                // (cell as! StreamToggleCell)
-                break
             default:
                 break
             }
