@@ -120,7 +120,7 @@ class ElloTextView: UITextView {
 
     func textViewTapped(gesture : UITapGestureRecognizer) {
         let location = gesture.locationInView(self)
-        if CGRectContainsPoint(self.frame, location) {
+        if CGRectContainsPoint(self.frame.atOrigin(CGPointZero), location) {
             let range = characterRangeAtPoint(location)
             let pos = closestPositionToPoint(location, withinRange: range)
             let style = textStylingAtPosition(pos, inDirection: .Forward) as! [String : AnyObject]
