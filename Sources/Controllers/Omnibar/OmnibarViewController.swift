@@ -173,15 +173,15 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
     public func omnibarSubmitted(text: NSAttributedString?, image: UIImage?) {
         var content = [AnyObject]()
+        if let image = image {
+            content.append(image)
+        }
+
         if let text = text?.string {
             let cleanedText = text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
             if count(cleanedText) > 0 {
                 content.append(text)
             }
-        }
-
-        if let image = image {
-            content.append(image)
         }
 
         let service : PostEditingService
