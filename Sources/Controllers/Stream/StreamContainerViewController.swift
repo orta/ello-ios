@@ -57,11 +57,6 @@ public class StreamContainerViewController: StreamableViewController {
         Tracker.sharedTracker.streamAppeared(stream.name)
     }
 
-    override public func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        updateInsets()
-    }
-
     private func updateInsets() {
         for controller in self.childViewControllers as! [StreamViewController] {
             updateInsets(navBar: navigationBar, streamController: controller)

@@ -34,11 +34,6 @@ public class UserListViewController: StreamableViewController {
         streamViewController.loadInitialPage()
     }
 
-    override public func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        updateInsets()
-    }
-
     override func viewForStream() -> UIView {
         return view
     }
