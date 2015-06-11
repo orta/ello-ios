@@ -101,7 +101,7 @@ class OmnibarScreenSpec: QuickSpec {
         describe("pressing cancel") {
             beforeEach {
                 screen.text = "text"
-                screen.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)!
+                screen.image = UIImage.imageWithColor(.blackColor())
                 screen.cancelEditingAction()
             }
             it("should resign the keyboard") {
@@ -117,13 +117,13 @@ class OmnibarScreenSpec: QuickSpec {
             }
             it("should respond if there is an image (no text)") {
                 screen.text = nil
-                screen.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)!
+                screen.image = UIImage.imageWithColor(.blackColor())
                 screen.submitAction()
                 expect(delegate.submitted) == true
             }
             it("should respond if there is text and image") {
                 screen.text = "text"
-                screen.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)!
+                screen.image = UIImage.imageWithColor(.blackColor())
                 screen.submitAction()
                 expect(delegate.submitted) == true
             }
@@ -136,7 +136,7 @@ class OmnibarScreenSpec: QuickSpec {
         }
         describe("pressing remove image") {
             beforeEach {
-                screen.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)!
+                screen.image = UIImage.imageWithColor(.blackColor())
                 screen.removeButtonAction()
             }
             it("should clear the image") {
@@ -169,7 +169,7 @@ class OmnibarScreenSpec: QuickSpec {
                     }
                     it("should be true (after setting text and image)") {
                         screen.text = "text"
-                        screen.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)!
+                        screen.image = UIImage.imageWithColor(.blackColor())
                         expect(screen.canPost()) == true
                     }
                 }
@@ -181,12 +181,12 @@ class OmnibarScreenSpec: QuickSpec {
                     }
                     it("should be false (image only)") {
                         screen.text = nil
-                        screen.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)!
+                        screen.image = UIImage.imageWithColor(.blackColor())
                         expect(screen.canPost()) == true
                     }
                     it("should be false (text and image)") {
                         screen.text = "text"
-                        screen.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)!
+                        screen.image = UIImage.imageWithColor(.blackColor())
                         expect(screen.canPost()) == true
                     }
                     it("should be false empty text or image") {

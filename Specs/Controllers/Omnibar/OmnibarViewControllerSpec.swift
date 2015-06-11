@@ -184,7 +184,7 @@ class OmnibarViewControllerSpec: QuickSpec {
                 controller.endAppearanceTransition()
 
                 screen.attributedText = ElloAttributedString.style("text")
-                screen.image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
+                screen.image = UIImage.imageWithColor(.blackColor())
             }
 
             afterEach() {
