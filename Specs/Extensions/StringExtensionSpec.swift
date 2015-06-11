@@ -85,6 +85,30 @@ class StringExtensionSpec: QuickSpec {
                 }
             }
         }
+        describe("endsWith") {
+            context("endsWith string") {
+                it("returns true") {
+                    expect("test".endsWith("est")).to(beTrue())
+                }
+            }
+            context("does not endWith string") {
+                it("returns false") {
+                    expect("test".endsWith("tes")).to(beFalse())
+                }
+            }
+        }
+        describe("beginsWith") {
+            context("beginsWith string") {
+                it("returns true") {
+                    expect("test".beginsWith("tes")).to(beTrue())
+                }
+            }
+            context("does not beginWith string") {
+                it("returns false") {
+                    expect("test".beginsWith("est")).to(beFalse())
+                }
+            }
+        }
         describe("camelCase") {
             it("converts a string from snake case to camel case") {
                 let snake = "sssss_sssss"

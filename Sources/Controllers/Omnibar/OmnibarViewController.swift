@@ -43,7 +43,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
     public func omnibarDataName() -> String {
         if let post = parentPost {
-            return "omnibar_comment_\(post.id)"
+            return "omnibar_comment_\(post.repostId ?? post.id)"
         }
         else {
             return "omnibar_post"
@@ -55,8 +55,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     }
 
     override public func loadView() {
-        var screen = OmnibarScreen(frame: UIScreen.mainScreen().bounds)
-        self.view = screen
+        self.view = OmnibarScreen(frame: UIScreen.mainScreen().bounds)
 
         screen.hasParentPost = parentPost != nil
         screen.currentUser = currentUser
@@ -65,7 +64,17 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         let fileName = omnibarDataName()
         if let data : NSData = Tmp.read(fileName) {
             if let omnibarData = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? OmnibarData {
-                self.screen.attributedText = omnibarData.attributedText
+                if let prevAttributedText = omnibarData.attributedText {
+                    let currentText = screen.text
+                    let trimmedText = screen.text?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+
+                    if let currentText = currentText, let trimmedText = trimmedText where prevAttributedText.string.contains(currentText) || prevAttributedText.string.endsWith(trimmedText)  {
+                        screen.attributedText = prevAttributedText
+                    }
+                    else {
+                        screen.appendAttributedText(prevAttributedText)
+                    }
+                }
                 self.screen.image = omnibarData.image
             }
             Tmp.remove(fileName)

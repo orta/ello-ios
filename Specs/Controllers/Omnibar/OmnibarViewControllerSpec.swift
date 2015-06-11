@@ -27,6 +27,15 @@ class OmnibarMockScreen : OmnibarScreenProtocol {
     var didKeyboardWillShow = false
     var didKeyboardWillHide = false
 
+    func appendAttributedText(text: NSAttributedString) {
+        let mutableString = NSMutableAttributedString()
+        if let attributedText = attributedText {
+            mutableString.appendAttributedString(attributedText)
+        }
+        mutableString.appendAttributedString(text)
+        attributedText = mutableString
+    }
+
     func reportSuccess(title : String) {
         didReportSuccess = true
     }
@@ -132,11 +141,12 @@ class OmnibarViewControllerSpec: QuickSpec {
                     "author": User.stub(["username": "colinta"])
                 ])
 
-                controller = OmnibarViewController(parentPost: post)
                 let attributedString = ElloAttributedString.style("text")
-                let image = UIImage(named: "specs-avatar", inBundle: NSBundle(forClass: self.dynamicType), compatibleWithTraitCollection: nil)
+                let image = UIImage.imageWithColor(.blackColor())
                 let omnibarData = OmnibarData(attributedText: attributedString, image: image)
                 let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
+
+                controller = OmnibarViewController(parentPost: post)
                 Tmp.write(data, to: controller.omnibarDataName())
 
                 screen = OmnibarMockScreen()
@@ -151,16 +161,10 @@ class OmnibarViewControllerSpec: QuickSpec {
             }
 
             it("should have text set") {
-                if let attributedText = screen.attributedText {
-                    expect(attributedText.string).to(equal("text"))
-                }
-                else {
-                    fail("no attributedText on screen")
-                }
+                expect(screen.attributedText?.string ?? "").to(equal("text"))
             }
 
-            //TODO: look into this failing, @colinta, any ideas?
-            xit("should have image set") {
+            it("should have image set") {
                 expect(screen.image).toNot(beNil())
             }
         }
@@ -194,5 +198,75 @@ class OmnibarViewControllerSpec: QuickSpec {
                 expect(Tmp.fileExists(controller.omnibarDataName())).to(beTrue())
             }
         }
+
+        describe("initialization with default text") {
+
+            beforeEach {
+                controller = OmnibarViewController(parentPost: Post.stub([:]), defaultText: "@666 ")
+            }
+
+            afterEach {
+                Tmp.remove(controller.omnibarDataName())
+            }
+
+            it("should have the text in the textView") {
+                expect(controller.screen.text).to(contain("@666 "))
+            }
+
+            it("should have the text if there was tmp text available") {
+                Tmp.remove(controller.omnibarDataName())
+
+                let text = ElloAttributedString.style("testing!")
+                let omnibarData = OmnibarData(attributedText: text, image: nil)
+                let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
+                Tmp.write(data, to: controller.omnibarDataName())
+
+                controller = OmnibarViewController(parentPost: Post.stub([:]), defaultText: "@666 ")
+                expect(controller.screen.text).to(contain("@666 "))
+                expect(controller.screen.text).to(contain("testing!"))
+            }
+
+            it("should have the text only once") {
+                Tmp.remove(controller.omnibarDataName())
+
+                let text = ElloAttributedString.style("@666 testing!")
+                let omnibarData = OmnibarData(attributedText: text, image: nil)
+                let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
+                Tmp.write(data, to: controller.omnibarDataName())
+
+                controller = OmnibarViewController(parentPost: Post.stub([:]), defaultText: "@666 ")
+                expect(controller.screen.text).to(contain("@666 "))
+                expect(controller.screen.text).notTo(contain("@666 @666 "))
+                expect(controller.screen.text).to(contain("testing!"))
+            }
+
+            it("should have the text only once, even with whitespace annoyances") {
+                Tmp.remove(controller.omnibarDataName())
+
+                let text = ElloAttributedString.style("@666")
+                let omnibarData = OmnibarData(attributedText: text, image: nil)
+                let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
+                Tmp.write(data, to: controller.omnibarDataName())
+
+                controller = OmnibarViewController(parentPost: Post.stub([:]), defaultText: "@666 ")
+                expect(controller.screen.text).to(contain("@666"))
+                expect(controller.screen.text).notTo(contain("@666 @666 "))
+            }
+
+            it("should add the text when the username doesn't quite match (@666 @6666)") {
+                Tmp.remove(controller.omnibarDataName())
+
+                let text = ElloAttributedString.style("@6666 ")
+                let omnibarData = OmnibarData(attributedText: text, image: nil)
+                let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
+                Tmp.write(data, to: controller.omnibarDataName())
+
+                controller = OmnibarViewController(parentPost: Post.stub([:]), defaultText: "@666 ")
+                expect(controller.screen.text).to(contain("@666 "))
+                expect(controller.screen.text).to(contain("@6666 "))
+            }
+
+        }
+
     }
 }
