@@ -47,9 +47,9 @@ public protocol OmnibarScreenProtocol {
     var image : UIImage? { get set }
     var attributedText : NSAttributedString? { get set }
     func appendAttributedText(text: NSAttributedString)
-    func reportSuccess(title : String)
-    func reportError(title : String, error : NSError)
-    func reportError(title : String, errorMessage : String)
+    func reportSuccess(title: String)
+    func reportError(title: String, error: NSError)
+    func reportError(title: String, errorMessage: String)
     func keyboardWillShow()
     func keyboardWillHide()
     func startEditing()

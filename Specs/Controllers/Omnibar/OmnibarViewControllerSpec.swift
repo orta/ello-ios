@@ -12,14 +12,14 @@ import Nimble
 
 
 @objc
-class OmnibarMockScreen : OmnibarScreenProtocol {
-    var delegate : OmnibarScreenDelegate?
-    var avatarURL : NSURL?
-    var avatarImage : UIImage?
-    var currentUser : User?
-    var text : String?
-    var image : UIImage?
-    var attributedText : NSAttributedString?
+class OmnibarMockScreen: OmnibarScreenProtocol {
+    var delegate: OmnibarScreenDelegate?
+    var avatarURL: NSURL?
+    var avatarImage: UIImage?
+    var currentUser: User?
+    var text: String?
+    var image: UIImage?
+    var attributedText: NSAttributedString?
 
     var hasParentPost = false
     var didReportSuccess = false
@@ -36,15 +36,15 @@ class OmnibarMockScreen : OmnibarScreenProtocol {
         attributedText = mutableString
     }
 
-    func reportSuccess(title : String) {
+    func reportSuccess(title: String) {
         didReportSuccess = true
     }
 
-    func reportError(title : String, error : NSError) {
+    func reportError(title: String, error: NSError) {
         didReportError = true
     }
 
-    func reportError(title : String, errorMessage : String) {
+    func reportError(title: String, errorMessage: String) {
         didReportError = true
     }
 
@@ -67,8 +67,8 @@ class OmnibarMockScreen : OmnibarScreenProtocol {
 class OmnibarViewControllerSpec: QuickSpec {
     override func spec() {
 
-        var controller : OmnibarViewController!
-        var screen : OmnibarMockScreen!
+        var controller: OmnibarViewController!
+        var screen: OmnibarMockScreen!
 
         beforeSuite {
             ElloProvider.sharedProvider = ElloProvider.StubbingProvider()
@@ -80,7 +80,7 @@ class OmnibarViewControllerSpec: QuickSpec {
 
         describe("initialization") {
 
-            beforeEach() {
+            beforeEach {
                 controller = OmnibarViewController()
             }
 
@@ -112,7 +112,7 @@ class OmnibarViewControllerSpec: QuickSpec {
 
         describe("setting up the Screen") {
 
-            beforeEach() {
+            beforeEach {
                 controller = OmnibarViewController()
                 screen = OmnibarMockScreen()
                 controller.screen = screen
@@ -136,7 +136,7 @@ class OmnibarViewControllerSpec: QuickSpec {
 
         describe("restoring a comment") {
 
-            beforeEach() {
+            beforeEach {
                 let post = Post.stub([
                     "author": User.stub(["username": "colinta"])
                 ])
@@ -155,9 +155,8 @@ class OmnibarViewControllerSpec: QuickSpec {
                 controller.endAppearanceTransition()
             }
 
-            afterEach() {
+            afterEach {
                 Tmp.remove(controller.omnibarDataName())
-                Void()
             }
 
             it("should have text set") {
@@ -169,10 +168,9 @@ class OmnibarViewControllerSpec: QuickSpec {
             }
         }
 
-
         describe("saving a comment") {
 
-            beforeEach() {
+            beforeEach {
                 let post = Post.stub([
                     "author": User.stub(["username": "colinta"])
                     ])
@@ -187,9 +185,8 @@ class OmnibarViewControllerSpec: QuickSpec {
                 screen.image = UIImage.imageWithColor(.blackColor())
             }
 
-            afterEach() {
+            afterEach {
                 Tmp.remove(controller.omnibarDataName())
-                Void()
             }
 
             it("should save the data when cancelled") {

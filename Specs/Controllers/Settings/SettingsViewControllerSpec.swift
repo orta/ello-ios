@@ -26,7 +26,6 @@ class SettingsViewControllerSpec: QuickSpec {
         describe("initialization") {
             beforeEach {
                 subject = UIStoryboard.storyboardWithId("SettingsViewController", storyboardName: "Settings") as! SettingsViewController
-                Void()
             }
 
             describe("storyboard") {

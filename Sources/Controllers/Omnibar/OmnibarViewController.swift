@@ -59,10 +59,10 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
         screen.hasParentPost = parentPost != nil
         screen.currentUser = currentUser
-        screen.text = self.defaultText
+        screen.text = defaultText
 
         let fileName = omnibarDataName()
-        if let data : NSData = Tmp.read(fileName) {
+        if let data: NSData = Tmp.read(fileName) {
             if let omnibarData = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? OmnibarData {
                 if let prevAttributedText = omnibarData.attributedText {
                     let currentText = screen.text
@@ -75,7 +75,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
                         screen.appendAttributedText(prevAttributedText)
                     }
                 }
-                self.screen.image = omnibarData.image
+                screen.image = omnibarData.image
             }
             Tmp.remove(fileName)
         }
@@ -238,7 +238,6 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         Tracker.sharedTracker.contentCreated(.Comment)
     }
 
-
     private func emitPostSuccess(post: Post) {
         if let user = currentUser, let count = user.postsCount {
             user.postsCount = count + 1
@@ -276,8 +275,8 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
 
 public class OmnibarData : NSObject, NSCoding {
-    let attributedText: NSAttributedString?
-    let image: UIImage?
+    public let attributedText: NSAttributedString?
+    public let image: UIImage?
 
     required public init(attributedText: NSAttributedString?, image: UIImage?) {
         self.attributedText = attributedText
@@ -288,19 +287,20 @@ public class OmnibarData : NSObject, NSCoding {
 // MARK: NSCoding
 
     public func encodeWithCoder(encoder: NSCoder) {
-        if let attributedText = self.attributedText {
+        if let attributedText = attributedText {
             encoder.encodeObject(attributedText, forKey: "attributedText")
         }
 
-        if let image = self.image {
+        if let image = image {
             encoder.encodeObject(image, forKey: "image")
         }
     }
 
     required public init(coder aDecoder: NSCoder) {
         let decoder = Coder(aDecoder)
-        self.attributedText = decoder.decodeOptionalKey("attributedText")
-        self.image = decoder.decodeOptionalKey("image")
+        attributedText = decoder.decodeOptionalKey("attributedText")
+        image = decoder.decodeOptionalKey("image")
+        super.init()
     }
 
 }
