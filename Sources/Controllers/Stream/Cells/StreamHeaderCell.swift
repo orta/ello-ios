@@ -209,7 +209,7 @@ public class StreamHeaderCell: UICollectionViewCell {
         cellOpenObserver = NotificationObserver(notification: streamCellDidOpenNotification) { cell in
             if cell != self && self.isOpen {
                 dispatch_async(dispatch_get_main_queue()) {
-                    UIView.animateWithDuration(0.25) {
+                    animate(duration: 0.25) {
                         self.close()
                     }
                 }
@@ -264,6 +264,9 @@ public class StreamHeaderCell: UICollectionViewCell {
 
     @IBAction func replyButtonTapped(sender: StreamFooterButton) {
         postbarDelegate?.replyToCommentButtonTapped(self.indexPath)
+        animate(delay: 0.5) {
+            self.close()
+        }
     }
 
     @IBAction func deleteButtonTapped(sender: StreamFooterButton) {
