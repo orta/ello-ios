@@ -245,12 +245,10 @@ extension StreamableViewController: InviteResponder {
         case .NotDetermined:
             promptForAddressBookAccess()
         case .Denied:
-            let message = NSLocalizedString("Access to your contacts has been denied.  If you want to search for friends, you will need to grant access from Settings.",
-                comment: "Access to contacts denied by user")
+            let message = NSLocalizedString("Access to your contacts has been denied.  If you want to search for friends, you will need to grant access from Settings.", comment: "Access to contacts denied by user")
             displayAddressBookAlert(message)
         case .Restricted:
-            let message = NSLocalizedString("Access to your contacts has been denied by the system.",
-                comment: "Access to contacts denied by system")
+            let message = NSLocalizedString("Access to your contacts has been denied by the system.", comment: "Access to contacts denied by system")
             displayAddressBookAlert(message)
         }
     }
@@ -258,11 +256,10 @@ extension StreamableViewController: InviteResponder {
     // MARK: - Private
 
     private func promptForAddressBookAccess() {
-        let message = NSLocalizedString("Import your contacts to find your friends on Ello.\n\nEllo does not sell user data and never contacts anyone without your permission.",
-            comment: "Import your contacts permission prompt")
+        let message = NSLocalizedString("Import your contacts to find your friends on Ello.\n\nEllo does not sell user data and never contacts anyone without your permission.", comment: "Import your contacts permission prompt")
         let alertController = AlertViewController(message: message)
 
-        let importMessage = NSLocalizedString("Import my contacts", comment: "Import my contacts action")
+        let importMessage = NSLocalizedString("Find your friends", comment: "Find your friends action")
         let action = AlertAction(title: importMessage, style: .Dark) { action in
             Tracker.sharedTracker.importContactsInitiated()
             self.proceedWithImport()

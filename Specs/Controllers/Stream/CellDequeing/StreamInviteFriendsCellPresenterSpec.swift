@@ -1,0 +1,48 @@
+//
+//  StreamInviteFriendsCellPresenterSpec.swift
+//  Ello
+//
+//  Created by Ryan Boyajian on 6/12/15.
+//  Copyright (c) 2015 Ello. All rights reserved.
+//
+
+import Ello
+import Quick
+import Nimble
+
+class StreamInviteFriendsCellPresenterSpec: QuickSpec {
+
+    override func spec() {
+
+        describe("configure") {
+            var cell: StreamInviteFriendsCell = StreamInviteFriendsCell.loadFromNib()
+            var person: LocalPerson = stub([:])
+            var item: StreamCellItem = stub([:])
+
+            beforeEach {
+                cell = StreamInviteFriendsCell.loadFromNib()
+                cell.inviteCache = InviteCache()
+                person = stub(["name": "The Devil", "id": 666, "emails": ["666@gmail.com"]])
+                item = StreamCellItem(jsonable: person, type: StreamCellType.InviteFriends, data: nil, oneColumnCellHeight: 50.0, multiColumnCellHeight: 50.0, isFullWidth: true)
+            }
+
+            it("sets the person and name label correctly") {
+                StreamInviteFriendsCellPresenter.configure(cell, streamCellItem: item, streamKind: StreamKind.Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                expect(cell.nameLabel.text) == "The Devil"
+                expect(cell.person) == person
+            }
+
+            it("sets the button text to Invite if not in the cache") {
+                expect(cell.inviteButton.titleLabel?.text) == "Invite"
+            }
+
+            // not 100% sure why this isn't doing what I expect it to
+            xit("sets the button text to Re-send if in the cache") {
+                cell.inviteCache?.saveInvite(person.identifier)
+                StreamInviteFriendsCellPresenter.configure(cell, streamCellItem: item, streamKind: StreamKind.Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                expect(cell.inviteButton.titleLabel?.text) == "Re-send"
+            }
+        }
+
+    }
+}

@@ -349,3 +349,26 @@ extension Relationship: Stubbable {
         )
     }
 }
+
+extension LocalPerson: Stubbable {
+    class func stub(values: [String : AnyObject]) -> LocalPerson {
+        return LocalPerson(
+            name: (values["name"] as? String) ?? "Sterling Archer",
+            emails: (values["emails"] as? [String]) ?? ["sterling_archer@gmail.com"],
+            id: (values["id"] as? Int32) ?? 987654
+        )
+    }
+}
+
+extension StreamCellItem: Stubbable {
+    class func stub(values: [String : AnyObject]) -> StreamCellItem {
+        return StreamCellItem(
+            jsonable: (values["jsonable"] as? JSONAble) ?? Post.stub([:]),
+            type: (values["type"] as? StreamCellType) ?? StreamCellType.Text,
+            data: values["data"],
+            oneColumnCellHeight: (values["oneColumnCellHeight"] as? CGFloat) ?? 50.0,
+            multiColumnCellHeight: (values["multiColumnCellHeight"] as? CGFloat) ?? 50.0,
+            isFullWidth: (values["isFullWidth"] as? Bool) ?? true
+        )
+    }
+}

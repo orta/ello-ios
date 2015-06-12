@@ -12,6 +12,10 @@ import SSPullToRefresh
 import FLAnimatedImage
 import Crashlytics
 
+public protocol InviteDelegate: NSObjectProtocol {
+    func sendInvite(person: LocalPerson, didUpdate: ElloEmptyCompletion)
+}
+
 public protocol WebLinkDelegate: NSObjectProtocol {
     func webLinkTapped(type: ElloURI, data: String)
 }
@@ -500,6 +504,7 @@ public class StreamViewController: BaseElloViewController {
         dataSource.imageDelegate = self
         dataSource.webLinkDelegate = self
         dataSource.userDelegate = self
+        dataSource.inviteDelegate = self
         collectionView.dataSource = dataSource
     }
 
@@ -751,3 +756,23 @@ extension StreamViewController: StreamImageCellDelegate {
     }
 }
 
+// MARK: StreamViewController: InviteDelegate
+extension StreamViewController: InviteDelegate {
+
+    public func sendInvite(person: LocalPerson, didUpdate: ElloEmptyCompletion) {
+        if let email = person.emails.first {
+            Tracker.sharedTracker.friendInvited()
+            ElloHUD.showLoadingHudInView(view)
+            InviteService().invite(email,
+                success: {
+                    ElloHUD.hideLoadingHudInView(self.view)
+                    didUpdate()
+                },
+                failure: { _ in
+                    ElloHUD.hideLoadingHudInView(self.view)
+                    didUpdate()
+                }
+            )
+        }
+    }
+}
