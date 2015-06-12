@@ -9,7 +9,7 @@
 import UIKit
 import QuartzCore
 
-class PulsingCircle: UIView {
+public class PulsingCircle: UIView {
 
     private lazy var pulser: UIView = {
         var size : CGFloat = 60
@@ -26,14 +26,14 @@ class PulsingCircle: UIView {
     private var isPulsing: Bool = false
     private var shouldReanimate: Bool = false
 
-    override func willMoveToWindow(newWindow: UIWindow?) {
+    override public func willMoveToWindow(newWindow: UIWindow?) {
         super.willMoveToWindow(newWindow)
         if isPulsing && newWindow == nil {
             shouldReanimate = true
         }
     }
 
-    override func didMoveToWindow() {
+    override public func didMoveToWindow() {
         super.didMoveToWindow()
         self.userInteractionEnabled = false
         if window != nil && shouldReanimate {

@@ -246,6 +246,21 @@ extension ImageRegion: Stubbable {
     }
 }
 
+extension EmbedRegion: Stubbable {
+    class func stub(values: [String : AnyObject]) -> EmbedRegion {
+        let serviceString = (values["service"] as? String) ?? EmbedType.Youtube.rawValue
+        var embedRegion = EmbedRegion(
+            id: (values["id"] as? String) ?? "embed-region-id",
+            service: EmbedType(rawValue: serviceString)!,
+            url: urlFromValue(values["url"]) ?? NSURL(string: "http://www.google.com")!,
+            thumbnailSmallUrl: urlFromValue(values["thumbnailSmallUrl"]) ?? NSURL(string: "http://www.google.com")!,
+            thumbnailLargeUrl: urlFromValue(values["thumbnailLargeUrl"]) ?? NSURL(string: "http://www.google.com")!
+        )
+        embedRegion.isRepost = (values["isRepost"] as? Bool) ?? false
+        return embedRegion
+    }
+}
+
 extension UnknownRegion: Stubbable {
     class func stub(values: [String : AnyObject]) -> UnknownRegion {
         return UnknownRegion(name: "no-op")
