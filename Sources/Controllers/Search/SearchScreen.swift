@@ -6,9 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import SVGKit
-
-
 @objc
 public protocol SearchScreenDelegate {
     func searchCanceled()
@@ -33,14 +30,20 @@ public class SearchScreen: UIView, SearchScreenProtocol {
     private var streamViewContainer: UIView!
     private var findFriendsContainer: UIView!
     private var bottomInset: CGFloat
+    private var navBarTitle: String!
+    private var fieldPlaceholderText: String!
+    private var addFindFriendsButton: Bool!
 
     weak public var delegate : SearchScreenDelegate?
 
 // MARK: init
 
-    override public init(frame: CGRect) {
+    public init(frame: CGRect, navBarTitle: String? = NSLocalizedString("Search", comment: "Search navbar title"), fieldPlaceholderText: String? = NSLocalizedString("Search Ello", comment: "search ello placeholder text"), addFindFriendsButton: Bool? = true) {
         throttled = debounce(0.5)
         bottomInset = 0
+        self.navBarTitle = navBarTitle
+        self.fieldPlaceholderText = fieldPlaceholderText
+        self.addFindFriendsButton = addFindFriendsButton
         super.init(frame: frame)
         self.backgroundColor = UIColor.whiteColor()
 
@@ -48,6 +51,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         setupSearchField()
         setupStreamView()
         setupFindFriendsButton()
+        findFriendsContainer.hidden = addFindFriendsButton == false
     }
 
     required public init(coder aDecoder: NSCoder) {
@@ -61,7 +65,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         navigationBar = ElloNavigationBar(frame: frame)
         navigationBar.autoresizingMask = .FlexibleBottomMargin | .FlexibleWidth
 
-        let navigationItem = UINavigationItem(title: "Search")
+        let navigationItem = UINavigationItem(title: navBarTitle)
         let leftItem = UIBarButtonItem.backChevronWithTarget(self, action: Selector("backTapped"))
         navigationItem.leftBarButtonItems = [leftItem]
         navigationItem.fixNavBarItemPadding()
@@ -71,14 +75,13 @@ public class SearchScreen: UIView, SearchScreenProtocol {
     }
 
     private func setupSearchField() {
-        let frame = self.bounds.inset(sides: 20).atY(50).withHeight(41)
+        let frame = self.bounds.inset(sides: 15).atY(75).withHeight(41)
         searchField = UITextField(frame: frame)
         searchField.autoresizingMask = .FlexibleWidth | .FlexibleBottomMargin
         searchField.clearButtonMode = .WhileEditing
         searchField.font = UIFont.regularBoldFont(18)
-        searchField.textColor = UIColor.greyA()
-        let placeholder = NSLocalizedString("Search Ello", comment: "search ello placeholder text")
-        searchField.placeholder = "  \(placeholder)"
+        searchField.textColor = UIColor.blackColor()
+        searchField.attributedPlaceholder = NSAttributedString(string: "  \(fieldPlaceholderText)", attributes: [NSForegroundColorAttributeName: UIColor.greyA()])
         searchField.autocapitalizationType = .None
         searchField.autocorrectionType = .No
         searchField.spellCheckingType = .No
@@ -89,7 +92,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         searchField.addTarget(self, action: Selector("searchFieldDidChange"), forControlEvents: .EditingChanged)
         self.addSubview(searchField)
 
-        let lineFrame = searchField.frame.fromBottom().growUp(1)
+        let lineFrame = searchField.frame.fromBottom().growUp(1).shiftUp(2)
         let lineView = UIView(frame: lineFrame)
         lineView.backgroundColor = UIColor.greyA()
         self.addSubview(lineView)
@@ -110,7 +113,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         findFriendsContainer = UIView(frame: containerFrame)
         findFriendsContainer.backgroundColor = .blackColor()
 
-        let margins = UIEdgeInsets(top: 20, left: 20, bottom: 26, right: 20)
+        let margins = UIEdgeInsets(top: 20, left: 15, bottom: 26, right: 15)
         let buttonHeight = CGFloat(50)
         let button = WhiteElloButton(frame: CGRect(
             x: margins.left,
@@ -197,7 +200,7 @@ extension SearchScreen: UITextFieldDelegate {
 extension SearchScreen {
 
     private func showFindFriends() {
-        findFriendsContainer.hidden = false
+        findFriendsContainer.hidden = addFindFriendsButton == false
     }
 
     private func hideFindFriends() {

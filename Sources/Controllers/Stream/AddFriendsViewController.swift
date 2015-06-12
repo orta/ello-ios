@@ -10,20 +10,22 @@ import UIKit
 
 public class AddFriendsViewController: StreamableViewController {
 
-    @IBOutlet weak public var filterField: UITextField!
-    @IBOutlet weak public var navigationBarTopConstraint: NSLayoutConstraint!
-    var navigationBar: ElloNavigationBar!
-
     let addressBook: ContactList
 
     public let inviteService = InviteService()
     public var allContacts: [(LocalPerson, User?)] = []
     public var userTappedDelegate: UserTappedDelegate?
 
+    var _mockScreen: SearchScreenProtocol?
+    public var screen: SearchScreenProtocol {
+        set(screen) { _mockScreen = screen }
+        get { return _mockScreen ?? self.view as! SearchScreen }
+    }
+    public var searchScreen: SearchScreen!
+
     required public init(addressBook: ContactList) {
         self.addressBook = addressBook
         super.init(nibName: nil, bundle: nil)
-        self.title = NSLocalizedString("Find & invite your friends", comment: "Find Friends")
         streamViewController.initialLoadClosure = findFriendsFromContacts
         streamViewController.pullToRefreshEnabled = false
     }
@@ -32,34 +34,38 @@ public class AddFriendsViewController: StreamableViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override public func viewDidLoad() {
-        super.viewDidLoad()
-        setupNavBar()
-//        setupFilterField()
+    override public func loadView() {
+        searchScreen = SearchScreen(frame: UIScreen.mainScreen().bounds,
+            navBarTitle: NSLocalizedString("Find & invite your friends", comment: "Find Friends"),
+            fieldPlaceholderText: NSLocalizedString("Name or email", comment: "Find placeholder text"),
+            addFindFriendsButton: false)
+        self.view = searchScreen
+        searchScreen.delegate = self
     }
-
+    
     override public func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         if isMovingToParentViewController() {
             showNavBars(false)
-            updateInsets(navBar: navigationBar, streamController: streamViewController)
+            updateInsets()
             ElloHUD.showLoadingHudInView(streamViewController.view)
             streamViewController.loadInitialPage()
         }
     }
 
+    override func viewForStream() -> UIView {
+        return screen.viewForStream()
+    }
+
     override func showNavBars(scrollToBottom : Bool) {
-        super.showNavBars(scrollToBottom)
-        positionNavBar(navigationBar, visible: true, withConstraint: navigationBarTopConstraint)
     }
 
     override func hideNavBars() {
-        super.hideNavBars()
-        positionNavBar(navigationBar, visible: false, withConstraint: navigationBarTopConstraint)
     }
 
-    override func viewForStream() -> UIView {
-        return view
+    private func updateInsets() {
+        streamViewController.contentInset.bottom = ElloTabBar.Size.height
+        screen.updateInsets(bottom: ElloTabBar.Size.height)
     }
 
     public func setContacts(contacts: [(LocalPerson, User?)]) {
@@ -88,21 +94,6 @@ public class AddFriendsViewController: StreamableViewController {
 
     // MARK: - Private
 
-    private func setupNavBar() {
-        navigationBar = ElloNavigationBar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: ElloNavigationBar.Size.height))
-        navigationBar.autoresizingMask = .FlexibleBottomMargin | .FlexibleWidth
-        view.addSubview(navigationBar)
-        let item = UIBarButtonItem.backChevronWithTarget(self, action: Selector("backTapped:"))
-        navigationItem.leftBarButtonItems = [item]
-        navigationItem.fixNavBarItemPadding()
-        navigationBar.items = [navigationItem]
-    }
-
-    private func setupFilterField() {
-        filterField.font = UIFont.regularBoldFont(18)
-        filterField.textColor = UIColor.greyA()
-    }
-
     private func findFriendsFromContacts() {
         var contacts = [String: [String]]()
         for person in addressBook.localPeople {
@@ -128,38 +119,37 @@ public class AddFriendsViewController: StreamableViewController {
             }
         )
     }
-
-    // MARK: - IBActions
-
-    @IBAction public func filterFieldDidChange(sender: UITextField) {
-//        if sender.text.isEmpty {
-//            setDataSource(allContacts)
-//        } else {
-//            let filtered = allContacts.filter { (person, _) in
-//                person.name.contains(sender.text) || person.emails.reduce(false) { $0 || $1.contains(sender.text) }
-//            }
-//            setDataSource(filtered)
-//        }
-//        tableView.reloadData()
-    }
 }
 
-// MARK: InviteFriendsViewController : UITableViewDelegate
-//extension AddFriendsViewController : UITableViewDelegate {
-//    public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-//        return 60.0
-//    }
-//
-//    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//        if let addFriendsCellItem = dataSource.itemAtIndexPath(indexPath), let user = addFriendsCellItem.user {
-//            userTappedDelegate?.userTapped(user)
-//        }
-//    }
-//}
+extension AddFriendsViewController: SearchScreenDelegate {
 
-// MARK: InviteFriendsViewController : UIScrollViewDelegate
-//extension AddFriendsViewController : UIScrollViewDelegate {
-//    public func scrollViewDidScroll(scrollView: UIScrollView) {
-//        filterField.resignFirstResponder()
-//    }
-//}
+    public func searchCanceled() {
+        navigationController?.popViewControllerAnimated(true)
+    }
+
+    public func searchFieldCleared() {
+        streamViewController.streamFilter = nil
+    }
+
+    public func searchFieldChanged(text: String) {
+        if count(text) < 2 { return }
+        if text.isEmpty {
+            streamViewController.streamFilter = nil
+        } else {
+            streamViewController.streamFilter = { item in
+                if let user = item.jsonable as? User {
+                    return user.name.contains(text) || user.username.contains(text)
+                }
+                else if let person = item.jsonable as? LocalPerson {
+                    return person.name.contains(text) || person.emails.reduce(false) { $0 || $1.contains(text) }
+                }
+                return false
+            }
+        }
+    }
+
+    public func findFriendsTapped() {
+        // noop
+    }
+    
+}
