@@ -25,6 +25,7 @@ public class AddFriendsViewController: StreamableViewController {
         super.init(nibName: nil, bundle: nil)
         self.title = NSLocalizedString("Find & invite your friends", comment: "Find Friends")
         streamViewController.initialLoadClosure = findFriendsFromContacts
+        streamViewController.pullToRefreshEnabled = false
     }
 
     required public init(coder aDecoder: NSCoder) {
