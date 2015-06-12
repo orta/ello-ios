@@ -16,7 +16,7 @@ public enum StreamCellState {
 }
 
 
-public class StreamCellItem: NSObject, NSCopying {
+public final class StreamCellItem: NSObject, NSCopying {
     public var jsonable: JSONAble
     public let type: StreamCellType
     public var data: Any?

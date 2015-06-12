@@ -19,9 +19,6 @@ public struct StreamInviteFriendsCellPresenter {
     {
         if let cell = cell as? StreamInviteFriendsCell, let person = streamCellItem.jsonable as? LocalPerson {
             cell.person = person
-//            let hasInvited = person.map { inviteCache.has($0.identifier) } ?? false
-//            hasInvited ? configureCellAfterInvited(cell) : 
-            cell.styleInviteButton()
         }
     }
 }

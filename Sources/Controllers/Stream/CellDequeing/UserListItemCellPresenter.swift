@@ -10,7 +10,7 @@ import Foundation
 
 public struct UserListItemCellPresenter {
 
-    static func configure(
+    public static func configure(
         cell:UICollectionViewCell,
         streamCellItem:StreamCellItem,
         streamKind: StreamKind,

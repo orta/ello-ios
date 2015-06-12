@@ -5,7 +5,7 @@ public final class LocalPerson: JSONAble {
     public let emails: [String]
     public let id: Int32
 
-    var identifier: String {
+    public var identifier: String {
         return "\(id)"
     }
     
