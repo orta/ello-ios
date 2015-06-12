@@ -35,10 +35,10 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         didSet { updateFilteredItems() }
     }
 
-    public var textSizeCalculator:StreamTextCellSizeCalculator!
-    public var notificationSizeCalculator:StreamNotificationCellSizeCalculator!
-    public var profileHeaderSizeCalculator: ProfileHeaderCellSizeCalculator!
-    public var imageSizeCalculator: StreamImageCellSizeCalculator
+    public let textSizeCalculator:StreamTextCellSizeCalculator
+    public let notificationSizeCalculator:StreamNotificationCellSizeCalculator
+    public let profileHeaderSizeCalculator: ProfileHeaderCellSizeCalculator
+    public let imageSizeCalculator: StreamImageCellSizeCalculator
 
     weak public var postbarDelegate:PostbarDelegate?
     weak public var notificationDelegate:NotificationDelegate?

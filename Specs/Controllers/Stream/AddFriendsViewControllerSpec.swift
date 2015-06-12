@@ -23,9 +23,6 @@ class AddFriendsViewControllerSpec: QuickSpec {
 
         var subject = AddFriendsViewController(addressBook: FakeAddressBook())
         let webView = UIWebView(frame: CGRectMake(0, 0, 320, 640))
-        subject.streamViewController.dataSource.textSizeCalculator = FakeStreamTextCellSizeCalculator(webView: UIWebView(frame: webView.frame))
-        subject.streamViewController.dataSource.notificationSizeCalculator = FakeStreamNotificationCellSizeCalculator(webView: UIWebView(frame: webView.frame))
-        subject.streamViewController.dataSource.profileHeaderSizeCalculator = FakeProfileHeaderCellSizeCalculator(webView: UIWebView(frame: webView.frame))
         subject.loadView()
         subject.viewDidLoad()
 
