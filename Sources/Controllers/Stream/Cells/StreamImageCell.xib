@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E26a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -17,6 +17,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="587" height="109"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dCD-fe-L2b" userLabel="failBackgroundView">
+                        <rect key="frame" x="0.0" y="0.0" width="587" height="109"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
                     <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gia-lK-VuN" userLabel="imageView" customClass="FLAnimatedImageView">
                         <rect key="frame" x="0.0" y="0.0" width="587" height="109"/>
                     </imageView>
@@ -29,12 +33,13 @@
                             <action selector="imageTapped:" destination="miB-hg-eZF" eventType="touchUpInside" id="tqD-w4-7IU"/>
                         </connections>
                     </button>
-                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Et8-CY-fvV" userLabel="ErrorLabel" customClass="ElloErrorLabel" customModule="Ello" customModuleProvider="target">
-                        <rect key="frame" x="15" y="49" width="557" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fail-image" translatesAutoresizingMaskIntoConstraints="NO" id="dZ3-hW-f3i" userLabel="failImage">
+                        <rect key="frame" x="223" y="-20" width="140" height="160"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="140" id="a1r-Ja-sQc" userLabel="failWidthContstraint"/>
+                            <constraint firstAttribute="height" constant="160" id="rrc-8v-4Nf" userLabel="failHeightConstraint"/>
+                        </constraints>
+                    </imageView>
                     <imageView hidden="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rkb-Ls-8Ph" userLabel="largeImagePlayButton">
                         <rect key="frame" x="0.0" y="0.0" width="587" height="109"/>
                     </imageView>
@@ -44,29 +49,35 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="cba-zi-ctG" firstAttribute="leading" secondItem="miB-hg-eZF" secondAttribute="leading" id="1Pe-ua-Fx2" userLabel="imageButton Left"/>
+                <constraint firstItem="dCD-fe-L2b" firstAttribute="leading" secondItem="miB-hg-eZF" secondAttribute="leading" id="1sP-s0-8fy"/>
                 <constraint firstItem="oJN-Vf-OgU" firstAttribute="trailing" secondItem="gia-lK-VuN" secondAttribute="trailing" id="Fnq-8H-pKy"/>
                 <constraint firstItem="rkb-Ls-8Ph" firstAttribute="trailing" secondItem="gia-lK-VuN" secondAttribute="trailing" id="G6D-7n-Sp9"/>
                 <constraint firstItem="rkb-Ls-8Ph" firstAttribute="top" secondItem="gia-lK-VuN" secondAttribute="top" id="H69-zr-fGU"/>
-                <constraint firstItem="Et8-CY-fvV" firstAttribute="leading" secondItem="miB-hg-eZF" secondAttribute="leading" constant="15" id="KzB-F5-3Zo" userLabel="ErrorLabel - Left"/>
-                <constraint firstAttribute="trailing" secondItem="Et8-CY-fvV" secondAttribute="trailing" constant="15" id="Lwl-qa-J46" userLabel="ErrorLabel - Right"/>
+                <constraint firstAttribute="trailing" secondItem="dCD-fe-L2b" secondAttribute="trailing" id="JXF-eS-GVu"/>
                 <constraint firstItem="cba-zi-ctG" firstAttribute="top" secondItem="miB-hg-eZF" secondAttribute="top" id="NiB-iX-BJq" userLabel="imageButton Top"/>
                 <constraint firstAttribute="bottom" secondItem="gia-lK-VuN" secondAttribute="bottom" constant="10" id="Oan-UI-8ly" userLabel="imageView Bottom"/>
-                <constraint firstAttribute="centerY" secondItem="Et8-CY-fvV" secondAttribute="centerY" id="RP1-WU-CpR" userLabel="ErrorLabel - Vert Center"/>
                 <constraint firstItem="rkb-Ls-8Ph" firstAttribute="bottom" secondItem="gia-lK-VuN" secondAttribute="bottom" id="WWI-Th-9Du"/>
+                <constraint firstAttribute="centerY" secondItem="dZ3-hW-f3i" secondAttribute="centerY" id="XON-R3-iBY"/>
                 <constraint firstItem="gia-lK-VuN" firstAttribute="leading" secondItem="miB-hg-eZF" secondAttribute="leading" id="fgY-B3-cIH" userLabel="imageView Left"/>
+                <constraint firstItem="dCD-fe-L2b" firstAttribute="top" secondItem="miB-hg-eZF" secondAttribute="top" id="g3T-CZ-pfr"/>
                 <constraint firstItem="rkb-Ls-8Ph" firstAttribute="leading" secondItem="gia-lK-VuN" secondAttribute="leading" id="h5N-ki-gYL"/>
                 <constraint firstAttribute="trailing" secondItem="cba-zi-ctG" secondAttribute="trailing" id="hZc-Jx-yHS" userLabel="imageButton Right"/>
                 <constraint firstAttribute="trailing" secondItem="gia-lK-VuN" secondAttribute="trailing" id="hhW-aX-ev5" userLabel="imageView Right"/>
                 <constraint firstItem="gia-lK-VuN" firstAttribute="top" secondItem="miB-hg-eZF" secondAttribute="top" id="k2F-Aw-sEU" userLabel="imageView Top"/>
                 <constraint firstAttribute="bottom" secondItem="cba-zi-ctG" secondAttribute="bottom" constant="10" id="laR-DL-WFc" userLabel="imageButton Bottom"/>
                 <constraint firstItem="oJN-Vf-OgU" firstAttribute="top" secondItem="gia-lK-VuN" secondAttribute="top" id="ldy-Lp-cGf"/>
+                <constraint firstAttribute="centerX" secondItem="dZ3-hW-f3i" secondAttribute="centerX" id="p9H-76-dWp"/>
                 <constraint firstItem="oJN-Vf-OgU" firstAttribute="leading" secondItem="gia-lK-VuN" secondAttribute="leading" id="pxC-Kc-Blg"/>
                 <constraint firstItem="oJN-Vf-OgU" firstAttribute="bottom" secondItem="gia-lK-VuN" secondAttribute="bottom" id="qHP-Rx-9dH"/>
+                <constraint firstItem="dCD-fe-L2b" firstAttribute="bottom" secondItem="gia-lK-VuN" secondAttribute="bottom" id="tfd-76-g2u"/>
             </constraints>
             <size key="customSize" width="587" height="119"/>
             <connections>
                 <outlet property="circle" destination="oJN-Vf-OgU" id="Q8k-qa-AY4"/>
-                <outlet property="errorLabel" destination="Et8-CY-fvV" id="QBu-5F-i2z"/>
+                <outlet property="failBackgroundView" destination="dCD-fe-L2b" id="e57-v3-v7X"/>
+                <outlet property="failHeightConstraint" destination="rrc-8v-4Nf" id="0CL-Ew-7CO"/>
+                <outlet property="failImage" destination="dZ3-hW-f3i" id="aLI-F3-LjW"/>
+                <outlet property="failWidthConstraint" destination="a1r-Ja-sQc" id="ivm-Qu-mgh"/>
                 <outlet property="imageButton" destination="cba-zi-ctG" id="uab-aZ-n0v"/>
                 <outlet property="imageRightConstraint" destination="hhW-aX-ev5" id="0Ty-BU-Dbi"/>
                 <outlet property="imageView" destination="gia-lK-VuN" id="hJr-41-RmY"/>
@@ -76,4 +87,7 @@
             <point key="canvasLocation" x="714.5" y="435.5"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="fail-image" width="140" height="160"/>
+    </resources>
 </document>

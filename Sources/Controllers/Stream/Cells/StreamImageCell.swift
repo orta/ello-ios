@@ -17,9 +17,12 @@ public class StreamImageCell: StreamRegionableCell {
 
     @IBOutlet weak var imageView: FLAnimatedImageView!
     @IBOutlet weak var imageButton: UIButton!
-    @IBOutlet weak var errorLabel: ElloErrorLabel!
-    @IBOutlet weak var circle:PulsingCircle!
-    @IBOutlet weak var leadingConstraint:NSLayoutConstraint!
+    @IBOutlet weak var failImage: UIImageView!
+    @IBOutlet weak var failBackgroundView: UIView!
+    @IBOutlet weak var circle: PulsingCircle!
+    @IBOutlet weak var leadingConstraint: NSLayoutConstraint!
+    @IBOutlet public weak var failWidthConstraint: NSLayoutConstraint!
+    @IBOutlet public weak var failHeightConstraint: NSLayoutConstraint!
 
     // not used in StreamEmbedCell
     @IBOutlet public weak var largeImagePlayButton: UIImageView?
@@ -28,8 +31,9 @@ public class StreamImageCell: StreamRegionableCell {
     weak var streamImageCellDelegate: StreamImageCellDelegate?
     public var isGif = false
     var request: Request?
-    public var presentedImageUrl:NSURL?
-    var serverProvidedAspectRatio:CGFloat?
+    public var tallEnoughForFailToShow = true
+    public var presentedImageUrl: NSURL?
+    var serverProvidedAspectRatio: CGFloat?
     public var isLargeImage: Bool {
         get { return !(largeImagePlayButton?.hidden ?? true) }
         set {
@@ -37,10 +41,10 @@ public class StreamImageCell: StreamRegionableCell {
             largeImagePlayButton?.hidden = !newValue
         }
     }
-    private let defaultAspectRatio:CGFloat = 4.0/3.0
-    private var aspectRatio:CGFloat = 4.0/3.0
+    private let defaultAspectRatio: CGFloat = 4.0/3.0
+    private var aspectRatio: CGFloat = 4.0/3.0
 
-    var calculatedHeight:CGFloat {
+    var calculatedHeight: CGFloat {
         return self.frame.width / self.aspectRatio
     }
 
@@ -52,25 +56,29 @@ public class StreamImageCell: StreamRegionableCell {
     }
 
     public func setImage(url: NSURL, isGif: Bool) {
-        self.imageView.image = nil
-        self.imageView.alpha = 0
+        imageView.image = nil
+        imageView.alpha = 0
         circle.pulse()
-        self.errorLabel.hidden = true
-        self.errorLabel.alpha = 0
-        self.imageView.backgroundColor = UIColor.whiteColor()
+        failImage.hidden = true
+        failImage.alpha = 0
+        imageView.backgroundColor = UIColor.whiteColor()
         isGif ? loadGif(url) : loadNonGif(url)
     }
 
-    private func loadGif(url:NSURL) {
+    private func loadGif(url: NSURL) {
         if let path = url.absoluteString {
             if let data = GifCache.objectForKey(path) as? NSData {
                 self.displayAnimatedGif(data)
             }
             else {
-                self.request = Alamofire.request(.GET, path).response { (request, _, data, error) in
-                    if let data = data as? NSData where error == nil {
+                self.request = Alamofire.request(.GET, path).response { (request, response, data, error) in
+                    let successful = response?.statusCode >= 200 && response?.statusCode < 400
+                    if let data = data as? NSData where error == nil && successful {
                         GifCache.setObject(data, forKey: request.URLString)
                         self.displayAnimatedGif(data)
+                    }
+                    else {
+                        self.imageLoadFailed()
                     }
                 }
             }
@@ -102,7 +110,7 @@ public class StreamImageCell: StreamRegionableCell {
                         options:UIViewAnimationOptions.CurveLinear,
                         animations: {
                             self.imageView.alpha = 1.0
-                        }, completion: { finished in
+                        }, completion: { _ in
                             self.circle.stopPulse()
                         })
                 }
@@ -112,27 +120,41 @@ public class StreamImageCell: StreamRegionableCell {
                 }
             }
             else {
-                self.errorLabel.hidden = false
-                self.errorLabel.setLabelText("Failed to load image")
-                self.circle.stopPulse()
-                UIView.animateWithDuration(0.15) {
-                    self.aspectRatio = self.defaultAspectRatio
-                    self.errorLabel.alpha = 1.0
-                    self.imageView.backgroundColor = UIColor.greyA()
-                    self.imageView.alpha = 1.0
-                }
-
+                self.imageLoadFailed()
             }
+        }
+    }
+
+    private func imageLoadFailed() {
+        imageButton.enabled = false
+        failImage.hidden = false
+        failBackgroundView.hidden = false
+        circle.stopPulse()
+        aspectRatio = self.defaultAspectRatio
+        largeImagePlayButton?.hidden = true
+        dispatch_async(dispatch_get_main_queue()) { postNotification(StreamNotification.AnimateCellHeightNotification, self) }
+        UIView.animateWithDuration(0.15) {
+            self.failImage.alpha = 1.0
+            self.imageView.backgroundColor = UIColor.greyF1()
+            self.failBackgroundView.backgroundColor = UIColor.greyF1()
+            self.imageView.alpha = 1.0
+            self.failBackgroundView.alpha = 1.0
         }
     }
 
     override public func prepareForReuse() {
         super.prepareForReuse()
+        imageButton.enabled = true
         request?.cancel()
         imageView.image = nil
+        imageView.animatedImage = nil
         isGif = false
         presentedImageUrl = nil
         isLargeImage = false
+        failImage.hidden = true
+        failImage.alpha = 0
+        failBackgroundView.hidden = true
+        failBackgroundView.alpha = 0
     }
 
     @IBAction func imageTapped(sender: UIButton) {
