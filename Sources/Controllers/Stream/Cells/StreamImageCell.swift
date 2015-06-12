@@ -18,6 +18,8 @@ public class StreamImageCell: StreamRegionableCell {
     @IBOutlet public weak var imageView: FLAnimatedImageView!
     @IBOutlet public weak var imageButton: UIButton!
     @IBOutlet public weak var circle: PulsingCircle!
+    @IBOutlet public weak var failImage: UIImageView!
+    @IBOutlet public weak var failBackgroundView: UIView!
     @IBOutlet public weak var leadingConstraint: NSLayoutConstraint!
     @IBOutlet public weak var failWidthConstraint: NSLayoutConstraint!
     @IBOutlet public weak var failHeightConstraint: NSLayoutConstraint!
