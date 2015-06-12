@@ -213,7 +213,7 @@ public class StreamViewController: BaseElloViewController {
         collectionView.reloadData()
     }
 
-    public func imageCellHeightUpdated(cell:StreamImageCell) {
+    public func imageCellHeightUpdated(cell: StreamImageCell) {
         if let indexPath = collectionView.indexPathForCell(cell) {
             updateCellHeight(indexPath, height: cell.calculatedHeight)
         }
@@ -430,12 +430,15 @@ public class StreamViewController: BaseElloViewController {
     }
 
     private func updateCellHeight(indexPath:NSIndexPath, height:CGFloat) {
-        collectionView.performBatchUpdates({
-            self.dataSource.updateHeightForIndexPath(indexPath, height: height)
-        }, completion: { (finished) in
+        let existingHeight = dataSource.heightForIndexPath(indexPath, numberOfColumns: streamKind.columnCount)
+        if height + StreamDataSource.cellBottomPadding != existingHeight {
+            collectionView.performBatchUpdates({
+                self.dataSource.updateHeightForIndexPath(indexPath, height: height)
+                }, completion: { (finished) in
 
-        })
-        collectionView.reloadItemsAtIndexPaths([indexPath])
+            })
+            collectionView.reloadItemsAtIndexPaths([indexPath])
+        }
     }
 
     private func setupCollectionView() {

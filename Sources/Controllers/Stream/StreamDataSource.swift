@@ -14,7 +14,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     public typealias StreamContentReady = (indexPaths:[NSIndexPath]) -> Void
     public typealias StreamFilter = (StreamCellItem -> Bool)?
 
-    let imageBottomPadding:CGFloat = 10.0
+    public static let cellBottomPadding: CGFloat = 10.0
     public var streamKind:StreamKind
     public var currentUser: User?
 
@@ -201,12 +201,10 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         }
     }
 
-    public func updateHeightForIndexPath(indexPath:NSIndexPath?, height:CGFloat) {
-        if let indexPath = indexPath {
-            if indexPath.item < count(visibleCellItems) {
-                visibleCellItems[indexPath.item].oneColumnCellHeight = height + imageBottomPadding
-                visibleCellItems[indexPath.item].multiColumnCellHeight = height + imageBottomPadding
-            }
+    public func updateHeightForIndexPath(indexPath: NSIndexPath, height: CGFloat) {
+        if indexPath.item < count(visibleCellItems) {
+            visibleCellItems[indexPath.item].oneColumnCellHeight = height
+            visibleCellItems[indexPath.item].multiColumnCellHeight = height
         }
     }
 
@@ -215,10 +213,10 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
 
         // @seand: why does this always add padding? UserListItemCell is a fixed height, but this always adds an extra 10
         if numberOfColumns == 1 {
-            return visibleCellItems[indexPath.item].oneColumnCellHeight + imageBottomPadding ?? 0.0
+            return visibleCellItems[indexPath.item].oneColumnCellHeight + StreamDataSource.cellBottomPadding ?? 0.0
         }
         else {
-            return visibleCellItems[indexPath.item].multiColumnCellHeight + imageBottomPadding ?? 0.0
+            return visibleCellItems[indexPath.item].multiColumnCellHeight + StreamDataSource.cellBottomPadding ?? 0.0
         }
     }
 

@@ -10,6 +10,11 @@ import Foundation
 
 public struct StreamImageCellPresenter {
 
+    static let singleColumnFailWidth: CGFloat = 140
+    static let singleColumnFailHeight: CGFloat = 160
+    static let multiColumnFailWidth: CGFloat = 70
+    static let multiColumnFailHeight: CGFloat = 80
+
     static func preventImageStretching(cell: StreamImageCell, attachmentWidth: Int?, columnWidth: CGFloat, leftMargin: CGFloat = 0) {
         if let attachmentWidth = attachmentWidth {
             let width = CGFloat(attachmentWidth)
@@ -68,10 +73,14 @@ public struct StreamImageCellPresenter {
 
                 let columnWidth: CGFloat
                 if streamKind.isGridLayout {
+                    cell.failWidthConstraint.constant = StreamImageCellPresenter.multiColumnFailWidth
+                    cell.failHeightConstraint.constant = StreamImageCellPresenter.multiColumnFailHeight
                     attachmentToLoad = attachmentToLoad ?? imageRegion.asset?.gridLayoutAttachment
                     columnWidth = (UIScreen.screenWidth() - CGFloat(10)) / 2
                 }
                 else {
+                    cell.failWidthConstraint.constant = StreamImageCellPresenter.singleColumnFailWidth
+                    cell.failHeightConstraint.constant = StreamImageCellPresenter.singleColumnFailHeight
                     attachmentToLoad = attachmentToLoad ?? imageRegion.asset?.oneColumnAttachment
                     columnWidth = UIScreen.screenWidth()
                 }
