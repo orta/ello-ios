@@ -79,8 +79,8 @@ public class AddFriendsViewController: StreamableViewController {
                 }
             }
         }
-        foundItems.sort { ($0.jsonable as! User).username < ($1.jsonable as! User).username }
-        inviteItems.sort { ($0.jsonable as! LocalPerson).name < ($1.jsonable as! LocalPerson).name }
+        foundItems.sort { ($0.jsonable as! User).username.lowercaseString < ($1.jsonable as! User).username.lowercaseString }
+        inviteItems.sort { ($0.jsonable as! LocalPerson).name.lowercaseString < ($1.jsonable as! LocalPerson).name.lowercaseString }
         // this calls doneLoading when cells are added
         streamViewController.appendUnsizedCellItems(foundItems + inviteItems, withWidth: self.view.frame.width)
     }
