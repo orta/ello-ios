@@ -286,7 +286,7 @@ extension StreamableViewController: InviteResponder {
     private func proceedWithImport() {
         Tracker.sharedTracker.addressBookAccessed()
         AddressBook.getAddressBook { result in
-            dispatch_async(dispatch_get_main_queue()) {
+            nextTick {
                 switch result {
                 case let .Success(box):
                     Tracker.sharedTracker.contactAccessPreferenceChanged(true)

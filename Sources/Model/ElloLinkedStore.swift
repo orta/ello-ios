@@ -28,7 +28,7 @@ public struct ElloLinkedStore {
 
         database = YapDatabase(path: path)
         readConnection = database.newConnection()
-        readConnection.objectCacheLimit = 500        
+        readConnection.objectCacheLimit = 500
         writeConnection = database.newConnection()
     }
 
@@ -40,7 +40,7 @@ public struct ElloLinkedStore {
         else {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
                 self.parseLinkedSync(linked)
-                dispatch_async(dispatch_get_main_queue(), completion)
+                nextTick(completion)
             }
         }
     }

@@ -44,7 +44,7 @@ public extension UIImage {
                 resizedImage = UIImage.scaleToMaxSize(image)
             }
 
-            dispatch_async(dispatch_get_main_queue()) {
+            nextTick {
                 completion(image: resizedImage)
             }
         }

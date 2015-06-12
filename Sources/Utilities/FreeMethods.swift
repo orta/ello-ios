@@ -118,6 +118,14 @@ public func once(block: BasicBlock) -> BasicBlock {
     return until(1, block)
 }
 
+public func nextTick(block: BasicBlock) {
+    nextTick(on: dispatch_get_main_queue(), block)
+}
+
+public func nextTick(#on: dispatch_queue_t, block: BasicBlock) {
+    dispatch_async(on, block)
+}
+
 public func timeout(duration: NSTimeInterval, block: BasicBlock) -> BasicBlock {
     let handler = once(block)
     _ = delay(duration) {

@@ -63,7 +63,7 @@ public class DeleteAccountConfirmationViewController: BaseElloViewController {
     @objc
     private func tick() {
         let text = NSString(format: NSLocalizedString("You will be redirected in %d...", comment: "You will be redirected in ..."), counter) as String
-        dispatch_async(dispatch_get_main_queue()) {
+        nextTick {
             self.cancelLabel.setLabelText(text, color: .whiteColor(), alignment: .Center)
             if self.counter-- <= 0 {
                 self.deleteAccount()

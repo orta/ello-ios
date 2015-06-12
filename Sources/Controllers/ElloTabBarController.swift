@@ -227,7 +227,7 @@ private extension ElloTabBarController {
         let currentViewController = visibleViewController
         let nextViewController = selectedViewController
 
-        dispatch_async(dispatch_get_main_queue()) {
+        nextTick {
             if currentViewController.parentViewController != self {
                 self.showViewController(nextViewController)
                 self.prepareNarration()
