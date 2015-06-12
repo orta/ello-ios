@@ -88,5 +88,4 @@ public class StreamTextCellSizeCalculator: NSObject, UIWebViewDelegate {
 
         return strippedHtml
     }
-
 }

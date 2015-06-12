@@ -19,6 +19,34 @@ class StreamImageCellPresenterSpec: QuickSpec {
 
         describe("configure") {
 
+            context("column number differences") {
+                let post: Post = stub([:])
+                let imageRegion: ImageRegion = stub([:])
+
+                let cell: StreamImageCell = StreamImageCell.loadFromNib()
+                let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Image, data: imageRegion, oneColumnCellHeight: 0, multiColumnCellHeight: 0, isFullWidth: false)
+
+                context("single column") {
+
+                    it("configures fail constraints correctly") {
+                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+
+                        expect(cell.failWidthConstraint.constant) == 140
+                        expect(cell.failHeightConstraint.constant) == 160
+                    }
+                }
+
+                context("multiple columns") {
+
+                    it("configures fail constraints correctly") {
+                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .Noise, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+
+                        expect(cell.failWidthConstraint.constant) == 70
+                        expect(cell.failHeightConstraint.constant) == 80
+                    }
+                }
+            }
+
             context("no asset") {
 
                 context("image is a gif") {

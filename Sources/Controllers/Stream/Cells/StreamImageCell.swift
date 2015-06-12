@@ -15,12 +15,12 @@ import Alamofire
 
 public class StreamImageCell: StreamRegionableCell {
 
-    @IBOutlet weak var imageView: FLAnimatedImageView!
-    @IBOutlet weak var imageButton: UIButton!
-    @IBOutlet weak var failImage: UIImageView!
-    @IBOutlet weak var failBackgroundView: UIView!
-    @IBOutlet weak var circle: PulsingCircle!
-    @IBOutlet weak var leadingConstraint: NSLayoutConstraint!
+    @IBOutlet public weak var imageView: FLAnimatedImageView!
+    @IBOutlet public weak var imageButton: UIButton!
+    @IBOutlet public weak var circle: PulsingCircle!
+    @IBOutlet public weak var failImage: UIImageView!
+    @IBOutlet public weak var failBackgroundView: UIView!
+    @IBOutlet public weak var leadingConstraint: NSLayoutConstraint!
     @IBOutlet public weak var failWidthConstraint: NSLayoutConstraint!
     @IBOutlet public weak var failHeightConstraint: NSLayoutConstraint!
 

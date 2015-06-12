@@ -23,5 +23,4 @@ public class StreamEmbedCell: StreamImageCell {
     public func setPlayImageIcon(icon: String) {
         playIcon.image = SVGKImage(named: icon).UIImage!
     }
-    
 }
