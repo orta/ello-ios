@@ -1,3 +1,142 @@
+### Ello Build v1.0.0(2443) June 12, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #439 - Optimize app launch time
+This is the first stab at optimizing the amount of time it takes from launch -> viewing posts in friends.
+
+Initial performance tests shows an improvement from ~14 seconds to ~5 seconds (without server optimizations). To accomplish this we now load 10 activities per page in friends and noise instead of 25. Crashlytics now initializes on a background thread, who knows if this will work? Not me. Loading Noise is now delayed until tapping on the noise button in the nav bar.
+
+This PR contains a bunch of commented out performance logging for future testing. We'll pull them out of the code base once we like the results which might take a couple PRs to lock down.
+
+![screenshot 2015-06-12 17 37 28](https://cloud.githubusercontent.com/assets/12459/8141777/b8dce23e-1129-11e5-9de3-31044031eee4.png)
+
+------
+
+#### #438 - Allow onboarding to have invite cells for find friends.
+* Updates `AddFriendsViewController` to use `StreamViewController`
+* Tweaks the `SearchScreen` to work with the `AddFriendsViewController`
+* Minor design updates to the `SearchScreen` 
+* Deletes a bunch of code
+* Alphabetizes the list to have people on ello first then people to invite
+* Updates copy
+
+![image](https://cloud.githubusercontent.com/assets/96433/8140959/1ce74db6-111e-11e5-8056-1de3834bfbef.png)
+
+[Finishes #96115652]
+
+------
+
+#### #437 - Add embed and image cell specs
+Add some specs cause specs are good. :wave: 
+
+![screen shot 2015-06-12 at 10 45 18 am](https://cloud.githubusercontent.com/assets/12459/8134897/3a173014-10f0-11e5-8824-17da7ec44e2b.png)
+
+------
+
+#### #436 - Implement Fallback Image
+When an image fails to load the cell is resized to a 4:3 ratio and a default failed to download image is displayed. Unfortunately the padding added to every cell was not removed because it would have had to be added in over 5 places in the app.
+
+Finishes: https://www.pivotaltracker.com/story/show/94676720
+
+![screen shot 2015-06-11 at 6 11 58 pm](https://cloud.githubusercontent.com/assets/12459/8121190/657b7264-1065-11e5-8523-94c2c3eef174.png)
+
+------
+
+#### #434 - moves the 'ContainsPoint' rect so that it shares the same origin as 'location'
+This is a super quick fix to @codelance's fix.
+
+------
+
+#### #435 - puts the text below the image [Finishes #96487050]
+```
+Test Suite 'Selected tests' passed at 2015-06-11 21:03:27 +0000.
+	 Executed 710 tests, with 0 failures (0 unexpected) in 32.398 (32.679) seconds
+```
+
+------
+
+#### #433 - Fixes the Omnibar reply, including closing the 'shelf' when reply is tapped.
+- comment caching fixed when commenting on a repost
+- usernames are prefixed, but are not added more than once
+- if username is present (as `/@username /` or `/@username$/`) it is not added twice
+
+------
+
+#### #432 - Fix issue of links at end of post getting cut off.
+
+------
+
+#### #430 - Add keys and user information to crashlytics
+This PR will add these key/value pairs to each crash report that happens:
+- User identifier (user.id) to each crash report if the user allows analytics
+- Most recent request path
+- Most recent response status code
+- Most recent response JSON text
+- Screen that the crash happened on
+
+This also adds a way for us to fire a test crash by typing `Crashlytics.crash('test')` into a comment in the omnibar and then pressing the back button.
+
+![image](https://cloud.githubusercontent.com/assets/96433/8093631/75239368-0f7f-11e5-81c0-59e3e321f8fb.png)
+
+![image](https://cloud.githubusercontent.com/assets/96433/8092317/29ee6f0c-0f76-11e5-81c9-864eb3abd10e.png)
+
+![image](https://cloud.githubusercontent.com/assets/96433/8093877/d7434664-0f80-11e5-8d25-3e8f636be630.png)
+
+------
+
+#### #431 - Fix edit profile button position
+Normally we update the `contentInset` on `StreamViewController` to account for the nav bar. In `ProfileViewController` it feels better to leave it at 0. Leaving it at 0 also prevents the odd initial UI layout of the Edit Profile y position.
+
+Fixes: https://www.pivotaltracker.com/story/show/96051938 
+
+![screen shot 2015-06-10 at 2 20 10 pm](https://cloud.githubusercontent.com/assets/12459/8093086/f8523644-0f7b-11e5-9d47-9fd810ab7fc0.png)
+
+------
+
+#### #429 - Sometimes the view hierarchy can get in the way of touches
+Sometimes the touch can be intercepted by another view or superview at
+that. So this check makes sure the location we got, actually
+contains the textview we are actually interested in.
+
+@colinta thoughts?
+
+------
+
+#### #427 - Update project to use Fabric with Crashlytics.
+* You will need to follow these instructions to get it working: https://fabric.io/migrations/xcode
+
+------
+
+#### #428 - Overly cautious guarding against a nil cover image
+This odd nil check hopefully prevents crash #6 in Crashlytics
+
+https://www.crashlytics.com/ello/ios/apps/co.ello.ello/issues/55725749f505b5ccf00cf76d/sessions/55725654012a0001029d613137326264
+
+![screen shot 2015-06-09 at 8 13 55 am](https://cloud.githubusercontent.com/assets/12459/8059941/b9c0205a-0e7f-11e5-874a-ddbcf86e3331.png)
+
+------
+
+#### #426 - Don’t force unwrap the created at on a post.
+* The api docs say that a post resource should always have a created at, but I guess this is not the actual case
+* Fixes Crashlytics bug #8 for build #2383
+
+
+[Fixes #96463090]
+
+------
+
+#### #425 - attempts to fix crashlytics crash
+This crash was caused by a UICollectionView "inconsistency error".  The logic relied on the index path to remain constant, but if someone collapsed cells above, this wouldn't be the case.
+
+In fact, as I type this, I realized that the logic needs to work on the *stream cell item* not the cell.
+
+https://crashlytics.com/ello/ios/apps/co.ello.ello/issues/5572e26cf505b5ccf00de81d
+    
+------------
+
 ### Ello Build v1.0.0(2383) June 6, 2015
 
     RELEASE NOTES
