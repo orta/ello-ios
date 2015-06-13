@@ -202,6 +202,7 @@ public class StreamViewController: BaseElloViewController {
     }
 
     public func doneLoading() {
+//        println("---------PROFILING: StreamVC-\(streamKind.name) initial finished sizing: \(NSDate().timeIntervalSinceDate(LaunchDate))")
         ElloHUD.hideLoadingHudInView(view)
         pullToRefreshView?.finishLoading()
         initialDataLoaded = true
@@ -270,6 +271,7 @@ public class StreamViewController: BaseElloViewController {
     public var initialLoadClosure: ElloEmptyCompletion?
 
     public func loadInitialPage() {
+//        println("---------PROFILING: StreamVC-\(streamKind.name) loadInitialPage: \(NSDate().timeIntervalSinceDate(LaunchDate))")
         if let initialLoadClosure = initialLoadClosure {
             initialLoadClosure()
         }
@@ -281,6 +283,7 @@ public class StreamViewController: BaseElloViewController {
                 streamKind.endpoint,
                 streamKind: streamKind,
                 success: { (jsonables, responseConfig) in
+//                    println("---------PROFILING: StreamVC-\(self.streamKind.name) initialpageLoaded: \(NSDate().timeIntervalSinceDate(LaunchDate))")
                     if self.loadInitialPageLoadingToken != localToken { return }
                     self.clearForInitialLoad()
                     self.responseConfig = responseConfig

@@ -11,6 +11,8 @@ import SVGKit
 
 public class StreamContainerViewController: StreamableViewController {
 
+    private var noiseLoaded = false
+
     enum Notifications : String {
         case StreamDetailTapped = "StreamDetailTappedNotification"
     }
@@ -39,6 +41,7 @@ public class StreamContainerViewController: StreamableViewController {
 
     override public func viewDidLoad() {
         super.viewDidLoad()
+//        println("---------PROFILING: StreamContainerVC viewDidLoad: \(NSDate().timeIntervalSinceDate(LaunchDate))")
         setupStreamsSegmentedControl()
         setupChildViewControllers()
         navigationItem.titleView = streamsSegmentedControl
@@ -116,11 +119,7 @@ public class StreamContainerViewController: StreamableViewController {
             vc.userTappedDelegate = self
             vc.streamScrollDelegate = self
             vc.collectionView.scrollsToTop = false
-            if kind.name == "Friends" {
-                let noResultsTitle = NSLocalizedString("Welcome to your Friends Stream!", comment: "No friend results title")
-                let noResultsBody = NSLocalizedString("You aren't following anyone in Friends yet.\n\nWhen you follow someone as a Friend their posts will show up here. Ello is way more rad when you're following lots of people.\n\nUse Discover to find people you're interested in, and to find or invite your friends.", comment: "No friend results body.")
-                vc.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
-            }
+
 
             vc.willMoveToParentViewController(self)
 
@@ -133,7 +132,13 @@ public class StreamContainerViewController: StreamableViewController {
             self.addChildViewController(vc)
             vc.didMoveToParentViewController(self)
             ElloHUD.showLoadingHudInView(vc.view)
-            vc.loadInitialPage()
+
+            if kind.name == "Friends" {
+                let noResultsTitle = NSLocalizedString("Welcome to your Friends Stream!", comment: "No friend results title")
+                let noResultsBody = NSLocalizedString("You aren't following anyone in Friends yet.\n\nWhen you follow someone as a Friend their posts will show up here. Ello is way more rad when you're following lots of people.\n\nUse Discover to find people you're interested in, and to find or invite your friends.", comment: "No friend results body.")
+                vc.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
+                vc.loadInitialPage()
+            }
         }
     }
 
@@ -172,5 +177,10 @@ public class StreamContainerViewController: StreamableViewController {
 
         let stream = StreamKind.streamValues[sender.selectedSegmentIndex]
         Tracker.sharedTracker.screenAppeared(stream.name)
+
+        if sender.selectedSegmentIndex == 1 && !noiseLoaded {
+            noiseLoaded = true
+            childStreamControllers[1].loadInitialPage()
+        }
     }
 }

@@ -25,11 +25,6 @@ public class BaseElloViewController: UIViewController, ControllerThatMightHaveTh
     override public func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.fixNavBarItemPadding()
-        // Do any additional setup after loading the view.
-    }
-
-    override public func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
     }
 
     func didSetCurrentUser() {}
