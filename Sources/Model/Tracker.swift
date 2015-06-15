@@ -20,6 +20,7 @@ public protocol AnalyticsAgent {
     func track(event: String!)
     func track(event: String!, properties: [NSObject: AnyObject]!)
     func screen(screenTitle: String!)
+    func screen(screenTitle: String!, properties: [NSObject: AnyObject]!)
     func reset()
 }
 
@@ -28,6 +29,7 @@ public struct NullAgent: AnalyticsAgent {
     public func track(event: String!) { }
     public func track(event: String!, properties: [NSObject: AnyObject]!) { }
     public func screen(screenTitle: String!) { }
+    public func screen(screenTitle: String!, properties: [NSObject: AnyObject]!) { }
     public func reset() { }
 }
 
@@ -130,7 +132,11 @@ public extension Tracker {
     }
 
     func webViewAppeared(url: String) {
-        agent.track("Web View", properties: ["url": url])
+        agent.screen("Web View", properties: ["url": url])
+    }
+
+    func profileAppeared(handle: String) {
+        agent.screen("Profile View", properties: ["handle": handle])
     }
 
     func viewedImage(asset: Asset, post: Post) {

@@ -186,6 +186,8 @@ public class ProfileViewController: StreamableViewController {
         }
         // this calls doneLoading when cells are added
         streamViewController.appendUnsizedCellItems(items, withWidth: self.view.frame.width)
+        
+        Tracker.sharedTracker.profileAppeared(user.atName ?? "")
     }
 }
 
