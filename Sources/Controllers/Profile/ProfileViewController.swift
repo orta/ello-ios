@@ -152,12 +152,22 @@ public class ProfileViewController: StreamableViewController {
     }
 
     private func setupNoPosts() {
-        noPostsHeader.text = NSLocalizedString("Ello is more fun with friends!", comment: "")
-        noPostsHeader.font = UIFont.regularBoldFont(18)
-        let body = NSLocalizedString("This person hasn't posted yet.\n\nFollow or mention them to help them get started!", comment: "")
 
+        var noPostsHeaderText: String
+        var noPostsBodyText: String
+        if user?.id == currentUser?.id {
+            noPostsHeaderText = NSLocalizedString("Welcome to your Profile", comment: "")
+            noPostsBodyText = NSLocalizedString("Everything you post lives here!\n\nThis is the place to find everyone you’re following and everyone that’s following you. You’ll find your Loves here too!", comment: "")
+        }
+        else {
+            noPostsHeaderText = NSLocalizedString("Ello is more fun with friends!", comment: "")
+            noPostsBodyText = NSLocalizedString("This person hasn't posted yet.\n\nFollow or mention them to help them get started!", comment: "")
+        }
+
+        noPostsHeader.text = noPostsHeaderText
+        noPostsHeader.font = UIFont.regularBoldFont(18)
         var paragraphStyle = NSMutableParagraphStyle()
-        var attrString = NSMutableAttributedString(string: body)
+        var attrString = NSMutableAttributedString(string: noPostsBodyText)
         attrString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range:NSMakeRange(0, attrString.length))
         paragraphStyle.lineSpacing = 4
 
