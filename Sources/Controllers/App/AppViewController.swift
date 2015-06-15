@@ -231,7 +231,7 @@ extension AppViewController {
 extension AppViewController {
 
     func showExternalWebView(url: String) {
-        Tracker.sharedTracker.screenAppeared("Web View: \(url)")
+        Tracker.sharedTracker.webViewAppeared(url)
         presentViewController(externalWebController, animated: true, completion: nil)
         if let externalWebView = externalWebController.rootWebBrowser() {
             externalWebView.tintColor = UIColor.greyA()

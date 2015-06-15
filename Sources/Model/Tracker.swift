@@ -129,6 +129,10 @@ public extension Tracker {
         agent.screen(name)
     }
 
+    func webViewAppeared(url: String) {
+        agent.track("Web View", properties: ["url": url])
+    }
+
     func viewedImage(asset: Asset, post: Post) {
         agent.track("Viewed Image", properties: ["asset_id": asset.id, "post_id": post.id])
     }
