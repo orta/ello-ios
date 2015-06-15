@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E26a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
@@ -11,6 +11,10 @@
                 <outlet property="coverImageHeight" destination="Uoo-CU-1JR" id="c4J-Uw-hAx"/>
                 <outlet property="navigationBar" destination="Dl8-ha-LxN" id="bbX-bK-6CN"/>
                 <outlet property="navigationBarTopConstraint" destination="HAg-hv-aOW" id="jh6-WX-a9E"/>
+                <outlet property="noPostsBody" destination="E3h-ug-Jgs" id="bok-bW-hsl"/>
+                <outlet property="noPostsHeader" destination="qw8-zL-hLi" id="QYk-4I-wNv"/>
+                <outlet property="noPostsView" destination="83s-Z9-BEn" id="MQ5-vh-YPw"/>
+                <outlet property="noPostsViewHeight" destination="kB9-gw-WNj" id="nkR-u5-VHk"/>
                 <outlet property="view" destination="iN0-l3-epB" id="6s2-PA-CIX"/>
                 <outlet property="viewContainer" destination="wlf-zL-93E" id="IUa-jv-6Wt"/>
             </connections>
@@ -31,6 +35,34 @@
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
+                <view hidden="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="83s-Z9-BEn" userLabel="noPostsView">
+                    <rect key="frame" x="0.0" y="410" width="600" height="190"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E3h-ug-Jgs" userLabel="noPostsBody">
+                            <rect key="frame" x="15" y="61" width="570" height="61"/>
+                            <string key="text">This person hasn’t posted yet.Follow or mention them to help them get started!  </string>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ello is more fun with friends!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qw8-zL-hLi" userLabel="noPostsHeader">
+                            <rect key="frame" x="15" y="20" width="570" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="E3h-ug-Jgs" firstAttribute="leading" secondItem="83s-Z9-BEn" secondAttribute="leading" constant="15" id="BFA-lW-Le7" userLabel="noPostsBody - left "/>
+                        <constraint firstItem="qw8-zL-hLi" firstAttribute="leading" secondItem="83s-Z9-BEn" secondAttribute="leading" constant="15" id="EJ5-f0-7t2" userLabel="noPostsHeader - left"/>
+                        <constraint firstAttribute="trailing" secondItem="qw8-zL-hLi" secondAttribute="trailing" constant="15" id="Whz-DN-tZB" userLabel="noPostsHeader - right"/>
+                        <constraint firstAttribute="trailing" secondItem="E3h-ug-Jgs" secondAttribute="trailing" constant="15" id="gXv-GF-it4" userLabel="noPostsBody - right"/>
+                        <constraint firstAttribute="height" constant="190" id="kB9-gw-WNj" userLabel="noPostsViewHeight"/>
+                        <constraint firstItem="qw8-zL-hLi" firstAttribute="top" secondItem="83s-Z9-BEn" secondAttribute="top" constant="20" id="oIM-r1-LKB" userLabel="noPostsHeader - top"/>
+                        <constraint firstItem="E3h-ug-Jgs" firstAttribute="top" secondItem="qw8-zL-hLi" secondAttribute="bottom" constant="20" id="w2b-qB-jyC" userLabel="noPostsHeader | noPostsBody"/>
+                    </constraints>
+                </view>
                 <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dl8-ha-LxN" customClass="ElloNavigationBar" customModule="Ello" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                     <items>
@@ -44,7 +76,10 @@
                 <constraint firstAttribute="top" secondItem="Dl8-ha-LxN" secondAttribute="top" id="HAg-hv-aOW" userLabel="navigationBar - top"/>
                 <constraint firstItem="wlf-zL-93E" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="K3x-o1-2W5" userLabel="viewContainer - left"/>
                 <constraint firstItem="wlf-zL-93E" firstAttribute="bottom" secondItem="iN0-l3-epB" secondAttribute="bottom" id="Kzz-uf-eqd" userLabel="viewContainer - bottom"/>
+                <constraint firstAttribute="bottom" secondItem="83s-Z9-BEn" secondAttribute="bottom" id="PdW-uX-5p2" userLabel="noPostsView - bottom"/>
                 <constraint firstItem="wlf-zL-93E" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailing" id="Rwp-mf-G91" userLabel="viewContainer - right"/>
+                <constraint firstAttribute="trailing" secondItem="83s-Z9-BEn" secondAttribute="trailing" id="j9j-3T-w8g" userLabel="noPostsView - right"/>
+                <constraint firstItem="83s-Z9-BEn" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="kyP-8W-Ihs" userLabel="noPostsView - left"/>
                 <constraint firstAttribute="centerX" secondItem="A2p-8r-avy" secondAttribute="centerX" id="naz-Ui-54x" userLabel="coverImage - centerX"/>
                 <constraint firstItem="Dl8-ha-LxN" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="sky-eS-kcB" userLabel="navigationBar - left"/>
                 <constraint firstItem="A2p-8r-avy" firstAttribute="top" secondItem="wlf-zL-93E" secondAttribute="top" id="wz7-ye-x4t" userLabel="coverImage - top"/>
