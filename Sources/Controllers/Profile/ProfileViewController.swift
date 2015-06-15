@@ -24,6 +24,7 @@ public class ProfileViewController: StreamableViewController {
     let ratio:CGFloat = 16.0/9.0
     let initialStreamKind: StreamKind
     var currentUserChangedNotification: NotificationObserver?
+    var postChangedNotification: NotificationObserver?
 
     private var isSetup = false
 
@@ -57,6 +58,11 @@ public class ProfileViewController: StreamableViewController {
         streamViewController.initialLoadClosure = reloadEntireProfile
         currentUserChangedNotification = NotificationObserver(notification: CurrentUserChangedNotification) { [unowned self] _ in
             self.updateCachedImages()
+        }
+        postChangedNotification = NotificationObserver(notification: PostChangedNotification) { [unowned self] (post, change) in
+            if post.authorId == self.currentUser?.id && change == .Create {
+                self.updateNoPostsView(false)
+            }
         }
     }
 
@@ -203,24 +209,24 @@ public class ProfileViewController: StreamableViewController {
         if let posts = user.posts {
             items += StreamCellItemParser().parse(posts, streamKind: streamViewController.streamKind)
         }
-        updateNoPostsView(count(items))
+        updateNoPostsView(count(items) < 2)
         // this calls doneLoading when cells are added
         streamViewController.appendUnsizedCellItems(items, withWidth: self.view.frame.width)
     }
 
-    private func updateNoPostsView(itemCount: Int) {
-        if itemCount > 1 {
-            noPostsView.alpha = 0
-            noPostsView.hidden = true
-            updateInsets()
-        }
-        else {
+    private func updateNoPostsView(show: Bool) {
+        if show {
             noPostsView.hidden = false
             animate {
                 self.noPostsView.alpha = 1
             }
             updateInsets()
             streamViewController.contentInset.bottom = noPostsViewHeight.constant
+        }
+        else {
+            noPostsView.alpha = 0
+            noPostsView.hidden = true
+            updateInsets()
         }
     }
 }
