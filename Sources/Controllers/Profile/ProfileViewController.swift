@@ -28,9 +28,13 @@ public class ProfileViewController: StreamableViewController {
     private var isSetup = false
 
     @IBOutlet weak var navigationBar: ElloNavigationBar!
+    @IBOutlet weak var noPostsView: UIView!
+    @IBOutlet weak var noPostsHeader: UILabel!
+    @IBOutlet weak var noPostsBody: UILabel!
     @IBOutlet weak var navigationBarTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var coverImage: FLAnimatedImageView!
     @IBOutlet weak var coverImageHeight: NSLayoutConstraint!
+    @IBOutlet weak var noPostsViewHeight: NSLayoutConstraint!
 
     required public init(userParam: String) {
         self.userParam = userParam
@@ -70,6 +74,7 @@ public class ProfileViewController: StreamableViewController {
         view.clipsToBounds = true
         coverImage.alpha = 0
         setupNavigationBar()
+        setupNoPosts()
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
         ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.loadInitialPage()
@@ -140,6 +145,20 @@ public class ProfileViewController: StreamableViewController {
         }
     }
 
+    private func setupNoPosts() {
+        noPostsHeader.text = NSLocalizedString("Ello is more fun with friends!", comment: "")
+        noPostsHeader.font = UIFont.regularBoldFont(18)
+        let body = NSLocalizedString("This person hasn't posted yet.\n\nFollow or mention them to help them get started!", comment: "")
+
+        var paragraphStyle = NSMutableParagraphStyle()
+        var attrString = NSMutableAttributedString(string: body)
+        attrString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range:NSMakeRange(0, attrString.length))
+        paragraphStyle.lineSpacing = 4
+
+        noPostsBody.font = UIFont.typewriterFont(12)
+        noPostsBody.attributedText = attrString
+    }
+
     private func setupNavigationBar() {
         navigationController?.navigationBarHidden = true
         navigationItem.title = self.title
@@ -184,8 +203,25 @@ public class ProfileViewController: StreamableViewController {
         if let posts = user.posts {
             items += StreamCellItemParser().parse(posts, streamKind: streamViewController.streamKind)
         }
+        updateNoPostsView(count(items))
         // this calls doneLoading when cells are added
         streamViewController.appendUnsizedCellItems(items, withWidth: self.view.frame.width)
+    }
+
+    private func updateNoPostsView(itemCount: Int) {
+        if itemCount > 1 {
+            noPostsView.alpha = 0
+            noPostsView.hidden = true
+            updateInsets()
+        }
+        else {
+            noPostsView.hidden = false
+            animate {
+                self.noPostsView.alpha = 1
+            }
+            updateInsets()
+            streamViewController.contentInset.bottom = noPostsViewHeight.constant
+        }
     }
 }
 
