@@ -231,6 +231,14 @@ public extension Tracker {
         agent.screen("Profile", properties: ["handle": handle])
     }
 
+    func postLoaded(id: String) {
+        agent.track("Post Loaded", properties: ["id": id])
+    }
+
+    func postViewed(id: String) {
+        agent.track("Post Viewed", properties: ["id": id])
+    }
+
     func viewedImage(asset: Asset, post: Post) {
         agent.track("Viewed Image", properties: ["asset_id": asset.id, "post_id": post.id])
     }

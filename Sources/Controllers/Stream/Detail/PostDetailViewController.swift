@@ -105,6 +105,9 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
     }
 
     private func postLoaded(post: Post, responseConfig: ResponseConfig) {
+        if self.post == nil {
+            Tracker.sharedTracker.postViewed(post.id)
+        }
         self.post = post
         // need to reassign the userParam to the id for paging
         postParam = post.id
@@ -135,6 +138,8 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
         // this calls doneLoading when cells are added
         streamViewController.appendUnsizedCellItems(items, withWidth: view.frame.width)
+
+        Tracker.sharedTracker.postLoaded(post.id)
     }
 
     override public func postTapped(post: Post) {
