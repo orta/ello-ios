@@ -51,7 +51,6 @@ public class JoinViewController: BaseElloViewController, HasAppController {
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         addNotificationObservers()
-        Tracker.sharedTracker.screenAppeared("Join")
     }
 
     override public func viewDidDisappear(animated: Bool) {
