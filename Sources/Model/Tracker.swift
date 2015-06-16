@@ -178,6 +178,11 @@ public extension Tracker {
         agent.track("sign-in failed")
     }
 
+    func tappedForgotPassword() {
+        log("forgot password tapped")
+        agent.track("forgot password tapped")
+    }
+
     func tappedLogout() {
         log("logout tapped")
         agent.track("logout tapped")
