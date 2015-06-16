@@ -53,7 +53,8 @@ public struct StreamImageCellPresenter {
         if let cell = cell as? StreamImageCell {
             if let imageRegion = streamCellItem.data as? ImageRegion {
                 cell.imageRightConstraint?.constant = 0
-
+                cell.failImage.hidden = true
+                cell.failImage.alpha = 0
                 var attachmentToLoad: Attachment?
                 var imageToLoad: NSURL?
                 var showGifInThisCell = false
