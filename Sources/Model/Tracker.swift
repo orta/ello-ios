@@ -88,8 +88,16 @@ public extension Tracker {
         agent.track("entered password and pressed 'next'")
     }
 
-    func clickedJoin() {
-        agent.track("clicked join")
+    func tappedJoin() {
+        agent.track("tapped join")
+    }
+
+    func tappedAbout() {
+        agent.track("tapped about")
+    }
+
+    func tappedTsAndCs() {
+        agent.track("tapped terms and conditions")
     }
 
     func joinValid() {
@@ -104,8 +112,8 @@ public extension Tracker {
         agent.track("join failed")
     }
 
-    func clickedSignIn() {
-        agent.track("clicked sign in")
+    func tappedSignIn() {
+        agent.track("tapped sign in")
     }
 
     func signInValid() {

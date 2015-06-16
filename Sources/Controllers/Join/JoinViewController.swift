@@ -99,7 +99,7 @@ public class JoinViewController: BaseElloViewController, HasAppController {
     }
 
     private func join() {
-        Tracker.sharedTracker.clickedJoin()
+        Tracker.sharedTracker.tappedJoin()
         if allFieldsValid() {
             Tracker.sharedTracker.joinValid()
 
@@ -229,6 +229,7 @@ extension JoinViewController {
     }
 
     @IBAction func termsTapped(sender: ElloButton) {
+        Tracker.sharedTracker.tappedTsAndCs()
         showTerms()
     }
 
@@ -237,6 +238,7 @@ extension JoinViewController {
     }
 
     @IBAction func aboutTapped(sender: ElloTextButton) {
+        Tracker.sharedTracker.tappedAbout()
         showAboutScreen()
     }
 
