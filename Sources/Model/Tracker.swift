@@ -290,7 +290,7 @@ public extension Tracker {
 
     func postViewed(id: String) {
         log("Post Viewed, [id: \(id)]")
-        agent.track("Post Viewed", properties: ["id": id])
+        agent.screen("Post Viewed", properties: ["id": id])
     }
 
     func viewedImage(asset: Asset, post: Post) {
