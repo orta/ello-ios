@@ -277,7 +277,7 @@ public extension Tracker {
     }
 
     func contentCreationFailed(type: ContentType, message: String) {
-        agent.track("\(type.rawValue) creation failed: \(message)")
+        agent.track("\(type.rawValue) creation failed", properties: ["message": message])
     }
 
     func contentFlagged(type: ContentType, flag: ContentFlagger.AlertOption, contentId: String) {
@@ -324,7 +324,7 @@ public extension Tracker {
     }
 
     func relationshipStatusUpdated(relationship: RelationshipPriority, userId: String) {
-        agent.track("Relationship Priority changed to \(relationship.rawValue)", properties: ["user_id": userId])
+        agent.track("Relationship Priority changed", properties: ["new_value": relationship.rawValue, "user_id": userId])
     }
 
     func friendInvited() {
@@ -368,13 +368,13 @@ public extension Tracker {
 
 // MARK:  Preferences
 public extension Tracker {
-    func pushNotificationPreferenceChanged(enabled: Bool) {
-        let accessLevel = enabled ? "enabled" : "denied"
+    func pushNotificationPreferenceChanged(granted: Bool) {
+        let accessLevel = granted ? "granted" : "denied"
         agent.track("Push notification access \(accessLevel)")
     }
 
-    func contactAccessPreferenceChanged(enabled: Bool) {
-        let accessLevel = enabled ? "enabled" : "denied"
+    func contactAccessPreferenceChanged(granted: Bool) {
+        let accessLevel = granted ? "granted" : "denied"
         agent.track("Address book access \(accessLevel)")
     }
 }
