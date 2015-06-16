@@ -82,6 +82,27 @@ public extension Tracker {
 
 // MARK: Signup and Login
 public extension Tracker {
+
+    func tappedJoinFromStartup() {
+        log("tapped join from startup")
+        agent.track("tapped join from startup")
+    }
+
+    func tappedSignInFromStartup() {
+        log("tapped sign in from startup")
+        agent.track("tapped sign in from startup")
+    }
+
+    func tappedJoinFromSignIn() {
+        log("tapped join from sign-in")
+        agent.track("tapped join from sign-in")
+    }
+
+    func tappedSignInFromJoin() {
+        log("tapped sign in from join")
+        agent.track("tapped sign in from join")
+    }
+
     func enteredEmail() {
         log("entered email and pressed 'next'")
         agent.track("entered email and pressed 'next'")
@@ -145,6 +166,11 @@ public extension Tracker {
     func signInFailed() {
         log("sign-in failed")
         agent.track("sign-in failed")
+    }
+
+    func tappedLogout() {
+        log("logout tapped")
+        agent.track("logout tapped")
     }
 
 }

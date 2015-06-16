@@ -393,10 +393,12 @@ extension AppViewController {
 public extension AppViewController {
 
     @IBAction func signInTapped(sender: ElloButton) {
+        Tracker.sharedTracker.tappedSignInFromStartup()
         showSignInScreen()
     }
 
     @IBAction func joinTapped(sender: ElloButton) {
+        Tracker.sharedTracker.tappedJoinFromStartup()
         showJoinScreen()
     }
 

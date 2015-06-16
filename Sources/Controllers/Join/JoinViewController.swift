@@ -234,6 +234,7 @@ extension JoinViewController {
     }
 
     @IBAction func loginTapped(sender: ElloTextButton) {
+        Tracker.sharedTracker.tappedSignInFromJoin()
         showSignInScreen()
     }
 
