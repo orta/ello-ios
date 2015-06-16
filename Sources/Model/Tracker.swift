@@ -181,10 +181,38 @@ public extension Tracker {
     }
 }
 
+public extension UIViewController {
+    func trackerName() -> String { return readableClassName() }
+    func trackerProps() -> [NSObject:AnyObject]? { return nil }
+
+    func trackerData() -> (String, [NSObject:AnyObject]?) {
+        return (trackerName(), trackerProps())
+    }
+}
+
 // MARK: View Appearance
 public extension Tracker {
-    func screenAppeared(name: String) {
-        agent.screen(name)
+    func screenAppeared(viewController: UIViewController) {
+        if let profileController = viewController as? ProfileViewController {
+            if let user = profileController.user {
+                profileAppeared(user.atName ?? "(no name)")
+            }
+            else {
+                profileAppeared("(initial load)")
+            }
+        }
+        else {
+            let (name, props) = viewController.trackerData()
+            screenAppeared(name, properties: props)
+        }
+    }
+
+    func tabAppeared(viewController: UIViewController) {
+        screenAppeared(viewController)
+    }
+
+    func screenAppeared(name: String, properties: [NSObject:AnyObject]? = nil) {
+        agent.screen(name, properties: properties)
     }
 
     func webViewAppeared(url: String) {

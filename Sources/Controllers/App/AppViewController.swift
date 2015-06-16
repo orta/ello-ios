@@ -310,7 +310,7 @@ extension AppViewController {
 
     private func prepareToShowViewController(newViewController: UIViewController) {
         let controller = (newViewController as? UINavigationController)?.topViewController ?? newViewController
-        Tracker.sharedTracker.screenAppeared(controller.title ?? controller.readableClassName())
+        Tracker.sharedTracker.screenAppeared(controller)
 
         view.addSubview(newViewController.view)
         newViewController.view.frame = self.view.bounds
