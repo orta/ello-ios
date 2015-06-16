@@ -147,6 +147,7 @@ public class AppViewController: BaseElloViewController {
 
     private func showButtons(animated: Bool = true) {
 //        println("---------PROFILING: AppVC not logged in: \(NSDate().timeIntervalSinceDate(LaunchDate))")
+        Tracker.sharedTracker.screenAppeared("Startup")
         animate(animated: animated) {
             self.joinButton.alpha = 1.0
             self.signInButton.alpha = 1.0
