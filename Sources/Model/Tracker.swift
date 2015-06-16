@@ -219,8 +219,16 @@ public extension Tracker {
         agent.screen("Web View", properties: ["url": url])
     }
 
+    func profileLoaded(handle: String) {
+        agent.track("Profile Loaded", properties: ["handle": handle])
+    }
+
+    func profileViewed(handle: String) {
+        agent.screen("Profile Viewed", properties: ["handle": handle])
+    }
+
     func profileAppeared(handle: String) {
-        agent.screen("Profile View", properties: ["handle": handle])
+        agent.screen("Profile", properties: ["handle": handle])
     }
 
     func viewedImage(asset: Asset, post: Post) {
