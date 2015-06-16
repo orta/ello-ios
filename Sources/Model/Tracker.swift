@@ -215,6 +215,10 @@ public extension Tracker {
         agent.screen(name, properties: properties)
     }
 
+    func streamAppeared(kind: String) {
+        agent.screen("Stream", properties: ["kind": kind])
+    }
+
     func webViewAppeared(url: String) {
         agent.screen("Web View", properties: ["url": url])
     }
