@@ -133,6 +133,9 @@ public class JoinViewController: BaseElloViewController, HasAppController {
                 self.elloLogo.stopAnimatingLogo()
             })
         }
+        else {
+            Tracker.sharedTracker.joinInvalid()
+        }
     }
 
     private func showOnboardingScreen(user: User) {

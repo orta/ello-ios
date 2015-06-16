@@ -138,6 +138,11 @@ public extension Tracker {
         agent.track("join valid")
     }
 
+    func joinInvalid() {
+        log("join invalid")
+        agent.track("join invalid")
+    }
+
     func joinSuccessful() {
         log("join successful")
         agent.track("join successful")
@@ -156,6 +161,11 @@ public extension Tracker {
     func signInValid() {
         log("sign-in valid")
         agent.track("sign-in valid")
+    }
+
+    func signInInvalid() {
+        log("sign-in invalid")
+        agent.track("sign-in invalid")
     }
 
     func signInSuccessful() {
