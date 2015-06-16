@@ -36,11 +36,13 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view hidden="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="83s-Z9-BEn" userLabel="noPostsView">
-                    <rect key="frame" x="0.0" y="410" width="600" height="190"/>
+                    <rect key="frame" x="0.0" y="385" width="600" height="215"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E3h-ug-Jgs" userLabel="noPostsBody">
                             <rect key="frame" x="15" y="61" width="570" height="61"/>
-                            <string key="text">This person hasn’t posted yet.Follow or mention them to help them get started!  </string>
+                            <string key="text">This person hasn’t posted yet.
+
+Follow or mention them to help them get started!  </string>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -58,7 +60,7 @@
                         <constraint firstItem="qw8-zL-hLi" firstAttribute="leading" secondItem="83s-Z9-BEn" secondAttribute="leading" constant="15" id="EJ5-f0-7t2" userLabel="noPostsHeader - left"/>
                         <constraint firstAttribute="trailing" secondItem="qw8-zL-hLi" secondAttribute="trailing" constant="15" id="Whz-DN-tZB" userLabel="noPostsHeader - right"/>
                         <constraint firstAttribute="trailing" secondItem="E3h-ug-Jgs" secondAttribute="trailing" constant="15" id="gXv-GF-it4" userLabel="noPostsBody - right"/>
-                        <constraint firstAttribute="height" constant="190" id="kB9-gw-WNj" userLabel="noPostsViewHeight"/>
+                        <constraint firstAttribute="height" constant="215" id="kB9-gw-WNj" userLabel="noPostsViewHeight"/>
                         <constraint firstItem="qw8-zL-hLi" firstAttribute="top" secondItem="83s-Z9-BEn" secondAttribute="top" constant="20" id="oIM-r1-LKB" userLabel="noPostsHeader - top"/>
                         <constraint firstItem="E3h-ug-Jgs" firstAttribute="top" secondItem="qw8-zL-hLi" secondAttribute="bottom" constant="20" id="w2b-qB-jyC" userLabel="noPostsHeader | noPostsBody"/>
                     </constraints>
