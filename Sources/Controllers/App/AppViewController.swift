@@ -281,6 +281,7 @@ extension AppViewController {
         if let presentingViewController = presentingViewController {
             dismissViewControllerAnimated(false, completion: .None)
         }
+        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Slide)
 
         if let visibleViewController = visibleViewController {
             visibleViewController.willMoveToParentViewController(nil)
