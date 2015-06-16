@@ -250,18 +250,8 @@ public extension UIViewController {
 // MARK: View Appearance
 public extension Tracker {
     func screenAppeared(viewController: UIViewController) {
-        if let profileController = viewController as? ProfileViewController {
-            if let user = profileController.user {
-                profileAppeared(user.atName ?? "(no name)")
-            }
-            else {
-                profileAppeared("(initial load)")
-            }
-        }
-        else {
-            let (name, props) = viewController.trackerData()
-            screenAppeared(name, properties: props)
-        }
+        let (name, props) = viewController.trackerData()
+        screenAppeared(name, properties: props)
     }
 
     func tabAppeared(viewController: UIViewController) {
@@ -291,11 +281,6 @@ public extension Tracker {
     func profileViewed(handle: String) {
         log("Screen: Profile Viewed, [handle: \(handle)]")
         agent.screen("Profile Viewed", properties: ["handle": handle])
-    }
-
-    func profileAppeared(handle: String) {
-        log("Screen: Profile, [handle: \(handle)]")
-        agent.screen("Profile", properties: ["handle": handle])
     }
 
     func postLoaded(id: String) {
