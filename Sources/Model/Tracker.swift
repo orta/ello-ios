@@ -74,6 +74,54 @@ public extension Tracker {
     }
 }
 
+// MARK: Signup and Login
+public extension Tracker {
+    func enteredEmail() {
+        agent.track("entered email and pressed 'next'")
+    }
+
+    func enteredUsername() {
+        agent.track("entered username and pressed 'next'")
+    }
+
+    func enteredPassword() {
+        agent.track("entered password and pressed 'next'")
+    }
+
+    func clickedJoin() {
+        agent.track("clicked join")
+    }
+
+    func joinValid() {
+        agent.track("join valid")
+    }
+
+    func joinSuccessful() {
+        agent.track("join successful")
+    }
+
+    func joinFailed() {
+        agent.track("join failed")
+    }
+
+    func clickedSignIn() {
+        agent.track("clicked sign in")
+    }
+
+    func signInValid() {
+        agent.track("sign-in valid")
+    }
+
+    func signInSuccessful() {
+        agent.track("sign-in successful")
+    }
+
+    func signInFailed() {
+        agent.track("sign-in failed")
+    }
+
+}
+
 // MARK: Onboarding
 public extension Tracker {
     func skippedCommunities() {

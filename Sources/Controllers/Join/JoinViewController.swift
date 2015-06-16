@@ -100,7 +100,10 @@ public class JoinViewController: BaseElloViewController, HasAppController {
     }
 
     private func join() {
+        Tracker.sharedTracker.clickedJoin()
         if allFieldsValid() {
+            Tracker.sharedTracker.joinValid()
+
             self.elloLogo.animateLogo()
             self.view.userInteractionEnabled = false
 
@@ -117,9 +120,11 @@ public class JoinViewController: BaseElloViewController, HasAppController {
                 authService.authenticate(email: email,
                     password: password,
                     success: {
+                        Tracker.sharedTracker.joinSuccessful()
                         self.showOnboardingScreen(user)
                     },
                     failure: { _, _ in
+                        Tracker.sharedTracker.joinFailed()
                         self.view.userInteractionEnabled = true
                         self.showSignInScreen(email, password)
                     })
@@ -153,7 +158,9 @@ public class JoinViewController: BaseElloViewController, HasAppController {
     private func showAboutScreen() {
         let nav = ElloWebBrowserViewController.navigationControllerWithWebBrowser()
         let browser = nav.rootWebBrowser()
-        browser.loadURLString("\(ElloURI.baseURL)/wtf/post/about")
+        let url = "\(ElloURI.baseURL)/wtf/post/about"
+        Tracker.sharedTracker.webViewAppeared(url)
+        browser.loadURLString(url)
         browser.tintColor = UIColor.greyA()
 
         browser.showsURLInNavigationBar = false
@@ -166,7 +173,9 @@ public class JoinViewController: BaseElloViewController, HasAppController {
     private func showTerms() {
         let nav = ElloWebBrowserViewController.navigationControllerWithWebBrowser()
         let browser = nav.rootWebBrowser()
-        browser.loadURLString("\(ElloURI.baseURL)/wtf/post/terms-of-use")
+        let url = "\(ElloURI.baseURL)/wtf/post/terms-of-use"
+        Tracker.sharedTracker.webViewAppeared(url)
+        browser.loadURLString(url)
         browser.tintColor = UIColor.greyA()
         browser.showsURLInNavigationBar = false
         browser.showsPageTitleInNavigationBar = false
@@ -196,10 +205,13 @@ extension JoinViewController: UITextFieldDelegate {
     public func textFieldShouldReturn(textField: UITextField) -> Bool {
         switch textField {
         case emailView.textField:
+            Tracker.sharedTracker.enteredEmail()
             usernameView.textField.becomeFirstResponder()
         case usernameView.textField:
+        Tracker.sharedTracker.enteredUsername()
             passwordView.textField.becomeFirstResponder()
         case passwordView.textField:
+            Tracker.sharedTracker.enteredPassword()
             join()
         default:
             return false
