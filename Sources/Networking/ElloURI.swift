@@ -9,10 +9,18 @@
 import Foundation
 import Keys
 
-public enum ElloURI {
-    case Post
-    case Profile
-    case External
+public enum ElloURI: String {
+    case Post = "post"
+    case WTF = "wtf"
+    case Profile = "profile"
+    case Settings = "settings"
+    case Friends = "friends"
+    case Noise = "noise"
+    case Notifications = "notifications"
+    case Search = "search"
+    case Discover = "discover"
+    case Internal = "internal"
+    case External = "external"
 
     // get the proper domain
     private static var _httpProtocol: String?
@@ -41,7 +49,8 @@ public enum ElloURI {
 
     // this is taken directly from app/models/user.rb
     static let usernameRegex = "[\\w\\-]+"
-    static var userPathRegex: String { return "(w{3}\\.)?\(ElloURI.domain)\\/\(ElloURI.usernameRegex)" }
+    static let fuzzyDomain: String = "((w{3}\\.)?ello\\.co|ello-staging\\d?\\.herokuapp\\.com)"
+    static var userPathRegex: String { return "\(ElloURI.fuzzyDomain)\\/\(ElloURI.usernameRegex)" }
 
 
 
@@ -57,22 +66,30 @@ public enum ElloURI {
     private var regexPattern: String {
         switch self {
         case .Post: return "\(ElloURI.userPathRegex)\\/post\\/[^\\/]+\\/?$"
+        case .WTF: return "https?:\\/\\/\(ElloURI.fuzzyDomain)/wtf"
+        case .Settings: return "\(ElloURI.fuzzyDomain)/settings"
+        case .Friends: return "\(ElloURI.fuzzyDomain)/friends"
+        case .Noise: return "\(ElloURI.fuzzyDomain)/noise"
+        case .Notifications: return "\(ElloURI.fuzzyDomain)/notifications"
+        case .Search: return "\(ElloURI.fuzzyDomain)/search"
+        case .Discover: return "\(ElloURI.fuzzyDomain)/discover"
         case .Profile: return "\(ElloURI.userPathRegex)\\/?$"
+        case .Internal: return "\(ElloURI.fuzzyDomain)"
         case .External: return "https?:\\/\\/.{3,}"
         }
     }
 
     private func data(url: String) -> String {
         switch self {
-        case .External: return url
-        default:
+        case .Post, .Profile:
             var urlArr = split(url) { $0 == "/" }
             var last = urlArr.last ?? url
             var lastArr = split(last) { $0 == "?" }
             return lastArr.first ?? url
+        default: return url
         }
     }
 
     // Order matters: [MostSpecific, MostGeneric]
-    static let all = [Post, Profile, External]
+    static let all = [Post, WTF, Settings, Friends, Noise, Notifications, Search, Discover, Profile, Internal, External]
 }
