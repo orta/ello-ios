@@ -51,6 +51,7 @@ public class StreamViewController: BaseElloViewController {
     private let defaultNoResultsTopConstant: CGFloat = 113
     var shouldReload = false
     var streamables:[Streamable]?
+
     public var noResultsMessages = (title: "", body: "") {
         didSet {
             let titleParagraphStyle = NSMutableParagraphStyle()
@@ -517,13 +518,18 @@ public class StreamViewController: BaseElloViewController {
 extension StreamViewController : WebLinkDelegate {
     public func webLinkTapped(type: ElloURI, data: String) {
         switch type {
-        case .External: postNotification(externalWebNotification, data)
-        case .Profile: presentProfile(data)
+        case .External, .WTF: postNotification(externalWebNotification, data)
+        case .Profile: showProfile(data)
         case .Post: showPostDetail(data)
+        case .Settings: showSettings()
+        case .Friends, .Noise: showStreamContainer()
+        case .Notifications: showNotifications()
+        case .Search, .Discover: showDiscover()
+        case .Internal: showInternalWarning()
         }
     }
 
-    private func presentProfile(username: String) {
+    private func showProfile(username: String) {
         let param = "~\(username)"
         if alreadyOnUserProfile(param) { return }
         let vc = ProfileViewController(userParam: param)
@@ -537,6 +543,29 @@ extension StreamViewController : WebLinkDelegate {
         let vc = PostDetailViewController(postParam: param)
         vc.currentUser = currentUser
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+
+    private func showSettings() {
+        if let settings = UIStoryboard(name: "Settings", bundle: .None).instantiateInitialViewController() as? SettingsContainerViewController {
+            settings.currentUser = currentUser
+            navigationController?.pushViewController(settings, animated: true)
+        }
+    }
+
+    private func showStreamContainer() {
+        elloTabBarController?.selectedTab = .Stream
+    }
+
+    private func showNotifications() {
+        elloTabBarController?.selectedTab = .Notifications
+    }
+
+    private func showDiscover() {
+        elloTabBarController?.selectedTab = .Discovery
+    }
+
+    private func showInternalWarning() {
+        initialLoadFailure()
     }
 }
 

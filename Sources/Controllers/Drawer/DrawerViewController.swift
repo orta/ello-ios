@@ -77,7 +77,9 @@ extension DrawerViewController: UITableViewDelegate {
             switch item.type {
             case .External:
                 if let link = item.link {
-                    postNotification(externalWebNotification, link)
+                    if let url = NSURL(string:"\(link)") {
+                        UIApplication.sharedApplication().openURL(url)
+                    }
                 }
             case .Invite:
                 let responder = targetForAction("onInviteFriends", withSender: self) as? InviteResponder
