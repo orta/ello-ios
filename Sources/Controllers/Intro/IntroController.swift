@@ -88,6 +88,12 @@ public class IntroController: UIViewController, UIPageViewControllerDataSource, 
         pageViewController!.didMoveToParentViewController(self)
         view.bringSubviewToFront(pageControl)
         view.bringSubviewToFront(skipButton)
+
+        // add status bar to intro
+        let bar = UIView(frame: CGRect(x: 0, y: 0, width: frame.width, height: 20))
+        bar.autoresizingMask = .FlexibleWidth | .FlexibleBottomMargin
+        bar.backgroundColor = UIColor.blackColor()
+        view.addSubview(bar)
     }
     
     func didTouchSkipIntro(sender:UIButton!) {
