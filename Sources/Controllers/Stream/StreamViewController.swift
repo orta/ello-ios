@@ -50,6 +50,7 @@ public class StreamViewController: BaseElloViewController {
     @IBOutlet weak public var noResultsTopConstraint: NSLayoutConstraint!
     private let defaultNoResultsTopConstant: CGFloat = 113
     var shouldReload = false
+    var canLoadNext = false
     var streamables:[Streamable]?
 
     public var noResultsMessages = (title: "", body: "") {
@@ -678,15 +679,23 @@ extension StreamViewController : UIScrollViewDelegate {
             noResultsTopConstraint.constant = -scrollView.contentOffset.y + defaultNoResultsTopConstant
             self.view.layoutIfNeeded()
         }
-        self.loadNextPage(scrollView)
+
+        if canLoadNext {
+            self.loadNextPage(scrollView)
+        }
     }
 
     public func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        canLoadNext = true
         streamScrollDelegate?.streamViewWillBeginDragging?(scrollView)
     }
 
     public func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate: Bool) {
         streamScrollDelegate?.streamViewDidEndDragging?(scrollView, willDecelerate: willDecelerate)
+    }
+
+    public func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        canLoadNext = false
     }
 
     private func loadNextPage(scrollView: UIScrollView) {
@@ -701,6 +710,7 @@ extension StreamViewController : UIScrollViewDelegate {
                     if lastCellItem.type == .StreamLoading { return }
                     appendStreamCellItems([StreamLoadingCell.streamCellItem()])
                 }
+                canLoadNext = false
 
                 let scrollAPI = ElloAPI.InfiniteScroll(queryItems: nextQueryItems) { return self.streamKind.endpoint }
                 streamService.loadStream(scrollAPI,
@@ -709,17 +719,14 @@ extension StreamViewController : UIScrollViewDelegate {
                         (jsonables, responseConfig) in
                         self.scrollLoaded(jsonables: jsonables)
                         self.responseConfig = responseConfig
-                        self.doneLoading()
                     },
                     failure: { (error, statusCode) in
                         println("failed to load stream (reason: \(error))")
                         self.scrollLoaded()
-                        self.doneLoading()
                     },
                     noContent: {
                         self.allOlderPagesLoaded = true
                         self.scrollLoaded()
-                        self.doneLoading()
                     }
                 )
             }
@@ -731,10 +738,12 @@ extension StreamViewController : UIScrollViewDelegate {
             if jsonables.count > 0 {
                 insertUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: streamKind, currentUser: self.currentUser), startingIndexPath: lastIndexPath) {
                     self.removeLoadingCell()
+                    self.doneLoading()
                 }
             }
             else {
                 removeLoadingCell()
+                self.doneLoading()
             }
         }
     }

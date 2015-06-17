@@ -86,7 +86,6 @@ public enum StreamKind {
             }
         case .Discover:
             if let users = jsonables as? [User] {
-                println("unfiltered count \(count(users))")
                 return users.reduce([]) { accum, user in
                     if let post = user.mostRecentPost where !post.isAdultContent {
                         return accum + [post]
