@@ -42,6 +42,7 @@ public class OnboardingViewController: BaseElloViewController, HasAppController 
     private var onboardingViewControllers = [UIViewController]()
     var onboardingData: OnboardingData?
 
+    public private(set) lazy var statusBar: UIView = { return UIView() }()
     public private(set) lazy var controllerContainer: UIView = { return UIView() }()
     public private(set) lazy var buttonContainer: UIView = { return UIView() }()
     public private(set) lazy var skipButton: OnboardingSkipButton = {
@@ -83,6 +84,7 @@ public class OnboardingViewController: BaseElloViewController, HasAppController 
         setupButtonContainer()
         setupControllerContainer()
         setupOnboardingControllers()
+        setupStatusBar()
     }
 
 }
@@ -164,6 +166,13 @@ extension OnboardingViewController {
 }
 
 private extension OnboardingViewController {
+
+    func setupStatusBar() {
+        statusBar.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 20)
+        statusBar.backgroundColor = .blackColor()
+        statusBar.autoresizingMask = .FlexibleWidth | .FlexibleBottomMargin
+        view.addSubview(statusBar)
+    }
 
     func setupButtonContainer() {
         buttonContainer.frame = view.bounds.fromBottom().growUp(Size.buttonContainerHeight)
