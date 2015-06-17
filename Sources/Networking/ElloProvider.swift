@@ -163,7 +163,13 @@ extension ElloProvider {
     // MARK: - Private
 
     static private func handleRequest(target: ElloAPI, method: Moya.Method, data: NSData?, response: NSHTTPURLResponse?, var statusCode: Int?, success: ElloSuccessCompletion, failure: ElloFailureCompletion?, invalidToken: ElloErrorCompletion?, isRetry: Bool, error: NSError?) {
+        if let response = response {
+            Crashlytics.sharedInstance().setObjectValue(response.allHeaderFields.description, forKey: CrashlyticsKey.ResponseHeaders.rawValue)
+        }
         if data != nil && statusCode != nil {
+            // set crashlytics stuff before processing
+            Crashlytics.sharedInstance().setObjectValue("\(statusCode!)", forKey: CrashlyticsKey.ResponseStatusCode.rawValue)
+            Crashlytics.sharedInstance().setObjectValue(NSString(data: data!, encoding: NSUTF8StringEncoding), forKey: CrashlyticsKey.ResponseJSON.rawValue)
             switch statusCode! {
             case 200...299:
                 ElloProvider.handleNetworkSuccess(data!, elloAPI: target, statusCode:statusCode, response: response, success: success, failure: failure)
@@ -204,13 +210,11 @@ extension ElloProvider {
             default:
                 ElloProvider.handleNetworkFailure(target.path, failure: failure, data: data, error: error, statusCode: statusCode)
             }
-            Crashlytics.sharedInstance().setObjectValue("\(statusCode!)", forKey: CrashlyticsKey.ResponseStatusCode.rawValue)
-            Crashlytics.sharedInstance().setObjectValue(NSString(data: data!, encoding: NSUTF8StringEncoding), forKey: CrashlyticsKey.ResponseJSON.rawValue)
         }
         else {
-            ElloProvider.handleNetworkFailure(target.path, failure: failure, data: data, error: error, statusCode: statusCode)
             Crashlytics.sharedInstance().setObjectValue("nil", forKey: CrashlyticsKey.ResponseStatusCode.rawValue)
             Crashlytics.sharedInstance().setObjectValue("no json data", forKey: CrashlyticsKey.ResponseJSON.rawValue)
+            ElloProvider.handleNetworkFailure(target.path, failure: failure, data: data, error: error, statusCode: statusCode)
         }
     }
 
