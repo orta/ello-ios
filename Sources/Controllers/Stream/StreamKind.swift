@@ -130,17 +130,22 @@ public enum StreamKind {
                 return comments
             }
             else if let posts = jsonables as? [Post] {
-                return posts
+                return posts.reduce([]) { accum, post in
+                    if !post.isAdultContent || viewsAdultContent {
+                        return accum + [post]
+                    }
+                    return accum
+                }
             }
         }
         return []
     }
 
-    public var isGridLayout:Bool {
+    public var isGridLayout: Bool {
         return self.columnCount > 1
     }
 
-   public var isDetail:Bool {
+   public var isDetail: Bool {
         switch self {
         case .PostDetail: return true
         default: return false
