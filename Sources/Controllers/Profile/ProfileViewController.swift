@@ -73,6 +73,13 @@ public class ProfileViewController: StreamableViewController {
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
         ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.loadInitialPage()
+
+        if let handle = currentUser?.atName,
+            let userHandle = user?.atName
+            where handle == userHandle
+        {
+            Tracker.sharedTracker.ownProfileViewed(handle)
+        }
     }
 
     override public func viewDidAppear(animated: Bool) {
@@ -153,6 +160,9 @@ public class ProfileViewController: StreamableViewController {
     }
 
     private func userLoaded(user: User, responseConfig: ResponseConfig) {
+        if self.user == nil {
+            Tracker.sharedTracker.profileViewed(user.atName ?? "(no name)")
+        }
         self.user = user
         updateCurrentUser(user)
 
@@ -186,8 +196,8 @@ public class ProfileViewController: StreamableViewController {
         }
         // this calls doneLoading when cells are added
         streamViewController.appendUnsizedCellItems(items, withWidth: self.view.frame.width)
-        
-        Tracker.sharedTracker.profileAppeared(user.atName ?? "")
+
+        Tracker.sharedTracker.profileLoaded(user.atName ?? "(no name)")
     }
 }
 

@@ -249,7 +249,6 @@ private extension ElloTabBarController {
     func showViewController(showViewController: UIViewController) {
         tabBar.selectedItem = tabBar.items?[selectedTab.rawValue] as? UITabBarItem
         let controller = (showViewController as? UINavigationController)?.topViewController ?? showViewController
-        Tracker.sharedTracker.screenAppeared(controller.title ?? controller.readableClassName())
         view.insertSubview(showViewController.view, belowSubview: tabBar)
         showViewController.view.frame = tabBar.frame.fromBottom().growUp(view.frame.height - tabBar.frame.height)
         showViewController.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth

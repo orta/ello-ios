@@ -239,7 +239,7 @@ private extension OnboardingViewController {
 extension OnboardingViewController {
 
     private func showFirstViewController(viewController: UIViewController) {
-        Tracker.sharedTracker.screenAppeared(viewController.title ?? viewController.readableClassName())
+        Tracker.sharedTracker.screenAppeared(viewController)
 
         if var onboardingStep = viewController as? OnboardingStep {
             onboardingStep.onboardingData = onboardingData
@@ -338,7 +338,7 @@ extension OnboardingViewController {
             return
         }
 
-        Tracker.sharedTracker.screenAppeared(nextViewController.title ?? nextViewController.readableClassName())
+        Tracker.sharedTracker.screenAppeared(nextViewController)
 
         visibleViewController.willMoveToParentViewController(nil)
         addChildViewController(nextViewController)
