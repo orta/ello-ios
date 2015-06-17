@@ -239,6 +239,10 @@ public class ProfileViewController: StreamableViewController {
     }
 
     private func updateNoPostsView(show: Bool) {
+        if !isViewLoaded() {
+            return
+        }
+
         if show {
             noPostsView.hidden = false
             animate {
