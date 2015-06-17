@@ -70,8 +70,10 @@ public class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
     }
 
     private func assignCellHeight(webContentHeight : CGFloat) {
-        var cellItem = self.cellItems.removeAtIndex(0)
-        StreamNotificationCellSizeCalculator.assignTotalHeight(webContentHeight, cellItem: cellItem, cellWidth: originalWidth)
+        if let cellItem = self.cellItems.safeValue(0) {
+            self.cellItems.removeAtIndex(0)
+            StreamNotificationCellSizeCalculator.assignTotalHeight(webContentHeight, cellItem: cellItem, cellWidth: originalWidth)
+        }
         loadNext()
     }
 
