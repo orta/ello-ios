@@ -293,6 +293,11 @@ public extension Tracker {
         agent.track("Profile Loaded", properties: ["handle": handle])
     }
 
+    func ownProfileViewed(handle: String) {
+        log("Screen: Own Profile Viewed, [handle: \(handle)]")
+        agent.screen("Own Profile Viewed", properties: ["handle": handle])
+    }
+
     func profileViewed(handle: String) {
         log("Screen: Profile Viewed, [handle: \(handle)]")
         agent.screen("Profile Viewed", properties: ["handle": handle])

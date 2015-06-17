@@ -73,6 +73,13 @@ public class ProfileViewController: StreamableViewController {
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
         ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.loadInitialPage()
+
+        if let handle = currentUser?.atName,
+            let userHandle = user?.atName
+            where handle == userHandle
+        {
+            Tracker.sharedTracker.ownProfileViewed(handle)
+        }
     }
 
     override public func viewDidAppear(animated: Bool) {
