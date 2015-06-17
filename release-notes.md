@@ -1,3 +1,19 @@
+### Ello Build v1.0.0(2510) June 17, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #453 - invert the colors on profile zero state
+[Finishes #97226972]
+
+------
+
+#### #454 - Adds the status bar to Onboarding, and fixes the showing and hiding of the status bar when picking an image.
+Also makes the code consistent between onboarding and the omnibar.
+    
+------------
+
 ### Ello Build v1.0.0(2503) June 17, 2015
 
     No completed pull requests since last distribution.
