@@ -289,7 +289,7 @@ public class StreamViewController: BaseElloViewController {
                     self.clearForInitialLoad()
                     self.responseConfig = responseConfig
                     // this calls doneLoading when cells are added
-                    self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind), withWidth: nil)
+                    self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind, currentUser: self.currentUser), withWidth: nil)
                 }, failure: { (error, statusCode) in
                     println("failed to load \(self.streamKind.name) stream (reason: \(error))")
                     self.initialLoadFailure()
@@ -729,7 +729,7 @@ extension StreamViewController : UIScrollViewDelegate {
     private func scrollLoaded(jsonables: [JSONAble] = []) {
         if let lastIndexPath = collectionView.lastIndexPathForSection(0) {
             if jsonables.count > 0 {
-                insertUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: streamKind), startingIndexPath: lastIndexPath) {
+                insertUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: streamKind, currentUser: self.currentUser), startingIndexPath: lastIndexPath) {
                     self.removeLoadingCell()
                 }
             }

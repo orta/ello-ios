@@ -120,7 +120,7 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         // set name
         title = post.author?.atName ?? "Post Detail"
         let parser = StreamCellItemParser()
-        var items = parser.parse([post], streamKind: streamViewController.streamKind)
+        var items = parser.parse([post], streamKind: streamViewController.streamKind, currentUser: currentUser)
         // add in the comment button if we have a current user
         if let currentUser = currentUser {
             items.append(StreamCellItem(
@@ -133,7 +133,7 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
             )
         }
         if let comments = post.comments {
-            items += parser.parse(comments, streamKind: streamViewController.streamKind)
+            items += parser.parse(comments, streamKind: streamViewController.streamKind, currentUser: currentUser)
         }
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
         // this calls doneLoading when cells are added
