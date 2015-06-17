@@ -69,6 +69,8 @@ public class ProfileViewController: StreamableViewController {
      deinit {
         currentUserChangedNotification?.removeObserver()
         currentUserChangedNotification = nil
+        postChangedNotification?.removeObserver()
+        postChangedNotification = nil
     }
 
     required public init(coder aDecoder: NSCoder) {
