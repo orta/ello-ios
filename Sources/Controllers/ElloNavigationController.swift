@@ -164,12 +164,15 @@ extension ElloNavigationController: UIViewControllerTransitioningDelegate {
 
 }
 
+private let throttledTracker = debounce(0.1)
 extension ElloNavigationController: UINavigationControllerDelegate {
-
 
     public func navigationController(navigationController: UINavigationController, didShowViewController viewController: UIViewController, animated: Bool) {
         backGesture?.edges = viewController.backGestureEdges
-        Tracker.sharedTracker.screenAppeared(viewController.title ?? viewController.readableClassName())
+
+        throttledTracker {
+            Tracker.sharedTracker.screenAppeared(viewController)
+        }
     }
 
     public func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {

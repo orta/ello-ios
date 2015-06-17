@@ -52,6 +52,9 @@ public class StreamContainerViewController: StreamableViewController {
         let initialStream = childStreamControllers[0]
         scrollLogic.prevOffset = initialStream.collectionView.contentOffset
         initialStream.collectionView.scrollsToTop = true
+
+        let stream = StreamKind.streamValues[0]
+        Tracker.sharedTracker.streamAppeared(stream.name)
     }
 
     override public func viewDidAppear(animated: Bool) {
@@ -176,7 +179,7 @@ public class StreamContainerViewController: StreamableViewController {
         scrollView.scrollRectToVisible(rect, animated: true)
 
         let stream = StreamKind.streamValues[sender.selectedSegmentIndex]
-        Tracker.sharedTracker.screenAppeared(stream.name)
+        Tracker.sharedTracker.streamAppeared(stream.name)
 
         if sender.selectedSegmentIndex == 1 && !noiseLoaded {
             noiseLoaded = true

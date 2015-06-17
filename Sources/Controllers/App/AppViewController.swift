@@ -147,6 +147,7 @@ public class AppViewController: BaseElloViewController {
 
     private func showButtons(animated: Bool = true) {
 //        println("---------PROFILING: AppVC not logged in: \(NSDate().timeIntervalSinceDate(LaunchDate))")
+        Tracker.sharedTracker.screenAppeared("Startup")
         animate(animated: animated) {
             self.joinButton.alpha = 1.0
             self.signInButton.alpha = 1.0
@@ -231,7 +232,7 @@ extension AppViewController {
 extension AppViewController {
 
     func showExternalWebView(url: String) {
-        Tracker.sharedTracker.screenAppeared("Web View: \(url)")
+        Tracker.sharedTracker.webViewAppeared(url)
         presentViewController(externalWebController, animated: true, completion: nil)
         if let externalWebView = externalWebController.rootWebBrowser() {
             externalWebView.tintColor = UIColor.greyA()
@@ -310,7 +311,7 @@ extension AppViewController {
 
     private func prepareToShowViewController(newViewController: UIViewController) {
         let controller = (newViewController as? UINavigationController)?.topViewController ?? newViewController
-        Tracker.sharedTracker.screenAppeared(controller.title ?? controller.readableClassName())
+        Tracker.sharedTracker.screenAppeared(controller)
 
         view.addSubview(newViewController.view)
         newViewController.view.frame = self.view.bounds
@@ -393,10 +394,12 @@ extension AppViewController {
 public extension AppViewController {
 
     @IBAction func signInTapped(sender: ElloButton) {
+        Tracker.sharedTracker.tappedSignInFromStartup()
         showSignInScreen()
     }
 
     @IBAction func joinTapped(sender: ElloButton) {
+        Tracker.sharedTracker.tappedJoinFromStartup()
         showJoinScreen()
     }
 
