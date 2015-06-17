@@ -50,6 +50,7 @@ public class StreamViewController: BaseElloViewController {
     @IBOutlet weak public var noResultsTopConstraint: NSLayoutConstraint!
     private let defaultNoResultsTopConstant: CGFloat = 113
     var shouldReload = false
+    var canLoadNext = false
     var streamables:[Streamable]?
 
     public var noResultsMessages = (title: "", body: "") {
@@ -678,15 +679,23 @@ extension StreamViewController : UIScrollViewDelegate {
             noResultsTopConstraint.constant = -scrollView.contentOffset.y + defaultNoResultsTopConstant
             self.view.layoutIfNeeded()
         }
-        self.loadNextPage(scrollView)
+
+        if canLoadNext {
+            self.loadNextPage(scrollView)
+        }
     }
 
     public func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        canLoadNext = true
         streamScrollDelegate?.streamViewWillBeginDragging?(scrollView)
     }
 
     public func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate: Bool) {
         streamScrollDelegate?.streamViewDidEndDragging?(scrollView, willDecelerate: willDecelerate)
+    }
+
+    public func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        canLoadNext = false
     }
 
     private func loadNextPage(scrollView: UIScrollView) {
