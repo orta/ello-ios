@@ -27,6 +27,7 @@ public final class Post: JSONAble, Authorable {
     public let authorId: String
     public let href: String
     public let token: String
+    public let isAdultContent: Bool
     public let contentWarning: String
     public let allowComments: Bool
     public var reposted: Bool
@@ -90,6 +91,7 @@ public final class Post: JSONAble, Authorable {
         authorId: String,
         href: String,
         token: String,
+        isAdultContent: Bool,
         contentWarning: String,
         allowComments: Bool,
         reposted: Bool,
@@ -104,6 +106,7 @@ public final class Post: JSONAble, Authorable {
         self.authorId = authorId
         self.href = href
         self.token = token
+        self.isAdultContent = isAdultContent
         self.contentWarning = contentWarning
         self.allowComments = allowComments
         self.reposted = reposted
@@ -123,6 +126,7 @@ public final class Post: JSONAble, Authorable {
         self.authorId = decoder.decodeKey("authorId")
         self.href = decoder.decodeKey("href")
         self.token = decoder.decodeKey("token")
+        self.isAdultContent = decoder.decodeKey("isAdultContent")
         self.contentWarning = decoder.decodeKey("contentWarning")
         self.allowComments = decoder.decodeKey("allowComments")
         self.summary = decoder.decodeKey("summary")
@@ -151,6 +155,7 @@ public final class Post: JSONAble, Authorable {
         coder.encodeObject(authorId, forKey: "authorId")
         coder.encodeObject(href, forKey: "href")
         coder.encodeObject(token, forKey: "token")
+        coder.encodeObject(isAdultContent, forKey: "isAdultContent")
         coder.encodeObject(contentWarning, forKey: "contentWarning")
         coder.encodeObject(allowComments, forKey: "allowComments")
         coder.encodeObject(summary, forKey: "summary")
@@ -182,6 +187,7 @@ public final class Post: JSONAble, Authorable {
             authorId: json["author_id"].stringValue,
             href: json["href"].stringValue,
             token: json["token"].stringValue,
+            isAdultContent: json["is_adult_content"].boolValue,
             contentWarning: json["content_warning"].stringValue,
             allowComments: json["allow_comments"].boolValue,
             reposted: json["reposted"].bool ?? false,

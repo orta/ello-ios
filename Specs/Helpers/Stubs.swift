@@ -146,6 +146,7 @@ extension Post: Stubbable {
             authorId: author.id,
             href: (values["href"] as? String) ?? "sample-href",
             token: (values["token"] as? String) ?? "sample-token",
+            isAdultContent: (values["isAdultContent"] as? Bool) ?? false,
             contentWarning: (values["contentWarning"] as? String) ?? "",
             allowComments: (values["allowComments"] as? Bool) ?? false,
             reposted: (values["reposted"] as? Bool) ?? false,
