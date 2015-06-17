@@ -1,3 +1,78 @@
+### Ello Build v1.0.0(2491) June 16, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #448 - Remove NSFW posts if the current user does not view NSFW content
+* Add black status bar to intro
+* reduce number of discover posts loaded to 10 per page
+* Add isAdultContent to Post model
+* reduce notifications per page to 10
+
+[Finishes #97159036]
+[Finishes #97166342]
+[Finishes #97166354]
+[Finishes #97166354]
+
+------
+
+#### #447 - Launch WTF/store in safari instead of internal.
+![image](https://cloud.githubusercontent.com/assets/96433/8198613/7515fbf4-1466-11e5-94ec-abb314f7c0ca.png)
+
+------
+
+#### #443 - Reset StreamImageCellPresenter after viewing the fallback image
+[fixes #97032168]
+
+Test Suite 'Selected tests' passed at 2015-06-16 22:59:01 +0000.
+Executed 707 tests, with 0 failures (0 unexpected) in 28.925 (29.130) seconds
+
+@colinta style ^^^^
+
+------
+
+#### #442 - Update Segment tracking to always use static event names
+Segment was barking about dynamic event names (and those don't do us much good) - this fixes that. They were primarily being sent in the webview and profile screen hooks.
+
+[fixes #96945344]
+
+------
+
+#### #446 - It's a tracking party
+@jayzes first we'll merge these into your branch...
+
+...then @steam will blindly merge them, because he thinks it's just some small PR that Jay submitted!
+
+------
+
+#### #445 - fixes the status bar on logout
+if the status bar was hidden when 'logout' was
+tapped, the status bar wouldn't be visible
+in the startup screens
+
+------
+
+#### #444 - fixes the profile half-status bar
+the navigationBar height needs to be explicitly set to 64pt
+
+------
+
+#### #441 - Update profile zero state for the current user
+Display appropriate language on your own profile when you have zero posts.
+
+------
+
+#### #440 - Show zero state UI on profile if no posts
+When a profile has zero posts we show zero state UI.
+
+![screenshot 2015-06-15 10 55 09](https://cloud.githubusercontent.com/assets/12459/8165357/03cc0c46-134d-11e5-970c-9412646bb1a8.png)
+
+
+![screenshot 2015-06-15 10 51 26](https://cloud.githubusercontent.com/assets/12459/8165293/819e9536-134c-11e5-9c12-be008e0bdb41.png)
+    
+------------
+
 ### Ello Build v1.0.0(2443) June 12, 2015
 
     RELEASE NOTES
