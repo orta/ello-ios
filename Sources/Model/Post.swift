@@ -183,7 +183,7 @@ public final class Post: JSONAble, Authorable {
         // create post
         var post = Post(
             id: json["id"].stringValue,
-            createdAt: json["created_at"].stringValue.toNSDate() ?? NSDate(),
+            createdAt: json["created_at"].stringValue.toNSDate()!,
             authorId: json["author_id"].stringValue,
             href: json["href"].stringValue,
             token: json["token"].stringValue,
