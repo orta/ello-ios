@@ -23,6 +23,12 @@ public class OnboardingUploadImageViewController: BaseElloViewController, Onboar
     var chooseImageButton: UIButton?
     var selectedImage: UIImage?
 
+    override public func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .None)
+        UIApplication.sharedApplication().statusBarStyle = .LightContent
+    }
+
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
@@ -51,6 +57,8 @@ extension OnboardingUploadImageViewController {
 
     private func openImagePicker(imageController: UIImagePickerController) {
         imageController.delegate = self
+        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .None)
+        UIApplication.sharedApplication().statusBarStyle = .LightContent
         self.presentViewController(imageController, animated: true, completion: nil)
     }
 
