@@ -27,6 +27,11 @@ public class BaseElloViewController: UIViewController, ControllerThatMightHaveTh
         self.navigationItem.fixNavBarItemPadding()
     }
 
+    override public func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        UIApplication.sharedApplication().statusBarStyle = .LightContent
+    }
+
     func didSetCurrentUser() {}
 
     public func isRootViewController() -> Bool {

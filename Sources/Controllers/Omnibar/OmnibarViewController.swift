@@ -121,8 +121,6 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
     override public func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .None)
-        UIApplication.sharedApplication().statusBarStyle = .LightContent
 
         if let keyboardWillShowObserver = keyboardWillShowObserver {
             keyboardWillShowObserver.removeObserver()
@@ -260,6 +258,8 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     }
 
     public func omnibarPresentController(controller: UIViewController) {
+        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .None)
+        UIApplication.sharedApplication().statusBarStyle = .LightContent
         self.presentViewController(controller, animated: true, completion: nil)
     }
 
