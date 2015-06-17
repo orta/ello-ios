@@ -24,7 +24,7 @@ public struct ProfileHeaderCellPresenter {
             cell.user = user
             cell.currentUser = currentUser
             cell.relationshipControl.hidden = false
-            cell.nsfwLabel.hidden = !user.postsAdultContent
+            cell.nsfwLabel.hidden = true
             cell.usernameRightConstraint.constant = user.postsAdultContent ? 75.0 : 15.0
 
             let isCurrentUser: Bool
