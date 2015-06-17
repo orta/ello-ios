@@ -710,6 +710,7 @@ extension StreamViewController : UIScrollViewDelegate {
                     if lastCellItem.type == .StreamLoading { return }
                     appendStreamCellItems([StreamLoadingCell.streamCellItem()])
                 }
+                canLoadNext = false
 
                 let scrollAPI = ElloAPI.InfiniteScroll(queryItems: nextQueryItems) { return self.streamKind.endpoint }
                 streamService.loadStream(scrollAPI,
@@ -718,17 +719,14 @@ extension StreamViewController : UIScrollViewDelegate {
                         (jsonables, responseConfig) in
                         self.scrollLoaded(jsonables: jsonables)
                         self.responseConfig = responseConfig
-                        self.doneLoading()
                     },
                     failure: { (error, statusCode) in
                         println("failed to load stream (reason: \(error))")
                         self.scrollLoaded()
-                        self.doneLoading()
                     },
                     noContent: {
                         self.allOlderPagesLoaded = true
                         self.scrollLoaded()
-                        self.doneLoading()
                     }
                 )
             }
@@ -740,10 +738,12 @@ extension StreamViewController : UIScrollViewDelegate {
             if jsonables.count > 0 {
                 insertUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: streamKind, currentUser: self.currentUser), startingIndexPath: lastIndexPath) {
                     self.removeLoadingCell()
+                    self.doneLoading()
                 }
             }
             else {
                 removeLoadingCell()
+                self.doneLoading()
             }
         }
     }
