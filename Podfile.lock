@@ -62,7 +62,7 @@ DEPENDENCIES:
   - FLAnimatedImage (from `https://github.com/ello/FLAnimatedImage`)
   - JTSImageViewController (from `https://github.com/ello/JTSImageViewController`)
   - Keys (from `Pods/CocoaPodsKeys/`)
-  - KINWebBrowser (from `https://github.com/ello/KINWebBrowser`)
+  - KINWebBrowser (from `../KINWebBrowser`)
   - LUKeychainAccess (~> 1.2.4)
   - MBProgressHUD (~> 0.9.0)
   - Moya (from `https://github.com/ello/Moya`, branch `cg-hybrid`)
@@ -89,7 +89,7 @@ EXTERNAL SOURCES:
   Keys:
     :path: Pods/CocoaPodsKeys/
   KINWebBrowser:
-    :git: https://github.com/ello/KINWebBrowser
+    :path: "../KINWebBrowser"
   Moya:
     :branch: cg-hybrid
     :git: https://github.com/ello/Moya
@@ -108,9 +108,6 @@ CHECKOUT OPTIONS:
   JTSImageViewController:
     :commit: d42f2c241f46cfb0ff744146de9c75dbf998b77c
     :git: https://github.com/ello/JTSImageViewController
-  KINWebBrowser:
-    :commit: 5ce867f9f668e2fe5ef4a03fec3ccaac0b6869a3
-    :git: https://github.com/ello/KINWebBrowser
   Moya:
     :commit: 3199b781225ee5cdd59d6b70fd4c038a80f47f74
     :git: https://github.com/ello/Moya

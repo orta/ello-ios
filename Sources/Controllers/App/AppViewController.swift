@@ -79,6 +79,10 @@ public class AppViewController: BaseElloViewController {
         return UIStoryboard.storyboardWithId(.App, storyboardName: "App") as! AppViewController
     }
 
+    public override func didSetCurrentUser() {
+        ElloWebBrowserViewController.currentUser = currentUser
+    }
+
 // MARK: - Private
 
     private func setupStyles() {
