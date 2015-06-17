@@ -318,7 +318,6 @@ extension StreamHeaderCell: ElloTextViewDelegate {
 }
 
 // MARK: UIScrollViewDelegate
-private let throttledTracker = debounce(0.1)
 extension StreamHeaderCell: UIScrollViewDelegate {
 
     public func scrollViewDidScroll(scrollView: UIScrollView) {
@@ -329,10 +328,12 @@ extension StreamHeaderCell: UIScrollViewDelegate {
         }
 
         if scrollView.contentOffset.x >= revealWidth {
-            isOpen = true
-            openChevron(isOpen: true)
-            postNotification(streamCellDidOpenNotification, self)
-            throttledTracker { Tracker.sharedTracker.commentBarVisibilityChanged(true) }
+            if !isOpen {
+                isOpen = true
+                openChevron(isOpen: true)
+                postNotification(streamCellDidOpenNotification, self)
+                Tracker.sharedTracker.commentBarVisibilityChanged(true)
+            }
         } else {
             var angle: CGFloat = -CGFloat(M_PI) + CGFloat(M_PI) * scrollView.contentOffset.x / revealWidth
             rotateChevron(angle)
