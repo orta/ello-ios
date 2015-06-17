@@ -42,7 +42,7 @@ public enum StreamKind {
         }
     }
 
-    public var endpoint:ElloAPI {
+    public var endpoint: ElloAPI {
         switch self {
         case .Friend: return .FriendStream
         case .Noise: return .NoiseStream
@@ -65,13 +65,30 @@ public enum StreamKind {
         }
     }
 
-    public func filter(jsonables: [JSONAble]) -> [JSONAble] {
+    public func filter(jsonables: [JSONAble], viewsAdultContent: Bool) -> [JSONAble] {
         switch self {
-        case .UserList: return jsonables
+        case .UserList:
+            switch self.endpoint {
+            case .SearchForUsers:
+                if let users = jsonables as? [User] {
+                    return users.reduce([]) { accum, user in
+                        if !user.postsAdultContent {
+                            return accum + [user]
+                        }
+                        return accum
+                    }
+                }
+                else {
+                    return []
+                }
+            default:
+                return jsonables
+            }
         case .Discover:
             if let users = jsonables as? [User] {
+                println("unfiltered count \(count(users))")
                 return users.reduce([]) { accum, user in
-                    if let post = user.mostRecentPost {
+                    if let post = user.mostRecentPost where !post.isAdultContent {
                         return accum + [post]
                     }
                     return accum
@@ -83,7 +100,7 @@ public enum StreamKind {
         case .Loves:
             if let loves = jsonables as? [Love] {
                 return loves.reduce([]) { accum, love in
-                    if let post = love.post {
+                    if let post = love.post where !post.isAdultContent || viewsAdultContent {
                         return accum + [post]
                     }
                     return accum
@@ -103,7 +120,7 @@ public enum StreamKind {
         default:
             if let activities = jsonables as? [Activity] {
                 return activities.reduce([]) { accum, activity in
-                    if let post = activity.subject as? Post {
+                    if let post = activity.subject as? Post where !post.isAdultContent || viewsAdultContent {
                         return accum + [post]
                     }
                     return accum

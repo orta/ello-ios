@@ -335,7 +335,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
 
             if let indexPath = indexPath {
                 self.insertUnsizedCellItems(
-                    StreamCellItemParser().parse([jsonable], streamKind: self.streamKind),
+                    StreamCellItemParser().parse([jsonable], streamKind: self.streamKind, currentUser: currentUser),
                     withWidth: UIScreen.screenWidth(),
                     startingIndexPath: indexPath)
                     { newIndexPaths in
