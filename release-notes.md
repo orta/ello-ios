@@ -1,3 +1,34 @@
+### Ello Build v1.0.0(2502) June 17, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #452 - Prevent loading the next page unless a user is scrolling
+[Fixes #97168228]
+[Fixes https://www.pivotaltracker.com/story/show/97213904]
+
+------
+
+#### #451 - Remove notification observers on deinit.
+* Will hopefully fix this crash
+
+[Fixes #97215036]
+
+------
+
+#### #450 - guard removeAtIndex with a let assignment
+hoping it fixes https://crashlytics.com/ello/ios/apps/co.ello.ellodev/issues/55815d89f505b5ccf02ac0d3
+
+------
+
+#### #449 - Wait for intro to animate in before showing login.
+- Fix bug with login buttons showing on intro.
+
+[Fixes #97168796]
+    
+------------
+
 ### Ello Build v1.0.0(2491) June 16, 2015
 
     RELEASE NOTES
