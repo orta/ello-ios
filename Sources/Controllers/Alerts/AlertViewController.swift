@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Crashlytics
+
 private let DesiredWidth: CGFloat = 300
 private let HelpButtonSpace: CGFloat = 49
 private let MaxHeight = UIScreen.mainScreen().applicationFrame.height - 20

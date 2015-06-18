@@ -101,6 +101,7 @@ public extension ProfileInfoViewController {
                 let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
                 alertController.addAction(action)
 
+                logPresentingAlert("ProfileInfoViewController")
                 self.presentViewController(alertController, animated: true, completion: nil)
             })
         }

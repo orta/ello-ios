@@ -355,8 +355,9 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                     collectionView.deleteItemsAtIndexPaths(removeItemsForJSONAble(jsonable, change: .Delete))
                     shouldReload = false
                 }
-            default: shouldReload = true
+            default: break
             }
+
             if shouldReload {
                 let (indexPaths, items) = elementsForJSONAble(jsonable, change: change)
                 items.map { $0.jsonable = jsonable }

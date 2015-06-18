@@ -10,7 +10,6 @@ import UIKit
 
 public class PostDetailViewController: StreamableViewController, CreateCommentDelegate {
 
-    var shouldReload = false
     var post: Post?
     var postParam: String!
     var navigationBar: ElloNavigationBar!
@@ -43,11 +42,6 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         updateInsets()
-
-        if shouldReload {
-            shouldReload = false
-            streamViewController.loadInitialPage()
-        }
     }
 
     private func updateInsets() {

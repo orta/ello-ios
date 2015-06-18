@@ -49,7 +49,6 @@ public class StreamViewController: BaseElloViewController {
     @IBOutlet weak public var noResultsLabel: UILabel!
     @IBOutlet weak public var noResultsTopConstraint: NSLayoutConstraint!
     private let defaultNoResultsTopConstant: CGFloat = 113
-    var shouldReload = false
     var canLoadNext = false
     var streamables:[Streamable]?
 
@@ -186,10 +185,6 @@ public class StreamViewController: BaseElloViewController {
 
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        if shouldReload {
-            shouldReload = false
-            loadInitialPage()
-        }
         Crashlytics.sharedInstance().setObjectValue(streamKind.name, forKey: CrashlyticsKey.StreamName.rawValue)
     }
 
@@ -330,12 +325,29 @@ public class StreamViewController: BaseElloViewController {
 // MARK: Private Functions
 
     private func initialLoadFailure() {
-        let message = NSLocalizedString("Something went wrong. Thank you for your patience with Ello Beta!", comment: "Initial stream load failure")
-        let alertController = AlertViewController(message: message)
-        let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
-        alertController.addAction(action)
-        self.presentViewController(alertController, animated: true) {
-            self.navigationController?.popViewControllerAnimated(true)
+        var isVisible = false
+        var view: UIView? = self.view
+        while view != nil {
+            if view is UIWindow {
+                isVisible = true
+                break
+            }
+
+            view = view!.superview
+        }
+
+        if isVisible {
+            let message = NSLocalizedString("Something went wrong. Thank you for your patience with Ello Beta!", comment: "Initial stream load failure")
+            let alertController = AlertViewController(message: message)
+            let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
+            alertController.addAction(action)
+            logPresentingAlert("StreamViewController")
+            presentViewController(alertController, animated: true) {
+                self.navigationController?.popViewControllerAnimated(true)
+            }
+        }
+        else {
+            navigationController?.popViewControllerAnimated(false)
         }
     }
 

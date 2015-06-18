@@ -92,6 +92,7 @@ public class ContentFlagger {
 
         alertController.addAction(cancelAction)
 
+        logPresentingAlert(presentingController?.readableClassName() ?? "ContentFlagger")
         presentingController?.presentViewController(alertController, animated: true, completion: .None)
     }
 

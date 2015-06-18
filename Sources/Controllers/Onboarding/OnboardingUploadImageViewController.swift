@@ -51,8 +51,10 @@ extension OnboardingUploadImageViewController {
 // MARK: Loading the image picker controller and getting results
 extension OnboardingUploadImageViewController {
     func chooseImageTapped() {
-        let alert = UIImagePickerController.alertControllerForImagePicker(openImagePicker)
-        alert.map { self.presentViewController($0, animated: true, completion: nil) }
+        if let alertController = UIImagePickerController.alertControllerForImagePicker(openImagePicker) {
+            logPresentingAlert("OnboardingUploadImageViewController")
+            presentViewController(alertController, animated: true, completion: nil)
+        }
     }
 
     private func openImagePicker(imageController: UIImagePickerController) {
@@ -75,7 +77,8 @@ extension OnboardingUploadImageViewController {
         let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
         alertController.addAction(action)
 
-        self.presentViewController(alertController, animated: true, completion: nil)
+        logPresentingAlert("OnboardingUploadImageViewController")
+        presentViewController(alertController, animated: true, completion: nil)
     }
 }
 

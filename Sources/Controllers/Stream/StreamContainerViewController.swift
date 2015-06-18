@@ -136,11 +136,18 @@ public class StreamContainerViewController: StreamableViewController {
             vc.didMoveToParentViewController(self)
             ElloHUD.showLoadingHudInView(vc.view)
 
-            if kind.name == "Friends" {
+            switch kind {
+            case .Friend:
                 let noResultsTitle = NSLocalizedString("Welcome to your Friends Stream!", comment: "No friend results title")
                 let noResultsBody = NSLocalizedString("You aren't following anyone in Friends yet.\n\nWhen you follow someone as a Friend their posts will show up here. Ello is way more rad when you're following lots of people.\n\nUse Discover to find people you're interested in, and to find or invite your friends.", comment: "No friend results body.")
                 vc.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
                 vc.loadInitialPage()
+            case .Noise:
+                let noResultsTitle = NSLocalizedString("Welcome to your Noise Stream!", comment: "No noise results title")
+                let noResultsBody = NSLocalizedString("You aren't following anyone in Noise yet.\n\nWhen you follow someone as Noise their posts will show up here. Ello is way more rad when you're following lots of people.\n\nUse Discover to find people you're interested in, and to find or invite your friends.", comment: "No noise results body.")
+                vc.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
+            default:
+                break
             }
         }
     }

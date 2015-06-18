@@ -96,6 +96,7 @@ public class OnboardingUserListViewController: StreamableViewController, Onboard
         let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
         alertController.addAction(action)
 
+        logPresentingAlert("OnboardingUserListViewController")
         self.presentViewController(alertController, animated: true, completion: nil)
     }
 
