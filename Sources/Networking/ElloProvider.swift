@@ -117,8 +117,8 @@ public struct ElloProvider {
 // MARK: elloRequest implementation
 extension ElloProvider {
 
-    static var responseHeaders: String
-    static var responseJSON: String
+    public static var responseHeaders: String
+    public static var responseJSON: String
     // MARK: - Public
 
     public static func elloRequest(target: ElloAPI, method: Moya.Method, success: ElloSuccessCompletion, failure: ElloFailureCompletion?, invalidToken: ElloErrorCompletion? = nil) {
