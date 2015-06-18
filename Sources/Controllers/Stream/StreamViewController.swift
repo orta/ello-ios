@@ -49,7 +49,6 @@ public class StreamViewController: BaseElloViewController {
     @IBOutlet weak public var noResultsLabel: UILabel!
     @IBOutlet weak public var noResultsTopConstraint: NSLayoutConstraint!
     private let defaultNoResultsTopConstant: CGFloat = 113
-    var shouldReload = false
     var canLoadNext = false
     var streamables:[Streamable]?
 
@@ -186,10 +185,6 @@ public class StreamViewController: BaseElloViewController {
 
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        if shouldReload {
-            shouldReload = false
-            loadInitialPage()
-        }
         Crashlytics.sharedInstance().setObjectValue(streamKind.name, forKey: CrashlyticsKey.StreamName.rawValue)
     }
 
