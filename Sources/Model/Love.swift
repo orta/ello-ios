@@ -84,11 +84,32 @@ public final class Love: JSONAble {
 
     override public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         let json = JSON(data)
+        var createdAt: NSDate
+        var updatedAt: NSDate
+        if let date = json["created_at"].stringValue.toNSDate() {
+            // good to go
+            createdAt = date
+        }
+        else {
+            createdAt = NSDate()
+            // send data to segment to try to get more data about this
+            Tracker.sharedTracker.createdAtCrash("Love")
+        }
+        if let date = json["updated_at"].stringValue.toNSDate() {
+            // good to go
+            updatedAt = date
+        }
+        else {
+            updatedAt = NSDate()
+            // send data to segment to try to get more data about this
+            Tracker.sharedTracker.createdAtCrash("Love Updated")
+        }
+
         // create Love
         var love = Love(
             id: json["id"].stringValue,
-            createdAt: json["created_at"].stringValue.toNSDate()!,
-            updatedAt: json["updated_at"].stringValue.toNSDate()!,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
             deleted: json["deleted"].boolValue,
             postId: json["post_id"].stringValue,
             userId: json["user_id"].stringValue

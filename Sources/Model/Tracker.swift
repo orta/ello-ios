@@ -39,6 +39,7 @@ public class Tracker {
     public static let sharedTracker = Tracker()
     var settingChangedNotification: NotificationObserver?
     private var shouldTrackUser = true
+    private var currentUser: User?
     private var agent: AnalyticsAgent {
         return shouldTrackUser ? SEGAnalytics.sharedAnalytics() : NullAgent()
     }
@@ -62,6 +63,7 @@ public extension Tracker {
     }
 
     func identify(user: User) {
+        currentUser = user
         shouldTrackUser = user.profile?.allowsAnalytics ?? true
         Crashlytics.sharedInstance().setUserIdentifier(shouldTrackUser ? user.id : "")
         if let analyticsId = user.profile?.gaUniqueId {
@@ -483,5 +485,9 @@ public extension Tracker {
     func encounteredNetworkError(path: String, error: NSError, statusCode: Int?) {
         log("Encountered network error, [path: \(path), message: \(error.description), statusCode: \(statusCode ?? 0)]")
         agent.track("Encountered network error", properties: ["path": path, "message": error.description, "statusCode": statusCode ?? 0])
+    }
+
+    func createdAtCrash(identifier: String) {
+        agent.track("\(identifier) Created At Crash", properties: ["responseHeaders": ElloProvider.responseHeaders, "responseJSON": ElloProvider.responseJSON, "currentUserId": currentUser?.id ?? "no id"])
     }
 }

@@ -19,6 +19,9 @@ public typealias ElloEmptyCompletion = () -> Void
 public struct ElloProvider {
 
     public static var errorStatusCode:ErrorStatusCode = .Status404
+    public static var responseHeaders: NSString = ""
+    public static var responseJSON: NSString = ""
+
 
     public enum ErrorStatusCode: Int {
         case Status401 = 401
@@ -164,12 +167,14 @@ extension ElloProvider {
 
     static private func handleRequest(target: ElloAPI, method: Moya.Method, data: NSData?, response: NSHTTPURLResponse?, var statusCode: Int?, success: ElloSuccessCompletion, failure: ElloFailureCompletion?, invalidToken: ElloErrorCompletion?, isRetry: Bool, error: NSError?) {
         if let response = response {
-            Crashlytics.sharedInstance().setObjectValue(response.allHeaderFields.description, forKey: CrashlyticsKey.ResponseHeaders.rawValue)
+            ElloProvider.responseHeaders = response.allHeaderFields.description
+            Crashlytics.sharedInstance().setObjectValue(ElloProvider.responseHeaders, forKey: CrashlyticsKey.ResponseHeaders.rawValue)
         }
         if data != nil && statusCode != nil {
             // set crashlytics stuff before processing
             Crashlytics.sharedInstance().setObjectValue("\(statusCode!)", forKey: CrashlyticsKey.ResponseStatusCode.rawValue)
-            Crashlytics.sharedInstance().setObjectValue(NSString(data: data!, encoding: NSUTF8StringEncoding), forKey: CrashlyticsKey.ResponseJSON.rawValue)
+            ElloProvider.responseJSON = NSString(data: data!, encoding: NSUTF8StringEncoding) ?? "failed to parse data"
+            Crashlytics.sharedInstance().setObjectValue(ElloProvider.responseJSON, forKey: CrashlyticsKey.ResponseJSON.rawValue)
             switch statusCode! {
             case 200...299:
                 ElloProvider.handleNetworkSuccess(data!, elloAPI: target, statusCode:statusCode, response: response, success: success, failure: failure)
@@ -213,7 +218,8 @@ extension ElloProvider {
         }
         else {
             Crashlytics.sharedInstance().setObjectValue("nil", forKey: CrashlyticsKey.ResponseStatusCode.rawValue)
-            Crashlytics.sharedInstance().setObjectValue("no json data", forKey: CrashlyticsKey.ResponseJSON.rawValue)
+            ElloProvider.responseJSON = "no json data"
+            Crashlytics.sharedInstance().setObjectValue(ElloProvider.responseJSON, forKey: CrashlyticsKey.ResponseJSON.rawValue)
             ElloProvider.handleNetworkFailure(target.path, failure: failure, data: data, error: error, statusCode: statusCode)
         }
     }

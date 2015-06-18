@@ -93,9 +93,19 @@ public final class Comment: JSONAble, Authorable {
     override class public func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         let json = JSON(data)
         // create comment
+        var createdAt: NSDate
+        if let date = json["created_at"].stringValue.toNSDate() {
+            // good to go
+            createdAt = date
+        }
+        else {
+            createdAt = NSDate()
+            // send data to segment to try to get more data about this
+            Tracker.sharedTracker.createdAtCrash("Comment")
+        }
         var comment = Comment(
             id: json["id"].stringValue,
-            createdAt: json["created_at"].stringValue.toNSDate()!,
+            createdAt: createdAt,
             authorId: json["author_id"].stringValue,
             postId: json["post_id"].stringValue,
             content: RegionParser.regions("content", json: json)

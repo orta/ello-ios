@@ -116,7 +116,16 @@ public final class Activity: JSONAble {
         let json = JSON(data)
         // active record
         let id = json["created_at"].stringValue
-        let createdAt = id.toNSDate()!
+        var createdAt: NSDate
+        if let date = id.toNSDate() {
+            // good to go
+            createdAt = date
+        }
+        else {
+            createdAt = NSDate()
+            // send data to segment to try to get more data about this
+            Tracker.sharedTracker.createdAtCrash("Activity")
+        }
         // create activity
         var activity = Activity(
             id: id,
