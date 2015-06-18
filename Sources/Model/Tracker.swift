@@ -39,6 +39,7 @@ public class Tracker {
     public static let sharedTracker = Tracker()
     var settingChangedNotification: NotificationObserver?
     private var shouldTrackUser = true
+    private var currentUser: User?
     private var agent: AnalyticsAgent {
         return shouldTrackUser ? SEGAnalytics.sharedAnalytics() : NullAgent()
     }
@@ -62,6 +63,7 @@ public extension Tracker {
     }
 
     func identify(user: User) {
+        currentUser = user
         shouldTrackUser = user.profile?.allowsAnalytics ?? true
         Crashlytics.sharedInstance().setUserIdentifier(shouldTrackUser ? user.id : "")
         if let analyticsId = user.profile?.gaUniqueId {
@@ -486,14 +488,14 @@ public extension Tracker {
     }
 
     func activityCreatedAtCrash() {
-        agent.track("Activity Created At Crash", properties: ["responseHeaders": ElloProvider.responseHeaders, "responseJSON": ElloProvider.responseJSON])
+        agent.track("Activity Created At Crash", properties: ["responseHeaders": ElloProvider.responseHeaders, "responseJSON": ElloProvider.responseJSON, "currentUserId": currentUser?.id ?? "no id"])
     }
 
     func postCreatedAtCrash() {
-        agent.track("Post Created At Crash", properties: ["responseHeaders": ElloProvider.responseHeaders, "responseJSON": ElloProvider.responseJSON])        
+        agent.track("Post Created At Crash", properties: ["responseHeaders": ElloProvider.responseHeaders, "responseJSON": ElloProvider.responseJSON, "currentUserId": currentUser?.id ?? "no id"])
     }
 
     func commentCreatedAtCrash() {
-        agent.track("Comment Created At Crash", properties: ["responseHeaders": ElloProvider.responseHeaders, "responseJSON": ElloProvider.responseJSON])
+        agent.track("Comment Created At Crash", properties: ["responseHeaders": ElloProvider.responseHeaders, "responseJSON": ElloProvider.responseJSON, "currentUserId": currentUser?.id ?? "no id"])
     }
 }
