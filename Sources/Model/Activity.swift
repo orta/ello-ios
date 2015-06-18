@@ -124,7 +124,7 @@ public final class Activity: JSONAble {
         else {
             createdAt = NSDate()
             // send data to segment to try to get more data about this
-            Tracker.sharedTracker.activityCreatedAtCrash()
+            Tracker.sharedTracker.createdAtCrash("Activity")
         }
         // create activity
         var activity = Activity(

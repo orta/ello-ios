@@ -487,15 +487,7 @@ public extension Tracker {
         agent.track("Encountered network error", properties: ["path": path, "message": error.description, "statusCode": statusCode ?? 0])
     }
 
-    func activityCreatedAtCrash() {
-        agent.track("Activity Created At Crash", properties: ["responseHeaders": ElloProvider.responseHeaders, "responseJSON": ElloProvider.responseJSON, "currentUserId": currentUser?.id ?? "no id"])
-    }
-
-    func postCreatedAtCrash() {
-        agent.track("Post Created At Crash", properties: ["responseHeaders": ElloProvider.responseHeaders, "responseJSON": ElloProvider.responseJSON, "currentUserId": currentUser?.id ?? "no id"])
-    }
-
-    func commentCreatedAtCrash() {
-        agent.track("Comment Created At Crash", properties: ["responseHeaders": ElloProvider.responseHeaders, "responseJSON": ElloProvider.responseJSON, "currentUserId": currentUser?.id ?? "no id"])
+    func createdAtCrash(identifier: String) {
+        agent.track("\(identifier) Created At Crash", properties: ["responseHeaders": ElloProvider.responseHeaders, "responseJSON": ElloProvider.responseJSON, "currentUserId": currentUser?.id ?? "no id"])
     }
 }

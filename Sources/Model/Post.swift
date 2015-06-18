@@ -188,7 +188,7 @@ public final class Post: JSONAble, Authorable {
         else {
             createdAt = NSDate()
             // send data to segment to try to get more data about this
-            Tracker.sharedTracker.postCreatedAtCrash()
+            Tracker.sharedTracker.createdAtCrash("Post")
         }
         // create post
         var post = Post(
