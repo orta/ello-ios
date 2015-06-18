@@ -334,8 +334,21 @@ public class StreamViewController: BaseElloViewController {
         let alertController = AlertViewController(message: message)
         let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
         alertController.addAction(action)
-        self.presentViewController(alertController, animated: true) {
-            self.navigationController?.popViewControllerAnimated(true)
+        var isVisible = false
+        var view: UIView? = self.view
+        while view != nil {
+            if view is UIWindow {
+                isVisible = true
+                break
+            }
+
+            view = view!.superview
+        }
+
+        if isVisible {
+            presentViewController(alertController, animated: true) {
+                self.navigationController?.popViewControllerAnimated(true)
+            }
         }
     }
 
