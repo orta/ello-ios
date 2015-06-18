@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Crashlytics
+
 private let DesiredWidth: CGFloat = 300
 private let HelpButtonSpace: CGFloat = 49
 private let MaxHeight = UIScreen.mainScreen().applicationFrame.height - 20
@@ -136,6 +138,7 @@ public extension AlertViewController {
 
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        Crashlytics.sharedInstance().setObjectValue(presentingViewController?.readableClassName() ?? "Unknown presenter", forKey: CrashlyticsKey.AlertPresenter.rawValue)
         tableView.scrollEnabled = (CGRectGetHeight(self.view.frame) == MaxHeight)
     }
 
