@@ -116,7 +116,7 @@ public final class Activity: JSONAble {
         let json = JSON(data)
         // active record
         let id = json["created_at"].stringValue
-        let createdAt = id.toNSDate()!
+        let createdAt = id.toNSDate() ?? NSDate()
         // create activity
         var activity = Activity(
             id: id,
