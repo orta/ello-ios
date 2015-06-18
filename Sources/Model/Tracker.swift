@@ -484,4 +484,16 @@ public extension Tracker {
         log("Encountered network error, [path: \(path), message: \(error.description), statusCode: \(statusCode ?? 0)]")
         agent.track("Encountered network error", properties: ["path": path, "message": error.description, "statusCode": statusCode ?? 0])
     }
+
+    func activityCreatedAtCrash() {
+        agent.track("Activity Created At Crash", properties: ["responseHeaders": ElloProvider.responseHeaders, "responseJSON": ElloProvider.responseJSON])
+    }
+
+    func postCreatedAtCrash() {
+        agent.track("Post Created At Crash", properties: ["responseHeaders": ElloProvider.responseHeaders, "responseJSON": ElloProvider.responseJSON])        
+    }
+
+    func commentCreatedAtCrash() {
+        agent.track("Comment Created At Crash", properties: ["responseHeaders": ElloProvider.responseHeaders, "responseJSON": ElloProvider.responseJSON])
+    }
 }
