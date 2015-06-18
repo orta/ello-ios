@@ -93,10 +93,14 @@ public final class EmbedRegion: JSONAble, Regionable {
         var embedRegion = EmbedRegion(
             id: json["data"]["id"].stringValue,
             service: EmbedType(rawValue: json["data"]["service"].stringValue) ?? .Unknown,
-            url: NSURL(string: json["data"]["url"].stringValue)!,
-            thumbnailSmallUrl: NSURL(string: json["data"]["thumbnail_small_url"].stringValue)!,
-            thumbnailLargeUrl: NSURL(string: json["data"]["thumbnail_large_url"].stringValue)!
+            url: NSURL(string: json["data"]["url"].stringValue) ?? NSURL(string: "https://ello.co/404")!,
+            thumbnailSmallUrl: NSURL(string: json["data"]["thumbnail_small_url"].stringValue) ?? NSURL(string: "https://ello.co/404/jibberish.jpg")!,
+            thumbnailLargeUrl: NSURL(string: json["data"]["thumbnail_large_url"].stringValue) ?? NSURL(string: "https://ello.co/404/jibberish.jpg")!
         )
+        if embedRegion.url.URLString.hasPrefix("https://ello.co/404") || embedRegion.thumbnailSmallUrl.URLString.hasPrefix("https://ello.co/404") || embedRegion.thumbnailLargeUrl.URLString.hasPrefix("https://ello.co/404") {
+            // send data to segment to try to get more data about this
+            Tracker.sharedTracker.createdAtCrash("EmbedRegion")
+        }
         return embedRegion
     }
 
