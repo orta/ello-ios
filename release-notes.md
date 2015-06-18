@@ -1,3 +1,47 @@
+### Ello Build v1.0.0(2535) June 18, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #459 - Default url values on embed regions.
+[Fixes #97286366]
+
+------
+
+#### #458 - Guards the StreamViewController's generic "there was an error" alert.
+Hopefully this addresses the AlertViewController crash.
+
+Other refactors: remove `shouldReload` property from PostDetailViewController and StreamViewController (not used)
+Adds a no results title and body for the noise screen
+
+------
+
+#### #457 - Add extra guards around scrolling to a non-existent indexPath
+Even though we disable the posts button on profile when a user has zero posts we're seeing a crash on when the `postTapped` action is called. This PR adds an extra guard against scrolling to an `indexPath` that doesn't exist.
+
+hopefully [Fixes #97298226]
+
+https://fabric.io/ello/ios/apps/co.ello.ello/issues/5582d56cf505b5ccf02e329c
+
+![screenshot 2015-06-18 13 43 24](https://cloud.githubusercontent.com/assets/12459/8240467/04cde9a0-15c0-11e5-98d2-054f5ebcccba.png)
+
+------
+
+#### #456 - Fix created at crashes and send data to segment for debugging.
+[Prevents #97264870]
+
+------
+
+#### #455 - Adds correct logging of most recent responses.
+* Needs to happen before we try to parse so we can see the body
+* Adds key/value logging for the response headers
+* Adds back in a possible crash so we can debug it
+
+[#97238462]
+    
+------------
+
 ### Ello Build v1.0.0(2510) June 17, 2015
 
     RELEASE NOTES
