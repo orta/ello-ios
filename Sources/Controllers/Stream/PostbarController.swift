@@ -150,6 +150,7 @@ public class PostbarController: NSObject, PostbarDelegate {
         alertController.addAction(yesAction)
         alertController.addAction(noAction)
 
+        logPresentingAlert(presentingController?.readableClassName() ?? "PostbarController")
         presentingController?.presentViewController(alertController, animated: true, completion: .None)
     }
 
@@ -181,6 +182,7 @@ public class PostbarController: NSObject, PostbarDelegate {
         alertController.addAction(yesAction)
         alertController.addAction(noAction)
 
+        logPresentingAlert(presentingController?.readableClassName() ?? "PostbarController")
         presentingController?.presentViewController(alertController, animated: true, completion: .None)
     }
 
@@ -258,6 +260,7 @@ public class PostbarController: NSObject, PostbarDelegate {
             alertController.addAction(yesAction)
             alertController.addAction(noAction)
 
+            logPresentingAlert(presentingController?.readableClassName() ?? "PostbarController")
             presentingController?.presentViewController(alertController, animated: true, completion: .None)
         }
     }
@@ -303,12 +306,14 @@ public class PostbarController: NSObject, PostbarDelegate {
             Tracker.sharedTracker.postShared(post)
             let activityVC = UIActivityViewController(activityItems: [shareLink], applicationActivities:nil)
             if UI_USER_INTERFACE_IDIOM() == .Phone {
+                logPresentingAlert(presentingController?.readableClassName() ?? "PostbarController")
                 presentingController?.presentViewController(activityVC, animated: true) { }
             }
             else {
                 let cell = dataSource.collectionView(collectionView, cellForItemAtIndexPath: indexPath)
                 activityVC.popoverPresentationController?.sourceView = cell
                 activityVC.modalPresentationStyle = .Popover
+                logPresentingAlert(presentingController?.readableClassName() ?? "PostbarController")
                 presentingController?.presentViewController(activityVC, animated: true) { }
             }
         }

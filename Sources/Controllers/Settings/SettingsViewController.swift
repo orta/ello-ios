@@ -339,16 +339,18 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         }
 
         if let alertViewController = alertViewController {
-            self.presentViewController(alertViewController, animated: true, completion: .None)
+            logPresentingAlert("SettingsViewController")
+            presentViewController(alertViewController, animated: true, completion: .None)
         }
     }
 
     private func alertUserOfImageProcessing() {
         let message = NSLocalizedString("You’ve updated your Avatar/Header.\n\nIt may take a few minutes for your new avatar/header to appear on Ello, so please be patient. It’ll be live soon!", comment: "Settings image updated copy")
-        let alert = AlertViewController(message: message)
+        let alertController = AlertViewController(message: message)
         let action = AlertAction(title: NSLocalizedString("OK", comment: "ok"), style: .Light, handler: .None)
-        alert.addAction(action)
-        presentViewController(alert, animated: true, completion: .None)
+        alertController.addAction(action)
+        logPresentingAlert("SettingsViewController")
+        presentViewController(alertController, animated: true, completion: .None)
     }
 }
 

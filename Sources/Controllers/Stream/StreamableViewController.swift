@@ -272,6 +272,7 @@ extension StreamableViewController: InviteResponder {
         }
         alertController.addAction(cancelAction)
 
+        logPresentingAlert("StreamableViewController")
         presentViewController(alertController, animated: true, completion: .None)
     }
 
@@ -303,6 +304,7 @@ extension StreamableViewController: InviteResponder {
         let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: .None)
         alertController.addAction(action)
 
+        logPresentingAlert("StreamableViewController")
         presentViewController(alertController, animated: true, completion: .None)
     }
 

@@ -138,7 +138,6 @@ public extension AlertViewController {
 
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        Crashlytics.sharedInstance().setObjectValue(presentingViewController?.readableClassName() ?? "Unknown presenter", forKey: CrashlyticsKey.AlertPresenter.rawValue)
         tableView.scrollEnabled = (CGRectGetHeight(self.view.frame) == MaxHeight)
     }
 

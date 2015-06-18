@@ -6,6 +6,12 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Crashlytics
+
+func logPresentingAlert(name: String) {
+    Crashlytics.sharedInstance().setObjectValue(name, forKey: CrashlyticsKey.AlertPresenter.rawValue)
+}
+
 public struct AnimationOptions {
     let duration: NSTimeInterval
     let delay: NSTimeInterval

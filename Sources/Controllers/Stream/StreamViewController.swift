@@ -341,6 +341,7 @@ public class StreamViewController: BaseElloViewController {
             let alertController = AlertViewController(message: message)
             let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
             alertController.addAction(action)
+            logPresentingAlert("StreamViewController")
             presentViewController(alertController, animated: true) {
                 self.navigationController?.popViewControllerAnimated(true)
             }

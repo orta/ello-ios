@@ -74,6 +74,7 @@ extension ImportPromptViewController {
         }
         alertController.addAction(cancelAction)
 
+        logPresentingAlert("ImportPromptViewController")
         presentViewController(alertController, animated: true, completion: .None)
     }
 
@@ -108,6 +109,7 @@ extension ImportPromptViewController {
         let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: .None)
         alertController.addAction(action)
 
+        logPresentingAlert("ImportPromptViewController")
         presentViewController(alertController, animated: true, completion: .None)
     }
 

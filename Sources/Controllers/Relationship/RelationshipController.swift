@@ -95,6 +95,7 @@ extension RelationshipController: RelationshipDelegate {
             alertController.addAction(unfollowAction)
         }
 
+        logPresentingAlert(presentingController.readableClassName())
         presentingController.presentViewController(alertController, animated: true, completion: .None)
     }
 
