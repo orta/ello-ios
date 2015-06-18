@@ -547,6 +547,10 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         }
     }
 
+    public func isValidIndexPath(indexPath: NSIndexPath) -> Bool {
+        return indexPath.item < count(visibleCellItems) && indexPath.section == 0
+    }
+
     private func calculateCellItems(cellItems:[StreamCellItem], withWidth: CGFloat, completion: ElloEmptyCompletion) {
         let textCells = filterTextCells(cellItems)
         let imageCells = filterImageCells(cellItems)
@@ -639,9 +643,5 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                 return item.alwaysShow() || streamCollapsedFilter(item)
             }
         }
-    }
-
-    private func isValidIndexPath(indexPath: NSIndexPath) -> Bool {
-        return indexPath.item < count(visibleCellItems) && indexPath.section == 0
     }
 }

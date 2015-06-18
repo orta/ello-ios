@@ -300,7 +300,10 @@ extension ProfileViewController {
 // MARK: ProfileViewController: PostsTappedResponder
 extension ProfileViewController: PostsTappedResponder {
     public func onPostsTapped() {
-        streamViewController.collectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: 1, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.Top, animated: true)
+        let indexPath = NSIndexPath(forItem: 1, inSection: 0)
+        if streamViewController.dataSource.isValidIndexPath(indexPath) {
+            streamViewController.collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Top, animated: true)
+        }
     }
 }
 
