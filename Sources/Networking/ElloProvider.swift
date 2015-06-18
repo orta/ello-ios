@@ -19,6 +19,9 @@ public typealias ElloEmptyCompletion = () -> Void
 public struct ElloProvider {
 
     public static var errorStatusCode:ErrorStatusCode = .Status404
+    public static var responseHeaders: NSString = ""
+    public static var responseJSON: NSString = ""
+
 
     public enum ErrorStatusCode: Int {
         case Status401 = 401
@@ -117,8 +120,6 @@ public struct ElloProvider {
 // MARK: elloRequest implementation
 extension ElloProvider {
 
-    public static var responseHeaders: String
-    public static var responseJSON: String
     // MARK: - Public
 
     public static func elloRequest(target: ElloAPI, method: Moya.Method, success: ElloSuccessCompletion, failure: ElloFailureCompletion?, invalidToken: ElloErrorCompletion? = nil) {
@@ -172,7 +173,7 @@ extension ElloProvider {
         if data != nil && statusCode != nil {
             // set crashlytics stuff before processing
             Crashlytics.sharedInstance().setObjectValue("\(statusCode!)", forKey: CrashlyticsKey.ResponseStatusCode.rawValue)
-            ElloProvider.responseJSON = NSString(data: data!, encoding: NSUTF8StringEncoding)
+            ElloProvider.responseJSON = NSString(data: data!, encoding: NSUTF8StringEncoding) ?? "failed to parse data"
             Crashlytics.sharedInstance().setObjectValue(ElloProvider.responseJSON, forKey: CrashlyticsKey.ResponseJSON.rawValue)
             switch statusCode! {
             case 200...299:
