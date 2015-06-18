@@ -325,10 +325,6 @@ public class StreamViewController: BaseElloViewController {
 // MARK: Private Functions
 
     private func initialLoadFailure() {
-        let message = NSLocalizedString("Something went wrong. Thank you for your patience with Ello Beta!", comment: "Initial stream load failure")
-        let alertController = AlertViewController(message: message)
-        let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
-        alertController.addAction(action)
         var isVisible = false
         var view: UIView? = self.view
         while view != nil {
@@ -341,9 +337,16 @@ public class StreamViewController: BaseElloViewController {
         }
 
         if isVisible {
+            let message = NSLocalizedString("Something went wrong. Thank you for your patience with Ello Beta!", comment: "Initial stream load failure")
+            let alertController = AlertViewController(message: message)
+            let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
+            alertController.addAction(action)
             presentViewController(alertController, animated: true) {
                 self.navigationController?.popViewControllerAnimated(true)
             }
+        }
+        else {
+            navigationController?.popViewControllerAnimated(false)
         }
     }
 
