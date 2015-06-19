@@ -109,7 +109,7 @@ CHECKOUT OPTIONS:
     :commit: d42f2c241f46cfb0ff744146de9c75dbf998b77c
     :git: https://github.com/ello/JTSImageViewController
   KINWebBrowser:
-    :commit: c5f49457e7fb7939cf5882c3f310b9b15e340d4e
+    :commit: 5ce867f9f668e2fe5ef4a03fec3ccaac0b6869a3
     :git: https://github.com/ello/KINWebBrowser
   Moya:
     :commit: 3199b781225ee5cdd59d6b70fd4c038a80f47f74
