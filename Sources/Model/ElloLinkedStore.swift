@@ -32,18 +32,21 @@ public struct ElloLinkedStore {
         writeConnection = database.newConnection()
     }
 
-    public func parseLinked(linked:[String:[[String:AnyObject]]]) {
-        writeConnection.readWriteWithBlock { transaction in
-            for (type:String, typeObjects: [[String:AnyObject]]) in linked {
-                if let mappingType = MappingType(rawValue: type) {
-                    for object: [String:AnyObject] in typeObjects {
-                        if let id = object["id"] as? String {
-                            let jsonable = mappingType.fromJSON(data: object, fromLinked: true)
-                            transaction.setObject(jsonable, forKey: id, inCollection: type)
+    public func parseLinked(linked:[String:[[String:AnyObject]]], completion: ElloEmptyCompletion) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            self.writeConnection.readWriteWithBlock { transaction in
+                for (type:String, typeObjects: [[String:AnyObject]]) in linked {
+                    if let mappingType = MappingType(rawValue: type) {
+                        for object: [String:AnyObject] in typeObjects {
+                            if let id = object["id"] as? String {
+                                let jsonable = mappingType.fromJSON(data: object, fromLinked: true)
+                                transaction.setObject(jsonable, forKey: id, inCollection: type)
+                            }
                         }
                     }
                 }
             }
+            dispatch_async(dispatch_get_main_queue(), completion)
         }
     }
 
