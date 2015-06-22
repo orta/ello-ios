@@ -487,7 +487,13 @@ public extension Tracker {
         agent.track("Encountered network error", properties: ["path": path, "message": error.description, "statusCode": statusCode ?? 0])
     }
 
-    func createdAtCrash(identifier: String) {
-        agent.track("\(identifier) Created At Crash", properties: ["responseHeaders": ElloProvider.responseHeaders, "responseJSON": ElloProvider.responseJSON, "currentUserId": currentUser?.id ?? "no id"])
+    func createdAtCrash(identifier: String, data: [String: AnyObject]) {
+        var jsonText: NSString = ElloProvider.responseJSON
+        if  let jsonData = NSJSONSerialization.dataWithJSONObject(data, options: NSJSONWritingOptions(0), error: nil),
+            let text = NSString(data: jsonData, encoding: NSASCIIStringEncoding)
+        {
+            jsonText = text
+        }
+        agent.track("\(identifier) Created At Crash", properties: ["responseHeaders": ElloProvider.responseHeaders, "responseJSON": jsonText, "currentUserId": currentUser?.id ?? "no id"])
     }
 }
