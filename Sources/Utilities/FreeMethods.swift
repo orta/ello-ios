@@ -58,6 +58,20 @@ public func times(times: Int, @noescape block: BasicBlock) {
     times_(times) { (index: Int) in block() }
 }
 
+public func profiler(_ message: String = "") -> BasicBlock {
+    let start = NSDate()
+    println("--------- PROFILING \(message)...")
+    return {
+        println("--------- PROFILING \(message): \(NSDate().timeIntervalSinceDate(start))")
+    }
+}
+
+public func profiler(_ message: String = "", @noescape block: BasicBlock) {
+    let p = profiler(message)
+    block()
+    p()
+}
+
 public func times(times: Int, @noescape block: TakesIndexBlock) {
     times_(times, block)
 }
