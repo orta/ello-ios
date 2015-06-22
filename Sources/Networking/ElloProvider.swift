@@ -239,31 +239,35 @@ extension ElloProvider {
 
     static private func parseLinked(elloAPI: ElloAPI, dict: [String:AnyObject], var responseConfig: ResponseConfig, success: ElloSuccessCompletion, failure:ElloFailureCompletion?) {
         var mappedObjects: AnyObject?
-        if let linked = dict["linked"] as? [String:[[String:AnyObject]]] {
-            ElloLinkedStore.sharedInstance.parseLinked(linked)
-        }
-
-        if let node = dict[elloAPI.mappingType.rawValue] as? [[String:AnyObject]] {
-            mappedObjects = Mapper.mapToObjectArray(node, fromJSON: elloAPI.mappingType.fromJSON)
-        }
-        else if let node = dict[elloAPI.mappingType.rawValue] as? [String:AnyObject] {
-            mappedObjects = Mapper.mapToObject(node, fromJSON: elloAPI.mappingType.fromJSON)
-            if  let pagingPath = elloAPI.pagingPath,
-                let links = node["links"] as? [String:AnyObject],
-                let pagingPathNode = links[pagingPath] as? [String:AnyObject]
-            {
-                if let pagination = pagingPathNode["pagination"] as? [String:String] {
-                    responseConfig = ElloProvider.parsePagination(pagination)
+        let completion: ElloEmptyCompletion = {
+            if let node = dict[elloAPI.mappingType.rawValue] as? [[String:AnyObject]] {
+                mappedObjects = Mapper.mapToObjectArray(node, fromJSON: elloAPI.mappingType.fromJSON)
+            }
+            else if let node = dict[elloAPI.mappingType.rawValue] as? [String:AnyObject] {
+                mappedObjects = Mapper.mapToObject(node, fromJSON: elloAPI.mappingType.fromJSON)
+                if  let pagingPath = elloAPI.pagingPath,
+                    let links = node["links"] as? [String:AnyObject],
+                    let pagingPathNode = links[pagingPath] as? [String:AnyObject]
+                {
+                    if let pagination = pagingPathNode["pagination"] as? [String:String] {
+                        responseConfig = ElloProvider.parsePagination(pagination)
+                    }
                 }
             }
-        }
-        if let mappedObjects: AnyObject = mappedObjects {
-            success(data: mappedObjects, responseConfig: responseConfig)
-        }
-        else {
-            ElloProvider.failedToMapObjects(failure)
+            if let mappedObjects: AnyObject = mappedObjects {
+                success(data: mappedObjects, responseConfig: responseConfig)
+            }
+            else {
+                ElloProvider.failedToMapObjects(failure)
+            }
         }
 
+        if let linked = dict["linked"] as? [String:[[String:AnyObject]]] {
+            ElloLinkedStore.sharedInstance.parseLinked(linked, completion: completion)
+        }
+        else {
+            completion()
+        }
     }
 
     static private func handleNetworkSuccess(data:NSData, elloAPI: ElloAPI, statusCode: Int?, response: NSHTTPURLResponse?, success:ElloSuccessCompletion, failure:ElloFailureCompletion?) {

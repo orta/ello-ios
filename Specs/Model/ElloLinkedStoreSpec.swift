@@ -26,7 +26,7 @@ class ElloLinkedStoreSpec: QuickSpec {
                         ["id":"lex luther" as AnyObject]
                     ]
                 ]
-                ElloLinkedStore.sharedInstance.parseLinked(linked)
+                ElloLinkedStore.sharedInstance.parseLinked(linked, completion: {})
 
 //                expect(ElloLinkedStore.sharedInstance.store["superheroes"]?["batman"]).toNot(beNil())
 //                expect(ElloLinkedStore.sharedInstance.store["villians"]?["lex luther"]).toNot(beNil())

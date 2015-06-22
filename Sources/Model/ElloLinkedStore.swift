@@ -32,8 +32,21 @@ public struct ElloLinkedStore {
         writeConnection = database.newConnection()
     }
 
-    public func parseLinked(linked:[String:[[String:AnyObject]]]) {
-        writeConnection.readWriteWithBlock { transaction in
+    public func parseLinked(linked:[String:[[String:AnyObject]]], completion: ElloEmptyCompletion) {
+        if AppSetup.sharedState.isTesting {
+            parseLinkedSync(linked)
+            completion()
+        }
+        else {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+                self.parseLinkedSync(linked)
+                dispatch_async(dispatch_get_main_queue(), completion)
+            }
+        }
+    }
+
+    private func parseLinkedSync(linked: [String: [[String: AnyObject]]]) {
+        self.writeConnection.readWriteWithBlock { transaction in
             for (type:String, typeObjects: [[String:AnyObject]]) in linked {
                 if let mappingType = MappingType(rawValue: type) {
                     for object: [String:AnyObject] in typeObjects {
