@@ -216,12 +216,13 @@ extension AppViewController {
 
         var vc = ElloTabBarController.instantiateFromStoryboard()
         vc.setProfileData(user)
-        if let payload = pushPayload {
-            navigateToDeepLink(payload.applicationTarget)
-            pushPayload = .None
-        }
 
         swapViewController(vc) {
+            if let payload = self.pushPayload {
+                self.navigateToDeepLink(payload.applicationTarget)
+                self.pushPayload = .None
+            }
+
             vc.activateTabBar()
             if let alert = PushNotificationController.sharedController.requestPushAccessIfNeeded() {
                 vc.presentViewController(alert, animated: true, completion: .None)
