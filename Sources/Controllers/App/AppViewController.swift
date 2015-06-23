@@ -378,7 +378,17 @@ extension AppViewController {
 extension AppViewController {
     func navigateToDeepLink(path: String) {
         let vc = self.visibleViewController as? ElloTabBarController
-        switch path.pathComponents.first ?? "" {
+
+        let components = path.pathComponents
+        let firstComponent: String?
+        if components.first == "/" {
+            firstComponent = components.safeValue(1)
+        }
+        else {
+            firstComponent = components.safeValue(0)
+        }
+
+        switch firstComponent ?? "" {
         case "stream":
             vc?.selectedTab = .Stream
         case "notifications":
