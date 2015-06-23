@@ -34,11 +34,6 @@ public class LovesViewController: StreamableViewController {
         streamViewController.loadInitialPage()
     }
 
-    override public func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        updateInsets()
-    }
-
     private func updateInsets() {
         updateInsets(navBar: navigationBar, streamController: streamViewController)
     }

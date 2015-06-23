@@ -58,10 +58,17 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         if let hidden = elloTabBarController?.tabBarHidden {
-            willPresentStreamable(!hidden)
+            updateNavBarsVisibility(!hidden)
         }
         let hidden = elloTabBarController?.tabBarHidden ?? false
         UIApplication.sharedApplication().setStatusBarHidden(hidden, withAnimation: .Slide)
+    }
+
+    override public func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if let hidden = elloTabBarController?.tabBarHidden {
+            updateNavBarsVisibility(!hidden)
+        }
     }
 
     override public func viewDidLoad() {
@@ -74,7 +81,7 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
         )
     }
 
-    private func willPresentStreamable(navBarsVisible : Bool) {
+    private func updateNavBarsVisibility(navBarsVisible : Bool) {
         UIView.setAnimationsEnabled(false)
         if navBarsVisible {
             showNavBars(false)

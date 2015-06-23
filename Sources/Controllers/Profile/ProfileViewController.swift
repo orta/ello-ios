@@ -95,11 +95,6 @@ public class ProfileViewController: StreamableViewController {
         }
     }
 
-    override public func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        updateInsets()
-    }
-
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 

@@ -40,11 +40,6 @@ public class DiscoverViewController: StreamableViewController {
         streamViewController.loadInitialPage()
     }
 
-    override public func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        updateInsets()
-    }
-
     private func updateInsets() {
         updateInsets(navBar: navigationContainer, streamController: streamViewController)
         streamViewController.contentInset.top -= 15

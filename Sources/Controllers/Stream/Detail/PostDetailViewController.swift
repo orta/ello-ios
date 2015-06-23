@@ -39,11 +39,6 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         return view
     }
 
-    public override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        updateInsets()
-    }
-
     private func updateInsets() {
         updateInsets(navBar: navigationBar, streamController: streamViewController)
     }

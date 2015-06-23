@@ -60,11 +60,6 @@ public class NotificationsViewController: StreamableViewController, Notification
         navigationController?.navigationBarHidden = true
     }
 
-    override public func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        updateInsets()
-    }
-
     override func setupStreamController() {
         super.setupStreamController()
 
