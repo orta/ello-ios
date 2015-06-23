@@ -8,9 +8,7 @@
 
 public struct PushPayload {
     let info: [String: AnyObject]
-}
 
-public extension PushPayload {
     var applicationTarget: String {
         return info["application_target"] as? String ?? ""
     }

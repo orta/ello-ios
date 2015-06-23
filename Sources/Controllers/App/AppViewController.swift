@@ -216,12 +216,13 @@ extension AppViewController {
 
         var vc = ElloTabBarController.instantiateFromStoryboard()
         vc.setProfileData(user)
-        if let payload = pushPayload {
-            navigateToDeepLink(payload.applicationTarget)
-            pushPayload = .None
-        }
 
         swapViewController(vc) {
+            if let payload = self.pushPayload {
+                self.navigateToDeepLink(payload.applicationTarget)
+                self.pushPayload = .None
+            }
+
             vc.activateTabBar()
             if let alert = PushNotificationController.sharedController.requestPushAccessIfNeeded() {
                 vc.presentViewController(alert, animated: true, completion: .None)
@@ -378,7 +379,17 @@ extension AppViewController {
 extension AppViewController {
     func navigateToDeepLink(path: String) {
         let vc = self.visibleViewController as? ElloTabBarController
-        switch path.pathComponents.first ?? "" {
+
+        let components = path.pathComponents
+        let firstComponent: String?
+        if components.first == "/" {
+            firstComponent = components.safeValue(1)
+        }
+        else {
+            firstComponent = components.safeValue(0)
+        }
+
+        switch firstComponent ?? "" {
         case "stream":
             vc?.selectedTab = .Stream
         case "notifications":
