@@ -81,7 +81,7 @@ extension ImportPromptViewController {
     private func proceedWithImport() {
         Tracker.sharedTracker.addressBookAccessed()
         AddressBook.getAddressBook { result in
-            dispatch_async(dispatch_get_main_queue()) {
+            nextTick {
                 switch result {
                 case let .Success(box):
                     self.goToFindFriends(addressBook: box.value)

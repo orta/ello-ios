@@ -87,7 +87,7 @@ public class StreamImageCell: StreamRegionableCell {
 
     private func displayAnimatedGif(data: NSData) {
         if let animatedImage = FLAnimatedImage(animatedGIFData: data) {
-            dispatch_async(dispatch_get_main_queue()) {
+            nextTick {
                 self.imageView.alpha = 1.0
                 self.aspectRatio = (animatedImage.size.width / animatedImage.size.height)
                 self.imageView.animatedImage = animatedImage
@@ -132,7 +132,7 @@ public class StreamImageCell: StreamRegionableCell {
         circle.stopPulse()
         aspectRatio = self.defaultAspectRatio
         largeImagePlayButton?.hidden = true
-        dispatch_async(dispatch_get_main_queue()) { postNotification(StreamNotification.AnimateCellHeightNotification, self) }
+        nextTick { postNotification(StreamNotification.AnimateCellHeightNotification, self) }
         UIView.animateWithDuration(0.15) {
             self.failImage.alpha = 1.0
             self.imageView.backgroundColor = UIColor.greyF1()

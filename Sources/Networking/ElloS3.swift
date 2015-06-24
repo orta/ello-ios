@@ -72,7 +72,7 @@ public class ElloS3 {
 
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) { (data : NSData?, response : NSURLResponse?, error : NSError?) in
-            dispatch_async(dispatch_get_main_queue()) {
+            nextTick {
                 var httpResponse = response as? NSHTTPURLResponse
                 if let error = error {
                     self.failureHandler?(error: error)

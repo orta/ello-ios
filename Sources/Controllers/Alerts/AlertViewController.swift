@@ -218,7 +218,7 @@ extension AlertViewController: UITableViewDelegate {
         }
 
         if let action = actions.safeValue(indexPath.row) {
-            dispatch_async(dispatch_get_main_queue()) {
+            nextTick {
                 action.handler?(action)
             }
         }
