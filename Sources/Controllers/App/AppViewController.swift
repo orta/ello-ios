@@ -246,6 +246,15 @@ extension AppViewController {
         }
     }
 
+    public override func presentViewController(viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)?) {
+        // Unsure why WKWebView calls this controller - instead of it's own parent controller
+        if let vc = presentedViewController {
+            vc.presentViewController(viewControllerToPresent, animated: flag, completion: completion)
+        } else {
+            super.presentViewController(viewControllerToPresent, animated: flag, completion: completion)
+        }
+    }
+
 }
 
 // MARK: Screen transitions
