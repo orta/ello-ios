@@ -84,6 +84,7 @@ public class JoinViewController: BaseElloViewController, HasAppController {
         emailView.textFieldDidChange = self.emailChanged
 
         ElloTextFieldView.styleAsPassword(passwordView)
+        passwordView.textField.returnKeyType = .Join
         passwordView.textField.delegate = self
         passwordView.textFieldDidChange = self.passwordChanged
     }
