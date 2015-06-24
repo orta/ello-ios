@@ -33,7 +33,6 @@ public class AppViewController: BaseElloViewController {
     private var userLoggedOutObserver: NotificationObserver?
     private var receivedPushNotificationObserver: NotificationObserver?
     private var externalWebObserver: NotificationObserver?
-    private let externalWebController: UINavigationController = ElloWebBrowserViewController.navigationControllerWithWebBrowser()
 
     private var pushPayload: PushPayload?
 
@@ -239,6 +238,7 @@ extension AppViewController {
 
     func showExternalWebView(url: String) {
         Tracker.sharedTracker.webViewAppeared(url)
+        let externalWebController = ElloWebBrowserViewController.navigationControllerWithWebBrowser()
         presentViewController(externalWebController, animated: true, completion: nil)
         if let externalWebView = externalWebController.rootWebBrowser() {
             externalWebView.tintColor = UIColor.greyA()
