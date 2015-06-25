@@ -9,7 +9,7 @@
 public struct ElloWebViewHelper {
     static let jsCommandProtocol = "ello://"
 
-    static func handleRequest(request: NSURLRequest, webLinkDelegate: WebLinkDelegate?, fromWebView: Bool = false) -> Bool {
+    public static func handleRequest(request: NSURLRequest, webLinkDelegate: WebLinkDelegate?, fromWebView: Bool = false) -> Bool {
         let requestURL = request.URLString
         if requestURL.hasPrefix(jsCommandProtocol) {
             return false
