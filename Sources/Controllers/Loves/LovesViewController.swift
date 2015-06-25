@@ -73,9 +73,9 @@ public class LovesViewController: StreamableViewController {
         navigationBar.autoresizingMask = .FlexibleBottomMargin | .FlexibleWidth
         view.addSubview(navigationBar)
         let item = UIBarButtonItem.backChevronWithTarget(self, action: Selector("backTapped:"))
-        navigationItem.leftBarButtonItems = [item]
-        navigationItem.fixNavBarItemPadding()
-        navigationBar.items = [navigationItem]
+        elloNavigationItem.leftBarButtonItems = [item]
+        elloNavigationItem.fixNavBarItemPadding()
+        navigationBar.items = [elloNavigationItem]
     }
 
     override func showNavBars(scrollToBottom : Bool) {

@@ -14,6 +14,14 @@ import UIKit
 
 public class BaseElloViewController: UIViewController, ControllerThatMightHaveTheCurrentUser {
 
+    var elloNavigationItem = UINavigationItem()
+
+    override public var title: String? {
+        didSet {
+            elloNavigationItem.title = title ?? ""
+        }
+    }
+
     public var currentUser: User? {
         didSet { didSetCurrentUser() }
     }

@@ -73,8 +73,8 @@ public class DiscoverViewController: StreamableViewController {
     private func setupNavigationBar() {
         navigationController?.navigationBarHidden = true
         addSearchButton()
-        navigationItem.title = title
-        navigationBar.items = [navigationItem]
+        elloNavigationItem.title = title
+        navigationBar.items = [elloNavigationItem]
         setupInviteFriendsButton()
     }
 

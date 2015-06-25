@@ -182,12 +182,11 @@ public class ProfileViewController: StreamableViewController {
 
     private func setupNavigationBar() {
         navigationController?.navigationBarHidden = true
-        navigationItem.title = self.title
-        navigationBar.items = [navigationItem]
+        navigationBar.items = [elloNavigationItem]
         if !isRootViewController() {
             let item = UIBarButtonItem.backChevronWithTarget(self, action: Selector("backTapped:"))
-            self.navigationItem.leftBarButtonItems = [item]
-            self.navigationItem.fixNavBarItemPadding()
+            self.elloNavigationItem.leftBarButtonItems = [item]
+            self.elloNavigationItem.fixNavBarItemPadding()
         }
         addSearchButton()
     }
@@ -208,7 +207,6 @@ public class ProfileViewController: StreamableViewController {
         // clear out this view
         streamViewController.clearForInitialLoad()
         title = user.atName ?? "Profile"
-
         if let cachedImage = cachedImage(.CoverImage) {
             coverImage.image = cachedImage
             self.coverImage.alpha = 1.0

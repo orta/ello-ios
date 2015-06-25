@@ -43,7 +43,7 @@ public class NotificationsViewController: StreamableViewController, Notification
         screen.delegate = self
         self.title = "Notifications"
         addSearchButton()
-        screen.temporaryNavBar.items = [navigationItem]
+        screen.temporaryNavBar.items = [elloNavigationItem]
 
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
         scrollLogic.navBarHeight = 44
