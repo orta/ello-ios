@@ -32,7 +32,7 @@ class DrawerViewControllerSpec: QuickSpec {
                 controller.loadView()
                 controller.viewDidLoad()
 
-                let button = controller.navigationItem.rightBarButtonItem
+                let button = controller.elloNavigationItem.rightBarButtonItem
                 expect(button).toNot(beNil())
             }
         }

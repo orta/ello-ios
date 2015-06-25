@@ -14,7 +14,7 @@ import UIKit
 
 public class BaseElloViewController: UIViewController, ControllerThatMightHaveTheCurrentUser {
 
-    var elloNavigationItem = UINavigationItem()
+    public var elloNavigationItem = UINavigationItem()
 
     override public var title: String? {
         didSet {
