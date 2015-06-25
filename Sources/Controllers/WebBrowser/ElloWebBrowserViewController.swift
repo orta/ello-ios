@@ -13,12 +13,9 @@ import Crashlytics
 public class ElloWebBrowserViewController: KINWebBrowserViewController {
     var toolbarHidden = false
     static var currentUser: User?
+    static var elloTabBarController: ElloTabBarController?
 
-    var elloTabBarController: ElloTabBarController? {
-        return findViewController { vc in vc is ElloTabBarController } as! ElloTabBarController?
-    }
-
-    public class func navigationControllerWithBrowser(webBrowser: ElloWebBrowserViewController) -> UINavigationController {
+    public class func navigationControllerWithBrowser(webBrowser: ElloWebBrowserViewController) -> ElloNavigationController {
         let xButton = UIBarButtonItem(image: SVGKImage(named: "x_normal.svg").UIImage!, style: UIBarButtonItemStyle.Plain, target: webBrowser, action: Selector("doneButtonPressed:"))
 
         let shareButton = UIBarButtonItem(image: SVGKImage(named: "share_normal.svg").UIImage!, style: UIBarButtonItemStyle.Plain, target: webBrowser, action: Selector("actionButtonPressed:"))
@@ -27,10 +24,10 @@ public class ElloWebBrowserViewController: KINWebBrowserViewController {
         webBrowser.navigationItem.rightBarButtonItem = shareButton
         webBrowser.actionButtonHidden = true
 
-        return UINavigationController(rootViewController: webBrowser)
+        return ElloNavigationController(rootViewController: webBrowser)
     }
 
-    override public class func navigationControllerWithWebBrowser() -> UINavigationController {
+    override public class func navigationControllerWithWebBrowser() -> ElloNavigationController {
         let browser = self()
         return navigationControllerWithBrowser(browser)
     }
