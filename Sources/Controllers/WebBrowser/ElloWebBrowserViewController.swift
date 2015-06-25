@@ -58,7 +58,7 @@ public class ElloWebBrowserViewController: KINWebBrowserViewController {
 extension ElloWebBrowserViewController: KINWebBrowserDelegate {
 
     public func webBrowser(webBrowser: KINWebBrowserViewController!, shouldStartLoadWithRequest request: NSURLRequest!) -> Bool {
-        return !ElloWebViewHelper.handleRequest(request, webLinkDelegate: self)
+        return ElloWebViewHelper.handleRequest(request, webLinkDelegate: self, fromWebView: true)
     }
 
 }
@@ -67,29 +67,30 @@ extension ElloWebBrowserViewController: KINWebBrowserDelegate {
 extension ElloWebBrowserViewController : WebLinkDelegate {
     public func webLinkTapped(type: ElloURI, data: String) {
         switch type {
-        case .External, .WTF: loadURLString(data)
-        case .Profile: showProfile(data)
-        case .Post: showPostDetail(data)
-        case .Settings: showSettings()
-        case .Friends, .Noise: showStreamContainer()
-        case .Notifications: showNotifications()
-        case .Search, .Discover: showDiscover()
-        case .Internal: showInternalWarning()
+        case .Friends, .Internal, .Noise: self.selectTab(.Stream)
+        case .Downloads, .Email, .External, .Wallpapers, .WTF: break // this is handled in ElloWebViewHelper/KINWebBrowserViewController
+        case .Notifications: self.selectTab(.Notifications)
+        case .Post: self.showPostDetail(data)
+        case .Profile: self.showProfile(data)
+        case .Search, .Discover: self.selectTab(.Discovery)
+        case .Settings: self.showSettings()
         }
     }
 
     private func showProfile(username: String) {
         let param = "~\(username)"
+        if alreadyOnUserProfile(param) { return }
         let vc = ProfileViewController(userParam: param)
         vc.currentUser = ElloWebBrowserViewController.currentUser
-        self.navigationController?.pushViewController(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     private func showPostDetail(token: String) {
         let param = "~\(token)"
+        if alreadyOnPostDetail(param) { return }
         let vc = PostDetailViewController(postParam: param)
         vc.currentUser = ElloWebBrowserViewController.currentUser
-        self.navigationController?.pushViewController(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     private func showSettings() {
@@ -99,25 +100,23 @@ extension ElloWebBrowserViewController : WebLinkDelegate {
         }
     }
 
-    private func showStreamContainer() {
-        elloTabBarController?.selectedTab = .Stream
-    }
-
-    private func showNotifications() {
-        elloTabBarController?.selectedTab = .Notifications
-    }
-
-    private func showDiscover() {
-        elloTabBarController?.selectedTab = .Discovery
-    }
-
-    private func showInternalWarning() {
-        let message = NSLocalizedString("Something went wrong. Thank you for your patience with Ello Beta!", comment: "Initial stream load failure")
-        let alertController = AlertViewController(message: message)
-        let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
-        alertController.addAction(action)
-        self.presentViewController(alertController, animated: true) {
-            self.navigationController?.popViewControllerAnimated(true)
+    private func selectTab(tab: ElloTab) {
+        navigationController?.dismissViewControllerAnimated(true) {
+            ElloWebBrowserViewController.elloTabBarController?.selectedTab = tab
         }
+    }
+
+    func alreadyOnUserProfile(userParam: String) -> Bool {
+        if let profileVC = navigationController?.topViewController as? ProfileViewController {
+            return userParam == profileVC.userParam
+        }
+        return false
+    }
+
+    func alreadyOnPostDetail(postParam: String) -> Bool {
+        if let postDetailVC = navigationController?.topViewController as? PostDetailViewController {
+            return postParam == postDetailVC.postParam
+        }
+        return false
     }
 }

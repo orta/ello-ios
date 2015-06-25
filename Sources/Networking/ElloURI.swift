@@ -10,17 +10,20 @@ import Foundation
 import Keys
 
 public enum ElloURI: String {
-    case Post = "post"
-    case WTF = "wtf"
-    case Profile = "profile"
-    case Settings = "settings"
+    case Discover = "discover"
+    case Downloads = "downloads"
+    case Email = "email"
+    case External = "external"
     case Friends = "friends"
+    case Internal = "internal"
     case Noise = "noise"
     case Notifications = "notifications"
+    case Post = "post"
+    case Profile = "profile"
     case Search = "search"
-    case Discover = "discover"
-    case Internal = "internal"
-    case External = "external"
+    case Settings = "settings"
+    case WTF = "wtf"
+    case Wallpapers = "wallpapers"
 
     // get the proper domain
     private static var _httpProtocol: String?
@@ -48,6 +51,7 @@ public enum ElloURI: String {
     public static var baseURL: String { return "\(ElloURI.httpProtocol)://\(ElloURI.domain)" }
 
     // this is taken directly from app/models/user.rb
+    static let emailRegex = "(.+)@(.+)\\.([a-z]{2,})"
     static let usernameRegex = "[\\w\\-]+"
     static let fuzzyDomain: String = "((w{3}\\.)?ello\\.co|ello-staging\\d?\\.herokuapp\\.com)"
     static var userPathRegex: String { return "\(ElloURI.fuzzyDomain)\\/\(ElloURI.usernameRegex)" }
@@ -65,14 +69,17 @@ public enum ElloURI: String {
 
     private var regexPattern: String {
         switch self {
+        case .Email: return ElloURI.emailRegex
+        case .Wallpapers: return "wallpapers\\.\(ElloURI.fuzzyDomain)"
         case .Post: return "\(ElloURI.userPathRegex)\\/post\\/[^\\/]+\\/?$"
-        case .WTF: return "https?:\\/\\/\(ElloURI.fuzzyDomain)/wtf"
-        case .Settings: return "\(ElloURI.fuzzyDomain)/settings"
+        case .WTF: return "\(ElloURI.fuzzyDomain)/(wtf$|wtf\\/.*$)"
+        case .Discover: return "\(ElloURI.fuzzyDomain)/discover"
+        case .Downloads: return "\(ElloURI.fuzzyDomain)/downloads"
         case .Friends: return "\(ElloURI.fuzzyDomain)/friends"
         case .Noise: return "\(ElloURI.fuzzyDomain)/noise"
         case .Notifications: return "\(ElloURI.fuzzyDomain)/notifications"
         case .Search: return "\(ElloURI.fuzzyDomain)/search"
-        case .Discover: return "\(ElloURI.fuzzyDomain)/discover"
+        case .Settings: return "\(ElloURI.fuzzyDomain)/settings"
         case .Profile: return "\(ElloURI.userPathRegex)\\/?$"
         case .Internal: return "\(ElloURI.fuzzyDomain)"
         case .External: return "https?:\\/\\/.{3,}"
@@ -91,5 +98,5 @@ public enum ElloURI: String {
     }
 
     // Order matters: [MostSpecific, MostGeneric]
-    static let all = [Post, WTF, Settings, Friends, Noise, Notifications, Search, Discover, Profile, Internal, External]
+    static let all = [Email, Wallpapers, Post, WTF, Discover, Downloads, Friends, Noise, Notifications, Search, Settings, Profile, Internal, External]
 }

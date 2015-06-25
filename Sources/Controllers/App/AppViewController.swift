@@ -218,6 +218,7 @@ extension AppViewController {
         Tracker.sharedTracker.identify(user)
 
         var vc = ElloTabBarController.instantiateFromStoryboard()
+        ElloWebBrowserViewController.elloTabBarController = vc
         vc.setProfileData(user)
 
         swapViewController(vc) {

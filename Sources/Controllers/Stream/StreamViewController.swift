@@ -531,16 +531,17 @@ public class StreamViewController: BaseElloViewController {
 
 // MARK: StreamViewController : WebLinkDelegate
 extension StreamViewController : WebLinkDelegate {
+
     public func webLinkTapped(type: ElloURI, data: String) {
         switch type {
-        case .External, .WTF: postNotification(externalWebNotification, data)
-        case .Profile: showProfile(data)
+        case .Discover, .Search: selectTab(.Discovery)
+        case .Downloads, .External, .Wallpapers, .WTF: postNotification(externalWebNotification, data)
+        case .Email: break // this is handled in ElloWebViewHelper
+        case .Friends, .Internal, .Noise: selectTab(.Stream)
+        case .Notifications: selectTab(.Notifications)
         case .Post: showPostDetail(data)
+        case .Profile: showProfile(data)
         case .Settings: showSettings()
-        case .Friends, .Noise: showStreamContainer()
-        case .Notifications: showNotifications()
-        case .Search, .Discover: showDiscover()
-        case .Internal: showInternalWarning()
         }
     }
 
@@ -567,20 +568,8 @@ extension StreamViewController : WebLinkDelegate {
         }
     }
 
-    private func showStreamContainer() {
-        elloTabBarController?.selectedTab = .Stream
-    }
-
-    private func showNotifications() {
-        elloTabBarController?.selectedTab = .Notifications
-    }
-
-    private func showDiscover() {
-        elloTabBarController?.selectedTab = .Discovery
-    }
-
-    private func showInternalWarning() {
-        initialLoadFailure()
+    private func selectTab(tab: ElloTab) {
+        elloTabBarController?.selectedTab = tab
     }
 }
 
