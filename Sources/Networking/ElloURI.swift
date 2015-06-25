@@ -54,7 +54,7 @@ public enum ElloURI: String {
     static let emailRegex = "(.+)@(.+)\\.([a-z]{2,})"
     static let usernameRegex = "[\\w\\-]+"
     static let fuzzyDomain: String = "((w{3}\\.)?ello\\.co|ello-staging\\d?\\.herokuapp\\.com)"
-    static var userPathRegex: String { return "\(ElloURI.fuzzyDomain)\\/\(ElloURI.usernameRegex)" }
+    static var userPathRegex: String { return "\(ElloURI.fuzzyDomain)\\/\(ElloURI.usernameRegex)\\??.*" }
 
 
 
