@@ -30,7 +30,7 @@ public class AvatarButton: UIButton {
     override public func layoutSubviews() {
         super.layoutSubviews()
         if let imageView = self.imageView {
-            imageView.layer.cornerRadius = self.bounds.size.height / CGFloat(2)
+            imageView.layer.cornerRadius = imageView.bounds.size.height / CGFloat(2)
         }
     }
 
