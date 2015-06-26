@@ -20,6 +20,7 @@ public final class Attachment: JSONAble {
     public var width: Int?
     public var height: Int?
     public var type: String?
+    public var image: UIImage?
 
 // MARK: Initialization
 
@@ -39,6 +40,7 @@ public final class Attachment: JSONAble {
         self.width = decoder.decodeOptionalKey("width")
         self.size = decoder.decodeOptionalKey("size")
         self.type = decoder.decodeOptionalKey("type")
+        self.image = decoder.decodeOptionalKey("image")
         super.init(coder: decoder.coder)
     }
 
@@ -51,6 +53,7 @@ public final class Attachment: JSONAble {
         coder.encodeObject(width, forKey: "width")
         coder.encodeObject(size, forKey: "size")
         coder.encodeObject(type, forKey: "type")
+        coder.encodeObject(image, forKey: "image")
         super.encodeWithCoder(coder.coder)
     }
 

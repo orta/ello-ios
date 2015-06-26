@@ -169,9 +169,21 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         }
     }
 
+    public func omnibarSubmitted(text: NSAttributedString?, image: UIImage, data: NSData, type: String) {
+        omnibarSubmitted(text, image: nil, data: (image, data, type))
+    }
+
     public func omnibarSubmitted(text: NSAttributedString?, image: UIImage?) {
-        var content = [AnyObject]()
-        if let image = image {
+        omnibarSubmitted(text, image: image, data: nil)
+    }
+
+    public func omnibarSubmitted(text: NSAttributedString?, image: UIImage?, data: (UIImage, NSData, String)?) {
+        var content = [Any]()
+
+        if let data = data {
+            content.append(data)
+        }
+        else if let image = image {
             content.append(image)
         }
 

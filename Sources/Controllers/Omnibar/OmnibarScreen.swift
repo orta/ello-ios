@@ -22,6 +22,7 @@
 // the UIImagePickerController, and submitting the text and image.
 
 import UIKit
+import AssetsLibrary
 import MobileCoreServices
 import FLAnimatedImage
 import SVGKit
@@ -32,6 +33,7 @@ public protocol OmnibarScreenDelegate {
     func omnibarPushController(controller: UIViewController)
     func omnibarPresentController(controller : UIViewController)
     func omnibarDismissController(controller : UIViewController)
+    func omnibarSubmitted(text: NSAttributedString?, image: UIImage, data: NSData, type: String)
     func omnibarSubmitted(text : NSAttributedString?, image: UIImage?)
 }
 
@@ -171,6 +173,8 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
 
     private var currentText : NSAttributedString?
     private var currentImage : UIImage?
+    private var data : NSData?
+    private var type : String?
 
 // MARK: init
 
@@ -465,7 +469,13 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
             if currentTextIsPresent() {
                 submittedText = currentText
             }
-            delegate?.omnibarSubmitted(submittedText, image: currentImage)
+
+            if let image = currentImage, let data = data, let type = type {
+                delegate?.omnibarSubmitted(submittedText, image: image, data: data, type: type)
+            }
+            else {
+                delegate?.omnibarSubmitted(submittedText, image: currentImage)
+            }
         }
     }
 
@@ -493,8 +503,11 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
 
 // MARK: Images
 
-    func userSetCurrentImage(image : UIImage?) {
+    func userSetCurrentImage(image : UIImage?, data: NSData? = nil, type: String? = nil) {
         setCurrentImage(image)
+        self.data = data
+        self.type = type
+
         updatePostState()
     }
 
@@ -561,7 +574,27 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
     }
 
     public func imagePickerController(controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
-        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+        let library = ALAssetsLibrary()
+        if let url = info[UIImagePickerControllerReferenceURL] as? NSURL,
+            let image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        {
+            library.assetForURL(url, resultBlock: { asset in
+                if let (buffer, length) = self.bufferFromAsset(asset) where self.isGif(buffer, length: length) {
+                    let data = NSData(bytes: buffer, length: length)
+                    self.userSetCurrentImage(image, data: data, type: "image/gif")
+                    buffer.dealloc(length)
+                }
+                else {
+                    self.userSetCurrentImage(image)
+                }
+
+                self.delegate?.omnibarDismissController(controller)
+            },
+            failureBlock: { error in
+                println("couldn't get asset: \(error)")
+            })
+        }
+        else if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             image.copyWithCorrectOrientationAndSize() { image in
                 self.userSetCurrentImage(image)
                 self.delegate?.omnibarDismissController(controller)
@@ -569,6 +602,35 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
         }
         else {
             delegate?.omnibarDismissController(controller)
+        }
+    }
+
+    private func bufferFromAsset(asset: ALAsset) -> (UnsafeMutablePointer<UInt8>, Int)? {
+        let representation = asset.defaultRepresentation()
+
+        let length = Int(representation.size())
+        var buffer = UnsafeMutablePointer<UInt8>.alloc(length)
+
+        var error: NSError? = nil
+        representation.getBytes(buffer, fromOffset: 0, length: length, error: &error)
+
+        if let error = error {
+            return nil
+        }
+        return (buffer, length)
+    }
+
+    private func isGif(buffer: UnsafeMutablePointer<UInt8>, length: Int) -> Bool {
+        if length >= 4 {
+            let isG = Int(buffer[0]) == 71
+            let isI = Int(buffer[1]) == 73
+            let isF = Int(buffer[2]) == 70
+            let is8 = Int(buffer[3]) == 56
+
+            return isG && isI && isF && is8
+        }
+        else {
+            return false
         }
     }
 

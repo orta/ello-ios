@@ -26,9 +26,10 @@ public class PostEditingService: NSObject {
     }
 
     // rawSections is String or UIImage objects
-    func create(content rawContent: [AnyObject], authorId: String, success: CreatePostSuccessCompletion, failure: ElloFailureCompletion?) {
+    func create(content rawContent: [Any], authorId: String, success: CreatePostSuccessCompletion, failure: ElloFailureCompletion?) {
         var textEntries = [(Int, String)]()
         var imageEntries = [(Int, UIImage)]()
+        var imageDataEntries = [(Int, (UIImage, NSData, String))]()
 
         // if necessary, the rawSource should be converted to API-ready content,
         // e.g. entitizing Strings and adding HTML markup to NSAttributedStrings
@@ -38,6 +39,9 @@ public class PostEditingService: NSObject {
             }
             else if let image = section as? UIImage {
                 imageEntries.append((index, image))
+            }
+            else if let data = section as? (UIImage, NSData, String) {
+                imageDataEntries.append((index, data))
             }
             else if let attributed = section as? NSAttributedString {
                 textEntries.append((index, attributed.string.entitiesEncoded()))
@@ -50,6 +54,16 @@ public class PostEditingService: NSObject {
 
         if imageEntries.count > 0 {
             uploadImages(imageEntries, success: { imageRegions in
+                indexedRegions += imageRegions.map() { entry in
+                    let (index, region) = entry
+                    return (index, region as Regionable)
+                }
+
+                self.create(regions: self.sortedRegions(indexedRegions), authorId: authorId, success: success, failure: failure)
+            }, failure: failure)
+        }
+        else if imageDataEntries.count > 0 {
+            uploadImages(imageDataEntries, success: { imageRegions in
                 indexedRegions += imageRegions.map() { entry in
                     let (index, region) = entry
                     return (index, region as Regionable)
@@ -140,7 +154,7 @@ public class PostEditingService: NSObject {
             }
 
             let (imageIndex, image) = imageEntry
-            let filename = "\(NSUUID().UUIDString).png"
+            let filename = "\(NSUUID().UUIDString).jpg"
 
             let uploadService = S3UploadingService()
             uploadService.upload(image, filename: filename,
@@ -150,6 +164,73 @@ public class PostEditingService: NSObject {
 
                     if let url = url {
                         let asset = Asset(image: image, url: url)
+                        ElloLinkedStore.sharedInstance.setObject(asset, forKey: asset.id, inCollection: MappingType.AssetsType.rawValue)
+                        imageRegion.addLinkObject("assets", key: asset.id, collection: MappingType.AssetsType.rawValue)
+                    }
+
+                    uploaded.append((imageIndex, imageRegion))
+                    allDone()
+                },
+                failure: { error, statusCode in
+                    anyError = error
+                    anyStatusCode = statusCode
+                    allDone()
+                })
+        }
+    }
+
+    func uploadImages(imageDataEntries: [(Int, (UIImage, NSData, String))], success: UploadImagesSuccessCompletion, failure: ElloFailureCompletion?) {
+        var uploaded = [(Int, ImageRegion)]()
+
+        // if any upload fails, the entire post creationg fails
+        var anyError: NSError?
+        var anyStatusCode: Int?
+
+        let allDone = after(imageDataEntries.count) {
+            if let error = anyError {
+                failure?(error: error, statusCode: anyStatusCode)
+            }
+            else {
+                success(uploaded)
+            }
+        }
+
+        for dataEntry in imageDataEntries {
+            if let error = anyError {
+                allDone()
+                continue
+            }
+
+            let (imageIndex, (image, data, contentType)) = dataEntry
+            let filename: String
+            switch contentType {
+            case "image/gif":
+                filename = "\(NSUUID().UUIDString).gif"
+            case "image/png":
+                filename = "\(NSUUID().UUIDString).png"
+            default:
+                filename = "\(NSUUID().UUIDString).jpg"
+            }
+
+            let uploadService = S3UploadingService()
+            uploadService.upload(data, filename: filename, contentType: contentType,
+                success: { url in
+                    let imageRegion = ImageRegion(alt: filename)
+                    imageRegion.url = url
+
+                    if let url = url {
+                        let asset = Asset(url: url)
+                        asset.optimized?.type = contentType
+                        asset.optimized?.size = data.length
+                        asset.optimized?.width = Int(image.size.width)
+                        asset.optimized?.height = Int(image.size.height)
+
+                        let attachment = Attachment(url: url)
+                        attachment.width = Int(image.size.width)
+                        attachment.height = Int(image.size.height)
+                        attachment.image = image
+                        asset.hdpi = attachment
+
                         ElloLinkedStore.sharedInstance.setObject(asset, forKey: asset.id, inCollection: MappingType.AssetsType.rawValue)
                         imageRegion.addLinkObject("assets", key: asset.id, collection: MappingType.AssetsType.rawValue)
                     }

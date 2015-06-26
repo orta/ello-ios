@@ -51,12 +51,20 @@ public final class Asset: JSONAble {
 
 // MARK: Initialization
 
+    public convenience init(url: NSURL) {
+        self.init(id: NSUUID().UUIDString)
+
+        let attachment = Attachment(url: url)
+        self.optimized = attachment
+    }
+
     public convenience init(image: UIImage, url: NSURL) {
         self.init(id: NSUUID().UUIDString)
 
         let attachment = Attachment(url: url)
         attachment.width = Int(image.size.width)
         attachment.height = Int(image.size.height)
+        attachment.image = image
 
         self.optimized = attachment
     }
