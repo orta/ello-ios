@@ -30,6 +30,9 @@ class OmnibarScreenMockDelegate : OmnibarScreenDelegate {
     @objc func omnibarDismissController(controller : UIViewController) {
         didDismissController = true
     }
+    @objc func omnibarSubmitted(text: NSAttributedString?, data: NSData, type: String) {
+        submitted = true
+    }
     @objc func omnibarSubmitted(text : NSAttributedString?, image: UIImage?) {
         submitted = true
     }

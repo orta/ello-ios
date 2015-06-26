@@ -65,6 +65,14 @@ public class StreamImageCell: StreamRegionableCell {
         isGif ? loadGif(url) : loadNonGif(url)
     }
 
+    public func setImage(image: UIImage) {
+        imageView.image = image
+        imageView.alpha = 0
+        failImage.hidden = true
+        failImage.alpha = 0
+        imageView.backgroundColor = UIColor.whiteColor()
+    }
+
     private func loadGif(url: NSURL) {
         if let path = url.absoluteString {
             if let data = GifCache.objectForKey(path) as? NSData {

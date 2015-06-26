@@ -71,7 +71,6 @@ public struct StreamImageCellPresenter {
                     cell.isGif = true
                 }
 
-
                 let columnWidth: CGFloat
                 if streamKind.isGridLayout {
                     cell.failWidthConstraint.constant = StreamImageCellPresenter.multiColumnFailWidth
@@ -86,13 +85,17 @@ public struct StreamImageCellPresenter {
                     columnWidth = UIScreen.screenWidth()
                 }
 
+                let imageToShow = attachmentToLoad?.image
                 imageToLoad = imageToLoad ?? attachmentToLoad?.url
 
                 cell.hideBorder()
                 let margin = configureCellWidthAndLayout(cell, streamCellItem: streamCellItem)
                 preventImageStretching(cell, attachmentWidth: attachmentToLoad?.width, columnWidth: columnWidth, leftMargin: margin)
 
-                if let imageURL = imageToLoad {
+                if let image = imageToShow where !showGifInThisCell {
+                    cell.setImage(image)
+                }
+                else if let imageURL = imageToLoad {
                     cell.serverProvidedAspectRatio = StreamImageCellSizeCalculator.aspectRatioForImageRegion(imageRegion)
                     cell.setImage(imageURL, isGif: showGifInThisCell)
                 }

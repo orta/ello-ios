@@ -33,6 +33,7 @@ public protocol OmnibarScreenDelegate {
     func omnibarPushController(controller: UIViewController)
     func omnibarPresentController(controller : UIViewController)
     func omnibarDismissController(controller : UIViewController)
+    func omnibarSubmitted(text: NSAttributedString?, image: UIImage, data: NSData, type: String)
     func omnibarSubmitted(text : NSAttributedString?, image: UIImage?)
 }
 
@@ -172,6 +173,8 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
 
     private var currentText : NSAttributedString?
     private var currentImage : UIImage?
+    private var data : NSData?
+    private var type : String?
 
 // MARK: init
 
@@ -466,7 +469,13 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
             if currentTextIsPresent() {
                 submittedText = currentText
             }
-            delegate?.omnibarSubmitted(submittedText, image: currentImage)
+
+            if let image = currentImage, let data = data, let type = type {
+                delegate?.omnibarSubmitted(submittedText, image: image, data: data, type: type)
+            }
+            else {
+                delegate?.omnibarSubmitted(submittedText, image: currentImage)
+            }
         }
     }
 
@@ -494,8 +503,11 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
 
 // MARK: Images
 
-    func userSetCurrentImage(image : UIImage?) {
+    func userSetCurrentImage(image : UIImage?, data: NSData? = nil, type: String? = nil) {
         setCurrentImage(image)
+        self.data = data
+        self.type = type
+
         updatePostState()
     }
 
@@ -593,7 +605,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
 
                     if isGif {
                         let data = NSData(bytes: bufferPtr8, length: sizeOfData)
-                        self.userSetCurrentImage(image) // , data: data, type: "image/gif"
+                        self.userSetCurrentImage(image, data: data, type: "image/gif")
                     }
                     else {
                         self.userSetCurrentImage(image)
