@@ -1,3 +1,33 @@
+### Ello Build v1.0.0(2591) June 26, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #471 - Support uploading animated GIFs from the iOS app.
+When choosing a GIF the first four bytes are used to determine GIF/No-GIF.  If a GIF is selected, the raw bytes are uploaded to S3 with the content-type `image/gif`.
+
+The image data is used to construct local asset / attachments that support
+
+- large file (>2MB)
+- "preview" image
+- animated gif url
+
+------
+
+#### #474 - Adds the rainbow ello logo to crashlytics builds.
+* Adds a generator for creating the icon files
+* Removes some unnecessary icon files
+* Adds `tmp/` to `.gitignore`
+* Adds Crashlytics configuration to project
+* Fixes some of the checks for env vars in helper classes
+
+------
+
+#### #472 - set the radius to the cornerRadius of the image, to account for small images
+    
+------------
+
 ### Ello Build v1.0.0(2582) June 26, 2015
 
     RELEASE NOTES
