@@ -34,3 +34,6 @@ test-reports/*
 # cocoapods ignores
 Pods/*
 
+# tmp
+tmp/
+
