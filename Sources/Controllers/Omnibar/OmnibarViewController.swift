@@ -176,6 +176,11 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         }
 
         if let text = text?.string {
+            if count(text) > 5000 {
+                contentCreationFailed(NSLocalizedString("Your text is too long.\n\nThe character limit is 5,000.", comment: "Post too long (maximum characters is 5000) error message"))
+                return
+            }
+
             let cleanedText = text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
             if count(cleanedText) > 0 {
                 content.append(text)
