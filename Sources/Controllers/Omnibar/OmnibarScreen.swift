@@ -22,6 +22,7 @@
 // the UIImagePickerController, and submitting the text and image.
 
 import UIKit
+import AssetsLibrary
 import MobileCoreServices
 import FLAnimatedImage
 import SVGKit
@@ -561,7 +562,52 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
     }
 
     public func imagePickerController(controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
-        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+        let library = ALAssetsLibrary()
+        if let url = info[UIImagePickerControllerReferenceURL] as? NSURL,
+            let image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        {
+            library.assetForURL(url, resultBlock: { asset in
+                let representation = asset.defaultRepresentation()
+
+                let sizeOfData = Int(representation.size())
+                var bufferPtr8 = UnsafeMutablePointer<UInt8>.alloc(sizeOfData)
+
+                var error: NSError? = nil
+                representation.getBytes(bufferPtr8, fromOffset: 0, length: sizeOfData, error: &error)
+
+                if let error = error {
+                    println("\(error.userInfo) \(error)")
+                }
+                else {
+                    let isGif: Bool
+                    if sizeOfData >= 4 {
+                        let isG = Int(bufferPtr8[0]) == 71
+                        let isI = Int(bufferPtr8[1]) == 73
+                        let isF = Int(bufferPtr8[2]) == 70
+                        let is8 = Int(bufferPtr8[3]) == 56
+                        isGif = isG && isI && isF && is8
+                    }
+                    else {
+                        isGif = false
+                    }
+
+                    if isGif {
+                        let data = NSData(bytes: bufferPtr8, length: sizeOfData)
+                        self.userSetCurrentImage(image) // , data: data, type: "image/gif"
+                    }
+                    else {
+                        self.userSetCurrentImage(image)
+                    }
+
+                    bufferPtr8.dealloc(sizeOfData)
+                    self.delegate?.omnibarDismissController(controller)
+                }
+            },
+            failureBlock: { error in
+                println("couldn't get asset: \(error)")
+            })
+        }
+        else if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             image.copyWithCorrectOrientationAndSize() { image in
                 self.userSetCurrentImage(image)
                 self.delegate?.omnibarDismissController(controller)
