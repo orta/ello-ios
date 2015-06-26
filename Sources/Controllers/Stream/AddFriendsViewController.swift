@@ -42,7 +42,7 @@ public class AddFriendsViewController: StreamableViewController {
         self.view = searchScreen
         searchScreen.delegate = self
     }
-    
+
     override public func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         if isMovingToParentViewController() {

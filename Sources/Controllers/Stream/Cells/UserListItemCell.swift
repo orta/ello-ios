@@ -14,7 +14,6 @@ public class UserListItemCell: UICollectionViewCell {
     @IBOutlet weak public var usernameLabel: UILabel!
     @IBOutlet weak public var relationshipControl: RelationshipControl!
     weak var userDelegate: UserDelegate?
-    var currentUser: User?
     var bottomBorder = CALayer()
 
     override public func awakeFromNib() {
