@@ -57,18 +57,14 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
 
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        if let hidden = elloTabBarController?.tabBarHidden {
-            updateNavBarsVisibility(!hidden)
-        }
-        let hidden = elloTabBarController?.tabBarHidden ?? false
+        let hidden = !navBarsVisible()
+        willPresentStreamable(!hidden)
         UIApplication.sharedApplication().setStatusBarHidden(hidden, withAnimation: .Slide)
     }
 
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        if let hidden = elloTabBarController?.tabBarHidden {
-            updateNavBarsVisibility(!hidden)
-        }
+        willPresentStreamable(navBarsVisible())
     }
 
     override public func viewDidLoad() {
@@ -81,7 +77,7 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
         )
     }
 
-    private func updateNavBarsVisibility(navBarsVisible : Bool) {
+    private func willPresentStreamable(navBarsVisible : Bool) {
         UIView.setAnimationsEnabled(false)
         if navBarsVisible {
             showNavBars(false)
@@ -94,7 +90,7 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
     }
 
     func navBarsVisible() -> Bool {
-        return !(elloTabBarController?.tabBarHidden ?? false)
+        return !(elloTabBarController?.tabBarHidden ?? UIApplication.sharedApplication().statusBarHidden)
     }
 
     func updateInsets(#navBar: UIView?, streamController controller: StreamViewController, navBarsVisible visible: Bool? = nil) {
@@ -175,7 +171,7 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
 // MARK: Search
 public extension StreamableViewController {
     func addSearchButton() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: SVGKImage(named: "search_normal.svg").UIImage!, style: .Done, target: self, action: Selector("searchButtonTapped"))
+        elloNavigationItem.rightBarButtonItem = UIBarButtonItem(image: SVGKImage(named: "search_normal.svg").UIImage!, style: .Done, target: self, action: Selector("searchButtonTapped"))
     }
 
     func searchButtonTapped() {
@@ -316,3 +312,4 @@ extension StreamableViewController: InviteResponder {
     }
 
 }
+

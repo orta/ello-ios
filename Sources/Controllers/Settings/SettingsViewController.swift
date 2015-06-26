@@ -74,7 +74,9 @@ public class SettingsContainerViewController: BaseElloViewController {
     }
 
     public override func viewWillAppear(animated: Bool) {
-        let hidden = elloTabBarController?.tabBarHidden ?? true
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
+        let hidden = elloTabBarController?.tabBarHidden ?? UIApplication.sharedApplication().statusBarHidden
         UIApplication.sharedApplication().setStatusBarHidden(hidden, withAnimation: .Slide)
     }
 }

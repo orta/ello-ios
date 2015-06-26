@@ -88,9 +88,9 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         navigationBar.autoresizingMask = .FlexibleBottomMargin | .FlexibleWidth
         view.addSubview(navigationBar)
         let item = UIBarButtonItem.backChevronWithTarget(self, action: Selector("backTapped:"))
-        navigationItem.leftBarButtonItems = [item]
-        navigationItem.fixNavBarItemPadding()
-        navigationBar.items = [self.navigationItem]
+        elloNavigationItem.leftBarButtonItems = [item]
+        elloNavigationItem.fixNavBarItemPadding()
+        navigationBar.items = [elloNavigationItem]
     }
 
     private func postLoaded(post: Post, responseConfig: ResponseConfig) {

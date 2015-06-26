@@ -44,10 +44,10 @@ public class StreamContainerViewController: StreamableViewController {
 //        println("---------PROFILING: StreamContainerVC viewDidLoad: \(NSDate().timeIntervalSinceDate(LaunchDate))")
         setupStreamsSegmentedControl()
         setupChildViewControllers()
-        navigationItem.titleView = streamsSegmentedControl
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: SVGKImage(named: "burger_normal.svg").UIImage!, style: .Done, target: self, action: Selector("hamburgerButtonTapped"))
+        elloNavigationItem.titleView = streamsSegmentedControl
+        elloNavigationItem.leftBarButtonItem = UIBarButtonItem(image: SVGKImage(named: "burger_normal.svg").UIImage!, style: .Done, target: self, action: Selector("hamburgerButtonTapped"))
         addSearchButton()
-        navigationBar.items = [navigationItem]
+        navigationBar.items = [elloNavigationItem]
 
         let initialStream = childStreamControllers[0]
         scrollLogic.prevOffset = initialStream.collectionView.contentOffset

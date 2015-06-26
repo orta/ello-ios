@@ -33,7 +33,6 @@ public class AppViewController: BaseElloViewController {
     private var userLoggedOutObserver: NotificationObserver?
     private var receivedPushNotificationObserver: NotificationObserver?
     private var externalWebObserver: NotificationObserver?
-    private let externalWebController: UINavigationController = ElloWebBrowserViewController.navigationControllerWithWebBrowser()
 
     private var pushPayload: PushPayload?
 
@@ -77,6 +76,10 @@ public class AppViewController: BaseElloViewController {
 
     public class func instantiateFromStoryboard() -> AppViewController {
         return UIStoryboard.storyboardWithId(.App, storyboardName: "App") as! AppViewController
+    }
+
+    public override func didSetCurrentUser() {
+        ElloWebBrowserViewController.currentUser = currentUser
     }
 
 // MARK: - Private
@@ -215,6 +218,7 @@ extension AppViewController {
         Tracker.sharedTracker.identify(user)
 
         var vc = ElloTabBarController.instantiateFromStoryboard()
+        ElloWebBrowserViewController.elloTabBarController = vc
         vc.setProfileData(user)
 
         swapViewController(vc) {
@@ -235,10 +239,20 @@ extension AppViewController {
 
     func showExternalWebView(url: String) {
         Tracker.sharedTracker.webViewAppeared(url)
+        let externalWebController = ElloWebBrowserViewController.navigationControllerWithWebBrowser()
         presentViewController(externalWebController, animated: true, completion: nil)
         if let externalWebView = externalWebController.rootWebBrowser() {
             externalWebView.tintColor = UIColor.greyA()
             externalWebView.loadURLString(url)
+        }
+    }
+
+    public override func presentViewController(viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)?) {
+        // Unsure why WKWebView calls this controller - instead of it's own parent controller
+        if let vc = presentedViewController {
+            vc.presentViewController(viewControllerToPresent, animated: flag, completion: completion)
+        } else {
+            super.presentViewController(viewControllerToPresent, animated: flag, completion: completion)
         }
     }
 

@@ -76,8 +76,8 @@ extension DrawerViewController: UITableViewDelegate {
         if let item = dataSource.itemForIndexPath(indexPath) {
             switch item.type {
             case .External:
-                if let link = item.link, let url = NSURL(string:"\(link)") {
-                    UIApplication.sharedApplication().openURL(url)
+                if let link = item.link {
+                    postNotification(externalWebNotification, link)
                 }
             case .Invite:
                 let responder = targetForAction("onInviteFriends", withSender: self) as? InviteResponder
@@ -95,7 +95,7 @@ extension DrawerViewController: UITableViewDelegate {
 private extension DrawerViewController {
     func setupNavigationBar() {
         navigationBar.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: ElloNavigationBar.Size.height)
-        navigationBar.items = [navigationItem]
+        navigationBar.items = [elloNavigationItem]
         navigationBar.tintColor = UIColor.greyA()
     }
 
@@ -106,10 +106,8 @@ private extension DrawerViewController {
     }
 
     func addHamburgerButton() {
-        let padding = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
-        padding.width = 21
         let button = UIBarButtonItem(image: SVGKImage(named: "burger_normal.svg").UIImage!, style: .Done, target: self, action: Selector("hamburgerButtonTapped"))
-        self.navigationItem.rightBarButtonItems = [padding, button]
+        elloNavigationItem.rightBarButtonItems = [button]
     }
 
     func registerCells() {

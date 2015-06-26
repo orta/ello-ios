@@ -10,7 +10,11 @@ inhibit_all_warnings!
 use_frameworks!
 
 pod '1PasswordExtension', '~> 1.2.0'
+pod 'Analytics/Segmentio'
+pod 'CRToast', git: 'https://github.com/ello/CRToast'
 pod 'FLAnimatedImage', git: 'https://github.com/ello/FLAnimatedImage'
+pod 'Fabric', '~> 1.3.0'
+pod 'Fabric/Crashlytics', '~> 1.3.0'
 pod 'JTSImageViewController', git: 'https://github.com/ello/JTSImageViewController'
 pod 'KINWebBrowser', git: 'https://github.com/ello/KINWebBrowser'
 pod 'LUKeychainAccess', '~> 1.2.4'
@@ -19,24 +23,20 @@ pod 'SDWebImage', '~> 3.7'
 pod 'SSPullToRefresh', '~> 1.2'
 pod 'SVGKit', git: 'https://github.com/SVGKit/SVGKit'
 pod 'YapDatabase', git: 'https://github.com/ello/YapDatabase'
-pod 'CRToast', git: 'https://github.com/ello/CRToast'
-pod 'Analytics/Segmentio'
-pod 'Fabric', '~> 1.3.0'
-pod 'Fabric/Crashlytics', '~> 1.3.0'
 
 # swift pods
 pod 'Alamofire', '~> 1.2.0'
 pod 'Moya', git: "https://github.com/ello/Moya", branch: 'cg-hybrid'
+pod 'Result', '~> 0.4.0'
 pod 'SwiftyJSON', '~> 2.2.0'
 pod 'SwiftyUserDefaults', '~> 1.1.0'
-pod 'Result', '~> 0.4.0'
 pod 'TimeAgoInWords', '~> 0.1.0'
 pod 'WebLinking', '~> 0.2.0'
 
 target 'Specs' do
   pod 'Nimble', '~> 0.4.0'
-  pod 'Quick', '~> 0.3.0'
   pod 'OHHTTPStubs', '~> 4.0'
+  pod 'Quick', '~> 0.3.0'
 end
 
 plugin 'cocoapods-keys', {
@@ -45,9 +45,9 @@ plugin 'cocoapods-keys', {
     'ClientKey',
     'ClientSecret',
     'CrashlyticsKey',
-    'SegmentKey',
     'Domain',
-    'Salt',
     'HttpProtocol',
+    'Salt',
+    'SegmentKey',
   ]
 }

@@ -67,7 +67,6 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
         super.viewDidLoad()
         self.setNavigationBarHidden(true, animated: false)
 
-        transitioningDelegate = self
         delegate = self
 
         backGesture = UIScreenEdgePanGestureRecognizer(target: self, action: Selector("handleBackGesture:"))
@@ -140,26 +139,6 @@ extension ElloNavigationController: UIGestureRecognizerDelegate {
 
     public func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
-    }
-
-}
-
-extension ElloNavigationController: UIViewControllerTransitioningDelegate {
-
-    public func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return ForwardAnimator()
-    }
-
-    public func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return BackAnimator()
-    }
-
-    public func interactionControllerForPresentation(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        return interactionController
-    }
-
-    public func interactionControllerForDismissal(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        return interactionController
     }
 
 }

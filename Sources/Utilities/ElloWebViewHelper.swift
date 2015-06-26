@@ -9,22 +9,27 @@
 public struct ElloWebViewHelper {
     static let jsCommandProtocol = "ello://"
 
-    static func handleRequest(request: NSURLRequest, webLinkDelegate: WebLinkDelegate?) -> Bool {
+    public static func handleRequest(request: NSURLRequest, webLinkDelegate: WebLinkDelegate?, fromWebView: Bool = false) -> Bool {
         let requestURL = request.URLString
         if requestURL.hasPrefix(jsCommandProtocol) {
             return false
         }
-        else if requestURL.hasPrefix("http://") || requestURL.hasPrefix("https://") {
+        else if requestURL.rangeOfString("(https?:\\/\\/|mailto:)", options: .RegularExpressionSearch) != nil {
             let (type, data) = ElloURI.match(requestURL)
-            if type == .WTF {
-                if let url = NSURL(string:"\(data)") {
+            switch type {
+            case .Email:
+                if let url = NSURL(string: requestURL) {
                     UIApplication.sharedApplication().openURL(url)
                 }
-            }
-            else {
+                return false
+            case .Downloads, .External, .Wallpapers, .WTF:
+                if fromWebView { return true }
                 webLinkDelegate?.webLinkTapped(type, data: data)
+                return false
+            default:
+                webLinkDelegate?.webLinkTapped(type, data: data)
+                return false
             }
-            return false
         }
         return true
     }
