@@ -1,3 +1,91 @@
+### Ello Build v1.0.0(2582) June 26, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #468 - changes button to 'Join'
+[Finishes #93253500]
+
+------
+
+#### #470 - Intercept ello web links and navigate to in app versions.
+* Updates KINWebBrowser with hook for should load page
+* Recreate the web browser every time it is used to reset the history (doesn't seem to impact memory)
+* Fixes a bug with the web browser trying to present an action sheet on it's `AppViewController`
+* Remove uses of `navigationItem` in favor of our own `elloNavigationItem` (fixes an issue where the nav bar was showing up twice and never setting title or items properly)
+* Drawer WTF links should open up in the browser again
+* `ElloWebBrowserViewController` now returns an `ElloNavigationController`
+* Removes the `transitionDelegate` from `ElloNavigationController` to get the web view to animate in properly, also it seemed like this code wasn't doing anything
+* Updates Settings and Stream VCs to show the nav bar and status bars properly
+* `StreamViewController` and `ElloWebBrowserViewController` now handle the `WebLinkDelegate` properly
+* Updates `ElloWebViewHelper` to work with the internal web browser vs web views in the app
+* Adds a bunch of new cases to `ElloAPI` to handle all of the WTF possibilities
+
+Wanted to test this, but not sure of the best way to test how `StreamViewController` and `ElloWebBrowserViewController` implement the `WebLinkDelegate`, but that is basically what needs to be tested. @steam @colinta any ideas on testing this would be sweet!
+
+Actually kinda surprised this update didn't really break any tests:
+![image](https://cloud.githubusercontent.com/assets/96433/8365365/e738fb3e-1b49-11e5-9ed1-17a30a509575.png)
+
+[Fixes #97252782]
+
+------
+
+#### #467 - use 'nextTick' method instead of 'dispatch_async' (less noise)
+Not a crucial change, it's cosmetic really, but I like methods that show *intent*, and `dispatch_async...` doesn't show much intent.
+
+------
+
+#### #466 - When opening a notification during application launch, the Notifications screen should be displayed.
+Make it so!
+
+```
+Test Suite 'Selected tests' passed at 2015-06-23 20:49:03 +0000.
+   Executed 707 tests, with 0 failures (0 unexpected) in 30.598 (31.036) seconds
+```
+
+------
+
+#### #465 - All these calls to `updateInsets` are unnecessary.
+I noticed while debugging that `updateInsets` was getting called 2x per screen view.
+
+Once in each controller's `viewWillAppear` method, but then again from `willPresentStreamable`, which updates the visibility of the nav bar (and, incidentally, that's *all* it does).
+
+So instead I renamed that method to `updateNavBarsVisibility` and removed it from `viewWillAppear`.  It's also set from `viewDidLayoutSubviews`.
+
+------
+
+#### #464 - Quiets the `StreamViewController` crash, but results in a new UI bug.
+Tried to deal with the UI bug, but could NOT figure it out.
+
+What happens is: when scrolling at the bottom, the 'loading' spinner appears.  In some cases (like when viewing an NSFW profile), removing the loading spinner cell was crashing.  Now, instead of crashing, the `ProfileHeaderCell` disappears (all cells disappear actually).
+
+------
+
+#### #462 - Upload dSYMs to AWS
+Make sure to add the following to your `.env`
+
+`AWS_DEFAULT_REGION`
+`AWS_ACCESS_KEY_ID`
+`AWS_SECRET_ACCESS_KEY`
+
+------
+
+#### #461 - Updates segment reporting to use individual model.
+* This will hopefully help with debugging as before we were running into text size limitations.
+
+------
+
+#### #463 - Updates KINWebBrowser to prevent a crash.
+
+------
+
+#### #460 - Guards against a crash when results label is nil.
+https://fabric.io/ello/ios/apps/co.ello.ello/issues/558349ecf505b5ccf02f4bef
+[Fixes #97344846]
+    
+------------
+
 ### Ello Build v1.0.0(2535) June 18, 2015
 
     RELEASE NOTES
