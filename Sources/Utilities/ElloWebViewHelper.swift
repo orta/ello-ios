@@ -23,7 +23,7 @@ public struct ElloWebViewHelper {
                 }
                 return false
             case .Downloads, .External, .Wallpapers, .WTF:
-                if fromWebView == true { return true }
+                if fromWebView { return true }
                 webLinkDelegate?.webLinkTapped(type, data: data)
                 return false
             default:
