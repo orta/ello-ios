@@ -579,41 +579,16 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
             let image = info[UIImagePickerControllerOriginalImage] as? UIImage
         {
             library.assetForURL(url, resultBlock: { asset in
-                let representation = asset.defaultRepresentation()
-
-                let sizeOfData = Int(representation.size())
-                var bufferPtr8 = UnsafeMutablePointer<UInt8>.alloc(sizeOfData)
-
-                var error: NSError? = nil
-                representation.getBytes(bufferPtr8, fromOffset: 0, length: sizeOfData, error: &error)
-
-                if let error = error {
-                    println("\(error.userInfo) \(error)")
+                if let (buffer, length) = self.bufferFromAsset(asset) where self.isGif(buffer, length: length) {
+                    let data = NSData(bytes: buffer, length: length)
+                    self.userSetCurrentImage(image, data: data, type: "image/gif")
+                    buffer.dealloc(length)
                 }
                 else {
-                    let isGif: Bool
-                    if sizeOfData >= 4 {
-                        let isG = Int(bufferPtr8[0]) == 71
-                        let isI = Int(bufferPtr8[1]) == 73
-                        let isF = Int(bufferPtr8[2]) == 70
-                        let is8 = Int(bufferPtr8[3]) == 56
-                        isGif = isG && isI && isF && is8
-                    }
-                    else {
-                        isGif = false
-                    }
-
-                    if isGif {
-                        let data = NSData(bytes: bufferPtr8, length: sizeOfData)
-                        self.userSetCurrentImage(image, data: data, type: "image/gif")
-                    }
-                    else {
-                        self.userSetCurrentImage(image)
-                    }
-
-                    bufferPtr8.dealloc(sizeOfData)
-                    self.delegate?.omnibarDismissController(controller)
+                    self.userSetCurrentImage(image)
                 }
+
+                self.delegate?.omnibarDismissController(controller)
             },
             failureBlock: { error in
                 println("couldn't get asset: \(error)")
@@ -627,6 +602,35 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
         }
         else {
             delegate?.omnibarDismissController(controller)
+        }
+    }
+
+    private func bufferFromAsset(asset: ALAsset) -> (UnsafeMutablePointer<UInt8>, Int)? {
+        let representation = asset.defaultRepresentation()
+
+        let length = Int(representation.size())
+        var buffer = UnsafeMutablePointer<UInt8>.alloc(length)
+
+        var error: NSError? = nil
+        representation.getBytes(buffer, fromOffset: 0, length: length, error: &error)
+
+        if let error = error {
+            return nil
+        }
+        return (buffer, length)
+    }
+
+    private func isGif(buffer: UnsafeMutablePointer<UInt8>, length: Int) -> Bool {
+        if length >= 4 {
+            let isG = Int(buffer[0]) == 71
+            let isI = Int(buffer[1]) == 73
+            let isF = Int(buffer[2]) == 70
+            let is8 = Int(buffer[3]) == 56
+
+            return isG && isI && isF && is8
+        }
+        else {
+            return false
         }
     }
 
