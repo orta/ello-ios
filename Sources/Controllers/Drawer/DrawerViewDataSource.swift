@@ -7,9 +7,9 @@
 //
 
 public struct DrawerItem {
-    let name: String
-    var link: String?
-    let type: DrawerItemType
+    public let name: String
+    public var link: String?
+    public let type: DrawerItemType
 }
 
 public enum DrawerItemType {
@@ -38,6 +38,7 @@ public class DrawerViewDataSource: NSObject {
             DrawerItem(name: NSLocalizedString("Help", comment:"Help"), link: "https://ello.co/wtf/post/help", type: .External),
             DrawerItem(name: NSLocalizedString("Resources", comment:"Resources"), link: "https://ello.co/wtf/post/resources", type: .External),
             DrawerItem(name: NSLocalizedString("About", comment:"About"), link: "https://ello.co/wtf/post/about", type: .External),
+            DrawerItem(name: NSLocalizedString("Your Data", comment:"Your Data"), link: "https://ello.co/wtf/about/ello-tracking-and-your-data/", type: .External),
             DrawerItem(name: NSLocalizedString("Logout", comment:"Logout"), link: nil, type: .Logout),
             DrawerItem(name: NSLocalizedString("Ello v\(marketingVersion) b\(buildVersion)", comment:"version number"), link: nil, type: .Plain),
         ]
