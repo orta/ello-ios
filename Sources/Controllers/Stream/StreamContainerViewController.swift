@@ -163,6 +163,7 @@ public class StreamContainerViewController: StreamableViewController {
         let index = streamsSegmentedControl.selectedSegmentIndex
         let relationship = StreamKind.streamValues[index].relationship
         let drawer = DrawerViewController()
+        drawer.currentUser = currentUser
 
         self.navigationController?.pushViewController(drawer, animated: true)
     }

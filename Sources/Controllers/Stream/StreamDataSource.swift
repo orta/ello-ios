@@ -275,7 +275,6 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
             case .UserListItem:
                 (cell as! UserListItemCell).relationshipControl.relationshipDelegate = relationshipDelegate
                 (cell as! UserListItemCell).userDelegate = userDelegate
-                (cell as! UserListItemCell).currentUser = currentUser
             default:
                 break
             }

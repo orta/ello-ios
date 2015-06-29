@@ -22,7 +22,7 @@ public struct UserListItemCellPresenter {
         {
             cell.relationshipControl.hidden = false
 
-            if let currentUser = cell.currentUser {
+            if let currentUser = currentUser {
                 cell.relationshipControl.hidden = user.id == currentUser.id
             }
 
