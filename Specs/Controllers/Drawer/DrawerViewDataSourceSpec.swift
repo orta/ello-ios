@@ -5,14 +5,20 @@ import Nimble
 
 class DrawerViewDataSourceSpec: QuickSpec {
     override func spec() {
+
+        func indexPathFromIndex(index: Int) -> NSIndexPath {
+            return NSIndexPath(forRow: index, inSection: 0)
+        }
+
         context("UITableViewDataSource") {
 
             describe("tableView(_:numberOfrowsInSection:)") {
 
                 it("returns 7") {
                     let dataSource = DrawerViewDataSource()
-                    expect(dataSource.tableView(UITableView(frame: CGRectZero), numberOfRowsInSection: 0)) == 7
+                    expect(dataSource.tableView(UITableView(frame: CGRectZero), numberOfRowsInSection: 0)) == 8
                 }
+            }
 
             describe("itemForIndexPath(:)") {
 
@@ -52,7 +58,6 @@ class DrawerViewDataSourceSpec: QuickSpec {
                     expect(dataSource.itemForIndexPath(indexPathFromIndex(7))?.type) == DrawerItemType.Plain
                 }
             }
-
         }
     }
 }
