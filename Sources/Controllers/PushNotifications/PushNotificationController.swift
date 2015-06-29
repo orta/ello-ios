@@ -76,12 +76,25 @@ public extension PushNotificationController {
     }
 
     func receivedNotification(application: UIApplication, userInfo: [NSObject: AnyObject]) {
+        if !hasAlert(userInfo) { return }
+
         let payload = PushPayload(info: userInfo as! [String: AnyObject])
         switch application.applicationState {
         case .Active:
             NotificationBanner.displayAlertForPayload(payload)
         default:
             postNotification(PushNotificationNotifications.interactedWithPushNotification, payload)
+        }
+    }
+
+    func hasAlert(userInfo: [NSObject: AnyObject]) -> Bool {
+        if  let aps = userInfo["aps"] as? [NSObject: AnyObject],
+            let alert = aps["alert"] as? [NSObject: AnyObject]
+        {
+            return true
+        }
+        else {
+            return false
         }
     }
 }
