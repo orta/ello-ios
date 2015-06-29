@@ -38,6 +38,11 @@ class OmnibarScreenMockDelegate : OmnibarScreenDelegate {
     }
     @objc func updatePostState() {
     }
+
+    @objc func omnibarSubmitted(text: NSAttributedString?, image: UIImage, data: NSData, type: String) {
+        submitted = true
+    }
+
 }
 
 
