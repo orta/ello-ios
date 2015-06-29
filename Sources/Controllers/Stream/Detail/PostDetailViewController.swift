@@ -13,6 +13,8 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
     var post: Post?
     var postParam: String!
     var navigationBar: ElloNavigationBar!
+    var loversModel: UserAvatarCellModel?
+    var repostersModel: UserAvatarCellModel?
 
     required public init(postParam: String) {
         self.postParam = postParam
@@ -110,6 +112,29 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         title = post.author?.atName ?? "Post Detail"
         let parser = StreamCellItemParser()
         var items = parser.parse([post], streamKind: streamViewController.streamKind, currentUser: currentUser)
+        // add lovers and reposters
+        if let lovers = post.lovesCount where lovers > 0 {
+            loversModel = UserAvatarCellModel(icon: "heart s_normal.svg", endpoint: .PostLovers(postId: post.id))
+            items.append(StreamCellItem(
+                jsonable: loversModel!,
+                type: .UserAvatars,
+                data: nil,
+                oneColumnCellHeight: 50.0,
+                multiColumnCellHeight: 50.0,
+                isFullWidth: true)
+            )
+        }
+        if let reposters = post.repostsCount where reposters > 0 {
+            repostersModel = UserAvatarCellModel(icon: "repost_normal.svg", endpoint: .PostReposters(postId: post.id))
+            items.append(StreamCellItem(
+                jsonable: repostersModel!,
+                type: .UserAvatars,
+                data: nil,
+                oneColumnCellHeight: 50.0,
+                multiColumnCellHeight: 50.0,
+                isFullWidth: true)
+            )
+        }
         // add in the comment button if we have a current user
         if let currentUser = currentUser {
             items.append(StreamCellItem(

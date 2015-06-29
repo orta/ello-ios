@@ -35,9 +35,10 @@ public enum StreamCellType {
     case Text
     case Toggle
     case Unknown
+    case UserAvatars
     case UserListItem
 
-    static let all = [CommentHeader, CreateComment, Embed, FollowAll, Footer, Header, Image, InviteFriends, Notification, OnboardingHeader, ProfileHeader, RepostHeader, SeeMoreComments, Spacer, StreamLoading, Text, Toggle, Unknown, UserListItem]
+    static let all = [CommentHeader, CreateComment, Embed, FollowAll, Footer, Header, Image, InviteFriends, Notification, OnboardingHeader, ProfileHeader, RepostHeader, SeeMoreComments, Spacer, StreamLoading, Text, Toggle, Unknown, UserAvatars, UserListItem]
 
     public var name: String {
         switch self {
@@ -59,6 +60,7 @@ public enum StreamCellType {
         case Text: return "StreamTextCell"
         case Toggle: return "StreamToggleCell"
         case Unknown: return "StreamUnknownCell"
+        case UserAvatars: return "UserAvatarsCell"
         case UserListItem: return "UserListItemCell"
         }
     }
@@ -90,6 +92,7 @@ public enum StreamCellType {
         case Text: return StreamTextCellPresenter.configure
         case Toggle: return StreamToggleCellPresenter.configure
         case Unknown: return ProfileHeaderCellPresenter.configure
+        case UserAvatars: return UserAvatarsCellPresenter.configure
         case UserListItem: return UserListItemCellPresenter.configure
         default: return { (_, _, _, _, _) in }
         }
@@ -114,6 +117,7 @@ public enum StreamCellType {
         case Text: return StreamTextCell.self
         case Toggle: return StreamToggleCell.self
         case Unknown, Spacer: return UICollectionViewCell.self
+        case UserAvatars: return UserAvatarsCell.self
         case UserListItem: return UserListItemCell.self
         }
     }
