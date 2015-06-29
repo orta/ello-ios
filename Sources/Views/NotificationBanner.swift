@@ -17,14 +17,17 @@ public struct NotificationBanner {
 
 private extension NotificationBanner {
     static func configureDefaultsWithPayload(payload: PushPayload) {
-        let interactionResponder = CRToastInteractionResponder(interactionType: CRToastInteractionType.TapOnce, automaticallyDismiss: true) { _ in
+        let interactionResponder = CRToastInteractionResponder(interactionType: CRToastInteractionType.Tap, automaticallyDismiss: true) { _ in
             postNotification(PushNotificationNotifications.interactedWithPushNotification, payload)
+        }
+
+        let dismissResponder = CRToastInteractionResponder(interactionType: CRToastInteractionType.Swipe, automaticallyDismiss: true) { _ in
         }
 
         CRToastManager.setDefaultOptions(
             [
-                kCRToastInteractionRespondersKey: [interactionResponder],
-
+                kCRToastInteractionRespondersKey: [interactionResponder, dismissResponder],
+                kCRToastTimeIntervalKey: 4,
                 kCRToastNotificationTypeKey: CRToastType.NavigationBar.rawValue,
                 kCRToastNotificationPresentationTypeKey: CRToastPresentationType.Cover.rawValue,
 
