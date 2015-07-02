@@ -422,6 +422,11 @@ public extension Tracker {
         log("User invited")
         agent.track("User invited")
     }
+
+    func userDeletedAccount() {
+        log("User deleted account")
+        agent.track("User deleted account")
+    }
 }
 
 // MARK: Image Actions
