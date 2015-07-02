@@ -112,12 +112,12 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         var items = parser.parse([post], streamKind: streamViewController.streamKind, currentUser: currentUser)
         // add lovers and reposters
         if let lovers = post.lovesCount where lovers > 0 {
-            let loversModel = UserAvatarCellModel(icon: "hearts_normal.svg", seeMoreTitle: NSLocalizedString("Loved By", comment: "Reposted By title"))
+            let loversModel = UserAvatarCellModel(icon: "hearts_normal.svg", seeMoreTitle: NSLocalizedString("Loved by", comment: "Reposted By title"))
             loversModel.endpoint = .PostLovers(postId: post.id)
             addAvatarsView(loversModel, items: &items, indexPath: NSIndexPath(forItem: items.count, inSection: 0))
         }
         if let reposters = post.repostsCount where reposters > 0 {
-            let repostersModel = UserAvatarCellModel(icon: "repost_normal.svg", seeMoreTitle: NSLocalizedString("Reposted By", comment: "Reposted By title"))
+            let repostersModel = UserAvatarCellModel(icon: "repost_normal.svg", seeMoreTitle: NSLocalizedString("Reposted by", comment: "Reposted By title"))
             repostersModel.endpoint = .PostReposters(postId: post.id)
             addAvatarsView(repostersModel, items: &items, indexPath: NSIndexPath(forItem: items.count, inSection: 0))
         }
