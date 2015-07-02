@@ -158,7 +158,9 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
             success: { (jsonables, responseConfig) in
                 if let users = jsonables as? [User] {
                     model.users = users
-                    self.streamViewController.collectionView.reloadItemsAtIndexPaths([indexPath])
+                    if self.streamViewController.initialDataLoaded {
+                        self.streamViewController.collectionView.reloadItemsAtIndexPaths([indexPath])
+                    }
                 }
             },
             failure: { (error, statusCode) in
