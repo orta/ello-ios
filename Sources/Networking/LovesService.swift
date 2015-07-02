@@ -8,7 +8,7 @@
 
 import Foundation
 
-public typealias LovesCreateSuccessCompletion = (love: Love, responseConfig: ResponseConfig) -> ()
+public typealias LovesCreateSuccessCompletion = (love: Love, responseConfig: ResponseConfig) -> Void
 
 public struct LovesService {
 

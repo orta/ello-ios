@@ -128,7 +128,12 @@ public class AppViewController: BaseElloViewController {
                     self.showOnboardingScreen(user)
                 }
                 else {
-                    self.showMainScreen(user)
+                    let vc = AutoCompleteViewController()
+                    vc.type = .Username
+                    self.presentViewController(vc, animated: true) {
+                        vc.loadResults("bob")
+                    }
+//                    self.showMainScreen(user)
                 }
             },
             failure: { (error, _) in
