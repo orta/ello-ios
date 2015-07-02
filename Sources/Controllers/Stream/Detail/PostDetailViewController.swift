@@ -126,7 +126,6 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
                 loversModel.endpoint!,
                 streamKind: streamViewController.streamKind,
                 success: { (jsonables, responseConfig) in
-                    println("loaded lovers: \(jsonables)")
                     if let users = jsonables as? [User] {
                         loversModel.users = users
                         // ref
@@ -153,7 +152,6 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
                 repostersModel.endpoint!,
                 streamKind: streamViewController.streamKind,
                 success: { (jsonables, responseConfig) in
-                    println("loaded reposters: \(jsonables)")
                     if let users = jsonables as? [User] {
                         repostersModel.users = users
                         // ref

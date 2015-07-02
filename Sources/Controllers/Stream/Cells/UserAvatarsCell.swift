@@ -47,7 +47,6 @@ public class UserAvatarsCell: UICollectionViewCell {
         clearButtons()
         var numToDisplay = min(users.count, maxAvatars)
         seeAllButton.hidden = users.count <= numToDisplay
-        println("numToDisplay: \(numToDisplay) frame: \(avatarsView.frame)")
         var usersToDisplay = users[0..<numToDisplay]
         var startX = 0.0
         for user in usersToDisplay {
