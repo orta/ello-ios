@@ -60,7 +60,7 @@ public enum StreamCellType {
         case Text: return "StreamTextCell"
         case Toggle: return "StreamToggleCell"
         case Unknown: return "StreamUnknownCell"
-        case UserAvatars: return "UserAvatarsCell"
+        case UserAvatars: return UserAvatarsCell.reuseIdentifier
         case UserListItem: return "UserListItemCell"
         }
     }

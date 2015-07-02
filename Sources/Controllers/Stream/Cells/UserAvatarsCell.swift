@@ -9,6 +9,7 @@
 import Foundation
 
 public class UserAvatarsCell: UICollectionViewCell {
+    static let reuseIdentifier = "UserAvatarsCell"
 
     @IBOutlet weak public var imageView: UIImageView!
     @IBOutlet weak public var loadingLabel: UILabel!
@@ -77,7 +78,6 @@ public class UserAvatarsCell: UICollectionViewCell {
         if let index = find(avatarButtons, sender) {
             if users.count > index {
                 let user = users[index]
-                println("tapped on \(user.atName)")
                 userDelegate?.userTappedParam(user.id)
             }
         }
