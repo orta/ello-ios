@@ -1,3 +1,70 @@
+### Ello Build v1.0.0(2621) July 2, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #473 - disables long posts (to <= 5000 chars)
+
+------
+
+#### #478 - Adds the lovers and reposters cells to post details.
+[Finishes #85642176] [Finishes #97765300]
+
+------
+
+#### #479 - Adds delete account tracking.
+[Finishes #98137098]
+
+------
+
+#### #480 - Fixes the ability to open internal links.
+* Broke the bill of rights opening on iOS
+
+------
+
+#### #469 - Add "Your Data" option to hamburger menu
+Simple one. Added some specs.
+
+This link is broken right now but _should_ work when changes are made to the WTF site.
+
+Finishes https://www.pivotaltracker.com/story/show/97114300
+
+![screen shot 2015-06-25 at 10 22 17 am](https://cloud.githubusercontent.com/assets/12459/8359533/435bf34c-1b24-11e5-8e9f-247f4e36c5f8.png)
+
+------
+
+#### #477 - Prevent some in app notifications
+This PR prevents the in-app notification UI if the push notification does not have a "alert" key in the payload. Non-alert payloads are generally intended to manipulate the badge count.
+
+- Display the notification alert UI for 4 seconds instead of 2 seconds.
+- Dismiss the notification alert UI by swiping left/right/up (does not take you to Notifications unless you tap on it)
+
+Finishes: https://www.pivotaltracker.com/story/show/97772238
+
+![screen shot 2015-06-29 at 4 42 06 pm](https://cloud.githubusercontent.com/assets/12459/8420265/d805bd00-1e7d-11e5-808a-0dbfbb118199.png)
+
+------
+
+#### #476 - Update ordered lists to display properly when > 9.
+This makes the text wrap a bit different than before, but ensures the user will see all of the list content. Notice the "0."  which should be "10."
+Previously:
+![image](https://cloud.githubusercontent.com/assets/96433/8419302/efa20bce-1e75-11e5-946f-e31af67ee02d.png)
+
+Now:
+![image](https://cloud.githubusercontent.com/assets/96433/8419534/b7200286-1e77-11e5-8832-0f82abb17f69.png)
+
+[Fixes #98057886]
+
+------
+
+#### #475 - Prevents users from creating self relationships.
+* Adds the `currentUser` property to the `DrawerViewController` after it is created
+
+[Fixes #97846214]
+    
+------------
+
 ### Ello Build v1.0.0(2591) June 26, 2015
 
     RELEASE NOTES
