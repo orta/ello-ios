@@ -80,6 +80,7 @@ public class DeleteAccountConfirmationViewController: BaseElloViewController {
             self.dismissViewControllerAnimated(true) {
                 postNotification(AuthenticationNotifications.userLoggedOut, ())
             }
+            Tracker.sharedTracker.userDeletedAccount()
         }, failure: { _, _ in
             ElloHUD.hideLoadingHud()
         })
