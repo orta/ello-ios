@@ -22,12 +22,7 @@ public struct UserAvatarsCellPresenter {
         {
             cell.imageView.image = SVGKImage(named: model.icon).UIImage
             cell.userAvatarCellModel = model
-            if model.hasUsers {
-                cell.loadingLabel.hidden = true
-            }
-            else {
-                cell.loadingLabel.hidden = false
-            }
+            cell.loadingLabel.hidden = model.hasUsers
         }
     }
 }

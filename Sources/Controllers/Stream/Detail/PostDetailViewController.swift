@@ -128,7 +128,6 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
                 success: { (jsonables, responseConfig) in
                     if let users = jsonables as? [User] {
                         loversModel.users = users
-                        // ref
                         self.streamViewController.collectionView.reloadItemsAtIndexPaths([loversModel.indexPath])
                     }
                 },
@@ -154,7 +153,6 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
                 success: { (jsonables, responseConfig) in
                     if let users = jsonables as? [User] {
                         repostersModel.users = users
-                        // ref
                         self.streamViewController.collectionView.reloadItemsAtIndexPaths([repostersModel.indexPath])
                     }
                 },
