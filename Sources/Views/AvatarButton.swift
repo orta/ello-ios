@@ -22,7 +22,7 @@ public class AvatarButton: UIButton {
                             self.alpha = 1.0
                     }, completion: nil)
                 }
-                else if image == nil {
+                else {
                     self.setDefaultImage()
                 }
             }
