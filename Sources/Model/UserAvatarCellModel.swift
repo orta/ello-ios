@@ -12,7 +12,9 @@ let UserAvatarCellModelVersion = 1
 public final class UserAvatarCellModel: JSONAble {
 
     public let icon: String
-    public let endpoint: ElloAPI
+    public let indexPath: NSIndexPath
+    public let seeMoreTitle: String
+    public var endpoint: ElloAPI?
     public var users: [User]?
 
     public var hasUsers: Bool {
@@ -22,30 +24,34 @@ public final class UserAvatarCellModel: JSONAble {
         return false
     }
 
-    public init(icon: String, endpoint: ElloAPI) {
+    public init(icon: String, indexPath: NSIndexPath, seeMoreTitle: String) {
         self.icon = icon
-        self.endpoint = endpoint
+        self.indexPath = indexPath
+        self.seeMoreTitle = seeMoreTitle
         super.init(version: UserAvatarCellModelVersion)
     }
 
     public required init(coder aDecoder: NSCoder) {
         let decoder = Coder(aDecoder)
         self.icon = decoder.decodeKey("icon")
-        self.endpoint = decoder.decodeKey("endpoint")
+        self.indexPath = decoder.decodeKey("indexPath")
+        self.seeMoreTitle = decoder.decodeKey("seeMoreTitle")
         super.init(coder: decoder.coder)
     }
 
     public override func encodeWithCoder(encoder: NSCoder) {
         let coder = Coder(encoder)
         coder.encodeObject(icon, forKey: "icon")
-        coder.encodeObject(endpoint, forKey: "endpoint")
+        coder.encodeObject(indexPath, forKey: "indexPath")
+        coder.encodeObject(seeMoreTitle, forKey: "seeMoreTitle")
         super.encodeWithCoder(coder.coder)
     }
 
     override public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         return UserAvatarCellModel(
             icon: (data["icon"] as? String) ?? "hearts_normal.svg",
-            endpoint: (data["endpoint"] as? ElloAPI) ?? ElloAPI.PostDetail(postParam: "")
+            indexPath: (data["indexPath"] as? NSIndexPath) ?? NSIndexPath(forItem: 0, inSection: 0),
+            seeMoreTitle: (data["seeMoreTitle"] as? String) ?? ""
         )
     }
 

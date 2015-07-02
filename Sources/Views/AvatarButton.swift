@@ -13,7 +13,16 @@ public class AvatarButton: UIButton {
     func setAvatarURL(url:NSURL?) {
         if let url = url {
             self.sd_setImageWithURL(url, forState: .Normal) { (image, error, type, url) in
-                if image == nil {
+                if let image = image {
+                    self.alpha = 0
+                    UIView.animateWithDuration(0.3,
+                        delay:0.0,
+                        options:UIViewAnimationOptions.CurveLinear,
+                        animations: {
+                            self.alpha = 1.0
+                    }, completion: nil)
+                }
+                else if image == nil {
                     self.setDefaultImage()
                 }
             }

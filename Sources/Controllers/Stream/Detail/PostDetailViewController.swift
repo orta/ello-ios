@@ -13,8 +13,6 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
     var post: Post?
     var postParam: String!
     var navigationBar: ElloNavigationBar!
-    var loversModel: UserAvatarCellModel?
-    var repostersModel: UserAvatarCellModel?
 
     required public init(postParam: String) {
         self.postParam = postParam
@@ -114,26 +112,58 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         var items = parser.parse([post], streamKind: streamViewController.streamKind, currentUser: currentUser)
         // add lovers and reposters
         if let lovers = post.lovesCount where lovers > 0 {
-            loversModel = UserAvatarCellModel(icon: "heart s_normal.svg", endpoint: .PostLovers(postId: post.id))
+            let loversModel = UserAvatarCellModel(icon: "hearts_normal.svg", indexPath: NSIndexPath(forItem: items.count, inSection: 0), seeMoreTitle: NSLocalizedString("Loved By", comment: "Reposted By title"))
+            loversModel.endpoint = .PostLovers(postId: post.id)
             items.append(StreamCellItem(
-                jsonable: loversModel!,
+                jsonable: loversModel,
                 type: .UserAvatars,
                 data: nil,
                 oneColumnCellHeight: 50.0,
                 multiColumnCellHeight: 50.0,
                 isFullWidth: true)
             )
+            StreamService().loadStream(
+                loversModel.endpoint!,
+                streamKind: streamViewController.streamKind,
+                success: { (jsonables, responseConfig) in
+                    println("loaded lovers: \(jsonables)")
+                    if let users = jsonables as? [User] {
+                        loversModel.users = users
+                        // ref
+                        self.streamViewController.collectionView.reloadItemsAtIndexPaths([loversModel.indexPath])
+                    }
+                },
+                failure: { (error, statusCode) in
+
+                },
+                noContent: nil)
         }
         if let reposters = post.repostsCount where reposters > 0 {
-            repostersModel = UserAvatarCellModel(icon: "repost_normal.svg", endpoint: .PostReposters(postId: post.id))
+            let repostersModel = UserAvatarCellModel(icon: "repost_normal.svg", indexPath: NSIndexPath(forItem: items.count, inSection: 0), seeMoreTitle: NSLocalizedString("Reposted By", comment: "Reposted By title"))
+            repostersModel.endpoint = .PostReposters(postId: post.id)
             items.append(StreamCellItem(
-                jsonable: repostersModel!,
+                jsonable: repostersModel,
                 type: .UserAvatars,
                 data: nil,
                 oneColumnCellHeight: 50.0,
                 multiColumnCellHeight: 50.0,
                 isFullWidth: true)
             )
+            StreamService().loadStream(
+                repostersModel.endpoint!,
+                streamKind: streamViewController.streamKind,
+                success: { (jsonables, responseConfig) in
+                    println("loaded reposters: \(jsonables)")
+                    if let users = jsonables as? [User] {
+                        repostersModel.users = users
+                        // ref
+                        self.streamViewController.collectionView.reloadItemsAtIndexPaths([repostersModel.indexPath])
+                    }
+                },
+                failure: { (error, statusCode) in
+
+                },
+                noContent: nil)
         }
         // add in the comment button if we have a current user
         if let currentUser = currentUser {

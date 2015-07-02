@@ -21,11 +21,12 @@ public struct UserAvatarsCellPresenter {
         if let cell = cell as? UserAvatarsCell, let model = streamCellItem.jsonable as? UserAvatarCellModel
         {
             cell.imageView.image = SVGKImage(named: model.icon).UIImage
+            cell.userAvatarCellModel = model
             if model.hasUsers {
-
+                cell.loadingLabel.hidden = true
             }
             else {
-
+                cell.loadingLabel.hidden = false
             }
         }
     }
