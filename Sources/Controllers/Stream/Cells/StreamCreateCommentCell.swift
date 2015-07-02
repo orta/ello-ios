@@ -12,8 +12,8 @@ import FLAnimatedImage
 public class StreamCreateCommentCell : UICollectionViewCell {
     public struct Size {
         public static let Height : CGFloat = 75
-        public static let Margins = UIEdgeInsets(top: 12, left: 10, bottom: 12, right: 10)
-        public static let AvatarButtonMargin : CGFloat = 12
+        public static let Margins = UIEdgeInsets(top: 12, left: 15, bottom: 12, right: 15)
+        public static let AvatarButtonMargin : CGFloat = 6
         public static let ButtonLabelMargin : CGFloat = 30
         public static let ImageHeight : CGFloat = 30
     }
