@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="AtlasTypewriterRegular.otf">
+            <string>AtlasTypewriter-Regular</string>
+            <string>AtlasTypewriter-Regular</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="16M-Tb-jui" customClass="UserAvatarsCell" customModule="Ello" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="580" height="50"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="580" height="50"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Vxz-7w-l5V" userLabel="imageView">
+                        <rect key="frame" x="12" y="0.0" width="20" height="50"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="BQM-gK-Eun" userLabel="imageView - width"/>
+                        </constraints>
+                    </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VW7-hP-nKC" userLabel="seeAllButton">
+                        <rect key="frame" x="511" y="13" width="54" height="24"/>
+                        <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="12"/>
+                        <state key="normal" title="See all">
+                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="seeMoreTapped:" destination="16M-Tb-jui" eventType="touchUpInside" id="WT3-1w-mWl"/>
+                        </connections>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RXO-1T-sht" userLabel="loadingLabel">
+                        <rect key="frame" x="47" y="19" width="77" height="12"/>
+                        <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="12"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="er0-LI-0V2" userLabel="avatarsView">
+                        <rect key="frame" x="47" y="10" width="452" height="30"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="yfb-gf-e1l" userLabel="avatarsView - height"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="RXO-1T-sht" firstAttribute="leading" secondItem="16M-Tb-jui" secondAttribute="leading" constant="47" id="06l-V7-PuJ" userLabel="loadingLabel - left"/>
+                <constraint firstAttribute="centerY" secondItem="er0-LI-0V2" secondAttribute="centerY" id="FXr-fq-oz0" userLabel="avatarsView - vert center"/>
+                <constraint firstItem="Vxz-7w-l5V" firstAttribute="top" secondItem="16M-Tb-jui" secondAttribute="top" id="N4p-35-0g4" userLabel="imageView - top"/>
+                <constraint firstItem="Vxz-7w-l5V" firstAttribute="leading" secondItem="16M-Tb-jui" secondAttribute="leading" constant="12" id="YId-z6-nkf" userLabel="imageView - left"/>
+                <constraint firstAttribute="bottom" secondItem="Vxz-7w-l5V" secondAttribute="bottom" id="cmC-5k-vAk" userLabel="imageView - bottom"/>
+                <constraint firstItem="er0-LI-0V2" firstAttribute="leading" secondItem="16M-Tb-jui" secondAttribute="leading" constant="47" id="e7M-sy-5Iy" userLabel="avatarsView - left"/>
+                <constraint firstAttribute="trailing" secondItem="VW7-hP-nKC" secondAttribute="trailing" constant="15" id="euV-XF-bds" userLabel="seeAllButton - right"/>
+                <constraint firstAttribute="centerY" secondItem="VW7-hP-nKC" secondAttribute="centerY" id="nD5-3h-UNh" userLabel="seeAllButton - vert center"/>
+                <constraint firstAttribute="centerY" secondItem="RXO-1T-sht" secondAttribute="centerY" id="q3V-5Y-HD9" userLabel="loadingLabel - vert center"/>
+                <constraint firstItem="VW7-hP-nKC" firstAttribute="leading" secondItem="er0-LI-0V2" secondAttribute="trailing" constant="12" id="xv1-Tn-tU1" userLabel="avatarsView - seeAllButton - horiz space"/>
+            </constraints>
+            <size key="customSize" width="580" height="50"/>
+            <connections>
+                <outlet property="avatarsView" destination="er0-LI-0V2" id="gQc-vP-FNH"/>
+                <outlet property="imageView" destination="Vxz-7w-l5V" id="Ndm-qR-goy"/>
+                <outlet property="loadingLabel" destination="RXO-1T-sht" id="9qt-jt-mIa"/>
+                <outlet property="seeAllButton" destination="VW7-hP-nKC" id="UmQ-IO-hoq"/>
+            </connections>
+            <point key="canvasLocation" x="488" y="553"/>
+        </collectionViewCell>
+    </objects>
+</document>
