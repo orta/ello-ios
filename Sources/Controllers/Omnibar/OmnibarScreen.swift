@@ -58,8 +58,7 @@ public protocol OmnibarScreenProtocol {
     func updatePostState()
 }
 
-
-public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+public class OmnibarScreen : UIView, OmnibarScreenProtocol {
     struct Size {
         static let margins = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
         static let textMargins = UIEdgeInsets(top: 22, left: 30, bottom: 9, right: 30)
@@ -263,6 +262,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
         submitButton.addSubview(imageView)
         submitButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: submitButton.frame.width - imageView.frame.minX - 2)
     }
+
     // The textContainer is the outer gray background.  The text view is
     // configured to fill that container (only the container and the text view
     // insets are modified in layoutSubviews)
@@ -278,6 +278,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
         textView.delegate = self
         textView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
     }
+
     private func setupViewHierarchy() {
         for view in [navigationBar, avatarButtonView, buttonContainer, textContainer, sayElloOverlay] as [UIView] {
             self.addSubview(view)
@@ -619,9 +620,6 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
         }
     }
 
-    public func imagePickerControllerDidCancel(controller: UIImagePickerController) {
-        delegate?.omnibarDismissController(controller)
-    }
 
 // MARK: Text View editing
 
@@ -644,17 +642,78 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
         textView.resignFirstResponder()
     }
 
+}
+
+
+// MARK: UINavigationControllerDelegate
+extension OmnibarScreen: UINavigationControllerDelegate {
+
+    public func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
+    }
+}
+
+
+// MARK: UITextViewDelegate
+extension OmnibarScreen: UITextViewDelegate {
+
     public func textViewShouldBeginEditing(textView : UITextView) -> Bool {
         return true
     }
 
     public func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText: String) -> Bool {
+
         let newText = NSString(string: textView.text).stringByReplacingCharactersInRange(range, withString: replacementText)
+        println("newText = \(newText)")
         currentText = ElloAttributedString.style(newText)
 
         updatePostState()
 
         return true
     }
+}
 
+
+// MARK: UIImagePickerControllerDelegate
+extension OmnibarScreen: UIImagePickerControllerDelegate {
+
+    private func openImagePicker(imageController : UIImagePickerController) {
+        imageController.delegate = self
+        delegate?.omnibarPresentController(imageController)
+    }
+
+    public func imagePickerController(controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+        let library = ALAssetsLibrary()
+        if let url = info[UIImagePickerControllerReferenceURL] as? NSURL,
+            let image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        {
+            library.assetForURL(url, resultBlock: { asset in
+                if let (buffer, length) = self.bufferFromAsset(asset) where self.isGif(buffer, length: length) {
+                    let data = NSData(bytes: buffer, length: length)
+                    self.userSetCurrentImage(image, data: data, type: "image/gif")
+                    buffer.dealloc(length)
+                }
+                else {
+                    self.userSetCurrentImage(image)
+                }
+
+                self.delegate?.omnibarDismissController(controller)
+                },
+                failureBlock: { error in
+                    println("couldn't get asset: \(error)")
+            })
+        }
+        else if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            image.copyWithCorrectOrientationAndSize() { image in
+                self.userSetCurrentImage(image)
+                self.delegate?.omnibarDismissController(controller)
+            }
+        }
+        else {
+            delegate?.omnibarDismissController(controller)
+        }
+    }
+
+    public func imagePickerControllerDidCancel(controller: UIImagePickerController) {
+        delegate?.omnibarDismissController(controller)
+    }
 }
