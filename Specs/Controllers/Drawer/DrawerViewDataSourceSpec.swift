@@ -16,7 +16,7 @@ class DrawerViewDataSourceSpec: QuickSpec {
 
                 it("returns 7") {
                     let dataSource = DrawerViewDataSource()
-                    expect(dataSource.tableView(UITableView(frame: CGRectZero), numberOfRowsInSection: 0)) == 8
+                    expect(dataSource.tableView(UITableView(frame: CGRectZero), numberOfRowsInSection: 0)) == 7
                 }
             }
 
@@ -45,17 +45,13 @@ class DrawerViewDataSourceSpec: QuickSpec {
                     expect(dataSource.itemForIndexPath(indexPathFromIndex(4))?.link) == "https://ello.co/wtf/post/about"
                     expect(dataSource.itemForIndexPath(indexPathFromIndex(4))?.type) == DrawerItemType.External
 
-                    expect(dataSource.itemForIndexPath(indexPathFromIndex(5))?.name) == "Your Data"
-                    expect(dataSource.itemForIndexPath(indexPathFromIndex(5))?.link) == "https://ello.co/wtf/about/ello-tracking-and-your-data/"
-                    expect(dataSource.itemForIndexPath(indexPathFromIndex(5))?.type) == DrawerItemType.External
+                    expect(dataSource.itemForIndexPath(indexPathFromIndex(5))?.name) == "Logout"
+                    expect(dataSource.itemForIndexPath(indexPathFromIndex(5))?.link).to(beNil())
+                    expect(dataSource.itemForIndexPath(indexPathFromIndex(5))?.type) == DrawerItemType.Logout
 
-                    expect(dataSource.itemForIndexPath(indexPathFromIndex(6))?.name) == "Logout"
+                    expect(dataSource.itemForIndexPath(indexPathFromIndex(6))?.name.hasPrefix("Ello v")) == true
                     expect(dataSource.itemForIndexPath(indexPathFromIndex(6))?.link).to(beNil())
-                    expect(dataSource.itemForIndexPath(indexPathFromIndex(6))?.type) == DrawerItemType.Logout
-
-                    expect(dataSource.itemForIndexPath(indexPathFromIndex(7))?.name.hasPrefix("Ello v")) == true
-                    expect(dataSource.itemForIndexPath(indexPathFromIndex(7))?.link).to(beNil())
-                    expect(dataSource.itemForIndexPath(indexPathFromIndex(7))?.type) == DrawerItemType.Plain
+                    expect(dataSource.itemForIndexPath(indexPathFromIndex(6))?.type) == DrawerItemType.Plain
                 }
             }
         }
