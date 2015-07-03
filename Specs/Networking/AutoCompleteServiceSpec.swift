@@ -15,7 +15,7 @@ import Nimble
 class AutoCompleteServiceSpec: QuickSpec {
     override func spec() {
 
-        fdescribe("AutoCompleteService") {
+        describe("AutoCompleteService") {
 
             var subject = AutoCompleteService()
 
