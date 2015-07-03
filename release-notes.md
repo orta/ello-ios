@@ -1,3 +1,13 @@
+### Ello Build v1.0.0(2626) July 3, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #481 - Remove "your data" option from drawer
+    
+------------
+
 ### Ello Build v1.0.0(2621) July 2, 2015
 
     RELEASE NOTES
