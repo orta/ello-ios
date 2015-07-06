@@ -93,7 +93,7 @@ public final class Love: JSONAble {
         else {
             createdAt = NSDate()
             // send data to segment to try to get more data about this
-            Tracker.sharedTracker.createdAtCrash("Love", data: data)
+            Tracker.sharedTracker.createdAtCrash("Love", json: json.rawString())
         }
         if let date = json["updated_at"].stringValue.toNSDate() {
             // good to go
@@ -102,7 +102,7 @@ public final class Love: JSONAble {
         else {
             updatedAt = NSDate()
             // send data to segment to try to get more data about this
-            Tracker.sharedTracker.createdAtCrash("Love Updated", data: data)
+            Tracker.sharedTracker.createdAtCrash("Love Updated", json: json.rawString())
         }
 
         // create Love

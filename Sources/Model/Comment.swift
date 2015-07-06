@@ -101,7 +101,7 @@ public final class Comment: JSONAble, Authorable {
         else {
             createdAt = NSDate()
             // send data to segment to try to get more data about this
-            Tracker.sharedTracker.createdAtCrash("Comment", data: data)
+            Tracker.sharedTracker.createdAtCrash("Comment", json: json.rawString())
         }
         var comment = Comment(
             id: json["id"].stringValue,
