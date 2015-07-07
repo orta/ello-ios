@@ -1,3 +1,14 @@
+### Ello Build v1.0.0(2632) July 7, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #482 - Remove AssetsLibrary in favor of updated Photos.
+* Hoping this will fix the issue of submitting to Apple
+    
+------------
+
 ### Ello Build v1.0.0(2626) July 3, 2015
 
     RELEASE NOTES
