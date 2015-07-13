@@ -62,10 +62,16 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
     // MARK : private
 
     private func reloadEntirePostDetail() {
+        let localToken = NSUUID().UUIDString
+        self.streamViewController.loadInitialPageLoadingToken = localToken
+
         PostService().loadPost(
             postParam,
             streamKind: .PostDetail(postParam: postParam),
-            success: postLoaded,
+            success: { (post, responseConfig) in
+                if !self.streamViewController.isValidInitialPageLoadingToken(localToken) { return }
+                self.postLoaded(post, responseConfig: responseConfig)
+            },
             failure: { (error, statusCode) in
                 self.showPostLoadFailure()
                 self.streamViewController.doneLoading()
@@ -110,17 +116,20 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         title = post.author?.atName ?? "Post Detail"
         let parser = StreamCellItemParser()
         var items = parser.parse([post], streamKind: streamViewController.streamKind, currentUser: currentUser)
+
         // add lovers and reposters
         if let lovers = post.lovesCount where lovers > 0 {
             let loversModel = UserAvatarCellModel(icon: "hearts_normal.svg", seeMoreTitle: NSLocalizedString("Loved by", comment: "Reposted By title"))
             loversModel.endpoint = .PostLovers(postId: post.id)
             addAvatarsView(loversModel, items: &items, indexPath: NSIndexPath(forItem: items.count, inSection: 0))
         }
+
         if let reposters = post.repostsCount where reposters > 0 {
             let repostersModel = UserAvatarCellModel(icon: "repost_normal.svg", seeMoreTitle: NSLocalizedString("Reposted by", comment: "Reposted By title"))
             repostersModel.endpoint = .PostReposters(postId: post.id)
             addAvatarsView(repostersModel, items: &items, indexPath: NSIndexPath(forItem: items.count, inSection: 0))
         }
+
         // add in the comment button if we have a current user
         if let currentUser = currentUser {
             items.append(StreamCellItem(
@@ -137,11 +146,12 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         }
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
         // this calls doneLoading when cells are added
-        streamViewController.appendUnsizedCellItems(items, withWidth: view.frame.width)
+        streamViewController.appendUnsizedCellItems(items, withWidth: view.frame.width) { _ in
+
+        }
 
         Tracker.sharedTracker.postLoaded(post.id)
     }
-
 
     private func addAvatarsView(model: UserAvatarCellModel, inout items: [StreamCellItem], indexPath: NSIndexPath) {
         items.append(StreamCellItem(
