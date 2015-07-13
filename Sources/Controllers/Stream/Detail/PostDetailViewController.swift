@@ -62,8 +62,7 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
     // MARK : private
 
     private func reloadEntirePostDetail() {
-        let localToken = NSUUID().UUIDString
-        self.streamViewController.loadInitialPageLoadingToken = localToken
+        let localToken = streamViewController.resetInitialPageLoadingToken()
 
         PostService().loadPost(
             postParam,

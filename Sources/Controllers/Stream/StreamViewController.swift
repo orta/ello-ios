@@ -260,13 +260,17 @@ public class StreamViewController: BaseElloViewController {
     }
 
     public var loadInitialPageLoadingToken: String = ""
+    public func resetInitialPageLoadingToken() -> String {
+        let newToken = NSUUID().UUIDString
+        loadInitialPageLoadingToken = newToken
+        return newToken
+    }
     public func isValidInitialPageLoadingToken(token: String) -> Bool {
-        return self.loadInitialPageLoadingToken == token
+        return loadInitialPageLoadingToken == token
     }
 
     public func cancelInitialPage() {
-        let localToken = NSUUID().UUIDString
-        loadInitialPageLoadingToken = localToken
+        resetInitialPageLoadingToken()
         self.doneLoading()
     }
 
@@ -278,8 +282,7 @@ public class StreamViewController: BaseElloViewController {
             initialLoadClosure()
         }
         else {
-            let localToken = NSUUID().UUIDString
-            loadInitialPageLoadingToken = localToken
+            let localToken = resetInitialPageLoadingToken()
 
             streamService.loadStream(
                 streamKind.endpoint,

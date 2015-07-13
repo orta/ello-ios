@@ -33,6 +33,8 @@ public class ImportFriendsViewController: OnboardingUserListViewController, Onbo
     }
 
     private func findFriendsFromContacts() {
+        let localToken = streamViewController.resetInitialPageLoadingToken()
+
         var contacts = [String: [String]]()
         for person in addressBook.localPeople {
             contacts[person.identifier] = person.emails
@@ -40,6 +42,8 @@ public class ImportFriendsViewController: OnboardingUserListViewController, Onbo
         InviteService().find(contacts,
             currentUser: self.currentUser,
             success: { users in
+                if !self.streamViewController.isValidInitialPageLoadingToken(localToken) { return }
+
                 self.streamViewController.clearForInitialLoad()
                 let userIdentifiers = users.map { $0.identifiableBy ?? "" }
                 let mixed: [(LocalPerson, User?)] = self.addressBook.localPeople.map {
