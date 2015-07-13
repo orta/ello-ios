@@ -95,6 +95,8 @@ public class AddFriendsViewController: StreamableViewController {
     // MARK: - Private
 
     private func findFriendsFromContacts() {
+        let localToken = streamViewController.resetInitialPageLoadingToken()
+
         var contacts = [String: [String]]()
         for person in addressBook.localPeople {
             contacts[person.identifier] = person.emails
@@ -102,6 +104,8 @@ public class AddFriendsViewController: StreamableViewController {
         InviteService().find(contacts,
             currentUser: self.currentUser,
             success: { users in
+                if !self.streamViewController.isValidInitialPageLoadingToken(localToken) { return }
+
                 self.streamViewController.clearForInitialLoad()
                 let userIdentifiers = users.map { $0.identifiableBy ?? "" }
                 let mixed: [(LocalPerson, User?)] = self.addressBook.localPeople.map {
@@ -151,5 +155,5 @@ extension AddFriendsViewController: SearchScreenDelegate {
     public func findFriendsTapped() {
         // noop
     }
-    
+
 }

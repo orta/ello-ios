@@ -206,10 +206,14 @@ extension OnboardingUserListViewController {
 extension OnboardingUserListViewController {
 
     func loadUsers() {
+        let localToken = streamViewController.resetInitialPageLoadingToken()
+
         streamViewController.streamService.loadStream(
             streamViewController.streamKind.endpoint,
             streamKind: streamViewController.streamKind,
             success: { (jsonables, responseConfig) in
+                if !self.streamViewController.isValidInitialPageLoadingToken(localToken) { return }
+
                 ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
                 if let users = jsonables as? [User] {
                     self.usersLoaded(users)

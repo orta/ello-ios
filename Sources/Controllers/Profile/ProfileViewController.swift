@@ -134,10 +134,16 @@ public class ProfileViewController: StreamableViewController {
     // MARK : private
 
     private func reloadEntireProfile() {
+        let localToken = streamViewController.resetInitialPageLoadingToken()
+
         streamViewController.streamService.loadUser(
             initialStreamKind.endpoint,
             streamKind: initialStreamKind,
-            success: userLoaded,
+            success: { (user, responseConfig) in
+                if !self.streamViewController.isValidInitialPageLoadingToken(localToken) { return }
+
+                self.userLoaded(user, responseConfig: responseConfig)
+            },
             failure: { (error, statusCode) in
                 self.showUserLoadFailure()
                 self.streamViewController.doneLoading()

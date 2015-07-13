@@ -226,11 +226,12 @@ public class StreamViewController: BaseElloViewController {
         collectionView.reloadData()
     }
 
-    public func appendUnsizedCellItems(items: [StreamCellItem], withWidth: CGFloat?) {
+    public func appendUnsizedCellItems(items: [StreamCellItem], withWidth: CGFloat?, completion: StreamDataSource.StreamContentReady? = nil) {
         let width = withWidth ?? self.view.frame.width
-        dataSource.appendUnsizedCellItems(items, withWidth: width) { _ in
+        dataSource.appendUnsizedCellItems(items, withWidth: width) { indexPaths in
             self.collectionView.reloadData()
             self.doneLoading()
+            completion?(indexPaths: indexPaths)
         }
     }
 
@@ -258,10 +259,18 @@ public class StreamViewController: BaseElloViewController {
         }
     }
 
-    var loadInitialPageLoadingToken: String = ""
+    public var loadInitialPageLoadingToken: String = ""
+    public func resetInitialPageLoadingToken() -> String {
+        let newToken = NSUUID().UUIDString
+        loadInitialPageLoadingToken = newToken
+        return newToken
+    }
+    public func isValidInitialPageLoadingToken(token: String) -> Bool {
+        return loadInitialPageLoadingToken == token
+    }
+
     public func cancelInitialPage() {
-        let localToken = NSUUID().UUIDString
-        loadInitialPageLoadingToken = localToken
+        resetInitialPageLoadingToken()
         self.doneLoading()
     }
 
@@ -273,15 +282,15 @@ public class StreamViewController: BaseElloViewController {
             initialLoadClosure()
         }
         else {
-            let localToken = NSUUID().UUIDString
-            loadInitialPageLoadingToken = localToken
+            let localToken = resetInitialPageLoadingToken()
 
             streamService.loadStream(
                 streamKind.endpoint,
                 streamKind: streamKind,
                 success: { (jsonables, responseConfig) in
 //                    println("---------PROFILING: StreamVC-\(self.streamKind.name) initialpageLoaded: \(NSDate().timeIntervalSinceDate(LaunchDate))")
-                    if self.loadInitialPageLoadingToken != localToken { return }
+                    if !self.isValidInitialPageLoadingToken(localToken) { return }
+
                     self.clearForInitialLoad()
                     self.responseConfig = responseConfig
                     // this calls doneLoading when cells are added
