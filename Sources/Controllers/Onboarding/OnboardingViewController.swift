@@ -7,6 +7,7 @@
 //
 
 import Crashlytics
+import SDWebImage
 
 @objc
 protocol OnboardingStep {
@@ -210,6 +211,30 @@ private extension OnboardingViewController {
 
     func setupOnboardingControllers() {
         onboardingData = OnboardingData()
+
+        if let currentUser = currentUser {
+            if let url = currentUser.avatarURL {
+                SDWebImageManager.sharedManager().downloadImageWithURL(url,
+                    options: SDWebImageOptions.LowPriority,
+                    progress: { (_, _) in }, completed: { (image, _, _, _, _) in
+                        if let image = image {
+                            self.onboardingData?.avatarImage = image
+                        }
+                    }
+                )
+            }
+
+            if let url = currentUser.coverImageURL {
+                SDWebImageManager.sharedManager().downloadImageWithURL(url,
+                    options: SDWebImageOptions.LowPriority,
+                    progress: { (_, _) in }, completed: { (image, _, _, _, _) in
+                        if let image = image {
+                            self.onboardingData?.coverImage = image
+                        }
+                    }
+                )
+            }
+        }
 
         let communityController = CommunitySelectionViewController()
         communityController.onboardingViewController = self
