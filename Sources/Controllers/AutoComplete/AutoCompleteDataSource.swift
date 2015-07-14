@@ -8,12 +8,7 @@
 
 public struct AutoCompleteItem {
     public let result: AutoCompleteResult
-    public let type: AutoCompmleteType
-}
-
-public enum AutoCompmleteType: String {
-    case Emoji = "Emoji"
-    case Username = "Username"
+    public let type: AutoCompleteType
 }
 
 public class AutoCompleteDataSource: NSObject {

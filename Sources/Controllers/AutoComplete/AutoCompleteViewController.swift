@@ -15,7 +15,7 @@ public protocol AutoCompleteDelegate: NSObjectProtocol {
 
 public class AutoCompleteViewController: UIViewController {
     @IBOutlet weak public var tableView: UITableView!
-    public var type = AutoCompmleteType.Username
+    public var type = AutoCompleteType.Username
     public let dataSource = AutoCompleteDataSource()
     public let service = AutoCompleteService()
     public weak var delegate: AutoCompleteDelegate?

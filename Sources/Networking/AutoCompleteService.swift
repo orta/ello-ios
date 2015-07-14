@@ -14,11 +14,11 @@ public struct AutoCompleteService {
 
     public func loadResults(
         terms: String,
-        type: AutoCompmleteType,
+        type: AutoCompleteType,
         success: AutoCompleteServiceSuccessCompletion,
         failure: ElloFailureCompletion?)
     {
-        let endpoint: ElloAPI = type == AutoCompmleteType.Emoji ? .EmojiAutoComplete(terms: terms) : .UserNameAutoComplete(terms: terms)
+        let endpoint: ElloAPI = type == AutoCompleteType.Emoji ? .EmojiAutoComplete(terms: terms) : .UserNameAutoComplete(terms: terms)
         ElloProvider.elloRequest(
             endpoint,
             method: .GET,
