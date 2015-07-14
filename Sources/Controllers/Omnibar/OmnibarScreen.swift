@@ -566,46 +566,6 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol {
         alert.map { self.delegate?.omnibarPresentController($0) }
     }
 
-    private func openImagePicker(imageController : UIImagePickerController) {
-        imageController.delegate = self
-        delegate?.omnibarPresentController(imageController)
-    }
-
-    public func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
-    }
-
-    public func imagePickerController(controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
-        let library = PHPhotoLibrary.sharedPhotoLibrary()
-        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage
-        {
-            if let url = info[UIImagePickerControllerReferenceURL] as? NSURL,
-               let asset = PHAsset.fetchAssetsWithALAssetURLs([url], options: nil).firstObject as? PHAsset
-            {
-                    PHImageManager.defaultManager().requestImageDataForAsset(asset, options: nil) { imageData, dataUTI, orientation, info in
-                        var buffer = UnsafeMutablePointer<UInt8>.alloc(imageData.length)
-                        imageData.getBytes(buffer, length: imageData.length)
-                        if self.isGif(buffer, length: imageData.length) {
-                            self.userSetCurrentImage(image, data: imageData, type: "image/gif")
-                        }
-                        else {
-                            self.userSetCurrentImage(image)
-                        }
-                        buffer.dealloc(imageData.length)
-                        self.delegate?.omnibarDismissController(controller)
-                    }
-            }
-            else {
-                image.copyWithCorrectOrientationAndSize() { image in
-                    self.userSetCurrentImage(image)
-                    self.delegate?.omnibarDismissController(controller)
-                }
-            }
-        }
-        else {
-            delegate?.omnibarDismissController(controller)
-        }
-    }
-
     private func isGif(buffer: UnsafeMutablePointer<UInt8>, length: Int) -> Bool {
         if length >= 4 {
             let isG = Int(buffer[0]) == 71
@@ -682,30 +642,30 @@ extension OmnibarScreen: UIImagePickerControllerDelegate {
     }
 
     public func imagePickerController(controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
-        let library = ALAssetsLibrary()
-        if let url = info[UIImagePickerControllerReferenceURL] as? NSURL,
-            let image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        let library = PHPhotoLibrary.sharedPhotoLibrary()
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage
         {
-            library.assetForURL(url, resultBlock: { asset in
-                if let (buffer, length) = self.bufferFromAsset(asset) where self.isGif(buffer, length: length) {
-                    let data = NSData(bytes: buffer, length: length)
-                    self.userSetCurrentImage(image, data: data, type: "image/gif")
-                    buffer.dealloc(length)
-                }
-                else {
+            if let url = info[UIImagePickerControllerReferenceURL] as? NSURL,
+               let asset = PHAsset.fetchAssetsWithALAssetURLs([url], options: nil).firstObject as? PHAsset
+            {
+                    PHImageManager.defaultManager().requestImageDataForAsset(asset, options: nil) { imageData, dataUTI, orientation, info in
+                        var buffer = UnsafeMutablePointer<UInt8>.alloc(imageData.length)
+                        imageData.getBytes(buffer, length: imageData.length)
+                        if self.isGif(buffer, length: imageData.length) {
+                            self.userSetCurrentImage(image, data: imageData, type: "image/gif")
+                        }
+                        else {
+                            self.userSetCurrentImage(image)
+                        }
+                        buffer.dealloc(imageData.length)
+                        self.delegate?.omnibarDismissController(controller)
+                    }
+            }
+            else {
+                image.copyWithCorrectOrientationAndSize() { image in
                     self.userSetCurrentImage(image)
+                    self.delegate?.omnibarDismissController(controller)
                 }
-
-                self.delegate?.omnibarDismissController(controller)
-                },
-                failureBlock: { error in
-                    println("couldn't get asset: \(error)")
-            })
-        }
-        else if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            image.copyWithCorrectOrientationAndSize() { image in
-                self.userSetCurrentImage(image)
-                self.delegate?.omnibarDismissController(controller)
             }
         }
         else {
