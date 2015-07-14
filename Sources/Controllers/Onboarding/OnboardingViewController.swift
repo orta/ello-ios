@@ -20,7 +20,9 @@ protocol OnboardingStep {
 
 @objc
 public class OnboardingData {
-    var communityFollows: [User] = []
+    var name: String?
+    var bio: String?
+    var links: String?
     var coverImage: UIImage? = nil
     var avatarImage: UIImage? = nil
 }
@@ -213,6 +215,22 @@ private extension OnboardingViewController {
         onboardingData = OnboardingData()
 
         if let currentUser = currentUser {
+            onboardingData?.name = currentUser.name
+            onboardingData?.bio = currentUser.profile?.shortBio
+            if let links = currentUser.externalLinksList {
+                onboardingData?.links = links.reduce("") { (memo, link) in
+                    if count(memo ?? "") == 0 {
+                        return link["url"]
+                    }
+                    else if let url = link["url"] {
+                        return "\(memo), \(url)"
+                    }
+                    else {
+                        return memo
+                    }
+                }
+            }
+
             if let url = currentUser.avatarURL {
                 SDWebImageManager.sharedManager().downloadImageWithURL(url,
                     options: SDWebImageOptions.LowPriority,
