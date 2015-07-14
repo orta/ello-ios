@@ -32,11 +32,11 @@ public enum ElloTab: Int {
 
     public var narrationText: String {
         switch self {
-            case Discovery:     return "Find friends, interesting people & amazing content."
-            case Notifications: return "Keep up to date with real-time Ello alerts."
-            case Stream:        return "Stay organized by following people in Friends or Noise."
-            case Profile:       return "Everything you’ve posted in one place."
-            case Post:          return "One easy place to post: text, images & gifs!"
+            case Discovery:     return "Discover: Find friends and creators. View beautiful art & inspiring stories."
+            case Notifications: return "Notifications: Stay up to date with real-time alerts."
+            case Stream:        return "Streams: View posts by everyone you follow. Keep them organized in Friends & Noise."
+            case Profile:       return "Your Profile: Everything you’ve posted in one place. Settings too!"
+            case Post:          return "Post: Text, images, links & GIFs from one easy place."
         }
     }
 
