@@ -14,7 +14,7 @@ import Result
 
 class AutoCompleteSpec: QuickSpec {
     override func spec() {
-        fdescribe("AutoComplete") {
+        describe("AutoComplete") {
 
             let subject = AutoComplete()
 
@@ -31,6 +31,17 @@ class AutoCompleteSpec: QuickSpec {
                     }
                 }
 
+                context("username in long string") {
+                    it("returns the correct character range and string") {
+                        let str = "hi there @sean"
+                        let result = subject.check(str, location: 12)
+
+                        expect(result?.type) == AutoCompleteType.Username
+                        expect(result?.range) == advance(str.startIndex, 9)..<advance(str.startIndex, 13)
+                        expect(result?.text) == "@sea"
+                    }
+                }
+
                 context("emoji") {
                     it("returns the correct character range and string") {
                         let str = "start :emoji"
@@ -39,6 +50,17 @@ class AutoCompleteSpec: QuickSpec {
                         expect(result?.type) == AutoCompleteType.Emoji
                         expect(result?.range) == advance(str.startIndex, 6)..<advance(str.startIndex, 10)
                         expect(result?.text) == ":emo"
+                    }
+                }
+
+                context("double emoji") {
+                    it("returns the 2nd emoji word part") {
+                        let str = "some long sentance :start::thumbsup"
+                        let result = subject.check(str, location: 29)
+
+                        expect(result?.type) == AutoCompleteType.Emoji
+                        expect(result?.range) == advance(str.startIndex, 26)..<advance(str.startIndex, 30)
+                        expect(result?.text) == ":thu"
                     }
                 }
 
@@ -71,7 +93,6 @@ class AutoCompleteSpec: QuickSpec {
                     }
                 }
 
-
                 context("location out of bounds") {
                     it("returns nil") {
                         let str = "hi"
@@ -94,6 +115,15 @@ class AutoCompleteSpec: QuickSpec {
                     it("returns nil") {
                         let str = "joe@example"
                         let result = subject.check(str, location: 9)
+
+                        expect(result).to(beNil())
+                    }
+                }
+
+                context("emoji already in string") {
+                    it("returns nil") {
+                        let str = ":+1:two"
+                        let result = subject.check(str, location: 6)
 
                         expect(result).to(beNil())
                     }

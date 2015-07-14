@@ -45,8 +45,7 @@ public struct AutoComplete {
         if location >= count(text) { return .None }
 
         let wordStartIndex = getIndexOfWordStart(location, fromString: text)
-//        let wordEndIndex = getIndexOfWordEnd(location, fromString: text)
-        var wordEndIndex = advance(text.startIndex, location)
+        let wordEndIndex = advance(text.startIndex, location)
         if wordStartIndex >= wordEndIndex { return .None }
 
         var range: Range<String.Index>?
@@ -81,38 +80,38 @@ public struct AutoComplete {
 private extension AutoComplete {
 
     func findUsername(text: String) -> Bool {
-        return text.rangeOfString("\\s?@{1}\\w+", options: .RegularExpressionSearch) != nil
+        return text.rangeOfString("([^\\w]|\\s|^)@\\w+", options: .RegularExpressionSearch) != nil
     }
 
     func findEmoji(text: String) -> Bool {
-        return text.rangeOfString("\\s?:{1}\\w+", options: .RegularExpressionSearch) != nil
+        // this handles ':one:two'
+        if (split(text) { $0 == ":" }).count > 1 {
+            return false
+        }
+        return text.rangeOfString("([^\\w]|\\s|^):\\w+", options: .RegularExpressionSearch) != nil
     }
-
-//    func getIndexOfWordEnd(index: Int, fromString str: String) -> String.Index {
-//        if count(str) == 0 { return str.startIndex }
-//        var cursorIndex = advance(str.startIndex, index)
-//        var endIndex = str.endIndex.predecessor()
-//        for index in cursorIndex..<str.endIndex {
-//            var found = false
-//            switch str[index] {
-//            case ".", " ", "?", "!", ",", "'":
-//                endIndex = index.predecessor()
-//                found = true
-//            default: break
-//            }
-//            if found { break }
-//        }
-//        return endIndex
-//    }
-
 
     func getIndexOfWordStart(index: Int, fromString str: String) -> String.Index {
         var startIndex = 0
         for var i = index ; i > 0 ; i-- {
             var cursorIndex = advance(str.startIndex, i)
-            switch str[cursorIndex] {
-            case " ", ":":
-                if i != index { startIndex = i}
+            var letter = str[cursorIndex]
+            var prevLetter: Character?
+            if i > 0 {
+                prevLetter = str[cursorIndex.predecessor()]
+            }
+            switch letter {
+            case " ":
+                if i != index { startIndex = i + 1 }
+            case ":":
+                if let prev = prevLetter {
+                    if prevLetter == " " || prevLetter == ":" || prevLetter == nil {
+                        if i != index { startIndex = i }
+                    }
+                    else {
+                        break
+                    }
+                }
             default: break
             }
             if startIndex != 0 { break }
