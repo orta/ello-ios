@@ -183,8 +183,8 @@ public extension ElloTabBarController {
         }
     }
 
-    func systemLoggedOut() {
-        parentAppController?.forceLogOut()
+    func systemLoggedOut(shouldAlert: Bool) {
+        parentAppController?.forceLogOut(shouldAlert)
     }
 }
 

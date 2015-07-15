@@ -33,6 +33,7 @@ public class AppViewController: BaseElloViewController {
     private var userLoggedOutObserver: NotificationObserver?
     private var receivedPushNotificationObserver: NotificationObserver?
     private var externalWebObserver: NotificationObserver?
+    private var apiOutOfDateObserver: NotificationObserver?
 
     private var pushPayload: PushPayload?
 
@@ -43,10 +44,6 @@ public class AppViewController: BaseElloViewController {
         setupStyles()
 
         scrollView.scrollsToTop = false
-
-        externalWebObserver = NotificationObserver(notification: externalWebNotification) { url in
-            self.showExternalWebView(url)
-        }
     }
 
     deinit {
@@ -168,11 +165,27 @@ public class AppViewController: BaseElloViewController {
     private func setupNotificationObservers() {
         userLoggedOutObserver = NotificationObserver(notification: AuthenticationNotifications.userLoggedOut, block: userLoggedOut)
         receivedPushNotificationObserver = NotificationObserver(notification: PushNotificationNotifications.interactedWithPushNotification, block: receivedPushNotification)
+        externalWebObserver = NotificationObserver(notification: externalWebNotification) { url in
+            self.showExternalWebView(url)
+        }
+        apiOutOfDateObserver = NotificationObserver(notification: ElloProvider.ErrorStatusCode.Status410.notification) { error in
+            let message = NSLocalizedString("The version of the app you’re using is too old, and is no longer compatible with our API.\n\nPlease update the app to the latest version, using the “Updates” tab in the App Store.", comment: "App out of date message")
+            let alertController = AlertViewController(message: message)
+
+            let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
+            alertController.addAction(action)
+
+            self.presentViewController(alertController, animated: true, completion: nil)
+            self.apiOutOfDateObserver?.removeObserver()
+            postNotification(AuthenticationNotifications.invalidToken, false)
+        }
     }
 
     private func removeNotificationObservers() {
         userLoggedOutObserver?.removeObserver()
         receivedPushNotificationObserver?.removeObserver()
+        externalWebObserver?.removeObserver()
+        apiOutOfDateObserver?.removeObserver()
     }
 
 }
@@ -346,18 +359,20 @@ public extension AppViewController {
         }
     }
 
-    public func forceLogOut() {
+    public func forceLogOut(shouldAlert: Bool) {
         if isLoggedIn() {
             logOutCurrentUser()
 
             removeViewController() {
-                let message = NSLocalizedString("You have been automatically logged out", comment: "Automatically logged out message")
-                let alertController = AlertViewController(message: message)
+                if shouldAlert {
+                    let message = NSLocalizedString("You have been automatically logged out", comment: "Automatically logged out message")
+                    let alertController = AlertViewController(message: message)
 
-                let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
-                alertController.addAction(action)
+                    let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
+                    alertController.addAction(action)
 
-                self.presentViewController(alertController, animated: true, completion: nil)
+                    self.presentViewController(alertController, animated: true, completion: nil)
+                }
             }
         }
     }

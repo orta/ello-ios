@@ -226,7 +226,7 @@ extension ElloProvider {
 
     static private func handleInvalidToken(data: NSData?, statusCode: Int?, invalidToken: ElloErrorCompletion?, error: NSError?) {
         ElloProvider.postNetworkFailureNotification(data, error: error, statusCode: statusCode)
-        postNotification(AuthenticationNotifications.invalidToken, ())
+        postNotification(AuthenticationNotifications.invalidToken, true)
         let elloError = generateElloError(data, error: error, statusCode: statusCode)
         invalidToken?(error: elloError)
     }
@@ -303,7 +303,7 @@ extension ElloProvider {
 
     static private func postNetworkFailureNotification(data:NSData?, error: NSError?, statusCode: Int?) {
         let elloError = generateElloError(data, error: error, statusCode: statusCode)
-        var notificationCase:ElloProvider.ErrorStatusCode
+        let notificationCase:ElloProvider.ErrorStatusCode
         if let statusCode = statusCode {
             if let noteCase = ElloProvider.ErrorStatusCode(rawValue: statusCode) {
                 notificationCase = noteCase
