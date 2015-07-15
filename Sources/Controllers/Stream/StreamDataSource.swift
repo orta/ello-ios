@@ -467,7 +467,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                         items.append(item)
                     }
                 case .Mute:
-                    if streamKind.name == StreamKind.Notifications.name {
+                    if streamKind.name == StreamKind.Notifications(category: nil).name {
                         if let itemNotification = item.jsonable as? Notification where user.id == itemNotification.author?.id {
                             indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
                             items.append(item)

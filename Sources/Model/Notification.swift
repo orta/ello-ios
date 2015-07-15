@@ -11,7 +11,7 @@ import UIKit
 
 public enum NotificationFilterType: String {
     case All = "NotificationFilterTypeAll"
-    case Misc = "NotificationFilterTypeMisc"
+    case Comments = "NotificationFilterTypeComments"
     case Mention = "NotificationFilterTypeMention"
     case Heart = "NotificationFilterTypeHeart"
     case Repost = "NotificationFilterTypeRepost"

@@ -97,7 +97,7 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
         let topInset: CGFloat
         let bottomInset: CGFloat
         if visible ?? navBarsVisible() {
-            topInset = navBar?.frame.size.height ?? 0
+            topInset = navBar?.frame.maxY ?? 0
             bottomInset = ElloTabBar.Size.height
         }
         else {

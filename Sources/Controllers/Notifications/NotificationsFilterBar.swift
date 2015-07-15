@@ -11,7 +11,7 @@ import UIKit
 public class NotificationsFilterBar : UIView {
 
     struct Size {
-        static let height : CGFloat = 44
+        static let height : CGFloat = 64
     }
 
     var buttons : [UIButton] {
@@ -22,6 +22,11 @@ public class NotificationsFilterBar : UIView {
     override public init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .whiteColor()
+
+        let blackBar = UIView(frame: CGRect(x: 0, y: 0, width: frame.width, height: 20))
+        blackBar.autoresizingMask = .FlexibleWidth | .FlexibleBottomMargin
+        blackBar.backgroundColor = .blackColor()
+        self.addSubview(blackBar)
     }
 
     required public init(coder: NSCoder) {
@@ -35,9 +40,10 @@ public class NotificationsFilterBar : UIView {
         let buttons = self.buttons
         if buttons.count > 0 {
             var x : CGFloat = 0
+            let y : CGFloat = 20
             var w : CGFloat = (self.frame.size.width - buttonPadding * CGFloat(buttons.count - 1)) / CGFloat(buttons.count)
             for button in buttons {
-                let frame = CGRect(x: x, y: 0, width: w, height: self.frame.size.height)
+                let frame = CGRect(x: x, y: y, width: w, height: self.frame.size.height - y)
                 button.frame = frame
                 x += w + buttonPadding
             }
