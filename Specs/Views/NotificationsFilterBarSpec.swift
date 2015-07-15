@@ -33,7 +33,7 @@ class NotificationsFilterBarSpec: QuickSpec {
         describe("Can contain buttons") {
 
             beforeEach() {
-                subject = NotificationsFilterBar(frame: CGRect(x: 0, y: 0, width: 92, height: 30))
+                subject = NotificationsFilterBar(frame: CGRect(x: 0, y: 0, width: 92, height: 50))
                 button1 = UIButton(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
                 button2 = UIButton(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
                 button3 = UIButton(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
@@ -47,7 +47,7 @@ class NotificationsFilterBarSpec: QuickSpec {
             describe("-layoutSubviews") {
                 describe("should layout button1") {
                     beforeEach() {
-                        rect = CGRect(x: 0, y: 0, width: 30, height: 30)
+                        rect = CGRect(x: 0, y: 20, width: 30, height: 30)
                     }
 
                     it("should set x") {
@@ -69,7 +69,7 @@ class NotificationsFilterBarSpec: QuickSpec {
 
                 describe("should layout button2") {
                     beforeEach() {
-                        rect = CGRect(x: 31, y: 0, width: 30, height: 30)
+                        rect = CGRect(x: 31, y: 20, width: 30, height: 30)
                     }
 
                     it("should set x") {
@@ -91,7 +91,7 @@ class NotificationsFilterBarSpec: QuickSpec {
 
                 describe("should layout button3") {
                     beforeEach() {
-                        rect = CGRect(x: 62, y: 0, width: 30, height: 30)
+                        rect = CGRect(x: 62, y: 20, width: 30, height: 30)
                     }
 
                     it("should set x") {

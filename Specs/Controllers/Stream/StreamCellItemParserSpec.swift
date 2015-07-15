@@ -47,14 +47,14 @@ class StreamCellItemParserSpec: QuickSpec {
 
             it("returns an empty array if an empty array of Activities is passed in") {
                 let activities = [Notification]()
-                expect(self.parser.parse(activities, streamKind: .Notifications).count) == 0
+                expect(self.parser.parse(activities, streamKind: .Notifications(category: nil)).count) == 0
             }
 
             it("returns an array with the proper count of stream cell items when parsing friends.json's activities") {
                 var loadedNotifications = [StreamCellItem]()
-                StreamService().loadStream(ElloAPI.NotificationsStream, streamKind: nil,
+                StreamService().loadStream(ElloAPI.NotificationsStream(category: nil), streamKind: nil,
                     success: { (jsonables, responseConfig) in
-                        loadedNotifications = self.parser.parse(jsonables, streamKind: .Notifications)
+                        loadedNotifications = self.parser.parse(jsonables, streamKind: .Notifications(category: nil))
                     },
                     failure: nil
                 )

@@ -94,7 +94,10 @@ public class ElloScrollLogic : NSObject, UIScrollViewDelegate {
                 let didScrollDown = self.didScrollDown(scrollView.contentOffset, prevOffset)
 
                 if didScrollDown {
-                    hide()
+                    let isAtTop = self.isAtTop(scrollView)
+                    if !isAtTop {
+                        hide()
+                    }
                 }
                 else {
                     let isAtTop = self.isAtTop(scrollView)

@@ -11,11 +11,28 @@ import UIKit
 
 public enum NotificationFilterType: String {
     case All = "NotificationFilterTypeAll"
-    case Misc = "NotificationFilterTypeMisc"
+    case Comments = "NotificationFilterTypeComments"
     case Mention = "NotificationFilterTypeMention"
     case Heart = "NotificationFilterTypeHeart"
     case Repost = "NotificationFilterTypeRepost"
     case Relationship = "NotificationFilterTypeRelationship"
+
+    var category: String? {
+        switch self {
+            case .All:
+                return nil
+            case .Comments:  // …
+                return "comments"
+            case .Mention:  // @
+                return "mentions"
+            case .Heart:
+                return "loves"
+            case .Repost:
+                return "reposts"
+            case .Relationship:
+                return "relationships"
+        }
+    }
 }
 
 let NotificationVersion = 1

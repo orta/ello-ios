@@ -43,11 +43,10 @@ public class NotificationsViewController: StreamableViewController, Notification
         screen.delegate = self
         self.title = "Notifications"
         addSearchButton()
-        screen.temporaryNavBar.items = [elloNavigationItem]
 
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
         scrollLogic.navBarHeight = 44
-        streamViewController.streamKind = .Notifications
+        streamViewController.streamKind = .Notifications(category: nil)
         ElloHUD.showLoadingHudInView(streamViewController.view)
         let noResultsTitle = NSLocalizedString("Welcome to your Notifications Center!", comment: "No notification results title")
         let noResultsBody = NSLocalizedString("Whenever someone mentions you, follows you, accepts an invitation, comments, reposts or Loves one of your posts, you'll be notified here.", comment: "No notification results body.")
@@ -83,7 +82,7 @@ public class NotificationsViewController: StreamableViewController, Notification
     }
 
     private func updateInsets() {
-        updateInsets(navBar: screen.temporaryNavBar, streamController: streamViewController)
+        updateInsets(navBar: screen.filterBar, streamController: streamViewController)
     }
 
     // used to provide StreamableViewController access to the container it then
@@ -92,39 +91,11 @@ public class NotificationsViewController: StreamableViewController, Notification
         return self.screen.streamContainer
     }
 
-
-    public func activatedFilter(filterTypeStr: String) {
+    public func activatedCategory(filterTypeStr: String) {
         let filterType = NotificationFilterType(rawValue: filterTypeStr)!
-        var notificationKinds: [Activity.Kind]?
-
-        switch filterType {
-            case .All:
-                notificationKinds = nil
-            case .Misc:  // …
-                notificationKinds = Activity.Kind.commentNotifications()
-            case .Mention:  // @
-                notificationKinds = Activity.Kind.mentionNotifications()
-            case .Heart:
-                notificationKinds = nil
-            case .Repost:
-                notificationKinds = Activity.Kind.repostNotifications()
-            case .Relationship:
-                notificationKinds = Activity.Kind.relationshipNotifications()
-        }
-
-        if let notificationKinds = notificationKinds {
-            streamViewController.streamFilter = { item in
-                if let notification = item.jsonable as? Notification {
-                    return contains(notificationKinds, notification.activity.kind)
-                }
-                else {
-                    return false
-                }
-            }
-        }
-        else {
-            streamViewController.streamFilter = nil
-        }
+        streamViewController.streamKind = .Notifications(category: filterType.category)
+        ElloHUD.showLoadingHudInView(streamViewController.view)
+        streamViewController.loadInitialPage()
     }
 
     public func commentTapped(comment: Comment) {

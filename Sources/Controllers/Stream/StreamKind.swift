@@ -16,7 +16,7 @@ public enum StreamKind {
     case PostDetail(postParam: String)
     case Profile(perPage: Int)
     case UserStream(userParam: String)
-    case Notifications
+    case Notifications(category: String?)
     case UserList(endpoint: ElloAPI, title: String)
     case Unknown
 
@@ -48,12 +48,12 @@ public enum StreamKind {
         case .Noise: return .NoiseStream
         case let .Discover(type, perPage): return ElloAPI.Discover(type: type, perPage: perPage)
         case let .Loves(userId): return .Loves(userId: userId)
-        case .Notifications: return .NotificationsStream
+        case let .Notifications(category): return .NotificationsStream(category: category)
         case let .PostDetail(postParam): return .PostDetail(postParam: postParam)
         case let .Profile(perPage): return .Profile(perPage: perPage)
         case let .UserStream(userParam): return .UserStream(userParam: userParam)
         case let .UserList(endpoint, title): return endpoint
-        case .Unknown: return .NotificationsStream // doesn't really get used
+        case .Unknown: return .NotificationsStream(category: nil) // doesn't really get used
         }
     }
 

@@ -10,7 +10,7 @@ import SVGKit
 
 @objc
 public protocol NotificationsScreenDelegate {
-    func activatedFilter(filter : String)
+    func activatedCategory(filter : String)
 }
 
 public class NotificationsScreen : UIView {
@@ -38,18 +38,16 @@ public class NotificationsScreen : UIView {
 
     weak var delegate : NotificationsScreenDelegate?
     let filterBar = NotificationsFilterBar()
-    var filterBarVisible = false
     let streamContainer = UIView()
 
-    let temporaryNavBar = ElloNavigationBar()
     var navBarVisible = true
 
     override public init(frame: CGRect) {
         let filterAllButton = NotificationsScreen.filterButton("All")
-        let filterMiscButton = NotificationsScreen.filterButton(SVGKImage(named: "bubble_normal.svg").UIImage!)
+        let filterCommentsButton = NotificationsScreen.filterButton(SVGKImage(named: "bubble_normal.svg").UIImage!)
         let filterMentionButton = NotificationsScreen.filterButton("@")
         // no loves yet!
-        // let filterHeartButton = NotificationsScreen.filterButton(SVGKImage(named: "heartplus_normal.svg").UIImage!)
+        let filterHeartButton = NotificationsScreen.filterButton(SVGKImage(named: "hearts_normal.svg").UIImage!)
         let filterRepostButton = NotificationsScreen.filterButton(SVGKImage(named: "repost_normal.svg").UIImage!)
         let filterInviteButton = NotificationsScreen.filterButton(SVGKImage(named: "relationships_normal.svg").UIImage!)
 
@@ -59,9 +57,9 @@ public class NotificationsScreen : UIView {
 
         for (button, action) in [
             (filterAllButton, "allButtonTapped:"),
-            (filterMiscButton, "miscButtonTapped:"),
+            (filterCommentsButton, "commentsButtonTapped:"),
             (filterMentionButton, "mentionButtonTapped:"),
-            // (filterHeartButton, "heartButtonTapped:"),
+            (filterHeartButton, "heartButtonTapped:"),
             (filterRepostButton, "repostButtonTapped:"),
             (filterInviteButton, "inviteButtonTapped:"),
         ] {
@@ -69,91 +67,71 @@ public class NotificationsScreen : UIView {
             button.addTarget(self, action: Selector(action), forControlEvents: .TouchUpInside)
         }
         filterBar.selectButton(filterAllButton)
-        // self.addSubview(filterBar)
-
-        self.addSubview(temporaryNavBar)
+        self.addSubview(filterBar)
     }
 
     required public init(coder: NSCoder) {
         super.init(coder: coder)
     }
 
-    func animateFilterBar(#visible: Bool) {
-        filterBarVisible = visible
-        animate {
-            self.positionFilterBar()
-        }
-    }
-
-    private func positionFilterBar() {
-        filterBar.frame = self.bounds.withHeight(NotificationsFilterBar.Size.height)
-        if filterBarVisible {
-            filterBar.frame.origin.y = 0
-        }
-        else {
-            filterBar.frame.origin.y = -NotificationsFilterBar.Size.height
-        }
-    }
-
     override public func layoutSubviews() {
         super.layoutSubviews()
 
-        // positionFilterBar()
-        positionNavigationBar()
+        positionFilterBar()
         streamContainer.frame = self.bounds.fromTop()
             .withHeight(self.frame.height)
     }
 
     func allButtonTapped(sender : NotificationFilterButton) {
         filterBar.selectButton(sender)
-        delegate?.activatedFilter(NotificationFilterType.All.rawValue)
+        delegate?.activatedCategory(NotificationFilterType.All.rawValue)
     }
 
-    func miscButtonTapped(sender : NotificationFilterButton) {
+    func commentsButtonTapped(sender : NotificationFilterButton) {
         filterBar.selectButton(sender)
-        delegate?.activatedFilter(NotificationFilterType.Misc.rawValue)
+        delegate?.activatedCategory(NotificationFilterType.Comments.rawValue)
     }
 
     func mentionButtonTapped(sender : NotificationFilterButton) {
         filterBar.selectButton(sender)
-        delegate?.activatedFilter(NotificationFilterType.Mention.rawValue)
+        delegate?.activatedCategory(NotificationFilterType.Mention.rawValue)
     }
 
     func heartButtonTapped(sender : NotificationFilterButton) {
         filterBar.selectButton(sender)
-        delegate?.activatedFilter(NotificationFilterType.Heart.rawValue)
+        delegate?.activatedCategory(NotificationFilterType.Heart.rawValue)
     }
 
     func repostButtonTapped(sender : NotificationFilterButton) {
         filterBar.selectButton(sender)
-        delegate?.activatedFilter(NotificationFilterType.Repost.rawValue)
+        delegate?.activatedCategory(NotificationFilterType.Repost.rawValue)
     }
 
     func inviteButtonTapped(sender : NotificationFilterButton) {
         filterBar.selectButton(sender)
-        delegate?.activatedFilter(NotificationFilterType.Relationship.rawValue)
+        delegate?.activatedCategory(NotificationFilterType.Relationship.rawValue)
     }
 }
 
 
-// MARK: Temporary Navigation Bar
+// MARK: Filter Bar
 extension NotificationsScreen {
 
     func animateNavigationBar(#visible: Bool) {
         navBarVisible = visible
         animate {
-            self.positionNavigationBar()
+            self.positionFilterBar()
         }
         UIApplication.sharedApplication().setStatusBarHidden(!visible, withAnimation: .None)
     }
 
-    private func positionNavigationBar() {
-        temporaryNavBar.frame = self.bounds.withHeight(ElloNavigationBar.Size.height)
+    private func positionFilterBar() {
+        filterBar.frame = self.bounds.withHeight(NotificationsFilterBar.Size.height)
         if navBarVisible {
-            temporaryNavBar.frame.origin.y = 0
+            filterBar.frame.origin.y = 0
         }
         else {
-            temporaryNavBar.frame.origin.y = -ElloNavigationBar.Size.height
+            filterBar.frame.origin.y = -NotificationsFilterBar.Size.height
         }
     }
 

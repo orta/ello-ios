@@ -77,7 +77,7 @@ class ElloAPISpec: QuickSpec {
                     expect(ElloAPI.NoiseStream.path) == "/api/v2/streams/noise"
                 }
                 it("NotificationsStream is valid") {
-                    expect(ElloAPI.NotificationsStream.path) == "/api/v2/notifications"
+                    expect(ElloAPI.NotificationsStream(category: nil).path) == "/api/v2/notifications"
                 }
                 it("PostDetail is valid") {
                     expect(ElloAPI.PostDetail(postParam: "some-param").path) == "/api/v2/posts/some-param"

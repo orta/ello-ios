@@ -713,7 +713,7 @@ class StreamDataSourceSpec: QuickSpec {
                 describe("muting a user") {
 
                     beforeEach {
-                        var streamKind: StreamKind = .Notifications
+                        var streamKind: StreamKind = .Notifications(category: nil)
                         var user1: User = stub(["id": "user1"])
                         var post1: Post = stub(["id": "post1", "authorId" : "other-user"])
                         var activity1: Activity = stub(["id": "activity1", "subject" : user1])
