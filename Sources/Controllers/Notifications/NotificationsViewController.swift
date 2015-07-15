@@ -107,4 +107,10 @@ public class NotificationsViewController: StreamableViewController, Notification
         }
     }
 
+    public func notificationTapped(cell: NotificationCell) {
+        if let indexPath = streamViewController.collectionView.indexPathForCell(cell) {
+            streamViewController.collectionView(streamViewController.collectionView, didSelectItemAtIndexPath: indexPath)
+        }
+    }
+
 }
