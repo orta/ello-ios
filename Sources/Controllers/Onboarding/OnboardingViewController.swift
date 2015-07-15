@@ -218,9 +218,9 @@ private extension OnboardingViewController {
             onboardingData?.name = currentUser.name
             onboardingData?.bio = currentUser.profile?.shortBio
             if let links = currentUser.externalLinksList {
-                onboardingData?.links = links.reduce("") { (memo, link) in
+                onboardingData?.links = links.reduce("") { (memo: String, link) in
                     if count(memo ?? "") == 0 {
-                        return link["url"]
+                        return link["url"] ?? ""
                     }
                     else if let url = link["url"] {
                         return "\(memo), \(url)"
