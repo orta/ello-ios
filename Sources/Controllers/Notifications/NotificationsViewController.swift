@@ -93,24 +93,7 @@ public class NotificationsViewController: StreamableViewController, Notification
 
     public func activatedCategory(filterTypeStr: String) {
         let filterType = NotificationFilterType(rawValue: filterTypeStr)!
-        let notificationCategory: String?
-
-        switch filterType {
-            case .All:
-                notificationCategory = nil
-            case .Comments:  // …
-                notificationCategory = "comments"
-            case .Mention:  // @
-                notificationCategory = "mentions"
-            case .Heart:
-                notificationCategory = "loves"
-            case .Repost:
-                notificationCategory = "reposts"
-            case .Relationship:
-                notificationCategory = "relationships"
-        }
-
-        streamViewController.streamKind = .Notifications(category: notificationCategory)
+        streamViewController.streamKind = .Notifications(category: filterType.category)
         ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.loadInitialPage()
     }
