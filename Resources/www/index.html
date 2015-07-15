@@ -307,6 +307,13 @@
         /* adding an extra 5 accounts for hangers in links at bottom of a post */
         return postContainer.offsetHeight + 5;
       };
+
+      postContainer.onclick = function(event) {
+        if ( event.target.nodeName != "A" ) {
+          document.location = "default://default";
+          return false;
+        }
+      };
     </script>
   </body>
 </html>

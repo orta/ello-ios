@@ -37,4 +37,6 @@ public class StreamRepostHeaderCell: UICollectionViewCell, ElloTextViewDelegate 
         }
     }
 
+    func textViewTappedDefault() {}
+
 }

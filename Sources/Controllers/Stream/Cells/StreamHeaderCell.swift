@@ -315,6 +315,7 @@ extension StreamHeaderCell: ElloTextViewDelegate {
     func textViewTapped(link: String, object: ElloAttributedObject) {
         userDelegate?.userTappedCell(self)
     }
+    func textViewTappedDefault() {}
 }
 
 // MARK: UIScrollViewDelegate
