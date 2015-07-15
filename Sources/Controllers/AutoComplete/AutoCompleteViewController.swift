@@ -20,6 +20,11 @@ public class AutoCompleteViewController: UIViewController {
     public let service = AutoCompleteService()
     public weak var delegate: AutoCompleteDelegate?
 
+    public convenience init(type: AutoCompleteType) {
+        self.init()
+        self.type = type
+    }
+
     required public init() {
         super.init(nibName: "AutoCompleteViewController", bundle: .None)
     }
@@ -51,14 +56,17 @@ extension AutoCompleteViewController {
 
 // MARK: Public
 public extension AutoCompleteViewController {
-    func loadResults(terms: String) {
-        service.loadResults(terms,
-            type: type,
-            success: showResults,
-            failure: showAutoCompleteLoadFailure
-        )
-    }
 
+    func load(match: AutoCompleteMatch, loaded: (count: Int) -> Void) {
+        service.loadResults(match.text,
+            type: match.type,
+            success: { (results, responseConfig) in
+                self.dataSource.items = results.map { AutoCompleteItem(result: $0, type: self.type) }
+                self.tableView.reloadData()
+                loaded(count: self.dataSource.items.count)
+        }, failure: showAutoCompleteLoadFailure)
+    }
+    
     func showResults(results: [AutoCompleteResult], responseConfig: ResponseConfig) {
         dataSource.items = results.map { AutoCompleteItem(result: $0, type: self.type) }
         tableView.reloadData()

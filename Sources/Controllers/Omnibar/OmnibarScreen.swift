@@ -70,6 +70,8 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol {
         static let buttonWidth = CGFloat(70)
     }
 
+    var autoCompleteVC = AutoCompleteViewController()
+
 // MARK: public access to text and image
 
     // Styles the text and assigns it as an NSAttributedString to
@@ -169,7 +171,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol {
 
     let textContainer = UIView()
     public let textView = UITextView()
-
+    var autoCompleteContainer: UIView
     private var currentText : NSAttributedString?
     private var currentImage : UIImage?
     private var data : NSData?
@@ -178,6 +180,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol {
 // MARK: init
 
     override public init(frame: CGRect) {
+        self.autoCompleteContainer = UIView(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: 0))
         super.init(frame: frame)
         self.backgroundColor = UIColor.whiteColor()
 
@@ -189,6 +192,12 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol {
         setupTextViews()
         setupViewHierarchy()
         setupSwipeGesture()
+
+        autoCompleteVC.view.frame = autoCompleteContainer.frame
+        autoCompleteVC.delegate = self
+        autoCompleteContainer.addSubview(autoCompleteVC.view)
+        textView.autocorrectionType = .No
+//        textView.inputAccessoryView = autoCompleteContainer
     }
 
     required public init(coder aDecoder: NSCoder) {
@@ -628,10 +637,27 @@ extension OmnibarScreen: UITextViewDelegate {
 
         updatePostState()
 
+        let autoComplete = AutoComplete()
+        if let match = autoComplete.check(newText, location: range.location) {
+            // if needed show autocompleteviewcontroller
+            // if already shown, load new results into already showing vc
+            autoCompleteVC.load(match) { count in
+                println("count = \(count)")
+
+//                self.autoCompleteContainer.frame.size.height = 150
+//                self.textView.inputAccessoryView = self.autoCompleteContainer
+//                self.autoCompleteVC.view.frame = self.autoCompleteContainer.frame
+            }
+        }
         return true
     }
 }
 
+extension OmnibarScreen: AutoCompleteDelegate {
+    public func resultSelected(result: AutoCompleteResult) {
+
+    }
+}
 
 // MARK: UIImagePickerControllerDelegate
 extension OmnibarScreen: UIImagePickerControllerDelegate {
