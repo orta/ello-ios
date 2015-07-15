@@ -56,6 +56,10 @@ public class ProfileInfoViewController: BaseElloViewController, OnboardingStep {
     }
 
     public func onboardingStepBegin() {
+        nameField?.text = onboardingData?.name ?? ""
+        bioField?.text = onboardingData?.bio ?? ""
+        linksField?.text = onboardingData?.links ?? ""
+
         onboardingViewController?.canGoNext = true
     }
 
@@ -77,6 +81,11 @@ public extension ProfileInfoViewController {
         let name = nameField?.text ?? ""
         let links = linksField?.text ?? ""
         let bio = bioField?.text ?? ""
+
+        onboardingData?.name = name
+        onboardingData?.bio = bio
+        onboardingData?.links = links
+
         var info = [String:String]()
         if !name.isEmpty {
             info["name"] = name

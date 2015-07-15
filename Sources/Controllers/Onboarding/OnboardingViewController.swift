@@ -7,6 +7,7 @@
 //
 
 import Crashlytics
+import SDWebImage
 
 @objc
 protocol OnboardingStep {
@@ -19,7 +20,9 @@ protocol OnboardingStep {
 
 @objc
 public class OnboardingData {
-    var communityFollows: [User] = []
+    var name: String?
+    var bio: String?
+    var links: String?
     var coverImage: UIImage? = nil
     var avatarImage: UIImage? = nil
 }
@@ -210,6 +213,46 @@ private extension OnboardingViewController {
 
     func setupOnboardingControllers() {
         onboardingData = OnboardingData()
+
+        if let currentUser = currentUser {
+            onboardingData?.name = currentUser.name
+            onboardingData?.bio = currentUser.profile?.shortBio
+            if let links = currentUser.externalLinksList {
+                onboardingData?.links = links.reduce("") { (memo, link) in
+                    if count(memo ?? "") == 0 {
+                        return link["url"]
+                    }
+                    else if let url = link["url"] {
+                        return "\(memo), \(url)"
+                    }
+                    else {
+                        return memo
+                    }
+                }
+            }
+
+            if let url = currentUser.avatarURL {
+                SDWebImageManager.sharedManager().downloadImageWithURL(url,
+                    options: SDWebImageOptions.LowPriority,
+                    progress: { (_, _) in }, completed: { (image, _, _, _, _) in
+                        if let image = image {
+                            self.onboardingData?.avatarImage = image
+                        }
+                    }
+                )
+            }
+
+            if let url = currentUser.coverImageURL {
+                SDWebImageManager.sharedManager().downloadImageWithURL(url,
+                    options: SDWebImageOptions.LowPriority,
+                    progress: { (_, _) in }, completed: { (image, _, _, _, _) in
+                        if let image = image {
+                            self.onboardingData?.coverImage = image
+                        }
+                    }
+                )
+            }
+        }
 
         let communityController = CommunitySelectionViewController()
         communityController.onboardingViewController = self

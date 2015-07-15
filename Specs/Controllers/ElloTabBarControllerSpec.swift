@@ -134,7 +134,17 @@ class ElloTabBarControllerSpec: QuickSpec {
         }
 
         context("showing the narration") {
+            var prevTabValues: [ElloTab: Bool?]!
+
             beforeEach() {
+                prevTabValues = [
+                    ElloTab.Discovery: Defaults[ElloTab.Discovery.narrationDefaultKey].bool,
+                    ElloTab.Notifications: Defaults[ElloTab.Notifications.narrationDefaultKey].bool,
+                    ElloTab.Stream: Defaults[ElloTab.Stream.narrationDefaultKey].bool,
+                    ElloTab.Profile: Defaults[ElloTab.Profile.narrationDefaultKey].bool,
+                    ElloTab.Post: Defaults[ElloTab.Post.narrationDefaultKey].bool
+                ]
+
                 controller = ElloTabBarController.instantiateFromStoryboard()
                 let children = controller.childViewControllers as! [UIViewController]
                 for child in children {
@@ -147,6 +157,12 @@ class ElloTabBarControllerSpec: QuickSpec {
                 controller.addChildViewController(child5)
                 let view = controller.view
             }
+            afterEach {
+                for (tab, value) in prevTabValues {
+                    Defaults[tab.narrationDefaultKey] = value
+                }
+            }
+
             it("should set the narration values") {
                 let tab = ElloTab.Stream
                 ElloTabBarController.didShowNarration(tab, false)
