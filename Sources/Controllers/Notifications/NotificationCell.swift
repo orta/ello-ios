@@ -238,7 +238,7 @@ extension NotificationCell {
 
     @objc
     public func avatarTapped() {
-        userDelegate?.userTappedCell(self)
+        userDelegate?.userTappedAvatar(self)
     }
 
 }

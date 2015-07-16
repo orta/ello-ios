@@ -40,6 +40,6 @@ public class UserListItemCell: UICollectionViewCell {
     }
 
     @IBAction func userTapped(sender: AvatarButton) {
-        userDelegate?.userTappedCell(self)
+        userDelegate?.userTappedAvatar(self)
     }
 }
