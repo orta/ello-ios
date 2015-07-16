@@ -12,7 +12,6 @@ import TimeAgoInWords
 
 @objc
 public protocol NotificationDelegate {
-    func notificationTapped(cell: NotificationCell)
     func userTapped(user: User)
     func commentTapped(comment: Comment)
     func postTapped(post: Post)
@@ -203,7 +202,7 @@ public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
         if let scheme = request.URL?.scheme
             where scheme == "default"
         {
-            delegate?.notificationTapped(self)
+            userDelegate?.userTappedText(self)
             return false
         }
         else {
@@ -231,7 +230,7 @@ extension NotificationCell: ElloTextViewDelegate {
     }
 
     func textViewTappedDefault() {
-        delegate?.notificationTapped(self)
+        userDelegate?.userTappedText(self)
     }
 }
 

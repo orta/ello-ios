@@ -42,6 +42,15 @@ public enum StreamKind {
         }
     }
 
+    public var tappingTextOpensDetail: Bool {
+        switch self {
+            case .PostDetail, .Friend, .Profile, .UserStream:
+                return false
+            default:
+                return true
+        }
+    }
+
     public var endpoint: ElloAPI {
         switch self {
         case .Friend: return .FriendStream
