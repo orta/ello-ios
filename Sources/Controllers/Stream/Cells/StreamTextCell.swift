@@ -15,6 +15,7 @@ public class StreamTextCell: StreamRegionableCell, UIWebViewDelegate {
     @IBOutlet weak var webView:UIWebView!
     @IBOutlet weak var leadingConstraint:NSLayoutConstraint!
     weak var webLinkDelegate: WebLinkDelegate?
+    var userDelegate: UserDelegate?
     var webContentReady: WebContentReady?
 
     override public func awakeFromNib() {
@@ -33,7 +34,15 @@ public class StreamTextCell: StreamRegionableCell, UIWebViewDelegate {
     }
 
     public func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
-        return ElloWebViewHelper.handleRequest(request, webLinkDelegate: webLinkDelegate)
+        if let scheme = request.URL?.scheme
+            where scheme == "default"
+        {
+            userDelegate?.userTappedText(self)
+            return false
+        }
+        else {
+            return ElloWebViewHelper.handleRequest(request, webLinkDelegate: webLinkDelegate)
+        }
     }
 
     public func webViewDidFinishLoad(webView: UIWebView) {

@@ -21,7 +21,8 @@ public protocol WebLinkDelegate: NSObjectProtocol {
 }
 
 public protocol UserDelegate: NSObjectProtocol {
-    func userTappedCell(cell: UICollectionViewCell)
+    func userTappedAvatar(cell: UICollectionViewCell)
+    func userTappedText(cell: UICollectionViewCell)
     func userTappedParam(param: String)
 }
 
@@ -585,7 +586,15 @@ extension StreamViewController : WebLinkDelegate {
 // MARK: StreamViewController : UserDelegate
 extension StreamViewController : UserDelegate {
 
-    public func userTappedCell(cell: UICollectionViewCell) {
+    public func userTappedText(cell: UICollectionViewCell) {
+        if streamKind.tappingTextOpensDetail {
+            if let indexPath = collectionView.indexPathForCell(cell) {
+                collectionView(collectionView, didSelectItemAtIndexPath: indexPath)
+            }
+        }
+    }
+
+    public func userTappedAvatar(cell: UICollectionViewCell) {
         if let indexPath = collectionView.indexPathForCell(cell) {
             if let user = dataSource.userForIndexPath(indexPath) {
                 userTappedDelegate?.userTapped(user)
