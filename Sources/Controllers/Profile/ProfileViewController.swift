@@ -123,8 +123,6 @@ public class ProfileViewController: StreamableViewController {
 
     private func updateInsets() {
         updateInsets(navBar: navigationBar, streamController: streamViewController)
-        // reset the top inset to 0 to fix 'edit profile' button
-        streamViewController.contentInset.top = 0
     }
 
     private func hideNavBar(#animated: Bool) {
