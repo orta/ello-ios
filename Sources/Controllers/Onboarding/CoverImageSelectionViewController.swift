@@ -22,6 +22,9 @@ public class CoverImageSelectionViewController: OnboardingUploadImageViewControl
         if let image = selectedImage {
             self.userUploadImage(image, proceed: proceed)
         }
+        else {
+            proceed(onboardingData)
+        }
     }
 
 }

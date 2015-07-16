@@ -21,7 +21,10 @@ public class AvatarImageSelectionViewController: OnboardingUploadImageViewContro
         if let image = selectedImage {
             self.userUploadImage(image, proceed: proceed)
         }
-    }
+         else {
+            proceed(onboardingData)
+        }
+   }
 
 }
 

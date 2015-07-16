@@ -12,9 +12,11 @@ public class OnboardingUploadImageViewController: BaseElloViewController, Onboar
         didSet {
             if let image = onboardingData?.coverImage {
                 chooseCoverImageView?.image = image
+                onboardingViewController?.canGoNext = true
             }
             if let image = onboardingData?.avatarImage {
                 chooseAvatarImageView?.image = image
+                onboardingViewController?.canGoNext = true
             }
         }
     }
