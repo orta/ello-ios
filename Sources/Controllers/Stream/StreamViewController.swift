@@ -544,9 +544,10 @@ extension StreamViewController : WebLinkDelegate {
 
     public func webLinkTapped(type: ElloURI, data: String) {
         switch type {
+        case .BetaPublicProfiles, .Downloads, .External, .ForgotMyPassword, .Internal, .Manifesto, .RequestInvite, .RequestInvitation, .Subdomain, .WhoMadeThis, .WTF: postNotification(externalWebNotification, data)
         case .Discover, .Search: selectTab(.Discovery)
-        case .Downloads, .External, .Internal, .Wallpapers, .WTF: postNotification(externalWebNotification, data)
         case .Email: break // this is handled in ElloWebViewHelper
+        case .Enter, .Exit: break // do nothing since we should already be in app
         case .Friends, .Noise: selectTab(.Stream)
         case .Notifications: selectTab(.Notifications)
         case .Post: showPostDetail(data)

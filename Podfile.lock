@@ -127,9 +127,9 @@ SPEC CHECKSUMS:
   Analytics: ef2c4d89b38e91b7528967084996e858fc419def
   Box: a92e8aa4c099e6bc0733829665caf9e668ef53b8
   CocoaLumberjack: 019d1361244274a6138c788c6cb80baabc13fb8f
-  Crashlytics: 659fae55257dadb18dd0b870f5667fd2076fe974
+  Crashlytics: 1eef152dd21c1f2f9d9dbe115e637c77c6ffcc8e
   CRToast: eb22641501990233c53cb8f83f7d2ea87e0ddf73
-  Fabric: f9a103e1f309fd86fe42ac91a47f7cfe52a32a97
+  Fabric: a9eabe53915e9f1db55a84dd2838737928675878
   FLAnimatedImage: f9422f796135aff80d8c00b2afc48015bb746e24
   JTSImageViewController: 89ae3c003060c65418fd3224ebbd67acc6046608
   Keys: 7d2ff6ff42f6903358267ce56e9392f83c31acfe

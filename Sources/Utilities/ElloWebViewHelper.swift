@@ -16,17 +16,14 @@ public struct ElloWebViewHelper {
         }
         else if requestURL.rangeOfString("(https?:\\/\\/|mailto:)", options: .RegularExpressionSearch) != nil {
             let (type, data) = ElloURI.match(requestURL)
-            switch type {
-            case .Email:
+            if type == .Email {
                 if let url = NSURL(string: requestURL) {
                     UIApplication.sharedApplication().openURL(url)
                 }
                 return false
-            case .Downloads, .External, .Wallpapers, .WTF:
-                if fromWebView { return true }
-                webLinkDelegate?.webLinkTapped(type, data: data)
-                return false
-            default:
+            }
+            else {
+                if fromWebView && type.loadsInWebViewFromWebView { return true }
                 webLinkDelegate?.webLinkTapped(type, data: data)
                 return false
             }
