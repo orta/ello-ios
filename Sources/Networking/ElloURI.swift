@@ -10,20 +10,39 @@ import Foundation
 import Keys
 
 public enum ElloURI: String {
+    // matching stream or page in app
     case Discover = "discover"
-    case Downloads = "downloads"
-    case Email = "email"
-    case External = "external"
+    case Enter = "enter"
     case Friends = "friends"
-    case Internal = "internal"
     case Noise = "noise"
     case Notifications = "notifications"
-    case Post = "post"
-    case Profile = "profile"
+    case Post = "\\/post\\/[^\\/]+\\/?$"
+    case Profile = "\\/?$"
     case Search = "search"
     case Settings = "settings"
-    case WTF = "wtf"
-    case Wallpapers = "wallpapers"
+    // other ello pages
+    case BetaPublicProfiles = "beta-public-profiles"
+    case Downloads = "downloads"
+    case Exit = "exit"
+    case ForgotMyPassword = "forgot-my-password"
+    case Internal = "internal"
+    case Manifesto = "manifesto"
+    case RequestInvite = "request-an-invite"
+    case RequestInvitation = "request-an-invitation"
+    case Subdomain = "\\/\\/.+(?<!w{3})\\."
+    case WhoMadeThis = "who-made-this"
+    case WTF = "(wtf$|wtf\\/.*$)"
+    // more specific
+    case Email = "(.+)@(.+)\\.([a-z]{2,})"
+    case External = "https?:\\/\\/.{3,}"
+
+    public var loadsInWebViewFromWebView: Bool {
+        switch self {
+        case .Discover, .Email, .Enter, .Friends, .Internal, .Noise, .Notifications, .Post, .Profile, .Search, .Settings: return false
+        default: return true
+        }
+
+    }
 
     // get the proper domain
     private static var _httpProtocol: String?
@@ -51,12 +70,9 @@ public enum ElloURI: String {
     public static var baseURL: String { return "\(ElloURI.httpProtocol)://\(ElloURI.domain)" }
 
     // this is taken directly from app/models/user.rb
-    static let emailRegex = "(.+)@(.+)\\.([a-z]{2,})"
     static let usernameRegex = "[\\w\\-]+"
     static let fuzzyDomain: String = "((w{3}\\.)?ello\\.co|ello-staging\\d?\\.herokuapp\\.com)"
     static var userPathRegex: String { return "\(ElloURI.fuzzyDomain)\\/\(ElloURI.usernameRegex)\\??.*" }
-
-
 
     public static func match(url: String) -> (type: ElloURI, data: String) {
         for type in self.all {
@@ -69,20 +85,12 @@ public enum ElloURI: String {
 
     private var regexPattern: String {
         switch self {
-        case .Email: return ElloURI.emailRegex
-        case .Wallpapers: return "wallpapers\\.\(ElloURI.fuzzyDomain)"
-        case .Post: return "\(ElloURI.userPathRegex)\\/post\\/[^\\/]+\\/?$"
-        case .WTF: return "\(ElloURI.fuzzyDomain)/(wtf$|wtf\\/.*$)"
-        case .Discover: return "\(ElloURI.fuzzyDomain)/discover"
-        case .Downloads: return "\(ElloURI.fuzzyDomain)/downloads"
-        case .Friends: return "\(ElloURI.fuzzyDomain)/friends"
-        case .Noise: return "\(ElloURI.fuzzyDomain)/noise"
-        case .Notifications: return "\(ElloURI.fuzzyDomain)/notifications"
-        case .Search: return "\(ElloURI.fuzzyDomain)/search"
-        case .Settings: return "\(ElloURI.fuzzyDomain)/settings"
-        case .Profile: return "\(ElloURI.userPathRegex)\\/?$"
+        case .Email, .External: return rawValue
         case .Internal: return "\(ElloURI.fuzzyDomain)"
-        case .External: return "https?:\\/\\/.{3,}"
+        case .Post: return "\(ElloURI.userPathRegex)\(rawValue)"
+        case .Profile: return "\(ElloURI.userPathRegex)\(rawValue)"
+        case .Subdomain: return "\(rawValue)\(ElloURI.fuzzyDomain)"
+        default: return "\(ElloURI.fuzzyDomain)\\/\(rawValue)"
         }
     }
 
@@ -98,5 +106,32 @@ public enum ElloURI: String {
     }
 
     // Order matters: [MostSpecific, MostGeneric]
-    static let all = [Email, Wallpapers, Post, WTF, Discover, Downloads, Friends, Noise, Notifications, Search, Settings, Profile, Internal, External]
+    static let all = [
+        Email,
+        Subdomain,
+        Post,
+        WTF,
+        // generic / pages
+        BetaPublicProfiles,
+        Discover,
+        Downloads,
+        Enter,
+        Exit,
+        ForgotMyPassword,
+        Friends,
+        Manifesto,
+        Noise,
+        Notifications,
+        RequestInvite,
+        RequestInvitation,
+        Search,
+        Settings,
+        WhoMadeThis,
+        // profile specific
+        Profile,
+        // other ello urls
+        Internal,
+        // anything else
+        External
+    ]
 }

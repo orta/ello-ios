@@ -64,8 +64,9 @@ extension ElloWebBrowserViewController: KINWebBrowserDelegate {
 extension ElloWebBrowserViewController : WebLinkDelegate {
     public func webLinkTapped(type: ElloURI, data: String) {
         switch type {
-        case .Friends, .Internal, .Noise: self.selectTab(.Stream)
-        case .Downloads, .Email, .External, .Wallpapers, .WTF: break // this is handled in ElloWebViewHelper/KINWebBrowserViewController
+        case .BetaPublicProfiles, .Downloads, .Email, .External, .ForgotMyPassword, .Internal, .Manifesto, .RequestInvite, .RequestInvitation, .Subdomain, .WhoMadeThis, .WTF: break // this is handled in ElloWebViewHelper/KINWebBrowserViewController
+        case .Enter, .Exit: navigationController?.dismissViewControllerAnimated(true, completion: nil)
+        case .Friends, .Noise: self.selectTab(.Stream)
         case .Notifications: self.selectTab(.Notifications)
         case .Post: self.showPostDetail(data)
         case .Profile: self.showProfile(data)

@@ -226,7 +226,135 @@ class ElloURISpec: QuickSpec {
                 
             }
 
-            describe("with Email addressed") {
+            describe("with Enter urls") {
+
+                it("matches with http://ello.co/enter") {
+                    let (type, data) = ElloURI.match("http://ello.co/enter")
+                    expect(type).to(equal(ElloURI.Enter))
+                    expect(data).to(equal("http://ello.co/enter"))
+                }
+
+                it("matches with https://www.ello.co/enter") {
+                    let (type, data) = ElloURI.match("https://www.ello.co/enter")
+                    expect(type).to(equal(ElloURI.Enter))
+                    expect(data).to(equal("https://www.ello.co/enter"))
+                }
+                
+            }
+
+            describe("with Exit urls") {
+
+                it("matches with http://ello.co/exit") {
+                    let (type, data) = ElloURI.match("http://ello.co/exit")
+                    expect(type).to(equal(ElloURI.Exit))
+                    expect(data).to(equal("http://ello.co/exit"))
+                }
+
+                it("matches with https://www.ello.co/exit") {
+                    let (type, data) = ElloURI.match("https://www.ello.co/exit")
+                    expect(type).to(equal(ElloURI.Exit))
+                    expect(data).to(equal("https://www.ello.co/exit"))
+                }
+
+            }
+
+            describe("with BetaPublicProfiles urls") {
+
+                it("matches with http://ello.co/beta-public-profiles") {
+                    let (type, data) = ElloURI.match("http://ello.co/beta-public-profiles")
+                    expect(type).to(equal(ElloURI.BetaPublicProfiles))
+                    expect(data).to(equal("http://ello.co/beta-public-profiles"))
+                }
+
+                it("matches with https://www.ello.co/beta-public-profiles") {
+                    let (type, data) = ElloURI.match("https://www.ello.co/beta-public-profiles")
+                    expect(type).to(equal(ElloURI.BetaPublicProfiles))
+                    expect(data).to(equal("https://www.ello.co/beta-public-profiles"))
+                }
+                
+            }
+
+            describe("with ForgotMyPassword urls") {
+
+                it("matches with http://ello.co/forgot-my-password") {
+                    let (type, data) = ElloURI.match("http://ello.co/forgot-my-password")
+                    expect(type).to(equal(ElloURI.ForgotMyPassword))
+                    expect(data).to(equal("http://ello.co/forgot-my-password"))
+                }
+
+                it("matches with https://www.ello.co/forgot-my-password") {
+                    let (type, data) = ElloURI.match("https://www.ello.co/forgot-my-password")
+                    expect(type).to(equal(ElloURI.ForgotMyPassword))
+                    expect(data).to(equal("https://www.ello.co/forgot-my-password"))
+                }
+                
+            }
+
+            describe("with Manifesto urls") {
+
+                it("matches with http://ello.co/manifesto") {
+                    let (type, data) = ElloURI.match("http://ello.co/manifesto")
+                    expect(type).to(equal(ElloURI.Manifesto))
+                    expect(data).to(equal("http://ello.co/manifesto"))
+                }
+
+                it("matches with https://www.ello.co/manifesto") {
+                    let (type, data) = ElloURI.match("https://www.ello.co/manifesto")
+                    expect(type).to(equal(ElloURI.Manifesto))
+                    expect(data).to(equal("https://www.ello.co/manifesto"))
+                }
+                
+            }
+
+            describe("with RequestInvite urls") {
+
+                it("matches with http://ello.co/request-an-invite") {
+                    let (type, data) = ElloURI.match("http://ello.co/request-an-invite")
+                    expect(type).to(equal(ElloURI.RequestInvite))
+                    expect(data).to(equal("http://ello.co/request-an-invite"))
+                }
+
+                it("matches with https://www.ello.co/request-an-invite") {
+                    let (type, data) = ElloURI.match("https://www.ello.co/request-an-invite")
+                    expect(type).to(equal(ElloURI.RequestInvite))
+                    expect(data).to(equal("https://www.ello.co/request-an-invite"))
+                }
+                
+            }
+
+            describe("with RequestInvitation urls") {
+
+                it("matches with http://ello.co/request-an-invitation") {
+                    let (type, data) = ElloURI.match("http://ello.co/request-an-invitation")
+                    expect(type).to(equal(ElloURI.RequestInvitation))
+                    expect(data).to(equal("http://ello.co/request-an-invitation"))
+                }
+
+                it("matches with https://www.ello.co/request-an-invitation") {
+                    let (type, data) = ElloURI.match("https://www.ello.co/request-an-invitation")
+                    expect(type).to(equal(ElloURI.RequestInvitation))
+                    expect(data).to(equal("https://www.ello.co/request-an-invitation"))
+                }
+
+            }
+
+            describe("with WhoMadeThis urls") {
+
+                it("matches with http://ello.co/who-made-this") {
+                    let (type, data) = ElloURI.match("http://ello.co/who-made-this")
+                    expect(type).to(equal(ElloURI.WhoMadeThis))
+                    expect(data).to(equal("http://ello.co/who-made-this"))
+                }
+
+                it("matches with https://www.ello.co/who-made-this") {
+                    let (type, data) = ElloURI.match("https://www.ello.co/who-made-this")
+                    expect(type).to(equal(ElloURI.WhoMadeThis))
+                    expect(data).to(equal("https://www.ello.co/who-made-this"))
+                }
+                
+            }
+
+            describe("with Email addresses") {
 
                 it("matches with mailto:archer@example.com") {
                     let (type, data) = ElloURI.match("mailto:archer@example.com")
@@ -236,17 +364,17 @@ class ElloURISpec: QuickSpec {
                 
             }
 
-            describe("with Wallpapers urls") {
+            describe("with Subdomain urls") {
 
                 it("matches with http://wallpapers.ello.co") {
                     let (type, data) = ElloURI.match("http://wallpapers.ello.co")
-                    expect(type).to(equal(ElloURI.Wallpapers))
+                    expect(type).to(equal(ElloURI.Subdomain))
                     expect(data).to(equal("http://wallpapers.ello.co"))
                 }
 
                 it("matches with https://wallpapers.ello.co/any/thing/else/here") {
                     let (type, data) = ElloURI.match("https://wallpapers.ello.co/any/thing/else/here")
-                    expect(type).to(equal(ElloURI.Wallpapers))
+                    expect(type).to(equal(ElloURI.Subdomain))
                     expect(data).to(equal("https://wallpapers.ello.co/any/thing/else/here"))
                 }
                 
@@ -436,17 +564,145 @@ class ElloURISpec: QuickSpec {
                 
             }
 
-            describe("with Wallpapers urls") {
+            describe("with Enter urls") {
+
+                it("matches with http://ello-staging.herokuapp.com/enter") {
+                    let (type, data) = ElloURI.match("http://ello-staging.herokuapp.com/enter")
+                    expect(type).to(equal(ElloURI.Enter))
+                    expect(data).to(equal("http://ello-staging.herokuapp.com/enter"))
+                }
+
+                it("matches with https://ello-staging2.herokuapp.com/enter") {
+                    let (type, data) = ElloURI.match("https://ello-staging2.herokuapp.com/enter")
+                    expect(type).to(equal(ElloURI.Enter))
+                    expect(data).to(equal("https://ello-staging2.herokuapp.com/enter"))
+                }
+
+            }
+
+            describe("with Exit urls") {
+
+                it("matches with http://ello-staging.herokuapp.com/exit") {
+                    let (type, data) = ElloURI.match("http://ello-staging.herokuapp.com/exit")
+                    expect(type).to(equal(ElloURI.Exit))
+                    expect(data).to(equal("http://ello-staging.herokuapp.com/exit"))
+                }
+
+                it("matches with https://ello-staging2.herokuapp.com/exit") {
+                    let (type, data) = ElloURI.match("https://ello-staging2.herokuapp.com/exit")
+                    expect(type).to(equal(ElloURI.Exit))
+                    expect(data).to(equal("https://ello-staging2.herokuapp.com/exit"))
+                }
+
+            }
+
+            describe("with BetaPublicProfiles urls") {
+
+                it("matches with http://ello-staging.herokuapp.com/beta-public-profiles") {
+                    let (type, data) = ElloURI.match("http://ello-staging.herokuapp.com/beta-public-profiles")
+                    expect(type).to(equal(ElloURI.BetaPublicProfiles))
+                    expect(data).to(equal("http://ello-staging.herokuapp.com/beta-public-profiles"))
+                }
+
+                it("matches with https://ello-staging2.herokuapp.com/beta-public-profiles") {
+                    let (type, data) = ElloURI.match("https://ello-staging2.herokuapp.com/beta-public-profiles")
+                    expect(type).to(equal(ElloURI.BetaPublicProfiles))
+                    expect(data).to(equal("https://ello-staging2.herokuapp.com/beta-public-profiles"))
+                }
+
+            }
+
+            describe("with ForgotMyPassword urls") {
+
+                it("matches with http://ello-staging.herokuapp.com/forgot-my-password") {
+                    let (type, data) = ElloURI.match("http://ello-staging.herokuapp.com/forgot-my-password")
+                    expect(type).to(equal(ElloURI.ForgotMyPassword))
+                    expect(data).to(equal("http://ello-staging.herokuapp.com/forgot-my-password"))
+                }
+
+                it("matches with https://ello-staging2.herokuapp.com/forgot-my-password") {
+                    let (type, data) = ElloURI.match("https://ello-staging2.herokuapp.com/forgot-my-password")
+                    expect(type).to(equal(ElloURI.ForgotMyPassword))
+                    expect(data).to(equal("https://ello-staging2.herokuapp.com/forgot-my-password"))
+                }
+
+            }
+
+            describe("with Manifesto urls") {
+
+                it("matches with http://ello-staging.herokuapp.com/manifesto") {
+                    let (type, data) = ElloURI.match("http://ello-staging.herokuapp.com/manifesto")
+                    expect(type).to(equal(ElloURI.Manifesto))
+                    expect(data).to(equal("http://ello-staging.herokuapp.com/manifesto"))
+                }
+
+                it("matches with https://ello-staging2.herokuapp.com/manifesto") {
+                    let (type, data) = ElloURI.match("https://ello-staging2.herokuapp.com/manifesto")
+                    expect(type).to(equal(ElloURI.Manifesto))
+                    expect(data).to(equal("https://ello-staging2.herokuapp.com/manifesto"))
+                }
+
+            }
+
+            describe("with RequestInvite urls") {
+
+                it("matches with http://ello-staging.herokuapp.com/request-an-invite") {
+                    let (type, data) = ElloURI.match("http://ello-staging.herokuapp.com/request-an-invite")
+                    expect(type).to(equal(ElloURI.RequestInvite))
+                    expect(data).to(equal("http://ello-staging.herokuapp.com/request-an-invite"))
+                }
+
+                it("matches with https://ello-staging2.herokuapp.com/request-an-invite") {
+                    let (type, data) = ElloURI.match("https://ello-staging2.herokuapp.com/request-an-invite")
+                    expect(type).to(equal(ElloURI.RequestInvite))
+                    expect(data).to(equal("https://ello-staging2.herokuapp.com/request-an-invite"))
+                }
+
+            }
+
+            describe("with RequestInvitation urls") {
+
+                it("matches with http://ello-staging.herokuapp.com/request-an-invitation") {
+                    let (type, data) = ElloURI.match("http://ello-staging.herokuapp.com/request-an-invitation")
+                    expect(type).to(equal(ElloURI.RequestInvitation))
+                    expect(data).to(equal("http://ello-staging.herokuapp.com/request-an-invitation"))
+                }
+
+                it("matches with https://ello-staging2.herokuapp.com/request-an-invitation") {
+                    let (type, data) = ElloURI.match("https://ello-staging2.herokuapp.com/request-an-invitation")
+                    expect(type).to(equal(ElloURI.RequestInvitation))
+                    expect(data).to(equal("https://ello-staging2.herokuapp.com/request-an-invitation"))
+                }
+
+            }
+
+            describe("with WhoMadeThis urls") {
+
+                it("matches with http://ello-staging.herokuapp.com/who-made-this") {
+                    let (type, data) = ElloURI.match("http://ello-staging.herokuapp.com/who-made-this")
+                    expect(type).to(equal(ElloURI.WhoMadeThis))
+                    expect(data).to(equal("http://ello-staging.herokuapp.com/who-made-this"))
+                }
+
+                it("matches with https://ello-staging2.herokuapp.com/who-made-this") {
+                    let (type, data) = ElloURI.match("https://ello-staging2.herokuapp.com/who-made-this")
+                    expect(type).to(equal(ElloURI.WhoMadeThis))
+                    expect(data).to(equal("https://ello-staging2.herokuapp.com/who-made-this"))
+                }
+                
+            }
+
+            describe("with Subdomain urls") {
 
                 it("matches with http://wallpapers.ello-staging.herokuapp.com") {
                     let (type, data) = ElloURI.match("http://wallpapers.ello-staging.herokuapp.com")
-                    expect(type).to(equal(ElloURI.Wallpapers))
+                    expect(type).to(equal(ElloURI.Subdomain))
                     expect(data).to(equal("http://wallpapers.ello-staging.herokuapp.com"))
                 }
 
                 it("matches with https://wallpapers.ello-staging.herokuapp.com/any/thing/else/here") {
                     let (type, data) = ElloURI.match("https://wallpapers.ello-staging.herokuapp.com/any/thing/else/here")
-                    expect(type).to(equal(ElloURI.Wallpapers))
+                    expect(type).to(equal(ElloURI.Subdomain))
                     expect(data).to(equal("https://wallpapers.ello-staging.herokuapp.com/any/thing/else/here"))
                 }
 
