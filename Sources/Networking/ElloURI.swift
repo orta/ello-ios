@@ -101,6 +101,16 @@ public enum ElloURI: String {
             var last = urlArr.last ?? url
             var lastArr = split(last) { $0 == "?" }
             return lastArr.first ?? url
+        case .Search:
+            if let urlComponents = NSURLComponents(string: url),
+                queryItems = (urlComponents.queryItems as? [NSURLQueryItem]),
+                terms = (queryItems.filter { $0.name == "terms" }.first?.value)
+            {
+                return terms
+            }
+            else {
+                return ""
+            }
         default: return url
         }
     }

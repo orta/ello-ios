@@ -199,13 +199,19 @@ class ElloURISpec: QuickSpec {
                 it("matches with http://ello.co/search") {
                     let (type, data) = ElloURI.match("http://ello.co/search")
                     expect(type).to(equal(ElloURI.Search))
-                    expect(data).to(equal("http://ello.co/search"))
+                    expect(data).to(equal(""))
                 }
 
                 it("matches with https://www.ello.co/search") {
                     let (type, data) = ElloURI.match("https://www.ello.co/search")
                     expect(type).to(equal(ElloURI.Search))
-                    expect(data).to(equal("https://www.ello.co/search"))
+                    expect(data).to(equal(""))
+                }
+
+                it("matches with https://ello.co/search?terms=%23hashtag") {
+                    let (type, data) = ElloURI.match("https://ello.co/search?terms=%23hashtag")
+                    expect(type).to(equal(ElloURI.Search))
+                    expect(data).to(equal("#hashtag"))
                 }
                 
             }
@@ -537,15 +543,20 @@ class ElloURISpec: QuickSpec {
                 it("matches with http://ello-staging.herokuapp.com/search") {
                     let (type, data) = ElloURI.match("http://ello-staging.herokuapp.com/search")
                     expect(type).to(equal(ElloURI.Search))
-                    expect(data).to(equal("http://ello-staging.herokuapp.com/search"))
+                    expect(data).to(equal(""))
                 }
 
                 it("matches with https://ello-staging5.herokuapp.com/search") {
                     let (type, data) = ElloURI.match("https://ello-staging5.herokuapp.com/search")
                     expect(type).to(equal(ElloURI.Search))
-                    expect(data).to(equal("https://ello-staging5.herokuapp.com/search"))
+                    expect(data).to(equal(""))
                 }
 
+                it("matches with https://ello-staging.herokuapp.com/search?terms=%23hashtag") {
+                    let (type, data) = ElloURI.match("https://ello-staging.herokuapp.com/search?terms=%23hashtag")
+                    expect(type).to(equal(ElloURI.Search))
+                    expect(data).to(equal("#hashtag"))
+                }
             }
 
             describe("with Settings urls") {
