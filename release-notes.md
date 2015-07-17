@@ -1,3 +1,97 @@
+### Ello Build v1.0.0(2676) July 17, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #495 - Adds more cases to `ElloURI` for ello routes.
+* Fixes an issue with forgot-my-password and the redirect to /enter trying to load a profile page.
+
+[Fixes #99264418]
+
+------
+
+#### #494 - Removes unnecessary fix
+This code used to fix the "stretchy image", but it is not needed now that the scroll behavior is fixed.
+
+Plus it was causing a *new* bug, where the nav bar was showing/hiding incorrectly on the `ProfileViewController`.
+
+------
+
+#### #493 - Adds the 'tapping text opens post' feature to all controllers (that need it).
+Took the code out of NotificationVC and made it generic, based on the `StreamKind`.
+
+It made the most sense to use an existing delegate, `UserDelegate`, but I later realized that it was supposed to be only for opening the avatar.  Rather than refactor, I just made the method names clearer.
+
+------
+
+#### #492 - Fixes the 'Optional(\"' mayhem that rynbyjn found
+
+------
+
+#### #491 - Adds 'default tapped' behavior to notification cells
+First, when tapping an 'ElloTextView', if there is no 'ElloLink' data associated with the NSAttributedString, a 'defaultTapped' event is emitted.
+
+Next, on all UIWebViews, there is now a 'default://default' url that is sent if the *body* of the html is tapped, not a link.
+
+------
+
+#### #490 - Updates dependencies.
+As of today the version of the Fabric cocoa pod we were using was deprecated in favor of using the official twitter version. Other easy updates:
+
+* Alamofire
+* Analytics
+* CocoaLumberjack
+* Crashlytics
+* Fabric
+* Result
+* SDWebImage
+* SSPullToRefresh
+
+[Finishes #99150694]
+
+------
+
+#### #488 - Shows "app out of date" alert if a 410 is returned from server.
+And logs out if necessary.
+
+------
+
+#### #486 - Always show onboarding
+The first time the user signs in or signs up, onboarding is shown.  When onboarding is complete, the `ViewedOnboardingVersion` is set to the current version (`1` ATM).
+
+All the logic for this has been moved into a tiny (tested) class, `Onboarding`.
+
+Also, I modified the specs so that the values of the tab bar hints and the onboarding version are restored after the specs run.
+
+------
+
+#### #489 - Brings back the notifications filter bar and improves showing/hiding the nav bar
+The NotificationsFilterBar was pretty much still intact, we just needed to bump it down 20px and add the black status bar background view.
+
+The show/hide nav bar thing was an unrelated fix (related to "pull to refresh"), but it makes scrolling way near the top way better!
+
+------
+
+#### #484 - Send marketing/build version on push subscriptions
+
+------
+
+#### #487 - Updates narration text for first time views
+These are quite a bit longer in some cases, so let me know if there is more to do here.
+
+------
+
+#### #485 - guard against multiple refreshes by using the token
+expose the 'initialPageLoadingToken' so that multiple refreshes can be ignored, except the last one
+
+```
+Test Suite 'Selected tests' passed at 2015-07-13 19:24:45 +0000.
+	 Executed 758 tests, with 0 failures (0 unexpected) in 31.156 (31.639) seconds
+```
+    
+------------
+
 ### Ello Build v1.0.0(2632) July 7, 2015
 
     RELEASE NOTES
