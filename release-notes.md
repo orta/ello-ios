@@ -1,3 +1,13 @@
+### Ello Build v1.0.0(2680) July 17, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #496 - Quick fix
+
+------------
+
 ### Ello Build v1.0.0(2676) July 17, 2015
 
     RELEASE NOTES
