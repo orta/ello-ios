@@ -100,8 +100,12 @@ public class ProfileViewController: StreamableViewController {
 
         if !coverWidthSet {
             coverWidthSet = true
-            coverImageHeight.constant = view.frame.width / ratio
-            coverImageHeightStart = coverImageHeight.constant
+            var height = view.frame.width / ratio
+            if navBarsVisible() {
+                height += 59.0
+            }
+            coverImageHeight.constant = max(height - streamViewController.collectionView.contentOffset.y, height)
+            coverImageHeightStart = height
         }
     }
 
