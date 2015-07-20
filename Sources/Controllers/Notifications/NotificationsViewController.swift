@@ -28,17 +28,21 @@ public class NotificationsViewController: StreamableViewController, Notification
 
     var navigationNotificationObserver: NotificationObserver?
 
+    required public override init(nibName: String?, bundle: NSBundle?) {
+        super.init(nibName: nibName, bundle: bundle)
+        navigationNotificationObserver = NotificationObserver(notification: NavigationNotifications.showingNotificationsTab, block: respondToNotification)
+    }
+
+    required public init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     deinit {
         navigationNotificationObserver?.removeObserver()
     }
 
     override public func viewDidLoad() {
         super.viewDidLoad()
-
-        navigationNotificationObserver = NotificationObserver(notification: NavigationNotifications.showingNotificationsTab) {
-            ElloHUD.showLoadingHudInView(self.streamViewController.view)
-            self.streamViewController.loadInitialPage()
-        }
 
         screen.delegate = self
         self.title = "Notifications"
@@ -105,6 +109,33 @@ public class NotificationsViewController: StreamableViewController, Notification
         else {
             postTapped(postId: comment.postId)
         }
+    }
+
+    public func respondToNotification(components: [String]) {
+        var popToRoot: Bool = true
+        if let path = components.safeValue(0) {
+            switch path {
+                case "posts":
+                    if let id = components.safeValue(1) {
+                        popToRoot = false
+                        postTapped(postId: id)
+                    }
+                case "users":
+                    if let id = components.safeValue(1) {
+                        popToRoot = false
+                        userParamTapped(id)
+                    }
+                default:
+                    break
+            }
+        }
+
+        if popToRoot {
+            navigationController?.popToRootViewControllerAnimated(true)
+        }
+
+        ElloHUD.showLoadingHudInView(streamViewController.view)
+        streamViewController.loadInitialPage()
     }
 
 }
