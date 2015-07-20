@@ -9,10 +9,12 @@
 public struct AutoCompleteItem {
     public let result: AutoCompleteResult
     public let type: AutoCompleteType
+    public let match: AutoCompleteMatch
 
-    public init(result: AutoCompleteResult, type: AutoCompleteType) {
+    public init(result: AutoCompleteResult, type: AutoCompleteType, match: AutoCompleteMatch) {
         self.result = result
         self.type = type
+        self.match = match
     }
 }
 

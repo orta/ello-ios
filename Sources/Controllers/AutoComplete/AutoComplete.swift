@@ -61,10 +61,11 @@ public struct AutoComplete {
                     type = .Username
                     matchFound = true
                 }
-                else if findEmoji(word) {
-                    type = .Emoji
-                    matchFound = true
-                }
+//                uncomment when we add emoji autocomplete endpoints
+//                else if findEmoji(word) {
+//                    type = .Emoji
+//                    matchFound = true
+//                }
             }
         }
 
@@ -101,8 +102,11 @@ private extension AutoComplete {
                 prevLetter = str[cursorIndex.predecessor()]
             }
             switch letter {
-            case " ":
+            case " ", "\n", "\r", "\t":
                 if i != index { startIndex = i + 1 }
+                else {
+                    startIndex = i - 1
+                }
             case ":":
                 if let prev = prevLetter {
                     if prevLetter == " " || prevLetter == ":" || prevLetter == nil {

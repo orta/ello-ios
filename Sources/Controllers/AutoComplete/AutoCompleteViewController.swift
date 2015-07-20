@@ -10,7 +10,7 @@ import UIKit
 import Crashlytics
 
 public protocol AutoCompleteDelegate: NSObjectProtocol {
-    func resultSelected(result: AutoCompleteResult)
+    func itemSelected(item: AutoCompleteItem)
 }
 
 public class AutoCompleteViewController: UIViewController {
@@ -61,17 +61,13 @@ public extension AutoCompleteViewController {
         service.loadResults(match.text,
             type: match.type,
             success: { (results, responseConfig) in
-                self.dataSource.items = results.map { AutoCompleteItem(result: $0, type: self.type) }
+                println("match = \(match.text)\n")
+                self.dataSource.items = results.map { AutoCompleteItem(result: $0, type: self.type, match: match) }
                 self.tableView.reloadData()
                 loaded(count: self.dataSource.items.count)
         }, failure: showAutoCompleteLoadFailure)
     }
     
-    func showResults(results: [AutoCompleteResult], responseConfig: ResponseConfig) {
-        dataSource.items = results.map { AutoCompleteItem(result: $0, type: self.type) }
-        tableView.reloadData()
-    }
-
     func showAutoCompleteLoadFailure(error: NSError, statusCode:Int?) {
         let message = NSLocalizedString("Something went wrong. Thank you for your patience with Ello Beta!", comment: "Initial stream load failure")
         let alertController = AlertViewController(message: message)
@@ -88,7 +84,7 @@ public extension AutoCompleteViewController {
 extension AutoCompleteViewController: UITableViewDelegate {
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if let item = dataSource.itemForIndexPath(indexPath) {
-            delegate?.resultSelected(item.result)
+            delegate?.itemSelected(item)
         }
     }
 }

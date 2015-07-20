@@ -172,7 +172,6 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol {
     let textContainer = UIView()
     public let textView = UITextView()
     var autoCompleteContainer: UIView
-    var autoCompleteShowing = false
     var autoCompleteThrottle: ThrottledBlock
     private var currentText : NSAttributedString?
     private var currentImage : UIImage?
@@ -199,7 +198,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol {
         autoCompleteVC.delegate = self
         autoCompleteContainer.addSubview(autoCompleteVC.view)
         textView.autocorrectionType = .Yes
-//        textView.inputAccessoryView = autoCompleteContainer
+        textView.inputAccessoryView = autoCompleteContainer
     }
 
     required public init(coder aDecoder: NSCoder) {
@@ -630,24 +629,15 @@ extension OmnibarScreen: UITextViewDelegate {
         return true
     }
 
-    public func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText: String) -> Bool {
-
-        let newText = NSString(string: textView.text).stringByReplacingCharactersInRange(range, withString: replacementText)
-        println("newText = \(newText)")
-        currentText = ElloAttributedString.style(newText)
-
-        updatePostState()
-
+    private func throttleAutoComplete(range: NSRange) {
         self.autoCompleteThrottle { [unowned self] in
             let autoComplete = AutoComplete()
-            if let match = autoComplete.check(newText, location: range.location) {
-                // if needed show autocompleteviewcontroller
-                // if already shown, load new results into already showing vc
-
+            // deleting characters yields a range.length > 0, go back 1 character for deletes
+            let location = range.length > 0 && range.location > 0 ? range.location - 1 : range.location
+            if let match = autoComplete.check(self.textView.text, location: location) {
                 self.autoCompleteVC.load(match) { count in
-                    println("count = \(count)")
-                    if count > 0 && !self.autoCompleteShowing {
-                        self.showAutoComplete()
+                    if count > 0 {
+                        self.showAutoComplete(count)
                     }
                     else if count == 0 {
                         self.hideAutoComplete()
@@ -658,30 +648,51 @@ extension OmnibarScreen: UITextViewDelegate {
             }
 
         }
+    }
+
+    public func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText: String) -> Bool {
+
+        let newText = NSString(string: textView.text).stringByReplacingCharactersInRange(range, withString: replacementText)
+        currentText = ElloAttributedString.style(newText)
+
+        updatePostState()
+        throttleAutoComplete(range)
         return true
     }
 
     private func hideAutoComplete() {
-        self.textView.autocorrectionType = .Yes
-        self.textView.inputAccessoryView = nil
-        self.textView.resignFirstResponder()
-        self.textView.becomeFirstResponder()
+        textView.autocorrectionType = .Yes
+        textView.inputAccessoryView = nil
+        textView.resignFirstResponder()
+        textView.becomeFirstResponder()
     }
 
-    private func showAutoComplete() {
-        self.textView.autocorrectionType = .No
-        self.textView.resignFirstResponder()
-        self.autoCompleteContainer.frame.size.height = 150
-        self.textView.inputAccessoryView = self.autoCompleteContainer
-        self.autoCompleteVC.view.frame = self.autoCompleteContainer.frame
-        self.textView.becomeFirstResponder()
+    private func showAutoComplete(count: Int) {
+        textView.inputAccessoryView = autoCompleteContainer
+        textView.autocorrectionType = .No
+        textView.resignFirstResponder()
+        textView.becomeFirstResponder()
+        let height: CGFloat = count > 3 ? AutoCompleteCell.cellHeight() * 3 : AutoCompleteCell.cellHeight() * CGFloat(count)
+        println("count = \(count), height = \(height)")
+        if let constraint = textView.inputAccessoryView?.constraints().first as? NSLayoutConstraint {
+            constraint.constant = height
+        }
+        autoCompleteContainer.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: height)
+        autoCompleteVC.view.frame = autoCompleteContainer.frame
     }
 }
 
 
 extension OmnibarScreen: AutoCompleteDelegate {
-    public func resultSelected(result: AutoCompleteResult) {
-
+    public func itemSelected(item: AutoCompleteItem) {
+        if let name = item.result.name {
+            let prefix = item.type == .Username ? "@" : ":"
+            let newText = textView.text.stringByReplacingCharactersInRange(item.match.range, withString: prefix + name + " ")
+            currentText = ElloAttributedString.style(newText)
+            textView.attributedText = currentText
+            updatePostState()
+            hideAutoComplete()
+        }
     }
 }
 

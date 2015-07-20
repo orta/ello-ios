@@ -43,7 +43,7 @@ class AutoCompleteSpec: QuickSpec {
                 }
 
                 context("emoji") {
-                    it("returns the correct character range and string") {
+                    xit("returns the correct character range and string") {
                         let str = "start :emoji"
                         let result = subject.check(str, location: 9)
 
@@ -54,7 +54,7 @@ class AutoCompleteSpec: QuickSpec {
                 }
 
                 context("double emoji") {
-                    it("returns the 2nd emoji word part") {
+                    xit("returns the 2nd emoji word part") {
                         let str = "some long sentance :start::thumbsup"
                         let result = subject.check(str, location: 29)
 
@@ -66,12 +66,21 @@ class AutoCompleteSpec: QuickSpec {
 
                 context("location at the end of the string") {
                     it("returns the correct character range and string") {
-                        let str = ":hi"
+                        let str = "@hi"
                         let result = subject.check(str, location: 2)
 
-                        expect(result?.type) == AutoCompleteType.Emoji
+                        expect(result?.type) == AutoCompleteType.Username
                         expect(result?.range) == str.startIndex..<advance(str.startIndex, 3)
-                        expect(result?.text) == ":hi"
+                        expect(result?.text) == "@hi"
+                    }
+                }
+
+                context("whitespace after a match") {
+                    it("returns nil") {
+                        let str = "@username "
+                        let result = subject.check(str, location: 9)
+
+                        expect(result).to(beNil())
                     }
                 }
 

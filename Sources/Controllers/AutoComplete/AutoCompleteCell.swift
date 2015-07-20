@@ -20,5 +20,9 @@ public extension AutoCompleteCell {
     class func reuseIdentifier() -> String {
         return "AutoCompleteCell"
     }
+
+    class func cellHeight() -> CGFloat {
+        return 49
+    }
 }
 
