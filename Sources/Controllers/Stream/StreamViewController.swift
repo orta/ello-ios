@@ -12,18 +12,13 @@ import SSPullToRefresh
 import FLAnimatedImage
 import Crashlytics
 
+// MARK: Delegate Implementations
 public protocol InviteDelegate: NSObjectProtocol {
     func sendInvite(person: LocalPerson, didUpdate: ElloEmptyCompletion)
 }
 
-public protocol WebLinkDelegate: NSObjectProtocol {
-    func webLinkTapped(type: ElloURI, data: String)
-}
-
-public protocol UserDelegate: NSObjectProtocol {
-    func userTappedAvatar(cell: UICollectionViewCell)
-    func userTappedText(cell: UICollectionViewCell)
-    func userTappedParam(param: String)
+public protocol SimpleStreamDelegate: NSObjectProtocol {
+    func showSimpleStream(endpoint: ElloAPI, title: String, noResultsMessages: (title: String, body: String)?)
 }
 
 public protocol StreamImageCellDelegate : NSObjectProtocol {
@@ -37,13 +32,23 @@ public protocol StreamScrollDelegate: NSObjectProtocol {
     optional func streamViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool)
 }
 
+public protocol UserDelegate: NSObjectProtocol {
+    func userTappedAvatar(cell: UICollectionViewCell)
+    func userTappedText(cell: UICollectionViewCell)
+    func userTappedParam(param: String)
+}
 
+public protocol WebLinkDelegate: NSObjectProtocol {
+    func webLinkTapped(type: ElloURI, data: String)
+}
+
+// MARK: StreamNotification
 public struct StreamNotification {
     static let AnimateCellHeightNotification = TypedNotification<StreamImageCell>(name: "AnimateCellHeightNotification")
     static let UpdateCellHeightNotification = TypedNotification<UICollectionViewCell>(name: "UpdateCellHeightNotification")
 }
 
-
+// MARK: StreamViewController
 public class StreamViewController: BaseElloViewController {
 
     @IBOutlet weak public var collectionView: UICollectionView!
@@ -82,7 +87,6 @@ public class StreamViewController: BaseElloViewController {
     public var dataSource:StreamDataSource!
     public var postbarController:PostbarController?
     var relationshipController: RelationshipController?
-    var userListPresentationController: UserListPresentationController?
     public var responseConfig: ResponseConfig?
     public let streamService = StreamService()
     public var pullToRefreshView: SSPullToRefreshView?
@@ -150,10 +154,6 @@ public class StreamViewController: BaseElloViewController {
 
     override public func didSetCurrentUser() {
         dataSource.currentUser = currentUser
-
-        if let userListPresentationController = userListPresentationController {
-            userListPresentationController.currentUser = currentUser
-        }
 
         if let postbarController = postbarController {
             postbarController.currentUser = currentUser
@@ -291,7 +291,7 @@ public class StreamViewController: BaseElloViewController {
                     self.clearForInitialLoad()
                     self.responseConfig = responseConfig
                     // this calls doneLoading when cells are added
-                    self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind, currentUser: self.currentUser), withWidth: nil)
+                    self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind), withWidth: nil)
                 }, failure: { (error, statusCode) in
                     println("failed to load \(self.streamKind.name) stream (reason: \(error))")
                     self.initialLoadFailure()
@@ -522,15 +522,136 @@ public class StreamViewController: BaseElloViewController {
         relationshipController = RelationshipController(presentingController: self)
         dataSource.relationshipDelegate = relationshipController
 
-        userListPresentationController = UserListPresentationController(presentingController: self)
-        userListPresentationController!.currentUser = currentUser
-        dataSource.userListDelegate = userListPresentationController
-
+        // set delegates
         dataSource.imageDelegate = self
-        dataSource.webLinkDelegate = self
-        dataSource.userDelegate = self
         dataSource.inviteDelegate = self
+        dataSource.simpleStreamDelegate = self
+        dataSource.userDelegate = self
+        dataSource.webLinkDelegate = self
+        
         collectionView.dataSource = dataSource
+    }
+
+}
+
+// MARK: DELEGATE EXTENSIONS
+// MARK: StreamViewController: InviteDelegate
+extension StreamViewController: InviteDelegate {
+
+    public func sendInvite(person: LocalPerson, didUpdate: ElloEmptyCompletion) {
+        if let email = person.emails.first {
+            Tracker.sharedTracker.friendInvited()
+            ElloHUD.showLoadingHudInView(view)
+            InviteService().invite(email,
+                success: {
+                    ElloHUD.hideLoadingHudInView(self.view)
+                    didUpdate()
+                },
+                failure: { _ in
+                    ElloHUD.hideLoadingHudInView(self.view)
+                    didUpdate()
+                }
+            )
+        }
+    }
+}
+
+// MARK: StreamViewController: SimpleStreamDelegate
+extension StreamViewController: SimpleStreamDelegate {
+    public func showSimpleStream(endpoint: ElloAPI, title: String, noResultsMessages: (title: String, body: String)? = nil ) {
+        var vc = SimpleStreamViewController(endpoint: endpoint, title: title)
+        vc.currentUser = currentUser
+        if let messages = noResultsMessages {
+            vc.streamViewController.noResultsMessages = messages
+        }
+        navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+// MARK: StreamViewController: SSPullToRefreshViewDelegate
+extension StreamViewController: SSPullToRefreshViewDelegate {
+    public func pullToRefreshViewShouldStartLoading(view: SSPullToRefreshView!) -> Bool {
+        return pullToRefreshEnabled
+    }
+
+    public func pullToRefreshViewDidStartLoading(view: SSPullToRefreshView!) {
+        if pullToRefreshEnabled {
+            self.loadInitialPage()
+        }
+        else {
+            pullToRefreshView?.finishLoading()
+        }
+    }
+}
+
+// MARK: StreamViewController : StreamCollectionViewLayoutDelegate
+extension StreamViewController : StreamCollectionViewLayoutDelegate {
+
+    public func collectionView(collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+            return CGSizeMake(UIScreen.screenWidth(), dataSource.heightForIndexPath(indexPath, numberOfColumns:1))
+    }
+
+    public func collectionView(collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
+        groupForItemAtIndexPath indexPath: NSIndexPath) -> String {
+            return dataSource.groupForIndexPath(indexPath)
+    }
+
+    public func collectionView(collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
+        heightForItemAtIndexPath indexPath: NSIndexPath, numberOfColumns: NSInteger) -> CGFloat {
+            return dataSource.heightForIndexPath(indexPath, numberOfColumns:numberOfColumns)
+    }
+
+    public func collectionView (collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+        isFullWidthAtIndexPath indexPath: NSIndexPath) -> Bool {
+            return dataSource.isFullWidthAtIndexPath(indexPath)
+    }
+}
+
+// MARK: StreamViewController: StreamImageCellDelegate
+extension StreamViewController: StreamImageCellDelegate {
+
+    public func imageTapped(imageView: FLAnimatedImageView, cell: StreamImageCell) {
+        let indexPath = collectionView.indexPathForCell(cell)
+        let post = indexPath.flatMap(dataSource.postForIndexPath)
+        let imageAsset = indexPath.flatMap(dataSource.imageAssetForIndexPath)
+
+        if streamKind.isGridLayout || cell.isGif {
+            if let post = post {
+                postTappedDelegate?.postTapped(post)
+            }
+        }
+        else if let imageViewer = imageViewer {
+            imageViewer.imageTapped(imageView, imageURL: cell.presentedImageUrl)
+            if let post = post,
+                    asset = imageAsset {
+                Tracker.sharedTracker.viewedImage(asset, post: post)
+            }
+        }
+    }
+}
+
+// MARK: StreamViewController : UserDelegate
+extension StreamViewController : UserDelegate {
+
+    public func userTappedText(cell: UICollectionViewCell) {
+        if streamKind.tappingTextOpensDetail {
+            if let indexPath = collectionView.indexPathForCell(cell) {
+                collectionView(collectionView, didSelectItemAtIndexPath: indexPath)
+            }
+        }
+    }
+
+    public func userTappedAvatar(cell: UICollectionViewCell) {
+        if let indexPath = collectionView.indexPathForCell(cell) {
+            if let user = dataSource.userForIndexPath(indexPath) {
+                userTappedDelegate?.userTapped(user)
+            }
+        }
+    }
+
+    public func userTappedParam(param: String) {
+        userTappedDelegate?.userParamTapped(param)
     }
 
 }
@@ -558,7 +679,7 @@ extension StreamViewController : WebLinkDelegate {
         if alreadyOnUserProfile(param) { return }
         let vc = ProfileViewController(userParam: param)
         vc.currentUser = currentUser
-        self.navigationController?.pushViewController(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     private func showPostDetail(token: String) {
@@ -566,7 +687,7 @@ extension StreamViewController : WebLinkDelegate {
         if alreadyOnPostDetail(param) { return }
         let vc = PostDetailViewController(postParam: param)
         vc.currentUser = currentUser
-        self.navigationController?.pushViewController(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     private func showSearch(terms: String) {
@@ -574,7 +695,7 @@ extension StreamViewController : WebLinkDelegate {
             selectTab(.Discovery)
         }
         else {
-
+            showSimpleStream(.SearchForPosts(terms: terms), title: "#\(terms)", noResultsMessages: nil)
         }
     }
 
@@ -588,31 +709,6 @@ extension StreamViewController : WebLinkDelegate {
     private func selectTab(tab: ElloTab) {
         elloTabBarController?.selectedTab = tab
     }
-}
-
-// MARK: StreamViewController : UserDelegate
-extension StreamViewController : UserDelegate {
-
-    public func userTappedText(cell: UICollectionViewCell) {
-        if streamKind.tappingTextOpensDetail {
-            if let indexPath = collectionView.indexPathForCell(cell) {
-                collectionView(collectionView, didSelectItemAtIndexPath: indexPath)
-            }
-        }
-    }
-
-    public func userTappedAvatar(cell: UICollectionViewCell) {
-        if let indexPath = collectionView.indexPathForCell(cell) {
-            if let user = dataSource.userForIndexPath(indexPath) {
-                userTappedDelegate?.userTapped(user)
-            }
-        }
-    }
-
-    public func userTappedParam(param: String) {
-        userTappedDelegate?.userParamTapped(param)
-    }
-
 }
 
 // MARK: StreamViewController : UICollectionViewDelegate
@@ -666,30 +762,6 @@ extension StreamViewController : UICollectionViewDelegate {
                 return cellItemType.selectable
             }
             return false
-    }
-}
-
-// MARK: StreamViewController : StreamCollectionViewLayoutDelegate
-extension StreamViewController : StreamCollectionViewLayoutDelegate {
-
-    public func collectionView(collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-            return CGSizeMake(UIScreen.screenWidth(), dataSource.heightForIndexPath(indexPath, numberOfColumns:1))
-    }
-
-    public func collectionView(collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
-        groupForItemAtIndexPath indexPath: NSIndexPath) -> String {
-            return dataSource.groupForIndexPath(indexPath)
-    }
-
-    public func collectionView(collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
-        heightForItemAtIndexPath indexPath: NSIndexPath, numberOfColumns: NSInteger) -> CGFloat {
-            return dataSource.heightForIndexPath(indexPath, numberOfColumns:numberOfColumns)
-    }
-
-    public func collectionView (collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-        isFullWidthAtIndexPath indexPath: NSIndexPath) -> Bool {
-            return dataSource.isFullWidthAtIndexPath(indexPath)
     }
 }
 
@@ -759,7 +831,7 @@ extension StreamViewController : UIScrollViewDelegate {
     private func scrollLoaded(jsonables: [JSONAble] = []) {
         if let lastIndexPath = collectionView.lastIndexPathForSection(0) {
             if jsonables.count > 0 {
-                insertUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: streamKind, currentUser: self.currentUser), startingIndexPath: lastIndexPath) {
+                insertUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: streamKind), startingIndexPath: lastIndexPath) {
                     self.removeLoadingCell()
                     self.doneLoading()
                 }
@@ -781,62 +853,3 @@ extension StreamViewController : UIScrollViewDelegate {
     }
 }
 
-// MARK: StreamViewController: SSPullToRefreshViewDelegate
-extension StreamViewController: SSPullToRefreshViewDelegate {
-    public func pullToRefreshViewShouldStartLoading(view: SSPullToRefreshView!) -> Bool {
-        return pullToRefreshEnabled
-    }
-
-    public func pullToRefreshViewDidStartLoading(view: SSPullToRefreshView!) {
-        if pullToRefreshEnabled {
-            self.loadInitialPage()
-        }
-        else {
-            pullToRefreshView?.finishLoading()
-        }
-    }
-}
-
-// MARK: StreamViewController: StreamImageCellDelegate
-extension StreamViewController: StreamImageCellDelegate {
-
-    public func imageTapped(imageView: FLAnimatedImageView, cell: StreamImageCell) {
-        let indexPath = collectionView.indexPathForCell(cell)
-        let post = indexPath.flatMap(dataSource.postForIndexPath)
-        let imageAsset = indexPath.flatMap(dataSource.imageAssetForIndexPath)
-
-        if streamKind.isGridLayout || cell.isGif {
-            if let post = post {
-                postTappedDelegate?.postTapped(post)
-            }
-        }
-        else if let imageViewer = imageViewer {
-            imageViewer.imageTapped(imageView, imageURL: cell.presentedImageUrl)
-            if let post = post,
-                    asset = imageAsset {
-                Tracker.sharedTracker.viewedImage(asset, post: post)
-            }
-        }
-    }
-}
-
-// MARK: StreamViewController: InviteDelegate
-extension StreamViewController: InviteDelegate {
-
-    public func sendInvite(person: LocalPerson, didUpdate: ElloEmptyCompletion) {
-        if let email = person.emails.first {
-            Tracker.sharedTracker.friendInvited()
-            ElloHUD.showLoadingHudInView(view)
-            InviteService().invite(email,
-                success: {
-                    ElloHUD.hideLoadingHudInView(self.view)
-                    didUpdate()
-                },
-                failure: { _ in
-                    ElloHUD.hideLoadingHudInView(self.view)
-                    didUpdate()
-                }
-            )
-        }
-    }
-}

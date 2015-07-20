@@ -1,5 +1,5 @@
 //
-//  UserListViewControllerSpec.swift
+//  SimpleStreamViewControllerSpec.swift
 //  Ello
 //
 //  Created by Ryan Boyajian on 3/5/15.
@@ -12,11 +12,10 @@ import Quick
 import Nimble
 
 
-class UserListViewControllerSpec: QuickSpec {
+class SimpleStreamViewControllerSpec: QuickSpec {
     override func spec() {
 
-        var subject = UserListViewController(endpoint: ElloAPI.UserStreamFollowers(userId: "666"), title: "Followers")
-        // let userListPresentationController = UserListPresentationController(presentingController: UIViewController())
+        var subject = SimpleStreamViewController(endpoint: ElloAPI.UserStreamFollowers(userId: "666"), title: "Followers")
 
         describe("initialization") {
 
@@ -32,8 +31,8 @@ class UserListViewControllerSpec: QuickSpec {
                 expect(subject).to(beAKindOf(StreamableViewController.self))
             }
 
-            it("is a UserListViewController") {
-                expect(subject).to(beAKindOf(UserListViewController.self))
+            it("is a SimpleStreamViewController") {
+                expect(subject).to(beAKindOf(SimpleStreamViewController.self))
             }
 
             it("sets the title") {

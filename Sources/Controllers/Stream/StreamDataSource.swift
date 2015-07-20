@@ -46,7 +46,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     weak public var imageDelegate:StreamImageCellDelegate?
     weak public var userDelegate:UserDelegate?
     weak public var relationshipDelegate: RelationshipDelegate?
-    weak public var userListDelegate: UserListDelegate?
+    weak public var simpleStreamDelegate: SimpleStreamDelegate?
     weak public var inviteDelegate: InviteDelegate?
     public let inviteCache = InviteCache()
 
@@ -252,7 +252,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                 (cell as! NotificationCell).delegate = notificationDelegate
             case .ProfileHeader:
                 (cell as! ProfileHeaderCell).relationshipControl.relationshipDelegate = relationshipDelegate
-                (cell as! ProfileHeaderCell).userListDelegate = userListDelegate
+                (cell as! ProfileHeaderCell).simpleStreamDelegate = simpleStreamDelegate
                 (cell as! ProfileHeaderCell).webLinkDelegate = webLinkDelegate
             case .RepostHeader:
                 (cell as! StreamRepostHeaderCell).userDelegate = userDelegate
@@ -260,8 +260,8 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                 (cell as! StreamTextCell).webLinkDelegate = webLinkDelegate
                 (cell as! StreamTextCell).userDelegate = userDelegate
             case .UserAvatars:
+                (cell as! UserAvatarsCell).simpleStreamDelegate = simpleStreamDelegate
                 (cell as! UserAvatarsCell).userDelegate = userDelegate
-                (cell as! UserAvatarsCell).userListDelegate = userListDelegate
             case .UserListItem:
                 (cell as! UserListItemCell).relationshipControl.relationshipDelegate = relationshipDelegate
                 (cell as! UserListItemCell).userDelegate = userDelegate
@@ -317,14 +317,18 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
             // else if love, add post to loves
             else if let love = jsonable as? Love {
                 switch streamKind {
-                case .Loves: indexPath = NSIndexPath(forItem: 0, inSection: 0)
+                case let .SimpleStream(endpoint, _):
+                    switch endpoint {
+                    case .Loves: indexPath = NSIndexPath(forItem: 0, inSection: 0)
+                    default: break
+                    }
                 default: break
                 }
             }
 
             if let indexPath = indexPath {
                 self.insertUnsizedCellItems(
-                    StreamCellItemParser().parse([jsonable], streamKind: self.streamKind, currentUser: currentUser),
+                    StreamCellItemParser().parse([jsonable], streamKind: self.streamKind),
                     withWidth: UIScreen.screenWidth(),
                     startingIndexPath: indexPath)
                     { newIndexPaths in
@@ -338,11 +342,15 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         case .Update:
             var shouldReload = true
             switch streamKind {
-            case .Loves:
-                if let post = jsonable as? Post where !post.loved {
-                    // the post was unloved
-                    collectionView.deleteItemsAtIndexPaths(removeItemsForJSONAble(jsonable, change: .Delete))
-                    shouldReload = false
+            case let .SimpleStream(endpoint, _):
+                switch endpoint {
+                case .Loves:
+                    if let post = jsonable as? Post where !post.loved {
+                        // the post was unloved
+                        collectionView.deleteItemsAtIndexPaths(removeItemsForJSONAble(jsonable, change: .Delete))
+                        shouldReload = false
+                    }
+                default: break
                 }
             default: break
             }

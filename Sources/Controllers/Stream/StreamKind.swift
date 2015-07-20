@@ -9,29 +9,27 @@
 import Foundation
 
 public enum StreamKind {
+    case Discover(type: DiscoverType, perPage: Int)
     case Friend
     case Noise
-    case Discover(type: DiscoverType, perPage: Int)
-    case Loves(userId: String)
+    case Notifications(category: String?)
     case PostDetail(postParam: String)
     case Profile(perPage: Int)
-    case UserStream(userParam: String)
-    case Notifications(category: String?)
-    case UserList(endpoint: ElloAPI, title: String)
+    case SimpleStream(endpoint: ElloAPI, title: String)
     case Unknown
+    case UserStream(userParam: String)
 
     public var name:String {
         switch self {
+        case .Discover: return "Discover"
         case .Friend: return "Friends"
         case .Noise: return "Noise"
         case .Notifications: return "Notifications"
-        case .Discover: return "Discover"
-        case .Loves: return "Loves"
         case .PostDetail: return "Post Detail"
         case .Profile: return "Profile"
-        case .UserStream: return "User Stream"
-        case let .UserList(_, title): return title
+        case let .SimpleStream(_, title): return title
         case .Unknown: return "unknown"
+        case .UserStream: return "User Stream"
         }
     }
 
@@ -53,16 +51,15 @@ public enum StreamKind {
 
     public var endpoint: ElloAPI {
         switch self {
+        case let .Discover(type, perPage): return ElloAPI.Discover(type: type, perPage: perPage)
         case .Friend: return .FriendStream
         case .Noise: return .NoiseStream
-        case let .Discover(type, perPage): return ElloAPI.Discover(type: type, perPage: perPage)
-        case let .Loves(userId): return .Loves(userId: userId)
         case let .Notifications(category): return .NotificationsStream(category: category)
         case let .PostDetail(postParam): return .PostDetail(postParam: postParam)
         case let .Profile(perPage): return .Profile(perPage: perPage)
-        case let .UserStream(userParam): return .UserStream(userParam: userParam)
-        case let .UserList(endpoint, title): return endpoint
+        case let .SimpleStream(endpoint, _): return endpoint
         case .Unknown: return .NotificationsStream(category: nil) // doesn't really get used
+        case let .UserStream(userParam): return .UserStream(userParam: userParam)
         }
     }
 
@@ -74,15 +71,15 @@ public enum StreamKind {
         }
     }
 
-    public func filter(jsonables: [JSONAble], viewsAdultContent: Bool) -> [JSONAble] {
+    public func filter(jsonables: [JSONAble]) -> [JSONAble] {
         switch self {
-        case .UserList:
-            switch self.endpoint {
-            case .SearchForUsers:
-                if let users = jsonables as? [User] {
-                    return users.reduce([]) { accum, user in
-                        if !user.postsAdultContent {
-                            return accum + [user]
+        case let .SimpleStream(endpoint, _):
+            switch endpoint {
+            case .Loves:
+                if let loves = jsonables as? [Love] {
+                    return loves.reduce([]) { accum, love in
+                        if let post = love.post {
+                            return accum + [post]
                         }
                         return accum
                     }
@@ -96,19 +93,7 @@ public enum StreamKind {
         case .Discover:
             if let users = jsonables as? [User] {
                 return users.reduce([]) { accum, user in
-                    if let post = user.mostRecentPost where !post.isAdultContent {
-                        return accum + [post]
-                    }
-                    return accum
-                }
-            }
-            else {
-                return []
-            }
-        case .Loves:
-            if let loves = jsonables as? [Love] {
-                return loves.reduce([]) { accum, love in
-                    if let post = love.post where !post.isAdultContent || viewsAdultContent {
+                    if let post = user.mostRecentPost {
                         return accum + [post]
                     }
                     return accum
@@ -128,7 +113,7 @@ public enum StreamKind {
         default:
             if let activities = jsonables as? [Activity] {
                 return activities.reduce([]) { accum, activity in
-                    if let post = activity.subject as? Post where !post.isAdultContent || viewsAdultContent {
+                    if let post = activity.subject as? Post {
                         return accum + [post]
                     }
                     return accum
@@ -138,12 +123,7 @@ public enum StreamKind {
                 return comments
             }
             else if let posts = jsonables as? [Post] {
-                return posts.reduce([]) { accum, post in
-                    if !post.isAdultContent || viewsAdultContent {
-                        return accum + [post]
-                    }
-                    return accum
-                }
+                return posts
             }
         }
         return []

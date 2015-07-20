@@ -61,8 +61,8 @@ extension SearchViewController: SearchScreenDelegate {
         if userSearchText == text { return }  // a search is already in progress for this text
         userSearchText = text
 
-        let endpoint = ElloAPI.SearchForUsers(terms: text)
-        streamViewController.streamKind = .UserList(endpoint: endpoint, title: "")
+        let endpoint = text.hasPrefix("#") ? ElloAPI.SearchForPosts(terms: text) : ElloAPI.SearchForUsers(terms: text)
+        streamViewController.streamKind = .SimpleStream(endpoint: endpoint, title: "")
         streamViewController.removeAllCellItems()
         ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.loadInitialPage()

@@ -231,7 +231,7 @@ public class ProfileViewController: StreamableViewController {
         }
         var items: [StreamCellItem] = [StreamCellItem(jsonable: user, type: StreamCellType.ProfileHeader, data: nil, oneColumnCellHeight: 0.0, multiColumnCellHeight: 0.0, isFullWidth: true)]
         if let posts = user.posts {
-            items += StreamCellItemParser().parse(posts, streamKind: streamViewController.streamKind, currentUser: currentUser)
+            items += StreamCellItemParser().parse(posts, streamKind: streamViewController.streamKind)
         }
         updateNoPostsView(count(items) < 2)
         // this calls doneLoading when cells are added
@@ -316,17 +316,6 @@ extension ProfileViewController: EditProfileResponder {
             settings.currentUser = currentUser
             settings.navBarsVisible = scrollLogic.isShowing
             navigationController?.pushViewController(settings, animated: true)
-        }
-    }
-}
-
-// MARK: ProfileViewController: ViewUsersLovesResponder
-extension ProfileViewController: ViewUsersLovesResponder {
-    public func onViewUsersLoves() {
-        if let user = self.user {
-            let vc = LovesViewController(user: user)
-            vc.currentUser = self.currentUser
-            navigationController?.pushViewController(vc, animated: true)
         }
     }
 }

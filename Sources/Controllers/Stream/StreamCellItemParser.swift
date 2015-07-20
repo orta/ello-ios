@@ -12,9 +12,8 @@ public struct StreamCellItemParser {
 
     public init(){}
 
-    public func parse(items: [JSONAble], streamKind: StreamKind, currentUser: User? = nil) -> [StreamCellItem] {
-        let viewsAdultContent = currentUser?.viewsAdultContent ?? false
-        var filteredItems = streamKind.filter(items, viewsAdultContent: viewsAdultContent)
+    public func parse(items: [JSONAble], streamKind: StreamKind) -> [StreamCellItem] {
+        var filteredItems = streamKind.filter(items)
         if let posts = filteredItems as? [Post] {
             return postCellItems(posts, streamKind: streamKind)
         }
@@ -157,3 +156,4 @@ public extension StreamCellItemParser {
         return footerStreamCellItems(post)
     }
 }
+

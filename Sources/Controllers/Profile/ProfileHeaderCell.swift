@@ -15,11 +15,6 @@ public protocol EditProfileResponder {
 }
 
 @objc
-public protocol ViewUsersLovesResponder {
-    func onViewUsersLoves()
-}
-
-@objc
 public protocol PostsTappedResponder {
     func onPostsTapped()
 }
@@ -42,7 +37,7 @@ public class ProfileHeaderCell: UICollectionViewCell {
     @IBOutlet weak var nsfwLabel: ElloLabel!
     @IBOutlet weak var usernameRightConstraint: NSLayoutConstraint!
     weak var webLinkDelegate: WebLinkDelegate?
-    weak var userListDelegate: UserListDelegate?
+    weak var simpleStreamDelegate: SimpleStreamDelegate?
     var user: User?
     var currentUser: User?
 
@@ -100,11 +95,6 @@ public class ProfileHeaderCell: UICollectionViewCell {
         responder?.onInviteFriends()
     }
 
-    @IBAction func lovesTapped(sender: UIButton) {
-        let responder = targetForAction("onViewUsersLoves", withSender: self) as? ViewUsersLovesResponder
-        responder?.onViewUsersLoves()
-    }
-
     @IBAction func followingTapped(sender: UIButton) {
         if let user = user {
             let noResultsTitle: String
@@ -117,7 +107,7 @@ public class ProfileHeaderCell: UICollectionViewCell {
                 noResultsTitle = "This person isn't following anyone yet!"
                 noResultsBody = "Follow, mention them, comment, repost or love one of their posts and maybe they'll follow you back ;)"
             }
-            userListDelegate?.show(.UserStreamFollowing(userId: user.id), title: NSLocalizedString("Following", comment: "Following title"), noResultsMessages: (title: noResultsTitle, body: noResultsBody))
+            simpleStreamDelegate?.showSimpleStream(.UserStreamFollowing(userId: user.id), title: NSLocalizedString("Following", comment: "Following title"), noResultsMessages: (title: noResultsTitle, body: noResultsBody))
         }
     }
 
@@ -133,7 +123,23 @@ public class ProfileHeaderCell: UICollectionViewCell {
                 noResultsTitle = "This person doesn't have any followers yet! "
                 noResultsBody = "Be the first to follow them and give them some love! Following interesting people makes Ello way more fun."
             }
-            userListDelegate?.show(.UserStreamFollowers(userId: user.id), title: NSLocalizedString("Followers", comment: "Followers title"), noResultsMessages: (title: noResultsTitle, body: noResultsBody))
+            simpleStreamDelegate?.showSimpleStream(.UserStreamFollowers(userId: user.id), title: NSLocalizedString("Followers", comment: "Followers title"), noResultsMessages: (title: noResultsTitle, body: noResultsBody))
+        }
+    }
+
+    @IBAction func lovesTapped(sender: UIButton) {
+        if let user = user {
+            let noResultsTitle: String
+            let noResultsBody: String
+            if user.id == currentUser?.id {
+                noResultsTitle = NSLocalizedString("You haven't Loved any posts yet!", comment: "No loves results title")
+                noResultsBody = NSLocalizedString("You can use Ello Loves as a way to bookmark the things you care about most. Go Love someone's post, and it will be added to this stream.", comment: "No loves results body.")
+            }
+            else {
+                noResultsTitle = NSLocalizedString("This person hasn’t Loved any posts yet!", comment: "No loves results title")
+                noResultsBody = NSLocalizedString("Ello Loves are a way to bookmark the things you care about most. When they love something the posts will appear here.", comment: "No loves results body.")
+            }
+            simpleStreamDelegate?.showSimpleStream(.Loves(userId: user.id), title: NSLocalizedString("Loves", comment: "love stream"), noResultsMessages: (title: noResultsTitle, body: noResultsBody))
         }
     }
 

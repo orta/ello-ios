@@ -29,7 +29,7 @@ public class UserAvatarsCell: UICollectionViewCell {
         }
     }
     weak var userDelegate: UserDelegate?
-    weak var userListDelegate: UserListDelegate?
+    weak var simpleStreamDelegate: SimpleStreamDelegate?
 
     override public func awakeFromNib() {
         super.awakeFromNib()
@@ -70,7 +70,7 @@ public class UserAvatarsCell: UICollectionViewCell {
 
     @IBAction func seeMoreTapped(sender: UIButton) {
         if let model = userAvatarCellModel, let endpoint = model.endpoint {
-            userListDelegate?.show(endpoint, title: model.seeMoreTitle, noResultsMessages: nil)
+            simpleStreamDelegate?.showSimpleStream(endpoint, title: model.seeMoreTitle, noResultsMessages: nil)
         }
     }
 
