@@ -11,7 +11,7 @@ public class DrawerCell: UITableViewCell {
     @IBOutlet weak public var line: UIView!
 }
 
-extension DrawerCell {
+public extension DrawerCell {
     class func nib() -> UINib {
         return UINib(nibName: "DrawerCell", bundle: .None)
     }
