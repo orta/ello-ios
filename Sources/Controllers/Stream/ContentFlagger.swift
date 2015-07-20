@@ -57,7 +57,7 @@ public class ContentFlagger {
         let option = AlertOption(rawValue: action.title)
         if let option = option {
 
-            var endPoint:ElloAPI
+            let endPoint:ElloAPI
             switch contentType {
             case .Post:
                 endPoint = ElloAPI.FlagPost(postId: flaggableId, kind: option.kind)

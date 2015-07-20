@@ -23,7 +23,6 @@ public struct PostService {
     {
         ElloProvider.elloRequest(
             ElloAPI.PostDetail(postParam: postParam),
-            method: .GET,
             success: { (data, responseConfig) in
                 if let post = data as? Post {
                     if let streamKind = streamKind {
@@ -45,7 +44,6 @@ public struct PostService {
         failure: ElloFailureCompletion?)
     {
         ElloProvider.elloRequest(ElloAPI.DeletePost(postId: postId),
-            method: .DELETE,
             success: { (_, _) in
                 success?()
             }, failure: failure
@@ -54,7 +52,6 @@ public struct PostService {
 
     public func deleteComment(postId: String, commentId: String, success: ElloEmptyCompletion?, failure: ElloFailureCompletion?) {
         ElloProvider.elloRequest(ElloAPI.DeleteComment(postId: postId, commentId: commentId),
-            method: .DELETE,
             success: { (_, _) in
                 success?()
             }, failure: failure

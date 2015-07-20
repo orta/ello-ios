@@ -79,7 +79,7 @@ class ElloProviderSpec: QuickSpec {
                             }
 
                             let endpoint: ElloAPI = .FriendStream
-                            ElloProvider.elloRequest(endpoint, method: Moya.Method.GET, success: { (data, responseConfig) in
+                            ElloProvider.elloRequest(endpoint, success: { (data, responseConfig) in
                                     loadedJSONAbles = data as? [JSONAble]
                                 }, failure: { (error, statusCode) in
                                     loadedError = error
@@ -130,7 +130,6 @@ class ElloProviderSpec: QuickSpec {
 
                             let endpoint: ElloAPI = .FriendStream
                             ElloProvider.elloRequest(endpoint,
-                                method: Moya.Method.GET,
                                 success: { (data, responseConfig) in
                                     loadedJSONAbles = data as? [JSONAble]
                                 },
@@ -206,7 +205,6 @@ class NetworkErrorSharedExamplesConfiguration: QuickConfiguration {
 
                 let endpoint: ElloAPI = .FriendStream
                 ElloProvider.elloRequest(endpoint,
-                    method: Moya.Method.GET,
                     success: { (data, responseConfig) in
                         loadedJSONAbles = data as? [JSONAble]
                     },

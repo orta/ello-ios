@@ -25,9 +25,9 @@ PODS:
   - KINWebBrowser (1.1.0)
   - LUKeychainAccess (1.2.4)
   - MBProgressHUD (0.9.1)
-  - Moya (0.6.1):
-    - Moya/Core (= 0.6.1)
-  - Moya/Core (0.6.1):
+  - Moya (1.1.1):
+    - Moya/Core (= 1.1.1)
+  - Moya/Core (1.1.1):
     - Alamofire (~> 1.2.0)
   - Nimble (0.4.2)
   - OHHTTPStubs (4.0.2)
@@ -65,7 +65,7 @@ DEPENDENCIES:
   - KINWebBrowser (from `https://github.com/ello/KINWebBrowser`)
   - LUKeychainAccess (~> 1.2.4)
   - MBProgressHUD (~> 0.9.0)
-  - Moya (from `https://github.com/ello/Moya`, branch `cg-hybrid`)
+  - Moya (from `https://github.com/ello/Moya`)
   - Nimble (~> 0.4.0)
   - OHHTTPStubs (~> 4.0)
   - Quick (~> 0.3.0)
@@ -91,7 +91,6 @@ EXTERNAL SOURCES:
   KINWebBrowser:
     :git: https://github.com/ello/KINWebBrowser
   Moya:
-    :branch: cg-hybrid
     :git: https://github.com/ello/Moya
   SVGKit:
     :git: https://github.com/SVGKit/SVGKit
@@ -112,7 +111,7 @@ CHECKOUT OPTIONS:
     :commit: 1f1714b96821b8e3be887d5d7dd217e5c0137ed3
     :git: https://github.com/ello/KINWebBrowser
   Moya:
-    :commit: 3199b781225ee5cdd59d6b70fd4c038a80f47f74
+    :commit: 993adfd69216f02da501f83fef1896e68bb80d98
     :git: https://github.com/ello/Moya
   SVGKit:
     :commit: aca37872b4088e00a5bfd1973bec87aa1315b31d
@@ -136,7 +135,7 @@ SPEC CHECKSUMS:
   KINWebBrowser: 5700a9e2d891ce43f726dd9e04c929312933bb18
   LUKeychainAccess: 6479edb12cf06e11ff3336f796959eedbc58f714
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
-  Moya: f652dec673d9dd177376d2c9366c76c9ed7b0343
+  Moya: ccd604e2f8653f25c5536a228cf7f688de7ad8f6
   Nimble: 49b7a7da8919f42823d37c6d68cc6d15a7009f32
   OHHTTPStubs: dbd1957d414659783e07b49c961940b7564c23d9
   Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35

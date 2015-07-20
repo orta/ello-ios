@@ -106,8 +106,7 @@ extension RelationshipController: RelationshipDelegate {
     }
 
     public func updateRelationship(userId: String, relationship: RelationshipPriority, complete: RelationshipChangeCompletion){
-        RelationshipService().updateRelationship(ElloAPI.Relationship(userId: userId,
-            relationship: relationship.rawValue),
+        RelationshipService().updateRelationship(userId: userId, relationship: relationship,
             success: { (data, responseConfig) in
                 if let relationship = data as? Relationship {
                     complete(status: .Success, relationship: relationship)

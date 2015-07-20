@@ -26,7 +26,6 @@ public struct AvailabilityService {
     public func availability(content: [String: String], success: AvailabilitySuccessCompletion, failure: ElloFailureCompletion?) {
         let endpoint = ElloAPI.Availability(content: content)
         ElloProvider.elloRequest(endpoint,
-            method: .POST,
             success: { data, _ in
                 if let data = data as? Availability {
                     success(data)

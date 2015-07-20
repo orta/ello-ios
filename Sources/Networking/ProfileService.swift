@@ -23,7 +23,6 @@ public struct ProfileService {
 
     public func loadCurrentUser(endpoint: ElloAPI, success: ProfileSuccessCompletion, failure: ElloFailureCompletion?, invalidToken: ElloErrorCompletion? = nil) {
         ElloProvider.elloRequest(endpoint,
-            method: .GET,
             success: { (data, _) in
                 if let user = data as? User {
                     success(user: user)
@@ -39,7 +38,6 @@ public struct ProfileService {
 
     public func loadCurrentUserFollowing(forRelationship relationship: RelationshipPriority, success: ProfileFollowingSuccessCompletion, failure: ElloFailureCompletion?) {
         ElloProvider.elloRequest(ElloAPI.ProfileFollowing(priority: relationship.rawValue),
-            method: .GET,
             success: { data, responseConfig in
                 if let users = data as? [User] {
                     success(users: users, responseConfig: responseConfig)
@@ -54,7 +52,6 @@ public struct ProfileService {
 
     public func updateUserProfile(content: [String: AnyObject], success: ProfileSuccessCompletion, failure: ElloFailureCompletion?) {
         ElloProvider.elloRequest(ElloAPI.ProfileUpdate(body: content),
-            method: .PATCH,
             success: { data, responseConfig in
                 if let user = data as? User {
                     success(user: user)
@@ -82,14 +79,12 @@ public struct ProfileService {
 
     public func updateUserDeviceToken(token: NSData) {
         ElloProvider.elloRequest(ElloAPI.PushSubscriptions(token: token),
-            method: .POST,
             success: { _, _ in },
             failure: .None)
     }
 
     public func removeUserDeviceToken(token: NSData) {
-        ElloProvider.elloRequest(ElloAPI.PushSubscriptions(token: token),
-            method: .DELETE,
+        ElloProvider.elloRequest(ElloAPI.DeleteSubscriptions(token: token),
             success: { _, _ in },
             failure: .None)
     }
@@ -107,7 +102,6 @@ public struct ProfileService {
 
     public func deleteAccount(success: AccountDeletionSuccessCompletion, failure: ElloFailureCompletion?) {
         ElloProvider.elloRequest(ElloAPI.ProfileDelete,
-            method: .DELETE,
             success: { _, _ in success() },
             failure: failure)
     }

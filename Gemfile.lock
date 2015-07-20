@@ -85,3 +85,6 @@ DEPENDENCIES
   octokit (~> 3.0)
   plist
   rake (~> 10.0.0)
+
+BUNDLED WITH
+   1.10.4
