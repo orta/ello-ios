@@ -115,18 +115,18 @@ public class NotificationsViewController: StreamableViewController, Notification
         var popToRoot: Bool = true
         if let path = components.safeValue(0) {
             switch path {
-                case "posts":
-                    if let id = components.safeValue(1) {
-                        popToRoot = false
-                        postTapped(postId: id)
-                    }
-                case "users":
-                    if let id = components.safeValue(1) {
-                        popToRoot = false
-                        userParamTapped(id)
-                    }
-                default:
-                    break
+            case "posts":
+                if let id = components.safeValue(1) {
+                    popToRoot = false
+                    postTapped(postId: id)
+                }
+            case "users":
+                if let id = components.safeValue(1) {
+                    popToRoot = false
+                    userParamTapped(id)
+                }
+            default:
+                break
             }
         }
 
