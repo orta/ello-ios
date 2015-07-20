@@ -143,7 +143,7 @@ class BlockUserModalViewControllerSpec: QuickSpec {
             context("with successful request") {
 
                 beforeEach {
-                    ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.endpointsClosure, stubResponses: true)
+                    ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour)
                 }
 
                 describe("@muteButton") {
@@ -178,7 +178,7 @@ class BlockUserModalViewControllerSpec: QuickSpec {
             context("with failed request") {
 
                 beforeEach {
-                    ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.errorEndpointsClosure, stubResponses: true)
+                    ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.errorEndpointsClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour)
                 }
 
                 describe("@muteButton") {

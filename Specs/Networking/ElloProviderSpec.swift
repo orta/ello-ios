@@ -36,15 +36,15 @@ class ElloProviderSpec: QuickSpec {
 
         describe("parameterEncoding") {
             it("is .URL for most things") {
-                let endpoint = ElloProvider.endpointsClosure(ElloAPI.AmazonCredentials, Moya.Method.GET, [:])
+                let endpoint = ElloProvider.endpointClosure(ElloAPI.AmazonCredentials)
                 expect(endpoint.parameterEncoding).to(equal(Moya.ParameterEncoding.URL))
             }
             it("is .JSON for CreatePost") {
-                let endpoint = ElloProvider.endpointsClosure(ElloAPI.CreatePost(body: [:]), Moya.Method.GET, [:])
+                let endpoint = ElloProvider.endpointClosure(ElloAPI.CreatePost(body: [:]))
                 expect(endpoint.parameterEncoding).to(equal(Moya.ParameterEncoding.JSON))
             }
             it("is .JSON for CreateComment") {
-                let endpoint = ElloProvider.endpointsClosure(ElloAPI.CreateComment(parentPostId: "foo", body: [:]), Moya.Method.GET, [:])
+                let endpoint = ElloProvider.endpointClosure(ElloAPI.CreateComment(parentPostId: "foo", body: [:]))
                 expect(endpoint.parameterEncoding).to(equal(Moya.ParameterEncoding.JSON))
             }
         }

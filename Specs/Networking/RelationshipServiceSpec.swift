@@ -19,9 +19,9 @@ class RelationshipServiceSpec: QuickSpec {
             var subject = RelationshipService()
 
             it("succeeds") {
-                ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.endpointsClosure, stubResponses: true)
+                ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour)
                 var loadedSuccessfully = false
-                subject.updateRelationship(ElloAPI.Relationship(userId: "42", relationship: RelationshipPriority.Friend.rawValue),
+                subject.updateRelationship(userId: "42", relationship: RelationshipPriority.Friend,
                     success: {
                         (data, responseConfig) in
                         loadedSuccessfully = true
@@ -32,9 +32,9 @@ class RelationshipServiceSpec: QuickSpec {
             }
 
             it("fails") {
-                ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.errorEndpointsClosure, stubResponses: true)
+                ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.errorEndpointsClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour)
                 var loadedSuccessfully = true
-                subject.updateRelationship(ElloAPI.Relationship(userId: "42", relationship: RelationshipPriority.Friend.rawValue),
+                subject.updateRelationship(userId: "42", relationship: RelationshipPriority.Friend,
                     success: {
                         (data, responseConfig) in
                         loadedSuccessfully = true
