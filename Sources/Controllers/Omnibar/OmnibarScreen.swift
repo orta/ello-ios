@@ -172,6 +172,8 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol {
     let textContainer = UIView()
     public let textView = UITextView()
     var autoCompleteContainer: UIView
+    var autoCompleteShowing = false
+    var autoCompleteThrottle: ThrottledBlock
     private var currentText : NSAttributedString?
     private var currentImage : UIImage?
     private var data : NSData?
@@ -181,6 +183,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol {
 
     override public init(frame: CGRect) {
         self.autoCompleteContainer = UIView(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: 0))
+        self.autoCompleteThrottle = debounce(0.4)
         super.init(frame: frame)
         self.backgroundColor = UIColor.whiteColor()
 
@@ -192,11 +195,10 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol {
         setupTextViews()
         setupViewHierarchy()
         setupSwipeGesture()
-
         autoCompleteVC.view.frame = autoCompleteContainer.frame
         autoCompleteVC.delegate = self
         autoCompleteContainer.addSubview(autoCompleteVC.view)
-        textView.autocorrectionType = .No
+        textView.autocorrectionType = .Yes
 //        textView.inputAccessoryView = autoCompleteContainer
     }
 
@@ -624,7 +626,6 @@ extension OmnibarScreen: UINavigationControllerDelegate {
 
 // MARK: UITextViewDelegate
 extension OmnibarScreen: UITextViewDelegate {
-
     public func textViewShouldBeginEditing(textView : UITextView) -> Bool {
         return true
     }
@@ -637,21 +638,46 @@ extension OmnibarScreen: UITextViewDelegate {
 
         updatePostState()
 
-        let autoComplete = AutoComplete()
-        if let match = autoComplete.check(newText, location: range.location) {
-            // if needed show autocompleteviewcontroller
-            // if already shown, load new results into already showing vc
-            autoCompleteVC.load(match) { count in
-                println("count = \(count)")
+        self.autoCompleteThrottle { [unowned self] in
+            let autoComplete = AutoComplete()
+            if let match = autoComplete.check(newText, location: range.location) {
+                // if needed show autocompleteviewcontroller
+                // if already shown, load new results into already showing vc
 
-//                self.autoCompleteContainer.frame.size.height = 150
-//                self.textView.inputAccessoryView = self.autoCompleteContainer
-//                self.autoCompleteVC.view.frame = self.autoCompleteContainer.frame
+                self.autoCompleteVC.load(match) { count in
+                    println("count = \(count)")
+                    if count > 0 && !self.autoCompleteShowing {
+                        self.showAutoComplete()
+                    }
+                    else if count == 0 {
+                        self.hideAutoComplete()
+                    }
+                }
+            } else {
+                self.hideAutoComplete()
             }
+
         }
         return true
     }
+
+    private func hideAutoComplete() {
+        self.textView.autocorrectionType = .Yes
+        self.textView.inputAccessoryView = nil
+        self.textView.resignFirstResponder()
+        self.textView.becomeFirstResponder()
+    }
+
+    private func showAutoComplete() {
+        self.textView.autocorrectionType = .No
+        self.textView.resignFirstResponder()
+        self.autoCompleteContainer.frame.size.height = 150
+        self.textView.inputAccessoryView = self.autoCompleteContainer
+        self.autoCompleteVC.view.frame = self.autoCompleteContainer.frame
+        self.textView.becomeFirstResponder()
+    }
 }
+
 
 extension OmnibarScreen: AutoCompleteDelegate {
     public func resultSelected(result: AutoCompleteResult) {
