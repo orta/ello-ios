@@ -9,10 +9,14 @@
 public struct AutoCompleteItem {
     public let result: AutoCompleteResult
     public let type: AutoCompleteType
+
+    public init(result: AutoCompleteResult, type: AutoCompleteType) {
+        self.result = result
+        self.type = type
+    }
 }
 
 public class AutoCompleteDataSource: NSObject {
-
     public var items: [AutoCompleteItem] = []
 
     public func itemForIndexPath(indexPath: NSIndexPath) -> AutoCompleteItem? {

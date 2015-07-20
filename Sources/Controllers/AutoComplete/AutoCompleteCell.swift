@@ -12,7 +12,7 @@ public class AutoCompleteCell: UITableViewCell {
     @IBOutlet weak public var line: UIView!
 }
 
-extension AutoCompleteCell {
+public extension AutoCompleteCell {
     class func nib() -> UINib {
         return UINib(nibName: "AutoCompleteCell", bundle: .None)
     }
