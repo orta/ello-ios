@@ -143,10 +143,12 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         if let comments = post.comments {
             items += parser.parse(comments, streamKind: streamViewController.streamKind, currentUser: currentUser)
         }
-        scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
+
+        if scrollLogic != nil {
+            scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
+        }
         // this calls doneLoading when cells are added
         streamViewController.appendUnsizedCellItems(items, withWidth: view.frame.width) { _ in
-
         }
 
         Tracker.sharedTracker.postLoaded(post.id)

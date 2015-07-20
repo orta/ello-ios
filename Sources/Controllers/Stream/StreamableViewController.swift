@@ -164,7 +164,7 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
     public func postTapped(#postId: String) {
         let vc = PostDetailViewController(postParam: postId)
         vc.currentUser = currentUser
-        self.navigationController?.pushViewController(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 

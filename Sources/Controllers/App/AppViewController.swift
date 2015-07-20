@@ -11,7 +11,7 @@ import SwiftyUserDefaults
 import Crashlytics
 
 struct NavigationNotifications {
-    static let showingNotificationsTab = TypedNotification<()>(name: "co.ello.NavigationNotification.NotificationsTab")
+    static let showingNotificationsTab = TypedNotification<[String]>(name: "co.ello.NavigationNotification.NotificationsTab")
 }
 
 
@@ -409,21 +409,22 @@ extension AppViewController {
     func navigateToDeepLink(path: String) {
         let vc = self.visibleViewController as? ElloTabBarController
 
-        let components = path.pathComponents
-        let firstComponent: String?
+        var components = path.pathComponents
         if components.first == "/" {
-            firstComponent = components.safeValue(1)
+            components.removeAtIndex(0)
         }
-        else {
-            firstComponent = components.safeValue(0)
+        if count(components) == 0 {
+            return
         }
 
-        switch firstComponent ?? "" {
+        let firstComponent = components.removeAtIndex(0)
+
+        switch firstComponent {
         case "stream":
             vc?.selectedTab = .Stream
         case "notifications":
             vc?.selectedTab = .Notifications
-            postNotification(NavigationNotifications.showingNotificationsTab, ())
+            postNotification(NavigationNotifications.showingNotificationsTab, components)
         default:
             break
         }
