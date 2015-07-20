@@ -14,26 +14,30 @@ import Nimble
 class NotificationsViewControllerSpec: QuickSpec {
     override func spec() {
 
-        var controller = NotificationsViewController()
-        describe("initialization") {
+        var subject = NotificationsViewController()
+        describe("NotificationsViewController") {
 
             beforeEach {
-                controller = NotificationsViewController()
+                subject = NotificationsViewController()
             }
 
-            it("can be instantiated") {
-                expect(controller).notTo(beNil())
+            describe("can open notification links") {
+                it("can open notifications/posts/12") {
+                    let navigationController = UINavigationController(rootViewController: subject)
+                    subject.respondToNotification(["posts", "12"])
+                    expect(navigationController.childViewControllers.count).toEventually(equal(2))
+                }
+                it("can open notifications/users/12") {
+                    let navigationController = UINavigationController(rootViewController: subject)
+                    subject.respondToNotification(["users", "12"])
+                    expect(navigationController.childViewControllers.count).toEventually(equal(2))
+                }
+                it("can handle unknown links") {
+                    let navigationController = UINavigationController(rootViewController: subject)
+                    subject.respondToNotification(["flibbity", "jibbet"])
+                    expect(navigationController.childViewControllers.count) == 1
+                }
             }
-
-            it("is a BaseElloViewController") {
-                expect(controller).to(beAKindOf(BaseElloViewController.self))
-            }
-
-            it("is a NotificationsViewController") {
-                expect(controller).to(beAKindOf(NotificationsViewController.self))
-            }
-
-            xit("streamViewController responds to NotificationDelegate") {}
         }
     }
 }
