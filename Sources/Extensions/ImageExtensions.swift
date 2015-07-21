@@ -24,10 +24,6 @@ public extension UIImage {
         return imageWithColor(UIColor(hex: hex))
     }
 
-    func squareImageToSize(size: CGSize) -> UIImage? {
-        return self.squareImage()?.resizeToSize(size)
-    }
-
     func squareImage() -> UIImage? {
         var originalWidth  = self.size.width
         var originalHeight = self.size.height
