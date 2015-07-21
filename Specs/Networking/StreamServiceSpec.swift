@@ -30,7 +30,7 @@ class StreamServiceSpec: QuickSpec {
                         var config: ResponseConfig?
 
                         streamService.loadStream(ElloAPI.FriendStream, streamKind: nil, success: { (jsonables, responseConfig) in
-                            loadedPosts = (StreamKind.Friend.filter(jsonables, viewsAdultContent: true) as! [Post])
+                            loadedPosts = (StreamKind.Friend.filter(jsonables) as! [Post])
                             config = responseConfig
                         }, failure: nil)
 
@@ -68,7 +68,7 @@ class StreamServiceSpec: QuickSpec {
 
                         streamService.loadStream(ElloAPI.FriendStream, streamKind: nil,
                             success: { (jsonables, responseConfig) in
-                                loadedPosts = (StreamKind.Friend.filter(jsonables, viewsAdultContent: true) as! [Post])
+                                loadedPosts = (StreamKind.Friend.filter(jsonables) as! [Post])
                             },
                             failure: nil
                         )
