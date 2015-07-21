@@ -10,7 +10,8 @@
 public protocol SearchScreenDelegate {
     func searchCanceled()
     func searchFieldCleared()
-    func searchFieldChanged(text: String)
+    func searchFieldChanged(text: String, isPostSearch: Bool)
+    func toggleChanged(text: String, isPostSearch: Bool)
     func findFriendsTapped()
 }
 
@@ -27,6 +28,8 @@ public class SearchScreen: UIView, SearchScreenProtocol {
     private var throttled: ThrottledBlock
     private var navigationBar: ElloNavigationBar!
     private var searchField: UITextField!
+    private var postsToggleButton: OutlineElloButton!
+    private var peopleToggleButton: OutlineElloButton!
     private var streamViewContainer: UIView!
     private var findFriendsContainer: UIView!
     private var bottomInset: CGFloat
@@ -49,6 +52,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
 
         setupNavigationBar()
         setupSearchField()
+        setupToggleButtons()
         setupStreamView()
         setupFindFriendsButton()
         findFriendsContainer.hidden = addFindFriendsButton == false
@@ -98,9 +102,34 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         self.addSubview(lineView)
     }
 
+    private func setupToggleButtons() {
+        let btnWidth = (self.bounds.size.width - 40) / 2
+        postsToggleButton = OutlineElloButton(frame: CGRect(x: 15, y: searchField.frame.maxY + 20, width: btnWidth, height: 33))
+        postsToggleButton.setTitle(NSLocalizedString("Posts", comment: "Posts search toggle"), forState: .Normal)
+        postsToggleButton.addTarget(self, action: Selector("onPostsTapped"), forControlEvents: .TouchUpInside)
+        addSubview(postsToggleButton)
+        peopleToggleButton = OutlineElloButton(frame: CGRect(x: postsToggleButton.frame.maxX + 10, y: searchField.frame.maxY + 20, width: btnWidth, height: 33))
+        peopleToggleButton.setTitle(NSLocalizedString("People", comment: "People search toggle"), forState: .Normal)
+        peopleToggleButton.addTarget(self, action: Selector("onPeopleTapped"), forControlEvents: .TouchUpInside)
+        addSubview(peopleToggleButton)
+        onPostsTapped()
+    }
+
+    public func onPostsTapped() {
+        postsToggleButton.selected = true
+        peopleToggleButton.selected = false
+        self.delegate?.toggleChanged(searchField.text ?? "", isPostSearch: postsToggleButton.selected)
+    }
+
+    public func onPeopleTapped() {
+        peopleToggleButton.selected = true
+        postsToggleButton.selected = false
+        self.delegate?.toggleChanged(searchField.text ?? "", isPostSearch: postsToggleButton.selected)
+    }
+
     private func setupStreamView() {
-        let height = self.frame.height - searchField.frame.maxY
-        let frame = self.bounds.atY(searchField.frame.maxY).withHeight(height)
+        let height = self.frame.height - postsToggleButton.frame.maxY - 20
+        let frame = self.bounds.atY(postsToggleButton.frame.maxY + 20).withHeight(height)
         streamViewContainer = UIView(frame: frame)
         streamViewContainer.autoresizingMask = .FlexibleWidth | .FlexibleHeight
         streamViewContainer.backgroundColor = .whiteColor()
@@ -179,7 +208,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         else {
             throttled { [unowned self] in
                 self.hideFindFriends()
-                self.delegate?.searchFieldChanged(text)
+                self.delegate?.searchFieldChanged(text, isPostSearch: self.postsToggleButton.selected)
             }
         }
     }

@@ -312,12 +312,12 @@ public class StreamViewController: BaseElloViewController {
         }
     }
 
-    private func hideNoResults() {
+    public func hideNoResults() {
         noResultsLabel.hidden = true
         noResultsLabel.alpha = 0
     }
 
-    private func showNoResults() {
+    public func showNoResults() {
         noResultsLabel.hidden = false
         UIView.animateWithDuration(0.25) {
             self.noResultsLabel.alpha = 1
@@ -643,10 +643,10 @@ extension StreamViewController : UserDelegate {
     }
 
     public func userTappedAvatar(cell: UICollectionViewCell) {
-        if let indexPath = collectionView.indexPathForCell(cell) {
-            if let user = dataSource.userForIndexPath(indexPath) {
-                userTappedDelegate?.userTapped(user)
-            }
+        if let indexPath = collectionView.indexPathForCell(cell),
+           user = dataSource.userForIndexPath(indexPath)
+        {
+            userTappedDelegate?.userTapped(user)
         }
     }
 
