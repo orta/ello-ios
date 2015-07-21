@@ -69,15 +69,8 @@ extension SearchViewController: SearchScreenDelegate {
         if count(text) < 2 { return }  // just.. no (and the server doesn't guard against empty/short searches)
         if checkSearchText && searchText == text { return }  // a search is already in progress for this text
         searchText = text
-        let endpoint: ElloAPI
-        if isPostSearch {
-            endpoint = ElloAPI.SearchForPosts(terms: text)
-            streamViewController.noResultsMessages = (title: NSLocalizedString("No posts found.", comment: "No posts found title"), body: NSLocalizedString("We couldn't find any posts that matched \"\(text)\".", comment: "No posts found body"))
-        }
-        else {
-            endpoint = ElloAPI.SearchForUsers(terms: text)
-            streamViewController.noResultsMessages = (title: NSLocalizedString("No users found.", comment: "No people found title"), body: NSLocalizedString("We couldn't find any users that matched \"\(text)\".", comment: "No people found body"))
-        }
+        let endpoint = isPostSearch ? ElloAPI.SearchForPosts(terms: text) : ElloAPI.SearchForUsers(terms: text)
+        streamViewController.noResultsMessages = (title: NSLocalizedString("We couldn't find any matches.", comment: "No search results found title"), body: NSLocalizedString("Try another search?", comment: "No search results found body"))
         streamViewController.hideNoResults()
         streamViewController.streamKind = .SimpleStream(endpoint: endpoint, title: "")
         streamViewController.removeAllCellItems()
