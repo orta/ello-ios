@@ -38,7 +38,7 @@ public class AddFriendsViewController: StreamableViewController {
         searchScreen = SearchScreen(frame: UIScreen.mainScreen().bounds,
             navBarTitle: NSLocalizedString("Find & invite your friends", comment: "Find Friends"),
             fieldPlaceholderText: NSLocalizedString("Name or email", comment: "Find placeholder text"),
-            addFindFriendsButton: false)
+            isSearchView: false)
         self.view = searchScreen
         searchScreen.delegate = self
     }
