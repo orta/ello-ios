@@ -61,7 +61,6 @@ public extension AutoCompleteViewController {
         service.loadResults(match.text,
             type: match.type,
             success: { (results, responseConfig) in
-                println("match = \(match.text)\n")
                 self.dataSource.items = results.map { AutoCompleteItem(result: $0, type: self.type, match: match) }
                 self.tableView.reloadData()
                 loaded(count: self.dataSource.items.count)

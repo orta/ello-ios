@@ -266,7 +266,6 @@ public class StreamFooterCell: UICollectionViewCell {
     }
 
     @IBAction func replyButtonTapped(sender: ImageLabelControl) {
-        println("reply tapped")
     }
 
     @IBAction func chevronButtonTapped(sender: StreamFooterButton) {

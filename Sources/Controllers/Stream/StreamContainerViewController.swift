@@ -41,7 +41,6 @@ public class StreamContainerViewController: StreamableViewController {
 
     override public func viewDidLoad() {
         super.viewDidLoad()
-//        println("---------PROFILING: StreamContainerVC viewDidLoad: \(NSDate().timeIntervalSinceDate(LaunchDate))")
         setupStreamsSegmentedControl()
         setupChildViewControllers()
         elloNavigationItem.titleView = streamsSegmentedControl

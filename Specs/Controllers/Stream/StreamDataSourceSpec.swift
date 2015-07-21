@@ -351,7 +351,6 @@ class StreamDataSourceSpec: QuickSpec {
                     // creates 2 cells
                     let comment3CellItems = parser.parse([Comment.stub(["parentPostId": "888"])], streamKind: .Friend)
                     cellItems += comment3CellItems
-                    println("cellItems: \(cellItems.count)")
                     subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
                         vc.collectionView.reloadData()

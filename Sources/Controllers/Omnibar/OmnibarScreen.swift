@@ -673,7 +673,6 @@ extension OmnibarScreen: UITextViewDelegate {
         textView.resignFirstResponder()
         textView.becomeFirstResponder()
         let height: CGFloat = count > 3 ? AutoCompleteCell.cellHeight() * 3 : AutoCompleteCell.cellHeight() * CGFloat(count)
-        println("count = \(count), height = \(height)")
         if let constraint = textView.inputAccessoryView?.constraints().first as? NSLayoutConstraint {
             constraint.constant = height
         }
