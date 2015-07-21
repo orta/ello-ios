@@ -72,12 +72,13 @@ public extension UIImage {
     func copyWithCorrectOrientationAndSize(completion:(image: UIImage) -> Void) {
         inBackground {
             let sourceImage: UIImage
-            if self.imageOrientation == .Up {
+            if self.imageOrientation == .Up && self.scale == 1.0 {
                 sourceImage = self
             }
             else {
-                UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
-                self.drawInRect(CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height))
+                let newSize = CGSize(width: self.size.width * self.scale, height: self.size.height * self.scale)
+                UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+                self.drawInRect(CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
                 sourceImage = UIGraphicsGetImageFromCurrentImageContext()
                 UIGraphicsEndImageContext()
             }
