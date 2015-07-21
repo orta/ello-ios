@@ -21,7 +21,6 @@ public struct AutoCompleteService {
         let endpoint: ElloAPI = type == AutoCompleteType.Emoji ? .EmojiAutoComplete(terms: terms) : .UserNameAutoComplete(terms: terms)
         ElloProvider.elloRequest(
             endpoint,
-            method: .GET,
             success: { (data, responseConfig) in
                 if let results = data as? [AutoCompleteResult] {
                     success(results: results, responseConfig: responseConfig)
