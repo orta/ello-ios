@@ -73,6 +73,27 @@ public extension UIImage {
         return newImage
     }
 
+    func copyWithCorrectOrientationAndSize(completion:(image: UIImage) -> Void) {
+        inBackground {
+            let sourceImage: UIImage
+            if self.imageOrientation == .Up {
+                sourceImage = self
+            }
+            else {
+                UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
+                self.drawInRect(CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height))
+                sourceImage = UIGraphicsGetImageFromCurrentImageContext()
+                UIGraphicsEndImageContext()
+            }
+
+            let maxSize = CGSize(width: 1200.0, height: 3600.0)
+            let resizedImage = sourceImage.resizeToSize(maxSize)
+            inForeground {
+                completion(image: resizedImage)
+            }
+        }
+    }
+
 }
 
 

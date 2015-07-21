@@ -16,8 +16,7 @@ class UIImageSpecs: QuickSpec {
         var image: UIImage!
         var oriented: UIImage!
 
-        // this is sad, async tests suck, we have to turn these off. I'd like to move to promises or futures that have a hook for synchronous test execution eventuallyy
-        xdescribe("-copyWithCorrectOrientationAndSize") {
+        describe("copyWithCorrectOrientationAndSize") {
 
             context("no scaling") {
                 beforeEach {
@@ -28,15 +27,15 @@ class UIImageSpecs: QuickSpec {
                 }
 
                 it("returns an image") {
-                    expect(oriented).toEventually(beAKindOf(UIImage.self))
+                    expect(oriented).to(beAKindOf(UIImage.self))
                 }
 
                 it("with the correct size") {
-                    expect(oriented.size).toEventually(equal(image.size))
+                    expect(oriented.size).to(equal(image.size))
                 }
 
                 it("with the correct scale") {
-                    expect(oriented.scale).toEventually(equal(image.scale))
+                    expect(oriented.scale).to(equal(image.scale))
                 }
             }
 
@@ -49,10 +48,10 @@ class UIImageSpecs: QuickSpec {
                 }
 
                 it("scales to the maxWidth") {
-                    expect(image.size.width).toEventually(equal(4000.0))
-                    expect(image.size.height).toEventually(equal(1000.0))
-                    expect(oriented.size.width).toEventually(equal(1200.0))
-                    expect(oriented.size.height).toEventually(equal(300.0))
+                    expect(image.size.width).to(equal(4000.0))
+                    expect(image.size.height).to(equal(1000.0))
+                    expect(oriented.size.width).to(equal(1200.0))
+                    expect(oriented.size.height).to(equal(300.0))
                 }
             }
 
@@ -65,10 +64,10 @@ class UIImageSpecs: QuickSpec {
                 }
 
                 it("scales to the maxWidth") {
-                    expect(image.size.width).toEventually(equal(1000.0))
-                    expect(image.size.height).toEventually(equal(4000.0))
-                    expect(oriented.size.width).toEventually(equal(900.0))
-                    expect(oriented.size.height).toEventually(equal(3600.0))
+                    expect(image.size.width).to(equal(1000.0))
+                    expect(image.size.height).to(equal(4000.0))
+                    expect(oriented.size.width).to(equal(900.0))
+                    expect(oriented.size.height).to(equal(3600.0))
                 }
             }
         }
