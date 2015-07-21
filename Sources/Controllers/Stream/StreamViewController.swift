@@ -287,7 +287,7 @@ public class StreamViewController: BaseElloViewController {
                 streamKind.endpoint,
                 streamKind: streamKind,
                 success: { (jsonables, responseConfig) in
-                    if self.loadInitialPageLoadingToken != localToken { return }
+                    if !self.isValidInitialPageLoadingToken(localToken) { return }
                     self.clearForInitialLoad()
                     self.responseConfig = responseConfig
                     // this calls doneLoading when cells are added
