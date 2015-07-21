@@ -21,7 +21,6 @@ public struct LovesService {
     {
         let endpoint = ElloAPI.CreateLove(postId: postId)
         ElloProvider.elloRequest(endpoint,
-            method: .POST,
             success: { (data, responseConfig) in
                 if let love = data as? Love {
                     success(love: love, responseConfig: responseConfig)
@@ -41,7 +40,6 @@ public struct LovesService {
     {
         let endpoint = ElloAPI.DeleteLove(postId: postId)
         ElloProvider.elloRequest(endpoint,
-            method: .DELETE,
             success: { _, _ in
                 success()
             },

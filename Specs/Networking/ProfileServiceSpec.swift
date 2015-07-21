@@ -21,7 +21,7 @@ class ProfileServiceSpec: QuickSpec {
 
             context("success") {
                 beforeEach {
-                    ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.endpointsClosure, stubResponses: true)
+                    ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour)
                 }
 
                 it("Calls success with a User") {
@@ -46,7 +46,7 @@ class ProfileServiceSpec: QuickSpec {
         describe("loadCurrentUserFollowing") {
             context("success") {
                 beforeEach {
-                    ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.endpointsClosure, stubResponses: true)
+                    ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour)
                 }
 
                 it("calls success with a list of Users") {
@@ -71,7 +71,7 @@ class ProfileServiceSpec: QuickSpec {
 
             context("success") {
                 beforeEach {
-                    ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.endpointsClosure, stubResponses: true)
+                    ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour)
                 }
 
                 it("Calls success with a User") {
@@ -96,7 +96,7 @@ class ProfileServiceSpec: QuickSpec {
 
             context("success") {
                 beforeEach {
-                    ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.endpointsClosure, stubResponses: true)
+                    ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour)
                 }
 
                 it("Calls success function") {

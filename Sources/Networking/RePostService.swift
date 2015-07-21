@@ -12,7 +12,6 @@ public class RePostService: NSObject {
     func repost(#post: Post, success: RePostSuccessCompletion, failure: ElloFailureCompletion?) {
         let endpoint = ElloAPI.RePost(postId: post.id)
         ElloProvider.elloRequest(endpoint,
-            method: .POST,
             success: { data, responseConfig in
                 if let repost = data as? Post {
                     success(repost: repost)

@@ -21,7 +21,7 @@ class StreamServiceSpec: QuickSpec {
             context("success") {
 
                 beforeEach {
-                    ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.endpointsClosure, stubResponses: true)
+                    ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour)
                 }
 
                 describe("-loadStream") {
@@ -126,7 +126,7 @@ class StreamServiceSpec: QuickSpec {
                 // smoke test a few failure status codes, the whole lot is tested in ElloProviderSpec
 
                 beforeEach {
-                    ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.errorEndpointsClosure, stubResponses: true)
+                    ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.errorEndpointsClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour)
                 }
 
                 context("404") {

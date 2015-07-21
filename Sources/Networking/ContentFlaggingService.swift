@@ -19,7 +19,6 @@ public struct ContentFlaggingService {
 
     public func flagContent(endpoint: ElloAPI, success: ContentFlaggingSuccessCompletion, failure: ElloFailureCompletion?) {
         ElloProvider.elloRequest(endpoint,
-            method: .POST,
             success: { data in
                 success()
         }, failure: failure)

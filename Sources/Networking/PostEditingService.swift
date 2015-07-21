@@ -84,7 +84,7 @@ public class PostEditingService: NSObject {
         }
         let params = ["body": body]
 
-        var endpoint: ElloAPI
+        let endpoint: ElloAPI
         if let parentPost = parentPost {
             endpoint = ElloAPI.CreateComment(parentPostId: parentPost.id, body: params)
         }
@@ -93,7 +93,6 @@ public class PostEditingService: NSObject {
         }
 
         ElloProvider.elloRequest(endpoint,
-            method: .POST,
             success: { data, responseConfig in
                 var post: AnyObject = data
 

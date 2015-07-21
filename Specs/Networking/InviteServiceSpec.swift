@@ -19,7 +19,7 @@ class InviteServiceSpec: QuickSpec {
             var subject = InviteService()
 
             it("succeeds") {
-                ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.endpointsClosure, stubResponses: true)
+                ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour)
                 var loadedSuccessfully = false
                 subject.invite("test@nowhere.test", success: {
                     loadedSuccessfully = true
@@ -29,7 +29,7 @@ class InviteServiceSpec: QuickSpec {
             }
 
             it("fails") {
-                ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.errorEndpointsClosure, stubResponses: true)
+                ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.errorEndpointsClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour)
                 var loadedSuccessfully = true
                 subject.invite("test@nowhere.test", success: {
                     loadedSuccessfully = true
@@ -46,7 +46,7 @@ class InviteServiceSpec: QuickSpec {
             var subject = InviteService()
 
             it("succeeds") {
-                ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.endpointsClosure, stubResponses: true)
+                ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour)
                 var loadedSuccessfully = false
                 var expectedUsers = [User]()
                 subject.find(["1":["blah"], "2":["blah"]], currentUser: nil, success: {
@@ -58,7 +58,7 @@ class InviteServiceSpec: QuickSpec {
             }
 
             it("fails") {
-                ElloProvider.sharedProvider = MoyaProvider(endpointsClosure: ElloProvider.errorEndpointsClosure, stubResponses: true)
+                ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.errorEndpointsClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour)
                 var loadedSuccessfully = true
 
                 subject.find(["1":["blah"], "2":["blah"]], currentUser: nil, success: {

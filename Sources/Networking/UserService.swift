@@ -36,7 +36,6 @@ public struct UserService {
         failure: ElloFailureCompletion?)
     {
         ElloProvider.elloRequest(ElloAPI.Join(email: email, username: username, password: password, invitationCode: invitationCode),
-            method: .POST,
             success: { (data, responseConfig) in
                 if let user = data as? User {
                     success(user: user)

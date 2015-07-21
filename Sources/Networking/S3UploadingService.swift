@@ -27,7 +27,6 @@ public class S3UploadingService: NSObject {
 
     func upload(data : NSData, filename: String, contentType: String, success: S3UploadSuccessCompletion, failure: ElloFailureCompletion?) {
         ElloProvider.elloRequest(ElloAPI.AmazonCredentials,
-            method: .GET,
             success: { credentialsData, responseConfig in
                 if let credentials = credentialsData as? AmazonCredentials {
                     self.uploader = ElloS3(credentials: credentials, filename: filename, data: data, contentType: contentType)

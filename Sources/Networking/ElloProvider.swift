@@ -49,10 +49,12 @@ public struct ElloProvider {
         }
     }
 
-    public static var errorEndpointsClosure = { (target: ElloAPI, method: Moya.Method, parameters: [String: AnyObject]) -> Endpoint<ElloAPI> in
+    public static var errorEndpointsClosure = { (target: ElloAPI) -> Endpoint<ElloAPI> in
+        let method = target.method
+        let parameters = target.parameters
 
         let sampleResponse = { () -> (EndpointSampleResponse) in
-            return .Error(ElloProvider.errorStatusCode.rawValue, NSError(domain: ElloErrorDomain, code: 0, userInfo: [NSLocalizedFailureReasonErrorKey: "failure"]), ElloProvider.errorStatusCode.defaultData)
+            return .Error(ElloProvider.errorStatusCode.rawValue, NSError(domain: ElloErrorDomain, code: 0, userInfo: [NSLocalizedFailureReasonErrorKey: "failure"]), { ElloProvider.errorStatusCode.defaultData })
         }()
 
         var endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponse: sampleResponse, method: method, parameters: parameters)
@@ -65,8 +67,10 @@ public struct ElloProvider {
         }
     }
 
-    public static var endpointsClosure = { (target: ElloAPI, method: Moya.Method, parameters: [String: AnyObject]) -> Endpoint<ElloAPI> in
-        let sampleResponse = EndpointSampleResponse.Closure({ return EndpointSampleResponse.SuccessWithResponse(200, target.sampleData, target.sampleResponse) })
+    public static var endpointClosure = { (target: ElloAPI) -> Endpoint<ElloAPI> in
+        let method = target.method
+        let parameters = target.parameters
+        let sampleResponse = EndpointSampleResponse.SuccessWithResponse(200, { target.sampleData }, target.sampleResponse)
 
         let encoding: Moya.ParameterEncoding
         switch target {
@@ -85,15 +89,15 @@ public struct ElloProvider {
     }
 
     public static func DefaultProvider() -> MoyaProvider<ElloAPI> {
-        return MoyaProvider(endpointsClosure: endpointsClosure, stubResponses: false)
+        return MoyaProvider(endpointClosure: endpointClosure)
     }
 
     public static func StubbingProvider() -> MoyaProvider<ElloAPI> {
-        return MoyaProvider(endpointsClosure: endpointsClosure, stubResponses: true)
+        return MoyaProvider(endpointClosure: endpointClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour)
     }
 
     public static func ErrorStubbingProvider() -> MoyaProvider<ElloAPI> {
-        return MoyaProvider(endpointsClosure: errorEndpointsClosure, stubResponses: true)
+        return MoyaProvider(endpointClosure: errorEndpointsClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour)
     }
 
     private struct SharedProvider {
@@ -120,12 +124,21 @@ public struct ElloProvider {
 // MARK: elloRequest implementation
 extension ElloProvider {
 
+    // public static func elloRequest(target: ElloAPI, completion: (data: AnyObject?, responseConfig: ResponseConfig?, error: NSError?, statusCode:Int?) -> Void) {
+    //     elloRequest(target: target, success: { (data: AnyObject, responseConfig: ResponseConfig) in
+    //             completion(data: data, responseConfig: responseConfig, error: nil)
+    //         }, failure: { (error: NSError, statusCode:Int?) in
+    //             completion(data: nil, responseConfig: nil, error: error, statusCode: statusCode)
+    //         }, invalidToken: { (error: NSError, statusCode:Int?) in
+    //             completion(data: nil, responseConfig: nil, error: error, statusCode: statusCode)
+    //         })
+    // }
+
     // MARK: - Public
 
-    public static func elloRequest(target: ElloAPI, method: Moya.Method, success: ElloSuccessCompletion, failure: ElloFailureCompletion?, invalidToken: ElloErrorCompletion? = nil) {
-        ElloProvider.sharedProvider.request(target, method: method, parameters: target.defaultParameters, completion: {
-            (data, statusCode, response, error) in
-            ElloProvider.handleRequest(target, method: method, data: data, response: response as? NSHTTPURLResponse, statusCode: statusCode, success: success, failure: failure, invalidToken: invalidToken, isRetry: false, error: error)
+    public static func elloRequest(target: ElloAPI, success: ElloSuccessCompletion, failure: ElloFailureCompletion?, invalidToken: ElloErrorCompletion? = nil) {
+        ElloProvider.sharedProvider.request(target, completion: { (data, statusCode, response, error) in
+            ElloProvider.handleRequest(target, data: data, response: response as? NSHTTPURLResponse, statusCode: statusCode, success: success, failure: failure, invalidToken: invalidToken, isRetry: false, error: error)
         })
         Crashlytics.sharedInstance().setObjectValue(target.path, forKey: CrashlyticsKey.RequestPath.rawValue)
     }
@@ -165,7 +178,7 @@ extension ElloProvider {
 
     // MARK: - Private
 
-    static private func handleRequest(target: ElloAPI, method: Moya.Method, data: NSData?, response: NSHTTPURLResponse?, var statusCode: Int?, success: ElloSuccessCompletion, failure: ElloFailureCompletion?, invalidToken: ElloErrorCompletion?, isRetry: Bool, error: NSError?) {
+    static private func handleRequest(target: ElloAPI, data: NSData?, response: NSHTTPURLResponse?, var statusCode: Int?, success: ElloSuccessCompletion, failure: ElloFailureCompletion?, invalidToken: ElloErrorCompletion?, isRetry: Bool, error: NSError?) {
         if let response = response {
             ElloProvider.responseHeaders = response.allHeaderFields.description
             Crashlytics.sharedInstance().setObjectValue(ElloProvider.responseHeaders, forKey: CrashlyticsKey.ResponseHeaders.rawValue)
@@ -186,13 +199,13 @@ extension ElloProvider {
                     let authService = AuthService()
                     authService.reAuthenticate({
                         // now retry the previous request that generated the original 401
-                        self.retryRequest(target, method: method, success: success, failure: failure)
+                        self.retryRequest(target, success: success, failure: failure)
                     },
                     failure: { _ in
                         // if the token has changed, then some *other* network request probably issued
                         // a 'refreshToken' request that *succeeded*.
                         if AuthToken().isValid && token != AuthToken().token {
-                            self.retryRequest(target, method: method, success: success, failure: failure)
+                            self.retryRequest(target, success: success, failure: failure)
                         }
                         else {
                             self.handleInvalidToken(data, statusCode: statusCode, invalidToken: invalidToken, error: error)
@@ -231,9 +244,9 @@ extension ElloProvider {
         invalidToken?(error: elloError)
     }
 
-    static private func retryRequest(target: ElloAPI, method: Moya.Method, success: ElloSuccessCompletion, failure: ElloFailureCompletion?, invalidToken: ElloErrorCompletion? = nil) {
-        ElloProvider.sharedProvider.request(target, method: method, parameters: target.defaultParameters, completion: { (data, statusCode, response, error) in
-            ElloProvider.handleRequest(target, method: method, data: data, response: response as? NSHTTPURLResponse, statusCode: statusCode, success: success, failure: failure, invalidToken: invalidToken, isRetry: true, error: error)
+    static private func retryRequest(target: ElloAPI, success: ElloSuccessCompletion, failure: ElloFailureCompletion?, invalidToken: ElloErrorCompletion? = nil) {
+        ElloProvider.sharedProvider.request(target, completion: { (data, statusCode, response, error) in
+            ElloProvider.handleRequest(target, data: data, response: response as? NSHTTPURLResponse, statusCode: statusCode, success: success, failure: failure, invalidToken: invalidToken, isRetry: true, error: error)
         })
     }
 

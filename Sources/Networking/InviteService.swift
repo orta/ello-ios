@@ -20,14 +20,12 @@ public struct InviteService {
 
     public func invite(contact: String, success: InviteFriendsSuccessCompletion, failure: ElloFailureCompletion?) {
         ElloProvider.elloRequest(ElloAPI.InviteFriends(contact: contact),
-            method: .POST,
             success: { _ in success() },
             failure: failure)
     }
 
     public func find(contacts: [String: [String]], currentUser: User?, success: FindFriendsSuccessCompletion, failure: ElloFailureCompletion?) {
         ElloProvider.elloRequest(ElloAPI.FindFriends(contacts: contacts),
-            method: .POST,
             success: { (data, responseConfig) in
                 if let data = data as? [User] {
                     success(InviteService.filterUsers(data, currentUser: currentUser))
