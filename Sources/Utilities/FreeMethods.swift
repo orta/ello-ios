@@ -118,6 +118,24 @@ public func once(block: BasicBlock) -> BasicBlock {
     return until(1, block)
 }
 
+public func inBackground(block: BasicBlock) {
+    if AppSetup.sharedState.isTesting && NSThread.isMainThread() {
+        block()
+    }
+    else {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), block)
+    }
+}
+
+public func inForeground(block: BasicBlock) {
+    if AppSetup.sharedState.isTesting && NSThread.isMainThread() {
+        block()
+    }
+    else {
+        nextTick(block)
+    }
+}
+
 public func nextTick(block: BasicBlock) {
     nextTick(on: dispatch_get_main_queue(), block)
 }

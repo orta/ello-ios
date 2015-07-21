@@ -252,4 +252,15 @@ class FreeMethodsTests: XCTestCase {
         waitForExpectationsWithTimeout(0.2) { error in }
     }
 
+    func testBackgroundAndForegroundHelpers() {
+        var i = 0
+        inBackground {
+            i += 1
+            inForeground {
+                i += 1
+            }
+        }
+        expect(i) == 2
+    }
+
 }
