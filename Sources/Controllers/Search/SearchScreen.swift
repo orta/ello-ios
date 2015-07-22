@@ -134,8 +134,8 @@ public class SearchScreen: UIView, SearchScreenProtocol {
     }
 
     private func setupStreamView() {
-        let height = self.frame.height - toggleButtonContainer.frame.maxY
-        let frame = self.bounds.atY(toggleButtonContainer.frame.maxY).withHeight(height)
+        let height = self.frame.height - (toggleButtonContainer.frame.maxY + 20)
+        let frame = self.bounds.atY(toggleButtonContainer.frame.maxY + 20).withHeight(height)
         streamViewContainer = UIView(frame: frame)
         streamViewContainer.autoresizingMask = .FlexibleWidth | .FlexibleHeight
         streamViewContainer.backgroundColor = .whiteColor()
