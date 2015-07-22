@@ -5,35 +5,53 @@ import Nimble
 
 class DrawerViewControllerSpec: QuickSpec {
     override func spec() {
-       describe("nib") {
-            it("IBOutlets are not nil") {
-                let controller = DrawerViewController()
-                controller.loadView()
-                expect(controller.tableView).toNot(beNil())
-                expect(controller.navigationBar).toNot(beNil())
+        describe("DrawerViewController") {
+            describe("nib") {
+
+                var subject = DrawerViewController()
+
+                beforeEach {
+                    subject = DrawerViewController()
+                    self.showController(subject)
+                    subject.loadView()
+                }
+
+                it("IBOutlets are not nil") {
+                    expect(subject.tableView).toNot(beNil())
+                    expect(subject.navigationBar).toNot(beNil())
+                }
+
+                it("sets up the collectionView's delegate and dataSource") {
+                    subject.viewDidLoad()
+                    subject.viewWillAppear(false)
+                    let delegate = subject.tableView.delegate! as! DrawerViewController
+                    let dataSource = subject.tableView.dataSource! as! DrawerViewDataSource
+
+                    expect(delegate).to(equal(subject))
+                    expect(dataSource).to(equal(subject.dataSource))
+                }
             }
 
-            it("sets up the collectionView's delegate and dataSource") {
-                let controller = DrawerViewController()
-                controller.loadView()
-                controller.viewDidLoad()
-                controller.viewWillAppear(false)
-                let delegate = controller.tableView.delegate! as! DrawerViewController
-                let dataSource = controller.tableView.dataSource! as! DrawerViewDataSource
+            describe("viewDidLoad") {
 
-                expect(delegate).to(equal(controller))
-                expect(dataSource).to(equal(controller.dataSource))
-            }
-        }
+                var subject = DrawerViewController()
 
-        describe("viewDidLoad") {
-            it("sets the right bar button item") {
-                let controller = DrawerViewController()
-                controller.loadView()
-                controller.viewDidLoad()
+                beforeEach {
+                    subject = DrawerViewController()
+                    self.showController(subject)
+                    subject.loadView()
+                    subject.viewDidLoad()
+                }
 
-                let button = controller.elloNavigationItem.rightBarButtonItem
-                expect(button).toNot(beNil())
+                it("sets the right bar button item") {
+                    let button = subject.elloNavigationItem.rightBarButtonItem
+                    expect(button).toNot(beNil())
+                }
+                
+                it("registers cells") {
+                    subject.viewWillAppear(false) // required because the datasource is not setup until viewWillAppear
+                    expect(subject.tableView).to(haveRegisteredIdentifier(DrawerCell.reuseIdentifier()))
+                }
             }
         }
     }

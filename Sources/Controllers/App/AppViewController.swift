@@ -39,7 +39,6 @@ public class AppViewController: BaseElloViewController {
 
     override public func viewDidLoad() {
         super.viewDidLoad()
-//        println("---------PROFILING: AppVC ViewDidLoad: \(NSDate().timeIntervalSinceDate(LaunchDate))")
         setupNotificationObservers()
         setupStyles()
 
@@ -52,7 +51,6 @@ public class AppViewController: BaseElloViewController {
 
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-//        println("---------PROFILING: AppVC viewWillAppear: \(NSDate().timeIntervalSinceDate(LaunchDate))")
         if view.frame.height - logoView.frame.maxY < 250 {
             let top = view.frame.height - 250 - logoView.frame.height
             logoTopConstraint.constant = top
@@ -62,7 +60,6 @@ public class AppViewController: BaseElloViewController {
 
     var isStartup = true
     override public func viewDidAppear(animated: Bool) {
-//        println("---------PROFILING: AppVC viewDidAppear: \(NSDate().timeIntervalSinceDate(LaunchDate))")
         super.viewDidAppear(animated)
 
         if isStartup {
@@ -88,7 +85,6 @@ public class AppViewController: BaseElloViewController {
     }
 
     private func checkIfLoggedIn() {
-//        println("---------PROFILING: AppVC check if logged in: \(NSDate().timeIntervalSinceDate(LaunchDate))")
         let authToken = AuthToken()
 
         let defaults = NSUserDefaults.standardUserDefaults()
@@ -109,7 +105,6 @@ public class AppViewController: BaseElloViewController {
     }
 
     public func loadCurrentUser(var failure: ElloErrorCompletion? = nil) {
-//        println("---------PROFILING: AppVC logged in load current user start: \(NSDate().timeIntervalSinceDate(LaunchDate))")
         if failure == nil {
             logoView.animateLogo()
             failure = { _ in
@@ -147,7 +142,6 @@ public class AppViewController: BaseElloViewController {
     }
 
     private func showButtons(animated: Bool = true) {
-//        println("---------PROFILING: AppVC not logged in: \(NSDate().timeIntervalSinceDate(LaunchDate))")
         Tracker.sharedTracker.screenAppeared("Startup")
         animate(animated: animated) {
             self.joinButton.alpha = 1.0
@@ -227,7 +221,6 @@ extension AppViewController {
     }
 
     public func showMainScreen(user: User) {
-//        println("---------PROFILING: AppVC current user loaded: \(NSDate().timeIntervalSinceDate(LaunchDate))")
         Tracker.sharedTracker.identify(user)
 
         var vc = ElloTabBarController.instantiateFromStoryboard()

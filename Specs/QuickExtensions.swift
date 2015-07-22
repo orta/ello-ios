@@ -30,6 +30,15 @@ public extension UIStoryboard {
 
 }
 
+public func haveRegisteredIdentifier<T: UITableView>(identifier: String) -> NonNilMatcherFunc<T> {
+    return NonNilMatcherFunc { actualExpression, failureMessage in
+        failureMessage.postfixMessage = "\(identifier) should be registered"
+        let tableView = actualExpression.evaluate() as! UITableView
+        tableView.reloadData()
+        var cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: NSIndexPath(forRow: 0, inSection: 0)) as? UITableViewCell
+        return cell != nil
+    }
+}
 
 public func beVisibleIn<S: UIView>(view: UIView) -> NonNilMatcherFunc<S> {
     return NonNilMatcherFunc { actualExpression, failureMessage in

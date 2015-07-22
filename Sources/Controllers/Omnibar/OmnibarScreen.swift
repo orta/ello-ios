@@ -58,8 +58,7 @@ public protocol OmnibarScreenProtocol {
     func updatePostState()
 }
 
-
-public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+public class OmnibarScreen : UIView, OmnibarScreenProtocol {
     struct Size {
         static let margins = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
         static let textMargins = UIEdgeInsets(top: 22, left: 30, bottom: 9, right: 30)
@@ -70,6 +69,8 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
         static let buttonHeight = CGFloat(45)
         static let buttonWidth = CGFloat(70)
     }
+
+    var autoCompleteVC = AutoCompleteViewController()
 
 // MARK: public access to text and image
 
@@ -170,7 +171,8 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
 
     let textContainer = UIView()
     public let textView = UITextView()
-
+    var autoCompleteContainer: UIView
+    var autoCompleteThrottle: ThrottledBlock
     private var currentText : NSAttributedString?
     private var currentImage : UIImage?
     private var data : NSData?
@@ -179,6 +181,8 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
 // MARK: init
 
     override public init(frame: CGRect) {
+        self.autoCompleteContainer = UIView(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: 0))
+        self.autoCompleteThrottle = debounce(0.4)
         super.init(frame: frame)
         self.backgroundColor = UIColor.whiteColor()
 
@@ -190,6 +194,11 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
         setupTextViews()
         setupViewHierarchy()
         setupSwipeGesture()
+        autoCompleteVC.view.frame = autoCompleteContainer.frame
+        autoCompleteVC.delegate = self
+        autoCompleteContainer.addSubview(autoCompleteVC.view)
+        textView.autocorrectionType = .Yes
+        textView.inputAccessoryView = autoCompleteContainer
     }
 
     required public init(coder aDecoder: NSCoder) {
@@ -263,6 +272,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
         submitButton.addSubview(imageView)
         submitButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: submitButton.frame.width - imageView.frame.minX - 2)
     }
+
     // The textContainer is the outer gray background.  The text view is
     // configured to fill that container (only the container and the text view
     // insets are modified in layoutSubviews)
@@ -278,6 +288,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
         textView.delegate = self
         textView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
     }
+
     private func setupViewHierarchy() {
         for view in [navigationBar, avatarButtonView, buttonContainer, textContainer, sayElloOverlay] as [UIView] {
             self.addSubview(view)
@@ -565,12 +576,131 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
         alert.map { self.delegate?.omnibarPresentController($0) }
     }
 
+    private func isGif(buffer: UnsafeMutablePointer<UInt8>, length: Int) -> Bool {
+        if length >= 4 {
+            let isG = Int(buffer[0]) == 71
+            let isI = Int(buffer[1]) == 73
+            let isF = Int(buffer[2]) == 70
+            let is8 = Int(buffer[3]) == 56
+
+            return isG && isI && isF && is8
+        }
+        else {
+            return false
+        }
+    }
+
+
+// MARK: Text View editing
+
+    // Updates the text view, including the overlay
+    // and first responder state.  This method is meant to be used during
+    // initialization.
+    private func userSetCurrentText(value : NSAttributedString?) {
+        if currentText != value {
+            if let text = value {
+                textView.attributedText = text
+                sayElloOverlay.hidden = true
+            }
+            else {
+                textView.text = ""
+                sayElloOverlay.hidden = false
+            }
+        }
+
+        currentText = value
+        textView.resignFirstResponder()
+    }
+
+}
+
+
+// MARK: UINavigationControllerDelegate
+extension OmnibarScreen: UINavigationControllerDelegate {
+
+    public func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
+    }
+}
+
+
+// MARK: UITextViewDelegate
+extension OmnibarScreen: UITextViewDelegate {
+    public func textViewShouldBeginEditing(textView : UITextView) -> Bool {
+        return true
+    }
+
+    private func throttleAutoComplete(range: NSRange) {
+        self.autoCompleteThrottle { [unowned self] in
+            let autoComplete = AutoComplete()
+            // deleting characters yields a range.length > 0, go back 1 character for deletes
+            let location = range.length > 0 && range.location > 0 ? range.location - 1 : range.location
+            if let match = autoComplete.check(self.textView.text, location: location) {
+                self.autoCompleteVC.load(match) { count in
+                    if count > 0 {
+                        self.showAutoComplete(count)
+                    }
+                    else if count == 0 {
+                        self.hideAutoComplete()
+                    }
+                }
+            } else {
+                self.hideAutoComplete()
+            }
+
+        }
+    }
+
+    public func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText: String) -> Bool {
+
+        let newText = NSString(string: textView.text).stringByReplacingCharactersInRange(range, withString: replacementText)
+        currentText = ElloAttributedString.style(newText)
+
+        updatePostState()
+        throttleAutoComplete(range)
+        return true
+    }
+
+    private func hideAutoComplete() {
+        textView.autocorrectionType = .Yes
+        textView.inputAccessoryView = nil
+        textView.resignFirstResponder()
+        textView.becomeFirstResponder()
+    }
+
+    private func showAutoComplete(count: Int) {
+        textView.inputAccessoryView = autoCompleteContainer
+        textView.autocorrectionType = .No
+        textView.resignFirstResponder()
+        textView.becomeFirstResponder()
+        let height: CGFloat = count > 3 ? AutoCompleteCell.cellHeight() * 3 : AutoCompleteCell.cellHeight() * CGFloat(count)
+        if let constraint = textView.inputAccessoryView?.constraints().first as? NSLayoutConstraint {
+            constraint.constant = height
+        }
+        autoCompleteContainer.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: height)
+        autoCompleteVC.view.frame = autoCompleteContainer.frame
+    }
+}
+
+
+extension OmnibarScreen: AutoCompleteDelegate {
+    public func itemSelected(item: AutoCompleteItem) {
+        if let name = item.result.name {
+            let prefix = item.type == .Username ? "@" : ":"
+            let newText = textView.text.stringByReplacingCharactersInRange(item.match.range, withString: prefix + name + " ")
+            currentText = ElloAttributedString.style(newText)
+            textView.attributedText = currentText
+            updatePostState()
+            hideAutoComplete()
+        }
+    }
+}
+
+// MARK: UIImagePickerControllerDelegate
+extension OmnibarScreen: UIImagePickerControllerDelegate {
+
     private func openImagePicker(imageController : UIImagePickerController) {
         imageController.delegate = self
         delegate?.omnibarPresentController(imageController)
-    }
-
-    public func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
     }
 
     public func imagePickerController(controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
@@ -605,56 +735,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol, UITextViewDelegate, 
         }
     }
 
-    private func isGif(buffer: UnsafeMutablePointer<UInt8>, length: Int) -> Bool {
-        if length >= 4 {
-            let isG = Int(buffer[0]) == 71
-            let isI = Int(buffer[1]) == 73
-            let isF = Int(buffer[2]) == 70
-            let is8 = Int(buffer[3]) == 56
-
-            return isG && isI && isF && is8
-        }
-        else {
-            return false
-        }
-    }
-
     public func imagePickerControllerDidCancel(controller: UIImagePickerController) {
         delegate?.omnibarDismissController(controller)
     }
-
-// MARK: Text View editing
-
-    // Updates the text view, including the overlay
-    // and first responder state.  This method is meant to be used during
-    // initialization.
-    private func userSetCurrentText(value : NSAttributedString?) {
-        if currentText != value {
-            if let text = value {
-                textView.attributedText = text
-                sayElloOverlay.hidden = true
-            }
-            else {
-                textView.text = ""
-                sayElloOverlay.hidden = false
-            }
-        }
-
-        currentText = value
-        textView.resignFirstResponder()
-    }
-
-    public func textViewShouldBeginEditing(textView : UITextView) -> Bool {
-        return true
-    }
-
-    public func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText: String) -> Bool {
-        let newText = NSString(string: textView.text).stringByReplacingCharactersInRange(range, withString: replacementText)
-        currentText = ElloAttributedString.style(newText)
-
-        updatePostState()
-
-        return true
-    }
-
 }

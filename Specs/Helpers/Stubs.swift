@@ -268,6 +268,15 @@ extension UnknownRegion: Stubbable {
     }
 }
 
+extension AutoCompleteResult: Stubbable {
+    class func stub(values: [String : AnyObject]) -> AutoCompleteResult {
+        var result = AutoCompleteResult()
+        result.url = urlFromValue(values["url"]) ?? NSURL(string: "http://www.google.com")!
+        result.name = (values["name"] as? String) ?? "666"
+        return result
+    }
+}
+
 extension Activity: Stubbable {
     class func stub(values: [String : AnyObject]) -> Activity {
 

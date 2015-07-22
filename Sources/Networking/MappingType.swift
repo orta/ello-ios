@@ -10,46 +10,49 @@
 public enum MappingType: String {
     // these keys define the place in the JSON response where the ElloProvider
     // should look for the response data.
-    case CommentsType = "comments"
-    case PostsType = "posts"
     case ActivitiesType = "activities"
-    case UsersType = "users"
-    case ErrorType = "error"
-    case ErrorsType = "errors"
-    case AssetsType = "assets"
-    case RelationshipsType = "relationships"
     case AmazonCredentialsType = "credentials"
-    case NoContentType = "204"
+    case AssetsType = "assets"
+    case AutoCompleteResultType = "autocomplete_results"
     case AvailabilityType = "availability"
     case CategoriesType = "categories"
+    case CommentsType = "comments"
+    case ErrorType = "error"
+    case ErrorsType = "errors"
     case LovesType = "loves"
+    case NoContentType = "204"
+    case PostsType = "posts"
+    case RelationshipsType = "relationships"
+    case UsersType = "users"
 
     var fromJSON: FromJSONClosure {
         switch self {
-        case CommentsType:
-            return Comment.fromJSON
-        case PostsType:
-            return Post.fromJSON
         case ActivitiesType:
             return Activity.fromJSON
-        case UsersType:
-            return User.fromJSON
+        case AmazonCredentialsType:
+            return AmazonCredentials.fromJSON
+        case AssetsType:
+            return Asset.fromJSON
+        case .AutoCompleteResultType:
+            return AutoCompleteResult.fromJSON
+        case AvailabilityType:
+            return Availability.fromJSON
+        case CategoriesType:
+            return DynamicSettingCategory.fromJSON
+        case CommentsType:
+            return Comment.fromJSON
         case ErrorType:
             return ElloNetworkError.fromJSON
         case ErrorsType:
             return ElloNetworkError.fromJSON
-        case AssetsType:
-            return Asset.fromJSON
-        case AmazonCredentialsType:
-            return AmazonCredentials.fromJSON
-        case AvailabilityType:
-            return Availability.fromJSON
-        case RelationshipsType:
-            return Relationship.fromJSON
-        case CategoriesType:
-            return DynamicSettingCategory.fromJSON
         case LovesType:
             return Love.fromJSON
+        case PostsType:
+            return Post.fromJSON
+        case RelationshipsType:
+            return Relationship.fromJSON
+        case UsersType:
+            return User.fromJSON
         default:
             return UnknownJSONAble.fromJSON
         }
