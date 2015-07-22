@@ -24,10 +24,6 @@ public extension UIImage {
         return imageWithColor(UIColor(hex: hex))
     }
 
-    func squareImageToSize(size: CGSize) -> UIImage? {
-        return self.squareImage()?.resizeToSize(size)
-    }
-
     func squareImage() -> UIImage? {
         var originalWidth  = self.size.width
         var originalHeight = self.size.height
@@ -48,25 +44,14 @@ public extension UIImage {
         return UIImage(CGImage: imageRef, scale: UIScreen.mainScreen().scale, orientation: self.imageOrientation)
     }
 
-    func resizeToSize(targetSize: CGSize) -> UIImage? {
-        let size = self.size
-
-        let widthRatio  = targetSize.width  / self.size.width
-        let heightRatio = targetSize.height / self.size.height
-
-        // Figure out what our orientation is, and use that to form the rectangle
-        var newSize: CGSize
-        if(widthRatio > heightRatio) {
-            newSize = CGSizeMake(size.width * heightRatio, size.height * heightRatio)
-        } else {
-            newSize = CGSizeMake(size.width * widthRatio,  size.height * widthRatio)
-        }
+    func resizeToSize(targetSize: CGSize) -> UIImage {
+        let newSize = self.size.scaledSize(targetSize)
 
         // This is the rect that we've calculated out and this is what is actually used below
         let rect = CGRectMake(0, 0, newSize.width, newSize.height)
 
         // Actually do the resizing to the rect using the ImageContext stuff
-        UIGraphicsBeginImageContextWithOptions(newSize, false, UIScreen.mainScreen().scale)
+        UIGraphicsBeginImageContextWithOptions(newSize, false, self.scale)
         self.drawInRect(rect)
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
@@ -75,13 +60,35 @@ public extension UIImage {
     }
 
     func roundCorners() -> UIImage? {
-        UIGraphicsBeginImageContextWithOptions(self.size, false, UIScreen.mainScreen().scale)
+        UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
         let rect = CGRectMake(0.0, 0.0, self.size.width, self.size.height)
         UIBezierPath(roundedRect: rect, cornerRadius: size.width / 2.0).addClip()
         self.drawInRect(rect)
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return newImage
+    }
+
+    func copyWithCorrectOrientationAndSize(completion:(image: UIImage) -> Void) {
+        inBackground {
+            let sourceImage: UIImage
+            if self.imageOrientation == .Up && self.scale == 1.0 {
+                sourceImage = self
+            }
+            else {
+                let newSize = CGSize(width: self.size.width * self.scale, height: self.size.height * self.scale)
+                UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+                self.drawInRect(CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
+                sourceImage = UIGraphicsGetImageFromCurrentImageContext()
+                UIGraphicsEndImageContext()
+            }
+
+            let maxSize = CGSize(width: 1200.0, height: 3600.0)
+            let resizedImage = sourceImage.resizeToSize(maxSize)
+            inForeground {
+                completion(image: resizedImage)
+            }
+        }
     }
 
 }
