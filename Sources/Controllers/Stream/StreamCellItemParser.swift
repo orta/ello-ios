@@ -119,8 +119,8 @@ public struct StreamCellItemParser {
                 jsonable: user,
                 type: .UserListItem,
                 data: nil,
-                oneColumnCellHeight: 56.0,
-                multiColumnCellHeight: 56.0,
+                oneColumnCellHeight: 75.0,
+                multiColumnCellHeight: 75.0,
                 isFullWidth: true
             )
         }

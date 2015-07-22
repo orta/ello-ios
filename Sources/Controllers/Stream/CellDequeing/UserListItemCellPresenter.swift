@@ -34,6 +34,7 @@ public struct UserListItemCellPresenter {
             cell.relationshipControl.userAtName = user.atName
             cell.relationshipControl.relationship = user.relationshipPriority
             cell.usernameLabel.text = user.atName
+            cell.nameLabel.text = user.name
         }
     }
 }

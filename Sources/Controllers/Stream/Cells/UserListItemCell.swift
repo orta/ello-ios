@@ -12,6 +12,7 @@ public class UserListItemCell: UICollectionViewCell {
 
     @IBOutlet weak public var avatarButton: AvatarButton!
     @IBOutlet weak public var usernameLabel: UILabel!
+    @IBOutlet weak public var nameLabel: UILabel!
     @IBOutlet weak public var relationshipControl: RelationshipControl!
     weak var userDelegate: UserDelegate?
     var bottomBorder = CALayer()
@@ -26,9 +27,13 @@ public class UserListItemCell: UICollectionViewCell {
     }
 
     private func style() {
-        usernameLabel.font = UIFont.typewriterFont(12.0)
-        usernameLabel.textColor = UIColor.greyA()
+        usernameLabel.font = UIFont.regularBoldFont(18.0)
+        usernameLabel.textColor = UIColor.blackColor()
         usernameLabel.lineBreakMode = NSLineBreakMode.ByTruncatingTail
+        nameLabel.font = UIFont.typewriterFont(12.0)
+        nameLabel.textColor = UIColor.greyA()
+        nameLabel.lineBreakMode = NSLineBreakMode.ByTruncatingTail
+
         // bottom border
         bottomBorder.backgroundColor = UIColor.greyF1().CGColor
         self.layer.addSublayer(bottomBorder)
