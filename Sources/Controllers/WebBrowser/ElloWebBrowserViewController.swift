@@ -71,12 +71,13 @@ extension ElloWebBrowserViewController : WebLinkDelegate {
     public func webLinkTapped(type: ElloURI, data: String) {
         switch type {
         case .BetaPublicProfiles, .Downloads, .Email, .External, .ForgotMyPassword, .Internal, .Manifesto, .RequestInvite, .RequestInvitation, .Subdomain, .WhoMadeThis, .WTF: break // this is handled in ElloWebViewHelper/KINWebBrowserViewController
+        case .Discover: self.selectTab(.Discovery)
         case .Enter, .Exit: navigationController?.dismissViewControllerAnimated(true, completion: nil)
         case .Friends, .Noise: self.selectTab(.Stream)
         case .Notifications: self.selectTab(.Notifications)
         case .Post: self.showPostDetail(data)
         case .Profile: self.showProfile(data)
-        case .Search, .Discover: self.selectTab(.Discovery)
+        case .Search: showSearch(data)
         case .Settings: self.showSettings()
         }
     }
@@ -95,6 +96,19 @@ extension ElloWebBrowserViewController : WebLinkDelegate {
         let vc = PostDetailViewController(postParam: param)
         vc.currentUser = ElloWebBrowserViewController.currentUser
         navigationController?.pushViewController(vc, animated: true)
+    }
+
+    private func showSearch(terms: String) {
+        if terms == "" {
+            let vc = SearchViewController()
+            vc.currentUser = ElloWebBrowserViewController.currentUser
+            navigationController?.pushViewController(vc, animated: true)
+        }
+        else {
+            var vc = SimpleStreamViewController(endpoint: .SearchForPosts(terms: terms), title: "\(terms)")
+            vc.currentUser = ElloWebBrowserViewController.currentUser
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
 
     private func showSettings() {
