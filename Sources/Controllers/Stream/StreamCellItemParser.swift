@@ -12,8 +12,26 @@ public struct StreamCellItemParser {
 
     public init(){}
 
-    public func parse(items: [JSONAble], streamKind: StreamKind, currentUser: User? = nil) -> [StreamCellItem] {
+    public func parseAllForTesting(items: [JSONAble]) -> [StreamCellItem] {
+        var retItems = [StreamCellItem]()
+        for item in items {
+            if let post = item as? Post {
+                retItems += postCellItems([post], streamKind: .Friend)
+            }
+            if let comment = item as? Comment {
+                retItems += commentCellItems([comment])
+            }
+            if let notification = item as? Notification {
+                retItems += notificationCellItems([notification])
+            }
+            if let user = item as? User {
+                retItems += userCellItems([user])
+            }
+        }
+        return retItems
+    }
 
+    public func parse(items: [JSONAble], streamKind: StreamKind, currentUser: User? = nil) -> [StreamCellItem] {
         let viewsAdultContent = currentUser?.viewsAdultContent ?? false
         var filteredItems = streamKind.filter(items, viewsAdultContent: viewsAdultContent)
         if let posts = filteredItems as? [Post] {

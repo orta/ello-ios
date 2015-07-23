@@ -407,6 +407,10 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         return indexPaths
     }
 
+    public func testingElementsForJSONAble(jsonable: JSONAble, change: ContentChange) -> ([NSIndexPath], [StreamCellItem]) {
+        return elementsForJSONAble(jsonable, change: change)
+    }
+
     private func elementsForJSONAble(jsonable: JSONAble, change: ContentChange) -> ([NSIndexPath], [StreamCellItem]) {
         var indexPaths = [NSIndexPath]()
         var items = [StreamCellItem]()
