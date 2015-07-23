@@ -36,8 +36,7 @@ public class StreamTextCellSizeCalculator: NSObject, UIWebViewDelegate {
     }
 
     private func loadNext() {
-        if !self.cellItems.isEmpty {
-            let item = self.cellItems[0]
+        if let item = self.cellItems.safeValue(0) {
             if let comment = item.jsonable as? Comment {
                 // need to add back in the postMargin (15) since the maxWidth should already
                 // account for 15 on the left that is part of the commentMargin (60)
@@ -48,7 +47,10 @@ public class StreamTextCellSizeCalculator: NSObject, UIWebViewDelegate {
             }
             let textElement = item.data as? TextRegion
 
-            if let textElement = textElement {
+            if AppSetup.sharedState.isTesting {
+                assignCellHeight(20)
+            }
+            else if let textElement = textElement {
                 let content = textElement.content
                 let strippedContent = StreamTextCellSizeCalculator.stripImageSrc(content)
                 let html = StreamTextCellHTML.postHTML(strippedContent)
@@ -66,16 +68,20 @@ public class StreamTextCellSizeCalculator: NSObject, UIWebViewDelegate {
     }
 
     public func webViewDidFinishLoad(webView: UIWebView) {
-        if self.cellItems.count > 0 {
-            var cellItem = self.cellItems.removeAtIndex(0)
-            if let textHeight = self.webView.windowContentSize()?.height {
-                cellItem.multiColumnCellHeight = textHeight
-                cellItem.oneColumnCellHeight = textHeight
-                cellItem.calculatedWebHeight = textHeight
-            }
+        let textHeight = self.webView.windowContentSize()?.height
+        assignCellHeight(textHeight ?? 0)
+    }
+
+    private func assignCellHeight(height: CGFloat) {
+        if let cellItem = self.cellItems.safeValue(0) {
+            self.cellItems.removeAtIndex(0)
+            cellItem.multiColumnCellHeight = height
+            cellItem.oneColumnCellHeight = height
+            cellItem.calculatedWebHeight = height
         }
         loadNext()
     }
+
 
     public static func stripImageSrc(html: String) -> String {
         // finds image tags, replaces them with data:image/png (inlines image data)
