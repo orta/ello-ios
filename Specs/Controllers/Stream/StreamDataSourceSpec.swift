@@ -66,7 +66,6 @@ class StreamDataSourceSpec: QuickSpec {
                 vc.dataSource = subject
                 self.showController(vc)
                 fakeCollectionView = FakeCollectionView(frame: vc.collectionView.frame, collectionViewLayout: vc.collectionView.collectionViewLayout)
-
             }
 
             afterEach {

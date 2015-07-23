@@ -72,16 +72,6 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         updateFilteredItems()
     }
 
-    public func removeCellItemsBelow(index: Int) {
-        var belowIndex = index
-        if index > streamCellItems.count {
-            belowIndex = streamCellItems.count
-        }
-        let remainingCellItems = streamCellItems[0 ..< belowIndex]
-        streamCellItems = Array(remainingCellItems)
-        updateFilteredItems()
-    }
-
     public func indexPathForItem(item: StreamCellItem) -> NSIndexPath? {
         if let index = find(self.visibleCellItems, item) {
             return NSIndexPath(forItem: index, inSection: 0)
@@ -226,11 +216,6 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         if !isValidIndexPath(indexPath) { return true }
 
         return visibleCellItems[indexPath.item].isFullWidth
-    }
-
-    public func maintainAspectRatioForItemAtIndexPath(indexPath:NSIndexPath) -> Bool {
-        return false
-//        return visibleCellItems[indexPath.item].data?.kind == .Image ?? false
     }
 
     public func groupForIndexPath(indexPath:NSIndexPath) -> String {
