@@ -13,10 +13,12 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
     var post: Post?
     var postParam: String!
     var navigationBar: ElloNavigationBar!
+    var localToken: String!
 
     required public init(postParam: String) {
         self.postParam = postParam
         super.init(nibName: nil, bundle: nil)
+        self.localToken = streamViewController.resetInitialPageLoadingToken()
         ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.initialLoadClosure = reloadEntirePostDetail
         streamViewController.loadInitialPage()
@@ -62,13 +64,13 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
     // MARK : private
 
     private func reloadEntirePostDetail() {
-        let localToken = streamViewController.resetInitialPageLoadingToken()
+        localToken = streamViewController.resetInitialPageLoadingToken()
 
         PostService().loadPost(
             postParam,
             streamKind: .PostDetail(postParam: postParam),
             success: { (post, responseConfig) in
-                if !self.streamViewController.isValidInitialPageLoadingToken(localToken) { return }
+                if !self.streamViewController.isValidInitialPageLoadingToken(self.localToken) { return }
                 self.postLoaded(post, responseConfig: responseConfig)
             },
             failure: { (error, statusCode) in
@@ -167,6 +169,7 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
             model.endpoint!,
             streamKind: streamViewController.streamKind,
             success: { (jsonables, responseConfig) in
+                if !self.streamViewController.isValidInitialPageLoadingToken(self.localToken) { return }
                 if let users = jsonables as? [User] {
                     model.users = users
                     if self.streamViewController.initialDataLoaded {
@@ -174,9 +177,7 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
                     }
                 }
             },
-            failure: { (error, statusCode) in
-
-            },
+            failure: nil,
             noContent: nil)
     }
 
