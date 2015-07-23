@@ -44,8 +44,8 @@ public final class AutoCompleteResult: JSONAble {
     override public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         let json = JSON(data)
         var result = AutoCompleteResult()
-        result.name = json["username"].string
-        if let avatar = json["avatar_small_url"].string, let url = NSURL(string: avatar) {
+        result.name = json["name"].string
+        if let avatar = json["image_url"].string, let url = NSURL(string: avatar) {
             result.url = url
         }
         return result
