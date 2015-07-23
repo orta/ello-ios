@@ -23,7 +23,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     // these are either the same as streamCellItems (no filter) or if a filter
     // is applied this stores the filtered items
-    public var visibleCellItems:[StreamCellItem] = []
+    public private(set) var visibleCellItems:[StreamCellItem] = []
 
     // if a filter is added or removed, we update the items
     public var streamFilter: StreamFilter {
