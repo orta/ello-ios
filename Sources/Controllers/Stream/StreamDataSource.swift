@@ -542,7 +542,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     public func isValidIndexPath(indexPath: NSIndexPath) -> Bool {
-        return indexPath.item < count(visibleCellItems) && indexPath.section == 0
+        return indexPath.item >= 0 &&  indexPath.item < count(visibleCellItems) && indexPath.section == 0
     }
 
     private func calculateCellItems(cellItems:[StreamCellItem], withWidth: CGFloat, completion: ElloEmptyCompletion) {
