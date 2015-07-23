@@ -197,9 +197,10 @@ class OmnibarViewControllerSpec: QuickSpec {
         }
 
         describe("initialization with default text") {
+            var post = Post.stub([:])
 
             beforeEach {
-                controller = OmnibarViewController(parentPost: Post.stub([:]), defaultText: "@666 ")
+                controller = OmnibarViewController(parentPost: post, defaultText: "@666 ")
             }
 
             afterEach {
@@ -218,7 +219,7 @@ class OmnibarViewControllerSpec: QuickSpec {
                 let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
                 Tmp.write(data, to: controller.omnibarDataName())
 
-                controller = OmnibarViewController(parentPost: Post.stub([:]), defaultText: "@666 ")
+                controller = OmnibarViewController(parentPost: post, defaultText: "@666 ")
                 expect(controller.screen.text).to(contain("@666 "))
                 expect(controller.screen.text).to(contain("testing!"))
             }
@@ -231,7 +232,7 @@ class OmnibarViewControllerSpec: QuickSpec {
                 let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
                 Tmp.write(data, to: controller.omnibarDataName())
 
-                controller = OmnibarViewController(parentPost: Post.stub([:]), defaultText: "@666 ")
+                controller = OmnibarViewController(parentPost: post, defaultText: "@666 ")
                 expect(controller.screen.text).to(contain("@666 "))
                 expect(controller.screen.text).notTo(contain("@666 @666 "))
                 expect(controller.screen.text).to(contain("testing!"))
@@ -245,7 +246,7 @@ class OmnibarViewControllerSpec: QuickSpec {
                 let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
                 Tmp.write(data, to: controller.omnibarDataName())
 
-                controller = OmnibarViewController(parentPost: Post.stub([:]), defaultText: "@666 ")
+                controller = OmnibarViewController(parentPost: post, defaultText: "@666 ")
                 expect(controller.screen.text).to(contain("@666"))
                 expect(controller.screen.text).notTo(contain("@666 @666 "))
             }
@@ -258,7 +259,7 @@ class OmnibarViewControllerSpec: QuickSpec {
                 let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
                 Tmp.write(data, to: controller.omnibarDataName())
 
-                controller = OmnibarViewController(parentPost: Post.stub([:]), defaultText: "@666 ")
+                controller = OmnibarViewController(parentPost: post, defaultText: "@666 ")
                 expect(controller.screen.text).to(contain("@666 "))
                 expect(controller.screen.text).to(contain("@6666 "))
             }
