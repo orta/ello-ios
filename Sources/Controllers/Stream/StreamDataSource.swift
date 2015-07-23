@@ -522,9 +522,10 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     public func toggleCollapsedForIndexPath(indexPath: NSIndexPath) {
-        if let post = self.postForIndexPath(indexPath) {
+        if let post = self.postForIndexPath(indexPath),
             let cellItem = self.visibleStreamCellItem(at: indexPath)
-            let newState: StreamCellState = cellItem?.state == .Expanded ? .Collapsed : .Expanded
+        {
+            let newState: StreamCellState = cellItem.state == .Expanded ? .Collapsed : .Expanded
             let cellItems = self.cellItemsForPost(post)
             for item in cellItems {
                 // don't toggle the footer's state, it is used by comment open/closed
