@@ -1,3 +1,52 @@
+### Ello Build v1.0.0(2730) July 23, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #501 - Username and (disabled) Emoji Autocomplete
+Adds username and (in the future when we have an api endpoint) emoji autocompletion in the Omnibar. This is the first pass at auto completion. We may wish to add to this in the future.
+
+Finishes: https://www.pivotaltracker.com/story/show/85660754
+
+The best way to get a feel for this is to install it on a device and mess around with it.
+
+![screen shot 2015-07-21 at 10 56 31 am](https://cloud.githubusercontent.com/assets/12459/8807106/7b98e8dc-2f97-11e5-9ea5-1c22075b7453.png)
+
+------
+
+#### #503 - Doesn't exactly fix #98986614, but improvements!
+- Consolidates the UIImage extensions
+- Adds specs to the image resizing code.
+- Adds `inBackground/inForeground` helpers to FreeMethods.  These run synchronously when running specs.
+
+------
+
+#### #502 - Reorganize/alphabetize all of the cases in ElloAPI
+* Helps with my OCD
+
+![image](https://cloud.githubusercontent.com/assets/96433/8808189/4b3f384c-2f9e-11e5-809b-5406789e944e.png)
+
+------
+
+#### #500 - Updated to use latest ello/Moya version (which is also the latest ashfurrow/Moya version!)
+
+------
+
+#### #498 - Notifications now support linking!
+The 'application_target' is now inspected and passed into the NotificationsViewController, which can open the user or post that is linked to.
+
+------
+
+#### #497 - Update to cocoapods 0.38.0.
+* This also kills off the Makefile that didn't seem like it was needed anymore with all of the rake tasks
+* Also kills of the crashlytics.xcconfig warning we were seeing when doing a pod install
+* Also updates the minor versions of active support and json
+
+[Finishes #99150368]
+    
+------------
+
 ### Ello Build v1.0.0(2680) July 17, 2015
 
     RELEASE NOTES
