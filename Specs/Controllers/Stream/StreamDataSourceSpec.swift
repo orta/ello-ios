@@ -967,7 +967,7 @@ class StreamDataSourceSpec: QuickSpec {
                 }
             }
 
-            fdescribe("-toggleCollapsedForIndexPath:") {
+            describe("-toggleCollapsedForIndexPath:") {
                 var postToToggle: Post!
                 var postNotToToggle: Post!
 
@@ -1033,7 +1033,7 @@ class StreamDataSourceSpec: QuickSpec {
                 }
             }
 
-            fdescribe("-isFullWidthAtIndexPath:") {
+            describe("-isFullWidthAtIndexPath:") {
 
                 beforeEach {
                     let items = [
@@ -1077,7 +1077,7 @@ class StreamDataSourceSpec: QuickSpec {
 
             }
 
-            fdescribe("-groupForIndexPath:") {
+            describe("-groupForIndexPath:") {
                 var post: Post!
                 beforeEach {
                     var items = [StreamCellItem]()
@@ -1147,7 +1147,7 @@ class StreamDataSourceSpec: QuickSpec {
                 }
             }
 
-            fdescribe("-insertUnsizedCellItems:withWidth:startingIndexPath:completion:") {
+            describe("-insertUnsizedCellItems:withWidth:startingIndexPath:completion:") {
                 var post: Post!
                 var newCellItem: StreamCellItem!
 
