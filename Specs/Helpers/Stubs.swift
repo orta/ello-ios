@@ -37,7 +37,7 @@ extension User: Stubbable {
         } ?? RelationshipPriority.None
 
         var user =  User(
-            id: (values["id"] as? String) ?? "stub-user-id",
+            id: (values["id"] as? String) ?? NSUUID().UUIDString,
             href: (values["href"] as? String) ?? "href",
             username: (values["username"] as? String) ?? "username",
             name: (values["name"] as? String) ?? "name",
@@ -84,19 +84,19 @@ extension Love: Stubbable {
 
         // create necessary links
 
-        let post: Post = (values["post"] as? Post) ?? Post.stub(["id": values["postId"] ?? "stub-post-id"])
+        let post: Post = (values["post"] as? Post) ?? Post.stub(["id": values["postId"] ?? NSUUID().UUIDString])
         ElloLinkedStore.sharedInstance.setObject(post, forKey: post.id, inCollection: MappingType.PostsType.rawValue)
 
-        let user: User = (values["user"] as? User) ?? User.stub(["id": values["userId"] ?? "stub-user-id"])
+        let user: User = (values["user"] as? User) ?? User.stub(["id": values["userId"] ?? NSUUID().UUIDString])
         ElloLinkedStore.sharedInstance.setObject(user, forKey: user.id, inCollection: MappingType.UsersType.rawValue)
 
         var love = Love(
-            id: (values["id"] as? String) ?? "stub-love-id",
+            id: (values["id"] as? String) ?? NSUUID().UUIDString,
             createdAt: (values["createdAt"] as? NSDate) ?? NSDate(),
             updatedAt: (values["updatedAt"] as? NSDate) ?? NSDate(),
             deleted: (values["deleted"] as? Bool) ?? true,
-            postId: (values["postId"] as? String) ?? "stub-post-id",
-            userId: (values["userId"] as? String) ?? "stub-user-id"
+            postId: post.id,
+            userId: user.id
         )
 
         return love
@@ -137,11 +137,11 @@ extension Post: Stubbable {
 
         // create necessary links
 
-        let author: User = (values["author"] as? User) ?? User.stub(["id": values["authorId"] ?? "stub-author-id"])
+        let author: User = (values["author"] as? User) ?? User.stub(["id": values["authorId"] ?? NSUUID().UUIDString])
         ElloLinkedStore.sharedInstance.setObject(author, forKey: author.id, inCollection: MappingType.UsersType.rawValue)
 
         var post = Post(
-            id: (values["id"] as? String) ?? "stub-post-id",
+            id: (values["id"] as? String) ?? NSUUID().UUIDString,
             createdAt: (values["createdAt"] as? NSDate) ?? NSDate(),
             authorId: author.id,
             href: (values["href"] as? String) ?? "sample-href",
@@ -200,13 +200,13 @@ extension Comment: Stubbable {
     class func stub(values: [String : AnyObject]) -> Comment {
 
         // create necessary links
-        let author: User = (values["author"] as? User) ?? User.stub(["id": values["authorId"] ?? "stub-comment-author-id"])
+        let author: User = (values["author"] as? User) ?? User.stub(["id": values["authorId"] ?? NSUUID().UUIDString])
         ElloLinkedStore.sharedInstance.setObject(author, forKey: author.id, inCollection: MappingType.UsersType.rawValue)
-        let parentPost: Post = (values["parentPost"] as? Post) ?? Post.stub(["id": values["parentPostId"] ?? "stub-comment-parent-post-id"])
+        let parentPost: Post = (values["parentPost"] as? Post) ?? Post.stub(["id": values["parentPostId"] ?? NSUUID().UUIDString])
         ElloLinkedStore.sharedInstance.setObject(parentPost, forKey: parentPost.id, inCollection: MappingType.PostsType.rawValue)
 
         var comment = Comment(
-            id: (values["id"] as? String) ?? "test-comment-id",
+            id: (values["id"] as? String) ?? NSUUID().UUIDString,
             createdAt: (values["createdAt"] as? NSDate) ?? NSDate(),
             authorId: author.id,
             postId: parentPost.id,
@@ -251,7 +251,7 @@ extension EmbedRegion: Stubbable {
     class func stub(values: [String : AnyObject]) -> EmbedRegion {
         let serviceString = (values["service"] as? String) ?? EmbedType.Youtube.rawValue
         var embedRegion = EmbedRegion(
-            id: (values["id"] as? String) ?? "embed-region-id",
+            id: (values["id"] as? String) ?? NSUUID().UUIDString,
             service: EmbedType(rawValue: serviceString)!,
             url: urlFromValue(values["url"]) ?? NSURL(string: "http://www.google.com")!,
             thumbnailSmallUrl: urlFromValue(values["thumbnailSmallUrl"]) ?? NSURL(string: "http://www.google.com")!,
@@ -284,7 +284,7 @@ extension Activity: Stubbable {
         let subjectTypeString = (values["subjectType"] as? String) ?? SubjectType.Post.rawValue
 
         let activity = Activity(
-            id: (values["id"] as? String) ?? "stub-activity-id",
+            id: (values["id"] as? String) ?? NSUUID().UUIDString,
             createdAt: (values["createdAt"] as? NSDate) ?? NSDate(),
             kind: Activity.Kind(rawValue: activityKindString) ?? Activity.Kind.FriendPost,
             subjectType: SubjectType(rawValue: subjectTypeString) ?? SubjectType.Post
@@ -309,7 +309,7 @@ extension Activity: Stubbable {
 
 extension Asset: Stubbable {
     class func stub(values: [String : AnyObject]) -> Asset {
-        var asset = Asset(id: (values["id"] as? String) ?? "stub-asset-id")
+        var asset = Asset(id: (values["id"] as? String) ?? NSUUID().UUIDString)
         asset.optimized = values["optimized"] as? Attachment
         asset.smallScreen = values["smallScreen"] as? Attachment
         asset.ldpi = values["ldpi"] as? Attachment
@@ -346,13 +346,13 @@ extension Notification: Stubbable {
 extension Relationship: Stubbable {
     class func stub(values: [String : AnyObject]) -> Relationship {
         // create necessary links
-        let owner: User = (values["owner"] as? User) ?? User.stub(["relationshipPriority": "self", "id": values["ownerId"] ?? "stub-relationship-owner-id"])
+        let owner: User = (values["owner"] as? User) ?? User.stub(["relationshipPriority": "self", "id": values["ownerId"] ?? NSUUID().UUIDString])
         ElloLinkedStore.sharedInstance.setObject(owner, forKey: owner.id, inCollection: MappingType.UsersType.rawValue)
-        let subject: User = (values["subject"] as? User) ?? User.stub(["relationshipPriority": "friend", "id": values["subjectId"] ?? "stub-relationship-subject-id"])
+        let subject: User = (values["subject"] as? User) ?? User.stub(["relationshipPriority": "friend", "id": values["subjectId"] ?? NSUUID().UUIDString])
         ElloLinkedStore.sharedInstance.setObject(owner, forKey: owner.id, inCollection: MappingType.UsersType.rawValue)
 
         return Relationship(
-            id: (values["id"] as? String) ?? "stub-relationship-id",
+            id: (values["id"] as? String) ?? NSUUID().UUIDString,
             createdAt: (values["createdAt"] as? NSDate) ?? NSDate(),
             ownerId: owner.id,
             subjectId: subject.id

@@ -8,11 +8,21 @@
 
 import Foundation
 
-public enum StreamCellState {
+public enum StreamCellState: Printable, DebugPrintable {
     case None
     case Loading
     case Expanded
     case Collapsed
+
+    public var description: String {
+        switch self {
+        case None: return "None"
+        case Loading: return "Loading"
+        case Expanded: return "Expanded"
+        case Collapsed: return "Collapsed"
+        }
+    }
+    public var debugDescription: String { return "StreamCellState.\(description)" }
 }
 
 

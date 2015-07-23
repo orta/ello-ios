@@ -23,7 +23,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     // these are either the same as streamCellItems (no filter) or if a filter
     // is applied this stores the filtered items
-    public var visibleCellItems:[StreamCellItem] = []
+    public private(set) var visibleCellItems:[StreamCellItem] = []
 
     // if a filter is added or removed, we update the items
     public var streamFilter: StreamFilter {
@@ -69,16 +69,6 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     public func removeAllCellItems() {
         streamCellItems = []
-        updateFilteredItems()
-    }
-
-    public func removeCellItemsBelow(index: Int) {
-        var belowIndex = index
-        if index > streamCellItems.count {
-            belowIndex = streamCellItems.count
-        }
-        let remainingCellItems = streamCellItems[0 ..< belowIndex]
-        streamCellItems = Array(remainingCellItems)
         updateFilteredItems()
     }
 
@@ -226,11 +216,6 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         if !isValidIndexPath(indexPath) { return true }
 
         return visibleCellItems[indexPath.item].isFullWidth
-    }
-
-    public func maintainAspectRatioForItemAtIndexPath(indexPath:NSIndexPath) -> Bool {
-        return false
-//        return visibleCellItems[indexPath.item].data?.kind == .Image ?? false
     }
 
     public func groupForIndexPath(indexPath:NSIndexPath) -> String {
@@ -537,9 +522,10 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     public func toggleCollapsedForIndexPath(indexPath: NSIndexPath) {
-        if let post = self.postForIndexPath(indexPath) {
+        if let post = self.postForIndexPath(indexPath),
             let cellItem = self.visibleStreamCellItem(at: indexPath)
-            let newState: StreamCellState = cellItem?.state == .Expanded ? .Collapsed : .Expanded
+        {
+            let newState: StreamCellState = cellItem.state == .Expanded ? .Collapsed : .Expanded
             let cellItems = self.cellItemsForPost(post)
             for item in cellItems {
                 // don't toggle the footer's state, it is used by comment open/closed

@@ -441,41 +441,6 @@ class StreamViewControllerSpec: QuickSpec {
                     }
                 }
 
-                describe("collectionView(_:layout:maintainAspectRatioForItemAtIndexPath:)") {
-
-                    xit("returns false for a Header Cell") {
-
-                    }
-
-                    xit("returns false for a Comment Header Cell") {
-
-                    }
-
-                    xit("returns false for a Footer Cell") {
-
-                    }
-
-                    xit("returns true for an Image Cell") {
-
-                    }
-
-                    xit("returns false for a Text Cell") {
-
-                    }
-
-                    xit("returns false for a Comment Cell") {
-
-                    }
-
-                    xit("returns false for a Profile Header Cell") {
-
-                    }
-
-                    xit("returns false for a Notification Cell") {
-
-                    }
-                }
-
                 describe("collectionView(_:layout:isFullWidthAtIndexPath:)") {
 
                     xit("returns false for a Header Cell") {

@@ -19,9 +19,6 @@ public protocol StreamCollectionViewLayoutDelegate: UICollectionViewDelegate {
     func collectionView (collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
         heightForItemAtIndexPath indexPath: NSIndexPath, numberOfColumns: NSInteger) -> CGFloat
 
-    func collectionView (collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
-        maintainAspectRatioForItemAtIndexPath indexPath: NSIndexPath) -> Bool
-
     optional func collectionView (collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
         groupForItemAtIndexPath indexPath: NSIndexPath) -> String
 
@@ -173,18 +170,7 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
 
             var itemHeight : CGFloat = 0.0
 
-            var forceAspectRatio = false
-            if let maintainAspectRatio = delegate?.collectionView(collectionView!, layout: self, maintainAspectRatioForItemAtIndexPath:indexPath) {
-                forceAspectRatio = maintainAspectRatio
-            }
-
-            if forceAspectRatio {
-                let itemSize = delegate?.collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: indexPath)
-                if itemSize?.height > 0 && itemSize?.width > 0 {
-                    itemHeight = floor(itemSize!.height*itemWidth/itemSize!.width)
-                }
-            }
-            else if let height = delegate?.collectionView(self.collectionView!, layout: self, heightForItemAtIndexPath: indexPath, numberOfColumns: columnCount) {
+            if let height = delegate?.collectionView(self.collectionView!, layout: self, heightForItemAtIndexPath: indexPath, numberOfColumns: columnCount) {
                 itemHeight = height
             }
 

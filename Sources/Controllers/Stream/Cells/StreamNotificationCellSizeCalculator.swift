@@ -40,7 +40,10 @@ public class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
 
     private func loadNext() {
         if let activity = self.cellItems.safeValue(0) {
-            if let notification = activity.jsonable as? Notification,
+            if AppSetup.sharedState.isTesting {
+                assignCellHeight(20)
+            }
+            else if let notification = activity.jsonable as? Notification,
                 let textRegion = notification.textRegion
             {
                 let content = textRegion.content

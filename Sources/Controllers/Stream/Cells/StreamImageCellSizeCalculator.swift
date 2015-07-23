@@ -16,7 +16,7 @@ public class StreamImageCellSizeCalculator: NSObject {
     public var completion: ElloEmptyCompletion = {}
 
 // MARK: Static
- 
+
     public static func aspectRatioForImageRegion(imageRegion: ImageRegion) -> CGFloat {
         if let asset = imageRegion.asset {
             var attachment: Attachment?

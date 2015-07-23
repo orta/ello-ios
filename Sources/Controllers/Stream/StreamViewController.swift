@@ -677,11 +677,6 @@ extension StreamViewController : StreamCollectionViewLayoutDelegate {
             return dataSource.heightForIndexPath(indexPath, numberOfColumns:numberOfColumns)
     }
 
-    public func collectionView(collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
-        maintainAspectRatioForItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-            return dataSource.maintainAspectRatioForItemAtIndexPath(indexPath)
-    }
-
     public func collectionView (collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
         isFullWidthAtIndexPath indexPath: NSIndexPath) -> Bool {
             return dataSource.isFullWidthAtIndexPath(indexPath)
