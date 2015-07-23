@@ -563,7 +563,7 @@ class StreamDataSourceSpec: QuickSpec {
                             it("adds the newly loved post") {
                                 subject.streamKind = StreamKind.Loves(userId: "fake-id")
                                 var post: Post = stub(["id": "post1", "authorId" : "user1"])
-                                var love: Love = stub(["id": "love1", "parentPostId": "post1"])
+                                var love: Love = stub(["id": "love1", "postId": "post1"])
                                 expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 15
 
                                 subject.modifyItems(love, change: .Create, collectionView: fakeCollectionView)
