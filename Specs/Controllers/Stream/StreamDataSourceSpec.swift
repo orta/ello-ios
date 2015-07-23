@@ -113,6 +113,37 @@ class StreamDataSourceSpec: QuickSpec {
                     }
                 }
 
+                context("isValidIndexPath(_:)") {
+                    beforeEach {
+                        let item = StreamCellItem(jsonable: Comment.newCommentForPost(Post.stub([:]), currentUser: User.stub([:])),
+                            type: .CreateComment,
+                            data: nil,
+                            oneColumnCellHeight: StreamCreateCommentCell.Size.Height,
+                            multiColumnCellHeight: StreamCreateCommentCell.Size.Height,
+                            isFullWidth: true)
+
+                        subject.appendStreamCellItems([item])
+                    }
+                    it("returns true for valid path (0, 0)") {
+                        expect(subject.isValidIndexPath(NSIndexPath(forItem: 0, inSection: 0))) == true
+                    }
+                    it("returns true for valid path (items.count - 1, 0)") {
+                        let idx = subject.visibleCellItems.count
+                        expect(subject.isValidIndexPath(NSIndexPath(forItem: idx - 1, inSection: 0))) == true
+                    }
+                    it("returns false for invalid path (-1, 0)") {
+                        let idx = subject.visibleCellItems.count
+                        expect(subject.isValidIndexPath(NSIndexPath(forItem: -1, inSection: 0))) == false
+                    }
+                    it("returns false for invalid path (items.count, 0)") {
+                        let idx = subject.visibleCellItems.count
+                        expect(subject.isValidIndexPath(NSIndexPath(forItem: idx, inSection: 0))) == false
+                    }
+                    it("returns false for invalid path (0, 1)") {
+                        expect(subject.isValidIndexPath(NSIndexPath(forItem: 0, inSection: 1))) == false
+                    }
+                }
+
                 context("with reposts") {
                     beforeEach {
                         // there should be 10 reposts
@@ -1199,6 +1230,93 @@ class StreamDataSourceSpec: QuickSpec {
 
                     expect(subject.visibleCellItems.count) == countWas + 1
                     expect(insertedCellItem.type.name) == "StreamCreateCommentCell"
+                }
+            }
+
+            fcontext("elementsForJSONAble(_:, change:)") {
+                let user1 = User.stub([:])
+                let post1 = Post.stub([:])
+                let comment1 = Comment.stub(["parentPost": post1])
+                let user2 = User.stub([:])
+                let post2 = Post.stub([:])
+                let comment2 = Comment.stub(["parentPost": post2])
+                beforeEach {
+                    var cellItems = StreamCellItemParser().parseAllForTesting([
+                        user1, post1, comment1,
+                        user2, post2, comment2
+                    ])
+                    subject.appendUnsizedCellItems(cellItems, withWidth: 10.0) { (indexPaths) in
+                    }
+                }
+                it("should return a post (object equality)") {
+                    let items = subject.testingElementsForJSONAble(post1, change: .Create).1
+                    for item in items {
+                        expect(item.jsonable) == post1
+                    }
+                }
+                it("should return a comment (object equality)") {
+                    let items = subject.testingElementsForJSONAble(comment1, change: .Create).1
+                    for item in items {
+                        expect(item.jsonable) == comment1
+                    }
+                }
+                it("should return post and comment (object equality, change = .Delete)") {
+                    let items = subject.testingElementsForJSONAble(post1, change: .Delete).1
+                    for item in items {
+                        if item.jsonable is Comment {
+                            expect(item.jsonable) == comment1
+                        }
+                        else {
+                            expect(item.jsonable) == post1
+                        }
+                    }
+                }
+                it("should return a user (object equality)") {
+                    let items = subject.testingElementsForJSONAble(user1, change: .Create).1
+                    for item in items {
+                        expect(item.jsonable) == user1
+                    }
+                }
+                it("should return a post (id equality)") {
+                    let items = subject.testingElementsForJSONAble(Post.stub(["id": post1.id]), change: .Create).1
+                    for item in items {
+                        expect(item.jsonable) == post1
+                    }
+                }
+                it("should return a comment (id equality)") {
+                    let items = subject.testingElementsForJSONAble(Comment.stub(["id": comment1.id]), change: .Create).1
+                    for item in items {
+                        expect(item.jsonable) == comment1
+                    }
+                }
+                it("should return post and comment (id equality, change = .Delete)") {
+                    let items = subject.testingElementsForJSONAble(Post.stub(["id": post1.id]), change: .Delete).1
+                    for item in items {
+                        if item.jsonable is Comment {
+                            expect(item.jsonable) == comment1
+                        }
+                        else {
+                            expect(item.jsonable) == post1
+                        }
+                    }
+                }
+                it("should return a user (id equality)") {
+                    let items = subject.testingElementsForJSONAble(User.stub(["id": user1.id]), change: .Create).1
+                    for item in items {
+                        expect(item.jsonable) == user1
+                    }
+                }
+                it("should return nothing (no matching post)") {
+                    let items = subject.testingElementsForJSONAble(Post.stub([:]), change: .Create).1
+                    expect(items) == []
+                }
+                it("should return nothing (no matching comment)") {
+                    let items = subject.testingElementsForJSONAble(Comment.stub([:]), change: .Create).1
+                    expect(items) == []
+                }
+                it("should return nothing (no matching user)") {
+                    let items = subject.testingElementsForJSONAble(User.stub([:]), change: .Create).1
+                    expect(items) == []
                 }
             }
 //
