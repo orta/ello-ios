@@ -16,7 +16,7 @@ public class SearchViewController: StreamableViewController {
     }
 
     override public func loadView() {
-        var screen = SearchScreen(frame: UIScreen.mainScreen().bounds)
+        var screen = SearchScreen(frame: UIScreen.mainScreen().bounds, isSearchView: true)
         self.view = screen
         screen.delegate = self
     }
@@ -54,7 +54,7 @@ extension SearchViewController: SearchScreenDelegate {
         searchText = ""
         streamViewController.removeAllCellItems()
         streamViewController.cancelInitialPage()
-        streamViewController.noResultsMessages = (title: NSLocalizedString("", comment: ""), body: NSLocalizedString("", comment: ""))
+        streamViewController.noResultsMessages = (title: "", body: "")
     }
 
     public func searchFieldChanged(text: String, isPostSearch: Bool) {

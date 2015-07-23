@@ -36,13 +36,13 @@ public class SearchScreen: UIView, SearchScreenProtocol {
     private var bottomInset: CGFloat
     private var navBarTitle: String!
     private var fieldPlaceholderText: String!
-    private var isSearchView: Bool!
+    private var isSearchView = true
 
     weak public var delegate : SearchScreenDelegate?
 
 // MARK: init
 
-    public init(frame: CGRect, navBarTitle: String? = NSLocalizedString("Search", comment: "Search navbar title"), fieldPlaceholderText: String? = NSLocalizedString("Search Ello", comment: "search ello placeholder text"), isSearchView: Bool? = true) {
+    public init(frame: CGRect, isSearchView: Bool = true, navBarTitle: String? = NSLocalizedString("Search", comment: "Search navbar title"), fieldPlaceholderText: String? = NSLocalizedString("Search Ello", comment: "search ello placeholder text")) {
         throttled = debounce(0.5)
         bottomInset = 0
         self.navBarTitle = navBarTitle
@@ -53,10 +53,10 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         setupNavigationBar()
         setupSearchField()
         toggleButtonContainer = UIView(frame: self.bounds.inset(sides: 15).atY(searchField.frame.maxY).withHeight(0))
-        if isSearchView == true { setupToggleButtons() }
+        if self.isSearchView { setupToggleButtons() }
         setupStreamView()
         setupFindFriendsButton()
-        findFriendsContainer.hidden = isSearchView == false
+        findFriendsContainer.hidden = !self.isSearchView
     }
 
     required public init(coder aDecoder: NSCoder) {
@@ -235,7 +235,7 @@ extension SearchScreen: UITextFieldDelegate {
 extension SearchScreen {
 
     private func showFindFriends() {
-        findFriendsContainer.hidden = isSearchView == false
+        findFriendsContainer.hidden = !isSearchView
     }
 
     private func hideFindFriends() {
