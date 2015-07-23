@@ -269,7 +269,7 @@ class StreamDataSourceSpec: QuickSpec {
                 beforeEach {
                     let parser = StreamCellItemParser()
                     let postCellItems = parser.parse([Post.stub(["id": "666"])], streamKind: .Friend)
-                    let commentCellItems = parser.parse([Comment.stub(["postId": "666"]), Comment.stub(["postId": "666"])], streamKind: .Friend)
+                    let commentCellItems = parser.parse([Comment.stub(["parentPostId": "666"]), Comment.stub(["parentPostId": "666"])], streamKind: .Friend)
                     let otherPostCellItems = parser.parse([Post.stub(["id": "777"])], streamKind: .Friend)
                     let cellItems = postCellItems + commentCellItems + otherPostCellItems
                     subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
@@ -350,7 +350,6 @@ class StreamDataSourceSpec: QuickSpec {
                     // creates 2 cells
                     let comment3CellItems = parser.parse([Comment.stub(["parentPostId": "888"])], streamKind: .Friend)
                     cellItems += comment3CellItems
-                    println("cellItems: \(cellItems.count)")
                     subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
                         vc.collectionView.reloadData()
@@ -415,14 +414,14 @@ class StreamDataSourceSpec: QuickSpec {
                         let parser = StreamCellItemParser()
                         let postCellItems = parser.parse([Post.stub(["id": "456"])], streamKind: .Friend)
                         let commentButtonCellItem = [StreamCellItem(
-                            jsonable: Comment.stub(["postId": "456"]),
+                            jsonable: Comment.stub(["parentPostId": "456"]),
                             type: .CreateComment,
                             data: nil,
                             oneColumnCellHeight: StreamCreateCommentCell.Size.Height,
                             multiColumnCellHeight: StreamCreateCommentCell.Size.Height,
                             isFullWidth: true)
                         ]
-                        let commentCellItems = parser.parse([Comment.stub(["postId": "456", "id" : "111"])], streamKind: .Friend)
+                        let commentCellItems = parser.parse([Comment.stub(["parentPostId": "456", "id" : "111"])], streamKind: .Friend)
                         var cellItems = postCellItems
                         if commentsVisible {
                             cellItems = cellItems + commentButtonCellItem + commentCellItems
@@ -438,7 +437,7 @@ class StreamDataSourceSpec: QuickSpec {
                         it("inserts the new comment") {
                             stubCommentCellItems(commentsVisible: true)
                             expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 6
-                            subject.modifyItems(Comment.stub(["id": "new_comment", "postId": "456"]), change: .Create, collectionView: fakeCollectionView)
+                            subject.modifyItems(Comment.stub(["id": "new_comment", "parentPostId": "456"]), change: .Create, collectionView: fakeCollectionView)
                             expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 8
                             expect(subject.commentForIndexPath(NSIndexPath(forItem: 4, inSection: 0))!.id) == "new_comment"
                         }
@@ -446,7 +445,7 @@ class StreamDataSourceSpec: QuickSpec {
                         it("doesn't insert the new comment") {
                             stubCommentCellItems(commentsVisible: false)
                             expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 3
-                            subject.modifyItems(Comment.stub(["id": "new_comment", "postId": "456"]), change: .Create, collectionView: fakeCollectionView)
+                            subject.modifyItems(Comment.stub(["id": "new_comment", "parentPostId": "456"]), change: .Create, collectionView: fakeCollectionView)
                             expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 3
                         }
 
@@ -457,7 +456,7 @@ class StreamDataSourceSpec: QuickSpec {
                         it("removes the deleted comment") {
                             stubCommentCellItems(commentsVisible: true)
                             expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 6
-                            subject.modifyItems(Comment.stub(["id": "111", "postId": "456"]), change: .Delete, collectionView: fakeCollectionView)
+                            subject.modifyItems(Comment.stub(["id": "111", "parentPostId": "456"]), change: .Delete, collectionView: fakeCollectionView)
                             expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 4
 
                         }
@@ -465,7 +464,7 @@ class StreamDataSourceSpec: QuickSpec {
                         it("doesn't remove the deleted comment") {
                             stubCommentCellItems(commentsVisible: false)
                             expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 3
-                            subject.modifyItems(Comment.stub(["id": "111", "postId": "456"]), change: .Delete, collectionView: fakeCollectionView)
+                            subject.modifyItems(Comment.stub(["id": "111", "parentPostId": "456"]), change: .Delete, collectionView: fakeCollectionView)
                             expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 3
                         }
 
@@ -564,7 +563,7 @@ class StreamDataSourceSpec: QuickSpec {
                             it("adds the newly loved post") {
                                 subject.streamKind = StreamKind.Loves(userId: "fake-id")
                                 var post: Post = stub(["id": "post1", "authorId" : "user1"])
-                                var love: Love = stub(["id": "love1", "postId": "post1"])
+                                var love: Love = stub(["id": "love1", "parentPostId": "post1"])
                                 expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 15
 
                                 subject.modifyItems(love, change: .Create, collectionView: fakeCollectionView)

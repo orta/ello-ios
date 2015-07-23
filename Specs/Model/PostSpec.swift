@@ -18,7 +18,7 @@ class PostSpec: QuickSpec {
             ElloURI.domain = "ello.co"
             ElloURI.httpProtocol = "https"
         }
-        
+
         describe("+fromJSON:") {
 
             it("parses correctly") {
@@ -205,7 +205,6 @@ class PostSpec: QuickSpec {
                         "content" : content,
                         "repostContent" : repostContent,
                         "repostId" : "910",
-                        "collapsed" : true,
                         "repostPath" : "http://ello.co/910",
                         "repostViaId" : "112",
                         "repostViaPath" : "http://ello.co/112",
