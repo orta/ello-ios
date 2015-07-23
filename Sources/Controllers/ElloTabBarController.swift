@@ -193,14 +193,35 @@ extension ElloTabBarController: UITabBarDelegate {
     public func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem) {
         if let items = tabBar.items as? [UITabBarItem], index = find(items, item) {
             if index == selectedTab.rawValue {
-                if let navigationViewController = selectedViewController as? UINavigationController {
+                if let navigationViewController = selectedViewController as? UINavigationController
+                    where navigationViewController.childViewControllers.count > 1
+                {
                     navigationViewController.popToRootViewControllerAnimated(true)
+                }
+                else if let scrollView = findScrollView(selectedViewController.view) {
+                    scrollView.setContentOffset(CGPoint(x: 0, y: -scrollView.contentInset.top), animated: true)
                 }
             }
             else {
                 selectedTab = ElloTab(rawValue:index) ?? .Stream
             }
         }
+    }
+
+    public func findScrollView(view: UIView) -> UIScrollView? {
+        if let found = view as? UIScrollView
+            where found.scrollsToTop
+        {
+            return found
+        }
+
+        for subview in view.subviews as! [UIView] {
+            if let found = findScrollView(subview) {
+                return found
+            }
+        }
+
+        return nil
     }
 }
 
