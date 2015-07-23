@@ -244,9 +244,14 @@ extension AppViewController {
 extension AppViewController {
 
     func showExternalWebView(url: String) {
+        // tell AppDelegate to allow rotation
+        AppDelegate.restrictRotation = false
         Tracker.sharedTracker.webViewAppeared(url)
         let externalWebController = ElloWebBrowserViewController.navigationControllerWithWebBrowser()
-        presentViewController(externalWebController, animated: true, completion: nil)
+        presentViewController(externalWebController, animated: true) {
+//            AppDelegate.restrictRotation = true
+        }
+//        presentViewController(externalWebController, animated: true, completi
         if let externalWebView = externalWebController.rootWebBrowser() {
             externalWebView.tintColor = UIColor.greyA()
             externalWebView.loadURLString(url)

@@ -32,6 +32,9 @@ StreamImageCellDelegate {
     }
 
     public func imageTapped(imageView: FLAnimatedImageView, cell: StreamImageCell) {
+        // tell AppDelegate to allow rotation
+        AppDelegate.restrictRotation = false
+
         self.imageView = imageView
         imageView.hidden = true
         let imageInfo = JTSImageInfo()
@@ -65,6 +68,7 @@ StreamImageCellDelegate {
 
     public func imageViewerWillDismiss(imageViewer: JTSImageViewController) {
         self.imageView?.hidden = false
+        AppDelegate.restrictRotation = true
     }
 
     public func imageViewerWillAnimateDismissal(imageViewer: JTSImageViewController, withContainerView containerView: UIView, duration: CGFloat) {

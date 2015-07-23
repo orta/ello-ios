@@ -118,3 +118,25 @@ extension ElloWebBrowserViewController : WebLinkDelegate {
         return false
     }
 }
+
+public extension ElloWebBrowserViewController {
+//    - (void)doneButtonPressed:(id)sender {
+//    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+//    }
+
+    override func doneButtonPressed(sender: AnyObject) {
+        AppDelegate.restrictRotation = true
+        super.doneButtonPressed(sender)
+    }
+    override func shouldAutorotate() -> Bool {
+        return true
+    }
+
+    override func supportedInterfaceOrientations() -> Int {
+        return Int(UIInterfaceOrientationMask.AllButUpsideDown.rawValue)
+    }
+//    override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation {
+//        return .Portrait
+//    }
+}
+
