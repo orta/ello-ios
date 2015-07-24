@@ -48,164 +48,177 @@ class OmnibarScreenMockDelegate : OmnibarScreenDelegate {
 
 class OmnibarScreenSpec: QuickSpec {
     override func spec() {
-        var screen : OmnibarScreen!
-        var delegate : OmnibarScreenMockDelegate!
+        describe("OmnibarScreen") {
 
-        beforeEach {
-            let controller = UIViewController()
-            screen = OmnibarScreen(frame: UIScreen.mainScreen().bounds)
-            delegate = OmnibarScreenMockDelegate()
-            screen.delegate = delegate
-            controller.view.addSubview(screen)
+            var subject : OmnibarScreen!
+            var delegate : OmnibarScreenMockDelegate!
 
-            self.showController(controller)
-        }
-
-        describe("tapping the avatar") {
-            it("should push the profile VC on to the navigation controller") {
-                screen.currentUser = User.stub(["id": "1"])
-                screen.profileImageTapped()
-                expect(delegate.didPushController) == true
-            }
-        }
-
-        describe("setting text") {
-            it("should hide the overlay") {
-                screen.text = "text"
-                expect(screen.sayElloOverlay.hidden) == true
-            }
-            it("should set the text view") {
-                screen.text = "text"
-                expect(screen.textView.text) == "text"
-            }
-            it("should set the text view with attributed string") {
-                let attrd = NSAttributedString(string: "text")
-                screen.attributedText = attrd
-                expect(screen.textView.attributedText?.string) == attrd.string
-            }
-        }
-        // I thought that using a url to a *local file* would get this spec to
-        // work.  but testing on iOS is apparently stuck in the dark ages.
-        xdescribe("setting avatar url") {
-            it("should set the avatar image") {
-                let avatarURL = NSBundle.mainBundle().URLForResource("specs-avatar", withExtension: "png")
-                expect(avatarURL).toNot(beNil())
-
-                screen.avatarURL = avatarURL
-                expect(screen.avatarButtonView.imageForState(UIControlState.Normal)).toEventuallyNot(beNil())
-            }
-        }
-        describe("start editing") {
             beforeEach {
-                screen.startEditingAction()
+                let controller = UIViewController()
+                subject = OmnibarScreen(frame: UIScreen.mainScreen().bounds)
+                delegate = OmnibarScreenMockDelegate()
+                subject.delegate = delegate
+                controller.view.addSubview(subject)
+
+                self.showController(controller)
             }
-            it("should hide the overlay") {
-                expect(screen.sayElloOverlay.hidden) == true
+
+            describe("tapping the avatar") {
+                it("should push the profile VC on to the navigation controller") {
+                    subject.currentUser = User.stub(["id": "1"])
+                    subject.profileImageTapped()
+                    expect(delegate.didPushController) == true
+                }
             }
-            xit("should focus on the text view") {
-                expect(screen.textView.isFirstResponder()) == true
+
+            describe("setting text") {
+                it("should hide the overlay") {
+                    subject.text = "text"
+                    expect(subject.sayElloOverlay.hidden) == true
+                }
+                it("should set the text view") {
+                    subject.text = "text"
+                    expect(subject.textView.text) == "text"
+                }
+                it("should set the text view with attributed string") {
+                    let attrd = NSAttributedString(string: "text")
+                    subject.attributedText = attrd
+                    expect(subject.textView.attributedText?.string) == attrd.string
+                }
             }
-        }
-        describe("pressing cancel") {
-            beforeEach {
-                screen.text = "text"
-                screen.image = UIImage.imageWithColor(.blackColor())
-                screen.cancelEditingAction()
+            // I thought that using a url to a *local file* would get this spec to
+            // work.  but testing on iOS is apparently stuck in the dark ages.
+            xdescribe("setting avatar url") {
+                it("should set the avatar image") {
+                    let avatarURL = NSBundle.mainBundle().URLForResource("specs-avatar", withExtension: "png")
+                    expect(avatarURL).toNot(beNil())
+
+                    subject.avatarURL = avatarURL
+                    expect(subject.avatarButtonView.imageForState(UIControlState.Normal)).toEventuallyNot(beNil())
+                }
             }
-            it("should resign the keyboard") {
-                expect(screen.textView.isFirstResponder()) == false
+            describe("start editing") {
+                beforeEach {
+                    subject.startEditingAction()
+                }
+                it("should hide the overlay") {
+                    expect(subject.sayElloOverlay.hidden) == true
+                }
+                xit("should focus on the text view") {
+                    expect(subject.textView.isFirstResponder()) == true
+                }
             }
-        }
-        describe("submitting") {
-            it("should respond if there is text (no image)") {
-                screen.text = "text"
-                screen.image = nil
-                screen.submitAction()
-                expect(delegate.submitted) == true
+            describe("pressing cancel") {
+                beforeEach {
+                    subject.text = "text"
+                    subject.image = UIImage.imageWithColor(.blackColor())
+                    subject.cancelEditingAction()
+                }
+                it("should resign the keyboard") {
+                    expect(subject.textView.isFirstResponder()) == false
+                }
             }
-            it("should respond if there is an image (no text)") {
-                screen.text = nil
-                screen.image = UIImage.imageWithColor(.blackColor())
-                screen.submitAction()
-                expect(delegate.submitted) == true
+            describe("submitting") {
+                it("should respond if there is text (no image)") {
+                    subject.text = "text"
+                    subject.image = nil
+                    subject.submitAction()
+                    expect(delegate.submitted) == true
+                }
+                it("should respond if there is an image (no text)") {
+                    subject.text = nil
+                    subject.image = UIImage.imageWithColor(.blackColor())
+                    subject.submitAction()
+                    expect(delegate.submitted) == true
+                }
+                it("should respond if there is text and image") {
+                    subject.text = "text"
+                    subject.image = UIImage.imageWithColor(.blackColor())
+                    subject.submitAction()
+                    expect(delegate.submitted) == true
+                }
+                it("should NOT respond if there is NO text OR image") {
+                    subject.text = nil
+                    subject.image = nil
+                    subject.submitAction()
+                    expect(delegate.submitted) == false
+                }
             }
-            it("should respond if there is text and image") {
-                screen.text = "text"
-                screen.image = UIImage.imageWithColor(.blackColor())
-                screen.submitAction()
-                expect(delegate.submitted) == true
+            describe("pressing remove image") {
+                beforeEach {
+                    subject.image = UIImage.imageWithColor(.blackColor())
+                    subject.removeButtonAction()
+                }
+                it("should clear the image") {
+                    expect(subject.image).to(beNil())
+                }
             }
-            it("should NOT respond if there is NO text OR image") {
-                screen.text = nil
-                screen.image = nil
-                screen.submitAction()
-                expect(delegate.submitted) == false
+            describe("pressing add image") {
+                beforeEach {
+                    subject.addImageAction()
+                }
+                it("should open an image selector") {
+                    expect(delegate.didPresentController) == true
+                }
             }
-        }
-        describe("pressing remove image") {
-            beforeEach {
-                screen.image = UIImage.imageWithColor(.blackColor())
-                screen.removeButtonAction()
+            describe("reporting an error") {
+                it("should report an error (NSError)") {
+                    subject.reportError("title", error: NSError(domain: ElloErrorDomain, code: 0, userInfo: [NSLocalizedFailureReasonErrorKey: "failure"]))
+                    expect(delegate.didPresentController) == true
+                }
+                it("should report an error (String)") {
+                    subject.reportError("title", errorMessage: "error")
+                    expect(delegate.didPresentController) == true
+                }
             }
-            it("should clear the image") {
-                expect(screen.image).to(beNil())
-            }
-        }
-        describe("pressing add image") {
-            beforeEach {
-                screen.addImageAction()
-            }
-            it("should open an image selector") {
-                expect(delegate.didPresentController) == true
-            }
-        }
-        describe("reporting an error") {
-            it("should report an error (NSError)") {
-                screen.reportError("title", error: NSError(domain: ElloErrorDomain, code: 0, userInfo: [NSLocalizedFailureReasonErrorKey: "failure"]))
-                expect(delegate.didPresentController) == true
-            }
-            it("should report an error (String)") {
-                screen.reportError("title", errorMessage: "error")
-                expect(delegate.didPresentController) == true
-            }
-        }
-        describe("determining post state") {
-            describe("if there is text or image") {
-                describe("after initialization") {
-                    it("should be false (default)") {
-                        expect(screen.canPost()) == false
+            describe("determining post state") {
+                describe("if there is text or image") {
+                    describe("after initialization") {
+                        it("should be false (default)") {
+                            expect(subject.canPost()) == false
+                        }
+                        it("should be true (after setting text and image)") {
+                            subject.text = "text"
+                            subject.image = UIImage.imageWithColor(.blackColor())
+                            expect(subject.canPost()) == true
+                        }
                     }
-                    it("should be true (after setting text and image)") {
-                        screen.text = "text"
-                        screen.image = UIImage.imageWithColor(.blackColor())
-                        expect(screen.canPost()) == true
+                    describe("after editing") {
+                        it("should be false (text only)") {
+                            subject.text = "text"
+                            subject.image = nil
+                            expect(subject.canPost()) == true
+                        }
+                        it("should be false (image only)") {
+                            subject.text = nil
+                            subject.image = UIImage.imageWithColor(.blackColor())
+                            expect(subject.canPost()) == true
+                        }
+                        it("should be false (text and image)") {
+                            subject.text = "text"
+                            subject.image = UIImage.imageWithColor(.blackColor())
+                            expect(subject.canPost()) == true
+                        }
+                        it("should be false empty text or image") {
+                            subject.text = ""
+                            subject.image = nil
+                            expect(subject.canPost()) == false
+                        }
+                        it("should be false not text or image") {
+                            subject.text = nil
+                            subject.image = nil
+                            expect(subject.canPost()) == false
+                        }
                     }
                 }
-                describe("after editing") {
-                    it("should be false (text only)") {
-                        screen.text = "text"
-                        screen.image = nil
-                        expect(screen.canPost()) == true
-                    }
-                    it("should be false (image only)") {
-                        screen.text = nil
-                        screen.image = UIImage.imageWithColor(.blackColor())
-                        expect(screen.canPost()) == true
-                    }
-                    it("should be false (text and image)") {
-                        screen.text = "text"
-                        screen.image = UIImage.imageWithColor(.blackColor())
-                        expect(screen.canPost()) == true
-                    }
-                    it("should be false empty text or image") {
-                        screen.text = ""
-                        screen.image = nil
-                        expect(screen.canPost()) == false
-                    }
-                    it("should be false not text or image") {
-                        screen.text = nil
-                        screen.image = nil
-                        expect(screen.canPost()) == false
+            }
+
+            context("UITextViewDelegate") {
+
+                describe("textViewShouldBeginEditing(_:)") {
+
+                    it("returns true") {
+                        expect(subject.textViewShouldBeginEditing(UITextView())) == true
                     }
                 }
             }

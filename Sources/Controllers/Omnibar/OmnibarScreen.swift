@@ -173,6 +173,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol {
     public let textView = UITextView()
     var autoCompleteContainer: UIView
     var autoCompleteThrottle: ThrottledBlock
+    var autoCompleteShowing = false
     private var currentText : NSAttributedString?
     private var currentImage : UIImage?
     private var data : NSData?
@@ -431,6 +432,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol {
     }
 
     private func resetEditor() {
+        hideAutoComplete()
         sayElloOverlay.hidden = false
         textView.resignFirstResponder()
         textView.text = ""
@@ -646,11 +648,14 @@ extension OmnibarScreen: UITextViewDelegate {
             } else {
                 self.hideAutoComplete()
             }
-
         }
     }
 
     public func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText: String) -> Bool {
+
+        if autoCompleteShowing && emojiKeyboardShowing() {
+            return false
+        }
 
         let newText = NSString(string: textView.text).stringByReplacingCharactersInRange(range, withString: replacementText)
         currentText = ElloAttributedString.style(newText)
@@ -660,18 +665,29 @@ extension OmnibarScreen: UITextViewDelegate {
         return true
     }
 
+    private func emojiKeyboardShowing() -> Bool {
+        return textView.textInputMode?.primaryLanguage == nil || textView.textInputMode?.primaryLanguage == "emoji"
+    }
+
     private func hideAutoComplete() {
-        textView.autocorrectionType = .Yes
-        textView.inputAccessoryView = nil
-        textView.resignFirstResponder()
-        textView.becomeFirstResponder()
+        if autoCompleteShowing {
+            autoCompleteShowing = false
+            textView.autocorrectionType = .Yes
+            textView.inputAccessoryView = nil
+            textView.resignFirstResponder()
+            textView.becomeFirstResponder()
+        }
     }
 
     private func showAutoComplete(count: Int) {
-        textView.inputAccessoryView = autoCompleteContainer
-        textView.autocorrectionType = .No
-        textView.resignFirstResponder()
-        textView.becomeFirstResponder()
+        if !autoCompleteShowing {
+            autoCompleteShowing = true
+            textView.inputAccessoryView = autoCompleteContainer
+            textView.autocorrectionType = .No
+            textView.resignFirstResponder()
+            textView.becomeFirstResponder()
+        }
+
         let height: CGFloat = count > 3 ? AutoCompleteCell.cellHeight() * 3 : AutoCompleteCell.cellHeight() * CGFloat(count)
         if let constraint = textView.inputAccessoryView?.constraints().first as? NSLayoutConstraint {
             constraint.constant = height
