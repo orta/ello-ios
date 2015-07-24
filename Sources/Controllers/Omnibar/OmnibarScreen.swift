@@ -432,6 +432,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol {
     }
 
     private func resetEditor() {
+        hideAutoComplete()
         sayElloOverlay.hidden = false
         textView.resignFirstResponder()
         textView.text = ""
