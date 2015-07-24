@@ -14,6 +14,10 @@ public class FakeStreamTextCellSizeCalculator: StreamTextCellSizeCalculator {
     override public func processCells(cellItems:[StreamCellItem], withWidth: CGFloat, completion:StreamTextCellSizeCalculated) {
         self.completion = completion
         self.cellItems = cellItems
+        for item in cellItems {
+            item.oneColumnCellHeight = AppSetup.Size.calculatorHeight
+            item.multiColumnCellHeight = AppSetup.Size.calculatorHeight
+        }
         completion()
     }
 }

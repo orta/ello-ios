@@ -14,6 +14,10 @@ public class FakeProfileHeaderCellSizeCalculator: ProfileHeaderCellSizeCalculato
     override public func processCells(cellItems:[StreamCellItem], withWidth: CGFloat, completion:ElloEmptyCompletion) {
         self.completion = completion
         self.cellItems = cellItems
+        for item in cellItems {
+            item.oneColumnCellHeight = AppSetup.Size.calculatorHeight
+            item.multiColumnCellHeight = AppSetup.Size.calculatorHeight
+        }
         completion()
     }
 }

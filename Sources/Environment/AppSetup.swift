@@ -10,6 +10,9 @@ import UIKit
 import SwiftyUserDefaults
 
 public class AppSetup {
+    public struct Size {
+        public static let calculatorHeight = CGFloat(20)
+    }
 
     lazy var useStaging = true
     var isTesting = false

@@ -35,14 +35,9 @@ public class ProfileHeaderCellSizeCalculator: NSObject {
         if let item = cellItems.safeValue(0),
             let user = item.jsonable as? User
         {
-            if AppSetup.sharedState.isTesting {
-                assignCellHeight(20)
-            }
-            else {
-                let html = StreamTextCellHTML.postHTML(user.headerHTMLContent)
-                // needs to use the same width as the post text region
-                webView.loadHTMLString(html, baseURL: NSURL(string: "/"))
-            }
+            let html = StreamTextCellHTML.postHTML(user.headerHTMLContent)
+            // needs to use the same width as the post text region
+            webView.loadHTMLString(html, baseURL: NSURL(string: "/"))
         }
         else {
             completion()
