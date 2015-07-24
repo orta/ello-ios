@@ -370,7 +370,7 @@ public class PostbarController: NSObject, PostbarDelegate {
         self.appendCreateCommentItem(post, at: indexPath)
         let commentsStartingIndexPath = NSIndexPath(forRow: indexPath.row + 1, inSection: indexPath.section)
 
-        var items = StreamCellItemParser().parse(jsonables, streamKind: StreamKind.Friend)
+        var items = StreamCellItemParser().parse(jsonables, streamKind: StreamKind.Friend, currentUser: currentUser)
 
         if let currentUser = currentUser {
             let newComment = Comment.newCommentForPost(post, currentUser: currentUser)

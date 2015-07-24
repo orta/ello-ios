@@ -116,7 +116,7 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         // set name
         title = post.author?.atName ?? "Post Detail"
         let parser = StreamCellItemParser()
-        var items = parser.parse([post], streamKind: streamViewController.streamKind)
+        var items = parser.parse([post], streamKind: streamViewController.streamKind, currentUser: currentUser)
 
         // add lovers and reposters
         if let lovers = post.lovesCount where lovers > 0 {
@@ -143,7 +143,7 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
             )
         }
         if let comments = post.comments {
-            items += parser.parse(comments, streamKind: streamViewController.streamKind)
+            items += parser.parse(comments, streamKind: streamViewController.streamKind, currentUser: currentUser)
         }
 
         if scrollLogic != nil {

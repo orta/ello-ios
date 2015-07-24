@@ -232,7 +232,7 @@ extension OnboardingUserListViewController {
 
     func usersLoaded(users: [User]) {
         self.users = users
-        var items: [StreamCellItem] = StreamCellItemParser().parse(users, streamKind: streamViewController.streamKind)
+        var items: [StreamCellItem] = StreamCellItemParser().parse(users, streamKind: streamViewController.streamKind, currentUser: currentUser)
         // this calls doneLoading when cells are added
         streamViewController.appendUnsizedCellItems(items, withWidth: view.frame.width)
     }
