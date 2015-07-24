@@ -16,7 +16,7 @@ public class CommunitySelectionViewController: OnboardingUserListViewController 
     override func setupStreamController() {
         super.setupStreamController()
 
-        streamViewController.streamKind = .UserList(endpoint: .CommunitiesStream, title: "Communities")
+        streamViewController.streamKind = .SimpleStream(endpoint: .CommunitiesStream, title: "Communities")
     }
 
     override func usersLoaded(users: [User]) {

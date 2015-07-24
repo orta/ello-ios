@@ -320,17 +320,6 @@ extension ProfileViewController: EditProfileResponder {
     }
 }
 
-// MARK: ProfileViewController: ViewUsersLovesResponder
-extension ProfileViewController: ViewUsersLovesResponder {
-    public func onViewUsersLoves() {
-        if let user = self.user {
-            let vc = LovesViewController(user: user)
-            vc.currentUser = self.currentUser
-            navigationController?.pushViewController(vc, animated: true)
-        }
-    }
-}
-
 // MARK: ProfileViewController: StreamScrollDelegate
 extension ProfileViewController: StreamScrollDelegate {
 

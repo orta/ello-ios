@@ -1,5 +1,5 @@
 //
-//  UserListViewController.swift
+//  SimpleStreamController.swift
 //  Ello
 //
 //  Created by Ryan Boyajian on 3/5/15.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class UserListViewController: StreamableViewController {
+public class SimpleStreamViewController: StreamableViewController {
 
     var navigationBar: ElloNavigationBar!
     let endpoint: ElloAPI
@@ -29,7 +29,7 @@ public class UserListViewController: StreamableViewController {
         setupNavigationBar()
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
         scrollLogic.navBarHeight = 44
-        streamViewController.streamKind = StreamKind.UserList(endpoint: endpoint, title: title ?? "")
+        streamViewController.streamKind = StreamKind.SimpleStream(endpoint: endpoint, title: title ?? "")
         ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.loadInitialPage()
     }

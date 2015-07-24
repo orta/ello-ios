@@ -7,7 +7,7 @@
 //
 
 public class SearchViewController: StreamableViewController {
-    var userSearchText: String?
+    var searchText: String?
 
     var _mockScreen: SearchScreenProtocol?
     public var screen: SearchScreenProtocol {
@@ -16,7 +16,7 @@ public class SearchViewController: StreamableViewController {
     }
 
     override public func loadView() {
-        var screen = SearchScreen(frame: UIScreen.mainScreen().bounds)
+        var screen = SearchScreen(frame: UIScreen.mainScreen().bounds, isSearchView: true)
         self.view = screen
         screen.delegate = self
     }
@@ -51,18 +51,28 @@ extension SearchViewController: SearchScreenDelegate {
     }
 
     public func searchFieldCleared() {
-        userSearchText = ""
+        searchText = ""
         streamViewController.removeAllCellItems()
         streamViewController.cancelInitialPage()
+        streamViewController.noResultsMessages = (title: "", body: "")
     }
 
-    public func searchFieldChanged(text: String) {
-        if count(text) < 2 { return }  // just.. no (and the server doesn't guard against empty/short searches)
-        if userSearchText == text { return }  // a search is already in progress for this text
-        userSearchText = text
+    public func searchFieldChanged(text: String, isPostSearch: Bool) {
+        loadEndpoint(text, isPostSearch: isPostSearch)
+    }
 
-        let endpoint = ElloAPI.SearchForUsers(terms: text)
-        streamViewController.streamKind = .UserList(endpoint: endpoint, title: "")
+    public func toggleChanged(text: String, isPostSearch: Bool) {
+        loadEndpoint(text, isPostSearch: isPostSearch, checkSearchText: false)
+    }
+
+    private func loadEndpoint(text: String, isPostSearch: Bool, checkSearchText: Bool = true) {
+        if count(text) < 2 { return }  // just.. no (and the server doesn't guard against empty/short searches)
+        if checkSearchText && searchText == text { return }  // a search is already in progress for this text
+        searchText = text
+        let endpoint = isPostSearch ? ElloAPI.SearchForPosts(terms: text) : ElloAPI.SearchForUsers(terms: text)
+        streamViewController.noResultsMessages = (title: NSLocalizedString("We couldn't find any matches.", comment: "No search results found title"), body: NSLocalizedString("Try another search?", comment: "No search results found body"))
+        streamViewController.hideNoResults()
+        streamViewController.streamKind = .SimpleStream(endpoint: endpoint, title: "")
         streamViewController.removeAllCellItems()
         ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.loadInitialPage()

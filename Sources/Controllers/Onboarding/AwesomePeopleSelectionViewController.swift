@@ -16,7 +16,7 @@ public class AwesomePeopleSelectionViewController: OnboardingUserListViewControl
     override func setupStreamController() {
         super.setupStreamController()
 
-        streamViewController.streamKind = .UserList(endpoint: .AwesomePeopleStream, title: "Awesome People")
+        streamViewController.streamKind = .SimpleStream(endpoint: .AwesomePeopleStream, title: "Awesome People")
     }
 
     override func usersLoaded(users: [User]) {

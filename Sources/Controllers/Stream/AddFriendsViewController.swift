@@ -36,9 +36,9 @@ public class AddFriendsViewController: StreamableViewController {
 
     override public func loadView() {
         searchScreen = SearchScreen(frame: UIScreen.mainScreen().bounds,
+            isSearchView: false,
             navBarTitle: NSLocalizedString("Find & invite your friends", comment: "Find Friends"),
-            fieldPlaceholderText: NSLocalizedString("Name or email", comment: "Find placeholder text"),
-            addFindFriendsButton: false)
+            fieldPlaceholderText: NSLocalizedString("Name or email", comment: "Find placeholder text"))
         self.view = searchScreen
         searchScreen.delegate = self
     }
@@ -135,7 +135,7 @@ extension AddFriendsViewController: SearchScreenDelegate {
         streamViewController.streamFilter = nil
     }
 
-    public func searchFieldChanged(text: String) {
+    public func searchFieldChanged(text: String, isPostSearch: Bool) {
         if count(text) < 2 { return }
         if text.isEmpty {
             streamViewController.streamFilter = nil
@@ -150,6 +150,10 @@ extension AddFriendsViewController: SearchScreenDelegate {
                 return false
             }
         }
+    }
+
+    public func toggleChanged(text: String, isPostSearch: Bool) {
+        // do nothing as this should not be visible
     }
 
     public func findFriendsTapped() {

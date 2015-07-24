@@ -68,7 +68,7 @@ class AddFriendsViewControllerSpec: QuickSpec {
                         (LocalPerson(name: "that guy", emails: ["another@email.com"], id: 124), .None)
                     ]
                     subject.allContacts = localPeople
-                    subject.searchFieldChanged("")
+                    subject.searchFieldChanged("", isPostSearch: false)
                     expect(subject.streamViewController.dataSource.visibleCellItems.count) == 2
                 }
             }
@@ -81,7 +81,7 @@ class AddFriendsViewControllerSpec: QuickSpec {
                             (LocalPerson(name: "that guy", emails: ["another@email.com"], id: 124), .None)
                         ]
                         subject.setContacts(localPeople)
-                        subject.searchFieldChanged("at")
+                        subject.searchFieldChanged("at", isPostSearch: false)
                         expect(subject.streamViewController.dataSource.visibleCellItems.count) == 1
                         expect((subject.streamViewController.dataSource.visibleCellItems.first?.jsonable as! LocalPerson).name) == localPeople[1].0.name
                     }
@@ -94,7 +94,7 @@ class AddFriendsViewControllerSpec: QuickSpec {
                             (LocalPerson(name: "that guy", emails: ["another@email.com"], id: 124), .None)
                         ]
                         subject.setContacts(localPeople)
-                        subject.searchFieldChanged("test")
+                        subject.searchFieldChanged("test", isPostSearch: false)
                         expect(subject.streamViewController.dataSource.visibleCellItems.count) == 1
                         expect((subject.streamViewController.dataSource.visibleCellItems.first?.jsonable as! LocalPerson).name) == localPeople.first?.0.name
                     }

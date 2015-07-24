@@ -16,7 +16,7 @@ public class FoundersSelectionViewController: OnboardingUserListViewController {
     override func setupStreamController() {
         super.setupStreamController()
 
-        streamViewController.streamKind = .UserList(endpoint: .FoundersStream, title: "Founders")
+        streamViewController.streamKind = .SimpleStream(endpoint: .FoundersStream, title: "Founders")
     }
 
     override func loadUsers() {
