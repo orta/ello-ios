@@ -103,7 +103,7 @@ public class StreamViewController: BaseElloViewController {
             setupCollectionViewLayout()
         }
     }
-    var imageViewerDelegate: StreamImageViewer?
+    var imageViewer: StreamImageViewer?
     var updatedStreamImageCellHeightNotification: NotificationObserver?
     var relayoutNotification: NotificationObserver?
     var commentChangedNotification: NotificationObserver?
@@ -435,8 +435,8 @@ public class StreamViewController: BaseElloViewController {
 
     private func removeNotificationObservers() {
         NSNotificationCenter.defaultCenter().removeObserver(self)
-        if let imageViewerDelegate = imageViewerDelegate {
-            NSNotificationCenter.defaultCenter().removeObserver(imageViewerDelegate)
+        if let imageViewer = imageViewer {
+            NSNotificationCenter.defaultCenter().removeObserver(imageViewer)
         }
 
         updatedStreamImageCellHeightNotification?.removeObserver()
@@ -491,8 +491,8 @@ public class StreamViewController: BaseElloViewController {
     }
 
     private func setupImageViewDelegate() {
-        if imageViewerDelegate == nil {
-            imageViewerDelegate = StreamImageViewer(presentingController: self, collectionView: collectionView, dataSource: dataSource)
+        if imageViewer == nil {
+            imageViewer = StreamImageViewer(presentingController: self)
         }
     }
 
@@ -800,8 +800,8 @@ extension StreamViewController: StreamImageCellDelegate {
                 postTappedDelegate?.postTapped(post)
             }
         }
-        else if let imageViewerDelegate = imageViewerDelegate {
-            imageViewerDelegate.imageTapped(imageView, cell: cell)
+        else if let imageViewer = imageViewer {
+            imageViewer.imageTapped(imageView, imageURL: cell.presentedImageUrl)
             if let post = post,
                     asset = imageAsset {
                 Tracker.sharedTracker.viewedImage(asset, post: post)

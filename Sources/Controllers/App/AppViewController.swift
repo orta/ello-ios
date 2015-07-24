@@ -243,7 +243,7 @@ extension AppViewController {
 
 extension AppViewController {
 
-    func showExternalWebView(url: String) {
+    func showExternalWebView(url: String) {        
         Tracker.sharedTracker.webViewAppeared(url)
         let externalWebController = ElloWebBrowserViewController.navigationControllerWithWebBrowser()
         presentViewController(externalWebController, animated: true, completion: nil)

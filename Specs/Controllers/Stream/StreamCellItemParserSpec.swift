@@ -13,52 +13,53 @@ import Moya
 
 
 class StreamCellItemParserSpec: QuickSpec {
-
-    var parser: StreamCellItemParser!
-
     override func spec() {
+        describe("StreamCellItemParser") {
 
-        describe("-streamCellItems:") {
+            var subject = StreamCellItemParser()
 
-            beforeEach {
-                self.parser = StreamCellItemParser()
-            }
+            describe("-streamCellItems:") {
 
-            it("returns an empty array if an empty array of Posts is passed in") {
-                let posts = [Post]()
-                expect(self.parser.parse(posts, streamKind: .Friend).count) == 0
-            }
+                beforeEach {
+                    subject = StreamCellItemParser()
+                }
 
-            it("returns an empty array if an empty array of Comments is passed in") {
-                let comments = [Comment]()
-                expect(self.parser.parse(comments, streamKind: .Friend).count) == 0
-            }
+                it("returns an empty array if an empty array of Posts is passed in") {
+                    let posts = [Post]()
+                    expect(subject.parse(posts, streamKind: .Friend).count) == 0
+                }
 
-            it("returns an array with the proper count of stream cell items when parsing friends.json's posts") {
-                var loadedPosts = [StreamCellItem]()
-                StreamService().loadStream(ElloAPI.FriendStream, streamKind: nil,
-                    success: { (jsonables, responseConfig) in
-                        loadedPosts = self.parser.parse(jsonables, streamKind: .Friend)
-                    },
-                    failure: nil
-                )
-                expect(loadedPosts.count) == 6
-            }
+                it("returns an empty array if an empty array of Comments is passed in") {
+                    let comments = [Comment]()
+                    expect(subject.parse(comments, streamKind: .Friend).count) == 0
+                }
 
-            it("returns an empty array if an empty array of Activities is passed in") {
-                let activities = [Notification]()
-                expect(self.parser.parse(activities, streamKind: .Notifications(category: nil)).count) == 0
-            }
+                it("returns an array with the proper count of stream cell items when parsing friends.json's posts") {
+                    var loadedPosts = [StreamCellItem]()
+                    StreamService().loadStream(ElloAPI.FriendStream, streamKind: nil,
+                        success: { (jsonables, responseConfig) in
+                            loadedPosts = subject.parse(jsonables, streamKind: .Friend)
+                        },
+                        failure: nil
+                    )
+                    expect(loadedPosts.count) == 6
+                }
 
-            it("returns an array with the proper count of stream cell items when parsing friends.json's activities") {
-                var loadedNotifications = [StreamCellItem]()
-                StreamService().loadStream(ElloAPI.NotificationsStream(category: nil), streamKind: nil,
-                    success: { (jsonables, responseConfig) in
-                        loadedNotifications = self.parser.parse(jsonables, streamKind: .Notifications(category: nil))
-                    },
-                    failure: nil
-                )
-                expect(loadedNotifications.count) == 14
+                it("returns an empty array if an empty array of Activities is passed in") {
+                    let activities = [Notification]()
+                    expect(subject.parse(activities, streamKind: .Notifications(category: nil)).count) == 0
+                }
+
+                it("returns an array with the proper count of stream cell items when parsing friends.json's activities") {
+                    var loadedNotifications = [StreamCellItem]()
+                    StreamService().loadStream(ElloAPI.NotificationsStream(category: nil), streamKind: nil,
+                        success: { (jsonables, responseConfig) in
+                            loadedNotifications = subject.parse(jsonables, streamKind: .Notifications(category: nil))
+                        },
+                        failure: nil
+                    )
+                    expect(loadedNotifications.count) == 14
+                }
             }
         }
     }
