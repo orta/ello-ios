@@ -185,10 +185,11 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     public func removeItemAtIndexPath(indexPath: NSIndexPath) {
-        let itemToRemove = self.visibleCellItems[indexPath.item]
-        temporarilyUnfilter() {
-            if let index = find(self.streamCellItems, itemToRemove) {
-                self.streamCellItems.removeAtIndex(index)
+        if let itemToRemove = self.visibleCellItems.safeValue(indexPath.item) {
+            temporarilyUnfilter() {
+                if let index = find(self.streamCellItems, itemToRemove) {
+                    self.streamCellItems.removeAtIndex(index)
+                }
             }
         }
     }
@@ -538,7 +539,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     public func isValidIndexPath(indexPath: NSIndexPath) -> Bool {
-        return indexPath.item < count(visibleCellItems) && indexPath.section == 0
+        return indexPath.item >= 0 &&  indexPath.item < count(visibleCellItems) && indexPath.section == 0
     }
 
     private func calculateCellItems(cellItems:[StreamCellItem], withWidth: CGFloat, completion: ElloEmptyCompletion) {
@@ -633,5 +634,13 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                 return item.alwaysShow() || streamCollapsedFilter(item)
             }
         }
+    }
+}
+
+
+// MARK: For Testing
+public extension StreamDataSource {
+    public func testingElementsForJSONAble(jsonable: JSONAble, change: ContentChange) -> ([NSIndexPath], [StreamCellItem]) {
+        return elementsForJSONAble(jsonable, change: change)
     }
 }

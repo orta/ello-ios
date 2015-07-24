@@ -13,7 +13,6 @@ public struct StreamCellItemParser {
     public init(){}
 
     public func parse(items: [JSONAble], streamKind: StreamKind, currentUser: User? = nil) -> [StreamCellItem] {
-
         let viewsAdultContent = currentUser?.viewsAdultContent ?? false
         var filteredItems = streamKind.filter(items, viewsAdultContent: viewsAdultContent)
         if let posts = filteredItems as? [Post] {
@@ -130,5 +129,31 @@ public struct StreamCellItemParser {
 
     private func footerStreamCellItems(post: Post) -> [StreamCellItem] {
         return [StreamCellItem(jsonable: post, type: StreamCellType.Footer, data: nil, oneColumnCellHeight: 54.0, multiColumnCellHeight: 54.0, isFullWidth: false)]
+    }
+}
+
+
+// MARK: For Testing
+public extension StreamCellItemParser {
+    public func testingNotificationCellItems(notifications:[Notification]) -> [StreamCellItem] {
+        return notificationCellItems(notifications)
+    }
+    public func testingPostCellItems(posts: [Post], streamKind: StreamKind) -> [StreamCellItem] {
+        return postCellItems(posts, streamKind: streamKind)
+    }
+    public func testingCommentCellItems(comments: [Comment]) -> [StreamCellItem] {
+        return commentCellItems(comments)
+    }
+    public func testingPostToggleItems(post: Post) -> [StreamCellItem] {
+        return postToggleItems(post)
+    }
+    public func testingRegionItems(jsonable: JSONAble, content: [Regionable]) -> [StreamCellItem] {
+        return regionItems(jsonable, content: content)
+    }
+    public func testingUserCellItems(users: [User]) -> [StreamCellItem] {
+        return userCellItems(users)
+    }
+    public func testingFooterStreamCellItems(post: Post) -> [StreamCellItem] {
+        return footerStreamCellItems(post)
     }
 }

@@ -47,10 +47,7 @@ public class StreamTextCellSizeCalculator: NSObject, UIWebViewDelegate {
             }
             let textElement = item.data as? TextRegion
 
-            if AppSetup.sharedState.isTesting {
-                assignCellHeight(20)
-            }
-            else if let textElement = textElement {
+            if let textElement = textElement {
                 let content = textElement.content
                 let strippedContent = StreamTextCellSizeCalculator.stripImageSrc(content)
                 let html = StreamTextCellHTML.postHTML(strippedContent)

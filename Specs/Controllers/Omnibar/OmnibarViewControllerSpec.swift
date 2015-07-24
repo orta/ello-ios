@@ -224,6 +224,19 @@ class OmnibarViewControllerSpec: QuickSpec {
                 expect(controller.screen.text).to(contain("testing!"))
             }
 
+            it("should not have the text if the tmp text was on another post") {
+                Tmp.remove(controller.omnibarDataName())
+
+                let text = ElloAttributedString.style("testing!")
+                let omnibarData = OmnibarData(attributedText: text, image: nil)
+                let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
+                Tmp.write(data, to: controller.omnibarDataName())
+
+                controller = OmnibarViewController(parentPost: Post.stub([:]), defaultText: "@666 ")
+                expect(controller.screen.text).to(contain("@666 "))
+                expect(controller.screen.text).notTo(contain("testing!"))
+            }
+
             it("should have the text only once") {
                 Tmp.remove(controller.omnibarDataName())
 
