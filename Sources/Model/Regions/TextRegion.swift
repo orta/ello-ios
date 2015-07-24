@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Crashlytics
 import Foundation
 import SwiftyJSON
 
@@ -43,6 +44,7 @@ public final class TextRegion: JSONAble, Regionable {
 
     override public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         let json = JSON(data)
+        Crashlytics.sharedInstance().setObjectValue(json.rawString(), forKey: CrashlyticsKey.TextRegionFromJSON.rawValue)
         let content = json["data"].stringValue
         return TextRegion(content: content)
     }

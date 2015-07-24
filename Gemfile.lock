@@ -52,7 +52,7 @@ GEM
     json (1.8.3)
     mini_magick (4.2.7)
     minitest (5.7.0)
-    molinillo (0.3.0)
+    molinillo (0.3.1)
     multipart-post (2.0.0)
     nap (0.8.0)
     netrc (0.7.8)
@@ -77,7 +77,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  cocoapods (~> 0.38.0)
+  cocoapods (= 0.38.0)
   cocoapods-keys (~> 1.2.0)
   dotenv
   git

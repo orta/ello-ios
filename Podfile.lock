@@ -1,9 +1,9 @@
 PODS:
   - 1PasswordExtension (1.2)
   - Alamofire (1.2.3)
-  - Analytics/Core-iOS (1.12.1):
+  - Analytics/Core-iOS (1.12.2):
     - TRVSDictionaryWithCaseInsensitivity (= 0.0.2)
-  - Analytics/Segmentio (1.12.1):
+  - Analytics/Segmentio (1.12.2):
     - Analytics/Core-iOS
   - Box (1.2.2)
   - CocoaLumberjack (2.0.1):
@@ -123,16 +123,16 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   1PasswordExtension: fcf300204bda5b5c78936dbb937a7d661f1ca796
   Alamofire: 5550bf0b575ed1a4bf9be572f9463e1015cc169e
-  Analytics: ef2c4d89b38e91b7528967084996e858fc419def
+  Analytics: 08029cf44cab6b82c8b8f00f50860a1054056618
   Box: a92e8aa4c099e6bc0733829665caf9e668ef53b8
   CocoaLumberjack: 019d1361244274a6138c788c6cb80baabc13fb8f
   Crashlytics: 1eef152dd21c1f2f9d9dbe115e637c77c6ffcc8e
   CRToast: eb22641501990233c53cb8f83f7d2ea87e0ddf73
   Fabric: a9eabe53915e9f1db55a84dd2838737928675878
-  FLAnimatedImage: 7599ec218dceacdcacbdfccb2947415c2619cd11
+  FLAnimatedImage: f9422f796135aff80d8c00b2afc48015bb746e24
   JTSImageViewController: 89ae3c003060c65418fd3224ebbd67acc6046608
   Keys: 7d2ff6ff42f6903358267ce56e9392f83c31acfe
-  KINWebBrowser: dad85d7d93e6f4620a8589b96992394affffa66e
+  KINWebBrowser: 5700a9e2d891ce43f726dd9e04c929312933bb18
   LUKeychainAccess: 6479edb12cf06e11ff3336f796959eedbc58f714
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
   Moya: ccd604e2f8653f25c5536a228cf7f688de7ad8f6
