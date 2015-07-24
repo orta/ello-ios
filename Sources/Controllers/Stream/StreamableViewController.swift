@@ -30,7 +30,7 @@ public protocol InviteResponder: NSObjectProtocol {
 public class StreamableViewController : BaseElloViewController, PostTappedDelegate {
 
     @IBOutlet weak var viewContainer: UIView!
-
+    private var showing = false
     public let streamViewController = StreamViewController.instantiateFromStoryboard()
 
     func setupStreamController() {
@@ -58,8 +58,14 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         let hidden = !navBarsVisible()
+        showing = true
         willPresentStreamable(!hidden)
         UIApplication.sharedApplication().setStatusBarHidden(hidden, withAnimation: .Slide)
+    }
+
+    public override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        showing = false
     }
 
     override public func viewDidLayoutSubviews() {
@@ -121,7 +127,10 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
         animate(animated: animated) {
             navBar.frame.origin.y = -upAmount
         }
-        UIApplication.sharedApplication().setStatusBarHidden(!visible, withAnimation: .None)
+
+        if showing {
+            UIApplication.sharedApplication().setStatusBarHidden(!visible, withAnimation: .None)
+        }
     }
 
     func showNavBars(scrollToBottom : Bool) {
