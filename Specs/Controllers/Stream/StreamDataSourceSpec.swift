@@ -1233,7 +1233,7 @@ class StreamDataSourceSpec: QuickSpec {
                 }
             }
 
-            fcontext("elementsForJSONAble(_:, change:)") {
+            context("elementsForJSONAble(_:, change:)") {
                 let user1 = User.stub([:])
                 let post1 = Post.stub([:])
                 let comment1 = Comment.stub(["parentPost": post1])
