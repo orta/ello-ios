@@ -993,7 +993,41 @@ class StreamDataSourceSpec: QuickSpec {
                 }
             }
 
-            describe("-removeAllCellItems") {
+            describe("removeItemAtIndexPath(_: NSIndexPath)") {
+                let post = Post.stub([:])
+                let items = [
+                    StreamCellItem(jsonable: post, type: .Text, data: TextRegion.stub([:]), oneColumnCellHeight: 0.0, multiColumnCellHeight: 0.0, isFullWidth: false),
+                    StreamCellItem(jsonable: post, type: .Text, data: TextRegion.stub([:]), oneColumnCellHeight: 0.0, multiColumnCellHeight: 0.0, isFullWidth: false),
+                    StreamCellItem(jsonable: post, type: .Text, data: TextRegion.stub([:]), oneColumnCellHeight: 0.0, multiColumnCellHeight: 0.0, isFullWidth: false),
+                    StreamCellItem(jsonable: post, type: .Text, data: TextRegion.stub([:]), oneColumnCellHeight: 0.0, multiColumnCellHeight: 0.0, isFullWidth: false)
+                ]
+                beforeEach {
+                    subject.appendUnsizedCellItems(items, withWidth: webView.frame.width) { cellCount in }
+                }
+                it("should allow removing an item from the beginning") {
+                    subject.removeItemAtIndexPath(indexPath0)
+                    expect(subject.visibleCellItems.count) == items.count - 1
+                    for (index, item) in enumerate(subject.visibleCellItems) {
+                        expect(item) == items[index + 1]
+                    }
+                }
+                it("should allow removing an item from the end") {
+                    subject.removeItemAtIndexPath(NSIndexPath(forItem: items.count - 1, inSection:0))
+                    expect(subject.visibleCellItems.count) == items.count - 1
+                    for (index, item) in enumerate(subject.visibleCellItems) {
+                        expect(item) == items[index]
+                    }
+                }
+                it("should ignore removing invalid index paths") {
+                    subject.removeItemAtIndexPath(indexPathOutOfBounds)
+                    expect(subject.visibleCellItems.count) == items.count
+                    for (index, item) in enumerate(subject.visibleCellItems) {
+                        expect(item) == items[index]
+                    }
+                }
+            }
+
+            describe("removeAllCellItems()") {
 
                 beforeEach {
                     var items = [StreamCellItem]()
