@@ -16,6 +16,8 @@ public class ElloWebBrowserViewController: KINWebBrowserViewController {
     static var elloTabBarController: ElloTabBarController?
 
     public class func navigationControllerWithBrowser(webBrowser: ElloWebBrowserViewController) -> ElloNavigationController {
+        // tell AppDelegate to allow rotation
+        AppDelegate.restrictRotation = false
         let xButton = UIBarButtonItem(image: SVGKImage(named: "x_normal.svg").UIImage!, style: UIBarButtonItemStyle.Plain, target: webBrowser, action: Selector("doneButtonPressed:"))
 
         let shareButton = UIBarButtonItem(image: SVGKImage(named: "share_normal.svg").UIImage!, style: UIBarButtonItemStyle.Plain, target: webBrowser, action: Selector("actionButtonPressed:"))
@@ -56,6 +58,10 @@ extension ElloWebBrowserViewController: KINWebBrowserDelegate {
 
     public func webBrowser(webBrowser: KINWebBrowserViewController!, shouldStartLoadWithRequest request: NSURLRequest!) -> Bool {
         return ElloWebViewHelper.handleRequest(request, webLinkDelegate: self, fromWebView: true)
+    }
+
+    public func willDismissWebBrowser(webView: KINWebBrowserViewController) {
+        AppDelegate.restrictRotation = true
     }
 
 }
@@ -118,25 +124,3 @@ extension ElloWebBrowserViewController : WebLinkDelegate {
         return false
     }
 }
-
-public extension ElloWebBrowserViewController {
-//    - (void)doneButtonPressed:(id)sender {
-//    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-//    }
-
-    override func doneButtonPressed(sender: AnyObject) {
-        AppDelegate.restrictRotation = true
-        super.doneButtonPressed(sender)
-    }
-    override func shouldAutorotate() -> Bool {
-        return true
-    }
-
-    override func supportedInterfaceOrientations() -> Int {
-        return Int(UIInterfaceOrientationMask.AllButUpsideDown.rawValue)
-    }
-//    override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation {
-//        return .Portrait
-//    }
-}
-

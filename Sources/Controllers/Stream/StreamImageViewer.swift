@@ -10,36 +10,28 @@ import UIKit
 import FLAnimatedImage
 import JTSImageViewController
 
-public class StreamImageViewer: NSObject,
-JTSImageViewControllerOptionsDelegate,
-JTSImageViewControllerDismissalDelegate,
-JTSImageViewControllerAnimationDelegate,
-StreamImageCellDelegate {
+public class StreamImageViewer: NSObject {
 
     let presentingController: StreamViewController
-    let collectionView: UICollectionView
-    let dataSource: StreamDataSource
     weak var imageView: UIImageView?
-    var didFlick = false
 
-    public init(presentingController: StreamViewController,
-        collectionView: UICollectionView,
-        dataSource: StreamDataSource)
-    {
+    public init(presentingController: StreamViewController) {
         self.presentingController = presentingController
-        self.collectionView = collectionView
-        self.dataSource = dataSource
     }
+}
 
-    public func imageTapped(imageView: FLAnimatedImageView, cell: StreamImageCell) {
+
+// MARK: Public
+extension StreamImageViewer {
+    public func imageTapped(imageView: FLAnimatedImageView, imageURL: NSURL?) {
         // tell AppDelegate to allow rotation
         AppDelegate.restrictRotation = false
 
         self.imageView = imageView
         imageView.hidden = true
         let imageInfo = JTSImageInfo()
-        if let presentedUrl = cell.presentedImageUrl {
-            imageInfo.imageURL = presentedUrl
+        if let imageURL = imageURL {
+            imageInfo.imageURL = imageURL
         }
         else {
             imageInfo.image = imageView.image
@@ -49,21 +41,22 @@ StreamImageCellDelegate {
         let imageViewer = JTSImageViewController(imageInfo: imageInfo, mode: JTSImageViewControllerMode.Image, backgroundStyle: JTSImageViewControllerBackgroundOptions.None)
         let transition:JTSImageViewControllerTransition = ._FromOriginalPosition
         imageViewer.showFromViewController(presentingController, transition: transition)
-        imageViewer.animationDelegate = self
         imageViewer.optionsDelegate = self
         imageViewer.dismissalDelegate = self
-
-        didFlick = true
     }
+}
+
 
 // MARK: JTSImageViewControllerOptionsDelegate
-
+extension StreamImageViewer: JTSImageViewControllerOptionsDelegate {
     public func alphaForBackgroundDimmingOverlayInImageViewer(imageViewer: JTSImageViewController) -> CGFloat {
         return 1.0
     }
+}
+
 
 // MARK: JTSImageViewControllerDismissalDelegate
-
+extension StreamImageViewer: JTSImageViewControllerDismissalDelegate {
     public func imageViewerDidDismiss(imageViewer: JTSImageViewController) {}
 
     public func imageViewerWillDismiss(imageViewer: JTSImageViewController) {
@@ -71,8 +64,5 @@ StreamImageCellDelegate {
         AppDelegate.restrictRotation = true
     }
 
-    public func imageViewerWillAnimateDismissal(imageViewer: JTSImageViewController, withContainerView containerView: UIView, duration: CGFloat) {
-        didFlick = false
-    }
-
+    public func imageViewerWillAnimateDismissal(imageViewer: JTSImageViewController, withContainerView containerView: UIView, duration: CGFloat) {}
 }
