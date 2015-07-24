@@ -91,6 +91,75 @@ class StreamDataSourceSpec: QuickSpec {
                 }
             }
 
+            context("appendUnsizedCellItems(_:, withWidth:, completion:)") {
+                let post = Post.stub([:])
+                let cellItems = [
+                    StreamCellItem(jsonable: post, type: .Text, data: TextRegion.stub([:]), oneColumnCellHeight:  0.0, multiColumnCellHeight:  0.0, isFullWidth: false),
+                    StreamCellItem(jsonable: post, type: .Text, data: TextRegion.stub([:]), oneColumnCellHeight: 10.0, multiColumnCellHeight: 10.0, isFullWidth: false),
+                    StreamCellItem(jsonable: post, type: .Text, data: TextRegion.stub([:]), oneColumnCellHeight: 20.0, multiColumnCellHeight: 20.0, isFullWidth: false),
+                    StreamCellItem(jsonable: post, type: .Text, data: TextRegion.stub([:]), oneColumnCellHeight: 40.0, multiColumnCellHeight: 40.0, isFullWidth: false)
+                ]
+
+                beforeEach {
+                    subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in }
+                }
+                it("adds items") {
+                    expect(subject.visibleCellItems.count) == cellItems.count
+                }
+                it("sizes the items") {
+                    for item in cellItems {
+                        expect(item.oneColumnCellHeight) == AppSetup.Size.calculatorHeight
+                    }
+                }
+            }
+
+            context("appendStreamCellItems(_:)") {
+                var cellHeight = CGFloat(123)
+                let post = Post.stub([:])
+                let cellItems = [
+                    StreamCellItem(jsonable: post, type: .Text, data: TextRegion.stub([:]), oneColumnCellHeight: cellHeight, multiColumnCellHeight: cellHeight, isFullWidth: false)
+                ]
+
+                beforeEach {
+                    subject.appendStreamCellItems(cellItems)
+                }
+                it("adds items") {
+                    expect(subject.visibleCellItems.count) == cellItems.count
+                }
+                it("does not size the items") {
+                    for item in cellItems {
+                        expect(item.oneColumnCellHeight) == cellHeight
+                    }
+                }
+            }
+
+            context("insertStreamCellItems(_:, startingIndexPath:)") {
+                let post1 = Post.stub([:])
+                let post2 = Post.stub([:])
+                let firstCellItems = [
+                    StreamCellItem(jsonable: post1, type: .Text, data: TextRegion.stub([:]), oneColumnCellHeight: 0.0, multiColumnCellHeight: 0.0, isFullWidth: false),
+                    StreamCellItem(jsonable: post1, type: .Text, data: TextRegion.stub([:]), oneColumnCellHeight: 10.0, multiColumnCellHeight: 10.0, isFullWidth: false),
+                    StreamCellItem(jsonable: post1, type: .Text, data: TextRegion.stub([:]), oneColumnCellHeight: 20.0, multiColumnCellHeight: 20.0, isFullWidth: false),
+                    StreamCellItem(jsonable: post1, type: .Text, data: TextRegion.stub([:]), oneColumnCellHeight: 40.0, multiColumnCellHeight: 40.0, isFullWidth: false)
+                ]
+                let secondCellItems = [
+                    StreamCellItem(jsonable: post2, type: .Text, data: TextRegion.stub([:]), oneColumnCellHeight: 0.0, multiColumnCellHeight: 0.0, isFullWidth: false),
+                    StreamCellItem(jsonable: post2, type: .Text, data: TextRegion.stub([:]), oneColumnCellHeight: 10.0, multiColumnCellHeight: 10.0, isFullWidth: false),
+                    StreamCellItem(jsonable: post2, type: .Text, data: TextRegion.stub([:]), oneColumnCellHeight: 20.0, multiColumnCellHeight: 20.0, isFullWidth: false),
+                    StreamCellItem(jsonable: post2, type: .Text, data: TextRegion.stub([:]), oneColumnCellHeight: 40.0, multiColumnCellHeight: 40.0, isFullWidth: false)
+                ]
+
+                beforeEach {
+                    subject.appendStreamCellItems(secondCellItems)
+                    subject.insertStreamCellItems(firstCellItems, startingIndexPath: indexPath0)
+                }
+                it("inserts items") {
+                    for (index, item) in enumerate(firstCellItems + secondCellItems) {
+                        expect(subject.visibleCellItems[index]) == item
+                    }
+                }
+            }
+
             describe("collectionView(_:numberOfItemsInSection:)") {
 
                 context("with posts") {
@@ -1178,7 +1247,7 @@ class StreamDataSourceSpec: QuickSpec {
                 }
             }
 
-            describe("-insertUnsizedCellItems:withWidth:startingIndexPath:completion:") {
+            describe("insertUnsizedCellItems(_:, withWidth:, startingIndexPath:, completion:)") {
                 var post: Post!
                 var newCellItem: StreamCellItem!
 
