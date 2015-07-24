@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Crashlytics
 import Foundation
 import SwiftyJSON
 
@@ -61,6 +62,7 @@ public final class Attachment: JSONAble {
 
     override class public func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         let json = JSON(data)
+        Crashlytics.sharedInstance().setObjectValue(json.rawString(), forKey: CrashlyticsKey.AttachmentFromJSON.rawValue)
         var url = json["url"].stringValue
         if url.hasPrefix("//") {
             url = ElloURI.httpProtocol + ":" + url

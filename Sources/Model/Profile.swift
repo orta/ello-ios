@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Crashlytics
 import Foundation
 import SwiftyJSON
 
@@ -147,6 +148,7 @@ public final class Profile: JSONAble {
 
     override public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         let json = JSON(data)
+        Crashlytics.sharedInstance().setObjectValue(json.rawString(), forKey: CrashlyticsKey.ProfileFromJSON.rawValue)
         // create profile
         var profile = Profile(
             createdAt: (json["created_at"].stringValue.toNSDate() ?? NSDate()),

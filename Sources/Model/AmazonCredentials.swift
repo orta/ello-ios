@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Crashlytics
+
 let AmazonCredentialsVersion = 1
 
 public class AmazonCredentials : JSONAble {
@@ -35,6 +37,7 @@ public class AmazonCredentials : JSONAble {
     }
 
     override public class func fromJSON(data: [String : AnyObject], fromLinked: Bool = false) -> JSONAble {
+        Crashlytics.sharedInstance().setObjectValue(data.description, forKey: CrashlyticsKey.AmazonCredentialsFromJSON.rawValue)
         return AmazonCredentials(
             accessKey: data["access_key"] as! String,
             endpoint:  data["endpoint"] as! String,

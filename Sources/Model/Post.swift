@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
+import Crashlytics
 import SwiftyJSON
 import YapDatabase
 
@@ -179,6 +180,7 @@ public final class Post: JSONAble, Authorable {
 
     override public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         let json = JSON(data)
+        Crashlytics.sharedInstance().setObjectValue(json.rawString(), forKey: CrashlyticsKey.PostFromJSON.rawValue)
         var repostContent = RegionParser.regions("repost_content", json: json)
         var createdAt: NSDate
         if let date = json["created_at"].stringValue.toNSDate() {

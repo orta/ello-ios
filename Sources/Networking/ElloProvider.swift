@@ -6,10 +6,10 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
+import Crashlytics
 import Foundation
 import Moya
 import WebLinking
-import Crashlytics
 
 public typealias ElloSuccessCompletion = (data: AnyObject, responseConfig: ResponseConfig) -> Void
 public typealias ElloFailureCompletion = (error: NSError, statusCode:Int?) -> Void

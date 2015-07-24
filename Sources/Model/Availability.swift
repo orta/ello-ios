@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Crashlytics
 import SwiftyJSON
 
 let AvailabilityVersion = 1
@@ -40,6 +41,7 @@ public final class Availability: JSONAble {
 extension Availability {
     override public class func fromJSON(data: [String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         let json = JSON(data)
+        Crashlytics.sharedInstance().setObjectValue(json.rawString(), forKey: CrashlyticsKey.AvailabilityFromJSON.rawValue)
         let username = json["username"].boolValue
         let email = json["email"].boolValue
         let invitationCode = json["invitation_code"].boolValue

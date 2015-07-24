@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
+import Crashlytics
 import Foundation
 import SwiftyJSON
 
@@ -121,6 +122,7 @@ public final class Asset: JSONAble {
 
     override class public func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         let json = JSON(data)
+        Crashlytics.sharedInstance().setObjectValue(json.rawString(), forKey: CrashlyticsKey.AssetFromJSON.rawValue)
         return parseAsset(json["id"].stringValue, node: data["attachment"] as? [String: AnyObject])
     }
 

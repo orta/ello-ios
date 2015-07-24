@@ -6,10 +6,10 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
+import Crashlytics
 import Foundation
-
-import UIKit
 import SwiftyJSON
+import UIKit
 
 let UserVersion: Int = 1
 
@@ -163,7 +163,7 @@ public final class User: JSONAble {
 
     override public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         let json = JSON(data)
-
+        Crashlytics.sharedInstance().setObjectValue(json.rawString(), forKey: CrashlyticsKey.UserFromJSON.rawValue)
         // create user
         var user = User(
             id: json["id"].stringValue,
