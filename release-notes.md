@@ -1,3 +1,101 @@
+### Ello Build v1.0.0(2790) July 24, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #511 - Fix autocomplete bugs
+This PR fixes two issues. 
+
+1. Deleting the content of an in-progress post will dismiss the auto completer if present.
+2. Typing an emoji does not toggle the keyboard back to letters.
+
+Fixes: https://www.pivotaltracker.com/story/show/99831624
+Fixes: https://www.pivotaltracker.com/story/show/99831648
+
+![screen shot 2015-07-24 at 4 45 16 pm](https://cloud.githubusercontent.com/assets/12459/8886175/b867f3f0-3223-11e5-992f-47f326cf4f1d.png)
+
+------
+
+#### #499 - Content search and ability to view hashtag results in a stream
+* Removes unnecessary classes
+* Renames `UserList` to `SimpleStream`
+* Updates `Loves` to use `SimpleStream`
+* Removes filtering of NSFW as it should be handled through the api now
+* Removes the loves responder in the profile header cell
+* Adds content search to the search screen if you prefix the terms with `#`
+* Renames `UserListDelegate` to `SimpleStreamDelegate`
+* Removes the `UserListPresentationController` since `StreamViewController` can handle it
+* Removes the `viewsAdultContent` flag for filtering
+
+[Finishes #97584210][Finishes #99332270]
+
+------
+
+#### #509 - allow images and web pages in landscape
+Image details and web views are viewable in landscape and portrait, all other screens are portrait only.
+
+Finishes: https://www.pivotaltracker.com/story/show/97767700
+
+![screen shot 2015-07-24 at 11 58 34 am](https://cloud.githubusercontent.com/assets/12459/8881251/a232e55e-31fb-11e5-9348-710a661bfb25.png)
+
+![screen shot 2015-07-24 at 11 59 59 am](https://cloud.githubusercontent.com/assets/12459/8881250/a21aa7f0-31fb-11e5-9dc4-f76ad9a01b9f.png)
+
+![screen shot 2015-07-24 at 12 04 58 pm](https://cloud.githubusercontent.com/assets/12459/8881342/3fa8dbfe-31fc-11e5-94d6-8c4161926e54.png)
+
+------
+
+#### #510 - Adds crashlytics keys to all model fromJSON calls.
+![image](https://cloud.githubusercontent.com/assets/96433/8881341/3df09392-31fc-11e5-9896-07d9b7084724.png)
+
+------
+
+#### #508 - Who said I was done!?
+Just a few more methods in `StreamDataSource` to test!
+
+- [x] removeItemAtIndexPath(indexPath: NSIndexPath) 
+- [ ] removeItemsForJSONAble(jsonable: JSONAble, change: ContentChange) -> [NSIndexPath] 
+- [x] appendStreamCellItems(items: [StreamCellItem]) 
+- [x] appendUnsizedCellItems(cellItems: [StreamCellItem], withWidth: CGFloat, completion: StreamContentReady) 
+- [x] insertStreamCellItems(cellItems: [StreamCellItem], startingIndexPath: NSIndexPath) -> [NSIndexPath]
+
+------
+
+#### #507 - Fixes a crash when pulling to refresh on detail.
+Uses the same refresh token for loading the post as well as the lovers/reposters to prevent the crash.
+
+[Fixes #99618298]
+
+------
+
+#### #505 - Tapping tab bar item scrolls to top
+If you are not at the root, it will go to the root view controller.
+
+If you ARE at the root, it will scroll to top.
+
+@steam I think we could add the "scroll back to where I was", though that will be a little tricky.  To do that right, the tab bar will need to be notified of scroll location changes.
+
+------
+
+#### #506 - StreamDataSource specs
+This one brings back *almost* all the StreamDataSource specs that were commented out.
+
+Mostly they were restored by making the size calculators synchronous, but there were lots of minor updates that needed to happen, too.
+
+------
+
+#### #504 - Update provisioning profiles in project.
+* Renames build files to match what they build better
+* Renames profiles to use downloaded name from provisioning portal
+* Updates the crashlytics distribution task to be `bundle exec rake distribute:crashlytics:prod:testers`
+* Adds a distribution task for generating app store builds `bundle exec rake distribute:appstore`
+* Adds back in the `rm -rf Build/` to the beginning of the build scripts as to avoid confusion with dsym.zip files that get uploaded to Fabric
+* Removes unused profiles
+
+Remember you can always do a `bundle exec rake -T` to see the list of available commands.
+    
+------------
+
 ### Ello Build v1.0.0(2730) July 23, 2015
 
     RELEASE NOTES
