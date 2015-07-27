@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 // This screen tracks two sets of "changes": the attributed text of the textView
-// (`currentText : NSAttributedString`), and the image uploaded by the image
+// (`currentText: NSAttributedString`), and the image uploaded by the image
 // picker (`currentImage`).
 //
 // When the cancel button is tapped, the editor is reset and they keyboard is
@@ -31,23 +31,23 @@ import SVGKit
 public protocol OmnibarScreenDelegate {
     func omnibarCancel()
     func omnibarPushController(controller: UIViewController)
-    func omnibarPresentController(controller : UIViewController)
-    func omnibarDismissController(controller : UIViewController)
+    func omnibarPresentController(controller: UIViewController)
+    func omnibarDismissController(controller: UIViewController)
     func omnibarSubmitted(text: NSAttributedString?, image: UIImage, data: NSData, type: String)
-    func omnibarSubmitted(text : NSAttributedString?, image: UIImage?)
+    func omnibarSubmitted(text: NSAttributedString?, image: UIImage?)
 }
 
 
 @objc
 public protocol OmnibarScreenProtocol {
-    var delegate : OmnibarScreenDelegate? { get set }
-    var avatarURL : NSURL? { get set }
-    var avatarImage : UIImage? { get set }
-    var currentUser : User? { get set }
-    var hasParentPost : Bool { get set }
-    var text : String? { get set }
-    var image : UIImage? { get set }
-    var attributedText : NSAttributedString? { get set }
+    var delegate: OmnibarScreenDelegate? { get set }
+    var avatarURL: NSURL? { get set }
+    var avatarImage: UIImage? { get set }
+    var currentUser: User? { get set }
+    var hasParentPost: Bool { get set }
+    var text: String? { get set }
+    var image: UIImage? { get set }
+    var attributedText: NSAttributedString? { get set }
     func appendAttributedText(text: NSAttributedString)
     func reportSuccess(title: String)
     func reportError(title: String, error: NSError)
@@ -58,7 +58,7 @@ public protocol OmnibarScreenProtocol {
     func updatePostState()
 }
 
-public class OmnibarScreen : UIView, OmnibarScreenProtocol {
+public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     struct Size {
         static let margins = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
         static let textMargins = UIEdgeInsets(top: 22, left: 30, bottom: 9, right: 30)
@@ -76,7 +76,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol {
 
     // Styles the text and assigns it as an NSAttributedString to
     // `attributedText`
-    public var text : String? {
+    public var text: String? {
         set(newValue) {
             if let value = newValue {
                 self.attributedText = ElloAttributedString.style(value)
@@ -92,7 +92,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol {
 
     // assigns the NSAttributedString to the UITextView and assigns
     // `currentText`
-    public var attributedText : NSAttributedString? {
+    public var attributedText: NSAttributedString? {
         set(newValue) {
             userSetCurrentText(newValue)
         }
@@ -110,7 +110,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol {
         attributedText = mutableString
     }
 
-    public var image : UIImage? {
+    public var image: UIImage? {
         set(newValue) {
             userSetCurrentImage(newValue)
         }
@@ -119,7 +119,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol {
         }
     }
 
-    public var avatarURL : NSURL? {
+    public var avatarURL: NSURL? {
         willSet(newValue) {
             if avatarURL != newValue {
                 if let avatarURL = newValue {
@@ -132,7 +132,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol {
         }
     }
 
-    public var avatarImage : UIImage? {
+    public var avatarImage: UIImage? {
         willSet(newValue) {
             if avatarImage != newValue {
                 if let avatarImage = newValue {
@@ -145,7 +145,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol {
         }
     }
 
-    public var hasParentPost : Bool = false {
+    public var hasParentPost: Bool = false {
         didSet { setNeedsLayout() }
     }
 
@@ -153,7 +153,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol {
 
 // MARK: internal and/or private vars
 
-    weak public var delegate : OmnibarScreenDelegate?
+    weak public var delegate: OmnibarScreenDelegate?
 
     public let avatarButtonView = UIButton()
 
@@ -174,10 +174,10 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol {
     var autoCompleteContainer: UIView
     var autoCompleteThrottle: ThrottledBlock
     var autoCompleteShowing = false
-    private var currentText : NSAttributedString?
-    private var currentImage : UIImage?
-    private var data : NSData?
-    private var type : String?
+    private var currentText: NSAttributedString?
+    private var currentImage: UIImage?
+    private var data: NSData?
+    private var type: String?
 
 // MARK: init
 
@@ -309,7 +309,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol {
 
 // MARK: Public interface
 
-    public func reportSuccess(title : String) {
+    public func reportSuccess(title: String) {
         let alertController = AlertViewController(message: title)
 
         let cancelAction = AlertAction(title: NSLocalizedString("OK", comment: "ok button"), style: .Light, handler: .None)
@@ -336,12 +336,12 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol {
         textView.becomeFirstResponder()
     }
 
-    public func reportError(title : String, error : NSError) {
+    public func reportError(title: String, error: NSError) {
         let errorMessage = error.elloErrorMessage ?? error.localizedDescription
         reportError(title, errorMessage: errorMessage)
     }
 
-    public func reportError(title : String, errorMessage : String) {
+    public func reportError(title: String, errorMessage: String) {
         let alertController = AlertViewController(message: title)
 
         let cancelAction = AlertAction(title: NSLocalizedString("OK", comment: "ok button"), style: .Light, handler: .None)
@@ -478,7 +478,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol {
     public func submitAction() {
         if canPost() {
             textView.resignFirstResponder()
-            var submittedText : NSAttributedString?
+            var submittedText: NSAttributedString?
             if currentTextIsPresent() {
                 submittedText = currentText
             }
@@ -516,7 +516,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol {
 
 // MARK: Images
 
-    func userSetCurrentImage(image : UIImage?, data: NSData? = nil, type: String? = nil) {
+    func userSetCurrentImage(image: UIImage?, data: NSData? = nil, type: String? = nil) {
         setCurrentImage(image)
         self.data = data
         self.type = type
@@ -525,7 +525,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol {
     }
 
     // this updates the currentImage and buttons
-    private func setCurrentImage(image : UIImage?) {
+    private func setCurrentImage(image: UIImage?) {
         self.currentImage = image
 
         if let image = image {
@@ -598,7 +598,7 @@ public class OmnibarScreen : UIView, OmnibarScreenProtocol {
     // Updates the text view, including the overlay
     // and first responder state.  This method is meant to be used during
     // initialization.
-    private func userSetCurrentText(value : NSAttributedString?) {
+    private func userSetCurrentText(value: NSAttributedString?) {
         if currentText != value {
             if let text = value {
                 textView.attributedText = text
@@ -627,7 +627,7 @@ extension OmnibarScreen: UINavigationControllerDelegate {
 
 // MARK: UITextViewDelegate
 extension OmnibarScreen: UITextViewDelegate {
-    public func textViewShouldBeginEditing(textView : UITextView) -> Bool {
+    public func textViewShouldBeginEditing(textView: UITextView) -> Bool {
         return true
     }
 
@@ -714,12 +714,12 @@ extension OmnibarScreen: AutoCompleteDelegate {
 // MARK: UIImagePickerControllerDelegate
 extension OmnibarScreen: UIImagePickerControllerDelegate {
 
-    private func openImagePicker(imageController : UIImagePickerController) {
+    private func openImagePicker(imageController: UIImagePickerController) {
         imageController.delegate = self
         delegate?.omnibarPresentController(imageController)
     }
 
-    public func imagePickerController(controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+    public func imagePickerController(controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject: AnyObject]) {
         let library = PHPhotoLibrary.sharedPhotoLibrary()
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage
         {
