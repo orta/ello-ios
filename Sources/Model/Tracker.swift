@@ -413,14 +413,14 @@ public extension Tracker {
         agent.track("User block canceled", properties: ["blocked_user_id": userId])
     }
 
-    func relationshipStatusUpdated(relationship: RelationshipPriority, userId: String) {
-        log("Relationship Priority changed, [relationship: \(relationship.rawValue), user_id: \(userId)]")
-        agent.track("Relationship Priority changed", properties: ["new_value": relationship.rawValue, "user_id": userId])
+    func relationshipStatusUpdated(relationshipPriority: RelationshipPriority, userId: String) {
+        log("Relationship Priority changed, [relationship: \(relationshipPriority.rawValue), user_id: \(userId)]")
+        agent.track("Relationship Priority changed", properties: ["new_value": relationshipPriority.rawValue, "user_id": userId])
     }
 
-    func relationshipStatusUpdateFailed(relationship: RelationshipPriority, userId: String) {
-        log("Relationship Priority failed, [relationship: \(relationship.rawValue), user_id: \(userId)]")
-        agent.track("Relationship Priority failed", properties: ["new_value": relationship.rawValue, "user_id": userId])
+    func relationshipStatusUpdateFailed(relationshipPriority: RelationshipPriority, userId: String) {
+        log("Relationship Priority failed, [relationship: \(relationshipPriority.rawValue), user_id: \(userId)]")
+        agent.track("Relationship Priority failed", properties: ["new_value": relationshipPriority.rawValue, "user_id": userId])
     }
 
     func relationshipModalLaunched() {

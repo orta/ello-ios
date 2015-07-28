@@ -23,26 +23,26 @@ class RelationshipControlSpec: QuickSpec {
         describe("@relationship") {
 
             it("sets button state properly when set to friend") {
-                subject.relationship = .Friend
+                subject.relationshipPriority = .Friend
                 expect(subject.label.text) == "Friend"
                 expect(subject.mainButtonBackground.backgroundColor) == UIColor.blackColor()
             }
 
             it("sets button state properly when set to noise") {
-                subject.relationship = .Noise
+                subject.relationshipPriority = .Noise
                 expect(subject.label.text) == "Noise"
                 expect(subject.mainButtonBackground.backgroundColor) == UIColor.blackColor()
             }
 
             it("sets button state properly when set to mute") {
-                subject.relationship = .Mute
+                subject.relationshipPriority = .Mute
                 expect(subject.label.text) == "Muted"
                 expect(subject.mainButtonBackground.backgroundColor) == UIColor.redColor()
             }
 
             it("sets button state properly when set to anything else") {
-                for relationship in [RelationshipPriority.Inactive, RelationshipPriority.None, RelationshipPriority.Null, RelationshipPriority.Me] {
-                    subject.relationship = relationship
+                for relationshipPriority in [RelationshipPriority.Inactive, RelationshipPriority.None, RelationshipPriority.Null, RelationshipPriority.Me] {
+                    subject.relationshipPriority = relationshipPriority
                     expect(subject.label.text) == "Follow"
                     expect(subject.mainButtonBackground.backgroundColor) == UIColor.whiteColor()
                 }
@@ -61,7 +61,7 @@ class RelationshipControlSpec: QuickSpec {
             describe("tapping more button") {
 
                 it("launches the block modal") {
-                    subject.relationship = .Friend
+                    subject.relationshipPriority = .Friend
                     subject.moreButton.sendActionsForControlEvents(.TouchUpInside)
                     let presentedVC = relationshipController.presentingController.presentedViewController as? BlockUserModalViewController
                     expect(presentedVC).notTo(beNil())
@@ -75,7 +75,7 @@ class RelationshipControlSpec: QuickSpec {
                     context("RelationshipPriority.Friend") {
 
                         it("launches the following/follow as modal") {
-                            subject.relationship = .Friend
+                            subject.relationshipPriority = .Friend
                             subject.mainButton.sendActionsForControlEvents(.TouchUpInside)
                             let presentedVC = relationshipController.presentingController.presentedViewController as? AlertViewController
                             expect(presentedVC).notTo(beNil())
@@ -93,7 +93,7 @@ class RelationshipControlSpec: QuickSpec {
                     context("RelationshipPriority.Noise") {
 
                         it("launches the following/follow as modal") {
-                            subject.relationship = .Noise
+                            subject.relationshipPriority = .Noise
                             subject.mainButton.sendActionsForControlEvents(.TouchUpInside)
                             let presentedVC = relationshipController.presentingController.presentedViewController as? AlertViewController
                             expect(presentedVC).notTo(beNil())
@@ -111,8 +111,8 @@ class RelationshipControlSpec: QuickSpec {
                     context("RelationshipPriority.Inactive|None|Null|Me") {
 
                         it("launches the following/follow as modal") {
-                            for relationship in [RelationshipPriority.Inactive, RelationshipPriority.None, RelationshipPriority.Null, RelationshipPriority.Me] {
-                                subject.relationship = relationship
+                            for relationshipPriority in [RelationshipPriority.Inactive, RelationshipPriority.None, RelationshipPriority.Null, RelationshipPriority.Me] {
+                                subject.relationshipPriority = relationshipPriority
                                 subject.mainButton.sendActionsForControlEvents(.TouchUpInside)
                                 let presentedVC = relationshipController.presentingController.presentedViewController as? AlertViewController
                                 expect(presentedVC).notTo(beNil())
@@ -133,7 +133,7 @@ class RelationshipControlSpec: QuickSpec {
                 describe("tapping the main button") {
 
                     it("launches the block modal") {
-                        subject.relationship = .Mute
+                        subject.relationshipPriority = .Mute
                         subject.mainButton.sendActionsForControlEvents(.TouchUpInside)
                         let presentedVC = relationshipController.presentingController.presentedViewController as? BlockUserModalViewController
                         expect(presentedVC).notTo(beNil())
@@ -150,35 +150,35 @@ class RelationshipControlSpec: QuickSpec {
 
                 describe("@moreButton") {
                     it("not selected block") {
-                        subject.relationship = .Inactive
+                        subject.relationshipPriority = .Inactive
                         subject.moreButton.sendActionsForControlEvents(.TouchUpInside)
                         let presentedVC = relationshipController.presentingController.presentedViewController as! BlockUserModalViewController
                         presentedVC.blockButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
-                        expect(subject.relationship).to(equal(RelationshipPriority.Block))
+                        expect(subject.relationshipPriority).to(equal(RelationshipPriority.Block))
                     }
 
                     it("not selected mute") {
-                        subject.relationship = .Inactive
+                        subject.relationshipPriority = .Inactive
                         subject.moreButton.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
                         let presentedVC = relationshipController.presentingController.presentedViewController as! BlockUserModalViewController
                         presentedVC.muteButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
-                        expect(subject.relationship).to(equal(RelationshipPriority.Mute))
+                        expect(subject.relationshipPriority).to(equal(RelationshipPriority.Mute))
                     }
 
                     it("selected block") {
-                        subject.relationship = .Block
+                        subject.relationshipPriority = .Block
                         subject.moreButton.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
                         let presentedVC = relationshipController.presentingController.presentedViewController as! BlockUserModalViewController
                         presentedVC.blockButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
-                        expect(subject.relationship).to(equal(RelationshipPriority.Inactive))
+                        expect(subject.relationshipPriority).to(equal(RelationshipPriority.Inactive))
                     }
 
                     it("selected mute") {
-                        subject.relationship = .Mute
+                        subject.relationshipPriority = .Mute
                         subject.moreButton.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
                         let presentedVC = relationshipController.presentingController.presentedViewController as! BlockUserModalViewController
                         presentedVC.muteButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
-                        expect(subject.relationship).to(equal(RelationshipPriority.Inactive))
+                        expect(subject.relationshipPriority).to(equal(RelationshipPriority.Inactive))
                     }
 
                 }
@@ -192,35 +192,35 @@ class RelationshipControlSpec: QuickSpec {
 
                 describe("@moreButton") {
                     it("not selected block") {
-                        subject.relationship = .Inactive
+                        subject.relationshipPriority = .Inactive
                         subject.moreButton.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
                         let presentedVC = relationshipController.presentingController.presentedViewController as! BlockUserModalViewController
                         presentedVC.blockButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
-                        expect(subject.relationship).to(equal(RelationshipPriority.Inactive))
+                        expect(subject.relationshipPriority).to(equal(RelationshipPriority.Inactive))
                     }
 
                     it("not selected mute") {
-                        subject.relationship = .Inactive
+                        subject.relationshipPriority = .Inactive
                         subject.moreButton.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
                         let presentedVC = relationshipController.presentingController.presentedViewController as! BlockUserModalViewController
                         presentedVC.muteButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
-                        expect(subject.relationship).to(equal(RelationshipPriority.Inactive))
+                        expect(subject.relationshipPriority).to(equal(RelationshipPriority.Inactive))
                     }
 
                     it("selected block") {
-                        subject.relationship = .Block
+                        subject.relationshipPriority = .Block
                         subject.moreButton.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
                         let presentedVC = relationshipController.presentingController.presentedViewController as! BlockUserModalViewController
                         presentedVC.blockButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
-                        expect(subject.relationship).to(equal(RelationshipPriority.Block))
+                        expect(subject.relationshipPriority).to(equal(RelationshipPriority.Block))
                     }
 
                     it("selected mute") {
-                        subject.relationship = .Mute
+                        subject.relationshipPriority = .Mute
                         subject.moreButton.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
                         let presentedVC = relationshipController.presentingController.presentedViewController as! BlockUserModalViewController
                         presentedVC.muteButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
-                        expect(subject.relationship).to(equal(RelationshipPriority.Mute))
+                        expect(subject.relationshipPriority).to(equal(RelationshipPriority.Mute))
                     }
                 }
             }

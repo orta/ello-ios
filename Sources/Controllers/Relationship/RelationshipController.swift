@@ -9,7 +9,7 @@
 import Foundation
 import SVGKit
 
-public typealias RelationshipChangeClosure = (relationship: RelationshipPriority) -> Void
+public typealias RelationshipChangeClosure = (relationshipPriority: RelationshipPriority) -> Void
 public typealias RelationshipChangeCompletion = (status: RelationshipRequestStatus, relationship: Relationship?) -> Void
 
 public enum RelationshipRequestStatus: String {

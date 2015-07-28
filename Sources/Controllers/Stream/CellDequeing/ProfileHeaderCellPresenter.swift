@@ -50,7 +50,7 @@ public struct ProfileHeaderCellPresenter {
             cell.viewTopConstraint.constant = UIScreen.screenWidth() / ratio
             cell.relationshipControl.userId = user.id
             cell.relationshipControl.userAtName = user.atName
-            cell.relationshipControl.relationship = user.relationshipPriority
+            cell.relationshipControl.relationshipPriority = user.relationshipPriority
             cell.usernameLabel.text = user.atName
             cell.nameLabel.text = user.name
             cell.bioWebView.loadHTMLString(StreamTextCellHTML.postHTML(user.headerHTMLContent), baseURL: NSURL(string: "/"))
