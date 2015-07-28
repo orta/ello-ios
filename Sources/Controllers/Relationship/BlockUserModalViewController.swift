@@ -24,8 +24,8 @@ public class BlockUserModalViewController: BaseElloViewController {
     @IBOutlet weak public var blockButton: WhiteElloButton?
     @IBOutlet weak public var blockLabel: UILabel!
                     
-    public var relationship: RelationshipPriority {
-        didSet { selectButton(relationship) }
+    public var relationshipPriority: RelationshipPriority {
+        didSet { selectButton(relationshipPriority) }
     }
 
     let userId: String
@@ -34,7 +34,7 @@ public class BlockUserModalViewController: BaseElloViewController {
     let changeClosure: RelationshipChangeClosure
 
     public var titleText: String {
-        switch relationship {
+        switch relationshipPriority {
         case .Mute: return "Would you like to \runmute or block \(userAtName)?"
         case .Block: return "Would you like to \rmute or unblock \(userAtName)?"
         default: return "Would you like to \rmute or block \(userAtName)?"
@@ -49,10 +49,10 @@ public class BlockUserModalViewController: BaseElloViewController {
         return "\(userAtName) will not be able to follow you or view your profile, posts or find you in search."
     }
 
-    required public init(userId: String, userAtName: String, relationship: RelationshipPriority, changeClosure: RelationshipChangeClosure) {
+    required public init(userId: String, userAtName: String, relationshipPriority: RelationshipPriority, changeClosure: RelationshipChangeClosure) {
         self.userId = userId
         self.userAtName = userAtName
-        self.relationship = relationship
+        self.relationshipPriority = relationshipPriority
         self.changeClosure = changeClosure
         super.init(nibName: "BlockUserModalViewController", bundle: NSBundle(forClass: BlockUserModalViewController.self))
         self.modalPresentationStyle = .Custom
@@ -67,7 +67,7 @@ public class BlockUserModalViewController: BaseElloViewController {
         super.viewDidLoad()
         styleView()
         setText()
-        selectButton(relationship)
+        selectButton(relationshipPriority)
     }
 
     override public func viewDidAppear(animated: Bool) {
@@ -120,20 +120,20 @@ public class BlockUserModalViewController: BaseElloViewController {
     }
 
     private func handleTapped(sender: UIButton, newRelationship: RelationshipPriority) {
-        let prevRelationship = relationship
+        let prevRelationship = relationshipPriority
         if sender.selected == true {
-            relationship = .Inactive
+            relationshipPriority = .Inactive
         } else {
-            relationship = newRelationship
+            relationshipPriority = newRelationship
         }
-        relationshipDelegate?.updateRelationship(userId, relationship: relationship) {
+        relationshipDelegate?.updateRelationship(userId, relationshipPriority: relationshipPriority) {
             [unowned self] (status, relationship) in
             switch status {
             case .Success:
-                self.changeClosure(relationship: self.relationship)
+                self.changeClosure(relationshipPriority: self.relationshipPriority)
                 self.closeModal(nil)
             case .Failure:
-                self.relationship = prevRelationship
+                self.relationshipPriority = prevRelationship
             }
         }
     }

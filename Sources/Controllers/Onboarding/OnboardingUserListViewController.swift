@@ -74,7 +74,7 @@ public class OnboardingUserListViewController: StreamableViewController, Onboard
 
         if count(friendUserIds) > 0 {
             ElloHUD.showLoadingHud()
-            RelationshipService().bulkUpdateRelationships(userIds: friendUserIds, relationship: .Friend,
+            RelationshipService().bulkUpdateRelationships(userIds: friendUserIds, relationshipPriority: .Friend,
                 success: { data in
                     ElloHUD.hideLoadingHud()
                     proceed(self.onboardingData)

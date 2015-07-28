@@ -32,8 +32,8 @@ public class RelationshipControl: UIControl {
     public var userAtName: String
 
     public weak var relationshipDelegate: RelationshipDelegate?
-    public var relationship:RelationshipPriority = .None {
-        didSet { updateRelationship(relationship) }
+    public var relationshipPriority:RelationshipPriority = .None {
+        didSet { updateRelationshipPriority(relationshipPriority) }
     }
 
     override public var selected: Bool {
@@ -74,17 +74,17 @@ public class RelationshipControl: UIControl {
     // MARK: IBActions
 
     @IBAction func moreTapped(sender: UIButton) {
-        relationshipDelegate?.launchBlockModal(userId, userAtName: userAtName, relationship: relationship) {
-            [unowned self] relationship in
-            self.relationship = relationship
+        relationshipDelegate?.launchBlockModal(userId, userAtName: userAtName, relationshipPriority: relationshipPriority) {
+            [unowned self] relationshipPriority in
+            self.relationshipPriority = relationshipPriority
         }
     }
 
     @IBAction func buttonTouchUpInside(sender: UIButton) {
-        if relationship == .Mute {
-            relationshipDelegate?.launchBlockModal(userId, userAtName: userAtName, relationship: relationship) {
-                [unowned self] relationship in
-                self.relationship = relationship
+        if relationshipPriority == .Mute {
+            relationshipDelegate?.launchBlockModal(userId, userAtName: userAtName, relationshipPriority: relationshipPriority) {
+                [unowned self] relationshipPriority in
+                self.relationshipPriority = relationshipPriority
             }
         }
         else {
@@ -102,10 +102,10 @@ public class RelationshipControl: UIControl {
     }
 
     private func handleTapped(sender: UIButton) {
-        relationshipDelegate?.relationshipTapped(userId, relationship: relationship) {
-            [unowned self] (status, relationship) in
-            if let newRelationshipPriority = relationship?.subject?.relationshipPriority {
-                self.relationship = newRelationshipPriority
+        relationshipDelegate?.relationshipTapped(userId, relationshipPriority: relationshipPriority) {
+            [unowned self] (status, relationshipPriority) in
+            if let newRelationshipPriority = relationshipPriority?.subject?.relationshipPriority {
+                self.relationshipPriority = newRelationshipPriority
             }
         }
     }
@@ -134,8 +134,8 @@ public class RelationshipControl: UIControl {
         updateLayout()
     }
 
-    private func updateRelationship(relationship: RelationshipPriority) {
-        switch relationship {
+    private func updateRelationshipPriority(relationshipPriority: RelationshipPriority) {
+        switch relationshipPriority {
         case .Friend: config = .Friend
         case .Noise: config = .Noise
         case .Mute: config = .Muted

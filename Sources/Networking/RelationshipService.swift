@@ -11,20 +11,22 @@ import SwiftyJSON
 
 public class RelationshipService: NSObject {
 
-    public func updateRelationship(#userId: String, relationship: RelationshipPriority, success: ElloSuccessCompletion, failure: ElloFailureCompletion?) {
-        let endpoint = ElloAPI.Relationship(userId: userId, relationship: relationship.rawValue)
+    public func updateRelationship(#userId: String, relationshipPriority: RelationshipPriority, success: ElloSuccessCompletion, failure: ElloFailureCompletion?) {
+        let endpoint = ElloAPI.Relationship(userId: userId, relationship: relationshipPriority.rawValue)
+        ElloProvider.elloRequest(endpoint, success: { (data, responseConfig) in
+            Tracker.sharedTracker.relationshipStatusUpdated(relationshipPriority, userId: userId)
+            success(data: data, responseConfig: responseConfig)
+        }, failure: { (error, statusCode) in
+            Tracker.sharedTracker.relationshipStatusUpdateFailed(relationshipPriority, userId: userId)
+            failure?(error: error, statusCode: statusCode)
+        })
+    }
+
+    public func bulkUpdateRelationships(#userIds: [String], relationshipPriority: RelationshipPriority, success: ElloSuccessCompletion, failure: ElloFailureCompletion?) {
+        let endpoint = ElloAPI.RelationshipBatch(userIds: userIds, relationship: relationshipPriority.rawValue)
         ElloProvider.elloRequest(endpoint,
             success: success,
             failure: failure
         )
     }
-
-    public func bulkUpdateRelationships(#userIds: [String], relationship: RelationshipPriority, success: ElloSuccessCompletion, failure: ElloFailureCompletion?) {
-        let endpoint = ElloAPI.RelationshipBatch(userIds: userIds, relationship: relationship.rawValue)
-        ElloProvider.elloRequest(endpoint,
-            success: success,
-            failure: failure
-        )
-    }
-
 }
