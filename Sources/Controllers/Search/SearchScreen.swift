@@ -27,12 +27,12 @@ public class SearchScreen: UIView, SearchScreenProtocol {
     var keyboardWillHideObserver: NotificationObserver?
     private var throttled: ThrottledBlock
     private var navigationBar: ElloNavigationBar!
-    private var searchField: UITextField!
+    public private(set) var searchField: UITextField!
     private var toggleButtonContainer: UIView!
     private var postsToggleButton: OutlineElloButton?
     private var peopleToggleButton: OutlineElloButton?
     private var streamViewContainer: UIView!
-    private var findFriendsContainer: UIView!
+    public private(set) var findFriendsContainer: UIView!
     private var bottomInset: CGFloat
     private var navBarTitle: String!
     private var fieldPlaceholderText: String!
@@ -227,6 +227,11 @@ extension SearchScreen: UITextFieldDelegate {
     public func textFieldShouldClear(textField: UITextField) -> Bool {
         clearSearch()
         showFindFriends()
+        return true
+    }
+
+    public func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
         return true
     }
 
