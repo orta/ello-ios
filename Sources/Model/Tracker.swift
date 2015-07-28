@@ -507,3 +507,11 @@ public extension Tracker {
         agent.track("\(identifier) Created At Crash", properties: ["responseHeaders": ElloProvider.responseHeaders, "responseJSON": jsonText, "currentUserId": currentUser?.id ?? "no id"])
     }
 }
+
+// MARK: Search
+public extension Tracker {
+    func searchFor(term: String) {
+        println("search for \(term)")
+//        agent.track("Search for \(term)")
+    }
+}
