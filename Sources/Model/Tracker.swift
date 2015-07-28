@@ -511,7 +511,6 @@ public extension Tracker {
 // MARK: Search
 public extension Tracker {
     func searchFor(term: String) {
-        println("search for \(term)")
-//        agent.track("Search for \(term)")
+        agent.track("Search for \(term)")
     }
 }
