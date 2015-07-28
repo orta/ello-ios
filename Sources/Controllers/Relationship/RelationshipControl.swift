@@ -74,7 +74,7 @@ public class RelationshipControl: UIControl {
     // MARK: IBActions
 
     @IBAction func moreTapped(sender: UIButton) {
-        relationshipDelegate?.launchBlockModal(userId, userAtName: userAtName, relationship: relationship) {
+        relationshipDelegate?.launchBlockModal(userId, userAtName: userAtName, relationshipPriority: relationship) {
             [unowned self] relationship in
             self.relationship = relationship
         }
@@ -82,7 +82,7 @@ public class RelationshipControl: UIControl {
 
     @IBAction func buttonTouchUpInside(sender: UIButton) {
         if relationship == .Mute {
-            relationshipDelegate?.launchBlockModal(userId, userAtName: userAtName, relationship: relationship) {
+            relationshipDelegate?.launchBlockModal(userId, userAtName: userAtName, relationshipPriority: relationship) {
                 [unowned self] relationship in
                 self.relationship = relationship
             }
@@ -102,7 +102,7 @@ public class RelationshipControl: UIControl {
     }
 
     private func handleTapped(sender: UIButton) {
-        relationshipDelegate?.relationshipTapped(userId, relationship: relationship) {
+        relationshipDelegate?.relationshipTapped(userId, relationshipPriority: relationship) {
             [unowned self] (status, relationship) in
             if let newRelationshipPriority = relationship?.subject?.relationshipPriority {
                 self.relationship = newRelationshipPriority

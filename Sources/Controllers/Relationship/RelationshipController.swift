@@ -23,9 +23,9 @@ public protocol RelationshipControllerDelegate: NSObjectProtocol {
 }
 
 public protocol RelationshipDelegate: NSObjectProtocol {
-    func relationshipTapped(userId: String, relationship: RelationshipPriority, complete: RelationshipChangeCompletion)
-    func launchBlockModal(userId: String, userAtName: String, relationship: RelationshipPriority, changeClosure: RelationshipChangeClosure)
-    func updateRelationship(userId: String, relationship: RelationshipPriority, complete: RelationshipChangeCompletion)
+    func relationshipTapped(userId: String, relationshipPriority: RelationshipPriority, complete: RelationshipChangeCompletion)
+    func launchBlockModal(userId: String, userAtName: String, relationshipPriority: RelationshipPriority, changeClosure: RelationshipChangeClosure)
+    func updateRelationship(userId: String, relationshipPriority: RelationshipPriority, complete: RelationshipChangeCompletion)
 }
 
 public class RelationshipController: NSObject {
@@ -40,16 +40,15 @@ public class RelationshipController: NSObject {
 
 // MARK: RelationshipController: RelationshipDelegate
 extension RelationshipController: RelationshipDelegate {
-    public func relationshipTapped(userId: String, relationship: RelationshipPriority, complete: RelationshipChangeCompletion) {
-        Tracker.sharedTracker.relationshipStatusUpdated(relationship, userId: userId)
+    public func relationshipTapped(userId: String, relationshipPriority: RelationshipPriority, complete: RelationshipChangeCompletion) {
 
-        if let shouldSubmit = delegate?.shouldSubmitRelationship(userId, relationshipPriority: relationship) where !shouldSubmit {
+        if let shouldSubmit = delegate?.shouldSubmitRelationship(userId, relationshipPriority: relationshipPriority) where !shouldSubmit {
             complete(status: .Success, relationship: nil)
             return
         }
 
         var message = ""
-        switch relationship {
+        switch relationshipPriority {
         case .Noise, .Friend: message = NSLocalizedString("Following as", comment: "Following as")
         default: message = NSLocalizedString("Follow as", comment: "Follow as")
         }
@@ -59,56 +58,57 @@ extension RelationshipController: RelationshipDelegate {
         let alertController = AlertViewController(message: message, textAlignment: .Center, type: .Clear, helpText: helpText)
 
         // Friend
-        let friendStyle: ActionStyle = relationship == .Friend ? .Dark : .White
-        let friendIcon: UIImage = relationship == .Friend ?  SVGKImage(named: "checksmall_white.svg").UIImage! : SVGKImage(named: "plussmall_selected.svg").UIImage!
+        let friendStyle: ActionStyle = relationshipPriority == .Friend ? .Dark : .White
+        let friendIcon: UIImage = relationshipPriority == .Friend ?  SVGKImage(named: "checksmall_white.svg").UIImage! : SVGKImage(named: "plussmall_selected.svg").UIImage!
         let friendAction = AlertAction(
             title: NSLocalizedString("Friend", comment: "Friend"),
             icon: friendIcon,
             style: friendStyle) { _ in
-                if relationship != .Friend {
-                    self.updateRelationship(userId, relationship: .Friend, complete: complete)
+                if relationshipPriority != .Friend {
+                    self.updateRelationship(userId, relationshipPriority: .Friend, complete: complete)
                 }
         }
         alertController.addAction(friendAction)
 
         // Noise
-        let noiseStyle: ActionStyle = relationship == .Noise ? .Dark : .White
-        let noiseIcon: UIImage = relationship == .Noise ?  SVGKImage(named: "checksmall_white.svg").UIImage! : SVGKImage(named: "plussmall_selected.svg").UIImage!
+        let noiseStyle: ActionStyle = relationshipPriority == .Noise ? .Dark : .White
+        let noiseIcon: UIImage = relationshipPriority == .Noise ?  SVGKImage(named: "checksmall_white.svg").UIImage! : SVGKImage(named: "plussmall_selected.svg").UIImage!
         let noiseAction = AlertAction(
             title: NSLocalizedString("Noise", comment: "Noise"),
             icon: noiseIcon,
             style: noiseStyle) { _ in
-                if relationship != .Noise {
-                    self.updateRelationship(userId, relationship: .Noise, complete: complete)
+                if relationshipPriority != .Noise {
+                    self.updateRelationship(userId, relationshipPriority: .Noise, complete: complete)
                 }
         }
         alertController.addAction(noiseAction)
 
         // Unfollow
-        if relationship == .Noise || relationship == .Friend {
+        if relationshipPriority == .Noise || relationshipPriority == .Friend {
             let unfollowAction = AlertAction(
                 title: NSLocalizedString("Unfollow", comment: "Unfollow"),
                 icon: nil,
                 style: .Light) { _ in
-                    self.updateRelationship(userId, relationship: .Inactive, complete: complete)
+                    self.updateRelationship(userId, relationshipPriority: .Inactive, complete: complete)
             }
             alertController.addAction(unfollowAction)
         }
 
+        Tracker.sharedTracker.relationshipModalLaunched()
         logPresentingAlert(presentingController.readableClassName())
         presentingController.presentViewController(alertController, animated: true, completion: .None)
     }
 
-    public func launchBlockModal(userId: String, userAtName: String, relationship: RelationshipPriority, changeClosure: RelationshipChangeClosure) {
-        let vc = BlockUserModalViewController(userId: userId, userAtName: userAtName, relationship: relationship, changeClosure: changeClosure)
+    public func launchBlockModal(userId: String, userAtName: String, relationshipPriority: RelationshipPriority, changeClosure: RelationshipChangeClosure) {
+        let vc = BlockUserModalViewController(userId: userId, userAtName: userAtName, relationshipPriority: relationshipPriority, changeClosure: changeClosure)
         vc.relationshipDelegate = self
         presentingController.presentViewController(vc, animated: true, completion: nil)
     }
 
-    public func updateRelationship(userId: String, relationship: RelationshipPriority, complete: RelationshipChangeCompletion){
-        RelationshipService().updateRelationship(userId: userId, relationship: relationship,
+    public func updateRelationship(userId: String, relationshipPriority: RelationshipPriority, complete: RelationshipChangeCompletion){
+        RelationshipService().updateRelationship(userId: userId, relationshipPriority: relationshipPriority,
             success: { (data, responseConfig) in
-                if let relationship = data as? Relationship {
+                if let relationship = data as? Relationship {                    
                     complete(status: .Success, relationship: relationship)
                     self.delegate?.relationshipChanged(userId, status: .Success, relationship: relationship)
                     if let owner = relationship.owner {

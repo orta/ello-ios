@@ -418,6 +418,16 @@ public extension Tracker {
         agent.track("Relationship Priority changed", properties: ["new_value": relationship.rawValue, "user_id": userId])
     }
 
+    func relationshipStatusUpdateFailed(relationship: RelationshipPriority, userId: String) {
+        log("Relationship Priority failed, [relationship: \(relationship.rawValue), user_id: \(userId)]")
+        agent.track("Relationship Priority failed", properties: ["new_value": relationship.rawValue, "user_id": userId])
+    }
+
+    func relationshipModalLaunched() {
+        log("Relationship modal launched")
+        agent.track("Relationship modal launched")
+    }
+
     func friendInvited() {
         log("User invited")
         agent.track("User invited")
