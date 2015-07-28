@@ -84,7 +84,7 @@ class SearchScreenSpec: QuickSpec {
                             subject = SearchScreen(frame: CGRectZero, isSearchView: isSearchView, navBarTitle: "Test", fieldPlaceholderText: "placeholder test")
                         }
 
-                        it("hides find friends text") {
+                        it("shows find friends text") {
                             subject.textFieldShouldClear(subject.searchField)
 
                             expect(subject.findFriendsContainer.hidden) == true
