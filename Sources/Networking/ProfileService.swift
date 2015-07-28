@@ -12,7 +12,6 @@ import UIKit
 import Moya
 import SwiftyJSON
 
-public typealias ProfileFollowingSuccessCompletion = (users: [User], responseConfig: ResponseConfig) -> Void
 public typealias AccountDeletionSuccessCompletion = () -> Void
 public typealias ProfileSuccessCompletion = (user: User) -> Void
 public typealias ProfileUploadSuccessCompletion = (url: NSURL, user: User) -> Void
@@ -33,20 +32,6 @@ public struct ProfileService {
             },
             failure: failure,
             invalidToken: invalidToken
-        )
-    }
-
-    public func loadCurrentUserFollowing(forRelationship relationship: RelationshipPriority, success: ProfileFollowingSuccessCompletion, failure: ElloFailureCompletion?) {
-        ElloProvider.elloRequest(ElloAPI.ProfileFollowing(priority: relationship.rawValue),
-            success: { data, responseConfig in
-                if let users = data as? [User] {
-                    success(users: users, responseConfig: responseConfig)
-                }
-                else {
-                    ElloProvider.unCastableJSONAble(failure)
-                }
-            },
-            failure: failure
         )
     }
 
