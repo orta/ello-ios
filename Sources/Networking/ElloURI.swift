@@ -25,10 +25,10 @@ public enum ElloURI: String {
     case Downloads = "downloads"
     case Exit = "exit"
     case ForgotMyPassword = "forgot-my-password"
-    case Internal = "internal"
     case Manifesto = "manifesto"
     case RequestInvite = "request-an-invite"
     case RequestInvitation = "request-an-invitation"
+    case Root = "?$"
     case Subdomain = "\\/\\/.+(?<!w{3})\\."
     case WhoMadeThis = "who-made-this"
     case WTF = "(wtf$|wtf\\/.*$)"
@@ -36,9 +36,10 @@ public enum ElloURI: String {
     case Email = "(.+)@(.+)\\.([a-z]{2,})"
     case External = "https?:\\/\\/.{3,}"
 
+    // only called when `ElloWebViewHelper.handleRequest` is called with `fromWebView: true` in `ElloWebBrowserViewController`
     public var loadsInWebViewFromWebView: Bool {
         switch self {
-        case .Discover, .Email, .Enter, .Friends, .Internal, .Noise, .Notifications, .Post, .Profile, .Search, .Settings: return false
+        case .Discover, .Email, .Enter, .Friends, .Noise, .Notifications, .Post, .Profile, .Root, .Search, .Settings: return false
         default: return true
         }
 
@@ -86,7 +87,6 @@ public enum ElloURI: String {
     private var regexPattern: String {
         switch self {
         case .Email, .External: return rawValue
-        case .Internal: return "\(ElloURI.fuzzyDomain)"
         case .Post: return "\(ElloURI.userPathRegex)\(rawValue)"
         case .Profile: return "\(ElloURI.userPathRegex)\(rawValue)"
         case .Subdomain: return "\(rawValue)\(ElloURI.fuzzyDomain)"
@@ -121,6 +121,7 @@ public enum ElloURI: String {
         Subdomain,
         Post,
         WTF,
+        Root,
         // generic / pages
         BetaPublicProfiles,
         Discover,
@@ -139,8 +140,6 @@ public enum ElloURI: String {
         WhoMadeThis,
         // profile specific
         Profile,
-        // other ello urls
-        Internal,
         // anything else
         External
     ]
