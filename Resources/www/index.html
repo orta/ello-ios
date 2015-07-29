@@ -313,11 +313,11 @@
       };
 
       postContainer.onclick = function(event) {
-          if ( event.target.getAttribute("data-capture") == "hashtagClick" && event.target.getAttribute("data-href") != null ) {
+          if ( event.target.getAttribute("data-capture") === "hashtagClick" && event.target.getAttribute("data-href") !== null ) {
               document.location = event.target.getAttribute("data-href");
               return false;
           }
-          else if ( event.target.nodeName != "A" ) {
+          else if ( event.target.nodeName !== "A" ) {
               document.location = "default://default";
               return false;
           }
