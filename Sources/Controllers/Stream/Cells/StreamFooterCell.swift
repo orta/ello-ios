@@ -75,6 +75,11 @@ public class StreamFooterCell: UICollectionViewCell {
        return self.deleteItem.customView as! ImageLabelControl
     }
 
+    public let editItem = ElloPostToolBarOption.Edit.barButtonItem()
+    public var editControl: ImageLabelControl {
+       return self.editItem.customView as! ImageLabelControl
+    }
+
     private func updateButtonVisibility(button: UIControl, visibility: InteractionVisibility) {
         button.hidden = !visibility.isVisible
         button.enabled = visibility.isEnabled
@@ -87,6 +92,7 @@ public class StreamFooterCell: UICollectionViewCell {
         commentVisibility: InteractionVisibility,
         shareVisibility: InteractionVisibility,
         deleteVisibility: InteractionVisibility,
+        editVisibility: InteractionVisibility,
         loveVisibility: InteractionVisibility
         )
     {
@@ -132,6 +138,11 @@ public class StreamFooterCell: UICollectionViewCell {
             if shareVisibility.isVisible {
                 bottomItems.append(shareItem)
             }
+
+            if editVisibility.isVisible {
+                bottomItems.append(editItem)
+            }
+
             if deleteVisibility.isVisible {
                 bottomItems.append(deleteItem)
             }
@@ -225,6 +236,7 @@ public class StreamFooterCell: UICollectionViewCell {
         shareControl.addTarget(self, action: Selector("shareButtonTapped:"), forControlEvents: .TouchUpInside)
         viewsControl.addTarget(self, action: Selector("viewsButtonTapped:"), forControlEvents: .TouchUpInside)
         deleteControl.addTarget(self, action: Selector("deleteButtonTapped:"), forControlEvents: .TouchUpInside)
+        editControl.addTarget(self, action: Selector("editButtonTapped:"), forControlEvents: .TouchUpInside)
     }
 
 // MARK: - IBActions
@@ -263,6 +275,10 @@ public class StreamFooterCell: UICollectionViewCell {
 
     @IBAction func deleteButtonTapped(sender: ImageLabelControl) {
         delegate?.deletePostButtonTapped(self.indexPath)
+    }
+
+    @IBAction func editButtonTapped(sender: ImageLabelControl) {
+        delegate?.editPostButtonTapped(self.indexPath)
     }
 
     @IBAction func replyButtonTapped(sender: ImageLabelControl) {

@@ -18,11 +18,17 @@ public class PostEditingService: NSObject {
     typealias CreatePostSuccessCompletion = (post: AnyObject) -> Void
     typealias UploadImagesSuccessCompletion = ([(Int, ImageRegion)]) -> Void
 
+    var editPost: Post?
     var parentPost: Post?
 
     convenience init(parentPost post: Post) {
         self.init()
         parentPost = post
+    }
+
+    convenience init(editPost post: Post) {
+        self.init()
+        editPost = post
     }
 
     // rawSections is String or UIImage objects

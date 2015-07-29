@@ -14,6 +14,7 @@ import Nimble
 @objc
 class OmnibarMockScreen: OmnibarScreenProtocol {
     var delegate: OmnibarScreenDelegate?
+    var title: String = ""
     var avatarURL: NSURL?
     var avatarImage: UIImage?
     var currentUser: User?
@@ -21,7 +22,7 @@ class OmnibarMockScreen: OmnibarScreenProtocol {
     var image: UIImage?
     var attributedText: NSAttributedString?
 
-    var hasParentPost = false
+    var canGoBack = false
     var didReportSuccess = false
     var didReportError = false
     var didKeyboardWillShow = false

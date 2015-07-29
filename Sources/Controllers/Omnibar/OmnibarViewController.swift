@@ -20,10 +20,13 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
     var previousTab: ElloTab = .DefaultTab
     var parentPost: Post?
+    var editPost: Post?
     var defaultText: String?
 
-    typealias CommentSuccessListener = (comment : Comment) -> Void
-    var commentSuccessListeners = [CommentSuccessListener]()
+    typealias CommentSuccessListener = (comment: Comment) -> Void
+    typealias PostSuccessListener = (post: Post) -> Void
+    var commentSuccessListener: CommentSuccessListener?
+    var postSuccessListener: PostSuccessListener?
 
     var _mockScreen: OmnibarScreenProtocol?
     public var screen: OmnibarScreenProtocol {
@@ -36,6 +39,21 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         parentPost = post
     }
 
+    convenience public init(editPost post: Post) {
+        self.init(nibName: nil, bundle: nil)
+        editPost = post
+
+        var defaultText = ""
+        if let regions = post.content {
+            for region in regions {
+                if let textRegion = region as? TextRegion {
+                    defaultText += textRegion.content
+                }
+            }
+        }
+        self.defaultText = defaultText
+    }
+
     convenience public init(parentPost post: Post, defaultText: String) {
         self.init(parentPost: post)
         self.defaultText = defaultText
@@ -45,21 +63,34 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         if let post = parentPost {
             return "omnibar_comment_\(post.repostId ?? post.id)"
         }
+        else if let post = editPost {
+            return "omnibar_post_\(post.repostId ?? post.id)"
+        }
         else {
             return "omnibar_post"
         }
     }
 
     func onCommentSuccess(listener: CommentSuccessListener) {
-        commentSuccessListeners.append(listener)
+        commentSuccessListener = listener
+    }
+
+    func onPostSuccess(listener: PostSuccessListener) {
+        postSuccessListener = listener
     }
 
     override public func loadView() {
         self.view = OmnibarScreen(frame: UIScreen.mainScreen().bounds)
 
-        screen.hasParentPost = parentPost != nil
+        screen.canGoBack = parentPost != nil || editPost != nil
         screen.currentUser = currentUser
         screen.text = defaultText
+        if parentPost != nil {
+            screen.title = NSLocalizedString("Leave a comment", comment: "Leave a comment")
+        }
+        else if editPost != nil {
+            screen.title = NSLocalizedString("Edit this post", comment: "Edit this post")
+        }
 
         let fileName = omnibarDataName()
         if let data: NSData = Tmp.read(fileName) {
@@ -156,11 +187,17 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         if screen.text == "Crashlytics.crash('test')" {
             Crashlytics.sharedInstance().crash()
         }
-        if let post = parentPost {
+        if parentPost != nil || editPost != nil {
             let omnibarData = OmnibarData(attributedText: screen.attributedText, image: screen.image)
             let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
             Tmp.write(data, to: omnibarDataName())
-            Tracker.sharedTracker.contentCreationCanceled(.Comment)
+
+            if parentPost != nil {
+                Tracker.sharedTracker.contentCreationCanceled(.Comment)
+            }
+            else if editPost != nil {
+                Tracker.sharedTracker.contentCreationCanceled(.Post)
+            }
             navigationController?.popViewControllerAnimated(true)
         }
         else {
@@ -202,6 +239,9 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         let service : PostEditingService
         if let parentPost = parentPost {
             service = PostEditingService(parentPost: parentPost)
+        }
+        else if let editPost = editPost {
+            service = PostEditingService(editPost: editPost)
         }
         else {
             service = PostEditingService()
@@ -247,7 +287,8 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             post.commentsCount = count + 1
             postNotification(PostChangedNotification, (post, .Update))
         }
-        for listener in self.commentSuccessListeners {
+
+        if let listener = commentSuccessListener {
             listener(comment: comment)
         }
         Tracker.sharedTracker.contentCreated(.Comment)
@@ -260,8 +301,13 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         }
         postNotification(PostChangedNotification, (post, .Create))
         Tracker.sharedTracker.contentCreated(.Post)
-        goToPreviousTab()
-        self.screen.reportSuccess(NSLocalizedString("Post successfully created!", comment: "Post successfully created!"))
+        if let listener = postSuccessListener {
+            listener(post: post)
+        }
+        else {
+            goToPreviousTab()
+            self.screen.reportSuccess(NSLocalizedString("Post successfully created!", comment: "Post successfully created!"))
+        }
     }
 
     private func goToPreviousTab() {
@@ -320,4 +366,37 @@ public class OmnibarData : NSObject, NSCoding {
         super.init()
     }
 
+}
+
+extension OmnibarViewController {
+
+    // OK:
+    //   - one text region
+    //   - one image region
+    //   - one image region, followed by one text region
+    // NOT OK:
+    //   - all other cases
+    public class func canEditPost(post: Post) -> Bool {
+        if let regions = post.content {
+            var hasTextRegion = false
+            var hasImageRegion = false
+
+            for region in regions {
+                if region is TextRegion {
+                    if hasTextRegion { return false }
+                    hasTextRegion = true
+                }
+                else if region is ImageRegion {
+                    if hasImageRegion || hasTextRegion { return false }
+                    hasImageRegion = true
+                }
+                else {
+                    return false
+                }
+            }
+
+            return hasTextRegion || hasImageRegion
+        }
+        return false
+    }
 }

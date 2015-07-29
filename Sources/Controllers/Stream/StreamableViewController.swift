@@ -19,8 +19,9 @@ public protocol UserTappedDelegate : NSObjectProtocol {
     func userParamTapped(param: String)
 }
 
-public protocol CreateCommentDelegate: NSObjectProtocol {
+public protocol CreatePostDelegate: NSObjectProtocol {
     func createComment(post: Post, text:String, fromController: StreamViewController)
+    func editPost(post: Post, fromController: StreamViewController)
 }
 
 public protocol InviteResponder: NSObjectProtocol {
@@ -38,7 +39,7 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
         streamViewController.streamScrollDelegate = self
         streamViewController.userTappedDelegate = self
         streamViewController.postTappedDelegate = self
-        streamViewController.createCommentDelegate = self
+        streamViewController.createPostDelegate = self
 
         streamViewController.willMoveToParentViewController(self)
         let streamViewContainer = viewForStream()
@@ -220,15 +221,33 @@ extension StreamableViewController: UserTappedDelegate {
     }
 }
 
-// MARK: CreateCommentDelegate
-extension StreamableViewController: CreateCommentDelegate {
-    public func createComment(post : Post, text: String, fromController: StreamViewController) {
+// MARK: CreatePostDelegate
+extension StreamableViewController: CreatePostDelegate {
+    public func createComment(post: Post, text: String, fromController: StreamViewController) {
         let vc = OmnibarViewController(parentPost: post, defaultText: text)
         vc.currentUser = self.currentUser
         vc.onCommentSuccess() { (comment: Comment) in
             self.navigationController?.popViewControllerAnimated(true)
         }
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+
+    public func editPost(post: Post, fromController: StreamViewController) {
+        if OmnibarViewController.canEditPost(post) {
+            let vc = OmnibarViewController(editPost: post)
+            vc.currentUser = self.currentUser
+            vc.onPostSuccess() { (post: Post) in
+                self.navigationController?.popViewControllerAnimated(true)
+            }
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        else {
+            let message = NSLocalizedString("Looks like this post was created on the web!\n\nThe text and images it contains are not YET editable on our iOS app.  We’ll try to add this feature soon!", comment: "Uneditable post error message")
+            let alertController = AlertViewController(message: message)
+            let action = AlertAction(title: NSLocalizedString("It’s OK, I understand!", comment: "It’s OK, I understand!"), style: .Dark, handler: nil)
+            alertController.addAction(action)
+            self.presentViewController(alertController, animated: true, completion: nil)
+        }
     }
 }
 

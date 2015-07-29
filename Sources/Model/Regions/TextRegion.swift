@@ -14,7 +14,7 @@ let TextRegionVersion = 1
 
 public final class TextRegion: JSONAble, Regionable {
     public var isRepost: Bool = false
-    
+
     public let content: String
 
 // MARK: Initialization
@@ -39,7 +39,7 @@ public final class TextRegion: JSONAble, Regionable {
         self.isRepost = decoder.decodeKey("isRepost")
         super.init(coder: decoder.coder)
     }
-    
+
 // MARK: JSONAble
 
     override public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
@@ -49,10 +49,10 @@ public final class TextRegion: JSONAble, Regionable {
         return TextRegion(content: content)
     }
 
-// MARK: Regionable 
+// MARK: Regionable
 
     public var kind:String { return RegionKind.Text.rawValue }
-    
+
     public func coding() -> NSCoding {
         return self
     }
@@ -63,4 +63,12 @@ public final class TextRegion: JSONAble, Regionable {
             "data": self.content
         ]
     }
+}
+
+extension TextRegion: Printable, DebugPrintable {
+    override public var description: String {
+        return "<\(self.dynamicType): \"\(content)\">"
+    }
+
+    override public var debugDescription: String { return description }
 }

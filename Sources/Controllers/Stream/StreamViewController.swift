@@ -117,7 +117,7 @@ public class StreamViewController: BaseElloViewController {
     var settingChangedNotification: NotificationObserver?
     var currentUserChangedNotification: NotificationObserver?
 
-    weak var createCommentDelegate : CreateCommentDelegate?
+    weak var createPostDelegate : CreatePostDelegate?
     weak var postTappedDelegate : PostTappedDelegate?
     weak var userTappedDelegate : UserTappedDelegate?
     weak var streamScrollDelegate : StreamScrollDelegate?
@@ -741,7 +741,7 @@ extension StreamViewController : UICollectionViewDelegate {
             else if let comment = dataSource.commentForIndexPath(indexPath),
                 let post = comment.parentPost
             {
-                createCommentDelegate?.createComment(post, text: "", fromController: self)
+                createPostDelegate?.createComment(post, text: "", fromController: self)
             }
     }
 

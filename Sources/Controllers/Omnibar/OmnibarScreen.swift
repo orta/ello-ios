@@ -41,10 +41,11 @@ public protocol OmnibarScreenDelegate {
 @objc
 public protocol OmnibarScreenProtocol {
     var delegate: OmnibarScreenDelegate? { get set }
+    var title: String { get set }
     var avatarURL: NSURL? { get set }
     var avatarImage: UIImage? { get set }
     var currentUser: User? { get set }
-    var hasParentPost: Bool { get set }
+    var canGoBack: Bool { get set }
     var text: String? { get set }
     var image: UIImage? { get set }
     var attributedText: NSAttributedString? { get set }
@@ -101,6 +102,13 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         }
     }
 
+    public var title: String = "" {
+        didSet {
+            navigationItem.title = title
+        }
+    }
+    let navigationItem = UINavigationItem()
+
     public func appendAttributedText(text: NSAttributedString) {
         let mutableString = NSMutableAttributedString()
         if let attributedText = attributedText {
@@ -145,7 +153,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         }
     }
 
-    public var hasParentPost: Bool = false {
+    public var canGoBack: Bool = false {
         didSet { setNeedsLayout() }
     }
 
@@ -243,11 +251,9 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     }
     private func setupNavigationBar() {
         let backItem = UIBarButtonItem.backChevronWithTarget(self, action: Selector("backAction"))
-        let item = UINavigationItem()
-        item.leftBarButtonItem = backItem
-        item.title = NSLocalizedString("Leave a comment", comment: "leave a comment")
-        item.fixNavBarItemPadding()
-        navigationBar.items = [item]
+        navigationItem.leftBarButtonItem = backItem
+        navigationItem.fixNavBarItemPadding()
+        navigationBar.items = [navigationItem]
 
         statusBarUnderlay.frame.size.width = frame.width
         statusBarUnderlay.backgroundColor = .blackColor()
@@ -387,7 +393,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         super.layoutSubviews()
 
         var screenTop = CGFloat(20)
-        if hasParentPost {
+        if canGoBack {
             UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Slide)
             navigationBar.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: ElloNavigationBar.Size.height)
             screenTop += navigationBar.frame.height
