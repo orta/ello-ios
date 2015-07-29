@@ -510,7 +510,7 @@ public extension Tracker {
 
 // MARK: Search
 public extension Tracker {
-    func searchFor(term: String) {
-        agent.track("Search for \(term)")
+    func searchFor(type: String) {
+        agent.track("Search for \(type)")
     }
 }
