@@ -106,6 +106,7 @@
         outline: 0;
       }
       p a,
+      p .hashtag-link,
       [contenteditable="true"] a {
         -webkit-transition: color 150ms ease;
                 transition: color 150ms ease;
@@ -113,7 +114,10 @@
       }
       p a:focus,
       p a:active,
-      .no-touch p a:hover {
+      .no-touch p a:hover,
+      p .hashtag-link:focus,
+      p .hashtag-link:active,
+      .no-touch p .hashtag-link:hover {
         color: #aaaaaa;
       }
       em, i {
@@ -309,10 +313,14 @@
       };
 
       postContainer.onclick = function(event) {
-        if ( event.target.nodeName != "A" ) {
-          document.location = "default://default";
-          return false;
-        }
+          if ( event.target.getAttribute("data-capture") === "hashtagClick" && event.target.getAttribute("data-href") !== null ) {
+              document.location = event.target.getAttribute("data-href");
+              return false;
+          }
+          else if ( event.target.nodeName !== "A" ) {
+              document.location = "default://default";
+              return false;
+          }
       };
     </script>
   </body>

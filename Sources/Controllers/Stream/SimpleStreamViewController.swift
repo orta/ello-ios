@@ -75,6 +75,7 @@ public class SimpleStreamViewController: StreamableViewController {
         elloNavigationItem.leftBarButtonItems = [item]
         elloNavigationItem.fixNavBarItemPadding()
         navigationBar.items = [elloNavigationItem]
+        addSearchButton()
     }
 
 }

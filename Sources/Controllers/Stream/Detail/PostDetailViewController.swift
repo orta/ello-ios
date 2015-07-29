@@ -98,6 +98,7 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         elloNavigationItem.leftBarButtonItems = [item]
         elloNavigationItem.fixNavBarItemPadding()
         navigationBar.items = [elloNavigationItem]
+        addSearchButton()
     }
 
     private func postLoaded(post: Post, responseConfig: ResponseConfig) {

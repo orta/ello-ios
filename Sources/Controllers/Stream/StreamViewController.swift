@@ -691,14 +691,10 @@ extension StreamViewController : WebLinkDelegate {
     }
 
     private func showSearch(terms: String) {
-        if terms == "" {
-            let vc = SearchViewController()
-            vc.currentUser = currentUser
-            navigationController?.pushViewController(vc, animated: true)
-        }
-        else {
-            showSimpleStream(.SearchForPosts(terms: terms), title: "#\(terms)", noResultsMessages: nil)
-        }
+        let vc = SearchViewController()
+        vc.currentUser = currentUser
+        vc.searchForPosts(terms)
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     private func showSettings() {

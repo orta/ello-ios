@@ -99,16 +99,10 @@ extension ElloWebBrowserViewController : WebLinkDelegate {
     }
 
     private func showSearch(terms: String) {
-        if terms == "" {
-            let vc = SearchViewController()
-            vc.currentUser = ElloWebBrowserViewController.currentUser
-            navigationController?.pushViewController(vc, animated: true)
-        }
-        else {
-            var vc = SimpleStreamViewController(endpoint: .SearchForPosts(terms: terms), title: "\(terms)")
-            vc.currentUser = ElloWebBrowserViewController.currentUser
-            navigationController?.pushViewController(vc, animated: true)
-        }
+        let vc = SearchViewController()
+        vc.currentUser = ElloWebBrowserViewController.currentUser
+        vc.searchForPosts(terms)
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     private func showSettings() {
