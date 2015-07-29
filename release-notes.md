@@ -1,3 +1,79 @@
+### Ello Build v1.0.0(2822) July 29, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #520 - Opens hashtag links up in the search screen.
+* Adds styling for hashtag-link to look like regular links
+* Also adds search to post detail and loves/following/followers
+* Adds a method to call on search view controller to start searching for text right away
+
+[Finishes #99332270]
+
+------
+
+#### #519 - Fixes a crash when pulling to refresh post detail.
+* Prevents the loading of the reposters and lovers until the post cell items have been actually appended
+
+[Fixes #99618298]
+
+------
+
+#### #518 - Handles root urls in web views.
+* Doesn’t do anything if we encounter a .Root type in notifications/text cells/profile header
+* Closes the web view if we encounter a .Root type in the internal browser
+* Removes the .Internal type since it is not very specific
+* Adds specs for .Root
+
+[Fixes #100132348]
+
+![image](https://cloud.githubusercontent.com/assets/96433/8965739/8e85e306-35ea-11e5-89e5-57cf3c2ed8be.png)
+
+------
+
+#### #517 - A quick test for the text swap bug
+1 liner baby! This "seems" to improve the problem of text swapping to the correct text while scrolling. Hoping other folks see the same result.
+
+------
+
+#### #515 - Adds tracking to search for users, hashtags, posts
+Finishes: https://www.pivotaltracker.com/story/show/100037164
+
+------
+
+#### #516 - Track relationship changes from the service
+Relationship priority is now tracked correctly, at the `RelationshipService` level. I am going to wait to merge this until @rynbyjn comes up with a `Tracker` test solution so that it can be added to this as well. Its ready for review otherwise.
+
+Fixes: https://www.pivotaltracker.com/story/show/99826544
+
+![screen shot 2015-07-28 at 1 43 36 pm](https://cloud.githubusercontent.com/assets/12459/8941789/f51d3b6c-352e-11e5-83d2-03c92a1edfb3.png)
+
+------
+
+#### #514 - Dismiss keyboard after search tapped
+Finishes: https://www.pivotaltracker.com/story/show/99942764
+
+![screen shot 2015-07-28 at 11 05 54 am](https://cloud.githubusercontent.com/assets/12459/8937944/be92449a-3518-11e5-97c3-0fe26aebb189.png)
+
+------
+
+#### #512 - Bump both search endpoints per_page down to 10.
+[Finishes #99947604]
+
+------
+
+#### #513 - format arabic locale dates in a en_US format
+We noticed that several `created_at` dates were in non-standard arabic language while looking into segment io data. This PR standardizes `created_at` to `en_US` when submitted to the server.
+
+The code in this PR has some hacky objective-c runtime method swizzling in order to fake the current locale of the simulator running the specs. ¯\_(ツ)_/¯ 
+
+Fixes: https://www.pivotaltracker.com/story/show/99955856
+
+![screen shot 2015-07-27 at 4 39 39 pm](https://cloud.githubusercontent.com/assets/12459/8919613/2378a3d6-347e-11e5-8549-2621c76d6271.png)
+    
+------------
+
 ### Ello Build v1.0.0(2790) July 24, 2015
 
     RELEASE NOTES
