@@ -118,17 +118,32 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         let parser = StreamCellItemParser()
         var items = parser.parse([post], streamKind: streamViewController.streamKind, currentUser: currentUser)
 
+        var loversModel: UserAvatarCellModel?
         // add lovers and reposters
         if let lovers = post.lovesCount where lovers > 0 {
-            let loversModel = UserAvatarCellModel(icon: "hearts_normal.svg", seeMoreTitle: NSLocalizedString("Loved by", comment: "Reposted By title"))
-            loversModel.endpoint = .PostLovers(postId: post.id)
-            addAvatarsView(loversModel, items: &items, indexPath: NSIndexPath(forItem: items.count, inSection: 0))
+            loversModel = UserAvatarCellModel(icon: "hearts_normal.svg", seeMoreTitle: NSLocalizedString("Loved by", comment: "Reposted By title"), indexPath: NSIndexPath(forItem: items.count, inSection: 0))
+            loversModel!.endpoint = .PostLovers(postId: post.id)
+            items.append(StreamCellItem(
+                jsonable: loversModel!,
+                type: .UserAvatars,
+                data: nil,
+                oneColumnCellHeight: 40.0,
+                multiColumnCellHeight: 40.0,
+                isFullWidth: true)
+            )
         }
-
+        var repostersModel: UserAvatarCellModel?
         if let reposters = post.repostsCount where reposters > 0 {
-            let repostersModel = UserAvatarCellModel(icon: "repost_normal.svg", seeMoreTitle: NSLocalizedString("Reposted by", comment: "Reposted By title"))
-            repostersModel.endpoint = .PostReposters(postId: post.id)
-            addAvatarsView(repostersModel, items: &items, indexPath: NSIndexPath(forItem: items.count, inSection: 0))
+            repostersModel = UserAvatarCellModel(icon: "repost_normal.svg", seeMoreTitle: NSLocalizedString("Reposted by", comment: "Reposted By title"), indexPath: NSIndexPath(forItem: items.count, inSection: 0))
+            repostersModel!.endpoint = .PostReposters(postId: post.id)
+            items.append(StreamCellItem(
+                jsonable: repostersModel!,
+                type: .UserAvatars,
+                data: nil,
+                oneColumnCellHeight: 40.0,
+                multiColumnCellHeight: 40.0,
+                isFullWidth: true)
+            )
         }
 
         // add in the comment button if we have a current user
@@ -151,20 +166,19 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         }
         // this calls doneLoading when cells are added
         streamViewController.appendUnsizedCellItems(items, withWidth: view.frame.width) { _ in
+            if let lm = loversModel {
+                self.addAvatarsView(lm)
+            }
+            if let rm = repostersModel {
+                self.addAvatarsView(rm)
+            }
         }
 
         Tracker.sharedTracker.postLoaded(post.id)
     }
 
-    private func addAvatarsView(model: UserAvatarCellModel, inout items: [StreamCellItem], indexPath: NSIndexPath) {
-        items.append(StreamCellItem(
-            jsonable: model,
-            type: .UserAvatars,
-            data: nil,
-            oneColumnCellHeight: 40.0,
-            multiColumnCellHeight: 40.0,
-            isFullWidth: true)
-        )
+    private func addAvatarsView(model: UserAvatarCellModel) {
+        if !streamViewController.isValidInitialPageLoadingToken(localToken) { return }
         StreamService().loadStream(
             model.endpoint!,
             streamKind: streamViewController.streamKind,
@@ -173,7 +187,7 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
                 if let users = jsonables as? [User] {
                     model.users = users
                     if self.streamViewController.initialDataLoaded {
-                        self.streamViewController.collectionView.reloadItemsAtIndexPaths([indexPath])
+                        self.streamViewController.collectionView.reloadItemsAtIndexPaths([model.indexPath])
                     }
                 }
             },
