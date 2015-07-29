@@ -13,6 +13,7 @@ public final class UserAvatarCellModel: JSONAble {
 
     public let icon: String
     public let seeMoreTitle: String
+    public let indexPath: NSIndexPath
     public var endpoint: ElloAPI?
     public var users: [User]?
 
@@ -23,9 +24,10 @@ public final class UserAvatarCellModel: JSONAble {
         return false
     }
 
-    public init(icon: String, seeMoreTitle: String) {
+    public init(icon: String, seeMoreTitle: String, indexPath: NSIndexPath) {
         self.icon = icon
         self.seeMoreTitle = seeMoreTitle
+        self.indexPath = indexPath
         super.init(version: UserAvatarCellModelVersion)
     }
 
@@ -33,6 +35,7 @@ public final class UserAvatarCellModel: JSONAble {
         let decoder = Coder(aDecoder)
         self.icon = decoder.decodeKey("icon")
         self.seeMoreTitle = decoder.decodeKey("seeMoreTitle")
+        self.indexPath = decoder.decodeKey("indexPath")
         super.init(coder: decoder.coder)
     }
 
@@ -40,13 +43,15 @@ public final class UserAvatarCellModel: JSONAble {
         let coder = Coder(encoder)
         coder.encodeObject(icon, forKey: "icon")
         coder.encodeObject(seeMoreTitle, forKey: "seeMoreTitle")
+        coder.encodeObject(indexPath, forKey: "indexPath")
         super.encodeWithCoder(coder.coder)
     }
 
     override public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         return UserAvatarCellModel(
             icon: (data["icon"] as? String) ?? "hearts_normal.svg",
-            seeMoreTitle: (data["seeMoreTitle"] as? String) ?? ""
+            seeMoreTitle: (data["seeMoreTitle"] as? String) ?? "",
+            indexPath: (data["indexPath"] as? NSIndexPath) ?? NSIndexPath(forItem: 0, inSection: 0)
         )
     }
 
