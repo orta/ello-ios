@@ -386,6 +386,22 @@ class ElloURISpec: QuickSpec {
                 
             }
 
+            describe("with Root urls") {
+
+                it("matches with http://ello.co/") {
+                    let (type, data) = ElloURI.match("http://ello.co/")
+                    expect(type).to(equal(ElloURI.Root))
+                    expect(data).to(equal("http://ello.co/"))
+                }
+
+                it("matches with https://ello.co") {
+                    let (type, data) = ElloURI.match("https://ello.co")
+                    expect(type).to(equal(ElloURI.Root))
+                    expect(data).to(equal("https://ello.co"))
+                }
+
+            }
+
         }
 
         describe("ElloURI.match on staging") {
@@ -715,6 +731,22 @@ class ElloURISpec: QuickSpec {
                     let (type, data) = ElloURI.match("https://wallpapers.ello-staging.herokuapp.com/any/thing/else/here")
                     expect(type).to(equal(ElloURI.Subdomain))
                     expect(data).to(equal("https://wallpapers.ello-staging.herokuapp.com/any/thing/else/here"))
+                }
+
+            }
+
+            describe("with Root urls") {
+
+                it("matches with http://ello-staging.herokuapp.com/") {
+                    let (type, data) = ElloURI.match("http://ello-staging.herokuapp.com/")
+                    expect(type).to(equal(ElloURI.Root))
+                    expect(data).to(equal("http://ello-staging.herokuapp.com/"))
+                }
+
+                it("matches with https://ello-staging.herokuapp.com") {
+                    let (type, data) = ElloURI.match("https://ello-staging2.herokuapp.com")
+                    expect(type).to(equal(ElloURI.Root))
+                    expect(data).to(equal("https://ello-staging2.herokuapp.com"))
                 }
 
             }
