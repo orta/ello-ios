@@ -42,13 +42,11 @@ public struct StreamTextCellPresenter {
                 cell.leadingConstraint.constant = postMargin
             }
 
+            cell.webView.loadHTMLString("", baseURL: NSURL(string: "/"))
             if let textRegion = streamCellItem.data as? TextRegion {
                 let content = textRegion.content
                 let html = StreamTextCellHTML.postHTML(content)
                 cell.webView.loadHTMLString(html, baseURL: NSURL(string: "/"))
-            }
-            else {
-                cell.webView.loadHTMLString("", baseURL: NSURL(string: "/"))
             }
         }
     }
