@@ -27,6 +27,13 @@ public class SearchViewController: StreamableViewController {
         updateInsets()
     }
 
+    public func searchForPosts(terms: String) {
+        if let ss = self.view as? SearchScreen {
+            ss.searchField.text = terms
+            ss.searchForText()
+        }
+    }
+
     override func viewForStream() -> UIView {
         return screen.viewForStream()
     }

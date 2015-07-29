@@ -192,6 +192,13 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         findFriendsContainer.frame.origin.y = frame.size.height - findFriendsContainer.frame.height - bottomInset
     }
 
+    public func searchForText() {
+        let text = searchField.text ?? ""
+        if count(text) == 0 { return }
+        hideFindFriends()
+        delegate?.searchFieldChanged(text, isPostSearch: postsToggleButton?.selected ?? false)
+    }
+
 // MARK: actions
 
     @objc
@@ -213,8 +220,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         }
         else {
             throttled { [unowned self] in
-                self.hideFindFriends()
-                self.delegate?.searchFieldChanged(text, isPostSearch: self.postsToggleButton?.selected ?? false)
+                self.searchForText()
             }
         }
     }
