@@ -52,5 +52,15 @@ class ServerDateFormatterSpec: QuickSpec {
             }
 
         }
+
+        describe("HTTPDateFormatter") {
+
+            it("outputs the correct string") {
+                let sep_30_1978 = NSDate(timeIntervalSince1970: 275961600)
+
+                expect(sep_30_1978.toHTTPDate()) == "Sat, 30 Sep 1978 00:00:00 GMT"
+            }
+
+        }
     }
 }

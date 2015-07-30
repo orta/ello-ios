@@ -16,6 +16,14 @@ let ServerDateFormatter: NSDateFormatter = {
     return formatter
 }()
 
+let HTTPDateFormatter: NSDateFormatter = {
+    let formatter = NSDateFormatter()
+    formatter.locale = NSLocale(localeIdentifier: "en_US")
+    formatter.dateFormat = "eee, dd MMM yyyy HH:mm:ss zzz"
+    formatter.timeZone = NSTimeZone(abbreviation: "UTC")
+    return formatter
+    }()
+
 public extension NSString {
 
     func toNSDate() -> NSDate? {
@@ -28,6 +36,10 @@ public extension NSDate {
 
     func toNSString() -> NSString {
         return ServerDateFormatter.stringFromDate(self)
+    }
+
+    func toHTTPDate() -> NSString {
+        return HTTPDateFormatter.stringFromDate(self)
     }
 
 }
