@@ -67,8 +67,8 @@ public class ImportFriendsViewController: OnboardingUserListViewController, Onbo
         var inviteItems = [StreamCellItem]()
         for contact in contacts {
             var (person: LocalPerson, user: User?) = contact
-            if user != nil {
-                foundItems.append(StreamCellItem(jsonable: user!, type: .UserListItem))
+            if let user = user {
+                foundItems.append(StreamCellItem(jsonable: user, type: .UserListItem))
             }
             else {
                 if let currentUser = currentUser, let profile = currentUser.profile {
