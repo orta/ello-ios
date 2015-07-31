@@ -67,13 +67,13 @@ public class ImportFriendsViewController: OnboardingUserListViewController, Onbo
         var inviteItems = [StreamCellItem]()
         for contact in contacts {
             var (person: LocalPerson, user: User?) = contact
-            if user != nil {
-                foundItems.append(StreamCellItem(jsonable: user!, type: StreamCellType.UserListItem, data: nil, oneColumnCellHeight: 56.0, multiColumnCellHeight: 56.0, isFullWidth: true))
+            if let user = user {
+                foundItems.append(StreamCellItem(jsonable: user, type: .UserListItem))
             }
             else {
                 if let currentUser = currentUser, let profile = currentUser.profile {
                     if !contains(person.emails, profile.email) {
-                        inviteItems.append(StreamCellItem(jsonable: person, type: StreamCellType.InviteFriends, data: nil, oneColumnCellHeight: 56.0, multiColumnCellHeight: 56.0, isFullWidth: true))
+                        inviteItems.append(StreamCellItem(jsonable: person, type: .InviteFriends))
                     }
 
                 }

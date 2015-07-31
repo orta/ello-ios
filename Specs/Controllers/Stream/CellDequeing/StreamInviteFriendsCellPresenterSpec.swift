@@ -23,7 +23,7 @@ class StreamInviteFriendsCellPresenterSpec: QuickSpec {
                 cell = StreamInviteFriendsCell.loadFromNib()
                 cell.inviteCache = InviteCache()
                 person = stub(["name": "The Devil", "id": 666, "emails": ["666@gmail.com"]])
-                item = StreamCellItem(jsonable: person, type: StreamCellType.InviteFriends, data: nil, oneColumnCellHeight: 50.0, multiColumnCellHeight: 50.0, isFullWidth: true)
+                item = StreamCellItem(jsonable: person, type: StreamCellType.InviteFriends)
             }
 
             it("sets the person and name label correctly") {

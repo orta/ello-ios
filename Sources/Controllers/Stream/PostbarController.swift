@@ -375,10 +375,10 @@ public class PostbarController: NSObject, PostbarDelegate {
         if let currentUser = currentUser {
             let newComment = Comment.newCommentForPost(post, currentUser: currentUser)
             if post.commentsCount > ElloAPI.PostComments(postId: "").parameters["per_page"] as? Int {
-                items.append(StreamCellItem(jsonable: newComment, type: .SeeMoreComments, data: nil, oneColumnCellHeight: 60.0, multiColumnCellHeight: 60.0, isFullWidth: true))
+                items.append(StreamCellItem(jsonable: newComment, type: .SeeMoreComments))
             }
             else {
-                items.append(StreamCellItem(jsonable: newComment, type: .Spacer, data: nil, oneColumnCellHeight: 25.0, multiColumnCellHeight: 25.0, isFullWidth: true))
+                items.append(StreamCellItem(jsonable: newComment, type: .Spacer(height: 25.0)))
             }
         }
 
@@ -393,12 +393,7 @@ public class PostbarController: NSObject, PostbarDelegate {
     private func appendCreateCommentItem(post: Post, at indexPath: NSIndexPath) {
         if let currentUser = currentUser {
             let comment = Comment.newCommentForPost(post, currentUser: currentUser)
-            let createCommentItem = StreamCellItem(jsonable: comment,
-                type: .CreateComment,
-                data: nil,
-                oneColumnCellHeight: StreamCreateCommentCell.Size.Height,
-                multiColumnCellHeight: StreamCreateCommentCell.Size.Height,
-                isFullWidth: true)
+            let createCommentItem = StreamCellItem(jsonable: comment, type: .CreateComment)
 
             let items = [createCommentItem]
             self.dataSource.insertStreamCellItems(items, startingIndexPath: indexPath)

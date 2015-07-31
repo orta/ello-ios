@@ -22,7 +22,7 @@ class UserListItemCellPresenterSpec: QuickSpec {
                     "relationshipPriority": "friend",
                     "username": "sterling_archer"
                     ])
-                var item = StreamCellItem(jsonable: user, type: StreamCellType.UserListItem, data: nil, oneColumnCellHeight: 50.0, multiColumnCellHeight: 50.0, isFullWidth: true)
+                var item = StreamCellItem(jsonable: user, type: .UserListItem)
 
                 UserListItemCellPresenter.configure(cell, streamCellItem: item, streamKind: StreamKind.UserStream(userParam: user.id), indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 

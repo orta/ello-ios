@@ -11,7 +11,6 @@ protocol FollowAllButtonResponder {
     func onFollowAll()
 }
 
-public let FollowAllCellHeight = CGFloat(77)
 public class FollowAllCell: UICollectionViewCell {
     class func reuseIdentifier() -> String {
         return "FollowAllCell"

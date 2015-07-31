@@ -229,7 +229,7 @@ public class ProfileViewController: StreamableViewController {
                 }
             }
         }
-        var items: [StreamCellItem] = [StreamCellItem(jsonable: user, type: StreamCellType.ProfileHeader, data: nil, oneColumnCellHeight: 0.0, multiColumnCellHeight: 0.0, isFullWidth: true)]
+        var items: [StreamCellItem] = [StreamCellItem(jsonable: user, type: .ProfileHeader)]
         if let posts = user.posts {
             items += StreamCellItemParser().parse(posts, streamKind: streamViewController.streamKind, currentUser: currentUser)
         }

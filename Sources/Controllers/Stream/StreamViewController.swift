@@ -691,10 +691,15 @@ extension StreamViewController : WebLinkDelegate {
     }
 
     private func showSearch(terms: String) {
-        let vc = SearchViewController()
-        vc.currentUser = currentUser
-        vc.searchForPosts(terms)
-        navigationController?.pushViewController(vc, animated: true)
+        if let searchVC = navigationController?.visibleViewController as? SearchViewController {
+            searchVC.searchForPosts(terms)
+        }
+        else {
+            let vc = SearchViewController()
+            vc.currentUser = currentUser
+            vc.searchForPosts(terms)
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
 
     private func showSettings() {
@@ -792,8 +797,7 @@ extension StreamViewController : UIScrollViewDelegate {
     }
 
     private func loadNextPage(scrollView: UIScrollView) {
-        let scrollPastThreshold = CGFloat(300)
-        if scrollView.contentOffset.y + self.view.frame.height + scrollPastThreshold > scrollView.contentSize.height {
+        if scrollView.contentOffset.y + (self.view.frame.height * 1.666) > scrollView.contentSize.height {
             if allOlderPagesLoaded == true { return }
             if responseConfig?.totalPagesRemaining == "0" { return }
 

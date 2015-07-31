@@ -16,16 +16,20 @@ public struct OnboardingHeaderCellPresenter {
         currentUser: User?)
     {
         if let cell = cell as? OnboardingHeaderCell,
-            let (header, message) = streamCellItem.data as? (String, String)
+            let (header, message) = streamCellItem.type.data as? (String, String)
         {
             cell.header = header
             cell.message = message
 
-            if streamCellItem.oneColumnCellHeight != cell.height() {
-                streamCellItem.oneColumnCellHeight = cell.height()
-                streamCellItem.multiColumnCellHeight = cell.height()
+            if needsHeightUpdate(cell, streamCellItem: streamCellItem) {
+                streamCellItem.calculatedOneColumnCellHeight = cell.height()
+                streamCellItem.calculatedMultiColumnCellHeight = cell.height()
                 postNotification(StreamNotification.UpdateCellHeightNotification, cell)
             }
         }
+    }
+
+    private static func needsHeightUpdate(cell: OnboardingHeaderCell, streamCellItem: StreamCellItem) -> Bool {
+        return streamCellItem.type.oneColumnHeight != cell.height() || streamCellItem.calculatedOneColumnCellHeight == nil || streamCellItem.calculatedOneColumnCellHeight! != cell.height()
     }
 }

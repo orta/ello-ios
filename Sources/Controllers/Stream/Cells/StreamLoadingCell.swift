@@ -46,13 +46,6 @@ public class StreamLoadingCell: UICollectionViewCell {
     }
 
     class func streamCellItem() -> StreamCellItem {
-        return StreamCellItem(
-            jsonable: JSONAble(version: JSONAbleVersion),
-            type: .StreamLoading,
-            data: nil,
-            oneColumnCellHeight: 50.0,
-            multiColumnCellHeight: 50.0,
-            isFullWidth: true
-        )
+        return StreamCellItem(jsonable: JSONAble(version: JSONAbleVersion), type: .StreamLoading)
     }
 }

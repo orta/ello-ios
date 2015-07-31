@@ -94,10 +94,10 @@ class StreamDataSourceSpec: QuickSpec {
             context("appendUnsizedCellItems(_:, withWidth:, completion:)") {
                 let post = Post.stub([:])
                 let cellItems = [
-                    StreamCellItem(jsonable: post, type: .Text, data: TextRegion.stub([:]), oneColumnCellHeight:  0.0, multiColumnCellHeight:  0.0, isFullWidth: false),
-                    StreamCellItem(jsonable: post, type: .Text, data: TextRegion.stub([:]), oneColumnCellHeight: 10.0, multiColumnCellHeight: 10.0, isFullWidth: false),
-                    StreamCellItem(jsonable: post, type: .Text, data: TextRegion.stub([:]), oneColumnCellHeight: 20.0, multiColumnCellHeight: 20.0, isFullWidth: false),
-                    StreamCellItem(jsonable: post, type: .Text, data: TextRegion.stub([:]), oneColumnCellHeight: 40.0, multiColumnCellHeight: 40.0, isFullWidth: false)
+                    StreamCellItem(jsonable: post, type: .Text(data: TextRegion.stub([:]))),
+                    StreamCellItem(jsonable: post, type: .Text(data: TextRegion.stub([:]))),
+                    StreamCellItem(jsonable: post, type: .Text(data: TextRegion.stub([:]))),
+                    StreamCellItem(jsonable: post, type: .Text(data: TextRegion.stub([:])))
                 ]
 
                 beforeEach {
@@ -108,16 +108,15 @@ class StreamDataSourceSpec: QuickSpec {
                 }
                 it("sizes the items") {
                     for item in cellItems {
-                        expect(item.oneColumnCellHeight) == AppSetup.Size.calculatorHeight
+                        expect(item.calculatedOneColumnCellHeight!) == AppSetup.Size.calculatorHeight
                     }
                 }
             }
 
             context("appendStreamCellItems(_:)") {
-                var cellHeight = CGFloat(123)
                 let post = Post.stub([:])
                 let cellItems = [
-                    StreamCellItem(jsonable: post, type: .Text, data: TextRegion.stub([:]), oneColumnCellHeight: cellHeight, multiColumnCellHeight: cellHeight, isFullWidth: false)
+                    StreamCellItem(jsonable: post, type: .Text(data: TextRegion.stub([:])))
                 ]
 
                 beforeEach {
@@ -128,7 +127,7 @@ class StreamDataSourceSpec: QuickSpec {
                 }
                 it("does not size the items") {
                     for item in cellItems {
-                        expect(item.oneColumnCellHeight) == cellHeight
+                        expect(item.calculatedOneColumnCellHeight).to(beNil())
                     }
                 }
             }
@@ -137,16 +136,16 @@ class StreamDataSourceSpec: QuickSpec {
                 let post1 = Post.stub([:])
                 let post2 = Post.stub([:])
                 let firstCellItems = [
-                    StreamCellItem(jsonable: post1, type: .Text, data: TextRegion.stub([:]), oneColumnCellHeight: 0.0, multiColumnCellHeight: 0.0, isFullWidth: false),
-                    StreamCellItem(jsonable: post1, type: .Text, data: TextRegion.stub([:]), oneColumnCellHeight: 10.0, multiColumnCellHeight: 10.0, isFullWidth: false),
-                    StreamCellItem(jsonable: post1, type: .Text, data: TextRegion.stub([:]), oneColumnCellHeight: 20.0, multiColumnCellHeight: 20.0, isFullWidth: false),
-                    StreamCellItem(jsonable: post1, type: .Text, data: TextRegion.stub([:]), oneColumnCellHeight: 40.0, multiColumnCellHeight: 40.0, isFullWidth: false)
+                    StreamCellItem(jsonable: post1, type: .Text(data: TextRegion.stub([:]))),
+                    StreamCellItem(jsonable: post1, type: .Text(data: TextRegion.stub([:]))),
+                    StreamCellItem(jsonable: post1, type: .Text(data: TextRegion.stub([:]))),
+                    StreamCellItem(jsonable: post1, type: .Text(data: TextRegion.stub([:])))
                 ]
                 let secondCellItems = [
-                    StreamCellItem(jsonable: post2, type: .Text, data: TextRegion.stub([:]), oneColumnCellHeight: 0.0, multiColumnCellHeight: 0.0, isFullWidth: false),
-                    StreamCellItem(jsonable: post2, type: .Text, data: TextRegion.stub([:]), oneColumnCellHeight: 10.0, multiColumnCellHeight: 10.0, isFullWidth: false),
-                    StreamCellItem(jsonable: post2, type: .Text, data: TextRegion.stub([:]), oneColumnCellHeight: 20.0, multiColumnCellHeight: 20.0, isFullWidth: false),
-                    StreamCellItem(jsonable: post2, type: .Text, data: TextRegion.stub([:]), oneColumnCellHeight: 40.0, multiColumnCellHeight: 40.0, isFullWidth: false)
+                    StreamCellItem(jsonable: post2, type: .Text(data: TextRegion.stub([:]))),
+                    StreamCellItem(jsonable: post2, type: .Text(data: TextRegion.stub([:]))),
+                    StreamCellItem(jsonable: post2, type: .Text(data: TextRegion.stub([:]))),
+                    StreamCellItem(jsonable: post2, type: .Text(data: TextRegion.stub([:])))
                 ]
 
                 beforeEach {
@@ -184,13 +183,7 @@ class StreamDataSourceSpec: QuickSpec {
 
                 context("isValidIndexPath(_:)") {
                     beforeEach {
-                        let item = StreamCellItem(jsonable: Comment.newCommentForPost(Post.stub([:]), currentUser: User.stub([:])),
-                            type: .CreateComment,
-                            data: nil,
-                            oneColumnCellHeight: StreamCreateCommentCell.Size.Height,
-                            multiColumnCellHeight: StreamCreateCommentCell.Size.Height,
-                            isFullWidth: true)
-
+                        let item = StreamCellItem(jsonable: Comment.newCommentForPost(Post.stub([:]), currentUser: User.stub([:])), type: .CreateComment)
                         subject.appendStreamCellItems([item])
                     }
                     it("returns true for valid path (0, 0)") {
@@ -282,7 +275,7 @@ class StreamDataSourceSpec: QuickSpec {
                 }
 
                 it("returns nil when cell doesn't exist") {
-                    let anyItem = StreamCellItem(jsonable: Comment.stub([:]), type: .SeeMoreComments, data: nil, oneColumnCellHeight: 60.0, multiColumnCellHeight: 60.0, isFullWidth: true)
+                    let anyItem = StreamCellItem(jsonable: Comment.stub([:]), type: .SeeMoreComments)
                     expect(subject.indexPathForItem(anyItem)).to(beNil())
                 }
 
@@ -433,7 +426,7 @@ class StreamDataSourceSpec: QuickSpec {
                     let comment1CellItems = parser.parse([Comment.stub(["parentPostId": "666"]), Comment.stub(["parentPostId": "666"])], streamKind: .Friend)
                     cellItems += comment1CellItems
                     // one cell
-                    let seeMoreCellItem = StreamCellItem(jsonable: Comment.stub(["parentPostId": "666"]), type: .SeeMoreComments, data: nil, oneColumnCellHeight: 60.0, multiColumnCellHeight: 60.0, isFullWidth: true)
+                    let seeMoreCellItem = StreamCellItem(jsonable: Comment.stub(["parentPostId": "666"]), type: .SeeMoreComments)
                     cellItems.append(seeMoreCellItem)
                     // creates 3 cells
                     let post2CellItems = parser.parse([Post.stub(["id": "777"])], streamKind: .Friend)
@@ -445,7 +438,7 @@ class StreamDataSourceSpec: QuickSpec {
                     let post3CellItems = parser.parse([Post.stub(["id": "888", "contentWarning": "NSFW"])], streamKind: .Friend)
                     cellItems += post3CellItems
                     // create 1 cell
-                    let createCommentCellItem = StreamCellItem(jsonable: Comment.stub(["parentPostId": "888"]), type: .CreateComment, data: nil, oneColumnCellHeight: StreamCreateCommentCell.Size.Height, multiColumnCellHeight: StreamCreateCommentCell.Size.Height, isFullWidth: true)
+                    let createCommentCellItem = StreamCellItem(jsonable: Comment.stub(["parentPostId": "888"]), type: .CreateComment)
                     cellItems.append(createCommentCellItem)
                     // creates 2 cells
                     let comment3CellItems = parser.parse([Comment.stub(["parentPostId": "888"])], streamKind: .Friend)
@@ -513,14 +506,7 @@ class StreamDataSourceSpec: QuickSpec {
                     let stubCommentCellItems: (commentsVisible: Bool) -> Void = { (commentsVisible: Bool) in
                         let parser = StreamCellItemParser()
                         let postCellItems = parser.parse([Post.stub(["id": "456"])], streamKind: .Friend)
-                        let commentButtonCellItem = [StreamCellItem(
-                            jsonable: Comment.stub(["parentPostId": "456"]),
-                            type: .CreateComment,
-                            data: nil,
-                            oneColumnCellHeight: StreamCreateCommentCell.Size.Height,
-                            multiColumnCellHeight: StreamCreateCommentCell.Size.Height,
-                            isFullWidth: true)
-                        ]
+                        let commentButtonCellItem = [StreamCellItem(jsonable: Comment.stub(["parentPostId": "456"]), type: .CreateComment)]
                         let commentCellItems = parser.parse([Comment.stub(["parentPostId": "456", "id" : "111"])], streamKind: .Friend)
                         var cellItems = postCellItems
                         if commentsVisible {
@@ -869,12 +855,7 @@ class StreamDataSourceSpec: QuickSpec {
                     let parser = StreamCellItemParser()
                     post = Post.stub(["id": "666"])
                     items += parser.parse([post], streamKind: .Friend)
-                    items.append(StreamCellItem(jsonable: Comment.newCommentForPost(post, currentUser: User.stub([:])),
-                        type: .CreateComment,
-                        data: nil,
-                        oneColumnCellHeight: StreamCreateCommentCell.Size.Height,
-                        multiColumnCellHeight: StreamCreateCommentCell.Size.Height,
-                        isFullWidth: true))
+                    items.append(StreamCellItem(jsonable: Comment.newCommentForPost(post, currentUser: User.stub([:])), type: .CreateComment))
                     items += parser.parse([Comment.stub(["parentPostId": "666"]), Comment.stub(["parentPostId": "666"])], streamKind: .Friend)
                     items += parser.parse([Post.stub(["id": "777"])], streamKind: .Friend)
                     items += parser.parse([Comment.stub(["parentPostId": "777"])], streamKind: .Friend)
@@ -905,12 +886,7 @@ class StreamDataSourceSpec: QuickSpec {
                     let parser = StreamCellItemParser()
                     post = Post.stub(["id": "666"])
                     items += parser.parse([post], streamKind: .Friend)
-                    items.append(StreamCellItem(jsonable: Comment.newCommentForPost(post, currentUser: User.stub([:])),
-                        type: .CreateComment,
-                        data: nil,
-                        oneColumnCellHeight: StreamCreateCommentCell.Size.Height,
-                        multiColumnCellHeight: StreamCreateCommentCell.Size.Height,
-                        isFullWidth: true))
+                    items.append(StreamCellItem(jsonable: Comment.newCommentForPost(post, currentUser: User.stub([:])), type: .CreateComment))
                     items += parser.parse([Comment.stub(["parentPostId": "666"]), Comment.stub(["parentPostId": "666"])], streamKind: .Friend)
                     items += parser.parse([Post.stub(["id": "777"])], streamKind: .Friend)
                     items += parser.parse([Comment.stub(["parentPostId": "777"])], streamKind: .Friend)
@@ -947,8 +923,8 @@ class StreamDataSourceSpec: QuickSpec {
                     subject.updateHeightForIndexPath(indexPath, height: 256)
 
                     let cellItem = subject.visibleStreamCellItem(at: indexPath)
-                    expect(cellItem!.oneColumnCellHeight) == 256
-                    expect(cellItem!.multiColumnCellHeight) == 256
+                    expect(cellItem!.calculatedOneColumnCellHeight!) == 256
+                    expect(cellItem!.calculatedMultiColumnCellHeight!) == 256
                 }
 
                 it("handles non-existent index paths") {
@@ -963,16 +939,9 @@ class StreamDataSourceSpec: QuickSpec {
             }
 
             describe("-heightForIndexPath:numberOfColumns") {
-                let oneColumnCellHeight = CGFloat(100)
-                let multiColumnCellHeight = CGFloat(200)
                 beforeEach {
                     var items = [StreamCellItem]()
-                    items.append(StreamCellItem(jsonable: Comment.stub([:]),
-                        type: .CreateComment,
-                        data: nil,
-                        oneColumnCellHeight: oneColumnCellHeight,
-                        multiColumnCellHeight: multiColumnCellHeight,
-                        isFullWidth: true))
+                    items.append(StreamCellItem(jsonable: Comment.stub([:]), type: .CreateComment))
 
                     subject.appendUnsizedCellItems(items, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
@@ -980,8 +949,8 @@ class StreamDataSourceSpec: QuickSpec {
                     }
                 }
                 it("returns the correct height") {
-                    expect(subject.heightForIndexPath(indexPath0, numberOfColumns: 1)) == oneColumnCellHeight + StreamDataSource.cellBottomPadding
-                    expect(subject.heightForIndexPath(indexPath0, numberOfColumns: 2)) == multiColumnCellHeight + StreamDataSource.cellBottomPadding
+                    expect(subject.heightForIndexPath(indexPath0, numberOfColumns: 1)) == 75.0
+                    expect(subject.heightForIndexPath(indexPath0, numberOfColumns: 2)) == 75.0
                 }
 
                 it("returns 0 when out of bounds") {
@@ -996,10 +965,10 @@ class StreamDataSourceSpec: QuickSpec {
             describe("removeItemAtIndexPath(_: NSIndexPath)") {
                 let post = Post.stub([:])
                 let items = [
-                    StreamCellItem(jsonable: post, type: .Text, data: TextRegion.stub([:]), oneColumnCellHeight: 0.0, multiColumnCellHeight: 0.0, isFullWidth: false),
-                    StreamCellItem(jsonable: post, type: .Text, data: TextRegion.stub([:]), oneColumnCellHeight: 0.0, multiColumnCellHeight: 0.0, isFullWidth: false),
-                    StreamCellItem(jsonable: post, type: .Text, data: TextRegion.stub([:]), oneColumnCellHeight: 0.0, multiColumnCellHeight: 0.0, isFullWidth: false),
-                    StreamCellItem(jsonable: post, type: .Text, data: TextRegion.stub([:]), oneColumnCellHeight: 0.0, multiColumnCellHeight: 0.0, isFullWidth: false)
+                    StreamCellItem(jsonable: post, type: .Text(data: TextRegion.stub([:]))),
+                    StreamCellItem(jsonable: post, type: .Text(data: TextRegion.stub([:]))),
+                    StreamCellItem(jsonable: post, type: .Text(data: TextRegion.stub([:]))),
+                    StreamCellItem(jsonable: post, type: .Text(data: TextRegion.stub([:])))
                 ]
                 beforeEach {
                     subject.appendUnsizedCellItems(items, withWidth: webView.frame.width) { cellCount in }
@@ -1031,12 +1000,7 @@ class StreamDataSourceSpec: QuickSpec {
 
                 beforeEach {
                     var items = [StreamCellItem]()
-                    items.append(StreamCellItem(jsonable: Comment.stub([:]),
-                        type: .CreateComment,
-                        data: nil,
-                        oneColumnCellHeight: StreamCreateCommentCell.Size.Height,
-                        multiColumnCellHeight: StreamCreateCommentCell.Size.Height,
-                        isFullWidth: true))
+                    items.append(StreamCellItem(jsonable: Comment.stub([:]), type: .CreateComment))
 
                     subject.appendUnsizedCellItems(items, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
@@ -1061,12 +1025,7 @@ class StreamDataSourceSpec: QuickSpec {
 
                 beforeEach {
                     var items = [StreamCellItem]()
-                    items.append(StreamCellItem(jsonable: Comment.stub([:]),
-                        type: .CreateComment,
-                        data: nil,
-                        oneColumnCellHeight: StreamCreateCommentCell.Size.Height,
-                        multiColumnCellHeight: StreamCreateCommentCell.Size.Height,
-                        isFullWidth: true))
+                    items.append(StreamCellItem(jsonable: Comment.stub([:]), type: .CreateComment))
 
                     subject.appendUnsizedCellItems(items, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
@@ -1171,18 +1130,8 @@ class StreamDataSourceSpec: QuickSpec {
 
                 beforeEach {
                     let items = [
-                        StreamCellItem(jsonable: Comment.stub([:]),
-                            type: .CreateComment,
-                            data: nil,
-                            oneColumnCellHeight: StreamCreateCommentCell.Size.Height,
-                            multiColumnCellHeight: StreamCreateCommentCell.Size.Height,
-                            isFullWidth: true),
-                        StreamCellItem(jsonable: Comment.stub([:]),
-                            type: .CreateComment,
-                            data: nil,
-                            oneColumnCellHeight: StreamCreateCommentCell.Size.Height,
-                            multiColumnCellHeight: StreamCreateCommentCell.Size.Height,
-                            isFullWidth: false)
+                        StreamCellItem(jsonable: Comment.stub([:]), type: .CreateComment),
+                        StreamCellItem(jsonable: Comment.stub([:]), type: .CommentHeader)
                     ]
                     subject.appendUnsizedCellItems(items, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
@@ -1218,12 +1167,7 @@ class StreamDataSourceSpec: QuickSpec {
                     let parser = StreamCellItemParser()
                     post = Post.stub(["id": "666", "content": [TextRegion.stub([:])]])
                     items += parser.parse([post], streamKind: .Friend)
-                    items.append(StreamCellItem(jsonable: Comment.newCommentForPost(post, currentUser: User.stub([:])),
-                        type: .CreateComment,
-                        data: nil,
-                        oneColumnCellHeight: StreamCreateCommentCell.Size.Height,
-                        multiColumnCellHeight: StreamCreateCommentCell.Size.Height,
-                        isFullWidth: true))
+                    items.append(StreamCellItem(jsonable: Comment.newCommentForPost(post, currentUser: User.stub([:])), type: .CreateComment))
                     items += parser.parse([Comment.stub(["parentPostId": "666"]), Comment.stub(["parentPostId": "666"])], streamKind: .Friend)
 
                     subject.appendUnsizedCellItems(items, withWidth: webView.frame.width) { cellCount in
@@ -1270,7 +1214,7 @@ class StreamDataSourceSpec: QuickSpec {
                     let lastIndexPath = NSIndexPath(forItem: subject.visibleCellItems.count, inSection: 0)
                     let nonAuthorable: Asset = stub(["id": "123"])
 
-                    let item = StreamCellItem(jsonable: nonAuthorable, type: .Image, data: nil, oneColumnCellHeight: 0, multiColumnCellHeight: 0, isFullWidth: false)
+                    let item = StreamCellItem(jsonable: nonAuthorable, type: .Image(data: ImageRegion.stub([:])))
 
                     subject.appendUnsizedCellItems([item], withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
@@ -1287,17 +1231,12 @@ class StreamDataSourceSpec: QuickSpec {
 
                 beforeEach {
                     post = Post.stub([:])
-                    let toggleCellItem = StreamCellItem(jsonable: post, type: .Toggle, data: nil, oneColumnCellHeight: 5.0, multiColumnCellHeight: 5.0, isFullWidth: false)
-                    let imageCellItem = StreamCellItem(jsonable: post, type: .Image, data: ImageRegion.stub([:]), oneColumnCellHeight: 5.0, multiColumnCellHeight: 5.0, isFullWidth: false)
-                    let anotherImageCellItem = StreamCellItem(jsonable: Post.stub([:]), type: .Image, data: ImageRegion.stub([:]), oneColumnCellHeight: 5.0, multiColumnCellHeight: 5.0, isFullWidth: false)
+                    let toggleCellItem = StreamCellItem(jsonable: post, type: .Toggle)
+                    let imageCellItem = StreamCellItem(jsonable: post, type: .Image(data: ImageRegion.stub([:])))
+                    let anotherImageCellItem = StreamCellItem(jsonable: Post.stub([:]), type: .Image(data: ImageRegion.stub([:])))
 
                     let comment = Comment.newCommentForPost(post, currentUser: User.stub([:]))
-                    newCellItem = StreamCellItem(jsonable: comment,
-                        type: .CreateComment,
-                        data: nil,
-                        oneColumnCellHeight: StreamCreateCommentCell.Size.Height,
-                        multiColumnCellHeight: StreamCreateCommentCell.Size.Height,
-                        isFullWidth: true)
+                    newCellItem = StreamCellItem(jsonable: comment, type: .CreateComment)
 
                     subject.appendUnsizedCellItems([toggleCellItem, imageCellItem, anotherImageCellItem], withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
@@ -1480,7 +1419,7 @@ class StreamDataSourceSpec: QuickSpec {
 //
 //                it("returns a NotificationCell") {
 //                    let notification: Notification = stub([:])
-//                    let cellItem = StreamCellItem(jsonable: notification, type: .Notification, data: nil, oneColumnCellHeight: 60.0, multiColumnCellHeight: StreamCreateCommentCell.Size.Height, isFullWidth: true)
+//                    let cellItem = StreamCellItem(jsonable: notification, type: .Notification)
 //                    subject.appendUnsizedCellItems([cellItem], withWidth: webView.frame.width) { cellCount in
 //                        vc.collectionView.dataSource = subject
 //                        vc.collectionView.reloadData()
@@ -1493,7 +1432,7 @@ class StreamDataSourceSpec: QuickSpec {
 //                it("returns a StreamImageCell") {
 //                    let post: Post = stub([:])
 //                    let imageRegion: ImageRegion = stub([:])
-//                    let cellItem = StreamCellItem(jsonable: post, type: .Image, data: imageRegion, oneColumnCellHeight: 5.0, multiColumnCellHeight: 5.0, isFullWidth: false)
+//                    let cellItem = StreamCellItem(jsonable: post, type: .Image)
 //                    subject.appendUnsizedCellItems([cellItem], withWidth: webView.frame.width) { cellCount in
 //                        vc.collectionView.dataSource = subject
 //                        vc.collectionView.reloadData()
@@ -1506,7 +1445,7 @@ class StreamDataSourceSpec: QuickSpec {
 //                it("returns a StreamToggleCell") {
 //                    // Xcode is unable to compile the specs with all the cell types that are generated by the "allCellTypes()" helper in Model Helper
 //                    let post: Post = stub([:])
-//                    let cellItem = StreamCellItem(jsonable: post, type: .Toggle, data: nil, oneColumnCellHeight: 5.0, multiColumnCellHeight: 5.0, isFullWidth: false)
+//                    let cellItem = StreamCellItem(jsonable: post, type: .Toggle)
 //                    subject.appendUnsizedCellItems([cellItem], withWidth: webView.frame.width) { cellCount in
 //                        vc.collectionView.dataSource = subject
 //                        vc.collectionView.reloadData()

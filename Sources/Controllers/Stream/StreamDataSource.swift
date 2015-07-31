@@ -102,7 +102,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     public func imageAssetForIndexPath(indexPath: NSIndexPath) -> Asset? {
         let item = visibleStreamCellItem(at: indexPath)
-        let region = item?.region as? ImageRegion
+        let region = item?.type.data as? ImageRegion
         return region?.asset
     }
 
@@ -196,27 +196,26 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     public func updateHeightForIndexPath(indexPath: NSIndexPath, height: CGFloat) {
         if indexPath.item < count(visibleCellItems) {
-            visibleCellItems[indexPath.item].oneColumnCellHeight = height
-            visibleCellItems[indexPath.item].multiColumnCellHeight = height
+            visibleCellItems[indexPath.item].calculatedOneColumnCellHeight = height
+            visibleCellItems[indexPath.item].calculatedMultiColumnCellHeight = height
         }
     }
 
     public func heightForIndexPath(indexPath:NSIndexPath, numberOfColumns:NSInteger) -> CGFloat {
         if !isValidIndexPath(indexPath) { return 0 }
 
-        // @seand: why does this always add padding? UserListItemCell is a fixed height, but this always adds an extra 10
+        // alway try to return a calculated value before the default
         if numberOfColumns == 1 {
-            return visibleCellItems[indexPath.item].oneColumnCellHeight + StreamDataSource.cellBottomPadding ?? 0.0
+            return visibleCellItems[indexPath.item].calculatedOneColumnCellHeight ?? visibleCellItems[indexPath.item].type.oneColumnHeight ?? 0.0
         }
         else {
-            return visibleCellItems[indexPath.item].multiColumnCellHeight + StreamDataSource.cellBottomPadding ?? 0.0
+            return visibleCellItems[indexPath.item].calculatedMultiColumnCellHeight ?? visibleCellItems[indexPath.item].type.multiColumnHeight
         }
     }
 
     public func isFullWidthAtIndexPath(indexPath:NSIndexPath) -> Bool {
         if !isValidIndexPath(indexPath) { return true }
-
-        return visibleCellItems[indexPath.item].isFullWidth
+        return visibleCellItems[indexPath.item].type.isFullWidth
     }
 
     public func groupForIndexPath(indexPath:NSIndexPath) -> String {
@@ -578,7 +577,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         var cells = [StreamCellItem]()
         var repostCells = [StreamCellItem]()
         for item in cellItems {
-            if let textRegion = item.data as? TextRegion {
+            if let textRegion = item.type.data as? TextRegion {
                 if textRegion.isRepost {
                     repostCells.append(item)
                 }
@@ -594,7 +593,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         var cells = [StreamCellItem]()
         var repostCells = [StreamCellItem]()
         for item in cellItems {
-            if let imageRegion = item.data as? ImageRegion {
+            if let imageRegion = item.type.data as? ImageRegion {
                 if imageRegion.isRepost {
                     repostCells.append(item)
                 }
@@ -602,7 +601,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                     cells.append(item)
                 }
             }
-            else if let embedRegion = item.data as? EmbedRegion {
+            else if let embedRegion = item.type.data as? EmbedRegion {
                 if embedRegion.isRepost {
                     repostCells.append(item)
                 }
