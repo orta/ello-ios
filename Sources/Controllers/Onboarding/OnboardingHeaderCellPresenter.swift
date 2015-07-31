@@ -21,7 +21,7 @@ public struct OnboardingHeaderCellPresenter {
             cell.header = header
             cell.message = message
 
-            if streamCellItem.type.oneColumnHeight != cell.height() || (streamCellItem.calculatedOneColumnCellHeight == nil && streamCellItem.calculatedOneColumnCellHeight! != cell.height()) {
+            if streamCellItem.type.oneColumnHeight != cell.height() || streamCellItem.calculatedOneColumnCellHeight == nil || streamCellItem.calculatedOneColumnCellHeight! != cell.height() {
                 streamCellItem.calculatedOneColumnCellHeight = cell.height()
                 streamCellItem.calculatedMultiColumnCellHeight = cell.height()
                 postNotification(StreamNotification.UpdateCellHeightNotification, cell)
