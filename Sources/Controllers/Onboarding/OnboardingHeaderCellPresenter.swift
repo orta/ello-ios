@@ -21,11 +21,15 @@ public struct OnboardingHeaderCellPresenter {
             cell.header = header
             cell.message = message
 
-            if streamCellItem.type.oneColumnHeight != cell.height() || streamCellItem.calculatedOneColumnCellHeight == nil || streamCellItem.calculatedOneColumnCellHeight! != cell.height() {
+            if needsHeightUpdate(cell, streamCellItem: streamCellItem) {
                 streamCellItem.calculatedOneColumnCellHeight = cell.height()
                 streamCellItem.calculatedMultiColumnCellHeight = cell.height()
                 postNotification(StreamNotification.UpdateCellHeightNotification, cell)
             }
         }
+    }
+
+    private static func needsHeightUpdate(cell: OnboardingHeaderCell, streamCellItem: StreamCellItem) -> Bool {
+        return streamCellItem.type.oneColumnHeight != cell.height() || streamCellItem.calculatedOneColumnCellHeight == nil || streamCellItem.calculatedOneColumnCellHeight! != cell.height()
     }
 }
