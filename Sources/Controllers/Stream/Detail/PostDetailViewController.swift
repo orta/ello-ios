@@ -122,7 +122,7 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         var loversModel: UserAvatarCellModel?
         // add lovers and reposters
         if let lovers = post.lovesCount where lovers > 0 {
-            items.append(StreamCellItem(jsonable: JSONAble.fromJSON(["spacer": "spacer"], fromLinked: false), type: .Spacer(height: 4.0)))
+            items.append(StreamCellItem(jsonable: JSONAble.fromJSON([:], fromLinked: false), type: .Spacer(height: 4.0)))
             loversModel = UserAvatarCellModel(icon: "hearts_normal.svg", seeMoreTitle: NSLocalizedString("Loved by", comment: "Loved by title"), indexPath: NSIndexPath(forItem: items.count, inSection: 0))
             loversModel!.endpoint = .PostLovers(postId: post.id)
             items.append(StreamCellItem(jsonable: loversModel!, type: .UserAvatars))
@@ -130,7 +130,7 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         var repostersModel: UserAvatarCellModel?
         if let reposters = post.repostsCount where reposters > 0 {
             if loversModel == nil {
-                items.append(StreamCellItem(jsonable: JSONAble.fromJSON(["spacer": "spacer"], fromLinked: false), type: .Spacer(height: 4.0)))
+                items.append(StreamCellItem(jsonable: JSONAble.fromJSON([:], fromLinked: false), type: .Spacer(height: 4.0)))
             }
             repostersModel = UserAvatarCellModel(icon: "repost_normal.svg", seeMoreTitle: NSLocalizedString("Reposted by", comment: "Reposted by title"), indexPath: NSIndexPath(forItem: items.count, inSection: 0))
             repostersModel!.endpoint = .PostReposters(postId: post.id)
@@ -138,7 +138,7 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
         }
 
         if loversModel != nil || repostersModel != nil {
-            items.append(StreamCellItem(jsonable: JSONAble.fromJSON(["spacer": "spacer"], fromLinked: false), type: .Spacer(height: 8.0)))
+            items.append(StreamCellItem(jsonable: JSONAble.fromJSON([:], fromLinked: false), type: .Spacer(height: 8.0)))
         }
 
         // add in the comment button if we have a current user
