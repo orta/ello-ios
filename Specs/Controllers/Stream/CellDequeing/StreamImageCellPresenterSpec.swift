@@ -24,7 +24,7 @@ class StreamImageCellPresenterSpec: QuickSpec {
                 let imageRegion: ImageRegion = stub([:])
 
                 let cell: StreamImageCell = StreamImageCell.loadFromNib()
-                let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Image, data: imageRegion, oneColumnCellHeight: 0, multiColumnCellHeight: 0, isFullWidth: false)
+                let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Image(data: imageRegion))
 
                 context("single column") {
 
@@ -60,7 +60,7 @@ class StreamImageCellPresenterSpec: QuickSpec {
                         ])
 
                         let cell: StreamImageCell = StreamImageCell.loadFromNib()
-                        let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Image, data: imageRegion, oneColumnCellHeight: 0, multiColumnCellHeight: 0, isFullWidth: false)
+                        let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Image(data: imageRegion))
 
                         StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
@@ -82,7 +82,7 @@ class StreamImageCellPresenterSpec: QuickSpec {
                         ])
 
                         let cell: StreamImageCell = StreamImageCell.loadFromNib()
-                        let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Image, data: imageRegion, oneColumnCellHeight: 0, multiColumnCellHeight: 0, isFullWidth: false)
+                        let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Image(data: imageRegion))
 
                         StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
@@ -127,7 +127,7 @@ class StreamImageCellPresenterSpec: QuickSpec {
                             ])
 
                         let cell: StreamImageCell = StreamImageCell.loadFromNib()
-                        let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Image, data: imageRegion, oneColumnCellHeight: 0, multiColumnCellHeight: 0, isFullWidth: false)
+                        let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Image(data: imageRegion))
 
                         StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
@@ -168,7 +168,7 @@ class StreamImageCellPresenterSpec: QuickSpec {
                             ])
 
                         let cell: StreamImageCell = StreamImageCell.loadFromNib()
-                        let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Image, data: imageRegion, oneColumnCellHeight: 0, multiColumnCellHeight: 0, isFullWidth: false)
+                        let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Image(data: imageRegion))
 
                         StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
@@ -209,7 +209,7 @@ class StreamImageCellPresenterSpec: QuickSpec {
                             ])
 
                         let cell: StreamImageCell = StreamImageCell.loadFromNib()
-                        let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Image, data: imageRegion, oneColumnCellHeight: 0, multiColumnCellHeight: 0, isFullWidth: false)
+                        let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Image(data: imageRegion))
                         
                         StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
                         

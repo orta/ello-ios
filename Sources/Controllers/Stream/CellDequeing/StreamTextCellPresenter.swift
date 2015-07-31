@@ -20,18 +20,24 @@ public struct StreamTextCellPresenter {
     {
         if let cell = cell as? StreamTextCell {
             cell.onWebContentReady { webView in
-                if let actualHeight = webView.windowContentSize()?.height {
-                    if actualHeight != streamCellItem.calculatedWebHeight {
-                        streamCellItem.multiColumnCellHeight = actualHeight
-                        streamCellItem.oneColumnCellHeight = actualHeight
-                        streamCellItem.calculatedWebHeight = actualHeight
-                        postNotification(StreamNotification.UpdateCellHeightNotification, cell)
-                    }
+                if let actualHeight = webView.windowContentSize()?.height where actualHeight != streamCellItem.calculatedWebHeight {
+                    streamCellItem.calculatedWebHeight = actualHeight
+                    streamCellItem.calculatedOneColumnCellHeight = actualHeight
+                    streamCellItem.calculatedMultiColumnCellHeight = actualHeight
+                    postNotification(StreamNotification.UpdateCellHeightNotification, cell)
                 }
             }
             cell.hideBorder()
+            var isRepost = false
+            cell.webView.loadHTMLString("", baseURL: NSURL(string: "/"))
+            if let textRegion = streamCellItem.type.data as? TextRegion {
+                isRepost = textRegion.isRepost
+                let content = textRegion.content
+                let html = StreamTextCellHTML.postHTML(content)
+                cell.webView.loadHTMLString(html, baseURL: NSURL(string: "/"))
+            }
             // Repost specifics
-            if streamCellItem.region?.isRepost == true {
+            if isRepost == true {
                 cell.leadingConstraint.constant = 30.0
                 cell.showBorder()
             }
@@ -40,13 +46,6 @@ public struct StreamTextCellPresenter {
             }
             else {
                 cell.leadingConstraint.constant = postMargin
-            }
-
-            cell.webView.loadHTMLString("", baseURL: NSURL(string: "/"))
-            if let textRegion = streamCellItem.data as? TextRegion {
-                let content = textRegion.content
-                let html = StreamTextCellHTML.postHTML(content)
-                cell.webView.loadHTMLString(html, baseURL: NSURL(string: "/"))
             }
         }
     }

@@ -11,7 +11,6 @@ import FLAnimatedImage
 
 public class StreamCreateCommentCell : UICollectionViewCell {
     public struct Size {
-        public static let Height : CGFloat = 75
         public static let Margins = UIEdgeInsets(top: 12, left: 15, bottom: 12, right: 15)
         public static let AvatarButtonMargin : CGFloat = 6
         public static let ButtonLabelMargin : CGFloat = 30
@@ -54,7 +53,7 @@ public class StreamCreateCommentCell : UICollectionViewCell {
 
         // the size of this frame is not important, it's just used to "seed" the
         // autoresizingMask calculations
-        createCommentBackground.frame = CGRect(x: 0, y: 0, width: 100, height: Size.Height)
+        createCommentBackground.frame = CGRect(x: 0, y: 0, width: 100, height: StreamCellType.CreateComment.oneColumnHeight)
 
         createCommentLabel.frame = createCommentBackground.bounds.inset(top: 0, left: Size.ButtonLabelMargin, bottom: 0, right: 0)
         createCommentLabel.autoresizingMask = .FlexibleHeight | .FlexibleWidth

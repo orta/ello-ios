@@ -23,13 +23,14 @@ public class NotificationsScreen : UIView {
         button.setBackgroundImage(UIImage.imageWithColor(UIColor.greyE5()), forState: .Normal)
         return button
     }
-    private class func filterButton(image: UIImage) -> UIButton {
+    private class func filterButton(#imageName: String) -> UIButton {
         let button = filterButton()
-        button.setImage(image, forState: .Normal)
+        button.setSVGImage("\(imageName)_normal.svg", forState: .Normal)
+        button.setSVGImage("\(imageName)_white.svg", forState: .Selected)
         button.imageView!.contentMode = .ScaleAspectFit
         return button
     }
-    private class func filterButton(title: String) -> UIButton {
+    private class func filterButton(#title: String) -> UIButton {
         let button = filterButton()
         button.setTitle(title, forState: .Normal)
         return button
@@ -43,13 +44,13 @@ public class NotificationsScreen : UIView {
     var navBarVisible = true
 
     override public init(frame: CGRect) {
-        let filterAllButton = NotificationsScreen.filterButton("All")
-        let filterCommentsButton = NotificationsScreen.filterButton(SVGKImage(named: "bubble_normal.svg").UIImage!)
-        let filterMentionButton = NotificationsScreen.filterButton("@")
+        let filterAllButton = NotificationsScreen.filterButton(title: "All")
+        let filterCommentsButton = NotificationsScreen.filterButton(imageName: "bubble")
+        let filterMentionButton = NotificationsScreen.filterButton(title: "@")
         // no loves yet!
-        let filterHeartButton = NotificationsScreen.filterButton(SVGKImage(named: "hearts_normal.svg").UIImage!)
-        let filterRepostButton = NotificationsScreen.filterButton(SVGKImage(named: "repost_normal.svg").UIImage!)
-        let filterInviteButton = NotificationsScreen.filterButton(SVGKImage(named: "relationships_normal.svg").UIImage!)
+        let filterHeartButton = NotificationsScreen.filterButton(imageName: "hearts")
+        let filterRepostButton = NotificationsScreen.filterButton(imageName: "repost")
+        let filterInviteButton = NotificationsScreen.filterButton(imageName: "relationships")
 
         super.init(frame: frame)
         backgroundColor = UIColor.whiteColor()

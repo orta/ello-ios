@@ -18,7 +18,7 @@ public struct StreamEmbedCellPresenter {
         currentUser: User?)
     {
         if  let cell = cell as? StreamEmbedCell,
-            let embedData = streamCellItem.data as? EmbedRegion
+            let embedData = streamCellItem.type.data as? EmbedRegion
         {
             var photoToLoad: NSURL?
             if streamKind.isGridLayout {
@@ -40,7 +40,7 @@ public struct StreamEmbedCellPresenter {
             }
             cell.hideBorder()
             // Repost specifics
-            if streamCellItem.region?.isRepost == true {
+            if embedData.isRepost == true {
                 cell.leadingConstraint.constant = 30.0
                 cell.showBorder()
             }

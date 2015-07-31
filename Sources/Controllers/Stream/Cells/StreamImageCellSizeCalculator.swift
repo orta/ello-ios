@@ -51,18 +51,18 @@ public class StreamImageCellSizeCalculator: NSObject {
         self.maxWidth = screenWidth
         if !self.cellItems.isEmpty {
             let item = cellItems.removeAtIndex(0)
-            if item.region?.isRepost == true {
+            if (item.type.data as? Regionable)?.isRepost == true {
                 maxWidth -= StreamTextCellPresenter.repostMargin
             }
             else if let comment = item.jsonable as? Comment {
                 maxWidth -= StreamTextCellPresenter.commentMargin
             }
 
-            if let imageRegion = item.data as? ImageRegion {
-                item.oneColumnCellHeight = oneColumnImageHeight(imageRegion)
-                item.multiColumnCellHeight = multiColumnImageHeight(imageRegion)
+            if let imageRegion = item.type.data as? ImageRegion {
+                item.calculatedOneColumnCellHeight = oneColumnImageHeight(imageRegion)
+                item.calculatedMultiColumnCellHeight = multiColumnImageHeight(imageRegion)
             }
-            else if let embedRegion = item.data as? EmbedRegion {
+            else if let embedRegion = item.type.data as? EmbedRegion {
                 var ratio: CGFloat!
                 if embedRegion.isAudioEmbed || embedRegion.service == .UStream {
                     ratio = 1.0
@@ -70,8 +70,8 @@ public class StreamImageCellSizeCalculator: NSObject {
                 else {
                     ratio = 16.0/9.0
                 }
-                item.oneColumnCellHeight = maxWidth / ratio
-                item.multiColumnCellHeight = ((maxWidth - 10.0) / 2) / ratio
+                item.calculatedOneColumnCellHeight = maxWidth / ratio
+                item.calculatedMultiColumnCellHeight = ((maxWidth - 10.0) / 2) / ratio
             }
             loadNext()
         }
@@ -85,7 +85,7 @@ public class StreamImageCellSizeCalculator: NSObject {
         if let assetWidth = imageRegion.asset?.oneColumnAttachment?.width {
             imageWidth = min(maxWidth, CGFloat(assetWidth))
         }
-        return imageWidth / StreamImageCellSizeCalculator.aspectRatioForImageRegion(imageRegion)
+        return (imageWidth / StreamImageCellSizeCalculator.aspectRatioForImageRegion(imageRegion)) + 10
     }
 
     private func multiColumnImageHeight(imageBlock: ImageRegion) -> CGFloat {
@@ -93,6 +93,6 @@ public class StreamImageCellSizeCalculator: NSObject {
         if let assetWidth = imageBlock.asset?.gridLayoutAttachment?.width {
             imageWidth = min(imageWidth, CGFloat(assetWidth))
         }
-        return  imageWidth / StreamImageCellSizeCalculator.aspectRatioForImageRegion(imageBlock)
+        return  (imageWidth / StreamImageCellSizeCalculator.aspectRatioForImageRegion(imageBlock)) + 10
     }
 }

@@ -21,7 +21,7 @@ public struct FollowAllCellPresenter {
         currentUser: User?)
     {
         if let cell = cell as? FollowAllCell,
-            let counts = streamCellItem.data as? FollowAllCounts
+            let counts = streamCellItem.type.data as? FollowAllCounts
         {
             cell.userCount = counts.userCount
             cell.followedCount = counts.followedCount

@@ -103,9 +103,9 @@ public class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
 
         var margins = NotificationCell.Size.topBottomMargins
         height += margins
-        cellItem.multiColumnCellHeight = height
-        cellItem.oneColumnCellHeight = height
         cellItem.calculatedWebHeight = webContentHeight
+        cellItem.calculatedOneColumnCellHeight = height
+        cellItem.calculatedMultiColumnCellHeight = height
     }
 
     private func stripImageSrc(html: String) -> String {

@@ -21,7 +21,7 @@ class StreamEmbedCellPresenterSpec: QuickSpec {
                     ])
 
                     let cell: StreamEmbedCell = StreamEmbedCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Embed, data: embedRegion, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Embed(data: embedRegion))
 
                     StreamEmbedCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
@@ -45,7 +45,7 @@ class StreamEmbedCellPresenterSpec: QuickSpec {
                     ])
 
                     let cell: StreamEmbedCell = StreamEmbedCell.loadFromNib()
-                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Embed, data: embedRegion, oneColumnCellHeight: 20, multiColumnCellHeight: 20, isFullWidth: false)
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Embed(data: embedRegion))
 
                     StreamEmbedCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 

@@ -16,8 +16,8 @@ public class FakeStreamNotificationCellSizeCalculator: StreamNotificationCellSiz
         self.completion = completion
         self.cellItems = cellItems
         for item in cellItems {
-            item.oneColumnCellHeight = AppSetup.Size.calculatorHeight
-            item.multiColumnCellHeight = AppSetup.Size.calculatorHeight
+            item.calculatedOneColumnCellHeight = AppSetup.Size.calculatorHeight
+            item.calculatedMultiColumnCellHeight = AppSetup.Size.calculatorHeight
         }
         completion()
     }

@@ -34,26 +34,19 @@ public struct StreamCellItemParser {
 
     private func notificationCellItems(notifications:[Notification]) -> [StreamCellItem] {
         return map(notifications) { notification in
-            return StreamCellItem(
-                jsonable: notification,
-                type: .Notification,
-                data: nil,
-                oneColumnCellHeight: 107.0,
-                multiColumnCellHeight: 49.0,
-                isFullWidth: false
-            )
+            return StreamCellItem(jsonable: notification, type: .Notification)
         }
     }
 
     private func postCellItems(posts: [Post], streamKind: StreamKind) -> [StreamCellItem] {
         var cellItems:[StreamCellItem] = []
         for post in posts {
-            cellItems.append(StreamCellItem(jsonable: post, type: StreamCellType.Header, data: nil, oneColumnCellHeight: 80.0, multiColumnCellHeight: 49.0, isFullWidth: false))
+            cellItems.append(StreamCellItem(jsonable: post, type: .Header))
             cellItems += postToggleItems(post)
             if post.isRepost {
                 // add repost header with via/source
-                var repostHeaderHeight: CGFloat = post.repostViaPath == nil ? 15.0 : 30.0
-                cellItems.append(StreamCellItem(jsonable: post, type: StreamCellType.RepostHeader, data: nil, oneColumnCellHeight: repostHeaderHeight, multiColumnCellHeight: repostHeaderHeight, isFullWidth: false))
+                var repostHeaderHeight: CGFloat = post.repostViaPath == nil ? 25.0 : 40.0
+                cellItems.append(StreamCellItem(jsonable: post, type: .RepostHeader(height: repostHeaderHeight)))
                 // add repost content
                 // this is weird, but the post summary is actually the repost summary on reposts
                 if streamKind.isGridLayout {
@@ -76,7 +69,7 @@ public struct StreamCellItemParser {
         }
         // set initial state on the items, but don't toggle the footer's state, it is used by comment open/closed
         for item in cellItems {
-            if let post = item.jsonable as? Post where item.type != .Footer {
+            if let post = item.jsonable as? Post where item.type != StreamCellType.Footer {
                 item.state = post.collapsed ? .Collapsed : .Expanded
             }
         }
@@ -86,7 +79,7 @@ public struct StreamCellItemParser {
     private func commentCellItems(comments: [Comment]) -> [StreamCellItem] {
         var cellItems:[StreamCellItem] = []
         for comment in comments {
-            cellItems.append(StreamCellItem(jsonable: comment, type: StreamCellType.CommentHeader, data: nil, oneColumnCellHeight: 50.0, multiColumnCellHeight: 50.0, isFullWidth: false))
+            cellItems.append(StreamCellItem(jsonable: comment, type: .CommentHeader))
             cellItems += regionItems(comment, content: comment.content)
         }
         return cellItems
@@ -94,7 +87,7 @@ public struct StreamCellItemParser {
 
     private func postToggleItems(post: Post) -> [StreamCellItem] {
         if post.collapsed {
-            return [StreamCellItem(jsonable: post, type: StreamCellType.Toggle, data: nil, oneColumnCellHeight: 30.0, multiColumnCellHeight: 30.0, isFullWidth: false)]
+            return [StreamCellItem(jsonable: post, type: .Toggle)]
         }
         else {
             return []
@@ -104,10 +97,10 @@ public struct StreamCellItemParser {
     private func regionItems(jsonable: JSONAble, content: [Regionable]) -> [StreamCellItem] {
         var cellArray:[StreamCellItem] = []
         for region in content {
-            let kind = RegionKind(rawValue: region.kind) ?? RegionKind.Unknown
-            let type = kind.streamCellType
+            let kind = RegionKind(rawValue: region.kind) ?? .Unknown
+            let type = kind.streamCellType(region)
             if type != .Unknown {
-                let item: StreamCellItem = StreamCellItem(jsonable: jsonable, type: type, data: region, oneColumnCellHeight: 0.0, multiColumnCellHeight: 0.0, isFullWidth: false)
+                let item: StreamCellItem = StreamCellItem(jsonable: jsonable, type: type)
                 cellArray.append(item)
             }
         }
@@ -116,19 +109,12 @@ public struct StreamCellItemParser {
 
     private func userCellItems(users: [User]) -> [StreamCellItem] {
         return map(users) { user in
-            return StreamCellItem(
-                jsonable: user,
-                type: .UserListItem,
-                data: nil,
-                oneColumnCellHeight: 75.0,
-                multiColumnCellHeight: 75.0,
-                isFullWidth: true
-            )
+            return StreamCellItem(jsonable: user, type: .UserListItem)
         }
     }
 
     private func footerStreamCellItems(post: Post) -> [StreamCellItem] {
-        return [StreamCellItem(jsonable: post, type: StreamCellType.Footer, data: nil, oneColumnCellHeight: 54.0, multiColumnCellHeight: 54.0, isFullWidth: false)]
+        return [StreamCellItem(jsonable: post, type: .Footer)]
     }
 }
 

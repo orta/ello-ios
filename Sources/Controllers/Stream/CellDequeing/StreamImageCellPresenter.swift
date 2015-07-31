@@ -26,10 +26,11 @@ public struct StreamImageCellPresenter {
 
     static func configureCellWidthAndLayout(
         cell: StreamImageCell,
+        imageRegion: ImageRegion,
         streamCellItem: StreamCellItem) -> CGFloat
     {
         // Repost specifics
-        if streamCellItem.region?.isRepost == true {
+        if imageRegion.isRepost == true {
             cell.leadingConstraint.constant = StreamTextCellPresenter.repostMargin
             cell.showBorder()
         }
@@ -51,7 +52,7 @@ public struct StreamImageCellPresenter {
         currentUser: User?)
     {
         if let cell = cell as? StreamImageCell {
-            if let imageRegion = streamCellItem.data as? ImageRegion {
+            if let imageRegion = streamCellItem.type.data as? ImageRegion {
                 cell.imageRightConstraint?.constant = 0
                 cell.failImage.hidden = true
                 cell.failImage.alpha = 0
@@ -89,7 +90,7 @@ public struct StreamImageCellPresenter {
                 imageToLoad = imageToLoad ?? attachmentToLoad?.url
 
                 cell.hideBorder()
-                let margin = configureCellWidthAndLayout(cell, streamCellItem: streamCellItem)
+                let margin = configureCellWidthAndLayout(cell, imageRegion: imageRegion, streamCellItem: streamCellItem)
                 preventImageStretching(cell, attachmentWidth: attachmentToLoad?.width, columnWidth: columnWidth, leftMargin: margin)
 
                 if let image = imageToShow where !showGifInThisCell {

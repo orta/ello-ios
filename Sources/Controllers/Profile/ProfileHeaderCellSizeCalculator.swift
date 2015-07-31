@@ -53,8 +53,8 @@ public class ProfileHeaderCellSizeCalculator: NSObject {
             if hv > 0.0 {
                 height += hv
             }
-            cellItem.oneColumnCellHeight = height
-            cellItem.multiColumnCellHeight = height
+            cellItem.calculatedOneColumnCellHeight = height
+            cellItem.calculatedMultiColumnCellHeight = height
         }
         loadNext()
     }

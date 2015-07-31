@@ -22,16 +22,16 @@ public enum RegionKind: String {
     case Embed = "embed"
     case Unknown = "Unknown"
 
-    var streamCellType: StreamCellType {
+    public func streamCellType(regionable: Regionable) -> StreamCellType {
         switch self {
         case .Image:
-            return StreamCellType.Image
+            return .Image(data: regionable)
         case .Text:
-            return StreamCellType.Text
+            return .Text(data: regionable)
         case .Embed:
-            return StreamCellType.Embed
+            return .Embed(data: regionable)
         case .Unknown:
-            return StreamCellType.Unknown
+            return .Unknown
         }
     }
 }

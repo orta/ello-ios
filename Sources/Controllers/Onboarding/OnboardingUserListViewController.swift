@@ -48,15 +48,14 @@ public class OnboardingUserListViewController: StreamableViewController, Onboard
     }
 
     func appendHeaderCellItem(#header: String, message: String) {
-        let anyHeight = CGFloat(120)
-        let headerItem = StreamCellItem(jsonable: JSONAble(version: 1), type: StreamCellType.OnboardingHeader, data: (header, message), oneColumnCellHeight: anyHeight, multiColumnCellHeight: anyHeight, isFullWidth: true)
+        let headerItem = StreamCellItem(jsonable: JSONAble(version: 1), type: .OnboardingHeader(data: (header, message)))
         self.headerItem = headerItem
         streamViewController.appendStreamCellItems([headerItem])
     }
 
     func appendFollowAllCellItem(#userCount: Int) {
         let data = FollowAllCounts(userCount: userCount, followedCount: 0)
-        let followAllItem = StreamCellItem(jsonable: JSONAble(version: 1), type: StreamCellType.FollowAll, data: data, oneColumnCellHeight: FollowAllCellHeight, multiColumnCellHeight: FollowAllCellHeight, isFullWidth: true)
+        let followAllItem = StreamCellItem(jsonable: JSONAble(version: 1), type: .FollowAll(data: data))
         self.followAllItem = followAllItem
         streamViewController.appendStreamCellItems([followAllItem])
     }
@@ -150,7 +149,7 @@ extension OnboardingUserListViewController {
     }
 
     func updateFollowAllItem(#userCount: Int, followedCount: Int) {
-        followAllItem?.data = FollowAllCounts(userCount: userCount, followedCount: followedCount)
+        followAllItem?.type = .FollowAll(data: FollowAllCounts(userCount: userCount, followedCount: followedCount))
         streamViewController.reloadCells()
     }
 

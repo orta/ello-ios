@@ -374,11 +374,7 @@ extension StreamCellItem: Stubbable {
     class func stub(values: [String : AnyObject]) -> StreamCellItem {
         return StreamCellItem(
             jsonable: (values["jsonable"] as? JSONAble) ?? Post.stub([:]),
-            type: (values["type"] as? StreamCellType) ?? StreamCellType.Text,
-            data: values["data"],
-            oneColumnCellHeight: (values["oneColumnCellHeight"] as? CGFloat) ?? 50.0,
-            multiColumnCellHeight: (values["multiColumnCellHeight"] as? CGFloat) ?? 50.0,
-            isFullWidth: (values["isFullWidth"] as? Bool) ?? true
+            type: (values["type"] as? StreamCellType) ?? StreamCellType.Header
         )
     }
 }
