@@ -1,3 +1,20 @@
+### Ello Build v1.0.0(2829) July 31, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #521 - Updates UI sizes and more for all cells!
+* Update SVG assets
+* Update Notification selected states with the correct SVG assets
+* Update cell heights across the board [Fixes #98329006]
+* Refactors `StreamCellItem` to not need data, height info, or full width params
+* Refactors `StreamCellType` to add height, data and `isFullWidth`
+* Updates the search field and re searches if already on search view controller [Fixes #100166708]
+* Remove `cellBottomPadding` [Finishes #96897098]
+    
+------------
+
 ### Ello Build v1.0.0(2822) July 29, 2015
 
     RELEASE NOTES
