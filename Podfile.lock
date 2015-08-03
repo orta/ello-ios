@@ -45,12 +45,10 @@ PODS:
   - TimeAgoInWords (0.1.0)
   - TRVSDictionaryWithCaseInsensitivity (0.0.2)
   - WebLinking (0.2.0)
-  - YapDatabase (2.6.1):
-    - YapDatabase/standard (= 2.6.1)
-  - YapDatabase/common (2.6.1):
+  - YapDatabase (2.6.5):
+    - YapDatabase/standard (= 2.6.5)
+  - YapDatabase/standard (2.6.5):
     - CocoaLumberjack (~> 2)
-  - YapDatabase/standard (2.6.1):
-    - YapDatabase/common
 
 DEPENDENCIES:
   - 1PasswordExtension (~> 1.2.0)
@@ -117,7 +115,7 @@ CHECKOUT OPTIONS:
     :commit: aca37872b4088e00a5bfd1973bec87aa1315b31d
     :git: https://github.com/SVGKit/SVGKit
   YapDatabase:
-    :commit: d76b838c53d5525663fd8bd279829c75ff1bd0ce
+    :commit: 21f781942223d8eb6f5b313f605a83796dba187a
     :git: https://github.com/ello/YapDatabase
 
 SPEC CHECKSUMS:
@@ -148,6 +146,6 @@ SPEC CHECKSUMS:
   TimeAgoInWords: bd651f6532327035b41fd3b512ca9d3e90d2e379
   TRVSDictionaryWithCaseInsensitivity: 51d2ccf52c6d645d27b63467a98fa02c556e01b0
   WebLinking: 8e267eed3f7b2d040bf6468681cc1325141ab7fe
-  YapDatabase: ca25874766045bca7f4c2632f61067351353ecf3
+  YapDatabase: ba4adf122834fb78c25640d559f99367bcf86539
 
 COCOAPODS: 0.38.0
