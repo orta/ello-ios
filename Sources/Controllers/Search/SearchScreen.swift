@@ -31,7 +31,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
     private var searchControlsContainer: UIView!
     private var postsToggleButton: OutlineElloButton?
     private var peopleToggleButton: OutlineElloButton?
-    public private(set) var streamViewContainer: UIView!
+    private var streamViewContainer: UIView!
     public private(set) var findFriendsContainer: UIView!
     private var bottomInset: CGFloat
     private var navBarTitle: String!
@@ -71,7 +71,6 @@ public class SearchScreen: UIView, SearchScreenProtocol {
     }
 
     public func hideNavBars() {
-        var hideAmt = 64.0
         animate(animated: true) {
             self.searchControlsContainer.frame = self.frame.inset(sides: 15).atY(11).withHeight(self.searchControlsContainer.frame.size.height)
             self.streamViewContainer.frame = self.getStreamViewFrame()
