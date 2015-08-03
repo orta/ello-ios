@@ -34,8 +34,8 @@ pod 'TimeAgoInWords', '~> 0.1.0'
 pod 'WebLinking', '~> 0.2.0'
 
 target 'Specs' do
-  pod 'OHHTTPStubs', '~> 4.0'
   pod 'Nimble', '~> 1.0.0'
+  pod 'OHHTTPStubs', '~> 4.1.0'
   pod 'Quick', '~> 0.3.0'
 end
 
