@@ -29,7 +29,7 @@ pod 'Alamofire', '~> 1.2.0'
 pod 'Moya', git: "https://github.com/ello/Moya"
 pod 'Result', '~> 0.4.0'
 pod 'SwiftyJSON', '~> 2.2.0'
-pod 'SwiftyUserDefaults', '~> 1.1.0'
+pod 'SwiftyUserDefaults', '~> 1.3.0'
 pod 'TimeAgoInWords', '~> 0.1.0'
 pod 'WebLinking', '~> 0.2.0'
 
