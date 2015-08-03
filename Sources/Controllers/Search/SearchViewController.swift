@@ -62,7 +62,7 @@ public class SearchViewController: StreamableViewController {
 
     private func updateInsets() {
         if let ss = self.view as? SearchScreen {
-            updateInsets(navBar: ss.navigationBar, streamController: streamViewController)
+            updateInsets(navBar: ss.navigationBar, streamController: streamViewController, navBarsVisible: false)
         }
     }
 

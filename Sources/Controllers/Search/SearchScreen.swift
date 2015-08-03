@@ -51,7 +51,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         super.init(frame: frame)
         self.backgroundColor = UIColor.whiteColor()
         setupNavigationBar()
-        searchControlsContainer = UIView(frame: self.bounds.inset(sides: 15).atY(75).withHeight(41))
+        searchControlsContainer = UIView(frame: self.frame.inset(sides: 15).atY(75).withHeight(41))
         setupSearchField()
         if self.isSearchView { setupToggleButtons() }
         setupStreamView()
@@ -65,14 +65,16 @@ public class SearchScreen: UIView, SearchScreenProtocol {
 
     public func showNavBars() {
         animate(animated: true) {
-            self.searchControlsContainer.frame = self.bounds.inset(sides: 15).atY(75).withHeight(self.searchControlsContainer.frame.size.height)
+            self.searchControlsContainer.frame = self.frame.inset(sides: 15).atY(75).withHeight(self.searchControlsContainer.frame.size.height)
+            self.streamViewContainer.frame = self.getStreamViewFrame()
         }
     }
 
     public func hideNavBars() {
         var hideAmt = 64.0
         animate(animated: true) {
-            self.searchControlsContainer.frame = self.bounds.inset(sides: 15).atY(11).withHeight(self.searchControlsContainer.frame.size.height)
+            self.searchControlsContainer.frame = self.frame.inset(sides: 15).atY(11).withHeight(self.searchControlsContainer.frame.size.height)
+            self.streamViewContainer.frame = self.getStreamViewFrame()
         }
     }
 
@@ -146,12 +148,15 @@ public class SearchScreen: UIView, SearchScreenProtocol {
     }
 
     private func setupStreamView() {
-        let height = self.frame.height - (searchControlsContainer.frame.maxY + 20)
-        let frame = self.bounds.atY(searchControlsContainer.frame.maxY + 20).withHeight(height)
-        streamViewContainer = UIView(frame: frame)
+        streamViewContainer = UIView(frame: getStreamViewFrame())
         streamViewContainer.autoresizingMask = .FlexibleWidth | .FlexibleHeight
         streamViewContainer.backgroundColor = .whiteColor()
         self.addSubview(streamViewContainer)
+    }
+
+    private func getStreamViewFrame() -> CGRect {
+        let height = frame.height - (searchControlsContainer.frame.maxY)
+        return frame.atY(searchControlsContainer.frame.maxY).withHeight(height)
     }
 
     private func setupFindFriendsButton() {
