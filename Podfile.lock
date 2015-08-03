@@ -29,8 +29,8 @@ PODS:
     - Moya/Core (= 1.1.1)
   - Moya/Core (1.1.1):
     - Alamofire (~> 1.2.0)
-  - Nimble (0.4.2)
   - OHHTTPStubs (4.0.2)
+  - Nimble (1.0.0)
   - Quick (0.3.1)
   - Result (0.4.4):
     - Box (~> 1.2)
@@ -64,8 +64,8 @@ DEPENDENCIES:
   - LUKeychainAccess (~> 1.2.4)
   - MBProgressHUD (~> 0.9.0)
   - Moya (from `https://github.com/ello/Moya`)
-  - Nimble (~> 0.4.0)
   - OHHTTPStubs (~> 4.0)
+  - Nimble (~> 1.0.0)
   - Quick (~> 0.3.0)
   - Result (~> 0.4.0)
   - SDWebImage (~> 3.7)
@@ -134,8 +134,8 @@ SPEC CHECKSUMS:
   LUKeychainAccess: 6479edb12cf06e11ff3336f796959eedbc58f714
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
   Moya: ccd604e2f8653f25c5536a228cf7f688de7ad8f6
-  Nimble: 49b7a7da8919f42823d37c6d68cc6d15a7009f32
   OHHTTPStubs: dbd1957d414659783e07b49c961940b7564c23d9
+  Nimble: 8bee528e5fcc403653076545db562d2b5db7bb87
   Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
   Result: b44f6bc8762bbffaf2c5df58f2c7d12c3496ced8
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
