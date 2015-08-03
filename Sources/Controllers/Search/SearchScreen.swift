@@ -155,7 +155,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
 
     private func getStreamViewFrame() -> CGRect {
         let height = frame.height - (searchControlsContainer.frame.maxY)
-        return frame.atY(searchControlsContainer.frame.maxY).withHeight(height)
+        return bounds.atY(searchControlsContainer.frame.maxY).withHeight(height)
     }
 
     private func setupFindFriendsButton() {
