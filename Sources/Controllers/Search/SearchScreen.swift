@@ -26,9 +26,9 @@ public class SearchScreen: UIView, SearchScreenProtocol {
     var keyboardWillShowObserver: NotificationObserver?
     var keyboardWillHideObserver: NotificationObserver?
     private var throttled: ThrottledBlock
-    private var navigationBar: ElloNavigationBar!
+    public private(set) var navigationBar: ElloNavigationBar!
     public private(set) var searchField: UITextField!
-    private var toggleButtonContainer: UIView!
+    private var searchControlsContainer: UIView!
     private var postsToggleButton: OutlineElloButton?
     private var peopleToggleButton: OutlineElloButton?
     private var streamViewContainer: UIView!
@@ -51,8 +51,8 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         super.init(frame: frame)
         self.backgroundColor = UIColor.whiteColor()
         setupNavigationBar()
+        searchControlsContainer = UIView(frame: self.frame.inset(sides: 15).atY(75).withHeight(41))
         setupSearchField()
-        toggleButtonContainer = UIView(frame: self.bounds.inset(sides: 15).atY(searchField.frame.maxY).withHeight(0))
         if self.isSearchView { setupToggleButtons() }
         setupStreamView()
         setupFindFriendsButton()
@@ -61,6 +61,20 @@ public class SearchScreen: UIView, SearchScreenProtocol {
 
     required public init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    public func showNavBars() {
+        animate(animated: true) {
+            self.searchControlsContainer.frame = self.frame.inset(sides: 15).atY(75).withHeight(self.searchControlsContainer.frame.size.height)
+            self.streamViewContainer.frame = self.getStreamViewFrame()
+        }
+    }
+
+    public func hideNavBars() {
+        animate(animated: true) {
+            self.searchControlsContainer.frame = self.frame.inset(sides: 15).atY(11).withHeight(self.searchControlsContainer.frame.size.height)
+            self.streamViewContainer.frame = self.getStreamViewFrame()
+        }
     }
 
 // MARK: views
@@ -80,8 +94,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
     }
 
     private func setupSearchField() {
-        let frame = self.bounds.inset(sides: 15).atY(75).withHeight(41)
-        searchField = UITextField(frame: frame)
+        searchField = UITextField(frame: CGRect(x: 0, y: 0, width: searchControlsContainer.frame.size.width, height: 41))
         searchField.autoresizingMask = .FlexibleWidth | .FlexibleBottomMargin
         searchField.clearButtonMode = .WhileEditing
         searchField.font = UIFont.regularBoldFont(18)
@@ -95,51 +108,54 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         searchField.keyboardType = .Default
         searchField.delegate = self
         searchField.addTarget(self, action: Selector("searchFieldDidChange"), forControlEvents: .EditingChanged)
-        self.addSubview(searchField)
+        searchControlsContainer.addSubview(searchField)
 
         let lineFrame = searchField.frame.fromBottom().growUp(1).shiftUp(2)
         let lineView = UIView(frame: lineFrame)
         lineView.backgroundColor = UIColor.greyA()
-        self.addSubview(lineView)
+        searchControlsContainer.addSubview(lineView)
+        addSubview(searchControlsContainer)
     }
 
     private func setupToggleButtons() {
-        let btnWidth = (toggleButtonContainer.bounds.size.width - 10) / 2
-        toggleButtonContainer.frame.size.height = 53
-        addSubview(toggleButtonContainer)
-        let postsBtn = OutlineElloButton(frame: CGRect(x: 0, y: 20, width: btnWidth, height: 33))
+        let btnWidth = (searchControlsContainer.bounds.size.width - 10) / 2
+        searchControlsContainer.frame.size.height += 73
+        let postsBtn = OutlineElloButton(frame: CGRect(x: 0, y: 60, width: btnWidth, height: 33))
         postsBtn.setTitle(NSLocalizedString("Posts", comment: "Posts search toggle"), forState: .Normal)
         postsBtn.addTarget(self, action: Selector("onPostsTapped"), forControlEvents: .TouchUpInside)
         postsToggleButton = postsBtn
-        toggleButtonContainer.addSubview(postsBtn)
+        searchControlsContainer.addSubview(postsBtn)
 
-        let peopleBtn = OutlineElloButton(frame: CGRect(x: postsBtn.frame.maxX + 10, y: 20, width: btnWidth, height: 33))
+        let peopleBtn = OutlineElloButton(frame: CGRect(x: postsBtn.frame.maxX + 10, y: 60, width: btnWidth, height: 33))
         peopleBtn.setTitle(NSLocalizedString("People", comment: "People search toggle"), forState: .Normal)
         peopleBtn.addTarget(self, action: Selector("onPeopleTapped"), forControlEvents: .TouchUpInside)
         peopleToggleButton = peopleBtn
-        toggleButtonContainer.addSubview(peopleBtn)
+        searchControlsContainer.addSubview(peopleBtn)
         onPostsTapped()
     }
 
     public func onPostsTapped() {
         postsToggleButton?.selected = true
         peopleToggleButton?.selected = false
-        self.delegate?.toggleChanged(searchField.text ?? "", isPostSearch: postsToggleButton?.selected ?? false)
+        delegate?.toggleChanged(searchField.text ?? "", isPostSearch: postsToggleButton?.selected ?? false)
     }
 
     public func onPeopleTapped() {
         peopleToggleButton?.selected = true
         postsToggleButton?.selected = false
-        self.delegate?.toggleChanged(searchField.text ?? "", isPostSearch: postsToggleButton?.selected ?? false)
+        delegate?.toggleChanged(searchField.text ?? "", isPostSearch: postsToggleButton?.selected ?? false)
     }
 
     private func setupStreamView() {
-        let height = self.frame.height - (toggleButtonContainer.frame.maxY + 20)
-        let frame = self.bounds.atY(toggleButtonContainer.frame.maxY + 20).withHeight(height)
-        streamViewContainer = UIView(frame: frame)
+        streamViewContainer = UIView(frame: getStreamViewFrame())
         streamViewContainer.autoresizingMask = .FlexibleWidth | .FlexibleHeight
         streamViewContainer.backgroundColor = .whiteColor()
         self.addSubview(streamViewContainer)
+    }
+
+    private func getStreamViewFrame() -> CGRect {
+        let height = frame.height - (searchControlsContainer.frame.maxY)
+        return frame.atY(searchControlsContainer.frame.maxY).withHeight(height)
     }
 
     private func setupFindFriendsButton() {

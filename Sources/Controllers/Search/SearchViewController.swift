@@ -39,14 +39,31 @@ public class SearchViewController: StreamableViewController {
     }
 
     override func showNavBars(scrollToBottom : Bool) {
+        super.showNavBars(scrollToBottom)
+        if let ss = self.view as? SearchScreen {
+            positionNavBar(ss.navigationBar, visible: true)
+            ss.showNavBars()
+        }
+        updateInsets()
+
+        if scrollToBottom {
+            self.scrollToBottom(streamViewController)
+        }
     }
 
     override func hideNavBars() {
+        super.hideNavBars()
+        if let ss = self.view as? SearchScreen {
+            positionNavBar(ss.navigationBar, visible: false)
+            ss.hideNavBars()
+        }
+        updateInsets()
     }
 
     private func updateInsets() {
-        streamViewController.contentInset.bottom = ElloTabBar.Size.height
-        screen.updateInsets(bottom: ElloTabBar.Size.height)
+        if let ss = self.view as? SearchScreen {
+            updateInsets(navBar: ss.navigationBar, streamController: streamViewController, navBarsVisible: false)
+        }
     }
 
 }
