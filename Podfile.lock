@@ -1,9 +1,9 @@
 PODS:
   - 1PasswordExtension (1.2)
   - Alamofire (1.2.3)
-  - Analytics/Core-iOS (1.12.2):
+  - Analytics/Core-iOS (1.12.5):
     - TRVSDictionaryWithCaseInsensitivity (= 0.0.2)
-  - Analytics/Segmentio (1.12.2):
+  - Analytics/Segmentio (1.12.5):
     - Analytics/Core-iOS
   - Box (1.2.2)
   - CocoaLumberjack (2.0.1):
@@ -123,7 +123,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   1PasswordExtension: fcf300204bda5b5c78936dbb937a7d661f1ca796
   Alamofire: 5550bf0b575ed1a4bf9be572f9463e1015cc169e
-  Analytics: 08029cf44cab6b82c8b8f00f50860a1054056618
+  Analytics: e1144eebecb3fa0b8b46fa2ef00dc6089f76dbb2
   Box: a92e8aa4c099e6bc0733829665caf9e668ef53b8
   CocoaLumberjack: 019d1361244274a6138c788c6cb80baabc13fb8f
   Crashlytics: 1eef152dd21c1f2f9d9dbe115e637c77c6ffcc8e
