@@ -12,7 +12,7 @@ use_frameworks!
 pod '1PasswordExtension', '~> 1.2.0'
 pod 'Analytics/Segmentio'
 pod 'CRToast', git: 'https://github.com/ello/CRToast'
-pod 'Crashlytics', '~> 3.0.0'
+pod 'Crashlytics', '~> 3.1.0'
 pod 'FLAnimatedImage', git: 'https://github.com/ello/FLAnimatedImage'
 pod 'Fabric', '~> 1.2.0'
 pod 'JTSImageViewController', git: 'https://github.com/ello/JTSImageViewController'

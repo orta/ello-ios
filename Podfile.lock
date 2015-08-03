@@ -14,7 +14,7 @@ PODS:
     - CocoaLumberjack/Core
   - CocoaLumberjack/Extensions (2.0.1):
     - CocoaLumberjack/Default
-  - Crashlytics (3.0.11)
+  - Crashlytics (3.1.0)
   - CRToast (0.0.7)
   - Fabric (1.2.8):
     - Fabric/Base (= 1.2.8)
@@ -54,7 +54,7 @@ DEPENDENCIES:
   - 1PasswordExtension (~> 1.2.0)
   - Alamofire (~> 1.2.0)
   - Analytics/Segmentio
-  - Crashlytics (~> 3.0.0)
+  - Crashlytics (~> 3.1.0)
   - CRToast (from `https://github.com/ello/CRToast`)
   - Fabric (~> 1.2.0)
   - FLAnimatedImage (from `https://github.com/ello/FLAnimatedImage`)
@@ -124,7 +124,7 @@ SPEC CHECKSUMS:
   Analytics: e1144eebecb3fa0b8b46fa2ef00dc6089f76dbb2
   Box: a92e8aa4c099e6bc0733829665caf9e668ef53b8
   CocoaLumberjack: 019d1361244274a6138c788c6cb80baabc13fb8f
-  Crashlytics: 1eef152dd21c1f2f9d9dbe115e637c77c6ffcc8e
+  Crashlytics: ef9a58a4e806b316a1748c06432f6f847ba09ac6
   CRToast: eb22641501990233c53cb8f83f7d2ea87e0ddf73
   Fabric: a9eabe53915e9f1db55a84dd2838737928675878
   FLAnimatedImage: 7599ec218dceacdcacbdfccb2947415c2619cd11
