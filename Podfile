@@ -25,8 +25,7 @@ pod 'SVGKit', git: 'https://github.com/SVGKit/SVGKit'
 pod 'YapDatabase', git: 'https://github.com/ello/YapDatabase'
 
 # swift pods
-pod 'Alamofire', '~> 1.2.0'
-pod 'Moya', git: "https://github.com/ello/Moya"
+pod 'Moya', git: 'https://github.com/ello/Moya'
 pod 'Result', '~> 0.4.0'
 pod 'SwiftyJSON', '~> 2.2.0'
 pod 'SwiftyUserDefaults', '~> 1.3.0'

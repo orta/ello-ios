@@ -52,7 +52,6 @@ PODS:
 
 DEPENDENCIES:
   - 1PasswordExtension (~> 1.2.0)
-  - Alamofire (~> 1.2.0)
   - Analytics/Segmentio
   - Crashlytics (~> 3.1.0)
   - CRToast (from `https://github.com/ello/CRToast`)
