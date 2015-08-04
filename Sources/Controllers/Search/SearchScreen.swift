@@ -205,7 +205,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
 
     override public func layoutSubviews() {
         super.layoutSubviews()
-        findFriendsContainer.frame.origin.y = frame.size.height - findFriendsContainer.frame.height - bottomInset
+        findFriendsContainer.frame.origin.y = frame.size.height - findFriendsContainer.frame.height - bottomInset - ElloTabBar.Size.height
     }
 
     public func searchForText() {
