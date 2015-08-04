@@ -350,9 +350,19 @@ public extension Tracker {
         agent.track("\(type.rawValue) created")
     }
 
+    func contentEdited(type: ContentType) {
+        log("\(type.rawValue) edited")
+        agent.track("\(type.rawValue) edited")
+    }
+
     func contentCreationCanceled(type: ContentType) {
         log("\(type.rawValue) creation canceled")
         agent.track("\(type.rawValue) creation canceled")
+    }
+
+    func contentEditingCanceled(type: ContentType) {
+        log("\(type.rawValue) editing canceled")
+        agent.track("\(type.rawValue) editing canceled")
     }
 
     func contentCreationFailed(type: ContentType, message: String) {

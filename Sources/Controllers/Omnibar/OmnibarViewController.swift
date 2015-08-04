@@ -321,8 +321,9 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     }
 
     public func omnibarPresentController(controller: UIViewController) {
-        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .None)
-        UIApplication.sharedApplication().statusBarStyle = .LightContent
+        if !(controller is AlertViewController) {
+            UIApplication.sharedApplication().statusBarStyle = .Default
+        }
         self.presentViewController(controller, animated: true, completion: nil)
     }
 

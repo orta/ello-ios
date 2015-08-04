@@ -645,14 +645,6 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
 }
 
 
-// MARK: UINavigationControllerDelegate
-extension OmnibarScreen: UINavigationControllerDelegate {
-
-    public func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
-    }
-}
-
-
 // MARK: UITextViewDelegate
 extension OmnibarScreen: UITextViewDelegate {
     public func textViewShouldBeginEditing(textView: UITextView) -> Bool {
@@ -739,8 +731,9 @@ extension OmnibarScreen: AutoCompleteDelegate {
     }
 }
 
+
 // MARK: UIImagePickerControllerDelegate
-extension OmnibarScreen: UIImagePickerControllerDelegate {
+extension OmnibarScreen: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
 
     private func openImagePicker(imageController: UIImagePickerController) {
         imageController.delegate = self
