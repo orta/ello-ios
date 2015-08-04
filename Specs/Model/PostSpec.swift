@@ -41,6 +41,9 @@ class PostSpec: QuickSpec {
                 expect(count(post.content!)) == 2
                 expect(post.content![0].kind) == "text"
                 expect(post.content![1].kind) == "image"
+                expect(count(post.body!)) == 2
+                expect(post.body![0].kind) == "text"
+                expect(post.body![1].kind) == "image"
                 expect(post.viewsCount) == 1
                 expect(post.commentsCount) == 0
                 expect(post.repostsCount) == 0
