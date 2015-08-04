@@ -356,8 +356,32 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
 
             if shouldReload {
                 let (indexPaths, items) = elementsForJSONAble(jsonable, change: change)
-                items.map { $0.jsonable = jsonable }
-                collectionView.reloadItemsAtIndexPaths(indexPaths)
+                if let post = jsonable as? Post where indexPaths.count > 0 {
+                    let firstIndexPath = indexPaths[0]
+                    let items = StreamCellItemParser().parse([post], streamKind: self.streamKind, currentUser: currentUser)
+                    let lastIndexPath = indexPaths.reduce(firstIndexPath) { (memo: NSIndexPath, path: NSIndexPath) in
+                        if path.section < memo.section {
+                            return memo
+                        }
+                        else if memo.section < path.section {
+                            return path
+                        }
+                        else {
+                            return path.item < memo.section ? memo : path
+                        }
+                    }
+                    let afterLastIndexPath = NSIndexPath(forItem: lastIndexPath.item + 1, inSection: lastIndexPath.section)
+                    insertUnsizedCellItems(items, withWidth: UIScreen.screenWidth(), startingIndexPath: afterLastIndexPath) { _ in
+                        for indexPath in indexPaths.reverse() {
+                            self.removeItemAtIndexPath(indexPath)
+                        }
+                        collectionView.reloadData()
+                    }
+                }
+                else {
+                    items.map { $0.jsonable = jsonable }
+                    collectionView.reloadItemsAtIndexPaths(indexPaths)
+                }
             }
         default: break
         }
