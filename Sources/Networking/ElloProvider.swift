@@ -97,6 +97,10 @@ public struct ElloProvider {
         )
     }
 
+    public static func DelayedStubbingProvider() -> MoyaProvider<ElloAPI> {
+        return MoyaProvider(endpointClosure: endpointClosure, stubBehavior: MoyaProvider.DelayedStubbingBehaviour(1))
+    }
+
     public static func ErrorStubbingProvider() -> MoyaProvider<ElloAPI> {
         return MoyaProvider(
             endpointClosure: errorEndpointsClosure,
