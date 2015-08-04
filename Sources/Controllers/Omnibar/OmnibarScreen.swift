@@ -26,6 +26,7 @@ import Photos
 import MobileCoreServices
 import FLAnimatedImage
 import SVGKit
+import SDWebImage
 
 @objc
 public protocol OmnibarScreenDelegate {
@@ -48,6 +49,7 @@ public protocol OmnibarScreenProtocol {
     var canGoBack: Bool { get set }
     var text: String? { get set }
     var image: UIImage? { get set }
+    var imageURL: NSURL? { get set }
     var attributedText: NSAttributedString? { get set }
     func appendAttributedText(text: NSAttributedString)
     func reportSuccess(title: String)
@@ -125,6 +127,18 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         get {
             return currentImage
         }
+    }
+
+    public var imageURL: NSURL? {
+        set {
+            if let url = newValue {
+                userSetCurrentURL(url)
+            }
+            else {
+                userSetCurrentImage(nil)
+            }
+        }
+        get { return nil }
     }
 
     public var avatarURL: NSURL? {
@@ -474,7 +488,6 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
             alertController.addAction(cancelAction)
 
             delegate?.omnibarPresentController(alertController)
-
         }
         else {
             delegate?.omnibarCancel()
@@ -528,6 +541,15 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         self.type = type
 
         updatePostState()
+    }
+
+    func userSetCurrentURL(imageURL: NSURL) {
+        SDWebImageManager.sharedManager().downloadImageWithURL(imageURL,
+            options: SDWebImageOptions.LowPriority,
+            progress: { (_, _) in }, completed: { (image, _, _, _, _) in
+                self.userSetCurrentImage(image)
+            }
+        )
     }
 
     // this updates the currentImage and buttons
