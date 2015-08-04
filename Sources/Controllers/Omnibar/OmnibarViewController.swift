@@ -21,6 +21,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     var previousTab: ElloTab = .DefaultTab
     var parentPost: Post?
     var editPost: Post?
+    var rawEditPost: Post?
     var defaultText: String?
 
     typealias CommentSuccessListener = (comment: Comment) -> Void
@@ -42,16 +43,13 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     convenience public init(editPost post: Post) {
         self.init(nibName: nil, bundle: nil)
         editPost = post
-
-        var defaultText = ""
-        if let regions = post.content {
-            for region in regions {
-                if let textRegion = region as? TextRegion {
-                    defaultText += textRegion.content
-                }
+        PostService().loadPost(post.id, success: { (post, _) in
+            self.rawEditPost = post
+            if self.isViewLoaded() {
+                self.prepareScreenForEditing(post)
             }
-        }
-        self.defaultText = defaultText
+        }, failure: { _, _ in
+        })
     }
 
     convenience public init(parentPost post: Post, defaultText: String) {
@@ -59,12 +57,12 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         self.defaultText = defaultText
     }
 
-    public func omnibarDataName() -> String {
+    public func omnibarDataName() -> String? {
         if let post = parentPost {
             return "omnibar_comment_\(post.repostId ?? post.id)"
         }
         else if let post = editPost {
-            return "omnibar_post_\(post.repostId ?? post.id)"
+            return nil
         }
         else {
             return "omnibar_post"
@@ -90,10 +88,15 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         }
         else if editPost != nil {
             screen.title = NSLocalizedString("Edit this post", comment: "Edit this post")
+            screen.isEditing = true
+            if let rawEditPost = rawEditPost {
+                prepareScreenForEditing(rawEditPost)
+            }
         }
 
-        let fileName = omnibarDataName()
-        if let data: NSData = Tmp.read(fileName) {
+        if let fileName = omnibarDataName(),
+            let data: NSData = Tmp.read(fileName)
+        {
             if let omnibarData = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? OmnibarData {
                 if let prevAttributedText = omnibarData.attributedText {
                     let currentText = screen.text
@@ -111,6 +114,14 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             Tmp.remove(fileName)
         }
         screen.delegate = self
+
+        // let menuController = UIMenuController.sharedMenuController()
+        // let linkItem = UIMenuItem(title: "Link", action: Selector("editLink:"))
+        // menuController.menuItems = [linkItem]
+    }
+
+    func editLink(menuController: UIMenuController) {
+        println("link!")
     }
 
     override public func viewWillAppear(animated: Bool) {
@@ -132,12 +143,20 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         keyboardWillShowObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillShow, block: self.willShow)
         keyboardWillHideObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillHide, block: self.willHide)
 
-        let isShowingNarration = elloTabBarController?.shouldShowNarration ?? false
-        if !isShowingNarration && presentedViewController == nil {
-            // desired behavior: animate the keyboard in when this screen is
-            // shown.  without the delay, the keyboard just appears suddenly.
-            delay(0) {
-                self.screen.startEditing()
+        let isEditing = (editPost != nil)
+        if isEditing {
+            if rawEditPost == nil {
+                ElloHUD.showLoadingHudInView(self.view)
+            }
+        }
+        else {
+            let isShowingNarration = elloTabBarController?.shouldShowNarration ?? false
+            if !isShowingNarration && presentedViewController == nil {
+                // desired behavior: animate the keyboard in when this screen is
+                // shown.  without the delay, the keyboard just appears suddenly.
+                delay(0) {
+                    self.screen.startEditing()
+                }
             }
         }
 
@@ -161,6 +180,24 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             keyboardWillHideObserver.removeObserver()
             self.keyboardWillHideObserver = nil
         }
+    }
+
+    func prepareScreenForEditing(rawEditPost: Post) {
+        ElloHUD.hideLoadingHudInView(self.view)
+        var imageURL: NSURL?
+        if let content = rawEditPost.body {
+            for region in content {
+                if let region = region as? TextRegion,
+                    tag = koffee(region.content)
+                {
+                    screen.attributedText = tag.makeEditable()
+                }
+                else if let region = region as? ImageRegion where imageURL == nil {
+                    imageURL = region.url
+                }
+            }
+        }
+        screen.imageURL = imageURL
     }
 
     func willShow(keyboard: Keyboard) {
@@ -187,15 +224,21 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         if screen.text == "Crashlytics.crash('test')" {
             Crashlytics.sharedInstance().crash()
         }
+
         if parentPost != nil || editPost != nil {
-            let omnibarData = OmnibarData(attributedText: screen.attributedText, image: screen.image)
-            let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
-            Tmp.write(data, to: omnibarDataName())
+            if let fileName = omnibarDataName() {
+                let omnibarData = OmnibarData(attributedText: screen.attributedText, image: screen.image)
+                let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
+                Tmp.write(data, to: fileName)
+            }
 
             if parentPost != nil {
                 Tracker.sharedTracker.contentCreationCanceled(.Comment)
             }
             else if editPost != nil {
+                Tracker.sharedTracker.contentEditingCanceled(.Post)
+            }
+            else {
                 Tracker.sharedTracker.contentCreationCanceled(.Post)
             }
             navigationController?.popViewControllerAnimated(true)
@@ -299,7 +342,12 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             user.postsCount = count + 1
             postNotification(CurrentUserChangedNotification, user)
         }
-        postNotification(PostChangedNotification, (post, .Create))
+        if let _ = editPost {
+            postNotification(PostChangedNotification, (post, .Update))
+        }
+        else {
+            postNotification(PostChangedNotification, (post, .Create))
+        }
         Tracker.sharedTracker.contentCreated(.Post)
         if let listener = postSuccessListener {
             listener(post: post)

@@ -155,6 +155,7 @@ extension Post: Stubbable {
         )
 
         // optional
+        post.body = (values["body"] as? [Regionable]) ?? [stubbedTextRegion]
         post.content = (values["content"] as? [Regionable]) ?? [stubbedTextRegion]
         post.repostContent = (values["repostContent"] as? [Regionable])
         post.repostId = (values["repostId"] as? String)
@@ -310,17 +311,18 @@ extension Activity: Stubbable {
 extension Asset: Stubbable {
     class func stub(values: [String : AnyObject]) -> Asset {
         var asset = Asset(id: (values["id"] as? String) ?? NSUUID().UUIDString)
-        asset.optimized = values["optimized"] as? Attachment
-        asset.smallScreen = values["smallScreen"] as? Attachment
-        asset.ldpi = values["ldpi"] as? Attachment
-        asset.mdpi = values["mdpi"] as? Attachment
-        asset.hdpi = values["hdpi"] as? Attachment
-        asset.xhdpi = values["xhdpi"] as? Attachment
-        asset.xxhdpi = values["xxhdpi"] as? Attachment
-        asset.original = values["original"] as? Attachment
-        asset.large = values["large"] as? Attachment
-        asset.regular = values["regular"] as? Attachment
-        asset.small = values["small"] as? Attachment
+        var defaultAttachment = values["attachment"] as? Attachment
+        asset.optimized = (values["optimized"] as? Attachment) ?? defaultAttachment
+        asset.smallScreen = (values["smallScreen"] as? Attachment) ?? defaultAttachment
+        asset.ldpi = (values["ldpi"] as? Attachment) ?? defaultAttachment
+        asset.mdpi = (values["mdpi"] as? Attachment) ?? defaultAttachment
+        asset.hdpi = (values["hdpi"] as? Attachment) ?? defaultAttachment
+        asset.xhdpi = (values["xhdpi"] as? Attachment) ?? defaultAttachment
+        asset.xxhdpi = (values["xxhdpi"] as? Attachment) ?? defaultAttachment
+        asset.original = (values["original"] as? Attachment) ?? defaultAttachment
+        asset.large = (values["large"] as? Attachment) ?? defaultAttachment
+        asset.regular = (values["regular"] as? Attachment) ?? defaultAttachment
+        asset.small = (values["small"] as? Attachment) ?? defaultAttachment
         ElloLinkedStore.sharedInstance.setObject(asset, forKey: asset.id, inCollection: MappingType.AssetsType.rawValue)
         return asset
     }

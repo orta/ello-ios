@@ -51,6 +51,7 @@ public protocol OmnibarScreenProtocol {
     var image: UIImage? { get set }
     var imageURL: NSURL? { get set }
     var attributedText: NSAttributedString? { get set }
+    var isEditing: Bool { get set }
     func appendAttributedText(text: NSAttributedString)
     func reportSuccess(title: String)
     func reportError(title: String, error: NSError)
@@ -76,11 +77,16 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     var autoCompleteVC = AutoCompleteViewController()
 
 // MARK: public access to text and image
+    public var isEditing: Bool = false {
+        didSet {
+            submitButton.setTitle(NSLocalizedString("Update", comment: "Update button"), forState: .Normal)
+        }
+    }
 
     // Styles the text and assigns it as an NSAttributedString to
     // `attributedText`
     public var text: String? {
-        set(newValue) {
+        set {
             if let value = newValue {
                 self.attributedText = ElloAttributedString.style(value)
             }
@@ -96,12 +102,8 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     // assigns the NSAttributedString to the UITextView and assigns
     // `currentText`
     public var attributedText: NSAttributedString? {
-        set(newValue) {
-            userSetCurrentText(newValue)
-        }
-        get {
-            return currentText
-        }
+        set { userSetCurrentText(newValue) }
+        get { return currentText }
     }
 
     public var title: String = "" {
@@ -121,12 +123,8 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     }
 
     public var image: UIImage? {
-        set(newValue) {
-            userSetCurrentImage(newValue)
-        }
-        get {
-            return currentImage
-        }
+        set { userSetCurrentImage(newValue) }
+        get { return currentImage }
     }
 
     public var imageURL: NSURL? {
@@ -300,7 +298,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     private func setupTextViews() {
         textContainer.backgroundColor = UIColor.greyE5()
         textView.editable = true
-        textView.allowsEditingTextAttributes = false  // TEMP
+        textView.allowsEditingTextAttributes = true
         textView.selectable = true
         textView.textColor = UIColor.blackColor()
         textView.font = UIFont.typewriterFont(12)
@@ -476,7 +474,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     }
 
     public func cancelEditingAction() {
-        if canPost() {
+        if canPost() && !isEditing {
             let alertController = AlertViewController()
 
             let deleteAction = AlertAction(title: NSLocalizedString("Delete", comment: "Delete button"), style: ActionStyle.Dark, handler: { _ in

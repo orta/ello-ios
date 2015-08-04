@@ -94,6 +94,9 @@ public class PostEditingService: NSObject {
         if let parentPost = parentPost {
             endpoint = ElloAPI.CreateComment(parentPostId: parentPost.id, body: params)
         }
+        else if let editPost = editPost {
+            endpoint = ElloAPI.UpdatePost(postId: editPost.id, body: params)
+        }
         else {
             endpoint = ElloAPI.CreatePost(body: params)
         }
@@ -106,7 +109,7 @@ public class PostEditingService: NSObject {
                 case .CreateComment:
                     let comment = data as! Comment
                     comment.content = self.replaceLocalImageRegions(comment.content, regions: regions)
-                case .CreatePost:
+                case .CreatePost, .UpdatePost:
                     let post = data as! Post
                     post.content = self.replaceLocalImageRegions(post.content ?? [], regions: regions)
                 default:

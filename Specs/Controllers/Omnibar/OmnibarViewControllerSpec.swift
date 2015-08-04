@@ -14,12 +14,14 @@ import Nimble
 @objc
 class OmnibarMockScreen: OmnibarScreenProtocol {
     var delegate: OmnibarScreenDelegate?
+    var isEditing: Bool = false
     var title: String = ""
     var avatarURL: NSURL?
     var avatarImage: UIImage?
     var currentUser: User?
     var text: String?
     var image: UIImage?
+    var imageURL: NSURL?
     var attributedText: NSAttributedString?
 
     var canGoBack = false
@@ -119,9 +121,10 @@ class OmnibarViewControllerSpec: QuickSpec {
                     controller = OmnibarViewController()
                     screen = OmnibarMockScreen()
                     controller.screen = screen
+                    self.showController(controller)
                 }
 
-                xit("assigns the currentUser.avatarURL to the screen") {
+                it("assigns the currentUser.avatarURL to the screen") {
                     let attachment = Attachment.stub([
                         "url": "http://ello.co/avatar.png",
                         "height": 0,
@@ -129,11 +132,10 @@ class OmnibarViewControllerSpec: QuickSpec {
                         "type": "png",
                         "size": 0]
                         )
-                    let user: User = stub(["avatar": attachment])
+                    let asset = Asset.stub(["attachment": attachment])
+                    let user: User = stub(["avatar": asset])
                     controller.currentUser = user
-                    // this is crazy, if I inspect these values they are correct.
-                    // Swift? Optionals?  ug.
-                    expect(screen.avatarURL).to(equal("http://ello.co/avatar.png"))
+                    expect(screen.avatarURL?.absoluteString).to(equal("http://ello.co/avatar.png"))
                 }
             }
 
@@ -150,7 +152,9 @@ class OmnibarViewControllerSpec: QuickSpec {
                     let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
 
                     controller = OmnibarViewController(parentPost: post)
-                    Tmp.write(data, to: controller.omnibarDataName())
+                    if let fileName = controller.omnibarDataName() {
+                        Tmp.write(data, to: fileName)
+                    }
 
                     screen = OmnibarMockScreen()
                     controller.screen = screen
@@ -159,7 +163,9 @@ class OmnibarViewControllerSpec: QuickSpec {
                 }
 
                 afterEach {
-                    Tmp.remove(controller.omnibarDataName())
+                    if let fileName = controller.omnibarDataName() {
+                        Tmp.remove(fileName)
+                    }
                 }
 
                 it("should have text set") {
@@ -189,13 +195,15 @@ class OmnibarViewControllerSpec: QuickSpec {
                 }
 
                 afterEach {
-                    Tmp.remove(controller.omnibarDataName())
+                    if let fileName = controller.omnibarDataName() {
+                        Tmp.remove(fileName)
+                    }
                 }
 
                 it("should save the data when cancelled") {
-                    expect(Tmp.fileExists(controller.omnibarDataName())).to(beFalse())
+                    expect(Tmp.fileExists(controller.omnibarDataName()!)).to(beFalse())
                     controller.omnibarCancel()
-                    expect(Tmp.fileExists(controller.omnibarDataName())).to(beTrue())
+                    expect(Tmp.fileExists(controller.omnibarDataName()!)).to(beTrue())
                 }
             }
 
@@ -207,7 +215,9 @@ class OmnibarViewControllerSpec: QuickSpec {
                 }
 
                 afterEach {
-                    Tmp.remove(controller.omnibarDataName())
+                    if let fileName = controller.omnibarDataName() {
+                        Tmp.remove(fileName)
+                    }
                 }
 
                 it("should have the text in the textView") {
@@ -215,12 +225,16 @@ class OmnibarViewControllerSpec: QuickSpec {
                 }
 
                 it("should have the text if there was tmp text available") {
-                    Tmp.remove(controller.omnibarDataName())
+                    if let fileName = controller.omnibarDataName() {
+                        Tmp.remove(fileName)
+                    }
 
                     let text = ElloAttributedString.style("testing!")
                     let omnibarData = OmnibarData(attributedText: text, image: nil)
                     let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
-                    Tmp.write(data, to: controller.omnibarDataName())
+                    if let fileName = controller.omnibarDataName() {
+                        Tmp.write(data, to: fileName)
+                    }
 
                     controller = OmnibarViewController(parentPost: post, defaultText: "@666 ")
                     expect(controller.screen.text).to(contain("@666 "))
@@ -228,12 +242,16 @@ class OmnibarViewControllerSpec: QuickSpec {
                 }
 
                 it("should not have the text if the tmp text was on another post") {
-                    Tmp.remove(controller.omnibarDataName())
+                    if let fileName = controller.omnibarDataName() {
+                        Tmp.remove(fileName)
+                    }
 
                     let text = ElloAttributedString.style("testing!")
                     let omnibarData = OmnibarData(attributedText: text, image: nil)
                     let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
-                    Tmp.write(data, to: controller.omnibarDataName())
+                    if let fileName = controller.omnibarDataName() {
+                        Tmp.write(data, to: fileName)
+                    }
 
                     controller = OmnibarViewController(parentPost: Post.stub([:]), defaultText: "@666 ")
                     expect(controller.screen.text).to(contain("@666 "))
@@ -241,12 +259,16 @@ class OmnibarViewControllerSpec: QuickSpec {
                 }
 
                 it("should have the text only once") {
-                    Tmp.remove(controller.omnibarDataName())
+                    if let fileName = controller.omnibarDataName() {
+                        Tmp.remove(fileName)
+                    }
 
                     let text = ElloAttributedString.style("@666 testing!")
                     let omnibarData = OmnibarData(attributedText: text, image: nil)
                     let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
-                    Tmp.write(data, to: controller.omnibarDataName())
+                    if let fileName = controller.omnibarDataName() {
+                        Tmp.write(data, to: fileName)
+                    }
 
                     controller = OmnibarViewController(parentPost: post, defaultText: "@666 ")
                     expect(controller.screen.text).to(contain("@666 "))
@@ -255,12 +277,16 @@ class OmnibarViewControllerSpec: QuickSpec {
                 }
 
                 it("should have the text only once, even with whitespace annoyances") {
-                    Tmp.remove(controller.omnibarDataName())
+                    if let fileName = controller.omnibarDataName() {
+                        Tmp.remove(fileName)
+                    }
 
                     let text = ElloAttributedString.style("@666")
                     let omnibarData = OmnibarData(attributedText: text, image: nil)
                     let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
-                    Tmp.write(data, to: controller.omnibarDataName())
+                    if let fileName = controller.omnibarDataName() {
+                        Tmp.write(data, to: fileName)
+                    }
 
                     controller = OmnibarViewController(parentPost: post, defaultText: "@666 ")
                     expect(controller.screen.text).to(contain("@666"))
@@ -268,17 +294,52 @@ class OmnibarViewControllerSpec: QuickSpec {
                 }
 
                 it("should add the text when the username doesn't quite match (@666 @6666)") {
-                    Tmp.remove(controller.omnibarDataName())
+                    if let fileName = controller.omnibarDataName() {
+                        Tmp.remove(fileName)
+                    }
 
                     let text = ElloAttributedString.style("@6666 ")
                     let omnibarData = OmnibarData(attributedText: text, image: nil)
                     let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
-                    Tmp.write(data, to: controller.omnibarDataName())
+                    if let fileName = controller.omnibarDataName() {
+                        Tmp.write(data, to: fileName)
+                    }
 
                     controller = OmnibarViewController(parentPost: post, defaultText: "@666 ")
                     expect(controller.screen.text).to(contain("@666 "))
                     expect(controller.screen.text).to(contain("@6666 "))
                 }
+            }
+
+            context("editing a post") {
+                var post = Post.stub([:])
+                beforeEach {
+                    // NB: this post will be *reloaded* using the stubbed json response
+                    // so if you wonder where the text comes from, it's from there, not
+                    // the stubbed post.
+                    controller = OmnibarViewController(editPost: post)
+                }
+
+                it("should have the post body in the textView") {
+                    expect(controller.screen.text).to(contain("did you say \"mancrush\""))
+                }
+
+                it("should have the text if there was tmp text available") {
+                    if let fileName = controller.omnibarDataName() {
+                        Tmp.remove(fileName)
+                    }
+
+                    let text = ElloAttributedString.style("testing!")
+                    let omnibarData = OmnibarData(attributedText: text, image: nil)
+                    let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
+                    if let fileName = controller.omnibarDataName() {
+                        Tmp.write(data, to: fileName)
+                    }
+
+                    controller = OmnibarViewController(editPost: post)
+                    expect(controller.screen.text).notTo(contain("testing!"))
+                }
+
             }
 
             context("post editability") {
