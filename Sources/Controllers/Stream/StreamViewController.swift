@@ -184,11 +184,6 @@ public class StreamViewController: BaseElloViewController {
         setupCollectionView()
     }
 
-    public override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        collectionView.reloadData()
-    }
-
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         Crashlytics.sharedInstance().setObjectValue(streamKind.name, forKey: CrashlyticsKey.StreamName.rawValue)
