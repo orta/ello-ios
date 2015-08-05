@@ -242,7 +242,7 @@ extension StreamableViewController: CreatePostDelegate {
             self.navigationController?.pushViewController(vc, animated: true)
         }
         else {
-            let message = NSLocalizedString("Looks like this post was created on the web!\n\nThe text and images it contains are not YET editable on our iOS app.  We’ll try to add this feature soon!", comment: "Uneditable post error message")
+            let message = NSLocalizedString("Looks like this post was created on the web!\n\nThe text and images it contains are not YET editable on our iOS app.  We’ll add this feature soon!", comment: "Uneditable post error message")
             let alertController = AlertViewController(message: message)
             let action = AlertAction(title: NSLocalizedString("It’s OK, I understand!", comment: "It’s OK, I understand!"), style: .Dark, handler: nil)
             alertController.addAction(action)
