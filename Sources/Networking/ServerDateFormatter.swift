@@ -8,7 +8,7 @@
 
 import Foundation
 
-let ServerDateFormatter: NSDateFormatter = {
+public let ServerDateFormatter: NSDateFormatter = {
     let formatter = NSDateFormatter()
     formatter.locale = NSLocale(localeIdentifier: "en_US")
     formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
@@ -16,7 +16,7 @@ let ServerDateFormatter: NSDateFormatter = {
     return formatter
 }()
 
-let HTTPDateFormatter: NSDateFormatter = {
+public let HTTPDateFormatter: NSDateFormatter = {
     let formatter = NSDateFormatter()
     formatter.locale = NSLocale(localeIdentifier: "en_US")
     formatter.dateFormat = "eee, dd MMM yyyy HH:mm:ss zzz"
@@ -26,10 +26,9 @@ let HTTPDateFormatter: NSDateFormatter = {
 
 public extension NSString {
 
-    func toNSDate() -> NSDate? {
-        return ServerDateFormatter.dateFromString(self as String)
+    func toNSDate(formatter: NSDateFormatter = ServerDateFormatter) -> NSDate? {
+        return formatter.dateFromString(self as String)
     }
-
 }
 
 public extension NSDate {
@@ -41,7 +40,6 @@ public extension NSDate {
     func toHTTPDate() -> NSString {
         return HTTPDateFormatter.stringFromDate(self)
     }
-
 }
 
 public func ==(lhs: NSDate, rhs: NSDate) -> Bool {

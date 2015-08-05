@@ -30,8 +30,27 @@ extension NSLocale {
 
 class ServerDateFormatterSpec: QuickSpec {
     override func spec() {
-        describe("ServerDateFormatter") {
 
+        describe("NSString.toNSDate()") {
+
+            context("HTTP Date") {
+
+                it("returns an NSDate from an http data string") {
+                    let sep_30_1978 = NSDate(timeIntervalSince1970: 275961600)
+                    expect("Sat, 30 Sep 1978 00:00:00 GMT".toNSDate(formatter: HTTPDateFormatter)) == sep_30_1978
+                }
+            }
+
+            context("database date") {
+
+                it("returns an NSDate from a server formatted string") {
+                    let sep_30_1978 = NSDate(timeIntervalSince1970: 275961600)
+                    expect("1978-09-30T00:00:00.000Z".toNSDate()) == sep_30_1978
+                }
+            }
+        }
+
+        describe("ServerDateFormatter") {
             context("arabic locale") {
                 it("outputs the correct string") {
                     NSLocale.defaultToArab()
