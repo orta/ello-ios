@@ -66,6 +66,7 @@ public struct StreamCellItemParser {
                 }
             }
             cellItems += footerStreamCellItems(post)
+            cellItems += [StreamCellItem(jsonable: JSONAble.fromJSON([:], fromLinked: false), type: .Spacer(height: 10.0))]
         }
         // set initial state on the items, but don't toggle the footer's state, it is used by comment open/closed
         for item in cellItems {
