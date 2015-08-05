@@ -230,6 +230,120 @@ public class Tag: Printable {
     var text: String?
     var comment: String?
 
+    public init() {}
+    public init?(input: String) {
+        var state: State = .Start
+        var lastTag = self
+        var lastAttr: String? = nil
+        var parentTags = [Tag]()
+
+        var tmp = input as NSString
+        tmp = tmp.stringByReplacingOccurrencesOfString("\t", withString: "    ")
+        tmp = tmp.stringByReplacingOccurrencesOfString("\r\n", withString: "\n")
+        tmp = tmp.stringByReplacingOccurrencesOfString("\r", withString: "\n")
+        var html = tmp as String
+
+        html = html.trim()
+
+        var c = 0
+        while state != .End {
+            var current = (html as NSString).substringWithRange(NSMakeRange(c, count(html) - c))
+
+            var nextPossibleStates = [State]()
+            for possible in state.nextPossibleStates {
+                if possible.detect(current) {
+                    nextPossibleStates.append(possible)
+                }
+            }
+            if count(nextPossibleStates) == 0 {
+                return nil
+            }
+
+            var nextState = nextPossibleStates.first!
+            var value = nextState.match(current)
+            c += count(value)
+
+            switch nextState {
+            case .Doctype:
+                let doctype = Doctype()
+                let regex = Regex("^<!doctype (.*?)>$")!
+                let match = regex.matches(value.lowercaseString)
+                doctype.name = match[1]
+                lastTag.tags.append(doctype)
+            case .TagOpen:
+                let newTag = Tag()
+                let name = (value as NSString).substringWithRange(NSMakeRange(1, count(value) - 1))
+                newTag.name = name
+                newTag.isSingleton = contains(Singletons, name)
+                lastTag.tags.append(newTag)
+                parentTags.append(lastTag)
+
+                lastTag = newTag
+                lastAttr = nil
+            case .Attr:
+                lastAttr = value
+            case .TagWs:
+                if let lastAttr = lastAttr {
+                    lastTag.attrs[lastAttr] = .True
+                }
+                lastAttr = nil
+            case .AttrValue, .AttrDvalue, .AttrSvalue:
+                if let lastAttr = lastAttr {
+                    lastTag.attrs[lastAttr] = .Value(value: value)
+                }
+                lastAttr = nil
+            case .TagGt:
+                if let lastAttr = lastAttr {
+                    lastTag.attrs[lastAttr] = .True
+                }
+
+                if lastTag.isSingleton && count(parentTags) > 0 {
+                    lastTag = parentTags.removeLast()
+                }
+            case .Singleton, .TagClose, .IeClose:
+                if count(parentTags) > 0 {
+                    lastTag = parentTags.removeLast()
+                }
+            case .Text:
+                if let lastTagName = lastTag.name where contains(PreserveWs, lastTagName) {
+                    let tag = Tag()
+                    tag.text = value
+                    lastTag.tags.append(tag)
+                }
+                else {
+                    var preWhitespace = (value ~ "^[ \n]+")
+                    var postWhitespace = (value ~ "[ \n]+$")
+                    var text = ""
+                    if preWhitespace != nil {
+                        text += " "
+                    }
+                    text += value.trim()
+                    if postWhitespace != nil {
+                        text += " "
+                    }
+
+                    if text == "  " { text = " " }
+
+                    let tag = Tag()
+                    tag.text = text
+                    lastTag.tags.append(tag)
+                }
+            case .Cdata:
+                let tag = Tag()
+                tag.text = value
+                lastTag.tags.append(tag)
+            case .Comment, .PredoctypeComment:
+                let tag = Tag()
+                tag.comment = value
+                lastTag.tags.append(tag)
+            default:
+                break
+            }
+
+            state = nextState
+        }
+    }
+
     private func attrd(text: String, let addlAttrs: [String: AnyObject] = [:]) -> NSAttributedString {
         let defaultAttrs: [String: AnyObject] = [
             NSFontAttributeName: UIFont.typewriterFont(12),
@@ -377,120 +491,4 @@ extension NSString {
     func trim() -> NSString {
         return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
     }
-}
-
-public func koffee(input: String) -> Tag? {
-    var state: State = .Start
-    var firstTag = Tag()
-    var lastTag = firstTag
-    var lastAttr: String? = nil
-    var parentTags = [Tag]()
-
-    var tmp = input as NSString
-    tmp = tmp.stringByReplacingOccurrencesOfString("\t", withString: "    ")
-    tmp = tmp.stringByReplacingOccurrencesOfString("\r\n", withString: "\n")
-    tmp = tmp.stringByReplacingOccurrencesOfString("\r", withString: "\n")
-    var html = tmp as String
-
-    html = html.trim()
-
-    var c = 0
-    while state != .End {
-        var current = (html as NSString).substringWithRange(NSMakeRange(c, count(html) - c))
-
-        var nextPossibleStates = [State]()
-        for possible in state.nextPossibleStates {
-            if possible.detect(current) {
-                nextPossibleStates.append(possible)
-            }
-        }
-        if count(nextPossibleStates) == 0 {
-            return nil
-        }
-
-        var nextState = nextPossibleStates.first!
-        var value = nextState.match(current)
-        c += count(value)
-
-        switch nextState {
-        case .Doctype:
-            let doctype = Doctype()
-            let regex = Regex("^<!doctype (.*?)>$")!
-            let match = regex.matches(value.lowercaseString)
-            doctype.name = match[1]
-            lastTag.tags.append(doctype)
-        case .TagOpen:
-            let newTag = Tag()
-            let name = (value as NSString).substringWithRange(NSMakeRange(1, count(value) - 1))
-            newTag.name = name
-            newTag.isSingleton = contains(Singletons, name)
-            lastTag.tags.append(newTag)
-            parentTags.append(lastTag)
-
-            lastTag = newTag
-            lastAttr = nil
-        case .Attr:
-            lastAttr = value
-        case .TagWs:
-            if let lastAttr = lastAttr {
-                lastTag.attrs[lastAttr] = .True
-            }
-            lastAttr = nil
-        case .AttrValue, .AttrDvalue, .AttrSvalue:
-            if let lastAttr = lastAttr {
-                lastTag.attrs[lastAttr] = .Value(value: value)
-            }
-            lastAttr = nil
-        case .TagGt:
-            if let lastAttr = lastAttr {
-                lastTag.attrs[lastAttr] = .True
-            }
-
-            if lastTag.isSingleton && count(parentTags) > 0 {
-                lastTag = parentTags.removeLast()
-            }
-        case .Singleton, .TagClose, .IeClose:
-            if count(parentTags) > 0 {
-                lastTag = parentTags.removeLast()
-            }
-        case .Text:
-            if let lastTagName = lastTag.name where contains(PreserveWs, lastTagName) {
-                let tag = Tag()
-                tag.text = value
-                lastTag.tags.append(tag)
-            }
-            else {
-                var preWhitespace = (value ~ "^[ \n]+")
-                var postWhitespace = (value ~ "[ \n]+$")
-                var text = ""
-                if preWhitespace != nil {
-                    text += " "
-                }
-                text += value.trim()
-                if postWhitespace != nil {
-                    text += " "
-                }
-
-                if text == "  " { text = " " }
-
-                let tag = Tag()
-                tag.text = text
-                lastTag.tags.append(tag)
-            }
-        case .Cdata:
-            let tag = Tag()
-            tag.text = value
-            lastTag.tags.append(tag)
-        case .Comment, .PredoctypeComment:
-            let tag = Tag()
-            tag.comment = value
-            lastTag.tags.append(tag)
-        default:
-            break
-        }
-
-        state = nextState
-    }
-
-    return firstTag
 }
