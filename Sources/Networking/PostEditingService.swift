@@ -41,7 +41,7 @@ public class PostEditingService: NSObject {
         // e.g. entitizing Strings and adding HTML markup to NSAttributedStrings
         for (index, section) in enumerate(rawContent) {
             if let text = section as? String {
-                textEntries.append((index, text.entitiesEncoded()))
+                textEntries.append((index, text))
             }
             else if let image = section as? UIImage {
                 imageEntries.append((index, image))
@@ -50,7 +50,7 @@ public class PostEditingService: NSObject {
                 imageDataEntries.append((index, data))
             }
             else if let attributed = section as? NSAttributedString {
-                textEntries.append((index, attributed.string.entitiesEncoded()))
+                textEntries.append((index, attributed.string))
             }
         }
 
