@@ -38,7 +38,7 @@ public class SearchViewController: StreamableViewController {
         return screen.viewForStream()
     }
 
-    override func showNavBars(scrollToBottom : Bool) {
+    override func showNavBars(scrollToBottom: Bool) {
         super.showNavBars(scrollToBottom)
         if let ss = self.view as? SearchScreen {
             positionNavBar(ss.navigationBar, visible: true)
@@ -75,6 +75,7 @@ extension SearchViewController: SearchScreenDelegate {
     }
 
     public func searchFieldCleared() {
+        showNavBars(false)
         searchText = ""
         streamViewController.removeAllCellItems()
         streamViewController.cancelInitialPage()
@@ -85,18 +86,28 @@ extension SearchViewController: SearchScreenDelegate {
         loadEndpoint(text, isPostSearch: isPostSearch)
     }
 
+    public func searchFieldWillChange() {
+        streamViewController.hideNoResults()
+    }
+
     public func toggleChanged(text: String, isPostSearch: Bool) {
+        searchFieldWillChange()
         loadEndpoint(text, isPostSearch: isPostSearch, checkSearchText: false)
+    }
+
+    public func findFriendsTapped() {
+        let responder = targetForAction("onInviteFriends", withSender: self) as? InviteResponder
+        responder?.onInviteFriends()
     }
 
     private func loadEndpoint(text: String, isPostSearch: Bool, checkSearchText: Bool = true) {
         if count(text) < 2 { return }  // just.. no (and the server doesn't guard against empty/short searches)
         if checkSearchText && searchText == text { return }  // a search is already in progress for this text
+        streamViewController.hideNoResults()
         trackSearch(text, isPostSearch: isPostSearch)
         searchText = text
         let endpoint = isPostSearch ? ElloAPI.SearchForPosts(terms: text) : ElloAPI.SearchForUsers(terms: text)
         streamViewController.noResultsMessages = (title: NSLocalizedString("We couldn't find any matches.", comment: "No search results found title"), body: NSLocalizedString("Try another search?", comment: "No search results found body"))
-        streamViewController.hideNoResults()
         streamViewController.streamKind = .SimpleStream(endpoint: endpoint, title: "")
         streamViewController.removeAllCellItems()
         ElloHUD.showLoadingHudInView(streamViewController.view)
@@ -116,10 +127,4 @@ extension SearchViewController: SearchScreenDelegate {
             Tracker.sharedTracker.searchFor("users")
         }
     }
-
-    public func findFriendsTapped() {
-        let responder = targetForAction("onInviteFriends", withSender: self) as? InviteResponder
-        responder?.onInviteFriends()
-    }
-
 }
