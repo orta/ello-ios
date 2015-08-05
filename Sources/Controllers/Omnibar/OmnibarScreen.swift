@@ -497,7 +497,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
             textView.resignFirstResponder()
             var submittedText: NSAttributedString?
             if currentTextIsPresent() {
-                submittedText = currentText
+                submittedText = textView.attributedText
             }
 
             if let image = currentImage, let data = data, let type = type {
