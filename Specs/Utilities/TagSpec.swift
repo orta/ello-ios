@@ -1,5 +1,5 @@
 //
-//  KoffeeSpec.swift
+//  TagSpec.swift
 //  Ello
 //
 //  Created by Colin Gray on 7/31/2015.
@@ -11,7 +11,7 @@ import Nimble
 import Ello
 
 
-class KoffeeSpec: QuickSpec {
+class TagSpec: QuickSpec {
     override func spec() {
         describe("Koffee") {
             let tests: [String: (input: String, output: String)] = [
