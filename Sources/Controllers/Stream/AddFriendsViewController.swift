@@ -57,7 +57,7 @@ public class AddFriendsViewController: StreamableViewController {
         return screen.viewForStream()
     }
 
-    override func showNavBars(scrollToBottom : Bool) {
+    override func showNavBars(scrollToBottom: Bool) {
         super.showNavBars(scrollToBottom)
         if let ss = self.view as? SearchScreen {
             positionNavBar(ss.navigationBar, visible: true)
@@ -167,6 +167,10 @@ extension AddFriendsViewController: SearchScreenDelegate {
                 return false
             }
         }
+    }
+
+    public func searchFieldWillChange() {
+        // noop
     }
 
     public func toggleChanged(text: String, isPostSearch: Bool) {

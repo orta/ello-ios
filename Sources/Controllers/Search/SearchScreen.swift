@@ -11,6 +11,7 @@ public protocol SearchScreenDelegate {
     func searchCanceled()
     func searchFieldCleared()
     func searchFieldChanged(text: String, isPostSearch: Bool)
+    func searchFieldWillChange()
     func toggleChanged(text: String, isPostSearch: Bool)
     func findFriendsTapped()
 }
@@ -51,7 +52,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         super.init(frame: frame)
         self.backgroundColor = UIColor.whiteColor()
         setupNavigationBar()
-        searchControlsContainer = UIView(frame: self.frame.inset(sides: 15).atY(75).withHeight(41))
+        searchControlsContainer = UIView(frame: self.frame.inset(sides: 15).atY(64).withHeight(50))
         setupSearchField()
         if self.isSearchView { setupToggleButtons() }
         setupStreamView()
@@ -65,14 +66,14 @@ public class SearchScreen: UIView, SearchScreenProtocol {
 
     public func showNavBars() {
         animate(animated: true) {
-            self.searchControlsContainer.frame = self.frame.inset(sides: 15).atY(75).withHeight(self.searchControlsContainer.frame.size.height)
+            self.searchControlsContainer.frame = self.frame.inset(sides: 15).atY(64).withHeight(self.searchControlsContainer.frame.size.height)
             self.streamViewContainer.frame = self.getStreamViewFrame()
         }
     }
 
     public func hideNavBars() {
         animate(animated: true) {
-            self.searchControlsContainer.frame = self.frame.inset(sides: 15).atY(11).withHeight(self.searchControlsContainer.frame.size.height)
+            self.searchControlsContainer.frame = self.frame.inset(sides: 15).atY(0).withHeight(self.searchControlsContainer.frame.size.height)
             self.streamViewContainer.frame = self.getStreamViewFrame()
         }
     }
@@ -94,7 +95,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
     }
 
     private func setupSearchField() {
-        searchField = UITextField(frame: CGRect(x: 0, y: 0, width: searchControlsContainer.frame.size.width, height: 41))
+        searchField = UITextField(frame: CGRect(x: 0, y: 0, width: searchControlsContainer.frame.size.width, height: searchControlsContainer.frame.size.height - 10))
         searchField.autoresizingMask = .FlexibleWidth | .FlexibleBottomMargin
         searchField.clearButtonMode = .WhileEditing
         searchField.font = UIFont.regularBoldFont(18)
@@ -110,7 +111,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         searchField.addTarget(self, action: Selector("searchFieldDidChange"), forControlEvents: .EditingChanged)
         searchControlsContainer.addSubview(searchField)
 
-        let lineFrame = searchField.frame.fromBottom().growUp(1).shiftUp(2)
+        let lineFrame = searchField.frame.fromBottom().growUp(1)
         let lineView = UIView(frame: lineFrame)
         lineView.backgroundColor = UIColor.greyA()
         searchControlsContainer.addSubview(lineView)
@@ -119,14 +120,16 @@ public class SearchScreen: UIView, SearchScreenProtocol {
 
     private func setupToggleButtons() {
         let btnWidth = (searchControlsContainer.bounds.size.width - 10) / 2
-        searchControlsContainer.frame.size.height += 73
-        let postsBtn = OutlineElloButton(frame: CGRect(x: 0, y: 60, width: btnWidth, height: 33))
+        var buttonY = searchControlsContainer.frame.size.height
+        // add the height of a button plus additional 10 for bottom padding
+        searchControlsContainer.frame.size.height += 43
+        let postsBtn = OutlineElloButton(frame: CGRect(x: 0, y: buttonY, width: btnWidth, height: 33))
         postsBtn.setTitle(NSLocalizedString("Posts", comment: "Posts search toggle"), forState: .Normal)
         postsBtn.addTarget(self, action: Selector("onPostsTapped"), forControlEvents: .TouchUpInside)
         postsToggleButton = postsBtn
         searchControlsContainer.addSubview(postsBtn)
 
-        let peopleBtn = OutlineElloButton(frame: CGRect(x: postsBtn.frame.maxX + 10, y: 60, width: btnWidth, height: 33))
+        let peopleBtn = OutlineElloButton(frame: CGRect(x: postsBtn.frame.maxX + 10, y: buttonY, width: btnWidth, height: 33))
         peopleBtn.setTitle(NSLocalizedString("People", comment: "People search toggle"), forState: .Normal)
         peopleBtn.addTarget(self, action: Selector("onPeopleTapped"), forControlEvents: .TouchUpInside)
         peopleToggleButton = peopleBtn
@@ -229,6 +232,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
 
     @objc
     private func searchFieldDidChange() {
+        delegate?.searchFieldWillChange()
         let text = searchField.text ?? ""
         if count(text) == 0 {
             clearSearch()
