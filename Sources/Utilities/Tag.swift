@@ -307,7 +307,7 @@ public class Tag: Printable {
             case .Text:
                 if let lastTagName = lastTag.name where contains(PreserveWs, lastTagName) {
                     let tag = Tag()
-                    tag.text = value
+                    tag.text = value.entitiesDecoded()
                     lastTag.tags.append(tag)
                 }
                 else {
@@ -325,12 +325,12 @@ public class Tag: Printable {
                     if text == "  " { text = " " }
 
                     let tag = Tag()
-                    tag.text = text
+                    tag.text = text.entitiesDecoded()
                     lastTag.tags.append(tag)
                 }
             case .Cdata:
                 let tag = Tag()
-                tag.text = value
+                tag.text = value.entitiesDecoded()
                 lastTag.tags.append(tag)
             case .Comment, .PredoctypeComment:
                 let tag = Tag()
