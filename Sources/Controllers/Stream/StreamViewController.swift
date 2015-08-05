@@ -360,14 +360,14 @@ public class StreamViewController: BaseElloViewController {
     }
 
     private func addNotificationObservers() {
-        updatedStreamImageCellHeightNotification = NotificationObserver(notification: StreamNotification.AnimateCellHeightNotification) { streamImageCell in
+        updatedStreamImageCellHeightNotification = NotificationObserver(notification: StreamNotification.AnimateCellHeightNotification) { [unowned self] streamImageCell in
             self.imageCellHeightUpdated(streamImageCell)
         }
-        relayoutNotification = NotificationObserver(notification: StreamNotification.UpdateCellHeightNotification) { streamTextCell in
+        relayoutNotification = NotificationObserver(notification: StreamNotification.UpdateCellHeightNotification) { [unowned self] streamTextCell in
             self.collectionView.collectionViewLayout.invalidateLayout()
         }
 
-        commentChangedNotification = NotificationObserver(notification: CommentChangedNotification) { (comment, change) in
+        commentChangedNotification = NotificationObserver(notification: CommentChangedNotification) { [unowned self] (comment, change) in
             if !self.initialDataLoaded {
                 return
             }
@@ -379,7 +379,7 @@ public class StreamViewController: BaseElloViewController {
             self.updateNoResultsLabel()
         }
 
-        postChangedNotification = NotificationObserver(notification: PostChangedNotification) { (post, change) in
+        postChangedNotification = NotificationObserver(notification: PostChangedNotification) { [unowned self] (post, change) in
             if !self.initialDataLoaded {
                 return
             }
@@ -400,7 +400,7 @@ public class StreamViewController: BaseElloViewController {
             self.updateNoResultsLabel()
         }
 
-        loveChangedNotification  = NotificationObserver(notification: LoveChangedNotification) { (love, change) in
+        loveChangedNotification  = NotificationObserver(notification: LoveChangedNotification) { [unowned self] (love, change) in
             if !self.initialDataLoaded {
                 return
             }
@@ -408,7 +408,7 @@ public class StreamViewController: BaseElloViewController {
             self.updateNoResultsLabel()
         }
 
-        relationshipChangedNotification = NotificationObserver(notification: RelationshipChangedNotification) { user in
+        relationshipChangedNotification = NotificationObserver(notification: RelationshipChangedNotification) { [unowned self] user in
             if !self.initialDataLoaded {
                 return
             }
@@ -416,7 +416,7 @@ public class StreamViewController: BaseElloViewController {
             self.updateNoResultsLabel()
         }
 
-        settingChangedNotification = NotificationObserver(notification: SettingChangedNotification) { user in
+        settingChangedNotification = NotificationObserver(notification: SettingChangedNotification) { [unowned self] user in
             if !self.initialDataLoaded {
                 return
             }
@@ -424,7 +424,7 @@ public class StreamViewController: BaseElloViewController {
             self.updateNoResultsLabel()
         }
 
-        currentUserChangedNotification = NotificationObserver(notification: CurrentUserChangedNotification) { user in
+        currentUserChangedNotification = NotificationObserver(notification: CurrentUserChangedNotification) { [unowned self] user in
             if !self.initialDataLoaded {
                 return
             }
@@ -434,28 +434,14 @@ public class StreamViewController: BaseElloViewController {
     }
 
     private func removeNotificationObservers() {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-        if let imageViewer = imageViewer {
-            NSNotificationCenter.defaultCenter().removeObserver(imageViewer)
-        }
-
         updatedStreamImageCellHeightNotification?.removeObserver()
-        updatedStreamImageCellHeightNotification = nil
-
         relayoutNotification?.removeObserver()
-        relayoutNotification = nil
-
         commentChangedNotification?.removeObserver()
-        commentChangedNotification = nil
-
         postChangedNotification?.removeObserver()
-        postChangedNotification = nil
-
         relationshipChangedNotification?.removeObserver()
-        relationshipChangedNotification = nil
-
         loveChangedNotification?.removeObserver()
-        loveChangedNotification = nil
+        settingChangedNotification?.removeObserver()
+        currentUserChangedNotification?.removeObserver()
     }
 
     private func updateCellHeight(indexPath:NSIndexPath, height:CGFloat) {
