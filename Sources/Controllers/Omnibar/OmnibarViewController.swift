@@ -188,9 +188,9 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         if let content = rawEditPost.body {
             for region in content {
                 if let region = region as? TextRegion,
-                    tag = koffee(region.content)
+                    attrdText = ElloAttributedString.parse(region.content)
                 {
-                    screen.attributedText = tag.makeEditable()
+                    screen.attributedText = attrdText
                 }
                 else if let region = region as? ImageRegion where imageURL == nil {
                     imageURL = region.url
@@ -267,15 +267,15 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             content.append(image)
         }
 
-        if let text = text?.string {
-            if count(text) > 5000 {
+        if let textString = text?.string {
+            if count(textString) > 5000 {
                 contentCreationFailed(NSLocalizedString("Your text is too long.\n\nThe character limit is 5,000.", comment: "Post too long (maximum characters is 5000) error message"))
                 return
             }
 
-            let cleanedText = text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+            let cleanedText = textString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
             if count(cleanedText) > 0 {
-                content.append(text)
+                content.append(ElloAttributedString.render(text!))
             }
         }
 
