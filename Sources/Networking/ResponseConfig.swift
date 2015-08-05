@@ -29,6 +29,7 @@ public class ResponseConfig: Printable {
     public var totalCount: String?
     public var totalPages: String?
     public var totalPagesRemaining: String?
+    public var statusCode: Int?
 
     public init() {}
 

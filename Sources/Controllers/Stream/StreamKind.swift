@@ -33,6 +33,10 @@ public enum StreamKind {
         }
     }
 
+    public var lastViewedCreatedAtKey: String {
+        return self.name + "_createdAt"
+    }
+
     public var columnCount:Int {
         switch self {
         case .Noise, .Discover: return 2

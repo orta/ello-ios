@@ -11,8 +11,13 @@ import Moya
 import SwiftyJSON
 import SDWebImage
 
+
 public typealias StreamSuccessCompletion = (jsonables: [JSONAble], responseConfig: ResponseConfig) -> Void
 public typealias UserSuccessCompletion = (user: User, responseConfig: ResponseConfig) -> Void
+
+public struct StreamLoadedNotifications {
+    static let streamLoaded = TypedNotification<StreamKind>(name: "StreamLoadedNotification")
+}
 
 public class StreamService: NSObject {
 
@@ -29,6 +34,8 @@ public class StreamService: NSObject {
                 if let jsonables = data as? [JSONAble] {
                     if let streamKind = streamKind {
                         Preloader().preloadImages(jsonables,  streamKind: streamKind)
+                        NewContentService().updateCreatedAt(jsonables, streamKind: streamKind)
+                        postNotification(StreamLoadedNotifications.streamLoaded, streamKind)
                     }
                     success(jsonables: jsonables, responseConfig: responseConfig)
                 }
