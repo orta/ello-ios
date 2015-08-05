@@ -79,7 +79,7 @@ public class StreamImageCell: StreamRegionableCell {
                 self.displayAnimatedGif(data)
             }
             else {
-                self.request = Alamofire.request(.GET, path).response { (request, response, data, error) in
+                self.request = Alamofire.request(.GET, path).response { (request: NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) in
                     let successful = response?.statusCode >= 200 && response?.statusCode < 400
                     if let data = data as? NSData where error == nil && successful {
                         GifCache.setObject(data, forKey: request.URLString)

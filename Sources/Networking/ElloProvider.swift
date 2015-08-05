@@ -70,7 +70,7 @@ public struct ElloProvider {
     public static var endpointClosure = { (target: ElloAPI) -> Endpoint<ElloAPI> in
         let method = target.method
         let parameters = target.parameters
-        let sampleResponse = EndpointSampleResponse.SuccessWithResponse(200, { target.sampleData }, target.sampleResponse)
+        let sampleResponse = EndpointSampleResponse.Success(200, { target.sampleData })
 
         let encoding: Moya.ParameterEncoding
         switch target {

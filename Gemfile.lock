@@ -68,7 +68,7 @@ GEM
     thread_safe (0.3.5)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
-    xcodeproj (0.26.2)
+    xcodeproj (0.26.3)
       activesupport (>= 3)
       claide (~> 0.9.1)
       colored (~> 1.2)

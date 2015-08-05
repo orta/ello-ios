@@ -12,7 +12,7 @@ use_frameworks!
 pod '1PasswordExtension', '~> 1.2.0'
 pod 'Analytics/Segmentio'
 pod 'CRToast', git: 'https://github.com/ello/CRToast'
-pod 'Crashlytics', '~> 3.0.0'
+pod 'Crashlytics', '~> 3.1.0'
 pod 'FLAnimatedImage', git: 'https://github.com/ello/FLAnimatedImage'
 pod 'Fabric', '~> 1.2.0'
 pod 'JTSImageViewController', git: 'https://github.com/ello/JTSImageViewController'
@@ -25,17 +25,16 @@ pod 'SVGKit', git: 'https://github.com/SVGKit/SVGKit'
 pod 'YapDatabase', git: 'https://github.com/ello/YapDatabase'
 
 # swift pods
-pod 'Alamofire', '~> 1.2.0'
-pod 'Moya', git: "https://github.com/ello/Moya"
+pod 'Moya', '~> 2.0.0'
 pod 'Result', '~> 0.4.0'
 pod 'SwiftyJSON', '~> 2.2.0'
-pod 'SwiftyUserDefaults', '~> 1.1.0'
+pod 'SwiftyUserDefaults', '~> 1.3.0'
 pod 'TimeAgoInWords', '~> 0.1.0'
 pod 'WebLinking', '~> 0.2.0'
 
 target 'Specs' do
-  pod 'Nimble', '~> 0.4.0'
-  pod 'OHHTTPStubs', '~> 4.0'
+  pod 'Nimble', '~> 1.0.0'
+  pod 'OHHTTPStubs', '~> 4.1.0'
   pod 'Quick', '~> 0.3.0'
 end
 

@@ -1,9 +1,9 @@
 PODS:
   - 1PasswordExtension (1.2)
-  - Alamofire (1.2.3)
-  - Analytics/Core-iOS (1.12.2):
+  - Alamofire (1.3.0)
+  - Analytics/Core-iOS (1.12.5):
     - TRVSDictionaryWithCaseInsensitivity (= 0.0.2)
-  - Analytics/Segmentio (1.12.2):
+  - Analytics/Segmentio (1.12.5):
     - Analytics/Core-iOS
   - Box (1.2.2)
   - CocoaLumberjack (2.0.1):
@@ -14,7 +14,7 @@ PODS:
     - CocoaLumberjack/Core
   - CocoaLumberjack/Extensions (2.0.1):
     - CocoaLumberjack/Default
-  - Crashlytics (3.0.11)
+  - Crashlytics (3.1.0)
   - CRToast (0.0.7)
   - Fabric (1.2.8):
     - Fabric/Base (= 1.2.8)
@@ -25,12 +25,12 @@ PODS:
   - KINWebBrowser (1.1.0)
   - LUKeychainAccess (1.2.4)
   - MBProgressHUD (0.9.1)
-  - Moya (1.1.1):
-    - Moya/Core (= 1.1.1)
-  - Moya/Core (1.1.1):
-    - Alamofire (~> 1.2.0)
-  - Nimble (0.4.2)
-  - OHHTTPStubs (4.0.2)
+  - Moya (2.0.0):
+    - Moya/Core (= 2.0.0)
+  - Moya/Core (2.0.0):
+    - Alamofire (~> 1.3.0)
+  - Nimble (1.0.0)
+  - OHHTTPStubs (4.1.0)
   - Quick (0.3.1)
   - Result (0.4.4):
     - Box (~> 1.2)
@@ -40,23 +40,20 @@ PODS:
   - SSPullToRefresh (1.2.4)
   - SVGKit (2.x):
     - CocoaLumberjack (~> 2.x)
-  - SwiftyJSON (2.2.0)
-  - SwiftyUserDefaults (1.1.0)
+  - SwiftyJSON (2.2.1)
+  - SwiftyUserDefaults (1.3.0)
   - TimeAgoInWords (0.1.0)
   - TRVSDictionaryWithCaseInsensitivity (0.0.2)
   - WebLinking (0.2.0)
-  - YapDatabase (2.6.1):
-    - YapDatabase/standard (= 2.6.1)
-  - YapDatabase/common (2.6.1):
+  - YapDatabase (2.6.5):
+    - YapDatabase/standard (= 2.6.5)
+  - YapDatabase/standard (2.6.5):
     - CocoaLumberjack (~> 2)
-  - YapDatabase/standard (2.6.1):
-    - YapDatabase/common
 
 DEPENDENCIES:
   - 1PasswordExtension (~> 1.2.0)
-  - Alamofire (~> 1.2.0)
   - Analytics/Segmentio
-  - Crashlytics (~> 3.0.0)
+  - Crashlytics (~> 3.1.0)
   - CRToast (from `https://github.com/ello/CRToast`)
   - Fabric (~> 1.2.0)
   - FLAnimatedImage (from `https://github.com/ello/FLAnimatedImage`)
@@ -65,16 +62,16 @@ DEPENDENCIES:
   - KINWebBrowser (from `https://github.com/ello/KINWebBrowser`)
   - LUKeychainAccess (~> 1.2.4)
   - MBProgressHUD (~> 0.9.0)
-  - Moya (from `https://github.com/ello/Moya`)
-  - Nimble (~> 0.4.0)
-  - OHHTTPStubs (~> 4.0)
+  - Moya (~> 2.0.0)
+  - Nimble (~> 1.0.0)
+  - OHHTTPStubs (~> 4.1.0)
   - Quick (~> 0.3.0)
   - Result (~> 0.4.0)
   - SDWebImage (~> 3.7)
   - SSPullToRefresh (~> 1.2)
   - SVGKit (from `https://github.com/SVGKit/SVGKit`)
   - SwiftyJSON (~> 2.2.0)
-  - SwiftyUserDefaults (~> 1.1.0)
+  - SwiftyUserDefaults (~> 1.3.0)
   - TimeAgoInWords (~> 0.1.0)
   - WebLinking (~> 0.2.0)
   - YapDatabase (from `https://github.com/ello/YapDatabase`)
@@ -90,8 +87,6 @@ EXTERNAL SOURCES:
     :path: Pods/CocoaPodsKeys/
   KINWebBrowser:
     :git: https://github.com/ello/KINWebBrowser
-  Moya:
-    :git: https://github.com/ello/Moya
   SVGKit:
     :git: https://github.com/SVGKit/SVGKit
   YapDatabase:
@@ -110,44 +105,41 @@ CHECKOUT OPTIONS:
   KINWebBrowser:
     :commit: 7e3eb2e99609ab56facdf31feabb36bacff56f35
     :git: https://github.com/ello/KINWebBrowser
-  Moya:
-    :commit: 993adfd69216f02da501f83fef1896e68bb80d98
-    :git: https://github.com/ello/Moya
   SVGKit:
     :commit: aca37872b4088e00a5bfd1973bec87aa1315b31d
     :git: https://github.com/SVGKit/SVGKit
   YapDatabase:
-    :commit: d76b838c53d5525663fd8bd279829c75ff1bd0ce
+    :commit: 21f781942223d8eb6f5b313f605a83796dba187a
     :git: https://github.com/ello/YapDatabase
 
 SPEC CHECKSUMS:
   1PasswordExtension: fcf300204bda5b5c78936dbb937a7d661f1ca796
-  Alamofire: 5550bf0b575ed1a4bf9be572f9463e1015cc169e
-  Analytics: 08029cf44cab6b82c8b8f00f50860a1054056618
+  Alamofire: 220403a8d5840e0b4c946a6fbaf209dbca124282
+  Analytics: e1144eebecb3fa0b8b46fa2ef00dc6089f76dbb2
   Box: a92e8aa4c099e6bc0733829665caf9e668ef53b8
   CocoaLumberjack: 019d1361244274a6138c788c6cb80baabc13fb8f
-  Crashlytics: 1eef152dd21c1f2f9d9dbe115e637c77c6ffcc8e
+  Crashlytics: 93e2f86363d53c002c6366a9d87e41f2eaee87c3
   CRToast: eb22641501990233c53cb8f83f7d2ea87e0ddf73
   Fabric: a9eabe53915e9f1db55a84dd2838737928675878
-  FLAnimatedImage: f9422f796135aff80d8c00b2afc48015bb746e24
+  FLAnimatedImage: 7599ec218dceacdcacbdfccb2947415c2619cd11
   JTSImageViewController: 89ae3c003060c65418fd3224ebbd67acc6046608
   Keys: 7d2ff6ff42f6903358267ce56e9392f83c31acfe
   KINWebBrowser: dad85d7d93e6f4620a8589b96992394affffa66e
   LUKeychainAccess: 6479edb12cf06e11ff3336f796959eedbc58f714
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
-  Moya: ccd604e2f8653f25c5536a228cf7f688de7ad8f6
-  Nimble: 49b7a7da8919f42823d37c6d68cc6d15a7009f32
-  OHHTTPStubs: dbd1957d414659783e07b49c961940b7564c23d9
+  Moya: 1d51fbaa08d97ca3086a0f4492c429d66b1513ed
+  Nimble: 8bee528e5fcc403653076545db562d2b5db7bb87
+  OHHTTPStubs: f3473ab21dbf0815253ac96b977d5c36f1daad09
   Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
   Result: b44f6bc8762bbffaf2c5df58f2c7d12c3496ced8
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   SSPullToRefresh: 369e862c1d6528c7a354fc85cd4763d4e670e9af
   SVGKit: cf06ac3067c4d5e927e5f93ba6a7e4d7171a7502
-  SwiftyJSON: 0b3e6c07af17ff745e77e8e9984097b55c956e5c
-  SwiftyUserDefaults: ae600cd466daa1420a058d09aefbf45ccb6caf1e
+  SwiftyJSON: ae2d0a3d68025d136602a33c4ee215091ced3e33
+  SwiftyUserDefaults: 507da0dcabec653f76ecab845635a6d220c1484a
   TimeAgoInWords: bd651f6532327035b41fd3b512ca9d3e90d2e379
   TRVSDictionaryWithCaseInsensitivity: 51d2ccf52c6d645d27b63467a98fa02c556e01b0
   WebLinking: 8e267eed3f7b2d040bf6468681cc1325141ab7fe
-  YapDatabase: ca25874766045bca7f4c2632f61067351353ecf3
+  YapDatabase: ba4adf122834fb78c25640d559f99367bcf86539
 
 COCOAPODS: 0.38.0
