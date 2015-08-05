@@ -157,12 +157,16 @@ public class AppViewController: BaseElloViewController {
     }
 
     private func setupNotificationObservers() {
-        userLoggedOutObserver = NotificationObserver(notification: AuthenticationNotifications.userLoggedOut, block: userLoggedOut)
-        receivedPushNotificationObserver = NotificationObserver(notification: PushNotificationNotifications.interactedWithPushNotification, block: receivedPushNotification)
-        externalWebObserver = NotificationObserver(notification: externalWebNotification) { url in
+        userLoggedOutObserver = NotificationObserver(notification: AuthenticationNotifications.userLoggedOut) { [unowned self] in
+            self.userLoggedOut()
+        }
+        receivedPushNotificationObserver = NotificationObserver(notification: PushNotificationNotifications.interactedWithPushNotification) { [unowned self] payload in
+            self.receivedPushNotification(payload)
+        }
+        externalWebObserver = NotificationObserver(notification: externalWebNotification) { [unowned self] url in
             self.showExternalWebView(url)
         }
-        apiOutOfDateObserver = NotificationObserver(notification: ElloProvider.ErrorStatusCode.Status410.notification) { error in
+        apiOutOfDateObserver = NotificationObserver(notification: ElloProvider.ErrorStatusCode.Status410.notification) { [unowned self] error in
             let message = NSLocalizedString("The version of the app you’re using is too old, and is no longer compatible with our API.\n\nPlease update the app to the latest version, using the “Updates” tab in the App Store.", comment: "App out of date message")
             let alertController = AlertViewController(message: message)
 

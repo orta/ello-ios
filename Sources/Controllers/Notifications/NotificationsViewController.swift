@@ -30,7 +30,9 @@ public class NotificationsViewController: StreamableViewController, Notification
 
     required public override init(nibName: String?, bundle: NSBundle?) {
         super.init(nibName: nibName, bundle: bundle)
-        navigationNotificationObserver = NotificationObserver(notification: NavigationNotifications.showingNotificationsTab, block: respondToNotification)
+        navigationNotificationObserver = NotificationObserver(notification: NavigationNotifications.showingNotificationsTab) { [unowned self] components in
+            self.respondToNotification(components)
+        }
     }
 
     required public init(coder aDecoder: NSCoder) {
