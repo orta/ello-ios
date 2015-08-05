@@ -378,7 +378,7 @@ public class PostbarController: NSObject, PostbarDelegate {
                 items.append(StreamCellItem(jsonable: newComment, type: .SeeMoreComments))
             }
             else {
-                items.append(StreamCellItem(jsonable: newComment, type: .Spacer(height: 25.0)))
+                items.append(StreamCellItem(jsonable: newComment, type: .Spacer(height: 10.0)))
             }
         }
 
