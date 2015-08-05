@@ -226,7 +226,7 @@ extension StreamableViewController: CreatePostDelegate {
     public func createComment(post: Post, text: String, fromController: StreamViewController) {
         let vc = OmnibarViewController(parentPost: post, defaultText: text)
         vc.currentUser = self.currentUser
-        vc.onCommentSuccess() { (comment: Comment) in
+        vc.onCommentSuccess() { _ in
             self.navigationController?.popViewControllerAnimated(true)
         }
         self.navigationController?.pushViewController(vc, animated: true)
@@ -236,7 +236,7 @@ extension StreamableViewController: CreatePostDelegate {
         if OmnibarViewController.canEditPost(post) {
             let vc = OmnibarViewController(editPost: post)
             vc.currentUser = self.currentUser
-            vc.onPostSuccess() { (post: Post) in
+            vc.onPostSuccess() { _ in
                 self.navigationController?.popViewControllerAnimated(true)
             }
             self.navigationController?.pushViewController(vc, animated: true)

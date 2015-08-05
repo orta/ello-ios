@@ -356,8 +356,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
 
             if shouldReload {
                 let (indexPaths, items) = elementsForJSONAble(jsonable, change: change)
-                if let post = jsonable as? Post where indexPaths.count > 0 {
-                    let firstIndexPath = indexPaths[0]
+                if let post = jsonable as? Post, firstIndexPath = indexPaths.first {
                     let items = StreamCellItemParser().parse([post], streamKind: self.streamKind, currentUser: currentUser)
                     let lastIndexPath = indexPaths.reduce(firstIndexPath) { (memo: NSIndexPath, path: NSIndexPath) in
                         if path.section < memo.section {
