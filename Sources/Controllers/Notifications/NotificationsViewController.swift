@@ -38,7 +38,7 @@ public class NotificationsViewController: StreamableViewController, Notification
         }
 
         newNotificationsObserver = NotificationObserver(notification: NewContentNotifications.newNotifications) {
-            _ in
+            [unowned self] _ in
             self.hasNewContent = true
         }
     }
