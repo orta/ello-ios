@@ -1,3 +1,17 @@
+### Ello Build v1.0.0(2862) August 6, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #532 - Fix tests related to additional spacer on a post.
+
+------
+
+#### #530 - Don’t allow posts to show even if you view NSFW.
+    
+------------
+
 ### Ello Build v1.0.0(2856) August 5, 2015
 
     RELEASE NOTES
