@@ -13,6 +13,9 @@ import WebKit
 
 public class NotificationsViewController: StreamableViewController, NotificationDelegate, NotificationsScreenDelegate {
 
+    private var hasNewContent = false
+    private var newNotificationsObserver: NotificationObserver?
+
     override public var tabBarItem: UITabBarItem? {
         get { return UITabBarItem.svgItem("bolt") }
         set { self.tabBarItem = newValue }
@@ -33,6 +36,11 @@ public class NotificationsViewController: StreamableViewController, Notification
         navigationNotificationObserver = NotificationObserver(notification: NavigationNotifications.showingNotificationsTab) { [unowned self] components in
             self.respondToNotification(components)
         }
+
+        newNotificationsObserver = NotificationObserver(notification: NewContentNotifications.newNotifications) {
+            _ in
+            self.hasNewContent = true
+        }
     }
 
     required public init(coder aDecoder: NSCoder) {
@@ -41,6 +49,7 @@ public class NotificationsViewController: StreamableViewController, Notification
 
     deinit {
         navigationNotificationObserver?.removeObserver()
+        newNotificationsObserver?.removeObserver()
     }
 
     override public func viewDidLoad() {
@@ -63,6 +72,12 @@ public class NotificationsViewController: StreamableViewController, Notification
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBarHidden = true
+
+        if hasNewContent {
+            hasNewContent = false
+            ElloHUD.showLoadingHudInView(streamViewController.view)
+            streamViewController.loadInitialPage()
+        }
     }
 
     override func setupStreamController() {

@@ -46,7 +46,11 @@ public class ElloTabBarController: UIViewController, HasAppController {
     public let tabBar = ElloTabBar()
     private var systemLoggedOutObserver: NotificationObserver?
     private var streamLoadedObserver: NotificationObserver?
+
+    private var newContentService = NewContentService()
     private var foregroundObserver: NotificationObserver?
+    private var backgroundObserver: NotificationObserver?
+    private var newNotificationsObserver: NotificationObserver?
 
     private var visibleViewController = UIViewController()
     var parentAppController: AppViewController?
@@ -131,7 +135,6 @@ public extension ElloTabBarController {
         println("tab bar appeared")
         super.viewDidAppear(animated)
         updateNarrationTitle(animated: animated)
-        checkForNewContent()
     }
 
     override func viewDidLayoutSubviews() {
@@ -162,6 +165,7 @@ public extension ElloTabBarController {
 public extension ElloTabBarController {
     public func activateTabBar() {
         setupNotificationObservers()
+        newContentService.startPolling()
     }
 
     public func deactivateTabBar() {
@@ -179,10 +183,20 @@ public extension ElloTabBarController {
             }
         }
 
-        Application.shared()
+        let _ = Application.shared()
         foregroundObserver = NotificationObserver(notification: Application.Notifications.WillEnterForeground) { _ in
             println("entered foreground")
-            self.checkForNewContent()
+            self.newContentService.startPolling()
+        }
+
+        backgroundObserver = NotificationObserver(notification: Application.Notifications.DidEnterBackground) { _ in
+            println("entered background")
+            self.newContentService.stopPolling()
+        }
+
+        newNotificationsObserver = NotificationObserver(notification: NewContentNotifications.newNotifications) {
+            _ in
+            self.notificationsDot?.hidden = false
         }
 
     }
@@ -190,6 +204,9 @@ public extension ElloTabBarController {
     private func removeNotificationObservers() {
         systemLoggedOutObserver?.removeObserver()
         streamLoadedObserver?.removeObserver()
+        newNotificationsObserver?.removeObserver()
+        backgroundObserver?.removeObserver()
+        foregroundObserver?.removeObserver()
     }
 
 }
@@ -257,17 +274,6 @@ public extension ElloTabBarController {
 }
 
 private extension ElloTabBarController {
-
-    func checkForNewContent() {
-        NewContentService().checkNotifications(
-            success: { hasNewContent in
-                self.notificationsDot?.hidden = !hasNewContent
-            },
-            failure: { (_, _) in
-                self.notificationsDot?.hidden = true
-            }
-        )
-    }
 
     func updateTabBarItems() {
         let controllers = childViewControllers as! [UIViewController]
@@ -347,7 +353,7 @@ extension ElloTabBarController {
         let xOffset = halfItemWidth * CGFloat(index * 2 + 1)
 
         let item = tabBar.items?[index] as? UITabBarItem
-        let imageHalfWidth: CGFloat = item?.selectedImage.size.width ?? 0 / 2
+        let imageHalfWidth: CGFloat = item?.selectedImage?.size.width ?? 0 / 2
 
         let redDot = UIView(frame: CGRect(x: xOffset + imageHalfWidth - 11, y: topMargin, width: diameter, height: diameter))
 

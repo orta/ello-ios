@@ -353,6 +353,7 @@ extension ElloProvider {
     static private func parseResponse(response: NSHTTPURLResponse?) -> ResponseConfig {
         var config = ResponseConfig()
         config.statusCode = response?.statusCode
+        config.lastModified = response?.allHeaderFields["Last-Modified"] as? String
         config.totalPages = response?.allHeaderFields["X-Total-Pages"] as? String
         config.totalCount = response?.allHeaderFields["X-Total-Count"] as? String
         config.totalPagesRemaining = response?.allHeaderFields["X-Total-Pages-Remaining"] as? String
