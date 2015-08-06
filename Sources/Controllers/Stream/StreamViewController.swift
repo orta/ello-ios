@@ -449,8 +449,7 @@ public class StreamViewController: BaseElloViewController {
         if height + StreamDataSource.cellBottomPadding != existingHeight {
             collectionView.performBatchUpdates({
                 self.dataSource.updateHeightForIndexPath(indexPath, height: height)
-                }, completion: { (finished) in
-
+            }, completion: { (finished) in
             })
             collectionView.reloadItemsAtIndexPaths([indexPath])
         }
@@ -469,11 +468,12 @@ public class StreamViewController: BaseElloViewController {
 
     // this gets reset whenever the streamKind changes
     private func setupCollectionViewLayout() {
-        let layout:StreamCollectionViewLayout = collectionView.collectionViewLayout as! StreamCollectionViewLayout
-        layout.columnCount = streamKind.columnCount
-        layout.sectionInset = UIEdgeInsetsZero
-        layout.minimumColumnSpacing = 12
-        layout.minimumInteritemSpacing = 0
+        if let layout = collectionView.collectionViewLayout as? StreamCollectionViewLayout {
+            layout.columnCount = streamKind.columnCount
+            layout.sectionInset = UIEdgeInsetsZero
+            layout.minimumColumnSpacing = 12
+            layout.minimumInteritemSpacing = 0
+        }
     }
 
     private func setupImageViewDelegate() {
