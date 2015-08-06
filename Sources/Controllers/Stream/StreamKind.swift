@@ -78,7 +78,7 @@ public enum StreamKind {
             case .Loves:
                 if let loves = jsonables as? [Love] {
                     return loves.reduce([]) { accum, love in
-                        if let post = love.post where !post.isAdultContent || viewsAdultContent {
+                        if let post = love.post where !post.isAdultContent {
                             return accum + [post]
                         }
                         return accum
@@ -90,7 +90,7 @@ public enum StreamKind {
             default:
                 if let posts = jsonables as? [Post] {
                     return posts.reduce([]) { accum, post in
-                        if !post.isAdultContent || viewsAdultContent {
+                        if !post.isAdultContent {
                             return accum + [post]
                         }
                         return accum
