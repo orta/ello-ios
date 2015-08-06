@@ -177,7 +177,7 @@ class StreamDataSourceSpec: QuickSpec {
                     }
 
                     it("returns the correct number of rows") {
-                        expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 30
+                        expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 40
                     }
                 }
 
@@ -227,7 +227,7 @@ class StreamDataSourceSpec: QuickSpec {
                     }
 
                     it("returns the correct number of rows") {
-                        expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 70
+                        expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 80
                     }
                 }
 
@@ -254,7 +254,7 @@ class StreamDataSourceSpec: QuickSpec {
                     }
 
                     it("returns the correct number of rows") {
-                        expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 40
+                        expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 50
                     }
                 }
             }
@@ -419,7 +419,7 @@ class StreamDataSourceSpec: QuickSpec {
                 beforeEach {
                     var cellItems = [StreamCellItem]()
                     let parser = StreamCellItemParser()
-                    // creates 3 cells
+                    // creates 4 cells
                     let post1CellItems = parser.parse([Post.stub(["id": "666"])], streamKind: .Friend)
                     cellItems = post1CellItems
                     // creates 4 cells 2x2
@@ -428,13 +428,13 @@ class StreamDataSourceSpec: QuickSpec {
                     // one cell
                     let seeMoreCellItem = StreamCellItem(jsonable: Comment.stub(["parentPostId": "666"]), type: .SeeMoreComments)
                     cellItems.append(seeMoreCellItem)
-                    // creates 3 cells
+                    // creates 4 cells
                     let post2CellItems = parser.parse([Post.stub(["id": "777"])], streamKind: .Friend)
                     cellItems += post2CellItems
                     // creates 2 cells
                     let comment2CellItems = parser.parse([Comment.stub(["parentPostId": "777"])], streamKind: .Friend)
                     cellItems += comment2CellItems
-                    // creates 4 cells
+                    // creates 5 cells
                     let post3CellItems = parser.parse([Post.stub(["id": "888", "contentWarning": "NSFW"])], streamKind: .Friend)
                     cellItems += post3CellItems
                     // create 1 cell
@@ -454,30 +454,30 @@ class StreamDataSourceSpec: QuickSpec {
                     let indexPaths = subject.commentIndexPathsForPost(post!)
 
                     expect(count(indexPaths)) == 5
-                    expect(indexPaths[0].item) == 3
-                    expect(indexPaths[1].item) == 4
-                    expect(indexPaths[2].item) == 5
-                    expect(indexPaths[3].item) == 6
-                    expect(indexPaths[4].item) == 7
+                    expect(indexPaths[0].item) == 4
+                    expect(indexPaths[1].item) == 5
+                    expect(indexPaths[2].item) == 6
+                    expect(indexPaths[3].item) == 7
+                    expect(indexPaths[4].item) == 8
                 }
 
                 it("does not return index paths for comments from another post") {
-                    var post = subject.postForIndexPath(NSIndexPath(forItem: 8, inSection: 0))
+                    var post = subject.postForIndexPath(NSIndexPath(forItem: 9, inSection: 0))
                     let indexPaths = subject.commentIndexPathsForPost(post!)
 
                     expect(count(indexPaths)) == 2
-                    expect(indexPaths[0].item) == 11
-                    expect(indexPaths[1].item) == 12
+                    expect(indexPaths[0].item) == 13
+                    expect(indexPaths[1].item) == 14
                 }
 
                 it("returns an array of comment index paths when collapsed") {
-                    var post = subject.postForIndexPath(NSIndexPath(forItem: 13, inSection: 0))
+                    var post = subject.postForIndexPath(NSIndexPath(forItem: 16, inSection: 0))
                     let indexPaths = subject.commentIndexPathsForPost(post!)
 
                     expect(count(indexPaths)) == 3
-                    expect(indexPaths[0].item) == 16
-                    expect(indexPaths[1].item) == 17
-                    expect(indexPaths[2].item) == 18
+                    expect(indexPaths[0].item) == 19
+                    expect(indexPaths[1].item) == 20
+                    expect(indexPaths[2].item) == 21
                 }
             }
 
@@ -522,17 +522,17 @@ class StreamDataSourceSpec: QuickSpec {
 
                         it("inserts the new comment") {
                             stubCommentCellItems(commentsVisible: true)
-                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 6
+                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 7
                             subject.modifyItems(Comment.stub(["id": "new_comment", "parentPostId": "456"]), change: .Create, collectionView: fakeCollectionView)
-                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 8
-                            expect(subject.commentForIndexPath(NSIndexPath(forItem: 4, inSection: 0))!.id) == "new_comment"
+                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 9
+                            expect(subject.commentForIndexPath(NSIndexPath(forItem: 5, inSection: 0))!.id) == "new_comment"
                         }
 
                         it("doesn't insert the new comment") {
                             stubCommentCellItems(commentsVisible: false)
-                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 3
+                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 4
                             subject.modifyItems(Comment.stub(["id": "new_comment", "parentPostId": "456"]), change: .Create, collectionView: fakeCollectionView)
-                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 3
+                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 4
                         }
 
                     }
@@ -541,17 +541,17 @@ class StreamDataSourceSpec: QuickSpec {
 
                         it("removes the deleted comment") {
                             stubCommentCellItems(commentsVisible: true)
-                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 6
+                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 7
                             subject.modifyItems(Comment.stub(["id": "111", "parentPostId": "456"]), change: .Delete, collectionView: fakeCollectionView)
-                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 4
+                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 5
 
                         }
 
                         it("doesn't remove the deleted comment") {
                             stubCommentCellItems(commentsVisible: false)
-                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 3
+                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 4
                             subject.modifyItems(Comment.stub(["id": "111", "parentPostId": "456"]), change: .Delete, collectionView: fakeCollectionView)
-                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 3
+                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 4
                         }
 
                     }
@@ -583,10 +583,10 @@ class StreamDataSourceSpec: QuickSpec {
 
                             it("inserts the new post at 0, 0") {
                                 subject.streamKind = .Friend
-                                expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 15
+                                expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 20
                                 subject.modifyItems(Post.stub(["id": "new_post"]), change: .Create, collectionView: fakeCollectionView)
                                 expect(subject.postForIndexPath(indexPath0)!.id) == "new_post"
-                                expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 18
+                                expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 24
                             }
 
                         }
@@ -595,11 +595,11 @@ class StreamDataSourceSpec: QuickSpec {
 
                             it("inserts the new post at 1, 0") {
                                 subject.streamKind = .Profile(perPage: 10)
-                                expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 15
+                                expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 20
                                 subject.modifyItems(Post.stub(["id": "new_post"]), change: .Create, collectionView: fakeCollectionView)
                                 expect(subject.postForIndexPath(indexPath0)!.id) == "1"
                                 expect(subject.postForIndexPath(NSIndexPath(forItem: 1, inSection: 0))!.id) == "new_post"
-                                expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 18
+                                expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 24
                             }
 
                         }
@@ -610,24 +610,24 @@ class StreamDataSourceSpec: QuickSpec {
                                 subject.currentUser = User.stub(["id" : "user-id-here"])
                                 subject.streamKind = .UserStream(userParam: "user-id-here")
 
-                                expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 15
+                                expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 20
 
                                 subject.modifyItems(Post.stub(["id": "new_post"]), change: .Create, collectionView: fakeCollectionView)
 
                                 expect(subject.postForIndexPath(indexPath0)!.id) == "1"
                                 expect(subject.postForIndexPath(NSIndexPath(forItem: 1, inSection: 0))!.id) == "new_post"
-                                expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 18
+                                expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 24
                             }
 
                             it("does not insert a post in other user's profiles") {
                                 subject.currentUser = User.stub(["id" : "not-current-user-id-here"])
                                 subject.streamKind = .UserStream(userParam: "user-id-here")
 
-                                expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 15
+                                expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 20
 
                                 subject.modifyItems(Post.stub(["id": "new_post"]), change: .Create, collectionView: fakeCollectionView)
 
-                                expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 15
+                                expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 20
                             }
                         }
 
@@ -636,11 +636,11 @@ class StreamDataSourceSpec: QuickSpec {
                             it("does not insert a post") {
                                 subject.streamKind = .Noise
 
-                                expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 15
+                                expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 20
 
                                 subject.modifyItems(Post.stub(["id": "new_post"]), change: .Create, collectionView: fakeCollectionView)
 
-                                expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 15
+                                expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 20
                             }
                         }
 
@@ -650,12 +650,12 @@ class StreamDataSourceSpec: QuickSpec {
                                 subject.streamKind = StreamKind.SimpleStream(endpoint: ElloAPI.Loves(userId: "fake-id"), title: "Loves")
                                 var post: Post = stub(["id": "post1", "authorId" : "user1"])
                                 var love: Love = stub(["id": "love1", "postId": "post1"])
-                                expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 15
+                                expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 20
 
                                 subject.modifyItems(love, change: .Create, collectionView: fakeCollectionView)
 
                                 expect(subject.postForIndexPath(indexPath0)!.id) == "post1"
-                                expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 18
+                                expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 24
                             }
                         }
                     }
@@ -667,15 +667,15 @@ class StreamDataSourceSpec: QuickSpec {
                         }
 
                         it("removes the deleted post") {
-                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 15
+                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 20
                             subject.modifyItems(Post.stub(["id": "1"]), change: .Delete, collectionView: fakeCollectionView)
-                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 12
+                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 17
                         }
 
                         it("doesn't remove the deleted comment") {
-                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 15
+                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 20
                             subject.modifyItems(Post.stub(["id": "not-present"]), change: .Delete, collectionView: fakeCollectionView)
-                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 15
+                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 20
                         }
                     }
 
@@ -686,16 +686,19 @@ class StreamDataSourceSpec: QuickSpec {
                         }
 
                         it("updates the updated post") {
-                            expect(subject.postForIndexPath(NSIndexPath(forItem: 3, inSection: 0))!.commentsCount) == 5
+                            expect(subject.postForIndexPath(NSIndexPath(forItem: 4, inSection: 0))!.commentsCount) == 5
                             subject.modifyItems(Post.stub(["id": "2", "commentsCount" : 9]), change: .Update, collectionView: fakeCollectionView)
-                            expect(subject.postForIndexPath(NSIndexPath(forItem: 3, inSection: 0))!.commentsCount) == 9
+                            expect(subject.postForIndexPath(NSIndexPath(forItem: 4, inSection: 0))!.commentsCount) == 9
                         }
 
                         it("doesn't update the updated post") {
                             subject.modifyItems(Post.stub(["id": "not-present", "commentsCount" : 88]), change: .Update, collectionView: fakeCollectionView)
 
                             for (index, item) in enumerate(subject.streamCellItems) {
-                                expect((item.jsonable as! Post).commentsCount) == 5
+                                // this check gets around the fact that there are spacers in posts
+                                if let post = item.jsonable as? Post {
+                                    expect(post.commentsCount) == 5
+                                }
                             }
                         }
 
@@ -706,9 +709,9 @@ class StreamDataSourceSpec: QuickSpec {
                             }
 
                             it("removes the unloved post") {
-                                expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 15
+                                expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 20
                                 subject.modifyItems(Post.stub(["id": "2", "commentsCount" : 9, "loved" : false]), change: .Update, collectionView: fakeCollectionView)
-                                expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 12
+                                expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 17
                             }
                         }
                     }
@@ -747,26 +750,26 @@ class StreamDataSourceSpec: QuickSpec {
                     context("blocked user is the post author") {
                         it("removes blocked user, their post and all comments on that post") {
                             stubCellItems(streamKind: StreamKind.SimpleStream(endpoint: ElloAPI.FriendStream, title: "some title"))
-                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 8
+                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 9
                             subject.modifyUserRelationshipItems(User.stub(["id": "user1", "relationshipPriority": RelationshipPriority.Block.rawValue]), collectionView: fakeCollectionView)
-                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 0
+                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 1
                         }
                     }
 
                     context("blocked user is not the post author") {
                         it("removes blocked user's comments") {
                             stubCellItems(streamKind: StreamKind.SimpleStream(endpoint: ElloAPI.FriendStream, title: "some title"))
-                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 8
+                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 9
                             subject.modifyUserRelationshipItems(User.stub(["id": "user2", "relationshipPriority": RelationshipPriority.Block.rawValue]), collectionView: fakeCollectionView)
-                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 6
+                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 7
                         }
                     }
 
                     it("does not remove cells tied to other users") {
                         stubCellItems(streamKind: StreamKind.SimpleStream(endpoint: ElloAPI.FriendStream, title: "some title"))
-                        expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 8
+                        expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 9
                         subject.modifyUserRelationshipItems(User.stub(["id": "unrelated-user", "relationshipPriority": RelationshipPriority.Block.rawValue]), collectionView: fakeCollectionView)
-                        expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 8
+                        expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 9
                     }
 
                 }
@@ -1177,10 +1180,12 @@ class StreamDataSourceSpec: QuickSpec {
                 }
 
                 it("returns the same value for a post and it's comments") {
-                    for index in 0..<subject.visibleCellItems.count {
+                    for (index, item) in enumerate(subject.visibleCellItems) {
                         let indexPath = NSIndexPath(forItem: index, inSection: 0)
                         let groupId = subject.groupForIndexPath(indexPath)
-                        expect(groupId) == post.id
+                        if item.jsonable is Post || item.jsonable is Comment {
+                            expect(groupId) == post.id
+                        }
                     }
                 }
 
