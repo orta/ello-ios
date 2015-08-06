@@ -338,8 +338,8 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     }
 
     private func emitPostSuccess(post: Post) {
-        if let user = currentUser, let count = user.postsCount {
-            user.postsCount = count + 1
+        if let user = currentUser, postsCount = user.postsCount {
+            user.postsCount = postsCount + 1
             postNotification(CurrentUserChangedNotification, user)
         }
         if let _ = editPost {
