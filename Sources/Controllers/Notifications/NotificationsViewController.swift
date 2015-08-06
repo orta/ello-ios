@@ -33,14 +33,7 @@ public class NotificationsViewController: StreamableViewController, Notification
 
     required public override init(nibName: String?, bundle: NSBundle?) {
         super.init(nibName: nibName, bundle: bundle)
-        navigationNotificationObserver = NotificationObserver(notification: NavigationNotifications.showingNotificationsTab) { [unowned self] components in
-            self.respondToNotification(components)
-        }
-
-        newNotificationsObserver = NotificationObserver(notification: NewContentNotifications.newNotifications) {
-            [unowned self] _ in
-            self.hasNewContent = true
-        }
+        addNotificationObservers()
     }
 
     required public init(coder aDecoder: NSCoder) {
@@ -56,7 +49,7 @@ public class NotificationsViewController: StreamableViewController, Notification
         super.viewDidLoad()
 
         screen.delegate = self
-        self.title = "Notifications"
+        self.title = NSLocalizedString("Notifications", comment: "Notifications")
         addSearchButton()
 
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
@@ -102,9 +95,6 @@ public class NotificationsViewController: StreamableViewController, Notification
         updateInsets()
     }
 
-    private func updateInsets() {
-        updateInsets(navBar: screen.filterBar, streamController: streamViewController)
-    }
 
     // used to provide StreamableViewController access to the container it then
     // loads the StreamViewController's content into
@@ -155,4 +145,22 @@ public class NotificationsViewController: StreamableViewController, Notification
         streamViewController.loadInitialPage()
     }
 
+}
+
+private extension NotificationsViewController {
+
+    func addNotificationObservers() {
+        navigationNotificationObserver = NotificationObserver(notification: NavigationNotifications.showingNotificationsTab) { [unowned self] components in
+            self.respondToNotification(components)
+        }
+
+        newNotificationsObserver = NotificationObserver(notification: NewContentNotifications.newNotifications) {
+            [unowned self] _ in
+            self.hasNewContent = true
+        }
+    }
+
+    func updateInsets() {
+        updateInsets(navBar: screen.filterBar, streamController: streamViewController)
+    }
 }

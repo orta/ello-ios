@@ -153,7 +153,7 @@ class ElloAPISpec: QuickSpec {
                             expect(endpoint.headers["Content-Type"] as? String) == "application/json"
                             expect(endpoint.headers["Authorization"] as? String) == AuthToken().tokenWithBearer ?? ""
                             expect(endpoint.headers["Accept-Language"] as? String) == ""
-                            expect(endpoint.headers["If-Modified-Since"] as? String) == date.toHTTPDate()
+                            expect(endpoint.headers["If-Modified-Since"] as? String) == date.toHTTPDateString()
                         }
                     }
                 }

@@ -358,24 +358,19 @@ extension ElloTabBarController {
     private func redDotAtIndex(index: Int) -> UIView {
         let radius: CGFloat = 3
         let diameter = radius * 2
-
         let topMargin: CGFloat = 11
-
         let tabBarItemCount = CGFloat(tabBar.items?.count ?? 0)
-
         let halfItemWidth = CGRectGetWidth(view.bounds) / (tabBarItemCount * 2)
-
         let xOffset = halfItemWidth * CGFloat(index * 2 + 1)
-
         let item = tabBar.items?[index] as? UITabBarItem
         let imageHalfWidth: CGFloat = item?.selectedImage?.size.width ?? 0 / 2
 
         let redDot = UIView(frame: CGRect(x: xOffset + imageHalfWidth - 11, y: topMargin, width: diameter, height: diameter))
-
         redDot.backgroundColor = UIColor.redColor()
         redDot.layer.cornerRadius = radius
-        tabBar.addSubview(redDot    )
         redDot.hidden = true
+
+        tabBar.addSubview(redDot)
         return redDot
     }
 

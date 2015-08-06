@@ -67,7 +67,7 @@ public extension Tracker {
         shouldTrackUser = user.profile?.allowsAnalytics ?? true
         Crashlytics.sharedInstance().setUserIdentifier(shouldTrackUser ? user.id : "")
         if let analyticsId = user.profile?.gaUniqueId {
-            agent.identify(analyticsId, traits: [ "created_at": user.profile?.createdAt.toNSString() ?? "no-creation-date" ])
+            agent.identify(analyticsId, traits: [ "created_at": user.profile?.createdAt.toServerDateString() ?? "no-creation-date" ])
         }
     }
 
