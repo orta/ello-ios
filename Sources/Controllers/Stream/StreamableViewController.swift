@@ -29,7 +29,6 @@ public protocol InviteResponder: NSObjectProtocol {
 }
 
 public class StreamableViewController : BaseElloViewController, PostTappedDelegate {
-
     @IBOutlet weak var viewContainer: UIView!
     private var showing = false
     public let streamViewController = StreamViewController.instantiateFromStoryboard()
