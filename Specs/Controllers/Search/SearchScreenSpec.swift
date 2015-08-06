@@ -15,6 +15,7 @@ import Ello
     public func searchCanceled(){}
     public func searchFieldCleared(){searchFieldWasCleared = true}
     public func searchFieldChanged(text: String, isPostSearch: Bool){}
+    public func searchFieldWillChange(){}
     public func toggleChanged(text: String, isPostSearch: Bool){}
     public func findFriendsTapped(){}
 }
