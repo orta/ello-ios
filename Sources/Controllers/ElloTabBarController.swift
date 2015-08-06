@@ -51,6 +51,7 @@ public class ElloTabBarController: UIViewController, HasAppController {
     private var foregroundObserver: NotificationObserver?
     private var backgroundObserver: NotificationObserver?
     private var newNotificationsObserver: NotificationObserver?
+    private var newStreamContentObserver: NotificationObserver?
 
     private var visibleViewController = UIViewController()
     var parentAppController: AppViewController?
@@ -173,9 +174,13 @@ public extension ElloTabBarController {
     }
 
     private func setupNotificationObservers() {
+
+        let _ = Application.shared() // this is lame but we need Application to initialize to observe it's notifications
+
         systemLoggedOutObserver = NotificationObserver(notification: AuthenticationNotifications.invalidToken, block: systemLoggedOut)
 
-        streamLoadedObserver = NotificationObserver(notification: StreamLoadedNotifications.streamLoaded) { streamKind in
+        streamLoadedObserver = NotificationObserver(notification: StreamLoadedNotifications.streamLoaded) {
+            [unowned self] streamKind in
             switch streamKind {
             case .Notifications(category: nil):
                 self.notificationsDot?.hidden = true
@@ -183,20 +188,24 @@ public extension ElloTabBarController {
             }
         }
 
-        let _ = Application.shared()
-        foregroundObserver = NotificationObserver(notification: Application.Notifications.WillEnterForeground) { _ in
-            println("entered foreground")
+        foregroundObserver = NotificationObserver(notification: Application.Notifications.WillEnterForeground) {
+            [unowned self] _ in
             self.newContentService.startPolling()
         }
 
-        backgroundObserver = NotificationObserver(notification: Application.Notifications.DidEnterBackground) { _ in
-            println("entered background")
+        backgroundObserver = NotificationObserver(notification: Application.Notifications.DidEnterBackground) {
+            [unowned self] _ in
             self.newContentService.stopPolling()
         }
 
         newNotificationsObserver = NotificationObserver(notification: NewContentNotifications.newNotifications) {
-            _ in
+            [unowned self] _ in
             self.notificationsDot?.hidden = false
+        }
+
+        newStreamContentObserver = NotificationObserver(notification: NewContentNotifications.newStreamContent) {
+            [unowned self] _ in
+            self.streamsDot?.hidden = false
         }
 
     }
@@ -207,6 +216,7 @@ public extension ElloTabBarController {
         newNotificationsObserver?.removeObserver()
         backgroundObserver?.removeObserver()
         foregroundObserver?.removeObserver()
+        newStreamContentObserver?.removeObserver()
     }
 
 }
@@ -245,6 +255,11 @@ extension ElloTabBarController: UITabBarDelegate {
             }
             else {
                 selectedTab = ElloTab(rawValue:index) ?? .Stream
+            }
+
+            // hide the red dot on the stream tab icon
+            if index == 2 {
+                self.streamsDot?.hidden = true
             }
         }
     }

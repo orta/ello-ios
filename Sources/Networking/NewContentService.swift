@@ -9,8 +9,6 @@
 import Foundation
 import SwiftyUserDefaults
 
-public typealias NewContentSuccessCompletion = (hasNewContent: Bool) -> Void
-
 public struct NewContentNotifications {
     static let newNotifications = TypedNotification<NewContentService>(name: "NewNotificationsNotification")
     static let newStreamContent = TypedNotification<NewContentService>(name: "NewStreamContentNotification")
@@ -18,9 +16,18 @@ public struct NewContentNotifications {
 
 public class NewContentService {
 
+    private struct Keys {
+        static let FriendsNewContent = "friends-new-content-last-viewed-key"
+        static let NoiseNewContent = "noise-new-content-last-viewed-key"
+    }
+
     var timer: NSTimer?
 
     public init(){}
+
+}
+
+public extension NewContentService {
 
     public func startPolling() {
         timer?.invalidate()
@@ -38,61 +45,6 @@ public class NewContentService {
         checkForNewNotifications()
         checkForNewStreamContent()
     }
-
-    private func checkForNewNotifications() {
-        let storedNotificationsDate = Defaults[StreamKind.Notifications(category: nil).lastViewedCreatedAtKey].date ?? NSDate(timeIntervalSince1970: 0)
-
-        ElloProvider.elloRequest(
-            ElloAPI.NotificationsNewContent(createdAt: storedNotificationsDate),
-            success: { (_, responseConfig) in
-                var hasNewNotifications = false
-                if let statusCode = responseConfig.statusCode where statusCode == 204 {
-                    hasNewNotifications = true
-                    postNotification(NewContentNotifications.newNotifications, self)
-                }
-                println("notifications polled, hasNewNotifications = \(hasNewNotifications)")
-            },
-            failure: nil
-        )
-    }
-
-    private func checkForNewStreamContent() {
-        let storedFriendsDate = Defaults["friends-new-content-last-viewed-key"].date ?? NSDate(timeIntervalSince1970: 0)
-        let storedNoiseDate = Defaults["noise-new-content-last-viewed-key"].date ?? NSDate(timeIntervalSince1970: 0)
-
-        ElloProvider.elloRequest(
-            ElloAPI.FriendNewContent(createdAt: storedFriendsDate),
-            success: { (_, responseConfig) in
-                var hasNewNotifications = false
-                if let statusCode = responseConfig.statusCode where statusCode == 204 {
-                    hasNewNotifications = true
-                    postNotification(NewContentNotifications.newNotifications, self)
-                }
-                println("notifications polled, hasNewNotifications = \(hasNewNotifications)")
-            },
-            failure: nil
-        )
-    }
-
-
-
-//    public func checkNotifications(#success: NewContentSuccessCompletion, failure: ElloFailureCompletion?)
-//    {
-//        let storedDate = Defaults[StreamKind.Notifications(category: nil).lastViewedCreatedAtKey].date ?? NSDate(timeIntervalSince1970: 0)
-//
-//        ElloProvider.elloRequest(
-//            ElloAPI.NotificationsNewContent(createdAt: storedDate),
-//            success: { (_, responseConfig) in
-//                var hasNewContent = false
-//                if let statusCode = responseConfig.statusCode where statusCode == 204 {
-//                    hasNewContent = true
-//                }
-//                println("hasNewContent = \(hasNewContent) for date = \(storedDate)")
-//                success(hasNewContent: hasNewContent)
-//            },
-//            failure: failure
-//        )
-//    }
 
     public func updateCreatedAt(jsonables: [JSONAble], streamKind: StreamKind) {
         let old = NSDate(timeIntervalSince1970: 0)
@@ -116,5 +68,60 @@ public class NewContentService {
 
         Defaults[streamKind.lastViewedCreatedAtKey] = mostRecent
     }
+}
 
+
+private extension NewContentService {
+    func checkForNewNotifications() {
+        let storedNotificationsDate = Defaults[StreamKind.Notifications(category: nil).lastViewedCreatedAtKey].date ?? NSDate(timeIntervalSince1970: 0)
+
+        ElloProvider.elloRequest(
+            ElloAPI.NotificationsNewContent(createdAt: storedNotificationsDate),
+            success: { (_, responseConfig) in
+                if let statusCode = responseConfig.statusCode where statusCode == 204 {
+                    postNotification(NewContentNotifications.newNotifications, self)
+                }
+            },
+            failure: nil
+        )
+    }
+
+    func checkForNewStreamContent() {
+        let storedFriendsDate = Defaults[Keys.FriendsNewContent].date ?? NSDate(timeIntervalSince1970: 0)
+
+        ElloProvider.elloRequest(
+            ElloAPI.FriendNewContent(createdAt: storedFriendsDate),
+            success: { (_, responseConfig) in
+                if let lastModified = responseConfig.lastModified {
+                    Defaults[Keys.FriendsNewContent] = lastModified.toNSDate(formatter: HTTPDateFormatter)
+                }
+
+                if let statusCode = responseConfig.statusCode where statusCode == 204 {
+                    postNotification(NewContentNotifications.newStreamContent, self)
+                }
+                else {
+                    self.checkForNewNoiseContent()
+                }
+            },
+            failure: nil
+        )
+    }
+
+    func checkForNewNoiseContent() {
+        let storedNoiseDate = Defaults[Keys.NoiseNewContent].date ?? NSDate(timeIntervalSince1970: 0)
+
+        ElloProvider.elloRequest(
+            ElloAPI.NoiseNewContent(createdAt: storedNoiseDate),
+            success: { (_, responseConfig) in
+                if let lastModified = responseConfig.lastModified {
+                    Defaults[Keys.NoiseNewContent] = lastModified.toNSDate(formatter: HTTPDateFormatter)
+                }
+
+                if let statusCode = responseConfig.statusCode where statusCode == 204 {
+                    postNotification(NewContentNotifications.newStreamContent, self)
+                }
+            },
+            failure: nil
+        )
+    }
 }
