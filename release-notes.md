@@ -1,3 +1,52 @@
+### Ello Build v1.0.0(2856) August 5, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #527 - Tightens up search UI and interaction.
+* Tighten up padding in toggle buttons and search field
+* Add `searchFieldWillChange` delegate method
+* Hide the no results label on immediate user interaction
+* Show the nav/status bars when clearing out content
+
+[Fixes #100445166]
+
+------
+
+#### #526 - Plug up memory leakes introduced by notification-observer retain cycles
+```
+Test Suite 'Selected tests' passed at 2015-08-05 20:45:01 +0000.
+   Executed 919 tests, with 0 failures (0 unexpected) in 41.989 (45.340) seconds
+```
+
+------
+
+#### #525 - Adds an additional spacer to bottom of posts.
+This is for todd's comments about the padding tweaks from last week.
+
+------
+
+#### #523 - Updates dependencies that are available.
+![image](https://cloud.githubusercontent.com/assets/96433/9074694/34e77786-3ac9-11e5-8f22-15c112e32009.png)
+
+Still Pending:
+* KINWebBrowser is fairly custom at this point and I think we should consider writing our own internal browser since they are fairly simple
+* Nimble/Quick are updated as far as they can be with swift 1.2 newer versions are using Swift 2.0
+* Result is on the latest version that I can find in cocoapods.org and is in beta for releas 0.6.0
+
+------
+
+#### #524 - Find friends button was behind tab bar.
+* Also removes a duplicated svg asset.
+
+------
+
+#### #522 - Fixes status bar show/hide on search/add friends.
+[Fixes #100210382]
+    
+------------
+
 ### Ello Build v1.0.0(2829) July 31, 2015
 
     RELEASE NOTES
