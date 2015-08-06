@@ -342,12 +342,14 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             user.postsCount = postsCount + 1
             postNotification(CurrentUserChangedNotification, user)
         }
+
         if let _ = editPost {
-            postNotification(PostChangedNotification, (post, .Update))
+            postNotification(PostChangedNotification, (post, .Replaced))
         }
         else {
             postNotification(PostChangedNotification, (post, .Create))
         }
+
         Tracker.sharedTracker.contentCreated(.Post)
         if let listener = postSuccessListener {
             listener(post: post)

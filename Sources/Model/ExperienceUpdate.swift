@@ -19,5 +19,6 @@ public enum ContentChange {
     case Create
     case Read
     case Update
+    case Replaced
     case Delete
 }

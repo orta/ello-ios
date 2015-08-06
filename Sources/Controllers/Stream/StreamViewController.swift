@@ -374,7 +374,7 @@ public class StreamViewController: BaseElloViewController {
             switch change {
             case .Create, .Delete, .Update:
                 self.dataSource.modifyItems(comment, change: change, collectionView: self.collectionView)
-            case .Read: break
+            case .Read, .Replaced: break
             }
             self.updateNoResultsLabel()
         }
@@ -384,8 +384,6 @@ public class StreamViewController: BaseElloViewController {
                 return
             }
             switch change {
-            case .Create:
-                self.dataSource.modifyItems(post, change: change, collectionView: self.collectionView)
             case .Delete:
                 switch self.streamKind {
                 case .PostDetail: break
@@ -393,7 +391,9 @@ public class StreamViewController: BaseElloViewController {
                     self.dataSource.modifyItems(post, change: change, collectionView: self.collectionView)
                 }
                 // reload page
-            case .Update:
+            case .Create,
+                .Update,
+                .Replaced:
                 self.dataSource.modifyItems(post, change: change, collectionView: self.collectionView)
             case .Read: break
             }
