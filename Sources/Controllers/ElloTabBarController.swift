@@ -133,7 +133,6 @@ public extension ElloTabBarController {
     }
 
     override func viewDidAppear(animated: Bool) {
-        println("tab bar appeared")
         super.viewDidAppear(animated)
         updateNarrationTitle(animated: animated)
     }

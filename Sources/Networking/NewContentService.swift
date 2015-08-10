@@ -48,7 +48,19 @@ public extension NewContentService {
 
     public func updateCreatedAt(jsonables: [JSONAble], streamKind: StreamKind) {
         let old = NSDate(timeIntervalSince1970: 0)
-        let newestLoadedDate = jsonables.reduce(old) {
+        let new = newestDate(jsonables)
+        let storedDate = Defaults[streamKind.lastViewedCreatedAtKey].date ?? old
+        let mostRecent = new > storedDate ? new : storedDate
+        Defaults[streamKind.lastViewedCreatedAtKey] = mostRecent
+    }
+}
+
+
+private extension NewContentService {
+
+    func newestDate(jsonables: [JSONAble]) -> NSDate {
+        let old = NSDate(timeIntervalSince1970: 0)
+        return jsonables.reduce(old) {
             (date, jsonable) -> NSDate in
             if let post = jsonable as? Post {
                 return post.createdAt > date ? post.createdAt : date
@@ -61,17 +73,8 @@ public extension NewContentService {
             }
             return date
         }
-
-        let storedDate = Defaults[streamKind.lastViewedCreatedAtKey].date ?? old
-
-        let mostRecent = newestLoadedDate > storedDate ? newestLoadedDate : storedDate
-
-        Defaults[streamKind.lastViewedCreatedAtKey] = mostRecent
     }
-}
 
-
-private extension NewContentService {
     func checkForNewNotifications() {
         let storedNotificationsDate = Defaults[StreamKind.Notifications(category: nil).lastViewedCreatedAtKey].date ?? NSDate(timeIntervalSince1970: 0)
 
