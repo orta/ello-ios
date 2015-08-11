@@ -354,7 +354,7 @@ extension ElloTabBarController {
         streamsDot = redDotAtIndex(2)
     }
 
-    private func redDotAtIndex(index: Int) -> UIView {
+    private func addRedDotAtIndex(index: Int) -> UIView {
         let radius: CGFloat = 3
         let diameter = radius * 2
         let topMargin: CGFloat = 11
