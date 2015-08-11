@@ -10,6 +10,7 @@ import Ello
 import Quick
 import Moya
 import Nimble
+import Alamofire
 
 
 @objc class TestObserver {
@@ -32,6 +33,34 @@ class ElloProviderSpec: QuickSpec {
 
         afterEach {
             ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
+        }
+
+        describe("SSL Pinning") {
+
+            it("has a custom Alamofire.Manager") {
+                let defaultManager = Alamofire.Manager.sharedInstance
+                let elloManager = ElloProvider.sharedProvider.manager
+
+                expect(elloManager).notTo(beIdenticalTo(defaultManager))
+            }
+
+            it("includes a ssl certificate in the app") {
+                let policy: ServerTrustPolicy = ElloProvider.serverTrustPolicies["ello.co"]!
+                var doesValidatesChain = false
+                var doesValidateHost = false
+                var keys = [SecKey]()
+                switch policy {
+                case let .PinPublicKeys(publicKeys, validateCertificateChain, validateHost):
+                    doesValidatesChain = validateCertificateChain
+                    doesValidateHost = validateHost
+                    keys = publicKeys
+                default: break
+                }
+
+                expect(doesValidatesChain) == true
+                expect(doesValidateHost) == true
+                expect(count(keys)) == 1
+            }
         }
 
         describe("parameterEncoding") {

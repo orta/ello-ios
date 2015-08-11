@@ -10,6 +10,7 @@ import Crashlytics
 import Foundation
 import Moya
 import WebLinking
+import Alamofire
 
 public typealias ElloSuccessCompletion = (data: AnyObject, responseConfig: ResponseConfig) -> Void
 public typealias ElloFailureCompletion = (error: NSError, statusCode:Int?) -> Void
@@ -22,6 +23,18 @@ public struct ElloProvider {
     public static var responseHeaders: NSString = ""
     public static var responseJSON: NSString = ""
 
+    public static let serverTrustPolicies: [String: ServerTrustPolicy] = [
+        "ello.co": .PinPublicKeys(
+            publicKeys: ServerTrustPolicy.publicKeysInBundle(),
+            validateCertificateChain: true,
+            validateHost: true
+        )
+    ]
+
+    public static let manager = Manager(
+        configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
+        serverTrustPolicyManager: ServerTrustPolicyManager(policies: ElloProvider.serverTrustPolicies)
+    )
 
     public enum ErrorStatusCode: Int {
         case Status401 = 401
@@ -73,15 +86,23 @@ public struct ElloProvider {
     }
 
     public static func DefaultProvider() -> MoyaProvider<ElloAPI> {
-        return MoyaProvider(endpointClosure: endpointClosure)
+        return MoyaProvider(endpointClosure: endpointClosure, manager: manager)
     }
 
     public static func StubbingProvider() -> MoyaProvider<ElloAPI> {
-        return MoyaProvider(endpointClosure: endpointClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour)
+        return MoyaProvider(
+            endpointClosure: endpointClosure,
+            stubBehavior: MoyaProvider.ImmediateStubbingBehaviour,
+            manager: manager
+        )
     }
 
     public static func ErrorStubbingProvider() -> MoyaProvider<ElloAPI> {
-        return MoyaProvider(endpointClosure: errorEndpointsClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour)
+        return MoyaProvider(
+            endpointClosure: errorEndpointsClosure,
+            stubBehavior: MoyaProvider.ImmediateStubbingBehaviour,
+            manager: manager
+        )
     }
 
     private struct SharedProvider {

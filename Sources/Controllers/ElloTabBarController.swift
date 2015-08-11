@@ -350,8 +350,8 @@ private extension ElloTabBarController {
 extension ElloTabBarController {
 
     private func addDots() {
-        notificationsDot = redDotAtIndex(1)
-        streamsDot = redDotAtIndex(2)
+        notificationsDot = addRedDotAtIndex(1)
+        streamsDot = addRedDotAtIndex(2)
     }
 
     private func addRedDotAtIndex(index: Int) -> UIView {
