@@ -86,8 +86,6 @@ public struct ElloProvider {
     }
 
     public static func DefaultProvider() -> MoyaProvider<ElloAPI> {
-        let policies = ServerTrustPolicy.publicKeysInBundle()
-        
         return MoyaProvider(endpointClosure: endpointClosure, manager: manager)
     }
 
