@@ -37,9 +37,14 @@ public enum StreamKind {
         return self.name + "_createdAt"
     }
 
-    public var columnCount:Int {
+    public var columnCount: Int {
         switch self {
         case .Noise, .Discover: return 2
+        case let .SimpleStream(endpoint, _):
+            switch endpoint {
+            case .SearchForPosts: return 2
+            default: return 1
+            }
         default: return 1
         }
     }
