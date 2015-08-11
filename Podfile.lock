@@ -1,6 +1,6 @@
 PODS:
   - 1PasswordExtension (1.2)
-  - Alamofire (1.3.0)
+  - Alamofire (1.3.1)
   - Analytics/Core-iOS (1.12.5):
     - TRVSDictionaryWithCaseInsensitivity (= 0.0.2)
   - Analytics/Segmentio (1.12.5):
@@ -25,9 +25,9 @@ PODS:
   - KINWebBrowser (1.1.0)
   - LUKeychainAccess (1.2.4)
   - MBProgressHUD (0.9.1)
-  - Moya (2.0.0):
-    - Moya/Core (= 2.0.0)
-  - Moya/Core (2.0.0):
+  - Moya (2.1.0):
+    - Moya/Core (= 2.1.0)
+  - Moya/Core (2.1.0):
     - Alamofire (~> 1.3.0)
   - Nimble (1.0.0)
   - OHHTTPStubs (4.1.0)
@@ -52,6 +52,7 @@ PODS:
 
 DEPENDENCIES:
   - 1PasswordExtension (~> 1.2.0)
+  - Alamofire (~> 1.3.0)
   - Analytics/Segmentio
   - Crashlytics (~> 3.1.0)
   - CRToast (from `https://github.com/ello/CRToast`)
@@ -62,7 +63,7 @@ DEPENDENCIES:
   - KINWebBrowser (from `https://github.com/ello/KINWebBrowser`)
   - LUKeychainAccess (~> 1.2.4)
   - MBProgressHUD (~> 0.9.0)
-  - Moya (~> 2.0.0)
+  - Moya (~> 2.1.0)
   - Nimble (~> 1.0.0)
   - OHHTTPStubs (~> 4.1.0)
   - Quick (~> 0.3.0)
@@ -114,7 +115,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   1PasswordExtension: fcf300204bda5b5c78936dbb937a7d661f1ca796
-  Alamofire: 220403a8d5840e0b4c946a6fbaf209dbca124282
+  Alamofire: e4ab637e3195b645c814b87a652373439e59f2a4
   Analytics: e1144eebecb3fa0b8b46fa2ef00dc6089f76dbb2
   Box: a92e8aa4c099e6bc0733829665caf9e668ef53b8
   CocoaLumberjack: 019d1361244274a6138c788c6cb80baabc13fb8f
@@ -127,7 +128,7 @@ SPEC CHECKSUMS:
   KINWebBrowser: dad85d7d93e6f4620a8589b96992394affffa66e
   LUKeychainAccess: 6479edb12cf06e11ff3336f796959eedbc58f714
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
-  Moya: 7900690f6d5a5dec59b365b0f1d1093349e9884e
+  Moya: 6ad7d6b1e12b758e46edde8a07245d633e176087
   Nimble: 8bee528e5fcc403653076545db562d2b5db7bb87
   OHHTTPStubs: f3473ab21dbf0815253ac96b977d5c36f1daad09
   Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
