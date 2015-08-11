@@ -23,7 +23,7 @@ public struct ElloProvider {
     public static var responseHeaders: NSString = ""
     public static var responseJSON: NSString = ""
 
-    static let serverTrustPolicies: [String: ServerTrustPolicy] = [
+    public static let serverTrustPolicies: [String: ServerTrustPolicy] = [
         "ello.co": .PinPublicKeys(
             publicKeys: ServerTrustPolicy.publicKeysInBundle(),
             validateCertificateChain: true,
@@ -31,7 +31,7 @@ public struct ElloProvider {
         )
     ]
 
-    static let manager = Manager(
+    public static let manager = Manager(
         configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
         serverTrustPolicyManager: ServerTrustPolicyManager(policies: ElloProvider.serverTrustPolicies)
     )
