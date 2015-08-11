@@ -11,10 +11,13 @@ import Foundation
 class WelcomePageController: IntroPageController {
     
     @IBOutlet weak var welcomeLabel: ElloLabel!
+    @IBOutlet weak var discoverLabel: ElloLabel!
     @IBOutlet weak var elloLogoImage: UIImageView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         welcomeLabel.font = .regularBoldFont(18)
+        discoverLabel.font = .regularBoldFont(18)
+        discoverLabel.textColor = .greyA()
     }
 }
