@@ -59,12 +59,8 @@ public struct ElloProvider {
 
         var endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponse: sampleResponse, method: method, parameters: parameters)
 
-        switch target {
-        case .Auth, .ReAuth:
-            return endpoint
-        default:
-            return endpoint.endpointByAddingHTTPHeaderFields(["Content-Type": "application/json", "Authorization": AuthToken().tokenWithBearer ?? "", "Accept-Language": ""])
-        }
+        return endpoint.endpointByAddingHTTPHeaderFields(target.headers)
+
     }
 
     public static var endpointClosure = { (target: ElloAPI) -> Endpoint<ElloAPI> in
@@ -72,20 +68,8 @@ public struct ElloProvider {
         let parameters = target.parameters
         let sampleResponse = EndpointSampleResponse.Success(200, { target.sampleData })
 
-        let encoding: Moya.ParameterEncoding
-        switch target {
-        case .CreatePost, .CreateComment, .ProfileUpdate, .RePost, .FindFriends:
-            encoding = Moya.ParameterEncoding.JSON
-        default:
-            encoding = Moya.ParameterEncoding.URL
-        }
-
-        var endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponse: sampleResponse, method: method, parameters: parameters, parameterEncoding: encoding)
-        if target.requiresToken {
-            endpoint = endpoint.endpointByAddingHTTPHeaderFields(["Authorization": AuthToken().tokenWithBearer ?? "", "Accept-Language": ""])
-        }
-
-        return endpoint
+        var endpoint = Endpoint<ElloAPI>(URL: url(target), sampleResponse: sampleResponse, method: method, parameters: parameters, parameterEncoding: target.encoding)
+        return endpoint.endpointByAddingHTTPHeaderFields(target.headers)
     }
 
     public static func DefaultProvider() -> MoyaProvider<ElloAPI> {
@@ -368,6 +352,8 @@ extension ElloProvider {
 
     static private func parseResponse(response: NSHTTPURLResponse?) -> ResponseConfig {
         var config = ResponseConfig()
+        config.statusCode = response?.statusCode
+        config.lastModified = response?.allHeaderFields["Last-Modified"] as? String
         config.totalPages = response?.allHeaderFields["X-Total-Pages"] as? String
         config.totalCount = response?.allHeaderFields["X-Total-Count"] as? String
         config.totalPagesRemaining = response?.allHeaderFields["X-Total-Pages-Remaining"] as? String

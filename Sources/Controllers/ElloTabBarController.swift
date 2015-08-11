@@ -45,9 +45,19 @@ public enum ElloTab: Int {
 public class ElloTabBarController: UIViewController, HasAppController {
     public let tabBar = ElloTabBar()
     private var systemLoggedOutObserver: NotificationObserver?
+    private var streamLoadedObserver: NotificationObserver?
+
+    private var newContentService = NewContentService()
+    private var foregroundObserver: NotificationObserver?
+    private var backgroundObserver: NotificationObserver?
+    private var newNotificationsObserver: NotificationObserver?
+    private var newStreamContentObserver: NotificationObserver?
 
     private var visibleViewController = UIViewController()
     var parentAppController: AppViewController?
+
+    var notificationsDot: UIView?
+    var streamsDot: UIView?
 
     private var _tabBarHidden = false
     public var tabBarHidden: Bool {
@@ -119,6 +129,7 @@ public extension ElloTabBarController {
 
         updateTabBarItems()
         updateVisibleViewController()
+        addDots()
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -154,6 +165,7 @@ public extension ElloTabBarController {
 public extension ElloTabBarController {
     public func activateTabBar() {
         setupNotificationObservers()
+        newContentService.startPolling()
     }
 
     public func deactivateTabBar() {
@@ -161,11 +173,49 @@ public extension ElloTabBarController {
     }
 
     private func setupNotificationObservers() {
+
+        let _ = Application.shared() // this is lame but we need Application to initialize to observe it's notifications
+
         systemLoggedOutObserver = NotificationObserver(notification: AuthenticationNotifications.invalidToken, block: systemLoggedOut)
+
+        streamLoadedObserver = NotificationObserver(notification: StreamLoadedNotifications.streamLoaded) {
+            [unowned self] streamKind in
+            switch streamKind {
+            case .Notifications(category: nil):
+                self.notificationsDot?.hidden = true
+            default: break
+            }
+        }
+
+        foregroundObserver = NotificationObserver(notification: Application.Notifications.WillEnterForeground) {
+            [unowned self] _ in
+            self.newContentService.startPolling()
+        }
+
+        backgroundObserver = NotificationObserver(notification: Application.Notifications.DidEnterBackground) {
+            [unowned self] _ in
+            self.newContentService.stopPolling()
+        }
+
+        newNotificationsObserver = NotificationObserver(notification: NewContentNotifications.newNotifications) {
+            [unowned self] _ in
+            self.notificationsDot?.hidden = false
+        }
+
+        newStreamContentObserver = NotificationObserver(notification: NewContentNotifications.newStreamContent) {
+            [unowned self] _ in
+            self.streamsDot?.hidden = false
+        }
+
     }
 
     private func removeNotificationObservers() {
         systemLoggedOutObserver?.removeObserver()
+        streamLoadedObserver?.removeObserver()
+        newNotificationsObserver?.removeObserver()
+        backgroundObserver?.removeObserver()
+        foregroundObserver?.removeObserver()
+        newStreamContentObserver?.removeObserver()
     }
 
 }
@@ -205,6 +255,11 @@ extension ElloTabBarController: UITabBarDelegate {
             else {
                 selectedTab = ElloTab(rawValue:index) ?? .Stream
             }
+
+            // hide the red dot on the stream tab icon
+            if index == 2 {
+                self.streamsDot?.hidden = true
+            }
         }
     }
 
@@ -233,6 +288,7 @@ public extension ElloTabBarController {
 }
 
 private extension ElloTabBarController {
+
     func updateTabBarItems() {
         let controllers = childViewControllers as! [UIViewController]
         tabBar.items = controllers.map { controller in
@@ -292,6 +348,30 @@ private extension ElloTabBarController {
 }
 
 extension ElloTabBarController {
+
+    private func addDots() {
+        notificationsDot = redDotAtIndex(1)
+        streamsDot = redDotAtIndex(2)
+    }
+
+    private func addRedDotAtIndex(index: Int) -> UIView {
+        let radius: CGFloat = 3
+        let diameter = radius * 2
+        let topMargin: CGFloat = 11
+        let tabBarItemCount = CGFloat(tabBar.items?.count ?? 0)
+        let halfItemWidth = CGRectGetWidth(view.bounds) / (tabBarItemCount * 2)
+        let xOffset = halfItemWidth * CGFloat(index * 2 + 1)
+        let item = tabBar.items?[index] as? UITabBarItem
+        let imageHalfWidth: CGFloat = item?.selectedImage?.size.width ?? 0 / 2
+
+        let redDot = UIView(frame: CGRect(x: xOffset + imageHalfWidth - 11, y: topMargin, width: diameter, height: diameter))
+        redDot.backgroundColor = UIColor.redColor()
+        redDot.layer.cornerRadius = radius
+        redDot.hidden = true
+
+        tabBar.addSubview(redDot)
+        return redDot
+    }
 
     private func prepareNarration() {
         if shouldShowNarration {
