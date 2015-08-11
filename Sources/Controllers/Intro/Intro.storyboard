@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7703" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="pJc-kZ-mPo">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="pJc-kZ-mPo">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6711"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
@@ -37,18 +37,28 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Beautiful &amp; ad-free" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xgg-9n-x2U" customClass="ElloLabel" customModule="Ello" customModuleProvider="target">
-                                <rect key="frame" x="16" y="110" width="165" height="34"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="wordWrap" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xgg-9n-x2U" customClass="ElloWelcomeDiscoverLabel" customModule="Ello" customModuleProvider="target">
+                                <rect key="frame" x="16" y="110" width="383" height="120"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="165" id="86U-oY-2v0"/>
-                                    <constraint firstAttribute="height" constant="34" id="ZXz-Xi-Wt7"/>
+                                    <constraint firstAttribute="height" constant="120" id="ZXz-Xi-Wt7"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <attributedString key="attributedText">
+                                    <fragment>
+                                        <string key="content">Discover beautiful art, be
+inspired by meaningful stories,
+and connect with creators
+around the world.</string>
+                                        <attributes>
+                                            <color key="NSColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <font key="NSFont" size="18" name="AtlasGrotesk-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ello-logo" translatesAutoresizingMaskIntoConstraints="NO" id="atb-xi-cpq">
-                                <rect key="frame" x="124" y="285" width="166" height="166"/>
+                                <rect key="frame" x="124" y="283" width="166" height="166"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="166" id="W0S-yw-lA8"/>
                                     <constraint firstAttribute="width" constant="166" id="gvZ-7z-Ia0"/>
@@ -59,14 +69,16 @@
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="atb-xi-cpq" secondAttribute="centerX" id="6xg-SL-gRS"/>
                             <constraint firstItem="lQ9-jb-lJX" firstAttribute="top" secondItem="Pnu-vv-UTj" secondAttribute="bottom" constant="64" id="8H1-Ro-PdV"/>
-                            <constraint firstItem="atb-xi-cpq" firstAttribute="centerY" secondItem="Mde-Jq-y6k" secondAttribute="centerY" id="FiV-Ex-14G"/>
                             <constraint firstItem="Xgg-9n-x2U" firstAttribute="leading" secondItem="lQ9-jb-lJX" secondAttribute="leading" id="Kqw-OR-ckk"/>
                             <constraint firstItem="Xgg-9n-x2U" firstAttribute="top" secondItem="lQ9-jb-lJX" secondAttribute="bottom" constant="5" id="TAV-q7-KSc"/>
+                            <constraint firstAttribute="trailing" secondItem="Xgg-9n-x2U" secondAttribute="trailing" constant="15" id="n7p-OG-hS7"/>
                             <constraint firstItem="Xgg-9n-x2U" firstAttribute="leading" secondItem="Mde-Jq-y6k" secondAttribute="leadingMargin" id="sTG-eT-vN0"/>
+                            <constraint firstItem="atb-xi-cpq" firstAttribute="top" secondItem="Xgg-9n-x2U" secondAttribute="bottom" constant="53" id="tLu-c3-JpI"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
+                        <outlet property="discoverLabel" destination="Xgg-9n-x2U" id="CZV-gD-gcJ"/>
                         <outlet property="elloLogoImage" destination="atb-xi-cpq" id="Rcf-aa-zdm"/>
                         <outlet property="welcomeLabel" destination="lQ9-jb-lJX" id="hfO-gp-aWJ"/>
                     </connections>
@@ -90,8 +102,8 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="intro-friends" translatesAutoresizingMaskIntoConstraints="NO" id="L62-1i-7LL">
                                 <rect key="frame" x="0.0" y="184" width="414" height="552"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Make Friends." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I3o-Xl-aAK">
-                                <rect key="frame" x="15" y="64" width="384" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Connect with creators." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I3o-Xl-aAK">
+                                <rect key="frame" x="15" y="84" width="384" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -102,7 +114,7 @@
                             <constraint firstAttribute="trailing" secondItem="I3o-Xl-aAK" secondAttribute="trailing" constant="15" id="0og-72-P1p"/>
                             <constraint firstAttribute="trailing" secondItem="L62-1i-7LL" secondAttribute="trailing" id="Es8-Dm-9Mn"/>
                             <constraint firstAttribute="bottom" secondItem="L62-1i-7LL" secondAttribute="bottom" id="I5B-qD-V7N"/>
-                            <constraint firstItem="I3o-Xl-aAK" firstAttribute="top" secondItem="vNB-Za-Zzu" secondAttribute="top" constant="64" id="II4-xD-Fzb"/>
+                            <constraint firstItem="I3o-Xl-aAK" firstAttribute="top" secondItem="vNB-Za-Zzu" secondAttribute="top" constant="84" id="II4-xD-Fzb"/>
                             <constraint firstItem="L62-1i-7LL" firstAttribute="height" secondItem="vNB-Za-Zzu" secondAttribute="height" multiplier="0.75" id="MSE-2I-IlW"/>
                             <constraint firstItem="I3o-Xl-aAK" firstAttribute="leading" secondItem="vNB-Za-Zzu" secondAttribute="leading" constant="15" id="uNK-m7-XGe"/>
                             <constraint firstItem="L62-1i-7LL" firstAttribute="leading" secondItem="vNB-Za-Zzu" secondAttribute="leading" id="wcn-kV-JXY"/>
@@ -130,7 +142,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Be Inspired." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fv6-u2-wOp" customClass="ElloLabel" customModule="Ello" customModuleProvider="target">
-                                <rect key="frame" x="15" y="64" width="383" height="21"/>
+                                <rect key="frame" x="15" y="84" width="383" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -145,7 +157,7 @@
                             <constraint firstItem="Dad-qi-Tnp" firstAttribute="height" secondItem="qfd-w6-ibt" secondAttribute="height" multiplier="0.75" id="Gae-OO-tbu"/>
                             <constraint firstItem="Dad-qi-Tnp" firstAttribute="leading" secondItem="qfd-w6-ibt" secondAttribute="leading" id="Rbs-Ae-ePY" userLabel="intro-inspired - left"/>
                             <constraint firstAttribute="bottom" secondItem="Dad-qi-Tnp" secondAttribute="bottom" id="Vb7-Ut-o7p" userLabel="intro-inspired - bottom"/>
-                            <constraint firstItem="fv6-u2-wOp" firstAttribute="top" secondItem="qfd-w6-ibt" secondAttribute="top" constant="64" id="dkX-h0-Jer" userLabel="Be Inspired - Top"/>
+                            <constraint firstItem="fv6-u2-wOp" firstAttribute="top" secondItem="qfd-w6-ibt" secondAttribute="top" constant="84" id="dkX-h0-Jer" userLabel="Be Inspired - Top"/>
                             <constraint firstAttribute="trailing" secondItem="Dad-qi-Tnp" secondAttribute="trailing" id="g9W-mK-qzY" userLabel="intro-inspired - right"/>
                             <constraint firstItem="fv6-u2-wOp" firstAttribute="leading" secondItem="qfd-w6-ibt" secondAttribute="leading" constant="15" id="xAm-pd-Tkp" userLabel="Be Inspired - Left"/>
                         </constraints>
@@ -172,7 +184,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Share the things you love." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lcW-uY-4JN" customClass="ElloLabel" customModule="Ello" customModuleProvider="target">
-                                <rect key="frame" x="15" y="64" width="384" height="21"/>
+                                <rect key="frame" x="15" y="84" width="384" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -204,7 +216,7 @@
                             <constraint firstAttribute="centerX" secondItem="YsN-Mj-FcD" secondAttribute="centerX" id="LGp-b2-77S"/>
                             <constraint firstAttribute="trailing" secondItem="lcW-uY-4JN" secondAttribute="trailing" constant="15" id="cYB-Lu-1cX"/>
                             <constraint firstItem="lcW-uY-4JN" firstAttribute="leading" secondItem="JnB-il-3m7" secondAttribute="leading" constant="15" id="mnJ-Iv-T3T"/>
-                            <constraint firstItem="lcW-uY-4JN" firstAttribute="top" secondItem="JnB-il-3m7" secondAttribute="top" constant="64" id="n1R-MC-Jyi"/>
+                            <constraint firstItem="lcW-uY-4JN" firstAttribute="top" secondItem="JnB-il-3m7" secondAttribute="top" constant="84" id="n1R-MC-Jyi"/>
                             <constraint firstAttribute="bottom" secondItem="SRt-MA-l0Q" secondAttribute="bottom" id="vbL-at-drh"/>
                             <constraint firstAttribute="trailing" secondItem="YsN-Mj-FcD" secondAttribute="trailing" priority="999" constant="15" id="wgd-Fy-rxK"/>
                         </constraints>
