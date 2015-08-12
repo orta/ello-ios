@@ -372,9 +372,20 @@ class StreamDataSourceSpec: QuickSpec {
                 }
 
                 it("returns an array of StreamCellItems") {
-                    var post = subject.postForIndexPath(indexPath0)
-                    let items = subject.cellItemsForPost(post!)
-                    expect(count(items)) == 3
+                    var post = subject.postForIndexPath(indexPath0)!
+                    let items = subject.cellItemsForPost(post)
+                    expect(count(items)) == 4
+                    for item in subject.visibleCellItems {
+                        if contains(items, item) {
+                            let itemPost = item.jsonable as! Post
+                            expect(itemPost.id) == post.id
+                        }
+                        else {
+                            if let itemPost = item.jsonable as? Post {
+                                expect(itemPost.id) != post.id
+                            }
+                        }
+                    }
                 }
 
                 it("returns empty array if post not found") {
@@ -384,9 +395,10 @@ class StreamDataSourceSpec: QuickSpec {
                 }
 
                 it("does not return cell items for other posts") {
-                    var post = subject.postForIndexPath(NSIndexPath(forItem: 9, inSection: 0))
-                    let items = subject.cellItemsForPost(post!)
-                    expect(count(items)) == 3
+                    var post = subject.postForIndexPath(NSIndexPath(forItem: 9, inSection: 0))!
+                    let items = subject.cellItemsForPost(post)
+                    expect(post.id) == "777"
+                    expect(count(items)) == 4
                 }
 
             }
@@ -669,7 +681,7 @@ class StreamDataSourceSpec: QuickSpec {
                         it("removes the deleted post") {
                             expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 20
                             subject.modifyItems(Post.stub(["id": "1"]), change: .Delete, collectionView: fakeCollectionView)
-                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 17
+                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 16
                         }
 
                         it("doesn't remove the deleted comment") {
@@ -711,7 +723,7 @@ class StreamDataSourceSpec: QuickSpec {
                             it("removes the unloved post") {
                                 expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 20
                                 subject.modifyItems(Post.stub(["id": "2", "commentsCount" : 9, "loved" : false]), change: .Update, collectionView: fakeCollectionView)
-                                expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 17
+                                expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 16
                             }
                         }
                     }
@@ -752,7 +764,7 @@ class StreamDataSourceSpec: QuickSpec {
                             stubCellItems(streamKind: StreamKind.SimpleStream(endpoint: ElloAPI.FriendStream, title: "some title"))
                             expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 9
                             subject.modifyUserRelationshipItems(User.stub(["id": "user1", "relationshipPriority": RelationshipPriority.Block.rawValue]), collectionView: fakeCollectionView)
-                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 1
+                            expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 0
                         }
                     }
 

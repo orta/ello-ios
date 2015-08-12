@@ -87,7 +87,7 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
                     }
                 }
                 self.setViewControllers(keepers, animated: true)
-            default: _ = "noop"
+            default: break
             }
         }
 

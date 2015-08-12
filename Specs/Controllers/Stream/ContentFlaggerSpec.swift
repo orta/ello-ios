@@ -31,7 +31,7 @@ class ContentFlaggerSpec: QuickSpec {
                     commentPostId: nil)
             })
 
-            it("presents an AlertController") {
+            it("presents an AlertViewController") {
 
                 subject.displayFlaggingSheet()
                 let presentedVC = subject.presentingController?.presentedViewController as! AlertViewController

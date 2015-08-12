@@ -117,7 +117,7 @@ public class StreamViewController: BaseElloViewController {
     var settingChangedNotification: NotificationObserver?
     var currentUserChangedNotification: NotificationObserver?
 
-    weak var createCommentDelegate : CreateCommentDelegate?
+    weak var createPostDelegate : CreatePostDelegate?
     weak var postTappedDelegate : PostTappedDelegate?
     weak var userTappedDelegate : UserTappedDelegate?
     weak var streamScrollDelegate : StreamScrollDelegate?
@@ -242,23 +242,6 @@ public class StreamViewController: BaseElloViewController {
         }
     }
 
-    // Inserts the new comment items under the createComment cell
-    public func insertNewCommentItems(commentItems: [StreamCellItem]) {
-        if count(commentItems) == 0 {
-            return
-        }
-
-        let commentItem = commentItems[0]
-        if  let comment = commentItem.jsonable as? Comment,
-            let parentPost = comment.parentPost,
-            let indexPath = dataSource.createCommentIndexPathForPost(parentPost)
-        {
-            // insert the items below the create comment button
-            let newCommentIndexPath = NSIndexPath(forRow: indexPath.row + 1, inSection: indexPath.section)
-            self.insertUnsizedCellItems(commentItems, startingIndexPath: newCommentIndexPath)
-        }
-    }
-
     public var loadInitialPageLoadingToken: String = ""
     public func resetInitialPageLoadingToken() -> String {
         let newToken = NSUUID().UUIDString
@@ -374,7 +357,7 @@ public class StreamViewController: BaseElloViewController {
             switch change {
             case .Create, .Delete, .Update:
                 self.dataSource.modifyItems(comment, change: change, collectionView: self.collectionView)
-            case .Read: break
+            case .Read, .Replaced: break
             }
             self.updateNoResultsLabel()
         }
@@ -384,8 +367,6 @@ public class StreamViewController: BaseElloViewController {
                 return
             }
             switch change {
-            case .Create:
-                self.dataSource.modifyItems(post, change: change, collectionView: self.collectionView)
             case .Delete:
                 switch self.streamKind {
                 case .PostDetail: break
@@ -393,7 +374,9 @@ public class StreamViewController: BaseElloViewController {
                     self.dataSource.modifyItems(post, change: change, collectionView: self.collectionView)
                 }
                 // reload page
-            case .Update:
+            case .Create,
+                .Update,
+                .Replaced:
                 self.dataSource.modifyItems(post, change: change, collectionView: self.collectionView)
             case .Read: break
             }
@@ -449,9 +432,7 @@ public class StreamViewController: BaseElloViewController {
         if height + StreamDataSource.cellBottomPadding != existingHeight {
             collectionView.performBatchUpdates({
                 self.dataSource.updateHeightForIndexPath(indexPath, height: height)
-                }, completion: { (finished) in
-
-            })
+            }, completion: nil)
             collectionView.reloadItemsAtIndexPaths([indexPath])
         }
     }
@@ -469,11 +450,12 @@ public class StreamViewController: BaseElloViewController {
 
     // this gets reset whenever the streamKind changes
     private func setupCollectionViewLayout() {
-        let layout:StreamCollectionViewLayout = collectionView.collectionViewLayout as! StreamCollectionViewLayout
-        layout.columnCount = streamKind.columnCount
-        layout.sectionInset = UIEdgeInsetsZero
-        layout.minimumColumnSpacing = 12
-        layout.minimumInteritemSpacing = 0
+        if let layout = collectionView.collectionViewLayout as? StreamCollectionViewLayout {
+            layout.columnCount = streamKind.columnCount
+            layout.sectionInset = UIEdgeInsetsZero
+            layout.minimumColumnSpacing = 12
+            layout.minimumInteritemSpacing = 0
+        }
     }
 
     private func setupImageViewDelegate() {
@@ -514,7 +496,7 @@ public class StreamViewController: BaseElloViewController {
         dataSource.simpleStreamDelegate = self
         dataSource.userDelegate = self
         dataSource.webLinkDelegate = self
-        
+
         collectionView.dataSource = dataSource
     }
 
@@ -741,7 +723,7 @@ extension StreamViewController : UICollectionViewDelegate {
             else if let comment = dataSource.commentForIndexPath(indexPath),
                 let post = comment.parentPost
             {
-                createCommentDelegate?.createComment(post, text: "", fromController: self)
+                createPostDelegate?.createComment(post, text: "", fromController: self)
             }
     }
 

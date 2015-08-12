@@ -26,7 +26,7 @@ public enum StreamCellState: Printable, DebugPrintable {
 }
 
 
-public final class StreamCellItem: NSObject, NSCopying {
+public final class StreamCellItem: NSObject, NSCopying, Printable {
     public var jsonable: JSONAble
     public var type: StreamCellType
     public var calculatedWebHeight: CGFloat?
@@ -55,6 +55,23 @@ public final class StreamCellItem: NSObject, NSCopying {
             return true
         }
         return false
+    }
+
+    public override var description: String {
+        switch type {
+        case let .Text(data):
+            let text: String
+            if let textRegion = data as? TextRegion {
+                text = textRegion.content
+            }
+            else {
+                text = "unknown"
+            }
+
+            return "StreamCellItem(type: \(type.name), jsonable: \(jsonable.dynamicType), state: \(state), text: \(text))"
+        default:
+            return "StreamCellItem(type: \(type.name), jsonable: \(jsonable.dynamicType), state: \(state))"
+        }
     }
 
 }

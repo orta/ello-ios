@@ -17,7 +17,6 @@ public struct PostService {
 
     public func loadPost(
         postParam: String,
-        streamKind: StreamKind?,
         success: PostSuccessCompletion,
         failure: ElloFailureCompletion?)
     {
@@ -25,9 +24,7 @@ public struct PostService {
             ElloAPI.PostDetail(postParam: postParam),
             success: { (data, responseConfig) in
                 if let post = data as? Post {
-                    if let streamKind = streamKind {
-                        Preloader().preloadImages([post],  streamKind: streamKind)
-                    }
+                    Preloader().preloadImages([post],  streamKind: .PostDetail(postParam: postParam))
                     success(post: post, responseConfig: responseConfig)
                 }
                 else {

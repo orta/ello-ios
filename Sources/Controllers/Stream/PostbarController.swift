@@ -13,6 +13,7 @@ public protocol PostbarDelegate : NSObjectProtocol {
     func commentsButtonTapped(cell: StreamFooterCell, imageLabelControl: ImageLabelControl)
     func deletePostButtonTapped(indexPath: NSIndexPath)
     func deleteCommentButtonTapped(indexPath: NSIndexPath)
+    func editPostButtonTapped(indexPath: NSIndexPath)
     func lovesButtonTapped(cell: StreamFooterCell, indexPath: NSIndexPath)
     func repostButtonTapped(indexPath: NSIndexPath)
     func shareButtonTapped(indexPath: NSIndexPath)
@@ -186,6 +187,17 @@ public class PostbarController: NSObject, PostbarDelegate {
         presentingController?.presentViewController(alertController, animated: true, completion: .None)
     }
 
+    public func editPostButtonTapped(indexPath: NSIndexPath) {
+        // This is a bit dirty, we should not call a method on a compositionally held
+        // controller's createPostDelegate. Can this use the responder chain when we have
+        // parameters to pass?
+        if let post = self.postForIndexPath(indexPath),
+            let presentingController = presentingController
+        {
+            presentingController.createPostDelegate?.editPost(post, fromController: presentingController)
+        }
+    }
+
     public func lovesButtonTapped(cell: StreamFooterCell, indexPath: NSIndexPath) {
         if let post = self.postForIndexPath(indexPath) {
             Tracker.sharedTracker.postLoved(post)
@@ -345,13 +357,13 @@ public class PostbarController: NSObject, PostbarDelegate {
     public func replyToCommentButtonTapped(indexPath: NSIndexPath) {
         if let comment = commentForIndexPath(indexPath) {
             // This is a bit dirty, we should not call a method on a compositionally held
-            // controller's createCommentDelegate. Can this use the responder chain when we have
+            // controller's createPostDelegate. Can this use the responder chain when we have
             // parameters to pass?
             if let presentingController = presentingController,
                 let post = comment.parentPost,
                 let atName = comment.author?.atName
             {
-                presentingController.createCommentDelegate?.createComment(post, text: "\(atName) ", fromController: presentingController)
+                presentingController.createPostDelegate?.createComment(post, text: "\(atName) ", fromController: presentingController)
             }
         }
     }

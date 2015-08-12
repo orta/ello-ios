@@ -18,11 +18,17 @@ public class PostEditingService: NSObject {
     typealias CreatePostSuccessCompletion = (post: AnyObject) -> Void
     typealias UploadImagesSuccessCompletion = ([(Int, ImageRegion)]) -> Void
 
+    var editPost: Post?
     var parentPost: Post?
 
     convenience init(parentPost post: Post) {
         self.init()
         parentPost = post
+    }
+
+    convenience init(editPost post: Post) {
+        self.init()
+        editPost = post
     }
 
     // rawSections is String or UIImage objects
@@ -35,7 +41,7 @@ public class PostEditingService: NSObject {
         // e.g. entitizing Strings and adding HTML markup to NSAttributedStrings
         for (index, section) in enumerate(rawContent) {
             if let text = section as? String {
-                textEntries.append((index, text.entitiesEncoded()))
+                textEntries.append((index, text))
             }
             else if let image = section as? UIImage {
                 imageEntries.append((index, image))
@@ -44,7 +50,7 @@ public class PostEditingService: NSObject {
                 imageDataEntries.append((index, data))
             }
             else if let attributed = section as? NSAttributedString {
-                textEntries.append((index, attributed.string.entitiesEncoded()))
+                textEntries.append((index, attributed.string))
             }
         }
 
@@ -88,6 +94,9 @@ public class PostEditingService: NSObject {
         if let parentPost = parentPost {
             endpoint = ElloAPI.CreateComment(parentPostId: parentPost.id, body: params)
         }
+        else if let editPost = editPost {
+            endpoint = ElloAPI.UpdatePost(postId: editPost.id, body: params)
+        }
         else {
             endpoint = ElloAPI.CreatePost(body: params)
         }
@@ -100,7 +109,7 @@ public class PostEditingService: NSObject {
                 case .CreateComment:
                     let comment = data as! Comment
                     comment.content = self.replaceLocalImageRegions(comment.content, regions: regions)
-                case .CreatePost:
+                case .CreatePost, .UpdatePost:
                     let post = data as! Post
                     post.content = self.replaceLocalImageRegions(post.content ?? [], regions: regions)
                 default:

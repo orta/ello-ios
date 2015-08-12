@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class PostDetailViewController: StreamableViewController, CreateCommentDelegate {
+public class PostDetailViewController: StreamableViewController {
 
     var post: Post?
     var postParam: String!
@@ -68,7 +68,6 @@ public class PostDetailViewController: StreamableViewController, CreateCommentDe
 
         PostService().loadPost(
             postParam,
-            streamKind: .PostDetail(postParam: postParam),
             success: { (post, responseConfig) in
                 if !self.streamViewController.isValidInitialPageLoadingToken(self.localToken) { return }
                 self.postLoaded(post, responseConfig: responseConfig)

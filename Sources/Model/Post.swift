@@ -36,6 +36,7 @@ public final class Post: JSONAble, Authorable {
     public let summary: [Regionable]
     // optional
     public var content: [Regionable]?
+    public var body: [Regionable]?
     public var repostContent: [Regionable]?
     public var repostId: String?
     public var repostPath: String?
@@ -135,6 +136,7 @@ public final class Post: JSONAble, Authorable {
         self.loved = decoder.decodeKey("loved")
         // optional
         self.content = decoder.decodeOptionalKey("content")
+        self.body = decoder.decodeOptionalKey("body")
         self.repostContent = decoder.decodeOptionalKey("repostContent")
         self.repostId = decoder.decodeOptionalKey("repostId")
         self.repostPath = decoder.decodeOptionalKey("repostPath")
@@ -162,6 +164,7 @@ public final class Post: JSONAble, Authorable {
         coder.encodeObject(summary, forKey: "summary")
         // optional
         coder.encodeObject(content, forKey: "content")
+        coder.encodeObject(body, forKey: "body")
         coder.encodeObject(repostContent, forKey: "repostContent")
         coder.encodeObject(repostId, forKey: "repostId")
         coder.encodeObject(repostPath, forKey: "repostPath")
@@ -208,6 +211,7 @@ public final class Post: JSONAble, Authorable {
         )
         // optional
         post.content = RegionParser.regions("content", json: json, isRepostContent: repostContent.count > 0)
+        post.body = RegionParser.regions("body", json: json, isRepostContent: repostContent.count > 0)
         post.repostContent = repostContent
         post.repostId = json["repost_id"].string
         post.repostPath = json["repost_path"].string

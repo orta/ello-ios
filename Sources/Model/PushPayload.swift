@@ -19,3 +19,6 @@ public struct PushPayload {
         return alert?["body"] ?? "New Notification"
     }
 }
+
+// {"application_target": "notifications/posts/6178""aps": {"alert": {"body": "Hello, Ello!"}}}
+// PushNotificationController.sharedController.receivedNotification(UIApplication.sharedApplication(), userInfo: ["application_target": "notifications/posts/6178", "aps": ["alert": ["body": "Hello, Ello!"]]])

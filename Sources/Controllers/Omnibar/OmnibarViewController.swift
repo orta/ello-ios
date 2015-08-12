@@ -20,10 +20,14 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
     var previousTab: ElloTab = .DefaultTab
     var parentPost: Post?
+    var editPost: Post?
+    var rawEditPost: Post?
     var defaultText: String?
 
-    typealias CommentSuccessListener = (comment : Comment) -> Void
-    var commentSuccessListeners = [CommentSuccessListener]()
+    typealias CommentSuccessListener = (comment: Comment) -> Void
+    typealias PostSuccessListener = (post: Post) -> Void
+    var commentSuccessListener: CommentSuccessListener?
+    var postSuccessListener: PostSuccessListener?
 
     var _mockScreen: OmnibarScreenProtocol?
     public var screen: OmnibarScreenProtocol {
@@ -36,14 +40,28 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         parentPost = post
     }
 
+    convenience public init(editPost post: Post) {
+        self.init(nibName: nil, bundle: nil)
+        editPost = post
+        PostService().loadPost(post.id, success: { (post, _) in
+            self.rawEditPost = post
+            if self.isViewLoaded() {
+                self.prepareScreenForEditing(post)
+            }
+        }, failure: nil)
+    }
+
     convenience public init(parentPost post: Post, defaultText: String) {
         self.init(parentPost: post)
         self.defaultText = defaultText
     }
 
-    public func omnibarDataName() -> String {
+    public func omnibarDataName() -> String? {
         if let post = parentPost {
             return "omnibar_comment_\(post.repostId ?? post.id)"
+        }
+        else if let post = editPost {
+            return nil
         }
         else {
             return "omnibar_post"
@@ -51,18 +69,33 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     }
 
     func onCommentSuccess(listener: CommentSuccessListener) {
-        commentSuccessListeners.append(listener)
+        commentSuccessListener = listener
+    }
+
+    func onPostSuccess(listener: PostSuccessListener) {
+        postSuccessListener = listener
     }
 
     override public func loadView() {
         self.view = OmnibarScreen(frame: UIScreen.mainScreen().bounds)
 
-        screen.hasParentPost = parentPost != nil
+        screen.canGoBack = parentPost != nil || editPost != nil
         screen.currentUser = currentUser
         screen.text = defaultText
+        if parentPost != nil {
+            screen.title = NSLocalizedString("Leave a comment", comment: "Leave a comment")
+        }
+        else if editPost != nil {
+            screen.title = NSLocalizedString("Edit this post", comment: "Edit this post")
+            screen.isEditing = true
+            if let rawEditPost = rawEditPost {
+                prepareScreenForEditing(rawEditPost)
+            }
+        }
 
-        let fileName = omnibarDataName()
-        if let data: NSData = Tmp.read(fileName) {
+        if let fileName = omnibarDataName(),
+            let data: NSData = Tmp.read(fileName)
+        {
             if let omnibarData = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? OmnibarData {
                 if let prevAttributedText = omnibarData.attributedText {
                     let currentText = screen.text
@@ -80,6 +113,14 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             Tmp.remove(fileName)
         }
         screen.delegate = self
+
+        // let menuController = UIMenuController.sharedMenuController()
+        // let linkItem = UIMenuItem(title: "Link", action: Selector("editLink:"))
+        // menuController.menuItems = [linkItem]
+    }
+
+    func editLink(menuController: UIMenuController) {
+        println("link!")
     }
 
     override public func viewWillAppear(animated: Bool) {
@@ -101,12 +142,20 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         keyboardWillShowObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillShow, block: self.willShow)
         keyboardWillHideObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillHide, block: self.willHide)
 
-        let isShowingNarration = elloTabBarController?.shouldShowNarration ?? false
-        if !isShowingNarration && presentedViewController == nil {
-            // desired behavior: animate the keyboard in when this screen is
-            // shown.  without the delay, the keyboard just appears suddenly.
-            delay(0) {
-                self.screen.startEditing()
+        let isEditing = (editPost != nil)
+        if isEditing {
+            if rawEditPost == nil {
+                ElloHUD.showLoadingHudInView(self.view)
+            }
+        }
+        else {
+            let isShowingNarration = elloTabBarController?.shouldShowNarration ?? false
+            if !isShowingNarration && presentedViewController == nil {
+                // desired behavior: animate the keyboard in when this screen is
+                // shown.  without the delay, the keyboard just appears suddenly.
+                delay(0) {
+                    self.screen.startEditing()
+                }
             }
         }
 
@@ -130,6 +179,24 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             keyboardWillHideObserver.removeObserver()
             self.keyboardWillHideObserver = nil
         }
+    }
+
+    func prepareScreenForEditing(rawEditPost: Post) {
+        ElloHUD.hideLoadingHudInView(self.view)
+        var imageURL: NSURL?
+        if let content = rawEditPost.body {
+            for region in content {
+                if let region = region as? TextRegion,
+                    attrdText = ElloAttributedString.parse(region.content)
+                {
+                    screen.attributedText = attrdText
+                }
+                else if let region = region as? ImageRegion where imageURL == nil {
+                    imageURL = region.url
+                }
+            }
+        }
+        screen.imageURL = imageURL
     }
 
     func willShow(keyboard: Keyboard) {
@@ -156,11 +223,23 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         if screen.text == "Crashlytics.crash('test')" {
             Crashlytics.sharedInstance().crash()
         }
-        if let post = parentPost {
-            let omnibarData = OmnibarData(attributedText: screen.attributedText, image: screen.image)
-            let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
-            Tmp.write(data, to: omnibarDataName())
-            Tracker.sharedTracker.contentCreationCanceled(.Comment)
+
+        if parentPost != nil || editPost != nil {
+            if let fileName = omnibarDataName() {
+                let omnibarData = OmnibarData(attributedText: screen.attributedText, image: screen.image)
+                let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
+                Tmp.write(data, to: fileName)
+            }
+
+            if parentPost != nil {
+                Tracker.sharedTracker.contentCreationCanceled(.Comment)
+            }
+            else if editPost != nil {
+                Tracker.sharedTracker.contentEditingCanceled(.Post)
+            }
+            else {
+                Tracker.sharedTracker.contentCreationCanceled(.Post)
+            }
             navigationController?.popViewControllerAnimated(true)
         }
         else {
@@ -177,7 +256,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         omnibarSubmitted(text, image: image, data: nil)
     }
 
-    public func omnibarSubmitted(text: NSAttributedString?, image: UIImage?, data: (UIImage, NSData, String)?) {
+    public func omnibarSubmitted(attributedText: NSAttributedString?, image: UIImage?, data: (UIImage, NSData, String)?) {
         var content = [Any]()
 
         if let data = data {
@@ -187,21 +266,24 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             content.append(image)
         }
 
-        if let text = text?.string {
-            if count(text) > 5000 {
+        if let textString = attributedText?.string {
+            if count(textString) > 5000 {
                 contentCreationFailed(NSLocalizedString("Your text is too long.\n\nThe character limit is 5,000.", comment: "Post too long (maximum characters is 5000) error message"))
                 return
             }
 
-            let cleanedText = text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+            let cleanedText = textString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
             if count(cleanedText) > 0 {
-                content.append(text)
+                content.append(ElloAttributedString.render(attributedText!))
             }
         }
 
         let service : PostEditingService
         if let parentPost = parentPost {
             service = PostEditingService(parentPost: parentPost)
+        }
+        else if let editPost = editPost {
+            service = PostEditingService(editPost: editPost)
         }
         else {
             service = PostEditingService()
@@ -247,21 +329,34 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             post.commentsCount = count + 1
             postNotification(PostChangedNotification, (post, .Update))
         }
-        for listener in self.commentSuccessListeners {
+
+        if let listener = commentSuccessListener {
             listener(comment: comment)
         }
         Tracker.sharedTracker.contentCreated(.Comment)
     }
 
     private func emitPostSuccess(post: Post) {
-        if let user = currentUser, let count = user.postsCount {
-            user.postsCount = count + 1
+        if let user = currentUser, postsCount = user.postsCount {
+            user.postsCount = postsCount + 1
             postNotification(CurrentUserChangedNotification, user)
         }
-        postNotification(PostChangedNotification, (post, .Create))
+
+        if editPost != nil {
+            postNotification(PostChangedNotification, (post, .Replaced))
+        }
+        else {
+            postNotification(PostChangedNotification, (post, .Create))
+        }
+
         Tracker.sharedTracker.contentCreated(.Post)
-        goToPreviousTab()
-        self.screen.reportSuccess(NSLocalizedString("Post successfully created!", comment: "Post successfully created!"))
+        if let listener = postSuccessListener {
+            listener(post: post)
+        }
+        else {
+            goToPreviousTab()
+            self.screen.reportSuccess(NSLocalizedString("Post successfully created!", comment: "Post successfully created!"))
+        }
     }
 
     private func goToPreviousTab() {
@@ -275,8 +370,9 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     }
 
     public func omnibarPresentController(controller: UIViewController) {
-        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .None)
-        UIApplication.sharedApplication().statusBarStyle = .LightContent
+        if !(controller is AlertViewController) {
+            UIApplication.sharedApplication().statusBarStyle = .Default
+        }
         self.presentViewController(controller, animated: true, completion: nil)
     }
 
@@ -320,4 +416,37 @@ public class OmnibarData : NSObject, NSCoding {
         super.init()
     }
 
+}
+
+extension OmnibarViewController {
+
+    // OK:
+    //   - one text region
+    //   - one image region
+    //   - one image region, followed by one text region
+    // NOT OK:
+    //   - all other cases
+    public class func canEditPost(post: Post) -> Bool {
+        if let regions = post.content {
+            var hasTextRegion = false
+            var hasImageRegion = false
+
+            for region in regions {
+                if region is TextRegion {
+                    if hasTextRegion { return false }
+                    hasTextRegion = true
+                }
+                else if region is ImageRegion {
+                    if hasImageRegion || hasTextRegion { return false }
+                    hasImageRegion = true
+                }
+                else {
+                    return false
+                }
+            }
+
+            return hasTextRegion || hasImageRegion
+        }
+        return false
+    }
 }

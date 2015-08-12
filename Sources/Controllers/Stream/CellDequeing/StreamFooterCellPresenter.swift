@@ -65,6 +65,7 @@ public struct StreamFooterCellPresenter {
         let sharingEnabled = post.author?.hasSharingEnabled ?? true
         let shareVisibility: InteractionVisibility = sharingEnabled ? .Enabled : .Disabled
         let deleteVisibility: InteractionVisibility = ownPost ? .Enabled : .Disabled
+        let editVisibility: InteractionVisibility = ownPost ? .Enabled : .Disabled
 
         let lovingEnabled = post.author?.hasLovesEnabled ?? true
         var loveVisibility: InteractionVisibility = .Enabled
@@ -77,6 +78,7 @@ public struct StreamFooterCellPresenter {
             commentVisibility: commentVisibility,
             shareVisibility: shareVisibility,
             deleteVisibility: deleteVisibility,
+            editVisibility: editVisibility,
             loveVisibility: loveVisibility
         )
     }

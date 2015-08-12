@@ -97,6 +97,10 @@ public struct ElloProvider {
         )
     }
 
+    public static func DelayedStubbingProvider() -> MoyaProvider<ElloAPI> {
+        return MoyaProvider(endpointClosure: endpointClosure, stubBehavior: MoyaProvider.DelayedStubbingBehaviour(1))
+    }
+
     public static func ErrorStubbingProvider() -> MoyaProvider<ElloAPI> {
         return MoyaProvider(
             endpointClosure: errorEndpointsClosure,
@@ -109,8 +113,15 @@ public struct ElloProvider {
         static var instance = ElloProvider.DefaultProvider()
     }
 
+    public static var oneTimeProvider: MoyaProvider<ElloAPI>?
     public static var sharedProvider: MoyaProvider<ElloAPI> {
-        get { return SharedProvider.instance }
+        get {
+            if let provider = oneTimeProvider {
+                oneTimeProvider = nil
+                return provider
+            }
+            return SharedProvider.instance
+        }
 
         set (newSharedProvider) {
             SharedProvider.instance = newSharedProvider
