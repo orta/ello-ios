@@ -242,23 +242,6 @@ public class StreamViewController: BaseElloViewController {
         }
     }
 
-    // Inserts the new comment items under the createComment cell
-    public func insertNewCommentItems(commentItems: [StreamCellItem]) {
-        if count(commentItems) == 0 {
-            return
-        }
-
-        let commentItem = commentItems[0]
-        if  let comment = commentItem.jsonable as? Comment,
-            let parentPost = comment.parentPost,
-            let indexPath = dataSource.createCommentIndexPathForPost(parentPost)
-        {
-            // insert the items below the create comment button
-            let newCommentIndexPath = NSIndexPath(forRow: indexPath.row + 1, inSection: indexPath.section)
-            self.insertUnsizedCellItems(commentItems, startingIndexPath: newCommentIndexPath)
-        }
-    }
-
     public var loadInitialPageLoadingToken: String = ""
     public func resetInitialPageLoadingToken() -> String {
         let newToken = NSUUID().UUIDString
