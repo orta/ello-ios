@@ -341,33 +341,24 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         case .Replaced:
             let (oldIndexPaths, items) = elementsForJSONAble(jsonable, change: change)
             if let post = jsonable as? Post, firstIndexPath = oldIndexPaths.first {
-                let lastIndexPath = oldIndexPaths.reduce(firstIndexPath) { (memo: NSIndexPath, path: NSIndexPath) in
-                    if path.section < memo.section {
-                        return memo
-                    }
-                    else if memo.section < path.section {
-                        return path
+                let firstIndexPath = oldIndexPaths.reduce(firstIndexPath) { (memo: NSIndexPath, path: NSIndexPath) in
+                    if path.section == memo.section {
+                        return path.item > memo.section ? memo : path
                     }
                     else {
-                        return path.item < memo.section ? memo : path
+                        return path.section > memo.section ? memo : path
                     }
                 }
-                let afterLastIndexPath = NSIndexPath(forItem: lastIndexPath.item + 1, inSection: lastIndexPath.section)
                 let items = StreamCellItemParser().parse([post], streamKind: self.streamKind, currentUser: currentUser)
-                insertUnsizedCellItems(items, withWidth: UIScreen.screenWidth(), startingIndexPath: afterLastIndexPath) { newIndexPaths in
-                    for indexPath in oldIndexPaths.reverse() {
+                insertUnsizedCellItems(items, withWidth: UIScreen.screenWidth(), startingIndexPath: firstIndexPath) { newIndexPaths in
+                    for wrongIndexPath in oldIndexPaths.reverse() {
+                        let indexPath = NSIndexPath(forItem: wrongIndexPath.item + newIndexPaths.count, inSection: wrongIndexPath.section)
                         self.removeItemAtIndexPath(indexPath)
                     }
-
-                    delay(1) {
-                        collectionView.performBatchUpdates({
-                            collectionView.insertItemsAtIndexPaths(newIndexPaths)
-                            collectionView.deleteItemsAtIndexPaths(oldIndexPaths)
-                        }, completion: { _ in
-                            println("items: \(self.visibleCellItems)")
-                            collectionView.reloadData()
-                        })
-                    }
+                    collectionView.performBatchUpdates({
+                        collectionView.insertItemsAtIndexPaths(newIndexPaths)
+                        collectionView.deleteItemsAtIndexPaths(oldIndexPaths)
+                    }, completion: nil)
                 }
             }
         case .Update:
@@ -464,8 +455,8 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                     indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
                     items.append(item)
                 }
-                else if change == .Delete {
-                    if let itemComment = item.jsonable as? Comment where itemComment.postId == post.id {
+                else if change == .Delete || change == .Replaced {
+                    if let itemComment = item.jsonable as? Comment where itemComment.loadedFromPostId == post.id || itemComment.postId == post.id {
                         indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
                         items.append(item)
                     }
@@ -555,8 +546,8 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     public func insertUnsizedCellItems(cellItems: [StreamCellItem], withWidth: CGFloat, startingIndexPath: NSIndexPath, completion: StreamContentReady) {
+        let indexPaths = self.insertStreamCellItems(cellItems, startingIndexPath: startingIndexPath)
         self.calculateCellItems(cellItems, withWidth: withWidth) {
-            let indexPaths = self.insertStreamCellItems(cellItems, startingIndexPath: startingIndexPath)
             completion(indexPaths: indexPaths)
         }
     }
