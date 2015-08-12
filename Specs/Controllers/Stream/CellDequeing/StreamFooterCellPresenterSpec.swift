@@ -597,9 +597,9 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     ])
                     let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
-                    
+
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Noise, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: author)
-                    
+
                     expect(cell.lovesItem.customView).toNot(beVisibleIn(cell))
                 }
             }
@@ -675,6 +675,80 @@ class StreamFooterCellPresenterSpec: QuickSpec {
                     StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
 
                     expect(cell.deleteItem.customView).toNot(beVisibleIn(cell))
+                }
+            }
+
+            context("edit button") {
+
+                it("usually hidden") {
+                    let post: Post = stub([
+                        "id" : "768",
+                        "viewsCount" : 9,
+                        "repostsCount" : 4,
+                        "commentsCount" : 6,
+                        "lovesCount" : 55
+                    ])
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+
+                    expect(cell.editItem.customView).toNot(beVisibleIn(cell))
+                }
+
+                it("shown if author is current user") {
+                    let author: User = stub(["id" : "1"])
+                    let post: Post = stub([
+                        "id" : "768",
+                        "viewsCount" : 9,
+                        "repostsCount" : 4,
+                        "commentsCount" : 6,
+                        "author" : author,
+                        "lovesCount" : 55
+                    ])
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: author)
+
+                    expect(cell.editItem.customView).to(beVisibleIn(cell))
+                }
+
+                it("hidden if author is current user in grid view") {
+                    let author: User = stub(["id" : "1"])
+                    let post: Post = stub([
+                        "id" : "768",
+                        "viewsCount" : 9,
+                        "repostsCount" : 4,
+                        "commentsCount" : 6,
+                        "author" : author,
+                        "lovesCount" : 55
+                    ])
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Noise, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: author)
+
+                    expect(cell.editItem.customView).toNot(beVisibleIn(cell))
+                }
+
+                it("hidden if author is not current user") {
+                    let author: User = stub(["id" : "1"])
+                    let currentUser: User = stub(["id" : "2"])
+                    let post: Post = stub([
+                        "id" : "768",
+                        "viewsCount" : 9,
+                        "repostsCount" : 4,
+                        "commentsCount" : 6,
+                        "author" : author,
+                        "lovesCount" : 55
+                    ])
+                    let cell: StreamFooterCell = StreamFooterCell.loadFromNib()
+                    let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Footer)
+
+                    StreamFooterCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+
+                    expect(cell.editItem.customView).toNot(beVisibleIn(cell))
                 }
             }
 
