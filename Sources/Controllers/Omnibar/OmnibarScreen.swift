@@ -683,6 +683,10 @@ extension OmnibarScreen: UITextViewDelegate {
         return true
     }
 
+    public func textViewDidChange(textView: UITextView) {
+        currentText = textView.attributedText
+    }
+
     private func emojiKeyboardShowing() -> Bool {
         return textView.textInputMode?.primaryLanguage == nil || textView.textInputMode?.primaryLanguage == "emoji"
     }
