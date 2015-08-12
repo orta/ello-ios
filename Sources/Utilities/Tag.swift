@@ -368,7 +368,14 @@ public class Tag: Printable {
             case "u":
                 newAttrs[NSUnderlineStyleAttributeName] = NSUnderlineStyle.StyleSingle.rawValue
             case "b", "strong":
-                newAttrs[NSFontAttributeName] = UIFont.typewriterBoldFont(12)
+                if let existingFont = inheritedAttrs[NSFontAttributeName] as? UIFont
+                where existingFont.fontName == UIFont.typewriterItalicFont(12).fontName
+                {
+                    newAttrs[NSFontAttributeName] = UIFont.typewriterBoldItalicFont(12)
+                }
+                else {
+                    newAttrs[NSFontAttributeName] = UIFont.typewriterBoldFont(12)
+                }
             case "i", "em":
                 if let existingFont = inheritedAttrs[NSFontAttributeName] as? UIFont
                 where existingFont.fontName == UIFont.typewriterBoldFont(12).fontName

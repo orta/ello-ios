@@ -58,7 +58,7 @@ public struct ElloAttributedString {
                 output += "<\(tag)>"
             }
             output += (input.string as NSString).substringWithRange(range).entitiesEncoded()
-            for tag in tags {
+            for tag in tags.reverse() {
                 output += "</\(tag)>"
             }
         }
