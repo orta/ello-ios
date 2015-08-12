@@ -228,26 +228,26 @@ public class StreamFooterCell: UICollectionViewCell {
     }
 
     private func addButtonHandlers() {
-        flagControl.addTarget(self, action: Selector("flagButtonTapped:"), forControlEvents: .TouchUpInside)
-        commentsControl.addTarget(self, action: Selector("commentsButtonTapped:"), forControlEvents: .TouchUpInside)
-        lovesControl.addTarget(self, action: Selector("lovesButtonTapped:"), forControlEvents: .TouchUpInside)
-        replyControl.addTarget(self, action: Selector("replyButtonTapped:"), forControlEvents: .TouchUpInside)
-        repostControl.addTarget(self, action: Selector("repostButtonTapped:"), forControlEvents: .TouchUpInside)
-        shareControl.addTarget(self, action: Selector("shareButtonTapped:"), forControlEvents: .TouchUpInside)
-        viewsControl.addTarget(self, action: Selector("viewsButtonTapped:"), forControlEvents: .TouchUpInside)
-        deleteControl.addTarget(self, action: Selector("deleteButtonTapped:"), forControlEvents: .TouchUpInside)
-        editControl.addTarget(self, action: Selector("editButtonTapped:"), forControlEvents: .TouchUpInside)
+        flagControl.addTarget(self, action: Selector("flagButtonTapped"), forControlEvents: .TouchUpInside)
+        commentsControl.addTarget(self, action: Selector("commentsButtonTapped"), forControlEvents: .TouchUpInside)
+        lovesControl.addTarget(self, action: Selector("lovesButtonTapped"), forControlEvents: .TouchUpInside)
+        replyControl.addTarget(self, action: Selector("replyButtonTapped"), forControlEvents: .TouchUpInside)
+        repostControl.addTarget(self, action: Selector("repostButtonTapped"), forControlEvents: .TouchUpInside)
+        shareControl.addTarget(self, action: Selector("shareButtonTapped"), forControlEvents: .TouchUpInside)
+        viewsControl.addTarget(self, action: Selector("viewsButtonTapped"), forControlEvents: .TouchUpInside)
+        deleteControl.addTarget(self, action: Selector("deleteButtonTapped"), forControlEvents: .TouchUpInside)
+        editControl.addTarget(self, action: Selector("editButtonTapped"), forControlEvents: .TouchUpInside)
     }
 
 // MARK: - IBActions
 
-    @IBAction func viewsButtonTapped(sender: ImageLabelControl) {
+    @IBAction func viewsButtonTapped() {
         delegate?.viewsButtonTapped(self.indexPath)
     }
 
-    @IBAction func commentsButtonTapped(sender: ImageLabelControl) {
+    @IBAction func commentsButtonTapped() {
         commentsOpened = !commentsOpened
-        delegate?.commentsButtonTapped(self, imageLabelControl: sender)
+        delegate?.commentsButtonTapped(self, imageLabelControl: commentsControl)
     }
 
     func cancelCommentLoading() {
@@ -257,27 +257,27 @@ public class StreamFooterCell: UICollectionViewCell {
         commentsOpened = false
     }
 
-    @IBAction func lovesButtonTapped(sender: ImageLabelControl) {
+    @IBAction func lovesButtonTapped() {
         delegate?.lovesButtonTapped(self, indexPath: self.indexPath)
     }
 
-    @IBAction func repostButtonTapped(sender: ImageLabelControl) {
+    @IBAction func repostButtonTapped() {
         delegate?.repostButtonTapped(self.indexPath)
     }
 
-    @IBAction func flagButtonTapped(sender: ImageLabelControl) {
+    @IBAction func flagButtonTapped() {
         delegate?.flagPostButtonTapped(self.indexPath)
     }
 
-    @IBAction func shareButtonTapped(sender: ImageLabelControl) {
+    @IBAction func shareButtonTapped() {
         delegate?.shareButtonTapped(self.indexPath)
     }
 
-    @IBAction func deleteButtonTapped(sender: ImageLabelControl) {
+    @IBAction func deleteButtonTapped() {
         delegate?.deletePostButtonTapped(self.indexPath)
     }
 
-    @IBAction func editButtonTapped(sender: ImageLabelControl) {
+    @IBAction func editButtonTapped() {
         if commentsOpened {
             commentsOpened = false
             delegate?.commentsButtonTapped(self, imageLabelControl: commentsControl)
@@ -289,10 +289,10 @@ public class StreamFooterCell: UICollectionViewCell {
         }
     }
 
-    @IBAction func replyButtonTapped(sender: ImageLabelControl) {
+    @IBAction func replyButtonTapped() {
     }
 
-    @IBAction func chevronButtonTapped(sender: StreamFooterButton) {
+    @IBAction func chevronButtonTapped() {
         let contentOffset = isOpen ? CGPointZero : CGPointMake(revealWidth, 0)
         UIView.animateWithDuration(0.25) {
             self.scrollView.contentOffset = contentOffset
