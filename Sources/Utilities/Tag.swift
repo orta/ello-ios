@@ -385,7 +385,7 @@ public class Tag: Printable {
 
         let innerText: NSAttributedString
         if let text = text {
-            innerText = attrd(text, addlAttrs: newAttrs)
+            innerText = attrd(text.entitiesEncoded(), addlAttrs: newAttrs)
         }
         else {
             var tempText = NSMutableAttributedString(string: "")
@@ -463,7 +463,7 @@ public class Tag: Printable {
         }
 
         if let text = text {
-            retval += text
+            retval += text.entitiesEncoded()
         }
 
         for child in tags {
