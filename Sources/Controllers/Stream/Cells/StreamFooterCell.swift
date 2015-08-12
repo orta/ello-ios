@@ -278,7 +278,15 @@ public class StreamFooterCell: UICollectionViewCell {
     }
 
     @IBAction func editButtonTapped(sender: ImageLabelControl) {
+        if commentsOpened {
+            commentsOpened = false
+            delegate?.commentsButtonTapped(self, imageLabelControl: commentsControl)
+        }
+
         delegate?.editPostButtonTapped(self.indexPath)
+        animate(delay: 0.5) {
+            self.close()
+        }
     }
 
     @IBAction func replyButtonTapped(sender: ImageLabelControl) {
