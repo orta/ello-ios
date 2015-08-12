@@ -130,7 +130,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     public var imageURL: NSURL? {
         set {
             if let url = newValue {
-                userSetCurrentURL(url)
+                userSetCurrentImageURL(url)
             }
             else {
                 userSetCurrentImage(nil)
@@ -541,7 +541,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         updatePostState()
     }
 
-    func userSetCurrentURL(imageURL: NSURL) {
+    func userSetCurrentImageURL(imageURL: NSURL) {
         SDWebImageManager.sharedManager().downloadImageWithURL(imageURL,
             options: SDWebImageOptions.LowPriority,
             progress: { (_, _) in }, completed: { (image, _, _, _, _) in

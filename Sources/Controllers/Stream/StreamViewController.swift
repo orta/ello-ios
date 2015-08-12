@@ -432,8 +432,7 @@ public class StreamViewController: BaseElloViewController {
         if height + StreamDataSource.cellBottomPadding != existingHeight {
             collectionView.performBatchUpdates({
                 self.dataSource.updateHeightForIndexPath(indexPath, height: height)
-            }, completion: { (finished) in
-            })
+            }, completion: nil)
             collectionView.reloadItemsAtIndexPaths([indexPath])
         }
     }

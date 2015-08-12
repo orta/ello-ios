@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class PostDetailViewController: StreamableViewController, CreatePostDelegate {
+public class PostDetailViewController: StreamableViewController {
 
     var post: Post?
     var postParam: String!

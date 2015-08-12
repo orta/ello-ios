@@ -48,8 +48,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             if self.isViewLoaded() {
                 self.prepareScreenForEditing(post)
             }
-        }, failure: { _, _ in
-        })
+        }, failure: nil)
     }
 
     convenience public init(parentPost post: Post, defaultText: String) {
@@ -257,7 +256,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         omnibarSubmitted(text, image: image, data: nil)
     }
 
-    public func omnibarSubmitted(text: NSAttributedString?, image: UIImage?, data: (UIImage, NSData, String)?) {
+    public func omnibarSubmitted(attributedText: NSAttributedString?, image: UIImage?, data: (UIImage, NSData, String)?) {
         var content = [Any]()
 
         if let data = data {
@@ -267,7 +266,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             content.append(image)
         }
 
-        if let textString = text?.string {
+        if let textString = attributedText?.string {
             if count(textString) > 5000 {
                 contentCreationFailed(NSLocalizedString("Your text is too long.\n\nThe character limit is 5,000.", comment: "Post too long (maximum characters is 5000) error message"))
                 return
@@ -275,7 +274,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
             let cleanedText = textString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
             if count(cleanedText) > 0 {
-                content.append(ElloAttributedString.render(text!))
+                content.append(ElloAttributedString.render(attributedText!))
             }
         }
 
@@ -343,7 +342,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             postNotification(CurrentUserChangedNotification, user)
         }
 
-        if let _ = editPost {
+        if editPost != nil {
             postNotification(PostChangedNotification, (post, .Replaced))
         }
         else {
