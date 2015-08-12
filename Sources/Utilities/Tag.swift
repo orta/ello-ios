@@ -392,7 +392,7 @@ public class Tag: Printable {
 
         let innerText: NSAttributedString
         if let text = text {
-            innerText = attrd(text.entitiesEncoded(), addlAttrs: newAttrs)
+            innerText = attrd(text, addlAttrs: newAttrs)
         }
         else {
             var tempText = NSMutableAttributedString(string: "")

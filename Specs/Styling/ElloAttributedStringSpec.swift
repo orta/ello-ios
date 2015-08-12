@@ -20,11 +20,12 @@ class ElloAttributedStringSpec: QuickSpec {
                 expect(attrd).to(beAKindOf(NSAttributedString))
             }
         }
+
         describe("parsing Post body") {
             let tests: [String: (input: String, output: String)] = [
                 "with newlines": (input: "test<br><br />", output: "test\n\n"),
                 "link": (input: "<a href=\"foo.com\">a link</a>", output: "[a link](foo.com)"),
-                "entities": (input: "&lt;tag!&gt;that is a tag&lt;/tag&gt;", output: "&lt;tag!&gt;that is a tag&lt;/tag&gt;"),
+                "entities": (input: "&lt;tag!&gt;that is a tag&lt;/tag&gt;", output: "<tag!>that is a tag</tag>"),
                 "text and link": (input: "test <a href=\"foo.com\">a link</a>", output: "test [a link](foo.com)"),
                 "styled text": (input: "test <b>bold</b> <i>italic</i> <strong>strong</strong> <em>emphasis</em>", output: "test bold italic strong emphasis")
             ]

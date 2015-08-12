@@ -372,9 +372,20 @@ class StreamDataSourceSpec: QuickSpec {
                 }
 
                 it("returns an array of StreamCellItems") {
-                    var post = subject.postForIndexPath(indexPath0)
-                    let items = subject.cellItemsForPost(post!)
+                    var post = subject.postForIndexPath(indexPath0)!
+                    let items = subject.cellItemsForPost(post)
                     expect(count(items)) == 4
+                    for item in subject.visibleCellItems {
+                        if contains(items, item) {
+                            let itemPost = item.jsonable as! Post
+                            expect(itemPost.id) == post.id
+                        }
+                        else {
+                            if let itemPost = item.jsonable as? Post {
+                                expect(itemPost.id) != post.id
+                            }
+                        }
+                    }
                 }
 
                 it("returns empty array if post not found") {
