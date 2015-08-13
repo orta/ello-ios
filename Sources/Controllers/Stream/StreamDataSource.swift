@@ -546,8 +546,8 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     public func insertUnsizedCellItems(cellItems: [StreamCellItem], withWidth: CGFloat, startingIndexPath: NSIndexPath, completion: StreamContentReady) {
-        let indexPaths = self.insertStreamCellItems(cellItems, startingIndexPath: startingIndexPath)
         self.calculateCellItems(cellItems, withWidth: withWidth) {
+            let indexPaths = self.insertStreamCellItems(cellItems, startingIndexPath: startingIndexPath)
             completion(indexPaths: indexPaths)
         }
     }
