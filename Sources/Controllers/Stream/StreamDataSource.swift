@@ -14,7 +14,6 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     public typealias StreamContentReady = (indexPaths:[NSIndexPath]) -> Void
     public typealias StreamFilter = (StreamCellItem -> Bool)?
 
-    public static let cellBottomPadding: CGFloat = 10.0
     public var streamKind:StreamKind
     public var currentUser: User?
 
@@ -546,8 +545,8 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     public func insertUnsizedCellItems(cellItems: [StreamCellItem], withWidth: CGFloat, startingIndexPath: NSIndexPath, completion: StreamContentReady) {
-        let indexPaths = self.insertStreamCellItems(cellItems, startingIndexPath: startingIndexPath)
         self.calculateCellItems(cellItems, withWidth: withWidth) {
+            let indexPaths = self.insertStreamCellItems(cellItems, startingIndexPath: startingIndexPath)
             completion(indexPaths: indexPaths)
         }
     }

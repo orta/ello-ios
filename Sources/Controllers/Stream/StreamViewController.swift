@@ -429,7 +429,7 @@ public class StreamViewController: BaseElloViewController {
 
     private func updateCellHeight(indexPath:NSIndexPath, height:CGFloat) {
         let existingHeight = dataSource.heightForIndexPath(indexPath, numberOfColumns: streamKind.columnCount)
-        if height + StreamDataSource.cellBottomPadding != existingHeight {
+        if height != existingHeight {
             collectionView.performBatchUpdates({
                 self.dataSource.updateHeightForIndexPath(indexPath, height: height)
             }, completion: nil)
