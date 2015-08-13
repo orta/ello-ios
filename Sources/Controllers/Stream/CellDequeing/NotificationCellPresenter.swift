@@ -46,7 +46,7 @@ public struct NotificationCellPresenter {
             if let imageRegion = notification.imageRegion {
                 var aspectRatio = StreamImageCellSizeCalculator.aspectRatioForImageRegion(imageRegion)
                 var imageURL: NSURL?
-                if let asset = imageRegion.asset where asset.isGif && (streamKind.supportsLargeImages || !asset.isLargeGif) {
+                if let asset = imageRegion.asset where !asset.isGif {
                     imageURL = asset.optimized?.url
                 }
                 else if let hdpiURL = imageRegion.asset?.hdpi?.url{
