@@ -1,3 +1,82 @@
+### Ello Build v1.0.0(2936) August 12, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #535 - Easy one.
+
+------
+
+#### #529 - Adds editing!
+It's a biggie, wow, look at all those commits.
+
+First off, we have a new button on the StreamFooterCell.  Should only show on own posts.
+
+The post "body" is downloaded via PostDetail (it's not available on the Posts when downloaded from a Stream).  That contains a reasonable mix of HTML (br, b, strong, em, i, a, img tags) which is parsed by `Tag` class
+
+The Tag is consumed be `ElloAttributedString`, which pulls out the tags and either makes them editable (like the `<a>` tag) or applies the tag to the NSAttributedString that is returned.
+
+The UITextView has gained rich text editing - very basic B/I/U controls when selecting text - those get applied on the way out, too, in the form of *adding* HTML tags by analyzing the `NSAttributedString` of the `UITextView`.
+
+So, `ElloAttributedString` has `parse / render` methods, and some specs on those, too.  And Tag has specs, though I'm going to add some more.  Wanted to get this into today's build.
+
+------
+
+#### #534 - Show content search results in grid layout
+* Add some specs for `StreamKind` too. 
+
+[Finishes #101085990]
+
+![screen shot 2015-08-11 at 5 14 57 pm](https://cloud.githubusercontent.com/assets/12459/9213120/840470a2-404c-11e5-8e54-3b7a4f5f865f.png)
+
+Yeah `StreamKind`! This is all the code required to make this change. 
+
+![screen shot 2015-08-11 at 5 16 11 pm](https://cloud.githubusercontent.com/assets/12459/9213137/b78c38ec-404c-11e5-90d8-881f722eccab.png)
+
+------
+
+#### #528 - Add SSL Pinning support to the app
+Still need to:
+- [x] Create a valid `.cer` file
+- [x] Add valid `.cer` to `Resources`
+- [x] Decide on how we update the certificate
+
+Due to the nature of the certs we will need to update them as often as we see fit. Google does this every month, but seems like most do it every 1-2 years. This will require us to update the app as it is in current form. We could also write a way for the app to be able to update the local `.cer` from an API endpoint.
+
+------
+
+#### #533 - Update tagline
+Replace "Beautiful & ad-free." with "Be inspired."
+Also tweaks y position of intro text to be uniform.
+Finishes: https://www.pivotaltracker.com/story/show/99913356
+
+![discover](https://cloud.githubusercontent.com/assets/12459/9208424/9a7c5a46-4030-11e5-912c-ba56c525112b.jpg)
+
+------
+
+#### #531 - show red dots when new content is available
+This PR adds red dots to the Notifications and Friends/Noise tabs when new content is present on the server.
+
+`ElloTabBar` creates and starts 10 second polling process in `NewContentService`. `NewContentService` hits up to 3 endpoints every 10 seconds with a conditional HEAD request. If the request(s) come back with a 204 the red dot corresponding to that tab is displayed. If a 304 comes back nothing happens. The app does not poll while in the background.
+
+Tapping on the notifications tab when a red dot is present will reload notifications.
+
+Tapping on the friends/noise tab when a red dot is present will hide the dot but not reload the friends or noise stream. 
+
+Finishes: https://www.pivotaltracker.com/story/show/88948824
+Finishes: https://www.pivotaltracker.com/story/show/97567994
+Finishes: https://www.pivotaltracker.com/story/show/83167572
+
+![screen shot 2015-08-06 at 3 37 42 pm](https://cloud.githubusercontent.com/assets/12459/9124073/3105b220-3c51-11e5-871e-cd3c114cd7a8.png)
+
+
+
+
+![screenshot 2015-08-06 15 16 53](https://cloud.githubusercontent.com/assets/12459/9123664/3c963f04-3c4e-11e5-8be1-82a366153606.png)
+    
+------------
+
 ### Ello Build v1.0.0(2862) August 6, 2015
 
     RELEASE NOTES
