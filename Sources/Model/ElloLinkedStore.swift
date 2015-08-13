@@ -46,12 +46,13 @@ public struct ElloLinkedStore {
     }
 
     private func parseLinkedSync(linked: [String: [[String: AnyObject]]]) {
-        self.writeConnection.readWriteWithBlock { transaction in
-            for (type:String, typeObjects: [[String:AnyObject]]) in linked {
-                if let mappingType = MappingType(rawValue: type) {
-                    for object: [String:AnyObject] in typeObjects {
-                        if let id = object["id"] as? String {
-                            let jsonable = mappingType.fromJSON(data: object, fromLinked: true)
+        for (type:String, typeObjects: [[String:AnyObject]]) in linked {
+            if let mappingType = MappingType(rawValue: type) {
+                for object: [String:AnyObject] in typeObjects {
+                    if let id = object["id"] as? String {
+                        let jsonable = mappingType.fromJSON(data: object, fromLinked: true)
+
+                        self.writeConnection.readWriteWithBlock { transaction in
                             transaction.setObject(jsonable, forKey: id, inCollection: type)
                         }
                     }
