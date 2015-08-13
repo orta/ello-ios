@@ -14,7 +14,6 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     public typealias StreamContentReady = (indexPaths:[NSIndexPath]) -> Void
     public typealias StreamFilter = (StreamCellItem -> Bool)?
 
-    public static let cellBottomPadding: CGFloat = 10.0
     public var streamKind:StreamKind
     public var currentUser: User?
 
