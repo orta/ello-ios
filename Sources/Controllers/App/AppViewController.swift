@@ -386,6 +386,7 @@ public extension AppViewController {
     private func logOutCurrentUser() {
         PushNotificationController.sharedController.deregisterStoredToken()
         AuthToken().reset()
+        NSURLCache.sharedURLCache().removeAllCachedResponses()
         currentUser = nil
     }
 }
