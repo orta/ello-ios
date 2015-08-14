@@ -27,6 +27,10 @@ public class Onboarding {
         version = _currentVersion
     }
 
+    public func reset() {
+        version = 0
+    }
+
     public class func shared() -> Onboarding {
         return _sharedInstance
     }

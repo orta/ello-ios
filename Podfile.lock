@@ -19,6 +19,7 @@ PODS:
   - Fabric (1.2.8):
     - Fabric/Base (= 1.2.8)
   - Fabric/Base (1.2.8)
+  - Firebase (2.3.3)
   - FLAnimatedImage (1.0.8)
   - JTSImageViewController (1.5)
   - Keys (1.0.0)
@@ -57,6 +58,7 @@ DEPENDENCIES:
   - Crashlytics (~> 3.1.0)
   - CRToast (from `https://github.com/ello/CRToast`)
   - Fabric (~> 1.2.0)
+  - Firebase
   - FLAnimatedImage (from `https://github.com/ello/FLAnimatedImage`)
   - JTSImageViewController (from `https://github.com/ello/JTSImageViewController`)
   - Keys (from `Pods/CocoaPodsKeys/`)
@@ -122,6 +124,7 @@ SPEC CHECKSUMS:
   Crashlytics: 93e2f86363d53c002c6366a9d87e41f2eaee87c3
   CRToast: eb22641501990233c53cb8f83f7d2ea87e0ddf73
   Fabric: a9eabe53915e9f1db55a84dd2838737928675878
+  Firebase: 2db60272f68ce40c7d47e5ae6eddc16977c65d4c
   FLAnimatedImage: 7599ec218dceacdcacbdfccb2947415c2619cd11
   JTSImageViewController: 89ae3c003060c65418fd3224ebbd67acc6046608
   Keys: 7d2ff6ff42f6903358267ce56e9392f83c31acfe
