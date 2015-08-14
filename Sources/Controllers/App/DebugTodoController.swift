@@ -127,7 +127,12 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
 
     func addTodoItemInGroup(group: String) {
         let ctlr = UIAlertController(title: "Name:", message: "", preferredStyle: .Alert)
-        ctlr.addTextFieldWithConfigurationHandler() { textField in textField.placeholder = "Name" }
+        ctlr.addTextFieldWithConfigurationHandler() { textField in
+            textField.autocapitalizationType = .Sentences
+            textField.autocorrectionType = .Default
+            textField.spellCheckingType = .Default
+            textField.placeholder = "Name"
+        }
         let done = UIAlertAction(title: "Done", style: .Default, handler: { action in
             if let field = ctlr.textFields?.safeValue(0) as? UITextField,
                 text = field.text,
