@@ -31,12 +31,13 @@ PODS:
     - Alamofire (~> 1.3.0)
   - Nimble (1.0.0)
   - OHHTTPStubs (4.1.0)
+  - PINCache (2.0)
+  - PINRemoteImage (1.1.2):
+    - FLAnimatedImage (>= 1.0)
+    - PINCache (>= 2.0)
   - Quick (0.3.1)
   - Result (0.4.4):
     - Box (~> 1.2)
-  - SDWebImage (3.7.3):
-    - SDWebImage/Core (= 3.7.3)
-  - SDWebImage/Core (3.7.3)
   - SSPullToRefresh (1.2.4)
   - SVGKit (2.x):
     - CocoaLumberjack (~> 2.x)
@@ -66,9 +67,9 @@ DEPENDENCIES:
   - Moya (~> 2.1.0)
   - Nimble (~> 1.0.0)
   - OHHTTPStubs (~> 4.1.0)
+  - PINRemoteImage (~> 1.1)
   - Quick (~> 0.3.0)
   - Result (~> 0.4.0)
-  - SDWebImage (~> 3.7)
   - SSPullToRefresh (~> 1.2)
   - SVGKit (from `https://github.com/SVGKit/SVGKit`)
   - SwiftyJSON (~> 2.2.0)
@@ -131,9 +132,10 @@ SPEC CHECKSUMS:
   Moya: 6ad7d6b1e12b758e46edde8a07245d633e176087
   Nimble: 8bee528e5fcc403653076545db562d2b5db7bb87
   OHHTTPStubs: f3473ab21dbf0815253ac96b977d5c36f1daad09
+  PINCache: ca953ba93ce1edde056fdd99121ee65b295a08c9
+  PINRemoteImage: 0696e5f679deabf2e2ddfb57085fb978ca51bfc3
   Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
   Result: b44f6bc8762bbffaf2c5df58f2c7d12c3496ced8
-  SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   SSPullToRefresh: 369e862c1d6528c7a354fc85cd4763d4e670e9af
   SVGKit: cf06ac3067c4d5e927e5f93ba6a7e4d7171a7502
   SwiftyJSON: ae2d0a3d68025d136602a33c4ee215091ced3e33

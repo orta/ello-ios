@@ -85,9 +85,9 @@ public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
 
     var imageURL : NSURL? {
         willSet(newValue) {
-            self.notificationImageView.sd_setImageWithURL(newValue, completed: { (image, error, type, url) in
+            self.notificationImageView.pin_setImageFromURL(newValue) { _ in
                 self.setNeedsLayout()
-            })
+            }
         }
     }
 

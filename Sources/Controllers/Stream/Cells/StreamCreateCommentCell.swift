@@ -24,7 +24,7 @@ public class StreamCreateCommentCell : UICollectionViewCell {
     var avatarURL : NSURL? {
         willSet(value) {
             if let avatarURL = value {
-                self.avatarView.sd_setImageWithURL(avatarURL)
+                self.avatarView.pin_setImageFromURL(avatarURL)
             }
             else {
                 self.avatarView.image = nil

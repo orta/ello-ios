@@ -98,11 +98,11 @@ public struct StreamImageCellPresenter {
                 }
                 else if let imageURL = imageToLoad {
                     cell.serverProvidedAspectRatio = StreamImageCellSizeCalculator.aspectRatioForImageRegion(imageRegion)
-                    cell.setImage(imageURL, isGif: showGifInThisCell)
+                    cell.setImageURL(imageURL)
                 }
                 else if let imageURL = imageRegion.url {
                     cell.isGif = imageURL.hasGifExtension
-                    cell.setImage(imageURL, isGif: imageURL.hasGifExtension)
+                    cell.setImageURL(imageURL)
                 }
             }
         }
