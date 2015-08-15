@@ -6,12 +6,12 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import SDWebImage
+import PINRemoteImage
 
 public struct Preloader {
 
     // public so that we can swap out a fake in specs
-    public var manager = SDWebImageManager.sharedManager()
+    public var manager = PINRemoteImageManager.sharedImageManager()
 
     public init(){}
     
@@ -117,10 +117,7 @@ public struct Preloader {
 
     private func preloadUrl(url: NSURL) {
         if !url.hasGifExtension {
-            manager.downloadImageWithURL(url,
-                options: SDWebImageOptions.LowPriority,
-                progress: { (_, _) in }, completed: { (_, _, _, _, _) in}
-            )
+            manager.prefetchImageWithURL(url, options: PINRemoteImageManagerDownloadOptions.DownloadOptionsNone)
         }
     }
 }

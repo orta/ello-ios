@@ -1,7 +1,5 @@
 #import <MBProgressHUD/MBProgressHUD.h>
-#import <SDWebImage/UIImageView+WebCache.h>
-#import <SDWebImage/SDImageCache.h>
-#import <SDWebImage/SDWebImageManager.h>
+#import <PINRemoteImage/PINRemoteImage.h>
 #import <JTSImageViewController/JTSImageViewController.h>
 #import <KINWebBrowser/KINWebBrowserViewController.h>
 #import <CommonCrypto/CommonCrypto.h>

@@ -26,7 +26,7 @@ import Photos
 import MobileCoreServices
 import FLAnimatedImage
 import SVGKit
-import SDWebImage
+import PINRemoteImage
 
 @objc
 public protocol OmnibarScreenDelegate {
@@ -143,8 +143,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         willSet(newValue) {
             if avatarURL != newValue {
                 if let avatarURL = newValue {
-                    self.avatarButtonView.sd_setImageWithURL(avatarURL, forState: .Normal)
-                }
+                    self.avatarButtonView.pin_setImageFromURL(avatarURL)                }
                 else {
                     self.avatarButtonView.setImage(nil, forState: .Normal)
                 }
@@ -542,12 +541,11 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     }
 
     func userSetCurrentImageURL(imageURL: NSURL) {
-        SDWebImageManager.sharedManager().downloadImageWithURL(imageURL,
-            options: SDWebImageOptions.LowPriority,
-            progress: { (_, _) in }, completed: { (image, _, _, _, _) in
+        PINRemoteImageManager.sharedImageManager().downloadImageWithURL(imageURL) { result in
+            if let image = result.image {
                 self.userSetCurrentImage(image)
             }
-        )
+        }
     }
 
     // this updates the currentImage and buttons

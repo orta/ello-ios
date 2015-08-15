@@ -219,14 +219,10 @@ public class ProfileViewController: StreamableViewController {
             coverImage.image = cachedImage
             self.coverImage.alpha = 1.0
         }
-        else if let cover = user.coverImageURL,
-            let coverImage = coverImage
+        else if let cover = user.coverImageURL, coverImage = coverImage
         {
-            coverImage.sd_setImageWithURL(cover) {
-                (_, _, _, _) in
-                UIView.animateWithDuration(0.15) {
-                    self.coverImage.alpha = 1.0
-                }
+            coverImage.pin_setImageFromURL(cover) { result in
+                self.coverImage.alpha = 1.0
             }
         }
         var items: [StreamCellItem] = [StreamCellItem(jsonable: user, type: .ProfileHeader)]

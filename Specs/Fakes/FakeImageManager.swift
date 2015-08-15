@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import SDWebImage
+import PINRemoteImage
 
-public class FakeImageManager: SDWebImageManager {
+public class FakeImageManager: PINRemoteImageManager {
 
     public var downloads = [NSURL]()
 
@@ -18,14 +18,8 @@ public class FakeImageManager: SDWebImageManager {
 
     public override init(){}
 
-    override public func downloadImageWithURL(url: NSURL!, options: SDWebImageOptions, progress progressBlock: SDWebImageDownloaderProgressBlock!, completed completedBlock: SDWebImageCompletionWithFinishedBlock!) -> SDWebImageOperation! {
+    override public func prefetchImageWithURL(url: NSURL!, options: PINRemoteImageManagerDownloadOptions) {
         downloads.append(url)
-        return FakeSDWebImageOperation()
     }
 
-}
-
-// SDWebImageOperation is a protocol so we need a fake one to be returned from downloadImageWithURL()
-public class FakeSDWebImageOperation:NSObject, SDWebImageOperation {
-    public func cancel(){}
 }

@@ -7,7 +7,7 @@
 //
 
 import Crashlytics
-import SDWebImage
+import PINRemoteImage
 
 @objc
 protocol OnboardingStep {
@@ -232,25 +232,19 @@ private extension OnboardingViewController {
             }
 
             if let url = currentUser.avatarURL {
-                SDWebImageManager.sharedManager().downloadImageWithURL(url,
-                    options: SDWebImageOptions.LowPriority,
-                    progress: { (_, _) in }, completed: { (image, _, _, _, _) in
-                        if let image = image {
-                            self.onboardingData?.avatarImage = image
-                        }
+                PINRemoteImageManager.sharedImageManager().downloadImageWithURL(url) { result in
+                    if let image = result.image {
+                        self.onboardingData?.avatarImage = image
                     }
-                )
+                }
             }
 
             if let url = currentUser.coverImageURL {
-                SDWebImageManager.sharedManager().downloadImageWithURL(url,
-                    options: SDWebImageOptions.LowPriority,
-                    progress: { (_, _) in }, completed: { (image, _, _, _, _) in
-                        if let image = image {
-                            self.onboardingData?.coverImage = image
-                        }
+                PINRemoteImageManager.sharedImageManager().downloadImageWithURL(url) { result in
+                    if let image = result.image {
+                        self.onboardingData?.coverImage = result.image
                     }
-                )
+                }
             }
         }
 

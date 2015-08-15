@@ -9,7 +9,7 @@
 import UIKit
 import Foundation
 import FLAnimatedImage
-import SDWebImage
+import PINRemoteImage
 import SVGKit
 import Alamofire
 
@@ -55,14 +55,14 @@ public class StreamImageCell: StreamRegionableCell {
         }
     }
 
-    public func setImage(url: NSURL, isGif: Bool) {
+    public func setImageURL(url: NSURL) {
         imageView.image = nil
         imageView.alpha = 0
         circle.pulse()
         failImage.hidden = true
         failImage.alpha = 0
         imageView.backgroundColor = UIColor.whiteColor()
-        isGif ? loadGif(url) : loadNonGif(url)
+        loadImage(url)
     }
 
     public func setImage(image: UIImage) {
@@ -73,45 +73,18 @@ public class StreamImageCell: StreamRegionableCell {
         imageView.backgroundColor = UIColor.whiteColor()
     }
 
-    private func loadGif(url: NSURL) {
-        if let path = url.absoluteString {
-            if let data = GifCache.objectForKey(path) as? NSData {
-                self.displayAnimatedGif(data)
-            }
-            else {
-                self.request = Alamofire.request(.GET, path).response { (request: NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) in
-                    let successful = response?.statusCode >= 200 && response?.statusCode < 400
-                    if let data = data as? NSData where error == nil && successful {
-                        GifCache.setObject(data, forKey: request.URLString)
-                        self.displayAnimatedGif(data)
-                    }
-                    else {
-                        self.imageLoadFailed()
-                    }
-                }
-            }
-        }
-    }
+    private func loadImage(url: NSURL) {
+        self.imageView.pin_setImageFromURL(url) { result in
+            let success = result.image != nil || result.animatedImage != nil
+            let isAnimated = result.animatedImage != nil
+            if success {
+                self.aspectRatio = isAnimated ? (result.animatedImage.size.width / result.animatedImage.size.height) : (result.image.size.width / result.image.size.height)
 
-    private func displayAnimatedGif(data: NSData) {
-        if let animatedImage = FLAnimatedImage(animatedGIFData: data) {
-            nextTick {
-                self.imageView.alpha = 1.0
-                self.aspectRatio = (animatedImage.size.width / animatedImage.size.height)
-                self.imageView.animatedImage = animatedImage
-                self.circle.stopPulse()
-            }
-        }
-    }
-
-    private func loadNonGif(url:NSURL) {
-        self.imageView.sd_setImageWithURL(url) { (image, _, type, _) in
-            if let image = image {
-                self.aspectRatio = (image.size.width / image.size.height)
                 if self.serverProvidedAspectRatio == nil {
                     postNotification(StreamNotification.AnimateCellHeightNotification, self)
                 }
-                if type != .Memory {
+
+                if result.resultType != .MemoryCache {
                     self.imageView.alpha = 0
                     UIView.animateWithDuration(0.3,
                         delay:0.0,
@@ -120,7 +93,8 @@ public class StreamImageCell: StreamRegionableCell {
                             self.imageView.alpha = 1.0
                         }, completion: { _ in
                             self.circle.stopPulse()
-                        })
+                        }
+                    )
                 }
                 else {
                     self.imageView.alpha = 1.0

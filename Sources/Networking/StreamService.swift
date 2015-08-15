@@ -8,8 +8,6 @@
 
 import UIKit
 import Moya
-import SwiftyJSON
-import SDWebImage
 
 
 public typealias StreamSuccessCompletion = (jsonables: [JSONAble], responseConfig: ResponseConfig) -> Void

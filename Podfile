@@ -19,10 +19,11 @@ pod 'JTSImageViewController', git: 'https://github.com/ello/JTSImageViewControll
 pod 'KINWebBrowser', git: 'https://github.com/ello/KINWebBrowser'
 pod 'LUKeychainAccess', '~> 1.2.4'
 pod 'MBProgressHUD', '~> 0.9.0'
-pod 'SDWebImage', '~> 3.7'
+# pod 'SDWebImage', '~> 3.7'
 pod 'SSPullToRefresh', '~> 1.2'
 pod 'SVGKit', git: 'https://github.com/SVGKit/SVGKit'
 pod 'YapDatabase', git: 'https://github.com/ello/YapDatabase'
+pod 'PINRemoteImage', '~> 1.1'
 
 # swift pods
 pod 'Alamofire', '~> 1.3.0'

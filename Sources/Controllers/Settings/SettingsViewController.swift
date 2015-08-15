@@ -173,14 +173,14 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
             coverImage.image = cachedImage
         }
         else if let imageURL = currentUser?.coverImageURL {
-            coverImage.sd_setImageWithURL(imageURL)
+            coverImage.pin_setImageFromURL(imageURL)
         }
 
         if let cachedImage = TemporaryCache.load(.Avatar) {
             avatarImage.image = cachedImage
         }
         else if let imageURL = currentUser?.avatar?.large?.url {
-            avatarImage.sd_setImageWithURL(imageURL)
+            avatarImage.pin_setImageFromURL(imageURL)
         }
 
         nameTextFieldView.label.setLabelText(NSLocalizedString("Name", comment: "name setting"))
