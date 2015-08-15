@@ -444,3 +444,52 @@ public extension AppViewController {
     }
 
 }
+
+#if DEBUG
+
+import SVGKit
+
+var isShowingDebug = false
+var debugTodoController = DebugTodoController()
+
+public extension AppViewController {
+
+    public override func canBecomeFirstResponder() -> Bool {
+        return true
+    }
+
+    public override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent) {
+        if motion == .MotionShake {
+            if isShowingDebug {
+                closeTodoController()
+            }
+            else {
+                isShowingDebug = true
+                let ctlr = debugTodoController
+                ctlr.title = "Test Me Test Me"
+
+                let nav = UINavigationController(rootViewController: ctlr)
+                let bar = UIView(frame: CGRect(x: 0, y: -20, width: view.frame.width, height: 20))
+                bar.autoresizingMask = .FlexibleWidth | .FlexibleBottomMargin
+                bar.backgroundColor = .blackColor()
+                nav.navigationBar.addSubview(bar)
+
+                let closeItem = UIBarButtonItem(image: SVGKImage(named: "x_normal.svg").UIImage!, style: UIBarButtonItemStyle.Plain, target: self, action: Selector("closeTodoController"))
+                ctlr.navigationItem.leftBarButtonItem = closeItem
+
+                let addItem = UIBarButtonItem(image: SVGKImage(named: "plussmall_normal.svg").UIImage!, style: UIBarButtonItemStyle.Plain, target: ctlr, action: Selector("addTodoItem"))
+                ctlr.navigationItem.rightBarButtonItem = addItem
+
+                presentViewController(nav, animated: true, completion: nil)
+            }
+        }
+    }
+
+    public func closeTodoController() {
+        isShowingDebug = false
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+
+}
+
+#endif
