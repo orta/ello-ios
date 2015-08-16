@@ -1,3 +1,36 @@
+### Ello Build v1.0.0(2953) August 14, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #540 - Adds the 'DebugTodoController', which is awesome and you know it.
+:-)
+
+------
+
+#### #539 - Swap SDWebImage add PINRemoteImage
+Pinterest recently open sourced `PINRemoteImage` a remote image library with similar functionality to `SDWebImage`. The advantage is native integration with `FLAnimatedImage` our GIF library. Swapping the two allowed us to remove branching gif loading/caching code we had in place streamlining the download, cache and display of images.
+
+![screen shot 2015-08-14 at 3 27 24 pm](https://cloud.githubusercontent.com/assets/12459/9284438/00b10586-4299-11e5-9818-35a728846437.png)
+
+------
+
+#### #538 - reset the NSURLCache on logout, so that 304 responses are not created incorrectly
+
+------
+
+#### #537 - remove YAP-Database as a possible source of the weird JSON errors
+
+------
+
+#### #536 - A few fixes from the "edit post" build.  MY BAD GEEZ.
+I had, at one point, changed the behavior in StreamDataSource to insert unsized cell items immediately, to assist in my collection view code.  In the end, though, I don't need that behavior, and it is causing a crash after commenting.  Best to restore the old behavior, which inserts the cell items only *after* they are sized.
+
+The Notification stream crash was apparently because of gigantic animated gif memory bugs, even though the NotificationCell uses FLAnimatedImageView.  So I disabled animated GIFs.  I think this is better for notifications anyway.
+    
+------------
+
 ### Ello Build v1.0.0(2936) August 12, 2015
 
     RELEASE NOTES
