@@ -8,6 +8,8 @@
 
 import UIKit
 import Crashlytics
+import SwiftyUserDefaults
+
 
 public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
     var keyboardWillShowObserver: NotificationObserver?
@@ -77,7 +79,12 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     }
 
     override public func loadView() {
-        self.view = OmnibarScreen(frame: UIScreen.mainScreen().bounds)
+        if Defaults["OmnibarNewEditorEnabled"].bool ?? false {
+            self.view = OmnibarMultiRegionScreen(frame: UIScreen.mainScreen().bounds)
+        }
+        else {
+            self.view = OmnibarScreen(frame: UIScreen.mainScreen().bounds)
+        }
 
         screen.canGoBack = parentPost != nil || editPost != nil
         screen.currentUser = currentUser
