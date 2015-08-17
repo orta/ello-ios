@@ -30,6 +30,10 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
     var entries = [DebugTodo]()
     var actions = [(String, BasicBlock)]()
 
+    private func addAction(name: String, block: BasicBlock) {
+        actions.append((name, block))
+    }
+
     var marketingVersion = ""
     var buildVersion = ""
 
@@ -43,28 +47,36 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
         }
 
         let appController = UIApplication.sharedApplication().keyWindow!.rootViewController as! AppViewController
-        actions.append(("Logout", {
+        addAction("Logout") {
             appController.dismissViewControllerAnimated(false, completion: nil)
             delay(0.1) {
                 appController.userLoggedOut()
             }
-        }))
-        actions.append(("Reset Tab bar Tooltips", {
+        }
+        addAction("Reset Tab bar Tooltips") {
             Defaults[ElloTab.Discovery.narrationDefaultKey] = nil
             Defaults[ElloTab.Notifications.narrationDefaultKey] = nil
             Defaults[ElloTab.Stream.narrationDefaultKey] = nil
             Defaults[ElloTab.Profile.narrationDefaultKey] = nil
             Defaults[ElloTab.Post.narrationDefaultKey] = nil
-        }))
-        actions.append(("Reset Intro", {
+        }
+        addAction("Reset Intro") {
             Defaults["IntroDisplayed"] = nil
-        }))
-        actions.append(("Reset Onboarding", {
+        }
+        addAction("Reset Onboarding") {
             Onboarding.shared().reset()
-        }))
-        actions.append(("Crash the app", {
+        }
+        addAction("Toggle New Omnibar (multiple regions)") {
+            if Defaults["OmnibarNewEditorEnabled"].bool ?? false {
+                Defaults["OmnibarNewEditorEnabled"] = false
+            }
+            else {
+                Defaults["OmnibarNewEditorEnabled"] = true
+            }
+        }
+        addAction("Crash the app") {
             Crashlytics.sharedInstance().crash()
-        }))
+        }
 
         tableView.frame = view.bounds
         tableView.delegate = self
