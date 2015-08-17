@@ -393,38 +393,6 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
 }
 
-
-public class OmnibarData : NSObject, NSCoding {
-    public let attributedText: NSAttributedString?
-    public let image: UIImage?
-
-    required public init(attributedText: NSAttributedString?, image: UIImage?) {
-        self.attributedText = attributedText
-        self.image = image
-        super.init()
-    }
-
-// MARK: NSCoding
-
-    public func encodeWithCoder(encoder: NSCoder) {
-        if let attributedText = attributedText {
-            encoder.encodeObject(attributedText, forKey: "attributedText")
-        }
-
-        if let image = image {
-            encoder.encodeObject(image, forKey: "image")
-        }
-    }
-
-    required public init(coder aDecoder: NSCoder) {
-        let decoder = Coder(aDecoder)
-        attributedText = decoder.decodeOptionalKey("attributedText")
-        image = decoder.decodeOptionalKey("image")
-        super.init()
-    }
-
-}
-
 extension OmnibarViewController {
 
     // OK:
@@ -456,4 +424,36 @@ extension OmnibarViewController {
         }
         return false
     }
+}
+
+
+public class OmnibarData : NSObject, NSCoding {
+    public let attributedText: NSAttributedString?
+    public let image: UIImage?
+
+    required public init(attributedText: NSAttributedString?, image: UIImage?) {
+        self.attributedText = attributedText
+        self.image = image
+        super.init()
+    }
+
+// MARK: NSCoding
+
+    public func encodeWithCoder(encoder: NSCoder) {
+        if let attributedText = attributedText {
+            encoder.encodeObject(attributedText, forKey: "attributedText")
+        }
+
+        if let image = image {
+            encoder.encodeObject(image, forKey: "image")
+        }
+    }
+
+    required public init(coder aDecoder: NSCoder) {
+        let decoder = Coder(aDecoder)
+        attributedText = decoder.decodeOptionalKey("attributedText")
+        image = decoder.decodeOptionalKey("image")
+        super.init()
+    }
+
 }
