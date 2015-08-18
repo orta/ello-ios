@@ -317,11 +317,20 @@
               document.location = event.target.getAttribute("data-href");
               return false;
           }
-          else if ( event.target.nodeName !== "A" ) {
+          else if ( !isLink(event.target) ) {
               document.location = "default://default";
               return false;
           }
       };
+
+      function isLink(el) {
+         if (el.nodeName === "A") return true
+          while (el.parentNode) {
+              el = el.parentNode;
+              if (el.nodeName === "A") return true;
+          }
+          return false;
+      }
     </script>
   </body>
 </html>
