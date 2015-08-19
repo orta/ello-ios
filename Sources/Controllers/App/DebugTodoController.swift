@@ -21,7 +21,7 @@ struct DebugTodo {
     var done: Int
 }
 
-let debugGroups = ["Intro", "Signup", "Onboarding", "Streams", "Profile", "Posting", "Other"]
+let debugGroups = ["New Features", "Intro", "Signup", "Onboarding", "Streams", "Profile", "Posting", "Other"]
 
 class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
