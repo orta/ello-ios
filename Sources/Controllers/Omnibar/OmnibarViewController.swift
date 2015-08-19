@@ -34,7 +34,11 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     var _mockScreen: OmnibarScreenProtocol?
     public var screen: OmnibarScreenProtocol {
         set(screen) { _mockScreen = screen }
-        get { return _mockScreen ?? self.view as! OmnibarScreen }
+        get {
+            if let mock = _mockScreen { return mock }
+            if let multi = self.view as? OmnibarMultiRegionScreen { return multi }
+            return self.view as! OmnibarScreen
+        }
     }
 
     convenience public init(parentPost post: Post) {
@@ -60,13 +64,13 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
     public func omnibarDataName() -> String? {
         if let post = parentPost {
-            return "omnibar_comment_\(post.repostId ?? post.id)"
+            return "omnibar_v2_comment_\(post.repostId ?? post.id)"
         }
         else if let post = editPost {
             return nil
         }
         else {
-            return "omnibar_post"
+            return "omnibar_v2_post"
         }
     }
 
@@ -103,19 +107,20 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         if let fileName = omnibarDataName(),
             let data: NSData = Tmp.read(fileName)
         {
-            if let omnibarData = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? OmnibarData {
-                if let prevAttributedText = omnibarData.attributedText {
-                    let currentText = screen.text
-                    let trimmedText = screen.text?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-
-                    if let currentText = currentText, let trimmedText = trimmedText where prevAttributedText.string.contains(currentText) || prevAttributedText.string.endsWith(trimmedText)  {
-                        screen.attributedText = prevAttributedText
-                    }
-                    else {
-                        screen.appendAttributedText(prevAttributedText)
-                    }
-                }
-                screen.image = omnibarData.image
+            if let omnibarData = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? OmnibarMultiRegionData {
+                let regions = omnibarData.regions
+//                if let prevAttributedText = omnibarData.attributedText {
+//                    let currentText = screen.text
+//                    let trimmedText = screen.text?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+//
+//                    if let currentText = currentText, let trimmedText = trimmedText where prevAttributedText.string.contains(currentText) || prevAttributedText.string.endsWith(trimmedText)  {
+//                        screen.attributedText = prevAttributedText
+//                    }
+//                    else {
+//                        screen.appendAttributedText(prevAttributedText)
+//                    }
+//                }
+//                screen.regions = omnibarData.regions
             }
             Tmp.remove(fileName)
         }
@@ -148,6 +153,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
         keyboardWillShowObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillShow, block: self.willShow)
         keyboardWillHideObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillHide, block: self.willHide)
+        view.setNeedsLayout()
 
         let isEditing = (editPost != nil)
         if isEditing {
@@ -177,6 +183,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
     override public func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+        screen.stopEditing()
 
         if let keyboardWillShowObserver = keyboardWillShowObserver {
             keyboardWillShowObserver.removeObserver()
@@ -190,20 +197,17 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
     func prepareScreenForEditing(rawEditPost: Post) {
         ElloHUD.hideLoadingHudInView(self.view)
-        var imageURL: NSURL?
+
         if let content = rawEditPost.body {
             for region in content {
                 if let region = region as? TextRegion,
                     attrdText = ElloAttributedString.parse(region.content)
                 {
-                    screen.attributedText = attrdText
                 }
-                else if let region = region as? ImageRegion where imageURL == nil {
-                    imageURL = region.url
+                else if let region = region as? ImageRegion {
                 }
             }
         }
-        screen.imageURL = imageURL
     }
 
     func willShow(keyboard: Keyboard) {
@@ -227,13 +231,10 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     }
 
     public func omnibarCancel() {
-        if screen.text == "Crashlytics.crash('test')" {
-            Crashlytics.sharedInstance().crash()
-        }
-
         if parentPost != nil || editPost != nil {
             if let fileName = omnibarDataName() {
-                let omnibarData = OmnibarData(attributedText: screen.attributedText, image: screen.image)
+                let omnibarData = OmnibarMultiRegionData()
+                // omnibarData.regions = [...]
                 let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
                 Tmp.write(data, to: fileName)
             }
@@ -255,33 +256,30 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         }
     }
 
-    public func omnibarSubmitted(text: NSAttributedString?, image: UIImage, data: NSData, type: String) {
-        omnibarSubmitted(text, image: nil, data: (image, data, type))
-    }
-
-    public func omnibarSubmitted(text: NSAttributedString?, image: UIImage?) {
-        omnibarSubmitted(text, image: image, data: nil)
-    }
-
-    public func omnibarSubmitted(attributedText: NSAttributedString?, image: UIImage?, data: (UIImage, NSData, String)?) {
+    public func omnibarSubmitted(regions: [OmnibarRegion]) {
         var content = [Any]()
+        for region in regions {
+            switch region {
+            case let .AttributedText(attributedText):
+                let textString = attributedText.string
+                if count(textString) > 5000 {
+                    contentCreationFailed(NSLocalizedString("Your text is too long.\n\nThe character limit is 5,000.", comment: "Post too long (maximum characters is 5000) error message"))
+                    return
+                }
 
-        if let data = data {
-            content.append(data)
-        }
-        else if let image = image {
-            content.append(image)
-        }
-
-        if let textString = attributedText?.string {
-            if count(textString) > 5000 {
-                contentCreationFailed(NSLocalizedString("Your text is too long.\n\nThe character limit is 5,000.", comment: "Post too long (maximum characters is 5000) error message"))
-                return
-            }
-
-            let cleanedText = textString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-            if count(cleanedText) > 0 {
-                content.append(ElloAttributedString.render(attributedText!))
+                let cleanedText = textString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                if count(cleanedText) > 0 {
+                    content.append(ElloAttributedString.render(attributedText))
+                }
+            case let .Image(image, data, type):
+                if let data = data {
+                    content.append(data)
+                }
+                else {
+                    content.append(image)
+                }
+            case let .ImageURL(url):
+                break // TODO
             }
         }
 
@@ -427,32 +425,24 @@ extension OmnibarViewController {
 }
 
 
-public class OmnibarData : NSObject, NSCoding {
-    public let attributedText: NSAttributedString?
-    public let image: UIImage?
+public class OmnibarMultiRegionData : NSObject, NSCoding {
+    public let regions: [NSObject]
 
-    required public init(attributedText: NSAttributedString?, image: UIImage?) {
-        self.attributedText = attributedText
-        self.image = image
+    public override init() {
+        regions = [NSObject]()
         super.init()
     }
 
 // MARK: NSCoding
 
     public func encodeWithCoder(encoder: NSCoder) {
-        if let attributedText = attributedText {
-            encoder.encodeObject(attributedText, forKey: "attributedText")
-        }
-
-        if let image = image {
-            encoder.encodeObject(image, forKey: "image")
-        }
+        encoder.encodeObject(NSArray(array: regions), forKey: "regions")
     }
 
     required public init(coder aDecoder: NSCoder) {
         let decoder = Coder(aDecoder)
-        attributedText = decoder.decodeOptionalKey("attributedText")
-        image = decoder.decodeOptionalKey("image")
+        let regionsArray: NSArray = decoder.decodeKey("regions")
+        regions = Array<NSObject>(arrayLiteral: regionsArray)
         super.init()
     }
 
