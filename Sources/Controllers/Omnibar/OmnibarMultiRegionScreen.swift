@@ -148,9 +148,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
 // MARK: init
 
     override public init(frame: CGRect) {
-        regions = [
-            OmnibarRegion.AttributedText(ElloAttributedString.style("")),
-        ]
+        regions = [OmnibarRegion.AttributedText(ElloAttributedString.style(""))]
         textView = OmnibarTextCell.generateTextView()
         super.init(frame: frame)
 
@@ -435,6 +433,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
         textView.resignFirstResponder()
         textView.text = ""
         updatePostState()
+        regions = [OmnibarRegion.AttributedText(ElloAttributedString.style(""))]
     }
 
     public func updatePostState() {
