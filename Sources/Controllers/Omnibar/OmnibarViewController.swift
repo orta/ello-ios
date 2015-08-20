@@ -298,6 +298,10 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
                     success: { postOrComment in
                         ElloHUD.hideLoadingHud()
 
+                        if self.editPost != nil {
+                            NSURLCache.sharedURLCache().removeAllCachedResponses()
+                        }
+
                         if let parentPost = self.parentPost {
                             var comment = postOrComment as! Comment
                             self.emitCommentSuccess(comment)
