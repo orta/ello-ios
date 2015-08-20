@@ -16,15 +16,9 @@ public struct NewContentNotifications {
 
 public class NewContentService {
 
-    private struct Keys {
-        static let FriendsNewContent = "friends-new-content-last-viewed-key"
-        static let NoiseNewContent = "noise-new-content-last-viewed-key"
-    }
-
     var timer: NSTimer?
 
     public init(){}
-
 }
 
 public extension NewContentService {
@@ -90,13 +84,13 @@ private extension NewContentService {
     }
 
     func checkForNewStreamContent() {
-        let storedFriendsDate = Defaults[Keys.FriendsNewContent].date ?? NSDate(timeIntervalSince1970: 0)
+        let storedFriendsDate = Defaults[StreamKind.Friend.lastViewedCreatedAtKey].date ?? NSDate(timeIntervalSince1970: 0)
 
         ElloProvider.elloRequest(
             ElloAPI.FriendNewContent(createdAt: storedFriendsDate),
             success: { (_, responseConfig) in
                 if let lastModified = responseConfig.lastModified {
-                    Defaults[Keys.FriendsNewContent] = lastModified.toNSDate(formatter: HTTPDateFormatter)
+                    Defaults[StreamKind.Friend.lastViewedCreatedAtKey] = lastModified.toNSDate(formatter: HTTPDateFormatter)
                 }
 
                 if let statusCode = responseConfig.statusCode where statusCode == 204 {
@@ -111,13 +105,13 @@ private extension NewContentService {
     }
 
     func checkForNewNoiseContent() {
-        let storedNoiseDate = Defaults[Keys.NoiseNewContent].date ?? NSDate(timeIntervalSince1970: 0)
+        let storedNoiseDate = Defaults[StreamKind.Noise.lastViewedCreatedAtKey].date ?? NSDate(timeIntervalSince1970: 0)
 
         ElloProvider.elloRequest(
             ElloAPI.NoiseNewContent(createdAt: storedNoiseDate),
             success: { (_, responseConfig) in
                 if let lastModified = responseConfig.lastModified {
-                    Defaults[Keys.NoiseNewContent] = lastModified.toNSDate(formatter: HTTPDateFormatter)
+                    Defaults[StreamKind.Noise.lastViewedCreatedAtKey] = lastModified.toNSDate(formatter: HTTPDateFormatter)
                 }
 
                 if let statusCode = responseConfig.statusCode where statusCode == 204 {
