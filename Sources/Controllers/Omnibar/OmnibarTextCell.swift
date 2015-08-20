@@ -9,8 +9,8 @@
 public class OmnibarTextCell: UITableViewCell {
     class func reuseIdentifier() -> String { return "OmnibarTextCell" }
     struct Size {
-        static let margins = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
-        static let textMargins = UIEdgeInsets(top: 22, left: 30, bottom: 9, right: 30)
+        static let margins = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
+        static let textMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
 
     public let textContainer = UIView()
@@ -33,14 +33,21 @@ public class OmnibarTextCell: UITableViewCell {
 
     public var attributedText: NSAttributedString {
         get { return textView.attributedText }
-        set { textView.attributedText = newValue }
+        set {
+            if count(newValue.string) > 0 {
+                textView.attributedText = newValue
+            }
+            else {
+                textView.text = "Say Ello..."
+            }
+        }
     }
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         textView = OmnibarTextCell.generateTextView()
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        textContainer.backgroundColor = UIColor.greyE5()
+        textContainer.backgroundColor = UIColor.grayColor()
         textView.userInteractionEnabled = false
         textView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
 
@@ -64,7 +71,7 @@ public class OmnibarTextCell: UITableViewCell {
     }
 
     public class func boundsForTextContainer(frame: CGRect) -> CGRect {
-        return frame.inset(top: 0, left: Size.margins.left, bottom: 0, right: Size.margins.right)
+        return frame.inset(Size.margins)
     }
 
     public class func boundsForTextView(frame: CGRect) -> CGRect {
@@ -72,15 +79,13 @@ public class OmnibarTextCell: UITableViewCell {
     }
 
     public class func heightForText(attributedText: NSAttributedString, tableWidth: CGFloat) -> CGFloat {
-        let minHeight = CGFloat(100)
+        let minHeight = CGFloat(30)
         let textWidth = tableWidth - (Size.margins.left + Size.margins.right + Size.textMargins.left + Size.textMargins.right)
-        let heightPadding = Size.margins.top + Size.margins.bottom + Size.textMargins.top + Size.textMargins.bottom
-        // let textHeight = heightPadding + round(attributedText.boundingRectWithSize(CGSize(width: textWidth, height: 0), options: .UsesLineFragmentOrigin | .UsesFontLeading, context: nil).size.height)
         let tv = generateTextView()
         tv.attributedText = attributedText
-        tv.sizeToFit()
-        let thisSize = tv.frame.size
-        let textHeight = heightPadding + thisSize.height
+        let tvSize = tv.sizeThatFits(CGSize(width: textWidth, height: CGFloat.max))
+        let heightPadding = Size.margins.top + Size.margins.bottom + Size.textMargins.top + Size.textMargins.bottom
+        let textHeight = heightPadding + round(tvSize.height)
         return max(minHeight, textHeight)
     }
 

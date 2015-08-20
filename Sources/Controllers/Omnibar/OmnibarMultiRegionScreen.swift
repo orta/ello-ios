@@ -246,7 +246,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
         let gesture = UITapGestureRecognizer(target: self, action: Selector("stopEditing"))
         textScrollView.addGestureRecognizer(gesture)
         textScrollView.clipsToBounds = true
-        textContainer.backgroundColor = UIColor(hex: 0xD8D8D8)
+        textContainer.backgroundColor = UIColor.grayColor()
 
         textView.clipsToBounds = false
         textView.editable = true
@@ -317,7 +317,6 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
 
     public func startEditingAtPath(path: NSIndexPath) {
         textScrollView.hidden = false
-        textScrollView.contentSize = regionsTableView.contentSize
         textScrollView.contentOffset = regionsTableView.contentOffset
         textScrollView.contentInset = regionsTableView.contentInset
         textScrollView.scrollIndicatorInsets = regionsTableView.scrollIndicatorInsets
@@ -329,6 +328,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
     public func updateEditingAtPath(path: NSIndexPath, scrollPosition: UITableViewScrollPosition = .Middle) {
         var rect = regionsTableView.rectForRowAtIndexPath(path)
         textContainer.frame = OmnibarTextCell.boundsForTextContainer(rect)
+        textScrollView.contentSize = regionsTableView.contentSize
         textView.frame = OmnibarTextCell.boundsForTextView(rect)
         textView.becomeFirstResponder()
     }
@@ -599,50 +599,47 @@ extension OmnibarMultiRegionScreen: UITableViewDelegate, UITableViewDataSource {
                 startEditingAtPath(path)
                 textView.attributedText = attributedText
                 currentTextPath = path
+            case let .Image(image):
+                let cell = tableView.cellForRowAtIndexPath(path)
+                if let imageCell = cell as? OmnibarImageCell {
+                    imageCell.stopEditing()
+                }
             default:
                 stopEditing()
             }
         }
     }
 
-    public func tableView(tableView: UITableView, canEditRowAtIndexPath path: NSIndexPath) -> Bool {
-        if let region = regions.safeValue(path.row) {
-            return region.deletable
-        }
-        return false
-    }
+    public func deleteImageAtIndexPath(path: NSIndexPath) {
+        if let region = regions.safeValue(path.row) where region.deletable {
+            let tableView = regionsTableView
+            if let regionAbove = regions.safeValue(path.row - 1), regionBelow = regions.safeValue(path.row + 1)
+            where regionAbove.isText && regionBelow.isText
+            {
+                let newText = NSMutableAttributedString()
+                newText.appendAttributedString(regionAbove.text)
+                newText.appendAttributedString(ElloAttributedString.style("\n\n"))
+                newText.appendAttributedString(regionBelow.text)
 
-    public func tableView(tableView: UITableView, commitEditingStyle style: UITableViewCellEditingStyle, forRowAtIndexPath path: NSIndexPath) {
-        if style == .Delete {
-            if let region = regions.safeValue(path.row) where region.deletable {
-                if let regionAbove = regions.safeValue(path.row - 1), regionBelow = regions.safeValue(path.row + 1)
-                where regionAbove.isText && regionBelow.isText
-                {
-                    let newText = NSMutableAttributedString()
-                    newText.appendAttributedString(regionAbove.text)
-                    newText.appendAttributedString(ElloAttributedString.style("\n\n"))
-                    newText.appendAttributedString(regionBelow.text)
+                regions.removeAtIndex(path.row + 1)
+                regions.removeAtIndex(path.row)
+                regions[path.row - 1] = OmnibarRegion.AttributedText(newText)
 
-                    regions.removeAtIndex(path.row + 1)
-                    regions.removeAtIndex(path.row)
-                    regions[path.row - 1] = OmnibarRegion.AttributedText(newText)
-
-                    tableView.beginUpdates()
-                    tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: path.row - 1, inSection: 0)], withRowAnimation: .Automatic)
-                    tableView.deleteRowsAtIndexPaths([
-                        path,
-                        NSIndexPath(forItem: path.row + 1, inSection: 0),
-                    ], withRowAnimation: .Automatic)
-                    tableView.endUpdates()
-                }
-                else if count(regions) == 1 {
-                    regions[0] = .AttributedText(ElloAttributedString.style(""))
-                    tableView.reloadRowsAtIndexPaths([path], withRowAnimation: .Automatic)
-                }
-                else {
-                    regions.removeAtIndex(path.row)
-                    tableView.deleteRowsAtIndexPaths([path], withRowAnimation: .Automatic)
-                }
+                tableView.beginUpdates()
+                tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: path.row - 1, inSection: 0)], withRowAnimation: .Automatic)
+                tableView.deleteRowsAtIndexPaths([
+                    path,
+                    NSIndexPath(forItem: path.row + 1, inSection: 0),
+                ], withRowAnimation: .Automatic)
+                tableView.endUpdates()
+            }
+            else if count(regions) == 1 {
+                regions[0] = .AttributedText(ElloAttributedString.style(""))
+                tableView.reloadRowsAtIndexPaths([path], withRowAnimation: .Automatic)
+            }
+            else {
+                regions.removeAtIndex(path.row)
+                tableView.deleteRowsAtIndexPaths([path], withRowAnimation: .Automatic)
             }
         }
         updatePostState()
@@ -656,6 +653,11 @@ extension OmnibarMultiRegionScreen: UITableViewDelegate, UITableViewDataSource {
 
     public func scrollViewDidScroll(scrollView: UIScrollView) {
         if scrollView == regionsTableView {
+            for cell in regionsTableView.visibleCells() {
+                if let imageCell = cell as? OmnibarImageCell {
+                    imageCell.stopEditing()
+                }
+            }
         }
         else {
             regionsTableView.contentOffset = scrollView.contentOffset
@@ -697,6 +699,7 @@ extension OmnibarMultiRegionScreen: UITextViewDelegate {
         }
 
         throttleAutoComplete(textView, range: range)
+        nextTick { self.textViewDidChange(textView) }
         return true
     }
 
