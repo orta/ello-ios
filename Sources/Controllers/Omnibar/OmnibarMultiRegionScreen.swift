@@ -192,7 +192,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
     private func setupSayElloViews() {
         sayElloLabel.text = "Say Ello…"
         sayElloLabel.textColor = UIColor.greyA()
-        sayElloLabel.font = UIFont.typewriterFont(12)
+        sayElloLabel.font = UIFont.typewriterEditorFont(12)
 
         sayElloOverlay.addTarget(self, action: Selector("startEditingAction"), forControlEvents: .TouchUpInside)
     }

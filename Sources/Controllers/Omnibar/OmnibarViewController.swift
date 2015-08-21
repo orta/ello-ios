@@ -222,7 +222,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
                 attrdText = ElloAttributedString.parse(region.content)
             {
             }
-            else if let region = region as? ImageRegion where imageURL == nil {
+            else if let region = region as? ImageRegion {
             }
         }
     }

@@ -237,7 +237,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     private func setupSayElloViews() {
         sayElloLabel.text = "Say Ello…"
         sayElloLabel.textColor = UIColor.greyA()
-        sayElloLabel.font = UIFont.typewriterFont(12)
+        sayElloLabel.font = UIFont.typewriterEditorFont(12)
 
         sayElloOverlay.addTarget(self, action: Selector("startEditingAction"), forControlEvents: .TouchUpInside)
     }
@@ -296,7 +296,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         textView.allowsEditingTextAttributes = true
         textView.selectable = true
         textView.textColor = UIColor.blackColor()
-        textView.font = UIFont.typewriterFont(12)
+        textView.font = UIFont.typewriterEditorFont(12)
         textView.textContainer.lineFragmentPadding = 0
         textView.backgroundColor = UIColor.greyE5()
         textView.delegate = self

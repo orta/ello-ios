@@ -42,14 +42,14 @@ public struct ElloAttributedString {
             }
 
             if let font = attrs[NSFontAttributeName] as? UIFont {
-                if font.fontName == UIFont.typewriterBoldFont(12).fontName {
+                if font.fontName == UIFont.typewriterEditorBoldFont(12).fontName {
                     tags.append("strong")
                 }
-                else if font.fontName == UIFont.typewriterBoldItalicFont(12).fontName {
+                else if font.fontName == UIFont.typewriterEditorBoldItalicFont(12).fontName {
                     tags.append("strong")
                     tags.append("em")
                 }
-                else if font.fontName == UIFont.typewriterItalicFont(12).fontName {
+                else if font.fontName == UIFont.typewriterEditorItalicFont(12).fontName {
                     tags.append("em")
                 }
             }
