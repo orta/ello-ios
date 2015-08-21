@@ -13,6 +13,7 @@ public protocol PostbarDelegate : NSObjectProtocol {
     func commentsButtonTapped(cell: StreamFooterCell, imageLabelControl: ImageLabelControl)
     func deletePostButtonTapped(indexPath: NSIndexPath)
     func deleteCommentButtonTapped(indexPath: NSIndexPath)
+    func editCommentButtonTapped(indexPath: NSIndexPath)
     func editPostButtonTapped(indexPath: NSIndexPath)
     func lovesButtonTapped(cell: StreamFooterCell, indexPath: NSIndexPath)
     func repostButtonTapped(indexPath: NSIndexPath)
@@ -184,6 +185,17 @@ public class PostbarController: NSObject, PostbarDelegate {
 
         logPresentingAlert(presentingController?.readableClassName() ?? "PostbarController")
         presentingController?.presentViewController(alertController, animated: true, completion: .None)
+    }
+
+    public func editCommentButtonTapped(indexPath: NSIndexPath) {
+        // This is a bit dirty, we should not call a method on a compositionally held
+        // controller's createPostDelegate. Can this use the responder chain when we have
+        // parameters to pass?
+        if let comment = self.commentForIndexPath(indexPath),
+            let presentingController = presentingController
+        {
+            presentingController.createPostDelegate?.editComment(comment, fromController: presentingController)
+        }
     }
 
     public func editPostButtonTapped(indexPath: NSIndexPath) {

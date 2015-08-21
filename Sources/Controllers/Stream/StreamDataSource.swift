@@ -334,7 +334,6 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                     }
             }
 
-
         case .Delete:
             collectionView.deleteItemsAtIndexPaths(removeItemsForJSONAble(jsonable, change: change))
         case .Replaced:
@@ -349,6 +348,27 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                     }
                 }
                 let items = StreamCellItemParser().parse([post], streamKind: self.streamKind, currentUser: currentUser)
+                insertUnsizedCellItems(items, withWidth: UIScreen.screenWidth(), startingIndexPath: firstIndexPath) { newIndexPaths in
+                    for wrongIndexPath in oldIndexPaths.reverse() {
+                        let indexPath = NSIndexPath(forItem: wrongIndexPath.item + newIndexPaths.count, inSection: wrongIndexPath.section)
+                        self.removeItemAtIndexPath(indexPath)
+                    }
+                    collectionView.performBatchUpdates({
+                        collectionView.insertItemsAtIndexPaths(newIndexPaths)
+                        collectionView.deleteItemsAtIndexPaths(oldIndexPaths)
+                    }, completion: nil)
+                }
+            }
+            else if let comment = jsonable as? Comment, firstIndexPath = oldIndexPaths.first  {
+                let firstIndexPath = oldIndexPaths.reduce(firstIndexPath) { (memo: NSIndexPath, path: NSIndexPath) in
+                    if path.section == memo.section {
+                        return path.item > memo.section ? memo : path
+                    }
+                    else {
+                        return path.section > memo.section ? memo : path
+                    }
+                }
+                let items = StreamCellItemParser().parse([comment], streamKind: self.streamKind, currentUser: currentUser)
                 insertUnsizedCellItems(items, withWidth: UIScreen.screenWidth(), startingIndexPath: firstIndexPath) { newIndexPaths in
                     for wrongIndexPath in oldIndexPaths.reverse() {
                         let indexPath = NSIndexPath(forItem: wrongIndexPath.item + newIndexPaths.count, inSection: wrongIndexPath.section)
