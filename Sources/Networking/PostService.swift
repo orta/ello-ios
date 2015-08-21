@@ -9,6 +9,7 @@
 import Foundation
 
 public typealias PostSuccessCompletion = (post: Post, responseConfig: ResponseConfig) -> Void
+public typealias CommentSuccessCompletion = (comment: Comment, responseConfig: ResponseConfig) -> Void
 public typealias DeletePostSuccessCompletion = () -> Void
 
 public struct PostService {
@@ -26,6 +27,26 @@ public struct PostService {
                 if let post = data as? Post {
                     Preloader().preloadImages([post],  streamKind: .PostDetail(postParam: postParam))
                     success(post: post, responseConfig: responseConfig)
+                }
+                else {
+                    ElloProvider.unCastableJSONAble(failure)
+                }
+            },
+            failure: failure
+        )
+    }
+
+    public func loadComment(
+        postId: String,
+        commentId: String,
+        success: CommentSuccessCompletion,
+        failure: ElloFailureCompletion?)
+    {
+        ElloProvider.elloRequest(
+            ElloAPI.CommentDetail(postId: postId, commentId: commentId),
+            success: { (data, responseConfig) in
+                if let comment = data as? Comment {
+                    success(comment: comment, responseConfig: responseConfig)
                 }
                 else {
                     ElloProvider.unCastableJSONAble(failure)

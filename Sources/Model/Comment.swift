@@ -20,6 +20,7 @@ public final class Comment: JSONAble, Authorable {
     public let authorId: String
     public let postId: String
     public var content: [Regionable]
+    public var body: [Regionable]?
     // optional
     public var summary: [Regionable]?
     // links
@@ -68,6 +69,7 @@ public final class Comment: JSONAble, Authorable {
         self.authorId = decoder.decodeKey("authorId")
         self.postId = decoder.decodeKey("postId")
         self.content = decoder.decodeKey("content")
+        self.body = decoder.decodeOptionalKey("body")
         self.loadedFromPostId = decoder.decodeKey("loadedFromPostId")
         // optional
         self.summary = decoder.decodeOptionalKey("summary")
@@ -83,6 +85,7 @@ public final class Comment: JSONAble, Authorable {
         coder.encodeObject(authorId, forKey: "authorId")
         coder.encodeObject(postId, forKey: "postId")
         coder.encodeObject(content, forKey: "content")
+        coder.encodeObject(body, forKey: "body")
         coder.encodeObject(loadedFromPostId, forKey: "loadedFromPostId")
         // optional
         coder.encodeObject(summary, forKey: "summary")
@@ -114,6 +117,7 @@ public final class Comment: JSONAble, Authorable {
             )
         // optional
         comment.summary = RegionParser.regions("summary", json: json)
+        comment.body = RegionParser.regions("body", json: json)
         // links
         comment.links = data["links"] as? [String: AnyObject]
         // store self in collection

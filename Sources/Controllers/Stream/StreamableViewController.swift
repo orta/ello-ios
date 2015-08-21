@@ -21,6 +21,7 @@ public protocol UserTappedDelegate : NSObjectProtocol {
 
 public protocol CreatePostDelegate: NSObjectProtocol {
     func createComment(post: Post, text:String, fromController: StreamViewController)
+    func editComment(comment: Comment, fromController: StreamViewController)
     func editPost(post: Post, fromController: StreamViewController)
 }
 
@@ -231,8 +232,26 @@ extension StreamableViewController: CreatePostDelegate {
         self.navigationController?.pushViewController(vc, animated: true)
     }
 
+    public func editComment(comment: Comment, fromController: StreamViewController) {
+        if OmnibarViewController.canEditRegions(comment.content) {
+            let vc = OmnibarViewController(editComment: comment)
+            vc.currentUser = self.currentUser
+            vc.onCommentSuccess() { _ in
+                self.navigationController?.popViewControllerAnimated(true)
+            }
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        else {
+            let message = NSLocalizedString("Looks like this comment was created on the web!\n\nThe text and images it contains are not YET editable on our iOS app.  We’ll add this feature soon!", comment: "Uneditable comment error message")
+            let alertController = AlertViewController(message: message)
+            let action = AlertAction(title: NSLocalizedString("It’s OK, I understand!", comment: "It’s OK, I understand!"), style: .Dark, handler: nil)
+            alertController.addAction(action)
+            self.presentViewController(alertController, animated: true, completion: nil)
+        }
+    }
+
     public func editPost(post: Post, fromController: StreamViewController) {
-        if OmnibarViewController.canEditPost(post) {
+        if OmnibarViewController.canEditRegions(post.content) {
             let vc = OmnibarViewController(editPost: post)
             vc.currentUser = self.currentUser
             vc.onPostSuccess() { _ in

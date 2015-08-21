@@ -23,7 +23,8 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     var previousTab: ElloTab = .DefaultTab
     var parentPost: Post?
     var editPost: Post?
-    var rawEditPost: Post?
+    var editComment: Comment?
+    var rawEditBody: [Regionable]?
     var defaultText: String?
 
     typealias CommentSuccessListener = (comment: Comment) -> Void
@@ -46,13 +47,24 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         parentPost = post
     }
 
+    convenience public init(editComment comment: Comment) {
+        self.init(nibName: nil, bundle: nil)
+        editComment = comment
+        PostService().loadComment(comment.postId, commentId: comment.id, success: { (comment, _) in
+            self.rawEditBody = comment.body
+            if let body = comment.body where self.isViewLoaded() {
+                self.prepareScreenForEditing(body)
+            }
+        }, failure: nil)
+    }
+
     convenience public init(editPost post: Post) {
         self.init(nibName: nil, bundle: nil)
         editPost = post
         PostService().loadPost(post.id, success: { (post, _) in
-            self.rawEditPost = post
-            if self.isViewLoaded() {
-                self.prepareScreenForEditing(post)
+            self.rawEditBody = post.body
+            if let body = post.body where self.isViewLoaded() {
+                self.prepareScreenForEditing(body)
             }
         }, failure: nil)
     }
@@ -66,7 +78,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         if let post = parentPost {
             return "omnibar_v2_comment_\(post.repostId ?? post.id)"
         }
-        else if let post = editPost {
+        else if editPost != nil || editComment != nil {
             return nil
         }
         else {
@@ -90,7 +102,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             self.view = OmnibarScreen(frame: UIScreen.mainScreen().bounds)
         }
 
-        screen.canGoBack = parentPost != nil || editPost != nil
+        screen.canGoBack = parentPost != nil || editPost != nil || editComment != nil
         screen.currentUser = currentUser
         screen.text = defaultText
         if parentPost != nil {
@@ -99,8 +111,15 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         else if editPost != nil {
             screen.title = NSLocalizedString("Edit this post", comment: "Edit this post")
             screen.isEditing = true
-            if let rawEditPost = rawEditPost {
-                prepareScreenForEditing(rawEditPost)
+            if let rawEditBody = rawEditBody {
+                prepareScreenForEditing(rawEditBody)
+            }
+        }
+        else if editComment != nil {
+            screen.title = NSLocalizedString("Edit this comment", comment: "Edit this comment")
+            screen.isEditing = true
+            if let rawEditBody = rawEditBody {
+                prepareScreenForEditing(rawEditBody)
             }
         }
 
@@ -155,9 +174,9 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         keyboardWillHideObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillHide, block: self.willHide)
         view.setNeedsLayout()
 
-        let isEditing = (editPost != nil)
+        let isEditing = (editPost != nil || editComment != nil)
         if isEditing {
-            if rawEditPost == nil {
+            if rawEditBody == nil {
                 ElloHUD.showLoadingHudInView(self.view)
             }
         }
@@ -195,17 +214,15 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         }
     }
 
-    func prepareScreenForEditing(rawEditPost: Post) {
+    func prepareScreenForEditing(content: [Regionable]) {
         ElloHUD.hideLoadingHudInView(self.view)
 
-        if let content = rawEditPost.body {
-            for region in content {
-                if let region = region as? TextRegion,
-                    attrdText = ElloAttributedString.parse(region.content)
-                {
-                }
-                else if let region = region as? ImageRegion {
-                }
+        for region in content {
+            if let region = region as? TextRegion,
+                attrdText = ElloAttributedString.parse(region.content)
+            {
+            }
+            else if let region = region as? ImageRegion where imageURL == nil {
             }
         }
     }
@@ -231,7 +248,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     }
 
     public func omnibarCancel() {
-        if parentPost != nil || editPost != nil {
+        if parentPost != nil || editPost != nil || editComment != nil {
             if let fileName = omnibarDataName() {
                 let omnibarData = OmnibarMultiRegionData()
                 // omnibarData.regions = [...]
@@ -244,6 +261,9 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             }
             else if editPost != nil {
                 Tracker.sharedTracker.contentEditingCanceled(.Post)
+            }
+            else if editComment != nil {
+                Tracker.sharedTracker.contentEditingCanceled(.Comment)
             }
             else {
                 Tracker.sharedTracker.contentCreationCanceled(.Post)
@@ -290,6 +310,9 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         else if let editPost = editPost {
             service = PostEditingService(editPost: editPost)
         }
+        else if let editComment = editComment {
+            service = PostEditingService(editComment: editComment)
+        }
         else {
             service = PostEditingService()
         }
@@ -303,7 +326,11 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
                     success: { postOrComment in
                         ElloHUD.hideLoadingHud()
 
-                        if let parentPost = self.parentPost {
+                        if self.editPost != nil || self.editComment != nil {
+                            NSURLCache.sharedURLCache().removeAllCachedResponses()
+                        }
+
+                        if self.parentPost != nil || self.editComment != nil {
                             var comment = postOrComment as! Comment
                             self.emitCommentSuccess(comment)
                         }
@@ -335,10 +362,17 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             postNotification(PostChangedNotification, (post, .Update))
         }
 
+        if editComment != nil {
+            Tracker.sharedTracker.contentEdited(.Comment)
+            postNotification(CommentChangedNotification, (comment, .Replaced))
+        }
+        else {
+            Tracker.sharedTracker.contentCreated(.Comment)
+        }
+
         if let listener = commentSuccessListener {
             listener(comment: comment)
         }
-        Tracker.sharedTracker.contentCreated(.Comment)
     }
 
     private func emitPostSuccess(post: Post) {
@@ -348,13 +382,14 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         }
 
         if editPost != nil {
+            Tracker.sharedTracker.contentEdited(.Post)
             postNotification(PostChangedNotification, (post, .Replaced))
         }
         else {
+            Tracker.sharedTracker.contentCreated(.Post)
             postNotification(PostChangedNotification, (post, .Create))
         }
 
-        Tracker.sharedTracker.contentCreated(.Post)
         if let listener = postSuccessListener {
             listener(post: post)
         }
@@ -369,7 +404,13 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     }
 
     func contentCreationFailed(errorMessage: String) {
-        let contentType: ContentType = (parentPost == nil) ? .Post : .Comment
+        let contentType: ContentType
+        if parentPost == nil && editComment == nil {
+            contentType = .Post
+        }
+        else {
+            contentType = .Comment
+        }
         Tracker.sharedTracker.contentCreationFailed(contentType, message: errorMessage)
         screen.reportError("Could not create \(contentType.rawValue)", errorMessage: errorMessage)
     }
@@ -399,8 +440,8 @@ extension OmnibarViewController {
     //   - one image region, followed by one text region
     // NOT OK:
     //   - all other cases
-    public class func canEditPost(post: Post) -> Bool {
-        if let regions = post.content {
+    public class func canEditRegions(regions: [Regionable]?) -> Bool {
+        if let regions = regions {
             var hasTextRegion = false
             var hasImageRegion = false
 

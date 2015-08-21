@@ -1,9 +1,9 @@
 PODS:
   - 1PasswordExtension (1.2)
   - Alamofire (1.3.1)
-  - Analytics/Core-iOS (2.0.4):
+  - Analytics/Core-iOS (2.0.5):
     - TRVSDictionaryWithCaseInsensitivity (= 0.0.2)
-  - Analytics/Segmentio (2.0.4):
+  - Analytics/Segmentio (2.0.5):
     - Analytics/Core-iOS
   - Box (1.2.2)
   - CocoaLumberjack (2.0.1):
@@ -110,7 +110,7 @@ CHECKOUT OPTIONS:
     :commit: 7e3eb2e99609ab56facdf31feabb36bacff56f35
     :git: https://github.com/ello/KINWebBrowser
   SVGKit:
-    :commit: 0011e50da0672a1b258c569ba980f5911e25438f
+    :commit: 4f0fc51e0bfed56a3637f5bbfc1cbfdddd934c9b
     :git: https://github.com/SVGKit/SVGKit
   YapDatabase:
     :commit: 21f781942223d8eb6f5b313f605a83796dba187a
@@ -119,7 +119,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   1PasswordExtension: fcf300204bda5b5c78936dbb937a7d661f1ca796
   Alamofire: e4ab637e3195b645c814b87a652373439e59f2a4
-  Analytics: 4dafa8ad07b5779d86c07828ba083ed82d413503
+  Analytics: a4df844c85ee6bb8a6ca933d849a5195a83589e2
   Box: a92e8aa4c099e6bc0733829665caf9e668ef53b8
   CocoaLumberjack: 019d1361244274a6138c788c6cb80baabc13fb8f
   Crashlytics: 93e2f86363d53c002c6366a9d87e41f2eaee87c3
