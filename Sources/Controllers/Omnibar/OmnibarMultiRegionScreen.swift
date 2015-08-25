@@ -912,6 +912,16 @@ extension OmnibarRegion {
     }
 }
 
+extension OmnibarRegion {
+    var rawRegion: NSObject? {
+        switch self {
+        case let .Image(image, _, _): return image
+        case let .AttributedText(text): return text
+        default: return nil
+        }
+    }
+}
+
 extension OmnibarRegion: Printable, DebugPrintable {
     public var description: String {
         switch self {

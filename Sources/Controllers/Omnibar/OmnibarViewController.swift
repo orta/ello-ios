@@ -109,10 +109,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             screen.regions = [OmnibarRegion.Text(text)]
         }
 
-        if parentPost != nil {
-            screen.title = NSLocalizedString("Leave a comment", comment: "Leave a comment")
-        }
-        else if editPost != nil {
+        if editPost != nil {
             screen.title = NSLocalizedString("Edit this post", comment: "Edit this post")
             screen.isEditing = true
             if let rawEditBody = rawEditBody {
@@ -126,26 +123,29 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
                 prepareScreenForEditing(rawEditBody)
             }
         }
-
-        if let fileName = omnibarDataName(),
-            let data: NSData = Tmp.read(fileName)
-        {
-            if let omnibarData = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? OmnibarMultiRegionData {
-                let regions = omnibarData.regions
-//                if let prevAttributedText = omnibarData.attributedText {
-//                    let currentText = screen.text
-//                    let trimmedText = screen.text?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-//
-//                    if let currentText = currentText, let trimmedText = trimmedText where prevAttributedText.string.contains(currentText) || prevAttributedText.string.endsWith(trimmedText)  {
-//                        screen.attributedText = prevAttributedText
-//                    }
-//                    else {
-//                        screen.appendAttributedText(prevAttributedText)
-//                    }
-//                }
-//                screen.regions = omnibarData.regions
+        else {
+            if parentPost != nil {
+                screen.title = NSLocalizedString("Leave a comment", comment: "Leave a comment")
             }
-            Tmp.remove(fileName)
+
+            if let fileName = omnibarDataName(),
+                let data: NSData = Tmp.read(fileName)
+            {
+                if let omnibarData = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? OmnibarMultiRegionData {
+                    let rawRegions = omnibarData.regions
+                    var regions = [OmnibarRegion]()
+                    for rawRegion in rawRegions {
+                        if let text = rawRegion as? NSAttributedString {
+                            regions.append(.AttributedText(text))
+                        }
+                        else if let image = rawRegion as? UIImage {
+                            regions.append(.Image(image, nil, nil))
+                        }
+                    }
+                    Tmp.remove(fileName)
+                    screen.regions = regions
+                }
+            }
         }
         screen.delegate = self
 
@@ -280,8 +280,14 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     public func omnibarCancel() {
         if parentPost != nil || editPost != nil || editComment != nil {
             if let fileName = omnibarDataName() {
+                var dataRegions = [NSObject]()
+                for region in screen.regions {
+                    if let rawRegion = region.rawRegion {
+                        dataRegions.append(rawRegion)
+                    }
+                }
                 let omnibarData = OmnibarMultiRegionData()
-                // omnibarData.regions = [...]
+                omnibarData.regions = dataRegions
                 let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
                 Tmp.write(data, to: fileName)
             }
@@ -477,7 +483,7 @@ extension OmnibarViewController {
 
 
 public class OmnibarMultiRegionData : NSObject, NSCoding {
-    public let regions: [NSObject]
+    public var regions: [NSObject]
 
     public override init() {
         regions = [NSObject]()
@@ -487,13 +493,12 @@ public class OmnibarMultiRegionData : NSObject, NSCoding {
 // MARK: NSCoding
 
     public func encodeWithCoder(encoder: NSCoder) {
-        encoder.encodeObject(NSArray(array: regions), forKey: "regions")
+        encoder.encodeObject(regions, forKey: "regions")
     }
 
-    required public init(coder aDecoder: NSCoder) {
-        let decoder = Coder(aDecoder)
-        let regionsArray: NSArray = decoder.decodeKey("regions")
-        regions = Array<NSObject>(arrayLiteral: regionsArray)
+    required public init(coder: NSCoder) {
+        let decoder = Coder(coder)
+        regions = decoder.decodeKey("regions")
         super.init()
     }
 
