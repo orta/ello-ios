@@ -48,7 +48,7 @@ public class OmnibarTextCell: UITableViewCell {
         textView = OmnibarTextCell.generateTextView()
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        textContainer.backgroundColor = UIColor.whiteColor()
+        textContainer.backgroundColor = UIColor.clearColor()
         textView.userInteractionEnabled = false
         textView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
 

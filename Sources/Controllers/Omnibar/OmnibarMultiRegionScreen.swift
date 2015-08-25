@@ -629,7 +629,12 @@ extension OmnibarMultiRegionScreen: UITableViewDelegate, UITableViewDataSource {
         if let (index_, region) = tableViewRegions.safeValue(path.row),
             index = index_ where region.deletable
         {
-            if let regionAbove = _regions.safeValue(index - 1),
+            if count(tableViewRegions) == 1 {
+                _regions = [.Text("")]
+                generateTableRegions()
+                regionsTableView.reloadRowsAtIndexPaths([path], withRowAnimation: .Automatic)
+            }
+            else if let regionAbove = _regions.safeValue(index - 1),
                 regionBelow = _regions.safeValue(index + 1)
             where regionAbove.isText && regionBelow.isText
             {
@@ -644,7 +649,6 @@ extension OmnibarMultiRegionScreen: UITableViewDelegate, UITableViewDataSource {
                 _regions.removeAtIndex(index)
                 _regions[index - 1] = .AttributedText(newText)
 
-                // regionsTableView.reloadData()
                 regionsTableView.beginUpdates()
                 generateTableRegions()
                 regionsTableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: path.row - 1, inSection: 0)], withRowAnimation: .None)
@@ -654,11 +658,13 @@ extension OmnibarMultiRegionScreen: UITableViewDelegate, UITableViewDataSource {
                 ], withRowAnimation: .Automatic)
                 regionsTableView.endUpdates()
             }
-            else if count(tableViewRegions) == 1 {
-                _regions = [.Text("")]
+            else if let regionAbove = _regions.safeValue(index - 1),
+                regionBelow = _regions.safeValue(index + 1)
+            where regionAbove.isImage && regionBelow.isImage
+            {
+                _regions.removeAtIndex(index)
                 generateTableRegions()
-                // regionsTableView.reloadData()
-                regionsTableView.reloadRowsAtIndexPaths([path], withRowAnimation: .Automatic)
+                regionsTableView.reloadData()
             }
             else {
                 _regions.removeAtIndex(index)
@@ -673,10 +679,16 @@ extension OmnibarMultiRegionScreen: UITableViewDelegate, UITableViewDataSource {
                 else if let (_, region) = tableViewRegions.safeValue(path.row - 1) where region.isSpacer {
                     paths.append(NSIndexPath(forItem: path.row - 1, inSection: 0))
                 }
-                generateTableRegions()
 
-                // regionsTableView.reloadData()
+                regionsTableView.beginUpdates()
+                if let last = _regions.last where !last.isText {
+                    let insertPath = NSIndexPath(forItem: count(_regions), inSection: 0)
+                    _regions.append(.Text(""))
+                    regionsTableView.insertRowsAtIndexPaths([insertPath], withRowAnimation: .Automatic)
+                }
+                generateTableRegions()
                 regionsTableView.deleteRowsAtIndexPaths(paths, withRowAnimation: .Automatic)
+                regionsTableView.endUpdates()
             }
         }
         updatePostState()
@@ -744,10 +756,7 @@ extension OmnibarMultiRegionScreen: UITextViewDelegate {
                 _regions[index] = newRegion
                 tableViewRegions[path.row] = (index, newRegion)
 
-                // regionsTableView.beginUpdates()
-                // regionsTableView.reloadRowsAtIndexPaths([path], withRowAnimation: .None)
                 regionsTableView.reloadData()
-                // regionsTableView.endUpdates()
                 updateEditingAtPath(path, scrollPosition: .Bottom)
             }
         }
@@ -851,6 +860,7 @@ extension OmnibarRegion {
     var deletable: Bool {
         switch self {
         case .Image: return true
+        case let .AttributedText(text): return count(text.string) > 0
         default: return false
         }
     }
