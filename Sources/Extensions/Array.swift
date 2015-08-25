@@ -10,4 +10,22 @@ extension Array {
     func safeValue(index: Int) -> T? {
         return contains(startIndex..<endIndex, index) ? self[index] : .None
     }
+
+    func any(test: (el: Element)->Bool) -> Bool {
+        for ob in self {
+            if test(el: ob) {
+                return true
+            }
+        }
+        return false
+    }
+
+    func all(test: (el: Element)->Bool) -> Bool {
+        for ob in self {
+            if !test(el: ob) {
+                return false
+            }
+        }
+        return true
+    }
 }

@@ -1,0 +1,55 @@
+//
+//  ArraySpec.swift
+//  Ello
+//
+//  Created by Colin Gray on 8/24/2015.
+//  Copyright (c) 2015 Ello. All rights reserved.
+//
+
+import Quick
+import Nimble
+
+
+class ArraySpec: QuickSpec {
+    override func spec() {
+        describe("safeValue(_:Int)->T") {
+            let subject = [1,2,3]
+            it("should return Some<Int> when valid") {
+                let val1 = subject.safeValue(0)
+                expect(val1) == 1
+                let val2 = subject.safeValue(2)
+                expect(val2) == 3
+            }
+            it("should return None when invalid") {
+                let val1 = subject.safeValue(3)
+                expect(val1).to(beNil())
+                let val2 = subject.safeValue(100)
+                expect(val2).to(beNil())
+            }
+        }
+        describe("any(test:(T)->Bool)->Bool") {
+            let subject = [1,2,3]
+            it("should return true if any pass") {
+                expect(subject.any { $0 == 2 }) == true
+            }
+            it("should return true if all pass") {
+                expect(subject.any { $0 < 4 }) == true
+            }
+            it("should return false if none pass") {
+                expect(subject.any { $0 < 0 }) == false
+            }
+        }
+        describe("all(test:(T)->Bool)->Bool") {
+            let subject = [1,2,3]
+            it("should return false if only one pass") {
+                expect(subject.all { $0 == 2 }) == false
+            }
+            it("should return true if all pass") {
+                expect(subject.all { $0 < 4 }) == true
+            }
+            it("should return false if none pass") {
+                expect(subject.all { $0 < 0 }) == false
+            }
+        }
+    }
+}

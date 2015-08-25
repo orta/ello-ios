@@ -162,7 +162,7 @@ extension AddFriendsViewController: SearchScreenDelegate {
                     return user.name.contains(text) || user.username.contains(text)
                 }
                 else if let person = item.jsonable as? LocalPerson {
-                    return person.name.contains(text) || person.emails.reduce(false) { $0 || $1.contains(text) }
+                    return person.name.contains(text) || person.emails.any { $0.contains(text) }
                 }
                 return false
             }
