@@ -62,6 +62,9 @@ class OmnibarMockScreen: OmnibarScreenProtocol {
     func startEditing() {
     }
 
+    func stopEditing() {
+    }
+
     func updatePostState() {
     }
 }
@@ -148,8 +151,9 @@ class OmnibarViewControllerSpec: QuickSpec {
 
                     let attributedString = ElloAttributedString.style("text")
                     let image = UIImage.imageWithColor(.blackColor())
-                    let omnibarData = OmnibarData(attributedText: attributedString, image: image)
-                    let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
+//                    let omnibarData =  attributedText: attributedString, image: image)
+//                    let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
+                    let data = NSData()
 
                     controller = OmnibarViewController(parentPost: post)
                     if let fileName = controller.omnibarDataName() {
@@ -230,8 +234,9 @@ class OmnibarViewControllerSpec: QuickSpec {
                     }
 
                     let text = ElloAttributedString.style("testing!")
-                    let omnibarData = OmnibarData(attributedText: text, image: nil)
-                    let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
+//                    let omnibarData = OmnibarData(attributedText: text, image: nil)
+//                    let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
+                    let data = NSData()
                     if let fileName = controller.omnibarDataName() {
                         Tmp.write(data, to: fileName)
                     }
@@ -247,8 +252,9 @@ class OmnibarViewControllerSpec: QuickSpec {
                     }
 
                     let text = ElloAttributedString.style("testing!")
-                    let omnibarData = OmnibarData(attributedText: text, image: nil)
-                    let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
+//                    let omnibarData = OmnibarData(attributedText: text, image: nil)
+//                    let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
+                    let data = NSData()
                     if let fileName = controller.omnibarDataName() {
                         Tmp.write(data, to: fileName)
                     }
@@ -264,8 +270,9 @@ class OmnibarViewControllerSpec: QuickSpec {
                     }
 
                     let text = ElloAttributedString.style("@666 testing!")
-                    let omnibarData = OmnibarData(attributedText: text, image: nil)
-                    let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
+//                    let omnibarData = OmnibarData(attributedText: text, image: nil)
+//                    let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
+                    let data = NSData()
                     if let fileName = controller.omnibarDataName() {
                         Tmp.write(data, to: fileName)
                     }
@@ -282,8 +289,9 @@ class OmnibarViewControllerSpec: QuickSpec {
                     }
 
                     let text = ElloAttributedString.style("@666")
-                    let omnibarData = OmnibarData(attributedText: text, image: nil)
-                    let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
+//                    let omnibarData = OmnibarData(attributedText: text, image: nil)
+//                    let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
+                    let data = NSData()
                     if let fileName = controller.omnibarDataName() {
                         Tmp.write(data, to: fileName)
                     }
@@ -299,8 +307,9 @@ class OmnibarViewControllerSpec: QuickSpec {
                     }
 
                     let text = ElloAttributedString.style("@6666 ")
-                    let omnibarData = OmnibarData(attributedText: text, image: nil)
-                    let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
+//                    let omnibarData = OmnibarData(attributedText: text, image: nil)
+//                    let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
+                    let data = NSData()
                     if let fileName = controller.omnibarDataName() {
                         Tmp.write(data, to: fileName)
                     }
@@ -330,8 +339,9 @@ class OmnibarViewControllerSpec: QuickSpec {
                     }
 
                     let text = ElloAttributedString.style("testing!")
-                    let omnibarData = OmnibarData(attributedText: text, image: nil)
-                    let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
+//                    let omnibarData = OmnibarData(attributedText: text, image: nil)
+//                    let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
+                    let data = NSData()
                     if let fileName = controller.omnibarDataName() {
                         Tmp.write(data, to: fileName)
                     }
@@ -371,35 +381,35 @@ class OmnibarViewControllerSpec: QuickSpec {
                     let regions: [Regionable]? = nil
                     expect(OmnibarViewController.canEditRegions(regions)) == false
                 }
-                it("cannot edit two text regions") {
+                it("can edit two text regions") {
                     let regions: [Regionable]? = [
                         TextRegion.stub([:]),
                         TextRegion.stub([:])
                     ]
-                    expect(OmnibarViewController.canEditRegions(regions)) == false
+                    expect(OmnibarViewController.canEditRegions(regions)) == true
                 }
-                it("cannot edit two image regions") {
+                it("can edit two image regions") {
                     let regions: [Regionable]? = [
                         ImageRegion.stub([:]),
                         ImageRegion.stub([:])
                     ]
-                    expect(OmnibarViewController.canEditRegions(regions)) == false
+                    expect(OmnibarViewController.canEditRegions(regions)) == true
                 }
-                it("cannot edit a text region followed by an image region") {
+                it("can edit a text region followed by an image region") {
                     let regions: [Regionable]? = [
                         TextRegion.stub([:]),
                         ImageRegion.stub([:])
                     ]
-                    expect(OmnibarViewController.canEditRegions(regions)) == false
+                    expect(OmnibarViewController.canEditRegions(regions)) == true
                 }
-                describe("cannot edit two text regions and a single image region") {
+                describe("can edit two text regions and a single image region") {
                     it("text, text, image") {
                         let regions: [Regionable]? = [
                             TextRegion.stub([:]),
                             TextRegion.stub([:]),
                             ImageRegion.stub([:])
                         ]
-                        expect(OmnibarViewController.canEditRegions(regions)) == false
+                        expect(OmnibarViewController.canEditRegions(regions)) == true
                     }
                     it("text, image, text") {
                         let regions: [Regionable]? = [
@@ -407,7 +417,7 @@ class OmnibarViewControllerSpec: QuickSpec {
                             ImageRegion.stub([:]),
                             TextRegion.stub([:])
                         ]
-                        expect(OmnibarViewController.canEditRegions(regions)) == false
+                        expect(OmnibarViewController.canEditRegions(regions)) == true
                     }
                     it("image, text, text") {
                         let regions: [Regionable]? = [
@@ -415,17 +425,17 @@ class OmnibarViewControllerSpec: QuickSpec {
                             TextRegion.stub([:]),
                             TextRegion.stub([:])
                         ]
-                        expect(OmnibarViewController.canEditRegions(regions)) == false
+                        expect(OmnibarViewController.canEditRegions(regions)) == true
                     }
                 }
-                describe("cannot edit two image regions and a single text region") {
+                describe("can edit two image regions and a single text region") {
                     it("text, image, image") {
                         let regions: [Regionable]? = [
                             TextRegion.stub([:]),
                             ImageRegion.stub([:]),
                             ImageRegion.stub([:])
                         ]
-                        expect(OmnibarViewController.canEditRegions(regions)) == false
+                        expect(OmnibarViewController.canEditRegions(regions)) == true
                     }
                     it("image, text, image") {
                         let regions: [Regionable]? = [
@@ -433,13 +443,65 @@ class OmnibarViewControllerSpec: QuickSpec {
                             TextRegion.stub([:]),
                             ImageRegion.stub([:])
                         ]
-                        expect(OmnibarViewController.canEditRegions(regions)) == false
+                        expect(OmnibarViewController.canEditRegions(regions)) == true
                     }
                     it("image, image, text") {
                         let regions: [Regionable]? = [
                             ImageRegion.stub([:]),
                             ImageRegion.stub([:]),
                             TextRegion.stub([:])
+                        ]
+                        expect(OmnibarViewController.canEditRegions(regions)) == true
+                    }
+                }
+                describe("cannot edit embed regions") {
+                    it("text, embed, image") {
+                        let regions: [Regionable]? = [
+                            TextRegion.stub([:]),
+                            EmbedRegion.stub([:]),
+                            ImageRegion.stub([:])
+                        ]
+                        expect(OmnibarViewController.canEditRegions(regions)) == false
+                    }
+                    it("embed, image, text") {
+                        let regions: [Regionable]? = [
+                            EmbedRegion.stub([:]),
+                            ImageRegion.stub([:]),
+                            TextRegion.stub([:])
+                        ]
+                        expect(OmnibarViewController.canEditRegions(regions)) == false
+                    }
+                    it("image, text, embed") {
+                        let regions: [Regionable]? = [
+                            ImageRegion.stub([:]),
+                            TextRegion.stub([:]),
+                            EmbedRegion.stub([:])
+                        ]
+                        expect(OmnibarViewController.canEditRegions(regions)) == false
+                    }
+                }
+                describe("cannot edit unknown regions") {
+                    it("text, unknown, image") {
+                        let regions: [Regionable]? = [
+                            TextRegion.stub([:]),
+                            UnknownRegion.stub([:]),
+                            ImageRegion.stub([:])
+                        ]
+                        expect(OmnibarViewController.canEditRegions(regions)) == false
+                    }
+                    it("unknown, image, text") {
+                        let regions: [Regionable]? = [
+                            UnknownRegion.stub([:]),
+                            ImageRegion.stub([:]),
+                            TextRegion.stub([:])
+                        ]
+                        expect(OmnibarViewController.canEditRegions(regions)) == false
+                    }
+                    it("image, text, unknown") {
+                        let regions: [Regionable]? = [
+                            ImageRegion.stub([:]),
+                            TextRegion.stub([:]),
+                            UnknownRegion.stub([:])
                         ]
                         expect(OmnibarViewController.canEditRegions(regions)) == false
                     }

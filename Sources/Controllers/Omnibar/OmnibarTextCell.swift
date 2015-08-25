@@ -11,6 +11,7 @@ public class OmnibarTextCell: UITableViewCell {
     struct Size {
         static let margins = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
         static let textMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        static let minHeight = CGFloat(100)
     }
 
     public let textContainer = UIView()
@@ -47,7 +48,7 @@ public class OmnibarTextCell: UITableViewCell {
         textView = OmnibarTextCell.generateTextView()
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        textContainer.backgroundColor = UIColor.grayColor()
+        textContainer.backgroundColor = UIColor.whiteColor()
         textView.userInteractionEnabled = false
         textView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
 
@@ -79,14 +80,13 @@ public class OmnibarTextCell: UITableViewCell {
     }
 
     public class func heightForText(attributedText: NSAttributedString, tableWidth: CGFloat) -> CGFloat {
-        let minHeight = CGFloat(30)
         let textWidth = tableWidth - (Size.margins.left + Size.margins.right + Size.textMargins.left + Size.textMargins.right)
         let tv = generateTextView()
         tv.attributedText = attributedText
         let tvSize = tv.sizeThatFits(CGSize(width: textWidth, height: CGFloat.max))
         let heightPadding = Size.margins.top + Size.margins.bottom + Size.textMargins.top + Size.textMargins.bottom
         let textHeight = heightPadding + round(tvSize.height)
-        return max(minHeight, textHeight)
+        return max(Size.minHeight, textHeight)
     }
 
 }

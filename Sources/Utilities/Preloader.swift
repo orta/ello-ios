@@ -14,7 +14,7 @@ public struct Preloader {
     public var manager = PINRemoteImageManager.sharedImageManager()
 
     public init(){}
-    
+
     public func preloadImages(jsonables: [JSONAble], streamKind: StreamKind) {
 
         for jsonable in jsonables {

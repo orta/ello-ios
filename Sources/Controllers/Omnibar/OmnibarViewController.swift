@@ -9,6 +9,7 @@
 import UIKit
 import Crashlytics
 import SwiftyUserDefaults
+import PINRemoteImage
 
 
 public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegate {
@@ -104,7 +105,10 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
         screen.canGoBack = parentPost != nil || editPost != nil || editComment != nil
         screen.currentUser = currentUser
-        screen.text = defaultText
+        if let text = defaultText {
+            screen.regions = [OmnibarRegion.Text(text)]
+        }
+
         if parentPost != nil {
             screen.title = NSLocalizedString("Leave a comment", comment: "Leave a comment")
         }
@@ -215,14 +219,40 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     }
 
     func prepareScreenForEditing(content: [Regionable]) {
-        ElloHUD.hideLoadingHudInView(self.view)
-
+        var regions = [OmnibarRegion]()
+        var downloads = [(Int, NSURL)]()
         for region in content {
             if let region = region as? TextRegion,
                 attrdText = ElloAttributedString.parse(region.content)
             {
+                regions.append(.AttributedText(attrdText))
             }
-            else if let region = region as? ImageRegion {
+            else if let region = region as? ImageRegion,
+                url = region.url
+            {
+                downloads.append((count(regions), url))
+                regions.append(.ImageURL(url))
+            }
+        }
+        screen.regions = regions
+
+        let completed = after(count(downloads)) {
+            ElloHUD.hideLoadingHudInView(self.view)
+        }
+
+        for (index, imageURL) in downloads {
+            PINRemoteImageManager.sharedImageManager().downloadImageWithURL(imageURL) { result in
+                if let image = result.image {
+                    regions[index] = .Image(image, nil, nil)
+                }
+                else {
+                    regions[index] = .Error
+                }
+                let tmp = regions
+                nextTick {
+                    self.screen.regions = tmp
+                    completed()
+                }
             }
         }
     }
@@ -298,7 +328,8 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
                 else {
                     content.append(image)
                 }
-            case let .ImageURL(url):
+            case let .ImageURL(url): break
+            default:
                 break // TODO
             }
         }
@@ -434,34 +465,13 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
 extension OmnibarViewController {
 
-    // OK:
-    //   - one text region
-    //   - one image region
-    //   - one image region, followed by one text region
-    // NOT OK:
-    //   - all other cases
     public class func canEditRegions(regions: [Regionable]?) -> Bool {
-        if let regions = regions {
-            var hasTextRegion = false
-            var hasImageRegion = false
-
-            for region in regions {
-                if region is TextRegion {
-                    if hasTextRegion { return false }
-                    hasTextRegion = true
-                }
-                else if region is ImageRegion {
-                    if hasImageRegion || hasTextRegion { return false }
-                    hasImageRegion = true
-                }
-                else {
-                    return false
-                }
-            }
-
-            return hasTextRegion || hasImageRegion
+        if Defaults["OmnibarNewEditorEnabled"].bool ?? false {
+            return OmnibarMultiRegionScreen.canEditRegions(regions)
         }
-        return false
+        else {
+            return OmnibarScreen.canEditRegions(regions)
+        }
     }
 }
 

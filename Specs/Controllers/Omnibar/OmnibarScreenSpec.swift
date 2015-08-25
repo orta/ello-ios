@@ -13,36 +13,32 @@ import Nimble
 
 class OmnibarScreenMockDelegate : OmnibarScreenDelegate {
     var didGoBack = false
+    var didStopEditing = false
     var didPresentController = false
     var didDismissController = false
     var didPushController = false
     var submitted = false
 
-    @objc func omnibarCancel() {
+    func omnibarCancel() {
         didGoBack = true
     }
-    @objc func omnibarPushController(controller: UIViewController) {
+//    func stopEditing() {
+//        didStopEditing = true
+//    }
+    func omnibarPushController(controller: UIViewController) {
         didPushController = true
     }
-    @objc func omnibarPresentController(controller : UIViewController) {
+    func omnibarPresentController(controller : UIViewController) {
         didPresentController = true
     }
-    @objc func omnibarDismissController(controller : UIViewController) {
+    func omnibarDismissController(controller : UIViewController) {
         didDismissController = true
     }
-    @objc func omnibarSubmitted(text: NSAttributedString?, data: NSData, type: String) {
+    func omnibarSubmitted(regions: [OmnibarRegion]) {
         submitted = true
     }
-    @objc func omnibarSubmitted(text : NSAttributedString?, image: UIImage?) {
-        submitted = true
+    func updatePostState() {
     }
-    @objc func updatePostState() {
-    }
-
-    @objc func omnibarSubmitted(text: NSAttributedString?, image: UIImage, data: NSData, type: String) {
-        submitted = true
-    }
-
 }
 
 

@@ -40,7 +40,7 @@ public protocol OmnibarScreenDelegate: class {
 public protocol OmnibarScreenProtocol: class {
     var delegate: OmnibarScreenDelegate? { get set }
     var title: String { get set }
-    var text: String? { get set }
+    var regions: [OmnibarRegion] { get set }
     var avatarURL: NSURL? { get set }
     var avatarImage: UIImage? { get set }
     var currentUser: User? { get set }
@@ -68,12 +68,57 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         static let buttonWidth = CGFloat(70)
     }
 
+    class func canEditRegions(regions: [Regionable]?) -> Bool {
+         if let regions = regions {
+            var hasTextRegion = false
+            var hasImageRegion = false
+
+            for region in regions {
+                if region is TextRegion {
+                    if hasTextRegion { return false }
+                    hasTextRegion = true
+                 }
+                else if region is ImageRegion {
+                    if hasImageRegion || hasTextRegion { return false }
+                    hasImageRegion = true
+                }
+                else {
+                    return false
+                }
+            }
+
+            return hasTextRegion || hasImageRegion
+         }
+         return false
+    }
+
     var autoCompleteVC = AutoCompleteViewController()
 
 // MARK: public access to text and image
     public var isEditing: Bool = false {
         didSet {
             submitButton.setTitle(NSLocalizedString("Update", comment: "Update button"), forState: .Normal)
+        }
+    }
+
+    public var regions = [OmnibarRegion]() {
+        didSet {
+            var screenText: NSAttributedString?
+            var screenImage: UIImage?
+            for region in regions {
+                switch region {
+                case let .AttributedText(text) where screenText == nil:
+                    screenText = text
+                case let .Image(image, nil, nil) where screenImage == nil:
+                    screenImage = image
+                default:
+                    break
+                }
+
+                if screenText != nil && screenImage != nil { break }
+            }
+            self.attributedText = screenText
+            self.image = screenImage
         }
     }
 
