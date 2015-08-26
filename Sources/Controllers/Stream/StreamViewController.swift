@@ -355,9 +355,9 @@ public class StreamViewController: BaseElloViewController {
                 return
             }
             switch change {
-            case .Create, .Delete, .Update:
+            case .Create, .Delete, .Update, .Replaced:
                 self.dataSource.modifyItems(comment, change: change, collectionView: self.collectionView)
-            case .Read, .Replaced: break
+            case .Read: break
             }
             self.updateNoResultsLabel()
         }

@@ -73,6 +73,11 @@ public class StreamHeaderCell: UICollectionViewCell {
         return self.flagItem.customView as! ImageLabelControl
     }
 
+    let editItem = ElloPostToolBarOption.Edit.barButtonItem()
+    public var editControl: ImageLabelControl {
+       return self.editItem.customView as! ImageLabelControl
+    }
+
     let deleteItem = ElloPostToolBarOption.Delete.barButtonItem()
     public var deleteControl: ImageLabelControl {
         return self.deleteItem.customView as! ImageLabelControl
@@ -146,7 +151,7 @@ public class StreamHeaderCell: UICollectionViewCell {
 
         if self.ownComment {
             bottomToolBar.items = [
-                flexibleItem(), replyItem, deleteItem, fixedItem(-10)
+                flexibleItem(), replyItem, editItem, deleteItem, fixedItem(-10)
             ]
         }
         else if self.ownPost {
@@ -221,6 +226,7 @@ public class StreamHeaderCell: UICollectionViewCell {
         flagControl.addTarget(self, action: Selector("flagButtonTapped:"), forControlEvents: .TouchUpInside)
         replyControl.addTarget(self, action: Selector("replyButtonTapped:"), forControlEvents: .TouchUpInside)
         deleteControl.addTarget(self, action: Selector("deleteButtonTapped:"), forControlEvents: .TouchUpInside)
+        editControl.addTarget(self, action: Selector("editButtonTapped:"), forControlEvents: .TouchUpInside)
     }
 
     private func styleUsernameButton() {
@@ -271,6 +277,10 @@ public class StreamHeaderCell: UICollectionViewCell {
 
     @IBAction func deleteButtonTapped(sender: StreamFooterButton) {
         postbarDelegate?.deleteCommentButtonTapped(self.indexPath)
+    }
+
+    @IBAction func editButtonTapped(sender: StreamFooterButton) {
+        postbarDelegate?.editCommentButtonTapped(self.indexPath)
     }
 
     @IBAction func chevronButtonTapped(sender: StreamFooterButton) {

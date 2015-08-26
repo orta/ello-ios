@@ -19,6 +19,7 @@ public class PostEditingService: NSObject {
     typealias UploadImagesSuccessCompletion = ([(Int, ImageRegion)]) -> Void
 
     var editPost: Post?
+    var editComment: Comment?
     var parentPost: Post?
 
     convenience init(parentPost post: Post) {
@@ -29,6 +30,11 @@ public class PostEditingService: NSObject {
     convenience init(editPost post: Post) {
         self.init()
         editPost = post
+    }
+
+    convenience init(editComment comment: Comment) {
+        self.init()
+        editComment = comment
     }
 
     // rawSections is String or UIImage objects
@@ -96,6 +102,9 @@ public class PostEditingService: NSObject {
         }
         else if let editPost = editPost {
             endpoint = ElloAPI.UpdatePost(postId: editPost.id, body: params)
+        }
+        else if let editComment = editComment {
+            endpoint = ElloAPI.UpdateComment(postId: editComment.postId, commentId: editComment.id, body: params)
         }
         else {
             endpoint = ElloAPI.CreatePost(body: params)

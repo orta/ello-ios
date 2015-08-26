@@ -344,100 +344,104 @@ class OmnibarViewControllerSpec: QuickSpec {
 
             context("post editability") {
                 it("can edit a single text region") {
-                    let regions = [
+                    let regions: [Regionable]? = [
                         TextRegion.stub([:])
                     ]
-                    expect(OmnibarViewController.canEditPost(Post.stub(["content": regions]))) == true
+                    expect(OmnibarViewController.canEditRegions(regions)) == true
                 }
                 it("can edit a single image region") {
-                    let regions = [
+                    let regions: [Regionable]? = [
                         ImageRegion.stub([:])
                     ]
-                    expect(OmnibarViewController.canEditPost(Post.stub(["content": regions]))) == true
+                    expect(OmnibarViewController.canEditRegions(regions)) == true
                 }
                 it("can edit an image region followed by a text region") {
-                    let regions = [
+                    let regions: [Regionable]? = [
                         ImageRegion.stub([:]),
                         TextRegion.stub([:])
                     ]
-                    expect(OmnibarViewController.canEditPost(Post.stub(["content": regions]))) == true
+                    expect(OmnibarViewController.canEditRegions(regions)) == true
                 }
 
                 it("cannot edit zero regions") {
-                    let regions = [Regionable]()
-                    expect(OmnibarViewController.canEditPost(Post.stub(["content": regions]))) == false
+                    let regions: [Regionable]? = [Regionable]()
+                    expect(OmnibarViewController.canEditRegions(regions)) == false
+                }
+                it("cannot edit nil") {
+                    let regions: [Regionable]? = nil
+                    expect(OmnibarViewController.canEditRegions(regions)) == false
                 }
                 it("cannot edit two text regions") {
-                    let regions = [
+                    let regions: [Regionable]? = [
                         TextRegion.stub([:]),
                         TextRegion.stub([:])
                     ]
-                    expect(OmnibarViewController.canEditPost(Post.stub(["content": regions]))) == false
+                    expect(OmnibarViewController.canEditRegions(regions)) == false
                 }
                 it("cannot edit two image regions") {
-                    let regions = [
+                    let regions: [Regionable]? = [
                         ImageRegion.stub([:]),
                         ImageRegion.stub([:])
                     ]
-                    expect(OmnibarViewController.canEditPost(Post.stub(["content": regions]))) == false
+                    expect(OmnibarViewController.canEditRegions(regions)) == false
                 }
                 it("cannot edit a text region followed by an image region") {
-                    let regions = [
+                    let regions: [Regionable]? = [
                         TextRegion.stub([:]),
                         ImageRegion.stub([:])
                     ]
-                    expect(OmnibarViewController.canEditPost(Post.stub(["content": regions]))) == false
+                    expect(OmnibarViewController.canEditRegions(regions)) == false
                 }
                 describe("cannot edit two text regions and a single image region") {
                     it("text, text, image") {
-                        let regions = [
+                        let regions: [Regionable]? = [
                             TextRegion.stub([:]),
                             TextRegion.stub([:]),
                             ImageRegion.stub([:])
                         ]
-                        expect(OmnibarViewController.canEditPost(Post.stub(["content": regions]))) == false
+                        expect(OmnibarViewController.canEditRegions(regions)) == false
                     }
                     it("text, image, text") {
-                        let regions = [
+                        let regions: [Regionable]? = [
                             TextRegion.stub([:]),
                             ImageRegion.stub([:]),
                             TextRegion.stub([:])
                         ]
-                        expect(OmnibarViewController.canEditPost(Post.stub(["content": regions]))) == false
+                        expect(OmnibarViewController.canEditRegions(regions)) == false
                     }
                     it("image, text, text") {
-                        let regions = [
+                        let regions: [Regionable]? = [
                             ImageRegion.stub([:]),
                             TextRegion.stub([:]),
                             TextRegion.stub([:])
                         ]
-                        expect(OmnibarViewController.canEditPost(Post.stub(["content": regions]))) == false
+                        expect(OmnibarViewController.canEditRegions(regions)) == false
                     }
                 }
                 describe("cannot edit two image regions and a single text region") {
                     it("text, image, image") {
-                        let regions = [
+                        let regions: [Regionable]? = [
                             TextRegion.stub([:]),
                             ImageRegion.stub([:]),
                             ImageRegion.stub([:])
                         ]
-                        expect(OmnibarViewController.canEditPost(Post.stub(["content": regions]))) == false
+                        expect(OmnibarViewController.canEditRegions(regions)) == false
                     }
                     it("image, text, image") {
-                        let regions = [
+                        let regions: [Regionable]? = [
                             ImageRegion.stub([:]),
                             TextRegion.stub([:]),
                             ImageRegion.stub([:])
                         ]
-                        expect(OmnibarViewController.canEditPost(Post.stub(["content": regions]))) == false
+                        expect(OmnibarViewController.canEditRegions(regions)) == false
                     }
                     it("image, image, text") {
-                        let regions = [
+                        let regions: [Regionable]? = [
                             ImageRegion.stub([:]),
                             ImageRegion.stub([:]),
                             TextRegion.stub([:])
                         ]
-                        expect(OmnibarViewController.canEditPost(Post.stub(["content": regions]))) == false
+                        expect(OmnibarViewController.canEditRegions(regions)) == false
                     }
                 }
             }
