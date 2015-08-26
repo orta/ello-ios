@@ -69,9 +69,9 @@ public final class Comment: JSONAble, Authorable {
         self.authorId = decoder.decodeKey("authorId")
         self.postId = decoder.decodeKey("postId")
         self.content = decoder.decodeKey("content")
-        self.body = decoder.decodeOptionalKey("body")
         self.loadedFromPostId = decoder.decodeKey("loadedFromPostId")
         // optional
+        self.body = decoder.decodeOptionalKey("body")
         self.summary = decoder.decodeOptionalKey("summary")
         super.init(coder: decoder.coder)
     }
@@ -85,9 +85,9 @@ public final class Comment: JSONAble, Authorable {
         coder.encodeObject(authorId, forKey: "authorId")
         coder.encodeObject(postId, forKey: "postId")
         coder.encodeObject(content, forKey: "content")
-        coder.encodeObject(body, forKey: "body")
         coder.encodeObject(loadedFromPostId, forKey: "loadedFromPostId")
         // optional
+        coder.encodeObject(body, forKey: "body")
         coder.encodeObject(summary, forKey: "summary")
         super.encodeWithCoder(coder.coder)
     }
@@ -116,8 +116,8 @@ public final class Comment: JSONAble, Authorable {
             content: RegionParser.regions("content", json: json)
             )
         // optional
-        comment.summary = RegionParser.regions("summary", json: json)
         comment.body = RegionParser.regions("body", json: json)
+        comment.summary = RegionParser.regions("summary", json: json)
         // links
         comment.links = data["links"] as? [String: AnyObject]
         // store self in collection

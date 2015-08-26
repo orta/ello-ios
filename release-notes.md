@@ -1,3 +1,23 @@
+### Ello Build v1.0.0(2959) August 19, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #542 - Allow links with bold/italic/etc text to launch a web browser
+Code added awhile back to allow tapping anywhere in a web view was swallowing taps on `<A>` tags that had nested tags such as `<B>` and `<I>`. This PR fixes that bug.
+
+Fixes: https://www.pivotaltracker.com/story/show/101503424
+
+![screen shot 2015-08-18 at 3 43 53 pm](https://cloud.githubusercontent.com/assets/12459/9343563/07de84e4-45c0-11e5-915b-6ad3c50b32ae.png)
+
+------
+
+#### #541 - add 'DEBUG' flag to Crashlytics builds
+@steam BAM
+    
+------------
+
 ### Ello Build v1.0.0(2953) August 14, 2015
 
     RELEASE NOTES
