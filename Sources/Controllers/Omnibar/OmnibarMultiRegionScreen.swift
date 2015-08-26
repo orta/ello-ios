@@ -21,7 +21,7 @@ public enum OmnibarRegion {
     case Spacer
     case Error
 
-    static func Text(str: String) -> OmnibarRegion {
+    public static func Text(str: String) -> OmnibarRegion {
         return AttributedText(ElloAttributedString.style(str))
     }
 }
@@ -635,14 +635,17 @@ extension OmnibarMultiRegionScreen: UITableViewDelegate, UITableViewDataSource {
                 regionsTableView.reloadRowsAtIndexPaths([path], withRowAnimation: .Automatic)
             }
             else if let regionAbove = _regions.safeValue(index - 1),
-                regionBelow = _regions.safeValue(index + 1)
+                regionAboveText = regionAbove.text,
+                regionBelow = _regions.safeValue(index + 1),
+                regionBelowText = regionBelow.text
             where regionAbove.isText && regionBelow.isText
             {
                 let newText = NSMutableAttributedString()
-                newText.appendAttributedString(regionAbove.text)
-                if count(regionBelow.text.string.trim()) > 0 {
+                newText.appendAttributedString(regionAboveText)
+
+                if count(regionBelowText.string.trim()) > 0 {
                     newText.appendAttributedString(ElloAttributedString.style("\n\n"))
-                    newText.appendAttributedString(regionBelow.text)
+                    newText.appendAttributedString(regionBelowText)
                 }
 
                 _regions.removeAtIndex(index + 1)
@@ -856,7 +859,7 @@ extension OmnibarMultiRegionScreen: UINavigationControllerDelegate, UIImagePicke
 }
 
 
-extension OmnibarRegion {
+public extension OmnibarRegion {
     var deletable: Bool {
         switch self {
         case .Image: return true
@@ -865,10 +868,17 @@ extension OmnibarRegion {
         }
     }
 
-    var text: NSAttributedString {
+    var text: NSAttributedString? {
         switch self {
         case let .AttributedText(text): return text
-        default: return ElloAttributedString.style("")
+        default: return nil
+        }
+    }
+
+    var image: UIImage? {
+        switch self {
+        case let .Image(image, _, _): return image
+        default: return nil
         }
     }
 
@@ -912,7 +922,7 @@ extension OmnibarRegion {
     }
 }
 
-extension OmnibarRegion {
+public extension OmnibarRegion {
     var rawRegion: NSObject? {
         switch self {
         case let .Image(image, _, _): return image

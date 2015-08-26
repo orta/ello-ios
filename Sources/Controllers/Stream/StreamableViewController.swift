@@ -20,7 +20,7 @@ public protocol UserTappedDelegate : NSObjectProtocol {
 }
 
 public protocol CreatePostDelegate: NSObjectProtocol {
-    func createComment(post: Post, text:String, fromController: StreamViewController)
+    func createComment(post: Post, text: String?, fromController: StreamViewController)
     func editComment(comment: Comment, fromController: StreamViewController)
     func editPost(post: Post, fromController: StreamViewController)
 }
@@ -223,7 +223,7 @@ extension StreamableViewController: UserTappedDelegate {
 
 // MARK: CreatePostDelegate
 extension StreamableViewController: CreatePostDelegate {
-    public func createComment(post: Post, text: String, fromController: StreamViewController) {
+    public func createComment(post: Post, text: String?, fromController: StreamViewController) {
         let vc = OmnibarViewController(parentPost: post, defaultText: text)
         vc.currentUser = self.currentUser
         vc.onCommentSuccess() { _ in

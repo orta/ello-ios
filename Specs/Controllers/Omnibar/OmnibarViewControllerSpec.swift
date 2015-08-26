@@ -19,25 +19,15 @@ class OmnibarMockScreen: OmnibarScreenProtocol {
     var avatarURL: NSURL?
     var avatarImage: UIImage?
     var currentUser: User?
-    var text: String?
-    var image: UIImage?
-    var imageURL: NSURL?
-    var attributedText: NSAttributedString?
+    var regions = [OmnibarRegion]() {
+        didSet { print("regions: \(regions)")}
+    }
 
     var canGoBack = false
     var didReportSuccess = false
     var didReportError = false
     var didKeyboardWillShow = false
     var didKeyboardWillHide = false
-
-    func appendAttributedText(text: NSAttributedString) {
-        let mutableString = NSMutableAttributedString()
-        if let attributedText = attributedText {
-            mutableString.appendAttributedString(attributedText)
-        }
-        mutableString.appendAttributedString(text)
-        attributedText = mutableString
-    }
 
     func reportSuccess(title: String) {
         didReportSuccess = true
@@ -112,10 +102,6 @@ class OmnibarViewControllerSpec: QuickSpec {
                 it("is a OmnibarViewController") {
                     expect(controller).to(beAKindOf(OmnibarViewController.self))
                 }
-
-                it("uses the OmnibarScreen as its view") {
-                    expect(controller.view).to(beAKindOf(OmnibarScreen.self))
-                }
             }
 
             context("setting up the Screen") {
@@ -151,9 +137,9 @@ class OmnibarViewControllerSpec: QuickSpec {
 
                     let attributedString = ElloAttributedString.style("text")
                     let image = UIImage.imageWithColor(.blackColor())
-//                    let omnibarData =  attributedText: attributedString, image: image)
-//                    let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
-                    let data = NSData()
+                    let omnibarData = OmnibarMultiRegionData()
+                    omnibarData.regions = [attributedString, image]
+                    let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
 
                     controller = OmnibarViewController(parentPost: post)
                     if let fileName = controller.omnibarDataName() {
@@ -172,12 +158,12 @@ class OmnibarViewControllerSpec: QuickSpec {
                     }
                 }
 
-                it("should have text set") {
-                    expect(screen.attributedText?.string ?? "").to(equal("text"))
+                fit("should have text set") {
+                    checkRegions(screen.regions, equal: "text")
                 }
 
                 it("should have image set") {
-                    expect(screen.image).toNot(beNil())
+                    expect(screen).to(haveImageRegion())
                 }
             }
 
@@ -186,7 +172,7 @@ class OmnibarViewControllerSpec: QuickSpec {
                 beforeEach {
                     let post = Post.stub([
                         "author": User.stub(["username": "colinta"])
-                        ])
+                    ])
 
                     controller = OmnibarViewController(parentPost: post)
                     screen = OmnibarMockScreen()
@@ -194,8 +180,10 @@ class OmnibarViewControllerSpec: QuickSpec {
                     controller.beginAppearanceTransition(true, animated: false)
                     controller.endAppearanceTransition()
 
-                    screen.attributedText = ElloAttributedString.style("text")
-                    screen.image = UIImage.imageWithColor(.blackColor())
+                    let image = UIImage.imageWithColor(.blackColor())
+                    screen.regions = [
+                        .Text("text"), .Image(image, nil, nil)
+                    ]
                 }
 
                 afterEach {
@@ -224,99 +212,44 @@ class OmnibarViewControllerSpec: QuickSpec {
                     }
                 }
 
-                it("should have the text in the textView") {
-                    expect(controller.screen.text).to(contain("@666 "))
+                fit("should have the text in the textView") {
+                    checkRegions(controller.screen.regions, contain: "@666 ")
                 }
 
-                it("should have the text if there was tmp text available") {
+                fit("should ignore the saved text when defaultText is given") {
                     if let fileName = controller.omnibarDataName() {
                         Tmp.remove(fileName)
                     }
 
                     let text = ElloAttributedString.style("testing!")
-//                    let omnibarData = OmnibarData(attributedText: text, image: nil)
-//                    let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
-                    let data = NSData()
+                    let omnibarData = OmnibarMultiRegionData()
+                    omnibarData.regions = [text]
+                    let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
                     if let fileName = controller.omnibarDataName() {
                         Tmp.write(data, to: fileName)
                     }
 
                     controller = OmnibarViewController(parentPost: post, defaultText: "@666 ")
-                    expect(controller.screen.text).to(contain("@666 "))
-                    expect(controller.screen.text).to(contain("testing!"))
+                    checkRegions(controller.screen.regions, contain: "@666 ")
+                    checkRegions(controller.screen.regions, notToContain: "testing!")
                 }
 
-                it("should not have the text if the tmp text was on another post") {
+                fit("should not have the text if the tmp text was on another post") {
                     if let fileName = controller.omnibarDataName() {
                         Tmp.remove(fileName)
                     }
 
                     let text = ElloAttributedString.style("testing!")
-//                    let omnibarData = OmnibarData(attributedText: text, image: nil)
-//                    let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
+                    let omnibarData = OmnibarMultiRegionData()
+                    omnibarData.regions = [text]
                     let data = NSData()
                     if let fileName = controller.omnibarDataName() {
                         Tmp.write(data, to: fileName)
                     }
 
                     controller = OmnibarViewController(parentPost: Post.stub([:]), defaultText: "@666 ")
-                    expect(controller.screen.text).to(contain("@666 "))
-                    expect(controller.screen.text).notTo(contain("testing!"))
-                }
-
-                it("should have the text only once") {
-                    if let fileName = controller.omnibarDataName() {
-                        Tmp.remove(fileName)
-                    }
-
-                    let text = ElloAttributedString.style("@666 testing!")
-//                    let omnibarData = OmnibarData(attributedText: text, image: nil)
-//                    let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
-                    let data = NSData()
-                    if let fileName = controller.omnibarDataName() {
-                        Tmp.write(data, to: fileName)
-                    }
-
-                    controller = OmnibarViewController(parentPost: post, defaultText: "@666 ")
-                    expect(controller.screen.text).to(contain("@666 "))
-                    expect(controller.screen.text).notTo(contain("@666 @666 "))
-                    expect(controller.screen.text).to(contain("testing!"))
-                }
-
-                it("should have the text only once, even with whitespace annoyances") {
-                    if let fileName = controller.omnibarDataName() {
-                        Tmp.remove(fileName)
-                    }
-
-                    let text = ElloAttributedString.style("@666")
-//                    let omnibarData = OmnibarData(attributedText: text, image: nil)
-//                    let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
-                    let data = NSData()
-                    if let fileName = controller.omnibarDataName() {
-                        Tmp.write(data, to: fileName)
-                    }
-
-                    controller = OmnibarViewController(parentPost: post, defaultText: "@666 ")
-                    expect(controller.screen.text).to(contain("@666"))
-                    expect(controller.screen.text).notTo(contain("@666 @666 "))
-                }
-
-                it("should add the text when the username doesn't quite match (@666 @6666)") {
-                    if let fileName = controller.omnibarDataName() {
-                        Tmp.remove(fileName)
-                    }
-
-                    let text = ElloAttributedString.style("@6666 ")
-//                    let omnibarData = OmnibarData(attributedText: text, image: nil)
-//                    let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
-                    let data = NSData()
-                    if let fileName = controller.omnibarDataName() {
-                        Tmp.write(data, to: fileName)
-                    }
-
-                    controller = OmnibarViewController(parentPost: post, defaultText: "@666 ")
-                    expect(controller.screen.text).to(contain("@666 "))
-                    expect(controller.screen.text).to(contain("@6666 "))
+                    checkRegions(controller.screen.regions, contain: "@666 ")
+                    checkRegions(controller.screen.regions, notToContain: "testing!")
                 }
             }
 
@@ -329,27 +262,26 @@ class OmnibarViewControllerSpec: QuickSpec {
                     controller = OmnibarViewController(editPost: post)
                 }
 
-                it("should have the post body in the textView") {
-                    expect(controller.screen.text).to(contain("did you say \"mancrush\""))
+                fit("should have the post body in the textView") {
+                    checkRegions(controller.screen.regions, contain: "did you say \"mancrush\"")
                 }
 
-                it("should have the text if there was tmp text available") {
+                fit("should have the text if there was tmp text available") {
                     if let fileName = controller.omnibarDataName() {
                         Tmp.remove(fileName)
                     }
 
                     let text = ElloAttributedString.style("testing!")
-//                    let omnibarData = OmnibarData(attributedText: text, image: nil)
-//                    let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
-                    let data = NSData()
+                    let omnibarData = OmnibarMultiRegionData()
+                    omnibarData.regions = [text]
+                    let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
                     if let fileName = controller.omnibarDataName() {
                         Tmp.write(data, to: fileName)
                     }
 
                     controller = OmnibarViewController(editPost: post)
-                    expect(controller.screen.text).notTo(contain("testing!"))
+                    checkRegions(controller.screen.regions, notToContain: "testing!")
                 }
-
             }
 
             context("post editability") {

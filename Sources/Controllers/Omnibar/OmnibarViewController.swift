@@ -70,7 +70,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         }, failure: nil)
     }
 
-    convenience public init(parentPost post: Post, defaultText: String) {
+    convenience public init(parentPost post: Post, defaultText: String?) {
         self.init(parentPost: post)
         self.defaultText = defaultText
     }
@@ -129,11 +129,13 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             }
 
             if let fileName = omnibarDataName(),
-                let data: NSData = Tmp.read(fileName)
+                data: NSData = Tmp.read(fileName)
+                where (defaultText ?? "") == ""
             {
                 if let omnibarData = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? OmnibarMultiRegionData {
                     let rawRegions = omnibarData.regions
                     var regions = [OmnibarRegion]()
+
                     for rawRegion in rawRegions {
                         if let text = rawRegion as? NSAttributedString {
                             regions.append(.AttributedText(text))
@@ -142,6 +144,8 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
                             regions.append(.Image(image, nil, nil))
                         }
                     }
+
+
                     Tmp.remove(fileName)
                     screen.regions = regions
                 }
@@ -482,7 +486,7 @@ extension OmnibarViewController {
 }
 
 
-public class OmnibarMultiRegionData : NSObject, NSCoding {
+public class OmnibarMultiRegionData: NSObject, NSCoding {
     public var regions: [NSObject]
 
     public override init() {
