@@ -21,6 +21,43 @@ public struct ElloAttributedString {
         ])
     }
 
+    public static func split(text: NSAttributedString, split: String = "\n") -> [NSAttributedString] {
+        var strings = [NSAttributedString]()
+        var current = NSMutableAttributedString()
+        var hasLetters = false
+        var startNewString = false
+        let nsCount = (text.string as NSString).length
+        for i in 0..<nsCount {
+            let letter = NSMutableAttributedString(attributedString: text)
+            if i < nsCount - 1 {
+                letter.deleteCharactersInRange(NSMakeRange(i + 1, nsCount - i - 1))
+            }
+            if i > 0 {
+                letter.deleteCharactersInRange(NSMakeRange(0, i))
+            }
+
+            if letter.string == "\n" {
+                current.appendAttributedString(letter)
+                startNewString = true
+            }
+            else {
+                if !startNewString {
+                    hasLetters = true
+                }
+                else if hasLetters {
+                    strings.append(current)
+                    current = NSMutableAttributedString()
+                }
+                current.appendAttributedString(letter)
+                startNewString = false
+            }
+        }
+        if count(current.string) > 0 {
+            strings.append(current)
+        }
+        return strings
+    }
+
     public static func style(text: String) -> NSAttributedString {
         return NSAttributedString(string: text, attributes: attrs())
     }
