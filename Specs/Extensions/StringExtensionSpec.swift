@@ -90,6 +90,9 @@ class StringExtensionSpec: QuickSpec {
                 it("returns true") {
                     expect("test".endsWith("est")).to(beTrue())
                 }
+                it("returns true if string is repeated") {
+                    expect("test gfrg".endsWith("est")).to(beTrue())
+                }
             }
             context("does not endWith string") {
                 it("returns false") {
@@ -101,6 +104,9 @@ class StringExtensionSpec: QuickSpec {
             context("beginsWith string") {
                 it("returns true") {
                     expect("test".beginsWith("tes")).to(beTrue())
+                }
+                it("returns true if string is repeated") {
+                    expect("test test".beginsWith("tes")).to(beTrue())
                 }
             }
             context("does not beginWith string") {
