@@ -32,6 +32,11 @@ public class ElloButton: UIButton {
         self.sharedSetup()
     }
 
+    public override func awakeFromNib() {
+        super.awakeFromNib()
+        updateStyle()
+    }
+
     func sharedSetup() {
         self.titleLabel?.font = UIFont.typewriterFont(14.0)
         self.titleLabel?.numberOfLines = 1
@@ -43,19 +48,6 @@ public class ElloButton: UIButton {
 }
 
 public class LightElloButton: ElloButton {
-
-    required public init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-
-    required public init(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-
-    public override func awakeFromNib() {
-        super.awakeFromNib()
-        updateStyle()
-    }
 
     override public func updateStyle() {
         self.backgroundColor = enabled ? .greyE5() : .greyF1()
@@ -126,7 +118,16 @@ public class OutlineElloButton: WhiteElloButton {
     }
 }
 
-public class PostElloButton: ElloButton {
+public class ElloEditButton: LightElloButton {
+
+    override public func sharedSetup() {
+        super.sharedSetup()
+        titleLabel?.font = UIFont.typewriterFont(12.0)
+        self.setTitleColor(UIColor.greyA(), forState: .Normal)
+    }
+}
+
+public class ElloPostButton: ElloButton {
 
     override public func updateStyle() {
         backgroundColor = enabled ? .blackColor() : .greyA()

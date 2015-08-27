@@ -53,7 +53,7 @@ public protocol OmnibarScreenProtocol: class {
     func keyboardWillHide()
     func startEditing()
     func stopEditing()
-    func updatePostState()
+    func updateButtons()
 }
 
 public class OmnibarScreen: UIView, OmnibarScreenProtocol {
@@ -220,7 +220,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     public let imageSelectedButton = UIButton(frame: CGRect(x: 44, y: 0, width: 44, height: 44))
     let imageTrashIcon = FLAnimatedImageView()
     let navigationBar = ElloNavigationBar(frame: CGRectZero)
-    let submitButton = PostElloButton(frame: CGRect(x: 98, y: 0, width: 90, height: 44))
+    let submitButton = ElloPostButton(frame: CGRect(x: 98, y: 0, width: 90, height: 44))
     let buttonContainer = UIView(frame: CGRect(x: 0, y: 0, width: 190, height: 60))
     let statusBarUnderlay = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 20))
 
@@ -502,10 +502,10 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         textView.text = ""
         currentText = nil
         setCurrentImage(nil)
-        updatePostState()
+        updateButtons()
     }
 
-    public func updatePostState() {
+    public func updateButtons() {
         submitButton.enabled = canPost()
     }
 
@@ -585,7 +585,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         self.data = data
         self.type = type
 
-        updatePostState()
+        updateButtons()
     }
 
     func userSetCurrentImageURL(imageURL: NSURL) {
@@ -724,7 +724,7 @@ extension OmnibarScreen: UITextViewDelegate {
         let newText = NSString(string: textView.text).stringByReplacingCharactersInRange(range, withString: replacementText)
         currentText = ElloAttributedString.style(newText)
 
-        updatePostState()
+        updateButtons()
         throttleAutoComplete(range)
         return true
     }
@@ -773,7 +773,7 @@ extension OmnibarScreen: AutoCompleteDelegate {
             let newText = textView.text.stringByReplacingCharactersInRange(item.match.range, withString: prefix + name + " ")
             currentText = ElloAttributedString.style(newText)
             textView.attributedText = currentText
-            updatePostState()
+            updateButtons()
             hideAutoComplete()
         }
     }

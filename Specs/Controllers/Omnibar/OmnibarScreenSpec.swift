@@ -13,7 +13,6 @@ import Nimble
 
 class OmnibarScreenMockDelegate : OmnibarScreenDelegate {
     var didGoBack = false
-    var didStopEditing = false
     var didPresentController = false
     var didDismissController = false
     var didPushController = false
@@ -22,9 +21,6 @@ class OmnibarScreenMockDelegate : OmnibarScreenDelegate {
     func omnibarCancel() {
         didGoBack = true
     }
-//    func stopEditing() {
-//        didStopEditing = true
-//    }
     func omnibarPushController(controller: UIViewController) {
         didPushController = true
     }
@@ -36,8 +32,6 @@ class OmnibarScreenMockDelegate : OmnibarScreenDelegate {
     }
     func omnibarSubmitted(regions: [OmnibarRegion]) {
         submitted = true
-    }
-    func updatePostState() {
     }
 }
 

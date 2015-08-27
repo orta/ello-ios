@@ -15,6 +15,7 @@ public class OmnibarImageCell: UITableViewCell {
     }
 
     public let flImageView = FLAnimatedImageView()
+    public var reordering = false
 
     public var omnibarImage: UIImage? {
         get { return flImageView.image }
@@ -34,11 +35,24 @@ public class OmnibarImageCell: UITableViewCell {
     override public func layoutSubviews() {
         super.layoutSubviews()
 
-        flImageView.frame = contentView.bounds.inset(Size.margins)
+        var frame = contentView.bounds.inset(Size.margins)
+        if reordering {
+            frame = frame.inset(topBottom: Size.bottomMargin / 2)
+        }
+        flImageView.frame = frame
     }
 
-    public class func heightForImage(image: UIImage, tableWidth: CGFloat) -> CGFloat {
-        return image.size.height * tableWidth / image.size.width + Size.margins.top + Size.margins.bottom
+    public class func heightForImage(image: UIImage, tableWidth: CGFloat, editing: Bool) -> CGFloat {
+        var cellWidth = tableWidth
+        if editing {
+            cellWidth -= 80
+        }
+
+        var height = image.size.height * cellWidth / image.size.width + Size.margins.top + Size.margins.bottom
+        if editing {
+            height += Size.bottomMargin
+        }
+        return height
     }
 
 }

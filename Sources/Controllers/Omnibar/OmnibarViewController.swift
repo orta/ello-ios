@@ -199,7 +199,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             }
         }
 
-        screen.updatePostState()
+        screen.updateButtons()
     }
 
     override public func viewDidAppear(animated: Bool) {

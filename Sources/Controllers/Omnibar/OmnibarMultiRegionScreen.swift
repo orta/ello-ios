@@ -41,7 +41,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
 
     class func canEditRegions(regions: [Regionable]?) -> Bool {
         if let regions = regions {
-            return regions.all { region in
+            return count(regions) > 0 && regions.all { region in
                 return region is TextRegion || region is ImageRegion
             }
         }
@@ -72,7 +72,15 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
         get { return _regions }
     }
     public var _regions: [OmnibarRegion] = [.Text("")]
-    public var tableViewRegions = [(Int?, OmnibarRegion)]()
+    public var tableViewRegions: [(Int?, OmnibarRegion)] {
+        if regionsTableView.editing {
+            return reorderableRegions
+        }
+        else {
+            return editableRegions
+        }
+    }
+    public var reorderableRegions = [(Int?, OmnibarRegion)]()
     public var editableRegions = [(Int?, OmnibarRegion)]()
 
     public var currentTextPath: NSIndexPath?
@@ -120,12 +128,13 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
     weak public var delegate: OmnibarScreenDelegate?
 
     public let avatarButtonView = UIButton()
+    public let editButton = ElloEditButton()
 
     let cancelButton = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
     public let cameraButton = UIButton(frame: CGRect(x: 44, y: 0, width: 44, height: 44))
     let navigationBar = ElloNavigationBar(frame: CGRectZero)
-    let submitButton = PostElloButton(frame: CGRect(x: 98, y: 0, width: 90, height: 44))
-    let buttonContainer = UIView(frame: CGRect(x: 0, y: 0, width: 190, height: 60))
+    let submitButton = ElloPostButton(frame: CGRect(x: 98, y: 0, width: 44, height: 44))
+    let buttonContainer = UIView(frame: CGRect(x: 0, y: 0, width: 142, height: 60))
     let statusBarUnderlay = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 20))
 
     let regionsTableView = UITableView()
@@ -142,6 +151,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
     override public init(frame: CGRect) {
         _regions = [.Text("")]
         textView = OmnibarTextCell.generateTextView()
+        textView.backgroundColor = UIColor.clearColor()
         super.init(frame: frame)
 
         backgroundColor = UIColor.whiteColor()
@@ -176,6 +186,9 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
         avatarButtonView.backgroundColor = UIColor.blackColor()
         avatarButtonView.clipsToBounds = true
         avatarButtonView.addTarget(self, action: Selector("profileImageTapped"), forControlEvents: .TouchUpInside)
+
+        editButton.setTitle(NSLocalizedString("Edit", comment: "Edit button title"), forState: .Normal)
+        editButton.addTarget(self, action: Selector("toggleEditingTable"), forControlEvents: .TouchUpInside)
     }
 
     // This is the button, image, and icon that appear in lieu of the camera
@@ -204,14 +217,12 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
         cancelButton.addTarget(self, action: Selector("cancelEditingAction"), forControlEvents: .TouchUpInside)
 
         submitButton.addTarget(self, action: Selector("submitAction"), forControlEvents: .TouchUpInside)
-        submitButton.setTitle(NSLocalizedString("Post", comment: "Post button"), forState: .Normal)
         submitButton.setTitleColor(UIColor.whiteColor(), forState: .Disabled)
         let image = SVGKImage(named: "arrow_white").UIImage!
         let imageView = UIImageView(image: image)
         imageView.center = CGPoint(x: submitButton.frame.width - image.size.width / 2 - 13, y: submitButton.frame.height / CGFloat(2))
         imageView.autoresizingMask = .FlexibleLeftMargin | .FlexibleTopMargin | .FlexibleBottomMargin
         submitButton.addSubview(imageView)
-        submitButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: submitButton.frame.width - imageView.frame.minX - 2)
     }
 
     // The textContainer is the outer gray background.  The text view is
@@ -248,6 +259,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
             textScrollView,
             navigationBar,
             avatarButtonView,
+            editButton,
             buttonContainer,
         ]
         for view in views as [UIView] {
@@ -267,17 +279,17 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
 // MARK: Generate regions
 
     private func generateTableRegions() {
-        var tableViewRegions = [(Int?, OmnibarRegion)]()
+        var editableRegions = [(Int?, OmnibarRegion)]()
         var prevWasImage = false
         for (index, region) in enumerate(_regions) {
             if region.isImage && prevWasImage {
-                tableViewRegions.append((nil, .Spacer))
+                editableRegions.append((nil, .Spacer))
                 prevWasImage = true
             }
-            tableViewRegions.append((index, region))
+            editableRegions.append((index, region))
             prevWasImage = region.isImage
         }
-        self.tableViewRegions = tableViewRegions
+        self.editableRegions = editableRegions
         // NB: don't call `reloadData` here, because this method is called as part of
         // lots of table view updates
     }
@@ -308,6 +320,10 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
 
     public func stopEditing() {
         textView.resignFirstResponder()
+        editingCanceled()
+    }
+
+    public func editingCanceled() {
         textScrollView.hidden = true
         textScrollView.scrollsToTop = false
         regionsTableView.scrollsToTop = true
@@ -315,6 +331,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
     }
 
     public func startEditingAtPath(path: NSIndexPath) {
+        currentTextPath = path
         textScrollView.hidden = false
         textScrollView.contentOffset = regionsTableView.contentOffset
         textScrollView.contentInset = regionsTableView.contentInset
@@ -326,13 +343,87 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
 
     public func updateEditingAtPath(path: NSIndexPath, scrollPosition: UITableViewScrollPosition = .Middle) {
         var rect = regionsTableView.rectForRowAtIndexPath(path)
-        textContainer.frame = OmnibarTextCell.boundsForTextContainer(rect)
         textScrollView.contentSize = regionsTableView.contentSize
         textView.frame = OmnibarTextCell.boundsForTextView(rect)
+        textContainer.frame = textView.frame.grow(all: 10)
         textView.becomeFirstResponder()
     }
 
     public func startEditing() {
+        if let (_, region) = editableRegions.first where region.isText {
+            startEditingAtPath(NSIndexPath(forItem: 0, inSection: 0))
+        }
+    }
+
+    public func toggleEditingTable() {
+        editingTable(!regionsTableView.editing)
+    }
+
+    private func generateReorderableRegions() {
+        reorderableRegions = [(Int?, OmnibarRegion)]()
+        for (_, region) in editableRegions {
+            if region.editable && !region.empty {
+                switch region {
+                case .Image, .ImageURL:
+                    reorderableRegions.append((nil, region))
+                case let .AttributedText(text):
+                    var strings = ElloAttributedString.split(text)
+                    for str in strings {
+                        reorderableRegions.append((nil, .AttributedText(str)))
+                    }
+                default: break
+                }
+            }
+        }
+        editableRegions.filter { (_, region) in return region.editable && !region.empty }
+    }
+
+    private func generateEditableRegions() {
+        _regions = [OmnibarRegion]()
+        var buffer = NSMutableAttributedString(attributedString: ElloAttributedString.style(""))
+        for (_, region) in reorderableRegions {
+            switch region {
+            case let .AttributedText(text):
+                if count(buffer.string) > 0 {
+                    if !buffer.string.endsWith("\n") {
+                        buffer.appendAttributedString(ElloAttributedString.style("\n\n"))
+                    }
+                    else if !buffer.string.endsWith("\n\n") {
+                        buffer.appendAttributedString(ElloAttributedString.style("\n"))
+                    }
+                }
+                buffer.appendAttributedString(text)
+            case .Image:
+                if count(buffer.string) > 0 {
+                    _regions.append(.AttributedText(buffer))
+                }
+                _regions.append(region)
+                buffer = NSMutableAttributedString(attributedString: ElloAttributedString.style(""))
+            default: break
+            }
+        }
+        if count(buffer.string) > 0 {
+            _regions.append(.AttributedText(buffer))
+        }
+        generateTableRegions()
+    }
+
+    public func editingTable(editing: Bool) {
+        if editing {
+            generateReorderableRegions()
+            if count(reorderableRegions) == 0 { return }
+
+            stopEditing()
+            editButton.setTitle(NSLocalizedString("Done", comment: "Done button title"), forState: .Normal)
+        }
+        else {
+            generateEditableRegions()
+            editButton.setTitle(NSLocalizedString("Edit", comment: "Edit button title"), forState: .Normal)
+        }
+
+        regionsTableView.setEditing(editing, animated: true)
+        updateButtons()
+        regionsTableView.reloadData()
     }
 
     public func reportError(title: String, error: NSError) {
@@ -363,8 +454,8 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
     }
 
     public func keyboardWillHide() {
-        self.stopEditing()
         self.setNeedsLayout()
+        editingCanceled()
         UIView.animateWithDuration(Keyboard.shared().duration,
             delay: 0.0,
             options: Keyboard.shared().options,
@@ -398,6 +489,8 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
         avatarButtonView.frame = CGRect(x: avatarViewLeft, y: screenTop + Size.margins.top, width: Size.toolbarHeight, height: Size.toolbarHeight)
         avatarButtonView.layer.cornerRadius = Size.toolbarHeight / CGFloat(2)
 
+        editButton.frame = CGRect(x: avatarButtonView.frame.maxX + 2, y: avatarButtonView.frame.minY, width: 55, height: avatarButtonView.frame.height)
+
         buttonContainer.frame = CGRect(x: frame.width - Size.margins.right, y: screenTop + Size.margins.top, width: 0, height: Size.toolbarHeight)
             .growLeft(buttonContainer.frame.width)
         for view in buttonContainer.subviews as! [UIView] {
@@ -427,14 +520,15 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
         hideAutoComplete(textView)
         textView.resignFirstResponder()
         textView.text = ""
-        updatePostState()
+        updateButtons()
         _regions = [.Text("")]
         generateTableRegions()
         regionsTableView.reloadData()
     }
 
-    public func updatePostState() {
-        submitButton.enabled = canPost()
+    public func updateButtons() {
+        cameraButton.enabled = !regionsTableView.editing
+        submitButton.enabled = !regionsTableView.editing && canPost()
     }
 
 // MARK: Button Actions
@@ -448,7 +542,10 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
     }
 
     public func cancelEditingAction() {
-        if canPost() && !isEditing {
+        if regionsTableView.editing {
+            editingTable(false)
+        }
+        else if canPost() && !isEditing {
             let alertController = AlertViewController()
 
             let deleteAction = AlertAction(title: NSLocalizedString("Delete", comment: "Delete button"), style: ActionStyle.Dark, handler: { _ in
@@ -481,7 +578,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
 
     public func canPost() -> Bool {
         for region in _regions {
-            if !region.isEmpty {
+            if !region.empty {
                 return true
             }
         }
@@ -495,25 +592,25 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
     // is the way to go on this one.
     func userAddImage(image: UIImage?, data: NSData? = nil, type: String? = nil) {
         if let image = image {
-            var prevCount = count(tableViewRegions)
+            var prevCount = count(editableRegions)
 
-            if let region = _regions.last where region.isEmpty {
+            if let region = _regions.last where region.empty {
                 let lastIndex = count(_regions) - 1
                 _regions.removeAtIndex(lastIndex)
-                let lastIndexPath = NSIndexPath(forItem: count(tableViewRegions) - 1, inSection: 0)
+                let lastIndexPath = NSIndexPath(forItem: count(editableRegions) - 1, inSection: 0)
                 prevCount -= 1
             }
 
             _regions.append(.Image(image, data, type))
             _regions.append(.Text(""))
             generateTableRegions()
-            let diffCount = count(tableViewRegions) - prevCount
-            let paths = (1...diffCount).map { NSIndexPath(forItem: count(self.tableViewRegions) - $0, inSection: 0) }.reverse()
+            let diffCount = count(editableRegions) - prevCount
+            let paths = (1...diffCount).map { NSIndexPath(forItem: count(self.editableRegions) - $0, inSection: 0) }.reverse()
             regionsTableView.reloadData()
             regionsTableView.scrollToRowAtIndexPath(paths.last!, atScrollPosition: .None, animated: true)
         }
 
-        updatePostState()
+        updateButtons()
     }
 
     func userSetCurrentImageURL(imageURL: NSURL) {
@@ -568,7 +665,7 @@ extension OmnibarMultiRegionScreen: UITableViewDelegate, UITableViewDataSource {
             case let .AttributedText(attrdString):
                 return OmnibarTextCell.heightForText(attrdString, tableWidth: regionsTableView.frame.width)
             case let .Image(image, _, _):
-                return OmnibarImageCell.heightForImage(image, tableWidth: regionsTableView.frame.width)
+                return OmnibarImageCell.heightForImage(image, tableWidth: regionsTableView.frame.width, editing: regionsTableView.editing)
             case let .ImageURL(url):
                 return OmnibarImageDownloadCell.Size.height
             case let .Spacer:
@@ -584,6 +681,7 @@ extension OmnibarMultiRegionScreen: UITableViewDelegate, UITableViewDataSource {
         if let (_, region) = tableViewRegions.safeValue(path.row) {
             let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(region.reuseIdentifier, forIndexPath: path) as! UITableViewCell
             cell.selectionStyle = .None
+            cell.showsReorderControl = true
 
             switch region {
             case let .AttributedText(attributedText):
@@ -592,6 +690,7 @@ extension OmnibarMultiRegionScreen: UITableViewDelegate, UITableViewDataSource {
             case let .Image(image, _, _):
                 let imageCell = cell as! OmnibarImageCell
                 imageCell.omnibarImage = image
+                imageCell.reordering = regionsTableView.editing
             default: break
             }
             return cell
@@ -605,16 +704,33 @@ extension OmnibarMultiRegionScreen: UITableViewDelegate, UITableViewDataSource {
             case let .AttributedText(attributedText):
                 startEditingAtPath(path)
                 textView.attributedText = attributedText
-                currentTextPath = path
             default:
                 stopEditing()
             }
         }
     }
 
+    public func tableView(tableView: UITableView, canMoveRowAtIndexPath path: NSIndexPath) -> Bool {
+        if let (_, region) = tableViewRegions.safeValue(path.row) {
+            switch region {
+            case .Error, .Spacer: return false
+            default: return true
+            }
+        }
+        return false
+    }
+
+    public func tableView(tableView: UITableView, moveRowAtIndexPath sourcePath: NSIndexPath, toIndexPath destPath: NSIndexPath) {
+        if let source = reorderableRegions.safeValue(sourcePath.row), dest = reorderableRegions.safeValue(destPath.row) {
+            reorderableRegions[destPath.row] = source
+            reorderableRegions[sourcePath.row] = dest
+        }
+
+    }
+
     public func tableView(tableView: UITableView, canEditRowAtIndexPath path: NSIndexPath) -> Bool {
         if let (_, region) = tableViewRegions.safeValue(path.row) {
-            return region.deletable
+            return region.editable
         }
         return false
     }
@@ -626,10 +742,10 @@ extension OmnibarMultiRegionScreen: UITableViewDelegate, UITableViewDataSource {
     }
 
     public func deleteImageAtIndexPath(path: NSIndexPath) {
-        if let (index_, region) = tableViewRegions.safeValue(path.row),
-            index = index_ where region.deletable
+        if let (index_, region) = editableRegions.safeValue(path.row),
+            index = index_ where region.editable
         {
-            if count(tableViewRegions) == 1 {
+            if count(editableRegions) == 1 {
                 _regions = [.Text("")]
                 generateTableRegions()
                 regionsTableView.reloadRowsAtIndexPaths([path], withRowAnimation: .Automatic)
@@ -676,10 +792,10 @@ extension OmnibarMultiRegionScreen: UITableViewDelegate, UITableViewDataSource {
                 // remove the spacer *after* the deleted row (if it's the first
                 // or N-1th row in series of image rows), and *before* the last
                 // row (if it's the last row in a series of image rows)
-                if let (_, region) = tableViewRegions.safeValue(path.row + 1) where region.isSpacer {
+                if let (_, region) = editableRegions.safeValue(path.row + 1) where region.isSpacer {
                     paths.append(NSIndexPath(forItem: path.row + 1, inSection: 0))
                 }
-                else if let (_, region) = tableViewRegions.safeValue(path.row - 1) where region.isSpacer {
+                else if let (_, region) = editableRegions.safeValue(path.row - 1) where region.isSpacer {
                     paths.append(NSIndexPath(forItem: path.row - 1, inSection: 0))
                 }
 
@@ -694,7 +810,7 @@ extension OmnibarMultiRegionScreen: UITableViewDelegate, UITableViewDataSource {
                 regionsTableView.endUpdates()
             }
         }
-        updatePostState()
+        updateButtons()
     }
 
     public func scrollViewWillBeginDragging(scrollView: UIScrollView) {
@@ -754,16 +870,16 @@ extension OmnibarMultiRegionScreen: UITextViewDelegate {
         if let path = currentTextPath, cell = regionsTableView.cellForRowAtIndexPath(path) {
             let currentText = textView.attributedText
             let newRegion: OmnibarRegion = .AttributedText(currentText)
-            let (index, _) = tableViewRegions[path.row]
+            let (index, _) = editableRegions[path.row]
             if let index = index {
                 _regions[index] = newRegion
-                tableViewRegions[path.row] = (index, newRegion)
+                editableRegions[path.row] = (index, newRegion)
 
                 regionsTableView.reloadData()
                 updateEditingAtPath(path, scrollPosition: .Bottom)
             }
         }
-        updatePostState()
+        updateButtons()
     }
 
     private func emojiKeyboardShowing() -> Bool {
@@ -806,7 +922,7 @@ extension OmnibarMultiRegionScreen: AutoCompleteDelegate {
             let newText = textView.text.stringByReplacingCharactersInRange(item.match.range, withString: prefix + name + " ")
             let currentText = ElloAttributedString.style(newText)
             textView.attributedText = currentText
-            updatePostState()
+            updateButtons()
             hideAutoComplete(textView)
         }
     }
@@ -860,7 +976,7 @@ extension OmnibarMultiRegionScreen: UINavigationControllerDelegate, UIImagePicke
 
 
 public extension OmnibarRegion {
-    var deletable: Bool {
+    var editable: Bool {
         switch self {
         case .Image: return true
         case let .AttributedText(text): return count(text.string) > 0
@@ -896,7 +1012,7 @@ public extension OmnibarRegion {
         }
     }
 
-    var isEmpty: Bool {
+    var empty: Bool {
         switch self {
         case let .AttributedText(text): return count(text.string) == 0
         case .Spacer: return true
