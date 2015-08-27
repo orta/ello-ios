@@ -158,7 +158,7 @@ class OmnibarViewControllerSpec: QuickSpec {
                     }
                 }
 
-                fit("should have text set") {
+                it("should have text set") {
                     checkRegions(screen.regions, equal: "text")
                 }
 
@@ -212,11 +212,11 @@ class OmnibarViewControllerSpec: QuickSpec {
                     }
                 }
 
-                fit("should have the text in the textView") {
+                it("should have the text in the textView") {
                     checkRegions(controller.screen.regions, contain: "@666 ")
                 }
 
-                fit("should ignore the saved text when defaultText is given") {
+                it("should ignore the saved text when defaultText is given") {
                     if let fileName = controller.omnibarDataName() {
                         Tmp.remove(fileName)
                     }
@@ -234,7 +234,7 @@ class OmnibarViewControllerSpec: QuickSpec {
                     checkRegions(controller.screen.regions, notToContain: "testing!")
                 }
 
-                fit("should not have the text if the tmp text was on another post") {
+                it("should not have the text if the tmp text was on another post") {
                     if let fileName = controller.omnibarDataName() {
                         Tmp.remove(fileName)
                     }
@@ -262,11 +262,11 @@ class OmnibarViewControllerSpec: QuickSpec {
                     controller = OmnibarViewController(editPost: post)
                 }
 
-                fit("should have the post body in the textView") {
+                it("should have the post body in the textView") {
                     checkRegions(controller.screen.regions, contain: "did you say \"mancrush\"")
                 }
 
-                fit("should have the text if there was tmp text available") {
+                it("should have the text if there was tmp text available") {
                     if let fileName = controller.omnibarDataName() {
                         Tmp.remove(fileName)
                     }
