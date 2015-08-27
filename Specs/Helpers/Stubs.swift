@@ -120,6 +120,7 @@ extension Profile: Stubbable {
             notifyOfNewFollowersViaEmail: (values["notifyOfNewFollowersViaEmail"] as? Bool) ?? true,
             notifyOfRepostsViaEmail: (values["notifyOfRepostsViaEmail"] as? Bool) ?? true,
             subscribeToUsersEmailList: (values["subscribeToUsersEmailList"] as? Bool) ?? true,
+            subscribeToOnboardingDrip: (values["subscribeToOnboardingDrip"] as? Bool) ?? true,
             notifyOfCommentsViaPush: (values["notifyOfCommentsViaPush"] as? Bool) ?? true,
             notifyOfLovesViaPush : (values["notifyOfLovesViaPush"] as? Bool) ?? true,
             notifyOfMentionsViaPush: (values["notifyOfMentionsViaPush"] as? Bool) ?? true,
