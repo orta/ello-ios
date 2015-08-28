@@ -25,6 +25,8 @@ public class OmnibarImageCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
+        flImageView.clipsToBounds = true
+        flImageView.contentMode = .ScaleAspectFill
         contentView.addSubview(flImageView)
     }
 
@@ -43,12 +45,13 @@ public class OmnibarImageCell: UITableViewCell {
     }
 
     public class func heightForImage(image: UIImage, tableWidth: CGFloat, editing: Bool) -> CGFloat {
-        var cellWidth = tableWidth
         if editing {
-            cellWidth -= 80
+            return 80
         }
 
-        var height = image.size.height * cellWidth / image.size.width + Size.margins.top + Size.margins.bottom
+        var cellWidth = tableWidth
+        let imageWidth = max(image.size.width, 1)
+        var height = image.size.height * cellWidth / imageWidth + Size.margins.top + Size.margins.bottom
         if editing {
             height += Size.bottomMargin
         }
