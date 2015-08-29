@@ -186,7 +186,6 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
         generateTableRegions()
         setupAutoComplete()
         setupAvatarView()
-        setupImageSelectedViews()
         setupNavigationBar()
         setupToolbarButtons()
         setupTextViews()
@@ -217,11 +216,6 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
         editButton.addTarget(self, action: Selector("toggleReorderingTable"), forControlEvents: .TouchUpInside)
     }
 
-    // This is the button, image, and icon that appear in lieu of the camera
-    // button after an image is selected.  Tapping this button removes the
-    // selected image.
-    private func setupImageSelectedViews() {
-    }
     private func setupNavigationBar() {
         let backItem = UIBarButtonItem.backChevronWithTarget(self, action: Selector("backAction"))
         navigationItem.leftBarButtonItem = backItem
