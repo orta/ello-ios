@@ -621,22 +621,17 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
     // is the way to go on this one.
     public func addImage(image: UIImage?, data: NSData? = nil, type: String? = nil) {
         if let image = image {
-            var prevCount = count(editableRegions)
-
             if let region = _regions.last where region.empty {
                 let lastIndex = count(_regions) - 1
                 _regions.removeAtIndex(lastIndex)
-                let lastIndexPath = NSIndexPath(forItem: count(editableRegions) - 1, inSection: 0)
-                prevCount -= 1
             }
 
             _regions.append(.Image(image, data, type))
             _regions.append(.Text(""))
-            generateTableRegions()
-            let diffCount = count(editableRegions) - prevCount
-            let paths = (1...diffCount).map { NSIndexPath(forItem: count(self.editableRegions) - $0, inSection: 0) }.reverse()
+            generateEditableRegions()
+
             regionsTableView.reloadData()
-            regionsTableView.scrollToRowAtIndexPath(paths.last!, atScrollPosition: .None, animated: true)
+            regionsTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: count(self.editableRegions) - 1, inSection: 0), atScrollPosition: .None, animated: true)
         }
 
         updateButtons()
