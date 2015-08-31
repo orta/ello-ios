@@ -30,9 +30,10 @@ class TagSpec: QuickSpec {
                 }
             }
 
-            context("rendering NSAttributedString") {
+            fcontext("rendering NSAttributedString") {
                 let tests: [String: (input: String, output: String)] = [
                     "break tags": (input: "test<br><br />", output: "test\n\n"),
+                    "new lines": (input: " test\ntest  \n\n  test\t", output: " test\ntest  \n\n  test\t"),
                     "break tags in a p tag": (input: "<p>test<br><br />", output: "test\n\n"),
                     "entities": (input: "&lt;tag!&gt;that is a tag&lt;/tag&gt;", output: "<tag!>that is a tag</tag>"),
                     "link": (input: "test <a href=\"foo.com\">a link</a>", output: "test [a link](foo.com)"),
@@ -40,8 +41,10 @@ class TagSpec: QuickSpec {
                 ]
                 for (name, spec) in tests {
                     it("should render \(name)") {
-                        let text = Tag(input: spec.input)
-                        expect(text!.makeEditable().string) == spec.output
+                        let tag = Tag(input: spec.input)
+                        let output = tag!.makeEditable().string.stringByReplacingOccurrencesOfString("\n", withString: "\\n").stringByReplacingOccurrencesOfString("\t", withString: "\\t")
+                        let expected = spec.output.stringByReplacingOccurrencesOfString("\n", withString: "\\n").stringByReplacingOccurrencesOfString("\t", withString: "\\t")
+                        expect(output) == expected
                     }
                 }
             }

@@ -238,12 +238,9 @@ public class Tag: Printable {
         var parentTags = [Tag]()
 
         var tmp = input as NSString
-        tmp = tmp.stringByReplacingOccurrencesOfString("\t", withString: "    ")
         tmp = tmp.stringByReplacingOccurrencesOfString("\r\n", withString: "\n")
         tmp = tmp.stringByReplacingOccurrencesOfString("\r", withString: "\n")
         var html = tmp as String
-
-        html = html.trim()
 
         var c = 0
         while state != .End {
@@ -305,29 +302,9 @@ public class Tag: Printable {
                     lastTag = parentTags.removeLast()
                 }
             case .Text:
-                if let lastTagName = lastTag.name where contains(PreserveWs, lastTagName) {
-                    let tag = Tag()
-                    tag.text = value.entitiesDecoded()
-                    lastTag.tags.append(tag)
-                }
-                else {
-                    var preWhitespace = (value ~ "^[ \n]+")
-                    var postWhitespace = (value ~ "[ \n]+$")
-                    var text = ""
-                    if preWhitespace != nil {
-                        text += " "
-                    }
-                    text += value.trim()
-                    if postWhitespace != nil {
-                        text += " "
-                    }
-
-                    if text == "  " { text = " " }
-
-                    let tag = Tag()
-                    tag.text = text.entitiesDecoded()
-                    lastTag.tags.append(tag)
-                }
+                let tag = Tag()
+                tag.text = value.entitiesDecoded()
+                lastTag.tags.append(tag)
             case .Cdata:
                 let tag = Tag()
                 tag.text = value.entitiesDecoded()
