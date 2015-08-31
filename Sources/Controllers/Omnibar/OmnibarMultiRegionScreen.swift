@@ -92,15 +92,15 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
             else if count(regions) == 0 {
                 regions.append(.Text(""))
             }
-            _regions = regions
-            generateTableRegions()
+            submitableRegions = regions
+            editableRegions = generateEditableRegions(submitableRegions)
             regionsTableView.reloadData()
             updateButtons()
         }
-        get { return _regions }
+        get { return submitableRegions }
     }
-    public var _regions: [OmnibarRegion]
-    public var tableViewRegions: [(Int?, OmnibarRegion)] {
+    public var submitableRegions: [OmnibarRegion]
+    public var tableViewRegions: [IndexedRegion] {
         if reordering {
             return reorderableRegions
         }
@@ -176,7 +176,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
 // MARK: init
 
     override public init(frame: CGRect) {
-        _regions = [.Text("")]
+        submitableRegions = [.Text("")]
         textView = OmnibarTextCell.generateTextView()
         textView.backgroundColor = UIColor.clearColor()
         super.init(frame: frame)
@@ -184,7 +184,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
         backgroundColor = UIColor.whiteColor()
         autoCompleteContainer.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: 0)
 
-        generateTableRegions()
+        editableRegions = generateEditableRegions(submitableRegions)
         setupAutoComplete()
         setupAvatarView()
         setupNavigationBar()
@@ -296,18 +296,17 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
 
 // MARK: Generate regions
 
-    private func generateTableRegions() {
-        var editableRegions = [(Int?, OmnibarRegion)]()
+    private func generateEditableRegions(regions: [OmnibarRegion]) -> [IndexedRegion] {
+        var editableRegions = [IndexedRegion]()
         var prevWasImage = false
-        for (index, region) in enumerate(_regions) {
+        for (index, region) in enumerate(regions) {
             if region.isImage && prevWasImage {
                 editableRegions.append((nil, .Spacer))
-                prevWasImage = true
             }
             editableRegions.append((index, region))
             prevWasImage = region.isImage
         }
-        self.editableRegions = editableRegions
+        return editableRegions
         // NB: don't call `reloadData` here, because this method is called as part of
         // lots of table view updates
     }
@@ -381,32 +380,24 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
         reorderingTable(!reordering)
     }
 
-    private func generateReorderableRegions() {
-        reorderableRegions = [(Int?, OmnibarRegion)]()
-        for region in _regions {
-            if region.editable && !region.empty {
-                switch region {
-                case .Image, .ImageURL:
-                    reorderableRegions.append((nil, region))
-                case let .AttributedText(text):
-                    if count(text.string) > 0 {
-                        reorderableRegions.append((nil, .AttributedText(text)))
-                    }
-                default: break
-                }
-            }
+    private func generateReorderableRegions(regions: [OmnibarRegion]) -> [IndexedRegion] {
+        let nonEmptyRegions = regions.filter { region in
+            return region.editable && !region.empty
         }
-        editableRegions.filter { (_, region) in return region.editable && !region.empty }
+        return nonEmptyRegions.map { (region: OmnibarRegion) -> IndexedRegion in
+            return (nil, region)
+        }
     }
 
-    private func generateEditableRegions() {
-        _regions = [OmnibarRegion]()
+    private func convertReorderableRegions(reorderableRegions: [IndexedRegion]) -> [OmnibarRegion] {
+        var regions = [OmnibarRegion]()
         var buffer = NSMutableAttributedString(attributedString: ElloAttributedString.style(""))
         var lastRegionIsText = false
         for (_, region) in reorderableRegions {
             switch region {
             case let .AttributedText(text):
                 if count(buffer.string) > 0 {
+                    // ensure two newlines between concatenated text regions
                     if !buffer.string.endsWith("\n") {
                         buffer.appendAttributedString(ElloAttributedString.style("\n\n"))
                     }
@@ -418,33 +409,34 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
                 lastRegionIsText = true
             case .Image:
                 if count(buffer.string) > 0 {
-                    _regions.append(.AttributedText(buffer))
+                    regions.append(.AttributedText(buffer))
                 }
-                _regions.append(region)
+                regions.append(region)
                 buffer = NSMutableAttributedString(attributedString: ElloAttributedString.style(""))
                 lastRegionIsText = false
             default: break
             }
         }
         if count(buffer.string) > 0 {
-            _regions.append(.AttributedText(buffer))
+            regions.append(.AttributedText(buffer))
         }
         else if !lastRegionIsText {
-            _regions.append(.Text(""))
+            regions.append(.Text(""))
         }
-        generateTableRegions()
+        return regions
     }
 
     public func reorderingTable(reordering: Bool) {
         if reordering {
-            generateReorderableRegions()
+            reorderableRegions = generateReorderableRegions(submitableRegions)
             if count(reorderableRegions) == 0 { return }
 
             stopEditing()
             editButton.setTitle(NSLocalizedString("Done", comment: "Done button title"), forState: .Normal)
         }
         else {
-            generateEditableRegions()
+            submitableRegions = convertReorderableRegions(reorderableRegions)
+            editableRegions = generateEditableRegions(submitableRegions)
             editButton.setTitle(NSLocalizedString("Edit", comment: "Edit button title"), forState: .Normal)
         }
 
@@ -554,8 +546,8 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
         resignKeyboard()
         textView.text = ""
         updateButtons()
-        _regions = [.Text("")]
-        generateTableRegions()
+        submitableRegions = [.Text("")]
+        editableRegions = generateEditableRegions(submitableRegions)
         regionsTableView.reloadData()
     }
 
@@ -599,14 +591,14 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
     public func submitAction() {
         if canPost() {
             stopEditing()
-            delegate?.omnibarSubmitted(_regions)
+            delegate?.omnibarSubmitted(submitableRegions)
         }
     }
 
 // MARK: Post logic
 
     public func canPost() -> Bool {
-        for region in _regions {
+        for region in submitableRegions {
             if !region.empty {
                 return true
             }
@@ -621,14 +613,14 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
     // is the way to go on this one.
     public func addImage(image: UIImage?, data: NSData? = nil, type: String? = nil) {
         if let image = image {
-            if let region = _regions.last where region.empty {
-                let lastIndex = count(_regions) - 1
-                _regions.removeAtIndex(lastIndex)
+            if let region = submitableRegions.last where region.empty {
+                let lastIndex = count(submitableRegions) - 1
+                submitableRegions.removeAtIndex(lastIndex)
             }
 
-            _regions.append(.Image(image, data, type))
-            _regions.append(.Text(""))
-            generateEditableRegions()
+            submitableRegions.append(.Image(image, data, type))
+            submitableRegions.append(.Text(""))
+            editableRegions = generateEditableRegions(submitableRegions)
 
             regionsTableView.reloadData()
             regionsTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: count(self.editableRegions) - 1, inSection: 0), atScrollPosition: .None, animated: true)
@@ -776,13 +768,13 @@ extension OmnibarMultiRegionScreen: UITableViewDelegate, UITableViewDataSource {
             index = index_ where region.editable
         {
             if count(editableRegions) == 1 {
-                _regions = [.Text("")]
-                generateTableRegions()
+                submitableRegions = [.Text("")]
+                editableRegions = generateEditableRegions(submitableRegions)
                 regionsTableView.reloadRowsAtIndexPaths([path], withRowAnimation: .Automatic)
             }
-            else if let regionAbove = _regions.safeValue(index - 1),
+            else if let regionAbove = submitableRegions.safeValue(index - 1),
                 regionAboveText = regionAbove.text,
-                regionBelow = _regions.safeValue(index + 1),
+                regionBelow = submitableRegions.safeValue(index + 1),
                 regionBelowText = regionBelow.text
             where regionAbove.isText && regionBelow.isText
             {
@@ -801,12 +793,12 @@ extension OmnibarMultiRegionScreen: UITableViewDelegate, UITableViewDataSource {
                     newText.appendAttributedString(regionBelowText)
                 }
 
-                _regions.removeAtIndex(index + 1)
-                _regions.removeAtIndex(index)
-                _regions[index - 1] = .AttributedText(newText)
+                submitableRegions.removeAtIndex(index + 1)
+                submitableRegions.removeAtIndex(index)
+                submitableRegions[index - 1] = .AttributedText(newText)
 
                 regionsTableView.beginUpdates()
-                generateTableRegions()
+                editableRegions = generateEditableRegions(submitableRegions)
                 regionsTableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: path.row - 1, inSection: 0)], withRowAnimation: .None)
                 regionsTableView.deleteRowsAtIndexPaths([
                     path,
@@ -814,16 +806,16 @@ extension OmnibarMultiRegionScreen: UITableViewDelegate, UITableViewDataSource {
                 ], withRowAnimation: .Automatic)
                 regionsTableView.endUpdates()
             }
-            else if let regionAbove = _regions.safeValue(index - 1),
-                regionBelow = _regions.safeValue(index + 1)
+            else if let regionAbove = submitableRegions.safeValue(index - 1),
+                regionBelow = submitableRegions.safeValue(index + 1)
             where regionAbove.isImage && regionBelow.isImage
             {
-                _regions.removeAtIndex(index)
-                generateTableRegions()
+                submitableRegions.removeAtIndex(index)
+                editableRegions = generateEditableRegions(submitableRegions)
                 regionsTableView.reloadData()
             }
             else {
-                _regions.removeAtIndex(index)
+                submitableRegions.removeAtIndex(index)
                 var paths = [path]
 
                 // remove the spacer *after* the deleted row (if it's the first
@@ -837,12 +829,12 @@ extension OmnibarMultiRegionScreen: UITableViewDelegate, UITableViewDataSource {
                 }
 
                 regionsTableView.beginUpdates()
-                if let last = _regions.last where !last.isText {
-                    let insertPath = NSIndexPath(forItem: count(_regions), inSection: 0)
-                    _regions.append(.Text(""))
+                if let last = submitableRegions.last where !last.isText {
+                    let insertPath = NSIndexPath(forItem: count(submitableRegions), inSection: 0)
+                    submitableRegions.append(.Text(""))
                     regionsTableView.insertRowsAtIndexPaths([insertPath], withRowAnimation: .Automatic)
                 }
-                generateTableRegions()
+                editableRegions = generateEditableRegions(submitableRegions)
                 regionsTableView.deleteRowsAtIndexPaths(paths, withRowAnimation: .Automatic)
                 regionsTableView.endUpdates()
             }
@@ -903,7 +895,7 @@ extension OmnibarMultiRegionScreen: UITextViewDelegate {
             let newRegion: OmnibarRegion = .AttributedText(currentText)
             let (index, _) = editableRegions[path.row]
             if let index = index {
-                _regions[index] = newRegion
+                submitableRegions[index] = newRegion
                 editableRegions[path.row] = (index, newRegion)
 
                 regionsTableView.reloadData()
