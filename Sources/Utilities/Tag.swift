@@ -236,6 +236,7 @@ public class Tag: Printable {
         var lastTag = self
         var lastAttr: String? = nil
         var parentTags = [Tag]()
+        var preWhitespace: String? = nil
 
         var tmp = input as NSString
         tmp = tmp.stringByReplacingOccurrencesOfString("\r\n", withString: "\n")
@@ -267,7 +268,17 @@ public class Tag: Printable {
                 let match = regex.matches(value.lowercaseString)
                 doctype.name = match[1]
                 lastTag.tags.append(doctype)
+                preWhitespace = nil
+            case .PredoctypeWhitespace:
+                preWhitespace = value
             case .TagOpen:
+                if let pre = preWhitespace {
+                    let tag = Tag()
+                    tag.text = pre.entitiesDecoded()
+                    lastTag.tags.append(tag)
+                    preWhitespace = nil
+                }
+
                 let newTag = Tag()
                 let name = (value as NSString).substringWithRange(NSMakeRange(1, count(value) - 1))
                 newTag.name = name
@@ -302,8 +313,15 @@ public class Tag: Printable {
                     lastTag = parentTags.removeLast()
                 }
             case .Text:
+                var text = ""
+                if let pre = preWhitespace {
+                    text += pre.entitiesDecoded()
+                    preWhitespace = nil
+                }
+                text += value.entitiesDecoded()
+
                 let tag = Tag()
-                tag.text = value.entitiesDecoded()
+                tag.text = text
                 lastTag.tags.append(tag)
             case .Cdata:
                 let tag = Tag()
