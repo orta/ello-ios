@@ -30,7 +30,7 @@ class TagSpec: QuickSpec {
                 }
             }
 
-            fcontext("rendering NSAttributedString") {
+            context("rendering NSAttributedString") {
                 let tests: [String: (input: String, output: String)] = [
                     "break tags": (input: "test<br><br />", output: "test\n\n"),
                     "new lines": (input: " test\ntest  \n\n  test\t", output: " test\ntest  \n\n  test\t"),
