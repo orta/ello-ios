@@ -79,9 +79,10 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
 
     var autoCompleteVC = AutoCompleteViewController()
 
-    public var isEditing: Bool = false
+    public var isEditing = false
     public var reordering = false
 
+    public typealias IndexedRegion = (Int?, OmnibarRegion)
     public var regions: [OmnibarRegion] {
         set {
             var regions = newValue
@@ -107,8 +108,8 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
             return editableRegions
         }
     }
-    public var reorderableRegions = [(Int?, OmnibarRegion)]()
-    public var editableRegions = [(Int?, OmnibarRegion)]()
+    public var reorderableRegions = [IndexedRegion]()
+    public var editableRegions = [IndexedRegion]()
 
     public var currentTextPath: NSIndexPath?
 
@@ -171,7 +172,6 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
     var autoCompleteContainer = UIView()
     var autoCompleteThrottle = debounce(0.4)
     var autoCompleteShowing = false
-    private var currentImage: UIImage?
 
 // MARK: init
 
@@ -189,9 +189,8 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
         setupAvatarView()
         setupNavigationBar()
         setupToolbarButtons()
-        setupTextViews()
+        setupTableViews()
         setupViewHierarchy()
-        setupSwipeGesture()
     }
 
     required public init(coder aDecoder: NSCoder) {
@@ -249,7 +248,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
     // The textContainer is the outer gray background.  The text view is
     // configured to fill that container (only the container and the text view
     // insets are modified in layoutSubviews)
-    private func setupTextViews() {
+    private func setupTableViews() {
         regionsTableView.dataSource = self
         regionsTableView.delegate = self
         regionsTableView.separatorStyle = .None
@@ -293,12 +292,6 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
         textScrollView.addSubview(textContainer)
         textScrollView.addSubview(textView)
         textScrollView.hidden = true
-    }
-    private func setupSwipeGesture() {
-        let gesture = UISwipeGestureRecognizer()
-        gesture.direction = .Down
-        gesture.addTarget(self, action: Selector("swipedDown"))
-        textScrollView.addGestureRecognizer(gesture)
     }
 
 // MARK: Generate regions
@@ -610,10 +603,6 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
         }
     }
 
-    public func swipedDown() {
-        resignKeyboard()
-    }
-
 // MARK: Post logic
 
     public func canPost() -> Bool {
@@ -873,9 +862,7 @@ extension OmnibarMultiRegionScreen: UITableViewDelegate, UITableViewDataSource {
     }
 
     public func scrollViewDidScroll(scrollView: UIScrollView) {
-        if scrollView == regionsTableView {
-        }
-        else {
+        if scrollView != regionsTableView {
             regionsTableView.contentOffset = scrollView.contentOffset
         }
     }
@@ -885,10 +872,6 @@ extension OmnibarMultiRegionScreen: UITableViewDelegate, UITableViewDataSource {
 
 // MARK: UITextViewDelegate
 extension OmnibarMultiRegionScreen: UITextViewDelegate {
-    public func textViewShouldBeginEditing(textView: UITextView) -> Bool {
-        return true
-    }
-
     private func throttleAutoComplete(textView: UITextView, range: NSRange) {
         self.autoCompleteThrottle { [unowned self] in
             let autoComplete = AutoComplete()
