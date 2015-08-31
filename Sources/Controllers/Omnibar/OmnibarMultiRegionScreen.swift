@@ -94,6 +94,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
             _regions = regions
             generateTableRegions()
             regionsTableView.reloadData()
+            updateButtons()
         }
         get { return _regions }
     }
