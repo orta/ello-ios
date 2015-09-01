@@ -8,19 +8,19 @@
 
 import Foundation
 
-// MARK: - Error
-
-private let ErrorDomain: String = "SwiftyJSONErrorDomain"
-
-///Error code
-private let ErrorUnsupportedType: Int = 999
-private let ErrorIndexOutOfBounds: Int = 900
-private let ErrorWrongType: Int = 901
-private let ErrorNotExist: Int = 500
-
 // MARK: - JSON Base
 
 public struct JSON {
+
+    // MARK: - Error
+
+    public static let ErrorDomain: String = "SwiftyJSONErrorDomain"
+
+    ///Error code
+    public static let ErrorUnsupportedType: Int = 999
+    public static let ErrorIndexOutOfBounds: Int = 900
+    public static let ErrorWrongType: Int = 901
+    public static let ErrorNotExist: Int = 500
 
     /**
     Creates a JSON using the data.
@@ -193,13 +193,13 @@ extension JSON {
                 }
                 else {
                     var errorResult = JSON.nullJSON
-                    errorResult.error = NSError(domain: ErrorDomain, code:ErrorIndexOutOfBounds , userInfo: [NSLocalizedDescriptionKey: "Array[\(index)] is out of bounds"])
+                    errorResult.error = NSError(domain: JSON.ErrorDomain, code: JSON.ErrorIndexOutOfBounds , userInfo: [NSLocalizedDescriptionKey: "Array[\(index)] is out of bounds"])
                     return errorResult
                 }
             }
             else {
                 var errorResult = JSON.nullJSON
-                errorResult.error = self.error ?? NSError(domain: ErrorDomain, code: ErrorWrongType, userInfo: [NSLocalizedDescriptionKey: "Array[\(index)] failure, It is not an array"])
+                errorResult.error = self.error ?? NSError(domain: JSON.ErrorDomain, code: JSON.ErrorWrongType, userInfo: [NSLocalizedDescriptionKey: "Array[\(index)] failure, It is not an array"])
                 return errorResult
             }
         }
@@ -225,13 +225,13 @@ extension JSON {
                 }
                 else {
                     var errorResult = JSON.nullJSON
-                    errorResult.error = NSError(domain: ErrorDomain, code: ErrorNotExist, userInfo: [NSLocalizedDescriptionKey: "Dictionary[\"\(key)\"] does not exist"])
+                    errorResult.error = NSError(domain: JSON.ErrorDomain, code: JSON.ErrorNotExist, userInfo: [NSLocalizedDescriptionKey: "Dictionary[\"\(key)\"] does not exist"])
                     return errorResult
                 }
             }
             else {
                 var errorResult = JSON.nullJSON
-                errorResult.error = self.error ?? NSError(domain: ErrorDomain, code: ErrorWrongType, userInfo: [NSLocalizedDescriptionKey: "Dictionary[\"\(key)\"] failure, It is not an dictionary"])
+                errorResult.error = self.error ?? NSError(domain: JSON.ErrorDomain, code: JSON.ErrorWrongType, userInfo: [NSLocalizedDescriptionKey: "Dictionary[\"\(key)\"] failure, It is not an dictionary"])
                 return errorResult
             }
         }
@@ -401,7 +401,7 @@ extension JSON: Swift.NilLiteralConvertible {
 extension JSON: Swift.RawRepresentable {
 
     public init(rawValue: AnyObject) {
-        self.object = object
+        self.init(rawValue)
     }
 
     public var rawValue: AnyObject {
@@ -423,6 +423,12 @@ extension JSON: Swift.RawRepresentable {
         }
         else if let string = object as? String {
             return string
+        }
+        else if let truthy = object as? Bool where truthy && object.dynamicType.description() == NSNumber(bool: true).dynamicType.description() {
+            return "true"
+        }
+        else if let truthy = object as? Bool where !truthy && object.dynamicType.description() == NSNumber(bool: false).dynamicType.description() {
+            return "false"
         }
         else if let num = object as? NSNumber {
             return num.stringValue
@@ -526,6 +532,12 @@ extension JSON {
         }
     }
 
+    public func dictionaryOr(@autoclosure ret: () -> [String: JSON]) -> [String: JSON] {
+        return dictionary ?? ret()
+    }
+
+    public var dictionaryValue: [String: JSON] { return dictionary ?? [String: JSON]() }
+
     //Optional [String : AnyObject]
     public var dictionaryObject: [String : AnyObject]? {
         get {
@@ -594,6 +606,12 @@ extension JSON {
         get {
             if let string = object as? String {
                 return string
+            }
+            else if let truthy = object as? Bool where truthy && object.dynamicType.description() == NSNumber(bool: true).dynamicType.description() {
+                return "true"
+            }
+            else if let truthy = object as? Bool where !truthy && object.dynamicType.description() == NSNumber(bool: false).dynamicType.description() {
+                return "false"
             }
             else if let number = object as? NSNumber {
                 return number.stringValue
