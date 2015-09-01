@@ -48,7 +48,7 @@ public enum OmnibarRegion {
     case ImageURL(NSURL)
     case AttributedText(NSAttributedString)
     case Spacer
-    case Error
+    case Error(NSURL)
 
     public static func Text(str: String) -> OmnibarRegion {
         return AttributedText(ElloAttributedString.style(str))
@@ -252,10 +252,11 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
         regionsTableView.dataSource = self
         regionsTableView.delegate = self
         regionsTableView.separatorStyle = .None
-        regionsTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "OmnibarSpacerCell")
         regionsTableView.registerClass(OmnibarTextCell.self, forCellReuseIdentifier: OmnibarTextCell.reuseIdentifier())
         regionsTableView.registerClass(OmnibarImageCell.self, forCellReuseIdentifier: OmnibarImageCell.reuseIdentifier())
         regionsTableView.registerClass(OmnibarImageDownloadCell.self, forCellReuseIdentifier: OmnibarImageDownloadCell.reuseIdentifier())
+        regionsTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: OmnibarRegion.OmnibarSpacerCell)
+        regionsTableView.registerClass(OmnibarErrorCell.self, forCellReuseIdentifier: OmnibarErrorCell.reuseIdentifier())
 
         textScrollView.delegate = self
         let gesture = UITapGestureRecognizer(target: self, action: Selector("stopEditing"))
@@ -672,10 +673,12 @@ extension OmnibarMultiRegionScreen: UITableViewDelegate, UITableViewDataSource {
                 return OmnibarTextCell.heightForText(attrdString, tableWidth: regionsTableView.frame.width)
             case let .Image(image, _, _):
                 return OmnibarImageCell.heightForImage(image, tableWidth: regionsTableView.frame.width, editing: reordering)
-            case let .ImageURL(url):
+            case .ImageURL:
                 return OmnibarImageDownloadCell.Size.height
-            case let .Spacer:
+            case .Spacer:
                 return OmnibarImageCell.Size.bottomMargin
+            case .Error:
+                return OmnibarErrorCell.Size.height
             default:
                 break
             }
@@ -697,6 +700,9 @@ extension OmnibarMultiRegionScreen: UITableViewDelegate, UITableViewDataSource {
                 let imageCell = cell as! OmnibarImageCell
                 imageCell.omnibarImage = image
                 imageCell.reordering = reordering
+            case let .Error(url):
+                let textCell = cell as! OmnibarErrorCell
+                textCell.url = url
             default: break
             }
             return cell
@@ -1056,10 +1062,12 @@ public extension OmnibarRegion {
         case .Image: return OmnibarImageCell.reuseIdentifier()
         case .ImageURL: return OmnibarImageDownloadCell.reuseIdentifier()
         case .AttributedText: return OmnibarTextCell.reuseIdentifier()
-        case .Spacer: return "OmnibarSpacerCell"
-        case .Error: return ""
+        case .Spacer: return OmnibarRegion.OmnibarSpacerCell
+        case .Error: return OmnibarErrorCell.reuseIdentifier()
         }
     }
+
+    static let OmnibarSpacerCell = "OmnibarSpacerCell"
 }
 
 public extension OmnibarRegion {

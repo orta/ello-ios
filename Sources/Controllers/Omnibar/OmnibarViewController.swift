@@ -244,7 +244,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
                     regions[index] = .Image(image, nil, nil)
                 }
                 else {
-                    regions[index] = .Error
+                    regions[index] = .Error(imageURL)
                 }
                 let tmp = regions
                 nextTick {

@@ -64,10 +64,6 @@ public class OmnibarTextCell: UITableViewCell {
         textView.frame = OmnibarTextCell.boundsForTextView(contentView.bounds)
     }
 
-    override public func prepareForReuse() {
-        super.prepareForReuse()
-    }
-
     public class func boundsForTextView(frame: CGRect) -> CGRect {
         return frame.inset(Size.textMargins)
     }

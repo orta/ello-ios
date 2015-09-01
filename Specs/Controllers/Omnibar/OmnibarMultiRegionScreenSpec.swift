@@ -201,6 +201,12 @@ class OmnibarMultiRegionScreenSpec: QuickSpec {
                         subject.startEditing()
                         expect(subject.currentTextPath?.row).to(beNil())
                     }
+                    it("should not set the currentTextPath if the first region is an image") {
+                        subject.currentTextPath = nil
+                        subject.regions = [.Error(NSURL(string: "http://foo.com")!)]
+                        subject.startEditing()
+                        expect(subject.currentTextPath?.row).to(beNil())
+                    }
                 }
                 context("func startEditingAtPath()") {
                     it("should set the currentTextPath") {
