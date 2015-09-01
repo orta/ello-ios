@@ -32,7 +32,7 @@ pod 'Firebase', configurations: ['Debug']
 pod 'Alamofire', '~> 1.3.0'
 pod 'Moya', '~> 2.1.0'
 pod 'Result', '~> 0.4.0'
-# pod 'SwiftyJSON', '~> 2.2.0'
+pod 'SwiftyJSON', git: 'https://github.com/ello/SwiftyJSON'
 pod 'SwiftyUserDefaults', '~> 1.3.0'
 pod 'TimeAgoInWords', '~> 0.1.0'
 pod 'WebLinking', '~> 0.2.0'
