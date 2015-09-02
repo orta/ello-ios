@@ -36,7 +36,7 @@ public class OmnibarTextCell: UITableViewCell {
                 textView.attributedText = newValue
             }
             else {
-                textView.text = "Say Ello..."
+                textView.attributedText = ElloAttributedString.style("Add more text...")
             }
         }
     }
