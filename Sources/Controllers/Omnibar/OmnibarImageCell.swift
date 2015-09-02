@@ -10,7 +10,6 @@ public class OmnibarImageCell: UITableViewCell {
     class func reuseIdentifier() -> String { return "OmnibarImageCell" }
 
     struct Size {
-        static let margins = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
         static let bottomMargin = CGFloat(15)
     }
 
@@ -37,7 +36,7 @@ public class OmnibarImageCell: UITableViewCell {
     override public func layoutSubviews() {
         super.layoutSubviews()
 
-        var frame = contentView.bounds.inset(Size.margins)
+        var frame = contentView.bounds
         if reordering {
             frame = frame.inset(topBottom: Size.bottomMargin / 2)
         }
@@ -51,7 +50,7 @@ public class OmnibarImageCell: UITableViewCell {
 
         var cellWidth = tableWidth
         let imageWidth = max(image.size.width, 1)
-        var height = image.size.height * cellWidth / imageWidth + Size.margins.top + Size.margins.bottom
+        var height = image.size.height * cellWidth / imageWidth
         if editing {
             height += Size.bottomMargin
         }
