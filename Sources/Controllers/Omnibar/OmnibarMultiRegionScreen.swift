@@ -306,6 +306,10 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
             }
             editableRegions.append((index, region))
             prevWasImage = region.isImage
+
+            if let path = currentTextPath where path.row == count(editableRegions) - 1 {
+                textView.attributedText = region.text
+            }
         }
         return editableRegions
         // NB: don't call `reloadData` here, because this method is called as part of
@@ -353,14 +357,17 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
     }
 
     public func startEditingAtPath(path: NSIndexPath) {
-        currentTextPath = path
-        textScrollView.hidden = false
-        textScrollView.contentOffset = regionsTableView.contentOffset
-        textScrollView.contentInset = regionsTableView.contentInset
-        textScrollView.scrollIndicatorInsets = regionsTableView.scrollIndicatorInsets
-        textScrollView.scrollsToTop = true
-        regionsTableView.scrollsToTop = false
-        updateEditingAtPath(path)
+        if let (_, region) = tableViewRegions.safeValue(path.row) where region.isText {
+            currentTextPath = path
+            textScrollView.hidden = false
+            textScrollView.contentOffset = regionsTableView.contentOffset
+            textScrollView.contentInset = regionsTableView.contentInset
+            textScrollView.scrollIndicatorInsets = regionsTableView.scrollIndicatorInsets
+            textScrollView.scrollsToTop = true
+            regionsTableView.scrollsToTop = false
+            textView.attributedText = region.text
+            updateEditingAtPath(path)
+        }
     }
 
     public func updateEditingAtPath(path: NSIndexPath, scrollPosition: UITableViewScrollPosition = .Middle) {
@@ -715,7 +722,6 @@ extension OmnibarMultiRegionScreen: UITableViewDelegate, UITableViewDataSource {
             switch region {
             case let .AttributedText(attributedText):
                 startEditingAtPath(path)
-                textView.attributedText = attributedText
             default:
                 stopEditing()
             }
