@@ -11,6 +11,7 @@ public class OmnibarImageCell: UITableViewCell {
 
     struct Size {
         static let bottomMargin = CGFloat(15)
+        static let editingHeight = CGFloat(80)
     }
 
     public let flImageView = FLAnimatedImageView()
@@ -45,7 +46,7 @@ public class OmnibarImageCell: UITableViewCell {
 
     public class func heightForImage(image: UIImage, tableWidth: CGFloat, editing: Bool) -> CGFloat {
         if editing {
-            return 80
+            return Size.editingHeight
         }
 
         var cellWidth = tableWidth
