@@ -262,7 +262,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
         let gesture = UITapGestureRecognizer(target: self, action: Selector("stopEditing"))
         textScrollView.addGestureRecognizer(gesture)
         textScrollView.clipsToBounds = true
-        textContainer.backgroundColor = UIColor.greyE5()
+        textContainer.backgroundColor = UIColor.whiteColor()
 
         textView.clipsToBounds = false
         textView.editable = true
