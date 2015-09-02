@@ -58,8 +58,8 @@ public struct ElloAttributedString {
         return strings
     }
 
-    public static func style(text: String) -> NSAttributedString {
-        return NSAttributedString(string: text, attributes: attrs())
+    public static func style(text: String, _ addlAttrs: [String: AnyObject] = [:]) -> NSAttributedString {
+        return NSAttributedString(string: text, attributes: attrs(addlAttrs))
     }
 
     public static func parse(input: String) -> NSAttributedString? {

@@ -19,6 +19,11 @@ class ElloAttributedStringSpec: QuickSpec {
                 let attrd = ElloAttributedString.style(text)
                 expect(attrd).to(beAKindOf(NSAttributedString))
             }
+            it("accepts additional options") {
+                let text = "text"
+                let attrd = ElloAttributedString.style(text, [NSForegroundColorAttributeName: UIColor.greyColor()])
+                expect(attrd).to(beAKindOf(NSAttributedString))
+            }
         }
 
         describe("splitting a string") {
