@@ -74,7 +74,7 @@ DEPENDENCIES:
   - Result (~> 0.4.0)
   - SSPullToRefresh (~> 1.2)
   - SVGKit (from `https://github.com/SVGKit/SVGKit`)
-  - SwiftyJSON (~> 2.2.0)
+  - SwiftyJSON (from `https://github.com/ello/SwiftyJSON`)
   - SwiftyUserDefaults (~> 1.3.0)
   - TimeAgoInWords (~> 0.1.0)
   - WebLinking (~> 0.2.0)
@@ -93,6 +93,8 @@ EXTERNAL SOURCES:
     :git: https://github.com/ello/KINWebBrowser
   SVGKit:
     :git: https://github.com/SVGKit/SVGKit
+  SwiftyJSON:
+    :git: https://github.com/ello/SwiftyJSON
   YapDatabase:
     :git: https://github.com/ello/YapDatabase
 
@@ -112,6 +114,9 @@ CHECKOUT OPTIONS:
   SVGKit:
     :commit: 4f0fc51e0bfed56a3637f5bbfc1cbfdddd934c9b
     :git: https://github.com/SVGKit/SVGKit
+  SwiftyJSON:
+    :commit: fbedf0f16ea7db6941f7c59e9bcb0b0fd1fdecd2
+    :git: https://github.com/ello/SwiftyJSON
   YapDatabase:
     :commit: 21f781942223d8eb6f5b313f605a83796dba187a
     :git: https://github.com/ello/YapDatabase
@@ -126,7 +131,7 @@ SPEC CHECKSUMS:
   CRToast: eb22641501990233c53cb8f83f7d2ea87e0ddf73
   Fabric: a9eabe53915e9f1db55a84dd2838737928675878
   Firebase: 2db60272f68ce40c7d47e5ae6eddc16977c65d4c
-  FLAnimatedImage: 7599ec218dceacdcacbdfccb2947415c2619cd11
+  FLAnimatedImage: f9422f796135aff80d8c00b2afc48015bb746e24
   JTSImageViewController: 89ae3c003060c65418fd3224ebbd67acc6046608
   Keys: 7d2ff6ff42f6903358267ce56e9392f83c31acfe
   KINWebBrowser: dad85d7d93e6f4620a8589b96992394affffa66e
