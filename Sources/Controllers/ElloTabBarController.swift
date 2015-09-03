@@ -183,6 +183,8 @@ public extension ElloTabBarController {
             switch streamKind {
             case .Notifications(category: nil):
                 self.notificationsDot?.hidden = true
+            case .Friend:
+                self.streamsDot?.hidden = true
             default: break
             }
         }
@@ -249,16 +251,19 @@ extension ElloTabBarController: UITabBarDelegate {
                     navigationViewController.popToRootViewControllerAnimated(true)
                 }
                 else if let scrollView = findScrollView(selectedViewController.view) {
-                    scrollView.setContentOffset(CGPoint(x: 0, y: -scrollView.contentInset.top), animated: true)
+                    // mark the friend stream for reload
+                    println(selectedViewController)
+                    if index == 2 && streamsDot?.hidden == false {
+                        scrollView.setContentOffset(CGPoint(x: 0, y: -scrollView.contentInset.top), animated: true)
+                        postNotification(NewContentNotifications.reloadStreamContent, self)
+                    }
+                    else {
+                        scrollView.setContentOffset(CGPoint(x: 0, y: -scrollView.contentInset.top), animated: true)
+                    }
                 }
             }
             else {
                 selectedTab = ElloTab(rawValue:index) ?? .Stream
-            }
-
-            // hide the red dot on the stream tab icon
-            if index == 2 {
-                self.streamsDot?.hidden = true
             }
         }
     }

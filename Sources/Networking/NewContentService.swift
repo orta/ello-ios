@@ -12,6 +12,7 @@ import SwiftyUserDefaults
 public struct NewContentNotifications {
     static let newNotifications = TypedNotification<NewContentService>(name: "NewNotificationsNotification")
     static let newStreamContent = TypedNotification<NewContentService>(name: "NewStreamContentNotification")
+    static let reloadStreamContent = TypedNotification<UIViewController>(name: "ReloadStreamContentNotification")
 }
 
 public class NewContentService {
