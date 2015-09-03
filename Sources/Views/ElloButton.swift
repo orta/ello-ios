@@ -118,15 +118,6 @@ public class OutlineElloButton: WhiteElloButton {
     }
 }
 
-public class ElloEditButton: LightElloButton {
-
-    override public func sharedSetup() {
-        super.sharedSetup()
-        titleLabel?.font = UIFont.typewriterFont(12.0)
-        self.setTitleColor(UIColor.greyA(), forState: .Normal)
-    }
-}
-
 public class ElloPostButton: ElloButton {
 
     override public func updateStyle() {

@@ -11,6 +11,7 @@ public class OmnibarImageCell: UITableViewCell {
 
     struct Size {
         static let bottomMargin = CGFloat(15)
+        static let editingMargins = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 12)
         static let editingHeight = CGFloat(80)
     }
 
@@ -39,7 +40,7 @@ public class OmnibarImageCell: UITableViewCell {
 
         var frame = contentView.bounds
         if reordering {
-            frame = frame.inset(topBottom: Size.bottomMargin / 2)
+            frame = frame.inset(topBottom: Size.bottomMargin / 2).inset(Size.editingMargins)
         }
         flImageView.frame = frame
     }

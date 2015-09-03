@@ -10,8 +10,8 @@ public class OmnibarTextCell: UITableViewCell {
     class func reuseIdentifier() -> String { return "OmnibarTextCell" }
     struct Size {
         static let textMargins = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
-        static let minHeight = CGFloat(44)
-        static let editingHeight = CGFloat(80)
+        static let minEditingHeight = CGFloat(22)
+        static let maxEditingHeight = CGFloat(77)
     }
 
     public let textView: UITextView
@@ -20,6 +20,7 @@ public class OmnibarTextCell: UITableViewCell {
         let textView = UITextView()
         textView.textColor = UIColor.blackColor()
         textView.font = UIFont.typewriterEditorFont(12)
+        textView.textContainerInset = UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)
         textView.textContainer.lineFragmentPadding = 0
         textView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
         textView.scrollsToTop = false
@@ -70,7 +71,11 @@ public class OmnibarTextCell: UITableViewCell {
     }
 
     public class func heightForText(attributedText: NSAttributedString, tableWidth: CGFloat, editing: Bool) -> CGFloat {
-        let textWidth = tableWidth - (Size.textMargins.left + Size.textMargins.right)
+        var textWidth = tableWidth - (Size.textMargins.left + Size.textMargins.right)
+        if editing {
+            textWidth -= 80
+        }
+
         let tv = generateTextView()
         tv.attributedText = attributedText
         let tvSize = tv.sizeThatFits(CGSize(width: textWidth, height: CGFloat.max))
@@ -78,9 +83,9 @@ public class OmnibarTextCell: UITableViewCell {
         let textHeight = heightPadding + round(tvSize.height)
 
         if editing {
-            return min(Size.editingHeight, max(Size.minHeight, textHeight))
+            return min(Size.maxEditingHeight, max(Size.minEditingHeight, textHeight))
         }
-        return max(Size.minHeight, textHeight)
+        return textHeight
     }
 
 }

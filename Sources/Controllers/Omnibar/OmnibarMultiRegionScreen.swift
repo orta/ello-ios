@@ -156,13 +156,13 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
     weak public var delegate: OmnibarScreenDelegate?
 
     public let avatarButton = UIButton()
-    public let editButton = ElloEditButton()
 
     public let cancelButton = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
-    public let cameraButton = UIButton(frame: CGRect(x: 44, y: 0, width: 44, height: 44))
+    public let editButton = UIButton(frame: CGRect(x: 44, y: 0, width: 44, height: 44))
+    public let cameraButton = UIButton(frame: CGRect(x: 88, y: 0, width: 44, height: 44))
     public let navigationBar = ElloNavigationBar(frame: CGRectZero)
-    public let submitButton = ElloPostButton(frame: CGRect(x: 98, y: 0, width: 44, height: 44))
-    public let buttonContainer = UIView(frame: CGRect(x: 0, y: 0, width: 142, height: 60))
+    public let submitButton = ElloPostButton(frame: CGRect(x: 142, y: 0, width: 44, height: 44))
+    public let buttonContainer = UIView(frame: CGRect(x: 0, y: 0, width: 186, height: 60))
     let statusBarUnderlay = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 20))
 
     let regionsTableView = UITableView()
@@ -211,9 +211,6 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
         avatarButton.backgroundColor = UIColor.blackColor()
         avatarButton.clipsToBounds = true
         avatarButton.addTarget(self, action: Selector("profileImageTapped"), forControlEvents: .TouchUpInside)
-
-        editButton.setTitle(NSLocalizedString("Edit", comment: "Edit button title"), forState: .Normal)
-        editButton.addTarget(self, action: Selector("toggleReorderingTable"), forControlEvents: .TouchUpInside)
     }
 
     private func setupNavigationBar() {
@@ -230,6 +227,9 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
 
     // buttons that make up the "toolbar"
     private func setupToolbarButtons() {
+        editButton.setSVGImages("reorder")
+        editButton.addTarget(self, action: Selector("toggleReorderingTable"), forControlEvents: .TouchUpInside)
+
         cameraButton.setSVGImages("camera")
         cameraButton.addTarget(self, action: Selector("addImageAction"), forControlEvents: .TouchUpInside)
 
@@ -280,13 +280,12 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
             textScrollView,
             navigationBar,
             avatarButton,
-            editButton,
             buttonContainer,
         ]
         for view in views as [UIView] {
             self.addSubview(view)
         }
-        for view in [cancelButton, cameraButton, submitButton] as [UIView] {
+        for view in [cancelButton, editButton, cameraButton, submitButton] as [UIView] {
             buttonContainer.addSubview(view)
         }
 
@@ -447,12 +446,14 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
             if count(reorderableRegions) == 0 { return }
 
             stopEditing()
-            editButton.setTitle(NSLocalizedString("Done", comment: "Done button title"), forState: .Normal)
+            editButton.setSVGImages("check")
+            editButton.selected = true
         }
         else {
             submitableRegions = convertReorderableRegions(reorderableRegions)
             editableRegions = generateEditableRegions(submitableRegions)
-            editButton.setTitle(NSLocalizedString("Edit", comment: "Edit button title"), forState: .Normal)
+            editButton.setSVGImages("reorder")
+            editButton.selected = false
         }
 
         self.reordering = reordering
@@ -525,8 +526,6 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
         var avatarViewLeft = Size.margins.left
         avatarButton.frame = CGRect(x: avatarViewLeft, y: screenTop + Size.margins.top, width: Size.toolbarHeight, height: Size.toolbarHeight)
         avatarButton.layer.cornerRadius = avatarButton.frame.size.height / CGFloat(2)
-
-        editButton.frame = CGRect(x: avatarButton.frame.maxX + 2, y: avatarButton.frame.minY, width: 55, height: avatarButton.frame.height)
 
         buttonContainer.frame = CGRect(x: frame.width - Size.margins.right, y: screenTop + Size.margins.top, width: 0, height: Size.toolbarHeight)
             .growLeft(buttonContainer.frame.width)
