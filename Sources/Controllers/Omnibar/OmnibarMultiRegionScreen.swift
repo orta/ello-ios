@@ -301,7 +301,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
         var editableRegions = [IndexedRegion]()
         var prevWasImage = false
         for (index, region) in enumerate(regions) {
-            if region.isImage && prevWasImage {
+            if index > 0 {
                 editableRegions.append((nil, .Spacer))
             }
             editableRegions.append((index, region))
@@ -397,30 +397,37 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
         }
     }
 
+    private func joinTwoAttributedStrings(t1: NSAttributedString, _ t2: NSAttributedString) -> NSAttributedString {
+        let str = NSMutableAttributedString(attributedString: t1)
+        if count(t2.string) > 0 {
+            if count(t1.string) > 0 {
+                if !t1.string.endsWith("\n") {
+                    str.appendAttributedString(ElloAttributedString.style("\n\n"))
+                }
+                else if !t1.string.endsWith("\n\n") {
+                    str.appendAttributedString(ElloAttributedString.style("\n"))
+                }
+            }
+            str.appendAttributedString(t2)
+        }
+        return str
+    }
+
     private func convertReorderableRegions(reorderableRegions: [IndexedRegion]) -> [OmnibarRegion] {
         var regions = [OmnibarRegion]()
-        var buffer = NSMutableAttributedString(attributedString: ElloAttributedString.style(""))
+        var buffer = ElloAttributedString.style("")
         var lastRegionIsText = false
         for (_, region) in reorderableRegions {
             switch region {
             case let .AttributedText(text):
-                if count(buffer.string) > 0 {
-                    // ensure two newlines between concatenated text regions
-                    if !buffer.string.endsWith("\n") {
-                        buffer.appendAttributedString(ElloAttributedString.style("\n\n"))
-                    }
-                    else if !buffer.string.endsWith("\n\n") {
-                        buffer.appendAttributedString(ElloAttributedString.style("\n"))
-                    }
-                }
-                buffer.appendAttributedString(text)
+                buffer = joinTwoAttributedStrings(buffer, text)
                 lastRegionIsText = true
             case .Image:
                 if count(buffer.string) > 0 {
                     regions.append(.AttributedText(buffer))
                 }
                 regions.append(region)
-                buffer = NSMutableAttributedString(attributedString: ElloAttributedString.style(""))
+                buffer = ElloAttributedString.style("")
                 lastRegionIsText = false
             default: break
             }
@@ -677,7 +684,7 @@ extension OmnibarMultiRegionScreen: UITableViewDelegate, UITableViewDataSource {
         if let (_, region) = tableViewRegions.safeValue(path.row) {
             switch region {
             case let .AttributedText(attrdString):
-                return OmnibarTextCell.heightForText(attrdString, tableWidth: regionsTableView.frame.width)
+                return OmnibarTextCell.heightForText(attrdString, tableWidth: regionsTableView.frame.width, editing: reordering)
             case let .Image(image, _, _):
                 return OmnibarImageCell.heightForImage(image, tableWidth: regionsTableView.frame.width, editing: reordering)
             case .ImageURL:
@@ -782,72 +789,46 @@ extension OmnibarMultiRegionScreen: UITableViewDelegate, UITableViewDataSource {
             if count(editableRegions) == 1 {
                 submitableRegions = [.Text("")]
                 editableRegions = generateEditableRegions(submitableRegions)
-                regionsTableView.reloadRowsAtIndexPaths([path], withRowAnimation: .Automatic)
-            }
-            else if let regionAbove = submitableRegions.safeValue(index - 1),
-                regionAboveText = regionAbove.text,
-                regionBelow = submitableRegions.safeValue(index + 1),
-                regionBelowText = regionBelow.text
-            where regionAbove.isText && regionBelow.isText
-            {
-                let newText = NSMutableAttributedString()
-                newText.appendAttributedString(regionAboveText)
-
-                if count(regionBelowText.string.trim()) > 0 {
-                    if count(regionAboveText.string.trim()) > 0 && !regionAboveText.string.endsWith("\n\n") {
-                        if regionAboveText.string.endsWith("\n") {
-                            newText.appendAttributedString(ElloAttributedString.style("\n"))
-                        }
-                        else {
-                            newText.appendAttributedString(ElloAttributedString.style("\n\n"))
-                        }
-                    }
-                    newText.appendAttributedString(regionBelowText)
-                }
-
-                submitableRegions.removeAtIndex(index + 1)
-                submitableRegions.removeAtIndex(index)
-                submitableRegions[index - 1] = .AttributedText(newText)
-
-                regionsTableView.beginUpdates()
-                editableRegions = generateEditableRegions(submitableRegions)
-                regionsTableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: path.row - 1, inSection: 0)], withRowAnimation: .None)
-                regionsTableView.deleteRowsAtIndexPaths([
-                    path,
-                    NSIndexPath(forItem: path.row + 1, inSection: 0),
-                ], withRowAnimation: .Automatic)
-                regionsTableView.endUpdates()
-            }
-            else if let regionAbove = submitableRegions.safeValue(index - 1),
-                regionBelow = submitableRegions.safeValue(index + 1)
-            where regionAbove.isImage && regionBelow.isImage
-            {
-                submitableRegions.removeAtIndex(index)
-                editableRegions = generateEditableRegions(submitableRegions)
-                regionsTableView.reloadData()
+                regionsTableView.reloadRowsAtIndexPaths([path], withRowAnimation: .Top)
             }
             else {
                 submitableRegions.removeAtIndex(index)
-                var paths = [path]
+                var deletePaths = [path]
+                var reloadPaths = [NSIndexPath]()
+                var insertPaths = [NSIndexPath]()
+                regionsTableView.beginUpdates()
 
                 // remove the spacer *after* the deleted row (if it's the first
                 // or N-1th row in series of image rows), and *before* the last
                 // row (if it's the last row in a series of image rows)
-                if let (_, region) = editableRegions.safeValue(path.row + 1) where region.isSpacer {
-                    paths.append(NSIndexPath(forItem: path.row + 1, inSection: 0))
+                if let (_, belowTextRegion) = editableRegions.safeValue(path.row + 2),
+                    (_, aboveTextRegion) = editableRegions.safeValue(path.row - 2),
+                    belowText = belowTextRegion.text, aboveText = aboveTextRegion.text
+                {
+                    // merge text in submitableRegions
+                    let newText = joinTwoAttributedStrings(aboveText, belowText)
+                    submitableRegions[index - 1] = .AttributedText(newText)
+                    submitableRegions.removeAtIndex(index)
+                    reloadPaths.append(NSIndexPath(forItem: path.row - 2, inSection: 0))
+                    deletePaths.append(NSIndexPath(forItem: path.row - 1, inSection: 0))
+                    deletePaths.append(NSIndexPath(forItem: path.row + 1, inSection: 0))
+                    deletePaths.append(NSIndexPath(forItem: path.row + 2, inSection: 0))
+                }
+                else if let last = submitableRegions.last where !last.isText {
+                    insertPaths.append(path)
+                    submitableRegions.append(.Text(""))
+                }
+                else if let (_, region) = editableRegions.safeValue(path.row + 1) where region.isSpacer {
+                    deletePaths.append(NSIndexPath(forItem: path.row + 1, inSection: 0))
                 }
                 else if let (_, region) = editableRegions.safeValue(path.row - 1) where region.isSpacer {
-                    paths.append(NSIndexPath(forItem: path.row - 1, inSection: 0))
+                    deletePaths.append(NSIndexPath(forItem: path.row - 1, inSection: 0))
                 }
 
-                regionsTableView.beginUpdates()
-                if let last = submitableRegions.last where !last.isText {
-                    let insertPath = NSIndexPath(forItem: count(submitableRegions), inSection: 0)
-                    submitableRegions.append(.Text(""))
-                    regionsTableView.insertRowsAtIndexPaths([insertPath], withRowAnimation: .Automatic)
-                }
                 editableRegions = generateEditableRegions(submitableRegions)
-                regionsTableView.deleteRowsAtIndexPaths(paths, withRowAnimation: .Automatic)
+                regionsTableView.deleteRowsAtIndexPaths(deletePaths, withRowAnimation: .Automatic)
+                regionsTableView.reloadRowsAtIndexPaths(reloadPaths, withRowAnimation: .None)
+                regionsTableView.insertRowsAtIndexPaths(insertPaths, withRowAnimation: .Automatic)
                 regionsTableView.endUpdates()
             }
         }

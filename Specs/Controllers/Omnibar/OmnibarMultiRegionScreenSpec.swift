@@ -212,8 +212,14 @@ class OmnibarMultiRegionScreenSpec: QuickSpec {
                     it("should set the currentTextPath") {
                         subject.currentTextPath = nil
                         subject.regions = [.Image(UIImage(), nil, nil), .Text("")]
+                        subject.startEditingAtPath(NSIndexPath(forRow: 2, inSection: 0))
+                        expect(subject.currentTextPath?.row) == 2
+                    }
+                    it("should not set the currentTextPath") {
+                        subject.currentTextPath = nil
+                        subject.regions = [.Image(UIImage(), nil, nil), .Text("")]
                         subject.startEditingAtPath(NSIndexPath(forRow: 1, inSection: 0))
-                        expect(subject.currentTextPath?.row) == 1
+                        expect(subject.currentTextPath).to(beNil())
                     }
                 }
                 context("func stopEditing()") {
@@ -307,21 +313,21 @@ class OmnibarMultiRegionScreenSpec: QuickSpec {
                 }
             }
 
-            describe("generating tableViewRegions") {
+            describe("generating editableRegions") {
                 let expectationRules: [String: ([OmnibarRegion], [RegionExpectation])] = [
                     "zero": ([OmnibarRegion](), [.Text("")]),
                     "empty": ([.Text("")], [.Text("")]),
                     "text": ([.Text("some")], [.Text("some")]),
-                    "image": ([.Image(UIImage(), nil, nil)], [.Image, .Text("")]),
-                    "image,text": ([.Image(UIImage(), nil, nil), .Text("some")], [.Image, .Text("some")]),
-                    "text,image": ([.Text("some"), .Image(UIImage(), nil, nil)], [.Text("some"), .Image, .Text("")]),
-                    "text,image,text": ([.Text("some"), .Image(UIImage(), nil, nil), .Text("more")], [.Text("some"), .Image, .Text("more")]),
-                    "text,image,image": ([.Text("some"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil)], [.Text("some"), .Image, .Spacer, .Image, .Text("")]),
-                    "text,image,image,text": ([.Text("some"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil), .Text("")], [.Text("some"), .Image, .Spacer, .Image, .Text("")]),
-                    "image,text,image": ([.Image(UIImage(), nil, nil), .Text("some"), .Image(UIImage(), nil, nil)], [.Image, .Text("some"), .Image, .Text("")]),
+                    "image": ([.Image(UIImage(), nil, nil)], [.Image, .Spacer, .Text("")]),
+                    "image,text": ([.Image(UIImage(), nil, nil), .Text("some")], [.Image, .Spacer, .Text("some")]),
+                    "text,image": ([.Text("some"), .Image(UIImage(), nil, nil)], [.Text("some"), .Spacer, .Image, .Spacer, .Text("")]),
+                    "text,image,text": ([.Text("some"), .Image(UIImage(), nil, nil), .Text("more")], [.Text("some"), .Spacer, .Image, .Spacer, .Text("more")]),
+                    "text,image,image": ([.Text("some"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil)], [.Text("some"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("")]),
+                    "text,image,image,text": ([.Text("some"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil), .Text("")], [.Text("some"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("")]),
+                    "image,text,image": ([.Image(UIImage(), nil, nil), .Text("some"), .Image(UIImage(), nil, nil)], [.Image, .Spacer, .Text("some"), .Spacer, .Image, .Spacer, .Text("")]),
                     "text,image,image,image,text,image,image": (
                         [.Text("some"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil), .Text("text"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil)],
-                        [.Text("some"), .Image, .Spacer, .Image, .Spacer, .Image, .Text("text"), .Image, .Spacer, .Image, .Text("")]
+                        [.Text("some"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("text"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("")]
                     ),
                 ]
                 for (name, rule) in expectationRules {
@@ -380,16 +386,16 @@ class OmnibarMultiRegionScreenSpec: QuickSpec {
                     "empty": ([OmnibarRegion](),[.Text("")]),
                     "text": ([.Text("some")],[.Text("some")]),
                     "text,text": ([.Text("some\ntext")],[.Text("some\ntext")]),
-                    "image,empty": ([.Image(UIImage(), nil, nil)],[.Image, .Text("")]),
-                    "image,text": ([.Image(UIImage(), nil, nil),.Text("some")],[.Image, .Text("some")]),
-                    "text,image,empty": ([.Text("some"),.Image(UIImage(), nil, nil)],[.Text("some"), .Image,.Text("")]),
-                    "text with newlines,image,text": ([.Text("some\n\ntext"),.Image(UIImage(), nil, nil),.Text("more")],[.Text("some\n\ntext"), .Image, .Text("more")]),
-                    "text,image,image,empty": ([.Text("some"),.Image(UIImage(), nil, nil),.Image(UIImage(), nil, nil)],[.Text("some"), .Image, .Spacer, .Image, .Text("")]),
-                    "text,image,image,text": ([.Text("some"),.Image(UIImage(), nil, nil),.Image(UIImage(), nil, nil),.Text("more\nlines")],[.Text("some"), .Image, .Spacer, .Image, .Text("more\nlines")]),
-                    "image,text,image,empty": ([.Image(UIImage(), nil, nil),.Text("some"),.Image(UIImage(), nil, nil)],[.Image, .Text("some"), .Image, .Text("")]),
+                    "image,empty": ([.Image(UIImage(), nil, nil)],[.Image, .Spacer, .Text("")]),
+                    "image,text": ([.Image(UIImage(), nil, nil),.Text("some")],[.Image, .Spacer, .Text("some")]),
+                    "text,image,empty": ([.Text("some"),.Image(UIImage(), nil, nil)],[.Text("some"), .Spacer, .Image, .Spacer,.Text("")]),
+                    "text with newlines,image,text": ([.Text("some\n\ntext"),.Image(UIImage(), nil, nil),.Text("more")],[.Text("some\n\ntext"), .Spacer, .Image, .Spacer, .Text("more")]),
+                    "text,image,image,empty": ([.Text("some"),.Image(UIImage(), nil, nil),.Image(UIImage(), nil, nil)],[.Text("some"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("")]),
+                    "text,image,image,text": ([.Text("some"),.Image(UIImage(), nil, nil),.Image(UIImage(), nil, nil),.Text("more\nlines")],[.Text("some"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("more\nlines")]),
+                    "image,text,image,empty": ([.Image(UIImage(), nil, nil),.Text("some"),.Image(UIImage(), nil, nil)],[.Image, .Spacer, .Text("some"), .Spacer, .Image, .Spacer, .Text("")]),
                     "text,image,image,image,text,image,text": (
                         [.Text("some"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil), .Text("text"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil), .Text("some")],
-                        [.Text("some"), .Image, .Spacer, .Image, .Spacer, .Image, .Text("text"), .Image, .Spacer, .Image, .Text("some")]
+                        [.Text("some"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("text"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("some")]
                     ),
                 ]
                 for (name, rule) in expectationRules {
@@ -428,59 +434,59 @@ class OmnibarMultiRegionScreenSpec: QuickSpec {
                     "text":                                    ([.Text("some")], NSIndexPath(forRow: 0, inSection: 0),                               [.Text("")]),
                     "image":                                   ([.Image(UIImage(), nil, nil)], NSIndexPath(forRow: 0, inSection: 0),                 [.Text("")]),
                     "image,text(0)":                           ([.Image(UIImage(), nil, nil), .Text("some")], NSIndexPath(forRow: 0, inSection: 0),  [.Text("some")]),
-                    "image,text(1)":                           ([.Image(UIImage(), nil, nil), .Text("some")], NSIndexPath(forRow: 1, inSection: 0),  [.Image, .Text("")]),
-                    "text,image(0)":                           ([.Text("some"), .Image(UIImage(), nil, nil)], NSIndexPath(forRow: 0, inSection: 0),  [.Image, .Text("")]),
-                    "text,image(1)":                           ([.Text("some"), .Image(UIImage(), nil, nil)], NSIndexPath(forRow: 1, inSection: 0),  [.Text("some")]),
-                    "text,image,text(0)":                      ([.Text("some"), .Image(UIImage(), nil, nil), .Text("more")],NSIndexPath(forRow: 0, inSection: 0), [.Image, .Text("more")]),
-                    "text,image,text(1a)":                     ([.Text("some"), .Image(UIImage(), nil, nil), .Text("more")],NSIndexPath(forRow: 1, inSection: 0), [.Text("some\n\nmore")]),
-                    "text,image,text(1b)":                     ([.Text("some\n"), .Image(UIImage(), nil, nil), .Text("more")],NSIndexPath(forRow: 1, inSection: 0), [.Text("some\n\nmore")]),
-                    "text,image,text(1c)":                     ([.Text("some\n\n"), .Image(UIImage(), nil, nil), .Text("more")],NSIndexPath(forRow: 1, inSection: 0), [.Text("some\n\nmore")]),
-                    "text,image,text(1d)":                     ([.Text("some\n\n\n"), .Image(UIImage(), nil, nil), .Text("more")],NSIndexPath(forRow: 1, inSection: 0), [.Text("some\n\n\nmore")]),
-                    "text,image,text(2)":                      ([.Text("some"), .Image(UIImage(), nil, nil), .Text("more")], NSIndexPath(forRow: 2, inSection: 0), [.Text("some"), .Image, .Text("")]),
-                    "text,image,image(0)":                     ([.Text("some"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil)], NSIndexPath(forRow: 0, inSection: 0), [.Image, .Spacer, .Image, .Text("")]),
-                    "text,image,image(1)":                     ([.Text("some"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil)], NSIndexPath(forRow: 1, inSection: 0), [.Text("some"), .Image, .Text("")]),
-                    "text,image,image(2)":                     ([.Text("some"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil)], NSIndexPath(forRow: 3, inSection: 0), [.Text("some"), .Image, .Text("")]),
-                    "text,image,image,text(0)":                ([.Text("some"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil), .Text("text")], NSIndexPath(forRow: 0, inSection: 0), [.Image, .Spacer, .Image, .Text("text")]),
-                    "text,image,image,text(1)":                ([.Text("some"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil), .Text("text")], NSIndexPath(forRow: 1, inSection: 0), [.Text("some"), .Image, .Text("text")]),
-                    "text,image,image,text(2)":                ([.Text("some"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil), .Text("text")], NSIndexPath(forRow: 3, inSection: 0), [.Text("some"), .Image, .Text("text")]),
-                    "text,image,image,text(3)":                ([.Text("some"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil), .Text("text")], NSIndexPath(forRow: 4, inSection: 0), [.Text("some"), .Image, .Spacer, .Image, .Text("")]),
-                    "image,text,image(0)":                     ([.Image(UIImage(), nil, nil), .Text("some"), .Image(UIImage(), nil, nil)], NSIndexPath(forRow: 0, inSection: 0), [.Text("some"), .Image, .Text("")]),
-                    "image,text,image(1)":                     ([.Image(UIImage(), nil, nil), .Text("some"), .Image(UIImage(), nil, nil)], NSIndexPath(forRow: 1, inSection: 0), [.Image, .Spacer, .Image, .Text("")]),
-                    "image,text,image(2)":                     ([.Image(UIImage(), nil, nil), .Text("some"), .Image(UIImage(), nil, nil)], NSIndexPath(forRow: 2, inSection: 0), [.Image, .Text("some")]),
+                    "image,text(1)":                           ([.Image(UIImage(), nil, nil), .Text("some")], NSIndexPath(forRow: 2, inSection: 0),  [.Image, .Spacer, .Text("")]),
+                    "text,image(0)":                           ([.Text("some"), .Image(UIImage(), nil, nil)], NSIndexPath(forRow: 0, inSection: 0),  [.Image, .Spacer, .Text("")]),
+                    "text,image(1)":                           ([.Text("some"), .Image(UIImage(), nil, nil)], NSIndexPath(forRow: 2, inSection: 0),  [.Text("some")]),
+                    "text,image,text(0)":                      ([.Text("some"), .Image(UIImage(), nil, nil), .Text("more")],NSIndexPath(forRow: 0, inSection: 0), [.Image, .Spacer, .Text("more")]),
+                    "text,image,text(1a)":                     ([.Text("some"), .Image(UIImage(), nil, nil), .Text("more")],NSIndexPath(forRow: 2, inSection: 0), [.Text("some\n\nmore")]),
+                    "text,image,text(1b)":                     ([.Text("some\n"), .Image(UIImage(), nil, nil), .Text("more")],NSIndexPath(forRow: 2, inSection: 0), [.Text("some\n\nmore")]),
+                    "text,image,text(1c)":                     ([.Text("some\n\n"), .Image(UIImage(), nil, nil), .Text("more")],NSIndexPath(forRow: 2, inSection: 0), [.Text("some\n\nmore")]),
+                    "text,image,text(1d)":                     ([.Text("some\n\n\n"), .Image(UIImage(), nil, nil), .Text("more")],NSIndexPath(forRow: 2, inSection: 0), [.Text("some\n\n\nmore")]),
+                    "text,image,text(2)":                      ([.Text("some"), .Image(UIImage(), nil, nil), .Text("more")], NSIndexPath(forRow: 4, inSection: 0), [.Text("some"), .Spacer, .Image, .Spacer, .Text("")]),
+                    "text,image,image(0)":                     ([.Text("some"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil)], NSIndexPath(forRow: 0, inSection: 0), [.Image, .Spacer, .Image, .Spacer, .Text("")]),
+                    "text,image,image(1)":                     ([.Text("some"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil)], NSIndexPath(forRow: 2, inSection: 0), [.Text("some"), .Spacer, .Image, .Spacer, .Text("")]),
+                    "text,image,image(2)":                     ([.Text("some"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil)], NSIndexPath(forRow: 4, inSection: 0), [.Text("some"), .Spacer, .Image, .Spacer, .Text("")]),
+                    "text,image,image,text(0)":                ([.Text("some"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil), .Text("text")], NSIndexPath(forRow: 0, inSection: 0), [.Image, .Spacer, .Image, .Spacer, .Text("text")]),
+                    "text,image,image,text(1)":                ([.Text("some"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil), .Text("text")], NSIndexPath(forRow: 2, inSection: 0), [.Text("some"), .Spacer, .Image, .Spacer, .Text("text")]),
+                    "text,image,image,text(2)":                ([.Text("some"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil), .Text("text")], NSIndexPath(forRow: 4, inSection: 0), [.Text("some"), .Spacer, .Image, .Spacer, .Text("text")]),
+                    "text,image,image,text(3)":                ([.Text("some"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil), .Text("text")], NSIndexPath(forRow: 6, inSection: 0), [.Text("some"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("")]),
+                    "image,text,image(0)":                     ([.Image(UIImage(), nil, nil), .Text("some"), .Image(UIImage(), nil, nil)], NSIndexPath(forRow: 0, inSection: 0), [.Text("some"), .Spacer, .Image, .Spacer, .Text("")]),
+                    "image,text,image(1)":                     ([.Image(UIImage(), nil, nil), .Text("some"), .Image(UIImage(), nil, nil)], NSIndexPath(forRow: 2, inSection: 0), [.Image, .Spacer, .Image, .Spacer, .Text("")]),
+                    "image,text,image(2)":                     ([.Image(UIImage(), nil, nil), .Text("some"), .Image(UIImage(), nil, nil)], NSIndexPath(forRow: 4, inSection: 0), [.Image, .Spacer, .Text("some")]),
                     "text,image,image,image,text,image,image(0)": (
                         [.Text("some"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil), .Text("text"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil)],
                         NSIndexPath(forRow: 0, inSection: 0),
-                        [.Image, .Spacer, .Image, .Spacer, .Image, .Text("text"), .Image, .Spacer, .Image, .Text("")]
+                        [.Image, .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("text"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("")]
                     ),
                     "text,image,image,image,text,image,image(1)": (
                         [.Text("some"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil), .Text("text"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil)],
-                        NSIndexPath(forRow: 1, inSection: 0),
-                        [.Text("some"), .Image, .Spacer, .Image, .Text("text"), .Image, .Spacer, .Image, .Text("")]
+                        NSIndexPath(forRow: 2, inSection: 0),
+                        [.Text("some"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("text"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("")]
                     ),
                     "text,image,image,image,text,image,image(2)": (
                         [.Text("some"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil), .Text("text"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil)],
-                        NSIndexPath(forRow: 3, inSection: 0),
-                        [.Text("some"), .Image, .Spacer, .Image, .Text("text"), .Image, .Spacer, .Image, .Text("")]
+                        NSIndexPath(forRow: 4, inSection: 0),
+                        [.Text("some"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("text"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("")]
                     ),
                     "text,image,image,image,text,image,image(3)": (
                         [.Text("some"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil), .Text("text"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil)],
-                        NSIndexPath(forRow: 5, inSection: 0),
-                        [.Text("some"), .Image, .Spacer, .Image, .Text("text"), .Image, .Spacer, .Image, .Text("")]
+                        NSIndexPath(forRow: 6, inSection: 0),
+                        [.Text("some"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("text"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("")]
                     ),
                     "text,image,image,image,text,image,image(4)": (
                         [.Text("some"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil), .Text("text"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil)],
-                        NSIndexPath(forRow: 6, inSection: 0),
-                        [.Text("some"), .Image, .Spacer, .Image, .Spacer, .Image, .Spacer, .Image, .Spacer, .Image, .Text("")]
+                        NSIndexPath(forRow: 8, inSection: 0),
+                        [.Text("some"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Image, .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("")]
                     ),
                     "text,image,image,image,text,image,image(5)": (
                         [.Text("some"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil), .Text("text"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil)],
-                        NSIndexPath(forRow: 7, inSection: 0),
-                        [.Text("some"), .Image, .Spacer, .Image, .Spacer, .Image, .Text("text"), .Image, .Text("")]
+                        NSIndexPath(forRow: 10, inSection: 0),
+                        [.Text("some"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("text"), .Spacer, .Image, .Spacer, .Text("")]
                     ),
                     "text,image,image,image,text,image,image(6)": (
                         [.Text("some"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil), .Text("text"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil)],
-                        NSIndexPath(forRow: 9, inSection: 0),
-                        [.Text("some"), .Image, .Spacer, .Image, .Spacer, .Image, .Text("text"), .Image, .Text("")]
+                        NSIndexPath(forRow: 12, inSection: 0),
+                        [.Text("some"), .Spacer, .Image, .Spacer, .Image, .Spacer, .Image, .Spacer, .Text("text"), .Spacer, .Image, .Spacer, .Text("")]
                     ),
                 ]
                 for (name, rule) in expectationRules {
@@ -489,14 +495,17 @@ class OmnibarMultiRegionScreenSpec: QuickSpec {
                         subject.regions = rule.0
                         let expectations = rule.2
 
-                        expect(subject.tableView(UITableView(), canEditRowAtIndexPath: path)) == true
-
-                        subject.deleteEditableAtIndexPath(path)
-                        let regions = subject.editableRegions
-                        expect(count(regions)) == count(expectations)
-                        for (index, expectation) in enumerate(expectations) {
-                            let (_, region) = regions[index]
-                            expect(expectation.matches(region)) == true
+                        if subject.tableView(UITableView(), canEditRowAtIndexPath: path) {
+                            subject.deleteEditableAtIndexPath(path)
+                            let regions = subject.editableRegions
+                            expect(count(regions)) == count(expectations)
+                            for (index, expectation) in enumerate(expectations) {
+                                let (_, region) = regions[index]
+                                expect(expectation.matches(region)) == true
+                            }
+                        }
+                        else {
+                            fail("cannod edit at index path \(path)")
                         }
                     }
                 }
@@ -507,143 +516,143 @@ class OmnibarMultiRegionScreenSpec: QuickSpec {
                     "image,text(0)": (
                         [.Image(UIImage(), nil, nil), .Text("some")],
                         (NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 1, inSection: 0)),
-                        [.Text("some"),.Image,.Text("")]
+                        [.Text("some"),.Spacer,.Image,.Spacer,.Text("")]
                     ),
                     "image,text(1)": (
                         [.Image(UIImage(), nil, nil), .Text("some")],
                         (NSIndexPath(forRow: 1, inSection: 0), NSIndexPath(forRow: 0, inSection: 0)),
-                        [.Text("some"),.Image,.Text("")]
+                        [.Text("some"),.Spacer,.Image,.Spacer,.Text("")]
                     ),
 
                     "text,image,text(0)": (
-                        [.Text("some"),.Image(UIImage(), nil, nil),.Text("text")],
+                        [.Text("some"),.Spacer,.Image(UIImage(), nil, nil),.Text("text")],
                         (NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 1, inSection: 0)),
-                        [.Image,.Text("some\n\ntext")]
+                        [.Image,.Spacer,.Text("some\n\ntext")]
                     ),
                     "text,image,text(1)": (
-                        [.Text("some"),.Image(UIImage(), nil, nil),.Text("text")],
+                        [.Text("some"),.Spacer,.Image(UIImage(), nil, nil),.Text("text")],
                         (NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 2, inSection: 0)),
-                        [.Image,.Text("text\n\nsome")]
+                        [.Image,.Spacer,.Text("text\n\nsome")]
                     ),
                     "text,image,text(2)": (
-                        [.Text("some"),.Image(UIImage(), nil, nil),.Text("text")],
+                        [.Text("some"),.Spacer,.Image(UIImage(), nil, nil),.Text("text")],
                         (NSIndexPath(forRow: 1, inSection: 0), NSIndexPath(forRow: 0, inSection: 0)),
-                        [.Image,.Text("some\n\ntext")]
+                        [.Image,.Spacer,.Text("some\n\ntext")]
                     ),
                     "text,image,text(3)": (
-                        [.Text("some"),.Image(UIImage(), nil, nil),.Text("text")],
+                        [.Text("some"),.Spacer,.Image(UIImage(), nil, nil),.Text("text")],
                         (NSIndexPath(forRow: 1, inSection: 0), NSIndexPath(forRow: 2, inSection: 0)),
-                        [.Text("some\n\ntext"),.Image,.Text("")]
+                        [.Text("some\n\ntext"),.Spacer,.Image,.Spacer,.Text("")]
                     ),
                     "text,image,text(4)": (
                         [.Text("some"),.Image(UIImage(), nil, nil),.Text("text")],
                         (NSIndexPath(forRow: 2, inSection: 0), NSIndexPath(forRow: 0, inSection: 0)),
-                        [.Text("text\n\nsome"),.Image,.Text("")]
+                        [.Text("text\n\nsome"),.Spacer,.Image,.Spacer,.Text("")]
                     ),
                     "text,image,text(5)": (
                         [.Text("some"),.Image(UIImage(), nil, nil),.Text("text")],
                         (NSIndexPath(forRow: 2, inSection: 0), NSIndexPath(forRow: 1, inSection: 0)),
-                        [.Text("some\n\ntext"),.Image,.Text("")]
+                        [.Text("some\n\ntext"),.Spacer,.Image,.Spacer,.Text("")]
                     ),
 
                     "text with two trailing newlines,image,text": (
                         [.Text("some\n\n"),.Image(UIImage(), nil, nil), .Text("more")],
                         (NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 1, inSection: 0)),
-                        [.Image,.Text("some\n\nmore")]
+                        [.Image,.Spacer,.Text("some\n\nmore")]
                     ),
                     "text with many trailing newlines,image,text": (
                         [.Text("some\n\n\n\n"),.Image(UIImage(), nil, nil), .Text("more")],
                         (NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 1, inSection: 0)),
-                        [.Image,.Text("some\n\n\n\nmore")]
+                        [.Image,.Spacer,.Text("some\n\n\n\nmore")]
                     ),
                     "text with one trailing newline,image,text": (
                         [.Text("some\n"),.Image(UIImage(), nil, nil), .Text("more")],
                         (NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 1, inSection: 0)),
-                        [.Image,.Text("some\n\nmore")]
+                        [.Image,.Spacer,.Text("some\n\nmore")]
                     ),
 
                     "text with newlines,image,text(0)": (
                         [.Text("some\n\ntext"),.Image(UIImage(), nil, nil), .Text("more")],
                         (NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 1, inSection: 0)),
-                        [.Image,.Text("some\n\ntext\n\nmore")]
+                        [.Image,.Spacer,.Text("some\n\ntext\n\nmore")]
                     ),
                     "text with newlines,image,text(1)": (
                         [.Text("some\n\ntext"),.Image(UIImage(), nil, nil), .Text("more")],
                         (NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 2, inSection: 0)),
-                        [.Image,.Text("more\n\nsome\n\ntext")]
+                        [.Image,.Spacer,.Text("more\n\nsome\n\ntext")]
                     ),
 
                     "text,image,image,empty(0)": (
-                        [.Text("some"),.Image(UIImage(), nil, nil),.Image(UIImage(), nil, nil), .Text("")],
+                        [.Text("some"),.Spacer,.Image(UIImage(), nil, nil),.Image(UIImage(), nil, nil), .Text("")],
                         (NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 1, inSection: 0)),
-                        [.Image,.Text("some"),.Image,.Text("")]
+                        [.Image,.Spacer,.Text("some"),.Spacer,.Image,.Spacer,.Text("")]
                     ),
                     "text,image,image,empty(1)": (
-                        [.Text("some"),.Image(UIImage(), nil, nil),.Image(UIImage(), nil, nil), .Text("")],
+                        [.Text("some"),.Spacer,.Image(UIImage(), nil, nil),.Image(UIImage(), nil, nil), .Text("")],
                         (NSIndexPath(forRow: 1, inSection: 0), NSIndexPath(forRow: 0, inSection: 0)),
-                        [.Image,.Text("some"),.Image,.Text("")]
+                        [.Image,.Spacer,.Text("some"),.Spacer,.Image,.Spacer,.Text("")]
                     ),
                     "text,image,image,empty(2)": (
-                        [.Text("some"),.Image(UIImage(), nil, nil),.Image(UIImage(), nil, nil), .Text("")],
+                        [.Text("some"),.Spacer,.Image(UIImage(), nil, nil),.Image(UIImage(), nil, nil), .Text("")],
                         (NSIndexPath(forRow: 2, inSection: 0), NSIndexPath(forRow: 0, inSection: 0)),
-                        [.Image,.Text("some"),.Image,.Text("")]
+                        [.Image,.Spacer,.Text("some"),.Spacer,.Image,.Spacer,.Text("")]
                     ),
                     "text,image,image,empty(3)": (
-                        [.Text("some"),.Image(UIImage(), nil, nil),.Image(UIImage(), nil, nil), .Text("")],
+                        [.Text("some"),.Spacer,.Image(UIImage(), nil, nil),.Image(UIImage(), nil, nil), .Text("")],
                         (NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 2, inSection: 0)),
-                        [.Image,.Spacer,.Image,.Text("some")]
+                        [.Image,.Spacer,.Image,.Spacer,.Text("some")]
                     ),
 
                     "text,image,image,text(0)": (
-                        [.Text("some"),.Image(UIImage(), nil, nil),.Image(UIImage(), nil, nil), .Text("more")],
+                        [.Text("some"),.Spacer,.Image(UIImage(), nil, nil),.Image(UIImage(), nil, nil), .Text("more")],
                         (NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 1, inSection: 0)),
-                        [.Image,.Text("some"),.Image,.Text("more")]
+                        [.Image,.Spacer,.Text("some"),.Spacer,.Image,.Spacer,.Text("more")]
                     ),
                     "text,image,image,text(1)": (
-                        [.Text("some"),.Image(UIImage(), nil, nil),.Image(UIImage(), nil, nil), .Text("more")],
+                        [.Text("some"),.Spacer,.Image(UIImage(), nil, nil),.Image(UIImage(), nil, nil), .Text("more")],
                         (NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 2, inSection: 0)),
-                        [.Image,.Spacer,.Image,.Text("some\n\nmore")]
+                        [.Image,.Spacer,.Image,.Spacer,.Text("some\n\nmore")]
                     ),
                     "text,image,image,text(2)": (
-                        [.Text("some"),.Image(UIImage(), nil, nil),.Image(UIImage(), nil, nil), .Text("more")],
+                        [.Text("some"),.Spacer,.Image(UIImage(), nil, nil),.Image(UIImage(), nil, nil), .Text("more")],
                         (NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 3, inSection: 0)),
-                        [.Image,.Spacer,.Image,.Text("more\n\nsome")]
+                        [.Image,.Spacer,.Image,.Spacer,.Text("more\n\nsome")]
                     ),
                     "text,image,image,text(3)": (
-                        [.Text("some"),.Image(UIImage(), nil, nil),.Image(UIImage(), nil, nil), .Text("more")],
+                        [.Text("some"),.Spacer,.Image(UIImage(), nil, nil),.Image(UIImage(), nil, nil), .Text("more")],
                         (NSIndexPath(forRow: 1, inSection: 0), NSIndexPath(forRow: 0, inSection: 0)),
-                        [.Image,.Text("some"),.Image,.Text("more")]
+                        [.Image,.Spacer,.Text("some"),.Spacer,.Image,.Spacer,.Text("more")]
                     ),
                     "text,image,image,text(4)": (
-                        [.Text("some"),.Image(UIImage(), nil, nil),.Image(UIImage(), nil, nil), .Text("more")],
+                        [.Text("some"),.Spacer,.Image(UIImage(), nil, nil),.Image(UIImage(), nil, nil), .Text("more")],
                         (NSIndexPath(forRow: 1, inSection: 0), NSIndexPath(forRow: 2, inSection: 0)),
-                        [.Text("some"),.Image,.Spacer,.Image,.Text("more")]
+                        [.Text("some"),.Spacer,.Image,.Spacer,.Image,.Spacer,.Text("more")]
                     ),
                     "text,image,image,text(5)": (
-                        [.Text("some"),.Image(UIImage(), nil, nil),.Image(UIImage(), nil, nil), .Text("more")],
+                        [.Text("some"),.Spacer,.Image(UIImage(), nil, nil),.Image(UIImage(), nil, nil), .Text("more")],
                         (NSIndexPath(forRow: 1, inSection: 0), NSIndexPath(forRow: 3, inSection: 0)),
-                        [.Text("some"),.Image,.Text("more"),.Image,.Text("")]
+                        [.Text("some"),.Spacer,.Image,.Spacer,.Text("more"),.Spacer,.Image,.Spacer,.Text("")]
                     ),
 
                     "text,image,image,text w newlines(0)": (
-                        [.Text("some"),.Image(UIImage(), nil, nil),.Image(UIImage(), nil, nil), .Text("more\nlines")],
+                        [.Text("some"),.Spacer,.Image(UIImage(), nil, nil),.Image(UIImage(), nil, nil), .Text("more\nlines")],
                         (NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 2, inSection: 0)),
-                        [.Image,.Spacer,.Image,.Text("some\n\nmore\nlines")]
+                        [.Image,.Spacer,.Image,.Spacer,.Text("some\n\nmore\nlines")]
                     ),
                     "text,image,image,text w newlines(1)": (
-                        [.Text("some"),.Image(UIImage(), nil, nil),.Image(UIImage(), nil, nil), .Text("more\nlines")],
+                        [.Text("some"),.Spacer,.Image(UIImage(), nil, nil),.Image(UIImage(), nil, nil), .Text("more\nlines")],
                         (NSIndexPath(forRow: 0, inSection: 0), NSIndexPath(forRow: 3, inSection: 0)),
-                        [.Image,.Spacer,.Image,.Text("more\nlines\n\nsome")]
+                        [.Image,.Spacer,.Image,.Spacer,.Text("more\nlines\n\nsome")]
                     ),
                     "text,image,image,text w newlines(2)": (
-                        [.Text("some"),.Image(UIImage(), nil, nil),.Image(UIImage(), nil, nil), .Text("more\nlines")],
+                        [.Text("some"),.Spacer,.Image(UIImage(), nil, nil),.Image(UIImage(), nil, nil), .Text("more\nlines")],
                         (NSIndexPath(forRow: 2, inSection: 0), NSIndexPath(forRow: 0, inSection: 0)),
-                        [.Image,.Text("some"),.Image,.Text("more\nlines")]
+                        [.Image,.Spacer,.Text("some"),.Spacer,.Image,.Spacer,.Text("more\nlines")]
                     ),
                     "text,image,image,text w newlines(3)": (
-                        [.Text("some"),.Image(UIImage(), nil, nil),.Image(UIImage(), nil, nil), .Text("more\nlines")],
+                        [.Text("some"),.Spacer,.Image(UIImage(), nil, nil),.Image(UIImage(), nil, nil), .Text("more\nlines")],
                         (NSIndexPath(forRow: 3, inSection: 0), NSIndexPath(forRow: 0, inSection: 0)),
-                        [.Text("more\nlines\n\nsome"),.Image,.Spacer,.Image,.Text("")]
+                        [.Text("more\nlines\n\nsome"),.Spacer,.Image,.Spacer,.Image,.Spacer,.Text("")]
                     ),
                 ]
                 for (name, rule) in expectationRules {
@@ -670,12 +679,12 @@ class OmnibarMultiRegionScreenSpec: QuickSpec {
                     "text":             ([.Text("some")], NSIndexPath(forRow: 0, inSection: 0),                               [.Text("")]),
                     "image":            ([.Image(UIImage(), nil, nil)], NSIndexPath(forRow: 0, inSection: 0),                 [.Text("")]),
                     "image,text(0)":    ([.Image(UIImage(), nil, nil), .Text("some")], NSIndexPath(forRow: 0, inSection: 0),  [.Text("some")]),
-                    "image,text(1)":    ([.Image(UIImage(), nil, nil), .Text("some")], NSIndexPath(forRow: 1, inSection: 0),  [.Image,.Text("")]),
-                    "text,image(0)":    ([.Text("some"), .Image(UIImage(), nil, nil)], NSIndexPath(forRow: 0, inSection: 0),  [.Image,.Text("")]),
+                    "image,text(1)":    ([.Image(UIImage(), nil, nil), .Text("some")], NSIndexPath(forRow: 1, inSection: 0),  [.Image,.Spacer,.Text("")]),
+                    "text,image(0)":    ([.Text("some"), .Image(UIImage(), nil, nil)], NSIndexPath(forRow: 0, inSection: 0),  [.Image,.Spacer,.Text("")]),
                     "text,image(1)":    ([.Text("some"), .Image(UIImage(), nil, nil)], NSIndexPath(forRow: 1, inSection: 0),  [.Text("some")]),
-                    "text,image,image(0)": ([.Text("some"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil)], NSIndexPath(forRow: 0, inSection: 0), [.Image,.Spacer,.Image,.Text("")]),
-                    "text,image,image(1)": ([.Text("some"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil)], NSIndexPath(forRow: 1, inSection: 0), [.Text("some"),.Image,.Text("")]),
-                    "text,image,image(2)": ([.Text("some"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil)], NSIndexPath(forRow: 2, inSection: 0), [.Text("some"),.Image,.Text("")]),
+                    "text,image,image(0)": ([.Text("some"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil)], NSIndexPath(forRow: 0, inSection: 0), [.Image,.Spacer,.Image,.Spacer,.Text("")]),
+                    "text,image,image(1)": ([.Text("some"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil)], NSIndexPath(forRow: 1, inSection: 0), [.Text("some"),.Spacer,.Image,.Spacer,.Text("")]),
+                    "text,image,image(2)": ([.Text("some"), .Image(UIImage(), nil, nil), .Image(UIImage(), nil, nil)], NSIndexPath(forRow: 2, inSection: 0), [.Text("some"),.Spacer,.Image,.Spacer,.Text("")]),
                 ]
                 for (name, rule) in expectationRules {
                     let path = rule.1
@@ -707,10 +716,10 @@ class OmnibarMultiRegionScreenSpec: QuickSpec {
 
             describe("adding images") {
                 let expectationRules: [String: ([OmnibarRegion], [RegionExpectation])] = [
-                    "text":             ([.Text("some")], [.Text("some"),.Image,.Text("")]),
-                    "image":            ([.Image(UIImage(), nil, nil)], [.Image,.Spacer,.Image,.Text("")]),
-                    "image,text":    ([.Image(UIImage(), nil, nil), .Text("some")], [.Image,.Text("some"),.Image,.Text("")]),
-                    "text,image":    ([.Text("some"), .Image(UIImage(), nil, nil)], [.Text("some"),.Image,.Spacer,.Image,.Text("")]),
+                    "text":       ([.Text("some")], [.Text("some"),.Spacer,.Image,.Spacer,.Text("")]),
+                    "image":      ([.Image(UIImage(), nil, nil)], [.Image,.Spacer,.Image,.Spacer,.Text("")]),
+                    "image,text": ([.Image(UIImage(), nil, nil), .Text("some")], [.Image,.Spacer,.Text("some"),.Spacer,.Image,.Spacer,.Text("")]),
+                    "text,image": ([.Text("some"), .Image(UIImage(), nil, nil)], [.Text("some"),.Spacer,.Image,.Spacer,.Image,.Spacer,.Text("")]),
                 ]
                 for (name, rule) in expectationRules {
                     it("should correctly add an image for \(name)") {

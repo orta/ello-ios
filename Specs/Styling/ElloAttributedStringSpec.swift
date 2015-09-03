@@ -21,7 +21,7 @@ class ElloAttributedStringSpec: QuickSpec {
             }
             it("accepts additional options") {
                 let text = "text"
-                let attrd = ElloAttributedString.style(text, [NSForegroundColorAttributeName: UIColor.greyColor()])
+                let attrd = ElloAttributedString.style(text, [NSForegroundColorAttributeName: UIColor.grayColor()])
                 expect(attrd).to(beAKindOf(NSAttributedString))
             }
         }
