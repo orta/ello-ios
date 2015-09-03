@@ -96,27 +96,6 @@ private extension NewContentService {
                 if let statusCode = responseConfig.statusCode where statusCode == 204 {
                     postNotification(NewContentNotifications.newStreamContent, self)
                 }
-                else {
-                    self.checkForNewNoiseContent()
-                }
-            },
-            failure: nil
-        )
-    }
-
-    func checkForNewNoiseContent() {
-        let storedNoiseDate = Defaults[StreamKind.Noise.lastViewedCreatedAtKey].date ?? NSDate(timeIntervalSince1970: 0)
-
-        ElloProvider.elloRequest(
-            ElloAPI.NoiseNewContent(createdAt: storedNoiseDate),
-            success: { (_, responseConfig) in
-                if let lastModified = responseConfig.lastModified {
-                    Defaults[StreamKind.Noise.lastViewedCreatedAtKey] = lastModified.toNSDate(formatter: HTTPDateFormatter)
-                }
-
-                if let statusCode = responseConfig.statusCode where statusCode == 204 {
-                    postNotification(NewContentNotifications.newStreamContent, self)
-                }
             },
             failure: nil
         )
