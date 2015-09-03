@@ -44,7 +44,7 @@ class ElloProviderSpec: QuickSpec {
                 expect(elloManager).notTo(beIdenticalTo(defaultManager))
             }
 
-            it("includes a ssl certificate in the app") {
+            it("includes 2 ssl certificates in the app") {
                 let policy: ServerTrustPolicy = ElloProvider.serverTrustPolicies["ello.co"]!
                 var doesValidatesChain = false
                 var doesValidateHost = false
@@ -59,7 +59,7 @@ class ElloProviderSpec: QuickSpec {
 
                 expect(doesValidatesChain) == true
                 expect(doesValidateHost) == true
-                expect(count(keys)) == 1
+                expect(count(keys)) == 2
             }
         }
 
