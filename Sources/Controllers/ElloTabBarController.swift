@@ -251,14 +251,10 @@ extension ElloTabBarController: UITabBarDelegate {
                     navigationViewController.popToRootViewControllerAnimated(true)
                 }
                 else if let scrollView = findScrollView(selectedViewController.view) {
-                    // mark the friend stream for reload
-                    println(selectedViewController)
-                    if index == 2 && streamsDot?.hidden == false {
-                        scrollView.setContentOffset(CGPoint(x: 0, y: -scrollView.contentInset.top), animated: true)
+                    scrollView.setContentOffset(CGPoint(x: 0, y: -scrollView.contentInset.top), animated: true)
+
+                    if shouldReloadFriendString() {
                         postNotification(NewContentNotifications.reloadStreamContent, self)
-                    }
-                    else {
-                        scrollView.setContentOffset(CGPoint(x: 0, y: -scrollView.contentInset.top), animated: true)
                     }
                 }
             }
@@ -293,6 +289,10 @@ public extension ElloTabBarController {
 }
 
 private extension ElloTabBarController {
+
+    func shouldReloadFriendString() -> Bool {
+        return selectedTab.rawValue == 2 && streamsDot?.hidden == false
+    }
 
     func updateTabBarItems() {
         let controllers = childViewControllers as! [UIViewController]
