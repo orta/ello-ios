@@ -10,9 +10,9 @@ import Foundation
 import SwiftyUserDefaults
 
 public struct NewContentNotifications {
-    static let newNotifications = TypedNotification<NewContentService>(name: "NewNotificationsNotification")
-    static let newStreamContent = TypedNotification<NewContentService>(name: "NewStreamContentNotification")
-    static let reloadStreamContent = TypedNotification<UIViewController>(name: "ReloadStreamContentNotification")
+    public static let newNotifications = TypedNotification<NewContentService>(name: "NewNotificationsNotification")
+    public static let newStreamContent = TypedNotification<NewContentService>(name: "NewStreamContentNotification")
+    public static let reloadStreamContent = TypedNotification<UIViewController>(name: "ReloadStreamContentNotification")
 }
 
 public class NewContentService {

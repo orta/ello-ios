@@ -57,7 +57,7 @@ public class ElloTabBarController: UIViewController, HasAppController {
     var parentAppController: AppViewController?
 
     var notificationsDot: UIView?
-    var streamsDot: UIView?
+    public private(set) var streamsDot: UIView?
 
     private var _tabBarHidden = false
     public var tabBarHidden: Bool {
