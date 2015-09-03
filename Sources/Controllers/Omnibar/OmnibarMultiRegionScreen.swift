@@ -883,7 +883,12 @@ extension OmnibarMultiRegionScreen: UITextViewDelegate {
 
     public func textViewDidChange(textView: UITextView) {
         if let path = currentTextPath, cell = regionsTableView.cellForRowAtIndexPath(path) {
-            let currentText = textView.attributedText
+            var currentText = textView.attributedText
+            if count(currentText.string) == 0 {
+                currentText = ElloAttributedString.style("")
+                textView.typingAttributes = ElloAttributedString.attrs()
+            }
+
             let newRegion: OmnibarRegion = .AttributedText(currentText)
             let (index, _) = editableRegions[path.row]
             if let index = index {
