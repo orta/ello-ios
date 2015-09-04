@@ -10,8 +10,9 @@ import Foundation
 import SwiftyUserDefaults
 
 public struct NewContentNotifications {
-    static let newNotifications = TypedNotification<NewContentService>(name: "NewNotificationsNotification")
-    static let newStreamContent = TypedNotification<NewContentService>(name: "NewStreamContentNotification")
+    public static let newNotifications = TypedNotification<NewContentService>(name: "NewNotificationsNotification")
+    public static let newStreamContent = TypedNotification<NewContentService>(name: "NewStreamContentNotification")
+    public static let reloadStreamContent = TypedNotification<UIViewController>(name: "ReloadStreamContentNotification")
 }
 
 public class NewContentService {
@@ -25,7 +26,7 @@ public extension NewContentService {
 
     public func startPolling() {
         timer?.invalidate()
-        checkForNewContent()
+        checkForNewNotifications()
         timer = NSTimer.scheduledTimerWithTimeInterval(NSTimeInterval(10.0), target: self, selector: Selector("checkForNewContent"), userInfo: nil, repeats: true)
     }
 
@@ -91,27 +92,6 @@ private extension NewContentService {
             success: { (_, responseConfig) in
                 if let lastModified = responseConfig.lastModified {
                     Defaults[StreamKind.Friend.lastViewedCreatedAtKey] = lastModified.toNSDate(formatter: HTTPDateFormatter)
-                }
-
-                if let statusCode = responseConfig.statusCode where statusCode == 204 {
-                    postNotification(NewContentNotifications.newStreamContent, self)
-                }
-                else {
-                    self.checkForNewNoiseContent()
-                }
-            },
-            failure: nil
-        )
-    }
-
-    func checkForNewNoiseContent() {
-        let storedNoiseDate = Defaults[StreamKind.Noise.lastViewedCreatedAtKey].date ?? NSDate(timeIntervalSince1970: 0)
-
-        ElloProvider.elloRequest(
-            ElloAPI.NoiseNewContent(createdAt: storedNoiseDate),
-            success: { (_, responseConfig) in
-                if let lastModified = responseConfig.lastModified {
-                    Defaults[StreamKind.Noise.lastViewedCreatedAtKey] = lastModified.toNSDate(formatter: HTTPDateFormatter)
                 }
 
                 if let statusCode = responseConfig.statusCode where statusCode == 204 {

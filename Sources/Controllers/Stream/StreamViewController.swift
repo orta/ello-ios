@@ -260,6 +260,7 @@ public class StreamViewController: BaseElloViewController {
     public var initialLoadClosure: ElloEmptyCompletion?
 
     public func loadInitialPage() {
+
         if let initialLoadClosure = initialLoadClosure {
             initialLoadClosure()
         }

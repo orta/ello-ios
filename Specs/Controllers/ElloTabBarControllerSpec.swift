@@ -140,7 +140,8 @@ class ElloTabBarControllerSpec: QuickSpec {
                 // BAH!  I HATE WRITING IOS SPECS SO MUCH!
                 // this code DOES pass when tested by a human.  But when the
                 // code is run synchronously, as in the spec, the view hierarchy
-                // is not set, and the 'tapping twice' behavior doesn't work.
+                // is not set, and the 'tapping twice' behavior doesn't change the content
+                // offset all the way to 0.
                 xit("should scroll to the top") {
                     self.showController(subject)
                     let vc = child1.topViewController
@@ -153,6 +154,30 @@ class ElloTabBarControllerSpec: QuickSpec {
                     subject.tabBar(subject.tabBar, didSelectItem: child1.tabBarItem)
                     expect(child1.topViewController).to(equal(vc))
                     expect(scrollView.contentOffset).toEventually(equal(CGPoint(x: 0, y: 0)))
+                }
+
+                // :sad face:, same issue, the async UIScrollView doesn't play nicely
+                xcontext("stream tab") {
+                    context("red dot visible") {
+                        it("posts a NewContentNotifications.reloadStreamContent"){
+                            self.showController(subject)
+                            var reloadPosted = false
+                            subject.streamsDot?.hidden = false
+                            let observer = NotificationObserver(notification: NewContentNotifications.reloadStreamContent) {
+                                [unowned self] _ in
+                                reloadPosted = true
+                            }
+                            let vc = child3.topViewController
+
+                            subject.tabBar(subject.tabBar, didSelectItem: child3.tabBarItem)
+                            expect(subject.selectedViewController).to(equal(child3))
+                            expect(child3.topViewController).to(equal(vc))
+
+                            subject.tabBar(subject.tabBar, didSelectItem: child3.tabBarItem)
+                            expect(child3.topViewController).to(equal(vc))
+                            expect(reloadPosted) == true
+                        }
+                    }
                 }
             }
         }

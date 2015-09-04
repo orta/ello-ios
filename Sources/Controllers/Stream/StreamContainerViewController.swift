@@ -12,6 +12,8 @@ import SVGKit
 public class StreamContainerViewController: StreamableViewController {
 
     private var noiseLoaded = false
+    private var reloadStreamContentObserver: NotificationObserver?
+    private var friendsViewController: StreamViewController?
 
     enum Notifications : String {
         case StreamDetailTapped = "StreamDetailTappedNotification"
@@ -31,6 +33,10 @@ public class StreamContainerViewController: StreamableViewController {
 
     private var childStreamControllers: [StreamViewController] {
         return childViewControllers as! [StreamViewController]
+    }
+
+    deinit {
+        removeNotificationObservers()
     }
 
     override public func backGestureAction() {
@@ -54,6 +60,16 @@ public class StreamContainerViewController: StreamableViewController {
 
         let stream = StreamKind.streamValues[0]
         Tracker.sharedTracker.streamAppeared(stream.name)
+    }
+
+    override public func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+         addNotificationObservers()
+    }
+
+    override public func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        removeNotificationObservers()
     }
 
     private func updateInsets() {
@@ -134,6 +150,7 @@ public class StreamContainerViewController: StreamableViewController {
             case .Friend:
                 let noResultsTitle = NSLocalizedString("Welcome to your Friends Stream!", comment: "No friend results title")
                 let noResultsBody = NSLocalizedString("You aren't following anyone in Friends yet.\n\nWhen you follow someone as a Friend their posts will show up here. Ello is way more rad when you're following lots of people.\n\nUse Discover to find people you're interested in, and to find or invite your friends.", comment: "No friend results body.")
+                friendsViewController = vc
                 vc.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
                 vc.loadInitialPage()
             case .Noise:
@@ -187,5 +204,22 @@ public class StreamContainerViewController: StreamableViewController {
             noiseLoaded = true
             childStreamControllers[1].loadInitialPage()
         }
+    }
+}
+
+private extension StreamContainerViewController {
+
+    func addNotificationObservers() {
+        reloadStreamContentObserver = NotificationObserver(notification: NewContentNotifications.reloadStreamContent) {
+            [unowned self] _ in
+            if let vc = self.friendsViewController {
+                ElloHUD.showLoadingHudInView(vc.view)
+                vc.loadInitialPage()
+            }
+        }
+    }
+
+    func removeNotificationObservers() {
+        reloadStreamContentObserver?.removeObserver()
     }
 }

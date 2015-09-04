@@ -57,7 +57,7 @@ public class ElloTabBarController: UIViewController, HasAppController {
     var parentAppController: AppViewController?
 
     var notificationsDot: UIView?
-    var streamsDot: UIView?
+    public private(set) var streamsDot: UIView?
 
     private var _tabBarHidden = false
     public var tabBarHidden: Bool {
@@ -183,6 +183,8 @@ public extension ElloTabBarController {
             switch streamKind {
             case .Notifications(category: nil):
                 self.notificationsDot?.hidden = true
+            case .Friend:
+                self.streamsDot?.hidden = true
             default: break
             }
         }
@@ -250,15 +252,14 @@ extension ElloTabBarController: UITabBarDelegate {
                 }
                 else if let scrollView = findScrollView(selectedViewController.view) {
                     scrollView.setContentOffset(CGPoint(x: 0, y: -scrollView.contentInset.top), animated: true)
+
+                    if shouldReloadFriendStream() {
+                        postNotification(NewContentNotifications.reloadStreamContent, self)
+                    }
                 }
             }
             else {
                 selectedTab = ElloTab(rawValue:index) ?? .Stream
-            }
-
-            // hide the red dot on the stream tab icon
-            if index == 2 {
-                self.streamsDot?.hidden = true
             }
         }
     }
@@ -288,6 +289,10 @@ public extension ElloTabBarController {
 }
 
 private extension ElloTabBarController {
+
+    func shouldReloadFriendStream() -> Bool {
+        return selectedTab.rawValue == 2 && streamsDot?.hidden == false
+    }
 
     func updateTabBarItems() {
         let controllers = childViewControllers as! [UIViewController]
