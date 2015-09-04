@@ -253,7 +253,7 @@ extension ElloTabBarController: UITabBarDelegate {
                 else if let scrollView = findScrollView(selectedViewController.view) {
                     scrollView.setContentOffset(CGPoint(x: 0, y: -scrollView.contentInset.top), animated: true)
 
-                    if shouldReloadFriendString() {
+                    if shouldReloadFriendStream() {
                         postNotification(NewContentNotifications.reloadStreamContent, self)
                     }
                 }
@@ -290,7 +290,7 @@ public extension ElloTabBarController {
 
 private extension ElloTabBarController {
 
-    func shouldReloadFriendString() -> Bool {
+    func shouldReloadFriendStream() -> Bool {
         return selectedTab.rawValue == 2 && streamsDot?.hidden == false
     }
 
