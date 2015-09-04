@@ -171,10 +171,8 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
             let unfilteredIndexPaths = self.commentIndexPathsForPost(post)
             var newItems = [StreamCellItem]()
             for (index, item) in enumerate(self.streamCellItems) {
-                var remove = unfilteredIndexPaths.reduce(false) { remove, path in
-                    return remove || path.item == index
-                }
-                if !remove {
+                let skip = unfilteredIndexPaths.any { $0.item == index }
+                if !skip {
                     newItems.append(item)
                 }
             }
@@ -445,10 +443,8 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
             let unfilteredIndexPaths = self.elementsForJSONAble(jsonable, change: change).0
             var newItems = [StreamCellItem]()
             for (index, item) in enumerate(self.streamCellItems) {
-                var remove = unfilteredIndexPaths.reduce(false) { remove, path in
-                    return remove || path.item == index
-                }
-                if !remove {
+                let skip = unfilteredIndexPaths.any { $0.item == index }
+                if !skip {
                     newItems.append(item)
                 }
             }

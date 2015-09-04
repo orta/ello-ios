@@ -61,6 +61,66 @@ public func beVisibleIn<S: UIView>(view: UIView) -> NonNilMatcherFunc<S> {
     }
 }
 
+public func checkRegions(regions: [OmnibarRegion], contain text: String) {
+    for region in regions {
+        if let regionText = region.text where regionText.string.contains(text) {
+            expect(regionText.string).to(contain(text))
+            return
+        }
+    }
+    fail("could not find \(text) in regions \(regions)")
+}
+
+public func checkRegions(regions: [OmnibarRegion], notToContain text: String) {
+    for region in regions {
+        if let regionText = region.text where regionText.string.contains(text) {
+            expect(regionText.string).notTo(contain(text))
+        }
+    }
+}
+
+public func checkRegions(regions: [OmnibarRegion], equal text: String) {
+    for region in regions {
+        if let regionText = region.text where regionText.string == text {
+            expect(regionText.string) == text
+            return
+        }
+    }
+    fail("could not find \(text) in regions \(regions)")
+}
+
+public func haveImageRegion<S: OmnibarScreenProtocol>() -> NonNilMatcherFunc<S> {
+    return NonNilMatcherFunc { actualExpression, failureMessage in
+        failureMessage.postfixMessage = "have image"
+
+        if let screen = actualExpression.evaluate() {
+            var matched = false
+            for region in screen.regions {
+                if region.image != nil {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+}
+
+public func haveImageRegion<S: OmnibarScreenProtocol>(equal image: UIImage) -> NonNilMatcherFunc<S> {
+    return NonNilMatcherFunc { actualExpression, failureMessage in
+        failureMessage.postfixMessage = "have image that equals \(image)"
+
+        if let screen = actualExpression.evaluate() {
+            var matched = false
+            for region in screen.regions {
+                if let regionImage = region.image where regionImage == image {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+}
+
 private func allSubviewsIn(view: UIView) -> [UIView] {
     var retVal = [view]
     for subview in view.subviews {

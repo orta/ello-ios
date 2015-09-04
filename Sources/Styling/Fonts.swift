@@ -16,6 +16,11 @@ extension UIFont {
     public class func typewriterItalicFont(size:CGFloat) -> UIFont { return UIFont(name: "AtlasTypewriter-RegularItalic", size: size)! }
     public class func typewriterBoldItalicFont(size:CGFloat) -> UIFont { return UIFont(name: "AtlasTypewriter-MediumItalic", size: size)! }
 
+    public class func typewriterEditorFont(size:CGFloat) -> UIFont { return UIFont(name: "AtlasTypewriter-Regular", size: size)! }
+    public class func typewriterEditorItalicFont(size:CGFloat) -> UIFont { return UIFont(name: "AtlasTypewriter-RegularItalic", size: size)! }
+    public class func typewriterEditorBoldFont(size:CGFloat) -> UIFont { return UIFont(name: "AtlasTypewriter-Bold", size: size)! }
+    public class func typewriterEditorBoldItalicFont(size:CGFloat) -> UIFont { return UIFont(name: "AtlasTypewriter-BoldItalic", size: size)! }
+
     public class func printAvailableFonts() {
         for familyName:AnyObject in UIFont.familyNames()
         {

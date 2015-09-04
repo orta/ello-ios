@@ -27,15 +27,15 @@ class CGRectExtensionSpec: QuickSpec {
         }
 
         describe("factories") {
-            describe("CGRect.make") {
-                let newFrame = CGRect.make(x: 1, y: 2, right: 4, bottom: 6)
+            describe("CGRect w/ right & bottom") {
+                let newFrame = CGRect(x: 1, y: 2, right: 4, bottom: 6)
                 it("should set x")      { expect(newFrame.origin.x).to(equal(CGFloat(1)))}
                 it("should set y")      { expect(newFrame.origin.y).to(equal(CGFloat(2)))}
                 it("should set width")     { expect(newFrame.size.width).to(equal(CGFloat(3)))}
                 it("should set height") { expect(newFrame.size.height).to(equal(CGFloat(4)))}
             }
-            describe("CGRect.at") {
-                let newFrame = CGRect.at(x: 1, y: 2)
+            describe("CGRect w/ x & y (size zero)") {
+                let newFrame = CGRect(x: 1, y: 2)
                 it("should set x")      { expect(newFrame.origin.x).to(equal(CGFloat(1)))}
                 it("should set y")      { expect(newFrame.origin.y).to(equal(CGFloat(2)))}
                 it("should set width")     { expect(newFrame.size.width).to(equal(CGFloat(0)))}

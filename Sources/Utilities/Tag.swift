@@ -236,14 +236,12 @@ public class Tag: Printable {
         var lastTag = self
         var lastAttr: String? = nil
         var parentTags = [Tag]()
+        var preWhitespace: String? = nil
 
         var tmp = input as NSString
-        tmp = tmp.stringByReplacingOccurrencesOfString("\t", withString: "    ")
         tmp = tmp.stringByReplacingOccurrencesOfString("\r\n", withString: "\n")
         tmp = tmp.stringByReplacingOccurrencesOfString("\r", withString: "\n")
         var html = tmp as String
-
-        html = html.trim()
 
         var c = 0
         while state != .End {
@@ -270,7 +268,17 @@ public class Tag: Printable {
                 let match = regex.matches(value.lowercaseString)
                 doctype.name = match[1]
                 lastTag.tags.append(doctype)
+                preWhitespace = nil
+            case .PredoctypeWhitespace:
+                preWhitespace = value
             case .TagOpen:
+                if let pre = preWhitespace {
+                    let tag = Tag()
+                    tag.text = pre.entitiesDecoded()
+                    lastTag.tags.append(tag)
+                    preWhitespace = nil
+                }
+
                 let newTag = Tag()
                 let name = (value as NSString).substringWithRange(NSMakeRange(1, count(value) - 1))
                 newTag.name = name
@@ -305,29 +313,16 @@ public class Tag: Printable {
                     lastTag = parentTags.removeLast()
                 }
             case .Text:
-                if let lastTagName = lastTag.name where contains(PreserveWs, lastTagName) {
-                    let tag = Tag()
-                    tag.text = value.entitiesDecoded()
-                    lastTag.tags.append(tag)
+                var text = ""
+                if let pre = preWhitespace {
+                    text += pre.entitiesDecoded()
+                    preWhitespace = nil
                 }
-                else {
-                    var preWhitespace = (value ~ "^[ \n]+")
-                    var postWhitespace = (value ~ "[ \n]+$")
-                    var text = ""
-                    if preWhitespace != nil {
-                        text += " "
-                    }
-                    text += value.trim()
-                    if postWhitespace != nil {
-                        text += " "
-                    }
+                text += value.entitiesDecoded()
 
-                    if text == "  " { text = " " }
-
-                    let tag = Tag()
-                    tag.text = text.entitiesDecoded()
-                    lastTag.tags.append(tag)
-                }
+                let tag = Tag()
+                tag.text = text
+                lastTag.tags.append(tag)
             case .Cdata:
                 let tag = Tag()
                 tag.text = value.entitiesDecoded()
@@ -346,7 +341,7 @@ public class Tag: Printable {
 
     private func attrd(text: String, let addlAttrs: [String: AnyObject] = [:]) -> NSAttributedString {
         let defaultAttrs: [String: AnyObject] = [
-            NSFontAttributeName: UIFont.typewriterFont(12),
+            NSFontAttributeName: UIFont.typewriterEditorFont(12),
             NSForegroundColorAttributeName: UIColor.blackColor(),
         ]
         return NSAttributedString(string: text, attributes: defaultAttrs + addlAttrs)
@@ -369,21 +364,21 @@ public class Tag: Printable {
                 newAttrs[NSUnderlineStyleAttributeName] = NSUnderlineStyle.StyleSingle.rawValue
             case "b", "strong":
                 if let existingFont = inheritedAttrs[NSFontAttributeName] as? UIFont
-                where existingFont.fontName == UIFont.typewriterItalicFont(12).fontName
+                where existingFont.fontName == UIFont.typewriterEditorItalicFont(12).fontName
                 {
-                    newAttrs[NSFontAttributeName] = UIFont.typewriterBoldItalicFont(12)
+                    newAttrs[NSFontAttributeName] = UIFont.typewriterEditorBoldItalicFont(12)
                 }
                 else {
-                    newAttrs[NSFontAttributeName] = UIFont.typewriterBoldFont(12)
+                    newAttrs[NSFontAttributeName] = UIFont.typewriterEditorBoldFont(12)
                 }
             case "i", "em":
                 if let existingFont = inheritedAttrs[NSFontAttributeName] as? UIFont
-                where existingFont.fontName == UIFont.typewriterBoldFont(12).fontName
+                where existingFont.fontName == UIFont.typewriterEditorBoldFont(12).fontName
                 {
-                    newAttrs[NSFontAttributeName] = UIFont.typewriterBoldItalicFont(12)
+                    newAttrs[NSFontAttributeName] = UIFont.typewriterEditorBoldItalicFont(12)
                 }
                 else {
-                    newAttrs[NSFontAttributeName] = UIFont.typewriterItalicFont(12)
+                    newAttrs[NSFontAttributeName] = UIFont.typewriterEditorItalicFont(12)
                 }
             default:
                 break

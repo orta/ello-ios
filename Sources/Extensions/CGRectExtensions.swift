@@ -11,12 +11,14 @@ public extension CGRect {
     }
 
 // MARK: convenience
-    static func make(#x: CGFloat, y: CGFloat, right: CGFloat, bottom: CGFloat) -> CGRect {
-        return CGRect(x: x, y: y, width: right - x, height: bottom - y)
+    init(x: CGFloat, y: CGFloat, right: CGFloat, bottom: CGFloat) {
+        self.origin = CGPoint(x: x, y: y)
+        self.size = CGSize(width: right - x, height: bottom - y)
     }
 
-    static func at(#x: CGFloat, y: CGFloat) -> CGRect {
-        return CGRect(x: x, y: y, width: 0, height: 0)
+    init(x: CGFloat, y: CGFloat) {
+        self.origin = CGPoint(x: x, y: y)
+        self.size = CGSizeZero
     }
 
 // MARK: helpers

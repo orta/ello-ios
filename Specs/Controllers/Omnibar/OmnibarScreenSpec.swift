@@ -11,41 +11,6 @@ import Quick
 import Nimble
 
 
-class OmnibarScreenMockDelegate : OmnibarScreenDelegate {
-    var didGoBack = false
-    var didPresentController = false
-    var didDismissController = false
-    var didPushController = false
-    var submitted = false
-
-    @objc func omnibarCancel() {
-        didGoBack = true
-    }
-    @objc func omnibarPushController(controller: UIViewController) {
-        didPushController = true
-    }
-    @objc func omnibarPresentController(controller : UIViewController) {
-        didPresentController = true
-    }
-    @objc func omnibarDismissController(controller : UIViewController) {
-        didDismissController = true
-    }
-    @objc func omnibarSubmitted(text: NSAttributedString?, data: NSData, type: String) {
-        submitted = true
-    }
-    @objc func omnibarSubmitted(text : NSAttributedString?, image: UIImage?) {
-        submitted = true
-    }
-    @objc func updatePostState() {
-    }
-
-    @objc func omnibarSubmitted(text: NSAttributedString?, image: UIImage, data: NSData, type: String) {
-        submitted = true
-    }
-
-}
-
-
 class OmnibarScreenSpec: QuickSpec {
     override func spec() {
         describe("OmnibarScreen") {
@@ -94,7 +59,7 @@ class OmnibarScreenSpec: QuickSpec {
                     expect(avatarURL).toNot(beNil())
 
                     subject.avatarURL = avatarURL
-                    expect(subject.avatarButtonView.imageForState(UIControlState.Normal)).toEventuallyNot(beNil())
+                    expect(subject.avatarButton.imageForState(UIControlState.Normal)).toEventuallyNot(beNil())
                 }
             }
             describe("start editing") {
