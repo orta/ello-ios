@@ -10,31 +10,28 @@ import UIKit
 
 public class JoinViewController: BaseElloViewController, HasAppController {
 
+    @IBOutlet weak public var enterButtonTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak public var passwordFieldTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak public var containerHeightConstraint: NSLayoutConstraint!
+
     @IBOutlet weak public var scrollView: UIScrollView!
     @IBOutlet weak public var elloLogo: ElloLogoView!
-    @IBOutlet weak public var emailView: ElloTextFieldView!
-    @IBOutlet weak public var usernameView: ElloTextFieldView!
-    @IBOutlet weak public var passwordView: ElloTextFieldView!
-    @IBOutlet weak public var aboutButton: ElloTextButton!
+    @IBOutlet weak public var emailField: ElloTextField!
+    @IBOutlet weak public var usernameField: ElloTextField!
+    @IBOutlet weak public var passwordField: ElloTextField!
     @IBOutlet weak public var loginButton: ElloTextButton!
     @IBOutlet weak public var joinButton: ElloButton!
     @IBOutlet weak public var termsButton: ElloTextButton!
+    @IBOutlet weak public var errorLabel: ElloErrorLabel!
+    @IBOutlet weak public var messageLabel: ElloErrorLabel!
 
     private var keyboardWillShowObserver: NotificationObserver?
     private var keyboardWillHideObserver: NotificationObserver?
 
     weak var parentAppController: AppViewController?
 
-    // error checking
-    var queueEmailValidation: BasicBlock!
-    var queueUsernameValidation: BasicBlock!
-    var queuePasswordValidation: BasicBlock!
-
     required public init() {
         super.init(nibName: "JoinViewController", bundle: nil)
-        queueEmailValidation = debounce(0.5) { [unowned self] in self.validateEmail(self.emailView.textField.text) }
-        queueUsernameValidation = debounce(0.5) { [unowned self] in self.validateUsername(self.usernameView.textField.text) }
-        queuePasswordValidation = debounce(0.5) { [unowned self] in self.validatePassword(self.passwordView.textField.text) }
         modalTransitionStyle = .CrossDissolve
     }
 
@@ -46,6 +43,7 @@ public class JoinViewController: BaseElloViewController, HasAppController {
         super.viewDidLoad()
         setupStyles()
         setupViews()
+        termsButton.setAttributedTitle(ElloAttributedString.style("By Clicking Create Account you are agreeing to our ") + NSAttributedString(string: "Terms", attributes: ElloAttributedString.linkAttrs()), forState: .Normal)
     }
 
     public override func viewDidAppear(animated: Bool) {
@@ -56,6 +54,11 @@ public class JoinViewController: BaseElloViewController, HasAppController {
     override public func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         removeNotificationObservers()
+    }
+
+    override public func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        containerHeightConstraint.constant = view.frame.height
     }
 
     override public func viewDidLayoutSubviews() {
@@ -73,20 +76,18 @@ public class JoinViewController: BaseElloViewController, HasAppController {
     }
 
     private func setupViews() {
-        joinButton.enabled = false
+        ElloTextFieldView.styleAsUsernameField(usernameField)
+        usernameField.delegate = self
+        usernameField.addTarget(self, action: Selector("usernameChanged:"), forControlEvents: .EditingChanged)
 
-        ElloTextFieldView.styleAsUsername(usernameView)
-        usernameView.textField.delegate = self
-        usernameView.textFieldDidChange = self.usernameChanged
+        ElloTextFieldView.styleAsEmailField(emailField)
+        emailField.delegate = self
+        emailField.addTarget(self, action: Selector("emailChanged:"), forControlEvents: .EditingChanged)
 
-        ElloTextFieldView.styleAsEmail(emailView)
-        emailView.textField.delegate = self
-        emailView.textFieldDidChange = self.emailChanged
-
-        ElloTextFieldView.styleAsPassword(passwordView)
-        passwordView.textField.returnKeyType = .Join
-        passwordView.textField.delegate = self
-        passwordView.textFieldDidChange = self.passwordChanged
+        ElloTextFieldView.styleAsPasswordField(passwordField)
+        passwordField.returnKeyType = .Join
+        passwordField.delegate = self
+        passwordField.addTarget(self, action: Selector("passwordChanged:"), forControlEvents: .EditingChanged)
     }
 
     private func addNotificationObservers() {
@@ -99,22 +100,63 @@ public class JoinViewController: BaseElloViewController, HasAppController {
         keyboardWillHideObserver?.removeObserver()
     }
 
+    private func showMessageLabel(messageText:String) {
+        messageLabel.setLabelText(messageText)
+
+        animate {
+            self.messageLabel.alpha = 1.0
+            self.passwordFieldTopConstraint.constant = 18 + self.messageLabel.height()
+            self.view.layoutIfNeeded()
+        }
+    }
+
+    private func hideMessageLabel() {
+        if messageLabel.alpha != 0.0 {
+            animate {
+                self.messageLabel.alpha = 0.0
+                self.passwordFieldTopConstraint.constant = 9
+                self.view.layoutIfNeeded()
+            }
+        }
+    }
+
+    private func showErrorLabel(errorText:String) {
+        errorLabel.setLabelText(errorText)
+
+        animate {
+            self.errorLabel.alpha = 1.0
+            self.enterButtonTopConstraint.constant = 18 + self.errorLabel.height()
+            self.view.layoutIfNeeded()
+        }
+    }
+
+    private func hideErrorLabel() {
+        if errorLabel.alpha != 0.0 {
+            animate {
+                self.errorLabel.alpha = 0.0
+                self.enterButtonTopConstraint.constant = 9
+                self.view.layoutIfNeeded()
+            }
+        }
+    }
+
     private func join() {
         Tracker.sharedTracker.tappedJoin()
+
         if allFieldsValid() {
             Tracker.sharedTracker.joinValid()
 
             self.elloLogo.animateLogo()
             self.view.userInteractionEnabled = false
 
-            emailView.textField.resignFirstResponder()
-            usernameView.textField.resignFirstResponder()
-            passwordView.textField.resignFirstResponder()
+            emailField.resignFirstResponder()
+            usernameField.resignFirstResponder()
+            passwordField.resignFirstResponder()
 
             let service = UserService()
-            let email = emailView.textField.text
-            let username = usernameView.textField.text
-            let password = passwordView.textField.text
+            let email = emailField.text
+            let username = usernameField.text
+            let password = passwordField.text
             service.join(email: email, username: username, password: password, success: { user in
                 let authService = AuthService()
                 authService.authenticate(email: email,
@@ -129,9 +171,15 @@ public class JoinViewController: BaseElloViewController, HasAppController {
                         self.showSignInScreen(email, password)
                     })
             },
-            failure: { error, statusCode in
+            failure: { error, _ in
+                let errorTitle = error.elloErrorMessage ?? NSLocalizedString("Unknown error", comment: "Unknown error message")
+                self.showErrorLabel(errorTitle)
                 self.view.userInteractionEnabled = true
                 self.elloLogo.stopAnimatingLogo()
+
+                self.hideErrorLabel()
+                self.validateEmail(self.emailField.text)
+                self.usernameAvailability(self.usernameField.text)
             })
         }
         else {
@@ -156,21 +204,6 @@ public class JoinViewController: BaseElloViewController, HasAppController {
     private func showSignInScreen() {
         let signInController = SignInViewController()
         parentAppController?.swapViewController(signInController)
-    }
-
-    private func showAboutScreen() {
-        let nav = ElloWebBrowserViewController.navigationControllerWithWebBrowser()
-        let browser = nav.rootWebBrowser()
-        let url = "\(ElloURI.baseURL)/wtf/post/about"
-        Tracker.sharedTracker.webViewAppeared(url)
-        browser.loadURLString(url)
-        browser.tintColor = UIColor.greyA()
-
-        browser.showsURLInNavigationBar = false
-        browser.showsPageTitleInNavigationBar = false
-        browser.title = NSLocalizedString("About", comment: "about title")
-
-        presentViewController(nav, animated: true, completion: nil)
     }
 
     private func showTerms() {
@@ -207,13 +240,13 @@ extension JoinViewController: UITextFieldDelegate {
 
     public func textFieldShouldReturn(textField: UITextField) -> Bool {
         switch textField {
-        case emailView.textField:
+        case emailField:
             Tracker.sharedTracker.enteredEmail()
-            usernameView.textField.becomeFirstResponder()
-        case usernameView.textField:
+            usernameField.becomeFirstResponder()
+        case usernameField:
         Tracker.sharedTracker.enteredUsername()
-            passwordView.textField.becomeFirstResponder()
-        case passwordView.textField:
+            passwordField.becomeFirstResponder()
+        case passwordField:
             Tracker.sharedTracker.enteredPassword()
             join()
         default:
@@ -242,11 +275,6 @@ extension JoinViewController {
         showSignInScreen()
     }
 
-    @IBAction func aboutTapped(sender: ElloTextButton) {
-        Tracker.sharedTracker.tappedAbout()
-        showAboutScreen()
-    }
-
 }
 
 
@@ -254,7 +282,7 @@ extension JoinViewController {
 extension JoinViewController {
 
     private func allFieldsValid() -> Bool {
-        return !emailView.hasError && !usernameView.hasError && !passwordView.hasError
+        return validateEmail(emailField.text) && validateUsername(usernameField.text) && validatePassword(passwordField.text)
     }
 
     private func extraHeight() -> CGFloat {
@@ -264,116 +292,100 @@ extension JoinViewController {
 
     public func revalidateAndResizeViews() {
         scrollView.layoutIfNeeded()
-        joinButton.enabled = allFieldsValid()
         scrollView.contentSize = CGSize(width: view.bounds.width, height: view.bounds.height + extraHeight())
     }
 
-    private func emailChanged(text: String) {
-        self.emailView.setState(.Loading)
-        queueEmailValidation()
+    func emailChanged(field: UITextField) {
     }
 
-    private func usernameChanged(text: String) {
-        self.usernameView.setState(.Loading)
-        queueUsernameValidation()
+    func usernameChanged(field: UITextField) {
     }
 
-    private func passwordChanged(text: String) {
-        self.passwordView.setState(.Loading)
-        queuePasswordValidation()
+    func passwordChanged(field: UITextField) {
     }
 
-    private func validateEmail(text: String) {
+    private func emailAvailability(text: String) {
+        AvailabilityService().emailAvailability(text, success: { availability in
+            if text != self.emailField.text { return }
+
+            if !availability.isEmailAvailable {
+                let msg = NSLocalizedString("That email is invalid.\nPlease try again.", comment: "invalid email message")
+                self.showErrorLabel(msg)
+            }
+
+            // self.revalidateAndResizeViews()
+        }, failure: { _, _ in
+            // self.revalidateAndResizeViews()
+        })
+    }
+
+    private func validateEmail(text: String) -> Bool {
         if text.isEmpty {
-            self.emailView.setState(.Error)
             let msg = NSLocalizedString("Email is required.", comment: "email is required message")
-            self.emailView.setErrorMessage(msg)
-            self.revalidateAndResizeViews()
+            self.showErrorLabel(msg)
+            // self.revalidateAndResizeViews()
+            return false
         }
         else if text.isValidEmail() {
-            AvailabilityService().emailAvailability(text, success: { availability in
-                if text != self.emailView.textField.text { return }
-
-                let state: ValidationState = availability.isEmailAvailable ? .OK : .Error
-                self.emailView.setState(state)
-
-                if !availability.isEmailAvailable {
-                    let msg = NSLocalizedString("That email is invalid.\nPlease try again.", comment: "invalid email message")
-                    self.emailView.setErrorMessage(msg)
-                }
-                else {
-                    self.emailView.setErrorMessage("")
-                }
-
-                self.revalidateAndResizeViews()
-            }, failure: { _, _ in
-                self.emailView.setState(.None)
-                self.emailView.setErrorMessage("")
-                self.revalidateAndResizeViews()
-            })
+            return true
         }
         else {
-            self.emailView.setState(.Error)
             let msg = NSLocalizedString("That email is invalid.\nPlease try again.", comment: "invalid email message")
-            self.emailView.setErrorMessage(msg)
-            self.revalidateAndResizeViews()
+            self.showErrorLabel(msg)
+            // self.revalidateAndResizeViews()
+            return false
         }
     }
 
-    private func validateUsername(text: String) {
+    private func usernameAvailability(text: String) {
+        AvailabilityService().usernameAvailability(text, success: { availability in
+            if text != self.usernameField.text { return }
+
+            if !availability.isUsernameAvailable {
+                let msg = NSLocalizedString("Username already exists.\nPlease try a new one.", comment: "username exists error message")
+                self.showErrorLabel(msg)
+
+                if !availability.usernameSuggestions.isEmpty {
+                    let suggestions = ", ".join(availability.usernameSuggestions)
+                    let msg = String(format: NSLocalizedString("Here are some available usernames -\n%@", comment: "username suggestions showmes"), suggestions)
+                    self.showMessageLabel(msg)
+                }
+            }
+            else {
+                self.hideMessageLabel()
+            }
+
+            // self.revalidateAndResizeViews()
+        }, failure: { _, _ in
+            self.hideMessageLabel()
+            // self.revalidateAndResizeViews()
+        })
+    }
+
+    private func validateUsername(text: String) -> Bool {
         if text.isEmpty {
-            self.usernameView.setState(.Error)
-            self.usernameView.setMessage("")
+            self.hideMessageLabel()
             let msg = NSLocalizedString("Username is required.", comment: "username is required message")
-            self.usernameView.setErrorMessage(msg)
-            self.revalidateAndResizeViews()
+            self.showErrorLabel(msg)
+            // self.revalidateAndResizeViews()
+            return false
         }
         else {
-            AvailabilityService().usernameAvailability(text, success: { availability in
-                if text != self.usernameView.textField.text { return }
-
-                let state: ValidationState = availability.isUsernameAvailable ? .OK : .Error
-                self.usernameView.setState(state)
-
-                if !availability.isUsernameAvailable {
-                    let msg = NSLocalizedString("Username already exists.\nPlease try a new one.", comment: "username exists error message")
-                    self.usernameView.setErrorMessage(msg)
-
-                    if !availability.usernameSuggestions.isEmpty {
-                        let suggestions = ", ".join(availability.usernameSuggestions)
-                        let msg = String(format: NSLocalizedString("Here are some available usernames -\n%@", comment: "username suggestions message"), suggestions)
-                        self.usernameView.setMessage(msg)
-                    }
-                    else {
-                        self.usernameView.setMessage("")
-                    }
-                }
-                else {
-                    self.usernameView.setMessage("")
-                    self.usernameView.setErrorMessage("")
-                }
-
-                self.revalidateAndResizeViews()
-            }, failure: { _, _ in
-                self.usernameView.setState(.None)
-                self.usernameView.setMessage("")
-                self.usernameView.setErrorMessage("")
-                self.revalidateAndResizeViews()
-            })
+            return true
         }
     }
 
-    private func validatePassword(text: String) {
+    private func validatePassword(text: String) -> Bool {
         if text.isValidPassword() {
-            self.passwordView.setState(.OK)
-            self.passwordView.setErrorMessage("")
-            self.revalidateAndResizeViews()
+            self.hideErrorLabel()
+            // self.revalidateAndResizeViews()
+            return true
         }
         else {
-            self.passwordView.setState(.Error)
             let msg = NSLocalizedString("Password must be at least 8\ncharacters long.", comment: "password length error message")
-            self.passwordView.setErrorMessage(msg)
-            self.revalidateAndResizeViews()
+            self.showErrorLabel(msg)
+            // self.revalidateAndResizeViews()
+            return false
         }
     }
 
