@@ -76,6 +76,7 @@ public extension PushNotificationController {
     }
 
     func receivedNotification(application: UIApplication, userInfo: [NSObject: AnyObject]) {
+        updateBadgeCount(userInfo)
         if !hasAlert(userInfo) { return }
 
         let payload = PushPayload(info: userInfo as! [String: AnyObject])
@@ -84,6 +85,14 @@ public extension PushNotificationController {
             NotificationBanner.displayAlertForPayload(payload)
         default:
             postNotification(PushNotificationNotifications.interactedWithPushNotification, payload)
+        }
+    }
+
+    func updateBadgeCount(userInfo: [NSObject: AnyObject]) {
+        if  let aps = userInfo["aps"] as? [NSObject: AnyObject],
+            let badge = aps["badge"]
+        {
+            UIApplication.sharedApplication().applicationIconBadgeNumber = Int(badge.intValue)
         }
     }
 
