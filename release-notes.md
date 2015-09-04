@@ -1,3 +1,97 @@
+### Ello Build v1.0.0(3037) September 4, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #550 - update badge count when notified in app
+Badge count push notifications were not changing the badge count if received while the app was in the foreground. This PR handles the foreground case and properly sets the badge count.
+
+git murdered the spec file, not sure why. There are very few additions. I think the high addition/deletion counts are due to adding an enclosing `describe` to the spec file. 
+
+Also, 10 specs in `OmnibarViewControllerSpec` are failing. Lets look into this on Tuesday @colinta
+
+------
+
+#### #549 - Tweaks to the red dot on the Stream tab
+The red dot on the stream tab now displays when the logged in user has new posts to view in their Friend stream. New Noise content no longer displays the red dot. 
+
+Reload Friends to dismiss the red dot.
+
+Tapping on the stream tab when in a tab other than stream (i.e. profile) leaves the red dot and keeps the previous scroll position. 
+
+Tapping on the stream tab when in the stream scrolls the stream to the top and loads the new content. 
+
+Pull-to-refresh in the stream removes the red dot (as does all mechanisms of reloading the stream).
+
+
+![screen shot 2015-09-03 at 4 46 32 pm](https://cloud.githubusercontent.com/assets/12459/9672849/5e070eca-525b-11e5-9594-5054e74fa7df.png)
+
+------
+
+#### #546 - Aww Yeah, multiple regions are here!
+Latest tests:
+```
+Test Suite 'Selected tests' passed at 2015-09-01 16:09:26 +0000.
+	 Executed 1165 tests, with 0 failures (0 unexpected) in 47.099 (47.476) seconds
+```
+
+![multiple regions](https://cloud.githubusercontent.com/assets/27570/9561876/a98cb6b8-4e16-11e5-9a84-670f82a2a0a8.png)
+
+![reordering](https://cloud.githubusercontent.com/assets/27570/9561877/a9a399c8-4e16-11e5-9726-b030db0e0858.png)
+
+------
+
+#### #548 - Add second ssl cert for pinning backup.
+We now bundle two SSL certs in the application. This should allow us to rotate the first cert out of production at some point and have a second cert (only public keys are verified) establish trust.
+
+------
+
+#### #547 - remove SwiftyJSON pod, use custom 'fork'
+I grabbed the 'Tests' folder of the github project, too, and updated those to work with our Fork.
+
+Tested! :-D
+
+```
+Test Suite 'Selected tests' passed at 2015-09-01 21:15:23 +0000.
+   Executed 1074 tests, with 0 failures (0 unexpected) in 68.489 (70.204) seconds
+```
+
+------
+
+#### #545 - Add `subscribeToOnboardingDrip` attribute to Profile
+Not sure if I got all that's required for this, but...
+
+Related to https://github.com/ello/ello/pull/1332
+
+Ping @steam @rynbyjn 
+
+```
+Test Suite 'ValidatorSpec' passed at 2015-08-27 04:43:49 +0000.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.013 (0.015) seconds
+Test Suite 'Specs.xctest' passed at 2015-08-27 04:43:49 +0000.
+	 Executed 1002 tests, with 0 failures (0 unexpected) in 48.315 (49.824) seconds
+Test Suite 'Selected tests' passed at 2015-08-27 04:43:49 +0000.
+	 Executed 1002 tests, with 0 failures (0 unexpected) in 48.315 (49.826) seconds
+```
+
+[#95937684]
+
+------
+
+#### #544 - Fixes to the rich editor
+[Finishes #85661186]
+[Finishes #85660948]
+
+Also fixes an unreported issue, where edited posts are reloaded with their previous content (cached request issue).
+
+------
+
+#### #543 - Tweak the red dot behavior on the stream tab
+This PR attempts to address the unexpected red dot behavior of pull-to-refresh not updating the date sent to the server when checking for new stream content. The best way to test will be to see it in practice on the phone. The red dot on the stream will go away when the tab is tapped and should not come back when the content streams are reloaded unless there is new content.
+    
+------------
+
 ### Ello Build v1.0.0(2959) August 19, 2015
 
     RELEASE NOTES
