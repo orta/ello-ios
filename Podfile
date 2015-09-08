@@ -19,11 +19,10 @@ pod 'JTSImageViewController', git: 'https://github.com/ello/JTSImageViewControll
 pod 'KINWebBrowser', git: 'https://github.com/ello/KINWebBrowser'
 pod 'LUKeychainAccess', '~> 1.2.4'
 pod 'MBProgressHUD', '~> 0.9.0'
-# pod 'SDWebImage', '~> 3.7'
+pod 'PINRemoteImage', '~> 1.1'
 pod 'SSPullToRefresh', '~> 1.2'
 pod 'SVGKit', git: 'https://github.com/SVGKit/SVGKit'
 pod 'YapDatabase', git: 'https://github.com/ello/YapDatabase'
-pod 'PINRemoteImage', '~> 1.1'
 
 # debug only
 pod 'Firebase', configurations: ['Debug']
@@ -50,9 +49,9 @@ plugin 'cocoapods-keys', {
     'ClientSecret',
     'CrashlyticsKey',
     'Domain',
+    'FirebaseKey',
     'HttpProtocol',
     'Salt',
     'SegmentKey',
-    'FirebaseKey',
   ]
 }
