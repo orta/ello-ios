@@ -78,16 +78,13 @@ public class JoinViewController: BaseElloViewController, HasAppController {
     private func setupViews() {
         ElloTextFieldView.styleAsUsernameField(usernameField)
         usernameField.delegate = self
-        usernameField.addTarget(self, action: Selector("usernameChanged:"), forControlEvents: .EditingChanged)
 
         ElloTextFieldView.styleAsEmailField(emailField)
         emailField.delegate = self
-        emailField.addTarget(self, action: Selector("emailChanged:"), forControlEvents: .EditingChanged)
 
         ElloTextFieldView.styleAsPasswordField(passwordField)
         passwordField.returnKeyType = .Join
         passwordField.delegate = self
-        passwordField.addTarget(self, action: Selector("passwordChanged:"), forControlEvents: .EditingChanged)
     }
 
     private func addNotificationObservers() {
@@ -177,8 +174,7 @@ public class JoinViewController: BaseElloViewController, HasAppController {
                 self.view.userInteractionEnabled = true
                 self.elloLogo.stopAnimatingLogo()
 
-                self.hideErrorLabel()
-                self.validateEmail(self.emailField.text)
+                self.emailAvailability(self.emailField.text)
                 self.usernameAvailability(self.usernameField.text)
             })
         }
@@ -244,13 +240,13 @@ extension JoinViewController: UITextFieldDelegate {
             Tracker.sharedTracker.enteredEmail()
             usernameField.becomeFirstResponder()
         case usernameField:
-        Tracker.sharedTracker.enteredUsername()
+            Tracker.sharedTracker.enteredUsername()
             passwordField.becomeFirstResponder()
         case passwordField:
             Tracker.sharedTracker.enteredPassword()
             join()
         default:
-            return false
+            break
         }
         return true
     }
@@ -290,18 +286,20 @@ extension JoinViewController {
         return spacing > 0 ? spacing : 0
     }
 
-    public func revalidateAndResizeViews() {
-        scrollView.layoutIfNeeded()
-        scrollView.contentSize = CGSize(width: view.bounds.width, height: view.bounds.height + extraHeight())
-    }
-
-    func emailChanged(field: UITextField) {
-    }
-
-    func usernameChanged(field: UITextField) {
-    }
-
-    func passwordChanged(field: UITextField) {
+    private func validateEmail(text: String) -> Bool {
+        if text.isEmpty {
+            let msg = NSLocalizedString("Email is required.", comment: "email is required message")
+            self.showErrorLabel(msg)
+            return false
+        }
+        else if text.isValidEmail() {
+            return true
+        }
+        else {
+            let msg = NSLocalizedString("That email is invalid.\nPlease try again.", comment: "invalid email message")
+            self.showErrorLabel(msg)
+            return false
+        }
     }
 
     private func emailAvailability(text: String) {
@@ -312,29 +310,8 @@ extension JoinViewController {
                 let msg = NSLocalizedString("That email is invalid.\nPlease try again.", comment: "invalid email message")
                 self.showErrorLabel(msg)
             }
-
-            // self.revalidateAndResizeViews()
-        }, failure: { _, _ in
-            // self.revalidateAndResizeViews()
+            }, failure: { _, _ in
         })
-    }
-
-    private func validateEmail(text: String) -> Bool {
-        if text.isEmpty {
-            let msg = NSLocalizedString("Email is required.", comment: "email is required message")
-            self.showErrorLabel(msg)
-            // self.revalidateAndResizeViews()
-            return false
-        }
-        else if text.isValidEmail() {
-            return true
-        }
-        else {
-            let msg = NSLocalizedString("That email is invalid.\nPlease try again.", comment: "invalid email message")
-            self.showErrorLabel(msg)
-            // self.revalidateAndResizeViews()
-            return false
-        }
     }
 
     private func usernameAvailability(text: String) {
@@ -354,11 +331,8 @@ extension JoinViewController {
             else {
                 self.hideMessageLabel()
             }
-
-            // self.revalidateAndResizeViews()
         }, failure: { _, _ in
             self.hideMessageLabel()
-            // self.revalidateAndResizeViews()
         })
     }
 
@@ -367,7 +341,6 @@ extension JoinViewController {
             self.hideMessageLabel()
             let msg = NSLocalizedString("Username is required.", comment: "username is required message")
             self.showErrorLabel(msg)
-            // self.revalidateAndResizeViews()
             return false
         }
         else {
@@ -378,13 +351,11 @@ extension JoinViewController {
     private func validatePassword(text: String) -> Bool {
         if text.isValidPassword() {
             self.hideErrorLabel()
-            // self.revalidateAndResizeViews()
             return true
         }
         else {
             let msg = NSLocalizedString("Password must be at least 8\ncharacters long.", comment: "password length error message")
             self.showErrorLabel(msg)
-            // self.revalidateAndResizeViews()
             return false
         }
     }
