@@ -35,6 +35,19 @@ class ElloProviderSpec: QuickSpec {
             ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
         }
 
+        describe("serverTrustPolicies") {
+
+            xit("has one when not in the simulator") {
+                // TODO: figure out how to mock UIDevice.currentDevice().model
+                expect(ElloProvider.serverTrustPolicies["ello.co"]).notTo(beNil())
+            }
+
+            it("has zero when in the simulator") {
+                expect(ElloProvider.serverTrustPolicies["ello.co"]).to(beNil())
+            }
+
+        }
+
         describe("SSL Pinning") {
 
             it("has a custom Alamofire.Manager") {

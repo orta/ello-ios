@@ -23,13 +23,18 @@ public struct ElloProvider {
     public static var responseHeaders: NSString = ""
     public static var responseJSON: NSString = ""
 
-    public static let serverTrustPolicies: [String: ServerTrustPolicy] = [
-        "ello.co": .PinPublicKeys(
-            publicKeys: ServerTrustPolicy.publicKeysInBundle(),
-            validateCertificateChain: true,
-            validateHost: true
-        )
-    ]
+    public static var serverTrustPolicies: [String: ServerTrustPolicy] {
+        var policyDict = [String: ServerTrustPolicy]()
+        // make Charles plays nice in the sim by not adding a policy
+        if UIDevice.currentDevice().model != "iPhone Simulator" {
+            policyDict["ello.co"] = .PinPublicKeys(
+                publicKeys: ServerTrustPolicy.publicKeysInBundle(),
+                validateCertificateChain: true,
+                validateHost: true
+            )
+        }
+        return policyDict
+    }
 
     public static let manager = Manager(
         configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
