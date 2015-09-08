@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import OnePasswordExtension
 
 public class JoinViewController: BaseElloViewController, HasAppController {
 
@@ -19,6 +20,7 @@ public class JoinViewController: BaseElloViewController, HasAppController {
     @IBOutlet weak public var emailField: ElloTextField!
     @IBOutlet weak public var usernameField: ElloTextField!
     @IBOutlet weak public var passwordField: ElloTextField!
+    @IBOutlet weak public var onePasswordButton: UIButton!
     @IBOutlet weak public var loginButton: ElloTextButton!
     @IBOutlet weak public var joinButton: ElloButton!
     @IBOutlet weak public var termsButton: ElloTextButton!
@@ -43,7 +45,21 @@ public class JoinViewController: BaseElloViewController, HasAppController {
         super.viewDidLoad()
         setupStyles()
         setupViews()
-        termsButton.setAttributedTitle(ElloAttributedString.style("By Clicking Create Account you are agreeing to our ") + NSAttributedString(string: "Terms", attributes: ElloAttributedString.linkAttrs()), forState: .Normal)
+
+        let onePasswordAvailable = OnePasswordExtension.sharedExtension().isAppExtensionAvailable()
+        passwordField.hasOnePassword = onePasswordAvailable
+        onePasswordButton.hidden = !onePasswordAvailable
+
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 6
+        let attrs = ElloAttributedString.attrs([
+            NSParagraphStyleAttributeName : paragraphStyle
+        ])
+        let linkAttrs = ElloAttributedString.attrs(ElloAttributedString.linkAttrs(), [
+            NSParagraphStyleAttributeName : paragraphStyle
+        ])
+        termsButton.setAttributedTitle(
+            NSAttributedString(string: "By Clicking Create Account you are agreeing to our ", attributes: attrs) + NSAttributedString(string: "Terms", attributes: linkAttrs), forState: .Normal)
     }
 
     public override func viewDidAppear(animated: Bool) {
@@ -141,7 +157,8 @@ public class JoinViewController: BaseElloViewController, HasAppController {
         Tracker.sharedTracker.tappedJoin()
 
         if allFieldsValid() {
-            Tracker.sharedTracker.joinValid()
+            hideErrorLabel()
+            hideMessageLabel()
 
             self.elloLogo.animateLogo()
             self.view.userInteractionEnabled = false
@@ -150,33 +167,51 @@ public class JoinViewController: BaseElloViewController, HasAppController {
             usernameField.resignFirstResponder()
             passwordField.resignFirstResponder()
 
-            let service = UserService()
             let email = emailField.text
             let username = usernameField.text
             let password = passwordField.text
-            service.join(email: email, username: username, password: password, success: { user in
-                let authService = AuthService()
-                authService.authenticate(email: email,
-                    password: password,
-                    success: {
-                        Tracker.sharedTracker.joinSuccessful()
-                        self.showOnboardingScreen(user)
-                    },
-                    failure: { _, _ in
-                        Tracker.sharedTracker.joinFailed()
-                        self.view.userInteractionEnabled = true
-                        self.showSignInScreen(email, password)
-                    })
-            },
-            failure: { error, _ in
-                let errorTitle = error.elloErrorMessage ?? NSLocalizedString("Unknown error", comment: "Unknown error message")
-                self.showErrorLabel(errorTitle)
+
+            let joinAborted: () -> Void = {
                 self.view.userInteractionEnabled = true
                 self.elloLogo.stopAnimatingLogo()
+            }
 
-                self.emailAvailability(self.emailField.text)
-                self.usernameAvailability(self.usernameField.text)
-            })
+            self.emailAvailability(email) { successful in
+                if !successful {
+                    joinAborted()
+                    return
+                }
+
+                self.usernameAvailability(username) { successful in
+                    if !successful {
+                        joinAborted()
+                        return
+                    }
+
+                    Tracker.sharedTracker.joinValid()
+
+                    let service = UserService()
+                    service.join(email: email, username: username, password: password, success: { user in
+                        let authService = AuthService()
+                        authService.authenticate(email: email,
+                            password: password,
+                            success: {
+                                Tracker.sharedTracker.joinSuccessful()
+                                self.showOnboardingScreen(user)
+                            },
+                            failure: { _, _ in
+                                Tracker.sharedTracker.joinFailed()
+                                self.view.userInteractionEnabled = true
+                                self.showSignInScreen(email, password)
+                            })
+                    },
+                    failure: { error, _ in
+                        let errorTitle = error.elloErrorMessage ?? NSLocalizedString("Unknown error", comment: "Unknown error message")
+                        self.showErrorLabel(errorTitle)
+                        joinAborted()
+                    })
+                }
+            }
         }
         else {
             Tracker.sharedTracker.joinInvalid()
@@ -302,21 +337,34 @@ extension JoinViewController {
         }
     }
 
-    private func emailAvailability(text: String) {
+    private func emailAvailability(text: String, completion: (Bool) -> Void) {
         AvailabilityService().emailAvailability(text, success: { availability in
-            if text != self.emailField.text { return }
+            if text != self.emailField.text {
+                completion(false)
+                return
+            }
 
             if !availability.isEmailAvailable {
                 let msg = NSLocalizedString("That email is invalid.\nPlease try again.", comment: "invalid email message")
                 self.showErrorLabel(msg)
+                completion(false)
             }
-            }, failure: { _, _ in
+            else {
+                completion(true)
+            }
+        }, failure: { error, _ in
+            let errorTitle = error.elloErrorMessage ?? NSLocalizedString("Unknown error", comment: "Unknown error message")
+            self.showErrorLabel(errorTitle)
+            completion(false)
         })
     }
 
-    private func usernameAvailability(text: String) {
+    private func usernameAvailability(text: String, completion: (Bool) -> Void) {
         AvailabilityService().usernameAvailability(text, success: { availability in
-            if text != self.usernameField.text { return }
+            if text != self.usernameField.text {
+                completion(false)
+                return
+            }
 
             if !availability.isUsernameAvailable {
                 let msg = NSLocalizedString("Username already exists.\nPlease try a new one.", comment: "username exists error message")
@@ -327,12 +375,17 @@ extension JoinViewController {
                     let msg = String(format: NSLocalizedString("Here are some available usernames -\n%@", comment: "username suggestions showmes"), suggestions)
                     self.showMessageLabel(msg)
                 }
+                completion(false)
             }
             else {
                 self.hideMessageLabel()
+                completion(true)
             }
-        }, failure: { _, _ in
+        }, failure: { error, _ in
+            let errorTitle = error.elloErrorMessage ?? NSLocalizedString("Unknown error", comment: "Unknown error message")
+            self.showErrorLabel(errorTitle)
             self.hideMessageLabel()
+            completion(false)
         })
     }
 
@@ -360,5 +413,25 @@ extension JoinViewController {
         }
     }
 
-}
+    @IBAction func findLoginFrom1Password(sender: UIButton) {
+        OnePasswordExtension.sharedExtension().findLoginForURLString(ElloURI.baseURL, forViewController: self, sender: sender) {
+            (loginDict, error) in
 
+            if loginDict == nil {
+                if (Int32)(error.code) != AppExtensionErrorCodeCancelledByUser {
+                    println("Error invoking 1Password App Extension for find login: \(error)")
+                }
+                return
+            }
+
+            if let email = loginDict[AppExtensionUsernameKey] as? String {
+                self.emailField.text = email
+            }
+            else {
+                self.emailField.becomeFirstResponder()
+            }
+            self.passwordField.text = loginDict[AppExtensionPasswordKey] as? String
+        }
+    }
+
+}

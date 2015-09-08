@@ -20,6 +20,7 @@
                 <outlet property="joinButton" destination="mXi-Dh-2b3" id="NWR-37-OfC"/>
                 <outlet property="loginButton" destination="kvr-jh-45I" id="YqW-mB-18l"/>
                 <outlet property="messageLabel" destination="vgn-5g-l6s" id="xx2-xQ-dme"/>
+                <outlet property="onePasswordButton" destination="ymy-dW-yD0" id="SxI-je-UUF"/>
                 <outlet property="passwordField" destination="6cH-fy-COQ" id="iBf-bw-hQ9"/>
                 <outlet property="passwordFieldTopConstraint" destination="kpo-nG-fW1" id="uw5-bb-j74"/>
                 <outlet property="scrollView" destination="ElK-Lf-UtU" id="avW-K4-QZH"/>
@@ -139,6 +140,9 @@
                                             <state key="normal" image="1-password-logo">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <connections>
+                                                <action selector="findLoginFrom1Password:" destination="-1" eventType="touchUpInside" id="fcH-5I-QIA"/>
+                                            </connections>
                                         </button>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
