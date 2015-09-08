@@ -58,21 +58,22 @@ class ElloProviderSpec: QuickSpec {
             }
 
             it("includes 2 ssl certificates in the app") {
-                let policy: ServerTrustPolicy = ElloProvider.serverTrustPolicies["ello.co"]!
-                var doesValidatesChain = false
-                var doesValidateHost = false
-                var keys = [SecKey]()
-                switch policy {
-                case let .PinPublicKeys(publicKeys, validateCertificateChain, validateHost):
-                    doesValidatesChain = validateCertificateChain
-                    doesValidateHost = validateHost
-                    keys = publicKeys
-                default: break
-                }
+                if let policy = ElloProvider.serverTrustPolicies["ello.co"] {
+                    var doesValidatesChain = false
+                    var doesValidateHost = false
+                    var keys = [SecKey]()
+                    switch policy {
+                    case let .PinPublicKeys(publicKeys, validateCertificateChain, validateHost):
+                        doesValidatesChain = validateCertificateChain
+                        doesValidateHost = validateHost
+                        keys = publicKeys
+                    default: break
+                    }
 
-                expect(doesValidatesChain) == true
-                expect(doesValidateHost) == true
-                expect(count(keys)) == 2
+                    expect(doesValidatesChain) == true
+                    expect(doesValidateHost) == true
+                    expect(count(keys)) == 2
+                }
             }
         }
 
