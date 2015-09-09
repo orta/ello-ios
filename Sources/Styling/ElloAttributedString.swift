@@ -7,15 +7,18 @@
 //
 
 public struct ElloAttributedString {
-    public static func attrs(_ addlAttrs: [String: AnyObject] = [:]) -> [NSObject: AnyObject] {
-        let attrs: [String: AnyObject] = [
+    public static func attrs(allAddlAttrs: [String: AnyObject]...) -> [String: AnyObject] {
+        var attrs: [String: AnyObject] = [
             NSFontAttributeName: UIFont.typewriterFont(12),
             NSForegroundColorAttributeName: UIColor.blackColor(),
         ]
-        return attrs + addlAttrs
+        for addlAttrs in allAddlAttrs {
+            attrs += addlAttrs
+        }
+        return attrs
     }
 
-    public static func linkAttrs() -> [NSObject: AnyObject] {
+    public static func linkAttrs() -> [String: AnyObject] {
         return attrs([
             NSUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue,
         ])

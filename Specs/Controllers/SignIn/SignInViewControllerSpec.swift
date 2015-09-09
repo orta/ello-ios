@@ -35,8 +35,8 @@ class SignInViewControllerSpec: QuickSpec {
                     expect(subject.emailTextField).notTo(beNil())
                     expect(subject.passwordTextField).notTo(beNil())
                     expect(subject.joinButton).notTo(beNil())
-                    expect(subject.enterButtonTopContraint).notTo(beNil())
-                    expect(subject.containerHeightContraint).notTo(beNil())
+                    expect(subject.enterButtonTopConstraint).notTo(beNil())
+                    expect(subject.containerHeightConstraint).notTo(beNil())
                     expect(subject.errorLabel).notTo(beNil())
                     expect(subject.onePasswordButton).notTo(beNil())
                 }

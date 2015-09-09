@@ -84,7 +84,7 @@ public class ElloTextFieldView: UIView {
     }
 
     func setState(state: ValidationState) {
-        textField.setValidationState(state)
+        textField.validationState = state
     }
 
     func valueChanged() {
@@ -124,7 +124,7 @@ public class ElloTextFieldView: UIView {
     }
 
     func clearState() {
-        textField.setValidationState(.None)
+        textField.validationState = .None
         setErrorMessage("")
         setMessage("")
     }
@@ -135,38 +135,47 @@ public extension ElloTextFieldView {
 
     class func styleAsUsername(usernameView: ElloTextFieldView) {
         usernameView.label.setLabelText(NSLocalizedString("Username", comment: "username key"))
-        usernameView.textField.text = ""
-        usernameView.textField.autocapitalizationType = .None
-        usernameView.textField.autocorrectionType = .No
-        usernameView.textField.spellCheckingType = .No
-        usernameView.textField.keyboardAppearance = .Dark
-        usernameView.textField.enablesReturnKeyAutomatically = true
-        usernameView.textField.returnKeyType = .Next
-        usernameView.textField.keyboardType = .ASCIICapable
+        styleAsUsernameField(usernameView.textField)
+    }
+    class func styleAsUsernameField(textField: UITextField) {
+        textField.text = ""
+        textField.autocapitalizationType = .None
+        textField.autocorrectionType = .No
+        textField.spellCheckingType = .No
+        textField.keyboardAppearance = .Dark
+        textField.enablesReturnKeyAutomatically = true
+        textField.returnKeyType = .Next
+        textField.keyboardType = .ASCIICapable
     }
 
     class func styleAsEmail(emailView: ElloTextFieldView) {
         emailView.label.setLabelText(NSLocalizedString("Email", comment: "email key"))
-        emailView.textField.text = ""
-        emailView.textField.autocapitalizationType = .None
-        emailView.textField.autocorrectionType = .No
-        emailView.textField.spellCheckingType = .No
-        emailView.textField.keyboardAppearance = .Dark
-        emailView.textField.enablesReturnKeyAutomatically = true
-        emailView.textField.returnKeyType = .Next
-        emailView.textField.keyboardType = .EmailAddress
+        styleAsEmailField(emailView.textField)
+    }
+    class func styleAsEmailField(textField: UITextField) {
+        textField.text = ""
+        textField.autocapitalizationType = .None
+        textField.autocorrectionType = .No
+        textField.spellCheckingType = .No
+        textField.keyboardAppearance = .Dark
+        textField.enablesReturnKeyAutomatically = true
+        textField.returnKeyType = .Next
+        textField.keyboardType = .EmailAddress
     }
 
     class func styleAsPassword(passwordView: ElloTextFieldView) {
         passwordView.label.setLabelText(NSLocalizedString("Password", comment: "password key"))
-        passwordView.textField.autocapitalizationType = .None
-        passwordView.textField.autocorrectionType = .No
-        passwordView.textField.spellCheckingType = .No
-        passwordView.textField.keyboardAppearance = .Dark
-        passwordView.textField.enablesReturnKeyAutomatically = true
-        passwordView.textField.returnKeyType = .Go
-        passwordView.textField.keyboardType = .Default
-        passwordView.textField.secureTextEntry = true
+        styleAsPasswordField(passwordView.textField)
+    }
+    class func styleAsPasswordField(textField: UITextField) {
+        textField.autocapitalizationType = .None
+        textField.autocorrectionType = .No
+        textField.spellCheckingType = .No
+        textField.keyboardAppearance = .Dark
+        textField.enablesReturnKeyAutomatically = true
+        textField.returnKeyType = .Go
+        textField.keyboardType = .Default
+        textField.secureTextEntry = true
     }
 
 }

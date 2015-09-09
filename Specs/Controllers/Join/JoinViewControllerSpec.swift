@@ -52,19 +52,19 @@ class JoinViewControllerSpec: QuickSpec {
 
             it("IBOutlets are  not nil") {
                 expect(controller.scrollView).notTo(beNil())
-                expect(controller.emailView).notTo(beNil())
-                expect(controller.usernameView).notTo(beNil())
-                expect(controller.passwordView).notTo(beNil())
-                expect(controller.aboutButton).notTo(beNil())
+                expect(controller.emailField).notTo(beNil())
+                expect(controller.usernameField).notTo(beNil())
+                expect(controller.passwordField).notTo(beNil())
+                expect(controller.onePasswordButton).notTo(beNil())
                 expect(controller.loginButton).notTo(beNil())
                 expect(controller.joinButton).notTo(beNil())
                 expect(controller.termsButton).notTo(beNil())
             }
 
             it("IBActions are wired up") {
-                let aboutActions = controller.aboutButton.actionsForTarget(controller, forControlEvent: UIControlEvents.TouchUpInside)
-                expect(aboutActions).to(contain("aboutTapped:"))
-                expect(aboutActions?.count) == 1
+                let onePasswordActions = controller.onePasswordButton.actionsForTarget(controller, forControlEvent: UIControlEvents.TouchUpInside)
+                expect(onePasswordActions).to(contain("findLoginFrom1Password:"))
+                expect(onePasswordActions?.count) == 1
 
                 let loginActions = controller.loginButton.actionsForTarget(controller, forControlEvent: UIControlEvents.TouchUpInside)
                 expect(loginActions).to(contain("loginTapped:"))
@@ -84,30 +84,19 @@ class JoinViewControllerSpec: QuickSpec {
             }
 
             describe("initial state") {
-                it("starts with joinButton disabled") {
-                    expect(controller.joinButton.enabled) == false
+                it("starts with joinButton enabled") {
+                    expect(controller.joinButton.enabled) == true
                 }
                 it("starts with empty messages") {
-                    expect(controller.emailView.hasMessage) == false
-                    expect(controller.emailView.messageLabel.text ?? "") == ""
-                    expect(controller.emailView.hasError) == false
-                    expect(controller.emailView.errorLabel.text ?? "") == ""
-
-                    expect(controller.usernameView.hasMessage) == false
-                    expect(controller.usernameView.messageLabel.text ?? "") == ""
-                    expect(controller.usernameView.hasError) == false
-                    expect(controller.usernameView.errorLabel.text ?? "") == ""
-
-                    expect(controller.passwordView.hasMessage) == false
-                    expect(controller.passwordView.messageLabel.text ?? "") == ""
-                    expect(controller.passwordView.hasError) == false
-                    expect(controller.passwordView.errorLabel.text ?? "") == ""
+                    expect(controller.emailField.text ?? "") == ""
+                    expect(controller.usernameField.text ?? "") == ""
+                    expect(controller.passwordField.text ?? "") == ""
                 }
                 it("has all the views located sensibly") {
                     // expect(controller.emailView).toBeBelow(130)
-                    expect(controller.emailView.frame.minY) > 130
-                    expect(controller.usernameView.frame.height) == controller.emailView.frame.height
-                    expect(controller.passwordView.frame.height) == controller.emailView.frame.height
+                    expect(controller.emailField.frame.minY) > 130
+                    expect(controller.usernameField.frame.height) == controller.emailField.frame.height
+                    expect(controller.passwordField.frame.height) == controller.emailField.frame.height
                 }
             }
 

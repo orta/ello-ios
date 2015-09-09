@@ -25,6 +25,12 @@ enum ValidationState: String {
 
 public class ElloTextField: UITextField {
     var hasOnePassword = false
+    var validationState = ValidationState.None {
+        didSet {
+            self.rightViewMode = .Always
+            self.rightView = UIImageView(image: validationState.imageRepresentation)
+        }
+    }
 
     required override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -42,11 +48,6 @@ public class ElloTextField: UITextField {
         self.textColor = UIColor.blackColor()
 
         self.setNeedsDisplay()
-    }
-
-    func setValidationState(state: ValidationState) {
-        self.rightViewMode = .Always
-        self.rightView = UIImageView(image: state.imageRepresentation)
     }
 
     override public func textRectForBounds(bounds: CGRect) -> CGRect {
