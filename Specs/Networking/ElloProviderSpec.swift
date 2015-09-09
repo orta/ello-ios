@@ -33,16 +33,19 @@ class ElloProviderSpec: QuickSpec {
 
         afterEach {
             ElloProvider.sharedProvider = ElloProvider.DefaultProvider()
+            AppSetup.sharedState.isSimulator = nil
         }
 
         describe("serverTrustPolicies") {
 
-            xit("has one when not in the simulator") {
+            it("has one when not in the simulator") {
+                AppSetup.sharedState.isSimulator = false
                 // TODO: figure out how to mock UIDevice.currentDevice().model
                 expect(ElloProvider.serverTrustPolicies["ello.co"]).notTo(beNil())
             }
 
             it("has zero when in the simulator") {
+                AppSetup.sharedState.isSimulator = true
                 expect(ElloProvider.serverTrustPolicies["ello.co"]).to(beNil())
             }
 
@@ -58,22 +61,22 @@ class ElloProviderSpec: QuickSpec {
             }
 
             it("includes 2 ssl certificates in the app") {
-                if let policy = ElloProvider.serverTrustPolicies["ello.co"] {
-                    var doesValidatesChain = false
-                    var doesValidateHost = false
-                    var keys = [SecKey]()
-                    switch policy {
-                    case let .PinPublicKeys(publicKeys, validateCertificateChain, validateHost):
-                        doesValidatesChain = validateCertificateChain
-                        doesValidateHost = validateHost
-                        keys = publicKeys
-                    default: break
-                    }
-
-                    expect(doesValidatesChain) == true
-                    expect(doesValidateHost) == true
-                    expect(count(keys)) == 2
+                AppSetup.sharedState.isSimulator = false
+                let policy = ElloProvider.serverTrustPolicies["ello.co"]!
+                var doesValidatesChain = false
+                var doesValidateHost = false
+                var keys = [SecKey]()
+                switch policy {
+                case let .PinPublicKeys(publicKeys, validateCertificateChain, validateHost):
+                    doesValidatesChain = validateCertificateChain
+                    doesValidateHost = validateHost
+                    keys = publicKeys
+                default: break
                 }
+
+                expect(doesValidatesChain) == true
+                expect(doesValidateHost) == true
+                expect(count(keys)) == 2
             }
         }
 
