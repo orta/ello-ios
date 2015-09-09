@@ -76,7 +76,10 @@ class ElloProviderSpec: QuickSpec {
 
                 expect(doesValidatesChain) == true
                 expect(doesValidateHost) == true
-                expect(count(keys)) == 2
+                let numberOfCerts = 2
+                // Charles installs a cert, and we should allow that, so test
+                // for numberOfCerts OR numberOfCerts + 1
+                expect(count(keys) == numberOfCerts || count(keys) == numberOfCerts + 1) == true
             }
         }
 
