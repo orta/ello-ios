@@ -8,7 +8,11 @@
 
 public struct ElloAttributedString {
     public static func attrs(allAddlAttrs: [String: AnyObject]...) -> [String: AnyObject] {
-        var attrs: [String: AnyObject] = [
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 6
+
+        let attrs: [String: AnyObject] = [
+            NSParagraphStyleAttributeName: paragraphStyle,
             NSFontAttributeName: UIFont.typewriterFont(12),
             NSForegroundColorAttributeName: UIColor.blackColor(),
         ]
@@ -67,7 +71,7 @@ public struct ElloAttributedString {
 
     public static func parse(input: String) -> NSAttributedString? {
         if let tag = Tag(input: input) {
-            return tag.makeEditable()
+            return tag.makeEditable(inheritedAttrs: attrs())
         }
         return nil
     }
