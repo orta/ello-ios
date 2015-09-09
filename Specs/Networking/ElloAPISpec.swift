@@ -121,15 +121,65 @@ class ElloAPISpec: QuickSpec {
 
             describe("headers") {
 
-                context("no authorization required") {
+                context("Accept-Language endpoints") {
                     let endpoints = [
+                        ElloAPI.AmazonCredentials,
                         ElloAPI.AnonymousCredentials,
                         ElloAPI.Auth(email: "", password: ""),
-                        ElloAPI.ReAuth
+                        ElloAPI.Availability(content: [:]),
+                        ElloAPI.AwesomePeopleStream,
+                        ElloAPI.CommunitiesStream,
+                        ElloAPI.CreateComment(parentPostId: "", body: [:]),
+                        ElloAPI.CreateLove(postId: ""),
+                        ElloAPI.CreatePost(body: [:]),
+                        ElloAPI.DeleteComment(postId: "", commentId: ""),
+                        ElloAPI.DeleteLove(postId: ""),
+                        ElloAPI.DeletePost(postId: ""),
+                        ElloAPI.DeleteSubscriptions(token: NSData()),
+                        ElloAPI.Discover(type: DiscoverType.Random, perPage: 0),
+                        ElloAPI.EmojiAutoComplete(terms: ""),
+                        ElloAPI.FindFriends(contacts: [:]),
+                        ElloAPI.FlagComment(postId: "", commentId: "", kind: ""),
+                        ElloAPI.FlagPost(postId: "", kind: ""),
+                        ElloAPI.FoundersStream,
+                        ElloAPI.FriendNewContent(createdAt: NSDate()),
+                        ElloAPI.FriendStream,
+                        ElloAPI.InfiniteScroll(queryItems: [""], elloApi: { () -> ElloAPI in
+                            return ElloAPI.Auth(email: "", password: "")
+                        }),
+                        ElloAPI.InfiniteScroll(queryItems: [""], elloApi: { () -> ElloAPI in
+                            return ElloAPI.FriendStream
+                        }),
+                        ElloAPI.InviteFriends(contact: ""),
+                        ElloAPI.Join(email: "", username: "", password: "", invitationCode: ""),
+                        ElloAPI.Loves(userId: ""),
+                        ElloAPI.NoiseNewContent(createdAt: NSDate()),
+                        ElloAPI.NoiseStream,
+                        ElloAPI.NotificationsNewContent(createdAt: NSDate()),
+                        ElloAPI.NotificationsStream(category: ""),
+                        ElloAPI.PostComments(postId: ""),
+                        ElloAPI.PostDetail(postParam: ""),
+                        ElloAPI.PostLovers(postId: ""),
+                        ElloAPI.PostReposters(postId: ""),
+                        ElloAPI.Profile(perPage: 0),
+                        ElloAPI.ProfileDelete,
+                        ElloAPI.ProfileToggles,
+                        ElloAPI.ProfileUpdate(body: [:]),
+                        ElloAPI.PushSubscriptions(token: NSData()),
+                        ElloAPI.ReAuth,
+                        ElloAPI.Relationship(userId: "", relationship: ""),
+                        ElloAPI.RelationshipBatch(userIds: [""], relationship: ""),
+                        ElloAPI.RePost(postId: ""),
+                        ElloAPI.SearchForPosts(terms: ""),
+                        ElloAPI.SearchForUsers(terms: ""),
+                        ElloAPI.UserNameAutoComplete(terms: ""),
+                        ElloAPI.UserStream(userParam: ""),
+                        ElloAPI.UserStreamFollowers(userId: ""),
+                        ElloAPI.UserStreamFollowing(userId: ""),
                     ]
                     for endpoint in endpoints {
                         it("\(endpoint) has the correct headers") {
-                            expect(endpoint.headers["Content-Type"] as? String) == "application/json"
+                            expect(endpoint.headers["Accept-Language"] as? String) == ""
                         }
                     }
                 }
@@ -143,9 +193,6 @@ class ElloAPISpec: QuickSpec {
                     ]
                     for endpoint in endpoints {
                         it("\(endpoint) has the correct headers") {
-                            expect(endpoint.headers["Content-Type"] as? String) == "application/json"
-                            expect(endpoint.headers["Authorization"] as? String) == AuthToken().tokenWithBearer ?? ""
-                            expect(endpoint.headers["Accept-Language"] as? String) == ""
                             expect(endpoint.headers["If-Modified-Since"] as? String) == date.toHTTPDateString()
                         }
                     }
@@ -199,10 +246,8 @@ class ElloAPISpec: QuickSpec {
                         ElloAPI.UserNameAutoComplete(terms: "")
                     ]
                     for endpoint in endpoints {
-                        it("\(endpoint)has the correct headers") {
-                            expect(endpoint.headers["Content-Type"] as? String) == "application/json"
+                        it("\(endpoint) has the correct headers") {
                             expect(endpoint.headers["Authorization"] as? String) == AuthToken().tokenWithBearer ?? ""
-                            expect(endpoint.headers["Accept-Language"] as? String) == ""
                         }
                     }
                 }
@@ -239,8 +284,9 @@ class ElloAPISpec: QuickSpec {
                         ElloAPI.RePost(postId: ""),
                     ]
                     for endpoint in endpoints {
-                        it("\(endpoint) returns .JSON") {
+                        it("\(endpoint) returns .JSON and Content-Type: application/json") {
                             expect(endpoint.encoding) == Moya.ParameterEncoding.JSON
+                            expect(endpoint.headers["Content-Type"] as? String) == "application/json"
                         }
                     }
                 }
@@ -277,8 +323,9 @@ class ElloAPISpec: QuickSpec {
                         ElloAPI.UserNameAutoComplete(terms: "")
                     ]
                     for endpoint in endpoints {
-                        it("\(endpoint) returns .URL") {
+                        it("\(endpoint) returns .URL and IS NOT Content-Type: application/json") {
                             expect(endpoint.encoding) == Moya.ParameterEncoding.URL
+                            expect(endpoint.headers["Content-Type"] as? String ?? "") != "application/json"
                         }
                     }
                 }
