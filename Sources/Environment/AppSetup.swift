@@ -14,7 +14,6 @@ public class AppSetup {
         public static let calculatorHeight = CGFloat(20)
     }
 
-    lazy var useStaging = true
     var isTesting = false
 
     class var sharedState : AppSetup {
@@ -25,7 +24,7 @@ public class AppSetup {
     }
 
     public init() {
-        useStaging = Defaults["ElloUseStaging"].bool ?? true
         if let inTests: AnyClass = NSClassFromString("XCTest") { isTesting = true }
     }
+
 }
