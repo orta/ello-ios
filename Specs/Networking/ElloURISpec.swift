@@ -15,15 +15,15 @@ import Moya
 class ElloURISpec: QuickSpec {
     override func spec() {
 
-        describe("@domain") {
+        describe("baseURL") {
 
-            it("uses staging if AppSetup.sharedState.useStaging is true") {
+            it("can be constructed with ello-staging and http") {
                 ElloURI.domain = "ello-staging.herokuapp.com"
                 ElloURI.httpProtocol = "http"
                 expect(ElloURI.baseURL).to(equal("http://ello-staging.herokuapp.com"))
             }
 
-            it("uses production if AppSetup.sharedState.useStaging is false") {
+            it("can be constructed with ello.co and https") {
                 ElloURI.domain = "ello.co"
                 ElloURI.httpProtocol = "https"
                 expect(ElloURI.baseURL).to(equal("https://ello.co"))
@@ -111,7 +111,7 @@ class ElloURISpec: QuickSpec {
                     expect(type).to(equal(ElloURI.WTF))
                     expect(data).to(equal("https://www.ello.co/wtf"))
                 }
-                
+
             }
 
             describe("with Discover urls") {
@@ -143,7 +143,7 @@ class ElloURISpec: QuickSpec {
                     expect(type).to(equal(ElloURI.Downloads))
                     expect(data).to(equal("https://www.ello.co/downloads"))
                 }
-                
+
             }
 
             describe("with Friends urls") {
@@ -159,7 +159,7 @@ class ElloURISpec: QuickSpec {
                     expect(type).to(equal(ElloURI.Friends))
                     expect(data).to(equal("https://www.ello.co/friends"))
                 }
-                
+
             }
 
             describe("with Noise urls") {
@@ -191,7 +191,7 @@ class ElloURISpec: QuickSpec {
                     expect(type).to(equal(ElloURI.Notifications))
                     expect(data).to(equal("https://www.ello.co/notifications"))
                 }
-                
+
             }
 
             describe("with Search urls") {
@@ -213,7 +213,7 @@ class ElloURISpec: QuickSpec {
                     expect(type).to(equal(ElloURI.Search))
                     expect(data).to(equal("#hashtag"))
                 }
-                
+
             }
 
             describe("with Settings urls") {
@@ -229,7 +229,7 @@ class ElloURISpec: QuickSpec {
                     expect(type).to(equal(ElloURI.Settings))
                     expect(data).to(equal("https://www.ello.co/settings"))
                 }
-                
+
             }
 
             describe("with Enter urls") {
@@ -245,7 +245,7 @@ class ElloURISpec: QuickSpec {
                     expect(type).to(equal(ElloURI.Enter))
                     expect(data).to(equal("https://www.ello.co/enter"))
                 }
-                
+
             }
 
             describe("with Exit urls") {
@@ -277,7 +277,7 @@ class ElloURISpec: QuickSpec {
                     expect(type).to(equal(ElloURI.BetaPublicProfiles))
                     expect(data).to(equal("https://www.ello.co/beta-public-profiles"))
                 }
-                
+
             }
 
             describe("with ForgotMyPassword urls") {
@@ -293,7 +293,7 @@ class ElloURISpec: QuickSpec {
                     expect(type).to(equal(ElloURI.ForgotMyPassword))
                     expect(data).to(equal("https://www.ello.co/forgot-my-password"))
                 }
-                
+
             }
 
             describe("with Manifesto urls") {
@@ -309,7 +309,7 @@ class ElloURISpec: QuickSpec {
                     expect(type).to(equal(ElloURI.Manifesto))
                     expect(data).to(equal("https://www.ello.co/manifesto"))
                 }
-                
+
             }
 
             describe("with RequestInvite urls") {
@@ -325,7 +325,7 @@ class ElloURISpec: QuickSpec {
                     expect(type).to(equal(ElloURI.RequestInvite))
                     expect(data).to(equal("https://www.ello.co/request-an-invite"))
                 }
-                
+
             }
 
             describe("with RequestInvitation urls") {
@@ -357,7 +357,7 @@ class ElloURISpec: QuickSpec {
                     expect(type).to(equal(ElloURI.WhoMadeThis))
                     expect(data).to(equal("https://www.ello.co/who-made-this"))
                 }
-                
+
             }
 
             describe("with Email addresses") {
@@ -367,7 +367,7 @@ class ElloURISpec: QuickSpec {
                     expect(type).to(equal(ElloURI.Email))
                     expect(data).to(equal("mailto:archer@example.com"))
                 }
-                
+
             }
 
             describe("with Subdomain urls") {
@@ -383,7 +383,7 @@ class ElloURISpec: QuickSpec {
                     expect(type).to(equal(ElloURI.Subdomain))
                     expect(data).to(equal("https://wallpapers.ello.co/any/thing/else/here"))
                 }
-                
+
             }
 
             describe("with Root urls") {
@@ -455,7 +455,7 @@ class ElloURISpec: QuickSpec {
                     let (type, data) = ElloURI.match("https://www.vimeo.com/anything/")
                     expect(type).to(equal(ElloURI.External))
                     expect(data).to(equal("https://www.vimeo.com/anything/"))
-                }                
+                }
             }
 
             describe("with WTF urls") {
@@ -487,7 +487,7 @@ class ElloURISpec: QuickSpec {
                     expect(type).to(equal(ElloURI.Discover))
                     expect(data).to(equal("https://ello-staging4.herokuapp.com/discover"))
                 }
-                
+
             }
 
             describe("with Downloads urls") {
@@ -503,7 +503,7 @@ class ElloURISpec: QuickSpec {
                     expect(type).to(equal(ElloURI.Downloads))
                     expect(data).to(equal("https://ello-staging3.herokuapp.com/downloads"))
                 }
-                
+
             }
 
             describe("with Friends urls") {
@@ -535,7 +535,7 @@ class ElloURISpec: QuickSpec {
                     expect(type).to(equal(ElloURI.Noise))
                     expect(data).to(equal("https://ello-staging4.herokuapp.com/noise"))
                 }
-                
+
             }
 
             describe("with Notifications urls") {
@@ -588,7 +588,7 @@ class ElloURISpec: QuickSpec {
                     expect(type).to(equal(ElloURI.Settings))
                     expect(data).to(equal("https://ello-staging2.herokuapp.com/settings"))
                 }
-                
+
             }
 
             describe("with Enter urls") {
@@ -716,7 +716,7 @@ class ElloURISpec: QuickSpec {
                     expect(type).to(equal(ElloURI.WhoMadeThis))
                     expect(data).to(equal("https://ello-staging2.herokuapp.com/who-made-this"))
                 }
-                
+
             }
 
             describe("with Subdomain urls") {

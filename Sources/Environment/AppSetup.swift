@@ -14,10 +14,14 @@ public class AppSetup {
         public static let calculatorHeight = CGFloat(20)
     }
 
-    lazy var useStaging = true
-    var isTesting = false
+    public var isTesting = false
+    private var _isSimulator: Bool?
+    public var isSimulator: Bool! {
+        get { return _isSimulator ?? (UIDevice.currentDevice().model != "iPhone Simulator") }
+        set { _isSimulator = newValue }
+    }
 
-    class var sharedState : AppSetup {
+    public class var sharedState : AppSetup {
         struct Static {
             static let instance = AppSetup()
         }
@@ -25,7 +29,9 @@ public class AppSetup {
     }
 
     public init() {
-        useStaging = Defaults["ElloUseStaging"].bool ?? true
-        if let inTests: AnyClass = NSClassFromString("XCTest") { isTesting = true }
+        if let inTests: AnyClass = NSClassFromString("XCTest") {
+            isTesting = true
+        }
     }
+
 }
