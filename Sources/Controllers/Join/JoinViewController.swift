@@ -156,7 +156,11 @@ public class JoinViewController: BaseElloViewController, HasAppController {
     private func join() {
         Tracker.sharedTracker.tappedJoin()
 
-        if allFieldsValid() {
+        let email = emailField.text
+        let username = usernameField.text
+        let password = passwordField.text
+
+        if allFieldsValid(email: email, username: username, password: password) {
             hideErrorLabel()
             hideMessageLabel()
 
@@ -166,10 +170,6 @@ public class JoinViewController: BaseElloViewController, HasAppController {
             emailField.resignFirstResponder()
             usernameField.resignFirstResponder()
             passwordField.resignFirstResponder()
-
-            let email = emailField.text
-            let username = usernameField.text
-            let password = passwordField.text
 
             let joinAborted: () -> Void = {
                 self.view.userInteractionEnabled = true
@@ -214,6 +214,16 @@ public class JoinViewController: BaseElloViewController, HasAppController {
             }
         }
         else {
+            if let msg = emailErrorMessage(email) {
+                self.showErrorLabel(msg)
+            }
+            else if let msg = usernameErrorMessage(username) {
+                self.showErrorLabel(msg)
+            }
+            else if let msg = passwordErrorMessage(email) {
+                self.showErrorLabel(msg)
+            }
+
             Tracker.sharedTracker.joinInvalid()
         }
     }
@@ -312,8 +322,8 @@ extension JoinViewController {
 // MARK: Text field validation
 extension JoinViewController {
 
-    private func allFieldsValid() -> Bool {
-        return validateEmail(emailField.text) && validateUsername(usernameField.text) && validatePassword(passwordField.text)
+    private func allFieldsValid(#email: String, username: String, password: String) -> Bool {
+        return emailIsValid(email) && usernameIsValid(username) && passwordIsValid(password)
     }
 
     private func extraHeight() -> CGFloat {
@@ -321,19 +331,19 @@ extension JoinViewController {
         return spacing > 0 ? spacing : 0
     }
 
-    private func validateEmail(text: String) -> Bool {
-        if text.isEmpty {
-            let msg = NSLocalizedString("Email is required.", comment: "email is required message")
-            self.showErrorLabel(msg)
-            return false
+    private func emailIsValid(email: String) -> Bool {
+        return emailErrorMessage(email) == nil
+    }
+
+    private func emailErrorMessage(email: String) -> String? {
+        if email.isEmpty {
+            return NSLocalizedString("Email is required.", comment: "email is required message")
         }
-        else if text.isValidEmail() {
-            return true
+        else if email.isValidEmail() {
+            return nil
         }
         else {
-            let msg = NSLocalizedString("That email is invalid.\nPlease try again.", comment: "invalid email message")
-            self.showErrorLabel(msg)
-            return false
+            return NSLocalizedString("That email is invalid.\nPlease try again.", comment: "invalid email message")
         }
     }
 
@@ -389,27 +399,29 @@ extension JoinViewController {
         })
     }
 
-    private func validateUsername(text: String) -> Bool {
-        if text.isEmpty {
-            self.hideMessageLabel()
-            let msg = NSLocalizedString("Username is required.", comment: "username is required message")
-            self.showErrorLabel(msg)
-            return false
+    private func usernameIsValid(username: String) -> Bool {
+        return usernameErrorMessage(username) == nil
+    }
+
+    private func usernameErrorMessage(username: String) -> String? {
+        if username.isEmpty {
+            return NSLocalizedString("Username is required.", comment: "username is required message")
         }
         else {
-            return true
+            return nil
         }
     }
 
-    private func validatePassword(text: String) -> Bool {
-        if text.isValidPassword() {
-            self.hideErrorLabel()
-            return true
+    private func passwordIsValid(password: String) -> Bool {
+        return passwordErrorMessage(password) == nil
+    }
+
+    private func passwordErrorMessage(password: String) -> String? {
+        if password.isValidPassword() {
+            return nil
         }
         else {
-            let msg = NSLocalizedString("Password must be at least 8\ncharacters long.", comment: "password length error message")
-            self.showErrorLabel(msg)
-            return false
+            return NSLocalizedString("Password must be at least 8\ncharacters long.", comment: "password length error message")
         }
     }
 
