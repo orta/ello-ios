@@ -859,8 +859,11 @@ extension OmnibarMultiRegionScreen: UITextViewDelegate {
             let autoComplete = AutoComplete()
             // deleting characters yields a range.length > 0, go back 1 character for deletes
             let location = range.length > 0 && range.location > 0 ? range.location - 1 : range.location
-            if let match = autoComplete.check(textView.text, location: location) {
+            let text = textView.text
+            if let match = autoComplete.check(text, location: location) {
                 self.autoCompleteVC.load(match) { count in
+                    if text != textView.text { return }
+
                     if count > 0 {
                         self.showAutoComplete(textView, count: count)
                     }
