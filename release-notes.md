@@ -1,3 +1,44 @@
+### Ello Build v1.0.0(3065) September 10, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #555 - line height fix
+
+------
+
+#### #553 - Updates the Join View to look like the comps.
+This is branched off `cg-join-api-fixes`, so that should be merged first.
+
+I copied the SignIn screen, then pulled in UI that was particular to the Join screen.  No more `ElloTextFieldView` on this screen.
+
+```
+Test Suite 'Selected tests' passed at 2015-09-08 22:17:52 +0000.
+   Executed 1263 tests, with 0 failures (0 unexpected) in 45.648 (47.128) seconds
+```
+
+------
+
+#### #552 - Fixes the 'Join' endpoint (and others).
+The 'Join' endpoint was not using the JSON encoding - neither were some other POST/PATCH/DELETE requests, so this changes the `var method: Moya.Method` to return based on the HTML request type.
+
+```GET and HEAD -> .URL```
+```POST, PUT, DELETE, PATCH -> .JSON```
+
+------
+
+#### #554 - Make serverTrustPolicies a computed property.
+* The goal was to make it so that you could still use charles in the sim without the need to recompile after updating the string to not match any more.
+* I haven’t been able to get the tests to run on my machine, so I’m not sure this is good or not. It does seem to work properly when I change the operator from `!=` to `==`.
+
+------
+
+#### #551 - Bump app version to 1.0.7
+We discussed bumping the app version to a newer one after each release. Our next app store release will be 1.0.7, this bumps us for crashlytics builds until then.
+    
+------------
+
 ### Ello Build v1.0.0(3037) September 4, 2015
 
     RELEASE NOTES
