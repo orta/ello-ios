@@ -269,7 +269,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
 
         textView.clipsToBounds = false
         textView.editable = true
-        textView.allowsEditingTextAttributes = true
+        textView.allowsEditingTextAttributes = false
         textView.selectable = true
         textView.delegate = self
         textView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
