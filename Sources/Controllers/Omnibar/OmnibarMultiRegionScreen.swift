@@ -259,8 +259,11 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
         regionsTableView.registerClass(OmnibarErrorCell.self, forCellReuseIdentifier: OmnibarErrorCell.reuseIdentifier())
 
         textScrollView.delegate = self
-        let gesture = UITapGestureRecognizer(target: self, action: Selector("stopEditing"))
-        textScrollView.addGestureRecognizer(gesture)
+        let tapGesture = UITapGestureRecognizer(target: self, action: Selector("stopEditing"))
+        textScrollView.addGestureRecognizer(tapGesture)
+        let swipeGesture = UISwipeGestureRecognizer(target: self, action: Selector("stopEditing"))
+        swipeGesture.direction = .Down
+        textScrollView.addGestureRecognizer(swipeGesture)
         textScrollView.clipsToBounds = true
         textContainer.backgroundColor = UIColor.whiteColor()
 
@@ -491,7 +494,6 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
 
     public func keyboardWillHide() {
         self.setNeedsLayout()
-        editingCanceled()
         UIView.animateWithDuration(Keyboard.shared().duration,
             delay: 0.0,
             options: Keyboard.shared().options,
@@ -654,6 +656,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
 // MARK: Camera / Image Picker
 
     public func addImageAction() {
+        stopEditing()
         let alert = UIImagePickerController.alertControllerForImagePicker(openImagePicker)
         alert.map { self.delegate?.omnibarPresentController($0) }
     }
