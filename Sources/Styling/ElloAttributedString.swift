@@ -11,7 +11,7 @@ public struct ElloAttributedString {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 6
 
-        let attrs: [String: AnyObject] = [
+        var attrs: [String: AnyObject] = [
             NSParagraphStyleAttributeName: paragraphStyle,
             NSFontAttributeName: UIFont.typewriterFont(12),
             NSForegroundColorAttributeName: UIColor.blackColor(),
