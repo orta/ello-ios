@@ -9,8 +9,8 @@
 public class OmnibarTextCell: UITableViewCell {
     class func reuseIdentifier() -> String { return "OmnibarTextCell" }
     struct Size {
-        static let textMargins = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
-        static let minEditingHeight = CGFloat(22)
+        static let textMargins = UIEdgeInsets(top: 11, left: 15, bottom: 11, right: 15)
+        static let minHeight = CGFloat(44)
         static let maxEditingHeight = CGFloat(77)
     }
 
@@ -83,9 +83,9 @@ public class OmnibarTextCell: UITableViewCell {
         let textHeight = heightPadding + round(tvSize.height)
 
         if editing {
-            return min(Size.maxEditingHeight, max(Size.minEditingHeight, textHeight))
+            return min(Size.maxEditingHeight, max(Size.minHeight, textHeight))
         }
-        return textHeight
+        return max(Size.minHeight, textHeight)
     }
 
 }
