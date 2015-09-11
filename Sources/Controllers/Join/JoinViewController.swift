@@ -50,13 +50,13 @@ public class JoinViewController: BaseElloViewController, HasAppController {
         passwordField.hasOnePassword = onePasswordAvailable
         onePasswordButton.hidden = !onePasswordAvailable
 
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 6
         let attrs = ElloAttributedString.attrs([
-            NSParagraphStyleAttributeName : paragraphStyle
+            NSForegroundColorAttributeName: UIColor.greyA(),
+            NSFontAttributeName: UIFont.typewriterFont(14),
         ])
         let linkAttrs = ElloAttributedString.attrs(ElloAttributedString.linkAttrs(), [
-            NSParagraphStyleAttributeName : paragraphStyle
+            NSForegroundColorAttributeName: UIColor.greyA(),
+            NSFontAttributeName: UIFont.typewriterFont(14),
         ])
         termsButton.setAttributedTitle(
             NSAttributedString(string: "By Clicking Create Account you are agreeing to our ", attributes: attrs) + NSAttributedString(string: "Terms", attributes: linkAttrs), forState: .Normal)
