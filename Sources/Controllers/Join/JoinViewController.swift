@@ -25,7 +25,7 @@ public class JoinViewController: BaseElloViewController, HasAppController {
     @IBOutlet weak public var joinButton: ElloButton!
     @IBOutlet weak public var termsButton: ElloTextButton!
     @IBOutlet weak public var errorLabel: ElloErrorLabel!
-    @IBOutlet weak public var messageLabel: ElloErrorLabel!
+    @IBOutlet weak public var messageLabel: ElloLabel!
 
     private var keyboardWillShowObserver: NotificationObserver?
     private var keyboardWillHideObserver: NotificationObserver?
@@ -50,13 +50,13 @@ public class JoinViewController: BaseElloViewController, HasAppController {
         passwordField.hasOnePassword = onePasswordAvailable
         onePasswordButton.hidden = !onePasswordAvailable
 
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 6
         let attrs = ElloAttributedString.attrs([
-            NSParagraphStyleAttributeName : paragraphStyle
+            NSForegroundColorAttributeName: UIColor.greyA(),
+            NSFontAttributeName: UIFont.typewriterFont(14),
         ])
         let linkAttrs = ElloAttributedString.attrs(ElloAttributedString.linkAttrs(), [
-            NSParagraphStyleAttributeName : paragraphStyle
+            NSForegroundColorAttributeName: UIColor.greyA(),
+            NSFontAttributeName: UIFont.typewriterFont(14),
         ])
         termsButton.setAttributedTitle(
             NSAttributedString(string: "By Clicking Create Account you are agreeing to our ", attributes: attrs) + NSAttributedString(string: "Terms", attributes: linkAttrs), forState: .Normal)
@@ -114,7 +114,7 @@ public class JoinViewController: BaseElloViewController, HasAppController {
     }
 
     private func showMessageLabel(messageText:String) {
-        messageLabel.setLabelText(messageText)
+        messageLabel.setLabelText(messageText, color: .blackColor())
 
         animate {
             self.messageLabel.alpha = 1.0
@@ -160,16 +160,16 @@ public class JoinViewController: BaseElloViewController, HasAppController {
         let username = usernameField.text
         let password = passwordField.text
 
+        emailField.resignFirstResponder()
+        usernameField.resignFirstResponder()
+        passwordField.resignFirstResponder()
+
         if allFieldsValid(email: email, username: username, password: password) {
             hideErrorLabel()
             hideMessageLabel()
 
             self.elloLogo.animateLogo()
             self.view.userInteractionEnabled = false
-
-            emailField.resignFirstResponder()
-            usernameField.resignFirstResponder()
-            passwordField.resignFirstResponder()
 
             let joinAborted: () -> Void = {
                 self.view.userInteractionEnabled = true
@@ -220,7 +220,7 @@ public class JoinViewController: BaseElloViewController, HasAppController {
             else if let msg = usernameErrorMessage(username) {
                 self.showErrorLabel(msg)
             }
-            else if let msg = passwordErrorMessage(email) {
+            else if let msg = passwordErrorMessage(password) {
                 self.showErrorLabel(msg)
             }
 

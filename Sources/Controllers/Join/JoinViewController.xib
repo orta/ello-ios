@@ -40,18 +40,6 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DZl-p0-pDD" userLabel="Container">
                             <rect key="frame" x="113" y="0.0" width="374" height="550"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="A0M-xe-Nju" userLabel="termsButton" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="485" width="374" height="50"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="50" id="OVa-M7-CD7"/>
-                                    </constraints>
-                                    <state key="normal" title="By Clicking Create Account you are agreeing to our Terms">
-                                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="termsTapped:" destination="-1" eventType="touchUpInside" id="Exz-Ru-i3U"/>
-                                    </connections>
-                                </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kvr-jh-45I" userLabel="joinButton" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
                                     <rect key="frame" x="329" y="30" width="45" height="34"/>
                                     <state key="normal" title="Login">
@@ -79,26 +67,11 @@
                                             <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vgn-5g-l6s" userLabel="messageLabel" customClass="ElloErrorLabel" customModule="Ello" customModuleProvider="target">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vgn-5g-l6s" userLabel="messageLabel" customClass="ElloLabel" customModule="Ello" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="294" width="374" height="0.0"/>
-                                            <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="13"/>
+                                            <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="14"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mXi-Dh-2b3" userLabel="enterButton" customClass="ElloButton" customModule="Ello" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="352" width="374" height="49"/>
-                                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="49" id="xY6-5x-S3t" userLabel="height"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                            <state key="normal" title="Create Account">
-                                                <color key="titleColor" red="0.99989169840000003" green="1" blue="0.99988096950000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="joinTapped:" destination="-1" eventType="touchUpInside" id="lxK-gs-ONy"/>
-                                            </connections>
-                                        </button>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter your email address" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Ecl-Le-Hms" userLabel="emailTextField" customClass="ElloTextField" customModule="Ello" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="178" width="374" height="49"/>
                                             <color key="backgroundColor" red="0.78030639889999998" green="0.78044152259999999" blue="0.78029787539999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -144,6 +117,21 @@
                                                 <action selector="findLoginFrom1Password:" destination="-1" eventType="touchUpInside" id="fcH-5I-QIA"/>
                                             </connections>
                                         </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mXi-Dh-2b3" userLabel="enterButton" customClass="ElloButton" customModule="Ello" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="352" width="374" height="49"/>
+                                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="49" id="xY6-5x-S3t" userLabel="height"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <state key="normal" title="Create Account">
+                                                <color key="titleColor" red="0.99989169840000003" green="1" blue="0.99988096950000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="joinTapped:" destination="-1" eventType="touchUpInside" id="lxK-gs-ONy"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <constraints>
@@ -172,19 +160,32 @@
                                         <constraint firstItem="mXi-Dh-2b3" firstAttribute="top" secondItem="6cH-fy-COQ" secondAttribute="bottom" constant="9" id="vK6-1F-Dvx" userLabel="enterButtonTopConstraint"/>
                                     </constraints>
                                 </view>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="A0M-xe-Nju" userLabel="termsButton" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="485" width="374" height="50"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="50" id="OVa-M7-CD7"/>
+                                    </constraints>
+                                    <state key="normal" title="By Clicking Create Account you are agreeing to our Terms">
+                                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="termsTapped:" destination="-1" eventType="touchUpInside" id="Exz-Ru-i3U"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstAttribute="bottom" secondItem="A0M-xe-Nju" secondAttribute="bottom" constant="15" id="0aC-KH-NFH" userLabel="forgotPasswordButton - bottom"/>
+                                <constraint firstAttribute="bottom" secondItem="A0M-xe-Nju" secondAttribute="bottom" constant="15" id="0aC-KH-NFH" userLabel="termsButton - bottom"/>
                                 <constraint firstAttribute="trailing" secondItem="uf9-Ru-Mxy" secondAttribute="trailing" id="9U2-Iy-mGB" userLabel="container | centered - right"/>
                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="374" id="I48-lB-aQZ" userLabel="container - width"/>
                                 <constraint firstAttribute="trailing" secondItem="kvr-jh-45I" secondAttribute="trailing" id="SKf-9m-1BF" userLabel="joinButton - right"/>
-                                <constraint firstAttribute="trailing" secondItem="A0M-xe-Nju" secondAttribute="trailing" id="UFn-Ct-oq3"/>
+                                <constraint firstAttribute="trailing" secondItem="A0M-xe-Nju" secondAttribute="trailing" id="UFn-Ct-oq3" userLabel="container | termsButton - right"/>
+                                <constraint firstItem="A0M-xe-Nju" firstAttribute="top" relation="greaterThanOrEqual" secondItem="uf9-Ru-Mxy" secondAttribute="bottom" id="Urb-Hl-bpy" userLabel="V: centered | termsButton"/>
                                 <constraint firstItem="uf9-Ru-Mxy" firstAttribute="leading" secondItem="DZl-p0-pDD" secondAttribute="leading" id="YZj-0V-GY8" userLabel="container | centered - left"/>
                                 <constraint firstItem="kvr-jh-45I" firstAttribute="top" secondItem="DZl-p0-pDD" secondAttribute="top" constant="30" id="Ya8-kU-fBM" userLabel="joinButton - top"/>
                                 <constraint firstItem="A0M-xe-Nju" firstAttribute="leading" secondItem="DZl-p0-pDD" secondAttribute="leading" id="jUM-JQ-BJZ" userLabel="forgotPasswordButton - left"/>
                                 <constraint firstAttribute="height" constant="550" id="lNS-Ox-BBc" userLabel="container - height"/>
-                                <constraint firstAttribute="centerY" secondItem="uf9-Ru-Mxy" secondAttribute="centerY" id="o1i-ye-eLg" userLabel="container | centered vert alignment"/>
+                                <constraint firstAttribute="centerY" secondItem="uf9-Ru-Mxy" secondAttribute="centerY" priority="999" id="o1i-ye-eLg" userLabel="container | centered vert alignment"/>
                             </constraints>
                         </view>
                     </subviews>
