@@ -160,16 +160,16 @@ public class JoinViewController: BaseElloViewController, HasAppController {
         let username = usernameField.text
         let password = passwordField.text
 
+        emailField.resignFirstResponder()
+        usernameField.resignFirstResponder()
+        passwordField.resignFirstResponder()
+
         if allFieldsValid(email: email, username: username, password: password) {
             hideErrorLabel()
             hideMessageLabel()
 
             self.elloLogo.animateLogo()
             self.view.userInteractionEnabled = false
-
-            emailField.resignFirstResponder()
-            usernameField.resignFirstResponder()
-            passwordField.resignFirstResponder()
 
             let joinAborted: () -> Void = {
                 self.view.userInteractionEnabled = true
@@ -220,7 +220,7 @@ public class JoinViewController: BaseElloViewController, HasAppController {
             else if let msg = usernameErrorMessage(username) {
                 self.showErrorLabel(msg)
             }
-            else if let msg = passwordErrorMessage(email) {
+            else if let msg = passwordErrorMessage(password) {
                 self.showErrorLabel(msg)
             }
 
