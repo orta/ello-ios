@@ -310,7 +310,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     private func setupTextViews() {
         textContainer.backgroundColor = UIColor.greyE5()
         textView.editable = true
-        textView.allowsEditingTextAttributes = true
+        textView.allowsEditingTextAttributes = false
         textView.selectable = true
         textView.textColor = UIColor.blackColor()
         textView.font = UIFont.typewriterEditorFont(12)

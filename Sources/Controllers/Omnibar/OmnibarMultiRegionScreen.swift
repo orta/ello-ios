@@ -259,14 +259,17 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
         regionsTableView.registerClass(OmnibarErrorCell.self, forCellReuseIdentifier: OmnibarErrorCell.reuseIdentifier())
 
         textScrollView.delegate = self
-        let gesture = UITapGestureRecognizer(target: self, action: Selector("stopEditing"))
-        textScrollView.addGestureRecognizer(gesture)
+        let tapGesture = UITapGestureRecognizer(target: self, action: Selector("stopEditing"))
+        textScrollView.addGestureRecognizer(tapGesture)
+        let swipeGesture = UISwipeGestureRecognizer(target: self, action: Selector("stopEditing"))
+        swipeGesture.direction = .Down
+        textScrollView.addGestureRecognizer(swipeGesture)
         textScrollView.clipsToBounds = true
         textContainer.backgroundColor = UIColor.whiteColor()
 
         textView.clipsToBounds = false
         textView.editable = true
-        textView.allowsEditingTextAttributes = true
+        textView.allowsEditingTextAttributes = false
         textView.selectable = true
         textView.delegate = self
         textView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
@@ -491,7 +494,6 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
 
     public func keyboardWillHide() {
         self.setNeedsLayout()
-        editingCanceled()
         UIView.animateWithDuration(Keyboard.shared().duration,
             delay: 0.0,
             options: Keyboard.shared().options,
@@ -654,6 +656,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
 // MARK: Camera / Image Picker
 
     public func addImageAction() {
+        stopEditing()
         let alert = UIImagePickerController.alertControllerForImagePicker(openImagePicker)
         alert.map { self.delegate?.omnibarPresentController($0) }
     }
@@ -856,8 +859,11 @@ extension OmnibarMultiRegionScreen: UITextViewDelegate {
             let autoComplete = AutoComplete()
             // deleting characters yields a range.length > 0, go back 1 character for deletes
             let location = range.length > 0 && range.location > 0 ? range.location - 1 : range.location
-            if let match = autoComplete.check(textView.text, location: location) {
+            let text = textView.text
+            if let match = autoComplete.check(text, location: location) {
                 self.autoCompleteVC.load(match) { count in
+                    if text != textView.text { return }
+
                     if count > 0 {
                         self.showAutoComplete(textView, count: count)
                     }
