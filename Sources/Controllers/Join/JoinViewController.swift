@@ -25,7 +25,7 @@ public class JoinViewController: BaseElloViewController, HasAppController {
     @IBOutlet weak public var joinButton: ElloButton!
     @IBOutlet weak public var termsButton: ElloTextButton!
     @IBOutlet weak public var errorLabel: ElloErrorLabel!
-    @IBOutlet weak public var messageLabel: ElloErrorLabel!
+    @IBOutlet weak public var messageLabel: ElloLabel!
 
     private var keyboardWillShowObserver: NotificationObserver?
     private var keyboardWillHideObserver: NotificationObserver?
@@ -114,7 +114,7 @@ public class JoinViewController: BaseElloViewController, HasAppController {
     }
 
     private func showMessageLabel(messageText:String) {
-        messageLabel.setLabelText(messageText)
+        messageLabel.setLabelText(messageText, color: .blackColor())
 
         animate {
             self.messageLabel.alpha = 1.0
