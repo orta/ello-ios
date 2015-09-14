@@ -144,8 +144,8 @@ class OmnibarMultiRegionScreenSpec: QuickSpec {
                     it("should position the avatarButton and buttonContainer (when false)") {
                         subject.canGoBack = false
                         subject.layoutIfNeeded()
-                        expect(subject.avatarButton.frame.minY) < 40
-                        expect(subject.buttonContainer.frame.minY) < 40
+                        expect(subject.avatarButton.frame.minY) == 40
+                        expect(subject.buttonContainer.frame.minY) == 30
                     }
                 }
                 context("var isEditing: Bool") {
