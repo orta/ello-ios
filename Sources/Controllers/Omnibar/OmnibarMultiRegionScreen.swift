@@ -61,7 +61,8 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
         static let margins = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
         static let textMargins = UIEdgeInsets(top: 22, left: 30, bottom: 9, right: 30)
         static let labelCorrection = CGFloat(8.5)
-        static let innerTextMargin = CGFloat(11)
+        static let tableTopMargin = CGFloat(11)
+        static let tableTopInset = CGFloat(26)
         static let bottomTextMargin = CGFloat(1)
         static let toolbarHeight = CGFloat(60)
         static let buttonHeight = CGFloat(45)
@@ -535,7 +536,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
             view.center.y = buttonContainer.frame.height / 2
         }
 
-        regionsTableView.frame = CGRect(x: 0, y: buttonContainer.frame.maxY + Size.innerTextMargin, right: bounds.size.width, bottom: bounds.size.height)
+        regionsTableView.frame = CGRect(x: 0, y: buttonContainer.frame.maxY + Size.tableTopMargin, right: bounds.size.width, bottom: bounds.size.height)
         textScrollView.frame = regionsTableView.frame
 
         var bottomInset = Keyboard.shared().keyboardBottomInset(inView: self)
@@ -546,6 +547,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
             bottomInset += Size.bottomTextMargin
         }
 
+        regionsTableView.contentInset.top = Size.tableTopInset
         regionsTableView.contentInset.bottom = bottomInset
         regionsTableView.scrollIndicatorInsets.bottom = bottomInset
         synchronizeScrollViews()
