@@ -66,6 +66,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
         static let toolbarHeight = CGFloat(75)
         static let avatarHeight = CGFloat(40)
         static let buttonSize = CGFloat(45)
+        static let buttonMargin = CGFloat(10)
     }
 
     class func canEditRegions(regions: [Regionable]?) -> Bool {
@@ -155,14 +156,14 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
 
     weak public var delegate: OmnibarScreenDelegate?
 
-    public let avatarButton = UIButton()
-
-    public let cancelButton = UIButton(frame: CGRect(x: 0 * Size.buttonSize, y: 0, width: Size.buttonSize, height: Size.buttonSize))
-    public let editButton = UIButton(frame: CGRect(x: 1 * Size.buttonSize, y: 0, width: Size.buttonSize, height: Size.buttonSize))
-    public let cameraButton = UIButton(frame: CGRect(x: 2 * Size.buttonSize, y: 0, width: Size.buttonSize, height: Size.buttonSize))
     public let navigationBar = ElloNavigationBar(frame: CGRectZero)
-    public let submitButton = ElloPostButton(frame: CGRect(x: 10 + 3 * Size.buttonSize, y: 0, width: Size.buttonSize, height: Size.buttonSize))
-    public let buttonContainer = UIView(frame: CGRect(x: 0, y: 0, width: 10 + 4 * Size.buttonSize, height: Size.toolbarHeight))
+
+    public let avatarButton = UIButton()
+    public let cancelButton = UIButton()
+    public let editButton = UIButton()
+    public let cameraButton = UIButton()
+    public let submitButton = ElloPostButton()
+    public let buttonContainer = UIView(frame: CGRect(x: 0, y: 0, width: 3 * Size.buttonMargin + 4 * Size.buttonSize, height: Size.toolbarHeight))
     let statusBarUnderlay = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 20))
 
     let regionsTableView = UITableView()
@@ -288,6 +289,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
         for view in views as [UIView] {
             self.addSubview(view)
         }
+
         for view in [cancelButton, editButton, cameraButton, submitButton] as [UIView] {
             buttonContainer.addSubview(view)
         }
@@ -527,8 +529,12 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
 
         buttonContainer.frame = CGRect(x: frame.width - Size.margins.right, y: screenTop + Size.margins.top, width: 0, height: Size.toolbarHeight)
             .growLeft(buttonContainer.frame.width)
+        var buttonX = CGFloat(0)
         for view in buttonContainer.subviews as! [UIView] {
+            view.frame.size = CGSize(width: Size.buttonSize, height: Size.buttonSize)
+            view.frame.origin.x = buttonX
             view.center.y = buttonContainer.frame.height / 2
+            buttonX += Size.buttonMargin + Size.buttonSize
         }
 
         var avatarViewLeft = Size.margins.left
