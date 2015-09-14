@@ -64,18 +64,20 @@ class RelationshipSpec: QuickSpec {
         describe("NSCoding") {
 
             var filePath = ""
-
-            beforeEach {
-                filePath = NSFileManager.ElloDocumentsDir().stringByAppendingPathComponent("UserSpec")
+            if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
+                filePath = url.URLByAppendingPathComponent("UserSpec").absoluteString
             }
 
             afterEach {
-                var error:NSError?
-                NSFileManager.defaultManager().removeItemAtPath(filePath, error: &error)
+                do {
+                     try NSFileManager.defaultManager().removeItemAtPath(filePath)
+                }
+                catch {
+
+                }
             }
 
             context("encoding") {
-
                 it("encodes successfully") {
                     let relationship: Relationship = stub([:])
                     let wasSuccessfulArchived = NSKeyedArchiver.archiveRootObject(relationship, toFile: filePath)
@@ -92,7 +94,7 @@ class RelationshipSpec: QuickSpec {
                         "createdAt": expectedCreatedAt,
                         "owner": User.stub(["id": "123"]),
                         "subject": User.stub(["id": "456"])
-                        ])
+                    ])
 
                     NSKeyedArchiver.archiveRootObject(relationship, toFile: filePath)
                     let unArchivedRelationship = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! Relationship

@@ -13,7 +13,7 @@ import Nimble
 class StreamInviteFriendsCellSpec: QuickSpec {
 
     override func spec() {
-        var subject: StreamInviteFriendsCell = StreamInviteFriendsCell.loadFromNib()
+        let subject: StreamInviteFriendsCell = StreamInviteFriendsCell.loadFromNib()
         
         describe("initialization") {
 

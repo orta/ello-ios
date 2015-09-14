@@ -50,14 +50,17 @@ class UserSpec: QuickSpec {
        context("NSCoding") {
 
             var filePath = ""
-
-            beforeEach {
-                filePath = NSFileManager.ElloDocumentsDir().stringByAppendingPathComponent("UserSpec")
+            if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
+                filePath = url.URLByAppendingPathComponent("UserSpec").absoluteString
             }
 
             afterEach {
-                var error:NSError?
-                NSFileManager.defaultManager().removeItemAtPath(filePath, error: &error)
+                do {
+                    try NSFileManager.defaultManager().removeItemAtPath(filePath)
+                }
+                catch {
+
+                }
             }
 
             context("encoding") {
@@ -74,8 +77,6 @@ class UserSpec: QuickSpec {
             context("decoding") {
 
                 it("decodes successfully") {
-                    let expectedCreatedAt = NSDate()
-
                     let post: Post = stub(["id" : "sample-post-id"])
                     let stubbedMostRecentPost: Post = stub(["id" : "another-sample-post-id", "authorId" : "sample-userId"])
                     let attachment: Attachment = stub(["url": NSURL(string: "http://www.example.com")!, "height": 0, "width": 0, "type": "png", "size": 0 ])

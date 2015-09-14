@@ -17,15 +17,18 @@ class AttachmentSpec: QuickSpec {
         context("NSCoding") {
 
             var filePath = ""
-
-            beforeEach {
-                filePath = NSFileManager.ElloDocumentsDir().stringByAppendingPathComponent("ImageAttachmentSpec")
-                ElloURI.httpProtocol = "https"
+            if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
+                filePath = url.URLByAppendingPathComponent("ImageAttachmentSpec").absoluteString
             }
+            ElloURI.httpProtocol = "https"
 
             afterEach {
-                var error:NSError?
-                NSFileManager.defaultManager().removeItemAtPath(filePath, error: &error)
+                do {
+                    try NSFileManager.defaultManager().removeItemAtPath(filePath)
+                }
+                catch {
+
+                }
             }
 
             context("encoding") {

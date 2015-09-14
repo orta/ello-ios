@@ -13,7 +13,7 @@ import Nimble
 class KeyboardSpec: QuickSpec {
     override func spec() {
         var window: UIWindow!
-        var keyboard: Keyboard = Keyboard.shared()
+        let keyboard: Keyboard = Keyboard.shared()
         var textView: UITextView!
         var insetScrollView: UIScrollView!
 

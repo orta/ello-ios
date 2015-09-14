@@ -66,7 +66,7 @@ class ValidatorSpec: QuickSpec {
             }
 
             it("returns false for an invalid password") {
-                var password = ""
+                let password = ""
                 expect(password.isValidPassword()) == false
             }
         }

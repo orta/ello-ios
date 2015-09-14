@@ -47,7 +47,7 @@ class JoinViewControllerSpec: QuickSpec {
 
             beforeEach {
                 controller = JoinViewController()
-                let view = controller.view
+                _ = controller.view
             }
 
             it("IBOutlets are  not nil") {

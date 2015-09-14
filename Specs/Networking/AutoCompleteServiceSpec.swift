@@ -17,7 +17,7 @@ class AutoCompleteServiceSpec: QuickSpec {
 
         describe("AutoCompleteService") {
 
-            var subject = AutoCompleteService()
+            let subject = AutoCompleteService()
 
             describe("loadResults(#terms:type:success:failure)") {
 
@@ -41,7 +41,7 @@ class AutoCompleteServiceSpec: QuickSpec {
 
                             expect(successCalled) == true
                             expect(failedCalled) == false
-                            expect(count(loadedResults!)) == 3
+                            expect(loadedResults!.count) == 3
                             expect(loadedResults?[1].name) == "lanakane"
                             expect(loadedResults?[1].url!.absoluteString) == "https://abc123.cloudfront.net/uploads/user/avatar/55/ello-small-aaca0f5e.png"
                         }
@@ -95,7 +95,7 @@ class AutoCompleteServiceSpec: QuickSpec {
 
                             expect(successCalled) == true
                             expect(failedCalled) == false
-                            expect(count(loadedResults!)) == 3
+                            expect(loadedResults!.count) == 3
                             expect(loadedResults?[1].name) == "lanakane"
                             expect(loadedResults?[1].url!.absoluteString) == "https://abc123.cloudfront.net/uploads/user/avatar/55/ello-small-aaca0f5e.png"
                         }

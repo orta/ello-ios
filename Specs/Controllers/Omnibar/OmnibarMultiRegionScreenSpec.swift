@@ -44,7 +44,7 @@ enum RegionExpectation {
     func matches(region: OmnibarRegion) -> Bool {
         switch self {
         case let .Text(text): return (region.text?.string ?? "") == text
-        case let .Image: return region.isImage
+        case .Image: return region.isImage
         case .Spacer:
             switch region {
             case .Spacer: return true
@@ -121,7 +121,7 @@ class OmnibarMultiRegionScreenSpec: QuickSpec {
                 context("var currentUser: User?") {
                     it("should set the user") {
                         subject.currentUser = User.stub(["id": "12345"])
-                        expect(subject.currentUser?.id ?? "") == "12345"
+                        expect(subject.currentUser?.id) == "12345"
                     }
                 }
                 context("var canGoBack: Bool") {
@@ -262,7 +262,7 @@ class OmnibarMultiRegionScreenSpec: QuickSpec {
                         subject.regions = [.Text(""), .Image(UIImage(), nil, nil), .Text("")]
                         subject.startEditing()
                         subject.stopEditing()
-                        expect(count(subject.regions)) == 2
+                        expect(subject.regions.count) == 2
                         expect(RegionExpectation.Image.matches(subject.regions[0])) == true
                         expect(RegionExpectation.Text("").matches(subject.regions[1])) == true
                     }
@@ -330,7 +330,7 @@ class OmnibarMultiRegionScreenSpec: QuickSpec {
                     context("setting to empty array") {
                         it("should set it to one text region") {
                             subject.regions = [OmnibarRegion]()
-                            expect(count(subject.regions)) == 1
+                            expect(subject.regions.count) == 1
                             expect(subject.regions[0].isText) == true
                             expect(subject.regions[0].empty) == true
                         }
@@ -338,7 +338,7 @@ class OmnibarMultiRegionScreenSpec: QuickSpec {
                     context("setting to one text region array") {
                         it("should set it to one text region") {
                             subject.regions = [.Text("testing")]
-                            expect(count(subject.regions)) == 1
+                            expect(subject.regions.count) == 1
                             expect(subject.regions[0].isText) == true
                             expect(subject.regions[0].empty) == false
                         }
@@ -346,7 +346,7 @@ class OmnibarMultiRegionScreenSpec: QuickSpec {
                     context("setting to one image region") {
                         it("generates a text region") {
                             subject.regions = [.Image(UIImage(), nil, nil)]
-                            expect(count(subject.regions)) == 2
+                            expect(subject.regions.count) == 2
                             expect(subject.regions[0].isImage) == true
                             expect(subject.regions[1].isText) == true
                             expect(subject.regions[1].text?.string) == ""
@@ -378,8 +378,8 @@ class OmnibarMultiRegionScreenSpec: QuickSpec {
                         let expectations = rule.1
 
                         let regions = subject.editableRegions
-                        expect(count(regions)) == count(expectations)
-                        for (index, expectation) in enumerate(expectations) {
+                        expect(regions.count) == expectations.count
+                        for (index, expectation) in expectations.enumerate() {
                             let (_, region) = regions[index]
                             expect(expectation.matches(region)) == true
                         }
@@ -414,8 +414,8 @@ class OmnibarMultiRegionScreenSpec: QuickSpec {
 
                         subject.reorderingTable(true)
                         let regions = subject.reorderableRegions
-                        expect(count(regions)) == count(expectations)
-                        for (index, expectation) in enumerate(expectations) {
+                        expect(regions.count) == expectations.count
+                        for (index, expectation) in expectations.enumerate() {
                             let (_, region) = regions[index]
                             expect(expectation.matches(region)) == true
                         }
@@ -447,8 +447,8 @@ class OmnibarMultiRegionScreenSpec: QuickSpec {
 
                         subject.reorderingTable(false)
                         let regions = subject.editableRegions
-                        expect(count(regions)) == count(expectations)
-                        for (index, expectation) in enumerate(expectations) {
+                        expect(regions.count) == expectations.count
+                        for (index, expectation) in expectations.enumerate() {
                             let (_, region) = regions[index]
                             expect(expectation.matches(region)) == true
                         }
@@ -540,8 +540,8 @@ class OmnibarMultiRegionScreenSpec: QuickSpec {
                         if subject.tableView(UITableView(), canEditRowAtIndexPath: path) {
                             subject.deleteEditableAtIndexPath(path)
                             let regions = subject.editableRegions
-                            expect(count(regions)) == count(expectations)
-                            for (index, expectation) in enumerate(expectations) {
+                            expect(regions.count) == expectations.count
+                            for (index, expectation) in expectations.enumerate() {
                                 let (_, region) = regions[index]
                                 expect(expectation.matches(region)) == true
                             }
@@ -707,8 +707,8 @@ class OmnibarMultiRegionScreenSpec: QuickSpec {
                         subject.tableView(UITableView(), moveRowAtIndexPath: src, toIndexPath: dest)
                         subject.reorderingTable(false)
                         let regions = subject.editableRegions
-                        expect(count(regions)) == count(expectations)
-                        for (index, expectation) in enumerate(expectations) {
+                        expect(regions.count) == expectations.count
+                        for (index, expectation) in expectations.enumerate() {
                             let (_, region) = regions[index]
                             expect(expectation.matches(region)) == true
                         }
@@ -738,8 +738,8 @@ class OmnibarMultiRegionScreenSpec: QuickSpec {
                         subject.deleteReorderableAtIndexPath(path)
                         subject.reorderingTable(false)
                         let regions = subject.editableRegions
-                        expect(count(regions)) == count(expectations)
-                        for (index, expectation) in enumerate(expectations) {
+                        expect(regions.count) == expectations.count
+                        for (index, expectation) in expectations.enumerate() {
                             let (_, region) = regions[index]
                             expect(expectation.matches(region)) == true
                         }
@@ -751,7 +751,7 @@ class OmnibarMultiRegionScreenSpec: QuickSpec {
                     expect(subject.reordering) == true
                     subject.deleteReorderableAtIndexPath(NSIndexPath(forRow: 0, inSection: 0))
                     expect(subject.reordering) == false
-                    expect(count(subject.regions)) == 1
+                    expect(subject.regions.count) == 1
                     expect(RegionExpectation.Text("").matches(subject.regions[0])) == true
                 }
             }
@@ -770,8 +770,8 @@ class OmnibarMultiRegionScreenSpec: QuickSpec {
 
                         subject.addImage(UIImage())
                         let regions = subject.editableRegions
-                        expect(count(regions)) == count(expectations)
-                        for (index, expectation) in enumerate(expectations) {
+                        expect(regions.count) == expectations.count
+                        for (index, expectation) in expectations.enumerate() {
                             let (_, region) = regions[index]
                             expect(expectation.matches(region)) == true
                         }

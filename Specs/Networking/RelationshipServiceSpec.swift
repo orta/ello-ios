@@ -16,7 +16,7 @@ class RelationshipServiceSpec: QuickSpec {
     override func spec() {
         describe("-updateRelationship") {
 
-            var subject = RelationshipService()
+            let subject = RelationshipService()
 
             it("succeeds") {
                 ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour)

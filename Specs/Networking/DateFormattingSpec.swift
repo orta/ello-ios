@@ -37,7 +37,7 @@ class DateFormattingSpec: QuickSpec {
 
                 it("returns an NSDate from an http data string") {
                     let sep_30_1978 = NSDate(timeIntervalSince1970: 275961600)
-                    expect("Sat, 30 Sep 1978 00:00:00 GMT".toNSDate(formatter: HTTPDateFormatter)) == sep_30_1978
+                    expect("Sat, 30 Sep 1978 00:00:00 GMT".toNSDate(HTTPDateFormatter)) == sep_30_1978
                 }
             }
 

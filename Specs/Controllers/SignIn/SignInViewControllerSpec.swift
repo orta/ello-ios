@@ -16,7 +16,6 @@ class SignInViewControllerSpec: QuickSpec {
 
         var subject = SignInViewController()
         let screenHeight = subject.view.bounds.size.height
-        let screenWidth = subject.view.bounds.size.width
 
         beforeEach {
             subject = SignInViewController()
@@ -160,7 +159,7 @@ class SignInViewControllerSpec: QuickSpec {
 
                     it("adjusts scrollview") {
                         Keyboard.shared().bottomInset = screenHeight - 303.0
-                        postNotification(Keyboard.Notifications.KeyboardWillShow, Keyboard.shared())
+                        postNotification(Keyboard.Notifications.KeyboardWillShow, value: Keyboard.shared())
 
                         expect(subject.scrollView.contentInset.bottom) > 50
                     }
@@ -170,7 +169,7 @@ class SignInViewControllerSpec: QuickSpec {
                     xit("does NOT adjust scrollview") {
                         // this is not easily faked with Keyboard unfortunately
                         Keyboard.shared().bottomInset = screenHeight - 100.0
-                        postNotification(Keyboard.Notifications.KeyboardWillShow, Keyboard.shared())
+                        postNotification(Keyboard.Notifications.KeyboardWillShow, value: Keyboard.shared())
 
                         expect(subject.scrollView.contentInset.bottom) == 0
                     }
@@ -181,7 +180,7 @@ class SignInViewControllerSpec: QuickSpec {
 
                 it("adjusts scrollview") {
                     Keyboard.shared().bottomInset = 0.0
-                    postNotification(Keyboard.Notifications.KeyboardWillHide, Keyboard.shared())
+                    postNotification(Keyboard.Notifications.KeyboardWillHide, value: Keyboard.shared())
 
                     expect(subject.scrollView.contentInset.bottom) == 0.0
                 }

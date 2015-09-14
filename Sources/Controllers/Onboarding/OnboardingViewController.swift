@@ -16,8 +16,6 @@ protocol OnboardingStep {
     func onboardingStepBegin()
 }
 
-
-
 public class OnboardingData {
     var name: String?
     var bio: String?
@@ -30,7 +28,6 @@ private enum OnboardingDirection: CGFloat {
     case Left = -1
     case Right = 1
 }
-
 
 public class OnboardingViewController: BaseElloViewController, HasAppController {
     public struct Size {

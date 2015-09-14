@@ -103,7 +103,7 @@ public struct ElloProvider {
     }
 
     public static func ErrorStubbingProvider() -> MoyaProvider<ElloAPI> {
-        return MoyaProvider<ElloAPI>(endpointClosure: endpointClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour, manager: manager)
+        return MoyaProvider<ElloAPI>(endpointClosure: errorEndpointsClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour, manager: manager)
     }
 
     private struct SharedProvider {

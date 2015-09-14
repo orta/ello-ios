@@ -16,7 +16,7 @@ class InviteCacheSpec: QuickSpec {
         describe("saveInvite") {
             it("saves the contact id to the cache") {
                 let layer = FakePersistentLayer()
-                var inviteCache = InviteCache(persistentLayer: layer)
+                let inviteCache = InviteCache(persistentLayer: layer)
                 inviteCache.saveInvite("contact id")
                 expect(layer.object?.last) == "contact id"
             }

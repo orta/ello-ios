@@ -17,8 +17,6 @@ class ContentFlaggingServiceSpec: QuickSpec {
     override func spec() {
         describe("-flagContent:") {
 
-            var subject = ContentFlaggingService()
-
             context("success") {
                 beforeEach {
                     ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour)

@@ -32,16 +32,16 @@ class PostSpec: QuickSpec {
                 // required
                 expect(post.token) == "tThn9GP4HXth_rigKefSiQ"
                 expect(post.contentWarning) == ""
-                expect(count(post.summary)) == 2
+                expect(post.summary.count) == 2
                 expect(post.summary[0].kind) == "text"
                 expect(post.summary[1].kind) == "image"
                 expect(post.reposted) == false
                 expect(post.loved) == false
                 // optional
-                expect(count(post.content!)) == 2
+                expect(post.content!.count) == 2
                 expect(post.content![0].kind) == "text"
                 expect(post.content![1].kind) == "image"
-                expect(count(post.body!)) == 2
+                expect(post.body!.count) == 2
                 expect(post.body![0].kind) == "text"
                 expect(post.body![1].kind) == "image"
                 expect(post.viewsCount) == 1
@@ -50,10 +50,10 @@ class PostSpec: QuickSpec {
                 // TODO: create a JSON that has all of these optionals in it
                 // links
                 expect(post.author).to(beAKindOf(User.self))
-                expect(count(post.comments!)) == 2
+                expect(post.comments!.count) == 2
                 expect(post.comments![0]).to(beAKindOf(Comment.self))
                 expect(post.comments![1]).to(beAKindOf(Comment.self))
-                expect(count(post.assets!)) == 1
+                expect(post.assets!.count) == 1
                 expect(post.assets![0]).to(beAKindOf(Asset.self))
                 // computed
                 expect(post.groupId) == post.id
@@ -72,23 +72,23 @@ class PostSpec: QuickSpec {
                 // required
                 expect(post.token) == "FfxEZGO3ucaiaT82cID4jQ"
                 expect(post.contentWarning) == ""
-                expect(count(post.summary)) == 2
+                expect(post.summary.count) == 2
                 expect(post.summary[0].kind) == "text"
                 expect(post.summary[1].kind) == "image"
                 // optional
-                expect(count(post.content!)) == 1
+                expect(post.content!.count) == 1
                 expect(post.repostContent![0].kind) == "text"
                 expect(post.viewsCount) == 0
                 expect(post.commentsCount) == 0
                 expect(post.repostsCount) == 2
-                expect(count(post.repostContent!)) == 2
+                expect(post.repostContent!.count) == 2
                 expect(post.repostContent![0].kind) == "text"
                 expect(post.repostContent![1].kind) == "image"
                 // TODO: create a JSON that has all of these optionals in it
                 // links
                 expect(post.repostAuthor!).to(beAKindOf(User.self))
-                expect(count(post.comments!)) == 0
-                expect(count(post.assets!)) == 1
+                expect(post.comments!.count) == 0
+                expect(post.assets!.count) == 1
                 expect(post.assets![0]).to(beAKindOf(Asset.self))
                 // computed
                 expect(post.groupId) == post.id
@@ -101,14 +101,17 @@ class PostSpec: QuickSpec {
         context("NSCoding") {
 
             var filePath = ""
-
-            beforeEach {
-                filePath = NSFileManager.ElloDocumentsDir().stringByAppendingPathComponent("PostSpec")
+            if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
+                filePath = url.URLByAppendingPathComponent("PostSpec").absoluteString
             }
 
             afterEach {
-                var error:NSError?
-                NSFileManager.defaultManager().removeItemAtPath(filePath, error: &error)
+                do {
+                    try NSFileManager.defaultManager().removeItemAtPath(filePath)
+                }
+                catch {
+
+                }
             }
 
             context("encoding") {
@@ -123,7 +126,7 @@ class PostSpec: QuickSpec {
             context("decoding") {
 
                 func testRegionContent(content: [Regionable]) {
-                    expect(count(content)) == 2
+                    expect(content.count) == 2
                     let textRegion = content[0] as! TextRegion
                     let imageRegion = content[1] as! ImageRegion
                     let imageAsset = imageRegion.asset!
@@ -253,8 +256,8 @@ class PostSpec: QuickSpec {
                     expect(unArchivedPost.loved) == true
                     // links
                     expect(unArchivedPost.author!.id) == "555"
-                    expect(count(unArchivedPost.assets!)) == 1
-                    expect(count(unArchivedPost.comments!)) == 1
+                    expect(unArchivedPost.assets!.count) == 1
+                    expect(unArchivedPost.comments!.count) == 1
                     expect(unArchivedPost.comments![0]).to(beAKindOf(Comment.self))
                     // computed
                     expect(post.collapsed) == true

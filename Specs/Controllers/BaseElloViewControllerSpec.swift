@@ -17,8 +17,10 @@ class BaseElloViewControllerSpec: QuickSpec {
 
             it("should return 'true'") {
                 let controller = NotificationsViewController()
-                let navController = UINavigationController(rootViewController: controller)
-                expect(controller.isRootViewController()).to(beTrue())
+                let navigationController = UINavigationController(rootViewController: controller)
+
+                expect(controller.isRootViewController()) == true
+                expect(navigationController).toNot(beNil())
             }
 
             it("should return 'false'") {
@@ -26,7 +28,7 @@ class BaseElloViewControllerSpec: QuickSpec {
                 let controller = NotificationsViewController()
                 let navController = UINavigationController(rootViewController: anyController)
                 navController.pushViewController(controller, animated: false)
-                expect(controller.isRootViewController()).to(beFalse())
+                expect(controller.isRootViewController()) == false
             }
         }
     }

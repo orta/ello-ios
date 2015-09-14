@@ -21,10 +21,10 @@ class LoveSpec: QuickSpec {
                 let love = Love.fromJSON(data) as! Love
 
                 let createdAtString = "2015-05-20T17:20:22.607Z"
-                var createdAt: NSDate = createdAtString.toNSDate()!
+                let createdAt: NSDate = createdAtString.toNSDate()!
 
                 let updatedAtString = "2015-05-20T17:20:22.607Z"
-                var updatedAt: NSDate = updatedAtString.toNSDate()!
+                let updatedAt: NSDate = updatedAtString.toNSDate()!
 
                 // active record
                 expect(love.id) == "9"
@@ -41,14 +41,17 @@ class LoveSpec: QuickSpec {
         context("NSCoding") {
 
             var filePath = ""
-
-            beforeEach {
-                filePath = NSFileManager.ElloDocumentsDir().stringByAppendingPathComponent("LoveSpec")
+            if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
+                filePath = url.URLByAppendingPathComponent("LoveSpec").absoluteString
             }
 
             afterEach {
-                var error:NSError?
-                NSFileManager.defaultManager().removeItemAtPath(filePath, error: &error)
+                do {
+                    try NSFileManager.defaultManager().removeItemAtPath(filePath)
+                }
+                catch {
+
+                }
             }
 
             context("encoding") {

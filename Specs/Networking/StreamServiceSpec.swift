@@ -16,7 +16,7 @@ class StreamServiceSpec: QuickSpec {
     override func spec() {
         describe("StreamServiceSpec") {
 
-            var streamService = StreamService()
+            let streamService = StreamService()
 
             context("success") {
 
@@ -37,7 +37,7 @@ class StreamServiceSpec: QuickSpec {
                         expect(config?.prevQueryItems?.count) == 2
                         expect(config?.nextQueryItems?.count) == 2
 
-                        expect(count(loadedPosts!)) == 3
+                        expect(loadedPosts!.count) == 3
 
                         let post0:Post = loadedPosts![0] as Post
 
@@ -98,7 +98,7 @@ class StreamServiceSpec: QuickSpec {
                             loadedComments = comments as? [Comment]
                         }, failure:nil, noContent: nil)
 
-                        expect(count(loadedComments!)) == 1
+                        expect(loadedComments!.count) == 1
 
                         let expectedCreatedAt = "2014-06-02T00:00:00.000Z".toNSDate()!
                         let comment:Comment = loadedComments![0] as Comment
@@ -152,7 +152,7 @@ class StreamServiceSpec: QuickSpec {
                         expect(loadedStatusCode!) == 404
                         expect(loadedError!).notTo(beNil())
 
-                        let elloNetworkError = loadedError!.userInfo![NSLocalizedFailureReasonErrorKey] as! ElloNetworkError
+                        let elloNetworkError = loadedError!.userInfo[NSLocalizedFailureReasonErrorKey] as! ElloNetworkError
 
                         expect(elloNetworkError).to(beAnInstanceOf(ElloNetworkError.self))
                         expect(elloNetworkError.code) == ElloNetworkError.CodeType.notFound

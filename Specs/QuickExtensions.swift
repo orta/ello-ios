@@ -25,7 +25,7 @@ extension QuickSpec {
 public extension UIStoryboard {
 
     class func storyboardWithId(identifier: String, storyboardName: String = "Main") -> UIViewController {
-        return UIStoryboard(name: storyboardName, bundle: NSBundle(forClass: AppDelegate.self)).instantiateViewControllerWithIdentifier(identifier) as! UIViewController
+        return UIStoryboard(name: storyboardName, bundle: NSBundle(forClass: AppDelegate.self)).instantiateViewControllerWithIdentifier(identifier)
     }
 
 }
@@ -33,17 +33,18 @@ public extension UIStoryboard {
 public func haveRegisteredIdentifier<T: UITableView>(identifier: String) -> NonNilMatcherFunc<T> {
     return NonNilMatcherFunc { actualExpression, failureMessage in
         failureMessage.postfixMessage = "\(identifier) should be registered"
-        let tableView = actualExpression.evaluate() as! UITableView
+        let tableView = try! actualExpression.evaluate() as! UITableView
         tableView.reloadData()
-        var cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: NSIndexPath(forRow: 0, inSection: 0)) as? UITableViewCell
-        return cell != nil
+        // Using the side effect of a runtime crash when dequeing a cell here, if it works :thumbsup:
+        let _ = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: NSIndexPath(forRow: 0, inSection: 0))
+        return true
     }
 }
 
 public func beVisibleIn<S: UIView>(view: UIView) -> NonNilMatcherFunc<S> {
     return NonNilMatcherFunc { actualExpression, failureMessage in
         failureMessage.postfixMessage = "be visible in \(view)"
-        let childView = actualExpression.evaluate()
+        let childView = try! actualExpression.evaluate()
         if let childView = childView {
             if childView.hidden || childView.alpha < 0.01 || childView.frame.size.width < 0.1 || childView.frame.size.height < 0.1 {
                 return false
@@ -93,8 +94,7 @@ public func haveImageRegion<S: OmnibarScreenProtocol>() -> NonNilMatcherFunc<S> 
     return NonNilMatcherFunc { actualExpression, failureMessage in
         failureMessage.postfixMessage = "have image"
 
-        if let screen = actualExpression.evaluate() {
-            var matched = false
+        if let screen = try! actualExpression.evaluate() {
             for region in screen.regions {
                 if region.image != nil {
                     return true
@@ -109,8 +109,7 @@ public func haveImageRegion<S: OmnibarScreenProtocol>(equal image: UIImage) -> N
     return NonNilMatcherFunc { actualExpression, failureMessage in
         failureMessage.postfixMessage = "have image that equals \(image)"
 
-        if let screen = actualExpression.evaluate() {
-            var matched = false
+        if let screen = try! actualExpression.evaluate() {
             for region in screen.regions {
                 if let regionImage = region.image where regionImage == image {
                     return true
@@ -124,7 +123,7 @@ public func haveImageRegion<S: OmnibarScreenProtocol>(equal image: UIImage) -> N
 private func allSubviewsIn(view: UIView) -> [UIView] {
     var retVal = [view]
     for subview in view.subviews {
-        retVal += allSubviewsIn(subview as! UIView)
+        retVal += allSubviewsIn(subview)
     }
     return retVal
 }

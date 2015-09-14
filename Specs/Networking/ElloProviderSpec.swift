@@ -79,7 +79,7 @@ class ElloProviderSpec: QuickSpec {
                 let numberOfCerts = 2
                 // Charles installs a cert, and we should allow that, so test
                 // for numberOfCerts OR numberOfCerts + 1
-                expect(count(keys) == numberOfCerts || count(keys) == numberOfCerts + 1) == true
+                expect(keys.count == numberOfCerts || keys.count == numberOfCerts + 1) == true
             }
         }
 
@@ -120,7 +120,7 @@ class ElloProviderSpec: QuickSpec {
                             var loadedStatusCode:Int?
                             var loadedError:NSError?
                             var handled = false
-                            var object = NSError()
+                            var object: NSError!
 
                             let testObserver = NotificationObserver(notification: ElloProvider.ErrorStatusCode.Status401.notification) { error in
                                 handled = true
@@ -140,7 +140,7 @@ class ElloProviderSpec: QuickSpec {
                             expect(loadedStatusCode).to(beNil())
                             expect(loadedError).to(beNil())
 
-                            let elloNetworkError = object.userInfo![NSLocalizedFailureReasonErrorKey] as! ElloNetworkError
+                            let elloNetworkError = object.userInfo[NSLocalizedFailureReasonErrorKey] as! ElloNetworkError
 
                             expect(elloNetworkError).to(beAnInstanceOf(ElloNetworkError.self))
                             expect(elloNetworkError.status) == "401"
@@ -171,7 +171,7 @@ class ElloProviderSpec: QuickSpec {
                             var loadedStatusCode:Int?
                             var loadedError:NSError?
                             var handled = false
-                            var object = NSError()
+                            var object: NSError!
                             let testObserver = NotificationObserver(notification: ElloProvider.ErrorStatusCode.Status410.notification) { error in
                                 handled = true
                                 object = error
@@ -193,7 +193,7 @@ class ElloProviderSpec: QuickSpec {
                             expect(loadedStatusCode).to(beNil())
                             expect(loadedError).to(beNil())
 
-                            let elloNetworkError = object.userInfo![NSLocalizedFailureReasonErrorKey] as! ElloNetworkError
+                            let elloNetworkError = object.userInfo[NSLocalizedFailureReasonErrorKey] as! ElloNetworkError
 
                             expect(elloNetworkError).to(beAnInstanceOf(ElloNetworkError.self))
                             expect(elloNetworkError.status) == "410"
@@ -266,7 +266,7 @@ class NetworkErrorSharedExamplesConfiguration: QuickConfiguration {
                 expect(loadedJSONAbles).to(beNil())
                 expect(loadedStatusCode!) == expectedStatusCode
                 expect(loadedError!).notTo(beNil())
-                let elloNetworkError = loadedError!.userInfo![NSLocalizedFailureReasonErrorKey] as! ElloNetworkError
+                let elloNetworkError = loadedError!.userInfo[NSLocalizedFailureReasonErrorKey] as! ElloNetworkError
 
                 expect(elloNetworkError).to(beAnInstanceOf(ElloNetworkError.self))
                 expect(elloNetworkError.status!) == expectedStatus
@@ -279,7 +279,7 @@ class NetworkErrorSharedExamplesConfiguration: QuickConfiguration {
                 expect(elloNetworkError.code) == expectedCodeType
 
                 if let expectedMessages = expectedMessages {
-                    for (index, message) in enumerate(elloNetworkError.messages!) {
+                    for (index, message) in elloNetworkError.messages!.enumerate() {
                         expect(message) == expectedMessages[index]
                     }
                 }
@@ -287,7 +287,7 @@ class NetworkErrorSharedExamplesConfiguration: QuickConfiguration {
                 if let expectedAttrs = expectedAttrs {
                     for (errorFieldKey, errorArray): (String, [String]) in elloNetworkError.attrs! {
                         let expectedArray = expectedAttrs[errorFieldKey]!
-                        for (fieldIndex, error) in enumerate(errorArray) {
+                        for (_, error) in errorArray.enumerate() {
                             expect(expectedArray).to(contain(error))
                         }
                         expect(expectedAttrs[errorFieldKey]).toNot(beNil())

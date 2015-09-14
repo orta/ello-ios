@@ -17,7 +17,7 @@ class LovesServiceSpec: QuickSpec {
 
         describe("LovesService") {
 
-            var subject = LovesService()
+            let subject = LovesService()
 
             describe("lovePost(#postId:success:failure)") {
 

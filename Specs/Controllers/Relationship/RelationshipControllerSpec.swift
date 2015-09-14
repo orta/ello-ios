@@ -17,7 +17,7 @@ class RelationshipControllerSpec: QuickSpec {
         var subject = RelationshipController(presentingController: UIViewController())
 
         beforeEach({
-            var presentingController = UIViewController()
+            let presentingController = UIViewController()
             self.showController(presentingController)
             subject = RelationshipController(presentingController: presentingController)
 

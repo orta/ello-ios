@@ -17,7 +17,7 @@ class ProfileServiceSpec: QuickSpec {
     override func spec() {
         describe("-loadCurrentUser") {
 
-            var profileService = ProfileService()
+            let profileService = ProfileService()
 
             context("success") {
                 beforeEach {
@@ -44,7 +44,7 @@ class ProfileServiceSpec: QuickSpec {
         }
 
         describe("updateUserProfile") {
-            var profileService = ProfileService()
+            let profileService = ProfileService()
 
             context("success") {
                 beforeEach {
@@ -69,7 +69,7 @@ class ProfileServiceSpec: QuickSpec {
         }
 
         describe("deleteAccount") {
-            var profileService = ProfileService()
+            let profileService = ProfileService()
 
             context("success") {
                 beforeEach {

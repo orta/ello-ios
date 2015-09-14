@@ -13,35 +13,31 @@ import Nimble
 class NumberExtensionsSpec: QuickSpec {
     override func spec() {
 
-        it("returns 123 with 123") {
-            expect(123.numberToHuman()).to(equal("123"))
-        }
+        let expectations: [Int: String] = [
+            123 : "123",
+            1234 : "1.23K",
+            12345 : "12.35K",
+            1234567 : "1.23M",
+            1234567890 : "1.23B",
+        ]
 
-        it("returns 1.23K with 1234") {
-            expect(1234.numberToHuman()).to(equal("1.23K"))
-        }
-
-        it("returns 12.35K with 12345") {
-            expect(12345.numberToHuman()).to(equal("12.35K"))
-        }
-
-        it("returns 1.23M with 1234567") {
-            expect(1234567.numberToHuman()).to(equal("1.23M"))
-        }
-
-        it("returns 1.23B with 1234567890") {
-            expect(1234567890.numberToHuman()).to(equal("1.23B"))
+        for (number, expected) in expectations {
+            it("returns \(expected) with \(number)") {
+                expect(number.numberToHuman()) == expected
+            }
         }
 
         context("when told to show zero") {
             it("returns 0 for 0") {
-                expect(0.numberToHuman(showZero: true)).to(equal("0"))
+                let number = 0
+                expect(number.numberToHuman(showZero: true)) == "0"
             }
         }
 
         context("when not told to show zero") {
             it("returns an empty string for 0") {
-                expect(0.numberToHuman(showZero: false)).to(equal(""))
+                let number = 0
+                expect(number.numberToHuman(showZero: false)) == ""
             }
         }
     }

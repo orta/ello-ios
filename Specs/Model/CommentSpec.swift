@@ -28,13 +28,13 @@ class CommentSpec: QuickSpec {
                 expect(comment.createdAt) == createdAt
                 // required
                 expect(comment.postId) == "42"
-                expect(count(comment.content)) == 2
+                expect(comment.content.count) == 2
                 expect(comment.content[0].kind) == "text"
                 expect(comment.content[1].kind) == "image"
                 // links
                 expect(comment.author).to(beAKindOf(User.self))
                 expect(comment.parentPost).to(beAKindOf(Post.self))
-                expect(count(comment.assets!)) == 1
+                expect(comment.assets!.count) == 1
                 expect(comment.assets![0]).to(beAKindOf(Asset.self))
                 // computed
                 expect(comment.groupId) == comment.postId
@@ -44,14 +44,17 @@ class CommentSpec: QuickSpec {
         context("NSCoding") {
 
             var filePath = ""
-
-            beforeEach {
-                filePath = NSFileManager.ElloDocumentsDir().stringByAppendingPathComponent("CommentSpec")
+            if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
+                filePath = url.URLByAppendingPathComponent("CommentSpec").absoluteString
             }
 
             afterEach {
-                var error:NSError?
-                NSFileManager.defaultManager().removeItemAtPath(filePath, error: &error)
+                do {
+                    try NSFileManager.defaultManager().removeItemAtPath(filePath)
+                }
+                catch {
+
+                }
             }
 
             context("encoding") {
@@ -66,7 +69,7 @@ class CommentSpec: QuickSpec {
             context("decoding") {
 
                 func testRegionContent(content: [Regionable]) {
-                    expect(count(content)) == 2
+                    expect(content.count) == 2
                     let textRegion = content[0] as! TextRegion
                     let imageRegion = content[1] as! ImageRegion
                     let imageAsset = imageRegion.asset!

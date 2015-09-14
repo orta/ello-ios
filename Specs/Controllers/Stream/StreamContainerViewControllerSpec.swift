@@ -66,7 +66,7 @@ class StreamContainerViewControllerSpec: QuickSpec {
             }
 
             it("has streams") {
-                expect(count(controller.streamControllerViews)) == 2
+                expect(controller.streamControllerViews.count) == 2
             }
 
             it("IBActions are wired up") {

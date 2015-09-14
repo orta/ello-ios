@@ -179,7 +179,7 @@ class ElloAPISpec: QuickSpec {
                     ]
                     for endpoint in endpoints {
                         it("\(endpoint) has the correct headers") {
-                            expect(endpoint.headers["Accept-Language"] as? String) == ""
+                            expect(endpoint.headers["Accept-Language"]) == ""
                         }
                     }
                 }
@@ -193,7 +193,7 @@ class ElloAPISpec: QuickSpec {
                     ]
                     for endpoint in endpoints {
                         it("\(endpoint) has the correct headers") {
-                            expect(endpoint.headers["If-Modified-Since"] as? String) == date.toHTTPDateString()
+                            expect(endpoint.headers["If-Modified-Since"]) == date.toHTTPDateString()
                         }
                     }
                 }
@@ -247,7 +247,7 @@ class ElloAPISpec: QuickSpec {
                     ]
                     for endpoint in endpoints {
                         it("\(endpoint) has the correct headers") {
-                            expect(endpoint.headers["Authorization"] as? String) == AuthToken().tokenWithBearer ?? ""
+                            expect(endpoint.headers["Authorization"]) == AuthToken().tokenWithBearer ?? ""
                         }
                     }
                 }
@@ -286,7 +286,7 @@ class ElloAPISpec: QuickSpec {
                     for endpoint in endpoints {
                         it("\(endpoint) returns .JSON and Content-Type: application/json") {
                             expect(endpoint.encoding) == Moya.ParameterEncoding.JSON
-                            expect(endpoint.headers["Content-Type"] as? String) == "application/json"
+                            expect(endpoint.headers["Content-Type"]) == "application/json"
                         }
                     }
                 }
@@ -325,7 +325,7 @@ class ElloAPISpec: QuickSpec {
                     for endpoint in endpoints {
                         it("\(endpoint) returns .URL and IS NOT Content-Type: application/json") {
                             expect(endpoint.encoding) == Moya.ParameterEncoding.URL
-                            expect(endpoint.headers["Content-Type"] as? String ?? "") != "application/json"
+                            expect(endpoint.headers["Content-Type"] ?? "") != "application/json"
                         }
                     }
                 }
