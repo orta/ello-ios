@@ -471,7 +471,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
     }
 
     public func reportError(title: String, errorMessage: String) {
-        let alertController = AlertViewController(message: title)
+        let alertController = AlertViewController(message: "\(title)\n\n\(errorMessage)")
 
         let cancelAction = AlertAction(title: NSLocalizedString("OK", comment: "ok button"), style: .Light, handler: .None)
         alertController.addAction(cancelAction)
