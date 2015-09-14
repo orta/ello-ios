@@ -29,7 +29,7 @@ public final class UnknownRegion: NSObject, Regionable, NSCoding {
     public func encodeWithCoder(encoder: NSCoder) {
     }
 
-    required public init(coder decoder: NSCoder) {
+    required public init?(coder decoder: NSCoder) {
 
     }
 

@@ -53,7 +53,7 @@ public extension PushNotificationController {
         self.needsPermission = false
         registerStoredToken()
 
-        let settings = UIUserNotificationSettings(forTypes: .Alert | .Badge | .Sound, categories: .None)
+        let settings = UIUserNotificationSettings(forTypes: [.Alert, .Badge, .Sound], categories: .None)
         UIApplication.sharedApplication().registerUserNotificationSettings(settings)
         UIApplication.sharedApplication().registerForRemoteNotifications()
     }
@@ -84,7 +84,7 @@ public extension PushNotificationController {
         case .Active:
             NotificationBanner.displayAlertForPayload(payload)
         default:
-            postNotification(PushNotificationNotifications.interactedWithPushNotification, payload)
+            postNotification(PushNotificationNotifications.interactedWithPushNotification, value: payload)
         }
     }
 
@@ -98,7 +98,7 @@ public extension PushNotificationController {
 
     func hasAlert(userInfo: [NSObject: AnyObject]) -> Bool {
         if  let aps = userInfo["aps"] as? [NSObject: AnyObject],
-            let alert = aps["alert"] as? [NSObject: AnyObject]
+            let _ = aps["alert"] as? [NSObject: AnyObject]
         {
             return true
         }

@@ -11,7 +11,7 @@ import Foundation
 extension NSAttributedString {
     func widthForHeight(height: CGFloat) -> CGFloat {
         return ceil(boundingRectWithSize(CGSize(width: CGFloat.max, height: height),
-            options: .UsesLineFragmentOrigin | .UsesFontLeading,
+            options: [.UsesLineFragmentOrigin, .UsesFontLeading],
             context: nil).size.width)
     }
 }

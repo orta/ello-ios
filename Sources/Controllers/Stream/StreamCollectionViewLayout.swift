@@ -80,7 +80,7 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
         super.init()
     }
 
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         columnCount = 2
         minimumInteritemSpacing = 10
         minimumColumnSpacing = 10
@@ -90,8 +90,8 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
     }
 
     func itemWidthInSectionAtIndex (section : NSInteger) -> CGFloat {
-        var sectionInsets = delegate?.colletionView?(collectionView!, layout: self, insetForSectionAtIndex: section)
-        var insets:UIEdgeInsets = sectionInsets ?? self.sectionInset
+        let sectionInsets = delegate?.colletionView?(collectionView!, layout: self, insetForSectionAtIndex: section)
+        let insets:UIEdgeInsets = sectionInsets ?? self.sectionInset
 
         let width:CGFloat = collectionView!.frame.size.width - insets.left - insets.right
         let spaceColumCount = CGFloat(columnCount-1)
@@ -113,7 +113,7 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
         allItemAttributes.removeAll()
         sectionItemAttributes.removeAll()
 
-        for index in 0..<columnCount {
+        for _ in 0..<columnCount {
             self.columnHeights.append(0)
         }
 
@@ -124,9 +124,9 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
         let itemCounts = allItemAttributes.count
         var index = 0
         while(index < itemCounts){
-            var rect1 = allItemAttributes[index].frame
+            let rect1 = allItemAttributes[index].frame
             index = min(index + unionSize, itemCounts) - 1
-            var rect2 = allItemAttributes[index].frame
+            let rect2 = allItemAttributes[index].frame
             unionRects.append(CGRectUnion(rect1, rect2))
             index++
         }
@@ -135,12 +135,6 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
     private func addAttributesForSection(section:Int) {
 
         var attributes = UICollectionViewLayoutAttributes()
-
-        let minimumSpacing = delegate?.colletionView?(collectionView!, layout: self, minimumInteritemSpacingForSectionAtIndex: section)
-        var minimumInteritemSpacing = minimumSpacing ?? minimumColumnSpacing
-
-        let insets = delegate?.colletionView?(collectionView!, layout: self, insetForSectionAtIndex: section)
-        var sectionInsets = insets ?? sectionInset
 
         let width = collectionView!.frame.size.width - sectionInset.left - sectionInset.right
         let spaceColumCount = CGFloat(columnCount-1)
@@ -154,7 +148,6 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
         var currentColumIndex = 0
         for index in 0..<itemCount {
             let indexPath = NSIndexPath(forItem: index, inSection: section)
-            let isFullWidth = delegate?.collectionView?(collectionView!, layout: self, isFullWidthAtIndexPath: indexPath)
             let itemGroup:String? = self.delegate?.collectionView?(self.collectionView!, layout: self, groupForItemAtIndexPath: indexPath)
             if let itemGroup = itemGroup {
                 if itemGroup != groupIndex {
@@ -186,7 +179,7 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
     }
 
     override public func collectionViewContentSize() -> CGSize {
-        var numberOfSections = collectionView!.numberOfSections()
+        let numberOfSections = collectionView!.numberOfSections()
         if numberOfSections == 0 {
             return CGSizeZero
         }
@@ -195,15 +188,14 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
         return CGSize(width: contentWidth, height: CGFloat(columnHeights.first!))
     }
 
-    override public func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes! {
+    override public func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
         return sectionItemAttributes[indexPath.section][indexPath.item]
     }
 
-    override public func layoutAttributesForElementsInRect (rect : CGRect) -> [AnyObject] {
-        var i = 0
+    override public func layoutAttributesForElementsInRect (rect : CGRect) -> [UICollectionViewLayoutAttributes] {
         var begin = 0
         var end = unionRects.count
-        var attrs = [AnyObject]()
+        var attrs = [UICollectionViewLayoutAttributes]()
 
         for var i = 0; i < end; i++ {
             if CGRectIntersectsRect(rect, unionRects[i]) {
@@ -219,7 +211,7 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
         }
 
         for var i = begin; i < end; i++ {
-            var attr = allItemAttributes[i]
+            let attr = allItemAttributes[i]
             if CGRectIntersectsRect(rect, attr.frame) {
                 attrs.append(attr)
             }
@@ -228,21 +220,21 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
         return attrs
     }
 
-    override public func layoutAttributesForSupplementaryViewOfKind(elementKind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes! {
+    override public func layoutAttributesForSupplementaryViewOfKind(elementKind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
         return UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: "profileHeader", withIndexPath: indexPath)
     }
 
     override public func shouldInvalidateLayoutForBoundsChange (newBounds : CGRect) -> Bool {
-        var oldBounds = collectionView!.bounds
+        let oldBounds = collectionView!.bounds
         return CGRectGetWidth(newBounds) != CGRectGetWidth(oldBounds)
     }
 
     private func shortestColumnIndex() -> Int {
-        return find(columnHeights, minElement(columnHeights)) ?? 0
+        return columnHeights.indexOf(columnHeights.minElement()!) ?? 0
     }
 
     private func longestColumnIndex () -> NSInteger {
-        return find(columnHeights, maxElement(columnHeights)) ?? 0
+        return columnHeights.indexOf(columnHeights.maxElement()!) ?? 0
     }
 
     private func nextColumnIndexForItem (item : NSInteger) -> Int {

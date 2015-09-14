@@ -13,7 +13,7 @@ import Nimble
 import Alamofire
 
 
-@objc class TestObserver {
+class TestObserver {
     var handled = false
     var object:AnyObject?
 
@@ -285,7 +285,7 @@ class NetworkErrorSharedExamplesConfiguration: QuickConfiguration {
                 }
 
                 if let expectedAttrs = expectedAttrs {
-                    for (errorFieldKey:String, errorArray:[String]) in elloNetworkError.attrs! {
+                    for (errorFieldKey, errorArray): (String, [String]) in elloNetworkError.attrs! {
                         let expectedArray = expectedAttrs[errorFieldKey]!
                         for (fieldIndex, error) in enumerate(errorArray) {
                             expect(expectedArray).to(contain(error))

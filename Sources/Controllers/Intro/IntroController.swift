@@ -19,9 +19,9 @@ public class IntroController: UIViewController, UIPageViewControllerDataSource, 
         
         pageViewController = storyboard.instantiateViewControllerWithIdentifier("IntroPager") as? UIPageViewController
         
-        var width = UIScreen.mainScreen().bounds.size.width
-        var height = UIScreen.mainScreen().bounds.size.height;
-        var frame = CGRect(x: 0, y: 0, width: width, height: height)
+        let width = UIScreen.mainScreen().bounds.size.width
+        let height = UIScreen.mainScreen().bounds.size.height;
+        let frame = CGRect(x: 0, y: 0, width: width, height: height)
 
         pageViewController?.view.frame = frame
         pageViewController?.dataSource = self
@@ -50,7 +50,7 @@ public class IntroController: UIViewController, UIPageViewControllerDataSource, 
             lovesPageViewController
         ]
 
-        pageViewController!.setViewControllers([welcomePageViewController] as [AnyObject],
+        pageViewController!.setViewControllers([welcomePageViewController],
             direction: .Forward, animated: false, completion: nil)
         pageViewController!.view.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height);
         
@@ -91,7 +91,7 @@ public class IntroController: UIViewController, UIPageViewControllerDataSource, 
 
         // add status bar to intro
         let bar = UIView(frame: CGRect(x: 0, y: 0, width: frame.width, height: 20))
-        bar.autoresizingMask = .FlexibleWidth | .FlexibleBottomMargin
+        bar.autoresizingMask = [.FlexibleWidth, .FlexibleBottomMargin]
         bar.backgroundColor = UIColor.blackColor()
         view.addSubview(bar)
     }

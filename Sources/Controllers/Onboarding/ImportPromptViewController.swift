@@ -23,6 +23,14 @@ public class ImportPromptViewController: BaseElloViewController, OnboardingStep 
         self.title = "Onboarding Import Friends Prompt"
     }
 
+    func onboardingWillProceed(_: (OnboardingData?) -> Void) {
+        print("implemented but intentionally left blank")
+    }
+
+    func onboardingStepBegin() {
+        print("implemented but intentionally left blank")
+    }
+
 }
 
 
@@ -83,17 +91,17 @@ extension ImportPromptViewController {
         AddressBook.getAddressBook { result in
             nextTick {
                 switch result {
-                case let .Success(box):
-                    self.goToFindFriends(addressBook: box.value)
-                case let .Failure(box):
+                case let .Success(addressBook):
+                    self.goToFindFriends(addressBook: addressBook)
+                case let .Failure(addressBookError):
                     Tracker.sharedTracker.contactAccessPreferenceChanged(false)
-                    self.displayAddressBookAlert(box.value.rawValue)
+                    self.displayAddressBookAlert(addressBookError.rawValue)
                 }
             }
         }
     }
 
-    private func goToFindFriends(#addressBook: ContactList) {
+    private func goToFindFriends(addressBook addressBook: ContactList) {
         Tracker.sharedTracker.contactAccessPreferenceChanged(true)
         let vc = ImportFriendsViewController(addressBook: addressBook)
         vc.onboardingViewController = onboardingViewController

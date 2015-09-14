@@ -13,7 +13,7 @@ class DynamicSettingCategoryViewController: UIViewController, UITableViewDataSou
     var category: DynamicSettingCategory?
     var currentUser: User?
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var navBar: ElloNavigationBar!
+    weak var navBar: ElloNavigationBar!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +43,6 @@ class DynamicSettingCategoryViewController: UIViewController, UITableViewDataSou
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let count = category?.settings.count ?? 0
         return category?.settings.count ?? 0
     }
 

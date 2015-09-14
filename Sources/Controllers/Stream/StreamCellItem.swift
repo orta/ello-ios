@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum StreamCellState: Printable, DebugPrintable {
+public enum StreamCellState: CustomStringConvertible, CustomDebugStringConvertible {
     case None
     case Loading
     case Expanded
@@ -26,7 +26,7 @@ public enum StreamCellState: Printable, DebugPrintable {
 }
 
 
-public final class StreamCellItem: NSObject, NSCopying, Printable {
+public final class StreamCellItem: NSObject, NSCopying {
     public var jsonable: JSONAble
     public var type: StreamCellType
     public var calculatedWebHeight: CGFloat?
@@ -40,7 +40,7 @@ public final class StreamCellItem: NSObject, NSCopying, Printable {
     }
 
     public func copyWithZone(zone: NSZone) -> AnyObject {
-        let copy = self.dynamicType(
+        let copy = self.dynamicType.init(
             jsonable: self.jsonable,
             type: self.type
             )

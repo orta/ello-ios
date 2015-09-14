@@ -24,7 +24,7 @@ public struct OnboardingHeaderCellPresenter {
             if needsHeightUpdate(cell, streamCellItem: streamCellItem) {
                 streamCellItem.calculatedOneColumnCellHeight = cell.height()
                 streamCellItem.calculatedMultiColumnCellHeight = cell.height()
-                postNotification(StreamNotification.UpdateCellHeightNotification, cell)
+                postNotification(StreamNotification.UpdateCellHeightNotification, value: cell)
             }
         }
     }

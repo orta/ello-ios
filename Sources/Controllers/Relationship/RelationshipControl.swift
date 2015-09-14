@@ -19,7 +19,7 @@ public class RelationshipControl: UIControl {
     private let icon = UIImageView(frame: CGRectZero)
     public let mainButton = UIButton(frame: CGRectZero)
     lazy public var moreButton: UIButton = {
-        let button = UIButton.buttonWithType(.Custom) as! UIButton
+        let button = UIButton(type: .Custom)
         button.frame = CGRect(x:0, y: 0, width: 44, height: 30)
         button.setTitle("", forState: .Normal)
         button.setSVGImages("dots")
@@ -56,7 +56,7 @@ public class RelationshipControl: UIControl {
         }
     }
 
-    required public init(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         self.userId = ""
         self.userAtName = ""
         super.init(coder: coder)
@@ -122,8 +122,8 @@ public class RelationshipControl: UIControl {
 
     private func addTargets() {
         mainButton.addTarget(self, action: Selector("buttonTouchUpInside:"), forControlEvents: .TouchUpInside)
-        mainButton.addTarget(self, action: Selector("buttonTouchDown:"), forControlEvents: .TouchDown | .TouchDragEnter)
-        mainButton.addTarget(self, action: Selector("buttonTouchUpOutside:"), forControlEvents: .TouchCancel | .TouchDragExit)
+        mainButton.addTarget(self, action: Selector("buttonTouchDown:"), forControlEvents: [.TouchDown, .TouchDragEnter])
+        mainButton.addTarget(self, action: Selector("buttonTouchUpOutside:"), forControlEvents: [.TouchCancel, .TouchDragExit])
     }
 
     private func updateTitles(active: Bool) {
@@ -147,7 +147,7 @@ public class RelationshipControl: UIControl {
 
     private func updateLayout() {
         label.sizeToFit()
-        let textWidth = label.attributedText.widthForHeight(0)
+        let textWidth = label.attributedText?.widthForHeight(0) ?? 0
         let iconWidth = config.normalIcon?.size.width ?? 0
         let contentWidth = textWidth + iconWidth
 
@@ -177,11 +177,11 @@ public class RelationshipControl: UIControl {
 
     private func styleText(title: String, color: UIColor) -> NSAttributedString {
         let attributed = NSMutableAttributedString(string: title)
-        var range = NSRange(location: 0, length: count(title))
+        let range = NSRange(location: 0, length: title.characters.count)
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .Left
 
-        var attributes = [
+        let attributes = [
             NSFontAttributeName : UIFont.typewriterFont(13.0),
             NSForegroundColorAttributeName : color,
             NSParagraphStyleAttributeName : paragraphStyle

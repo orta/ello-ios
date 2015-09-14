@@ -59,7 +59,7 @@ public struct ElloAttributedString {
                 startNewString = false
             }
         }
-        if count(current.string) > 0 {
+        if current.string.characters.count > 0 {
             strings.append(current)
         }
         return strings
@@ -71,14 +71,14 @@ public struct ElloAttributedString {
 
     public static func parse(input: String) -> NSAttributedString? {
         if let tag = Tag(input: input) {
-            return tag.makeEditable(inheritedAttrs: attrs())
+            return tag.makeEditable(attrs())
         }
         return nil
     }
 
     public static func render(input: NSAttributedString) -> String {
         var output = ""
-        input.enumerateAttributesInRange(NSRange(location: 0, length: input.length), options: nil) { (attrs, range, stopPtr) in
+        input.enumerateAttributesInRange(NSRange(location: 0, length: input.length), options: .LongestEffectiveRangeNotRequired) { (attrs, range, stopPtr) in
             var tags = [String]()
             if let underlineStyle = attrs[NSUnderlineStyleAttributeName] as? Int
             where underlineStyle == NSUnderlineStyle.StyleSingle.rawValue {

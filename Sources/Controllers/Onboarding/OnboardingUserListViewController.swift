@@ -47,31 +47,35 @@ public class OnboardingUserListViewController: StreamableViewController, Onboard
         super.didSetCurrentUser()
     }
 
-    func appendHeaderCellItem(#header: String, message: String) {
+    func appendHeaderCellItem(header header: String, message: String) {
         let headerItem = StreamCellItem(jsonable: JSONAble(version: 1), type: .OnboardingHeader(data: (header, message)))
         self.headerItem = headerItem
         streamViewController.appendStreamCellItems([headerItem])
     }
 
-    func appendFollowAllCellItem(#userCount: Int) {
+    func appendFollowAllCellItem(userCount userCount: Int) {
         let data = FollowAllCounts(userCount: userCount, followedCount: 0)
         let followAllItem = StreamCellItem(jsonable: JSONAble(version: 1), type: .FollowAll(data: data))
         self.followAllItem = followAllItem
         streamViewController.appendStreamCellItems([followAllItem])
     }
 
+    public func onboardingStepBegin() {
+        print("implemented but intentionally left blank")
+    }
+
     public func onboardingWillProceed(proceed: (OnboardingData?) -> Void) {
         let users = userItems().map { $0.jsonable as! User }
         let friendUserIds = users.filter { (user: User) -> Bool in return user.relationshipPriority == .Friend }.map { $0.id }
 
-        if self.users?.count == count(friendUserIds) {
+        if self.users?.count == friendUserIds.count {
             Tracker.sharedTracker.followedAllFeatured()
         }
-        else if count(friendUserIds) > 0 {
+        else if friendUserIds.count > 0 {
             Tracker.sharedTracker.followedSomeFeatured()
         }
 
-        if count(friendUserIds) > 0 {
+        if friendUserIds.count > 0 {
             ElloHUD.showLoadingHud()
             RelationshipService().bulkUpdateRelationships(userIds: friendUserIds, relationshipPriority: .Friend,
                 success: { data in
@@ -102,7 +106,6 @@ public class OnboardingUserListViewController: StreamableViewController, Onboard
 // MARK: RelationshipControllerDelegate
 
     public func shouldSubmitRelationship(userId: String, relationshipPriority: RelationshipPriority) -> Bool {
-        var users = [User]()
         let jsonables = streamViewController.dataSource.streamCellItems.map { (item: StreamCellItem) in return item.jsonable }
         for jsonable in jsonables {
             if let user = jsonable as? User where user.id == userId {
@@ -145,10 +148,10 @@ extension OnboardingUserListViewController {
     }
 
     func updateFollowAllItem() {
-        updateFollowAllItem(userCount: count(users ?? []), followedCount: followedCount())
+        updateFollowAllItem(userCount: (users ?? []).count, followedCount: followedCount())
     }
 
-    func updateFollowAllItem(#userCount: Int, followedCount: Int) {
+    func updateFollowAllItem(userCount userCount: Int, followedCount: Int) {
         followAllItem?.type = .FollowAll(data: FollowAllCounts(userCount: userCount, followedCount: followedCount))
         streamViewController.reloadCells()
     }
@@ -157,15 +160,13 @@ extension OnboardingUserListViewController {
         updateCanGoNextButton(followedCount: followedCount())
     }
 
-    func updateCanGoNextButton(#followedCount: Int) {
+    func updateCanGoNextButton(followedCount followedCount: Int) {
         onboardingViewController?.canGoNext = followedCount > 0
     }
 
     func onFollowAll() {
         if let users = users {
-            let userCount = count(users)
-            let newPriority: RelationshipPriority
-            if userCount == followedCount() {
+            if users.count == followedCount() {
                 friendNone(users)
             }
             else {
@@ -187,7 +188,7 @@ extension OnboardingUserListViewController {
             user.relationshipPriority = relationship
         }
 
-        let userCount = count(users)
+        let userCount = users.count
         let followedCount: Int
         if relationship == .None {
             followedCount = 0
@@ -231,7 +232,7 @@ extension OnboardingUserListViewController {
 
     func usersLoaded(users: [User]) {
         self.users = users
-        var items: [StreamCellItem] = StreamCellItemParser().parse(users, streamKind: streamViewController.streamKind, currentUser: currentUser)
+        let items: [StreamCellItem] = StreamCellItemParser().parse(users, streamKind: streamViewController.streamKind, currentUser: currentUser)
         // this calls doneLoading when cells are added
         streamViewController.appendUnsizedCellItems(items, withWidth: view.frame.width)
     }

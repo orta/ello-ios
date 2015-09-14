@@ -15,7 +15,7 @@ public class NotificationFilterButton: UIButton {
         setup()
     }
 
-    required public init(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         super.init(coder: coder)
         setup()
     }

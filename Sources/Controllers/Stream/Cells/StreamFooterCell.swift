@@ -87,7 +87,7 @@ public class StreamFooterCell: UICollectionViewCell {
     }
 
     public func updateToolbarItems(
-        #streamKind: StreamKind,
+        streamKind streamKind: StreamKind,
         repostVisibility: InteractionVisibility,
         commentVisibility: InteractionVisibility,
         shareVisibility: InteractionVisibility,
@@ -154,7 +154,7 @@ public class StreamFooterCell: UICollectionViewCell {
         }
     }
 
-    override public func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override public func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesEnded(touches, withEvent: event)
     }
 
@@ -333,7 +333,7 @@ public class StreamFooterCell: UICollectionViewCell {
 
 extension StreamFooterCell {
 
-    private func openChevron(#isOpen: Bool) {
+    private func openChevron(isOpen isOpen: Bool) {
         if isOpen {
             rotateChevron(CGFloat(0))
         }
@@ -371,10 +371,10 @@ extension StreamFooterCell: UIScrollViewDelegate {
         if scrollView.contentOffset.x >= revealWidth {
             isOpen = true
             openChevron(isOpen: true)
-            postNotification(streamCellDidOpenNotification, self)
+            postNotification(streamCellDidOpenNotification, value: self)
             Tracker.sharedTracker.postBarVisibilityChanged(isOpen)
         } else {
-            var angle: CGFloat = -CGFloat(M_PI) + CGFloat(M_PI) * scrollView.contentOffset.x / revealWidth
+            let angle: CGFloat = -CGFloat(M_PI) + CGFloat(M_PI) * scrollView.contentOffset.x / revealWidth
             rotateChevron(angle)
             isOpen = false
         }

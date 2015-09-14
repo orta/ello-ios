@@ -8,7 +8,12 @@ class Regex {
     init?(_ pattern: String) {
         self.pattern = pattern
         var error: NSError?
-        self.regex = NSRegularExpression(pattern: pattern, options: NSRegularExpressionOptions(0), error: &error)
+        do {
+            self.regex = try NSRegularExpression(pattern: pattern, options: NSRegularExpressionOptions(rawValue: 0))
+        } catch let error1 as NSError {
+            error = error1
+            self.regex = nil
+        }
         if error != nil { return nil }
     }
 
@@ -25,7 +30,7 @@ class Regex {
 
     func matches(input: String) -> [String] {
         let nsstring = input as NSString
-        let matches = self.regex.matchesInString(input, options: nil, range: NSRange(location: 0, length: nsstring.length)) as! [NSTextCheckingResult]
+        let matches = self.regex.matchesInString(input, options: [], range: NSRange(location: 0, length: nsstring.length)) 
         var ret = [String]()
         for match in matches {
             for i in 0..<match.numberOfRanges {
@@ -177,7 +182,7 @@ enum State: String {
         case .Start:                  return true
         case .Reset:                  return true
         case .Doctype:                return str.lowercaseString =~ "^<!doctype .*?>"
-        case .End:                    return count(str) == 0
+        case .End:                    return str.characters.count == 0
         case .TagOpen:                return str =~ "^<[a-zA-Z]([-_]?[a-zA-Z0-9])*"
         case .TagClose:               return str =~ "^</[a-zA-Z]([-_]?[a-zA-Z0-9])*>"
         case .TagWs:                  return str =~ "^[ \t\n]+"
@@ -222,7 +227,7 @@ enum AttrValue {
     }
 }
 
-public class Tag: Printable {
+public class Tag: CustomStringConvertible {
     var isSingleton = false
     var name: String?
     var attrs = [String: AttrValue]()
@@ -241,11 +246,11 @@ public class Tag: Printable {
         var tmp = input as NSString
         tmp = tmp.stringByReplacingOccurrencesOfString("\r\n", withString: "\n")
         tmp = tmp.stringByReplacingOccurrencesOfString("\r", withString: "\n")
-        var html = tmp as String
+        let html = tmp as String
 
         var c = 0
         while state != .End {
-            var current = (html as NSString).substringWithRange(NSMakeRange(c, count(html) - c))
+            let current = (html as NSString).substringWithRange(NSMakeRange(c, html.characters.count - c))
 
             var nextPossibleStates = [State]()
             for possible in state.nextPossibleStates {
@@ -253,13 +258,13 @@ public class Tag: Printable {
                     nextPossibleStates.append(possible)
                 }
             }
-            if count(nextPossibleStates) == 0 {
+            if nextPossibleStates.count == 0 {
                 return nil
             }
 
-            var nextState = nextPossibleStates.first!
-            var value = nextState.match(current)
-            c += count(value)
+            let nextState = nextPossibleStates.first!
+            let value = nextState.match(current)
+            c += value.characters.count
 
             switch nextState {
             case .Doctype:
@@ -280,9 +285,9 @@ public class Tag: Printable {
                 }
 
                 let newTag = Tag()
-                let name = (value as NSString).substringWithRange(NSMakeRange(1, count(value) - 1))
+                let name = (value as NSString).substringWithRange(NSMakeRange(1, value.characters.count - 1))
                 newTag.name = name
-                newTag.isSingleton = contains(Singletons, name)
+                newTag.isSingleton = Singletons.contains(name)
                 lastTag.tags.append(newTag)
                 parentTags.append(lastTag)
 
@@ -305,11 +310,11 @@ public class Tag: Printable {
                     lastTag.attrs[lastAttr] = .True
                 }
 
-                if lastTag.isSingleton && count(parentTags) > 0 {
+                if lastTag.isSingleton && parentTags.count > 0 {
                     lastTag = parentTags.removeLast()
                 }
             case .Singleton, .TagClose, .IeClose:
-                if count(parentTags) > 0 {
+                if parentTags.count > 0 {
                     lastTag = parentTags.removeLast()
                 }
             case .Text:
@@ -348,13 +353,13 @@ public class Tag: Printable {
     }
 
     public func makeEditable(inheritedAttrs: [String: AnyObject] = [:]) -> NSAttributedString {
-        if let comment = comment {
+        if comment != nil {
             return NSAttributedString()
         }
 
-        var retval = NSMutableAttributedString(string: "")
+        let retval = NSMutableAttributedString(string: "")
         var newAttrs: [String: AnyObject] = inheritedAttrs
-        var text: String? = self.text
+        let text: String? = self.text
 
         if let tag = name {
             switch tag {
@@ -390,9 +395,9 @@ public class Tag: Printable {
             innerText = attrd(text, addlAttrs: newAttrs)
         }
         else {
-            var tempText = NSMutableAttributedString(string: "")
+            let tempText = NSMutableAttributedString(string: "")
             for child in tags {
-                tempText.appendAttributedString(child.makeEditable(inheritedAttrs: newAttrs))
+                tempText.appendAttributedString(child.makeEditable(newAttrs))
             }
             innerText = tempText
         }

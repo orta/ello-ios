@@ -92,7 +92,7 @@ public final class EmbedRegion: JSONAble, Regionable {
         let json = JSON(data)
         Crashlytics.sharedInstance().setObjectValue(json.rawString(), forKey: CrashlyticsKey.EmbedRegionFromJSON.rawValue)
         // create region
-        var embedRegion = EmbedRegion(
+        let embedRegion = EmbedRegion(
             id: json["data"]["id"].stringValue,
             service: EmbedType(rawValue: json["data"]["service"].stringValue) ?? .Unknown,
             url: NSURL(string: json["data"]["url"].stringValue) ?? NSURL(string: "https://ello.co/404")!,

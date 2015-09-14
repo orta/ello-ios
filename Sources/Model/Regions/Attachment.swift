@@ -68,7 +68,7 @@ public final class Attachment: JSONAble {
             url = ElloURI.httpProtocol + ":" + url
         }
         // create attachment
-        var attachment = Attachment(url: NSURL(string: url)!)
+        let attachment = Attachment(url: NSURL(string: url)!)
         // optional
         attachment.size = json["metadata"]["size"].int
         attachment.width = json["metadata"]["width"].int

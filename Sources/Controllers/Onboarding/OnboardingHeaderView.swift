@@ -50,7 +50,7 @@ public class OnboardingHeaderView: UIView {
     override public func layoutSubviews() {
         super.layoutSubviews()
 
-        var labelWidth = self.frame.width - 30
+        let labelWidth = self.frame.width - 30
         headerLabel.frame = CGRect(x: 15, y: 24, width: labelWidth, height: 0)
         headerLabel.sizeToFit()
 

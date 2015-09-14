@@ -24,14 +24,14 @@ public extension String {
                 nil,
                 "!*'();:@&=+$,/?%#[]",
                 CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding)
-                ) as! String
+                ) as String
     }
 
     func urlDecoded() -> String {
         return CFURLCreateStringByReplacingPercentEscapesUsingEncoding(nil,
             self as NSString,
             "",
-            CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding)) as! String
+            CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding)) as String
     }
 
     func entitiesEncoded() -> String {
@@ -296,8 +296,8 @@ public extension String {
 
         var entitiesEncoded = ""
 
-        for i in 0 ..< count(self) {
-            let index = advance(self.startIndex, i)
+        for i in 0 ..< self.characters.count {
+            let index = self.startIndex.advancedBy(i)
             let oneChar = self[index]
 
             if let entity = entityReverseLookup[oneChar] {
@@ -605,7 +605,7 @@ public extension String {
 
                     if scanner.scanString(";", intoString: nil)  {
                         if afterAmpersand.hasPrefix("#") && afterAmpersand.length <= 6 {
-                            let ch = afterAmpersand.substringFromIndex(1).toInt()
+                            let ch = Int(afterAmpersand.substringFromIndex(1))
                             if let ch = ch {
                                 entitiesDecoded += String(format: "%C", ch)
                             }
@@ -661,13 +661,13 @@ public extension String {
     }
 
     var camelCase: String {
-        let splits = split(self) { $0 == "_" }
+        let splits = self.characters.split { $0 == "_" }.map { String($0) }
         var capSplits: [String] = splits.map { s in
             let index = s.startIndex.successor()
             return s.substringToIndex(index).capitalizedString + s.substringFromIndex(index)
         }
         capSplits.replaceRange(0..<1, with: [splits.first ?? ""])
-        return "".join(capSplits)
+        return capSplits.joinWithSeparator("")
     }
 }
 

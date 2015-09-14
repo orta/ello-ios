@@ -5,8 +5,8 @@
 public extension CGRect {
 
 // MARK: debug
-    func tap(_ name:String = "frame") -> CGRect {
-        println("\(name): \(self)")
+    func tap(name:String = "frame") -> CGRect {
+        print("\(name): \(self)")
         return self
     }
 
@@ -66,27 +66,27 @@ public extension CGRect {
     }
 
 // MARK: inset(xxx:)
-    func inset(#all:CGFloat) -> CGRect {
+    func inset(all all:CGFloat) -> CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: all, left: all, bottom: all, right: all))
     }
 
-    func inset(#topBottom:CGFloat, sides: CGFloat) -> CGRect {
+    func inset(topBottom topBottom:CGFloat, sides: CGFloat) -> CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: topBottom, left: sides, bottom: topBottom, right: sides))
     }
 
-    func inset(#topBottom:CGFloat) -> CGRect {
+    func inset(topBottom topBottom:CGFloat) -> CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: topBottom, left: 0, bottom: topBottom, right: 0))
     }
 
-    func inset(#sides: CGFloat) -> CGRect {
+    func inset(sides sides: CGFloat) -> CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: 0, left: sides, bottom: 0, right: sides))
     }
 
-    func inset(#top:CGFloat, sides: CGFloat, bottom: CGFloat) -> CGRect {
+    func inset(top top:CGFloat, sides: CGFloat, bottom: CGFloat) -> CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: top, left: sides, bottom: bottom, right: sides))
     }
 
-    func inset(#top:CGFloat, left:CGFloat, bottom:CGFloat, right:CGFloat) -> CGRect {
+    func inset(top top:CGFloat, left:CGFloat, bottom:CGFloat, right:CGFloat) -> CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: top, left: left, bottom: bottom, right: right))
     }
 
@@ -112,19 +112,19 @@ public extension CGRect {
     }
 
 // MARK: growXxx
-    func grow(#all:CGFloat) -> CGRect {
+    func grow(all all:CGFloat) -> CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: -all, left: -all, bottom: -all, right: -all))
     }
 
-    func grow(#topBottom:CGFloat, sides: CGFloat) -> CGRect {
+    func grow(topBottom topBottom:CGFloat, sides: CGFloat) -> CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: -topBottom, left: -sides, bottom: -topBottom, right: -sides))
     }
 
-    func grow(#top:CGFloat, sides: CGFloat, bottom: CGFloat) -> CGRect {
+    func grow(top top:CGFloat, sides: CGFloat, bottom: CGFloat) -> CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: -top, left: -sides, bottom: -bottom, right: -sides))
     }
 
-    func grow(#top:CGFloat, left:CGFloat, bottom:CGFloat, right:CGFloat) -> CGRect {
+    func grow(top top:CGFloat, left:CGFloat, bottom:CGFloat, right:CGFloat) -> CGRect {
         return UIEdgeInsetsInsetRect(self, UIEdgeInsets(top: -top, left: -left, bottom: -bottom, right: -right))
     }
 

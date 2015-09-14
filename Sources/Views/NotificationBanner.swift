@@ -18,7 +18,7 @@ public struct NotificationBanner {
 private extension NotificationBanner {
     static func configureDefaultsWithPayload(payload: PushPayload) {
         let interactionResponder = CRToastInteractionResponder(interactionType: CRToastInteractionType.Tap, automaticallyDismiss: true) { _ in
-            postNotification(PushNotificationNotifications.interactedWithPushNotification, payload)
+            postNotification(PushNotificationNotifications.interactedWithPushNotification, value: payload)
         }
 
         let dismissResponder = CRToastInteractionResponder(interactionType: CRToastInteractionType.Swipe, automaticallyDismiss: true) { _ in

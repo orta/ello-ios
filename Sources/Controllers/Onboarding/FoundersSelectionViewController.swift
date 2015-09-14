@@ -28,7 +28,7 @@ public class FoundersSelectionViewController: OnboardingUserListViewController {
         let header = NSLocalizedString("Follow the founders.", comment: "Founders Selection Header text")
         let message = NSLocalizedString("PLACEHOLDER TEXT.", comment: "Founders Selection Description text")
         appendHeaderCellItem(header: header, message: message)
-        appendFollowAllCellItem(userCount: count(users))
+        appendFollowAllCellItem(userCount: users.count)
 
         super.usersLoaded(users)
     }

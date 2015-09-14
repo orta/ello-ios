@@ -81,7 +81,7 @@ public class StreamImageCell: StreamRegionableCell {
                 self.aspectRatio = isAnimated ? (result.animatedImage.size.width / result.animatedImage.size.height) : (result.image.size.width / result.image.size.height)
 
                 if self.serverProvidedAspectRatio == nil {
-                    postNotification(StreamNotification.AnimateCellHeightNotification, self)
+                    postNotification(StreamNotification.AnimateCellHeightNotification, value: self)
                 }
 
                 if result.resultType != .MemoryCache {
@@ -114,7 +114,7 @@ public class StreamImageCell: StreamRegionableCell {
         circle.stopPulse()
         aspectRatio = self.defaultAspectRatio
         largeImagePlayButton?.hidden = true
-        nextTick { postNotification(StreamNotification.AnimateCellHeightNotification, self) }
+        nextTick { postNotification(StreamNotification.AnimateCellHeightNotification, value: self) }
         UIView.animateWithDuration(0.15) {
             self.failImage.alpha = 1.0
             self.imageView.backgroundColor = UIColor.greyF1()

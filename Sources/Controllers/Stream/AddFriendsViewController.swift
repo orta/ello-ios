@@ -30,7 +30,7 @@ public class AddFriendsViewController: StreamableViewController {
         streamViewController.pullToRefreshEnabled = false
     }
 
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -90,21 +90,21 @@ public class AddFriendsViewController: StreamableViewController {
         var foundItems = [StreamCellItem]()
         var inviteItems = [StreamCellItem]()
         for contact in allContacts {
-            var (person: LocalPerson, user: User?) = contact
+            let (person, user): (LocalPerson, User?) = contact
             if user != nil {
                 foundItems.append(StreamCellItem(jsonable: user!, type: .UserListItem))
             }
             else {
                 if let currentUser = currentUser, let profile = currentUser.profile {
-                    if !contains(person.emails, profile.email) {
+                    if !person.emails.contains(profile.email) {
                         inviteItems.append(StreamCellItem(jsonable: person, type: .InviteFriends))
                     }
 
                 }
             }
         }
-        foundItems.sort { ($0.jsonable as! User).username.lowercaseString < ($1.jsonable as! User).username.lowercaseString }
-        inviteItems.sort { ($0.jsonable as! LocalPerson).name.lowercaseString < ($1.jsonable as! LocalPerson).name.lowercaseString }
+        foundItems.sortInPlace { ($0.jsonable as! User).username.lowercaseString < ($1.jsonable as! User).username.lowercaseString }
+        inviteItems.sortInPlace { ($0.jsonable as! LocalPerson).name.lowercaseString < ($1.jsonable as! LocalPerson).name.lowercaseString }
         // this calls doneLoading when cells are added
         streamViewController.appendUnsizedCellItems(foundItems + inviteItems, withWidth: self.view.frame.width)
     }
@@ -126,7 +126,7 @@ public class AddFriendsViewController: StreamableViewController {
                 self.streamViewController.clearForInitialLoad()
                 let userIdentifiers = users.map { $0.identifiableBy ?? "" }
                 let mixed: [(LocalPerson, User?)] = self.addressBook.localPeople.map {
-                    if let index = find(userIdentifiers, $0.identifier) {
+                    if let index = userIdentifiers.indexOf($0.identifier) {
                         return ($0, users[index])
                     }
                     return ($0, .None)
@@ -153,7 +153,7 @@ extension AddFriendsViewController: SearchScreenDelegate {
     }
 
     public func searchFieldChanged(text: String, isPostSearch: Bool) {
-        if count(text) < 2 { return }
+        if text.characters.count < 2 { return }
         if text.isEmpty {
             streamViewController.streamFilter = nil
         } else {

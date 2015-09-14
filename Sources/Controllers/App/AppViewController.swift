@@ -23,7 +23,7 @@ protocol HasAppController {
 public class AppViewController: BaseElloViewController {
 
     @IBOutlet weak public var scrollView: UIScrollView!
-    @IBOutlet weak public var logoView: ElloLogoView!
+    weak public var logoView: ElloLogoView!
     @IBOutlet weak public var logoTopConstraint: NSLayoutConstraint!
     @IBOutlet weak public var socialRevolution: UILabel!
     @IBOutlet weak public var signInButton: LightElloButton!
@@ -86,9 +86,7 @@ public class AppViewController: BaseElloViewController {
 
     private func checkIfLoggedIn() {
         let authToken = AuthToken()
-
-        let defaults = NSUserDefaults.standardUserDefaults()
-        var introDisplayed = Defaults["IntroDisplayed"].bool ?? false
+        let introDisplayed = Defaults["IntroDisplayed"].bool ?? false
 
         if authToken.isPresent && authToken.isAuthenticated {
             self.loadCurrentUser()
@@ -175,7 +173,7 @@ public class AppViewController: BaseElloViewController {
 
             self.presentViewController(alertController, animated: true, completion: nil)
             self.apiOutOfDateObserver?.removeObserver()
-            postNotification(AuthenticationNotifications.invalidToken, false)
+            postNotification(AuthenticationNotifications.invalidToken, value: false)
         }
     }
 
@@ -227,7 +225,7 @@ extension AppViewController {
     public func showMainScreen(user: User) {
         Tracker.sharedTracker.identify(user)
 
-        var vc = ElloTabBarController.instantiateFromStoryboard()
+        let vc = ElloTabBarController.instantiateFromStoryboard()
         ElloWebBrowserViewController.elloTabBarController = vc
         vc.setProfileData(user)
 
@@ -305,7 +303,7 @@ extension AppViewController {
     }
 
     public func removeViewController(completion: ElloEmptyCompletion? = nil) {
-        if let presentingViewController = presentingViewController {
+        if presentingViewController != nil {
             dismissViewControllerAnimated(false, completion: .None)
         }
         UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Slide)
@@ -318,7 +316,7 @@ extension AppViewController {
             }
 
             UIView.animateWithDuration(0.2, animations: {
-                self.showButtons(animated: false)
+                self.showButtons(false)
                 visibleViewController.view.alpha = 0
                 self.scrollView.alpha = 1
             }, completion: { _ in
@@ -341,7 +339,7 @@ extension AppViewController {
 
         view.addSubview(newViewController.view)
         newViewController.view.frame = self.view.bounds
-        newViewController.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        newViewController.view.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
     }
 
 }
@@ -394,7 +392,7 @@ public extension AppViewController {
 // MARK: Push Notification Handling
 extension AppViewController {
     func receivedPushNotification(payload: PushPayload) {
-        if let vc = self.visibleViewController as? ElloTabBarController {
+        if let _ = self.visibleViewController as? ElloTabBarController {
             navigateToDeepLink(payload.applicationTarget)
         } else {
             self.pushPayload = payload
@@ -407,24 +405,21 @@ extension AppViewController {
     func navigateToDeepLink(path: String) {
         let vc = self.visibleViewController as? ElloTabBarController
 
-        var components = path.pathComponents
-        if components.first == "/" {
-            components.removeAtIndex(0)
-        }
-        if count(components) == 0 {
-            return
-        }
 
-        let firstComponent = components.removeAtIndex(0)
+        if let  url = NSURL(string: path),
+                var components = url.pathComponents
+        {
+            let firstComponent = components.removeAtIndex(0)
 
-        switch firstComponent {
-        case "stream":
-            vc?.selectedTab = .Stream
-        case "notifications":
-            vc?.selectedTab = .Notifications
-            postNotification(NavigationNotifications.showingNotificationsTab, components)
-        default:
-            break
+            switch firstComponent {
+            case "stream":
+                vc?.selectedTab = .Stream
+            case "notifications":
+                vc?.selectedTab = .Notifications
+                postNotification(NavigationNotifications.showingNotificationsTab, value: components)
+            default:
+                break
+            }
         }
     }
 }
@@ -458,7 +453,7 @@ public extension AppViewController {
         return true
     }
 
-    public override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent) {
+    public override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent?) {
         if motion == .MotionShake {
             if isShowingDebug {
                 closeTodoController()
@@ -470,7 +465,7 @@ public extension AppViewController {
 
                 let nav = UINavigationController(rootViewController: ctlr)
                 let bar = UIView(frame: CGRect(x: 0, y: -20, width: view.frame.width, height: 20))
-                bar.autoresizingMask = .FlexibleWidth | .FlexibleBottomMargin
+                bar.autoresizingMask = [.FlexibleWidth, .FlexibleBottomMargin]
                 bar.backgroundColor = .blackColor()
                 nav.navigationBar.addSubview(bar)
 

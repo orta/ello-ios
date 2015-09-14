@@ -20,7 +20,7 @@ public protocol SearchScreenDelegate {
 public protocol SearchScreenProtocol {
     var delegate : SearchScreenDelegate? { get set }
     func viewForStream() -> UIView
-    func updateInsets(#bottom: CGFloat)
+    func updateInsets(bottom bottom: CGFloat)
 }
 
 public class SearchScreen: UIView, SearchScreenProtocol {
@@ -83,7 +83,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
     private func setupNavigationBar() {
         let frame = CGRect(x: 0, y: 0, width: self.frame.width, height: ElloNavigationBar.Size.height)
         navigationBar = ElloNavigationBar(frame: frame)
-        navigationBar.autoresizingMask = .FlexibleBottomMargin | .FlexibleWidth
+        navigationBar.autoresizingMask = [.FlexibleBottomMargin, .FlexibleWidth]
 
         let navigationItem = UINavigationItem(title: navBarTitle)
         let leftItem = UIBarButtonItem.backChevronWithTarget(self, action: Selector("backTapped"))
@@ -96,7 +96,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
 
     private func setupSearchField() {
         searchField = UITextField(frame: CGRect(x: 0, y: 0, width: searchControlsContainer.frame.size.width, height: searchControlsContainer.frame.size.height - 10))
-        searchField.autoresizingMask = .FlexibleWidth | .FlexibleBottomMargin
+        searchField.autoresizingMask = [.FlexibleWidth, .FlexibleBottomMargin]
         searchField.clearButtonMode = .WhileEditing
         searchField.font = UIFont.regularBoldFont(18)
         searchField.textColor = UIColor.blackColor()
@@ -120,7 +120,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
 
     private func setupToggleButtons() {
         let btnWidth = (searchControlsContainer.bounds.size.width - 10) / 2
-        var buttonY = searchControlsContainer.frame.size.height
+        let buttonY = searchControlsContainer.frame.size.height
         // add the height of a button plus additional 10 for bottom padding
         searchControlsContainer.frame.size.height += 43
         let postsBtn = OutlineElloButton(frame: CGRect(x: 0, y: buttonY, width: btnWidth, height: 33))
@@ -151,7 +151,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
 
     private func setupStreamView() {
         streamViewContainer = UIView(frame: getStreamViewFrame())
-        streamViewContainer.autoresizingMask = .FlexibleWidth | .FlexibleHeight
+        streamViewContainer.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
         streamViewContainer.backgroundColor = .whiteColor()
         self.addSubview(streamViewContainer)
     }
@@ -201,7 +201,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         throttled {}
     }
 
-    public func updateInsets(#bottom: CGFloat) {
+    public func updateInsets(bottom bottom: CGFloat) {
         bottomInset = bottom
         setNeedsLayout()
     }
@@ -213,7 +213,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
 
     public func searchForText() {
         let text = searchField.text ?? ""
-        if count(text) == 0 { return }
+        if text.characters.count == 0 { return }
         hideFindFriends()
         delegate?.searchFieldChanged(text, isPostSearch: postsToggleButton?.selected ?? false)
     }
@@ -234,7 +234,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
     private func searchFieldDidChange() {
         delegate?.searchFieldWillChange()
         let text = searchField.text ?? ""
-        if count(text) == 0 {
+        if text.characters.count == 0 {
             clearSearch()
             showFindFriends()
         }

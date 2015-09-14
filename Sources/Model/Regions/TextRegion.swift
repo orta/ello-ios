@@ -65,7 +65,7 @@ public final class TextRegion: JSONAble, Regionable {
     }
 }
 
-extension TextRegion: Printable, DebugPrintable {
+extension TextRegion: CustomDebugStringConvertible {
     override public var description: String {
         return "<\(self.dynamicType): \"\(content)\">"
     }

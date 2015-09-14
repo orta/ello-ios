@@ -17,12 +17,12 @@ extension UIImageView {
         if let image = SVGKImage(named: named).UIImage {
             self.image = image
             if degree != 0 {
-                var radians = (degree * M_PI) / 180.0
+                let radians = (degree * M_PI) / 180.0
                 self.transform = CGAffineTransformMakeRotation(CGFloat(radians))
             }
         }
         else {
-            println("there is no SVG asset called “\(named)”")
+            print("there is no SVG asset called “\(named)”")
         }
     }
 

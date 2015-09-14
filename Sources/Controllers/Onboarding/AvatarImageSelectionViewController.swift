@@ -17,7 +17,7 @@ public class AvatarImageSelectionViewController: OnboardingUploadImageViewContro
         setupChooseImageButton()
     }
 
-    public func onboardingWillProceed(proceed: (OnboardingData?) -> Void) {
+    public override func onboardingWillProceed(proceed: (OnboardingData?) -> Void) {
         if let image = selectedImage {
             self.userUploadImage(image, proceed: proceed)
         }
@@ -42,7 +42,7 @@ private extension AvatarImageSelectionViewController {
             ))
         chooseCoverImageView.contentMode = .ScaleAspectFill
         chooseCoverImageView.clipsToBounds = true
-        chooseCoverImageView.autoresizingMask = .FlexibleLeftMargin | .FlexibleRightMargin | .FlexibleBottomMargin
+        chooseCoverImageView.autoresizingMask = [.FlexibleLeftMargin, .FlexibleRightMargin, .FlexibleBottomMargin]
         chooseCoverImageView.image = onboardingData?.coverImage ?? chooseCoverImage
         view.addSubview(chooseCoverImageView)
         self.chooseCoverImageView = chooseCoverImageView
@@ -57,7 +57,7 @@ private extension AvatarImageSelectionViewController {
             width: chooseAvatarImage.size.width * scale,
             height: chooseAvatarImage.size.height * scale
             ))
-        chooseAvatarImageView.autoresizingMask = .FlexibleBottomMargin | .FlexibleRightMargin
+        chooseAvatarImageView.autoresizingMask = [.FlexibleBottomMargin, .FlexibleRightMargin]
         chooseAvatarImageView.image = onboardingData?.avatarImage ?? chooseAvatarImage
         chooseAvatarImageView.clipsToBounds = true
         chooseAvatarImageView.layer.cornerRadius = chooseAvatarImageView.frame.size.width / 2
@@ -73,7 +73,7 @@ private extension AvatarImageSelectionViewController {
             width: view.frame.width,
             height: 90
             ).inset(all: 15))
-        chooseImageButton.autoresizingMask = .FlexibleLeftMargin | .FlexibleRightMargin | .FlexibleBottomMargin
+        chooseImageButton.autoresizingMask = [.FlexibleLeftMargin, .FlexibleRightMargin, .FlexibleBottomMargin]
         chooseImageButton.setTitle(NSLocalizedString("Pick an Avatar", comment: "Pick an avatar button"), forState: .Normal)
         chooseImageButton.addTarget(self, action: Selector("chooseImageTapped"), forControlEvents: .TouchUpInside)
         view.addSubview(chooseImageButton)

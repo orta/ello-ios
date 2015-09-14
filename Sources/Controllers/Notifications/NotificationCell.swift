@@ -35,7 +35,7 @@ public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
             return createdAtHeight + innerMargin
         }
 
-        static func messageHtmlWidth(#forCellWidth: CGFloat, hasImage: Bool) -> CGFloat {
+        static func messageHtmlWidth(forCellWidth forCellWidth: CGFloat, hasImage: Bool) -> CGFloat {
             let messageLeftMargin : CGFloat = 55
             var messageRightMargin : CGFloat = 107
             if !hasImage {
@@ -44,9 +44,9 @@ public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
             return forCellWidth - messageLeftMargin - messageRightMargin
         }
 
-        static func imageHeight(#imageRegion: ImageRegion?) -> CGFloat {
+        static func imageHeight(imageRegion imageRegion: ImageRegion?) -> CGFloat {
             if let imageRegion = imageRegion {
-                var aspectRatio = StreamImageCellSizeCalculator.aspectRatioForImageRegion(imageRegion)
+                let aspectRatio = StreamImageCellSizeCalculator.aspectRatioForImageRegion(imageRegion)
                 return self.imageWidth / aspectRatio
             }
             else {
@@ -74,7 +74,7 @@ public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
             messageWebView.alpha = 0.0
             if newValue != messageHtml {
                 if let value = newValue {
-                    messageWebView.loadHTMLString(StreamTextCellHTML.postHTML(newValue!), baseURL: NSURL(string: "/"))
+                    messageWebView.loadHTMLString(StreamTextCellHTML.postHTML(value), baseURL: NSURL(string: "/"))
                 }
                 else {
                     messageWebView.loadHTMLString("", baseURL: NSURL(string: "/"))
@@ -145,7 +145,7 @@ public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
         }
     }
 
-    required public init(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         super.init(coder: coder)
     }
 

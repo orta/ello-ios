@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class ResponseConfig: Printable {
+public class ResponseConfig: CustomStringConvertible {
     public var description: String {
         let descripArray = [
             "ResponseConfig:",
@@ -20,7 +20,7 @@ public class ResponseConfig: Printable {
             "totalCount: \(totalCount)",
             "totalPagesRemaining: \(totalPagesRemaining)"
         ]
-        return "\r\t".join(descripArray)
+        return descripArray.joinWithSeparator("\r\t")
     }
     public var nextQueryItems: [AnyObject]? // before (older)
     public var prevQueryItems: [AnyObject]? // after (newer)
@@ -35,9 +35,11 @@ public class ResponseConfig: Printable {
     public init() {}
 
     public func isOutOfData() -> Bool {
+
         return totalPagesRemaining == "0"
             || totalPagesRemaining == nil
-            || nextQueryItems.map(count) == 0
+            || nextQueryItems?.count == 0
             || nextQueryItems == nil
     }
 }
+

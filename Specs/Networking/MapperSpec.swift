@@ -23,7 +23,7 @@ class MapperSpec: QuickSpec {
 
                 it("returns a valid nsdata, nil error tuple") {
                     loadedData = stubbedData("user")
-                    let (mappedJSON: AnyObject?, error) = Mapper.mapJSON(loadedData)
+                    let (mappedJSON: AnyObject,?, error) = Mapper.mapJSON(loadedData)
 
                     expect(mappedJSON).toNot(beNil())
                     expect(error).to(beNil())
@@ -34,7 +34,7 @@ class MapperSpec: QuickSpec {
 
                 it("returns a nil nsdata, valid error tuple") {
                     loadedData = ("invalid json" as NSString).dataUsingEncoding(NSUTF8StringEncoding)
-                    let (mappedJSON: AnyObject?, error) = Mapper.mapJSON(loadedData)
+                    let (mappedJSON: AnyObject,?, error) = Mapper.mapJSON(loadedData)
 
                     expect(mappedJSON).to(beNil())
                     expect(error).toNot(beNil())
@@ -46,7 +46,7 @@ class MapperSpec: QuickSpec {
                 it("returns a nil nsdata, valid error tuple") {
                     loadedData = stubbedData("empty")
                     let stringData = NSString(data: loadedData, encoding: NSUTF8StringEncoding)
-                    let (mappedJSON: AnyObject?, error) = Mapper.mapJSON(loadedData)
+                    let (mappedJSON: AnyObject,?, error) = Mapper.mapJSON(loadedData)
 
                     expect(mappedJSON).to(beNil())
                     expect(error).toNot(beNil())

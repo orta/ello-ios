@@ -60,7 +60,7 @@ public class AlertViewController: UIViewController {
             return contentView.frame.size
         }
         else {
-            var contentHeight = tableView.contentSize.height + totalVerticalPadding
+            let contentHeight = tableView.contentSize.height + totalVerticalPadding
             let height = min(contentHeight, MaxHeight)
             return CGSize(width: DesiredWidth, height: height)
         }
@@ -202,11 +202,10 @@ extension AlertViewController: AlertHeaderDelegate {
 
 // MARK: UIViewControllerTransitioningDelegate
 extension AlertViewController: UIViewControllerTransitioningDelegate {
-    public func presentationControllerForPresentedViewController(presented: UIViewController, presentingViewController presenting: UIViewController!, sourceViewController source: UIViewController) -> UIPresentationController? {
+    public func presentationControllerForPresentedViewController(presented: UIViewController, presentingViewController presenting: UIViewController, sourceViewController source: UIViewController) -> UIPresentationController? {
         if presented != self { return .None }
 
-        let controller = AlertPresentationController(presentedViewController: presented, presentingViewController: presenting, backgroundColor: self.modalBackgroundColor)
-        return controller
+        return AlertPresentationController(presentedViewController: presented, presentingViewController: presenting, backgroundColor: self.modalBackgroundColor)
     }
 }
 
@@ -225,14 +224,14 @@ extension AlertViewController: UITableViewDelegate {
     }
 
     public func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if count(message) == 0 {
+        if message.characters.count == 0 {
             return nil
         }
         return headerView
     }
 
     public func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if count(message) == 0 {
+        if message.characters.count == 0 {
             return 0
         }
         let space = helpText == nil ? 0 : HelpButtonSpace
@@ -245,11 +244,11 @@ extension AlertViewController: UITableViewDelegate {
 // MARK: UITableViewDataSource
 extension AlertViewController: UITableViewDataSource {
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return count(actions)
+        return actions.count
     }
 
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(AlertCell.reuseIdentifier(), forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(AlertCell.reuseIdentifier(), forIndexPath: indexPath) 
         if let action = actions.safeValue(indexPath.row) {
             let presenter = AlertCellPresenter(action: action, textAlignment: textAlignment)
             presenter.configureCell(cell, type: self.type)

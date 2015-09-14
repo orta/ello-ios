@@ -62,76 +62,76 @@ public class Application {
 
     @objc
     func didChangeStatusBarFrame(notification : NSNotification) {
-        postNotification(Notifications.DidChangeStatusBarFrame, self)
+        postNotification(Notifications.DidChangeStatusBarFrame, value: self)
     }
 
     @objc
     func didChangeStatusBarOrientation(notification : NSNotification) {
-        postNotification(Notifications.DidChangeStatusBarOrientation, self)
+        postNotification(Notifications.DidChangeStatusBarOrientation, value: self)
     }
 
     @objc
     func didEnterBackground(notification : NSNotification) {
-        postNotification(Notifications.DidEnterBackground, self)
+        postNotification(Notifications.DidEnterBackground, value: self)
     }
 
     @objc
     func didFinishLaunching(notification : NSNotification) {
-        postNotification(Notifications.DidFinishLaunching, self)
+        postNotification(Notifications.DidFinishLaunching, value: self)
     }
 
     @objc
     func didReceiveMemoryWarning(notification : NSNotification) {
-        postNotification(Notifications.DidReceiveMemoryWarning, self)
+        postNotification(Notifications.DidReceiveMemoryWarning, value: self)
     }
 
     @objc
     func protectedDataDidBecomeAvailable(notification : NSNotification) {
-        postNotification(Notifications.ProtectedDataDidBecomeAvailable, self)
+        postNotification(Notifications.ProtectedDataDidBecomeAvailable, value: self)
     }
 
     @objc
     func protectedDataWillBecomeUnavailable(notification : NSNotification) {
-        postNotification(Notifications.ProtectedDataWillBecomeUnavailable, self)
+        postNotification(Notifications.ProtectedDataWillBecomeUnavailable, value: self)
     }
 
     @objc
     func significantTimeChange(notification : NSNotification) {
-        postNotification(Notifications.SignificantTimeChange, self)
+        postNotification(Notifications.SignificantTimeChange, value: self)
     }
 
     @objc
     func userDidTakeScreenshot(notification : NSNotification) {
-        postNotification(Notifications.UserDidTakeScreenshot, self)
+        postNotification(Notifications.UserDidTakeScreenshot, value: self)
     }
 
     @objc
     func willChangeStatusBarOrientation(notification : NSNotification) {
-        postNotification(Notifications.WillChangeStatusBarOrientation, self)
+        postNotification(Notifications.WillChangeStatusBarOrientation, value: self)
     }
 
     @objc
     func willChangeStatusBarFrame(notification : NSNotification) {
-        postNotification(Notifications.WillChangeStatusBarFrame, self)
+        postNotification(Notifications.WillChangeStatusBarFrame, value: self)
     }
 
     @objc
     func willEnterForeground(notification : NSNotification) {
-        postNotification(Notifications.WillEnterForeground, self)
+        postNotification(Notifications.WillEnterForeground, value: self)
     }
 
     @objc
     func willResignActive(notification : NSNotification) {
-        postNotification(Notifications.WillResignActive, self)
+        postNotification(Notifications.WillResignActive, value: self)
     }
 
     @objc
     func willTerminate(notification : NSNotification) {
-        postNotification(Notifications.WillTerminate, self)
+        postNotification(Notifications.WillTerminate, value: self)
     }
 
     @objc
     func sizeCategoryDidChange(notification : NSNotification) {
-        postNotification(Notifications.SizeCategoryDidChange, self)
+        postNotification(Notifications.SizeCategoryDidChange, value: self)
     }
 }

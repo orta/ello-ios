@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-public class ImportFriendsViewController: OnboardingUserListViewController, OnboardingStep {
+public class ImportFriendsViewController: OnboardingUserListViewController {
     let addressBook: ContactList
 
     required public init(addressBook: ContactList) {
@@ -47,7 +47,7 @@ public class ImportFriendsViewController: OnboardingUserListViewController, Onbo
                 self.streamViewController.clearForInitialLoad()
                 let userIdentifiers = users.map { $0.identifiableBy ?? "" }
                 let mixed: [(LocalPerson, User?)] = self.addressBook.localPeople.map {
-                    if let index = find(userIdentifiers, $0.identifier) {
+                    if let index = userIdentifiers.indexOf($0.identifier) {
                         return ($0, users[index])
                     }
                     return ($0, .None)
@@ -66,27 +66,27 @@ public class ImportFriendsViewController: OnboardingUserListViewController, Onbo
         var foundItems = [StreamCellItem]()
         var inviteItems = [StreamCellItem]()
         for contact in contacts {
-            var (person: LocalPerson, user: User?) = contact
+            let (person, user): (LocalPerson, User?) = contact
             if let user = user {
                 foundItems.append(StreamCellItem(jsonable: user, type: .UserListItem))
             }
             else {
                 if let currentUser = currentUser, let profile = currentUser.profile {
-                    if !contains(person.emails, profile.email) {
+                    if !person.emails.contains(profile.email) {
                         inviteItems.append(StreamCellItem(jsonable: person, type: .InviteFriends))
                     }
 
                 }
             }
         }
-        foundItems.sort { ($0.jsonable as! User).username.lowercaseString < ($1.jsonable as! User).username.lowercaseString }
-        inviteItems.sort { ($0.jsonable as! LocalPerson).name.lowercaseString < ($1.jsonable as! LocalPerson).name.lowercaseString }
+        foundItems.sortInPlace { ($0.jsonable as! User).username.lowercaseString < ($1.jsonable as! User).username.lowercaseString }
+        inviteItems.sortInPlace { ($0.jsonable as! LocalPerson).name.lowercaseString < ($1.jsonable as! LocalPerson).name.lowercaseString }
         users = foundItems.map { $0.jsonable as! User }
         let filteredUsers = InviteService.filterUsers(users!, currentUser: currentUser)
         let header = NSLocalizedString("Find your friends!", comment: "Find Friends Header text")
         let message = NSLocalizedString("Use your address book to find and invite your friends on Ello.", comment: "Find Friends Description text")
         appendHeaderCellItem(header: header, message: message)
-        appendFollowAllCellItem(userCount: count(filteredUsers))
+        appendFollowAllCellItem(userCount: filteredUsers.count)
         // this calls doneLoading when cells are added
         streamViewController.appendUnsizedCellItems(foundItems + inviteItems, withWidth: self.view.frame.width)
     }

@@ -8,7 +8,7 @@
 
 public struct NotificationAttributedTitle {
 
-    static private func attrs(_ addlAttrs : [String : AnyObject] = [:]) -> [NSObject : AnyObject] {
+    static private func attrs(addlAttrs : [String : AnyObject] = [:]) -> [String : AnyObject] {
         let attrs: [String: AnyObject] = [
             NSFontAttributeName: UIFont.typewriterFont(12),
             NSForegroundColorAttributeName: UIColor.greyA(),
@@ -34,7 +34,7 @@ public struct NotificationAttributedTitle {
     }
 
     static private func style(text: String, _ post: Post) -> NSAttributedString {
-        var attrs = self.attrs([
+        let attrs = self.attrs([
             ElloAttributedText.Link: "post",
             ElloAttributedText.Object: post,
             NSUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue,
@@ -43,7 +43,7 @@ public struct NotificationAttributedTitle {
     }
 
     static private func style(text: String, _ comment: Comment) -> NSAttributedString {
-        var attrs = self.attrs([
+        let attrs = self.attrs([
             ElloAttributedText.Link: "comment",
             ElloAttributedText.Object: comment,
             NSUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue,

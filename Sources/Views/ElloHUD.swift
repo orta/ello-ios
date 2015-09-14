@@ -44,7 +44,7 @@ class ElloHUD: NSObject {
     }
 
     class func showLoadingHud() -> MBProgressHUD? {
-        if let win = UIApplication.sharedApplication().windows.last as? UIView {
+        if let win = UIApplication.sharedApplication().windows.last {
             return ElloHUD.showLoadingHudInView(win)
         }
         else {
@@ -57,7 +57,7 @@ class ElloHUD: NSObject {
     }
 
     class func hideLoadingHud() {
-        if let win = UIApplication.sharedApplication().windows.last as? UIView {
+        if let win = UIApplication.sharedApplication().windows.last {
             ElloHUD.hideLoadingHudInView(win)
         }
     }

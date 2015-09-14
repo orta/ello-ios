@@ -21,7 +21,7 @@ public class TwoLineButton: UIButton {
         self.sharedSetup()
     }
 
-    required public init(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         super.init(coder: coder)
         self.sharedSetup()
     }
@@ -34,7 +34,7 @@ public class TwoLineButton: UIButton {
 
     // MARK: Private
 
-    private func attributes(color: UIColor, font: UIFont, underline: Bool = false) -> [NSObject : AnyObject] {
+    private func attributes(color: UIColor, font: UIFont, underline: Bool = false) -> [String : AnyObject] {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 5
         paragraphStyle.alignment = .Left

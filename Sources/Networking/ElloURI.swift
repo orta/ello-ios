@@ -77,7 +77,7 @@ public enum ElloURI: String {
 
     public static func match(url: String) -> (type: ElloURI, data: String) {
         for type in self.all {
-            if let match = url.rangeOfString(type.regexPattern, options: .RegularExpressionSearch) {
+            if let _ = url.rangeOfString(type.regexPattern, options: .RegularExpressionSearch) {
                 return (type, type.data(url))
             }
         }
@@ -97,13 +97,13 @@ public enum ElloURI: String {
     private func data(url: String) -> String {
         switch self {
         case .Post, .Profile:
-            var urlArr = split(url) { $0 == "/" }
-            var last = urlArr.last ?? url
-            var lastArr = split(last) { $0 == "?" }
+            let urlArr = url.characters.split { $0 == "/" }.map { String($0) }
+            let last = urlArr.last ?? url
+            let lastArr = last.characters.split { $0 == "?" }.map { String($0) }
             return lastArr.first ?? url
         case .Search:
             if let urlComponents = NSURLComponents(string: url),
-                queryItems = (urlComponents.queryItems as? [NSURLQueryItem]),
+                queryItems = urlComponents.queryItems,
                 terms = (queryItems.filter { $0.name == "terms" }.first?.value)
             {
                 return terms

@@ -10,7 +10,7 @@ import Foundation
 
 class LovesPageController: IntroPageController {
 
-    @IBOutlet weak var lovesLabel: ElloLabel!
+    weak var lovesLabel: ElloLabel!
     @IBOutlet weak var getStartedButton: LightElloButton!
     
     override func viewDidLoad() {

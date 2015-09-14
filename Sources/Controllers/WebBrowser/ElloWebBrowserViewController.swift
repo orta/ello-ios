@@ -30,7 +30,7 @@ public class ElloWebBrowserViewController: KINWebBrowserViewController {
     }
 
     override public class func navigationControllerWithWebBrowser() -> ElloNavigationController {
-        let browser = self()
+        let browser = self.init()
         return navigationControllerWithBrowser(browser)
     }
 

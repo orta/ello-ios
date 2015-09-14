@@ -13,7 +13,7 @@ extension UIScreenEdgePanGestureRecognizer {
         let view = self.view!
         let x = locationInView(view).x
         let width = view.bounds.size.width
-        var percent = x / width
+        let percent = x / width
 
         if (translationInView(view).x > 0.0) && (backEdge == UIRectEdge.Left) {
             return percent

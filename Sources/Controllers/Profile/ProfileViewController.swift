@@ -28,7 +28,7 @@ public class ProfileViewController: StreamableViewController {
 
     private var isSetup = false
 
-    @IBOutlet weak var navigationBar: ElloNavigationBar!
+    weak var navigationBar: ElloNavigationBar!
     @IBOutlet weak var noPostsView: UIView!
     @IBOutlet weak var noPostsHeader: UILabel!
     @IBOutlet weak var noPostsBody: UILabel!
@@ -73,7 +73,7 @@ public class ProfileViewController: StreamableViewController {
         postChangedNotification = nil
     }
 
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -129,7 +129,7 @@ public class ProfileViewController: StreamableViewController {
         updateInsets(navBar: navigationBar, streamController: streamViewController)
     }
 
-    private func hideNavBar(#animated: Bool) {
+    private func hideNavBar(animated animated: Bool) {
         positionNavBar(navigationBar, visible: false, withConstraint: navigationBarTopConstraint, animated: animated)
     }
 
@@ -179,8 +179,8 @@ public class ProfileViewController: StreamableViewController {
 
         noPostsHeader.text = noPostsHeaderText
         noPostsHeader.font = UIFont.regularBoldFont(18)
-        var paragraphStyle = NSMutableParagraphStyle()
-        var attrString = NSMutableAttributedString(string: noPostsBodyText)
+        let paragraphStyle = NSMutableParagraphStyle()
+        let attrString = NSMutableAttributedString(string: noPostsBodyText)
         attrString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range:NSMakeRange(0, attrString.length))
         paragraphStyle.lineSpacing = 4
 
@@ -229,7 +229,7 @@ public class ProfileViewController: StreamableViewController {
         if let posts = user.posts {
             items += StreamCellItemParser().parse(posts, streamKind: streamViewController.streamKind, currentUser: currentUser)
         }
-        updateNoPostsView(count(items) < 2)
+        updateNoPostsView(items.count < 2)
         // this calls doneLoading when cells are added
         streamViewController.appendUnsizedCellItems(items, withWidth: self.view.frame.width)
 
@@ -317,12 +317,10 @@ extension ProfileViewController: EditProfileResponder {
 }
 
 // MARK: ProfileViewController: StreamScrollDelegate
-extension ProfileViewController: StreamScrollDelegate {
+extension ProfileViewController {
 
     override public func streamViewDidScroll(scrollView : UIScrollView) {
-        if  let start = coverImageHeightStart,
-            let width = coverImage.image?.size.width
-        {
+        if let start = coverImageHeightStart {
             coverImageHeight.constant = max(start - scrollView.contentOffset.y, start)
         }
 

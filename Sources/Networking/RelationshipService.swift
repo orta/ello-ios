@@ -11,7 +11,7 @@ import SwiftyJSON
 
 public class RelationshipService: NSObject {
 
-    public func updateRelationship(#userId: String, relationshipPriority: RelationshipPriority, success: ElloSuccessCompletion, failure: ElloFailureCompletion?) {
+    public func updateRelationship(userId userId: String, relationshipPriority: RelationshipPriority, success: ElloSuccessCompletion, failure: ElloFailureCompletion?) {
         let endpoint = ElloAPI.Relationship(userId: userId, relationship: relationshipPriority.rawValue)
         ElloProvider.elloRequest(endpoint, success: { (data, responseConfig) in
             Tracker.sharedTracker.relationshipStatusUpdated(relationshipPriority, userId: userId)
@@ -22,7 +22,7 @@ public class RelationshipService: NSObject {
         })
     }
 
-    public func bulkUpdateRelationships(#userIds: [String], relationshipPriority: RelationshipPriority, success: ElloSuccessCompletion, failure: ElloFailureCompletion?) {
+    public func bulkUpdateRelationships(userIds userIds: [String], relationshipPriority: RelationshipPriority, success: ElloSuccessCompletion, failure: ElloFailureCompletion?) {
         let endpoint = ElloAPI.RelationshipBatch(userIds: userIds, relationship: relationshipPriority.rawValue)
         ElloProvider.elloRequest(endpoint,
             success: success,

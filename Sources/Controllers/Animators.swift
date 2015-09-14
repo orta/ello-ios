@@ -9,7 +9,7 @@
 let DefaultAnimationDuration: NSTimeInterval = 0.25
 
 public class ForwardAnimator: NSObject, UIViewControllerAnimatedTransitioning {
-    public func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
+    public func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
         return DefaultAnimationDuration
     }
 
@@ -18,9 +18,10 @@ public class ForwardAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         let fromView = (context.viewControllerForKey(UITransitionContextFromViewControllerKey)?.view)!
 
         let from = fromView.frame
-        let to = toView.frame
         toView.frame.origin.x += toView.frame.size.width
-        context.containerView().addSubview(toView)
+        if let containerView = context.containerView() {
+            containerView.addSubview(toView)
+        }
 
         UIView.animateWithDuration(transitionDuration(context),
             delay: 0.0,
@@ -36,7 +37,7 @@ public class ForwardAnimator: NSObject, UIViewControllerAnimatedTransitioning {
 }
 
 public class BackAnimator: NSObject, UIViewControllerAnimatedTransitioning {
-    public func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
+    public func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
         return DefaultAnimationDuration
     }
 
@@ -45,9 +46,10 @@ public class BackAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         let fromView = (context.viewControllerForKey(UITransitionContextFromViewControllerKey)?.view)!
 
         let from = fromView.frame
-        let to = toView.frame
         toView.frame.origin.x -= toView.frame.size.width
-        context.containerView().addSubview(toView)
+        if let containerView = context.containerView() {
+            containerView.addSubview(toView)
+        }
 
         UIView.animateWithDuration(transitionDuration(context),
             delay: 0.0,

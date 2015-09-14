@@ -24,10 +24,10 @@ extension UIFont {
     public class func printAvailableFonts() {
         for familyName:AnyObject in UIFont.familyNames()
         {
-            println("Family Name: \(familyName)")
+            print("Family Name: \(familyName)")
             for fontName:AnyObject in UIFont.fontNamesForFamilyName(familyName as! String)
             {
-                println("--Font Name: \(fontName)")
+                print("--Font Name: \(fontName)")
             }
         }
     }

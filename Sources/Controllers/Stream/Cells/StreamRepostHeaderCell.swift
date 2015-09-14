@@ -11,8 +11,8 @@ import Foundation
 public class StreamRepostHeaderCell: UICollectionViewCell, ElloTextViewDelegate {
 
     @IBOutlet weak var viaTextViewHeight: NSLayoutConstraint!
-    @IBOutlet weak var viaTextView: ElloTextView!
-    @IBOutlet weak var sourceTextView: ElloTextView!
+    weak var viaTextView: ElloTextView!
+    weak var sourceTextView: ElloTextView!
     weak var userDelegate: UserDelegate?
 
     override public func awakeFromNib() {

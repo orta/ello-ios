@@ -60,7 +60,7 @@ extension JSONAble {
 
     public func getLinkArray(identifier: String) -> [JSONAble] {
         var arr = [JSONAble]()
-        var ids: [String]? = self.links?[identifier] as? [String] ?? self.links?[identifier]?["ids"] as? [String]
+        let ids: [String]? = self.links?[identifier] as? [String] ?? self.links?[identifier]?["ids"] as? [String]
         if let ids = ids {
             ElloLinkedStore.sharedInstance.database.newConnection().readWithBlock { transaction in
                 for key in ids {

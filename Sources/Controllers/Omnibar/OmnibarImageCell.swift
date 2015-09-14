@@ -50,7 +50,7 @@ public class OmnibarImageCell: UITableViewCell {
             return Size.editingHeight
         }
 
-        var cellWidth = tableWidth
+        let cellWidth = tableWidth
         let imageWidth = max(image.size.width, 1)
         var height = image.size.height * cellWidth / imageWidth
         if editing {

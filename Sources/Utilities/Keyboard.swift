@@ -44,7 +44,7 @@ public class Keyboard {
         center.removeObserver(self)
     }
 
-    public func keyboardBottomInset(#inView: UIView) -> CGFloat {
+    public func keyboardBottomInset(inView inView: UIView) -> CGFloat {
         let window : UIView = inView.window ?? inView
         let bottom = window.convertPoint(CGPoint(x: 0, y: window.bounds.size.height - bottomInset), toView: inView.superview).y
         let inset = inView.frame.size.height - bottom
@@ -63,12 +63,12 @@ public class Keyboard {
         endFrame = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
         bottomInset = endFrame.size.height
 
-        postNotification(Notifications.KeyboardWillShow, self)
+        postNotification(Notifications.KeyboardWillShow, value: self)
     }
 
     @objc
     func didShow(notification : NSNotification) {
-        postNotification(Notifications.KeyboardDidShow, self)
+        postNotification(Notifications.KeyboardDidShow, value: self)
     }
 
     @objc
@@ -78,12 +78,12 @@ public class Keyboard {
         endFrame = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
         bottomInset = 0
 
-        postNotification(Notifications.KeyboardWillHide, self)
+        postNotification(Notifications.KeyboardWillHide, value: self)
     }
 
     @objc
     func didHide(notification : NSNotification) {
-        postNotification(Notifications.KeyboardDidHide, self)
+        postNotification(Notifications.KeyboardDidHide, value: self)
     }
 
     private func setFromNotification(notification : NSNotification) {

@@ -16,7 +16,7 @@ public class JoinViewController: BaseElloViewController, HasAppController {
     @IBOutlet weak public var containerHeightConstraint: NSLayoutConstraint!
 
     @IBOutlet weak public var scrollView: UIScrollView!
-    @IBOutlet weak public var elloLogo: ElloLogoView!
+    weak public var elloLogo: ElloLogoView!
     @IBOutlet weak public var emailField: ElloTextField!
     @IBOutlet weak public var usernameField: ElloTextField!
     @IBOutlet weak public var passwordField: ElloTextField!
@@ -32,12 +32,16 @@ public class JoinViewController: BaseElloViewController, HasAppController {
 
     weak var parentAppController: AppViewController?
 
+    private var email: String { return emailField.text ?? "" }
+    private var username: String { return usernameField.text ?? "" }
+    private var password: String { return passwordField.text ?? "" }
+
     required public init() {
         super.init(nibName: "JoinViewController", bundle: nil)
         modalTransitionStyle = .CrossDissolve
     }
 
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -182,7 +186,7 @@ public class JoinViewController: BaseElloViewController, HasAppController {
                     return
                 }
 
-                self.usernameAvailability(username) { successful in
+                self.usernameAvailability(self.username) { successful in
                     if !successful {
                         joinAborted()
                         return
@@ -191,10 +195,10 @@ public class JoinViewController: BaseElloViewController, HasAppController {
                     Tracker.sharedTracker.joinValid()
 
                     let service = UserService()
-                    service.join(email: email, username: username, password: password, success: { user in
+                    service.join(email: self.email, username: self.username, password: self.password, success: { user in
                         let authService = AuthService()
-                        authService.authenticate(email: email,
-                            password: password,
+                        authService.authenticate(email: self.email,
+                            password: self.password,
                             success: {
                                 Tracker.sharedTracker.joinSuccessful()
                                 self.showOnboardingScreen(user)
@@ -202,7 +206,7 @@ public class JoinViewController: BaseElloViewController, HasAppController {
                             failure: { _, _ in
                                 Tracker.sharedTracker.joinFailed()
                                 self.view.userInteractionEnabled = true
-                                self.showSignInScreen(email, password)
+                                self.showSignInScreen(self.email, self.password)
                             })
                     },
                     failure: { error, _ in
@@ -234,7 +238,6 @@ public class JoinViewController: BaseElloViewController, HasAppController {
 
     private func showSignInScreen(email: String, _ password: String) {
         let signInController = SignInViewController()
-        let view = signInController.view
         signInController.emailTextField.text = email
         signInController.passwordTextField.text = password
         signInController.enterButton.enabled = true
@@ -322,7 +325,7 @@ extension JoinViewController {
 // MARK: Text field validation
 extension JoinViewController {
 
-    private func allFieldsValid(#email: String, username: String, password: String) -> Bool {
+    private func allFieldsValid(email email: String, username: String, password: String) -> Bool {
         return emailIsValid(email) && usernameIsValid(username) && passwordIsValid(password)
     }
 
@@ -381,7 +384,7 @@ extension JoinViewController {
                 self.showErrorLabel(msg)
 
                 if !availability.usernameSuggestions.isEmpty {
-                    let suggestions = ", ".join(availability.usernameSuggestions)
+                    let suggestions = availability.usernameSuggestions.joinWithSeparator(", ")
                     let msg = String(format: NSLocalizedString("Here are some available usernames -\n%@", comment: "username suggestions showmes"), suggestions)
                     self.showMessageLabel(msg)
                 }
@@ -431,7 +434,7 @@ extension JoinViewController {
 
             if loginDict == nil {
                 if (Int32)(error.code) != AppExtensionErrorCodeCancelledByUser {
-                    println("Error invoking 1Password App Extension for find login: \(error)")
+                    print("Error invoking 1Password App Extension for find login: \(error)")
                 }
                 return
             }

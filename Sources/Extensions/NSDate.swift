@@ -10,11 +10,11 @@ import Foundation
 
 public extension NSDate {
 
-    func toServerDateString() -> NSString {
+    func toServerDateString() -> String {
         return ServerDateFormatter.stringFromDate(self)
     }
 
-    func toHTTPDateString() -> NSString {
+    func toHTTPDateString() -> String {
         return HTTPDateFormatter.stringFromDate(self)
     }
 

@@ -29,7 +29,7 @@ public class AutoCompleteDataSource: NSObject {
 // MARK: UITableViewDataSource
 extension AutoCompleteDataSource: UITableViewDataSource {
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return count(items)
+        return items.count
     }
 
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

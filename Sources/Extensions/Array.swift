@@ -7,8 +7,8 @@
 //
 
 extension Array {
-    func safeValue(index: Int) -> T? {
-        return contains(startIndex..<endIndex, index) ? self[index] : .None
+    func safeValue(index: Int) -> Element? {
+        return (startIndex..<endIndex).contains(index) ? self[index] : .None
     }
 
     func any(test: (el: Element)->Bool) -> Bool {

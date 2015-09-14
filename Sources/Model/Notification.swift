@@ -70,7 +70,6 @@ public final class Notification: JSONAble, Authorable {
 
     public init(activity: Activity) {
         self.activity = activity
-        var author : User? = nil
 
         if let post = activity.subject as? Post {
             self.author = post.author

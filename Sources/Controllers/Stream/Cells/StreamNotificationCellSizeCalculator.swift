@@ -18,16 +18,27 @@ public class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
     public var cellItems:[StreamCellItem] = []
     public var completion:StreamTextCellSizeCalculated = {}
 
-    let srcRegex:NSRegularExpression  = NSRegularExpression(
-        pattern: "src=[\"']([^\"']*)[\"']",
-        options: NSRegularExpressionOptions.CaseInsensitive,
-        error: nil)!
+    var srcRegex: NSRegularExpression?
+
+//    let srcRegex: NSRegularExpression  = NSRegularExpression(
+//        pattern: "src=[\"']([^\"']*)[\"']",
+//        options: NSRegularExpressionOptions.CaseInsensitive,
+//        error: nil)!
 
     public init(webView:UIWebView) {
         self.webView = webView
         originalWidth = self.webView.frame.size.width
         super.init()
         self.webView.delegate = self
+
+        do {
+            try srcRegex = NSRegularExpression(
+                pattern: "src=[\"']([^\"']*)[\"']",
+                options: .CaseInsensitive)
+        }
+        catch {
+            srcRegex = nil
+        }
     }
 
     public func processCells(cellItems:[StreamCellItem], withWidth width: CGFloat, completion:StreamTextCellSizeCalculated) {
@@ -101,7 +112,7 @@ public class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
             height = imageHeight
         }
 
-        var margins = NotificationCell.Size.topBottomMargins
+        let margins = NotificationCell.Size.topBottomMargins
         height += margins
         cellItem.calculatedWebHeight = webContentHeight
         cellItem.calculatedOneColumnCellHeight = height
@@ -110,14 +121,17 @@ public class StreamNotificationCellSizeCalculator: NSObject, UIWebViewDelegate {
 
     private func stripImageSrc(html: String) -> String {
         // finds image tags, replaces them with data:image/png (inlines image data)
-        let range = NSMakeRange(0, count(html))
+        let range = NSMakeRange(0, html.characters.count)
 
-        let strippedHtml :String = srcRegex.stringByReplacingMatchesInString(html,
-            options: NSMatchingOptions.allZeros,
-            range:range,
-            withTemplate: "src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVR4nGNiAAAABgADNjd8qAAAAABJRU5ErkJggg==")
+//MARK: warning - is '.ReportCompletion' what we want?
+        if let srcRegex = srcRegex {
+            return srcRegex.stringByReplacingMatchesInString(html,
+                options: .ReportCompletion,
+                range: range,
+                withTemplate: "src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVR4nGNiAAAABgADNjd8qAAAAABJRU5ErkJggg==")
+        }
 
-        return strippedHtml
+        return ""
     }
 
 }

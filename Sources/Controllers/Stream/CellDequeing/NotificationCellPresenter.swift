@@ -22,7 +22,7 @@ public struct NotificationCellPresenter {
                 if let actualHeight = webView.windowContentSize()?.height {
                     if actualHeight != streamCellItem.calculatedWebHeight {
                         StreamNotificationCellSizeCalculator.assignTotalHeight(actualHeight, cellItem: streamCellItem, cellWidth: cell.frame.width)
-                        postNotification(StreamNotification.UpdateCellHeightNotification, cell)
+                        postNotification(StreamNotification.UpdateCellHeightNotification, value: cell)
                     }
                 }
             }
@@ -44,7 +44,7 @@ public struct NotificationCellPresenter {
             }
 
             if let imageRegion = notification.imageRegion {
-                var aspectRatio = StreamImageCellSizeCalculator.aspectRatioForImageRegion(imageRegion)
+                let aspectRatio = StreamImageCellSizeCalculator.aspectRatioForImageRegion(imageRegion)
                 var imageURL: NSURL?
                 if let asset = imageRegion.asset where !asset.isGif {
                     imageURL = asset.optimized?.url

@@ -134,7 +134,7 @@ private extension ProfileInfoViewController {
             ))
         chooseCoverImageView.contentMode = .ScaleAspectFill
         chooseCoverImageView.clipsToBounds = true
-        chooseCoverImageView.autoresizingMask = .FlexibleLeftMargin | .FlexibleRightMargin | .FlexibleBottomMargin
+        chooseCoverImageView.autoresizingMask = [.FlexibleLeftMargin, .FlexibleRightMargin, .FlexibleBottomMargin]
         chooseCoverImageView.image = onboardingData?.coverImage ?? chooseCoverImage
         view.addSubview(chooseCoverImageView)
         self.chooseCoverImageView = chooseCoverImageView
@@ -149,7 +149,7 @@ private extension ProfileInfoViewController {
             width: chooseAvatarImage.size.width * scale,
             height: chooseAvatarImage.size.height * scale
             ))
-        chooseAvatarImageView.autoresizingMask = .FlexibleBottomMargin | .FlexibleRightMargin
+        chooseAvatarImageView.autoresizingMask = [.FlexibleBottomMargin, .FlexibleRightMargin]
         chooseAvatarImageView.image = onboardingData?.avatarImage ?? chooseAvatarImage
         chooseAvatarImageView.clipsToBounds = true
         chooseAvatarImageView.layer.cornerRadius = chooseAvatarImageView.frame.size.width / 2
@@ -234,14 +234,14 @@ extension ProfileInfoViewController: UITextFieldDelegate {
 
 extension ProfileInfoViewController {
 
-    private func generateTextField(#placeholder: String, font: UIFont, y: CGFloat) -> UITextField {
+    private func generateTextField(placeholder placeholder: String, font: UIFont, y: CGFloat) -> UITextField {
         let field = UITextField(frame: CGRect(
             x: 15,
             y: y,
             width: view.frame.width - 30,
             height: 34
             ))
-        field.autoresizingMask = .FlexibleWidth | .FlexibleBottomMargin
+        field.autoresizingMask = [.FlexibleWidth, .FlexibleBottomMargin]
         field.font = font
         field.textColor = .greyA()
         field.placeholder = placeholder
@@ -257,7 +257,7 @@ extension ProfileInfoViewController {
 
         let line = UIView(frame: CGRect(x: 0, y: field.frame.height - 2, width: field.frame.width, height: 2))
         line.backgroundColor = .greyE5()
-        line.autoresizingMask = .FlexibleWidth | .FlexibleTopMargin
+        line.autoresizingMask = [.FlexibleWidth, .FlexibleTopMargin]
         field.addSubview(line)
         return field
     }

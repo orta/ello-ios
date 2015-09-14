@@ -28,18 +28,18 @@ pod 'YapDatabase', git: 'https://github.com/ello/YapDatabase'
 pod 'Firebase', configurations: ['Debug']
 
 # swift pods
-pod 'Alamofire', '~> 1.3.0'
-pod 'Moya', '~> 2.1.0'
-pod 'Result', '~> 0.4.0'
-pod 'SwiftyJSON', git: 'https://github.com/ello/SwiftyJSON'
+pod 'Alamofire', '~> 2.0'
+pod 'Moya', '~> 2.2'
+pod 'Result', '0.6-beta.1'
+pod 'SwiftyJSON', git: 'https://github.com/ello/SwiftyJSON', branch: 'Swift-2.0'
 pod 'SwiftyUserDefaults', '~> 1.3.0'
-pod 'TimeAgoInWords', '~> 0.1.0'
-pod 'WebLinking', '~> 0.2.0'
+pod 'TimeAgoInWords', path: '/Users/s/work/Libraries/TimeAgoInWords'
+pod 'WebLinking', path: '/Users/s/work/Libraries/WebLinking.swift'
 
 target 'Specs' do
-  pod 'Nimble', '~> 1.0.0'
+  pod 'Nimble', '2.0.0-rc.3'
   pod 'OHHTTPStubs', '~> 4.1.0'
-  pod 'Quick', '~> 0.3.0'
+  pod 'Quick', '~> 0.6.0'
 end
 
 plugin 'cocoapods-keys', {

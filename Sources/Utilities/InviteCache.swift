@@ -27,6 +27,6 @@ public struct InviteCache {
     }
 
     public func has(contactID: String) -> Bool {
-        return contains(cache.getAll(), contactID)
+        return cache.getAll().contains(contactID)
     }
 }

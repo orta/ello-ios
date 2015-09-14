@@ -1,0 +1,58 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "CE85FE9109D7F16FB7ECA4B10F7B364BA28396B0",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "6EF27432E59DB6DC9338F620CB9DF52A2652C009" : 0,
+    "F98BD4B66D11256A15D34D0E0BEDBF97D228ADDB" : 0,
+    "15ADDC96148D8EC7ABACA3AFDED5D958C5D22840" : 0,
+    "80DA628EAE81E418FCA5040B6FD2F14B521C07CB" : 0,
+    "6143FAAC46BCEFA93BD8374017141E70368D830E" : 0,
+    "CE85FE9109D7F16FB7ECA4B10F7B364BA28396B0" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "853D77DA-71D4-4134-B36F-CF8EAEA5EF94",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "6EF27432E59DB6DC9338F620CB9DF52A2652C009" : "Libraries\/TimeAgoInWords\/",
+    "F98BD4B66D11256A15D34D0E0BEDBF97D228ADDB" : "Libraries\/WebLinking.swift\/",
+    "15ADDC96148D8EC7ABACA3AFDED5D958C5D22840" : "Libraries\/Moya",
+    "80DA628EAE81E418FCA5040B6FD2F14B521C07CB" : "Libraries\/JTSImageViewController",
+    "6143FAAC46BCEFA93BD8374017141E70368D830E" : "Libraries\/KINWebBrowser",
+    "CE85FE9109D7F16FB7ECA4B10F7B364BA28396B0" : "ello-ios"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Ello",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Ello.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:Moya\/Moya.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "15ADDC96148D8EC7ABACA3AFDED5D958C5D22840"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:ello\/KINWebBrowser.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "6143FAAC46BCEFA93BD8374017141E70368D830E"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:ello\/TimeAgoInWords.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "6EF27432E59DB6DC9338F620CB9DF52A2652C009"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:ello\/JTSImageViewController.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "80DA628EAE81E418FCA5040B6FD2F14B521C07CB"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:modeset\/ello-ios.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "CE85FE9109D7F16FB7ECA4B10F7B364BA28396B0"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:kylef\/WebLinking.swift.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "F98BD4B66D11256A15D34D0E0BEDBF97D228ADDB"
+    }
+  ]
+}

@@ -165,7 +165,7 @@ public final class User: JSONAble {
         let json = JSON(data)
         Crashlytics.sharedInstance().setObjectValue(json.rawString(), forKey: CrashlyticsKey.UserFromJSON.rawValue)
         // create user
-        var user = User(
+        let user = User(
             id: json["id"].stringValue,
             href: json["href"].stringValue,
             username: json["username"].stringValue,
@@ -195,7 +195,7 @@ public final class User: JSONAble {
         // links
         user.links = data["links"] as? [String: AnyObject]
         // profile
-        if count(json["created_at"].stringValue) > 0 {
+        if (json["created_at"].stringValue).characters.count > 0 {
             user.profile = Profile.fromJSON(data) as? Profile
         }
         // store self in collection

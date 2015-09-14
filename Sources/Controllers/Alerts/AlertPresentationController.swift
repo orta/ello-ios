@@ -14,7 +14,7 @@ public class AlertPresentationController: UIPresentationController {
         return background
     }()
 
-    public init(presentedViewController: UIViewController!, presentingViewController: UIViewController!, backgroundColor: UIColor) {
+    public init(presentedViewController: UIViewController, presentingViewController: UIViewController, backgroundColor: UIColor) {
         super.init(presentedViewController: presentedViewController, presentingViewController: presentingViewController)
         self.background.backgroundColor = backgroundColor
     }
@@ -35,16 +35,19 @@ public extension AlertPresentationController {
 // MARK: Presentation
 public extension AlertPresentationController {
     override public func presentationTransitionWillBegin() {
-        background.alpha = 0
-        background.frame = containerView.bounds
-        containerView.addSubview(background)
+        if let containerView = containerView {
+            background.alpha = 0
+            background.frame = containerView.bounds
+            containerView.addSubview(background)
 
-        let transitionCoordinator = presentingViewController.transitionCoordinator()
-        transitionCoordinator?.animateAlongsideTransition({ _ in
-            self.background.alpha = 1
-        }, completion: .None)
-
-        containerView.addSubview(presentedView())
+            let transitionCoordinator = presentingViewController.transitionCoordinator()
+            transitionCoordinator?.animateAlongsideTransition({ _ in
+                self.background.alpha = 1
+                }, completion: .None)
+            if let presentedView = presentedView() {
+                containerView.addSubview(presentedView)
+            }
+        }
     }
 
     override public func dismissalTransitionWillBegin() {

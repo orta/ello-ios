@@ -25,7 +25,7 @@ public class StreamContainerViewController: StreamableViewController {
     }
 
     @IBOutlet weak public var scrollView: UIScrollView!
-    @IBOutlet weak public var navigationBar: ElloNavigationBar!
+    weak public var navigationBar: ElloNavigationBar!
     @IBOutlet weak public var navigationBarTopConstraint: NSLayoutConstraint!
 
     public var streamsSegmentedControl: UISegmentedControl!
@@ -114,7 +114,7 @@ public class StreamContainerViewController: StreamableViewController {
             x += width
         }
 
-        scrollView.contentSize = CGSize(width: width * CGFloat(count(StreamKind.streamValues)), height: height)
+        scrollView.contentSize = CGSize(width: width * CGFloat(StreamKind.streamValues.count), height: height)
     }
 
     private func setupChildViewControllers() {
@@ -123,7 +123,7 @@ public class StreamContainerViewController: StreamableViewController {
         let width:CGFloat = scrollView.frame.size.width
         let height:CGFloat = scrollView.frame.size.height
 
-        for (index, kind) in enumerate(StreamKind.streamValues) {
+        for (index, kind) in StreamKind.streamValues.enumerate() {
             let vc = StreamViewController.instantiateFromStoryboard()
             vc.currentUser = currentUser
             vc.streamKind = kind
@@ -176,8 +176,6 @@ public class StreamContainerViewController: StreamableViewController {
     // MARK: - IBActions
 
     @IBAction func hamburgerButtonTapped() {
-        let index = streamsSegmentedControl.selectedSegmentIndex
-        let relationship = StreamKind.streamValues[index].relationship
         let drawer = DrawerViewController()
         drawer.currentUser = currentUser
 

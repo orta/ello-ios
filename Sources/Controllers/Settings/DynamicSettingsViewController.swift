@@ -37,7 +37,7 @@ class DynamicSettingsViewController: UITableViewController {
         StreamService().loadStream(.ProfileToggles,
             streamKind: nil,
             success: { (data, responseConfig) in
-                if var categories = data as? [DynamicSettingCategory] {
+                if let categories = data as? [DynamicSettingCategory] {
                     self.dynamicCategories = categories.reduce([]) { categoryArr, category in
                         category.settings = category.settings.reduce([]) { settingsArr, setting in
                             if self.currentUser?.hasProperty(setting.key) == true {
@@ -75,7 +75,7 @@ class DynamicSettingsViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("PreferenceCell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("PreferenceCell", forIndexPath: indexPath) 
 
         switch DynamicSettingsSection(rawValue: indexPath.section) ?? .Unknown {
         case .DynamicSettings:
@@ -98,11 +98,11 @@ class DynamicSettingsViewController: UITableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "DynamicSettingCategorySegue" {
             let controller = segue.destinationViewController as! DynamicSettingCategoryViewController
-            let selectedIndexPath = tableView.indexPathForSelectedRow()
+            let selectedIndexPath = tableView.indexPathForSelectedRow
 
             switch DynamicSettingsSection(rawValue: selectedIndexPath?.section ?? 0) ?? .Unknown {
             case .DynamicSettings:
-                let index = tableView.indexPathForSelectedRow()?.row ?? 0
+                let index = tableView.indexPathForSelectedRow?.row ?? 0
                 controller.category = dynamicCategories[index]
 
             case .AccountDeletion:

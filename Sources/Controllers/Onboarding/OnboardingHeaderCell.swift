@@ -14,7 +14,7 @@ public class OnboardingHeaderCell: UICollectionViewCell {
     lazy var onboardingHeaderView: OnboardingHeaderView = {
         let view = OnboardingHeaderView()
         view.frame = self.frame
-        view.autoresizingMask = .FlexibleWidth | .FlexibleHeight
+        view.autoresizingMask =  [.FlexibleWidth, .FlexibleHeight]
         return view
     }()
     var headerLabel: UILabel { return onboardingHeaderView.headerLabel }

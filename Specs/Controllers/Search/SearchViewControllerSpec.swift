@@ -11,7 +11,7 @@ import Quick
 import Nimble
 
 
-@objc
+
 class SearchMockScreen: NSObject, SearchScreenProtocol {
     var delegate : SearchScreenDelegate?
 
@@ -19,7 +19,7 @@ class SearchMockScreen: NSObject, SearchScreenProtocol {
         return UIView()
     }
 
-    func updateInsets(#bottom: CGFloat) {
+    func updateInsets(bottom bottom: CGFloat) {
     }
 
 }

@@ -11,10 +11,10 @@ import Foundation
 private let ElloTextFieldViewHeight: CGFloat = 89.0
 
 public class ElloTextFieldView: UIView {
-    @IBOutlet public weak var label: ElloToggleLabel!
+    public weak var label: ElloToggleLabel!
     @IBOutlet public weak var textField: ElloTextField!
-    @IBOutlet public weak var errorLabel: ElloErrorLabel!
-    @IBOutlet public weak var messageLabel: ElloLabel!
+    public weak var errorLabel: ElloErrorLabel!
+    public weak var messageLabel: ElloLabel!
 
     @IBOutlet private var errorLabelHeight: NSLayoutConstraint!
     @IBOutlet private var messageLabelHeight: NSLayoutConstraint!
@@ -66,15 +66,15 @@ public class ElloTextFieldView: UIView {
         super.init(frame: frame)
         let view: UIView = loadFromNib()
         view.frame = bounds
-        view.autoresizingMask = UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleWidth
+        view.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         addSubview(view)
     }
 
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         let view: UIView = loadFromNib()
         view.frame = bounds
-        view.autoresizingMask = UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleWidth
+        view.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         addSubview(view)
     }
 
@@ -89,7 +89,9 @@ public class ElloTextFieldView: UIView {
 
     func valueChanged() {
         setNeedsUpdateConstraints()
-        textFieldDidChange?(textField.text)
+        if let text = textField.text {
+            textFieldDidChange?(text)
+        }
     }
 
     func setErrorMessage(message: String) {

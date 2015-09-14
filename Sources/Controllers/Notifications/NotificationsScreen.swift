@@ -23,14 +23,14 @@ public class NotificationsScreen : UIView {
         button.setBackgroundImage(UIImage.imageWithColor(UIColor.greyE5()), forState: .Normal)
         return button
     }
-    private class func filterButton(#imageName: String) -> UIButton {
+    private class func filterButton(imageName imageName: String) -> UIButton {
         let button = filterButton()
         button.setSVGImage("\(imageName)_normal.svg", forState: .Normal)
         button.setSVGImage("\(imageName)_white.svg", forState: .Selected)
         button.imageView!.contentMode = .ScaleAspectFit
         return button
     }
-    private class func filterButton(#title: String) -> UIButton {
+    private class func filterButton(title title: String) -> UIButton {
         let button = filterButton()
         button.setTitle(title, forState: .Normal)
         return button
@@ -71,7 +71,7 @@ public class NotificationsScreen : UIView {
         self.addSubview(filterBar)
     }
 
-    required public init(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         super.init(coder: coder)
     }
 
@@ -118,7 +118,7 @@ public class NotificationsScreen : UIView {
 // MARK: Filter Bar
 extension NotificationsScreen {
 
-    func animateNavigationBar(#visible: Bool) {
+    func animateNavigationBar(visible visible: Bool) {
         navBarVisible = visible
         animate {
             self.positionFilterBar()

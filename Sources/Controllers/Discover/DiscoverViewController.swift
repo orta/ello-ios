@@ -12,7 +12,7 @@ import SVGKit
 public class DiscoverViewController: StreamableViewController {
 
     @IBOutlet weak var navigationContainer: UIView!
-    @IBOutlet weak var navigationBar: ElloNavigationBar!
+    weak var navigationBar: ElloNavigationBar!
     @IBOutlet weak var inviteButton: UIButton!
     @IBOutlet weak var chevron: UIImageView!
     @IBOutlet weak var inviteLabel: UILabel!
@@ -28,7 +28,7 @@ public class DiscoverViewController: StreamableViewController {
         streamViewController.streamKind = .Discover(type: .Recommended, perPage: 10)
     }
 
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 

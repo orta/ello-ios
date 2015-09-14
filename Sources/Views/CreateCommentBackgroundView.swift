@@ -13,7 +13,7 @@ public class CreateCommentBackgroundView : UIView {
         self.backgroundColor = UIColor.clearColor()
     }
 
-    required public init(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         super.init(coder: coder)
         self.backgroundColor = UIColor.clearColor()
     }
@@ -24,7 +24,7 @@ public class CreateCommentBackgroundView : UIView {
         let midY = self.frame.height / CGFloat(2)
 
         //// Bezier Drawing
-        var bezierPath = UIBezierPath()
+        let bezierPath = UIBezierPath()
         bezierPath.moveToPoint(CGPointMake(0, midY))
         bezierPath.addLineToPoint(CGPointMake(margin, midY - margin))
         bezierPath.addLineToPoint(CGPointMake(margin, 0))

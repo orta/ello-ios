@@ -11,7 +11,7 @@ import Quick
 import Nimble
 
 
-@objc
+
 class OmnibarMockScreen: OmnibarScreenProtocol {
     var delegate: OmnibarScreenDelegate?
     var isEditing: Bool = false

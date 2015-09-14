@@ -8,7 +8,7 @@
 
 public let externalWebNotification = TypedNotification<String>(name: "externalWebNotification")
 
-public class ElloNavigationController: UINavigationController, UIGestureRecognizerDelegate {
+public class ElloNavigationController: UINavigationController {
 
     var interactionController: UIPercentDrivenInteractiveTransition?
     var postChangedNotification:NotificationObserver?
@@ -42,7 +42,7 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
     }
 
     public func setProfileData(currentUser: User) {
-        postNotification(SettingChangedNotification, currentUser)
+        postNotification(SettingChangedNotification, value: currentUser)
         self.currentUser = currentUser
         if self.viewControllers.count == 0 {
             if let rootViewControllerName = rootViewControllerName {
@@ -56,9 +56,10 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
 
     func didSetCurrentUser() {
         if self.viewControllers.count > 0 {
-            var controllers = self.viewControllers as! [ControllerThatMightHaveTheCurrentUser]
-            for controller in controllers {
-                controller.currentUser = currentUser
+            for controller in self.viewControllers {
+                if let controller = controller as? ControllerThatMightHaveTheCurrentUser {
+                    controller.currentUser = currentUser
+                }
             }
         }
     }
@@ -70,12 +71,16 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
         delegate = self
 
         backGesture = UIScreenEdgePanGestureRecognizer(target: self, action: Selector("handleBackGesture:"))
-        backGesture.map(self.view.addGestureRecognizer)
+        if let backGesture = backGesture {
+            self.view.addGestureRecognizer(backGesture)
+        }
+
+
 
         postChangedNotification = NotificationObserver(notification: PostChangedNotification) { (post, change) in
             switch change {
             case .Delete:
-                var keepers = [AnyObject]()
+                var keepers = [UIViewController]()
                 for controller in self.childViewControllers {
                     if let postDetailVC = controller as? PostDetailViewController {
                         if let postId = postDetailVC.post?.id where postId != post.id {
@@ -94,7 +99,7 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
         relationshipChangedNotification = NotificationObserver(notification: RelationshipChangedNotification) { user in
             switch user.relationshipPriority {
             case .Block:
-                var keepers = [AnyObject]()
+                var keepers = [UIViewController]()
                 for controller in self.childViewControllers {
                     if let userStreamVC = controller as? ProfileViewController {
                         if let userId = userStreamVC.user?.id where userId != user.id {
@@ -107,7 +112,7 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
                 }
                 self.setViewControllers(keepers, animated: true)
             default:
-                _ = "noop"
+                break
             }
         }
     }
@@ -118,7 +123,7 @@ public class ElloNavigationController: UINavigationController, UIGestureRecogniz
         switch gesture.state {
         case .Began:
             interactionController = UIPercentDrivenInteractiveTransition()
-            topViewController.backGestureAction()
+            topViewController?.backGestureAction()
         case .Changed:
             interactionController?.updateInteractiveTransition(percentThroughView)
         case .Ended, .Cancelled:

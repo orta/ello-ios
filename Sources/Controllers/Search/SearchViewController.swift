@@ -16,7 +16,7 @@ public class SearchViewController: StreamableViewController {
     }
 
     override public func loadView() {
-        var screen = SearchScreen(frame: UIScreen.mainScreen().bounds, isSearchView: true)
+        let screen = SearchScreen(frame: UIScreen.mainScreen().bounds, isSearchView: true)
         self.view = screen
         screen.delegate = self
     }
@@ -101,7 +101,7 @@ extension SearchViewController: SearchScreenDelegate {
     }
 
     private func loadEndpoint(text: String, isPostSearch: Bool, checkSearchText: Bool = true) {
-        if count(text) < 2 { return }  // just.. no (and the server doesn't guard against empty/short searches)
+        if text.characters.count < 2 { return }  // just.. no (and the server doesn't guard against empty/short searches)
         if checkSearchText && searchText == text { return }  // a search is already in progress for this text
         streamViewController.hideNoResults()
         trackSearch(text, isPostSearch: isPostSearch)

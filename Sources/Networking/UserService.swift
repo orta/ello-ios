@@ -18,7 +18,7 @@ public struct UserService {
     public init(){}
 
     public func join(
-        #email: String,
+        email email: String,
         username: String,
         password: String,
         success: ProfileSuccessCompletion,
@@ -28,7 +28,7 @@ public struct UserService {
     }
 
     public func join(
-        #email: String,
+        email email: String,
         username: String,
         password: String,
         invitationCode: String?,

@@ -71,7 +71,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
 
     class func canEditRegions(regions: [Regionable]?) -> Bool {
         if let regions = regions {
-            return count(regions) > 0 && regions.all { region in
+            return regions.count > 0 && regions.all { region in
                 return region is TextRegion || region is ImageRegion
             }
         }
@@ -90,7 +90,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
             if let last = regions.last where !last.isText {
                 regions.append(.Text(""))
             }
-            else if count(regions) == 0 {
+            else if regions.count == 0 {
                 regions.append(.Text(""))
             }
             submitableRegions = regions
@@ -194,7 +194,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
         setupViewHierarchy()
     }
 
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -222,7 +222,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
 
         statusBarUnderlay.frame.size.width = frame.width
         statusBarUnderlay.backgroundColor = .blackColor()
-        statusBarUnderlay.autoresizingMask = .FlexibleWidth | .FlexibleBottomMargin
+        statusBarUnderlay.autoresizingMask = [.FlexibleWidth, .FlexibleBottomMargin]
         addSubview(statusBarUnderlay)
     }
 
@@ -242,7 +242,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
         let image = SVGKImage(named: "arrow_white").UIImage!
         let imageView = UIImageView(image: image)
         imageView.center = CGPoint(x: submitButton.frame.width - image.size.width / 2 - 13, y: submitButton.frame.height / CGFloat(2))
-        imageView.autoresizingMask = .FlexibleLeftMargin | .FlexibleTopMargin | .FlexibleBottomMargin
+        imageView.autoresizingMask = [.FlexibleLeftMargin, .FlexibleTopMargin, .FlexibleBottomMargin]
         submitButton.addSubview(imageView)
     }
 
@@ -273,7 +273,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
         textView.allowsEditingTextAttributes = false
         textView.selectable = true
         textView.delegate = self
-        textView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        textView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         textView.autocorrectionType = .Yes
         textView.inputAccessoryView = autoCompleteContainer
     }
@@ -303,15 +303,12 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
 
     private func generateEditableRegions(regions: [OmnibarRegion]) -> [IndexedRegion] {
         var editableRegions = [IndexedRegion]()
-        var prevWasImage = false
-        for (index, region) in enumerate(regions) {
+        for (index, region) in regions.enumerate() {
             if index > 0 {
                 editableRegions.append((nil, .Spacer))
             }
             editableRegions.append((index, region))
-            prevWasImage = region.isImage
-
-            if let path = currentTextPath where path.row == count(editableRegions) - 1 {
+            if let path = currentTextPath where path.row == editableRegions.count - 1 {
                 textView.attributedText = region.text
             }
         }
@@ -375,7 +372,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
     }
 
     public func updateEditingAtPath(path: NSIndexPath, scrollPosition: UITableViewScrollPosition = .Middle) {
-        var rect = regionsTableView.rectForRowAtIndexPath(path)
+        let rect = regionsTableView.rectForRowAtIndexPath(path)
         textScrollView.contentSize = regionsTableView.contentSize
         textView.frame = OmnibarTextCell.boundsForTextView(rect)
         textContainer.frame = textView.frame.grow(all: 10)
@@ -403,8 +400,8 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
 
     private func joinTwoAttributedStrings(t1: NSAttributedString, _ t2: NSAttributedString) -> NSAttributedString {
         let str = NSMutableAttributedString(attributedString: t1)
-        if count(t2.string) > 0 {
-            if count(t1.string) > 0 {
+        if t2.string.characters.count > 0 {
+            if t1.string.characters.count > 0 {
                 if !t1.string.endsWith("\n") {
                     str.appendAttributedString(ElloAttributedString.style("\n\n"))
                 }
@@ -427,7 +424,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
                 buffer = joinTwoAttributedStrings(buffer, text)
                 lastRegionIsText = true
             case .Image:
-                if count(buffer.string) > 0 {
+                if buffer.string.characters.count > 0 {
                     regions.append(.AttributedText(buffer))
                 }
                 regions.append(region)
@@ -436,7 +433,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
             default: break
             }
         }
-        if count(buffer.string) > 0 {
+        if buffer.string.characters.count > 0 {
             regions.append(.AttributedText(buffer))
         }
         else if !lastRegionIsText {
@@ -448,7 +445,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
     public func reorderingTable(reordering: Bool) {
         if reordering {
             reorderableRegions = generateReorderableRegions(submitableRegions)
-            if count(reorderableRegions) == 0 { return }
+            if reorderableRegions.count == 0 { return }
 
             stopEditing()
             editButton.setSVGImages("check")
@@ -638,7 +635,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
     public func addImage(image: UIImage?, data: NSData? = nil, type: String? = nil) {
         if let image = image {
             if let region = submitableRegions.last where region.empty {
-                let lastIndex = count(submitableRegions) - 1
+                let lastIndex = submitableRegions.count - 1
                 submitableRegions.removeAtIndex(lastIndex)
             }
 
@@ -647,7 +644,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
             editableRegions = generateEditableRegions(submitableRegions)
 
             regionsTableView.reloadData()
-            regionsTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: count(self.editableRegions) - 1, inSection: 0), atScrollPosition: .None, animated: true)
+            regionsTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: self.editableRegions.count - 1, inSection: 0), atScrollPosition: .None, animated: true)
         }
 
         updateButtons()
@@ -664,9 +661,10 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
 // MARK: Camera / Image Picker
 
     public func addImageAction() {
-        stopEditing()
-        let alert = UIImagePickerController.alertControllerForImagePicker(openImagePicker)
-        alert.map { self.delegate?.omnibarPresentController($0) }
+		stopEditing()
+        if let alert = UIImagePickerController.alertControllerForImagePicker(openImagePicker) {
+            self.delegate?.omnibarPresentController(alert)
+        }
     }
 
     private func isGif(buffer: UnsafeMutablePointer<UInt8>, length: Int) -> Bool {
@@ -703,8 +701,6 @@ extension OmnibarMultiRegionScreen: UITableViewDelegate, UITableViewDataSource {
                 return OmnibarImageCell.Size.bottomMargin
             case .Error:
                 return OmnibarErrorCell.Size.height
-            default:
-                break
             }
         }
         return 0
@@ -712,7 +708,7 @@ extension OmnibarMultiRegionScreen: UITableViewDelegate, UITableViewDataSource {
 
     public func tableView(tableView: UITableView, cellForRowAtIndexPath path: NSIndexPath) -> UITableViewCell {
         if let (_, region) = tableViewRegions.safeValue(path.row) {
-            let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(region.reuseIdentifier, forIndexPath: path) as! UITableViewCell
+            let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(region.reuseIdentifier, forIndexPath: path) 
             cell.selectionStyle = .None
             cell.showsReorderControl = true
 
@@ -737,7 +733,7 @@ extension OmnibarMultiRegionScreen: UITableViewDelegate, UITableViewDataSource {
     public func tableView(tableView: UITableView, didSelectRowAtIndexPath path: NSIndexPath) {
         if let (_, region) = tableViewRegions.safeValue(path.row) {
             switch region {
-            case let .AttributedText(attributedText):
+            case .AttributedText(_):
                 startEditingAtPath(path)
             default:
                 stopEditing()
@@ -756,7 +752,7 @@ extension OmnibarMultiRegionScreen: UITableViewDelegate, UITableViewDataSource {
     }
 
     public func tableView(tableView: UITableView, moveRowAtIndexPath sourcePath: NSIndexPath, toIndexPath destPath: NSIndexPath) {
-        if let source = reorderableRegions.safeValue(sourcePath.row), dest = reorderableRegions.safeValue(destPath.row) {
+        if let source = reorderableRegions.safeValue(sourcePath.row) {
             reorderableRegions.removeAtIndex(sourcePath.row)
             reorderableRegions.insert(source, atIndex: destPath.row)
         }
@@ -781,12 +777,12 @@ extension OmnibarMultiRegionScreen: UITableViewDelegate, UITableViewDataSource {
     }
 
     public func deleteReorderableAtIndexPath(path: NSIndexPath) {
-        if let (index_, region) = reorderableRegions.safeValue(path.row)
+        if let (_, region) = reorderableRegions.safeValue(path.row)
             where region.editable
         {
             reorderableRegions.removeAtIndex(path.row)
             regionsTableView.deleteRowsAtIndexPaths([path], withRowAnimation: .Automatic)
-            if count(reorderableRegions) == 0 {
+            if reorderableRegions.count == 0 {
                 reorderingTable(false)
             }
         }
@@ -796,7 +792,7 @@ extension OmnibarMultiRegionScreen: UITableViewDelegate, UITableViewDataSource {
         if let (index_, region) = editableRegions.safeValue(path.row),
             index = index_ where region.editable
         {
-            if count(editableRegions) == 1 {
+            if editableRegions.count == 1 {
                 submitableRegions = [.Text("")]
                 editableRegions = generateEditableRegions(submitableRegions)
                 regionsTableView.reloadRowsAtIndexPaths([path], withRowAnimation: .Top)
@@ -896,9 +892,9 @@ extension OmnibarMultiRegionScreen: UITextViewDelegate {
     }
 
     public func textViewDidChange(textView: UITextView) {
-        if let path = currentTextPath, cell = regionsTableView.cellForRowAtIndexPath(path) {
+        if let path = currentTextPath, _ = regionsTableView.cellForRowAtIndexPath(path) {
             var currentText = textView.attributedText
-            if count(currentText.string) == 0 {
+            if currentText.string.characters.count == 0 {
                 currentText = ElloAttributedString.style("")
                 textView.typingAttributes = ElloAttributedString.attrs()
             }
@@ -940,7 +936,7 @@ extension OmnibarMultiRegionScreen: UITextViewDelegate {
         }
 
         let height: CGFloat = count > 3 ? AutoCompleteCell.cellHeight() * 3 : AutoCompleteCell.cellHeight() * CGFloat(count)
-        if let constraint = textView.inputAccessoryView?.constraints().first as? NSLayoutConstraint {
+        if let constraint = textView.inputAccessoryView?.constraints.first {
             constraint.constant = height
         }
         autoCompleteContainer.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: height)
@@ -972,23 +968,25 @@ extension OmnibarMultiRegionScreen: UINavigationControllerDelegate, UIImagePicke
         delegate?.omnibarPresentController(imageController)
     }
 
-    public func imagePickerController(controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject: AnyObject]) {
-        let library = PHPhotoLibrary.sharedPhotoLibrary()
+    public func imagePickerController(controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: AnyObject]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage
         {
             if let url = info[UIImagePickerControllerReferenceURL] as? NSURL,
                let asset = PHAsset.fetchAssetsWithALAssetURLs([url], options: nil).firstObject as? PHAsset
             {
                     PHImageManager.defaultManager().requestImageDataForAsset(asset, options: nil) { imageData, dataUTI, orientation, info in
-                        var buffer = UnsafeMutablePointer<UInt8>.alloc(imageData.length)
-                        imageData.getBytes(buffer, length: imageData.length)
-                        if self.isGif(buffer, length: imageData.length) {
-                            self.addImage(image, data: imageData, type: "image/gif")
+
+                        if let imageData = imageData {
+                            let buffer = UnsafeMutablePointer<UInt8>.alloc(imageData.length)
+                            imageData.getBytes(buffer, length: imageData.length)
+                            if self.isGif(buffer, length: imageData.length) {
+                                self.addImage(image, data: imageData, type: "image/gif")
+                            }
+                            else {
+                                self.addImage(image)
+                            }
+                            buffer.dealloc(imageData.length)
                         }
-                        else {
-                            self.addImage(image)
-                        }
-                        buffer.dealloc(imageData.length)
                         self.delegate?.omnibarDismissController(controller)
                     }
             }
@@ -1014,7 +1012,7 @@ public extension OmnibarRegion {
     var editable: Bool {
         switch self {
         case .Image: return true
-        case let .AttributedText(text): return count(text.string) > 0
+        case let .AttributedText(text): return text.string.characters.count > 0
         default: return false
         }
     }
@@ -1049,7 +1047,7 @@ public extension OmnibarRegion {
 
     var empty: Bool {
         switch self {
-        case let .AttributedText(text): return count(text.string) == 0
+        case let .AttributedText(text): return text.string.characters.count == 0
         case .Spacer: return true
         default: return false
         }
@@ -1094,12 +1092,11 @@ public extension OmnibarRegion {
     }
 }
 
-extension OmnibarRegion: Printable, DebugPrintable {
+extension OmnibarRegion: CustomStringConvertible, CustomDebugStringConvertible {
     public var description: String {
         switch self {
         case let .Image(image, _, _): return "Image(size: \(image.size))"
         case let .ImageURL(url): return "ImageURL(url: \(url))"
-        case let .AttributedText(text): return "AttributedText(text: \(text.string))"
         case let .AttributedText(text): return "AttributedText(text: \(text.string))"
         case .Spacer: return "Spacer()"
         case .Error: return "Error()"
