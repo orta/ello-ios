@@ -61,8 +61,8 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
         static let margins = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
         static let textMargins = UIEdgeInsets(top: 22, left: 30, bottom: 9, right: 30)
         static let labelCorrection = CGFloat(8.5)
-        static let tableTopMargin = CGFloat(11)
-        static let tableTopInset = CGFloat(26)
+        static let tableTopMargin = CGFloat(10)
+        static let tableTopInset = CGFloat(30)   // tableTopMargin + tableTopInset == 40
         static let bottomTextMargin = CGFloat(1)
         static let toolbarHeight = CGFloat(60)
         static let avatarHeight = CGFloat(40)
@@ -529,17 +529,16 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
 
         buttonContainer.frame = CGRect(x: frame.width - Size.margins.right, y: screenTop + Size.margins.top, width: 0, height: Size.toolbarHeight)
             .growLeft(buttonContainer.frame.width)
+        for view in buttonContainer.subviews as! [UIView] {
+            view.center.y = buttonContainer.frame.height / 2
+        }
 
         var avatarViewLeft = Size.margins.left
         let avatarViewTop = buttonContainer.frame.minY + (Size.toolbarHeight - Size.avatarHeight) / 2
         avatarButton.frame = CGRect(x: avatarViewLeft, y: avatarViewTop, width: Size.avatarHeight, height: Size.avatarHeight)
         avatarButton.layer.cornerRadius = avatarButton.frame.size.height / CGFloat(2)
 
-        for view in buttonContainer.subviews as! [UIView] {
-            view.center.y = buttonContainer.frame.height / 2
-        }
-
-        regionsTableView.frame = CGRect(x: 0, y: buttonContainer.frame.maxY + Size.tableTopMargin, right: bounds.size.width, bottom: bounds.size.height)
+        regionsTableView.frame = CGRect(x: 0, y: avatarButton.frame.maxY + Size.tableTopMargin, right: bounds.size.width, bottom: bounds.size.height)
         textScrollView.frame = regionsTableView.frame
 
         var bottomInset = Keyboard.shared().keyboardBottomInset(inView: self)
