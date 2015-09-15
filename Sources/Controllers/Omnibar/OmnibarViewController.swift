@@ -38,8 +38,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         set(screen) { _mockScreen = screen }
         get {
             if let mock = _mockScreen { return mock }
-            if let multi = self.view as? OmnibarMultiRegionScreen { return multi }
-            return self.view as! OmnibarScreen
+            return self.view as! OmnibarMultiRegionScreen
         }
     }
 
@@ -96,12 +95,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     }
 
     override public func loadView() {
-        if Defaults["OmnibarNewEditorEnabled"].bool ?? false {
-            self.view = OmnibarMultiRegionScreen(frame: UIScreen.mainScreen().bounds)
-        }
-        else {
-            self.view = OmnibarScreen(frame: UIScreen.mainScreen().bounds)
-        }
+        self.view = OmnibarMultiRegionScreen(frame: UIScreen.mainScreen().bounds)
 
         screen.canGoBack = parentPost != nil || editPost != nil || editComment != nil
         screen.currentUser = currentUser
@@ -471,12 +465,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 extension OmnibarViewController {
 
     public class func canEditRegions(regions: [Regionable]?) -> Bool {
-        if Defaults["OmnibarNewEditorEnabled"].bool ?? false {
-            return OmnibarMultiRegionScreen.canEditRegions(regions)
-        }
-        else {
-            return OmnibarScreen.canEditRegions(regions)
-        }
+        return OmnibarMultiRegionScreen.canEditRegions(regions)
     }
 }
 
