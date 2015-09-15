@@ -160,10 +160,6 @@ public class JoinViewController: BaseElloViewController, HasAppController {
     private func join() {
         Tracker.sharedTracker.tappedJoin()
 
-        let email = emailField.text
-        let username = usernameField.text
-        let password = passwordField.text
-
         emailField.resignFirstResponder()
         usernameField.resignFirstResponder()
         passwordField.resignFirstResponder()

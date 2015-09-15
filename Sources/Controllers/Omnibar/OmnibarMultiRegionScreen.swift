@@ -527,14 +527,14 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
         buttonContainer.frame = CGRect(x: frame.width - Size.margins.right, y: screenTop + Size.margins.top, width: 0, height: Size.toolbarHeight)
             .growLeft(buttonContainer.frame.width)
         var buttonX = CGFloat(0)
-        for view in buttonContainer.subviews as! [UIView] {
+        for view in buttonContainer.subviews {
             view.frame.size = CGSize(width: Size.buttonSize, height: Size.buttonSize)
             view.frame.origin.x = buttonX
             view.center.y = buttonContainer.frame.height / 2
             buttonX += Size.buttonMargin + Size.buttonSize
         }
 
-        var avatarViewLeft = Size.margins.left
+        let avatarViewLeft = Size.margins.left
         let avatarViewTop = buttonContainer.frame.minY + (Size.toolbarHeight - Size.avatarHeight) / 2
         avatarButton.frame = CGRect(x: avatarViewLeft, y: avatarViewTop, width: Size.avatarHeight, height: Size.avatarHeight)
         avatarButton.layer.cornerRadius = avatarButton.frame.size.height / CGFloat(2)
