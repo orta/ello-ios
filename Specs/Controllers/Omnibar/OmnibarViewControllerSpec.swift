@@ -137,7 +137,7 @@ class OmnibarViewControllerSpec: QuickSpec {
 
                     let attributedString = ElloAttributedString.style("text")
                     let image = UIImage.imageWithColor(.blackColor())
-                    let omnibarData = OmnibarMultiRegionData()
+                    let omnibarData = OmnibarData()
                     omnibarData.regions = [attributedString, image]
                     let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
 
@@ -222,7 +222,7 @@ class OmnibarViewControllerSpec: QuickSpec {
                     }
 
                     let text = ElloAttributedString.style("testing!")
-                    let omnibarData = OmnibarMultiRegionData()
+                    let omnibarData = OmnibarData()
                     omnibarData.regions = [text]
                     let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
                     if let fileName = controller.omnibarDataName() {
@@ -240,7 +240,7 @@ class OmnibarViewControllerSpec: QuickSpec {
                     }
 
                     let text = ElloAttributedString.style("testing!")
-                    let omnibarData = OmnibarMultiRegionData()
+                    let omnibarData = OmnibarData()
                     omnibarData.regions = [text]
                     let data = NSData()
                     if let fileName = controller.omnibarDataName() {
@@ -272,7 +272,7 @@ class OmnibarViewControllerSpec: QuickSpec {
                     }
 
                     let text = ElloAttributedString.style("testing!")
-                    let omnibarData = OmnibarMultiRegionData()
+                    let omnibarData = OmnibarData()
                     omnibarData.regions = [text]
                     let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
                     if let fileName = controller.omnibarDataName() {

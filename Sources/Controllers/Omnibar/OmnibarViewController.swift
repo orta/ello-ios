@@ -38,7 +38,6 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         set(screen) { _mockScreen = screen }
         get {
             if let mock = _mockScreen { return mock }
-            if let multi = self.view as? OmnibarMultiRegionScreen { return multi }
             return self.view as! OmnibarScreen
         }
     }
@@ -96,12 +95,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     }
 
     override public func loadView() {
-        if Defaults["OmnibarNewEditorEnabled"].bool ?? false {
-            self.view = OmnibarMultiRegionScreen(frame: UIScreen.mainScreen().bounds)
-        }
-        else {
-            self.view = OmnibarScreen(frame: UIScreen.mainScreen().bounds)
-        }
+        self.view = OmnibarScreen(frame: UIScreen.mainScreen().bounds)
 
         screen.canGoBack = parentPost != nil || editPost != nil || editComment != nil
         screen.currentUser = currentUser
@@ -134,7 +128,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             {
 
 //MARK: Warning - not sure if this is working as expected
-                if let omnibarData = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? OmnibarMultiRegionData {
+                if let omnibarData = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? OmnibarData {
                     let regions: [OmnibarRegion] = omnibarData.regions.flatMap { obj in
                         if let region = OmnibarRegion.fromRaw(obj) {
                             return region
@@ -285,7 +279,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
                         dataRegions.append(rawRegion)
                     }
                 }
-                let omnibarData = OmnibarMultiRegionData()
+                let omnibarData = OmnibarData()
                 omnibarData.regions = dataRegions
                 let data = NSKeyedArchiver.archivedDataWithRootObject(omnibarData)
                 Tmp.write(data, to: fileName)
@@ -471,12 +465,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 extension OmnibarViewController {
 
     public class func canEditRegions(regions: [Regionable]?) -> Bool {
-        if Defaults["OmnibarNewEditorEnabled"].bool ?? false {
-            return OmnibarMultiRegionScreen.canEditRegions(regions)
-        }
-        else {
-            return OmnibarScreen.canEditRegions(regions)
-        }
+        return OmnibarScreen.canEditRegions(regions)
     }
 }
 
@@ -509,7 +498,7 @@ public class OmnibarImageData: NSObject, NSCoding {
     }
 }
 
-public class OmnibarMultiRegionData: NSObject, NSCoding {
+public class OmnibarData: NSObject, NSCoding {
     public var regions: [NSObject]
 
     public override init() {

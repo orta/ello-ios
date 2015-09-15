@@ -66,20 +66,6 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
         addAction("Reset Onboarding") {
             Onboarding.shared().reset()
         }
-        addAction("Toggle New Omnibar (multiple regions)") {
-            let alert: String
-            if Defaults["OmnibarNewEditorEnabled"].bool ?? false {
-                Defaults["OmnibarNewEditorEnabled"] = false
-                alert = "New Omnibar disabled"
-            }
-            else {
-                Defaults["OmnibarNewEditorEnabled"] = true
-                alert = "New Omnibar enabled"
-            }
-
-            let alertController = AlertViewController(message: alert)
-            self.presentViewController(alertController, animated: true, completion: nil)
-        }
         addAction("Crash the app") {
             Crashlytics.sharedInstance().crash()
         }
