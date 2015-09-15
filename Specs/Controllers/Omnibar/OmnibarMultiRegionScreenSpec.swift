@@ -136,16 +136,26 @@ class OmnibarMultiRegionScreenSpec: QuickSpec {
                         expect(subject.navigationBar.frame.height) <= 0
                     }
                     it("should position the avatarButton and buttonContainer (when true)") {
-                        subject.canGoBack = true
-                        subject.layoutIfNeeded()
-                        expect(subject.avatarButton.frame.minY) > 40
-                        expect(subject.buttonContainer.frame.minY) > 40
-                    }
-                    it("should position the avatarButton and buttonContainer (when false)") {
                         subject.canGoBack = false
                         subject.layoutIfNeeded()
-                        expect(subject.avatarButton.frame.minY) < 40
-                        expect(subject.buttonContainer.frame.minY) < 40
+                        let avatarY = subject.avatarButton.frame.minY
+                        let toolbarY = subject.buttonContainer.frame.minY
+
+                        subject.canGoBack = true
+                        subject.layoutIfNeeded()
+                        expect(subject.avatarButton.frame.minY) > avatarY
+                        expect(subject.buttonContainer.frame.minY) > toolbarY
+                    }
+                    it("should position the avatarButton and buttonContainer (when false)") {
+                        subject.canGoBack = true
+                        subject.layoutIfNeeded()
+                        let avatarY = subject.avatarButton.frame.minY
+                        let toolbarY = subject.buttonContainer.frame.minY
+
+                        subject.canGoBack = false
+                        subject.layoutIfNeeded()
+                        expect(subject.avatarButton.frame.minY) < avatarY
+                        expect(subject.buttonContainer.frame.minY) < toolbarY
                     }
                 }
                 context("var isEditing: Bool") {
