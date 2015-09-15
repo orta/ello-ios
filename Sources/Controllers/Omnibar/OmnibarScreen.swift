@@ -973,36 +973,44 @@ extension OmnibarScreen: UINavigationControllerDelegate, UIImagePickerController
     }
 
     public func imagePickerController(controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: AnyObject]) {
-        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage
-        {
+        func done() {
+            self.delegate?.omnibarDismissController(controller)
+        }
+
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             if let url = info[UIImagePickerControllerReferenceURL] as? NSURL,
-               let asset = PHAsset.fetchAssetsWithALAssetURLs([url], options: nil).firstObject as? PHAsset
+               asset = PHAsset.fetchAssetsWithALAssetURLs([url], options: nil).firstObject as? PHAsset
             {
                     PHImageManager.defaultManager().requestImageDataForAsset(asset, options: nil) { imageData, dataUTI, orientation, info in
-
                         if let imageData = imageData {
                             let buffer = UnsafeMutablePointer<UInt8>.alloc(imageData.length)
                             imageData.getBytes(buffer, length: imageData.length)
                             if self.isGif(buffer, length: imageData.length) {
                                 self.addImage(image, data: imageData, type: "image/gif")
+                                done()
                             }
                             else {
-                                self.addImage(image)
+                                image.copyWithCorrectOrientationAndSize() { image in
+                                    self.addImage(image)
+                                    done()
+                                }
                             }
                             buffer.dealloc(imageData.length)
                         }
-                        self.delegate?.omnibarDismissController(controller)
+                        else {
+                            done()
+                        }
                     }
             }
             else {
                 image.copyWithCorrectOrientationAndSize() { image in
                     self.addImage(image)
-                    self.delegate?.omnibarDismissController(controller)
+                    done()
                 }
             }
         }
         else {
-            delegate?.omnibarDismissController(controller)
+            done()
         }
     }
 
