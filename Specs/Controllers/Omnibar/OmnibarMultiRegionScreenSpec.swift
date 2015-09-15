@@ -125,17 +125,12 @@ class OmnibarMultiRegionScreenSpec: QuickSpec {
                     }
                 }
                 context("var canGoBack: Bool") {
-                    it("should show the navigationBar when true") {
-                        subject.canGoBack = true
-                        subject.layoutIfNeeded()
-                        expect(subject.navigationBar.frame.height) > 0
-                    }
-                    it("should hide the navigationBar when false") {
-                        subject.canGoBack = false
-                        subject.layoutIfNeeded()
-                        expect(subject.navigationBar.frame.height) <= 0
-                    }
                     context("when true") {
+                        it("should show the navigationBar") {
+                            subject.canGoBack = true
+                            subject.layoutIfNeeded()
+                            expect(subject.navigationBar.frame.height) > 0
+                        }
                         it("should position the avatarButton and buttonContainer") {
                             subject.canGoBack = false
                             subject.layoutIfNeeded()
@@ -149,6 +144,11 @@ class OmnibarMultiRegionScreenSpec: QuickSpec {
                         }
                     }
                     context("when false") {
+                        it("should hide the navigationBar") {
+                            subject.canGoBack = false
+                            subject.layoutIfNeeded()
+                            expect(subject.navigationBar.frame.height) <= 0
+                        }
                         it("should position the avatarButton and buttonContainer") {
                             subject.canGoBack = true
                             subject.layoutIfNeeded()
@@ -163,21 +163,25 @@ class OmnibarMultiRegionScreenSpec: QuickSpec {
                     }
                 }
                 context("var isEditing: Bool") {
-                    it("causes 'x' button to delete (when false)") {
-                        subject.isEditing = false
-                        subject.regions = [.Text("foo")]
-                        expect(subject.canPost()) == true
-                        subject.cancelEditingAction()
-                        expect(delegate.didPresentController) == true
-                        expect(delegate.didGoBack) == false
+                    context("when false") {
+                        it("causes 'x' button to delete") {
+                            subject.isEditing = false
+                            subject.regions = [.Text("foo")]
+                            expect(subject.canPost()) == true
+                            subject.cancelEditingAction()
+                            expect(delegate.didPresentController) == true
+                            expect(delegate.didGoBack) == false
+                        }
                     }
-                    it("causes 'x' button to cancel (when true)") {
-                        subject.isEditing = true
-                        subject.regions = [.Text("foo")]
-                        expect(subject.canPost()) == true
-                        subject.cancelEditingAction()
-                        expect(delegate.didPresentController) == false
-                        expect(delegate.didGoBack) == true
+                    context("when true") {
+                        it("causes 'x' button to cancel (when true)") {
+                            subject.isEditing = true
+                            subject.regions = [.Text("foo")]
+                            expect(subject.canPost()) == true
+                            subject.cancelEditingAction()
+                            expect(delegate.didPresentController) == false
+                            expect(delegate.didGoBack) == true
+                        }
                     }
                 }
                 context("func reportSuccess(title: String)") {
@@ -187,15 +191,19 @@ class OmnibarMultiRegionScreenSpec: QuickSpec {
                     }
                 }
                 context("func reportError(title: String, error: NSError)") {
-                    it("should reportError (NSError)") {
-                        subject.reportError("foo", error: NSError(domain: ElloErrorDomain, code: 0, userInfo: [NSLocalizedFailureReasonErrorKey: "failure"]))
-                        expect(delegate.didPresentController) == true
+                    context("when passing an NSError") {
+                        it("should reportError") {
+                            subject.reportError("foo", error: NSError(domain: ElloErrorDomain, code: 0, userInfo: [NSLocalizedFailureReasonErrorKey: "failure"]))
+                            expect(delegate.didPresentController) == true
+                        }
                     }
                 }
                 context("func reportError(title: String, errorMessage: String)") {
-                    it("should reportError (message)") {
-                        subject.reportError("foo", errorMessage: "bar")
-                        expect(delegate.didPresentController) == true
+                    context("when passing a String") {
+                        it("should reportError") {
+                            subject.reportError("foo", errorMessage: "bar")
+                            expect(delegate.didPresentController) == true
+                        }
                     }
                 }
                 xcontext("func keyboardWillShow()") {
@@ -203,23 +211,29 @@ class OmnibarMultiRegionScreenSpec: QuickSpec {
                 xcontext("func keyboardWillHide()") {
                 }
                 context("func startEditing()") {
-                    it("should set the currentTextPath if the first region is text") {
-                        subject.currentTextPath = nil
-                        subject.regions = [.Text("")]
-                        subject.startEditing()
-                        expect(subject.currentTextPath?.row) == 0
+                    context("if the first region is text") {
+                        it("should set the currentTextPath") {
+                            subject.currentTextPath = nil
+                            subject.regions = [.Text("")]
+                            subject.startEditing()
+                            expect(subject.currentTextPath?.row) == 0
+                        }
                     }
-                    it("should not set the currentTextPath if the first region is an image") {
-                        subject.currentTextPath = nil
-                        subject.regions = [.Image(UIImage(), nil, nil)]
-                        subject.startEditing()
-                        expect(subject.currentTextPath?.row).to(beNil())
+                        context("if the first region is an image") {
+                        it("should not set the currentTextPath") {
+                            subject.currentTextPath = nil
+                            subject.regions = [.Image(UIImage(), nil, nil)]
+                            subject.startEditing()
+                            expect(subject.currentTextPath?.row).to(beNil())
+                        }
                     }
-                    it("should not set the currentTextPath if the first region is an image") {
-                        subject.currentTextPath = nil
-                        subject.regions = [.Error(NSURL(string: "http://foo.com")!)]
-                        subject.startEditing()
-                        expect(subject.currentTextPath?.row).to(beNil())
+                        context("if the first region is an image") {
+                        it("should not set the currentTextPath") {
+                            subject.currentTextPath = nil
+                            subject.regions = [.Error(NSURL(string: "http://foo.com")!)]
+                            subject.startEditing()
+                            expect(subject.currentTextPath?.row).to(beNil())
+                        }
                     }
                 }
                 context("func startEditingAtPath()") {
@@ -254,48 +268,62 @@ class OmnibarMultiRegionScreenSpec: QuickSpec {
                     }
                 }
                 context("func updateButtons()") {
-                    it("should disable posting if posts are empty") {
-                        subject.regions = [OmnibarRegion]()
-                        expect(subject.canPost()) == false
-                        subject.updateButtons()
-                        expect(subject.submitButton.enabled) == false
+                    context("if posts are empty") {
+                        it("should disable posting") {
+                            subject.regions = [OmnibarRegion]()
+                            expect(subject.canPost()) == false
+                            subject.updateButtons()
+                            expect(subject.submitButton.enabled) == false
+                        }
                     }
-                    it("should enable posting if posts are not empty") {
-                        subject.regions = [.Text("test")]
-                        subject.updateButtons()
-                        expect(subject.submitButton.enabled) == true
-                    }
-                    it("should disable posting if reordering and posts are not empty") {
-                        subject.regions = [.Text("test")]
-                        subject.reorderingTable(true)
-                        subject.updateButtons()
-                        expect(subject.submitButton.enabled) == false
-                    }
-
-                    it("should enable camera if not reordering") {
-                        subject.regions = [.Text("test")]
-                        subject.reorderingTable(false)
-                        subject.updateButtons()
-                        expect(subject.cameraButton.enabled) == true
-                    }
-                    it("should disable camera if reordering and posts are not empty") {
-                        subject.regions = [.Text("test")]
-                        subject.reorderingTable(true)
-                        subject.updateButtons()
-                        expect(subject.cameraButton.enabled) == false
+                        context("if posts are not empty") {
+                        it("should enable posting") {
+                            subject.regions = [.Text("test")]
+                            subject.updateButtons()
+                            expect(subject.submitButton.enabled) == true
+                        }
+                        context("if reordering and posts are not empty") {
+                            }
+                        it("should disable posting") {
+                            subject.regions = [.Text("test")]
+                            subject.reorderingTable(true)
+                            subject.updateButtons()
+                            expect(subject.submitButton.enabled) == false
+                        }
                     }
 
-                    it("should enable cancelling if not reordering") {
-                        subject.regions = [.Text("test")]
-                        subject.reorderingTable(false)
-                        subject.updateButtons()
-                        expect(subject.cancelButton.enabled) == true
+                    context("if not reordering") {
+                        it("should enable camera") {
+                            subject.regions = [.Text("test")]
+                            subject.reorderingTable(false)
+                            subject.updateButtons()
+                            expect(subject.cameraButton.enabled) == true
+                        }
                     }
-                    it("should enable cancelling if reordering and posts are not empty") {
-                        subject.regions = [.Text("test")]
-                        subject.reorderingTable(true)
-                        subject.updateButtons()
-                        expect(subject.cancelButton.enabled) == true
+                        context("if reordering and posts are not empty") {
+                        it("should disable camera") {
+                            subject.regions = [.Text("test")]
+                            subject.reorderingTable(true)
+                            subject.updateButtons()
+                            expect(subject.cameraButton.enabled) == false
+                        }
+                    }
+
+                    context("if not reordering") {
+                        it("should enable cancelling") {
+                            subject.regions = [.Text("test")]
+                            subject.reorderingTable(false)
+                            subject.updateButtons()
+                            expect(subject.cancelButton.enabled) == true
+                        }
+                    }
+                    context("if reordering and posts are not empty") {
+                        it("should enable cancelling") {
+                            subject.regions = [.Text("test")]
+                            subject.reorderingTable(true)
+                            subject.updateButtons()
+                            expect(subject.cancelButton.enabled) == true
+                        }
                     }
                 }
                 describe("var regions: [OmnibarRegion]") {
