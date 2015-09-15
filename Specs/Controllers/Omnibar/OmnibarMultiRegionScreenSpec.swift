@@ -135,27 +135,31 @@ class OmnibarMultiRegionScreenSpec: QuickSpec {
                         subject.layoutIfNeeded()
                         expect(subject.navigationBar.frame.height) <= 0
                     }
-                    it("should position the avatarButton and buttonContainer (when true)") {
-                        subject.canGoBack = false
-                        subject.layoutIfNeeded()
-                        let avatarY = subject.avatarButton.frame.minY
-                        let toolbarY = subject.buttonContainer.frame.minY
+                    context("when true") {
+                        it("should position the avatarButton and buttonContainer") {
+                            subject.canGoBack = false
+                            subject.layoutIfNeeded()
+                            let avatarY = subject.avatarButton.frame.minY
+                            let toolbarY = subject.buttonContainer.frame.minY
 
-                        subject.canGoBack = true
-                        subject.layoutIfNeeded()
-                        expect(subject.avatarButton.frame.minY) > avatarY
-                        expect(subject.buttonContainer.frame.minY) > toolbarY
+                            subject.canGoBack = true
+                            subject.layoutIfNeeded()
+                            expect(subject.avatarButton.frame.minY) > avatarY
+                            expect(subject.buttonContainer.frame.minY) > toolbarY
+                        }
                     }
-                    it("should position the avatarButton and buttonContainer (when false)") {
-                        subject.canGoBack = true
-                        subject.layoutIfNeeded()
-                        let avatarY = subject.avatarButton.frame.minY
-                        let toolbarY = subject.buttonContainer.frame.minY
+                    context("when false") {
+                        it("should position the avatarButton and buttonContainer") {
+                            subject.canGoBack = true
+                            subject.layoutIfNeeded()
+                            let avatarY = subject.avatarButton.frame.minY
+                            let toolbarY = subject.buttonContainer.frame.minY
 
-                        subject.canGoBack = false
-                        subject.layoutIfNeeded()
-                        expect(subject.avatarButton.frame.minY) < avatarY
-                        expect(subject.buttonContainer.frame.minY) < toolbarY
+                            subject.canGoBack = false
+                            subject.layoutIfNeeded()
+                            expect(subject.avatarButton.frame.minY) < avatarY
+                            expect(subject.buttonContainer.frame.minY) < toolbarY
+                        }
                     }
                 }
                 context("var isEditing: Bool") {
