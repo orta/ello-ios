@@ -1,5 +1,5 @@
 //
-//  OmnibarMultiRegionScreenSpec.swift
+//  OmnibarScreenSpec.swift
 //  Ello
 //
 //  Created by Colin Gray on 8/27/2015.
@@ -55,15 +55,15 @@ enum RegionExpectation {
 }
 
 
-class OmnibarMultiRegionScreenSpec: QuickSpec {
+class OmnibarScreenSpec: QuickSpec {
     override func spec() {
 
-        var subject : OmnibarMultiRegionScreen!
+        var subject : OmnibarScreen!
         var delegate : OmnibarScreenMockDelegate!
 
         beforeEach {
             let controller = UIViewController()
-            subject = OmnibarMultiRegionScreen(frame: UIScreen.mainScreen().bounds)
+            subject = OmnibarScreen(frame: UIScreen.mainScreen().bounds)
             delegate = OmnibarScreenMockDelegate()
             subject.delegate = delegate
             controller.view.addSubview(subject)
@@ -71,7 +71,7 @@ class OmnibarMultiRegionScreenSpec: QuickSpec {
             self.showController(controller)
         }
 
-        describe("OmnibarMultiRegionScreen") {
+        describe("OmnibarScreen") {
             describe("tapping the avatar") {
                 it("should push the profile VC on to the navigation controller") {
                     subject.currentUser = User.stub(["id": "1"])

@@ -1,5 +1,5 @@
 //
-//  OmnibarMultiRegionScreen.swift
+//  OmnibarScreen.swift
 //  Ello
 //
 //  Created by Colin Gray on 2/26/2015.
@@ -56,7 +56,7 @@ public enum OmnibarRegion {
 }
 
 
-public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
+public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     struct Size {
         static let margins = UIEdgeInsets(top: 0, left: 15, bottom: 10, right: 15)
         static let textMargins = UIEdgeInsets(top: 22, left: 30, bottom: 9, right: 30)
@@ -683,7 +683,7 @@ public class OmnibarMultiRegionScreen: UIView, OmnibarScreenProtocol {
 
 }
 
-extension OmnibarMultiRegionScreen: UITableViewDelegate, UITableViewDataSource {
+extension OmnibarScreen: UITableViewDelegate, UITableViewDataSource {
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableViewRegions.count
     }
@@ -708,7 +708,7 @@ extension OmnibarMultiRegionScreen: UITableViewDelegate, UITableViewDataSource {
 
     public func tableView(tableView: UITableView, cellForRowAtIndexPath path: NSIndexPath) -> UITableViewCell {
         if let (_, region) = tableViewRegions.safeValue(path.row) {
-            let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(region.reuseIdentifier, forIndexPath: path) 
+            let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(region.reuseIdentifier, forIndexPath: path)
             cell.selectionStyle = .None
             cell.showsReorderControl = true
 
@@ -857,7 +857,7 @@ extension OmnibarMultiRegionScreen: UITableViewDelegate, UITableViewDataSource {
 
 
 // MARK: UITextViewDelegate
-extension OmnibarMultiRegionScreen: UITextViewDelegate {
+extension OmnibarScreen: UITextViewDelegate {
     private func throttleAutoComplete(textView: UITextView, range: NSRange) {
         self.autoCompleteThrottle { [unowned self] in
             let autoComplete = AutoComplete()
@@ -945,7 +945,7 @@ extension OmnibarMultiRegionScreen: UITextViewDelegate {
 }
 
 
-extension OmnibarMultiRegionScreen: AutoCompleteDelegate {
+extension OmnibarScreen: AutoCompleteDelegate {
     public func itemSelected(item: AutoCompleteItem) {
         if let name = item.result.name {
             let prefix = item.type == .Username ? "@" : ":"
@@ -960,7 +960,7 @@ extension OmnibarMultiRegionScreen: AutoCompleteDelegate {
 
 
 // MARK: UIImagePickerControllerDelegate
-extension OmnibarMultiRegionScreen: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+extension OmnibarScreen: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
 
     private func openImagePicker(imageController: UIImagePickerController) {
         resignKeyboard()
