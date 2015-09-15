@@ -19,7 +19,7 @@ public class StreamInviteFriendsCell: UICollectionViewCell {
     public var person: LocalPerson? {
         didSet {
             nameLabel.text = person!.name
-            styleInviteButton(invited: inviteCache?.has(person!.identifier))
+            styleInviteButton(inviteCache?.has(person!.identifier))
         }
     }
 
@@ -43,7 +43,7 @@ public class StreamInviteFriendsCell: UICollectionViewCell {
         if let person = person {
             inviteDelegate?.sendInvite(person) {
                 self.inviteCache?.saveInvite(person.identifier)
-                self.styleInviteButton(invited: self.inviteCache?.has(person.identifier))
+                self.styleInviteButton(self.inviteCache?.has(person.identifier))
             }
         }
     }

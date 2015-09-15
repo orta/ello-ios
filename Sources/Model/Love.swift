@@ -107,7 +107,7 @@ public final class Love: JSONAble {
         }
 
         // create Love
-        var love = Love(
+        let love = Love(
             id: json["id"].stringValue,
             createdAt: createdAt,
             updatedAt: updatedAt,

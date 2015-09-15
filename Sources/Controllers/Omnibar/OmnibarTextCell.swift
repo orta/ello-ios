@@ -22,7 +22,7 @@ public class OmnibarTextCell: UITableViewCell {
         textView.font = UIFont.typewriterEditorFont(12)
         textView.textContainerInset = UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)
         textView.textContainer.lineFragmentPadding = 0
-        textView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        textView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         textView.scrollsToTop = false
         textView.scrollEnabled = false
         textView.showsHorizontalScrollIndicator = false
@@ -34,7 +34,7 @@ public class OmnibarTextCell: UITableViewCell {
     public var attributedText: NSAttributedString {
         get { return textView.attributedText }
         set {
-            if count(newValue.string) > 0 {
+            if newValue.string.characters.count > 0 {
                 textView.attributedText = newValue
             }
             else {
@@ -48,7 +48,7 @@ public class OmnibarTextCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         textView.userInteractionEnabled = false
-        textView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        textView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         let backgroundView = UIView()
         backgroundView.backgroundColor = UIColor.whiteColor()
         self.backgroundView = backgroundView

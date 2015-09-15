@@ -13,7 +13,7 @@ public protocol AlertHeaderDelegate: NSObjectProtocol {
 }
 
 public class AlertHeaderView: UIView {
-    @IBOutlet public weak var label: ElloLabel!
+    public weak var label: ElloLabel!
     @IBOutlet public weak var helpButton: UIButton!
     @IBOutlet public weak var helpButtonWidthConstraint: NSLayoutConstraint!
 

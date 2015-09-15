@@ -9,7 +9,6 @@
 import Ello
 import Quick
 import Nimble
-import Box
 
 
 class TypedNotificationSpec: QuickSpec {
@@ -38,7 +37,7 @@ class TypedNotificationSpec: QuickSpec {
             }
 
             it("should post a notification") {
-                postNotification(self.notification, "testing")
+                postNotification(self.notification, value: "testing")
                 expect(self.didNotify).to(equal("testing"))
             }
         }

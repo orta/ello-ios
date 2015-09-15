@@ -21,8 +21,8 @@ public struct StreamRepostHeaderCellPresenter {
             let post = streamCellItem.jsonable as! Post
             cell.viaTextView.clearText()
             cell.sourceTextView.clearText()
-            if let repostViaPath = post.repostViaPath, let repostViaId = post.repostViaId {
-                if let username = (split(repostViaPath) { $0 == "/" }).first {
+            if let repostViaPath = post.repostViaPath where post.repostViaId != nil {
+                if let username = repostViaPath.componentsSeparatedByString("/").first {
                     cell.viaTextViewHeight.constant = 15.0
                     cell.viaTextView.appendTextWithAction("Via: @\(username)", link: "userId", object: "~\(username)")
                 } else {
@@ -31,12 +31,11 @@ public struct StreamRepostHeaderCellPresenter {
             } else {
                 cell.viaTextViewHeight.constant = 0.0
             }
-            if let repostPath = post.repostPath, let repostId = post.repostId {
-                if let username = (split(repostPath) { $0 == "/" }).first {
+            if let repostPath = post.repostPath where post.repostId != nil {
+                if let username = repostPath.componentsSeparatedByString("/").first {
                     cell.sourceTextView.appendTextWithAction("Source: @\(username)", link: "userId", object: "~\(username)")
                 }
             }
         }
     }
-    
 }

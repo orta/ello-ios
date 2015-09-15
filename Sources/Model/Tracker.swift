@@ -59,7 +59,7 @@ public class Tracker {
 // MARK: Session Info
 public extension Tracker {
     func log(message: String) {
-        // println("------ \(message) ------")
+        // print("------ \(message) ------")
     }
 
     func identify(user: User) {
@@ -337,7 +337,7 @@ public extension Tracker {
         agent.track("Drawer closed")
     }
 
-    func viewsButtonTapped(#post: Post) {
+    func viewsButtonTapped(post post: Post) {
         log("Views button tapped, [post_id: \(post.id)]")
         agent.track("Views button tapped", properties: ["post_id": post.id])
     }
@@ -513,7 +513,7 @@ public extension Tracker {
     }
 
     func createdAtCrash(identifier: String, json: String?) {
-        var jsonText: NSString = json ?? ElloProvider.responseJSON
+        let jsonText: NSString = json ?? ElloProvider.responseJSON
         agent.track("\(identifier) Created At Crash", properties: ["responseHeaders": ElloProvider.responseHeaders, "responseJSON": jsonText, "currentUserId": currentUser?.id ?? "no id"])
     }
 }

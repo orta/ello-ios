@@ -46,12 +46,12 @@ public class UserAvatarsCell: UICollectionViewCell {
 
     private func updateAvatars() {
         clearButtons()
-        var numToDisplay = min(users.count, maxAvatars)
+        let numToDisplay = min(users.count, maxAvatars)
         seeAllButton.hidden = users.count <= numToDisplay
-        var usersToDisplay = users[0..<numToDisplay]
+        let usersToDisplay = users[0..<numToDisplay]
         var startX = 0.0
         for user in usersToDisplay {
-            var ab = AvatarButton()
+            let ab = AvatarButton()
             ab.frame = CGRect(x: startX, y: 0.0, width: 30.0, height: 30.0)
             ab.setAvatarURL(user.avatarURL)
             ab.addTarget(self, action: Selector("avatarTapped:"), forControlEvents: UIControlEvents.TouchUpInside)
@@ -75,7 +75,7 @@ public class UserAvatarsCell: UICollectionViewCell {
     }
 
     @IBAction func avatarTapped(sender: AvatarButton) {
-        if let index = find(avatarButtons, sender) {
+        if let index = avatarButtons.indexOf(sender) {
             if users.count > index {
                 let user = users[index]
                 userDelegate?.userTappedParam(user.id)

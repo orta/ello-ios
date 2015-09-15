@@ -28,12 +28,12 @@ public class ElloEquallySpacedLayout : UIView {
     override public func layoutSubviews() {
         super.layoutSubviews()
 
-        let views = self.subviews as! [UIView]
+        let views = self.subviews 
         if views.count > 0 {
             var x = margins.left
-            var y = margins.top
-            var w = (self.frame.size.width - margins.left - margins.right - CGFloat(views.count - 1) * spacing) / CGFloat(views.count)
-            var h = self.frame.size.height - margins.top - margins.bottom
+            let y = margins.top
+            let w = (self.frame.size.width - margins.left - margins.right - CGFloat(views.count - 1) * spacing) / CGFloat(views.count)
+            let h = self.frame.size.height - margins.top - margins.bottom
             for view in views {
                 let frame = CGRect(x: x, y: y, width: w, height: h)
                 view.frame = frame

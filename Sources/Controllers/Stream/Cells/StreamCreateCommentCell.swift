@@ -38,7 +38,7 @@ public class StreamCreateCommentCell : UICollectionViewCell {
         setupViews()
     }
 
-    required public init(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         super.init(coder: coder)
     }
 
@@ -56,7 +56,7 @@ public class StreamCreateCommentCell : UICollectionViewCell {
         createCommentBackground.frame = CGRect(x: 0, y: 0, width: 100, height: StreamCellType.CreateComment.oneColumnHeight)
 
         createCommentLabel.frame = createCommentBackground.bounds.inset(top: 0, left: Size.ButtonLabelMargin, bottom: 0, right: 0)
-        createCommentLabel.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        createCommentLabel.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         createCommentLabel.text = "Comment..."
         createCommentLabel.font = UIFont.typewriterFont(12)
         createCommentLabel.textColor = UIColor.whiteColor()

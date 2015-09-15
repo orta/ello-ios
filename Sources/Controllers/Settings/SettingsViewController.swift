@@ -22,7 +22,7 @@ public enum SettingsRow: Int {
 
 
 public class SettingsContainerViewController: BaseElloViewController {
-    @IBOutlet weak public var elloNavBar: ElloNavigationBar!
+    weak public var elloNavBar: ElloNavigationBar!
     @IBOutlet weak var navigationBarTopConstraint: NSLayoutConstraint!
     public var navBarsVisible: Bool = true
     private var settingsViewController: SettingsViewController?
@@ -85,15 +85,15 @@ public class SettingsContainerViewController: BaseElloViewController {
 public class SettingsViewController: UITableViewController, ControllerThatMightHaveTheCurrentUser {
 
     @IBOutlet weak public var avatarImageView: UIView!
-    @IBOutlet weak public var profileDescription: ElloLabel!
+    weak public var profileDescription: ElloLabel!
     @IBOutlet weak public var coverImage: UIImageView!
     @IBOutlet weak public var avatarImage: UIImageView!
     var scrollLogic: ElloScrollLogic!
 
-    @IBOutlet weak public var nameTextFieldView: ElloTextFieldView!
-    @IBOutlet weak public var linksTextFieldView: ElloTextFieldView!
+    weak public var nameTextFieldView: ElloTextFieldView!
+    weak public var linksTextFieldView: ElloTextFieldView!
     @IBOutlet weak public var bioTextView: ElloEditableTextView!
-    @IBOutlet weak public var bioTextCountLabel: ElloErrorLabel!
+    weak public var bioTextCountLabel: ElloErrorLabel!
     @IBOutlet weak public var bioTextStatusImage: UIImageView!
 
     private var bioTextViewDidChange: (() -> Void)?
@@ -155,7 +155,8 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     }
 
     private func setupProfileDescription() {
-        let text = NSMutableAttributedString(attributedString: profileDescription.attributedText)
+        let profileDescriptionAttributedText = profileDescription.attributedText ?? NSAttributedString(string: "")
+        let text = NSMutableAttributedString(attributedString: profileDescriptionAttributedText)
 
         text.addAttribute(NSForegroundColorAttributeName, value: UIColor.greyA(), range: NSRange(location: 0, length: text.length))
         profileDescription.attributedText = text
@@ -187,7 +188,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         nameTextFieldView.textField.text = currentUser?.name
 
         let updateNameFunction = debounce(0.5) { [unowned self] in
-            let name = self.nameTextFieldView.textField.text
+            let name = self.nameTextFieldView.textField.text ?? ""
             ProfileService().updateUserProfile(["name": name], success: { user in
                 if let nav = self.navigationController as? ElloNavigationController {
                     nav.setProfileData(user)
@@ -214,11 +215,11 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
                     urls.append(url)
                 }
             }
-            linksTextFieldView.textField.text = ", ".join(urls)
+            linksTextFieldView.textField.text = urls.joinWithSeparator(", ")
         }
 
         let updateLinksFunction = debounce(0.5) { [unowned self] in
-            let links = self.linksTextFieldView.textField.text
+            let links = self.linksTextFieldView.textField.text ?? ""
             ProfileService().updateUserProfile(["external_links": links], success: { user in
                 if let nav = self.navigationController as? ElloNavigationController {
                     nav.setProfileData(user)
@@ -290,7 +291,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
 
     @IBAction func logOutTapped(sender: ElloTextButton) {
         Tracker.sharedTracker.tappedLogout()
-        postNotification(AuthenticationNotifications.userLoggedOut, ())
+        postNotification(AuthenticationNotifications.userLoggedOut, value: ())
     }
 
     @IBAction func coverImageTapped() {
@@ -302,7 +303,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
                     let asset = Asset(image: image, url: url)
                     user.coverImage = asset
 
-                    postNotification(CurrentUserChangedNotification, user)
+                    postNotification(CurrentUserChangedNotification, value: user)
                 }
                 self.coverImage.image = image
                 self.alertUserOfImageProcessing()
@@ -323,7 +324,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
                     let asset = Asset(image: image, url: url)
                     user.avatar = asset
 
-                    postNotification(CurrentUserChangedNotification, user)
+                    postNotification(CurrentUserChangedNotification, value: user)
                 }
                 self.avatarImage.image = image
                 self.alertUserOfImageProcessing()
@@ -364,7 +365,8 @@ extension SettingsViewController: CredentialSettingsDelegate {
 }
 
 extension SettingsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    public func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+
+    public func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             image.copyWithCorrectOrientationAndSize() { image in
                 self.photoSaveCallback?(image)
@@ -400,7 +402,7 @@ extension SettingsViewController: UITextViewDelegate {
 
 // strangely, we have to "override" these delegate methods, but the parent class
 // UITableViewController doesn't implement them.
-extension SettingsViewController: UIScrollViewDelegate {
+extension SettingsViewController {
 
     public override func scrollViewDidScroll(scrollView: UIScrollView) {
         scrollLogic.scrollViewDidScroll(scrollView)

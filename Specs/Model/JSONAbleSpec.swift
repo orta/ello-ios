@@ -15,9 +15,6 @@ import SwiftyJSON
 class JSONAbleSpec: QuickSpec {
     override func spec() {
 
-        var data: [String: AnyObject]!
-        var links: [String: AnyObject]!
-
         describe("+parseLinks(links:model:)") {
             xit("is tested in User/PostSpec by testing for the properties it creates") {
 

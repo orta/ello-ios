@@ -17,16 +17,18 @@ class UnknownRegionSpec: QuickSpec {
         context("NSCoding") {
 
             var filePath = ""
-
-            beforeEach {
-                filePath = NSFileManager.ElloDocumentsDir().stringByAppendingPathComponent("UnknownRegionSpec")
+            if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
+                filePath = url.URLByAppendingPathComponent("UnknownRegionSpec").absoluteString
             }
 
             afterEach {
-                var error:NSError?
-                NSFileManager.defaultManager().removeItemAtPath(filePath, error: &error)
-            }
+                do {
+                    try NSFileManager.defaultManager().removeItemAtPath(filePath)
+                }
+                catch {
 
+                }
+            }
             context("encoding") {
 
                 it("encodes successfully") {

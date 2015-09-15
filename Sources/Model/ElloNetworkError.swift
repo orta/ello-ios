@@ -73,7 +73,6 @@ public class ElloNetworkError: JSONAble {
         if let actualCode = ElloNetworkError.CodeType(rawValue: json["code"].stringValue) {
             codeType = actualCode
         }
-        let code = json["code"].string ?? CodeType.unknown.rawValue
         let detail = json["detail"].string
         let status = json["status"].string
         let messages = json["messages"].object as? [String]

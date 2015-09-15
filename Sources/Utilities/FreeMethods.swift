@@ -18,9 +18,9 @@ public struct AnimationOptions {
     let options: UIViewAnimationOptions
 }
 
-public func animate(duration: NSTimeInterval = 0.2, delay: NSTimeInterval = 0, options: UIViewAnimationOptions = nil, animated: Bool = true, animations: () -> Void) {
+public func animate(duration: NSTimeInterval = 0.2, delay: NSTimeInterval = 0, options: UIViewAnimationOptions = .TransitionNone, animated: Bool = true, animations: () -> Void) {
     let options = AnimationOptions(duration: duration, delay: 0, options: options)
-    animate(options, animated: animated, animations)
+    animate(options, animated: animated, animations: animations)
 }
 
 public func animate(options: AnimationOptions, animated: Bool = true, animations: () -> Void) {
@@ -58,22 +58,22 @@ public func times(times: Int, @noescape block: BasicBlock) {
     times_(times) { (index: Int) in block() }
 }
 
-public func profiler(_ message: String = "") -> BasicBlock {
+public func profiler(message: String = "") -> BasicBlock {
     let start = NSDate()
-    println("--------- PROFILING \(message)...")
+    print("--------- PROFILING \(message)...")
     return {
-        println("--------- PROFILING \(message): \(NSDate().timeIntervalSinceDate(start))")
+        print("--------- PROFILING \(message): \(NSDate().timeIntervalSinceDate(start))")
     }
 }
 
-public func profiler(_ message: String = "", @noescape block: BasicBlock) {
+public func profiler(message: String = "", @noescape block: BasicBlock) {
     let p = profiler(message)
     block()
     p()
 }
 
 public func times(times: Int, @noescape block: TakesIndexBlock) {
-    times_(times, block)
+    times_(times, block: block)
 }
 
 private func times_(times: Int, @noescape block: TakesIndexBlock) {
@@ -115,7 +115,7 @@ public func until(times: Int, block: BasicBlock) -> BasicBlock {
 }
 
 public func once(block: BasicBlock) -> BasicBlock {
-    return until(1, block)
+    return until(1, block: block)
 }
 
 public func inBackground(block: BasicBlock) {
@@ -137,10 +137,10 @@ public func inForeground(block: BasicBlock) {
 }
 
 public func nextTick(block: BasicBlock) {
-    nextTick(on: dispatch_get_main_queue(), block)
+    nextTick(on: dispatch_get_main_queue(), block: block)
 }
 
-public func nextTick(#on: dispatch_queue_t, block: BasicBlock) {
+public func nextTick(on on: dispatch_queue_t, block: BasicBlock) {
     dispatch_async(on, block)
 }
 
@@ -154,7 +154,7 @@ public func timeout(duration: NSTimeInterval, block: BasicBlock) -> BasicBlock {
 
 public func delay(duration: NSTimeInterval, block: BasicBlock) {
     let proc = Proc(block)
-    let timer = NSTimer.scheduledTimerWithTimeInterval(duration, target: proc, selector: "run", userInfo: nil, repeats: false)
+    _ = NSTimer.scheduledTimerWithTimeInterval(duration, target: proc, selector: "run", userInfo: nil, repeats: false)
 }
 
 public func cancelableDelay(duration: NSTimeInterval, block: BasicBlock) -> BasicBlock {

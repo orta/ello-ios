@@ -44,7 +44,7 @@ public class BaseElloViewController: UIViewController, ControllerThatMightHaveTh
 
     public func isRootViewController() -> Bool {
         if let viewControllers = navigationController?.viewControllers {
-            return (viewControllers[0] as! UIViewController) == self
+            return (viewControllers[0] ) == self
         }
         return false
     }

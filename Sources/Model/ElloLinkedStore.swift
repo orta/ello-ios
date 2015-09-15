@@ -23,8 +23,21 @@ public struct ElloLinkedStore {
 
     public init() {
         let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
-        let baseDir: String  = (count(paths) > 0 ? paths.first : NSTemporaryDirectory()) as! String
-        let path = baseDir.stringByAppendingPathComponent(ElloLinkedStore.databaseName)
+        let baseDir: String
+        if let firstPath = paths.first {
+            baseDir = firstPath
+        }
+        else {
+            baseDir = NSTemporaryDirectory()
+        }
+
+        let path: String
+        if let baseURL = NSURL(string: baseDir) {
+            path = baseURL.URLByAppendingPathComponent(ElloLinkedStore.databaseName).path ?? ""
+        }
+        else {
+            path = ""
+        }
 
         database = YapDatabase(path: path)
         readConnection = database.newConnection()
@@ -46,7 +59,7 @@ public struct ElloLinkedStore {
     }
 
     private func parseLinkedSync(linked: [String: [[String: AnyObject]]]) {
-        for (type:String, typeObjects: [[String:AnyObject]]) in linked {
+        for (type, typeObjects): (String, [[String:AnyObject]]) in linked {
             if let mappingType = MappingType(rawValue: type) {
                 for object: [String:AnyObject] in typeObjects {
                     if let id = object["id"] as? String {

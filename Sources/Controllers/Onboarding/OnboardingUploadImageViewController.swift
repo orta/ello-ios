@@ -42,6 +42,14 @@ public class OnboardingUploadImageViewController: BaseElloViewController, Onboar
         }
     }
 
+    func onboardingWillProceed(_: (OnboardingData?) -> Void) {
+        print("implemented but intentionally left blank")
+    }
+
+    func onboardingStepBegin() {
+        print("implemented but intentionally left blank")
+    }
+
 }
 
 // MARK: Default images
@@ -86,7 +94,7 @@ extension OnboardingUploadImageViewController {
 
 // MARK: UIImagePickerControllerDelegate
 extension OnboardingUploadImageViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    public func imagePickerController(controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+    public func imagePickerController(controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         if let orientedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
             orientedImage.copyWithCorrectOrientationAndSize() { image in
                 self.userSetImage(image)

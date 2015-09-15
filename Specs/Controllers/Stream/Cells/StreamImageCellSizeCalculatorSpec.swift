@@ -31,11 +31,11 @@ class StreamImageCellSizeCalculatorSpec: QuickSpec {
                     "type": "jpeg",
                     "size": 894578
                     ])
-                var asset: Asset = stub([
+                let asset: Asset = stub([
                     "id": "123",
                     "hdpi": hdpi
                     ])
-                var imageRegion: ImageRegion = stub([
+                let imageRegion: ImageRegion = stub([
                     "asset": asset,
                     "alt": "alt text",
                     "url": "http://www.ello.com"

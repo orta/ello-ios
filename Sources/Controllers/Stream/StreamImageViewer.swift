@@ -39,7 +39,7 @@ extension StreamImageViewer {
         imageInfo.referenceRect = imageView.frame
         imageInfo.referenceView = imageView.superview
         let imageViewer = JTSImageViewController(imageInfo: imageInfo, mode: JTSImageViewControllerMode.Image, backgroundStyle: JTSImageViewControllerBackgroundOptions.None)
-        let transition:JTSImageViewControllerTransition = ._FromOriginalPosition
+        let transition: JTSImageViewControllerTransition = .FromOriginalPosition
         imageViewer.showFromViewController(presentingController, transition: transition)
         imageViewer.optionsDelegate = self
         imageViewer.dismissalDelegate = self

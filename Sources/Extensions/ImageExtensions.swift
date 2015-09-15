@@ -25,8 +25,8 @@ public extension UIImage {
     }
 
     func squareImage() -> UIImage? {
-        var originalWidth  = self.size.width
-        var originalHeight = self.size.height
+        let originalWidth  = self.size.width
+        let originalHeight = self.size.height
 
         var edge: CGFloat
         if originalWidth > originalHeight {
@@ -35,13 +35,16 @@ public extension UIImage {
             edge = originalWidth
         }
 
-        var posX = (originalWidth  - edge) / 2.0
-        var posY = (originalHeight - edge) / 2.0
+        let posX = (originalWidth  - edge) / 2.0
+        let posY = (originalHeight - edge) / 2.0
 
-        var cropSquare = CGRectMake(posX, posY, edge, edge)
+        let cropSquare = CGRectMake(posX, posY, edge, edge)
 
-        var imageRef = CGImageCreateWithImageInRect(self.CGImage, cropSquare);
-        return UIImage(CGImage: imageRef, scale: UIScreen.mainScreen().scale, orientation: self.imageOrientation)
+        let imageRef = CGImageCreateWithImageInRect(self.CGImage, cropSquare)
+        if let imageRef = imageRef {
+            return UIImage(CGImage: imageRef, scale: UIScreen.mainScreen().scale, orientation: self.imageOrientation)
+        }
+        return nil
     }
 
     func resizeToSize(targetSize: CGSize) -> UIImage {

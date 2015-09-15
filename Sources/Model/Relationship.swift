@@ -93,7 +93,7 @@ public final class Relationship: JSONAble {
             // send data to segment to try to get more data about this
             Tracker.sharedTracker.createdAtCrash("Relationship", json: json.rawString())
         }
-        var relationship = Relationship(
+        let relationship = Relationship(
             id: json["id"].stringValue,
             createdAt: createdAt,
             ownerId: json["links"]["owner"]["id"].stringValue,

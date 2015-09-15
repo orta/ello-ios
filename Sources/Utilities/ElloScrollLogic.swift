@@ -86,7 +86,7 @@ public class ElloScrollLogic : NSObject, UIScrollViewDelegate {
             return
         }
 
-        var nextOffset = scrollView.contentOffset
+        let nextOffset = scrollView.contentOffset
         let shouldAcceptScroll = self.shouldAcceptScroll(scrollView)
 
         if shouldAcceptScroll {
@@ -120,7 +120,7 @@ public class ElloScrollLogic : NSObject, UIScrollViewDelegate {
 
     public func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate: Bool) {
         if self.isAtTop(scrollView) {
-            show(scrollToBottom: false)
+            show(false)
         }
         shouldIgnoreScroll = true
     }

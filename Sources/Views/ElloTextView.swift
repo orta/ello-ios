@@ -24,11 +24,11 @@ enum ElloAttributedObject {
 
     static func generate(link: String, _ object: AnyObject?) -> ElloAttributedObject {
         switch link {
-        case let "post":
+        case "post":
             if let post = object as? Post { return ElloAttributedObject.AttributedPost(post: post) }
-        case let "comment":
+        case "comment":
             if let comment = object as? Comment { return ElloAttributedObject.AttributedComment(comment: comment) }
-        case let "user":
+        case "user":
             if let user = object as? User { return ElloAttributedObject.AttributedUser(user: user) }
         case "followers":
             if let user = object as? User { return ElloAttributedObject.AttributedFollowers(user: user) }
@@ -58,16 +58,18 @@ class ElloTextView: UITextView {
         internalInit()
     }
 
-    required init(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         super.init(coder: coder)
         internalInit()
     }
 
 // MARK: Public
 
-    func appendTextWithAction(text: String, link: String? = nil, object: AnyObject? = nil, extraAttrs: [NSObject:AnyObject]? = nil) {
+    func appendTextWithAction(text: String, link: String? = nil, object: AnyObject? = nil, extraAttrs: [String: AnyObject]? = nil) {
         var attrs = defaultAttrs()
-        extraAttrs.map(attrs.merge)
+        if let extraAttrs = extraAttrs {
+            attrs.merge(extraAttrs)
+        }
 
         if let link = link {
             attrs[ElloAttributedText.Link] = link
@@ -84,7 +86,7 @@ class ElloTextView: UITextView {
 
 // MARK: Private
 
-    private func defaultAttrs() -> [NSObject: AnyObject]  {
+    private func defaultAttrs() -> [String: AnyObject]  {
         return [
             NSFontAttributeName: self.customFont ?? UIFont.typewriterFont(12),
             NSForegroundColorAttributeName: UIColor.greyA(),
@@ -122,14 +124,16 @@ class ElloTextView: UITextView {
     func textViewTapped(gesture: UITapGestureRecognizer) {
         let location = gesture.locationInView(self)
         if CGRectContainsPoint(self.frame.atOrigin(CGPointZero), location) {
-            let range = characterRangeAtPoint(location)
-            let pos = closestPositionToPoint(location, withinRange: range)
-            let style = textStylingAtPosition(pos, inDirection: .Forward) as! [String: AnyObject]
-            if let link = style[ElloAttributedText.Link] as? String {
-                let object: AnyObject? = style[ElloAttributedText.Object]
-                let attributedObject = ElloAttributedObject.generate(link, object)
-                textViewDelegate?.textViewTapped(link, object: attributedObject)
-                return
+            if let range = characterRangeAtPoint(location) {
+                if let pos = closestPositionToPoint(location, withinRange: range) {
+                    if let style = textStylingAtPosition(pos, inDirection: .Forward),
+                        let link = style[ElloAttributedText.Link] as? String {
+                        let object: AnyObject? = style[ElloAttributedText.Object]
+                        let attributedObject = ElloAttributedObject.generate(link, object)
+                        textViewDelegate?.textViewTapped(link, object: attributedObject)
+                        return
+                    }
+                }
             }
 
             textViewDelegate?.textViewTappedDefault()

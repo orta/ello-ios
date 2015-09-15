@@ -16,10 +16,10 @@ private enum DeleteAccountState {
 
 public class DeleteAccountConfirmationViewController: BaseElloViewController {
     @IBOutlet public weak var titleLabel: UILabel!
-    @IBOutlet public weak var infoLabel: ElloLabel!
+    public weak var infoLabel: ElloLabel!
     @IBOutlet public weak var buttonView: UIView!
     @IBOutlet public weak var cancelView: UIView!
-    @IBOutlet public weak var cancelLabel: ElloLabel!
+    public weak var cancelLabel: ElloLabel!
 
     private var state: DeleteAccountState = .AskNicely
     private var timer: NSTimer?
@@ -29,7 +29,7 @@ public class DeleteAccountConfirmationViewController: BaseElloViewController {
         super.init(nibName: "DeleteAccountConfirmationView", bundle: NSBundle(forClass: DeleteAccountConfirmationViewController.self))
     }
 
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -78,7 +78,7 @@ public class DeleteAccountConfirmationViewController: BaseElloViewController {
         ProfileService().deleteAccount({
             ElloHUD.hideLoadingHud()
             self.dismissViewControllerAnimated(true) {
-                postNotification(AuthenticationNotifications.userLoggedOut, ())
+                postNotification(AuthenticationNotifications.userLoggedOut, value: ())
             }
             Tracker.sharedTracker.userDeletedAccount()
         }, failure: { _, _ in

@@ -21,8 +21,7 @@ struct FakeAddressBook: ContactList {
 class AddFriendsViewControllerSpec: QuickSpec {
     override func spec() {
 
-        var subject = AddFriendsViewController(addressBook: FakeAddressBook())
-        let webView = UIWebView(frame: CGRectMake(0, 0, 320, 640))
+        let subject = AddFriendsViewController(addressBook: FakeAddressBook())
         subject.loadView()
         subject.viewDidLoad()
 

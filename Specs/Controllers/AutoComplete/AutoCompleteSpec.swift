@@ -26,7 +26,7 @@ class AutoCompleteSpec: QuickSpec {
                         let result = subject.check(str, location: 2)
 
                         expect(result?.type) == AutoCompleteType.Username
-                        expect(result?.range) == str.startIndex..<advance(str.startIndex, 3)
+                        expect(result?.range) == str.startIndex..<str.startIndex.advancedBy(3)
                         expect(result?.text) == "@se"
                     }
                 }
@@ -37,7 +37,7 @@ class AutoCompleteSpec: QuickSpec {
                         let result = subject.check(str, location: 12)
 
                         expect(result?.type) == AutoCompleteType.Username
-                        expect(result?.range) == advance(str.startIndex, 9)..<advance(str.startIndex, 13)
+                        expect(result?.range) == str.startIndex.advancedBy(9)..<str.startIndex.advancedBy(13)
                         expect(result?.text) == "@sea"
                     }
                 }
@@ -48,7 +48,7 @@ class AutoCompleteSpec: QuickSpec {
                         let result = subject.check(str, location: 9)
 
                         expect(result?.type) == AutoCompleteType.Emoji
-                        expect(result?.range) == advance(str.startIndex, 6)..<advance(str.startIndex, 10)
+                        expect(result?.range) == str.startIndex.advancedBy(6)..<str.startIndex.advancedBy(10)
                         expect(result?.text) == ":emo"
                     }
                 }
@@ -59,7 +59,7 @@ class AutoCompleteSpec: QuickSpec {
                         let result = subject.check(str, location: 29)
 
                         expect(result?.type) == AutoCompleteType.Emoji
-                        expect(result?.range) == advance(str.startIndex, 26)..<advance(str.startIndex, 30)
+                        expect(result?.range) == str.startIndex.advancedBy(26)..<str.startIndex.advancedBy(30)
                         expect(result?.text) == ":thu"
                     }
                 }
@@ -70,7 +70,7 @@ class AutoCompleteSpec: QuickSpec {
                         let result = subject.check(str, location: 2)
 
                         expect(result?.type) == AutoCompleteType.Username
-                        expect(result?.range) == str.startIndex..<advance(str.startIndex, 3)
+                        expect(result?.range) == str.startIndex..<str.startIndex.advancedBy(3)
                         expect(result?.text) == "@hi"
                     }
                 }

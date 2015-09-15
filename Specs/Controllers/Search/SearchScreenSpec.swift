@@ -10,7 +10,7 @@ import Quick
 import Nimble
 import Ello
 
-@objc public class MockSearchScreenDelegate: SearchScreenDelegate {
+public class MockSearchScreenDelegate: NSObject, SearchScreenDelegate {
     var searchFieldWasCleared = false
     public func searchCanceled(){}
     public func searchFieldCleared(){searchFieldWasCleared = true}

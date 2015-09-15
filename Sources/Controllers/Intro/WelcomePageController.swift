@@ -10,8 +10,8 @@ import Foundation
 
 class WelcomePageController: IntroPageController {
     
-    @IBOutlet weak var welcomeLabel: ElloLabel!
-    @IBOutlet weak var discoverLabel: ElloLabel!
+    weak var welcomeLabel: ElloLabel!
+    weak var discoverLabel: ElloLabel!
     @IBOutlet weak var elloLogoImage: UIImageView!
 
     override func viewDidLoad() {

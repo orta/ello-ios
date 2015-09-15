@@ -17,7 +17,7 @@ public class ElloNavigationBar : UINavigationBar {
         privateInit()
     }
 
-    required public init(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         super.init(coder: coder)
     }
 
@@ -36,7 +36,7 @@ public class ElloNavigationBar : UINavigationBar {
         self.barTintColor = UIColor.whiteColor()
 
         let bar = UIView(frame: CGRect(x: 0, y: 0, width: frame.width, height: 20))
-        bar.autoresizingMask = .FlexibleWidth | .FlexibleBottomMargin
+        bar.autoresizingMask = [.FlexibleWidth, .FlexibleBottomMargin]
         bar.backgroundColor = UIColor.blackColor()
         addSubview(bar)
     }

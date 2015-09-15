@@ -18,7 +18,7 @@ public class CoverImageSelectionViewController: OnboardingUploadImageViewControl
         setupChooseImageButton()
     }
 
-    public func onboardingWillProceed(proceed: (OnboardingData?) -> Void) {
+    public override func onboardingWillProceed(proceed: (OnboardingData?) -> Void) {
         if let image = selectedImage {
             self.userUploadImage(image, proceed: proceed)
         }
@@ -44,7 +44,7 @@ private extension CoverImageSelectionViewController {
         let message = NSLocalizedString("This is what other people will see when viewing your profile, make it look good!", comment: "Header Image Selection text")
         onboardingHeader.header = header
         onboardingHeader.message = message
-        onboardingHeader.autoresizingMask = .FlexibleWidth | .FlexibleBottomMargin
+        onboardingHeader.autoresizingMask = [.FlexibleWidth, .FlexibleBottomMargin]
         onboardingHeader.sizeToFit()
         view.addSubview(onboardingHeader)
         self.onboardingHeader = onboardingHeader
@@ -61,7 +61,7 @@ private extension CoverImageSelectionViewController {
             ))
         chooseCoverImageView.contentMode = .ScaleAspectFill
         chooseCoverImageView.clipsToBounds = true
-        chooseCoverImageView.autoresizingMask = .FlexibleLeftMargin | .FlexibleRightMargin | .FlexibleBottomMargin
+        chooseCoverImageView.autoresizingMask = [.FlexibleLeftMargin, .FlexibleRightMargin, .FlexibleBottomMargin]
         chooseCoverImageView.image = chooseCoverImage
         view.addSubview(chooseCoverImageView)
         self.chooseCoverImageView = chooseCoverImageView
@@ -74,7 +74,7 @@ private extension CoverImageSelectionViewController {
             width: view.frame.width,
             height: 90
             ).inset(all: 15))
-        chooseImageButton.autoresizingMask = .FlexibleLeftMargin | .FlexibleRightMargin | .FlexibleBottomMargin
+        chooseImageButton.autoresizingMask = [.FlexibleLeftMargin, .FlexibleRightMargin, .FlexibleBottomMargin]
         chooseImageButton.setTitle(NSLocalizedString("Choose Your Header", comment: "Choose your header button"), forState: .Normal)
         chooseImageButton.addTarget(self, action: Selector("chooseImageTapped"), forControlEvents: .TouchUpInside)
         view.addSubview(chooseImageButton)

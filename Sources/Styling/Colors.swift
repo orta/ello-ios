@@ -19,7 +19,7 @@ private struct ElloColors {
     static let greyF1           : UIColor = UIColor(hex: 0xF1F1F1)
     static let yellowFFFFCC     : UIColor = UIColor(hex: 0xFFFFCC)
     static let redFFCCCC        : UIColor = UIColor(hex: 0xFFCCCC)
-    static let modalBackground  : UIColor = UIColor(hex: 0x000000, alpha: 0.7)
+    static let modalBackground  : UIColor = UIColor(white: 0x000000, alpha: 0.7)
 }
 
 public extension UIColor {

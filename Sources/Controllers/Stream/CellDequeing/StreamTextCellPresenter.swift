@@ -24,7 +24,7 @@ public struct StreamTextCellPresenter {
                     streamCellItem.calculatedWebHeight = actualHeight
                     streamCellItem.calculatedOneColumnCellHeight = actualHeight
                     streamCellItem.calculatedMultiColumnCellHeight = actualHeight
-                    postNotification(StreamNotification.UpdateCellHeightNotification, cell)
+                    postNotification(StreamNotification.UpdateCellHeightNotification, value: cell)
                 }
             }
             cell.hideBorder()
@@ -41,7 +41,7 @@ public struct StreamTextCellPresenter {
                 cell.leadingConstraint.constant = 30.0
                 cell.showBorder()
             }
-            else if let comment = streamCellItem.jsonable as? Comment {
+            else if let _ = streamCellItem.jsonable as? Comment {
                 cell.leadingConstraint.constant = commentMargin
             }
             else {

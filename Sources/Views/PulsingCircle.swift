@@ -15,7 +15,7 @@ public class PulsingCircle: UIView {
         var size : CGFloat = 60
         var view = UIView(frame: CGRect(x: 0, y: 0, width: size, height: size))
         view.center = CGPoint(x: self.bounds.size.width / 2, y: self.bounds.size.height / 2)
-        view.autoresizingMask = .FlexibleTopMargin | .FlexibleBottomMargin | .FlexibleLeftMargin | .FlexibleRightMargin
+        view.autoresizingMask = [.FlexibleTopMargin, .FlexibleBottomMargin, .FlexibleLeftMargin, .FlexibleRightMargin]
         view.layer.cornerRadius = size / 2
         view.backgroundColor = UIColor.greyA()
         view.clipsToBounds = true

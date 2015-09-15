@@ -77,7 +77,7 @@ private extension NewContentService {
             ElloAPI.NotificationsNewContent(createdAt: storedNotificationsDate),
             success: { (_, responseConfig) in
                 if let statusCode = responseConfig.statusCode where statusCode == 204 {
-                    postNotification(NewContentNotifications.newNotifications, self)
+                    postNotification(NewContentNotifications.newNotifications, value: self)
                 }
             },
             failure: nil
@@ -91,11 +91,11 @@ private extension NewContentService {
             ElloAPI.FriendNewContent(createdAt: storedFriendsDate),
             success: { (_, responseConfig) in
                 if let lastModified = responseConfig.lastModified {
-                    Defaults[StreamKind.Friend.lastViewedCreatedAtKey] = lastModified.toNSDate(formatter: HTTPDateFormatter)
+                    Defaults[StreamKind.Friend.lastViewedCreatedAtKey] = lastModified.toNSDate(HTTPDateFormatter)
                 }
 
                 if let statusCode = responseConfig.statusCode where statusCode == 204 {
-                    postNotification(NewContentNotifications.newStreamContent, self)
+                    postNotification(NewContentNotifications.newStreamContent, value: self)
                 }
             },
             failure: nil

@@ -155,7 +155,7 @@ public final class Profile: JSONAble {
         let json = JSON(data)
         Crashlytics.sharedInstance().setObjectValue(json.rawString(), forKey: CrashlyticsKey.ProfileFromJSON.rawValue)
         // create profile
-        var profile = Profile(
+        let profile = Profile(
             createdAt: (json["created_at"].stringValue.toNSDate() ?? NSDate()),
             shortBio: json["short_bio"].stringValue,
             email: json["email"].stringValue,

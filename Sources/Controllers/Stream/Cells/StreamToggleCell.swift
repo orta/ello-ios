@@ -13,5 +13,5 @@ public class StreamToggleCell: UICollectionViewCell {
     let closedMessage = NSLocalizedString("Tap to View.", comment: "Tap to View.")
     let openedMessage = NSLocalizedString("Tap to Hide.", comment: "Tap to Hide.")
 
-    @IBOutlet weak var label:ElloToggleLabel!
+    weak var label:ElloToggleLabel!
 }

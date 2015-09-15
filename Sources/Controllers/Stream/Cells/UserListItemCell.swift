@@ -10,10 +10,10 @@ import Foundation
 
 public class UserListItemCell: UICollectionViewCell {
 
-    @IBOutlet weak public var avatarButton: AvatarButton!
+    weak public var avatarButton: AvatarButton!
     @IBOutlet weak public var usernameLabel: UILabel!
     @IBOutlet weak public var nameLabel: UILabel!
-    @IBOutlet weak public var relationshipControl: RelationshipControl!
+    weak public var relationshipControl: RelationshipControl!
     weak var userDelegate: UserDelegate?
     var bottomBorder = CALayer()
 

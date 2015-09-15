@@ -58,7 +58,7 @@ public final class ImageRegion: JSONAble, Regionable {
         let json = JSON(data)
         Crashlytics.sharedInstance().setObjectValue(json.rawString(), forKey: CrashlyticsKey.ImageRegionFromJSON.rawValue)
         // create region
-        var imageRegion = ImageRegion(
+        let imageRegion = ImageRegion(
             alt: json["data"]["alt"].stringValue
             )
         // optional

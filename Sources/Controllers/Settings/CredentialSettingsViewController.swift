@@ -23,11 +23,11 @@ private enum CredentialSettingsRow: Int {
 }
 
 public class CredentialSettingsViewController: UITableViewController {
-    @IBOutlet weak public var usernameView: ElloTextFieldView!
-    @IBOutlet weak public var emailView: ElloTextFieldView!
-    @IBOutlet weak public var passwordView: ElloTextFieldView!
+    weak public var usernameView: ElloTextFieldView!
+    weak public var emailView: ElloTextFieldView!
+    weak public var passwordView: ElloTextFieldView!
     @IBOutlet weak public var currentPasswordField: ElloTextField!
-    @IBOutlet weak public var errorLabel: ElloErrorLabel!
+    weak public var errorLabel: ElloErrorLabel!
     @IBOutlet weak public var saveButton: ElloButton!
 
     public var currentUser: User?
@@ -37,13 +37,18 @@ public class CredentialSettingsViewController: UITableViewController {
     public var isUpdatable: Bool {
         return currentUser?.username != usernameView.textField.text
             || currentUser?.profile?.email != emailView.textField.text
-            || !passwordView.textField.text.isEmpty
+            || passwordView.textField.text?.isEmpty == false
     }
 
     public var height: CGFloat {
         let cellHeights = usernameView.height + emailView.height + passwordView.height
         return cellHeights + (isUpdatable ? submitViewHeight : 0)
     }
+
+    private var password: String { return passwordView.textField.text ?? "" }
+    private var currentPassword: String { return currentPasswordField.text ?? "" }
+    private var username: String { return usernameView.textField.text ?? "" }
+    private var email: String { return emailView.textField.text ?? "" }
 
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -127,7 +132,7 @@ public class CredentialSettingsViewController: UITableViewController {
                         let msg = NSLocalizedString("Username already exists.\nPlease try a new one.", comment: "username exists error message")
                         self.usernameView.setErrorMessage(msg)
                         if !availability.usernameSuggestions.isEmpty {
-                            let suggestions = ", ".join(availability.usernameSuggestions)
+                            let suggestions = availability.usernameSuggestions.joinWithSeparator(", ")
                             let msg = String(format: NSLocalizedString("Here are some available usernames -\n%@", comment: "username suggestions message"), suggestions)
                             self.usernameView.setMessage(msg)
                         }
@@ -184,19 +189,19 @@ public class CredentialSettingsViewController: UITableViewController {
     }
 
     public func currentPasswordChanged() {
-        saveButton.enabled = currentPasswordField.text.isValidPassword()
+        saveButton.enabled = currentPassword.isValidPassword()
     }
 
     @IBAction func saveButtonTapped() {
         var content: [String: AnyObject] = [
-            "username": usernameView.textField.text,
-            "email": emailView.textField.text,
-            "current_password": currentPasswordField.text
+            "username": username,
+            "email": email,
+            "current_password": currentPassword
         ]
 
-        if !passwordView.textField.text.isEmpty {
-            content["password"] = passwordView.textField.text
-            content["password_confirmation"] = passwordView.textField.text
+        if !currentPassword.isEmpty {
+            content["password"] = password
+            content["password_confirmation"] = password
         }
 
         if let nav = self.navigationController as? ElloNavigationController {
@@ -207,7 +212,7 @@ public class CredentialSettingsViewController: UITableViewController {
                 self.currentPasswordField.text = ""
                 self.passwordView.textField.text = ""
 
-                if let err = error.userInfo?[NSLocalizedFailureReasonErrorKey] as? ElloNetworkError {
+                if let err = error.userInfo[NSLocalizedFailureReasonErrorKey] as? ElloNetworkError {
                     self.handleError(err)
                 }
             })

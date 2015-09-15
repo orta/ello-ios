@@ -17,7 +17,7 @@ class ContentFlaggerSpec: QuickSpec {
     override func spec() {
 
         var subject: ContentFlagger!
-        var presentingController = UIViewController()
+        let presentingController = UIViewController()
         beforeEach {
             self.showController(presentingController)
         }

@@ -23,7 +23,7 @@ public class AwesomePeopleSelectionViewController: OnboardingUserListViewControl
         let header = NSLocalizedString("Follow some awesome people.", comment: "Awesome People Selection Header text")
         let message = NSLocalizedString("Ello is full of interesting and creative people committed to building a positive community.", comment: "Awesome People Selection Description text")
         appendHeaderCellItem(header: header, message: message)
-        appendFollowAllCellItem(userCount: count(users))
+        appendFollowAllCellItem(userCount: users.count)
 
         friendAll(users)
         super.usersLoaded(users)

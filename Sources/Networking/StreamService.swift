@@ -33,7 +33,7 @@ public class StreamService: NSObject {
                     if let streamKind = streamKind {
                         Preloader().preloadImages(jsonables,  streamKind: streamKind)
                         NewContentService().updateCreatedAt(jsonables, streamKind: streamKind)
-                        postNotification(StreamLoadedNotifications.streamLoaded, streamKind)
+                        postNotification(StreamLoadedNotifications.streamLoaded, value: streamKind)
                     }
                     success(jsonables: jsonables, responseConfig: responseConfig)
                 }
@@ -86,7 +86,11 @@ public class StreamService: NSObject {
             .PostComments(postId: postId),
             success: { (data, responseConfig) in
                 if let comments:[Comment] = data as? [Comment] {
-                    comments.map { $0.loadedFromPostId = postId }
+
+                    for comment in comments {
+                        comment.loadedFromPostId = postId
+                    }
+                    
                     if let streamKind = streamKind {
                         Preloader().preloadImages(comments, streamKind: streamKind)
                     }

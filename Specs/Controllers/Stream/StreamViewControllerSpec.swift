@@ -153,10 +153,16 @@ class StreamViewControllerSpec: QuickSpec {
 
         context("protocol conformance") {
 
+            var externalWebObserver: NotificationObserver?
+
             beforeEach {
                 controller = StreamViewController.instantiateFromStoryboard()
                 controller.loadView()
                 controller.viewDidLoad()
+            }
+
+            afterEach {
+                externalWebObserver?.removeObserver()
             }
 
             context("WebLinkDelegate") {
@@ -170,7 +176,7 @@ class StreamViewControllerSpec: QuickSpec {
                     it("posts a notification if type .External") {
 
                         var link = ""
-                        let externalWebObserver = NotificationObserver(notification: externalWebNotification) { url in
+                        externalWebObserver = NotificationObserver(notification: externalWebNotification) { url in
                             link = url
                         }
 

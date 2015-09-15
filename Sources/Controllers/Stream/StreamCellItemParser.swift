@@ -14,7 +14,7 @@ public struct StreamCellItemParser {
 
     public func parse(items: [JSONAble], streamKind: StreamKind, currentUser: User? = nil) -> [StreamCellItem] {
         let viewsAdultContent = currentUser?.viewsAdultContent ?? false
-        var filteredItems = streamKind.filter(items, viewsAdultContent: viewsAdultContent)
+        let filteredItems = streamKind.filter(items, viewsAdultContent: viewsAdultContent)
         if let posts = filteredItems as? [Post] {
             return postCellItems(posts, streamKind: streamKind)
         }
@@ -33,7 +33,7 @@ public struct StreamCellItemParser {
 // MARK: - Private
 
     private func notificationCellItems(notifications:[Notification]) -> [StreamCellItem] {
-        return map(notifications) { notification in
+        return notifications.map { notification in
             return StreamCellItem(jsonable: notification, type: .Notification)
         }
     }
@@ -45,7 +45,7 @@ public struct StreamCellItemParser {
             cellItems += postToggleItems(post)
             if post.isRepost {
                 // add repost header with via/source
-                var repostHeaderHeight: CGFloat = post.repostViaPath == nil ? 25.0 : 40.0
+                let repostHeaderHeight: CGFloat = post.repostViaPath == nil ? 25.0 : 40.0
                 cellItems.append(StreamCellItem(jsonable: post, type: .RepostHeader(height: repostHeaderHeight)))
                 // add repost content
                 // this is weird, but the post summary is actually the repost summary on reposts
@@ -109,7 +109,7 @@ public struct StreamCellItemParser {
     }
 
     private func userCellItems(users: [User]) -> [StreamCellItem] {
-        return map(users) { user in
+        return users.map { user in
             return StreamCellItem(jsonable: user, type: .UserListItem)
         }
     }

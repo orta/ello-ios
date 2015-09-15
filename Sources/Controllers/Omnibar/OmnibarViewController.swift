@@ -132,13 +132,14 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
                 data: NSData = Tmp.read(fileName)
                 where (defaultText ?? "") == ""
             {
+
+//MARK: Warning - not sure if this is working as expected
                 if let omnibarData = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? OmnibarMultiRegionData {
-                    let rawRegions = omnibarData.regions
-                    var regions: [OmnibarRegion] = omnibarData.regions.flatMap { obj in
+                    let regions: [OmnibarRegion] = omnibarData.regions.flatMap { obj in
                         if let region = OmnibarRegion.fromRaw(obj) {
-                            return [region]
+                            return region
                         }
-                        return []
+                        return nil
                     }
                     Tmp.remove(fileName)
                     screen.regions = regions
@@ -153,7 +154,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     }
 
     func editLink(menuController: UIMenuController) {
-        println("link!")
+        print("link!")
     }
 
     override public func viewWillAppear(animated: Bool) {
@@ -228,13 +229,13 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             else if let region = region as? ImageRegion,
                 url = region.url
             {
-                downloads.append((count(regions), url))
+                downloads.append((regions.count, url))
                 regions.append(.ImageURL(url))
             }
         }
         screen.regions = regions
 
-        let completed = after(count(downloads)) {
+        let completed = after(downloads.count) {
             ElloHUD.hideLoadingHudInView(self.view)
         }
 
@@ -316,23 +317,23 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             switch region {
             case let .AttributedText(attributedText):
                 let textString = attributedText.string
-                if count(textString) > 5000 {
+                if textString.characters.count > 5000 {
                     contentCreationFailed(NSLocalizedString("Your text is too long.\n\nThe character limit is 5,000.", comment: "Post too long (maximum characters is 5000) error message"))
                     return
                 }
 
                 let cleanedText = textString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-                if count(cleanedText) > 0 {
+                if cleanedText.characters.count > 0 {
                     content.append(ElloAttributedString.render(attributedText))
                 }
-            case let .Image(image, data, type):
+            case let .Image(image, data, _):
                 if let data = data {
                     content.append(data)
                 }
                 else {
                     content.append(image)
                 }
-            case let .ImageURL(url): break
+            case .ImageURL(_): break
             default:
                 break // TODO
             }
@@ -352,7 +353,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             service = PostEditingService()
         }
 
-        if count(content) > 0 {
+        if content.count > 0 {
             ElloHUD.showLoadingHud()
             if let authorId = currentUser?.id {
                 service.create(
@@ -366,11 +367,11 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
                         }
 
                         if self.parentPost != nil || self.editComment != nil {
-                            var comment = postOrComment as! Comment
+                            let comment = postOrComment as! Comment
                             self.emitCommentSuccess(comment)
                         }
                         else {
-                            var post = postOrComment as! Post
+                            let post = postOrComment as! Post
                             self.emitPostSuccess(post)
                         }
                     },
@@ -391,15 +392,15 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     }
 
     private func emitCommentSuccess(comment: Comment) {
-        postNotification(CommentChangedNotification, (comment, .Create))
+        postNotification(CommentChangedNotification, value: (comment, .Create))
         if let post = comment.parentPost, let count = post.commentsCount {
             post.commentsCount = count + 1
-            postNotification(PostChangedNotification, (post, .Update))
+            postNotification(PostChangedNotification, value: (post, .Update))
         }
 
         if editComment != nil {
             Tracker.sharedTracker.contentEdited(.Comment)
-            postNotification(CommentChangedNotification, (comment, .Replaced))
+            postNotification(CommentChangedNotification, value: (comment, .Replaced))
         }
         else {
             Tracker.sharedTracker.contentCreated(.Comment)
@@ -413,16 +414,16 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     private func emitPostSuccess(post: Post) {
         if let user = currentUser, postsCount = user.postsCount {
             user.postsCount = postsCount + 1
-            postNotification(CurrentUserChangedNotification, user)
+            postNotification(CurrentUserChangedNotification, value: user)
         }
 
         if editPost != nil {
             Tracker.sharedTracker.contentEdited(.Post)
-            postNotification(PostChangedNotification, (post, .Replaced))
+            postNotification(PostChangedNotification, value: (post, .Replaced))
         }
         else {
             Tracker.sharedTracker.contentCreated(.Post)
-            postNotification(PostChangedNotification, (post, .Create))
+            postNotification(PostChangedNotification, value: (post, .Create))
         }
 
         if let listener = postSuccessListener {
@@ -499,7 +500,7 @@ public class OmnibarImageData: NSObject, NSCoding {
         }
     }
 
-    required public init(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         let decoder = Coder(coder)
         image = decoder.decodeKey("image")
         data = decoder.decodeKey("data")
@@ -522,7 +523,7 @@ public class OmnibarMultiRegionData: NSObject, NSCoding {
         encoder.encodeObject(regions, forKey: "regions")
     }
 
-    required public init(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         let decoder = Coder(coder)
         regions = decoder.decodeKey("regions")
         super.init()

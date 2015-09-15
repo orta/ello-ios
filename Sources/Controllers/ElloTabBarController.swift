@@ -78,9 +78,9 @@ public class ElloTabBarController: UIViewController, HasAppController {
     }
 
     public var selectedViewController: UIViewController {
-        get { return childViewControllers[selectedTab.rawValue] as! UIViewController }
+        get { return childViewControllers[selectedTab.rawValue] }
         set(controller) {
-            let index = find(childViewControllers as! [UIViewController], controller)
+            let index = (childViewControllers ).indexOf(controller)
             selectedTab = index.flatMap { ElloTab(rawValue: $0) } ?? .DefaultTab
         }
     }
@@ -134,7 +134,7 @@ public extension ElloTabBarController {
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        updateNarrationTitle(animated: animated)
+        updateNarrationTitle(animated)
     }
 
     override func viewDidLayoutSubviews() {
@@ -243,7 +243,7 @@ public extension ElloTabBarController {
 // UITabBarDelegate
 extension ElloTabBarController: UITabBarDelegate {
     public func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem) {
-        if let items = tabBar.items as? [UITabBarItem], index = find(items, item) {
+        if let items = tabBar.items, index = items.indexOf(item) {
             if index == selectedTab.rawValue {
                 if let navigationViewController = selectedViewController as? UINavigationController
                     where navigationViewController.childViewControllers.count > 1
@@ -254,7 +254,7 @@ extension ElloTabBarController: UITabBarDelegate {
                     scrollView.setContentOffset(CGPoint(x: 0, y: -scrollView.contentInset.top), animated: true)
 
                     if shouldReloadFriendStream() {
-                        postNotification(NewContentNotifications.reloadStreamContent, self)
+                        postNotification(NewContentNotifications.reloadStreamContent, value: self)
                     }
                 }
             }
@@ -271,7 +271,7 @@ extension ElloTabBarController: UITabBarDelegate {
             return found
         }
 
-        for subview in view.subviews as! [UIView] {
+        for subview in view.subviews {
             if let found = findScrollView(subview) {
                 return found
             }
@@ -295,11 +295,11 @@ private extension ElloTabBarController {
     }
 
     func updateTabBarItems() {
-        let controllers = childViewControllers as! [UIViewController]
+        let controllers = childViewControllers 
         tabBar.items = controllers.map { controller in
             let tabBarItem = controller.tabBarItem
-            if tabBarItem.selectedImage != nil && tabBarItem.selectedImage.renderingMode != .AlwaysOriginal {
-                tabBarItem.selectedImage = tabBarItem.selectedImage.imageWithRenderingMode(.AlwaysOriginal)
+            if tabBarItem.selectedImage != nil && tabBarItem.selectedImage?.renderingMode != .AlwaysOriginal {
+                tabBarItem.selectedImage = tabBarItem.selectedImage?.imageWithRenderingMode(.AlwaysOriginal)
             }
             return tabBarItem
         }
@@ -329,18 +329,17 @@ private extension ElloTabBarController {
     }
 
     func showViewController(showViewController: UIViewController) {
-        tabBar.selectedItem = tabBar.items?[selectedTab.rawValue] as? UITabBarItem
-        let controller = (showViewController as? UINavigationController)?.topViewController ?? showViewController
+        tabBar.selectedItem = tabBar.items?[selectedTab.rawValue]
         view.insertSubview(showViewController.view, belowSubview: tabBar)
         showViewController.view.frame = tabBar.frame.fromBottom().growUp(view.frame.height - tabBar.frame.height)
-        showViewController.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        showViewController.view.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
     }
 
     func transitionControllers(hideViewController: UIViewController, _ showViewController: UIViewController) {
         transitionFromViewController(hideViewController,
             toViewController: showViewController,
             duration: 0,
-            options: nil,
+            options: [],
             animations: {
                 self.hideViewController(hideViewController)
                 self.showViewController(showViewController)
@@ -366,7 +365,7 @@ extension ElloTabBarController {
         let tabBarItemCount = CGFloat(tabBar.items?.count ?? 0)
         let halfItemWidth = CGRectGetWidth(view.bounds) / (tabBarItemCount * 2)
         let xOffset = halfItemWidth * CGFloat(index * 2 + 1)
-        let item = tabBar.items?[index] as? UITabBarItem
+        let item = tabBar.items?[index]
         let imageHalfWidth: CGFloat = item?.selectedImage?.size.width ?? 0 / 2
 
         let redDot = UIView(frame: CGRect(x: xOffset + imageHalfWidth - 11, y: topMargin, width: diameter, height: diameter))
@@ -396,7 +395,7 @@ extension ElloTabBarController {
     }
 
     private func updateNarrationTitle(animated: Bool = true) {
-        animate(animated: animated, options: .CurveEaseOut | .BeginFromCurrentState) {
+        animate(animated: animated, options: [.CurveEaseOut, .BeginFromCurrentState]) {
             if let rect = self.tabBar.itemPositionsIn(self.narrationView).safeValue(self.selectedTab.rawValue) {
                 self.narrationView.pointerX = rect.midX
             }
@@ -407,7 +406,6 @@ extension ElloTabBarController {
     private func animateInStartFrame() -> CGRect {
         let upAmount = CGFloat(20)
         let narrationHeight = NarrationView.Size.height
-        let pointerHeight = NarrationView.Size.pointer.height
         let bottomMargin = ElloTabBar.Size.height - NarrationView.Size.pointer.height
         return CGRect(
             x: 0,
@@ -419,7 +417,6 @@ extension ElloTabBarController {
 
     private func animateInFinalFrame() -> CGRect {
         let narrationHeight = NarrationView.Size.height
-        let pointerHeight = NarrationView.Size.pointer.height
         let bottomMargin = ElloTabBar.Size.height - NarrationView.Size.pointer.height
         return CGRect(
             x: 0,
@@ -430,14 +427,10 @@ extension ElloTabBarController {
     }
 
     private func animateInNarrationView() {
-        let narrationHeight = NarrationView.Size.height
-        let pointerHeight = NarrationView.Size.pointer.height
-        let bottomMargin = ElloTabBar.Size.height - NarrationView.Size.pointer.height
-
         narrationView.alpha = 0
         narrationView.frame = animateInStartFrame()
         view.addSubview(narrationView)
-        updateNarrationTitle(animated: false)
+        updateNarrationTitle(false)
         animate() {
             self.narrationView.alpha = 1
             self.narrationView.frame = self.animateInFinalFrame()

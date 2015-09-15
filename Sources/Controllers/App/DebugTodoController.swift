@@ -39,11 +39,11 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
 
     override func viewDidLoad() {
         if let version = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String {
-            marketingVersion = version.stringByReplacingOccurrencesOfString(".", withString: "-", options: nil, range: nil)
+            marketingVersion = version.stringByReplacingOccurrencesOfString(".", withString: "-", options: [], range: nil)
         }
 
         if let bundleVersion = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String {
-            buildVersion = bundleVersion.stringByReplacingOccurrencesOfString(".", withString: "-", options: nil, range: nil)
+            buildVersion = bundleVersion.stringByReplacingOccurrencesOfString(".", withString: "-", options: [], range: nil)
         }
 
         let appController = UIApplication.sharedApplication().keyWindow!.rootViewController as! AppViewController
@@ -87,7 +87,7 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
         tableView.frame = view.bounds
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.autoresizingMask = .FlexibleWidth | .FlexibleHeight
+        tableView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "todo")
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "loading")
         view.addSubview(tableView)
@@ -118,7 +118,7 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
                 }
             }
 
-            self.entries.sort { $0.id < $1.id }
+            self.entries.sortInPlace { $0.id < $1.id }
             self.tableView.reloadData()
         })
     }
@@ -152,10 +152,10 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
             textField.placeholder = "Name"
         }
         let done = UIAlertAction(title: "Done", style: .Default, handler: { action in
-            if let field = ctlr.textFields?.safeValue(0) as? UITextField,
+            if let field = ctlr.textFields?.safeValue(0),
                 text = field.text,
                 ref = self.todoListRef?.childByAutoId()
-            where count(text) > 0 {
+            where text.characters.count > 0 {
                 let val = ["name": text, "group": group]
                 ref.setValue(val)
             }
@@ -165,11 +165,11 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        if count(entries) == 0 {
+        if entries.count == 0 {
             return 2
         }
         else {
-            return 1 + count(debugGroups)
+            return 1 + debugGroups.count
         }
     }
 
@@ -182,37 +182,37 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     var actionsSection: Int {
-        if count(entries) == 0 {
+        if entries.count == 0 {
             return 1
         }
-        return count(debugGroups)
+        return debugGroups.count
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == actionsSection {
-            return count(actions)
+            return actions.count
         }
 
-        if count(entries) == 0 {
+        if entries.count == 0 {
             return 1
         }
 
         if let group = groupForSection(section) {
-            return count(todosInGroup(group))
+            return todosInGroup(group).count
         }
 
         return 0
     }
 
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if count(entries) == 0 {
+        if entries.count == 0 {
             return nil
         }
         else if section == actionsSection {
             return "Debugging Actions"
         }
 
-        if let group = groupForSection(section) where count(todosInGroup(group)) > 0 {
+        if let group = groupForSection(section) where todosInGroup(group).count > 0 {
             return group
         }
 
@@ -229,13 +229,13 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
             return cell
         }
 
-        if count(entries) == 0 {
-            let cell = tableView.dequeueReusableCellWithIdentifier("loading") as! UITableViewCell
-            if let label = cell.textLabel {
+        if entries.count == 0 {
+            let cell = tableView.dequeueReusableCellWithIdentifier("loading")
+            if let label = cell?.textLabel {
                 label.font = UIFont.regularBoldFont(12)
                 label.text = "Loading…"
             }
-            return cell
+            return cell ?? UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Action")
         }
 
         let cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "todo")
@@ -259,7 +259,7 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
             }
         }
 
-        if count(entries) == 0 {
+        if entries.count == 0 {
             return
         }
 

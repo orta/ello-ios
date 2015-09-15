@@ -30,7 +30,7 @@ class SettingsViewControllerSpec: QuickSpec {
 
             describe("storyboard") {
                 beforeEach {
-                    let view = subject.view
+                    _ = subject.view
                 }
 
                 it("IBOutlets are not nil") {

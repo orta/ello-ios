@@ -127,7 +127,7 @@ public final class Asset: JSONAble {
     }
 
     class public func parseAsset(id: String, node: [String: AnyObject]?) -> Asset {
-        var asset = Asset(id: id)
+        let asset = Asset(id: id)
         // optional
         if let optimized = node?["optimized"] as? [String: AnyObject] {
             asset.optimized = Attachment.fromJSON(optimized) as? Attachment

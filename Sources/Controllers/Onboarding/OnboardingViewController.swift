@@ -9,16 +9,13 @@
 import Crashlytics
 import PINRemoteImage
 
-@objc
 protocol OnboardingStep {
     var onboardingViewController: OnboardingViewController? { get set }
     var onboardingData: OnboardingData? { get set }
-    optional func onboardingWillProceed((OnboardingData?) -> Void)
-    optional func onboardingStepBegin()
+    func onboardingWillProceed(_: (OnboardingData?) -> Void)
+    func onboardingStepBegin()
 }
 
-
-@objc
 public class OnboardingData {
     var name: String?
     var bio: String?
@@ -31,7 +28,6 @@ private enum OnboardingDirection: CGFloat {
     case Left = -1
     case Right = 1
 }
-
 
 public class OnboardingViewController: BaseElloViewController, HasAppController {
     public struct Size {
@@ -64,7 +60,7 @@ public class OnboardingViewController: BaseElloViewController, HasAppController 
 
     override func didSetCurrentUser() {
         super.didSetCurrentUser()
-        for controller in onboardingViewControllers {
+        for _ in onboardingViewControllers {
             if let controller = onboardingViewControllers as? ControllerThatMightHaveTheCurrentUser {
                 controller.currentUser = currentUser
             }
@@ -76,7 +72,7 @@ public class OnboardingViewController: BaseElloViewController, HasAppController 
         modalTransitionStyle = .CrossDissolve
     }
 
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -132,10 +128,8 @@ extension OnboardingViewController {
             Tracker.sharedTracker.addedNameBio()
         }
 
-        if let onboardingStep = visibleViewController as? OnboardingStep,
-            let proceed = onboardingStep.onboardingWillProceed
-        {
-            proceed(proceedClosure)
+        if let onboardingStep = visibleViewController as? OnboardingStep {
+            onboardingStep.onboardingWillProceed(proceedClosure)
         }
         else {
             proceedClosure(self.onboardingData)
@@ -173,13 +167,13 @@ private extension OnboardingViewController {
     func setupStatusBar() {
         statusBar.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 20)
         statusBar.backgroundColor = .blackColor()
-        statusBar.autoresizingMask = .FlexibleWidth | .FlexibleBottomMargin
+        statusBar.autoresizingMask = [.FlexibleWidth, .FlexibleBottomMargin]
         view.addSubview(statusBar)
     }
 
     func setupButtonContainer() {
         buttonContainer.frame = view.bounds.fromBottom().growUp(Size.buttonContainerHeight)
-        buttonContainer.autoresizingMask = .FlexibleWidth | .FlexibleTopMargin
+        buttonContainer.autoresizingMask = [.FlexibleWidth, .FlexibleTopMargin]
         buttonContainer.backgroundColor = .whiteColor()
         view.addSubview(buttonContainer)
 
@@ -190,7 +184,7 @@ private extension OnboardingViewController {
             width: Size.buttonContainerHeight,
             height: Size.buttonContainerHeight
         ).inset(all: inset)
-        skipButton.autoresizingMask = .FlexibleRightMargin | .FlexibleTopMargin | .FlexibleBottomMargin
+        skipButton.autoresizingMask = [.FlexibleRightMargin, .FlexibleTopMargin, .FlexibleBottomMargin]
         skipButton.addTarget(self, action: Selector("skipToNextStep"), forControlEvents: .TouchUpInside)
         buttonContainer.addSubview(skipButton)
 
@@ -200,14 +194,14 @@ private extension OnboardingViewController {
             width: buttonContainer.frame.width - skipButton.frame.maxX,
             height: Size.buttonContainerHeight
         ).inset(all: inset)
-        nextButton.autoresizingMask = .FlexibleWidth | .FlexibleTopMargin | .FlexibleBottomMargin
+        nextButton.autoresizingMask = [.FlexibleWidth, .FlexibleTopMargin, .FlexibleBottomMargin]
         nextButton.addTarget(self, action: Selector("proceedToNextStep"), forControlEvents: .TouchUpInside)
         buttonContainer.addSubview(nextButton)
     }
 
     func setupControllerContainer() {
         controllerContainer.frame = view.bounds.shrinkUp(buttonContainer.frame.height).shrinkDown(20)
-        controllerContainer.autoresizingMask = .FlexibleWidth | .FlexibleHeight
+        controllerContainer.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
         view.insertSubview(controllerContainer, belowSubview: buttonContainer)
     }
 
@@ -219,7 +213,7 @@ private extension OnboardingViewController {
             onboardingData?.bio = currentUser.profile?.shortBio
             if let links = currentUser.externalLinksList {
                 onboardingData?.links = links.reduce("") { (memo: String, link) in
-                    if count(memo ?? "") == 0 {
+                    if (memo ?? "").characters.count == 0 {
                         return link["url"] ?? ""
                     }
                     else if let url = link["url"] {
@@ -242,7 +236,7 @@ private extension OnboardingViewController {
             if let url = currentUser.coverImageURL {
                 PINRemoteImageManager.sharedImageManager().downloadImageWithURL(url) { result in
                     if let image = result.image {
-                        self.onboardingData?.coverImage = result.image
+                        self.onboardingData?.coverImage = image
                     }
                 }
             }
@@ -294,7 +288,7 @@ extension OnboardingViewController {
         addChildViewController(viewController)
         controllerContainer.addSubview(viewController.view)
         viewController.view.frame = controllerContainer.bounds
-        viewController.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        viewController.view.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         viewController.didMoveToParentViewController(self)
 
         visibleViewController = viewController
@@ -375,7 +369,7 @@ extension OnboardingViewController {
         if var onboardingStep = viewController as? OnboardingStep {
             onboardingData = data
             onboardingStep.onboardingData = data
-            onboardingStep.onboardingStepBegin?()
+            onboardingStep.onboardingStepBegin()
         }
     }
 
@@ -401,7 +395,7 @@ extension OnboardingViewController {
         transitionFromViewController(visibleViewController,
             toViewController: nextViewController,
             duration: 0.4,
-            options: nil,
+            options: .TransitionNone,
             animations: {
                 self.controllerContainer.insertSubview(nextViewController.view, aboveSubview: visibleViewController.view)
                 visibleViewController.view.frame.origin.x = -direction.rawValue * visibleViewController.view.frame.width

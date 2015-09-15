@@ -15,7 +15,7 @@ public struct LovesService {
     public init(){}
 
     public func lovePost(
-        #postId: String,
+        postId postId: String,
         success: LovesCreateSuccessCompletion,
         failure: ElloFailureCompletion?)
     {
@@ -34,7 +34,7 @@ public struct LovesService {
     }
 
     public func unlovePost(
-        #postId: String,
+        postId postId: String,
         success: ElloEmptyCompletion,
         failure: ElloFailureCompletion?)
     {

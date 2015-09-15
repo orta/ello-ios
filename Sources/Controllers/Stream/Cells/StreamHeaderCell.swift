@@ -24,7 +24,7 @@ public class StreamHeaderCell: UICollectionViewCell {
         }
     }
     var revealWidth: CGFloat {
-        if let items = bottomToolBar.items where count(items) == 5 {
+        if let items = bottomToolBar.items where items.count == 5 {
             return 158.0
         }
         else {
@@ -36,7 +36,7 @@ public class StreamHeaderCell: UICollectionViewCell {
     var isOpen = false
     var maxUsernameWidth: CGFloat = 50.0
 
-    @IBOutlet weak var avatarButton: AvatarButton!
+    weak var avatarButton: AvatarButton!
     @IBOutlet weak var goToPostView: UIView!
     @IBOutlet weak var bottomToolBar: UIToolbar!
     @IBOutlet weak var scrollView: UIScrollView!
@@ -92,7 +92,7 @@ public class StreamHeaderCell: UICollectionViewCell {
         avatarButton.setAvatarURL(url)
     }
 
-    override public func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override public func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesEnded(touches, withEvent: event)
     }
 
@@ -214,7 +214,7 @@ public class StreamHeaderCell: UICollectionViewCell {
         cellOpenObserver = NotificationObserver(notification: streamCellDidOpenNotification) { cell in
             if cell != self && self.isOpen {
                 nextTick {
-                    animate(duration: 0.25) {
+                    animate(0.25) {
                         self.close()
                     }
                 }
@@ -296,7 +296,7 @@ public class StreamHeaderCell: UICollectionViewCell {
 
 extension StreamHeaderCell {
 
-    private func openChevron(#isOpen: Bool) {
+    private func openChevron(isOpen isOpen: Bool) {
         if isOpen {
             rotateChevron(CGFloat(0))
         }
@@ -342,11 +342,11 @@ extension StreamHeaderCell: UIScrollViewDelegate {
             if !isOpen {
                 isOpen = true
                 openChevron(isOpen: true)
-                postNotification(streamCellDidOpenNotification, self)
+                postNotification(streamCellDidOpenNotification, value: self)
                 Tracker.sharedTracker.commentBarVisibilityChanged(true)
             }
         } else {
-            var angle: CGFloat = -CGFloat(M_PI) + CGFloat(M_PI) * scrollView.contentOffset.x / revealWidth
+            let angle: CGFloat = -CGFloat(M_PI) + CGFloat(M_PI) * scrollView.contentOffset.x / revealWidth
             rotateChevron(angle)
             isOpen = false
         }

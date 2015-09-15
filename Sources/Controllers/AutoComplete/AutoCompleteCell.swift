@@ -8,7 +8,7 @@
 
 public class AutoCompleteCell: UITableViewCell {
     @IBOutlet weak public var name: UILabel!
-    @IBOutlet weak public var avatar: AvatarButton!
+    weak public var avatar: AvatarButton!
     @IBOutlet weak public var line: UIView!
 }
 

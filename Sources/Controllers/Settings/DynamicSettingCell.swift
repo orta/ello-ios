@@ -15,7 +15,7 @@ public protocol DynamicSettingCellDelegate {
 
 public class DynamicSettingCell: UITableViewCell {
     @IBOutlet public weak var titleLabel: UILabel!
-    @IBOutlet public weak var descriptionLabel: ElloToggleLabel!
+    public weak var descriptionLabel: ElloToggleLabel!
     @IBOutlet public weak var toggleButton: ElloToggleButton!
     @IBOutlet public weak var deleteButton: ElloToggleButton!
 

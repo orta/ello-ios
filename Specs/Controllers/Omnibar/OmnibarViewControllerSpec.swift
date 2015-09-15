@@ -9,9 +9,9 @@
 import Ello
 import Quick
 import Nimble
+import SwiftyUserDefaults
 
 
-@objc
 class OmnibarMockScreen: OmnibarScreenProtocol {
     var delegate: OmnibarScreenDelegate?
     var isEditing: Bool = false
@@ -200,7 +200,7 @@ class OmnibarViewControllerSpec: QuickSpec {
             }
 
             context("initialization with default text") {
-                var post = Post.stub([:])
+                let post = Post.stub([:])
 
                 beforeEach {
                     controller = OmnibarViewController(parentPost: post, defaultText: "@666 ")
@@ -254,7 +254,7 @@ class OmnibarViewControllerSpec: QuickSpec {
             }
 
             context("editing a post") {
-                var post = Post.stub([:])
+                let post = Post.stub([:])
                 beforeEach {
                     // NB: this post will be *reloaded* using the stubbed json response
                     // so if you wonder where the text comes from, it's from there, not
@@ -285,6 +285,11 @@ class OmnibarViewControllerSpec: QuickSpec {
             }
 
             context("post editability") {
+
+                beforeEach {
+                    Defaults["OmnibarNewEditorEnabled"] = true
+                }
+
                 it("can edit a single text region") {
                     let regions: [Regionable]? = [
                         TextRegion.stub([:])

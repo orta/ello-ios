@@ -27,7 +27,7 @@ public class ElloButton: UIButton {
         self.sharedSetup()
     }
 
-    required public init(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         super.init(coder: coder)
         self.sharedSetup()
     }
@@ -69,7 +69,7 @@ public class WhiteElloButton: ElloButton {
         super.init(frame: frame)
     }
 
-    required public init(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         super.init(coder: coder)
     }
 

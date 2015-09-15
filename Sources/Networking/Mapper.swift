@@ -13,10 +13,16 @@ public struct Mapper {
     public static func mapJSON(data: NSData) -> (AnyObject?, NSError?) {
 
         var error: NSError?
-        var json: AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &error)
+        var json: AnyObject?
+        do {
+            json = try NSJSONSerialization.JSONObjectWithData(data, options: [])
+        } catch let error1 as NSError {
+            error = error1
+            json = nil
+        }
 
         if json == nil && error != nil {
-            var userInfo: [NSObject : AnyObject]? = ["data": data]
+            let userInfo: [NSObject : AnyObject]? = ["data": data]
             error = NSError(domain: ElloErrorDomain, code: ElloErrorCode.JSONMapping.rawValue, userInfo: userInfo)
         }
 

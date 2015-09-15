@@ -7,18 +7,21 @@ class CoderSpec: QuickSpec {
     override func spec() {
 
         var filePath = ""
-
-        beforeEach {
-            filePath = NSFileManager.ElloDocumentsDir().stringByAppendingPathComponent("DecoderSpec")
+        if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
+            filePath = url.URLByAppendingPathComponent("DecoderSpec").absoluteString
         }
 
         afterEach {
-            var error:NSError?
-            NSFileManager.defaultManager().removeItemAtPath(filePath, error: &error)
+            do {
+                try NSFileManager.defaultManager().removeItemAtPath(filePath)
+            }
+            catch {
+
+            }
         }
 
         it("encodes and decodes required properties") {
-            var obj = CoderSpecFake(stringProperty: "prop1", intProperty: 123, boolProperty: true)
+            let obj = CoderSpecFake(stringProperty: "prop1", intProperty: 123, boolProperty: true)
             NSKeyedArchiver.archiveRootObject(obj, toFile: filePath)
             let unArchivedObject = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as! CoderSpecFake
             expect(unArchivedObject.stringProperty) == "prop1"
@@ -30,7 +33,7 @@ class CoderSpec: QuickSpec {
         }
 
         it("encodes and decodes optional properties") {
-            var obj = CoderSpecFake(stringProperty: "prop1", intProperty: 123, boolProperty: true)
+            let obj = CoderSpecFake(stringProperty: "prop1", intProperty: 123, boolProperty: true)
             obj.optionalStringProperty = "optionalString"
             obj.optionalIntProperty = 666
             obj.optionalBoolProperty = true

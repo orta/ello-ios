@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-public struct AutoCompleteMatch: Printable, Equatable {
+public struct AutoCompleteMatch: CustomStringConvertible, Equatable {
 
     public var description: String {
         return "type: \(self.type), range: \(self.range), text: \(self.text)"
@@ -27,7 +27,7 @@ public func ==(lhs: AutoCompleteMatch, rhs: AutoCompleteMatch) -> Bool {
     return lhs.type == rhs.type && lhs.range == rhs.range && lhs.text == rhs.text
 }
 
-public enum AutoCompleteType: String, Printable {
+public enum AutoCompleteType: String, CustomStringConvertible {
     case Emoji = "Emoji"
     case Username = "Username"
 
@@ -42,10 +42,10 @@ public struct AutoComplete {
     
     public func check(text:String, location: Int) -> AutoCompleteMatch? {
 
-        if location >= count(text) { return .None }
+        if location >= text.characters.count { return .None }
 
         let wordStartIndex = getIndexOfWordStart(location, fromString: text)
-        let wordEndIndex = advance(text.startIndex, location)
+        let wordEndIndex = text.startIndex.advancedBy(location)
         if wordStartIndex >= wordEndIndex { return .None }
 
         var range: Range<String.Index>?
@@ -86,7 +86,7 @@ private extension AutoComplete {
 
     func findEmoji(text: String) -> Bool {
         // this handles ':one:two'
-        if (split(text) { $0 == ":" }).count > 1 {
+        if (text.characters.split { $0 == ":" }.map { String($0) }).count > 1 {
             return false
         }
         return text.rangeOfString("([^\\w]|\\s|^):\\w+", options: .RegularExpressionSearch) != nil
@@ -95,8 +95,8 @@ private extension AutoComplete {
     func getIndexOfWordStart(index: Int, fromString str: String) -> String.Index {
         var startIndex = 0
         for var i = index ; i > 0 ; i-- {
-            var cursorIndex = advance(str.startIndex, i)
-            var letter = str[cursorIndex]
+            let cursorIndex = str.startIndex.advancedBy(i)
+            let letter = str[cursorIndex]
             var prevLetter: Character?
             if i > 0 {
                 prevLetter = str[cursorIndex.predecessor()]
@@ -108,7 +108,7 @@ private extension AutoComplete {
                     startIndex = i - 1
                 }
             case ":":
-                if let prev = prevLetter {
+                if let _ = prevLetter {
                     if prevLetter == " " || prevLetter == ":" || prevLetter == nil {
                         if i != index { startIndex = i }
                     }
@@ -120,6 +120,6 @@ private extension AutoComplete {
             }
             if startIndex != 0 { break }
         }
-        return advance(str.startIndex, startIndex)
+        return str.startIndex.advancedBy(startIndex)
     }
 }

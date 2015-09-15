@@ -21,20 +21,20 @@ public protocol PostsTappedResponder {
 
 public class ProfileHeaderCell: UICollectionViewCell {
 
-    @IBOutlet weak var avatarButton: AvatarButton!
+    weak var avatarButton: AvatarButton!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var relationshipControl: RelationshipControl!
+    weak var relationshipControl: RelationshipControl!
     @IBOutlet weak var viewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var bioWebView: UIWebView!
     @IBOutlet weak var profileButtonsView: UIView!
     @IBOutlet weak var editProfileButton: OutlineElloButton!
-    @IBOutlet weak public var postsButton: TwoLineButton!
-    @IBOutlet weak var followersButton: TwoLineButton!
-    @IBOutlet weak var followingButton: TwoLineButton!
-    @IBOutlet weak var lovesButton: TwoLineButton!
+    weak public var postsButton: TwoLineButton!
+    weak var followersButton: TwoLineButton!
+    weak var followingButton: TwoLineButton!
+    weak var lovesButton: TwoLineButton!
     @IBOutlet weak var inviteButton: UIButton!
-    @IBOutlet weak var nsfwLabel: ElloLabel!
+    weak var nsfwLabel: ElloLabel!
     @IBOutlet weak var usernameRightConstraint: NSLayoutConstraint!
     weak var webLinkDelegate: WebLinkDelegate?
     weak var simpleStreamDelegate: SimpleStreamDelegate?

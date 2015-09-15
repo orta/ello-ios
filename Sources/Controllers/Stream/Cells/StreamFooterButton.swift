@@ -22,7 +22,7 @@ public class StreamFooterButton: UIButton {
 
         let titleInsets = UIEdgeInsetsMake(0.0, titlePadding, 0.0, -(titlePadding));
 
-        var contentInsets = UIEdgeInsetsMake(0.0, contentPadding, 0.0, contentPadding)
+        let contentInsets = UIEdgeInsetsMake(0.0, contentPadding, 0.0, contentPadding)
 
         titleEdgeInsets = titleInsets
         contentEdgeInsets = contentInsets
@@ -33,7 +33,7 @@ public class StreamFooterButton: UIButton {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .Center
 
-        var attributes = [
+        let attributes = [
             NSFontAttributeName : UIFont.typewriterFont(12.0),
             NSForegroundColorAttributeName : color,
             NSParagraphStyleAttributeName : paragraphStyle

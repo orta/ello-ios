@@ -29,7 +29,7 @@ extension AddressBook {
         let ab = ABAddressBookCreateWithOptions(nil, &error) as Unmanaged<ABAddressBook>?
 
         if error != nil {
-            completion(.failure(.Unauthorized))
+            completion(.Failure(.Unauthorized))
             return
         }
 
@@ -37,14 +37,14 @@ extension AddressBook {
             switch ABAddressBookGetAuthorizationStatus() {
             case .NotDetermined:
                 ABAddressBookRequestAccessWithCompletion(book) { granted, _ in
-                    if granted { completion(.success(AddressBook(addressBook: book))) }
-                    else { completion(.failure(.Unauthorized)) }
+                    if granted { completion(.Success(AddressBook(addressBook: book))) }
+                    else { completion(.Failure(.Unauthorized)) }
                 }
-            case .Authorized: completion(.success(AddressBook(addressBook: book)))
-            default: completion(.failure(.Unauthorized))
+            case .Authorized: completion(.Success(AddressBook(addressBook: book)))
+            default: completion(.Failure(.Unauthorized))
             }
         } else {
-            completion(.failure(.Unknown))
+            completion(.Failure(.Unknown))
         }
     }
 

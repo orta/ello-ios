@@ -62,7 +62,7 @@ public class ImageLabelControl: UIControl {
         self.title = title
     }
 
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -104,8 +104,8 @@ public class ImageLabelControl: UIControl {
 
     private func addTargets() {
         button.addTarget(self, action: Selector("buttonTouchUpInside:"), forControlEvents: .TouchUpInside)
-        button.addTarget(self, action: Selector("buttonTouchDown:"), forControlEvents: .TouchDown | .TouchDragEnter)
-        button.addTarget(self, action: Selector("buttonTouchUpOutside:"), forControlEvents: .TouchCancel | .TouchDragExit)
+        button.addTarget(self, action: Selector("buttonTouchDown:"), forControlEvents: [.TouchDown, .TouchDragEnter])
+        button.addTarget(self, action: Selector("buttonTouchUpOutside:"), forControlEvents: [.TouchCancel, .TouchDragExit])
     }
 
     private func updateLayout() {
@@ -145,11 +145,11 @@ public class ImageLabelControl: UIControl {
 
     private func attributedText(title: String, color: UIColor) -> NSAttributedString {
         let attributed = NSMutableAttributedString(string: title)
-        var range = NSRange(location: 0, length: count(title))
+        let range = NSRange(location: 0, length: title.characters.count)
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .Left
         
-        var attributes = [
+        let attributes = [
             NSFontAttributeName : titleFont,
             NSForegroundColorAttributeName : color,
             NSParagraphStyleAttributeName : paragraphStyle

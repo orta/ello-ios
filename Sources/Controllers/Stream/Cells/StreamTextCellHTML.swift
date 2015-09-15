@@ -18,11 +18,15 @@ public struct StreamTextCellHTML {
         }
         else {
             let indexHTML = NSBundle.mainBundle().pathForResource("index", ofType: "html", inDirectory: "www")!
-            let indexURL = NSURL(string:indexHTML)!
-            var req = NSURLRequest(URL:indexURL)
 
             var error:NSError?
-            let indexAsText = NSString(contentsOfFile: indexHTML, encoding: NSUTF8StringEncoding, error: &error)
+            let indexAsText: NSString?
+            do {
+                indexAsText = try NSString(contentsOfFile: indexHTML, encoding: NSUTF8StringEncoding)
+            } catch let error1 as NSError {
+                error = error1
+                indexAsText = nil
+            }
             if error == nil && indexAsText != nil {
                 if let indexAsSwiftString = indexAsText as? String {
                     StreamTextCellHTML.indexFile = indexAsSwiftString
@@ -36,7 +40,7 @@ public struct StreamTextCellHTML {
     }
 
     public static func postHTML(string:String) -> String {
-        var htmlString = StreamTextCellHTML.indexFileAsString().stringByReplacingOccurrencesOfString("{{base-url}}", withString: ElloURI.baseURL)
+        let htmlString = StreamTextCellHTML.indexFileAsString().stringByReplacingOccurrencesOfString("{{base-url}}", withString: ElloURI.baseURL)
         return htmlString.stringByReplacingOccurrencesOfString("{{post-content}}", withString: string)
     }
 }

@@ -9,7 +9,6 @@
 //  Find Here: https://gist.github.com/chriseidhof/9bf7280063db3a249fbe
 
 import Foundation
-import Box
 
 public struct TypedNotification<A> {
     public let name: String

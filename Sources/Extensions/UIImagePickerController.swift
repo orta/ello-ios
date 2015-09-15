@@ -11,7 +11,7 @@ import UIKit
 extension UIImagePickerController {
     class var elloImagePickerController: UIImagePickerController {
         let controller = UIImagePickerController()
-        controller.mediaTypes = [kUTTypeImage]
+        controller.mediaTypes = [kUTTypeImage as String]
         controller.allowsEditing = false
         controller.modalPresentationStyle = .FullScreen
         controller.navigationBar.tintColor = .greyA()

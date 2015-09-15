@@ -14,8 +14,8 @@ import Nimble
 class NotificationSpec: QuickSpec {
     override func spec() {
         it("converts activities to Notifications") {
-            var user: User = stub(["username": "foo"])
-            var post: Post = stub([
+            let user: User = stub(["username": "foo"])
+            let post: Post = stub([
                 "id": "123",
                 "createdAt": NSDate(),
                 "href": "",
@@ -25,9 +25,9 @@ class NotificationSpec: QuickSpec {
                 "author": user,
                 "summary": [TextRegion(content: "LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT")]
             ])
-            var createdAtDate = NSDate()
-            var activity: Activity = stub(["subject": post, "createdAt": createdAtDate, "id": "123", "subjectType": Activity.SubjectType.Post.rawValue, "kind": Activity.Kind.RepostNotification.rawValue])
-            var notification = Notification(activity: activity)
+            let createdAtDate = NSDate()
+            let activity: Activity = stub(["subject": post, "createdAt": createdAtDate, "id": "123", "subjectType": Activity.SubjectType.Post.rawValue, "kind": Activity.Kind.RepostNotification.rawValue])
+            let notification = Notification(activity: activity)
 
             expect(notification.activity.id).to(equal("123"))
             expect(notification.author!.id).to(equal(user.id))
@@ -45,14 +45,17 @@ class NotificationSpec: QuickSpec {
         context("NSCoding") {
 
             var filePath = ""
-
-            beforeEach {
-                filePath = NSFileManager.ElloDocumentsDir().stringByAppendingPathComponent("NotificationSpec")
+            if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
+                filePath = url.URLByAppendingPathComponent("NotificationSpec").absoluteString
             }
 
             afterEach {
-                var error:NSError?
-                NSFileManager.defaultManager().removeItemAtPath(filePath, error: &error)
+                do {
+                    try NSFileManager.defaultManager().removeItemAtPath(filePath)
+                }
+                catch {
+
+                }
             }
 
             context("encoding") {

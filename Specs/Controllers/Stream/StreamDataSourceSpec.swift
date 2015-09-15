@@ -13,15 +13,15 @@ import Moya
 
 public class FakeCollectionView: UICollectionView {
 
-    public override func insertItemsAtIndexPaths(indexPaths: [AnyObject]) {
+    public override func insertItemsAtIndexPaths(indexPaths: [NSIndexPath]) {
         // noop
     }
 
-    public override func deleteItemsAtIndexPaths(indexPaths: [AnyObject]) {
+    public override func deleteItemsAtIndexPaths(indexPaths: [NSIndexPath]) {
         // noop
     }
 
-    public override func reloadItemsAtIndexPaths(indexPaths: [AnyObject]) {
+    public override func reloadItemsAtIndexPaths(indexPaths: [NSIndexPath]) {
         // noop
     }
 }
@@ -153,7 +153,7 @@ class StreamDataSourceSpec: QuickSpec {
                     subject.insertStreamCellItems(firstCellItems, startingIndexPath: indexPath0)
                 }
                 it("inserts items") {
-                    for (index, item) in enumerate(firstCellItems + secondCellItems) {
+                    for (index, item) in (firstCellItems + secondCellItems).enumerate() {
                         expect(subject.visibleCellItems[index]) == item
                     }
                 }
@@ -169,7 +169,7 @@ class StreamDataSourceSpec: QuickSpec {
                         for index in 1...10 {
                             posts.append(Post.stub(["id": "\(index)"]))
                         }
-                        var cellItems = StreamCellItemParser().parse(posts, streamKind: .Friend)
+                        let cellItems = StreamCellItemParser().parse(posts, streamKind: .Friend)
                         subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                             vc.collectionView.dataSource = subject
                             vc.collectionView.reloadData()
@@ -194,7 +194,6 @@ class StreamDataSourceSpec: QuickSpec {
                         expect(subject.isValidIndexPath(NSIndexPath(forItem: idx - 1, inSection: 0))) == true
                     }
                     it("returns false for invalid path (-1, 0)") {
-                        let idx = subject.visibleCellItems.count
                         expect(subject.isValidIndexPath(NSIndexPath(forItem: -1, inSection: 0))) == false
                     }
                     it("returns false for invalid path (items.count, 0)") {
@@ -219,7 +218,7 @@ class StreamDataSourceSpec: QuickSpec {
                                 ])
                             )
                         }
-                        var cellItems = StreamCellItemParser().parse(posts, streamKind: .Friend)
+                        let cellItems = StreamCellItemParser().parse(posts, streamKind: .Friend)
                         subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                             vc.collectionView.dataSource = subject
                             vc.collectionView.reloadData()
@@ -246,7 +245,7 @@ class StreamDataSourceSpec: QuickSpec {
                                 ])
                             )
                         }
-                        var cellItems = StreamCellItemParser().parse(posts, streamKind: .Friend)
+                        let cellItems = StreamCellItemParser().parse(posts, streamKind: .Friend)
                         subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                             vc.collectionView.dataSource = subject
                             vc.collectionView.reloadData()
@@ -372,11 +371,11 @@ class StreamDataSourceSpec: QuickSpec {
                 }
 
                 it("returns an array of StreamCellItems") {
-                    var post = subject.postForIndexPath(indexPath0)!
+                    let post = subject.postForIndexPath(indexPath0)!
                     let items = subject.cellItemsForPost(post)
-                    expect(count(items)) == 4
+                    expect(items.count) == 4
                     for item in subject.visibleCellItems {
-                        if contains(items, item) {
+                        if items.contains(item) {
                             let itemPost = item.jsonable as! Post
                             expect(itemPost.id) == post.id
                         }
@@ -391,14 +390,14 @@ class StreamDataSourceSpec: QuickSpec {
                 it("returns empty array if post not found") {
                     let randomPost: Post = stub(["id": "notfound"])
                     let items = subject.cellItemsForPost(randomPost)
-                    expect(count(items)) == 0
+                    expect(items.count) == 0
                 }
 
                 it("does not return cell items for other posts") {
-                    var post = subject.postForIndexPath(NSIndexPath(forItem: 9, inSection: 0))!
+                    let post = subject.postForIndexPath(NSIndexPath(forItem: 9, inSection: 0))!
                     let items = subject.cellItemsForPost(post)
                     expect(post.id) == "777"
-                    expect(count(items)) == 4
+                    expect(items.count) == 4
                 }
 
             }
@@ -462,10 +461,10 @@ class StreamDataSourceSpec: QuickSpec {
                 }
 
                 it("returns an array of comment index paths") {
-                    var post = subject.postForIndexPath(indexPath0)
+                    let post = subject.postForIndexPath(indexPath0)
                     let indexPaths = subject.commentIndexPathsForPost(post!)
 
-                    expect(count(indexPaths)) == 5
+                    expect(indexPaths.count) == 5
                     expect(indexPaths[0].item) == 4
                     expect(indexPaths[1].item) == 5
                     expect(indexPaths[2].item) == 6
@@ -474,19 +473,19 @@ class StreamDataSourceSpec: QuickSpec {
                 }
 
                 it("does not return index paths for comments from another post") {
-                    var post = subject.postForIndexPath(NSIndexPath(forItem: 9, inSection: 0))
+                    let post = subject.postForIndexPath(NSIndexPath(forItem: 9, inSection: 0))
                     let indexPaths = subject.commentIndexPathsForPost(post!)
 
-                    expect(count(indexPaths)) == 2
+                    expect(indexPaths.count) == 2
                     expect(indexPaths[0].item) == 13
                     expect(indexPaths[1].item) == 14
                 }
 
                 it("returns an array of comment index paths when collapsed") {
-                    var post = subject.postForIndexPath(NSIndexPath(forItem: 16, inSection: 0))
+                    let post = subject.postForIndexPath(NSIndexPath(forItem: 16, inSection: 0))
                     let indexPaths = subject.commentIndexPathsForPost(post!)
 
-                    expect(count(indexPaths)) == 3
+                    expect(indexPaths.count) == 3
                     expect(indexPaths[0].item) == 19
                     expect(indexPaths[1].item) == 20
                     expect(indexPaths[2].item) == 21
@@ -503,7 +502,7 @@ class StreamDataSourceSpec: QuickSpec {
                 }
 
                 it("returns the index path of the footer associated with this post") {
-                    var post = subject.postForIndexPath(indexPath0)
+                    let post = subject.postForIndexPath(indexPath0)
                     let indexPath = subject.footerIndexPathForPost(post!)
 
                     expect(indexPath!.item) == 2
@@ -582,7 +581,7 @@ class StreamDataSourceSpec: QuickSpec {
                             )
                         }
 
-                        var cellItems = StreamCellItemParser().parse(posts, streamKind: .Friend)
+                        let cellItems = StreamCellItemParser().parse(posts, streamKind: .Friend)
                         subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                             vc.collectionView.dataSource = subject
                             vc.collectionView.reloadData()
@@ -660,8 +659,7 @@ class StreamDataSourceSpec: QuickSpec {
 
                             it("adds the newly loved post") {
                                 subject.streamKind = StreamKind.SimpleStream(endpoint: ElloAPI.Loves(userId: "fake-id"), title: "Loves")
-                                var post: Post = stub(["id": "post1", "authorId" : "user1"])
-                                var love: Love = stub(["id": "love1", "postId": "post1"])
+                                let love: Love = stub(["id": "love1", "postId": "post1"])
                                 expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 20
 
                                 subject.modifyItems(love, change: .Create, collectionView: fakeCollectionView)
@@ -706,7 +704,7 @@ class StreamDataSourceSpec: QuickSpec {
                         it("doesn't update the updated post") {
                             subject.modifyItems(Post.stub(["id": "not-present", "commentsCount" : 88]), change: .Update, collectionView: fakeCollectionView)
 
-                            for (index, item) in enumerate(subject.streamCellItems) {
+                            for item in subject.streamCellItems {
                                 // this check gets around the fact that there are spacers in posts
                                 if let post = item.jsonable as? Post {
                                     expect(post.commentsCount) == 5
@@ -733,14 +731,14 @@ class StreamDataSourceSpec: QuickSpec {
             describe("modifyUserRelationshipItems(_:collectionView:)") {
 
                 let stubCellItems: (streamKind: StreamKind) -> Void = { streamKind in
-                    var user1: User = stub(["id": "user1"])
-                    var post1: Post = stub(["id": "post1", "authorId" : "user1"])
-                    var post1Comment1: Comment = stub([
+                    let user1: User = stub(["id": "user1"])
+                    let post1: Post = stub(["id": "post1", "authorId" : "user1"])
+                    let post1Comment1: Comment = stub([
                         "parentPost": post1,
                         "id" : "comment1",
                         "authorId": "user1"
                     ])
-                    var post1Comment2: Comment = stub([
+                    let post1Comment2: Comment = stub([
                         "parentPost": post1,
                         "id" : "comment2",
                         "authorId": "user2"
@@ -749,7 +747,7 @@ class StreamDataSourceSpec: QuickSpec {
                     let userCellItems = parser.parse([user1], streamKind: streamKind)
                     let post1CellItems = parser.parse([post1], streamKind: streamKind)
                     let post1CommentCellItems = parser.parse([post1Comment1, post1Comment2], streamKind: streamKind)
-                    var cellItems = userCellItems + post1CellItems + post1CommentCellItems
+                    let cellItems = userCellItems + post1CellItems + post1CommentCellItems
                     subject.streamKind = streamKind
                     subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
@@ -812,11 +810,11 @@ class StreamDataSourceSpec: QuickSpec {
                 describe("muting a user") {
 
                     beforeEach {
-                        var streamKind: StreamKind = .Notifications(category: nil)
-                        var user1: User = stub(["id": "user1"])
-                        var post1: Post = stub(["id": "post1", "authorId" : "other-user"])
-                        var activity1: Activity = stub(["id": "activity1", "subject" : user1])
-                        var activity2: Activity = stub(["id": "activity2", "subject" : post1])
+                        let streamKind: StreamKind = .Notifications(category: nil)
+                        let user1: User = stub(["id": "user1"])
+                        let post1: Post = stub(["id": "post1", "authorId" : "other-user"])
+                        let activity1: Activity = stub(["id": "activity1", "subject" : user1])
+                        let activity2: Activity = stub(["id": "activity2", "subject" : post1])
                         let parser = StreamCellItemParser()
                         let notificationCellItems = parser.parse([activity1, activity2], streamKind: streamKind)
                         subject.streamKind = streamKind
@@ -842,10 +840,10 @@ class StreamDataSourceSpec: QuickSpec {
             describe("modifyUserSettingsItems(_:collectionView:)") {
 
                 let stubCellItems: (streamKind: StreamKind) -> Void = { streamKind in
-                    var user1: User = stub(["id": "user1", "username": "sweet"])
-                    var user2: User = stub(["id": "user2", "username": "unsweet"])
+                    let user1: User = stub(["id": "user1", "username": "sweet"])
+                    let user2: User = stub(["id": "user2", "username": "unsweet"])
                     let userCellItems = StreamCellItemParser().parse([user1, user2], streamKind: streamKind)
-                    var cellItems = userCellItems
+                    let cellItems = userCellItems
                     subject.streamKind = streamKind
                     subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
@@ -991,21 +989,21 @@ class StreamDataSourceSpec: QuickSpec {
                 it("should allow removing an item from the beginning") {
                     subject.removeItemAtIndexPath(indexPath0)
                     expect(subject.visibleCellItems.count) == items.count - 1
-                    for (index, item) in enumerate(subject.visibleCellItems) {
+                    for (index, item) in subject.visibleCellItems.enumerate() {
                         expect(item) == items[index + 1]
                     }
                 }
                 it("should allow removing an item from the end") {
                     subject.removeItemAtIndexPath(NSIndexPath(forItem: items.count - 1, inSection:0))
                     expect(subject.visibleCellItems.count) == items.count - 1
-                    for (index, item) in enumerate(subject.visibleCellItems) {
+                    for (index, item) in subject.visibleCellItems.enumerate() {
                         expect(item) == items[index]
                     }
                 }
                 it("should ignore removing invalid index paths") {
                     subject.removeItemAtIndexPath(indexPathOutOfBounds)
                     expect(subject.visibleCellItems.count) == items.count
-                    for (index, item) in enumerate(subject.visibleCellItems) {
+                    for (index, item) in subject.visibleCellItems.enumerate() {
                         expect(item) == items[index]
                     }
                 }
@@ -1024,15 +1022,15 @@ class StreamDataSourceSpec: QuickSpec {
                 }
 
                 it("sets the number of visible cell items to 0") {
-                    expect(count(subject.visibleCellItems)) > 0
+                    expect(subject.visibleCellItems.count) > 0
                     subject.removeAllCellItems()
-                    expect(count(subject.visibleCellItems)) == 0
+                    expect(subject.visibleCellItems.count) == 0
                 }
 
                 it("sets the number of cell items to 0") {
-                    expect(count(subject.streamCellItems)) > 0
+                    expect(subject.streamCellItems.count) > 0
                     subject.removeAllCellItems()
-                    expect(count(subject.streamCellItems)) == 0
+                    expect(subject.streamCellItems.count) == 0
                 }
             }
 
@@ -1192,7 +1190,7 @@ class StreamDataSourceSpec: QuickSpec {
                 }
 
                 it("returns the same value for a post and it's comments") {
-                    for (index, item) in enumerate(subject.visibleCellItems) {
+                    for (index, item) in subject.visibleCellItems.enumerate() {
                         let indexPath = NSIndexPath(forItem: index, inSection: 0)
                         let groupId = subject.groupForIndexPath(indexPath)
                         if item.jsonable is Post || item.jsonable is Comment {
@@ -1265,9 +1263,7 @@ class StreamDataSourceSpec: QuickSpec {
                     let countWas = subject.visibleCellItems.count
                     let startingIndexPath = NSIndexPath(forItem: 1, inSection: 0)
 
-                    var expectedIndexPaths = [NSIndexPath]()
-                    subject.insertUnsizedCellItems([newCellItem], withWidth: 10.0, startingIndexPath: startingIndexPath ){ (indexPaths) in
-                        expectedIndexPaths = indexPaths
+                    subject.insertUnsizedCellItems([newCellItem], withWidth: 10.0, startingIndexPath: startingIndexPath ){ _ in
                     }
 
                     let insertedCellItem = subject.visibleCellItems[1]
@@ -1280,9 +1276,8 @@ class StreamDataSourceSpec: QuickSpec {
                     let countWas = subject.visibleCellItems.count
                     let startingIndexPath = NSIndexPath(forItem: countWas, inSection: 0)
 
-                    var expectedIndexPaths = [NSIndexPath]()
-                    subject.insertUnsizedCellItems([newCellItem], withWidth: 10.0, startingIndexPath: startingIndexPath ){ (indexPaths) in
-                        expectedIndexPaths = indexPaths
+                    subject.insertUnsizedCellItems([newCellItem], withWidth: 10.0, startingIndexPath: startingIndexPath ){ _ in
+
                     }
 
                     let insertedCellItem = subject.visibleCellItems[countWas]
@@ -1300,7 +1295,7 @@ class StreamDataSourceSpec: QuickSpec {
                 let post2 = Post.stub([:])
                 let comment2 = Comment.stub(["parentPost": post2])
                 beforeEach {
-                    var cellItems = StreamCellItemParser().parseAllForTesting([
+                    let cellItems = StreamCellItemParser().parseAllForTesting([
                         user1, post1, comment1,
                         user2, post2, comment2
                     ])

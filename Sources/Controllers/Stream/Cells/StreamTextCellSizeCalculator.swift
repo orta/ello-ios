@@ -16,10 +16,9 @@ public class StreamTextCellSizeCalculator: NSObject, UIWebViewDelegate {
     public var cellItems: [StreamCellItem] = []
     public var completion: StreamTextCellSizeCalculated = {}
 
-    public static let srcRegex:NSRegularExpression  = NSRegularExpression(
+    public static let srcRegex:NSRegularExpression  = try! NSRegularExpression(
         pattern: "src=[\"']([^\"']*)[\"']",
-        options: NSRegularExpressionOptions.CaseInsensitive,
-        error: nil)!
+        options: NSRegularExpressionOptions.CaseInsensitive)
 
     public init(webView:UIWebView) {
         self.webView = webView
@@ -37,7 +36,7 @@ public class StreamTextCellSizeCalculator: NSObject, UIWebViewDelegate {
 
     private func loadNext() {
         if let item = self.cellItems.safeValue(0) {
-            if let comment = item.jsonable as? Comment {
+            if let _ = item.jsonable as? Comment {
                 // need to add back in the postMargin (15) since the maxWidth should already
                 // account for 15 on the left that is part of the commentMargin (60)
                 self.webView.frame = self.webView.frame.withWidth(maxWidth - StreamTextCellPresenter.commentMargin + StreamTextCellPresenter.postMargin)
@@ -82,10 +81,10 @@ public class StreamTextCellSizeCalculator: NSObject, UIWebViewDelegate {
 
     public static func stripImageSrc(html: String) -> String {
         // finds image tags, replaces them with data:image/png (inlines image data)
-        let range = NSMakeRange(0, count(html))
+        let range = NSMakeRange(0, html.characters.count)
 
         let strippedHtml :String = srcRegex.stringByReplacingMatchesInString(html,
-            options: NSMatchingOptions.allZeros,
+            options: NSMatchingOptions(),
             range:range,
             withTemplate: "src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVR4nGNiAAAABgADNjd8qAAAAABJRU5ErkJggg==")
 

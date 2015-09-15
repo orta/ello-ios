@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-extension ElloAPI: Printable, DebugPrintable {
+extension ElloAPI: CustomStringConvertible, CustomDebugStringConvertible {
     public var debugDescription: String {
         switch self {
         case let .CommentDetail(postId, commentId):
@@ -29,7 +29,7 @@ extension ElloAPI: Printable, DebugPrintable {
             return "EmojiAutoComplete(terms: \(terms))"
         case let .FlagPost(postId, kind):
             return "FlagPost(postId: \(postId), kind: \(kind))"
-        case let .FlagComment(postId, commentId, kind):
+        case .FlagComment(_, _, _):
             return "FlagComment"
         case let .InfiniteScroll(_, elloApi):
             return "InfiniteScroll(elloApi: \(elloApi()))"

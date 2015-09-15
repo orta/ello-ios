@@ -12,9 +12,9 @@ use_frameworks!
 pod '1PasswordExtension', '~> 1.2.0'
 pod 'Analytics/Segmentio'
 pod 'CRToast', git: 'https://github.com/ello/CRToast'
-pod 'Crashlytics', '~> 3.1.0'
+pod 'Crashlytics', '~> 3.3'
 pod 'FLAnimatedImage', git: 'https://github.com/ello/FLAnimatedImage'
-pod 'Fabric', '~> 1.2.0'
+pod 'Fabric', '~> 1.5'
 pod 'JTSImageViewController', git: 'https://github.com/ello/JTSImageViewController'
 pod 'KINWebBrowser', git: 'https://github.com/ello/KINWebBrowser'
 pod 'LUKeychainAccess', '~> 1.2.4'
@@ -28,18 +28,18 @@ pod 'YapDatabase', git: 'https://github.com/ello/YapDatabase'
 pod 'Firebase', configurations: ['Debug']
 
 # swift pods
-pod 'Alamofire', '~> 1.3.0'
-pod 'Moya', '~> 2.1.0'
-pod 'Result', '~> 0.4.0'
-pod 'SwiftyJSON', git: 'https://github.com/ello/SwiftyJSON'
+pod 'Alamofire', '~> 2.0'
+pod 'Moya', '~> 2.2'
+pod 'Result', '0.6-beta.1'
+pod 'SwiftyJSON', git: 'https://github.com/ello/SwiftyJSON', branch: 'Swift-2.0'
 pod 'SwiftyUserDefaults', '~> 1.3.0'
-pod 'TimeAgoInWords', '~> 0.1.0'
-pod 'WebLinking', '~> 0.2.0'
+pod 'TimeAgoInWords', git: 'https://github.com/ello/TimeAgoInWords'
+pod 'WebLinking', '~> 1.0'
 
 target 'Specs' do
-  pod 'Nimble', '~> 1.0.0'
+  pod 'Nimble', '2.0.0-rc.3'
   pod 'OHHTTPStubs', '~> 4.1.0'
-  pod 'Quick', '~> 0.3.0'
+  pod 'Quick', '~> 0.6.0'
 end
 
 plugin 'cocoapods-keys', {

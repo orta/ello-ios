@@ -122,7 +122,7 @@ public final class Activity: JSONAble {
             Tracker.sharedTracker.createdAtCrash("Activity", json: json.rawString())
         }
         // create activity
-        var activity = Activity(
+        let activity = Activity(
             id: id,
             createdAt: createdAt,
             kind: Kind(rawValue: json["kind"].stringValue) ?? Kind.Unknown,

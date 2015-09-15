@@ -19,7 +19,7 @@ public class OnboardingBackButton: UIButton {
         self.sharedSetup()
     }
 
-    required public init(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         super.init(coder: coder)
         self.sharedSetup()
     }
@@ -53,12 +53,12 @@ public class OnboardingNextButton: LightElloButton {
         titleEdgeInsets.right = 20
 
         let chevron = UIImageView()
-        chevron.autoresizingMask = .FlexibleLeftMargin | .FlexibleTopMargin | .FlexibleBottomMargin
+        chevron.autoresizingMask = [.FlexibleLeftMargin, .FlexibleTopMargin, .FlexibleBottomMargin]
         chevron.contentMode = .Center
         addSubview(chevron)
         self.chevron = chevron
 
-        addTarget(self, action: Selector("updateImage"), forControlEvents: .TouchDown | .TouchDragEnter | .TouchUpInside | .TouchCancel | .TouchDragExit)
+        addTarget(self, action: Selector("updateImage"), forControlEvents: [.TouchDown, .TouchDragEnter, .TouchUpInside, .TouchCancel, .TouchDragExit])
     }
 
     override public func layoutSubviews() {
@@ -88,7 +88,7 @@ public class FollowAllElloButton: ElloButton {
         super.init(frame: frame)
     }
 
-    required public init(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         super.init(coder: coder)
     }
 

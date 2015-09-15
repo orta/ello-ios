@@ -10,7 +10,7 @@ import Foundation
 
 class InspiredPageController: IntroPageController {
 
-    @IBOutlet weak var inspiredLabel: ElloLabel!
+    weak var inspiredLabel: ElloLabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()

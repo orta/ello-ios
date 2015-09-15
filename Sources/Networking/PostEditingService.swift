@@ -45,7 +45,7 @@ public class PostEditingService: NSObject {
 
         // if necessary, the rawSource should be converted to API-ready content,
         // e.g. entitizing Strings and adding HTML markup to NSAttributedStrings
-        for (index, section) in enumerate(rawContent) {
+        for (index, section) in rawContent.enumerate() {
             if let text = section as? String {
                 textEntries.append((index, text))
             }
@@ -89,7 +89,7 @@ public class PostEditingService: NSObject {
         }
     }
 
-    func create(#regions: [Regionable], authorId: String, success: CreatePostSuccessCompletion, failure: ElloFailureCompletion?) {
+    func create(regions regions: [Regionable], authorId: String, success: CreatePostSuccessCompletion, failure: ElloFailureCompletion?) {
         let body = NSMutableArray(capacity: regions.count)
         for region in regions {
             body.addObject(region.toJSON())
@@ -112,7 +112,7 @@ public class PostEditingService: NSObject {
 
         ElloProvider.elloRequest(endpoint,
             success: { data, responseConfig in
-                var post: AnyObject = data
+                let post: AnyObject = data
 
                 switch endpoint {
                 case .CreateComment:
@@ -132,8 +132,8 @@ public class PostEditingService: NSObject {
     }
 
     func replaceLocalImageRegions(var content: [Regionable], regions: [Regionable]) -> [Regionable] {
-        for (index, regionable) in enumerate(content) {
-            if let imageRegion = regionable as? ImageRegion,
+        for (index, regionable) in content.enumerate() {
+            if let _ = regionable as? ImageRegion,
                 let replaceRegion = regions.safeValue(index) as? ImageRegion
             {
                 content[index] = replaceRegion
@@ -165,7 +165,7 @@ public class PostEditingService: NSObject {
         }
 
         for imageEntry in imageEntries {
-            if let error = anyError {
+            if let _ = anyError {
                 allDone()
                 continue
             }
@@ -213,7 +213,7 @@ public class PostEditingService: NSObject {
         }
 
         for dataEntry in imageDataEntries {
-            if let error = anyError {
+            if let _ = anyError {
                 allDone()
                 continue
             }
@@ -267,7 +267,7 @@ public class PostEditingService: NSObject {
     // section has been stored in `entry.0`, and this is used to sort the
     // entries, and then the sorted regions are returned.
     private func sortedRegions(indexedRegions: [(Int, Regionable)]) -> [Regionable] {
-        return indexedRegions.sorted() { left, right in
+        return indexedRegions.sort() { left, right in
             let (indexLeft, indexRight) = (left.0, right.0)
             return indexLeft < indexRight
         }.map() { (index: Int, region: Regionable) -> Regionable in

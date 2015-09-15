@@ -14,7 +14,7 @@ let thousand = 1_000.0
 
 public extension Int {
 
-    func numberToHuman(showZero: Bool = false) -> String {
+    func numberToHuman(showZero showZero: Bool = false) -> String {
         if self == 0 && !showZero { return "" }
 
         let double = Double(self)
@@ -37,7 +37,7 @@ public extension Int {
             suffix = ""
         }
         var strNum = "\(num)"
-        let strArr = split(strNum) { $0 == "." }
+        let strArr = strNum.characters.split { $0 == "." }.map { String($0) }
         if strArr.last == "0" {
             strNum = strArr.first!
         }

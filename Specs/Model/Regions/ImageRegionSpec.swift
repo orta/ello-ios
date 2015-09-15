@@ -48,14 +48,17 @@ class ImageRegionSpec: QuickSpec {
         context("NSCoding") {
 
             var filePath = ""
-
-            beforeEach {
-                filePath = NSFileManager.ElloDocumentsDir().stringByAppendingPathComponent("ImageRegionSpec")
+            if let url = NSURL(string: NSFileManager.ElloDocumentsDir()) {
+                filePath = url.URLByAppendingPathComponent("ImageRegionSpec").absoluteString
             }
 
             afterEach {
-                var error:NSError?
-                NSFileManager.defaultManager().removeItemAtPath(filePath, error: &error)
+                do {
+                    try NSFileManager.defaultManager().removeItemAtPath(filePath)
+                }
+                catch {
+
+                }
             }
 
             context("encoding") {

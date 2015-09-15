@@ -1,3 +1,4 @@
+
 //
 //  ElloTabBarControllerSpec.swift
 //  Ello
@@ -17,31 +18,31 @@ class ElloTabBarControllerSpec: QuickSpec {
 
         var subject: ElloTabBarController!
         var tabBarItem: UITabBarItem
-        var child1root = UIViewController()
-        var scrollView = UIScrollView()
+        let child1root = UIViewController()
+        let scrollView = UIScrollView()
         scrollView.contentSize = CGSize(width: 2000, height: 2000)
         child1root.view.addSubview(scrollView)
-        var child1 = UINavigationController(rootViewController: child1root)
+        let child1 = UINavigationController(rootViewController: child1root)
         tabBarItem = child1.tabBarItem
         tabBarItem.image = UIImage.imageWithColor(.blackColor())
         tabBarItem.selectedImage = UIImage.imageWithColor(.blackColor())
 
-        var child2 = UINavigationController(rootViewController: UIViewController())
+        let child2 = UINavigationController(rootViewController: UIViewController())
         tabBarItem = child2.tabBarItem
         tabBarItem.image = UIImage.imageWithColor(.blackColor())
         tabBarItem.selectedImage = UIImage.imageWithColor(.blackColor())
 
-        var child3 = UINavigationController(rootViewController: UIViewController())
+        let child3 = UINavigationController(rootViewController: UIViewController())
         tabBarItem = child3.tabBarItem
         tabBarItem.image = UIImage.imageWithColor(.blackColor())
         tabBarItem.selectedImage = UIImage.imageWithColor(.blackColor())
 
-        var child4 = UINavigationController(rootViewController: UIViewController())
+        let child4 = UINavigationController(rootViewController: UIViewController())
         tabBarItem = child4.tabBarItem
         tabBarItem.image = UIImage.imageWithColor(.blackColor())
         tabBarItem.selectedImage = UIImage.imageWithColor(.blackColor())
 
-        var child5 = UINavigationController(rootViewController: UIViewController())
+        let child5 = UINavigationController(rootViewController: UIViewController())
         tabBarItem = child5.tabBarItem
         tabBarItem.image = UIImage.imageWithColor(.blackColor())
         tabBarItem.selectedImage = UIImage.imageWithColor(.blackColor())
@@ -66,7 +67,7 @@ class ElloTabBarControllerSpec: QuickSpec {
 
             beforeEach() {
                 subject = ElloTabBarController.instantiateFromStoryboard()
-                let view = subject.view
+                _ = subject.view
             }
 
             it("sets friends as the selected tab") {
@@ -90,7 +91,7 @@ class ElloTabBarControllerSpec: QuickSpec {
 
             beforeEach() {
                 subject = ElloTabBarController.instantiateFromStoryboard()
-                let children = subject.childViewControllers as! [UIViewController]
+                let children = subject.childViewControllers 
                 for child in children {
                     child.removeFromParentViewController()
                 }
@@ -99,7 +100,7 @@ class ElloTabBarControllerSpec: QuickSpec {
                 subject.addChildViewController(child3)
                 subject.addChildViewController(child4)
                 subject.addChildViewController(child5)
-                let view = subject.view
+                _ = subject.view
             }
 
             it("should load child1") {
@@ -163,8 +164,8 @@ class ElloTabBarControllerSpec: QuickSpec {
                             self.showController(subject)
                             var reloadPosted = false
                             subject.streamsDot?.hidden = false
-                            let observer = NotificationObserver(notification: NewContentNotifications.reloadStreamContent) {
-                                [unowned self] _ in
+                            _ = NotificationObserver(notification: NewContentNotifications.reloadStreamContent) {
+                                _ in
                                 reloadPosted = true
                             }
                             let vc = child3.topViewController
@@ -195,7 +196,7 @@ class ElloTabBarControllerSpec: QuickSpec {
                 ]
 
                 subject = ElloTabBarController.instantiateFromStoryboard()
-                let children = subject.childViewControllers as! [UIViewController]
+                let children = subject.childViewControllers 
                 for child in children {
                     child.removeFromParentViewController()
                 }
@@ -204,7 +205,7 @@ class ElloTabBarControllerSpec: QuickSpec {
                 subject.addChildViewController(child3)
                 subject.addChildViewController(child4)
                 subject.addChildViewController(child5)
-                let view = subject.view
+                _ = subject.view
             }
             afterEach {
                 for (tab, value) in prevTabValues {

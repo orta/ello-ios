@@ -277,11 +277,11 @@ public class StreamViewController: BaseElloViewController {
                     // this calls doneLoading when cells are added
                     self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind, currentUser: self.currentUser), withWidth: nil)
                 }, failure: { (error, statusCode) in
-                    println("failed to load \(self.streamKind.name) stream (reason: \(error))")
+                    print("failed to load \(self.streamKind.name) stream (reason: \(error))")
                     self.initialLoadFailure()
                     self.doneLoading()
                 }, noContent: {
-                    println("nothing new")
+                    print("nothing new")
                     self.doneLoading()
                 }
             )
@@ -291,7 +291,7 @@ public class StreamViewController: BaseElloViewController {
     private func updateNoResultsLabel() {
         delay(0.666) {
             if self.noResultsLabel != nil {
-                count(self.dataSource.visibleCellItems) > 0 ? self.hideNoResults() : self.showNoResults()
+                self.dataSource.visibleCellItems.count > 0 ? self.hideNoResults() : self.showNoResults()
             }
         }
     }
@@ -477,7 +477,7 @@ public class StreamViewController: BaseElloViewController {
             if !item.type.collapsable {
                 return true
             }
-            if let post = item.jsonable as? Post {
+            if let _ = item.jsonable as? Post {
                 return item.state != .Collapsed
             }
             return true
@@ -528,7 +528,7 @@ extension StreamViewController: InviteDelegate {
 // MARK: StreamViewController: SimpleStreamDelegate
 extension StreamViewController: SimpleStreamDelegate {
     public func showSimpleStream(endpoint: ElloAPI, title: String, noResultsMessages: (title: String, body: String)? = nil ) {
-        var vc = SimpleStreamViewController(endpoint: endpoint, title: title)
+        let vc = SimpleStreamViewController(endpoint: endpoint, title: title)
         vc.currentUser = currentUser
         if let messages = noResultsMessages {
             vc.streamViewController.noResultsMessages = messages
@@ -630,7 +630,7 @@ extension StreamViewController : WebLinkDelegate {
 
     public func webLinkTapped(type: ElloURI, data: String) {
         switch type {
-        case .BetaPublicProfiles, .Downloads, .External, .ForgotMyPassword, .Manifesto, .RequestInvite, .RequestInvitation, .Subdomain, .WhoMadeThis, .WTF: postNotification(externalWebNotification, data)
+        case .BetaPublicProfiles, .Downloads, .External, .ForgotMyPassword, .Manifesto, .RequestInvite, .RequestInvitation, .Subdomain, .WhoMadeThis, .WTF: postNotification(externalWebNotification, value: data)
         case .Discover: selectTab(.Discovery)
         case .Email: break // this is handled in ElloWebViewHelper
         case .Enter, .Exit, .Root: break // do nothing since we should already be in app
@@ -783,11 +783,11 @@ extension StreamViewController : UIScrollViewDelegate {
                     streamKind: streamKind,
                     success: {
                         (jsonables, responseConfig) in
-                        self.scrollLoaded(jsonables: jsonables)
+                        self.scrollLoaded(jsonables)
                         self.responseConfig = responseConfig
                     },
                     failure: { (error, statusCode) in
-                        println("failed to load stream (reason: \(error))")
+                        print("failed to load stream (reason: \(error))")
                         self.scrollLoaded()
                     },
                     noContent: {

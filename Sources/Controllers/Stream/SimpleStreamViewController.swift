@@ -20,7 +20,7 @@ public class SimpleStreamViewController: StreamableViewController {
         view.backgroundColor = .whiteColor()
     }
 
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -69,7 +69,7 @@ public class SimpleStreamViewController: StreamableViewController {
 
     private func setupNavigationBar() {
         navigationBar = ElloNavigationBar(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: ElloNavigationBar.Size.height))
-        navigationBar.autoresizingMask = .FlexibleBottomMargin | .FlexibleWidth
+        navigationBar.autoresizingMask = [.FlexibleBottomMargin, .FlexibleWidth]
         view.addSubview(navigationBar)
         let item = UIBarButtonItem.backChevronWithTarget(self, action: Selector("backTapped:"))
         elloNavigationItem.leftBarButtonItems = [item]

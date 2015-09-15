@@ -16,7 +16,7 @@ class InviteServiceSpec: QuickSpec {
     override func spec() {
         describe("-invite:success:failure:") {
 
-            var subject = InviteService()
+            let subject = InviteService()
 
             it("succeeds") {
                 ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour)
@@ -43,18 +43,17 @@ class InviteServiceSpec: QuickSpec {
 
         describe("-find:success:failure:") {
 
-            var subject = InviteService()
+            let subject = InviteService()
 
             it("succeeds") {
                 ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour)
-                var loadedSuccessfully = false
                 var expectedUsers = [User]()
                 subject.find(["1":["blah"], "2":["blah"]], currentUser: nil, success: {
                     users in
                     expectedUsers = users
                 }, failure: nil)
 
-                expect(count(expectedUsers)) == 3
+                expect(expectedUsers.count) == 3
             }
 
             it("fails") {

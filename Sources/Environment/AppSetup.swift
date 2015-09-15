@@ -29,7 +29,7 @@ public class AppSetup {
     }
 
     public init() {
-        if let inTests: AnyClass = NSClassFromString("XCTest") {
+        if NSClassFromString("XCTest") != nil {
             isTesting = true
         }
     }

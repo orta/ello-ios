@@ -12,7 +12,7 @@ import Crashlytics
 
 public class DrawerViewController: StreamableViewController {
     @IBOutlet weak public var tableView: UITableView!
-    @IBOutlet weak public var navigationBar: ElloNavigationBar!
+    weak public var navigationBar: ElloNavigationBar!
 
     override var backGestureEdges: UIRectEdge { return .Right }
 
@@ -22,7 +22,7 @@ public class DrawerViewController: StreamableViewController {
         super.init(nibName: "DrawerViewController", bundle: .None)
     }
 
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -77,13 +77,13 @@ extension DrawerViewController: UITableViewDelegate {
             switch item.type {
             case .External:
                 if let link = item.link {
-                    postNotification(externalWebNotification, link)
+                    postNotification(externalWebNotification, value: link)
                 }
             case .Invite:
                 let responder = targetForAction("onInviteFriends", withSender: self) as? InviteResponder
                 responder?.onInviteFriends()
             case .Logout:
-                postNotification(AuthenticationNotifications.userLoggedOut, ())
+                postNotification(AuthenticationNotifications.userLoggedOut, value: ())
             default: break
             }
         }

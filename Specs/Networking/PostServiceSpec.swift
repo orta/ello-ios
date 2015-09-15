@@ -16,7 +16,7 @@ class PostServiceSpec: QuickSpec {
     override func spec() {
         describe("PostService") {
 
-            var subject = PostService()
+            let subject = PostService()
 
             describe("loadPost(_:success:failure)") {
 

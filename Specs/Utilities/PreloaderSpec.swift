@@ -23,7 +23,6 @@ class PreloaderSpec: QuickSpec {
         var twoImagePost: Post!
         var threeImagePost: Post!
         var oneImageComment: Comment!
-        var twoImageComment: Comment!
         var threeImageComment: Comment!
         var user1: User!
         var user2: User!
@@ -122,12 +121,6 @@ class PreloaderSpec: QuickSpec {
                 "author" : user1
             ])
 
-            twoImageComment = Comment.stub([
-                "id" : "10",
-                "content" : [imageRegion, imageRegion],
-                "author" : user2
-            ])
-
             threeImageComment = Comment.stub([
                 "id" : "11",
                 "content" : [imageRegion, imageRegion, imageRegion],
@@ -151,19 +144,19 @@ class PreloaderSpec: QuickSpec {
 
                 subject.preloadImages([activityOne, activityTwo], streamKind: StreamKind.Friend)
 
-                expect(count(fakeManager.downloads)) == 5
+                expect(fakeManager.downloads.count) == 5
             }
 
             it("preloads posts image assets and avatars") {
                 subject.preloadImages([oneImagePost, twoImagePost, threeImagePost], streamKind: StreamKind.Friend)
 
-                expect(count(fakeManager.downloads)) == 9
+                expect(fakeManager.downloads.count) == 9
             }
 
             it("preloads comments image assets and avatars") {
                 subject.preloadImages([oneImageComment, threeImageComment], streamKind: StreamKind.Friend)
                 
-                expect(count(fakeManager.downloads)) == 6
+                expect(fakeManager.downloads.count) == 6
             }
 
             it("preloads user's posts image assets and avatars") {
@@ -175,7 +168,7 @@ class PreloaderSpec: QuickSpec {
 
                 subject.preloadImages([user], streamKind: StreamKind.Profile(perPage: 10))
 
-                expect(count(fakeManager.downloads)) == 8
+                expect(fakeManager.downloads.count) == 8
             }
 
             it("loads hdpi for single column StreamKinds") {

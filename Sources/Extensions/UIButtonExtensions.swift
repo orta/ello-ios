@@ -22,7 +22,7 @@ extension UIButton {
         }
         self.setImage(SVGKImage(named: named).UIImage!, forState: state)
         if degree != 0 {
-            var radians = (degree * M_PI) / 180.0
+            let radians = (degree * M_PI) / 180.0
             self.transform = CGAffineTransformMakeRotation(CGFloat(radians))
         }
     }

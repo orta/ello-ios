@@ -30,7 +30,7 @@ public class OmnibarErrorCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         elloLabel.frame = contentView.bounds.inset(all: Size.margin)
-        elloLabel.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        elloLabel.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
 
         contentView.addSubview(elloLabel)
     }

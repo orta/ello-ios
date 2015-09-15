@@ -10,7 +10,7 @@ import Foundation
 
 
 public class ElloLabel: UILabel {
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         if let text = self.text {
             self.setLabelText(text, color: textColor)
@@ -21,7 +21,7 @@ public class ElloLabel: UILabel {
         super.init(frame: CGRectZero)
     }
 
-    func attributes(color: UIColor, alignment: NSTextAlignment) -> [NSObject : AnyObject] {
+    func attributes(color: UIColor, alignment: NSTextAlignment) -> [String : AnyObject] {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 10
         paragraphStyle.alignment = alignment
@@ -55,7 +55,7 @@ public extension ElloLabel {
 
     func heightForWidth(width: CGFloat) -> CGFloat {
         return (attributedText?.boundingRectWithSize(CGSize(width: width, height: CGFloat.max),
-            options: .UsesLineFragmentOrigin | .UsesFontLeading,
+            options: [.UsesLineFragmentOrigin, .UsesFontLeading],
             context: nil).size.height).map(ceil) ?? 0
     }
 
@@ -74,7 +74,7 @@ public class ElloErrorLabel: ElloLabel {
 }
 
 public class ElloSizeableLabel: ElloLabel {
-    override public func attributes(color: UIColor, alignment: NSTextAlignment) -> [NSObject : AnyObject] {
+    override public func attributes(color: UIColor, alignment: NSTextAlignment) -> [String : AnyObject] {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 8
         paragraphStyle.alignment = alignment
@@ -88,7 +88,7 @@ public class ElloSizeableLabel: ElloLabel {
 }
 
 public class ElloWelcomeDiscoverLabel: ElloLabel {
-    override public func attributes(color: UIColor, alignment: NSTextAlignment) -> [NSObject : AnyObject] {
+    override public func attributes(color: UIColor, alignment: NSTextAlignment) -> [String : AnyObject] {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 6
         paragraphStyle.alignment = alignment

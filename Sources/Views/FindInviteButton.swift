@@ -13,7 +13,7 @@ public class FindInviteButton: UIButton {
         self.sharedSetup()
     }
 
-    required public init(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         super.init(coder: coder)
         self.sharedSetup()
     }

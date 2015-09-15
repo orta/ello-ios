@@ -15,7 +15,7 @@
 //   .start()
 
 
-@objc
+
 public class ElloS3 {
     let filename : String
     let data : NSData
@@ -73,13 +73,12 @@ public class ElloS3 {
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) { (data : NSData?, response : NSURLResponse?, error : NSError?) in
             nextTick {
-                var httpResponse = response as? NSHTTPURLResponse
+                let httpResponse = response as? NSHTTPURLResponse
                 if let error = error {
                     self.failureHandler?(error: error)
                 }
                 else if httpResponse?.statusCode >= 200 && httpResponse?.statusCode < 300 {
                     if let data = data {
-                        let message = NSString(data: data, encoding: NSUTF8StringEncoding)!
                         self.successHandler?(response: data)
                     }
                     else {

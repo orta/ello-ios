@@ -77,7 +77,7 @@ public struct ProfileHeaderCellPresenter {
             // The user.followersCount is a String due to a special case where that can return ∞ for the ello user.
             // toInt() returns an optional that will fail when not an Int allowing the ∞ to display for the ello user.
             let fCount: String
-            if let followerCountInt = user.followersCount?.toInt() {
+            if let followerCount = user.followersCount, followerCountInt = Int(followerCount) {
                 fCount = followerCountInt.numberToHuman(showZero: true)
             }
             else {

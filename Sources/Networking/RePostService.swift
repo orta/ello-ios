@@ -9,7 +9,7 @@
 public class RePostService: NSObject {
     typealias RePostSuccessCompletion = (repost: Post) -> Void
 
-    func repost(#post: Post, success: RePostSuccessCompletion, failure: ElloFailureCompletion?) {
+    func repost(post post: Post, success: RePostSuccessCompletion, failure: ElloFailureCompletion?) {
         let endpoint = ElloAPI.RePost(postId: post.id)
         ElloProvider.elloRequest(endpoint,
             success: { data, responseConfig in

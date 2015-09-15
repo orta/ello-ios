@@ -19,7 +19,7 @@ public class ElloLogoView: FLAnimatedImageView {
 
     let toValue = (360.0 * M_PI) / 180.0
 
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 

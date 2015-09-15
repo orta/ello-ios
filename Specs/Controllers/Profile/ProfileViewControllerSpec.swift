@@ -14,8 +14,8 @@ import Nimble
 class ProfileViewControllerSpec: QuickSpec {
     override func spec() {
 
-        var user: User = stub(["id": "42"])
-        var subject = ProfileViewController(userParam: user.id)
+        let user: User = stub(["id": "42"])
+        let subject = ProfileViewController(userParam: user.id)
 
         describe("initialization") {
 

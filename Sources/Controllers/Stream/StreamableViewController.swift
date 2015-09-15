@@ -11,7 +11,7 @@ import SVGKit
 
 public protocol PostTappedDelegate : NSObjectProtocol {
     func postTapped(post: Post)
-    func postTapped(#postId: String)
+    func postTapped(postId postId: String)
 }
 
 public protocol UserTappedDelegate : NSObjectProtocol {
@@ -45,7 +45,7 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
         let streamViewContainer = viewForStream()
         streamViewContainer.addSubview(streamViewController.view)
         streamViewController.view.frame = streamViewContainer.bounds
-        streamViewController.view.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        streamViewController.view.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         addChildViewController(streamViewController)
         streamViewController.didMoveToParentViewController(self)
     }
@@ -100,7 +100,7 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
         return !(elloTabBarController?.tabBarHidden ?? UIApplication.sharedApplication().statusBarHidden)
     }
 
-    func updateInsets(#navBar: UIView?, streamController controller: StreamViewController, navBarsVisible visible: Bool? = nil) {
+    func updateInsets(navBar navBar: UIView?, streamController controller: StreamViewController, navBarsVisible visible: Bool? = nil) {
         let topInset: CGFloat
         let bottomInset: CGFloat
         if visible ?? navBarsVisible() {
@@ -171,7 +171,7 @@ public class StreamableViewController : BaseElloViewController, PostTappedDelega
         self.postTapped(postId: post.id)
     }
 
-    public func postTapped(#postId: String) {
+    public func postTapped(postId postId: String) {
         let vc = PostDetailViewController(postParam: postId)
         vc.currentUser = currentUser
         navigationController?.pushViewController(vc, animated: true)
@@ -210,7 +210,7 @@ extension StreamableViewController: UserTappedDelegate {
         if let profileVC = self.navigationController?.topViewController as? ProfileViewController {
             let param = profileVC.userParam
             if param[param.startIndex] == "~" {
-                let usernamePart = param[advance(param.startIndex, 1)..<param.endIndex]
+                let usernamePart = param[param.startIndex.advancedBy(1)..<param.endIndex]
                 return user.username == usernamePart
             }
             else {
@@ -330,15 +330,15 @@ extension StreamableViewController: InviteResponder {
         AddressBook.getAddressBook { result in
             nextTick {
                 switch result {
-                case let .Success(box):
+                case let .Success(addressBook):
                     Tracker.sharedTracker.contactAccessPreferenceChanged(true)
-                    let vc = AddFriendsViewController(addressBook: box.value)
+                    let vc = AddFriendsViewController(addressBook: addressBook)
                     vc.currentUser = self.currentUser
                     vc.userTappedDelegate = self
                     self.navigationController?.pushViewController(vc, animated: true)
-                case let .Failure(box):
+                case let .Failure(addressBookError):
                     Tracker.sharedTracker.contactAccessPreferenceChanged(false)
-                    self.displayAddressBookAlert(box.value.rawValue)
+                    self.displayAddressBookAlert(addressBookError.rawValue)
                     return
                 }
             }

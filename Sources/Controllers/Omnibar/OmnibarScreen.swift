@@ -228,7 +228,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         setupSwipeGesture()
     }
 
-    required public init(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -270,7 +270,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         imageTrashIcon.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.7)
         imageTrashIcon.image = SVGKImage(named: "trash_white.svg").UIImage!
         imageTrashIcon.frame = CGRect(x: imageSelectedButton.frame.width / 2, y: imageSelectedButton.frame.height / 2).grow(all: imageTrashIcon.layer.cornerRadius)
-        imageTrashIcon.autoresizingMask = .FlexibleBottomMargin | .FlexibleTopMargin | .FlexibleLeftMargin | .FlexibleRightMargin
+        imageTrashIcon.autoresizingMask = [.FlexibleBottomMargin, .FlexibleTopMargin, .FlexibleLeftMargin, .FlexibleRightMargin]
         imageSelectedButton.addSubview(imageTrashIcon)
     }
     private func setupNavigationBar() {
@@ -281,7 +281,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
         statusBarUnderlay.frame.size.width = frame.width
         statusBarUnderlay.backgroundColor = .blackColor()
-        statusBarUnderlay.autoresizingMask = .FlexibleWidth | .FlexibleBottomMargin
+        statusBarUnderlay.autoresizingMask = [.FlexibleWidth, .FlexibleBottomMargin]
         addSubview(statusBarUnderlay)
     }
 
@@ -299,7 +299,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         let image = SVGKImage(named: "arrow_white").UIImage!
         let imageView = UIImageView(image: image)
         imageView.center = CGPoint(x: submitButton.frame.width - image.size.width / 2 - 13, y: submitButton.frame.height / CGFloat(2))
-        imageView.autoresizingMask = .FlexibleLeftMargin | .FlexibleTopMargin | .FlexibleBottomMargin
+        imageView.autoresizingMask = [.FlexibleLeftMargin, .FlexibleTopMargin, .FlexibleBottomMargin]
         submitButton.addSubview(imageView)
         submitButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: submitButton.frame.width - imageView.frame.minX - 2)
     }
@@ -317,7 +317,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         textView.textContainer.lineFragmentPadding = 0
         textView.backgroundColor = UIColor.greyE5()
         textView.delegate = self
-        textView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        textView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         textView.autocorrectionType = .Yes
         textView.inputAccessoryView = autoCompleteContainer
     }
@@ -433,13 +433,13 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
             statusBarUnderlay.hidden = false
         }
 
-        var avatarViewLeft = Size.margins.left
+        let avatarViewLeft = Size.margins.left
         avatarButton.frame = CGRect(x: avatarViewLeft, y: screenTop + Size.margins.top, width: Size.toolbarHeight, height: Size.toolbarHeight)
         avatarButton.layer.cornerRadius = Size.toolbarHeight / CGFloat(2)
 
         buttonContainer.frame = CGRect(x: frame.width - Size.margins.right, y: screenTop + Size.margins.top, width: 0, height: Size.toolbarHeight)
             .growLeft(buttonContainer.frame.width)
-        for view in buttonContainer.subviews as! [UIView] {
+        for view in buttonContainer.subviews {
             view.center.y = buttonContainer.frame.height / 2
         }
 
@@ -539,7 +539,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
 // MARK: Post logic
 
     private func currentTextIsPresent() -> Bool {
-        return currentText != nil && count(currentText!.string) > 0
+        return currentText != nil && currentText!.string.characters.count > 0
     }
 
     private func currentImageIsPresent() -> Bool {
@@ -618,8 +618,9 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
 // MARK: Camera / Image Picker
 
     public func addImageAction() {
-        let alert = UIImagePickerController.alertControllerForImagePicker(openImagePicker)
-        alert.map { self.delegate?.omnibarPresentController($0) }
+        if let alert = UIImagePickerController.alertControllerForImagePicker(openImagePicker) {
+            self.delegate?.omnibarPresentController(alert)
+        }
     }
 
     private func isGif(buffer: UnsafeMutablePointer<UInt8>, length: Int) -> Bool {
@@ -729,7 +730,7 @@ extension OmnibarScreen: UITextViewDelegate {
         }
 
         let height: CGFloat = count > 3 ? AutoCompleteCell.cellHeight() * 3 : AutoCompleteCell.cellHeight() * CGFloat(count)
-        if let constraint = textView.inputAccessoryView?.constraints().first as? NSLayoutConstraint {
+        if let constraint = textView.inputAccessoryView?.constraints.first {
             constraint.constant = height
         }
         autoCompleteContainer.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: height)
@@ -760,23 +761,24 @@ extension OmnibarScreen: UINavigationControllerDelegate, UIImagePickerController
         delegate?.omnibarPresentController(imageController)
     }
 
-    public func imagePickerController(controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject: AnyObject]) {
-        let library = PHPhotoLibrary.sharedPhotoLibrary()
+    public func imagePickerController(controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: AnyObject]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage
         {
             if let url = info[UIImagePickerControllerReferenceURL] as? NSURL,
                let asset = PHAsset.fetchAssetsWithALAssetURLs([url], options: nil).firstObject as? PHAsset
             {
                     PHImageManager.defaultManager().requestImageDataForAsset(asset, options: nil) { imageData, dataUTI, orientation, info in
-                        var buffer = UnsafeMutablePointer<UInt8>.alloc(imageData.length)
-                        imageData.getBytes(buffer, length: imageData.length)
-                        if self.isGif(buffer, length: imageData.length) {
-                            self.userSetCurrentImage(image, data: imageData, type: "image/gif")
+                        if let imageData = imageData {
+                            let buffer = UnsafeMutablePointer<UInt8>.alloc(imageData.length)
+                            imageData.getBytes(buffer, length: imageData.length)
+                            if self.isGif(buffer, length: imageData.length) {
+                                self.userSetCurrentImage(image, data: imageData, type: "image/gif")
+                            }
+                            else {
+                                self.userSetCurrentImage(image)
+                            }
+                            buffer.dealloc(imageData.length)
                         }
-                        else {
-                            self.userSetCurrentImage(image)
-                        }
-                        buffer.dealloc(imageData.length)
                         self.delegate?.omnibarDismissController(controller)
                     }
             }
