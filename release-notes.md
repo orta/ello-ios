@@ -1,3 +1,77 @@
+### Ello Build v1.0.0(3108) September 16, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #566 - Fix bug with repost source not displaying in app
+`Source: @username` was not displaying on reposts, this fixes that.
+
+![screen shot 2015-09-15 at 5 28 19 pm](https://cloud.githubusercontent.com/assets/12459/9892765/3d238454-5bcf-11e5-9a2e-41483ca2fec4.png)
+
+------
+
+#### #565 - Fixes so far
+- maybe fixes images
+- fixes omnibar layout
+- address book / find friends
+
+------
+
+#### #564 - Remove old 'OmnibarScreen', always use 'OmnibarMultiRegionScreen'
+DOO EET
+
+```
+Test Suite 'Selected tests' passed at 2015-09-15 20:07:04 +0000.
+   Executed 1289 tests, with 0 failures (0 unexpected) in 46.546 (47.118) seconds
+```
+
+------
+
+#### #563 - Convert code base to Swift 2
+Xcode 7 supports Swift 2 and now we do too! All source code, specs and 3rd party library references are Swift 2 compliant.
+
+I *hope* that I ported everything correctly :smile:
+
+------
+
+#### #560 - Fixes some visual bugs
+And displays an error message when a post upload fails.
+
+```
+Test Suite 'Selected tests' passed at 2015-09-14 22:26:10 +0000.
+	 Executed 1311 tests, with 0 failures (0 unexpected) in 46.578 (47.932) seconds
+```
+
+------
+
+#### #558 - Implements some fixes to the Omnibar.
+```
+Test Suite 'Selected tests' passed at 2015-09-10 22:48:52 +0000.
+   Executed 1311 tests, with 0 failures (0 unexpected) in 44.206 (44.562) seconds
+```
+
+------
+
+#### #559 - Some final tweaks on Join UI
+
+------
+
+#### #556 - Add 2nd crashlytics build pointing to staging
+Ello now has 3 apps. 
+
+1. black app from the app store
+2. rainbow crashlytics app points to production
+3. donut crashlytics app points to staging
+
+The rake tasks now build either production, staging or both (two separate apps).
+
+------
+
+#### #557 - increase padding to fix the delete button.
+    
+------------
+
 ### Ello Build v1.0.0(3065) September 10, 2015
 
     RELEASE NOTES
