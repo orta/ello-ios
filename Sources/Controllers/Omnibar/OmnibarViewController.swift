@@ -393,11 +393,11 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         }
 
         if editComment != nil {
-            Tracker.sharedTracker.contentEdited(.Comment)
+            Tracker.sharedTracker.commentEdited(comment)
             postNotification(CommentChangedNotification, value: (comment, .Replaced))
         }
         else {
-            Tracker.sharedTracker.contentCreated(.Comment)
+            Tracker.sharedTracker.commentCreated(comment)
         }
 
         if let listener = commentSuccessListener {
@@ -412,11 +412,11 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         }
 
         if editPost != nil {
-            Tracker.sharedTracker.contentEdited(.Post)
+            Tracker.sharedTracker.postEdited(post)
             postNotification(PostChangedNotification, value: (post, .Replaced))
         }
         else {
-            Tracker.sharedTracker.contentCreated(.Post)
+            Tracker.sharedTracker.postCreated(post)
             postNotification(PostChangedNotification, value: (post, .Create))
         }
 
