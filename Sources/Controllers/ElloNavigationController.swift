@@ -75,8 +75,6 @@ public class ElloNavigationController: UINavigationController {
             self.view.addGestureRecognizer(backGesture)
         }
 
-
-
         postChangedNotification = NotificationObserver(notification: PostChangedNotification) { (post, change) in
             switch change {
             case .Delete:
