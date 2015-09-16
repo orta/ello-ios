@@ -18,7 +18,7 @@ public class ForwardAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         let fromView = (context.viewControllerForKey(UITransitionContextFromViewControllerKey)?.view)!
 
         let from = fromView.frame
-        toView.frame.origin.x += toView.frame.size.width
+        toView.frame.origin.x = toView.frame.size.width
         if let containerView = context.containerView() {
             containerView.addSubview(toView)
         }
@@ -46,7 +46,7 @@ public class BackAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         let fromView = (context.viewControllerForKey(UITransitionContextFromViewControllerKey)?.view)!
 
         let from = fromView.frame
-        toView.frame.origin.x -= toView.frame.size.width
+        toView.frame.origin.x = -toView.frame.size.width
         if let containerView = context.containerView() {
             containerView.addSubview(toView)
         }

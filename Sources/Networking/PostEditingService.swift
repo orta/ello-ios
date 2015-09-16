@@ -155,45 +155,59 @@ public class PostEditingService: NSObject {
         var anyError: NSError?
         var anyStatusCode: Int?
 
-        let allDone = after(imageEntries.count) {
+        let operationQueue = NSOperationQueue.mainQueue()
+        let doneOperation = NSBlockOperation(block: {
             if let error = anyError {
                 failure?(error: error, statusCode: anyStatusCode)
             }
             else {
                 success(uploaded)
             }
-        }
+        })
+        var prevUploadOperation: NSOperation?
 
         for imageEntry in imageEntries {
-            if let _ = anyError {
-                allDone()
-                continue
+            let uploadOperation = AsyncOperation(block: { done in
+                if anyError != nil {
+                    done()
+                    return
+                }
+
+                let (imageIndex, image) = imageEntry
+                let filename = "\(NSUUID().UUIDString).jpg"
+
+                let uploadService = S3UploadingService()
+                uploadService.upload(image, filename: filename,
+                    success: { url in
+                        let imageRegion = ImageRegion(alt: filename)
+                        imageRegion.url = url
+
+                        if let url = url {
+                            let asset = Asset(image: image, url: url)
+                            ElloLinkedStore.sharedInstance.setObject(asset, forKey: asset.id, inCollection: MappingType.AssetsType.rawValue)
+                            imageRegion.addLinkObject("assets", key: asset.id, collection: MappingType.AssetsType.rawValue)
+                        }
+
+                        uploaded.append((imageIndex, imageRegion))
+                        done()
+                    },
+                    failure: { error, statusCode in
+                        anyError = error
+                        anyStatusCode = statusCode
+                        done()
+                    })
+            })
+
+            doneOperation.addDependency(uploadOperation)
+            if let prevUploadOperation = prevUploadOperation {
+                uploadOperation.addDependency(prevUploadOperation)
             }
-
-            let (imageIndex, image) = imageEntry
-            let filename = "\(NSUUID().UUIDString).jpg"
-
-            let uploadService = S3UploadingService()
-            uploadService.upload(image, filename: filename,
-                success: { url in
-                    let imageRegion = ImageRegion(alt: filename)
-                    imageRegion.url = url
-
-                    if let url = url {
-                        let asset = Asset(image: image, url: url)
-                        ElloLinkedStore.sharedInstance.setObject(asset, forKey: asset.id, inCollection: MappingType.AssetsType.rawValue)
-                        imageRegion.addLinkObject("assets", key: asset.id, collection: MappingType.AssetsType.rawValue)
-                    }
-
-                    uploaded.append((imageIndex, imageRegion))
-                    allDone()
-                },
-                failure: { error, statusCode in
-                    anyError = error
-                    anyStatusCode = statusCode
-                    allDone()
-                })
+            uploadOperation.queuePriority = .Low
+            uploadOperation.qualityOfService = .Background
+            operationQueue.addOperation(uploadOperation)
+            prevUploadOperation = uploadOperation
         }
+        operationQueue.addOperation(doneOperation)
     }
 
     func uploadImages(imageDataEntries: [(Int, (UIImage, NSData, String))], success: UploadImagesSuccessCompletion, failure: ElloFailureCompletion?) {

@@ -470,7 +470,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     }
 
     public func reportError(title: String, errorMessage: String) {
-        let alertController = AlertViewController(message: "\(title)\n\n\(errorMessage)")
+        let alertController = AlertViewController(message: "\(title)\n\n\(errorMessage)\n\nIf you are uploading multiple images, this error could be due to slow internet and/or too many images.")
 
         let cancelAction = AlertAction(title: NSLocalizedString("OK", comment: "ok button"), style: .Light, handler: .None)
         alertController.addAction(cancelAction)

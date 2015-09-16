@@ -152,6 +152,9 @@ public class StreamFooterCell: UICollectionViewCell {
             bottomItems.append(fixedItem(-10))
             self.bottomToolBar.items = bottomItems
         }
+
+        // the bottomItems affet the scrollview contentSize
+        self.setNeedsLayout()
     }
 
     override public func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
