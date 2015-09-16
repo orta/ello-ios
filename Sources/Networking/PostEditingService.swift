@@ -155,21 +155,20 @@ public class PostEditingService: NSObject {
         var anyError: NSError?
         var anyStatusCode: Int?
 
-        let allDone = after(imageEntries.count) {
+        let operationQueue = NSOperationQueue.mainQueue()
+        let doneOperation = NSBlockOperation(block: {
             if let error = anyError {
                 failure?(error: error, statusCode: anyStatusCode)
             }
             else {
                 success(uploaded)
             }
-        }
-
-        let operationQueue = NSOperationQueue.mainQueue()
+        })
+        var prevUploadOperation: NSOperation?
 
         for imageEntry in imageEntries {
             let uploadOperation = AsyncOperation(block: { done in
                 if anyError != nil {
-                    allDone()
                     done()
                     return
                 }
@@ -190,22 +189,25 @@ public class PostEditingService: NSObject {
                         }
 
                         uploaded.append((imageIndex, imageRegion))
-                        allDone()
                         done()
                     },
                     failure: { error, statusCode in
                         anyError = error
                         anyStatusCode = statusCode
-                        allDone()
                         done()
                     })
             })
-            
+
+            doneOperation.addDependency(uploadOperation)
+            if let prevUploadOperation = prevUploadOperation {
+                uploadOperation.addDependency(prevUploadOperation)
+            }
             uploadOperation.queuePriority = .Low
             uploadOperation.qualityOfService = .Background
             operationQueue.addOperation(uploadOperation)
-
+            prevUploadOperation = uploadOperation
         }
+        operationQueue.addOperation(doneOperation)
     }
 
     func uploadImages(imageDataEntries: [(Int, (UIImage, NSData, String))], success: UploadImagesSuccessCompletion, failure: ElloFailureCompletion?) {
