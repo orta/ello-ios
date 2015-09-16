@@ -63,9 +63,17 @@ private func getAllPeopleWithEmailAddresses(addressBook: ABAddressBook) -> [Loca
 }
 
 private func getEmails(record: ABRecordRef) -> [String] {
-    let multiEmails: ABMultiValueRef? = ABRecordCopyValue(record, kABPersonEmailProperty)?.takeUnretainedValue()
-    let emails = multiEmails.flatMap { ABMultiValueCopyArrayOfAllValues($0)?.takeUnretainedValue() as? [String] }
-    return emails ?? []
+    let multiEmails: ABMultiValue? = ABRecordCopyValue(record, kABPersonEmailProperty)?.takeUnretainedValue()
+//    let emails = multiEmails.flatMap { ABMultiValueCopyArrayOfAllValues($0)?.takeUnretainedValue() as? [String] }
+
+    var emails = [String]()
+    for i in 0..<(ABMultiValueGetCount(multiEmails)) {
+        if let value = ABMultiValueCopyValueAtIndex(multiEmails, i).takeRetainedValue() as? String {
+            emails.append(value)
+        }
+    }
+
+    return emails
 }
 
 private func records(addressBook: ABAddressBook) -> [ABRecordRef]? {

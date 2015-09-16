@@ -63,9 +63,9 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         static let labelCorrection = CGFloat(8.5)
         static let tableTopInset = CGFloat(22.5)
         static let bottomTextMargin = CGFloat(1)
-        static let toolbarHeight = CGFloat(75)
+        static let toolbarMargins = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
+        static let toolbarHeight = CGFloat(45)
         static let avatarHeight = CGFloat(40)
-        static let buttonSize = CGFloat(45)
         static let buttonMargin = CGFloat(10)
     }
 
@@ -163,7 +163,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     public let editButton = UIButton()
     public let cameraButton = UIButton()
     public let submitButton = ElloPostButton()
-    public let buttonContainer = UIView(frame: CGRect(x: 0, y: 0, width: 3 * Size.buttonMargin + 4 * Size.buttonSize, height: Size.toolbarHeight))
+    public let buttonContainer = UIView(frame: CGRect(x: 0, y: 0, width: 3 * Size.buttonMargin + 4 * Size.toolbarHeight, height: Size.toolbarHeight))
     let statusBarUnderlay = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 20))
 
     let regionsTableView = UITableView()
@@ -512,26 +512,30 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     override public func layoutSubviews() {
         super.layoutSubviews()
 
-        var screenTop = CGFloat(20)
+        let screenTop: CGFloat
+        let toolbarMargins: UIEdgeInsets
         if canGoBack {
             UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Slide)
             navigationBar.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: ElloNavigationBar.Size.height)
-            screenTop += navigationBar.frame.height
+            screenTop = navigationBar.frame.height
             statusBarUnderlay.hidden = true
+            toolbarMargins = UIEdgeInsets(top: CGFloat(0), left: CGFloat(0), bottom: Size.toolbarMargins.bottom, right: Size.toolbarMargins.right)
         }
         else {
+            screenTop = CGFloat(20)
             navigationBar.frame = CGRectZero
             statusBarUnderlay.hidden = false
+            toolbarMargins = Size.toolbarMargins
         }
 
-        buttonContainer.frame = CGRect(x: frame.width - Size.margins.right, y: screenTop + Size.margins.top, width: 0, height: Size.toolbarHeight)
+        buttonContainer.frame = CGRect(x: frame.width - toolbarMargins.right, y: screenTop + toolbarMargins.top, width: 0, height: Size.toolbarHeight + toolbarMargins.bottom)
             .growLeft(buttonContainer.frame.width)
+
         var buttonX = CGFloat(0)
         for view in buttonContainer.subviews {
-            view.frame.size = CGSize(width: Size.buttonSize, height: Size.buttonSize)
-            view.frame.origin.x = buttonX
-            view.center.y = buttonContainer.frame.height / 2
-            buttonX += Size.buttonMargin + Size.buttonSize
+            view.frame.size = CGSize(width: Size.toolbarHeight, height: Size.toolbarHeight)
+            view.frame.origin = CGPoint(x: buttonX, y: 0)
+            buttonX += Size.buttonMargin + Size.toolbarHeight
         }
 
         let avatarViewLeft = Size.margins.left
@@ -969,36 +973,44 @@ extension OmnibarScreen: UINavigationControllerDelegate, UIImagePickerController
     }
 
     public func imagePickerController(controller: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: AnyObject]) {
-        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage
-        {
+        func done() {
+            self.delegate?.omnibarDismissController(controller)
+        }
+
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             if let url = info[UIImagePickerControllerReferenceURL] as? NSURL,
-               let asset = PHAsset.fetchAssetsWithALAssetURLs([url], options: nil).firstObject as? PHAsset
+               asset = PHAsset.fetchAssetsWithALAssetURLs([url], options: nil).firstObject as? PHAsset
             {
                     PHImageManager.defaultManager().requestImageDataForAsset(asset, options: nil) { imageData, dataUTI, orientation, info in
-
                         if let imageData = imageData {
                             let buffer = UnsafeMutablePointer<UInt8>.alloc(imageData.length)
                             imageData.getBytes(buffer, length: imageData.length)
                             if self.isGif(buffer, length: imageData.length) {
                                 self.addImage(image, data: imageData, type: "image/gif")
+                                done()
                             }
                             else {
-                                self.addImage(image)
+                                image.copyWithCorrectOrientationAndSize() { image in
+                                    self.addImage(image)
+                                    done()
+                                }
                             }
                             buffer.dealloc(imageData.length)
                         }
-                        self.delegate?.omnibarDismissController(controller)
+                        else {
+                            done()
+                        }
                     }
             }
             else {
                 image.copyWithCorrectOrientationAndSize() { image in
                     self.addImage(image)
-                    self.delegate?.omnibarDismissController(controller)
+                    done()
                 }
             }
         }
         else {
-            delegate?.omnibarDismissController(controller)
+            done()
         }
     }
 
