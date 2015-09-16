@@ -345,6 +345,57 @@ public extension Tracker {
 
 // MARK: Content Actions
 public extension Tracker {
+    private func regionDetails(regions: [Regionable]?) -> [String: AnyObject] {
+        guard let regions = regions else {
+            return [:]
+        }
+
+        var imageCount = 0
+        var textLength = 0
+        for region in regions {
+            if region.kind == RegionKind.Image.rawValue {
+                imageCount += 1
+            }
+            else if let region = region as? TextRegion {
+                textLength += region.content.characters.count
+            }
+        }
+
+        return [
+            "total_regions": regions.count,
+            "image_regions": imageCount,
+            "text_length": textLength
+        ]
+    }
+
+    func postCreated(post: Post) {
+        let type: ContentType = .Post
+        let properties = regionDetails(post.content)
+        log("\(type.rawValue) created")
+        agent.track("\(type.rawValue) created", properties: properties)
+    }
+
+    func postEdited(post: Post) {
+        let type: ContentType = .Post
+        let properties = regionDetails(post.content)
+        log("\(type.rawValue) edited")
+        agent.track("\(type.rawValue) edited", properties: properties)
+    }
+
+    func commentCreated(comment: Comment) {
+        let type: ContentType = .Comment
+        let properties = regionDetails(comment.content)
+        log("\(type.rawValue) created")
+        agent.track("\(type.rawValue) created", properties: properties)
+    }
+
+    func commentEdited(comment: Comment) {
+        let type: ContentType = .Comment
+        let properties = regionDetails(comment.content)
+        log("\(type.rawValue) edited")
+        agent.track("\(type.rawValue) edited", properties: properties)
+    }
+
     func contentCreated(type: ContentType) {
         log("\(type.rawValue) created")
         agent.track("\(type.rawValue) created")
