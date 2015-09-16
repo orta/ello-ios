@@ -66,14 +66,14 @@ public class SearchScreen: UIView, SearchScreenProtocol {
 
     public func showNavBars() {
         animate(animated: true) {
-            self.searchControlsContainer.frame = self.frame.inset(sides: 15).atY(64).withHeight(self.searchControlsContainer.frame.size.height)
+            self.searchControlsContainer.frame = self.bounds.inset(sides: 15).atY(64).withHeight(self.searchControlsContainer.frame.size.height)
             self.streamViewContainer.frame = self.getStreamViewFrame()
         }
     }
 
     public func hideNavBars() {
         animate(animated: true) {
-            self.searchControlsContainer.frame = self.frame.inset(sides: 15).atY(0).withHeight(self.searchControlsContainer.frame.size.height)
+            self.searchControlsContainer.frame = self.bounds.inset(sides: 15).atY(0).withHeight(self.searchControlsContainer.frame.size.height)
             self.streamViewContainer.frame = self.getStreamViewFrame()
         }
     }
