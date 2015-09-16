@@ -164,35 +164,47 @@ public class PostEditingService: NSObject {
             }
         }
 
+        let operationQueue = NSOperationQueue.mainQueue()
+
         for imageEntry in imageEntries {
-            if let _ = anyError {
-                allDone()
-                continue
-            }
-
-            let (imageIndex, image) = imageEntry
-            let filename = "\(NSUUID().UUIDString).jpg"
-
-            let uploadService = S3UploadingService()
-            uploadService.upload(image, filename: filename,
-                success: { url in
-                    let imageRegion = ImageRegion(alt: filename)
-                    imageRegion.url = url
-
-                    if let url = url {
-                        let asset = Asset(image: image, url: url)
-                        ElloLinkedStore.sharedInstance.setObject(asset, forKey: asset.id, inCollection: MappingType.AssetsType.rawValue)
-                        imageRegion.addLinkObject("assets", key: asset.id, collection: MappingType.AssetsType.rawValue)
-                    }
-
-                    uploaded.append((imageIndex, imageRegion))
+            let uploadOperation = AsyncOperation(block: { done in
+                if anyError != nil {
                     allDone()
-                },
-                failure: { error, statusCode in
-                    anyError = error
-                    anyStatusCode = statusCode
-                    allDone()
-                })
+                    done()
+                    return
+                }
+
+                let (imageIndex, image) = imageEntry
+                let filename = "\(NSUUID().UUIDString).jpg"
+
+                let uploadService = S3UploadingService()
+                uploadService.upload(image, filename: filename,
+                    success: { url in
+                        let imageRegion = ImageRegion(alt: filename)
+                        imageRegion.url = url
+
+                        if let url = url {
+                            let asset = Asset(image: image, url: url)
+                            ElloLinkedStore.sharedInstance.setObject(asset, forKey: asset.id, inCollection: MappingType.AssetsType.rawValue)
+                            imageRegion.addLinkObject("assets", key: asset.id, collection: MappingType.AssetsType.rawValue)
+                        }
+
+                        uploaded.append((imageIndex, imageRegion))
+                        allDone()
+                        done()
+                    },
+                    failure: { error, statusCode in
+                        anyError = error
+                        anyStatusCode = statusCode
+                        allDone()
+                        done()
+                    })
+            })
+            
+            uploadOperation.queuePriority = .Low
+            uploadOperation.qualityOfService = .Background
+            operationQueue.addOperation(uploadOperation)
+
         }
     }
 
