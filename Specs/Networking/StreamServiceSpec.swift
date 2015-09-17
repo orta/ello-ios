@@ -116,7 +116,7 @@ class StreamServiceSpec: QuickSpec {
                         expect(commentAuthor.username) == "pam"
                         expect(commentAuthor.href) == "/api/v2/users/420"
                         expect(commentAuthor.experimentalFeatures) == true
-                        expect(commentAuthor.avatarURL!.absoluteString) == "https://abc123.cloudfront.net/uploads/user/avatar/420/ello-regular-91c0f710.png"
+                        expect(commentAuthor.avatarURL!.absoluteString) == "https://abc123.cloudfront.net/uploads/user/avatar/420/ello-large-91c0f710.png"
                     }
                 }
             }
