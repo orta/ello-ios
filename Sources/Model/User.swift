@@ -45,7 +45,7 @@ public final class User: JSONAble {
     public var mostRecentPost: Post? { return getLinkObject("most_recent_post") as? Post }
     // computed
     public var atName: String { return "@\(username)"}
-    public var avatarURL: NSURL? { return avatar?.regular?.url }
+    public var avatarURL: NSURL? { return (avatar?.large?.url ?? avatar?.regular?.url) }
     public var coverImageURL: NSURL? { return coverImage?.hdpi?.url }
     public var isCurrentUser: Bool { return self.profile != nil }
     public var headerHTMLContent: String {

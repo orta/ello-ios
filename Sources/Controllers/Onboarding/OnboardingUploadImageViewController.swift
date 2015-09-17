@@ -14,6 +14,7 @@ public class OnboardingUploadImageViewController: BaseElloViewController, Onboar
                 chooseCoverImageView?.image = image
                 onboardingViewController?.canGoNext = true
             }
+
             if let image = onboardingData?.avatarImage {
                 chooseAvatarImageView?.image = image
                 onboardingViewController?.canGoNext = true
