@@ -275,7 +275,6 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         textView.delegate = self
         textView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         textView.autocorrectionType = .Yes
-        textView.inputAccessoryView = autoCompleteContainer
     }
 
     private func setupViewHierarchy() {
@@ -933,18 +932,28 @@ extension OmnibarScreen: UITextViewDelegate {
     private func showAutoComplete(textView: UITextView, count: Int) {
         if !autoCompleteShowing {
             autoCompleteShowing = true
-            textView.inputAccessoryView = autoCompleteContainer
             textView.autocorrectionType = .No
+//            textView.inputAccessoryView = autoCompleteContainer
+            let container = UIView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: 1))
+            container.addSubview(autoCompleteContainer)
+            textView.inputAccessoryView = container
             textView.resignFirstResponder()
             textView.becomeFirstResponder()
         }
 
-        let height: CGFloat = count > 3 ? AutoCompleteCell.cellHeight() * 3 : AutoCompleteCell.cellHeight() * CGFloat(count)
-        if let constraint = textView.inputAccessoryView?.constraints.first {
+        let height = AutoCompleteCell.cellHeight() * CGFloat(min(3, count))
+        let constraintIndex = textView.inputAccessoryView?.constraints.indexOf { $0.firstAttribute == .Height }
+        if let index = constraintIndex,
+            inputAccessoryView = textView.inputAccessoryView,
+            constraint = inputAccessoryView.constraints.safeValue(index)
+        {
             constraint.constant = height
+            inputAccessoryView.setNeedsUpdateConstraints()
+            inputAccessoryView.frame.size.height = height
+            inputAccessoryView.setNeedsLayout()
         }
         autoCompleteContainer.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: height)
-        autoCompleteVC.view.frame = autoCompleteContainer.frame
+        autoCompleteVC.view.frame = autoCompleteContainer.bounds
     }
 }
 
