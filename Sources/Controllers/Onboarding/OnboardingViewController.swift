@@ -225,7 +225,9 @@ private extension OnboardingViewController {
                 }
             }
 
-            if let url = currentUser.avatarURL {
+            if let url = currentUser.avatarURL
+            where url.absoluteString !~ "ello-default"
+            {
                 PINRemoteImageManager.sharedImageManager().downloadImageWithURL(url) { result in
                     if let image = result.image {
                         self.onboardingData?.avatarImage = image
@@ -233,7 +235,9 @@ private extension OnboardingViewController {
                 }
             }
 
-            if let url = currentUser.coverImageURL {
+            if let url = currentUser.coverImageURL
+            where url.absoluteString !~ "ello-default"
+            {
                 PINRemoteImageManager.sharedImageManager().downloadImageWithURL(url) { result in
                     if let image = result.image {
                         self.onboardingData?.coverImage = image
