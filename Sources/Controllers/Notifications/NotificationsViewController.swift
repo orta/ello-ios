@@ -106,6 +106,8 @@ public class NotificationsViewController: StreamableViewController, Notification
         let filterType = NotificationFilterType(rawValue: filterTypeStr)!
         streamViewController.streamKind = .Notifications(category: filterType.category)
         ElloHUD.showLoadingHudInView(streamViewController.view)
+        streamViewController.hideNoResults()
+        streamViewController.removeAllCellItems()
         streamViewController.loadInitialPage()
     }
 
