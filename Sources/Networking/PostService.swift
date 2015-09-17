@@ -63,6 +63,7 @@ public struct PostService {
     {
         ElloProvider.elloRequest(ElloAPI.DeletePost(postId: postId),
             success: { (_, _) in
+                NSURLCache.sharedURLCache().removeAllCachedResponses()
                 success?()
             }, failure: failure
         )
