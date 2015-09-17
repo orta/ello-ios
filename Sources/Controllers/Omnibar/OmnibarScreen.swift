@@ -933,7 +933,6 @@ extension OmnibarScreen: UITextViewDelegate {
         if !autoCompleteShowing {
             autoCompleteShowing = true
             textView.autocorrectionType = .No
-//            textView.inputAccessoryView = autoCompleteContainer
             let container = UIView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: 1))
             container.addSubview(autoCompleteContainer)
             textView.inputAccessoryView = container
