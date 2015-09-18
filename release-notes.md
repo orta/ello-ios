@@ -1,3 +1,79 @@
+### Ello Build v1.0.0(3132) September 17, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #573 - force secure http requests to ello.co
+According to Tumbr this approach to ATS is the correct one.
+
+![pasted image at 2015_09_17 03_35 pm](https://cloud.githubusercontent.com/assets/12459/9947195/8628170a-5d55-11e5-82fe-4131306b4c4a.png)
+
+Finishes: https://www.pivotaltracker.com/story/show/103633202
+
+`Executed 1313 tests, with 0 failures (0 unexpected) in 16.956 (17.763) seconds`
+
+------
+
+#### #572 - Fixes to onboarding images and skip button
+[Fixes #103613900]
+[Fixes #103608460]
+[Fixes #103608528]
+
+```
+Test Suite 'Selected tests' passed at 2015-09-17 14:36:34.433.
+	 Executed 1313 tests, with 0 failures (0 unexpected) in 21.107 (27.398) seconds
+```
+
+------
+
+#### #571 - reset notifications each time a category is tapped
+Fixes: https://www.pivotaltracker.com/story/show/103609400
+```
+Executed 1291 tests, with 0 failures (0 unexpected) in 15.964 (16.936) seconds
+```
+
+------
+
+#### #570 - Another fix I don't like.
+Da f*ck!?  this, and only this, view hierarchy displays the autocomplete view
+
+UIView -> UIView -> AutoCompleteVC
+also, the height constraint code is fixed.
+
+```
+Test Suite 'Selected tests' passed at 2015-09-17 12:31:59.240.
+   Executed 1291 tests, with 0 failures (0 unexpected) in 16.286 (17.093) seconds
+```
+
+------
+
+#### #569 - Fix Post > View Friends > Refresh > Delete Post > Refresh > Post reappears bug
+* Delete the NSURLCache after deleting a post
+
+Fixes: https://www.pivotaltracker.com/story/show/103509030
+
+```
+Executed 1291 tests, with 0 failures (0 unexpected) in 18.862 (23.742) seconds
+```
+
+------
+
+#### #567 - Fixes so far
+Fixes the "hidden search views" bug.
+Fixes the forward/backward animators.
+```
+Test Suite 'Selected tests' passed at 2015-09-16 15:08:06.289.
+	 Executed 1289 tests, with 0 failures (0 unexpected) in 22.951 (34.032) seconds
+```
+
+------
+
+#### #568 - Moar tracking
+ARE YOU HAPPY @rtyer!?
+    
+------------
+
 ### Ello Build v1.0.0(3108) September 16, 2015
 
     RELEASE NOTES
