@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -70,10 +71,10 @@
                                 <rect key="frame" x="141" y="15" width="164" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5A8-1y-eA5" userLabel="editProfileButton" customClass="OutlineElloButton" customModule="Ello" customModuleProvider="target">
-                                        <rect key="frame" x="52" y="0.0" width="112" height="30"/>
+                                        <rect key="frame" x="42" y="0.0" width="122" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="1Va-Sz-pnL"/>
-                                            <constraint firstAttribute="width" constant="112" id="eow-gE-aGn"/>
+                                            <constraint firstAttribute="width" constant="122" id="eow-gE-aGn"/>
                                         </constraints>
                                         <state key="normal" title="Edit Profile">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -83,7 +84,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kzz-fr-myT" userLabel="inviteButton">
-                                        <rect key="frame" x="5" y="-2" width="30" height="34"/>
+                                        <rect key="frame" x="-5" y="-2" width="30" height="34"/>
                                         <state key="normal" title="Inv">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
