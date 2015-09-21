@@ -1,3 +1,16 @@
+### Ello Build 1.0.1-2383(3141) September 21, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #574 - edit profile width for larger font
+Finishes: https://www.pivotaltracker.com/story/show/103638858
+
+![pasted_image_at_2015_09_17_09_01_pm](https://cloud.githubusercontent.com/assets/12459/9951168/192da6b2-5d80-11e5-9f4a-feffbfe438c7.png)
+    
+------------
+
 ### Ello Build v1.0.0(3132) September 17, 2015
 
     RELEASE NOTES
