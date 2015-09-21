@@ -30,6 +30,7 @@ public class StreamImageCell: StreamRegionableCell {
 
     weak var streamImageCellDelegate: StreamImageCellDelegate?
     public var isGif = false
+    private var _onHeightMismatch: ((CGFloat) -> Void)?
     var request: Request?
     public var tallEnoughForFailToShow = true
     public var presentedImageUrl: NSURL?
@@ -74,6 +75,10 @@ public class StreamImageCell: StreamRegionableCell {
         imageView.backgroundColor = UIColor.whiteColor()
     }
 
+    public func onHeightMismatch(handler: ((CGFloat) -> Void)?) {
+        _onHeightMismatch = handler
+    }
+
     private func loadImage(url: NSURL) {
         self.imageView.pin_setImageFromURL(url) { result in
             let success = result.image != nil || result.animatedImage != nil
@@ -83,6 +88,10 @@ public class StreamImageCell: StreamRegionableCell {
 
                 if self.serverProvidedAspectRatio == nil {
                     postNotification(StreamNotification.AnimateCellHeightNotification, value: self)
+                }
+                else if round(self.frame.width / self.frame.height) != round(self.aspectRatio) {
+                    let actualHeight = self.aspectRatio / self.frame.width
+                    self._onHeightMismatch?(actualHeight)
                 }
 
                 if result.resultType != .MemoryCache {
@@ -128,6 +137,7 @@ public class StreamImageCell: StreamRegionableCell {
     override public func prepareForReuse() {
         super.prepareForReuse()
         imageButton.enabled = true
+        _onHeightMismatch = nil
         request?.cancel()
         imageView.image = nil
         imageView.animatedImage = nil

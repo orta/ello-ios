@@ -46,6 +46,7 @@ public class FollowAllCell: UICollectionViewCell {
     private func setupFollowButton() {
         contentView.addSubview(followAllButton)
         followAllButton.frame = contentView.bounds.inset(all: 15)
+        followAllButton.autoresizingMask = [.FlexibleLeftMargin, .FlexibleRightMargin, .FlexibleBottomMargin]
         followAllButton.addTarget(self, action: Selector("followAllTapped"), forControlEvents: .TouchUpInside)
     }
 

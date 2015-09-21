@@ -328,7 +328,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
             if let indexPath = indexPath {
                 self.insertUnsizedCellItems(
                     StreamCellItemParser().parse([jsonable], streamKind: self.streamKind, currentUser: currentUser),
-                    withWidth: UIScreen.screenWidth(),
+                    withWidth: UIWindow.windowWidth(),
                     startingIndexPath: indexPath)
                     { newIndexPaths in
                         collectionView.insertItemsAtIndexPaths(newIndexPaths)
@@ -349,7 +349,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                     }
                 }
                 let items = StreamCellItemParser().parse([post], streamKind: self.streamKind, currentUser: currentUser)
-                insertUnsizedCellItems(items, withWidth: UIScreen.screenWidth(), startingIndexPath: firstIndexPath) { newIndexPaths in
+                insertUnsizedCellItems(items, withWidth: UIWindow.windowWidth(), startingIndexPath: firstIndexPath) { newIndexPaths in
                     for wrongIndexPath in Array(oldIndexPaths.reverse()) {
                         let indexPath = NSIndexPath(forItem: wrongIndexPath.item + newIndexPaths.count, inSection: wrongIndexPath.section)
                         self.removeItemAtIndexPath(indexPath)
@@ -370,7 +370,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                     }
                 }
                 let items = StreamCellItemParser().parse([comment], streamKind: self.streamKind, currentUser: currentUser)
-                insertUnsizedCellItems(items, withWidth: UIScreen.screenWidth(), startingIndexPath: firstIndexPath) { newIndexPaths in
+                insertUnsizedCellItems(items, withWidth: UIWindow.windowWidth(), startingIndexPath: firstIndexPath) { newIndexPaths in
                     for wrongIndexPath in Array(oldIndexPaths.reverse()) {
                         let indexPath = NSIndexPath(forItem: wrongIndexPath.item + newIndexPaths.count, inSection: wrongIndexPath.section)
                         self.removeItemAtIndexPath(indexPath)

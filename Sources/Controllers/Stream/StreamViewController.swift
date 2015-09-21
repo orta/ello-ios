@@ -46,6 +46,7 @@ public protocol WebLinkDelegate: NSObjectProtocol {
 public struct StreamNotification {
     static let AnimateCellHeightNotification = TypedNotification<StreamImageCell>(name: "AnimateCellHeightNotification")
     static let UpdateCellHeightNotification = TypedNotification<UICollectionViewCell>(name: "UpdateCellHeightNotification")
+    static let DeviceRotationNotification = TypedNotification<UIInterfaceOrientation>(name: "DeviceRotationNotification")
 }
 
 // MARK: StreamViewController
@@ -109,7 +110,8 @@ public class StreamViewController: BaseElloViewController {
     }
     var imageViewer: StreamImageViewer?
     var updatedStreamImageCellHeightNotification: NotificationObserver?
-    var relayoutNotification: NotificationObserver?
+    var updateCellHeightNotification: NotificationObserver?
+    var rotationNotification: NotificationObserver?
     var commentChangedNotification: NotificationObserver?
     var postChangedNotification: NotificationObserver?
     var loveChangedNotification: NotificationObserver?
@@ -347,8 +349,11 @@ public class StreamViewController: BaseElloViewController {
         updatedStreamImageCellHeightNotification = NotificationObserver(notification: StreamNotification.AnimateCellHeightNotification) { [unowned self] streamImageCell in
             self.imageCellHeightUpdated(streamImageCell)
         }
-        relayoutNotification = NotificationObserver(notification: StreamNotification.UpdateCellHeightNotification) { [unowned self] streamTextCell in
+        updateCellHeightNotification = NotificationObserver(notification: StreamNotification.UpdateCellHeightNotification) { [unowned self] streamTextCell in
             self.collectionView.collectionViewLayout.invalidateLayout()
+        }
+        rotationNotification = NotificationObserver(notification: StreamNotification.DeviceRotationNotification) { [unowned self] _ in
+            self.collectionView.reloadData()
         }
 
         commentChangedNotification = NotificationObserver(notification: CommentChangedNotification) { [unowned self] (comment, change) in
@@ -420,7 +425,8 @@ public class StreamViewController: BaseElloViewController {
 
     private func removeNotificationObservers() {
         updatedStreamImageCellHeightNotification?.removeObserver()
-        relayoutNotification?.removeObserver()
+        updateCellHeightNotification?.removeObserver()
+        rotationNotification?.removeObserver()
         commentChangedNotification?.removeObserver()
         postChangedNotification?.removeObserver()
         relationshipChangedNotification?.removeObserver()
@@ -559,7 +565,7 @@ extension StreamViewController : StreamCollectionViewLayoutDelegate {
 
     public func collectionView(collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-            return CGSizeMake(UIScreen.screenWidth(), dataSource.heightForIndexPath(indexPath, numberOfColumns:1))
+            return CGSizeMake(UIWindow.windowWidth(), dataSource.heightForIndexPath(indexPath, numberOfColumns:1))
     }
 
     public func collectionView(collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,

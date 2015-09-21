@@ -95,15 +95,13 @@ public class ProfileViewController: StreamableViewController {
         }
     }
 
-    override public func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+    override public func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
 
         if !coverWidthSet {
             coverWidthSet = true
             var height = view.frame.width / ratio
-            if navBarsVisible() {
-                height += 59.0
-            }
+            height += ElloNavigationBar.Size.height
             coverImageHeight.constant = max(height - streamViewController.collectionView.contentOffset.y, height)
             coverImageHeightStart = height
         }

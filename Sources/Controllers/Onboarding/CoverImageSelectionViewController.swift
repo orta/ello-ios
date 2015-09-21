@@ -52,7 +52,8 @@ private extension CoverImageSelectionViewController {
 
     func setupChooseCoverImage() {
         let chooseCoverImage = chooseCoverImageDefault()
-        let aspect = view.frame.width / chooseCoverImage.size.width
+        let width = min(view.frame.width, CGFloat(768))
+        let aspect = width / chooseCoverImage.size.width
         let chooseCoverImageView = UIImageView(frame: CGRect(
             x: 0,
             y: onboardingHeader!.frame.maxY + 23,
@@ -61,7 +62,7 @@ private extension CoverImageSelectionViewController {
             ))
         chooseCoverImageView.contentMode = .ScaleAspectFill
         chooseCoverImageView.clipsToBounds = true
-        chooseCoverImageView.autoresizingMask = [.FlexibleLeftMargin, .FlexibleRightMargin, .FlexibleBottomMargin]
+        chooseCoverImageView.autoresizingMask = [.FlexibleLeftMargin, .FlexibleRightMargin, .FlexibleTopMargin]
         chooseCoverImageView.image = chooseCoverImage
         view.addSubview(chooseCoverImageView)
         self.chooseCoverImageView = chooseCoverImageView

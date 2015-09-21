@@ -113,16 +113,20 @@ public class StreamContainerViewController: StreamableViewController {
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        let width:CGFloat = scrollView.frame.size.width
-        let height:CGFloat = scrollView.frame.size.height
-        var x : CGFloat = 0
+        let width: CGFloat = view.bounds.size.width
+        let height: CGFloat = view.bounds.size.height
 
-        for view in streamControllerViews {
-            view.frame = CGRect(x: x, y: 0, width: width, height: height)
-            x += width
+        for (index, view) in streamControllerViews.enumerate() {
+            view.frame = CGRect(x: width * CGFloat(index), y: 0, width: width, height: height)
         }
 
         scrollView.contentSize = CGSize(width: width * CGFloat(StreamKind.streamValues.count), height: height)
+
+        let selectedIndex = streamsSegmentedControl.selectedSegmentIndex
+        let x = CGFloat(selectedIndex) * width
+        let rect = CGRect(x: x, y: 0, width: width, height: height)
+        scrollView.scrollRectToVisible(rect, animated: false)
+
     }
 
     private func setupChildViewControllers() {
@@ -194,18 +198,19 @@ public class StreamContainerViewController: StreamableViewController {
             controller.collectionView.scrollsToTop = false
         }
 
-        childStreamControllers[sender.selectedSegmentIndex].collectionView.scrollsToTop = true
+        let selectedIndex = streamsSegmentedControl.selectedSegmentIndex
+        childStreamControllers[selectedIndex].collectionView.scrollsToTop = true
 
         let width:CGFloat = view.bounds.size.width
         let height:CGFloat = view.bounds.size.height
-        let x = CGFloat(sender.selectedSegmentIndex) * width
+        let x = CGFloat(selectedIndex) * width
         let rect = CGRect(x: x, y: 0, width: width, height: height)
         scrollView.scrollRectToVisible(rect, animated: true)
 
-        let stream = StreamKind.streamValues[sender.selectedSegmentIndex]
+        let stream = StreamKind.streamValues[selectedIndex]
         Tracker.sharedTracker.streamAppeared(stream.name)
 
-        if sender.selectedSegmentIndex == 1 && !noiseLoaded {
+        if selectedIndex == 1 && !noiseLoaded {
             noiseLoaded = true
             childStreamControllers[1].loadInitialPage()
         }
