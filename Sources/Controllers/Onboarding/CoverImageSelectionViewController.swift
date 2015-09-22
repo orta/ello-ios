@@ -8,6 +8,9 @@
 
 public class CoverImageSelectionViewController: OnboardingUploadImageViewController {
     var onboardingHeader: UIView?
+    struct Size {
+        static let maxWidth = CGFloat(500)
+    }
 
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +47,7 @@ private extension CoverImageSelectionViewController {
         let message = NSLocalizedString("This is what other people will see when viewing your profile, make it look good!", comment: "Header Image Selection text")
         onboardingHeader.header = header
         onboardingHeader.message = message
-        onboardingHeader.autoresizingMask = [.FlexibleWidth, .FlexibleBottomMargin]
+        onboardingHeader.autoresizingMask = [.FlexibleRightMargin, .FlexibleBottomMargin]
         onboardingHeader.sizeToFit()
         view.addSubview(onboardingHeader)
         self.onboardingHeader = onboardingHeader
@@ -52,27 +55,28 @@ private extension CoverImageSelectionViewController {
 
     func setupChooseCoverImage() {
         let chooseCoverImage = chooseCoverImageDefault()
-        let width = min(view.frame.width, CGFloat(768))
+        let width = min(view.frame.width, Size.maxWidth)
         let aspect = width / chooseCoverImage.size.width
         let chooseCoverImageView = UIImageView(frame: CGRect(
-            x: 0,
+            x: (view.frame.width - width) / 2,
             y: onboardingHeader!.frame.maxY + 23,
-            width: view.frame.width,
+            width: width,
             height: chooseCoverImage.size.height * aspect
             ))
         chooseCoverImageView.contentMode = .ScaleAspectFill
         chooseCoverImageView.clipsToBounds = true
-        chooseCoverImageView.autoresizingMask = [.FlexibleLeftMargin, .FlexibleRightMargin, .FlexibleTopMargin]
+        chooseCoverImageView.autoresizingMask = [.FlexibleLeftMargin, .FlexibleRightMargin, .FlexibleBottomMargin]
         chooseCoverImageView.image = chooseCoverImage
         view.addSubview(chooseCoverImageView)
         self.chooseCoverImageView = chooseCoverImageView
     }
 
     func setupChooseImageButton() {
+        let width = min(view.frame.width, Size.maxWidth)
         let chooseImageButton = ElloButton(frame: CGRect(
-            x: 0,
+            x: (view.frame.width - width) / 2,
             y: chooseCoverImageView!.frame.maxY + 8,
-            width: view.frame.width,
+            width: width,
             height: 80
             ).inset(all: 15))
         chooseImageButton.autoresizingMask = [.FlexibleLeftMargin, .FlexibleRightMargin, .FlexibleBottomMargin]
