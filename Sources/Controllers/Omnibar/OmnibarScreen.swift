@@ -964,6 +964,7 @@ extension OmnibarScreen: AutoCompleteDelegate {
             let newText = textView.text.stringByReplacingCharactersInRange(item.match.range, withString: prefix + name + " ")
             let currentText = ElloAttributedString.style(newText)
             textView.attributedText = currentText
+            textViewDidChange(textView)
             updateButtons()
             hideAutoComplete(textView)
         }
