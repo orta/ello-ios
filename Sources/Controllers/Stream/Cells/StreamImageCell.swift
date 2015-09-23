@@ -66,6 +66,7 @@ public class StreamImageCell: StreamRegionableCell {
     }
 
     public func setImage(image: UIImage) {
+        imageView.pin_cancelImageDownload()
         imageView.image = image
         imageView.alpha = 0
         failImage.hidden = true
@@ -130,6 +131,8 @@ public class StreamImageCell: StreamRegionableCell {
         request?.cancel()
         imageView.image = nil
         imageView.animatedImage = nil
+        imageView.pin_cancelImageDownload()
+
         isGif = false
         presentedImageUrl = nil
         isLargeImage = false

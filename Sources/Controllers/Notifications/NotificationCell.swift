@@ -114,6 +114,7 @@ public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
                 avatarButton.setAvatarURL(url)
             }
             else {
+                avatarButton.pin_cancelImageDownload()
                 avatarButton.setImage(nil, forState: .Normal)
             }
         }
@@ -196,6 +197,10 @@ public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
     override public func prepareForReuse() {
         super.prepareForReuse()
         messageWebView.stopLoading()
+        avatarButton.pin_cancelImageDownload()
+        avatarButton.setImage(nil, forState: .Normal)
+        notificationImageView.pin_cancelImageDownload()
+        notificationImageView.image = nil
     }
 
     public func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {

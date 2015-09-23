@@ -9,25 +9,26 @@
 import UIKit
 import FLAnimatedImage
 
-public class StreamCreateCommentCell : UICollectionViewCell {
+public class StreamCreateCommentCell: UICollectionViewCell {
     public struct Size {
         public static let Margins = UIEdgeInsets(top: 12, left: 15, bottom: 12, right: 15)
-        public static let AvatarButtonMargin : CGFloat = 6
-        public static let ButtonLabelMargin : CGFloat = 30
-        public static let ImageHeight : CGFloat = 30
+        public static let AvatarButtonMargin: CGFloat = 6
+        public static let ButtonLabelMargin: CGFloat = 30
+        public static let ImageHeight: CGFloat = 30
     }
 
     let avatarView = FLAnimatedImageView()
     let createCommentBackground = CreateCommentBackgroundView()
     let createCommentLabel = UILabel()
 
-    var avatarURL : NSURL? {
+    var avatarURL: NSURL? {
         willSet(value) {
             if let avatarURL = value {
-                self.avatarView.pin_setImageFromURL(avatarURL)
+                avatarView.pin_setImageFromURL(avatarURL)
             }
             else {
-                self.avatarView.image = nil
+                avatarView.pin_cancelImageDownload()
+                avatarView.image = nil
             }
         }
     }
@@ -61,6 +62,11 @@ public class StreamCreateCommentCell : UICollectionViewCell {
         createCommentLabel.font = UIFont.typewriterFont(12)
         createCommentLabel.textColor = UIColor.whiteColor()
         createCommentLabel.textAlignment = .Left
+    }
+
+    override public func prepareForReuse() {
+        super.prepareForReuse()
+        avatarView.pin_cancelImageDownload()
     }
 
     override public func layoutSubviews() {
