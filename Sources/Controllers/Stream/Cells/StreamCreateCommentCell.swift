@@ -18,6 +18,8 @@ public class StreamCreateCommentCell : UICollectionViewCell {
         public static let ImageHeight : CGFloat = 30
     }
 
+    public var indexPath = NSIndexPath(forItem: 0, inSection: 0)
+    weak var delegate: PostbarDelegate?
     let avatarView = FLAnimatedImageView()
     let createCommentBackground = CreateCommentBackgroundView()
     let createCommentLabel = UILabel()
@@ -62,6 +64,7 @@ public class StreamCreateCommentCell : UICollectionViewCell {
 
         replyAllButton.setImage(SVGKImage(named: "replyall_normal.svg").UIImage, forState: .Normal)
         replyAllButton.setImage(SVGKImage(named: "replyall_selected.svg").UIImage, forState: .Highlighted)
+        replyAllButton.addTarget(self, action: Selector("replyAllTapped"), forControlEvents: .TouchUpInside)
 
         avatarView.backgroundColor = UIColor.blackColor()
         avatarView.clipsToBounds = true
@@ -92,6 +95,10 @@ public class StreamCreateCommentCell : UICollectionViewCell {
             createCommentBackground.frame = createCommentBackground.frame.shrinkLeft(btnSize - Size.Margins.right)
             replyAllButton.frame = createCommentBackground.frame.fromRight().growRight(btnSize)
         }
+    }
+
+    func replyAllTapped() {
+        delegate?.replyToAllButtonTapped(indexPath)
     }
 
 }

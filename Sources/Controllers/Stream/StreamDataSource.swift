@@ -34,16 +34,17 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         didSet { updateFilteredItems() }
     }
 
-    public let textSizeCalculator:StreamTextCellSizeCalculator
-    public let notificationSizeCalculator:StreamNotificationCellSizeCalculator
+    public let textSizeCalculator: StreamTextCellSizeCalculator
+    public let notificationSizeCalculator: StreamNotificationCellSizeCalculator
     public let profileHeaderSizeCalculator: ProfileHeaderCellSizeCalculator
     public let imageSizeCalculator: StreamImageCellSizeCalculator
 
-    weak public var postbarDelegate:PostbarDelegate?
-    weak public var notificationDelegate:NotificationDelegate?
-    weak public var webLinkDelegate:WebLinkDelegate?
-    weak public var imageDelegate:StreamImageCellDelegate?
-    weak public var userDelegate:UserDelegate?
+    weak public var postbarDelegate: PostbarDelegate?
+    weak public var createPostDelegate: CreatePostDelegate?
+    weak public var notificationDelegate: NotificationDelegate?
+    weak public var webLinkDelegate: WebLinkDelegate?
+    weak public var imageDelegate: StreamImageCellDelegate?
+    weak public var userDelegate: UserDelegate?
     weak public var relationshipDelegate: RelationshipDelegate?
     weak public var simpleStreamDelegate: SimpleStreamDelegate?
     weak public var inviteDelegate: InviteDelegate?
@@ -229,11 +230,13 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         if indexPath.item < visibleCellItems.count {
             let streamCellItem = visibleCellItems[indexPath.item]
 
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(streamCellItem.type.name, forIndexPath: indexPath) 
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(streamCellItem.type.name, forIndexPath: indexPath)
 
             switch streamCellItem.type {
             case .Footer:
                 (cell as! StreamFooterCell).delegate = postbarDelegate
+            case .CreateComment:
+                (cell as! StreamCreateCommentCell).delegate = postbarDelegate
             case .Header, .CommentHeader:
                 (cell as! StreamHeaderCell).postbarDelegate = postbarDelegate
                 (cell as! StreamHeaderCell).userDelegate = userDelegate
