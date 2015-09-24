@@ -30,7 +30,7 @@ public class ElloTextButton: UIButton {
 
         if let title = self.titleLabel?.text {
             let attributedString = NSAttributedString(string: title, attributes: [
-                NSFontAttributeName : UIFont.typewriterFont(14.0),
+                NSFontAttributeName : UIFont.typewriterFont(12.0),
                 NSUnderlineStyleAttributeName : 1,
                 ])
             self.setAttributedTitle(attributedString, forState: UIControlState.Normal)
