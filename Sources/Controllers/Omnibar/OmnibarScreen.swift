@@ -125,9 +125,10 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         willSet(newValue) {
             if avatarURL != newValue {
                 if let avatarURL = newValue {
-                    self.avatarButton.pin_setImageFromURL(avatarURL)                }
+                    avatarButton.pin_setImageFromURL(avatarURL)                }
                 else {
-                    self.avatarButton.setImage(nil, forState: .Normal)
+                    avatarButton.pin_cancelImageDownload()
+                    avatarButton.setImage(nil, forState: .Normal)
                 }
             }
         }
@@ -136,11 +137,12 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     public var avatarImage: UIImage? {
         willSet(newValue) {
             if avatarImage != newValue {
+                avatarButton.pin_cancelImageDownload()
                 if let avatarImage = newValue {
-                    self.avatarButton.setImage(avatarImage, forState: .Normal)
+                    avatarButton.setImage(avatarImage, forState: .Normal)
                 }
                 else {
-                    self.avatarButton.setImage(nil, forState: .Normal)
+                    avatarButton.setImage(nil, forState: .Normal)
                 }
             }
         }
