@@ -155,11 +155,16 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
     }
 
     private func setupProfileDescription() {
-        let profileDescriptionAttributedText = profileDescription.attributedText ?? NSAttributedString(string: "")
-        let text = NSMutableAttributedString(attributedString: profileDescriptionAttributedText)
+        if let profileDescriptionAttributedText = profileDescription.attributedText {
+            let text = NSMutableAttributedString(attributedString: profileDescriptionAttributedText)
 
-        text.addAttribute(NSForegroundColorAttributeName, value: UIColor.greyA(), range: NSRange(location: 0, length: text.length))
-        profileDescription.attributedText = text
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.lineSpacing = 6
+
+            text.addAttribute(NSForegroundColorAttributeName, value: UIColor.greyA(), range: NSRange(location: 0, length: text.length))
+            text.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSRange(location: 0, length: text.length))
+            profileDescription.attributedText = text
+        }
     }
 
     private func setupNavigationBar() {
@@ -238,7 +243,7 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         }
 
         bioTextView.textContainerInset = UIEdgeInsetsMake(10, 10, 10, 30)
-        bioTextView.text = currentUser?.profile?.shortBio
+        bioTextView.attributedText = ElloAttributedString.style(currentUser?.profile?.shortBio ?? "")
         bioTextView.delegate = self
 
         bioTextViewDidChange = debounce(0.5) { [unowned self] in
