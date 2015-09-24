@@ -21,6 +21,7 @@ public protocol PostbarDelegate : NSObjectProtocol {
     func flagPostButtonTapped(indexPath: NSIndexPath)
     func flagCommentButtonTapped(indexPath: NSIndexPath)
     func replyToCommentButtonTapped(indexPath: NSIndexPath)
+    func replyToAllButtonTapped(indexPath: NSIndexPath)
 }
 
 public class PostbarController: NSObject, PostbarDelegate {
@@ -52,7 +53,7 @@ public class PostbarController: NSObject, PostbarDelegate {
     }
 
     public func commentsButtonTapped(cell:StreamFooterCell, imageLabelControl: ImageLabelControl) {
-        if dataSource.streamKind.isGridLayout {
+        guard !dataSource.streamKind.isGridLayout else {
             cell.cancelCommentLoading()
             if let indexPath = collectionView.indexPathForCell(cell) {
                 self.viewsButtonTapped(indexPath)
@@ -60,17 +61,11 @@ public class PostbarController: NSObject, PostbarDelegate {
             return
         }
 
-        if dataSource.streamKind.isDetail {
+        guard !dataSource.streamKind.isDetail else {
             return
         }
 
-        imageLabelControl.highlighted = true
-        if cell.commentsOpened {
-            imageLabelControl.animate()
-        }
-        imageLabelControl.selected = cell.commentsOpened
-
-        if !toggleableComments {
+        guard toggleableComments else {
             cell.cancelCommentLoading()
             return
         }
@@ -79,18 +74,22 @@ public class PostbarController: NSObject, PostbarDelegate {
             let item = dataSource.visibleStreamCellItem(at: indexPath),
             let post = item.jsonable as? Post
         {
+            imageLabelControl.selected = cell.commentsOpened
             cell.commentsControl.enabled = false
+
             if !cell.commentsOpened {
                 let indexPaths = self.dataSource.removeCommentsForPost(post)
                 self.collectionView.deleteItemsAtIndexPaths(indexPaths)
-                imageLabelControl.enabled = true
                 item.state = .Collapsed
+                imageLabelControl.enabled = true
                 imageLabelControl.finishAnimation()
                 imageLabelControl.highlighted = false
             }
             else {
                 let streamService = StreamService()
                 item.state = .Loading
+                imageLabelControl.highlighted = true
+                imageLabelControl.animate()
                 streamService.loadMoreCommentsForPost(
                     post.id,
                     streamKind: dataSource.streamKind,
@@ -104,13 +103,14 @@ public class PostbarController: NSObject, PostbarDelegate {
                     },
                     failure: { _ in
                         item.state = .Collapsed
+                        imageLabelControl.finishAnimation()
                         cell.cancelCommentLoading()
                         print("comment load failure")
                     },
                     noContent: {
+                        item.state = .Expanded
+                        imageLabelControl.finishAnimation()
                         if let updatedIndexPath = self.dataSource.indexPathForItem(item) {
-                            item.state = .Expanded
-                            imageLabelControl.finishAnimation()
                             let nextIndexPath = NSIndexPath(forItem: updatedIndexPath.row + 1, inSection: updatedIndexPath.section)
                             self.commentLoadSuccess(post, comments: [], indexPath: nextIndexPath, cell: cell)
                         }
@@ -376,6 +376,34 @@ public class PostbarController: NSObject, PostbarDelegate {
             {
                 presentingController.createPostDelegate?.createComment(post, text: "\(atName) ", fromController: presentingController)
             }
+        }
+    }
+
+    public func replyToAllButtonTapped(indexPath: NSIndexPath) {
+        // This is a bit dirty, we should not call a method on a compositionally held
+        // controller's createPostDelegate. Can this use the responder chain when we have
+        // parameters to pass?
+        if let comment = commentForIndexPath(indexPath),
+            presentingController = presentingController,
+            post = comment.parentPost
+        {
+            var names = [String]()
+            if let content = post.content {
+                names += Mentionables.findAll(content)
+            }
+
+            let commentPaths = dataSource.commentIndexPathsForPost(post)
+            for path in commentPaths {
+                if let item = dataSource.visibleStreamCellItem(at: path),
+                    comment = item.jsonable as? Comment,
+                    let atName = comment.author?.atName
+                where !names.contains(atName)
+                {
+                    names.append(atName)
+                }
+            }
+            let str = names.joinWithSeparator(" ")
+            presentingController.createPostDelegate?.createComment(post, text: "\(str) ", fromController: presentingController)
         }
     }
 

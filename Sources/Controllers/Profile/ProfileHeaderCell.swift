@@ -45,6 +45,7 @@ public class ProfileHeaderCell: UICollectionViewCell {
         super.awakeFromNib()
         style()
         bioWebView.delegate = self
+        editProfileButton.titleLabel?.font = UIFont.typewriterFont(12.0)
     }
 
     override public func layoutSubviews() {

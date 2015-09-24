@@ -25,7 +25,7 @@ public enum ElloPostToolBarOption {
         case .Views:
             return imageLabelControl("eye")
         case .Comments:
-            return imageLabelControl("bubble")
+            return ImageLabelControl(icon: CommentsIcon(), title: "")
         case .Loves:
             return imageLabelControl("hearts")
         case .Repost:

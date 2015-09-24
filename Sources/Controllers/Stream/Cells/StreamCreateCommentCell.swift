@@ -8,6 +8,7 @@
 
 import UIKit
 import FLAnimatedImage
+import SVGKit
 
 public class StreamCreateCommentCell: UICollectionViewCell {
     public struct Size {
@@ -17,9 +18,12 @@ public class StreamCreateCommentCell: UICollectionViewCell {
         public static let ImageHeight: CGFloat = 30
     }
 
+    public var indexPath = NSIndexPath(forItem: 0, inSection: 0)
+    weak var delegate: PostbarDelegate?
     let avatarView = FLAnimatedImageView()
     let createCommentBackground = CreateCommentBackgroundView()
     let createCommentLabel = UILabel()
+    let replyAllButton = UIButton()
 
     var avatarURL: NSURL? {
         willSet(value) {
@@ -33,6 +37,13 @@ public class StreamCreateCommentCell: UICollectionViewCell {
         }
     }
 
+    var replyAllVisibility: InteractionVisibility = .Disabled {
+        didSet {
+            replyAllButton.hidden = (replyAllVisibility != .Enabled)
+            setNeedsLayout()
+        }
+    }
+
     override public init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -41,13 +52,20 @@ public class StreamCreateCommentCell: UICollectionViewCell {
 
     required public init?(coder: NSCoder) {
         super.init(coder: coder)
+
+        setupViews()
     }
 
     private func setupViews() {
         self.contentView.backgroundColor = UIColor.whiteColor()
+        self.contentView.addSubview(replyAllButton)
         self.contentView.addSubview(avatarView)
         self.contentView.addSubview(createCommentBackground)
         createCommentBackground.addSubview(createCommentLabel)
+
+        replyAllButton.setImage(SVGKImage(named: "replyall_normal.svg").UIImage, forState: .Normal)
+        replyAllButton.setImage(SVGKImage(named: "replyall_selected.svg").UIImage, forState: .Highlighted)
+        replyAllButton.addTarget(self, action: Selector("replyAllTapped"), forControlEvents: .TouchUpInside)
 
         avatarView.backgroundColor = UIColor.blackColor()
         avatarView.clipsToBounds = true
@@ -77,6 +95,16 @@ public class StreamCreateCommentCell: UICollectionViewCell {
         let createBackgroundLeft = avatarView.frame.maxX + Size.AvatarButtonMargin
         let createBackgroundWidth = self.frame.width - createBackgroundLeft - Size.Margins.right
         createCommentBackground.frame = CGRect(x: createBackgroundLeft, y: Size.Margins.top, width: createBackgroundWidth, height: self.frame.height - Size.Margins.top - Size.Margins.bottom)
+
+        if replyAllVisibility == .Enabled {
+            let btnSize = createCommentBackground.frame.height
+            createCommentBackground.frame = createCommentBackground.frame.shrinkLeft(btnSize - Size.Margins.right)
+            replyAllButton.frame = createCommentBackground.frame.fromRight().growRight(btnSize)
+        }
+    }
+
+    func replyAllTapped() {
+        delegate?.replyToAllButtonTapped(indexPath)
     }
 
 }

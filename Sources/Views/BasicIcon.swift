@@ -39,9 +39,9 @@ public class BasicIcon: UIView {
     }
 
     // MARK: Private
-    private func select(value: Bool) {
-        normalIconView.hidden = value
-        selectedIconView.hidden = !value
+    func updateIcon(selected: Bool) {
+        normalIconView.hidden = selected
+        selectedIconView.hidden = !selected
     }
 }
 
@@ -51,7 +51,7 @@ extension BasicIcon: ImageLabelAnimatable {
         get { return _selected }
         set {
             _selected = newValue
-            select(newValue)
+            updateIcon(newValue)
         }
     }
 
@@ -60,7 +60,7 @@ extension BasicIcon: ImageLabelAnimatable {
         set {
             _highlighted = newValue
             if selected { return }
-            select(newValue)
+            updateIcon(newValue)
         }
     }
 

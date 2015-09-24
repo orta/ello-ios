@@ -133,7 +133,6 @@ public class StreamContainerViewController: StreamableViewController {
             vc.streamScrollDelegate = self
             vc.collectionView.scrollsToTop = false
 
-
             vc.willMoveToParentViewController(self)
 
             let x = CGFloat(index) * width

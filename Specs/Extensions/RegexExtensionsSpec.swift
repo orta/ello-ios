@@ -63,6 +63,21 @@ class RegexExtensionsSpec: QuickSpec {
                         expect(regex.match("abc!!!")) == "abc"
                     }
                 }
+                context("matches(String)") {
+                    let regex = Regex("\\w+")!
+                    let expectations = [
+                        "test": ["test"],
+                        "test test2": ["test", "test2"],
+                        "!test!ing!": ["test", "ing"],
+                        "BOO!": ["BOO"],
+                    ]
+                    for (test, expectation) in expectations {
+                        let expected = expectation.joinWithSeparator(",")
+                        it("'\(test)' should return \(expected)") {
+                            expect(regex.matches(test)) == expectation
+                        }
+                    }
+                }
             }
             context("testing with regex operators =~ !~") {
                 let pattern = "^tes*t$"

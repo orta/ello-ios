@@ -42,7 +42,6 @@ class Regex {
                 let range = match.rangeAtIndex(i)
                 ret.append(nsstring.substringWithRange(range))
             }
-            break
         }
         return ret
     }
