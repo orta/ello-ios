@@ -397,7 +397,7 @@ public class PostbarController: NSObject, PostbarDelegate {
                 if let item = dataSource.visibleStreamCellItem(at: path),
                     comment = item.jsonable as? Comment,
                     let atName = comment.author?.atName
-                where !names.contains(atName)
+                where !names.contains(atName) && atName != (currentUser?.atName ?? "")
                 {
                     names.append(atName)
                 }
