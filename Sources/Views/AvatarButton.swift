@@ -33,12 +33,14 @@ public class AvatarButton: UIButton {
             }
         }
         else {
+            pin_cancelImageDownload()
             setDefaultImage()
         }
     }
 
     func setDefaultImage() {
-        self.setImage(nil, forState: .Normal)
+        pin_cancelImageDownload()
+        setImage(nil, forState: .Normal)
     }
 
     override public func layoutSubviews() {
