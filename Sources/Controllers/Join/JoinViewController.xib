@@ -79,7 +79,7 @@
                                                 <constraint firstAttribute="height" constant="49" id="UCN-C9-Ojq" userLabel="height"/>
                                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="374" id="p4q-c9-IGk" userLabel="width"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
                                         </textField>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Create your username" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="oLC-gr-jYb" userLabel="usernameTextField" customClass="ElloTextField" customModule="Ello" customModuleProvider="target">
@@ -89,7 +89,7 @@
                                                 <constraint firstAttribute="height" constant="49" id="MXB-Ei-OgL" userLabel="height"/>
                                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="374" id="u35-lb-Pws" userLabel="width"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
                                         </textField>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Set your password" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="6cH-fy-COQ" userLabel="passwordTextField" customClass="ElloTextField" customModule="Ello" customModuleProvider="target">
@@ -98,7 +98,7 @@
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="49" id="KZ2-VC-Lqf" userLabel="height"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="go" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
                                         </textField>
                                         <button opaque="NO" contentMode="center" verticalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ymy-dW-yD0" userLabel="onePasswordButton">

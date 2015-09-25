@@ -16,7 +16,7 @@ public protocol NotificationsScreenDelegate {
 public class NotificationsScreen : UIView {
     private class func filterButton() -> UIButton {
         let button = UIButton()
-        button.titleLabel!.font = UIFont.typewriterFont(14)
+        button.titleLabel!.font = UIFont.typewriterFont(12)
         button.setTitleColor(UIColor.whiteColor(), forState: .Selected)
         button.setTitleColor(UIColor.greyA(), forState: .Normal)
         button.setBackgroundImage(UIImage.imageWithColor(UIColor.blackColor()), forState: .Selected)
@@ -47,6 +47,8 @@ public class NotificationsScreen : UIView {
         let filterAllButton = NotificationsScreen.filterButton(title: "All")
         let filterCommentsButton = NotificationsScreen.filterButton(imageName: "bubble")
         let filterMentionButton = NotificationsScreen.filterButton(title: "@")
+        filterMentionButton.titleLabel!.font = UIFont.typewriterFont(14)
+
         // no loves yet!
         let filterHeartButton = NotificationsScreen.filterButton(imageName: "hearts")
         let filterRepostButton = NotificationsScreen.filterButton(imageName: "repost")

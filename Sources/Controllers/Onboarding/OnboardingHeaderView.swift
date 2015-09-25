@@ -9,14 +9,14 @@
 public class OnboardingHeaderView: UIView {
     lazy var headerLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.regularBoldFont(20)
+        label.font = UIFont.regularBoldFont(18)
         label.numberOfLines = 0
         return label
     }()
 
     lazy var messageLabel: ElloSizeableLabel = {
         let label = ElloSizeableLabel()
-        label.font = UIFont.typewriterFont(14)
+        label.font = UIFont.typewriterFont(12)
         label.numberOfLines = 0
         return label
     }()

@@ -255,7 +255,8 @@ extension ProfileInfoViewController {
         field.returnKeyType = .Next
         field.keyboardType = .Default
 
-        let line = UIView(frame: CGRect(x: 0, y: field.frame.height - 2, width: field.frame.width, height: 2))
+        let height = CGFloat(1)
+        let line = UIView(frame: CGRect(x: 0, y: field.frame.height - height, width: field.frame.width, height: height))
         line.backgroundColor = .greyE5()
         line.autoresizingMask = [.FlexibleWidth, .FlexibleTopMargin]
         field.addSubview(line)

@@ -23,7 +23,7 @@ public class BlockUserModalViewController: BaseElloViewController {
 
     @IBOutlet weak public var blockButton: WhiteElloButton?
     @IBOutlet weak public var blockLabel: UILabel!
-                    
+
     public var relationshipPriority: RelationshipPriority {
         didSet { selectButton(relationshipPriority) }
     }
@@ -98,7 +98,7 @@ public class BlockUserModalViewController: BaseElloViewController {
         backgroundButton.backgroundColor = UIColor.modalBackground()
         modalView.backgroundColor = UIColor.redColor()
         for label in [titleLabel, muteLabel, blockLabel] {
-            label.font = UIFont.typewriterFont(12.0)
+            label.font = UIFont.typewriterFont(12)
             label.textColor = UIColor.whiteColor()
             label.lineBreakMode = .ByWordWrapping
             label.numberOfLines = 0
@@ -110,7 +110,7 @@ public class BlockUserModalViewController: BaseElloViewController {
         muteButton?.setTitle("Mute", forState: UIControlState.Normal)
         blockButton?.setTitle("Block", forState: UIControlState.Normal)
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 12
+        paragraphStyle.lineSpacing = 6
         var attrString: NSMutableAttributedString
         for (text, label) in [titleText: titleLabel, muteText: muteLabel, blockText: blockLabel] {
             attrString = NSMutableAttributedString(string: text)

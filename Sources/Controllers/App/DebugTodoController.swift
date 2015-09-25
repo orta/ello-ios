@@ -69,6 +69,16 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
         addAction("Crash the app") {
             Crashlytics.sharedInstance().crash()
         }
+        addAction("Show Push Notification Alert") {
+            PushNotificationController.sharedController.permissionDenied = false
+            PushNotificationController.sharedController.needsPermission = true
+            if let alert = PushNotificationController.sharedController.requestPushAccessIfNeeded() {
+                appController.dismissViewControllerAnimated(false, completion: nil)
+                delay(0.1) {
+                    appController.presentViewController(alert, animated: true, completion: .None)
+                }
+            }
+        }
 
         tableView.frame = view.bounds
         tableView.delegate = self

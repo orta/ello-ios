@@ -40,10 +40,10 @@ public class PushNotificationController {
 
 public extension PushNotificationController {
     func requestPushAccessIfNeeded() -> AlertViewController? {
-        if !AuthToken().isAuthenticated { return .None }
-        if permissionDenied { return .None }
+        guard AuthToken().isAuthenticated else { return .None }
+        guard !permissionDenied else { return .None }
 
-        if needsPermission { return alertViewController() }
+        guard !needsPermission else { return alertViewController() }
 
         registerForRemoteNotifications()
         return .None

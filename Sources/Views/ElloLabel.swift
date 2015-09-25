@@ -23,7 +23,7 @@ public class ElloLabel: UILabel {
 
     func attributes(color: UIColor, alignment: NSTextAlignment) -> [String : AnyObject] {
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 10
+        paragraphStyle.lineSpacing = 6
         paragraphStyle.alignment = alignment
 
         return [
@@ -76,7 +76,7 @@ public class ElloErrorLabel: ElloLabel {
 public class ElloSizeableLabel: ElloLabel {
     override public func attributes(color: UIColor, alignment: NSTextAlignment) -> [String : AnyObject] {
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 8
+        paragraphStyle.lineSpacing = 6
         paragraphStyle.alignment = alignment
 
         return [

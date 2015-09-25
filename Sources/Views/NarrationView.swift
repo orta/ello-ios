@@ -53,14 +53,14 @@ public class NarrationView: UIView {
     public var text: String = "" {
         didSet {
             let style = NSMutableParagraphStyle()
-            style.lineSpacing = 8
+            style.lineSpacing = 6
 
             let attributes = [
                 NSFontAttributeName : label.font ?? UIFont.typewriterFont(12.0),
                 NSForegroundColorAttributeName : label.textColor ?? UIColor.blackColor(),
                 NSParagraphStyleAttributeName : style
             ]
-            
+
             label.attributedText = NSMutableAttributedString(string: text, attributes: attributes)
         }
     }

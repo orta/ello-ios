@@ -72,7 +72,7 @@ private extension CoverImageSelectionViewController {
             x: 0,
             y: chooseCoverImageView!.frame.maxY + 8,
             width: view.frame.width,
-            height: 90
+            height: 80
             ).inset(all: 15))
         chooseImageButton.autoresizingMask = [.FlexibleLeftMargin, .FlexibleRightMargin, .FlexibleBottomMargin]
         chooseImageButton.setTitle(NSLocalizedString("Choose Your Header", comment: "Choose your header button"), forState: .Normal)

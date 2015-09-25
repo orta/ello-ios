@@ -182,7 +182,7 @@ public class RelationshipControl: UIControl {
         paragraphStyle.alignment = .Left
 
         let attributes = [
-            NSFontAttributeName : UIFont.typewriterFont(13.0),
+            NSFontAttributeName : UIFont.typewriterFont(12),
             NSForegroundColorAttributeName : color,
             NSParagraphStyleAttributeName : paragraphStyle
         ]

@@ -44,7 +44,7 @@ public class ImageLabelControl: UIControl {
     let outerPadding: CGFloat = 5
     let minWidth: CGFloat = 44
     let height: CGFloat = 44
-    let titleFont = UIFont.typewriterFont(13.0)
+    let titleFont = UIFont.typewriterFont(12)
     let contentContainer = UIView(frame: CGRectZero)
     let label = UILabel(frame: CGRectZero)
     let button = UIButton(frame: CGRectZero)
@@ -148,7 +148,7 @@ public class ImageLabelControl: UIControl {
         let range = NSRange(location: 0, length: title.characters.count)
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .Left
-        
+
         let attributes = [
             NSFontAttributeName : titleFont,
             NSForegroundColorAttributeName : color,

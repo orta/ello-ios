@@ -73,7 +73,7 @@
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="49" id="JTv-Ha-Qwm" userLabel="height"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="go" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
                                         </textField>
                                         <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iwD-nO-HjU" userLabel="errorLabel" customClass="ElloErrorLabel" customModule="Ello" customModuleProvider="target">
@@ -104,7 +104,7 @@
                                                 <constraint firstAttribute="height" constant="49" id="1UC-IF-kz0" userLabel="height"/>
                                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="374" id="qWx-Xz-TBO" userLabel="width"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
                                         </textField>
                                         <button opaque="NO" contentMode="center" verticalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Pc-ZP-WqS" userLabel="onePasswordButton">
