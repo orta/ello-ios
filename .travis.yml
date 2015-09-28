@@ -11,6 +11,7 @@ install:
 - bundle exec pod keys set ClientSecret $ELLO_CLIENT_SECRET Ello
 - bundle exec pod keys set Domain $ELLO_DOMAIN Ello
 - bundle exec pod keys set Salt $ELLO_SALT Ello
+- bundle exec pod keys set CrashylticsKey $ELLO_CRASHLYTICS_KEY Ello
 - bundle exec pod install
 before_script:
 - export LANG=en_US.UTF-8
