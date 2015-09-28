@@ -12,6 +12,9 @@ install:
 - bundle exec pod keys set Domain $ELLO_DOMAIN Ello
 - bundle exec pod keys set Salt $ELLO_SALT Ello
 - bundle exec pod keys set CrashylticsKey $ELLO_CRASHLYTICS_KEY Ello
+- bundle exec pod keys set FirebaseKey $ELLO_FIREBASE_KEY Ello
+- bundle exec pod keys set HttpProtocol $ELLO_HTTP_PROTOCOL Ello
+- bundle exec pod keys set SegmentKey $ELLO_SEGMENT_KEY Ello
 - bundle exec pod install
 before_script:
 - export LANG=en_US.UTF-8
@@ -30,3 +33,6 @@ env:
   - secure: PcijtSDEVk+43rP715U1PEM5i6EcQuAHN/GIFr1hNnex+ae7H+TDsY1tdlLCFefyN0yj+uI9FKoTWLz4jfACXw7XHiu17/QBRushIteTDtCH4wcMFCzzt10n95wOrF0bZld8g9tIThZ4BqQQIyGlbantY/HxkXZz0mtXoiYnIvI=
   - secure: Wt7q431Xlin77h4AKbAYf7QVRCJyK92f9aTSbz3vcJ7oGko0As0Q/HNTfxFglTttay1crJv94dMHNscHHO0E/mzfATKx3FXMfSeHPmr+73cg+5M5zrPOfVMGd6qW5qOZpOxCABXKSwYiQZRcWwcN313oKE02w46rDozqv93+zdo=
   - secure: NyXTXD0ae8WFav0FnqyuG+byCPXXwSgMnCd67Pq2adyFHzV7WEj6QtwpbuheatB3h+6lIPNGhYriC+4w6tPcCPzCu+i2JPeW5p3kFDJ/MZDpwWCwaBzbgqDrmsS2TDCxibzvEmHdOAMV4f097jACPWeIMrMekKfbATsxPMHKjws=
+  - secure: rSjd2UJV5N4DH2GvhfUE6a8ZcT5nN1NWnZPrJ8h6tNd896U/NZi+myWERLbiclBp0pqXB3J8xCR01Klk2MK5z1kHnCYsDC+cUGsa6X7OOAMliIWGcsOkXeK6RcnM64wdXVK0UiPLY6RHAc9jo9+HSbGUL/Uc+VDVRfe1Kt0jhI8=
+  - secure: MAphXemYWMsswqQH9XHXk+AHfykEStqrVBBlY4BxL5213TDzfZCsH0ERMn5Fx5ppuAatGi0Mk6kFjdj802X0gkF2WXQysFPxR5cl1LPLaL9Cfzmd/k0ZsMCaHmbRLUar4IgHPCIFXItnjti3s/jZTF94BaWho/UCYPmA+MrG/pg=
+  - 
