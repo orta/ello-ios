@@ -6,6 +6,8 @@ git:
 cache:
   - bundler
   - cocoapods
+before_install:
+  - gem install cocoapods --no-rdoc --no-ri --no-document --quiet
 install:
 - bundle install
 - bundle exec pod keys set ClientKey $ELLO_CLIENT_KEY Ello
@@ -29,4 +31,3 @@ env:
   - secure: v5s+GDcGM/kgAT5fTuz1nbPlO2obuPjtl7enNfUId9XrpAy5P/2u1SfQvvMGU32uiWV7misINsw3LldX8lCG1GliwBeTtFsk+FmuatU92So87ji2rGy3Nw3gcZx8gYHkvc8mRTzn7WXFcs9ZC9m9knJLKLKDcj1zVbgX/0qv1R4=
   - secure: PcijtSDEVk+43rP715U1PEM5i6EcQuAHN/GIFr1hNnex+ae7H+TDsY1tdlLCFefyN0yj+uI9FKoTWLz4jfACXw7XHiu17/QBRushIteTDtCH4wcMFCzzt10n95wOrF0bZld8g9tIThZ4BqQQIyGlbantY/HxkXZz0mtXoiYnIvI=
   - secure: Wt7q431Xlin77h4AKbAYf7QVRCJyK92f9aTSbz3vcJ7oGko0As0Q/HNTfxFglTttay1crJv94dMHNscHHO0E/mzfATKx3FXMfSeHPmr+73cg+5M5zrPOfVMGd6qW5qOZpOxCABXKSwYiQZRcWwcN313oKE02w46rDozqv93+zdo=
-  
