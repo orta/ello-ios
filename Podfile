@@ -25,7 +25,7 @@ pod 'SVGKit', git: 'https://github.com/SVGKit/SVGKit'
 pod 'YapDatabase', git: 'https://github.com/ello/YapDatabase'
 
 # debug only
-pod 'Firebase', configurations: ['Debug']
+pod 'Firebase', configurations: ['Debug','CrashlyticsProduction','CrashlyticsStaging']
 
 # swift pods
 pod 'Alamofire', '~> 2.0'

@@ -60,7 +60,7 @@ DEPENDENCIES:
   - Firebase
   - FLAnimatedImage (from `https://github.com/ello/FLAnimatedImage`)
   - JTSImageViewController (from `https://github.com/ello/JTSImageViewController`)
-  - Keys (from `Pods/CocoaPodsKeys/`)
+  - Keys (from `Pods/CocoaPodsKeys`)
   - KINWebBrowser (from `https://github.com/ello/KINWebBrowser`)
   - LUKeychainAccess (~> 1.2.4)
   - MBProgressHUD (~> 0.9.0)
@@ -86,7 +86,7 @@ EXTERNAL SOURCES:
   JTSImageViewController:
     :git: https://github.com/ello/JTSImageViewController
   Keys:
-    :path: Pods/CocoaPodsKeys/
+    :path: Pods/CocoaPodsKeys
   KINWebBrowser:
     :git: https://github.com/ello/KINWebBrowser
   SVGKit:
@@ -134,7 +134,7 @@ SPEC CHECKSUMS:
   CRToast: eb22641501990233c53cb8f83f7d2ea87e0ddf73
   Fabric: 03c3b3fe77e11a2bc31421b989a9c7adaa4779a5
   Firebase: 2db60272f68ce40c7d47e5ae6eddc16977c65d4c
-  FLAnimatedImage: f9422f796135aff80d8c00b2afc48015bb746e24
+  FLAnimatedImage: 7599ec218dceacdcacbdfccb2947415c2619cd11
   JTSImageViewController: 89ae3c003060c65418fd3224ebbd67acc6046608
   Keys: 7d2ff6ff42f6903358267ce56e9392f83c31acfe
   KINWebBrowser: dad85d7d93e6f4620a8589b96992394affffa66e
@@ -156,4 +156,4 @@ SPEC CHECKSUMS:
   WebLinking: d5b5ab4f7305bcf29821deb5cecd775f6c37efae
   YapDatabase: d8a174ee182fabefa907b663591aa976486f9d5c
 
-COCOAPODS: 0.38.0
+COCOAPODS: 0.38.2

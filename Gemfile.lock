@@ -4,7 +4,7 @@ GEM
     RubyInline (3.12.4)
       ZenTest (~> 4.3)
     ZenTest (4.11.0)
-    activesupport (4.2.3)
+    activesupport (4.2.4)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
@@ -12,10 +12,10 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.3.8)
     claide (0.9.1)
-    cocoapods (0.38.0)
+    cocoapods (0.38.2)
       activesupport (>= 3.2.15)
       claide (~> 0.9.1)
-      cocoapods-core (= 0.38.0)
+      cocoapods-core (= 0.38.2)
       cocoapods-downloader (~> 0.9.1)
       cocoapods-plugins (~> 0.4.2)
       cocoapods-stats (~> 0.5.3)
@@ -23,22 +23,23 @@ GEM
       cocoapods-try (~> 0.4.5)
       colored (~> 1.2)
       escape (~> 0.0.4)
-      molinillo (~> 0.3.0)
+      molinillo (~> 0.3.1)
       nap (~> 0.8)
-      xcodeproj (~> 0.26.2)
-    cocoapods-core (0.38.0)
+      xcodeproj (~> 0.26.3)
+    cocoapods-core (0.38.2)
       activesupport (>= 3.2.15)
       fuzzy_match (~> 2.0.4)
       nap (~> 0.8.0)
-    cocoapods-downloader (0.9.1)
-    cocoapods-keys (1.2.1)
+    cocoapods-downloader (0.9.3)
+    cocoapods-keys (1.5.1)
+      dotenv
       osx_keychain
     cocoapods-plugins (0.4.2)
       nap
     cocoapods-stats (0.5.3)
       nap (~> 0.8)
-    cocoapods-trunk (0.6.1)
-      nap (>= 0.8)
+    cocoapods-trunk (0.6.4)
+      nap (>= 0.8, < 2.0)
       netrc (= 0.7.8)
     cocoapods-try (0.4.5)
     colored (1.2)
@@ -51,7 +52,7 @@ GEM
     i18n (0.7.0)
     json (1.8.3)
     mini_magick (4.2.7)
-    minitest (5.7.0)
+    minitest (5.8.1)
     molinillo (0.3.1)
     multipart-post (2.0.0)
     nap (0.8.0)
@@ -72,16 +73,21 @@ GEM
       activesupport (>= 3)
       claide (~> 0.9.1)
       colored (~> 1.2)
+    xcpretty (0.1.7)
+    xcpretty-travis-formatter (0.0.2)
+      xcpretty (~> 0.1, >= 0.0.7)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  cocoapods (= 0.38.0)
-  cocoapods-keys (~> 1.2.0)
+  cocoapods (= 0.38.2)
+  cocoapods-keys (~> 1.5.1)
   dotenv
   git
   mini_magick
   octokit (~> 3.0)
   plist
   rake (~> 10.0.0)
+  xcpretty
+  xcpretty-travis-formatter
