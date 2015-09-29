@@ -7,7 +7,8 @@ cache:
   - bundler
   - cocoapods
 before_install:
-- xcrun instruments -w "iPhone 6 (9.0)" || echo "(Pre)Launched the simulator."
+- xcrun instruments -w "iPhone 6 (9.0) [CEBBD79A-B6C1-4A02-BD33-56BBCBDED03E]" || echo "(Pre)Launched the simulator."
+
 install:
 - bundle install
 - bundle exec pod keys set ClientKey $ELLO_CLIENT_KEY Ello
