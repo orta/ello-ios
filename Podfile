@@ -9,7 +9,7 @@ inhibit_all_warnings!
 # Opt into framework support (required for Swift support in CocoaPods RC1)
 use_frameworks!
 
-pod '1PasswordExtension', '~> 1.2.0'
+pod '1PasswordExtension'
 pod 'Analytics/Segmentio'
 pod 'CRToast', git: 'https://github.com/ello/CRToast'
 pod 'Crashlytics', '~> 3.3'
