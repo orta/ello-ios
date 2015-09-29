@@ -11,6 +11,7 @@ import Foundation
 public class AvatarButton: UIButton {
 
     func setAvatarURL(url:NSURL?) {
+        self.setDefaultImage()
         if let url = url {
             self.pin_setImageFromURL(url) { result in
                 if result.image != nil {
@@ -31,10 +32,6 @@ public class AvatarButton: UIButton {
                     self.setDefaultImage()
                 }
             }
-        }
-        else {
-            pin_cancelImageDownload()
-            setDefaultImage()
         }
     }
 
