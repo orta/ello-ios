@@ -236,6 +236,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
             case .CreateComment:
                 (cell as! StreamCreateCommentCell).delegate = postbarDelegate
             case .Header, .CommentHeader:
+                (cell as! StreamHeaderCell).relationshipDelegate = relationshipDelegate
                 (cell as! StreamHeaderCell).postbarDelegate = postbarDelegate
                 (cell as! StreamHeaderCell).userDelegate = userDelegate
             case .Image:

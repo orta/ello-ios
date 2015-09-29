@@ -15,6 +15,7 @@ public protocol Authorable {
     var createdAt : NSDate { get }
     var groupId: String { get }
     var author: User? { get }
+    optional var isRepost: Bool { get }
 }
 
 let PostVersion = 1
@@ -79,10 +80,7 @@ public final class Post: JSONAble, Authorable {
     public var collapsed: Bool { return self.contentWarning != "" }
     private var commentCountNotification: NotificationObserver?
     public var isRepost: Bool {
-        if let repostContent = self.repostContent {
-            return repostContent.count > 0
-        }
-        return false
+        return (repostContent?.count ?? 0) > 0
     }
 
 
