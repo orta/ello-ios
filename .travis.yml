@@ -6,6 +6,8 @@ git:
 cache:
   - bundler
   - cocoapods
+before_install:
+- xcrun instruments -w "iPad Air (8.1 Simulator)" || echo "(Pre)Launched the simulator."
 install:
 - bundle install
 - bundle exec pod keys set ClientKey $ELLO_CLIENT_KEY Ello
@@ -19,7 +21,10 @@ install:
 - bundle exec pod install
 before_script:
 - export LANG=en_US.UTF-8
-script: "./bin/ci.sh"
+- xcrun instruments -w "iPhone 6 (9.0 Simulator)" || echo "(Pre)Launched the simulator."
+
+script: 'set -o pipefail && xcodebuild -workspace Ello.xcworkspace -scheme Ello -configuration Debug -destination "OS=9.0,name=iPhone 6" clean test | xcpretty -ct'
+
 branches:
   only:
   - master
