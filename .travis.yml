@@ -2,6 +2,9 @@ osx_image: xcode7
 language: objective-c
 git:
   depth: 1
+cache:
+  - bundler
+  - cocoapods
 install:
 - bundle install
 - bundle exec pod keys set ClientKey $ELLO_CLIENT_KEY Ello
