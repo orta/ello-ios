@@ -2,6 +2,7 @@
 #import <CommonCrypto/CommonCrypto.h>
 #import <CRToast/CRToast.h>
 #import <FLAnimatedImage/FLAnimatedImage.h>
+#import <iRate/iRate.h>
 #import <JTSImageViewController/JTSImageViewController.h>
 #import <Keys/ElloKeys.h>
 #import <KINWebBrowser/KINWebBrowserViewController.h>
