@@ -20,7 +20,6 @@ public class ProfileViewController: StreamableViewController {
     var responseConfig: ResponseConfig?
     var userParam: String!
     var coverImageHeightStart: CGFloat?
-    var coverWidthSet = false
     let ratio:CGFloat = 16.0/9.0
     let initialStreamKind: StreamKind
     var currentUserChangedNotification: NotificationObserver?
@@ -95,16 +94,12 @@ public class ProfileViewController: StreamableViewController {
         }
     }
 
-    override public func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-
-        if !coverWidthSet {
-            coverWidthSet = true
-            var height = view.frame.width / ratio
-            height += ElloNavigationBar.Size.height
-            coverImageHeight.constant = max(height - streamViewController.collectionView.contentOffset.y, height)
-            coverImageHeightStart = height
-        }
+    override public func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        var height = view.frame.width / ratio
+        height += ElloNavigationBar.Size.height
+        coverImageHeight.constant = max(height - streamViewController.collectionView.contentOffset.y, height)
+        coverImageHeightStart = height
     }
 
     override func showNavBars(scrollToBottom : Bool) {
