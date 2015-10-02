@@ -358,7 +358,7 @@ public class StreamViewController: BaseElloViewController {
             switch change {
             case .Create, .Delete, .Update, .Replaced:
                 self.dataSource.modifyItems(comment, change: change, collectionView: self.collectionView)
-            case .Read: break
+            default: break
             }
             self.updateNoResultsLabel()
         }
@@ -377,7 +377,8 @@ public class StreamViewController: BaseElloViewController {
                 // reload page
             case .Create,
                 .Update,
-                .Replaced:
+                .Replaced,
+                .Loved:
                 self.dataSource.modifyItems(post, change: change, collectionView: self.collectionView)
             case .Read: break
             }

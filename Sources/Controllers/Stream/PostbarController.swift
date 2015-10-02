@@ -223,7 +223,7 @@ public class PostbarController: NSObject, PostbarDelegate {
         if let count = post.lovesCount {
             post.lovesCount = count - 1
             post.loved = false
-            postNotification(PostChangedNotification, value: (post, .Update))
+            postNotification(PostChangedNotification, value: (post, .Loved))
         }
         if let user = currentUser, let userLoveCount = user.lovesCount {
             user.lovesCount = userLoveCount - 1
@@ -247,7 +247,7 @@ public class PostbarController: NSObject, PostbarDelegate {
         if let count = post.lovesCount {
             post.lovesCount = count + 1
             post.loved = true
-            postNotification(PostChangedNotification, value: (post, .Update))
+            postNotification(PostChangedNotification, value: (post, .Loved))
         }
         if let user = currentUser, let userLoveCount = user.lovesCount {
             user.lovesCount = userLoveCount + 1

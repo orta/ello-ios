@@ -404,6 +404,17 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                 }
                 collectionView.reloadItemsAtIndexPaths(indexPaths)
             }
+        case .Loved:
+            let (_, items) = elementsForJSONAble(jsonable, change: change)
+            var indexPaths = [NSIndexPath]()
+            for item in items {
+                if let path = indexPathForItem(item)
+                where item.type == .Footer {
+                    indexPaths.append(path)
+                }
+                item.jsonable = jsonable
+            }
+            collectionView.reloadItemsAtIndexPaths(indexPaths)
         default: break
         }
     }
