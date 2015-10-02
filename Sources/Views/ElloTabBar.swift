@@ -42,8 +42,7 @@ public class ElloTabBar: UITabBar {
 
     func addRedDotAtIndex(index: Int) -> UIView {
         let redDot: UIView
-        if let entryIndex = (redDotViews.indexOf { $0.0 == index })
-        {
+        if let entryIndex = (redDotViews.indexOf { $0.0 == index }) {
             redDot = redDotViews[entryIndex].1
         }
         else {
@@ -73,8 +72,8 @@ public class ElloTabBar: UITabBar {
         let diameter = radius * 2
         let margin: CGFloat = 11
         let tabBarItemFrame = tabBarFrameAtIndex(index)
-         let item = items?[index]
-         let imageHalfWidth: CGFloat = (item?.selectedImage?.size.width ?? 0) / 2
+        let item = items?[index]
+        let imageHalfWidth: CGFloat = (item?.selectedImage?.size.width ?? 0) / 2
         let x = tabBarItemFrame.midX - imageHalfWidth - margin
         let frame = CGRect(x: x, y: margin, width: diameter, height: diameter)
 
