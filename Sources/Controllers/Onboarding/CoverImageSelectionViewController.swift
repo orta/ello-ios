@@ -8,9 +8,6 @@
 
 public class CoverImageSelectionViewController: OnboardingUploadImageViewController {
     var onboardingHeader: UIView?
-    struct Size {
-        static let maxWidth = CGFloat(500)
-    }
 
     override public func viewDidLoad() {
         super.viewDidLoad()
