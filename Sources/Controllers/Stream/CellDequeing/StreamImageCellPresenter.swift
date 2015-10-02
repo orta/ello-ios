@@ -107,7 +107,7 @@ public struct StreamImageCellPresenter {
                 cell.setImageURL(imageURL)
             }
 
-            cell.onHeightMismatch { actualHeight in
+            cell.onHeightMismatch = { actualHeight in
                 streamCellItem.calculatedWebHeight = actualHeight
                 streamCellItem.calculatedOneColumnCellHeight = actualHeight
                 streamCellItem.calculatedMultiColumnCellHeight = actualHeight
