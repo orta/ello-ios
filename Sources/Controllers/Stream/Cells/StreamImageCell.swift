@@ -14,6 +14,12 @@ import SVGKit
 import Alamofire
 
 public class StreamImageCell: StreamRegionableCell {
+    // this little hack prevents constraints from breaking on initial load
+    override public var bounds: CGRect {
+        didSet {
+          contentView.frame = bounds
+        }
+    }
 
     @IBOutlet public weak var imageView: FLAnimatedImageView!
     @IBOutlet public weak var imageButton: UIButton!
@@ -89,8 +95,9 @@ public class StreamImageCell: StreamRegionableCell {
                 if self.serverProvidedAspectRatio == nil {
                     postNotification(StreamNotification.AnimateCellHeightNotification, value: self)
                 }
-                else if round(self.frame.width / self.frame.height) != round(self.aspectRatio) {
-                    let actualHeight = self.aspectRatio / self.frame.width
+                else if round(self.imageView.frame.width / self.imageView.frame.height) != round(self.aspectRatio) {
+                    let width = min(result.image.size.width, self.frame.width)
+                    let actualHeight = width / self.aspectRatio
                     self._onHeightMismatch?(actualHeight)
                 }
 

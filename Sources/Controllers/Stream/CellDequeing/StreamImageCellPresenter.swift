@@ -21,6 +21,9 @@ public struct StreamImageCellPresenter {
             if width < columnWidth - leftMargin {
                 cell.imageRightConstraint?.constant = columnWidth - width - leftMargin
             }
+            else {
+                cell.imageRightConstraint?.constant = 0
+            }
         }
     }
 
@@ -73,18 +76,16 @@ public struct StreamImageCellPresenter {
                 cell.isGif = true
             }
 
-            let columnWidth: CGFloat
+            let columnWidth = cell.frame.width
             if streamKind.isGridLayout {
                 cell.failWidthConstraint.constant = StreamImageCellPresenter.multiColumnFailWidth
                 cell.failHeightConstraint.constant = StreamImageCellPresenter.multiColumnFailHeight
                 attachmentToLoad = attachmentToLoad ?? imageRegion.asset?.gridLayoutAttachment
-                columnWidth = (UIWindow.windowWidth() - CGFloat(10)) / 2
             }
             else {
                 cell.failWidthConstraint.constant = StreamImageCellPresenter.singleColumnFailWidth
                 cell.failHeightConstraint.constant = StreamImageCellPresenter.singleColumnFailHeight
                 attachmentToLoad = attachmentToLoad ?? imageRegion.asset?.oneColumnAttachment
-                columnWidth = UIWindow.windowWidth()
             }
 
             let imageToShow = attachmentToLoad?.image
