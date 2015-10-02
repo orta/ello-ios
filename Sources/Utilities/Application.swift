@@ -12,7 +12,7 @@ public class Application {
 
     public struct Notifications {
         public static let DidChangeStatusBarFrame = TypedNotification<Application>(name: "com.Ello.Application.DidChangeStatusBarFrame")
-        public static let DidChangeStatusBarOrientation = TypedNotification<Application>(name: "com.Ello.Application.DidChangeStatusBarOrientation")
+        public static let DidChangeStatusBarOrientation = TypedNotification<UIInterfaceOrientation>(name: "com.Ello.Application.DidChangeStatusBarOrientation")
         public static let DidEnterBackground = TypedNotification<Application>(name: "com.Ello.Application.DidEnterBackground")
         public static let DidFinishLaunching = TypedNotification<Application>(name: "com.Ello.Application.DidFinishLaunching")
         public static let DidReceiveMemoryWarning = TypedNotification<Application>(name: "com.Ello.Application.DidReceiveMemoryWarning")
@@ -67,7 +67,10 @@ public class Application {
 
     @objc
     func didChangeStatusBarOrientation(notification : NSNotification) {
-        postNotification(Notifications.DidChangeStatusBarOrientation, value: self)
+        if let orientationInt = notification.userInfo?[UIApplicationStatusBarOrientationUserInfoKey] as? Int,
+            orientation = UIInterfaceOrientation(rawValue: orientationInt) {
+            postNotification(Notifications.DidChangeStatusBarOrientation, value: orientation)
+        }
     }
 
     @objc

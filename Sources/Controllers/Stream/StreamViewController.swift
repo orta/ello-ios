@@ -46,7 +46,6 @@ public protocol WebLinkDelegate: NSObjectProtocol {
 public struct StreamNotification {
     static let AnimateCellHeightNotification = TypedNotification<StreamImageCell>(name: "AnimateCellHeightNotification")
     static let UpdateCellHeightNotification = TypedNotification<UICollectionViewCell>(name: "UpdateCellHeightNotification")
-    static let DeviceRotationNotification = TypedNotification<UIInterfaceOrientation>(name: "DeviceRotationNotification")
 }
 
 // MARK: StreamViewController
@@ -352,7 +351,7 @@ public class StreamViewController: BaseElloViewController {
         updateCellHeightNotification = NotificationObserver(notification: StreamNotification.UpdateCellHeightNotification) { [unowned self] streamTextCell in
             self.collectionView.collectionViewLayout.invalidateLayout()
         }
-        rotationNotification = NotificationObserver(notification: StreamNotification.DeviceRotationNotification) { [unowned self] _ in
+        rotationNotification = NotificationObserver(notification: Application.Notifications.DidChangeStatusBarOrientation) { [unowned self] _ in
             self.collectionView.reloadData()
         }
 
