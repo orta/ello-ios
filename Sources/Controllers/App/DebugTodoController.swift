@@ -69,6 +69,11 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
         addAction("Crash the app") {
             Crashlytics.sharedInstance().crash()
         }
+
+        addAction("Show Rate Prompt") {
+            Rate.sharedRate.prompt()
+        }
+
         addAction("Show Push Notification Alert") {
             PushNotificationController.sharedController.permissionDenied = false
             PushNotificationController.sharedController.needsPermission = true

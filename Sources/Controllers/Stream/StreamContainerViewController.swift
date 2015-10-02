@@ -10,10 +10,12 @@ import UIKit
 import SVGKit
 
 public class StreamContainerViewController: StreamableViewController {
-
+    private var loggedPromptEventForThisSession = false
     private var noiseLoaded = false
     private var reloadStreamContentObserver: NotificationObserver?
     private var friendsViewController: StreamViewController?
+    private var appBackgroundObserver: NotificationObserver?
+    private var appForegroundObserver: NotificationObserver?
 
     enum Notifications : String {
         case StreamDetailTapped = "StreamDetailTappedNotification"
@@ -36,6 +38,7 @@ public class StreamContainerViewController: StreamableViewController {
     }
 
     deinit {
+        removeTemporaryNotificationObservers()
         removeNotificationObservers()
     }
 
@@ -47,6 +50,7 @@ public class StreamContainerViewController: StreamableViewController {
 
     override public func viewDidLoad() {
         super.viewDidLoad()
+        addNotificationObservers()
         setupStreamsSegmentedControl()
         setupChildViewControllers()
         elloNavigationItem.titleView = streamsSegmentedControl
@@ -64,7 +68,11 @@ public class StreamContainerViewController: StreamableViewController {
 
     override public func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-         addNotificationObservers()
+        addTemporaryNotificationObservers()
+        if !loggedPromptEventForThisSession {
+            Rate.sharedRate.logEvent()
+            loggedPromptEventForThisSession = true
+        }
     }
 
     override public func viewWillDisappear(animated: Bool) {
@@ -206,7 +214,7 @@ public class StreamContainerViewController: StreamableViewController {
 
 private extension StreamContainerViewController {
 
-    func addNotificationObservers() {
+    func addTemporaryNotificationObservers() {
         reloadStreamContentObserver = NotificationObserver(notification: NewContentNotifications.reloadStreamContent) {
             [unowned self] _ in
             if let vc = self.friendsViewController {
@@ -216,7 +224,18 @@ private extension StreamContainerViewController {
         }
     }
 
-    func removeNotificationObservers() {
+    func removeTemporaryNotificationObservers() {
         reloadStreamContentObserver?.removeObserver()
+    }
+
+    func addNotificationObservers() {
+        appBackgroundObserver = NotificationObserver(notification: Application.Notifications.DidEnterBackground) {
+            [unowned self] _ in
+            self.loggedPromptEventForThisSession = false
+        }
+    }
+
+    func removeNotificationObservers() {
+        appBackgroundObserver?.removeObserver()
     }
 }
