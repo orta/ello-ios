@@ -6,9 +6,9 @@
 //  Copyright © 2015 Ello. All rights reserved.
 //
 
-import Foundation
+import Ello
 
-public struct SpecsTrackingAgent: AnalyticsAgent {
+public class SpecsTrackingAgent: AnalyticsAgent {
 
     public var resetCalled = false
     public var lastEvent = ""
