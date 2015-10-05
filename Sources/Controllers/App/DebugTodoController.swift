@@ -72,6 +72,7 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
 
         addAction("Show Rate Prompt") {
             Rate.sharedRate.prompt()
+            
         }
 
         addAction("Show Push Notification Alert") {
