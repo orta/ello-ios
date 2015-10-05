@@ -36,11 +36,15 @@ public struct NullAgent: AnalyticsAgent {
 extension SEGAnalytics: AnalyticsAgent { }
 
 public class Tracker {
+    public var overrideAgent: AnalyticsAgent?
     public static let sharedTracker = Tracker()
     var settingChangedNotification: NotificationObserver?
     private var shouldTrackUser = true
     private var currentUser: User?
     private var agent: AnalyticsAgent {
+        if let overrideAgent = overrideAgent {
+            return overrideAgent
+        }
         return shouldTrackUser ? SEGAnalytics.sharedAnalytics() : NullAgent()
     }
 
@@ -53,7 +57,6 @@ public class Tracker {
             Crashlytics.sharedInstance().setUserIdentifier(self.shouldTrackUser ? user.id : "")
         }
     }
-
 }
 
 // MARK: Session Info
@@ -190,6 +193,39 @@ public extension Tracker {
         agent.track("logout tapped")
     }
 
+}
+
+// MARK: iRate
+public extension Tracker {
+    func ratePromptShown() {
+        log("rate prompt shown")
+        agent.track("rate prompt shown")
+    }
+
+    func ratePromptUserDeclinedToRateApp() {
+        log("rate prompt user declined to rate app")
+        agent.track("rate prompt user declined to rate app")
+    }
+
+    func ratePromptRemindMeLater() {
+        log("rate prompt remind me later")
+        agent.track("rate prompt remind me later")
+    }
+
+    func ratePromptUserAttemptedToRateApp() {
+        log("rate prompt user attempted to rate app")
+        agent.track("rate prompt user attempted to rate app")
+    }
+
+    func ratePromptOpenedAppStore() {
+        log("rate prompt opened app store")
+        agent.track("rate prompt opened app store")
+    }
+
+    func ratePromptCouldNotConnectToAppStore() {
+        log("rate prompt could not connect to app store")
+        agent.track("rate prompt could not connect to app store")
+    }
 }
 
 // MARK: Onboarding

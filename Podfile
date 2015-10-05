@@ -23,6 +23,7 @@ pod 'PINRemoteImage', '~> 1.1'
 pod 'SSPullToRefresh', '~> 1.2'
 pod 'SVGKit', git: 'https://github.com/SVGKit/SVGKit'
 pod 'YapDatabase', git: 'https://github.com/ello/YapDatabase'
+pod 'iRate', '~> 1.11'
 
 # debug only
 pod 'Firebase', configurations: ['Debug','CrashlyticsProduction','CrashlyticsStaging']

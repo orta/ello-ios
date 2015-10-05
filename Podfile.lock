@@ -20,6 +20,7 @@ PODS:
   - Fabric/Base (1.5.1)
   - Firebase (2.3.3)
   - FLAnimatedImage (1.0.8)
+  - iRate (1.11.4)
   - JTSImageViewController (1.5)
   - Keys (1.0.0)
   - KINWebBrowser (1.1.0)
@@ -59,6 +60,7 @@ DEPENDENCIES:
   - Fabric (~> 1.5)
   - Firebase
   - FLAnimatedImage (from `https://github.com/ello/FLAnimatedImage`)
+  - iRate (~> 1.11)
   - JTSImageViewController (from `https://github.com/ello/JTSImageViewController`)
   - Keys (from `Pods/CocoaPodsKeys`)
   - KINWebBrowser (from `https://github.com/ello/KINWebBrowser`)
@@ -140,6 +142,7 @@ SPEC CHECKSUMS:
   Fabric: 03c3b3fe77e11a2bc31421b989a9c7adaa4779a5
   Firebase: 2db60272f68ce40c7d47e5ae6eddc16977c65d4c
   FLAnimatedImage: 7599ec218dceacdcacbdfccb2947415c2619cd11
+  iRate: 599ed07c854e0695f3c605d1b2a64c67d912acb7
   JTSImageViewController: 89ae3c003060c65418fd3224ebbd67acc6046608
   Keys: 7d2ff6ff42f6903358267ce56e9392f83c31acfe
   KINWebBrowser: dad85d7d93e6f4620a8589b96992394affffa66e
