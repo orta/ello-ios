@@ -16,8 +16,12 @@ class PostbarControllerSpec: QuickSpec {
 
     override func spec() {
         var subject: PostbarController!
+        let currentUser: User = User.stub([
+            "id": "user500",
+            "lovesCount": 5,
+            ])
         let controller = StreamViewController.instantiateFromStoryboard()
-        var streamKind: StreamKind = .Friend
+        let streamKind: StreamKind = .Friend
         let webView = UIWebView(frame: CGRectMake(0, 0, 320, 640))
         let textSizeCalculator = FakeStreamTextCellSizeCalculator(webView: UIWebView(frame: webView.frame))
         let notificationSizeCalculator = FakeStreamNotificationCellSizeCalculator(webView: UIWebView(frame: webView.frame))
@@ -36,9 +40,9 @@ class PostbarControllerSpec: QuickSpec {
 
             self.showController(controller)
             controller.streamKind = streamKind
-            subject = PostbarController(collectionView: controller.collectionView, dataSource: controller.dataSource, presentingController: controller)
 
-            subject.currentUser = User.stub(["id": "user500"])
+            subject = PostbarController(collectionView: controller.collectionView, dataSource: controller.dataSource, presentingController: controller)
+            subject.currentUser = currentUser
         }
 
         describe("PostbarController") {
@@ -46,8 +50,7 @@ class PostbarControllerSpec: QuickSpec {
             describe("loveButtonTapped(_:)") {
 
                 let stubCellItems: (loved: Bool) -> Void = { loved in
-                    var user: User = stub(["id": "user1"])
-                    var post: Post = stub([
+                    let post: Post = stub([
                         "id": "post1",
                         "authorId" : "user1",
                         "lovesCount" : 5,
@@ -62,38 +65,74 @@ class PostbarControllerSpec: QuickSpec {
                 }
 
                 context("post has not been loved") {
-
                     it("loves the post") {
                         stubCellItems(loved: false)
                         let indexPath = NSIndexPath(forItem: 2, inSection: 0)
                         let cell = StreamFooterCell.loadFromNib() as StreamFooterCell
 
                         var lovesCount = 0
-                        var observer = NotificationObserver(notification: PostChangedNotification) { (post, change) in
+                        var contentChange: ContentChange?
+                        let observer = NotificationObserver(notification: PostChangedNotification) { (post, change) in
                             lovesCount = post.lovesCount!
+                            contentChange = change
                         }
                         subject.lovesButtonTapped(cell, indexPath: indexPath)
                         observer.removeObserver()
 
                         expect(lovesCount) == 6
+                        expect(contentChange) == .Loved
+                    }
+
+                    it("increases currentUser lovesCount") {
+                        stubCellItems(loved: false)
+                        let indexPath = NSIndexPath(forItem: 2, inSection: 0)
+                        let cell = StreamFooterCell.loadFromNib() as StreamFooterCell
+
+                        let prevLovesCount = currentUser.lovesCount!
+                        var lovesCount = 0
+                        let observer = NotificationObserver(notification: CurrentUserChangedNotification) { (user) in
+                            lovesCount = user.lovesCount!
+                        }
+                        subject.lovesButtonTapped(cell, indexPath: indexPath)
+                        observer.removeObserver()
+
+                        expect(lovesCount) == prevLovesCount + 1
                     }
                 }
 
                 context("post has already been loved") {
-
                     it("unloves the post") {
                         stubCellItems(loved: true)
                         let indexPath = NSIndexPath(forItem: 2, inSection: 0)
                         let cell = StreamFooterCell.loadFromNib() as StreamFooterCell
 
                         var lovesCount = 0
-                        var observer = NotificationObserver(notification: PostChangedNotification) { (post, change) in
+                        var contentChange: ContentChange?
+                        let observer = NotificationObserver(notification: PostChangedNotification) { (post, change) in
                             lovesCount = post.lovesCount!
+                            contentChange = change
                         }
                         subject.lovesButtonTapped(cell, indexPath: indexPath)
                         observer.removeObserver()
 
                         expect(lovesCount) == 4
+                        expect(contentChange) == .Loved
+                    }
+
+                    it("decreases currentUser lovesCount") {
+                        stubCellItems(loved: true)
+                        let indexPath = NSIndexPath(forItem: 2, inSection: 0)
+                        let cell = StreamFooterCell.loadFromNib() as StreamFooterCell
+
+                        let prevLovesCount = currentUser.lovesCount!
+                        var lovesCount = 0
+                        let observer = NotificationObserver(notification: CurrentUserChangedNotification) { (user) in
+                            lovesCount = user.lovesCount!
+                        }
+                        subject.lovesButtonTapped(cell, indexPath: indexPath)
+                        observer.removeObserver()
+
+                        expect(lovesCount) == prevLovesCount - 1
                     }
                 }
             }
