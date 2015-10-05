@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="AtlasTypewriterRegular.otf">
@@ -11,7 +12,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SignInViewController" customModule="Ello" customModuleProvider="target">
             <connections>
-                <outlet property="containerHeightConstraint" destination="Ywh-B5-Bfz" id="9qi-OL-ZKJ"/>
                 <outlet property="elloLogo" destination="eJH-PK-LSx" id="3bt-Hj-9bk"/>
                 <outlet property="emailTextField" destination="ciS-FV-Pbi" id="ea0-uA-fBi"/>
                 <outlet property="enterButton" destination="yyP-gN-IdD" id="WkH-zh-9D3"/>
@@ -34,10 +34,11 @@
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0kk-r2-Als" userLabel="Container">
-                            <rect key="frame" x="113" y="0.0" width="374" height="550"/>
+                            <rect key="frame" x="113" y="0.0" width="374" height="600"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fep-L6-6o2" userLabel="forgotPasswordButton" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="501" width="187" height="34"/>
+                                    <rect key="frame" x="0.0" y="551" width="185" height="34"/>
+                                    <animations/>
                                     <state key="normal" title="Forgot your password?">
                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -48,6 +49,7 @@
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EOF-M5-5od" userLabel="joinButton" customClass="ElloTextButton" customModule="Ello" customModuleProvider="target">
                                     <rect key="frame" x="250" y="30" width="124" height="34"/>
+                                    <animations/>
                                     <state key="normal" title="Create account">
                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -57,10 +59,11 @@
                                     </connections>
                                 </button>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sjY-tc-zbR" userLabel="centered">
-                                    <rect key="frame" x="0.0" y="132" width="374" height="285"/>
+                                    <rect key="frame" x="0.0" y="157" width="374" height="285"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ello-logo" translatesAutoresizingMaskIntoConstraints="NO" id="eJH-PK-LSx" customClass="ElloLogoView" customModule="Ello" customModuleProvider="target">
                                             <rect key="frame" x="157" y="0.0" width="60" height="60"/>
+                                            <animations/>
                                             <accessibility key="accessibilityConfiguration" label="smiley face logo"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="60" id="cS7-06-2yB"/>
@@ -69,6 +72,7 @@
                                         </imageView>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter your password" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="vG2-tp-zKA" userLabel="passwordTextField" customClass="ElloTextField" customModule="Ello" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="178" width="374" height="49"/>
+                                            <animations/>
                                             <color key="backgroundColor" red="0.78030639889999998" green="0.78044152259999999" blue="0.78029787539999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="49" id="JTv-Ha-Qwm" userLabel="height"/>
@@ -78,12 +82,14 @@
                                         </textField>
                                         <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iwD-nO-HjU" userLabel="errorLabel" customClass="ElloErrorLabel" customModule="Ello" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="236" width="374" height="13"/>
+                                            <animations/>
                                             <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="13"/>
                                             <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yyP-gN-IdD" userLabel="enterButton" customClass="ElloButton" customModule="Ello" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="236" width="374" height="49"/>
+                                            <animations/>
                                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="49" id="beT-3X-ZJP" userLabel="height"/>
@@ -99,6 +105,7 @@
                                         </button>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter your email address" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ciS-FV-Pbi" userLabel="emailTextField" customClass="ElloTextField" customModule="Ello" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="120" width="374" height="49"/>
+                                            <animations/>
                                             <color key="backgroundColor" red="0.78030639889999998" green="0.78044152259999999" blue="0.78029787539999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="49" id="1UC-IF-kz0" userLabel="height"/>
@@ -109,6 +116,7 @@
                                         </textField>
                                         <button opaque="NO" contentMode="center" verticalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Pc-ZP-WqS" userLabel="onePasswordButton">
                                             <rect key="frame" x="330" y="181" width="44" height="44"/>
+                                            <animations/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="44" id="6Ws-Tz-eC4" userLabel="width"/>
@@ -124,6 +132,7 @@
                                             </connections>
                                         </button>
                                     </subviews>
+                                    <animations/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="yyP-gN-IdD" secondAttribute="trailing" id="1Wt-qz-tm6" userLabel="enterButton - Right"/>
@@ -146,13 +155,13 @@
                                     </constraints>
                                 </view>
                             </subviews>
+                            <animations/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstItem="EOF-M5-5od" firstAttribute="top" secondItem="0kk-r2-Als" secondAttribute="top" constant="30" id="5bv-P5-bWh" userLabel="joinButton - top"/>
                                 <constraint firstAttribute="centerY" secondItem="sjY-tc-zbR" secondAttribute="centerY" id="FH6-fn-x3o" userLabel="container | centered vert alignment"/>
                                 <constraint firstAttribute="bottom" secondItem="fep-L6-6o2" secondAttribute="bottom" constant="15" id="FnC-Wk-hUe" userLabel="forgotPasswordButton - bottom"/>
                                 <constraint firstAttribute="trailing" secondItem="EOF-M5-5od" secondAttribute="trailing" id="MJf-Vv-Geg" userLabel="joinButton - right"/>
-                                <constraint firstAttribute="height" constant="550" id="Ywh-B5-Bfz" userLabel="container - height"/>
                                 <constraint firstItem="sjY-tc-zbR" firstAttribute="leading" secondItem="0kk-r2-Als" secondAttribute="leading" id="ZQb-R8-h8h" userLabel="container | centered - left"/>
                                 <constraint firstItem="fep-L6-6o2" firstAttribute="leading" secondItem="0kk-r2-Als" secondAttribute="leading" id="dDS-HJ-POS" userLabel="forgotPasswordButton - left"/>
                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="374" id="wOZ-Zt-26A" userLabel="container - width"/>
@@ -160,10 +169,12 @@
                             </constraints>
                         </view>
                     </subviews>
+                    <animations/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="0kk-r2-Als" firstAttribute="width" secondItem="EJr-Pr-Cuc" secondAttribute="width" priority="999" constant="-40" id="0GI-Ct-2YE" userLabel="ScrollView | Container equal widths"/>
                         <constraint firstAttribute="trailing" secondItem="0kk-r2-Als" secondAttribute="trailing" constant="113" placeholder="YES" id="Av6-Oq-M5t" userLabel="Conainer - Right"/>
+                        <constraint firstItem="0kk-r2-Als" firstAttribute="height" secondItem="EJr-Pr-Cuc" secondAttribute="height" id="Mnh-Er-HGA"/>
                         <constraint firstItem="0kk-r2-Als" firstAttribute="top" secondItem="EJr-Pr-Cuc" secondAttribute="top" id="UgK-qM-384" userLabel="Container - top"/>
                         <constraint firstAttribute="centerX" secondItem="0kk-r2-Als" secondAttribute="centerX" id="dHp-CD-N7Q" userLabel="Container - vertical centered"/>
                         <constraint firstItem="0kk-r2-Als" firstAttribute="leading" secondItem="EJr-Pr-Cuc" secondAttribute="leading" constant="113" placeholder="YES" id="fDd-yq-nMf" userLabel="Container - left"/>
@@ -173,12 +184,14 @@
                 </scrollView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Ej-gv-KIi" userLabel="statusBarBackground">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="20"/>
+                    <animations/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="20" id="0Qw-T5-cRk"/>
                     </constraints>
                 </view>
             </subviews>
+            <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="EJr-Pr-Cuc" firstAttribute="leading" secondItem="XFW-Ne-HSx" secondAttribute="leading" id="3AE-Qj-0fe" userLabel="Scroll View - Left"/>

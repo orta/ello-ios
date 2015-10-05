@@ -55,6 +55,10 @@ public class AppViewController: BaseElloViewController {
             let top = view.frame.height - 250 - logoView.frame.height
             logoTopConstraint.constant = top
         }
+    }
+
+    override public func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         scrollView.contentSize = view.frame.size
     }
 
