@@ -40,7 +40,7 @@ public class ElloTabBar: UITabBar {
         self.shadowImage = UIImage.imageWithColor(UIColor.whiteColor())
     }
 
-    func addRedDotAtIndex(index: Int) -> UIView {
+    public func addRedDotAtIndex(index: Int) -> UIView {
         let redDot: UIView
         if let entryIndex = (redDotViews.indexOf { $0.0 == index }) {
             redDot = redDotViews[entryIndex].1
