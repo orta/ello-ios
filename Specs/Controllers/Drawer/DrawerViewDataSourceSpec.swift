@@ -34,15 +34,15 @@ class DrawerViewDataSourceSpec: QuickSpec {
                     expect(dataSource.itemForIndexPath(indexPathFromIndex(1))?.type) == DrawerItemType.Invite
 
                     expect(dataSource.itemForIndexPath(indexPathFromIndex(2))?.name) == "Help"
-                    expect(dataSource.itemForIndexPath(indexPathFromIndex(2))?.link) == "https://ello.co/wtf/post/help"
+                    expect(dataSource.itemForIndexPath(indexPathFromIndex(2))?.link) == "https://ello.co/wtf/help/the-basics/"
                     expect(dataSource.itemForIndexPath(indexPathFromIndex(2))?.type) == DrawerItemType.External
 
                     expect(dataSource.itemForIndexPath(indexPathFromIndex(3))?.name) == "Resources"
-                    expect(dataSource.itemForIndexPath(indexPathFromIndex(3))?.link) == "https://ello.co/wtf/post/resources"
+                    expect(dataSource.itemForIndexPath(indexPathFromIndex(3))?.link) == "https://ello.co/wtf/resources/community-directory/"
                     expect(dataSource.itemForIndexPath(indexPathFromIndex(3))?.type) == DrawerItemType.External
 
                     expect(dataSource.itemForIndexPath(indexPathFromIndex(4))?.name) == "About"
-                    expect(dataSource.itemForIndexPath(indexPathFromIndex(4))?.link) == "https://ello.co/wtf/post/about"
+                    expect(dataSource.itemForIndexPath(indexPathFromIndex(4))?.link) == "https://ello.co/wtf/about/what-is-ello/"
                     expect(dataSource.itemForIndexPath(indexPathFromIndex(4))?.type) == DrawerItemType.External
 
                     expect(dataSource.itemForIndexPath(indexPathFromIndex(5))?.name) == "Logout"
