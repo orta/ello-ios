@@ -14,7 +14,16 @@ import Nimble
 extension QuickSpec {
 
     func showController(viewController: UIViewController) -> UIWindow {
-        let window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        let frame: CGRect
+        let view = viewController.view
+        if view.frame.size.width > 0 && view.frame.size.height > 0 {
+            frame = CGRect(origin: CGPointZero, size: view.frame.size)
+        }
+        else {
+            frame = UIScreen.mainScreen().bounds
+        }
+        let window = UIWindow(frame: frame)
+
         window.makeKeyAndVisible()
         window.rootViewController = viewController
         viewController.view.layoutIfNeeded()
@@ -23,6 +32,8 @@ extension QuickSpec {
 
     func showView(view: UIView) -> UIWindow {
         let controller = UIViewController()
+        controller.view.frame.size = view.frame.size
+        view.frame.origin = CGPointZero
         controller.view.addSubview(view)
         return showController(controller)
     }

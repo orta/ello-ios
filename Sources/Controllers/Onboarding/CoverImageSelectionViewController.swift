@@ -27,6 +27,32 @@ public class CoverImageSelectionViewController: OnboardingUploadImageViewControl
         }
     }
 
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        let chooseCoverImage = chooseCoverImageDefault()
+        let width = min(view.frame.width, Size.maxWidth)
+        let aspect = width / chooseCoverImage.size.width
+
+        onboardingHeader!.frame.size.width = view.frame.width
+        onboardingHeader!.sizeToFit()
+
+        chooseCoverImageView!.frame = CGRect(
+            x: (view.frame.width - width) / 2,
+            y: onboardingHeader!.frame.maxY + 23,
+            width: width,
+            height: chooseCoverImage.size.height * aspect
+            )
+
+        let chooseWidth = width - 30
+        chooseImageButton!.frame = CGRect(
+            x: (view.frame.width - chooseWidth) / 2,
+            y: chooseCoverImageView!.frame.maxY + 23,
+            width: chooseWidth,
+            height: 50
+            )
+    }
+
 }
 
 // MARK: View setup
@@ -39,7 +65,6 @@ private extension CoverImageSelectionViewController {
             width: view.frame.width,
             height: 0
             ))
-        onboardingHeader.autoresizingMask = .FlexibleWidth
         let header = NSLocalizedString("Customize your profile.", comment: "Header Image Selection text")
         let message = NSLocalizedString("This is what other people will see when viewing your profile, make it look good!", comment: "Header Image Selection text")
         onboardingHeader.header = header
@@ -70,12 +95,13 @@ private extension CoverImageSelectionViewController {
 
     func setupChooseImageButton() {
         let width = min(view.frame.width, Size.maxWidth)
+        let chooseWidth = width - 30
         let chooseImageButton = ElloButton(frame: CGRect(
-            x: (view.frame.width - width) / 2,
-            y: chooseCoverImageView!.frame.maxY + 8,
-            width: width,
-            height: 80
-            ).inset(all: 15))
+            x: (view.frame.width - chooseWidth) / 2,
+            y: chooseCoverImageView!.frame.maxY + 23,
+            width: chooseWidth,
+            height: 50
+            ))
         chooseImageButton.autoresizingMask = [.FlexibleLeftMargin, .FlexibleRightMargin, .FlexibleBottomMargin]
         chooseImageButton.setTitle(NSLocalizedString("Choose Your Header", comment: "Choose your header button"), forState: .Normal)
         chooseImageButton.addTarget(self, action: Selector("chooseImageTapped"), forControlEvents: .TouchUpInside)

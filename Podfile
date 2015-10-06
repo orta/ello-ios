@@ -39,6 +39,7 @@ pod 'WebLinking', '~> 1.0'
 
 target 'Specs' do
   pod 'Nimble', git: 'https://github.com/Quick/Nimble', branch: 'xcode7.1'
+  pod 'Nimble-Snapshots', git: 'https://github.com/ello/Nimble-Snapshots'
   pod 'OHHTTPStubs', '~> 4.3'
   pod 'Quick', git: 'https://github.com/Quick/Quick', branch: 'xcode7.1'
 end
