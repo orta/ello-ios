@@ -1,5 +1,5 @@
 PODS:
-  - 1PasswordExtension (1.2)
+  - 1PasswordExtension (1.6.1)
   - Alamofire (2.0.0)
   - Analytics/Core-iOS (2.0.8):
     - TRVSDictionaryWithCaseInsensitivity (= 0.0.2)
@@ -52,7 +52,7 @@ PODS:
     - CocoaLumberjack (~> 2)
 
 DEPENDENCIES:
-  - 1PasswordExtension (from `https://github.com/ello/onepassword-app-extension`)
+  - 1PasswordExtension (~> 1.6)
   - Alamofire (~> 2.0)
   - Analytics/Segmentio
   - Crashlytics (~> 3.3)
@@ -81,8 +81,6 @@ DEPENDENCIES:
   - YapDatabase (from `https://github.com/ello/YapDatabase`)
 
 EXTERNAL SOURCES:
-  1PasswordExtension:
-    :git: https://github.com/ello/onepassword-app-extension
   CRToast:
     :git: https://github.com/ello/CRToast
   FLAnimatedImage:
@@ -104,9 +102,6 @@ EXTERNAL SOURCES:
     :git: https://github.com/ello/YapDatabase
 
 CHECKOUT OPTIONS:
-  1PasswordExtension:
-    :commit: 6980efe9ba08a8a7e873d6321a44ad893052e20b
-    :git: https://github.com/ello/onepassword-app-extension
   CRToast:
     :commit: c84bf5ff9ee16b99e45f3bf25bb5db9c386fa728
     :git: https://github.com/ello/CRToast
@@ -133,7 +128,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/ello/YapDatabase
 
 SPEC CHECKSUMS:
-  1PasswordExtension: 3e1e369026c95308f9e4c901b218cca41adbd116
+  1PasswordExtension: 42b79b7ac6d8e7468b22b7a651fc0b445bcdbd3e
   Alamofire: 2f13548b29d25a58ecd91c9225fb51493e2b782b
   Analytics: a927e695c29b9b06b38137bb6608e9924ccc94cb
   CocoaLumberjack: 019d1361244274a6138c788c6cb80baabc13fb8f
