@@ -22,6 +22,7 @@ public func ==(lhs: StreamCellType, rhs: StreamCellType) -> Bool {
 }
 
 public enum StreamCellType: Equatable {
+    case ColumnToggle
     case CommentHeader
     case CreateComment
     case Embed(data: Regionable?)
@@ -44,6 +45,7 @@ public enum StreamCellType: Equatable {
     case UserListItem
 
     static let all = [
+        ColumnToggle,
         CommentHeader,
         CreateComment,
         Embed(data: nil),
@@ -100,11 +102,13 @@ public enum StreamCellType: Equatable {
         case Unknown: return 17
         case UserAvatars: return 18
         case UserListItem: return 19
+        case ColumnToggle: return 20
         }
     }
 
     public var name: String {
         switch self {
+        case ColumnToggle: return "ColumnToggleCell"
         case CommentHeader, Header: return "StreamHeaderCell"
         case CreateComment: return "StreamCreateCommentCell"
         case Embed: return "StreamEmbedCell"
@@ -161,6 +165,7 @@ public enum StreamCellType: Equatable {
 
     public var classType: UICollectionViewCell.Type {
         switch self {
+        case .ColumnToggle: return ColumnToggleCell.self
         case CommentHeader, Header: return StreamHeaderCell.self
         case CreateComment: return StreamCreateCommentCell.self
         case Embed: return StreamEmbedCell.self
@@ -184,6 +189,8 @@ public enum StreamCellType: Equatable {
 
     public var oneColumnHeight: CGFloat {
         switch self {
+        case .ColumnToggle:
+            return 40.0
         case CommentHeader,
              InviteFriends,
              SeeMoreComments:
@@ -247,7 +254,8 @@ public enum StreamCellType: Equatable {
 
     public var isFullWidth: Bool {
         switch self {
-        case CreateComment,
+        case ColumnToggle,
+             CreateComment,
              FollowAll,
              InviteFriends,
              OnboardingHeader,

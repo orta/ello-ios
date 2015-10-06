@@ -42,6 +42,10 @@ public protocol WebLinkDelegate: NSObjectProtocol {
     func webLinkTapped(type: ElloURI, data: String)
 }
 
+public protocol ColumnToggleDelegate: NSObjectProtocol {
+    func columnToggleTapped(gridMode: Bool)
+}
+
 // MARK: StreamNotification
 public struct StreamNotification {
     static let AnimateCellHeightNotification = TypedNotification<StreamImageCell>(name: "AnimateCellHeightNotification")
@@ -273,8 +277,10 @@ public class StreamViewController: BaseElloViewController {
                     if !self.isValidInitialPageLoadingToken(localToken) { return }
                     self.clearForInitialLoad()
                     self.responseConfig = responseConfig
+                    let toggleCellItem = StreamCellItem(jsonable: JSONAble(version: 1), type: .ColumnToggle)
                     // this calls doneLoading when cells are added
-                    self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind, currentUser: self.currentUser), withWidth: nil)
+                    let items = [toggleCellItem] + StreamCellItemParser().parse(jsonables, streamKind: self.streamKind, currentUser: self.currentUser)
+                    self.appendUnsizedCellItems(items, withWidth: nil)
                 }, failure: { (error, statusCode) in
                     print("failed to load \(self.streamKind.name) stream (reason: \(error))")
                     self.initialLoadFailure()

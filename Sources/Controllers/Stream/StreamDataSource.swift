@@ -238,6 +238,8 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
             let streamCellItem = visibleCellItems[indexPath.item]
 
             switch streamCellItem.type {
+            case .ColumnToggle:
+                (cell as! ColumnToggleCell).columnToggleDelegate = self
             case .Footer:
                 (cell as! StreamFooterCell).delegate = postbarDelegate
             case .CreateComment:
@@ -752,6 +754,13 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                 return item.alwaysShow() || streamCollapsedFilter(item)
             }
         }
+    }
+}
+
+extension StreamDataSource: ColumnToggleDelegate {
+
+    public func columnToggleTapped(gridMode: Bool) {
+        print("columnToggleTapped \(gridMode)")
     }
 }
 
