@@ -9,59 +9,48 @@
 import Ello
 import Quick
 import Nimble
+import Nimble_Snapshots
 
 
 class ElloTabBarSpec: QuickSpec {
     override func spec() {
-        describe("ElloTabBar") {
+        fdescribe("ElloTabBar") {
             var subject: ElloTabBar!
             var redDot: UIView!
-            let portraitFrame = CGRect(x: 0, y: 0, width: 320, height: 480)
-            let landscapeFrame = CGRect(x: 0, y: 0, width: 480, height: 320)
+            let portraitFrame = CGRect(x: 0, y: 0, width: 320, height: 44)
+            let landscapeFrame = CGRect(x: 0, y: 0, width: 1024, height: 44)
+
+            beforeEach {
+                let items = [
+                    UITabBarItem.svgItem("sparkles"),
+                    UITabBarItem.svgItem("bolt"),
+                    UITabBarItem.svgItem("circbig"),
+                    UITabBarItem.svgItem("person"),
+                    UITabBarItem.svgItem("omni"),
+                ]
+                subject = ElloTabBar()
+                subject.items = items
+                redDot = subject.addRedDotAtIndex(1)
+                redDot.hidden = false
+            }
 
             context("red dot position") {
                 context("portait") {
                     beforeEach {
-                        subject = ElloTabBar()
                         subject.frame = portraitFrame
-                        let items = [
-                            UITabBarItem(tabBarSystemItem: .More, tag: 0),
-                            UITabBarItem(tabBarSystemItem: .Favorites, tag: 0),
-                            UITabBarItem(tabBarSystemItem: .Featured, tag: 0),
-                        ]
-                        subject.items = items
-                        redDot = subject.addRedDotAtIndex(1)
-
                         self.showView(subject)
                     }
                     it("should be in the correct location") {
-                        let expected = CGRect(x: 173.5, y: 10, width: 6, height: 6)
-                        expect(redDot.frame.origin.x) == expected.origin.x
-                        expect(redDot.frame.origin.y) == expected.origin.y
-                        expect(redDot.frame.size.width) == expected.size.width
-                        expect(redDot.frame.size.height) == expected.size.height
+                        expect(subject).to(haveValidSnapshot())
                     }
                 }
                 context("landscape") {
                     beforeEach {
-                        subject = ElloTabBar()
                         subject.frame = landscapeFrame
-                        let items = [
-                            UITabBarItem(tabBarSystemItem: .More, tag: 0),
-                            UITabBarItem(tabBarSystemItem: .Favorites, tag: 0),
-                            UITabBarItem(tabBarSystemItem: .Featured, tag: 0),
-                        ]
-                        subject.items = items
-                        redDot = subject.addRedDotAtIndex(1)
-
                         self.showView(subject)
                     }
                     it("should be in the correct location") {
-                        let expected = CGRect(x: 253.5, y: 10, width: 6, height: 6)
-                        expect(redDot.frame.origin.x) == expected.origin.x
-                        expect(redDot.frame.origin.y) == expected.origin.y
-                        expect(redDot.frame.size.width) == expected.size.width
-                        expect(redDot.frame.size.height) == expected.size.height
+                        expect(subject).to(haveValidSnapshot())
                     }
                 }
             }
