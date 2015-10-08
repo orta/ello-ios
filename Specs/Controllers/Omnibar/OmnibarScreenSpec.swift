@@ -68,7 +68,7 @@ class OmnibarScreenSpec: QuickSpec {
             subject.delegate = delegate
             controller.view.addSubview(subject)
 
-            self.showController(controller)
+            showController(controller)
         }
 
         describe("OmnibarScreen") {

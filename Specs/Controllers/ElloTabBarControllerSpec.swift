@@ -144,7 +144,7 @@ class ElloTabBarControllerSpec: QuickSpec {
                 // is not set, and the 'tapping twice' behavior doesn't change the content
                 // offset all the way to 0.
                 xit("should scroll to the top") {
-                    self.showController(subject)
+                    showController(subject)
                     let vc = child1.topViewController
                     scrollView.contentOffset = CGPoint(x: 0, y: 200)
 
@@ -161,7 +161,7 @@ class ElloTabBarControllerSpec: QuickSpec {
                 xcontext("stream tab") {
                     context("red dot visible") {
                         it("posts a NewContentNotifications.reloadStreamContent"){
-                            self.showController(subject)
+                            showController(subject)
                             var reloadPosted = false
                             subject.streamsDot?.hidden = false
                             _ = NotificationObserver(notification: NewContentNotifications.reloadStreamContent) {

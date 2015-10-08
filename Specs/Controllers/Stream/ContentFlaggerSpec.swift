@@ -19,7 +19,7 @@ class ContentFlaggerSpec: QuickSpec {
         var subject: ContentFlagger!
         let presentingController = UIViewController()
         beforeEach {
-            self.showController(presentingController)
+            showController(presentingController)
         }
 
         context("post flagging") {

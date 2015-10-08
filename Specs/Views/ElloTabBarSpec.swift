@@ -14,11 +14,11 @@ import Nimble_Snapshots
 
 class ElloTabBarSpec: QuickSpec {
     override func spec() {
-        fdescribe("ElloTabBar") {
+        describe("ElloTabBar") {
             var subject: ElloTabBar!
             var redDot: UIView!
-            let portraitFrame = CGRect(x: 0, y: 0, width: 320, height: 44)
-            let landscapeFrame = CGRect(x: 0, y: 0, width: 1024, height: 44)
+            let portraitSize = CGSize(width: 320, height: 49)
+            let landscapeSize = CGSize(width: 1024, height: 49)
 
             beforeEach {
                 let items = [
@@ -37,8 +37,7 @@ class ElloTabBarSpec: QuickSpec {
             context("red dot position") {
                 context("portait") {
                     beforeEach {
-                        subject.frame = portraitFrame
-                        self.showView(subject)
+                        prepareForSnapshot(subject, size: portraitSize)
                     }
                     it("should be in the correct location") {
                         expect(subject).to(haveValidSnapshot())
@@ -46,8 +45,7 @@ class ElloTabBarSpec: QuickSpec {
                 }
                 context("landscape") {
                     beforeEach {
-                        subject.frame = landscapeFrame
-                        self.showView(subject)
+                        prepareForSnapshot(subject, size: landscapeSize)
                     }
                     it("should be in the correct location") {
                         expect(subject).to(haveValidSnapshot())

@@ -12,7 +12,7 @@ class DrawerViewControllerSpec: QuickSpec {
 
                 beforeEach {
                     subject = DrawerViewController()
-                    self.showController(subject)
+                    showController(subject)
                     subject.loadView()
                 }
 
@@ -38,7 +38,7 @@ class DrawerViewControllerSpec: QuickSpec {
 
                 beforeEach {
                     subject = DrawerViewController()
-                    self.showController(subject)
+                    showController(subject)
                     subject.loadView()
                     subject.viewDidLoad()
                 }
@@ -47,7 +47,7 @@ class DrawerViewControllerSpec: QuickSpec {
                     let button = subject.elloNavigationItem.rightBarButtonItem
                     expect(button).toNot(beNil())
                 }
-                
+
                 it("registers cells") {
                     subject.viewWillAppear(false) // required because the datasource is not setup until viewWillAppear
                     expect(subject.tableView).to(haveRegisteredIdentifier(DrawerCell.reuseIdentifier()))

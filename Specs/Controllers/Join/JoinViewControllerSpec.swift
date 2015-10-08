@@ -80,7 +80,7 @@ class JoinViewControllerSpec: QuickSpec {
 
             beforeEach {
                 controller = JoinViewController()
-                self.showController(controller)
+                showController(controller)
             }
 
             describe("initial state") {

@@ -110,7 +110,7 @@ class OmnibarViewControllerSpec: QuickSpec {
                     subject = OmnibarViewController()
                     screen = OmnibarMockScreen()
                     subject.screen = screen
-                    self.showController(subject)
+                    showController(subject)
                 }
 
                 it("assigns the currentUser.avatarURL to the screen") {

@@ -9,34 +9,99 @@
 import Ello
 import Quick
 import Nimble
+import Nimble_Snapshots
 
 
-extension QuickSpec {
+func showController(viewController: UIViewController) -> UIWindow {
+    let frame: CGRect
+    let view = viewController.view
+    if view.frame.size.width > 0 && view.frame.size.height > 0 {
+        frame = CGRect(origin: CGPointZero, size: view.frame.size)
+    }
+    else {
+        frame = UIScreen.mainScreen().bounds
+    }
+    let window = UIWindow(frame: frame)
+    window.makeKeyAndVisible()
+    window.rootViewController = viewController
+    viewController.view.layoutIfNeeded()
+    return window
+}
 
-    func showController(viewController: UIViewController) -> UIWindow {
-        let frame: CGRect
-        let view = viewController.view
-        if view.frame.size.width > 0 && view.frame.size.height > 0 {
-            frame = CGRect(origin: CGPointZero, size: view.frame.size)
+func showView(view: UIView) -> UIWindow {
+    let controller = UIViewController()
+    controller.view.frame.size = view.frame.size
+    view.frame.origin = CGPointZero
+    controller.view.addSubview(view)
+    return showController(controller)
+}
+
+public enum SnapshotDevice {
+    case Pad_Landscape
+    case Pad_Portrait
+    case Phone4_Portrait
+    case Phone5_Portrait
+    case Phone6_Portrait
+    case Phone6Plus_Portrait
+
+    static let all: [SnapshotDevice] = [
+        .Pad_Landscape,
+        .Pad_Portrait,
+        .Phone4_Portrait,
+        .Phone5_Portrait,
+        .Phone6_Portrait,
+        .Phone6Plus_Portrait,
+    ]
+
+    var description: String {
+        switch self {
+            case Pad_Landscape: return "iPad in Landscape"
+            case Pad_Portrait: return "iPad in Portrait"
+            case Phone4_Portrait: return "iPhone4 in Portrait"
+            case Phone5_Portrait: return "iPhone5 in Portrait"
+            case Phone6_Portrait: return "iPhone6 in Portrait"
+            case Phone6Plus_Portrait: return "iPhone6Plus in Portrait"
         }
-        else {
-            frame = UIScreen.mainScreen().bounds
-        }
-        let window = UIWindow(frame: frame)
-
-        window.makeKeyAndVisible()
-        window.rootViewController = viewController
-        viewController.view.layoutIfNeeded()
-        return window
     }
 
-    func showView(view: UIView) -> UIWindow {
-        let controller = UIViewController()
-        controller.view.frame.size = view.frame.size
-        view.frame.origin = CGPointZero
-        controller.view.addSubview(view)
-        return showController(controller)
+    var size: CGSize {
+        switch self {
+            case Pad_Landscape: return CGSize(width: 1024, height: 768)
+            case Pad_Portrait: return CGSize(width: 768, height: 1024)
+            case Phone4_Portrait: return CGSize(width: 320, height: 480)
+            case Phone5_Portrait: return CGSize(width: 320, height: 568)
+            case Phone6_Portrait: return CGSize(width: 375, height: 667)
+            case Phone6Plus_Portrait: return CGSize(width: 414, height: 736)
+        }
     }
+}
+
+func validateAllSnapshots(subject: Snapshotable, record: Bool = false, file: String = __FILE__, line: UInt = __LINE__) {
+    for device in SnapshotDevice.all {
+        context(device.description) {
+            beforeEach {
+                prepareForSnapshot(subject.snapshotObject!, device: device)
+            }
+            describe("view") {
+                it("should match the screenshot", file: file, line: line) {
+                    expect(subject, file: file, line: line).to(record ? recordSnapshot() : haveValidSnapshot())
+                }
+            }
+        }
+    }
+}
+
+func prepareForSnapshot(subject: Snapshotable, device: SnapshotDevice) {
+    prepareForSnapshot(subject, size: device.size)
+}
+
+func prepareForSnapshot(subject: Snapshotable, size: CGSize) {
+    let parent = UIView(frame: CGRect(origin: CGPointZero, size: size))
+    let view = subject.snapshotObject!
+    view.frame = parent.bounds
+    parent.addSubview(view)
+    view.layoutIfNeeded()
+    showView(view)
 }
 
 

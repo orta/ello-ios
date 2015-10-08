@@ -23,7 +23,7 @@ class AvatarImageSelectionViewControllerSpec: QuickSpec {
                     subject.view.frame = parent.bounds
                     parent.addSubview(subject.view)
                     subject.view.layoutIfNeeded()
-                    self.showView(parent)
+                    showView(parent)
                 }
                 describe("view") {
                     it("should match the screenshot") {
@@ -38,7 +38,7 @@ class AvatarImageSelectionViewControllerSpec: QuickSpec {
                     subject.view.frame = parent.bounds
                     parent.addSubview(subject.view)
                     subject.view.layoutIfNeeded()
-                    self.showView(parent)
+                    showView(parent)
                 }
                 describe("view") {
                     it("should match the screenshot") {
@@ -53,7 +53,7 @@ class AvatarImageSelectionViewControllerSpec: QuickSpec {
                     subject.view.frame = parent.bounds
                     parent.addSubview(subject.view)
                     subject.view.layoutIfNeeded()
-                    self.showView(parent)
+                    showView(parent)
                 }
                 describe("view") {
                     it("should match the screenshot") {
@@ -68,7 +68,7 @@ class AvatarImageSelectionViewControllerSpec: QuickSpec {
                     subject.view.frame = parent.bounds
                     parent.addSubview(subject.view)
                     subject.view.layoutIfNeeded()
-                    self.showView(parent)
+                    showView(parent)
                 }
                 describe("view") {
                     it("should match the screenshot") {
@@ -83,7 +83,7 @@ class AvatarImageSelectionViewControllerSpec: QuickSpec {
                     subject.view.frame = parent.bounds
                     parent.addSubview(subject.view)
                     subject.view.layoutIfNeeded()
-                    self.showView(parent)
+                    showView(parent)
                 }
                 describe("view") {
                     it("should match the screenshot") {

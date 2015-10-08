@@ -44,7 +44,7 @@ class AutoCompleteViewControllerSpec: QuickSpec {
 
                 beforeEach {
                     subject = AutoCompleteViewController()
-                    self.showController(subject)
+                    showController(subject)
                     subject.loadView()
                     subject.viewDidLoad()
                 }

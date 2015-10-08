@@ -74,7 +74,7 @@ class AutoCompleteDataSourceSpec: QuickSpec {
 
                     beforeEach {
                         vc = AutoCompleteViewController()
-                        self.showController(vc)
+                        showController(vc)
                         vc.loadView()
                         vc.viewDidLoad()
                         vc.viewWillAppear(false)
