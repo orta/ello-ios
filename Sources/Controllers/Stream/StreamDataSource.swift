@@ -226,11 +226,9 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         return visibleCellItems.count ?? 0
     }
 
-    public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    public func willDisplayCell(cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
         if indexPath.item < visibleCellItems.count {
             let streamCellItem = visibleCellItems[indexPath.item]
-
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(streamCellItem.type.name, forIndexPath: indexPath)
 
             switch streamCellItem.type {
             case .Footer:
@@ -275,6 +273,14 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                 indexPath: indexPath,
                 currentUser: currentUser
             )
+        }
+    }
+
+    public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        if indexPath.item < visibleCellItems.count {
+            let streamCellItem = visibleCellItems[indexPath.item]
+
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(streamCellItem.type.name, forIndexPath: indexPath)
 
             return cell
 

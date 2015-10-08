@@ -111,6 +111,7 @@ public class StreamViewController: BaseElloViewController {
     var updatedStreamImageCellHeightNotification: NotificationObserver?
     var updateCellHeightNotification: NotificationObserver?
     var rotationNotification: NotificationObserver?
+    var sizeChangedNotification: NotificationObserver?
     var commentChangedNotification: NotificationObserver?
     var postChangedNotification: NotificationObserver?
     var loveChangedNotification: NotificationObserver?
@@ -354,6 +355,9 @@ public class StreamViewController: BaseElloViewController {
         rotationNotification = NotificationObserver(notification: Application.Notifications.DidChangeStatusBarOrientation) { [unowned self] _ in
             self.collectionView.reloadData()
         }
+        sizeChangedNotification = NotificationObserver(notification: Application.Notifications.ViewSizeDidChange) { [unowned self] _ in
+            self.collectionView.reloadData()
+        }
 
         commentChangedNotification = NotificationObserver(notification: CommentChangedNotification) { [unowned self] (comment, change) in
             if !self.initialDataLoaded {
@@ -426,6 +430,7 @@ public class StreamViewController: BaseElloViewController {
         updatedStreamImageCellHeightNotification?.removeObserver()
         updateCellHeightNotification?.removeObserver()
         rotationNotification?.removeObserver()
+        sizeChangedNotification?.removeObserver()
         commentChangedNotification?.removeObserver()
         postChangedNotification?.removeObserver()
         relationshipChangedNotification?.removeObserver()
@@ -692,8 +697,11 @@ extension StreamViewController : WebLinkDelegate {
 // MARK: StreamViewController : UICollectionViewDelegate
 extension StreamViewController : UICollectionViewDelegate {
 
-    public func collectionView(collectionView: UICollectionView,
-        didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    public func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
+        dataSource.willDisplayCell(cell, forItemAtIndexPath: indexPath)
+    }
+
+    public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
             let tappedCell = collectionView.cellForItemAtIndexPath(indexPath)
 
             if tappedCell is StreamToggleCell {

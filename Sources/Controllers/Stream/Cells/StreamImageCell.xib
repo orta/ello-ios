@@ -25,11 +25,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gia-lK-VuN" userLabel="imageView" customClass="FLAnimatedImageView">
-                        <rect key="frame" x="0.0" y="0.0" width="587" height="119"/>
+                        <rect key="frame" x="0.0" y="0.0" width="587" height="109"/>
                         <animations/>
                     </imageView>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cba-zi-ctG" userLabel="imageButton">
-                        <rect key="frame" x="0.0" y="0.0" width="587" height="119"/>
+                        <rect key="frame" x="0.0" y="0.0" width="587" height="109"/>
                         <animations/>
                         <state key="normal">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -64,8 +64,8 @@
                 <constraint firstItem="rkb-Ls-8Ph" firstAttribute="top" secondItem="gia-lK-VuN" secondAttribute="top" id="H69-zr-fGU"/>
                 <constraint firstAttribute="trailing" secondItem="dCD-fe-L2b" secondAttribute="trailing" id="JXF-eS-GVu"/>
                 <constraint firstItem="cba-zi-ctG" firstAttribute="top" secondItem="miB-hg-eZF" secondAttribute="top" id="NiB-iX-BJq" userLabel="imageButton Top"/>
-                <constraint firstAttribute="bottom" secondItem="gia-lK-VuN" secondAttribute="bottom" id="Oan-UI-8ly" userLabel="imageView Bottom"/>
-                <constraint firstItem="rkb-Ls-8Ph" firstAttribute="bottom" secondItem="gia-lK-VuN" secondAttribute="bottom" id="WWI-Th-9Du"/>
+                <constraint firstAttribute="bottom" secondItem="gia-lK-VuN" secondAttribute="bottom" constant="10" id="Oan-UI-8ly" userLabel="imageView Bottom"/>
+                <constraint firstItem="rkb-Ls-8Ph" firstAttribute="bottom" secondItem="gia-lK-VuN" secondAttribute="bottom" constant="10" id="WWI-Th-9Du"/>
                 <constraint firstAttribute="centerY" secondItem="dZ3-hW-f3i" secondAttribute="centerY" id="XON-R3-iBY"/>
                 <constraint firstItem="gia-lK-VuN" firstAttribute="leading" secondItem="miB-hg-eZF" secondAttribute="leading" id="fgY-B3-cIH" userLabel="imageView Left"/>
                 <constraint firstItem="dCD-fe-L2b" firstAttribute="top" secondItem="miB-hg-eZF" secondAttribute="top" id="g3T-CZ-pfr"/>
@@ -73,12 +73,12 @@
                 <constraint firstAttribute="trailing" secondItem="cba-zi-ctG" secondAttribute="trailing" id="hZc-Jx-yHS" userLabel="imageButton Right"/>
                 <constraint firstAttribute="trailing" secondItem="gia-lK-VuN" secondAttribute="trailing" id="hhW-aX-ev5" userLabel="imageView Right"/>
                 <constraint firstItem="gia-lK-VuN" firstAttribute="top" secondItem="miB-hg-eZF" secondAttribute="top" id="k2F-Aw-sEU" userLabel="imageView Top"/>
-                <constraint firstAttribute="bottom" secondItem="cba-zi-ctG" secondAttribute="bottom" id="laR-DL-WFc" userLabel="imageButton Bottom"/>
+                <constraint firstAttribute="bottom" secondItem="cba-zi-ctG" secondAttribute="bottom" constant="10" id="laR-DL-WFc" userLabel="imageButton Bottom"/>
                 <constraint firstItem="oJN-Vf-OgU" firstAttribute="top" secondItem="gia-lK-VuN" secondAttribute="top" id="ldy-Lp-cGf"/>
                 <constraint firstAttribute="centerX" secondItem="dZ3-hW-f3i" secondAttribute="centerX" id="p9H-76-dWp"/>
                 <constraint firstItem="oJN-Vf-OgU" firstAttribute="leading" secondItem="gia-lK-VuN" secondAttribute="leading" id="pxC-Kc-Blg"/>
-                <constraint firstItem="oJN-Vf-OgU" firstAttribute="bottom" secondItem="gia-lK-VuN" secondAttribute="bottom" id="qHP-Rx-9dH"/>
-                <constraint firstItem="dCD-fe-L2b" firstAttribute="bottom" secondItem="gia-lK-VuN" secondAttribute="bottom" id="tfd-76-g2u"/>
+                <constraint firstItem="oJN-Vf-OgU" firstAttribute="bottom" secondItem="gia-lK-VuN" secondAttribute="bottom" constant="10" id="qHP-Rx-9dH"/>
+                <constraint firstItem="dCD-fe-L2b" firstAttribute="bottom" secondItem="gia-lK-VuN" secondAttribute="bottom" constant="10" id="tfd-76-g2u"/>
             </constraints>
             <size key="customSize" width="587" height="119"/>
             <connections>

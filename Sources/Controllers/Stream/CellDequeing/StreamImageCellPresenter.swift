@@ -15,15 +15,13 @@ public struct StreamImageCellPresenter {
     static let multiColumnFailWidth: CGFloat = 70
     static let multiColumnFailHeight: CGFloat = 80
 
-    static func preventImageStretching(cell: StreamImageCell, attachmentWidth: Int?, columnWidth: CGFloat, leftMargin: CGFloat = 0) {
-        if let attachmentWidth = attachmentWidth {
-            let width = CGFloat(attachmentWidth)
-            if width < columnWidth - leftMargin {
-                cell.imageRightConstraint?.constant = columnWidth - width - leftMargin
-            }
-            else {
-                cell.imageRightConstraint?.constant = 0
-            }
+    static func preventImageStretching(cell: StreamImageCell, attachmentWidth: Int, columnWidth: CGFloat, leftMargin: CGFloat = 0) {
+        let width = CGFloat(attachmentWidth)
+        if width < columnWidth - leftMargin {
+            cell.imageRightConstraint.constant = columnWidth - width - leftMargin
+        }
+        else {
+            cell.imageRightConstraint.constant = 0
         }
     }
 
@@ -76,16 +74,18 @@ public struct StreamImageCellPresenter {
                 cell.isGif = true
             }
 
-            let columnWidth = cell.frame.width
+            let columnWidth: CGFloat
             if streamKind.isGridLayout {
                 cell.failWidthConstraint.constant = StreamImageCellPresenter.multiColumnFailWidth
                 cell.failHeightConstraint.constant = StreamImageCellPresenter.multiColumnFailHeight
                 attachmentToLoad = attachmentToLoad ?? imageRegion.asset?.gridLayoutAttachment
+                columnWidth = (UIWindow.windowWidth() - 10) / 2
             }
             else {
                 cell.failWidthConstraint.constant = StreamImageCellPresenter.singleColumnFailWidth
                 cell.failHeightConstraint.constant = StreamImageCellPresenter.singleColumnFailHeight
                 attachmentToLoad = attachmentToLoad ?? imageRegion.asset?.oneColumnAttachment
+                columnWidth = UIWindow.windowWidth()
             }
 
             let imageToShow = attachmentToLoad?.image
@@ -93,7 +93,17 @@ public struct StreamImageCellPresenter {
 
             cell.hideBorder()
             let margin = configureCellWidthAndLayout(cell, imageRegion: imageRegion, streamCellItem: streamCellItem)
-            preventImageStretching(cell, attachmentWidth: attachmentToLoad?.width, columnWidth: columnWidth, leftMargin: margin)
+            if let attachmentWidth = attachmentToLoad?.width {
+                preventImageStretching(cell, attachmentWidth: attachmentWidth, columnWidth: columnWidth, leftMargin: margin)
+            }
+            cell.layoutIfNeeded()
+
+            cell.onHeightMismatch = { actualHeight in
+                streamCellItem.calculatedWebHeight = actualHeight
+                streamCellItem.calculatedOneColumnCellHeight = actualHeight
+                streamCellItem.calculatedMultiColumnCellHeight = actualHeight
+                postNotification(StreamNotification.UpdateCellHeightNotification, value: cell)
+            }
 
             if let image = imageToShow where !showGifInThisCell {
                 cell.setImage(image)
@@ -105,13 +115,6 @@ public struct StreamImageCellPresenter {
             else if let imageURL = imageRegion.url {
                 cell.isGif = imageURL.hasGifExtension
                 cell.setImageURL(imageURL)
-            }
-
-            cell.onHeightMismatch = { actualHeight in
-                streamCellItem.calculatedWebHeight = actualHeight
-                streamCellItem.calculatedOneColumnCellHeight = actualHeight
-                streamCellItem.calculatedMultiColumnCellHeight = actualHeight
-                postNotification(StreamNotification.UpdateCellHeightNotification, value: cell)
             }
         }
     }
