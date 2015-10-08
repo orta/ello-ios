@@ -196,9 +196,9 @@ public class Tag: CustomStringConvertible {
         tmp = tmp.stringByReplacingOccurrencesOfString("\r", withString: "\n")
         let html = tmp as String
 
-        var c = 0
+        var c = html.characters.startIndex
         while state != .End {
-            let current = (html as NSString).substringWithRange(NSMakeRange(c, html.characters.count - c))
+            let current = html.substringWithRange(Range<String.CharacterView.Index>(start: c, end: html.characters.endIndex))
 
             var nextPossibleStates = [State]()
             for possible in state.nextPossibleStates {
@@ -212,7 +212,7 @@ public class Tag: CustomStringConvertible {
 
             let nextState = nextPossibleStates.first!
             let value = nextState.match(current)
-            c += value.characters.count
+            c = c.advancedBy(value.characters.count)
 
             switch nextState {
             case .Doctype:
