@@ -66,10 +66,13 @@ extension ElloWebBrowserViewController: KINWebBrowserDelegate {
 
 }
 
+// MARK: warning - make sure webLinkTapped handles the new Universal Links
 // MARK: ElloWebBrowserViewController : WebLinkDelegate
 extension ElloWebBrowserViewController : WebLinkDelegate {
     public func webLinkTapped(type: ElloURI, data: String) {
         switch type {
+        case .Confirm, .ResetMyPassword, .FreedomOfSpeech, .FaceMaker, .Invitations, .Join, .Login, .PasswordResetError, .RandomSearch, .RequestInvitations, .SearchPeople, .SearchPosts, .ProfileFollowers, .ProfileFollowing, .DiscoverRandom, .DiscoverRelated, .Unblock:
+        break
         case .BetaPublicProfiles, .Downloads, .Email, .External, .ForgotMyPassword, .Manifesto, .RequestInvite, .RequestInvitation, .Subdomain, .WhoMadeThis, .WTF: break // this is handled in ElloWebViewHelper/KINWebBrowserViewController
         case .Discover: self.selectTab(.Discovery)
         case .Enter, .Exit, .Root: self.navigationController?.dismissViewControllerAnimated(true, completion: nil)

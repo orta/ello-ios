@@ -419,6 +419,7 @@ extension AppViewController {
                 var components = url.pathComponents
         {
             let firstComponent = components.removeAtIndex(0)
+//            let route = Route(rawValue: firstComponent)
 
             switch firstComponent {
             case "stream":

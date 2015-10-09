@@ -636,11 +636,14 @@ extension StreamViewController : UserDelegate {
 
 }
 
+// MARK: warning - make sure webLinkTapped handles the new Universal Links
 // MARK: StreamViewController : WebLinkDelegate
 extension StreamViewController : WebLinkDelegate {
 
     public func webLinkTapped(type: ElloURI, data: String) {
         switch type {
+        case .Confirm, .ResetMyPassword, .FreedomOfSpeech, .FaceMaker, .Invitations, .Join, .Login, .PasswordResetError, .RandomSearch, .RequestInvitations, .SearchPeople, .SearchPosts, .ProfileFollowers, .ProfileFollowing, .DiscoverRandom, .DiscoverRelated, .Unblock:
+            break
         case .BetaPublicProfiles, .Downloads, .External, .ForgotMyPassword, .Manifesto, .RequestInvite, .RequestInvitation, .Subdomain, .WhoMadeThis, .WTF: postNotification(externalWebNotification, value: data)
         case .Discover: selectTab(.Discovery)
         case .Email: break // this is handled in ElloWebViewHelper
