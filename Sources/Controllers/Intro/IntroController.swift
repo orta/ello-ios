@@ -69,6 +69,7 @@ public class IntroController: UIViewController, UIPageViewControllerDataSource, 
         skipButton.setTitle("Skip", forState: UIControlState.Normal)
         skipButton.titleLabel?.font = UIFont.typewriterFont(10)
         skipButton.sizeToFit()
+        skipButton.autoresizingMask = [.FlexibleBottomMargin, .FlexibleLeftMargin]
 
         // Set frame margin from right edge
         skipButton.frame = skipButton.frame.atX(view.frame.width - skipButtonRightMargin - skipButton.frame.width)
