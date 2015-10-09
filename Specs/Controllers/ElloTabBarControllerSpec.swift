@@ -236,8 +236,8 @@ class ElloTabBarControllerSpec: QuickSpec {
 
                 subject.tabBar(subject.tabBar, didSelectItem: child1.tabBarItem)
                 expect(subject.selectedViewController).to(equal(child1))
-                expect(subject.shouldShowNarration).toEventually(beFalse())
-                expect(subject.isShowingNarration).toEventually(beFalse())
+                expect(subject.shouldShowNarration).to(beFalse())
+                expect(subject.isShowingNarration).to(beFalse())
             }
             it("should show the narrationView when changing to a tab that hasn't shown the narrationView yet") {
                 ElloTabBarController.didShowNarration(.Discovery, false)
