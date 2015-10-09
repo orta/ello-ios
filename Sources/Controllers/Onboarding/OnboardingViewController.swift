@@ -396,8 +396,9 @@ extension OnboardingViewController {
             )
 
         isTransitioning = true
-        transitionFromViewController(visibleViewController,
-            toViewController: nextViewController,
+        transition(
+            from: visibleViewController,
+            to: nextViewController,
             duration: 0.4,
             options: .TransitionNone,
             animations: {

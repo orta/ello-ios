@@ -91,7 +91,7 @@ class ElloTabBarControllerSpec: QuickSpec {
 
             beforeEach() {
                 subject = ElloTabBarController.instantiateFromStoryboard()
-                let children = subject.childViewControllers 
+                let children = subject.childViewControllers
                 for child in children {
                     child.removeFromParentViewController()
                 }
@@ -196,7 +196,7 @@ class ElloTabBarControllerSpec: QuickSpec {
                 ]
 
                 subject = ElloTabBarController.instantiateFromStoryboard()
-                let children = subject.childViewControllers 
+                let children = subject.childViewControllers
                 for child in children {
                     child.removeFromParentViewController()
                 }
@@ -236,8 +236,8 @@ class ElloTabBarControllerSpec: QuickSpec {
 
                 subject.tabBar(subject.tabBar, didSelectItem: child1.tabBarItem)
                 expect(subject.selectedViewController).to(equal(child1))
-                expect(subject.shouldShowNarration).toEventually(beFalse())
-                expect(subject.isShowingNarration).toEventually(beFalse())
+                expect(subject.shouldShowNarration).to(beFalse())
+                expect(subject.isShowingNarration).to(beFalse())
             }
             it("should show the narrationView when changing to a tab that hasn't shown the narrationView yet") {
                 ElloTabBarController.didShowNarration(.Discovery, false)
@@ -247,9 +247,9 @@ class ElloTabBarControllerSpec: QuickSpec {
                 ElloTabBarController.didShowNarration(.Post, false)
 
                 subject.tabBar(subject.tabBar, didSelectItem: child1.tabBarItem)
-                expect(subject.selectedViewController).to(equal(child1))
-                expect(subject.shouldShowNarration).toEventually(beTrue())
-                expect(subject.isShowingNarration).toEventually(beTrue())
+                expect(subject.selectedViewController).to(equal(child1), description: "selectedViewController")
+                expect(subject.shouldShowNarration).to(beTrue(), description: "shouldShowNarration")
+                expect(subject.isShowingNarration).to(beTrue(), description: "isShowingNarration")
             }
         }
 

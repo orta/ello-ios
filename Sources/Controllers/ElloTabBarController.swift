@@ -295,7 +295,7 @@ private extension ElloTabBarController {
     }
 
     func updateTabBarItems() {
-        let controllers = childViewControllers 
+        let controllers = childViewControllers
         tabBar.items = controllers.map { controller in
             let tabBarItem = controller.tabBarItem
             if tabBarItem.selectedImage != nil && tabBarItem.selectedImage?.renderingMode != .AlwaysOriginal {
@@ -336,10 +336,8 @@ private extension ElloTabBarController {
     }
 
     func transitionControllers(hideViewController: UIViewController, _ showViewController: UIViewController) {
-        transitionFromViewController(hideViewController,
-            toViewController: showViewController,
-            duration: 0,
-            options: [],
+        transition(from: hideViewController,
+            to: showViewController,
             animations: {
                 self.hideViewController(hideViewController)
                 self.showViewController(showViewController)
