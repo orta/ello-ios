@@ -31,7 +31,7 @@ class IntroControllerSpec: QuickSpec {
                     expect(controller).to(beAKindOf(IntroController.self))
                 }
             }
-            fdescribe("snapshots") {
+            describe("snapshots") {
                 let subject = IntroController()
                 validateAllSnapshots(subject)
             }
