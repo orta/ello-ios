@@ -70,12 +70,12 @@ public class ElloTabBar: UITabBar {
     private func positionRedDot(redDot: UIView, atIndex index: Int) {
         let radius: CGFloat = 3
         let diameter = radius * 2
-        let margin: CGFloat = 11
+        let margins = CGPoint(x: 0, y: 10)
         let tabBarItemFrame = tabBarFrameAtIndex(index)
         let item = items?[index]
         let imageHalfWidth: CGFloat = (item?.selectedImage?.size.width ?? 0) / 2
-        let x = tabBarItemFrame.midX - imageHalfWidth - margin
-        let frame = CGRect(x: x, y: margin, width: diameter, height: diameter)
+        let x = tabBarItemFrame.midX + imageHalfWidth + margins.x
+        let frame = CGRect(x: x, y: margins.y, width: diameter, height: diameter)
 
         redDot.layer.cornerRadius = radius
         redDot.frame = frame
