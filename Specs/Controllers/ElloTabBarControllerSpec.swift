@@ -91,7 +91,7 @@ class ElloTabBarControllerSpec: QuickSpec {
 
             beforeEach() {
                 subject = ElloTabBarController.instantiateFromStoryboard()
-                let children = subject.childViewControllers 
+                let children = subject.childViewControllers
                 for child in children {
                     child.removeFromParentViewController()
                 }
@@ -196,7 +196,7 @@ class ElloTabBarControllerSpec: QuickSpec {
                 ]
 
                 subject = ElloTabBarController.instantiateFromStoryboard()
-                let children = subject.childViewControllers 
+                let children = subject.childViewControllers
                 for child in children {
                     child.removeFromParentViewController()
                 }
@@ -248,8 +248,8 @@ class ElloTabBarControllerSpec: QuickSpec {
 
                 subject.tabBar(subject.tabBar, didSelectItem: child1.tabBarItem)
                 expect(subject.selectedViewController).to(equal(child1))
-                expect(subject.shouldShowNarration).toEventually(beTrue())
-                expect(subject.isShowingNarration).toEventually(beTrue())
+                expect(subject.shouldShowNarration).to(beTrue())
+                expect(subject.isShowingNarration).to(beTrue())
             }
         }
 
