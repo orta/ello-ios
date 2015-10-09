@@ -247,9 +247,9 @@ class ElloTabBarControllerSpec: QuickSpec {
                 ElloTabBarController.didShowNarration(.Post, false)
 
                 subject.tabBar(subject.tabBar, didSelectItem: child1.tabBarItem)
-                expect(subject.selectedViewController).to(equal(child1))
-                expect(subject.shouldShowNarration).to(beTrue())
-                expect(subject.isShowingNarration).to(beTrue())
+                expect(subject.selectedViewController).to(equal(child1), description: "selectedViewController")
+                expect(subject.shouldShowNarration).to(beTrue(), description: "shouldShowNarration")
+                expect(subject.isShowingNarration).to(beTrue(), description: "isShowingNarration")
             }
         }
 

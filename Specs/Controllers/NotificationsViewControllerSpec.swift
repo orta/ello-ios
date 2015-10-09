@@ -25,16 +25,19 @@ class NotificationsViewControllerSpec: QuickSpec {
                 it("can open notifications/posts/12") {
                     let navigationController = UINavigationController(rootViewController: subject)
                     subject.respondToNotification(["posts", "12"])
-                    expect(navigationController.childViewControllers.count).toEventually(equal(2))
+                    NSRunLoop.mainRunLoop().runUntilDate(NSDate().dateByAddingTimeInterval(1))
+                    expect(navigationController.childViewControllers.count).to(equal(2))
                 }
                 it("can open notifications/users/12") {
                     let navigationController = UINavigationController(rootViewController: subject)
                     subject.respondToNotification(["users", "12"])
-                    expect(navigationController.childViewControllers.count).toEventually(equal(2))
+                    NSRunLoop.mainRunLoop().runUntilDate(NSDate().dateByAddingTimeInterval(1))
+                    expect(navigationController.childViewControllers.count).to(equal(2))
                 }
                 it("can handle unknown links") {
                     let navigationController = UINavigationController(rootViewController: subject)
                     subject.respondToNotification(["flibbity", "jibbet"])
+                    NSRunLoop.mainRunLoop().runUntilDate(NSDate().dateByAddingTimeInterval(1))
                     expect(navigationController.childViewControllers.count) == 1
                 }
             }

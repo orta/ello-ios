@@ -35,3 +35,33 @@ extension UIViewController: GestureNavigation {
     }
 
 }
+
+extension UIViewController {
+
+    func transition(
+        from fromViewController: UIViewController,
+        to toViewController: UIViewController,
+        duration: NSTimeInterval = 0,
+        options: UIViewAnimationOptions = [],
+        animations: (() -> Void)? = nil, completion: ((Bool) -> Void)? = nil) -> Void
+    {
+        if AppSetup.sharedState.isTesting {
+            animations?()
+            transitionFromViewController(fromViewController,
+                toViewController: toViewController,
+                duration: duration,
+                options: options,
+                animations: nil,
+                completion: nil)
+            completion?(true)
+        }
+        else {
+            transitionFromViewController(fromViewController,
+                toViewController: toViewController,
+                duration: duration,
+                options: options,
+                animations: animations,
+                completion: completion)
+        }
+    }
+}
