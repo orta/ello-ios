@@ -424,25 +424,29 @@ extension JoinViewController {
         }
     }
 
+
     @IBAction func findLoginFrom1Password(sender: UIButton) {
         OnePasswordExtension.sharedExtension().findLoginForURLString(ElloURI.baseURL, forViewController: self, sender: sender) {
             (loginDict, error) in
 
+
             if loginDict == nil {
-                if (Int32)(error.code) != AppExtensionErrorCodeCancelledByUser {
+                if let loginCode = error?.code, error = error where loginCode != Int(AppExtensionErrorCodeCancelledByUser) {
                     print("Error invoking 1Password App Extension for find login: \(error)")
                 }
                 return
             }
 
-            if let email = loginDict[AppExtensionUsernameKey] as? String {
+            if let email = loginDict?[AppExtensionUsernameKey] as? String {
                 self.emailField.text = email
             }
             else {
                 self.emailField.becomeFirstResponder()
             }
-            self.passwordField.text = loginDict[AppExtensionPasswordKey] as? String
+
+            if let password = loginDict?[AppExtensionPasswordKey] as? String {
+                self.passwordField.text = password
+            }
         }
     }
-
 }
