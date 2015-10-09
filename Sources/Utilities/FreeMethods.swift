@@ -12,6 +12,9 @@ func logPresentingAlert(name: String) {
     Crashlytics.sharedInstance().setObjectValue(name, forKey: CrashlyticsKey.AlertPresenter.rawValue)
 }
 
+
+// MARK: Animations
+
 public struct AnimationOptions {
     let duration: NSTimeInterval
     let delay: NSTimeInterval
@@ -33,6 +36,7 @@ public func animate(options: AnimationOptions, animated: Bool = true, animations
 }
 
 
+// MARK: Async, Timed, and Throttled closures
 
 public typealias BasicBlock = (() -> Void)
 public typealias ThrottledBlock = ((BasicBlock) -> Void)
@@ -128,16 +132,16 @@ public func inBackground(block: BasicBlock) {
 }
 
 public func inForeground(block: BasicBlock) {
+    nextTick(block)
+}
+
+public func nextTick(block: BasicBlock) {
     if AppSetup.sharedState.isTesting && NSThread.isMainThread() {
         block()
     }
     else {
-        nextTick(block)
+        nextTick(on: dispatch_get_main_queue(), block: block)
     }
-}
-
-public func nextTick(block: BasicBlock) {
-    nextTick(on: dispatch_get_main_queue(), block: block)
 }
 
 public func nextTick(on on: dispatch_queue_t, block: BasicBlock) {
