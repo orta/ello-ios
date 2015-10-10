@@ -22,7 +22,7 @@ public enum ElloURI: String {
     case Profile = "\\/?$"
     case ProfileFollowers = "followers\\/?$"
     case ProfileFollowing = "following\\/?$"
-    case Search = "search"
+    case Search = "search\\b\\/?(\\?*.)?"
     case SearchPeople = "search/people"
     case SearchPosts = "search/posts"
     case Settings = "settings"
@@ -107,6 +107,7 @@ public enum ElloURI: String {
         case .Post: return "\(ElloURI.userPathRegex)\(rawValue)"
         case .Profile: return "\(ElloURI.userPathRegex)\(rawValue)"
         case .ProfileFollowers, .ProfileFollowing: return "\(ElloURI.userPathRegex)\(rawValue)"
+        case .Search: return "\(ElloURI.fuzzyDomain)\\/\(rawValue)"
         case .Subdomain: return "\(rawValue)\(ElloURI.fuzzyDomain)"
         default: return "\(ElloURI.fuzzyDomain)\\/\(rawValue)\\/?$"
         }
