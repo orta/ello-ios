@@ -22,6 +22,7 @@ public enum ElloURI: String {
     case Profile = "\\/?$"
     case ProfileFollowers = "followers\\/?$"
     case ProfileFollowing = "following\\/?$"
+    case ProfileLoves = "loves\\/?$"
     case Search = "search\\b\\/?(\\?*.)?"
     case SearchPeople = "search/people"
     case SearchPosts = "search/posts"
@@ -38,6 +39,8 @@ public enum ElloURI: String {
     case Join = "join"
     case Login = "login"
     case Manifesto = "manifesto"
+    case NativeRedirect = "native_redirect"
+    case Onboarding = "onboarding"
     case PasswordResetError = "password-reset-error"
     case RandomSearch = "random_searches"
     case RequestInvite = "request-an-invite"
@@ -106,7 +109,7 @@ public enum ElloURI: String {
         case .Email, .External: return rawValue
         case .Post: return "\(ElloURI.userPathRegex)\(rawValue)"
         case .Profile: return "\(ElloURI.userPathRegex)\(rawValue)"
-        case .ProfileFollowers, .ProfileFollowing: return "\(ElloURI.userPathRegex)\(rawValue)"
+        case .ProfileFollowers, .ProfileFollowing, .ProfileLoves: return "\(ElloURI.userPathRegex)\(rawValue)"
         case .Search: return "\(ElloURI.fuzzyDomain)\\/\(rawValue)"
         case .Subdomain: return "\(rawValue)\(ElloURI.fuzzyDomain)"
         default: return "\(ElloURI.fuzzyDomain)\\/\(rawValue)\\/?$"
@@ -115,8 +118,13 @@ public enum ElloURI: String {
 
     private func data(url: String) -> String {
         switch self {
-        case .ProfileFollowers, .ProfileFollowing:
-            let urlArr = url.characters.split { $0 == "/" }.map { String($0) }.filter { $0 != "following" && $0 != "followers" }
+        case .ProfileFollowers, .ProfileFollowing, .ProfileLoves:
+            let urlArr = url.characters.split { $0 == "/" }.map { String($0) }.filter {
+                switch $0 {
+                case "following", "followers", "loves": return false
+                default: return true
+                }
+            }
             let last = urlArr.last ?? url
             let lastArr = last.characters.split { $0 == "?" }.map { String($0) }
             return lastArr.first ?? url
@@ -163,8 +171,10 @@ public enum ElloURI: String {
         Join,
         Login,
         Manifesto,
+        NativeRedirect,
         Noise,
         Notifications,
+        Onboarding,
         PasswordResetError,
         RandomSearch,
         RequestInvite,
@@ -180,27 +190,9 @@ public enum ElloURI: String {
         // profile specific
         ProfileFollowing,
         ProfileFollowers,
+        ProfileLoves,
         Profile,
         // anything else
         External
     ]
 }
-
-
-
-//public enum Route: String {
-
-////    notifications_categories GET      /notifications/:category(.:format)
-////    robots GET      /robots.:format
-////    version GET      /version.:format
-////    native_redirect GET      /native_redirect(.:format)
-////    onboarding GET      /onboarding(.:format)
-////    user GET      /:username(.:format)
-////    ello_followers GET      /ello/followers(.:format)
-////    user_following GET      /:username/following(.:format)
-////    user_followers GET      /:username/followers(.:format)
-////    user_loves GET      /:username/loves(.:format)
-////    user_post GET      /:username/post/:post_token(.:format)
-////    root GET      /
-////    status GET      /status.:format
-//}

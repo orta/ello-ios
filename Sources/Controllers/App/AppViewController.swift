@@ -414,6 +414,47 @@ extension AppViewController {
     func navigateToDeepLink(path: String) {
         let vc = self.visibleViewController as? ElloTabBarController
 
+        let (type, _) = ElloURI.match(path)
+
+        print(type.rawValue)
+
+        switch type {
+        case .Confirm, .ResetMyPassword, .FreedomOfSpeech, .FaceMaker, .Invitations, .Join, .Login, .NativeRedirect, .Onboarding, .PasswordResetError, .RandomSearch, .RequestInvitations, .SearchPeople, .SearchPosts, .DiscoverRandom, .DiscoverRelated, .Unblock:
+            break
+        case .BetaPublicProfiles, .Downloads, .Email, .External, .ForgotMyPassword, .Manifesto, .RequestInvite, .RequestInvitation, .Subdomain, .WhoMadeThis, .WTF:
+            break
+        case .Discover:
+            // show discover
+            break
+        case .Enter, .Exit, .Root:
+            break
+        case .Friends,
+             .Noise:
+            vc?.selectedTab = .Stream
+        case .Notifications:
+            vc?.selectedTab = .Notifications
+        case .Post:
+            // show post detail
+            break
+        case .Profile:
+            // show profile
+            break
+        case .ProfileFollowers:
+            // show profile followers
+            break
+        case .ProfileFollowing:
+            // show profile following
+            break
+        case .ProfileLoves:
+            // show profile loves
+            break
+        case .Search:
+            // show search
+            break
+        case .Settings:
+            // show settings
+            break
+        }
 
         if let  url = NSURL(string: path),
                 var components = url.pathComponents
