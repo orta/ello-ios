@@ -51,12 +51,12 @@ class StringExtensionSpec: QuickSpec {
                 expect(str.entitiesEncoded()).to(equal("black &amp; blue"))
             }
             it("should handle many entities") {
-                let str = "& <> π"
-                expect(str.entitiesEncoded()).to(equal("&amp; &lt;&gt; &pi;"))
+                let str = "&\"<>'"
+                expect(str.entitiesEncoded()).to(equal("&amp;&quot;&lt;&gt;&#039;"))
             }
             it("should handle many entities with strings") {
-                let str = "a & < c > π == pi"
-                expect(str.entitiesEncoded()).to(equal("a &amp; &lt; c &gt; &pi; == pi"))
+                let str = "a & < c > == d"
+                expect(str.entitiesEncoded()).to(equal("a &amp; &lt; c &gt; == d"))
             }
         }
         describe("removing entities") {
