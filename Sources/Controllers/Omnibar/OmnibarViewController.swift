@@ -320,9 +320,10 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
                 if cleanedText.characters.count > 0 {
                     content.append(ElloAttributedString.render(attributedText))
                 }
-            case let .Image(image, data, _):
-                if let data = data {
-                    content.append(data)
+            case let .Image(image, data, contentType):
+                if let data = data, contentType = contentType {
+                    let entry: PostEditingService.ImageData = (image, data, contentType)
+                    content.append(entry)
                 }
                 else {
                     content.append(image)

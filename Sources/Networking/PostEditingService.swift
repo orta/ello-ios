@@ -16,7 +16,8 @@
 public class PostEditingService: NSObject {
     // this can return either a Post or Comment
     typealias CreatePostSuccessCompletion = (post: AnyObject) -> Void
-    typealias UploadImagesSuccessCompletion = ([(Int, ImageRegion)]) -> Void
+    typealias UploadImagesSuccessCompletion = ([(Int, ImageRegion)]) -> Voidk
+    typealias ImageData = (UIImage, NSData, String)
 
     var editPost: Post?
     var editComment: Comment?
@@ -41,7 +42,7 @@ public class PostEditingService: NSObject {
     func create(content rawContent: [Any], authorId: String, success: CreatePostSuccessCompletion, failure: ElloFailureCompletion?) {
         var textEntries = [(Int, String)]()
         var imageEntries = [(Int, UIImage)]()
-        var imageDataEntries = [(Int, (UIImage, NSData, String))]()
+        var imageDataEntries = [(Int, ImageData)]()
 
         // if necessary, the rawSource should be converted to API-ready content,
         // e.g. entitizing Strings and adding HTML markup to NSAttributedStrings
@@ -52,7 +53,7 @@ public class PostEditingService: NSObject {
             else if let image = section as? UIImage {
                 imageEntries.append((index, image))
             }
-            else if let data = section as? (UIImage, NSData, String) {
+            else if let data = section as? ImageData {
                 imageDataEntries.append((index, data))
             }
             else if let attributed = section as? NSAttributedString {
@@ -210,7 +211,7 @@ public class PostEditingService: NSObject {
         operationQueue.addOperation(doneOperation)
     }
 
-    func uploadImages(imageDataEntries: [(Int, (UIImage, NSData, String))], success: UploadImagesSuccessCompletion, failure: ElloFailureCompletion?) {
+    func uploadImages(imageDataEntries: [(Int, ImageData)], success: UploadImagesSuccessCompletion, failure: ElloFailureCompletion?) {
         var uploaded = [(Int, ImageRegion)]()
 
         // if any upload fails, the entire post creationg fails
