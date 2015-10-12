@@ -55,6 +55,10 @@ public class AppViewController: BaseElloViewController {
             let top = view.frame.height - 250 - logoView.frame.height
             logoTopConstraint.constant = top
         }
+    }
+
+    override public func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         scrollView.contentSize = view.frame.size
     }
 
@@ -66,6 +70,11 @@ public class AppViewController: BaseElloViewController {
             isStartup = false
             checkIfLoggedIn()
         }
+    }
+
+    public override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+        postNotification(Application.Notifications.ViewSizeDidChange, value: size)
     }
 
     public class func instantiateFromStoryboard() -> AppViewController {

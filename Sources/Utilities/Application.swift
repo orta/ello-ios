@@ -12,7 +12,7 @@ public class Application {
 
     public struct Notifications {
         public static let DidChangeStatusBarFrame = TypedNotification<Application>(name: "com.Ello.Application.DidChangeStatusBarFrame")
-        public static let DidChangeStatusBarOrientation = TypedNotification<Application>(name: "com.Ello.Application.DidChangeStatusBarOrientation")
+        public static let DidChangeStatusBarOrientation = TypedNotification<UIInterfaceOrientation>(name: "com.Ello.Application.DidChangeStatusBarOrientation")
         public static let DidEnterBackground = TypedNotification<Application>(name: "com.Ello.Application.DidEnterBackground")
         public static let DidFinishLaunching = TypedNotification<Application>(name: "com.Ello.Application.DidFinishLaunching")
         public static let DidReceiveMemoryWarning = TypedNotification<Application>(name: "com.Ello.Application.DidReceiveMemoryWarning")
@@ -26,6 +26,8 @@ public class Application {
         public static let WillResignActive = TypedNotification<Application>(name: "com.Ello.Application.WillResignActive")
         public static let WillTerminate = TypedNotification<Application>(name: "com.Ello.Application.WillTerminate")
         public static let SizeCategoryDidChange = TypedNotification<Application>(name: "com.Ello.Application.SizeCategoryDidChange")
+        public static let TraitCollectionDidChange = TypedNotification<UITraitCollection>(name: "com.Ello.Application.TraitCollectionDidChange")
+        public static let ViewSizeDidChange = TypedNotification<CGSize>(name: "com.Ello.Application.ViewSizeDidChange")
     }
 
     public class func shared() -> Application {
@@ -67,7 +69,10 @@ public class Application {
 
     @objc
     func didChangeStatusBarOrientation(notification : NSNotification) {
-        postNotification(Notifications.DidChangeStatusBarOrientation, value: self)
+        if let orientationInt = notification.userInfo?[UIApplicationStatusBarOrientationUserInfoKey] as? Int,
+            orientation = UIInterfaceOrientation(rawValue: orientationInt) {
+            postNotification(Notifications.DidChangeStatusBarOrientation, value: orientation)
+        }
     }
 
     @objc

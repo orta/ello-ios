@@ -8,27 +8,25 @@
 
 import UIKit
 
-
-extension UIScreen {
-
-    class func screenWidth() -> CGFloat {
-        return UIScreen.mainScreen().bounds.size.width
+extension UIWindow {
+    class var mainWindow: UIWindow {
+        return UIApplication.sharedApplication().keyWindow ?? UIWindow()
     }
 
-    class func screenHeight() -> CGFloat {
-        return UIScreen.mainScreen().bounds.size.height
+    class func windowBounds() -> CGRect {
+        return mainWindow.bounds
     }
 
-    class func screenSize() -> CGSize {
-        return UIScreen.mainScreen().bounds.size
+    class func windowSize() -> CGSize {
+        return windowBounds().size
     }
 
-    class func screenBounds() -> CGRect {
-        return UIScreen.mainScreen().bounds
+    class func windowWidth() -> CGFloat {
+        return windowSize().width
     }
 
-    class func scale() -> CGFloat {
-        return UIScreen.mainScreen().scale
+    class func windowHeight() -> CGFloat {
+        return windowSize().height
     }
 
 }

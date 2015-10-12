@@ -38,6 +38,8 @@ public class SearchScreen: UIView, SearchScreenProtocol {
     private var navBarTitle: String!
     private var fieldPlaceholderText: String!
     private var isSearchView = true
+    private var postsBtn: OutlineElloButton!
+    private var peopleBtn: OutlineElloButton!
 
     weak public var delegate : SearchScreenDelegate?
 
@@ -53,6 +55,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         self.backgroundColor = UIColor.whiteColor()
         setupNavigationBar()
         searchControlsContainer = UIView(frame: self.frame.inset(sides: 15).atY(64).withHeight(50))
+        searchControlsContainer.autoresizingMask = [.FlexibleWidth, .FlexibleBottomMargin]
         setupSearchField()
         if self.isSearchView { setupToggleButtons() }
         setupStreamView()
@@ -123,13 +126,13 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         let buttonY = searchControlsContainer.frame.size.height
         // add the height of a button plus additional 10 for bottom padding
         searchControlsContainer.frame.size.height += 43
-        let postsBtn = OutlineElloButton(frame: CGRect(x: 0, y: buttonY, width: btnWidth, height: 33))
+        self.postsBtn = OutlineElloButton(frame: CGRect(x: 0, y: buttonY, width: btnWidth, height: 33))
         postsBtn.setTitle(NSLocalizedString("Posts", comment: "Posts search toggle"), forState: .Normal)
         postsBtn.addTarget(self, action: Selector("onPostsTapped"), forControlEvents: .TouchUpInside)
         postsToggleButton = postsBtn
         searchControlsContainer.addSubview(postsBtn)
 
-        let peopleBtn = OutlineElloButton(frame: CGRect(x: postsBtn.frame.maxX + 10, y: buttonY, width: btnWidth, height: 33))
+        self.peopleBtn = OutlineElloButton(frame: CGRect(x: postsBtn.frame.maxX + 10, y: buttonY, width: btnWidth, height: 33))
         peopleBtn.setTitle(NSLocalizedString("People", comment: "People search toggle"), forState: .Normal)
         peopleBtn.addTarget(self, action: Selector("onPeopleTapped"), forControlEvents: .TouchUpInside)
         peopleToggleButton = peopleBtn
@@ -166,6 +169,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         let containerFrame = self.frame.fromBottom().growUp(height)
         findFriendsContainer = UIView(frame: containerFrame)
         findFriendsContainer.backgroundColor = .blackColor()
+        findFriendsContainer.autoresizingMask = [.FlexibleWidth, .FlexibleTopMargin]
 
         let margins = UIEdgeInsets(top: 20, left: 15, bottom: 26, right: 15)
         let buttonHeight = CGFloat(50)
@@ -177,6 +181,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
             ))
         button.setTitle(NSLocalizedString("Find your friends", comment: "Find your friends button title"), forState: .Normal)
         button.addTarget(self, action: Selector("findFriendsTapped"), forControlEvents: .TouchUpInside)
+        button.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
 
         let label = ElloLabel()
         label.frame = CGRect(
@@ -186,6 +191,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         )
         label.numberOfLines = 2
         label.setLabelText(NSLocalizedString("Ello is better with friends.\nFind or invite yours:", comment: "Ello is better with friends button title"))
+        label.autoresizingMask = [.FlexibleWidth, .FlexibleBottomMargin]
 
         self.addSubview(findFriendsContainer)
         findFriendsContainer.addSubview(label)
@@ -209,6 +215,15 @@ public class SearchScreen: UIView, SearchScreenProtocol {
     override public func layoutSubviews() {
         super.layoutSubviews()
         findFriendsContainer.frame.origin.y = frame.size.height - findFriendsContainer.frame.height - bottomInset - ElloTabBar.Size.height
+
+        let btnWidth = (searchControlsContainer.bounds.size.width - 10) / 2
+        let buttonY = searchControlsContainer.frame.size.height - 43
+        if let postsBtn = postsBtn {
+            postsBtn.frame = CGRect(x: 0, y: buttonY, width: btnWidth, height: 33)
+        }
+        if let peopleBtn = peopleBtn {
+            peopleBtn.frame = CGRect(x: postsBtn.frame.maxX + 10, y: buttonY, width: btnWidth, height: 33)
+        }
     }
 
     public func searchForText() {

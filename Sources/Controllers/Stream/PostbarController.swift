@@ -397,10 +397,14 @@ public class PostbarController: NSObject, PostbarDelegate {
                 if let item = dataSource.visibleStreamCellItem(at: path),
                     comment = item.jsonable as? Comment,
                     let atName = comment.author?.atName
-                where !names.contains(atName) && atName != (currentUser?.atName ?? "")
+                where !names.contains(atName)
                 {
                     names.append(atName)
                 }
+            }
+
+            if let currentUsername = currentUser?.atName {
+                names = names.filter { $0 != currentUsername }
             }
             let str = names.joinWithSeparator(" ")
             presentingController.createPostDelegate?.createComment(post, text: "\(str) ", fromController: presentingController)

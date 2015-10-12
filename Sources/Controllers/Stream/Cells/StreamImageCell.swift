@@ -14,6 +14,16 @@ import SVGKit
 import Alamofire
 
 public class StreamImageCell: StreamRegionableCell {
+    // this little hack prevents constraints from breaking on initial load
+    override public var bounds: CGRect {
+        didSet {
+          contentView.frame = bounds
+        }
+    }
+
+    public struct Size {
+        static let bottomMargin = CGFloat(10)
+    }
 
     @IBOutlet public weak var imageView: FLAnimatedImageView!
     @IBOutlet public weak var imageButton: UIButton!
@@ -26,10 +36,12 @@ public class StreamImageCell: StreamRegionableCell {
 
     // not used in StreamEmbedCell
     @IBOutlet public weak var largeImagePlayButton: UIImageView?
-    @IBOutlet weak var imageRightConstraint: NSLayoutConstraint?
+    @IBOutlet public weak var imageRightConstraint: NSLayoutConstraint!
 
     weak var streamImageCellDelegate: StreamImageCellDelegate?
     public var isGif = false
+    public typealias OnHeightMismatch = (CGFloat) -> Void
+    public var onHeightMismatch: OnHeightMismatch?
     var request: Request?
     public var tallEnoughForFailToShow = true
     public var presentedImageUrl: NSURL?
@@ -79,10 +91,18 @@ public class StreamImageCell: StreamRegionableCell {
             let success = result.image != nil || result.animatedImage != nil
             let isAnimated = result.animatedImage != nil
             if success {
-                self.aspectRatio = isAnimated ? (result.animatedImage.size.width / result.animatedImage.size.height) : (result.image.size.width / result.image.size.height)
+                self.layoutIfNeeded()
+                let imageSize = isAnimated ? result.animatedImage.size : result.image.size
+                self.aspectRatio = imageSize.width / imageSize.height
+                let viewRatio = self.imageView.frame.width / self.imageView.frame.height
 
                 if self.serverProvidedAspectRatio == nil {
                     postNotification(StreamNotification.AnimateCellHeightNotification, value: self)
+                }
+                else if viewRatio != self.aspectRatio {
+                    let width = min(imageSize.width, self.frame.width)
+                    let actualHeight = width / self.aspectRatio + Size.bottomMargin
+                    self.onHeightMismatch?(actualHeight)
                 }
 
                 if result.resultType != .MemoryCache {
@@ -128,6 +148,7 @@ public class StreamImageCell: StreamRegionableCell {
     override public func prepareForReuse() {
         super.prepareForReuse()
         imageButton.enabled = true
+        onHeightMismatch = nil
         request?.cancel()
         imageView.image = nil
         imageView.animatedImage = nil

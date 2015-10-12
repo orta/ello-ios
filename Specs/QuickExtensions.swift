@@ -19,6 +19,14 @@ extension QuickSpec {
         window.rootViewController = viewController
         return window
     }
+
+    func showView(view: UIView) -> UIWindow {
+        let window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        window.makeKeyAndVisible()
+        window.rootViewController = UIViewController()
+        window.rootViewController!.view.addSubview(view)
+        return window
+    }
 }
 
 

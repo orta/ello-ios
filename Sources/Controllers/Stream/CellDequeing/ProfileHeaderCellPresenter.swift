@@ -47,7 +47,7 @@ public struct ProfileHeaderCellPresenter {
             else if let avatarURL = user.avatarURL {
                 cell.setAvatarURL(avatarURL)
             }
-            cell.viewTopConstraint.constant = UIScreen.screenWidth() / ratio
+            cell.viewTopConstraint.constant = UIWindow.windowWidth() / ratio
             cell.relationshipControl.userId = user.id
             cell.relationshipControl.userAtName = user.atName
             cell.relationshipControl.relationshipPriority = user.relationshipPriority

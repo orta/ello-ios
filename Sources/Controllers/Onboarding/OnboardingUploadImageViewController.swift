@@ -7,6 +7,9 @@
 //
 
 public class OnboardingUploadImageViewController: BaseElloViewController, OnboardingStep {
+    struct Size {
+        static let maxWidth = CGFloat(500)
+    }
     weak var onboardingViewController: OnboardingViewController?
     var onboardingData: OnboardingData? {
         didSet {

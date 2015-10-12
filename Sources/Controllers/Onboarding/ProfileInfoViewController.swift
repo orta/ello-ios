@@ -7,6 +7,9 @@
 //
 
 public class ProfileInfoViewController: BaseElloViewController, OnboardingStep {
+    struct Size {
+        static let maxWidth = CGFloat(500)
+    }
     weak var onboardingViewController: OnboardingViewController?
     var onboardingData: OnboardingData? {
         didSet {
@@ -31,6 +34,7 @@ public class ProfileInfoViewController: BaseElloViewController, OnboardingStep {
 
     override public func loadView() {
         view = UIScrollView(frame: UIScreen.mainScreen().bounds)
+        view.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
     }
 
     var scrollView: UIScrollView { return self.view as! UIScrollView }
@@ -48,6 +52,9 @@ public class ProfileInfoViewController: BaseElloViewController, OnboardingStep {
 
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+
+        let x = chooseCoverImageView?.frame.minX ?? CGFloat(0)
+        self.chooseAvatarImageView?.frame.origin.x = x
 
         if let linksField = linksField {
             let margin = CGFloat(15)
@@ -125,11 +132,12 @@ public extension ProfileInfoViewController {
 private extension ProfileInfoViewController {
     func setupChooseCoverImageView() {
         let chooseCoverImage = UIImage(named: "choose-header-image")!
-        let aspect = view.frame.width / chooseCoverImage.size.width
+        let width = min(view.frame.width, Size.maxWidth)
+        let aspect = width / chooseCoverImage.size.width
         let chooseCoverImageView = UIImageView(frame: CGRect(
-            x: 0,
+            x: (view.frame.width - width) / 2,
             y: -87,
-            width: view.frame.width,
+            width: width,
             height: chooseCoverImage.size.height * aspect
             ))
         chooseCoverImageView.contentMode = .ScaleAspectFill
@@ -142,9 +150,11 @@ private extension ProfileInfoViewController {
 
     func setupChooseAvatarImageView() {
         let chooseAvatarImage = UIImage(named: "choose-avatar-image")!
-        let scale = view.frame.width / CGFloat(375)
+        let width = min(view.frame.width, Size.maxWidth)
+        let scale = width / CGFloat(375)
+        let x = chooseCoverImageView?.frame.minX ?? CGFloat(0)
         let chooseAvatarImageView = UIImageView(frame: CGRect(
-            x: 17.5 * scale,
+            x: x,
             y: chooseCoverImageView!.frame.maxY - 65,
             width: chooseAvatarImage.size.width * scale,
             height: chooseAvatarImage.size.height * scale
@@ -235,13 +245,14 @@ extension ProfileInfoViewController: UITextFieldDelegate {
 extension ProfileInfoViewController {
 
     private func generateTextField(placeholder placeholder: String, font: UIFont, y: CGFloat) -> UITextField {
+        let width = min(view.frame.width, Size.maxWidth) - 30
         let field = UITextField(frame: CGRect(
-            x: 15,
+            x: (view.frame.width - width) / 2,
             y: y,
-            width: view.frame.width - 30,
+            width: width,
             height: 34
             ))
-        field.autoresizingMask = [.FlexibleWidth, .FlexibleBottomMargin]
+        field.autoresizingMask = [.FlexibleLeftMargin, .FlexibleRightMargin, .FlexibleBottomMargin]
         field.font = font
         field.textColor = .greyA()
         field.placeholder = placeholder
@@ -258,7 +269,7 @@ extension ProfileInfoViewController {
         let height = CGFloat(1)
         let line = UIView(frame: CGRect(x: 0, y: field.frame.height - height, width: field.frame.width, height: height))
         line.backgroundColor = .greyE5()
-        line.autoresizingMask = [.FlexibleWidth, .FlexibleTopMargin]
+        line.autoresizingMask = [.FlexibleLeftMargin, .FlexibleRightMargin, .FlexibleTopMargin]
         field.addSubview(line)
         return field
     }

@@ -20,6 +20,12 @@ public protocol PostsTappedResponder {
 }
 
 public class ProfileHeaderCell: UICollectionViewCell {
+    // this little hack prevents constraints from breaking on initial load
+    override public var bounds: CGRect {
+        didSet {
+          contentView.frame = bounds
+        }
+    }
 
     weak var avatarButton: AvatarButton!
     @IBOutlet weak var usernameLabel: UILabel!

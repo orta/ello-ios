@@ -109,7 +109,9 @@ public class StreamViewController: BaseElloViewController {
     }
     var imageViewer: StreamImageViewer?
     var updatedStreamImageCellHeightNotification: NotificationObserver?
-    var relayoutNotification: NotificationObserver?
+    var updateCellHeightNotification: NotificationObserver?
+    var rotationNotification: NotificationObserver?
+    var sizeChangedNotification: NotificationObserver?
     var commentChangedNotification: NotificationObserver?
     var postChangedNotification: NotificationObserver?
     var loveChangedNotification: NotificationObserver?
@@ -347,8 +349,14 @@ public class StreamViewController: BaseElloViewController {
         updatedStreamImageCellHeightNotification = NotificationObserver(notification: StreamNotification.AnimateCellHeightNotification) { [unowned self] streamImageCell in
             self.imageCellHeightUpdated(streamImageCell)
         }
-        relayoutNotification = NotificationObserver(notification: StreamNotification.UpdateCellHeightNotification) { [unowned self] streamTextCell in
+        updateCellHeightNotification = NotificationObserver(notification: StreamNotification.UpdateCellHeightNotification) { [unowned self] streamTextCell in
             self.collectionView.collectionViewLayout.invalidateLayout()
+        }
+        rotationNotification = NotificationObserver(notification: Application.Notifications.DidChangeStatusBarOrientation) { [unowned self] _ in
+            self.collectionView.reloadData()
+        }
+        sizeChangedNotification = NotificationObserver(notification: Application.Notifications.ViewSizeDidChange) { [unowned self] _ in
+            self.collectionView.reloadData()
         }
 
         commentChangedNotification = NotificationObserver(notification: CommentChangedNotification) { [unowned self] (comment, change) in
@@ -420,7 +428,9 @@ public class StreamViewController: BaseElloViewController {
 
     private func removeNotificationObservers() {
         updatedStreamImageCellHeightNotification?.removeObserver()
-        relayoutNotification?.removeObserver()
+        updateCellHeightNotification?.removeObserver()
+        rotationNotification?.removeObserver()
+        sizeChangedNotification?.removeObserver()
         commentChangedNotification?.removeObserver()
         postChangedNotification?.removeObserver()
         relationshipChangedNotification?.removeObserver()
@@ -559,7 +569,7 @@ extension StreamViewController : StreamCollectionViewLayoutDelegate {
 
     public func collectionView(collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-            return CGSizeMake(UIScreen.screenWidth(), dataSource.heightForIndexPath(indexPath, numberOfColumns:1))
+            return CGSizeMake(UIWindow.windowWidth(), dataSource.heightForIndexPath(indexPath, numberOfColumns:1))
     }
 
     public func collectionView(collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout,
@@ -687,8 +697,11 @@ extension StreamViewController : WebLinkDelegate {
 // MARK: StreamViewController : UICollectionViewDelegate
 extension StreamViewController : UICollectionViewDelegate {
 
-    public func collectionView(collectionView: UICollectionView,
-        didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    public func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
+        dataSource.willDisplayCell(cell, forItemAtIndexPath: indexPath)
+    }
+
+    public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
             let tappedCell = collectionView.cellForItemAtIndexPath(indexPath)
 
             if tappedCell is StreamToggleCell {

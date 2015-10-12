@@ -54,13 +54,13 @@ public class StreamImageCellSizeCalculator: NSObject {
             if (item.type.data as? Regionable)?.isRepost == true {
                 maxWidth -= StreamTextCellPresenter.repostMargin
             }
-            else if let _ = item.jsonable as? Comment {
+            else if item.jsonable is Comment {
                 maxWidth -= StreamTextCellPresenter.commentMargin
             }
 
             if let imageRegion = item.type.data as? ImageRegion {
-                item.calculatedOneColumnCellHeight = oneColumnImageHeight(imageRegion)
-                item.calculatedMultiColumnCellHeight = multiColumnImageHeight(imageRegion)
+                item.calculatedOneColumnCellHeight = StreamImageCell.Size.bottomMargin + oneColumnImageHeight(imageRegion)
+                item.calculatedMultiColumnCellHeight = StreamImageCell.Size.bottomMargin + multiColumnImageHeight(imageRegion)
             }
             else if let embedRegion = item.type.data as? EmbedRegion {
                 var ratio: CGFloat!
@@ -70,8 +70,8 @@ public class StreamImageCellSizeCalculator: NSObject {
                 else {
                     ratio = 16.0/9.0
                 }
-                item.calculatedOneColumnCellHeight = maxWidth / ratio
-                item.calculatedMultiColumnCellHeight = ((maxWidth - 10.0) / 2) / ratio
+                item.calculatedOneColumnCellHeight = StreamImageCell.Size.bottomMargin + maxWidth / ratio
+                item.calculatedMultiColumnCellHeight = StreamImageCell.Size.bottomMargin + ((maxWidth - 10.0) / 2) / ratio
             }
             loadNext()
         }

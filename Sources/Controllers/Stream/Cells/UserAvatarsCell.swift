@@ -18,7 +18,7 @@ public class UserAvatarsCell: UICollectionViewCell {
     var users = [User]()
     var avatarButtons = [AvatarButton]()
     var maxAvatars: Int {
-        return Int(floor((UIScreen.screenWidth() - seeAllButton.frame.size.width - 65) / 40.0))
+        return Int(floor((UIWindow.windowWidth() - seeAllButton.frame.size.width - 65) / 40.0))
     }
     var userAvatarCellModel: UserAvatarCellModel? {
         didSet {

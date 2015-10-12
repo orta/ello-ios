@@ -11,6 +11,7 @@ import FLAnimatedImage
 import JTSImageViewController
 
 public class StreamImageViewer: NSObject {
+    var prevWindowSize: CGSize?
 
     let presentingController: StreamViewController
     weak var imageView: UIImageView?
@@ -26,6 +27,7 @@ extension StreamImageViewer {
     public func imageTapped(imageView: FLAnimatedImageView, imageURL: NSURL?) {
         // tell AppDelegate to allow rotation
         AppDelegate.restrictRotation = false
+        prevWindowSize = UIWindow.windowSize()
 
         self.imageView = imageView
         imageView.hidden = true
@@ -57,7 +59,11 @@ extension StreamImageViewer: JTSImageViewControllerOptionsDelegate {
 
 // MARK: JTSImageViewControllerDismissalDelegate
 extension StreamImageViewer: JTSImageViewControllerDismissalDelegate {
-    public func imageViewerDidDismiss(imageViewer: JTSImageViewController) {}
+    public func imageViewerDidDismiss(imageViewer: JTSImageViewController) {
+        if let prevSize = prevWindowSize where prevSize != UIWindow.windowSize() {
+            postNotification(Application.Notifications.ViewSizeDidChange, value: UIWindow.windowSize())
+        }
+    }
 
     public func imageViewerWillDismiss(imageViewer: JTSImageViewController) {
         self.imageView?.hidden = false

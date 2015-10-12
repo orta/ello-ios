@@ -20,7 +20,8 @@ class TagSpec: QuickSpec {
                     "break tags in a p tag": (input: "<p>test<br><br />", output: "<p>test<br /><br /></p>"),
                     "entities": (input: "&lt;tag!&gt;that is a tag&lt;/tag&gt;", output: "&lt;tag!&gt;that is a tag&lt;/tag&gt;"),
                     "link": (input: "test <a href=\"foo.com\">a link</a>", output: "test <a href=\"foo.com\">a link</a>"),
-                    "styled text": (input: "test <b>bold</b> <i>italic</i> <strong>strong</strong> <em>emphasis</em>", output: "test <b>bold</b> <i>italic</i> <strong>strong</strong> <em>emphasis</em>")
+                    "styled text": (input: "test <b>bold</b> <i>italic</i> <strong>strong</strong> <em>emphasis</em>", output: "test <b>bold</b> <i>italic</i> <strong>strong</strong> <em>emphasis</em>"),
+                    "emoji": (input: "🐻🍕🍻😎🐀🐁🍃💨❄️🌊⛵️⛲️🏈⚾️🏀🎸🎷🎺🎶🎭🚃🚲🌃👔🔫🍀🍴", output: "🐻🍕🍻😎🐀🐁🍃💨❄️🌊⛵️⛲️🏈⚾️🏀🎸🎷🎺🎶🎭🚃🚲🌃👔🔫🍀🍴"),
                 ]
                 for (name, spec) in tests {
                     it("should parse \(name)") {
