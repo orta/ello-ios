@@ -17,6 +17,13 @@ public class PostEditingService: NSObject {
     // this can return either a Post or Comment
     typealias CreatePostSuccessCompletion = (post: AnyObject) -> Void
     typealias UploadImagesSuccessCompletion = ([(Int, ImageRegion)]) -> Void
+
+    public enum PostContentType {
+        case Text(String)
+        case Image(UIImage)
+        case ImageData(UIImage, NSData, String)
+    }
+
     typealias ImageData = (UIImage, NSData, String)
 
     var editPost: Post?
@@ -39,7 +46,7 @@ public class PostEditingService: NSObject {
     }
 
     // rawSections is String or UIImage objects
-    func create(content rawContent: [Any], authorId: String, success: CreatePostSuccessCompletion, failure: ElloFailureCompletion?) {
+    func create(content rawContent: [PostContentType], authorId: String, success: CreatePostSuccessCompletion, failure: ElloFailureCompletion?) {
         var textEntries = [(Int, String)]()
         var imageEntries = [(Int, UIImage)]()
         var imageDataEntries = [(Int, ImageData)]()
@@ -47,17 +54,13 @@ public class PostEditingService: NSObject {
         // if necessary, the rawSource should be converted to API-ready content,
         // e.g. entitizing Strings and adding HTML markup to NSAttributedStrings
         for (index, section) in rawContent.enumerate() {
-            if let text = section as? String {
+            switch section {
+            case let .Text(text):
                 textEntries.append((index, text))
-            }
-            else if let image = section as? UIImage {
+            case let .Image(image):
                 imageEntries.append((index, image))
-            }
-            else if let data = section as? ImageData {
-                imageDataEntries.append((index, data))
-            }
-            else if let attributed = section as? NSAttributedString {
-                textEntries.append((index, attributed.string))
+            case let .ImageData(image, data, type):
+                imageDataEntries.append((index, (image, data, type)))
             }
         }
 

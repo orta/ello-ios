@@ -306,7 +306,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     }
 
     public func omnibarSubmitted(regions: [OmnibarRegion]) {
-        var content = [Any]()
+        var content: [PostEditingService.PostContentType] = []
         for region in regions {
             switch region {
             case let .AttributedText(attributedText):
@@ -318,15 +318,14 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
 
                 let cleanedText = textString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
                 if cleanedText.characters.count > 0 {
-                    content.append(ElloAttributedString.render(attributedText))
+                    content.append(.Text(ElloAttributedString.render(attributedText)))
                 }
             case let .Image(image, data, contentType):
                 if let data = data, contentType = contentType {
-                    let entry: PostEditingService.ImageData = (image, data, contentType)
-                    content.append(entry)
+                    content.append(.ImageData(image, data, contentType))
                 }
                 else {
-                    content.append(image)
+                    content.append(.Image(image))
                 }
             case .ImageURL(_): break
             default:
