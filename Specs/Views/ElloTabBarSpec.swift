@@ -35,7 +35,7 @@ class ElloTabBarSpec: QuickSpec {
                         self.showView(subject)
                     }
                     it("should be in the correct location") {
-                        let expected = CGRect(x: 135.5, y: 11, width: 6, height: 6)
+                        let expected = CGRect(x: 173.5, y: 10, width: 6, height: 6)
                         expect(redDot.frame.origin.x) == expected.origin.x
                         expect(redDot.frame.origin.y) == expected.origin.y
                         expect(redDot.frame.size.width) == expected.size.width
@@ -57,7 +57,7 @@ class ElloTabBarSpec: QuickSpec {
                         self.showView(subject)
                     }
                     it("should be in the correct location") {
-                        let expected = CGRect(x: 215.5, y: 11, width: 6, height: 6)
+                        let expected = CGRect(x: 253.5, y: 10, width: 6, height: 6)
                         expect(redDot.frame.origin.x) == expected.origin.x
                         expect(redDot.frame.origin.y) == expected.origin.y
                         expect(redDot.frame.size.width) == expected.size.width

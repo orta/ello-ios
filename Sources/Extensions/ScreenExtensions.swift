@@ -10,7 +10,7 @@ import UIKit
 
 extension UIWindow {
     class var mainWindow: UIWindow {
-        return UIApplication.sharedApplication().keyWindow!
+        return UIApplication.sharedApplication().keyWindow ?? UIWindow()
     }
 
     class func windowBounds() -> CGRect {
