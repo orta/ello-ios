@@ -156,7 +156,7 @@ CHECKOUT OPTIONS:
     :commit: d1d795e58d0f972e8acacaee62a83d4b86db11dd
     :git: https://github.com/Quick/Quick
   Nimble-Snapshots:
-    :commit: 655567664d3049904826c92f8fb8f19c7d2103e9
+    :commit: 08551a5b9d7590a2d33f58f9df27ec5b1c045505
     :git: https://github.com/ello/Nimble-Snapshots
   SVGKit:
     :commit: 461fcc45a5607df5b8aa32fd126f8a7476d4034d
