@@ -33,7 +33,7 @@ class IntroControllerSpec: QuickSpec {
             }
             describe("snapshots") {
                 let subject = IntroController()
-                validateAllSnapshots(subject)
+                validateAllSnapshots(subject, named: "IntroController")
             }
         }
     }

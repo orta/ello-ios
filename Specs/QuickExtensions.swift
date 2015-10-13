@@ -76,7 +76,7 @@ public enum SnapshotDevice {
     }
 }
 
-func validateAllSnapshots(subject: Snapshotable, record: Bool = false, file: String = __FILE__, line: UInt = __LINE__) {
+func validateAllSnapshots(subject: Snapshotable, named name: String? = nil, record: Bool = false, file: String = __FILE__, line: UInt = __LINE__) {
     for device in SnapshotDevice.all {
         context(device.description) {
             beforeEach {
@@ -84,7 +84,14 @@ func validateAllSnapshots(subject: Snapshotable, record: Bool = false, file: Str
             }
             describe("view") {
                 it("should match the screenshot", file: file, line: line) {
-                    expect(subject, file: file, line: line).to(record ? recordSnapshot() : haveValidSnapshot())
+                    let localName: String?
+                    if let name = name {
+                        localName = "\(name) on \(device.description)"
+                    }
+                    else {
+                        localName = nil
+                    }
+                    expect(subject, file: file, line: line).to(record ? recordSnapshot(named: localName) : haveValidSnapshot(named: localName))
                 }
             }
         }
