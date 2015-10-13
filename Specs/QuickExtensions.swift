@@ -80,7 +80,7 @@ func validateAllSnapshots(subject: Snapshotable, record: Bool = false, file: Str
     for device in SnapshotDevice.all {
         context(device.description) {
             beforeEach {
-                prepareForSnapshot(subject.snapshotObject!, device: device)
+                prepareForSnapshot(subject, device: device)
             }
             describe("view") {
                 it("should match the screenshot", file: file, line: line) {
