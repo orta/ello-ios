@@ -305,7 +305,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         }
     }
 
-    public func omnibarSubmitted(regions: [OmnibarRegion]) {
+    public func generatePostContent(regions: [OmnibarRegion]) -> [PostEditingService.PostContentType] {
         var content: [PostEditingService.PostContentType] = []
         for region in regions {
             switch region {
@@ -313,7 +313,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
                 let textString = attributedText.string
                 if textString.characters.count > 5000 {
                     contentCreationFailed(NSLocalizedString("Your text is too long.\n\nThe character limit is 5,000.", comment: "Post too long (maximum characters is 5000) error message"))
-                    return
+                    return []
                 }
 
                 let cleanedText = textString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
@@ -327,12 +327,19 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
                 else {
                     content.append(.Image(image))
                 }
-            case .ImageURL(_): break
             default:
-                break // TODO
+                break // there are "non submittable" types from OmnibarRegion, like Spacer and ImageURL
             }
         }
+        return content
+    }
 
+    public func omnibarSubmitted(regions: [OmnibarRegion]) {
+        let content = generatePostContent(regions)
+        if content.count == 0 {
+            return
+        }
+        
         let service : PostEditingService
         if let parentPost = parentPost {
             service = PostEditingService(parentPost: parentPost)

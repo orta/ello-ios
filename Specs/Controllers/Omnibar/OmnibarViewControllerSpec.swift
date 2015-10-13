@@ -128,6 +128,46 @@ class OmnibarViewControllerSpec: QuickSpec {
                 }
             }
 
+            context("submitting a post") {
+                it("should generate PostEditingService.PostContentType") {
+                    let image = UIImage.imageWithColor(UIColor.blackColor())
+                    let data = NSData()
+                    let contentType = "image/gif"
+                    let text = NSAttributedString(string: "test")
+
+                    let regions = [
+                        OmnibarRegion.Image(image, nil, nil),
+                        OmnibarRegion.Image(image, data, contentType),
+                        OmnibarRegion.AttributedText(text),
+                        OmnibarRegion.Spacer,
+                        OmnibarRegion.ImageURL(NSURL(string: "http://example.com")!),
+                    ]
+
+                    subject = OmnibarViewController()
+                    let content = subject.generatePostContent(regions)
+                    expect(content.count) == 3
+
+                    guard case let PostEditingService.PostContentType.Image(outImage) = content[0] else {
+                        fail("content[0] is not PostEditingService.PostContentType.Image")
+                        return
+                    }
+                    expect(outImage == image)
+
+                    guard case let PostEditingService.PostContentType.ImageData(_, outData, outType) = content[1] else {
+                        fail("content[1] is not PostEditingService.PostContentType.ImageData")
+                        return
+                    }
+                    expect(outData) == data
+                    expect(outType) == contentType
+
+                    guard case let PostEditingService.PostContentType.Text(outText) = content[2] else {
+                        fail("content[2] is not PostEditingService.PostContentType.Text")
+                        return
+                    }
+                    expect(outText) == text.string
+                }
+            }
+
             context("restoring a comment") {
 
                 beforeEach {
