@@ -305,32 +305,39 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         }
     }
 
-    public func omnibarSubmitted(regions: [OmnibarRegion]) {
-        var content = [Any]()
+    public func generatePostContent(regions: [OmnibarRegion]) -> [PostEditingService.PostContentRegion] {
+        var content: [PostEditingService.PostContentRegion] = []
         for region in regions {
             switch region {
             case let .AttributedText(attributedText):
                 let textString = attributedText.string
                 if textString.characters.count > 5000 {
                     contentCreationFailed(NSLocalizedString("Your text is too long.\n\nThe character limit is 5,000.", comment: "Post too long (maximum characters is 5000) error message"))
-                    return
+                    return []
                 }
 
                 let cleanedText = textString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
                 if cleanedText.characters.count > 0 {
-                    content.append(ElloAttributedString.render(attributedText))
+                    content.append(.Text(ElloAttributedString.render(attributedText)))
                 }
-            case let .Image(image, data, _):
-                if let data = data {
-                    content.append(data)
+            case let .Image(image, data, contentType):
+                if let data = data, contentType = contentType {
+                    content.append(.ImageData(image, data, contentType))
                 }
                 else {
-                    content.append(image)
+                    content.append(.Image(image))
                 }
-            case .ImageURL(_): break
             default:
-                break // TODO
+                break // there are "non submittable" types from OmnibarRegion, like Spacer and ImageURL
             }
+        }
+        return content
+    }
+
+    public func omnibarSubmitted(regions: [OmnibarRegion]) {
+        let content = generatePostContent(regions)
+        if content.count == 0 {
+            return
         }
 
         let service : PostEditingService
