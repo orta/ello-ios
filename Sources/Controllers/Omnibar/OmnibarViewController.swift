@@ -305,8 +305,8 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         }
     }
 
-    public func generatePostContent(regions: [OmnibarRegion]) -> [PostEditingService.PostContentType] {
-        var content: [PostEditingService.PostContentType] = []
+    public func generatePostContent(regions: [OmnibarRegion]) -> [PostEditingService.PostContentRegion] {
+        var content: [PostEditingService.PostContentRegion] = []
         for region in regions {
             switch region {
             case let .AttributedText(attributedText):
@@ -339,7 +339,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         if content.count == 0 {
             return
         }
-        
+
         let service : PostEditingService
         if let parentPost = parentPost {
             service = PostEditingService(parentPost: parentPost)

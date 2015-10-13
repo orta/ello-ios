@@ -18,7 +18,7 @@ public class PostEditingService: NSObject {
     typealias CreatePostSuccessCompletion = (post: AnyObject) -> Void
     typealias UploadImagesSuccessCompletion = ([(Int, ImageRegion)]) -> Void
 
-    public enum PostContentType {
+    public enum PostContentRegion {
         case Text(String)
         case Image(UIImage)
         case ImageData(UIImage, NSData, String)
@@ -46,7 +46,7 @@ public class PostEditingService: NSObject {
     }
 
     // rawSections is String or UIImage objects
-    func create(content rawContent: [PostContentType], authorId: String, success: CreatePostSuccessCompletion, failure: ElloFailureCompletion?) {
+    func create(content rawContent: [PostContentRegion], authorId: String, success: CreatePostSuccessCompletion, failure: ElloFailureCompletion?) {
         var textEntries = [(Int, String)]()
         var imageEntries = [(Int, UIImage)]()
         var imageDataEntries = [(Int, ImageData)]()

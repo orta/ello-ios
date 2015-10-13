@@ -129,7 +129,7 @@ class OmnibarViewControllerSpec: QuickSpec {
             }
 
             context("submitting a post") {
-                it("should generate PostEditingService.PostContentType") {
+                it("should generate PostEditingService.PostContentRegion") {
                     let image = UIImage.imageWithColor(UIColor.blackColor())
                     let data = NSData()
                     let contentType = "image/gif"
@@ -147,21 +147,21 @@ class OmnibarViewControllerSpec: QuickSpec {
                     let content = subject.generatePostContent(regions)
                     expect(content.count) == 3
 
-                    guard case let PostEditingService.PostContentType.Image(outImage) = content[0] else {
-                        fail("content[0] is not PostEditingService.PostContentType.Image")
+                    guard case let PostEditingService.PostContentRegion.Image(outImage) = content[0] else {
+                        fail("content[0] is not PostEditingService.PostContentRegion.Image")
                         return
                     }
                     expect(outImage == image)
 
-                    guard case let PostEditingService.PostContentType.ImageData(_, outData, outType) = content[1] else {
-                        fail("content[1] is not PostEditingService.PostContentType.ImageData")
+                    guard case let PostEditingService.PostContentRegion.ImageData(_, outData, outType) = content[1] else {
+                        fail("content[1] is not PostEditingService.PostContentRegion.ImageData")
                         return
                     }
                     expect(outData) == data
                     expect(outType) == contentType
 
-                    guard case let PostEditingService.PostContentType.Text(outText) = content[2] else {
-                        fail("content[2] is not PostEditingService.PostContentType.Text")
+                    guard case let PostEditingService.PostContentRegion.Text(outText) = content[2] else {
+                        fail("content[2] is not PostEditingService.PostContentRegion.Text")
                         return
                     }
                     expect(outText) == text.string
