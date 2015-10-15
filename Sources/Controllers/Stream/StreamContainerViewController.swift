@@ -184,6 +184,38 @@ public class StreamContainerViewController: StreamableViewController {
         streamsSegmentedControl = control
     }
 
+    public func showFriends() {
+        showSegmentIndex(0)
+        streamsSegmentedControl.selectedSegmentIndex = 0
+    }
+
+    public func showNoise() {
+        showSegmentIndex(1)
+        streamsSegmentedControl.selectedSegmentIndex = 1
+    }
+    
+    private func showSegmentIndex(index: Int) {
+        for controller in childStreamControllers {
+            controller.collectionView.scrollsToTop = false
+        }
+
+        childStreamControllers[index].collectionView.scrollsToTop = true
+
+        let width:CGFloat = view.bounds.size.width
+        let height:CGFloat = view.bounds.size.height
+        let x = CGFloat(index) * width
+        let rect = CGRect(x: x, y: 0, width: width, height: height)
+        scrollView.scrollRectToVisible(rect, animated: true)
+
+        let stream = StreamKind.streamValues[index]
+        Tracker.sharedTracker.streamAppeared(stream.name)
+
+        if index == 1 && !noiseLoaded {
+            noiseLoaded = true
+            childStreamControllers[1].loadInitialPage()
+        }
+    }
+
     // MARK: - IBActions
 
     @IBAction func hamburgerButtonTapped() {
@@ -194,26 +226,7 @@ public class StreamContainerViewController: StreamableViewController {
     }
 
     @IBAction func streamSegmentTapped(sender: UISegmentedControl) {
-        for controller in childStreamControllers {
-            controller.collectionView.scrollsToTop = false
-        }
-
-        let selectedIndex = streamsSegmentedControl.selectedSegmentIndex
-        childStreamControllers[selectedIndex].collectionView.scrollsToTop = true
-
-        let width:CGFloat = view.bounds.size.width
-        let height:CGFloat = view.bounds.size.height
-        let x = CGFloat(selectedIndex) * width
-        let rect = CGRect(x: x, y: 0, width: width, height: height)
-        scrollView.scrollRectToVisible(rect, animated: true)
-
-        let stream = StreamKind.streamValues[selectedIndex]
-        Tracker.sharedTracker.streamAppeared(stream.name)
-
-        if selectedIndex == 1 && !noiseLoaded {
-            noiseLoaded = true
-            childStreamControllers[1].loadInitialPage()
-        }
+        showSegmentIndex(sender.selectedSegmentIndex)
     }
 }
 

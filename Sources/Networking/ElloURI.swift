@@ -17,7 +17,7 @@ public enum ElloURI: String {
     case Enter = "enter"
     case Friends = "friends"
     case Noise = "noise"
-    case Notifications = "notifications"
+    case Notifications = "notifications(\\/?|\\/\\S+)$"
     case Post = "\\/post\\/[^\\/]+\\/?$"
     case Profile = "\\/?$"
     case ProfileFollowers = "followers\\/?$"
@@ -107,6 +107,7 @@ public enum ElloURI: String {
     private var regexPattern: String {
         switch self {
         case .Email, .External: return rawValue
+        case .Notifications: return "\(ElloURI.fuzzyDomain)\\/\(rawValue)"
         case .Post: return "\(ElloURI.userPathRegex)\(rawValue)"
         case .Profile: return "\(ElloURI.userPathRegex)\(rawValue)"
         case .ProfileFollowers, .ProfileFollowing, .ProfileLoves: return "\(ElloURI.userPathRegex)\(rawValue)"
@@ -118,6 +119,9 @@ public enum ElloURI: String {
 
     private func data(url: String) -> String {
         switch self {
+        case .Notifications:
+            let urlArr = url.characters.split { $0 == "/" }.map { String($0) }
+            return urlArr.last ?? url
         case .ProfileFollowers, .ProfileFollowing, .ProfileLoves:
             let urlArr = url.characters.split { $0 == "/" }.map { String($0) }.filter {
                 switch $0 {

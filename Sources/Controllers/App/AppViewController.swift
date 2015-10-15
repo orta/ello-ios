@@ -412,66 +412,152 @@ extension AppViewController {
 // MARK: URL Handling
 extension AppViewController {
     func navigateToDeepLink(path: String) {
+        print("path = \(path)")
+
         let vc = self.visibleViewController as? ElloTabBarController
-
-        let (type, _) = ElloURI.match(path)
-
-        print(type.rawValue)
+        let (type, data) = ElloURI.match(path)
 
         switch type {
-        case .Confirm, .ResetMyPassword, .FreedomOfSpeech, .FaceMaker, .Invitations, .Join, .Login, .NativeRedirect, .Onboarding, .PasswordResetError, .RandomSearch, .RequestInvitations, .SearchPeople, .SearchPosts, .DiscoverRandom, .DiscoverRelated, .Unblock:
-            break
-        case .BetaPublicProfiles, .Downloads, .Email, .External, .ForgotMyPassword, .Manifesto, .RequestInvite, .RequestInvitation, .Subdomain, .WhoMadeThis, .WTF:
+        case .BetaPublicProfiles,
+             .Confirm,
+             .DiscoverRandom,
+             .DiscoverRelated,
+             .Downloads,
+             .Email,
+             .External,
+             .FaceMaker,
+             .ForgotMyPassword,
+             .FreedomOfSpeech,
+             .Invitations,
+             .Join,
+             .Login,
+             .Manifesto,
+             .NativeRedirect,
+             .Onboarding,
+             .PasswordResetError,
+             .RandomSearch,
+             .RequestInvitation,
+             .RequestInvitations,
+             .RequestInvite,
+             .ResetMyPassword,
+             .SearchPeople,
+             .SearchPosts,
+             .Subdomain,
+             .Unblock,
+             .WhoMadeThis,
+             .WTF:
+            if let pathURL = NSURL(string: path) {
+                UIApplication.sharedApplication().openURL(pathURL)
+            }
             break
         case .Discover:
-            // show discover
+            vc?.selectedTab = .Discovery
             break
         case .Enter, .Exit, .Root:
             break
-        case .Friends,
-             .Noise:
+        case .Friends:
             vc?.selectedTab = .Stream
+            if let navVC = vc?.selectedViewController as? ElloNavigationController,
+                streamVC = navVC.topViewController as? StreamContainerViewController
+            {
+                streamVC.showFriends()
+            }
+        case .Noise:
+            vc?.selectedTab = .Stream
+            if let navVC = vc?.selectedViewController as? ElloNavigationController,
+                streamVC = navVC.topViewController as? StreamContainerViewController
+            {
+                    streamVC.showNoise()
+            }
         case .Notifications:
             vc?.selectedTab = .Notifications
+            if let navVC = vc?.selectedViewController as? ElloNavigationController,
+                notificationsVC = navVC.topViewController as? NotificationsViewController
+            {
+                let notificationFilterType = NotificationFilterType.fromCategory(data)
+                notificationsVC.categoryFilterType = notificationFilterType
+                notificationsVC.activatedCategory(notificationFilterType)
+            }
         case .Post:
-            // show post detail
-            break
+            // works for valid posts, we need to handle 404
+            let postDetailVC = PostDetailViewController(postParam: "~\(data)")
+            postDetailVC.currentUser = currentUser
+            pushDeepLinkViewController(postDetailVC)
         case .Profile:
-            // show profile
-            break
+            // works for valid profiles, we need to launch mobile safari if it 404s
+            let profileVC = ProfileViewController(userParam: "~\(data)")
+            profileVC.currentUser = currentUser
+            pushDeepLinkViewController(profileVC)
         case .ProfileFollowers:
-            // show profile followers
-            break
+            let endpoint = ElloAPI.UserStreamFollowers(userId: "~\(data)")
+            let noResultsTitle: String
+            let noResultsBody: String
+            if data == currentUser?.id {
+                noResultsTitle = InterfaceString.Followers.CurrentUserNoResultsTitle.localized
+                noResultsBody = InterfaceString.Followers.CurrentUserNoResultsBody.localized
+            }
+            else {
+                noResultsTitle = InterfaceString.Followers.NoResultsTitle.localized
+                noResultsBody = InterfaceString.Followers.NoResultsBody.localized
+            }
+            let followersVC = SimpleStreamViewController(endpoint: endpoint, title: "@" + data + "'s " + InterfaceString.Followers.Title.localized)
+            followersVC.streamViewController.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
+            followersVC.currentUser = currentUser
+            pushDeepLinkViewController(followersVC)
         case .ProfileFollowing:
-            // show profile following
-            break
+            let endpoint = ElloAPI.UserStreamFollowing(userId: "~\(data)")
+            let noResultsTitle: String
+            let noResultsBody: String
+            if data == currentUser?.id {
+                noResultsTitle = InterfaceString.Following.CurrentUserNoResultsTitle.localized
+                noResultsBody = InterfaceString.Following.CurrentUserNoResultsBody.localized
+            }
+            else {
+                noResultsTitle = InterfaceString.Following.NoResultsTitle.localized
+                noResultsBody = InterfaceString.Following.NoResultsBody.localized
+            }
+            let vc = SimpleStreamViewController(endpoint: endpoint, title: "@" + data + "'s " + InterfaceString.Following.Title.localized)
+            vc.streamViewController.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
+            vc.currentUser = currentUser
+            pushDeepLinkViewController(vc)
         case .ProfileLoves:
-            // show profile loves
-            break
+            let endpoint = ElloAPI.Loves(userId: "~\(data)")
+            let noResultsTitle: String
+            let noResultsBody: String
+            if data == currentUser?.id {
+                noResultsTitle = InterfaceString.Loves.CurrentUserNoResultsTitle.localized
+                noResultsBody = InterfaceString.Loves.CurrentUserNoResultsBody.localized
+            }
+            else {
+                noResultsTitle = InterfaceString.Loves.NoResultsTitle.localized
+                noResultsBody = InterfaceString.Loves.NoResultsBody.localized
+            }
+            let vc = SimpleStreamViewController(endpoint: endpoint, title: "@" + data + "'s " + InterfaceString.Loves.Title.localized)
+            vc.streamViewController.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
+            vc.currentUser = currentUser
+            pushDeepLinkViewController(vc)
         case .Search:
-            // show search
-            break
+            let search = SearchViewController()
+            search.currentUser = currentUser
+            pushDeepLinkViewController(search)
         case .Settings:
-            // show settings
-            break
-        }
-
-        if let  url = NSURL(string: path),
-                var components = url.pathComponents
-        {
-            let firstComponent = components.removeAtIndex(0)
-//            let route = Route(rawValue: firstComponent)
-
-            switch firstComponent {
-            case "stream":
-                vc?.selectedTab = .Stream
-            case "notifications":
-                vc?.selectedTab = .Notifications
-                postNotification(NavigationNotifications.showingNotificationsTab, value: components)
-            default:
-                break
+            if let settings = UIStoryboard(name: "Settings", bundle: .None).instantiateInitialViewController() as? SettingsContainerViewController {
+                settings.currentUser = currentUser
+                pushDeepLinkViewController(settings)
             }
         }
+    }
+
+    private func pushDeepLinkViewController(vc: UIViewController) {
+        if let tabController = self.visibleViewController as? ElloTabBarController {
+            if let navController = tabController.selectedViewController as? UINavigationController {
+                navController.pushViewController(vc, animated: true)
+            }
+        }
+    }
+
+    private func selectTab(tab: ElloTab) {
+        ElloWebBrowserViewController.elloTabBarController?.selectedTab = tab
     }
 }
 

@@ -154,6 +154,13 @@ class ElloURISpec: QuickSpec {
                         "with ProfileFollowing urls": (input: "888/following", outputURI: .ProfileFollowing, outputData: "888"),
                         "with ProfileLoves urls": (input: "999/loves", outputURI: .ProfileLoves, outputData: "999"),
                         "with Post urls": (input: "666/post/2345", outputURI: .Post, outputData: "2345"),
+                        "with Notifications urls": (input: "notifications", outputURI: .Notifications, outputData: "notifications"),
+                        "with Notifications/all urls": (input: "notifications/all", outputURI: .Notifications, outputData: "all"),
+                        "with Notifications/comments urls": (input: "notifications/comments", outputURI: .Notifications, outputData: "comments"),
+                        "with Notifications/loves urls": (input: "notifications/loves", outputURI: .Notifications, outputData: "loves"),
+                        "with Notifications/mentions urls": (input: "notifications/mentions", outputURI: .Notifications, outputData: "mentions"),
+                        "with Notifications/reposts urls": (input: "notifications/reposts", outputURI: .Notifications, outputData: "reposts"),
+                        "with Notifications/relationshiops urls": (input: "notifications/relationships", outputURI: .Notifications, outputData: "relationships"),
                     ]
 
                     for (description, test) in tests {
@@ -226,7 +233,6 @@ class ElloURISpec: QuickSpec {
                         "with Manifesto urls": (input: "manifesto", output: .Manifesto),
                         "with NativeRedirect urls": (input: "native_redirect", output: .NativeRedirect),
                         "with Noise urls": (input: "noise", output: .Noise),
-                        "with Notifications urls": (input: "notifications", output: .Notifications),
                         "with Onboarding urls": (input: "onboarding", output: .Onboarding),
                         "with PasswordResetError urls": (input: "password-reset-error", output: .PasswordResetError),
                         "with RandomSearch urls": (input: "random_searches", output: .RandomSearch),

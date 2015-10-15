@@ -6,8 +6,9 @@
 	<array>
 		<string>applinks:ello.co</string>
 		<string>applinks:staging.ello.co</string>
-		<string>applinks:ello-staging.herokuapp.com</string>
+		<string>applinks:ello-staging3.herokuapp.com</string>
 		<string>applinks:email.ello.co</string>
+		<string>applinks:ello-staging2.herokuapp.com</string>
 	</array>
 </dict>
 </plist>
