@@ -79,13 +79,15 @@ public class OmnibarTextCell: UITableViewCell {
         let tv = generateTextView()
         tv.attributedText = attributedText
         let tvSize = tv.sizeThatFits(CGSize(width: textWidth, height: CGFloat.max))
-        let heightPadding = Size.textMargins.top + Size.textMargins.bottom
-        let textHeight = heightPadding + round(tvSize.height)
+        // adding a magic 1, for rare "off by 1" height calculations.
+        let heightPadding = Size.textMargins.top + Size.textMargins.bottom + 1
+        let textHeight = heightPadding + ceil(tvSize.height)
 
+        let reasonableHeight = max(Size.minHeight, textHeight)
         if editing {
-            return min(Size.maxEditingHeight, max(Size.minHeight, textHeight))
+            return min(Size.maxEditingHeight, reasonableHeight)
         }
-        return max(Size.minHeight, textHeight)
+        return reasonableHeight
     }
 
 }
