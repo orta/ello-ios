@@ -28,13 +28,17 @@ public class StreamHeaderCell: UICollectionViewCell {
             return 158.0
         }
         else {
-            return 104.0
+            return 54.0
+        }
+    }
+    public var canReply = false {
+        didSet {
+            self.setNeedsLayout()
         }
     }
 
     var cellOpenObserver: NotificationObserver?
     var isOpen = false
-    var maxUsernameWidth: CGFloat = 50.0
 
     weak var avatarButton: AvatarButton!
     @IBOutlet weak var goToPostView: UIView!
@@ -46,6 +50,7 @@ public class StreamHeaderCell: UICollectionViewCell {
     @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var chevronButton: StreamFooterButton!
     @IBOutlet weak var usernameButton: UIButton!
+    @IBOutlet weak var replyButton: UIButton!
     var isGridLayout = false
 
     weak var postbarDelegate: PostbarDelegate?
@@ -83,17 +88,8 @@ public class StreamHeaderCell: UICollectionViewCell {
         return self.deleteItem.customView as! ImageLabelControl
     }
 
-    let replyItem = ElloPostToolBarOption.Reply.barButtonItem()
-    public var replyControl: ImageLabelControl {
-        return self.replyItem.customView as! ImageLabelControl
-    }
-
     func setAvatarURL(url:NSURL?) {
         avatarButton.setAvatarURL(url)
-    }
-
-    override public func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesEnded(touches, withEvent: event)
     }
 
     override public func awakeFromNib() {
@@ -115,10 +111,15 @@ public class StreamHeaderCell: UICollectionViewCell {
 
         let goToPostTapRecognizer = UITapGestureRecognizer(target: self, action: Selector("postTapped:"))
         goToPostView.addGestureRecognizer(goToPostTapRecognizer)
+
+        replyButton.setTitle("", forState: .Normal)
+        replyButton.setSVGImages("reply")
     }
 
     override public func layoutSubviews() {
+        let timestampLabelSize = timestampLabel.frame.size
         super.layoutSubviews()
+        timestampLabel.frame.size = timestampLabelSize
         contentView.frame = bounds
         innerContentView.frame = bounds
         bottomContentView.frame = bounds
@@ -148,56 +149,103 @@ public class StreamHeaderCell: UICollectionViewCell {
 // MARK: - Private
 
     private func updateItems() {
-
-        if self.ownComment {
+        if ownComment {
             bottomToolBar.items = [
-                flexibleItem(), replyItem, editItem, deleteItem, fixedItem(-10)
+                flexibleItem(), editItem, deleteItem, fixedItem(-10)
             ]
         }
-        else if self.ownPost {
+        else if ownPost {
             bottomToolBar.items = [
-                flexibleItem(), replyItem, flagItem, deleteItem, fixedItem(-10)
+                flexibleItem(), flagItem, deleteItem, fixedItem(-10)
             ]
         }
         else {
             bottomToolBar.items = [
-                flexibleItem(), replyItem, flagItem, fixedItem(-10)
+                flexibleItem(), flagItem, fixedItem(-10)
             ]
         }
     }
 
     private func positionTopContent() {
-        let sidePadding: CGFloat = 15.0
-        let minimumUsernameWidth: CGFloat = 44.0
+        let sidePadding: CGFloat = 15
+        let timestampMargin: CGFloat = 4
+        let buttonWidth: CGFloat = 30
+        let buttonMargin: CGFloat = 12.5
+        let minimumUsernameWidth: CGFloat = 44
 
-        avatarButton.frame = CGRectMake(sidePadding, innerContentView.frame.midY - avatarHeight/2, avatarHeight, avatarHeight)
+        avatarButton.frame = CGRect(
+            x: sidePadding,
+            y: innerContentView.frame.midY - avatarHeight/2,
+            width: avatarHeight,
+            height: avatarHeight
+            )
+        let usernameX = avatarButton.frame.maxX + sidePadding
 
         if chevronHidden {
-            chevronButton.frame = CGRectMake(innerContentView.frame.width - sidePadding, innerContentView.frame.height/2 - 22.0, 0, 44.0)
+            chevronButton.frame = CGRect(
+                x: innerContentView.frame.width - sidePadding,
+                y: 0,
+                width: 0,
+                height: frame.height
+                )
         }
         else {
-            chevronButton.frame = CGRectMake(innerContentView.frame.width - 44.0, innerContentView.frame.height/2 - 22.0, 44.0, 44.0)
+            chevronButton.frame = CGRect(
+                x: innerContentView.frame.width - buttonWidth - buttonMargin,
+                y: 0,
+                width: buttonWidth,
+                height: frame.height
+                )
         }
 
-        let timestampX = chevronButton.frame.x - timestampLabel.frame.width
-        timestampLabel.frame = CGRectMake(timestampX, innerContentView.frame.midY - timestampLabel.frame.height/2, timestampLabel.frame.width, timestampLabel.frame.height)
+        replyButton.frame.size.width = buttonWidth
+        replyButton.frame.origin.x = chevronButton.frame.origin.x - buttonWidth
+        replyButton.hidden = isGridLayout || !canReply
 
-        let usernameX = avatarButton.frame.maxX + sidePadding
+        var timestampX = chevronButton.frame.x - timestampLabel.frame.width
+        if canReply {
+            timestampX -= replyButton.frame.width
+        }
+
+        var maxUsernameWidth: CGFloat = 0
         if !isGridLayout {
             maxUsernameWidth = timestampX - usernameX - sidePadding
+
+            if canReply {
+                maxUsernameWidth -= replyButton.frame.width - timestampMargin
+                timestampX -= timestampMargin
+            }
         }
         else {
             maxUsernameWidth = innerContentView.frame.width - usernameX - sidePadding
         }
+
+        timestampLabel.frame = CGRect(
+            x: timestampX,
+            y: innerContentView.frame.midY - timestampLabel.frame.height / 2,
+            width: timestampLabel.frame.width,
+            height: timestampLabel.frame.height
+            )
+
         let usernameWidth = max(minimumUsernameWidth, min(usernameButton.frame.width, maxUsernameWidth))
 
-        usernameButton.frame = CGRectMake(usernameX, 0, usernameWidth, innerContentView.frame.height)
+        usernameButton.frame = CGRect(
+            x: usernameX,
+            y: 0,
+            width: usernameWidth,
+            height: innerContentView.frame.height
+            )
 
-        var topoffset = usernameButton.frame.height / 2.0
+        var topoffset = usernameButton.frame.height / 2
 
         topoffset = topoffset < 0.0 ? 0.0 : topoffset
 
-        goToPostView.frame = CGRectMake(usernameButton.frame.maxX, 0, innerContentView.bounds.width - usernameButton.frame.maxX, innerContentView.frame.height)
+        goToPostView.frame = CGRect(
+            x: usernameButton.frame.maxX,
+            y: 0,
+            width: innerContentView.bounds.width - usernameButton.frame.maxX,
+            height: innerContentView.frame.height
+            )
     }
 
     private func fixedItem(width:CGFloat) -> UIBarButtonItem {
@@ -224,7 +272,7 @@ public class StreamHeaderCell: UICollectionViewCell {
 
     private func addButtonHandlers() {
         flagControl.addTarget(self, action: Selector("flagButtonTapped:"), forControlEvents: .TouchUpInside)
-        replyControl.addTarget(self, action: Selector("replyButtonTapped:"), forControlEvents: .TouchUpInside)
+        replyButton.addTarget(self, action: Selector("replyButtonTapped:"), forControlEvents: .TouchUpInside)
         deleteControl.addTarget(self, action: Selector("deleteButtonTapped:"), forControlEvents: .TouchUpInside)
         editControl.addTarget(self, action: Selector("editButtonTapped:"), forControlEvents: .TouchUpInside)
     }
@@ -270,9 +318,6 @@ public class StreamHeaderCell: UICollectionViewCell {
 
     @IBAction func replyButtonTapped(sender: StreamFooterButton) {
         postbarDelegate?.replyToCommentButtonTapped(self.indexPath)
-        animate(delay: 0.5) {
-            self.close()
-        }
     }
 
     @IBAction func deleteButtonTapped(sender: StreamFooterButton) {
