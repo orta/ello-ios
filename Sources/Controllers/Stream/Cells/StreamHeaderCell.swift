@@ -168,9 +168,9 @@ public class StreamHeaderCell: UICollectionViewCell {
 
     private func positionTopContent() {
         let sidePadding: CGFloat = 15
-        let timestampMargin: CGFloat = 4
+        let timestampMargin: CGFloat = 11.5
         let buttonWidth: CGFloat = 30
-        let buttonMargin: CGFloat = 12.5
+        let buttonMargin: CGFloat = 5
         let minimumUsernameWidth: CGFloat = 44
 
         avatarButton.frame = CGRect(
