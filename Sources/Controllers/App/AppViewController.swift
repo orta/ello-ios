@@ -20,6 +20,7 @@ protocol HasAppController {
     var parentAppController: AppViewController? { get set }
 }
 
+
 public class AppViewController: BaseElloViewController {
 
     @IBOutlet weak public var scrollView: UIScrollView!
@@ -36,6 +37,8 @@ public class AppViewController: BaseElloViewController {
     private var apiOutOfDateObserver: NotificationObserver?
 
     private var pushPayload: PushPayload?
+
+    private var deepLinkPath: String?
 
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -207,11 +210,11 @@ extension AppViewController {
         Crashlytics.sharedInstance().setObjectValue("Join", forKey: CrashlyticsKey.StreamName.rawValue)
     }
 
-    public func showSignInScreen() {
+    public func showSignInScreen(completion: ElloEmptyCompletion = {}) {
         pushPayload = .None
         let signInController = SignInViewController()
         signInController.parentAppController = self
-        swapViewController(signInController)
+        swapViewController(signInController, completion: completion)
         Crashlytics.sharedInstance().setObjectValue("Login", forKey: CrashlyticsKey.StreamName.rawValue)
     }
 
@@ -242,6 +245,10 @@ extension AppViewController {
             if let payload = self.pushPayload {
                 self.navigateToDeepLink(payload.applicationTarget)
                 self.pushPayload = .None
+            }
+            if let deepLinkPath = self.deepLinkPath {
+                self.navigateToDeepLink(deepLinkPath)
+                self.deepLinkPath = .None
             }
 
             vc.activateTabBar()
@@ -412,6 +419,9 @@ extension AppViewController {
 // MARK: URL Handling
 extension AppViewController {
     func navigateToDeepLink(path: String) {
+
+        // NEED TO TRACK THESE CALLS!
+
         print("path = \(path)")
 
         let vc = self.visibleViewController as? ElloTabBarController
@@ -429,11 +439,8 @@ extension AppViewController {
              .ForgotMyPassword,
              .FreedomOfSpeech,
              .Invitations,
-             .Join,
-             .Login,
              .Manifesto,
              .NativeRedirect,
-             .Onboarding,
              .PasswordResetError,
              .RandomSearch,
              .RequestInvitation,
@@ -444,107 +451,201 @@ extension AppViewController {
              .SearchPosts,
              .Subdomain,
              .Unblock,
-             .WhoMadeThis,
-             .WTF:
+             .WhoMadeThis:
             if let pathURL = NSURL(string: path) {
                 UIApplication.sharedApplication().openURL(pathURL)
             }
-            break
+        default:
+            presentLoginOrSafariAlert(path)
+        }
+
+        if !isLoggedIn() {
+            return
+        }
+
+        switch type {
         case .Discover:
-            vc?.selectedTab = .Discovery
-            break
+            showDiscoverScreen(vc)
         case .Enter, .Exit, .Root:
             break
         case .Friends:
-            vc?.selectedTab = .Stream
-            if let navVC = vc?.selectedViewController as? ElloNavigationController,
-                streamVC = navVC.topViewController as? StreamContainerViewController
-            {
-                streamVC.showFriends()
+            showFriendsScreen(vc)
+        case .Join:
+            if !isLoggedIn() {
+                showJoinScreen()
+            }
+        case .Login:
+            if !isLoggedIn() {
+                showSignInScreen()
             }
         case .Noise:
-            vc?.selectedTab = .Stream
-            if let navVC = vc?.selectedViewController as? ElloNavigationController,
-                streamVC = navVC.topViewController as? StreamContainerViewController
-            {
-                    streamVC.showNoise()
-            }
+            showNoiseScreen(vc)
         case .Notifications:
-            vc?.selectedTab = .Notifications
-            if let navVC = vc?.selectedViewController as? ElloNavigationController,
-                notificationsVC = navVC.topViewController as? NotificationsViewController
-            {
-                let notificationFilterType = NotificationFilterType.fromCategory(data)
-                notificationsVC.categoryFilterType = notificationFilterType
-                notificationsVC.activatedCategory(notificationFilterType)
+            showNotificationsScreen(vc, category: data)
+        case .Onboarding:
+            if let user = currentUser {
+                showOnboardingScreen(user)
             }
         case .Post:
-            // works for valid posts, we need to handle 404
-            let postDetailVC = PostDetailViewController(postParam: "~\(data)")
-            postDetailVC.currentUser = currentUser
-            pushDeepLinkViewController(postDetailVC)
+            showPostDetailScreen(data)
         case .Profile:
-            // works for valid profiles, we need to launch mobile safari if it 404s
-            let profileVC = ProfileViewController(userParam: "~\(data)")
-            profileVC.currentUser = currentUser
-            pushDeepLinkViewController(profileVC)
+            showProfileScreen(data)
         case .ProfileFollowers:
-            let endpoint = ElloAPI.UserStreamFollowers(userId: "~\(data)")
-            let noResultsTitle: String
-            let noResultsBody: String
-            if data == currentUser?.id {
-                noResultsTitle = InterfaceString.Followers.CurrentUserNoResultsTitle.localized
-                noResultsBody = InterfaceString.Followers.CurrentUserNoResultsBody.localized
-            }
-            else {
-                noResultsTitle = InterfaceString.Followers.NoResultsTitle.localized
-                noResultsBody = InterfaceString.Followers.NoResultsBody.localized
-            }
-            let followersVC = SimpleStreamViewController(endpoint: endpoint, title: "@" + data + "'s " + InterfaceString.Followers.Title.localized)
-            followersVC.streamViewController.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
-            followersVC.currentUser = currentUser
-            pushDeepLinkViewController(followersVC)
+            showProfileFollowersScreen(data)
         case .ProfileFollowing:
-            let endpoint = ElloAPI.UserStreamFollowing(userId: "~\(data)")
-            let noResultsTitle: String
-            let noResultsBody: String
-            if data == currentUser?.id {
-                noResultsTitle = InterfaceString.Following.CurrentUserNoResultsTitle.localized
-                noResultsBody = InterfaceString.Following.CurrentUserNoResultsBody.localized
-            }
-            else {
-                noResultsTitle = InterfaceString.Following.NoResultsTitle.localized
-                noResultsBody = InterfaceString.Following.NoResultsBody.localized
-            }
-            let vc = SimpleStreamViewController(endpoint: endpoint, title: "@" + data + "'s " + InterfaceString.Following.Title.localized)
-            vc.streamViewController.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
-            vc.currentUser = currentUser
-            pushDeepLinkViewController(vc)
+            showProfileFollowingScreen(data)
         case .ProfileLoves:
-            let endpoint = ElloAPI.Loves(userId: "~\(data)")
-            let noResultsTitle: String
-            let noResultsBody: String
-            if data == currentUser?.id {
-                noResultsTitle = InterfaceString.Loves.CurrentUserNoResultsTitle.localized
-                noResultsBody = InterfaceString.Loves.CurrentUserNoResultsBody.localized
-            }
-            else {
-                noResultsTitle = InterfaceString.Loves.NoResultsTitle.localized
-                noResultsBody = InterfaceString.Loves.NoResultsBody.localized
-            }
-            let vc = SimpleStreamViewController(endpoint: endpoint, title: "@" + data + "'s " + InterfaceString.Loves.Title.localized)
-            vc.streamViewController.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
-            vc.currentUser = currentUser
-            pushDeepLinkViewController(vc)
+            showProfileLovesScreen(data)
         case .Search:
-            let search = SearchViewController()
-            search.currentUser = currentUser
-            pushDeepLinkViewController(search)
+            showSearchScreen(data)
         case .Settings:
-            if let settings = UIStoryboard(name: "Settings", bundle: .None).instantiateInitialViewController() as? SettingsContainerViewController {
-                settings.currentUser = currentUser
-                pushDeepLinkViewController(settings)
+            showSettingsScreen()
+        case .WTF:
+            showExternalWebView(path)
+        default:
+            if let pathURL = NSURL(string: path) {
+                UIApplication.sharedApplication().openURL(pathURL)
             }
+        }
+    }
+
+    private func presentLoginOrSafariAlert(path: String) {
+        if !isLoggedIn() {
+            let alertController = AlertViewController(message: path)
+
+            let yes = AlertAction(title: NSLocalizedString("Login and view", comment: "Yes"), style: .Dark) { _ in
+                self.deepLinkPath = path
+                self.showSignInScreen()
+            }
+            alertController.addAction(yes)
+
+            let viewBrowser = AlertAction(title: NSLocalizedString("Open in Safari", comment: "Open in Safari"), style: .Light) { _ in
+                if let pathURL = NSURL(string: path) {
+                    UIApplication.sharedApplication().openURL(pathURL)
+                }
+            }
+            alertController.addAction(viewBrowser)
+
+            self.presentViewController(alertController, animated: true, completion: nil)
+        }
+    }
+
+    private func showDiscoverScreen(vc: ElloTabBarController?) {
+        vc?.selectedTab = .Discovery
+    }
+
+    private func showFriendsScreen(vc: ElloTabBarController?) {
+        vc?.selectedTab = .Stream
+        if let navVC = vc?.selectedViewController as? ElloNavigationController,
+            streamVC = navVC.topViewController as? StreamContainerViewController
+        {
+            streamVC.currentUser = currentUser
+            streamVC.showFriends()
+        }
+    }
+
+    private func showNoiseScreen(vc: ElloTabBarController?) {
+        vc?.selectedTab = .Stream
+        if let navVC = vc?.selectedViewController as? ElloNavigationController,
+            streamVC = navVC.topViewController as? StreamContainerViewController
+        {
+            streamVC.currentUser = currentUser
+            streamVC.showNoise()
+        }
+    }
+
+    private func showNotificationsScreen(vc: ElloTabBarController?, category: String) {
+        vc?.selectedTab = .Notifications
+        if let navVC = vc?.selectedViewController as? ElloNavigationController,
+            notificationsVC = navVC.topViewController as? NotificationsViewController
+        {
+            let notificationFilterType = NotificationFilterType.fromCategory(category)
+            notificationsVC.categoryFilterType = notificationFilterType
+            notificationsVC.activatedCategory(notificationFilterType)
+            notificationsVC.currentUser = currentUser
+        }
+    }
+
+    private func showProfileScreen(username: String) {
+        // works for valid profiles, we need to launch mobile safari if it 404s
+        let profileVC = ProfileViewController(userParam: "~\(username)")
+        profileVC.currentUser = currentUser
+        pushDeepLinkViewController(profileVC)
+    }
+
+    private func showPostDetailScreen(postParam: String) {
+        // works for valid posts, we need to handle 404
+        let postDetailVC = PostDetailViewController(postParam: "~\(postParam)")
+        postDetailVC.currentUser = currentUser
+        pushDeepLinkViewController(postDetailVC)
+    }
+
+    private func showProfileFollowersScreen(username: String) {
+        let endpoint = ElloAPI.UserStreamFollowers(userId: "~\(username)")
+        let noResultsTitle: String
+        let noResultsBody: String
+        if username == currentUser?.username {
+            noResultsTitle = InterfaceString.Followers.CurrentUserNoResultsTitle.localized
+            noResultsBody = InterfaceString.Followers.CurrentUserNoResultsBody.localized
+        }
+        else {
+            noResultsTitle = InterfaceString.Followers.NoResultsTitle.localized
+            noResultsBody = InterfaceString.Followers.NoResultsBody.localized
+        }
+        let followersVC = SimpleStreamViewController(endpoint: endpoint, title: "@" + username + "'s " + InterfaceString.Followers.Title.localized)
+        followersVC.streamViewController.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
+        followersVC.currentUser = currentUser
+        pushDeepLinkViewController(followersVC)
+    }
+
+    private func showProfileFollowingScreen(username: String) {
+        let endpoint = ElloAPI.UserStreamFollowing(userId: "~\(username)")
+        let noResultsTitle: String
+        let noResultsBody: String
+        if username == currentUser?.username {
+            noResultsTitle = InterfaceString.Following.CurrentUserNoResultsTitle.localized
+            noResultsBody = InterfaceString.Following.CurrentUserNoResultsBody.localized
+        }
+        else {
+            noResultsTitle = InterfaceString.Following.NoResultsTitle.localized
+            noResultsBody = InterfaceString.Following.NoResultsBody.localized
+        }
+        let vc = SimpleStreamViewController(endpoint: endpoint, title: "@" + username + "'s " + InterfaceString.Following.Title.localized)
+        vc.streamViewController.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
+        vc.currentUser = currentUser
+        pushDeepLinkViewController(vc)
+    }
+
+    private func showProfileLovesScreen(username: String) {
+        let endpoint = ElloAPI.Loves(userId: "~\(username)")
+        let noResultsTitle: String
+        let noResultsBody: String
+        if username == currentUser?.username {
+            noResultsTitle = InterfaceString.Loves.CurrentUserNoResultsTitle.localized
+            noResultsBody = InterfaceString.Loves.CurrentUserNoResultsBody.localized
+        }
+        else {
+            noResultsTitle = InterfaceString.Loves.NoResultsTitle.localized
+            noResultsBody = InterfaceString.Loves.NoResultsBody.localized
+        }
+        let vc = SimpleStreamViewController(endpoint: endpoint, title: "@" + username + "'s " + InterfaceString.Loves.Title.localized)
+        vc.streamViewController.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
+        vc.currentUser = currentUser
+        pushDeepLinkViewController(vc)
+    }
+    private func showSearchScreen(terms: String) {
+        let search = SearchViewController()
+        search.currentUser = currentUser
+        if !terms.isEmpty {
+            search.searchForPosts(terms.urlDecoded().stringByReplacingOccurrencesOfString("+", withString: " ", options: NSStringCompareOptions.LiteralSearch, range: nil))
+        }
+        pushDeepLinkViewController(search)
+    }
+
+    private func showSettingsScreen() {
+        if let settings = UIStoryboard(name: "Settings", bundle: .None).instantiateInitialViewController() as? SettingsContainerViewController {
+            settings.currentUser = currentUser
+            pushDeepLinkViewController(settings)
         }
     }
 
