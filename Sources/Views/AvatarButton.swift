@@ -11,6 +11,7 @@ import SVGKit
 
 public class AvatarButton: UIButton {
     var starIcon: UIImageView! = UIImageView()
+    var starIconHidden = false
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -34,7 +35,7 @@ public class AvatarButton: UIButton {
     func setUser(user: User?) {
         self.setDefaultImage()
 
-        starIcon.hidden = user?.relationshipPriority != .Starred
+        starIcon.hidden = starIconHidden || (user?.relationshipPriority != .Starred)
 
         if let url = user?.avatarURL {
             self.pin_setImageFromURL(url) { result in

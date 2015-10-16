@@ -56,6 +56,7 @@ public class ProfileHeaderCell: UICollectionViewCell {
         style()
         bioWebView.delegate = self
         editProfileButton.titleLabel?.font = UIFont.typewriterFont(12.0)
+        avatarButton.starIconHidden = true
     }
 
     override public func layoutSubviews() {
