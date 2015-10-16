@@ -29,7 +29,7 @@ class RelationshipControlSpec: QuickSpec {
             }
 
             it("sets button state properly when set to noise") {
-                subject.relationshipPriority = .Noise
+                subject.relationshipPriority = .Starred
                 expect(subject.label.text) == "Noise"
                 expect(subject.mainButtonBackground.backgroundColor) == UIColor.blackColor()
             }
@@ -90,10 +90,10 @@ class RelationshipControlSpec: QuickSpec {
                         }
                     }
 
-                    context("RelationshipPriority.Noise") {
+                    context("RelationshipPriority.Starred") {
 
                         it("launches the following/follow as modal") {
-                            subject.relationshipPriority = .Noise
+                            subject.relationshipPriority = .Starred
                             subject.mainButton.sendActionsForControlEvents(.TouchUpInside)
                             let presentedVC = relationshipController.presentingController.presentedViewController as? AlertViewController
                             expect(presentedVC).notTo(beNil())

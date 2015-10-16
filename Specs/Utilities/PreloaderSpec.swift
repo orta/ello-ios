@@ -179,7 +179,7 @@ class PreloaderSpec: QuickSpec {
             }
 
             it("loads mdpi for grid layout StreamKinds") {
-                subject.preloadImages([imagePostWithSummary], streamKind: StreamKind.Noise)
+                subject.preloadImages([imagePostWithSummary], streamKind: StreamKind.Starred)
 
                 // grab the second image, first is the avatar of post's author
                 expect(fakeManager.downloads[1].absoluteString) == "http://www.example.com/mdpi.jpg"

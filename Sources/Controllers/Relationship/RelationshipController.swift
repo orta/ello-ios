@@ -49,7 +49,7 @@ extension RelationshipController: RelationshipDelegate {
 
         var message = ""
         switch relationshipPriority {
-        case .Noise, .Following: message = NSLocalizedString("Following as", comment: "Following as")
+        case .Starred, .Following: message = NSLocalizedString("Following as", comment: "Following as")
         default: message = NSLocalizedString("Follow as", comment: "Follow as")
         }
 
@@ -70,21 +70,21 @@ extension RelationshipController: RelationshipDelegate {
         }
         alertController.addAction(friendAction)
 
-        // Noise
-        let noiseStyle: ActionStyle = relationshipPriority == .Noise ? .Dark : .White
-        let noiseIcon: UIImage = relationshipPriority == .Noise ?  SVGKImage(named: "checksmall_white.svg").UIImage! : SVGKImage(named: "plussmall_selected.svg").UIImage!
+        // Starred
+        let noiseStyle: ActionStyle = relationshipPriority == .Starred ? .Dark : .White
+        let noiseIcon: UIImage = relationshipPriority == .Starred ?  SVGKImage(named: "checksmall_white.svg").UIImage! : SVGKImage(named: "plussmall_selected.svg").UIImage!
         let noiseAction = AlertAction(
             title: NSLocalizedString("Noise", comment: "Noise"),
             icon: noiseIcon,
             style: noiseStyle) { _ in
-                if relationshipPriority != .Noise {
-                    self.updateRelationship(userId, relationshipPriority: .Noise, complete: complete)
+                if relationshipPriority != .Starred {
+                    self.updateRelationship(userId, relationshipPriority: .Starred, complete: complete)
                 }
         }
         alertController.addAction(noiseAction)
 
         // Unfollow
-        if relationshipPriority == .Noise || relationshipPriority == .Following {
+        if relationshipPriority == .Starred || relationshipPriority == .Following {
             let unfollowAction = AlertAction(
                 title: NSLocalizedString("Unfollow", comment: "Unfollow"),
                 icon: nil,

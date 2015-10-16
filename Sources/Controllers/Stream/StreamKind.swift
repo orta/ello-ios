@@ -11,7 +11,7 @@ import Foundation
 public enum StreamKind {
     case Discover(type: DiscoverType, perPage: Int)
     case Following
-    case Noise
+    case Starred
     case Notifications(category: String?)
     case PostDetail(postParam: String)
     case Profile(perPage: Int)
@@ -23,7 +23,7 @@ public enum StreamKind {
         switch self {
         case .Discover: return "Discover"
         case .Following: return "Friends"
-        case .Noise: return "Noise"
+        case .Starred: return "Noise"
         case .Notifications: return "Notifications"
         case .PostDetail: return "Post Detail"
         case .Profile: return "Profile"
@@ -39,7 +39,7 @@ public enum StreamKind {
 
     public var columnCount: Int {
         switch self {
-        case .Noise, .Discover: return 2
+        case .Starred, .Discover: return 2
         case let .SimpleStream(endpoint, _):
             switch endpoint {
             case .SearchForPosts: return 2
@@ -62,7 +62,7 @@ public enum StreamKind {
         switch self {
         case let .Discover(type, perPage): return ElloAPI.Discover(type: type, perPage: perPage)
         case .Following: return .FriendStream
-        case .Noise: return .NoiseStream
+        case .Starred: return .NoiseStream
         case let .Notifications(category): return .NotificationsStream(category: category)
         case let .PostDetail(postParam): return .PostDetail(postParam: postParam)
         case let .Profile(perPage): return .Profile(perPage: perPage)
@@ -75,7 +75,7 @@ public enum StreamKind {
     public var relationship: RelationshipPriority {
         switch self {
         case .Following: return .Following
-        case .Noise: return .Noise
+        case .Starred: return .Starred
         default: return .Null
         }
     }
@@ -181,6 +181,6 @@ public enum StreamKind {
         }
     }
 
-    static let streamValues = [Following, Noise]
+    static let streamValues = [Following, Starred]
 }
 

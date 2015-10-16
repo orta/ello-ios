@@ -12,7 +12,7 @@ import SwiftyJSON
 
 public enum RelationshipPriority: String {
     case Following = "friend"
-    case Noise = "noise"
+    case Starred = "noise"
     case Block = "block"
     case Mute = "mute"
     case Inactive = "inactive"
@@ -20,7 +20,7 @@ public enum RelationshipPriority: String {
     case Null = "null"
     case Me = "self"
 
-    static let all = [Following, Noise, Block, Mute, Inactive, None, Null, Me]
+    static let all = [Following, Starred, Block, Mute, Inactive, None, Null, Me]
 
     public init(stringValue: String) {
         self = RelationshipPriority(rawValue: stringValue) ?? .None

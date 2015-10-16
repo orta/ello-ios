@@ -23,7 +23,7 @@ class StreamRepostHeaderCellPresenterSpec: QuickSpec {
                     let cell: StreamRepostHeaderCell = StreamRepostHeaderCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .RepostHeader(height: 20.0))
 
-                    StreamRepostHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamRepostHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
                     expect(cell.sourceTextView.text) == "Source: @666"
                     expect(cell.viaTextView.text) == "Via: @999"
@@ -45,7 +45,7 @@ class StreamRepostHeaderCellPresenterSpec: QuickSpec {
                     let cell: StreamRepostHeaderCell = StreamRepostHeaderCell.loadFromNib()
                     let item: StreamCellItem = StreamCellItem(jsonable: post, type: .RepostHeader(height: 20.0))
 
-                    StreamRepostHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                    StreamRepostHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
                     expect(cell.sourceTextView.text) == "Source: @666"
                     expect(cell.viaTextView.text) == ""

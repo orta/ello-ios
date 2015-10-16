@@ -642,10 +642,10 @@ class StreamDataSourceSpec: QuickSpec {
                             }
                         }
 
-                        context("StreamKind.Noise") {
+                        context("StreamKind.Starred") {
 
                             it("does not insert a post") {
-                                subject.streamKind = .Noise
+                                subject.streamKind = .Starred
 
                                 expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 20
 

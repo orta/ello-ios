@@ -138,7 +138,7 @@ extension OnboardingUserListViewController {
     func followedCount() -> Int {
         if let users = users {
             return users.reduce(0) { (followedCount: Int, user: User) -> Int in
-                if user.relationshipPriority == .Following || user.relationshipPriority == .Noise {
+                if user.relationshipPriority == .Following || user.relationshipPriority == .Starred {
                     return followedCount + 1
                 }
                 return followedCount

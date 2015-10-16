@@ -645,7 +645,7 @@ extension StreamViewController : WebLinkDelegate {
         case .Discover: selectTab(.Discovery)
         case .Email: break // this is handled in ElloWebViewHelper
         case .Enter, .Exit, .Root: break // do nothing since we should already be in app
-        case .Following, .Noise: selectTab(.Stream)
+        case .Following, .Starred: selectTab(.Stream)
         case .Notifications: selectTab(.Notifications)
         case .Post: showPostDetail(data)
         case .Profile: showProfile(data)

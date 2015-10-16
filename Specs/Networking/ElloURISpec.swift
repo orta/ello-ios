@@ -162,17 +162,17 @@ class ElloURISpec: QuickSpec {
 
             }
 
-            describe("with Noise urls") {
+            describe("with Starred urls") {
 
                 it("matches with http://ello.co/noise") {
                     let (type, data) = ElloURI.match("http://ello.co/noise")
-                    expect(type).to(equal(ElloURI.Noise))
+                    expect(type).to(equal(ElloURI.Starred))
                     expect(data).to(equal("http://ello.co/noise"))
                 }
 
                 it("matches with https://www.ello.co/noise") {
                     let (type, data) = ElloURI.match("https://www.ello.co/noise")
-                    expect(type).to(equal(ElloURI.Noise))
+                    expect(type).to(equal(ElloURI.Starred))
                     expect(data).to(equal("https://www.ello.co/noise"))
                 }
 
@@ -522,17 +522,17 @@ class ElloURISpec: QuickSpec {
 
             }
 
-            describe("with Noise urls") {
+            describe("with Starred urls") {
 
                 it("matches with http://ello-staging.herokuapp.com/noise") {
                     let (type, data) = ElloURI.match("http://ello-staging.herokuapp.com/noise")
-                    expect(type).to(equal(ElloURI.Noise))
+                    expect(type).to(equal(ElloURI.Starred))
                     expect(data).to(equal("http://ello-staging.herokuapp.com/noise"))
                 }
 
                 it("matches with https://ello-staging4.herokuapp.com/noise") {
                     let (type, data) = ElloURI.match("https://ello-staging4.herokuapp.com/noise")
-                    expect(type).to(equal(ElloURI.Noise))
+                    expect(type).to(equal(ElloURI.Starred))
                     expect(data).to(equal("https://ello-staging4.herokuapp.com/noise"))
                 }
 

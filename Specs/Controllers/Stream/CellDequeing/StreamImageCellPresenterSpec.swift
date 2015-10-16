@@ -39,7 +39,7 @@ class StreamImageCellPresenterSpec: QuickSpec {
                 context("multiple columns") {
 
                     it("configures fail constraints correctly") {
-                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .Noise, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .Starred, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
                         expect(cell.failWidthConstraint.constant) == 70
                         expect(cell.failHeightConstraint.constant) == 80

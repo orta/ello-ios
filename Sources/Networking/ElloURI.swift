@@ -14,7 +14,7 @@ public enum ElloURI: String {
     case Discover = "discover"
     case Enter = "enter"
     case Following = "friends"
-    case Noise = "noise"
+    case Starred = "noise"
     case Notifications = "notifications"
     case Post = "\\/post\\/[^\\/]+\\/?$"
     case Profile = "\\/?$"
@@ -39,7 +39,7 @@ public enum ElloURI: String {
     // only called when `ElloWebViewHelper.handleRequest` is called with `fromWebView: true` in `ElloWebBrowserViewController`
     public var loadsInWebViewFromWebView: Bool {
         switch self {
-        case .Discover, .Email, .Enter, .Following, .Noise, .Notifications, .Post, .Profile, .Root, .Search, .Settings: return false
+        case .Discover, .Email, .Enter, .Following, .Starred, .Notifications, .Post, .Profile, .Root, .Search, .Settings: return false
         default: return true
         }
 
@@ -131,7 +131,7 @@ public enum ElloURI: String {
         ForgotMyPassword,
         Following,
         Manifesto,
-        Noise,
+        Starred,
         Notifications,
         RequestInvite,
         RequestInvitation,
