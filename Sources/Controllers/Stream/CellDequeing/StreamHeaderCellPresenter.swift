@@ -41,6 +41,10 @@ public struct StreamHeaderCellPresenter {
                 cell.scrollView.scrollEnabled = false
                 cell.chevronHidden = true
                 cell.goToPostView.hidden = false
+                cell.canReply = false
+            }
+            else {
+                cell.canReply = true
             }
 
             cell.setAvatarURL(authorable.author?.avatarURL)

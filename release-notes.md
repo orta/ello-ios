@@ -1,3 +1,85 @@
+### Ello Build 1.1.0(3275) October 16, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #595 - Moves the replyButton out of the bottomContentView, and fixes all the chevron button margins on Footer/Header cells
+
+------
+
+#### #594 - fixes editing bug in Omnibar (margins issue)
+
+------
+
+#### #592 - instructions on PackageApplication, and removed all the old sim/build/run rake commands
+
+------
+
+#### #590 - Fixes the Animated GIF feature
+The main thing I did was to add a typealias, this ensures that the image processing in the controller uses the same type as the PostEditingService (that's what caused the regression)
+
+------
+
+#### #591 - bump version, in prep for next build
+
+------
+
+#### #580 - Adds landscape support to iPads
+Required changes to onboarding, fixes to profile and image cells, and the red dots on tab bar items.
+
+------
+
+#### #587 - No need to encode all these entities on the way out.
+I'd like to verify with web team that this is sensible.
+
+------
+
+#### #589 - Removes duplicate `FIREBASE_KEY` from example env.
+Figured it'd be good to remove in case someone doesn't notice the second one and the first gets overridden.
+
+------
+
+#### #588 - Update staging host to use staging.ello.co
+
+------
+
+#### #584 - Use the Travis xcpretty formatter
+
+------
+
+#### #583 - Fix broken iOS 9 1password
+Update 1Password pod and add `LSApplicationQueriesSchemes` entry for 1password to `info.plist`.
+
+![slack_for_ios_upload png-4](https://cloud.githubusercontent.com/assets/12459/10321599/cc684808-6c36-11e5-8384-748c16505f3b.jpeg)
+
+------
+
+#### #581 - Fixes the Loves flashing issue
+By introducing a `Loved` value for `ContentChange` enum.  @steam sanity check?
+
+```
+Test Suite 'Selected tests' passed at 2015-10-02 16:58:59.808.
+   Executed 1320 tests, with 0 failures (0 unexpected) in 25.259 (27.945) seconds
+```
+
+------
+
+#### #582 - Add App Store rating prompt
+We are using the [iRate](https://github.com/nicklockwood/iRate) library.
+
+To demo the prompt open up the debugging screen (shake) and tap on `Show Rate Prompt`. This will show the prompt, interactions with the prompt will not do much until we create a TestFlight build of the app so that the correct bundle identifier (co.ello.Ello) is used to look up the app in the store.
+
+In addition to the `Rate` and `RateSpec` classes this PR adds support for testing tracking by adding a `SpecsTrackingAgent`.
+
+The prompt is configured to show after one week of initial launch when the user has launched the app 3 times and viewed the stream 3 times.
+
+This PR will fail CI due to the 3 specs fixed in https://github.com/ello/ello-ios/blob/cg-love-flash/Specs/Controllers/Drawer/DrawerViewDataSourceSpec.swift
+
+![screenshot 2015-10-03 09 13 50](https://cloud.githubusercontent.com/assets/12459/10263545/3150f3e4-69af-11e5-9c3f-2019e49eda63.png)
+    
+------------
+
 ### Ello Build 1.0.8(3201) September 29, 2015
 
     No completed pull requests since last distribution.
