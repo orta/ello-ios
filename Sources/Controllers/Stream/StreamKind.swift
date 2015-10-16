@@ -10,7 +10,7 @@ import Foundation
 
 public enum StreamKind {
     case Discover(type: DiscoverType, perPage: Int)
-    case Friend
+    case Following
     case Noise
     case Notifications(category: String?)
     case PostDetail(postParam: String)
@@ -22,7 +22,7 @@ public enum StreamKind {
     public var name:String {
         switch self {
         case .Discover: return "Discover"
-        case .Friend: return "Friends"
+        case .Following: return "Friends"
         case .Noise: return "Noise"
         case .Notifications: return "Notifications"
         case .PostDetail: return "Post Detail"
@@ -51,7 +51,7 @@ public enum StreamKind {
 
     public var tappingTextOpensDetail: Bool {
         switch self {
-            case .PostDetail, .Friend, .Profile, .UserStream:
+            case .PostDetail, .Following, .Profile, .UserStream:
                 return false
             default:
                 return true
@@ -61,7 +61,7 @@ public enum StreamKind {
     public var endpoint: ElloAPI {
         switch self {
         case let .Discover(type, perPage): return ElloAPI.Discover(type: type, perPage: perPage)
-        case .Friend: return .FriendStream
+        case .Following: return .FriendStream
         case .Noise: return .NoiseStream
         case let .Notifications(category): return .NotificationsStream(category: category)
         case let .PostDetail(postParam): return .PostDetail(postParam: postParam)
@@ -74,7 +74,7 @@ public enum StreamKind {
 
     public var relationship: RelationshipPriority {
         switch self {
-        case .Friend: return .Friend
+        case .Following: return .Following
         case .Noise: return .Noise
         default: return .Null
         }
@@ -104,7 +104,7 @@ public enum StreamKind {
                         }
                         return accum
                     }
-                    
+
                 }
                 else if let users = jsonables as? [User] {
                     return users.reduce([]) { accum, user in
@@ -181,6 +181,6 @@ public enum StreamKind {
         }
     }
 
-    static let streamValues = [Friend, Noise]
+    static let streamValues = [Following, Noise]
 }
 

@@ -136,7 +136,7 @@ public class RelationshipControl: UIControl {
 
     private func updateRelationshipPriority(relationshipPriority: RelationshipPriority) {
         switch relationshipPriority {
-        case .Friend: config = .Friend
+        case .Following: config = .Following
         case .Noise: config = .Noise
         case .Mute: config = .Muted
         default: config = .Follow
@@ -193,14 +193,14 @@ public class RelationshipControl: UIControl {
     private enum Config {
         case Follow
         case Noise
-        case Friend
+        case Following
         case Muted
 
         var name: String {
             switch self {
             case .Follow: return "Follow"
             case .Noise: return "Noise"
-            case .Friend: return "Friend"
+            case .Following: return "Friend"
             case .Muted: return "Muted"
             }
         }
@@ -208,7 +208,7 @@ public class RelationshipControl: UIControl {
         var normalIcon: UIImage? {
             switch self {
             case .Follow: return SVGKImage(named: "plussmall_selected.svg").UIImage!
-            case .Noise, .Friend: return SVGKImage(named: "checksmall_white.svg").UIImage!
+            case .Noise, .Following: return SVGKImage(named: "checksmall_white.svg").UIImage!
             case .Muted: return .None
             }
         }
@@ -216,7 +216,7 @@ public class RelationshipControl: UIControl {
         var selectedIcon: UIImage? {
             switch self {
             case .Follow: return SVGKImage(named: "plussmall_white.svg").UIImage!
-            case .Noise, .Friend: return SVGKImage(named: "checksmall_selected.svg").UIImage!
+            case .Noise, .Following: return SVGKImage(named: "checksmall_selected.svg").UIImage!
             case .Muted: return .None
             }
         }

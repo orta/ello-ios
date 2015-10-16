@@ -29,7 +29,7 @@ class StreamImageCellPresenterSpec: QuickSpec {
                 context("single column") {
 
                     it("configures fail constraints correctly") {
-                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
                         expect(cell.failWidthConstraint.constant) == 140
                         expect(cell.failHeightConstraint.constant) == 160
@@ -62,7 +62,7 @@ class StreamImageCellPresenterSpec: QuickSpec {
                         let cell: StreamImageCell = StreamImageCell.loadFromNib()
                         let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Image(data: imageRegion))
 
-                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
                         expect(cell.isGif) == true
                         expect(cell.isLargeImage) == false
@@ -84,7 +84,7 @@ class StreamImageCellPresenterSpec: QuickSpec {
                         let cell: StreamImageCell = StreamImageCell.loadFromNib()
                         let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Image(data: imageRegion))
 
-                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
                         expect(cell.isGif) == false
                         expect(cell.isLargeImage) == false
@@ -129,7 +129,7 @@ class StreamImageCellPresenterSpec: QuickSpec {
                         let cell: StreamImageCell = StreamImageCell.loadFromNib()
                         let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Image(data: imageRegion))
 
-                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
                         expect(cell.isGif) == false
                         expect(cell.isLargeImage) == false
@@ -170,7 +170,7 @@ class StreamImageCellPresenterSpec: QuickSpec {
                         let cell: StreamImageCell = StreamImageCell.loadFromNib()
                         let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Image(data: imageRegion))
 
-                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
                         expect(cell.isGif) == true
                         expect(cell.isLargeImage) == true
@@ -210,9 +210,9 @@ class StreamImageCellPresenterSpec: QuickSpec {
 
                         let cell: StreamImageCell = StreamImageCell.loadFromNib()
                         let item: StreamCellItem = StreamCellItem(jsonable: post, type: .Image(data: imageRegion))
-                        
-                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
-                        
+
+                        StreamImageCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+
                         expect(cell.isGif) == true
                         expect(cell.isLargeImage) == false
                         expect(cell.largeImagePlayButton?.hidden) == true

@@ -183,7 +183,7 @@ public extension ElloTabBarController {
             switch streamKind {
             case .Notifications(category: nil):
                 self.notificationsDot?.hidden = true
-            case .Friend:
+            case .Following:
                 self.streamsDot?.hidden = true
             default: break
             }

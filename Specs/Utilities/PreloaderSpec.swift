@@ -142,20 +142,20 @@ class PreloaderSpec: QuickSpec {
                     "id" : "345",
                 ])
 
-                subject.preloadImages([activityOne, activityTwo], streamKind: StreamKind.Friend)
+                subject.preloadImages([activityOne, activityTwo], streamKind: StreamKind.Following)
 
                 expect(fakeManager.downloads.count) == 5
             }
 
             it("preloads posts image assets and avatars") {
-                subject.preloadImages([oneImagePost, twoImagePost, threeImagePost], streamKind: StreamKind.Friend)
+                subject.preloadImages([oneImagePost, twoImagePost, threeImagePost], streamKind: StreamKind.Following)
 
                 expect(fakeManager.downloads.count) == 9
             }
 
             it("preloads comments image assets and avatars") {
-                subject.preloadImages([oneImageComment, threeImageComment], streamKind: StreamKind.Friend)
-                
+                subject.preloadImages([oneImageComment, threeImageComment], streamKind: StreamKind.Following)
+
                 expect(fakeManager.downloads.count) == 6
             }
 
@@ -172,7 +172,7 @@ class PreloaderSpec: QuickSpec {
             }
 
             it("loads hdpi for single column StreamKinds") {
-                subject.preloadImages([oneImagePost], streamKind: StreamKind.Friend)
+                subject.preloadImages([oneImagePost], streamKind: StreamKind.Following)
 
                 // grab the second image, first is the avatar of post's author
                 expect(fakeManager.downloads[1].absoluteString) == "http://www.example.com/hdpi.jpg"

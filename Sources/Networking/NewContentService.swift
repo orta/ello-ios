@@ -85,13 +85,13 @@ private extension NewContentService {
     }
 
     func checkForNewStreamContent() {
-        let storedFriendsDate = Defaults[StreamKind.Friend.lastViewedCreatedAtKey].date ?? NSDate(timeIntervalSince1970: 0)
+        let storedFriendsDate = Defaults[StreamKind.Following.lastViewedCreatedAtKey].date ?? NSDate(timeIntervalSince1970: 0)
 
         ElloProvider.elloRequest(
             ElloAPI.FriendNewContent(createdAt: storedFriendsDate),
             success: { (_, responseConfig) in
                 if let lastModified = responseConfig.lastModified {
-                    Defaults[StreamKind.Friend.lastViewedCreatedAtKey] = lastModified.toNSDate(HTTPDateFormatter)
+                    Defaults[StreamKind.Following.lastViewedCreatedAtKey] = lastModified.toNSDate(HTTPDateFormatter)
                 }
 
                 if let statusCode = responseConfig.statusCode where statusCode == 204 {

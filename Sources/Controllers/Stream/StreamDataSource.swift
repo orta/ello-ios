@@ -309,7 +309,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
             // else if post, add new post cells
             else if let _ = jsonable as? Post {
                 switch streamKind {
-                case .Friend: indexPath = NSIndexPath(forItem: 0, inSection: 0)
+                case .Following: indexPath = NSIndexPath(forItem: 0, inSection: 0)
                 case .Profile: indexPath = NSIndexPath(forItem: 1, inSection: 0)
                 case let .UserStream(userParam):
                     if currentUser?.id == userParam {
@@ -427,7 +427,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     public func modifyUserRelationshipItems(user: User, collectionView: UICollectionView) {
         switch user.relationshipPriority {
-        case .Friend, .Noise, .Inactive:
+        case .Following, .Noise, .Inactive:
             let changedItems = elementsForJSONAble(user, change: .Update)
             for item in changedItems.1 {
                 if let oldUser = item.jsonable as? User {

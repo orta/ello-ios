@@ -26,19 +26,19 @@ class StreamCellItemParserSpec: QuickSpec {
 
                 it("returns an empty array if an empty array of Posts is passed in") {
                     let posts = [Post]()
-                    expect(subject.parse(posts, streamKind: .Friend).count) == 0
+                    expect(subject.parse(posts, streamKind: .Following).count) == 0
                 }
 
                 it("returns an empty array if an empty array of Comments is passed in") {
                     let comments = [Comment]()
-                    expect(subject.parse(comments, streamKind: .Friend).count) == 0
+                    expect(subject.parse(comments, streamKind: .Following).count) == 0
                 }
 
                 it("returns an array with the proper count of stream cell items when parsing friends.json's posts") {
                     var loadedPosts = [StreamCellItem]()
                     StreamService().loadStream(ElloAPI.FriendStream, streamKind: nil,
                         success: { (jsonables, responseConfig) in
-                            loadedPosts = subject.parse(jsonables, streamKind: .Friend)
+                            loadedPosts = subject.parse(jsonables, streamKind: .Following)
                         },
                         failure: nil
                     )

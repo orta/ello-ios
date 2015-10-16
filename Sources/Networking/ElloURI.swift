@@ -13,7 +13,7 @@ public enum ElloURI: String {
     // matching stream or page in app
     case Discover = "discover"
     case Enter = "enter"
-    case Friends = "friends"
+    case Following = "friends"
     case Noise = "noise"
     case Notifications = "notifications"
     case Post = "\\/post\\/[^\\/]+\\/?$"
@@ -39,7 +39,7 @@ public enum ElloURI: String {
     // only called when `ElloWebViewHelper.handleRequest` is called with `fromWebView: true` in `ElloWebBrowserViewController`
     public var loadsInWebViewFromWebView: Bool {
         switch self {
-        case .Discover, .Email, .Enter, .Friends, .Noise, .Notifications, .Post, .Profile, .Root, .Search, .Settings: return false
+        case .Discover, .Email, .Enter, .Following, .Noise, .Notifications, .Post, .Profile, .Root, .Search, .Settings: return false
         default: return true
         }
 
@@ -129,7 +129,7 @@ public enum ElloURI: String {
         Enter,
         Exit,
         ForgotMyPassword,
-        Friends,
+        Following,
         Manifesto,
         Noise,
         Notifications,

@@ -49,7 +49,7 @@ extension RelationshipController: RelationshipDelegate {
 
         var message = ""
         switch relationshipPriority {
-        case .Noise, .Friend: message = NSLocalizedString("Following as", comment: "Following as")
+        case .Noise, .Following: message = NSLocalizedString("Following as", comment: "Following as")
         default: message = NSLocalizedString("Follow as", comment: "Follow as")
         }
 
@@ -57,15 +57,15 @@ extension RelationshipController: RelationshipDelegate {
 
         let alertController = AlertViewController(message: message, textAlignment: .Center, type: .Clear, helpText: helpText)
 
-        // Friend
-        let friendStyle: ActionStyle = relationshipPriority == .Friend ? .Dark : .White
-        let friendIcon: UIImage = relationshipPriority == .Friend ?  SVGKImage(named: "checksmall_white.svg").UIImage! : SVGKImage(named: "plussmall_selected.svg").UIImage!
+        // Following
+        let friendStyle: ActionStyle = relationshipPriority == .Following ? .Dark : .White
+        let friendIcon: UIImage = relationshipPriority == .Following ?  SVGKImage(named: "checksmall_white.svg").UIImage! : SVGKImage(named: "plussmall_selected.svg").UIImage!
         let friendAction = AlertAction(
             title: NSLocalizedString("Friend", comment: "Friend"),
             icon: friendIcon,
             style: friendStyle) { _ in
-                if relationshipPriority != .Friend {
-                    self.updateRelationship(userId, relationshipPriority: .Friend, complete: complete)
+                if relationshipPriority != .Following {
+                    self.updateRelationship(userId, relationshipPriority: .Following, complete: complete)
                 }
         }
         alertController.addAction(friendAction)
@@ -84,7 +84,7 @@ extension RelationshipController: RelationshipDelegate {
         alertController.addAction(noiseAction)
 
         // Unfollow
-        if relationshipPriority == .Noise || relationshipPriority == .Friend {
+        if relationshipPriority == .Noise || relationshipPriority == .Following {
             let unfollowAction = AlertAction(
                 title: NSLocalizedString("Unfollow", comment: "Unfollow"),
                 icon: nil,
@@ -108,7 +108,7 @@ extension RelationshipController: RelationshipDelegate {
     public func updateRelationship(userId: String, relationshipPriority: RelationshipPriority, complete: RelationshipChangeCompletion){
         RelationshipService().updateRelationship(userId: userId, relationshipPriority: relationshipPriority,
             success: { (data, responseConfig) in
-                if let relationship = data as? Relationship {                    
+                if let relationship = data as? Relationship {
                     complete(status: .Success, relationship: relationship)
                     self.delegate?.relationshipChanged(userId, status: .Success, relationship: relationship)
                     if let owner = relationship.owner {

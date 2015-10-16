@@ -30,7 +30,7 @@ class StreamServiceSpec: QuickSpec {
                         var config: ResponseConfig?
 
                         streamService.loadStream(ElloAPI.FriendStream, streamKind: nil, success: { (jsonables, responseConfig) in
-                            loadedPosts = (StreamKind.Friend.filter(jsonables, viewsAdultContent: true) as! [Post])
+                            loadedPosts = (StreamKind.Following.filter(jsonables, viewsAdultContent: true) as! [Post])
                             config = responseConfig
                         }, failure: nil)
 
@@ -59,7 +59,7 @@ class StreamServiceSpec: QuickSpec {
                         expect(post0Author.username) == "dcdoran"
                         expect(post0Author.name) == "Sterling"
                         expect(post0Author.experimentalFeatures) == true
-                        expect(post0Author.relationshipPriority) == RelationshipPriority.Friend
+                        expect(post0Author.relationshipPriority) == RelationshipPriority.Following
                         expect(post0Author.avatarURL!.absoluteString) == "https://d1qqdyhbrvi5gr.cloudfront.net/uploads/user/avatar/27/large_ello-09fd7088-2e4f-4781-87db-433d5dbc88a5.png"
                     }
 
@@ -68,7 +68,7 @@ class StreamServiceSpec: QuickSpec {
 
                         streamService.loadStream(ElloAPI.FriendStream, streamKind: nil,
                             success: { (jsonables, responseConfig) in
-                                loadedPosts = (StreamKind.Friend.filter(jsonables, viewsAdultContent: true) as! [Post])
+                                loadedPosts = (StreamKind.Following.filter(jsonables, viewsAdultContent: true) as! [Post])
                             },
                             failure: nil
                         )

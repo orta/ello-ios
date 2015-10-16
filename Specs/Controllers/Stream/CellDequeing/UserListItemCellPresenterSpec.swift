@@ -26,7 +26,7 @@ class UserListItemCellPresenterSpec: QuickSpec {
 
                 UserListItemCellPresenter.configure(cell, streamCellItem: item, streamKind: StreamKind.UserStream(userParam: user.id), indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
-                expect(cell.relationshipControl.relationshipPriority) == RelationshipPriority.Friend
+                expect(cell.relationshipControl.relationshipPriority) == RelationshipPriority.Following
                 expect(cell.usernameLabel.text) == "@sterling_archer"
             }
 

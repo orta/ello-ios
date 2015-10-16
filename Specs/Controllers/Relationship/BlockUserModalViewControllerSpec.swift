@@ -15,7 +15,7 @@ import Moya
 class BlockUserModalViewControllerSpec: QuickSpec {
     override func spec() {
 
-        var subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationshipPriority: RelationshipPriority.Friend) {
+        var subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationshipPriority: RelationshipPriority.Following) {
             relationship in
         }
         let relationshipController = RelationshipController(presentingController: UIViewController())
@@ -24,7 +24,7 @@ class BlockUserModalViewControllerSpec: QuickSpec {
         describe("initialization") {
 
             beforeEach {
-                subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationshipPriority: RelationshipPriority.Friend) {
+                subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationshipPriority: RelationshipPriority.Following) {
                     relationship in
                 }
                 subject.loadView()
@@ -76,7 +76,7 @@ class BlockUserModalViewControllerSpec: QuickSpec {
             }
 
             it("is correct when relationship is not block or mute") {
-                subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationshipPriority: RelationshipPriority.Friend) {
+                subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationshipPriority: RelationshipPriority.Following) {
                     _ in
                 }
                 expect(subject.titleText).to(equal("Would you like to \rmute or block @archer?"))
@@ -117,7 +117,7 @@ class BlockUserModalViewControllerSpec: QuickSpec {
             }
 
             it("sets state properly when set to friend") {
-                subject.relationshipPriority = RelationshipPriority.Friend
+                subject.relationshipPriority = RelationshipPriority.Following
                 expect(subject.muteButton!.selected).to(beFalse())
                 expect(subject.blockButton!.selected).to(beFalse())
             }
@@ -132,7 +132,7 @@ class BlockUserModalViewControllerSpec: QuickSpec {
         describe("button targets") {
 
             beforeEach {
-                subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationshipPriority: RelationshipPriority.Friend) {
+                subject = BlockUserModalViewController(userId: "666", userAtName: "@archer", relationshipPriority: RelationshipPriority.Following) {
                     _ in
                 }
                 subject.loadView()
@@ -148,7 +148,7 @@ class BlockUserModalViewControllerSpec: QuickSpec {
 
                 describe("@muteButton") {
                     it("not selected") {
-                        subject.relationshipPriority = RelationshipPriority.Friend
+                        subject.relationshipPriority = RelationshipPriority.Following
                         subject.muteButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
                         expect(subject.relationshipPriority).to(equal(RelationshipPriority.Mute))
                     }
@@ -162,7 +162,7 @@ class BlockUserModalViewControllerSpec: QuickSpec {
 
                 describe("@blockButton") {
                     it("not selected") {
-                        subject.relationshipPriority = RelationshipPriority.Friend
+                        subject.relationshipPriority = RelationshipPriority.Following
                         subject.blockButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
                         expect(subject.relationshipPriority).to(equal(RelationshipPriority.Block))
                     }
@@ -183,9 +183,9 @@ class BlockUserModalViewControllerSpec: QuickSpec {
 
                 describe("@muteButton") {
                     it("not selected") {
-                        subject.relationshipPriority = RelationshipPriority.Friend
+                        subject.relationshipPriority = RelationshipPriority.Following
                         subject.muteButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
-                        expect(subject.relationshipPriority).to(equal(RelationshipPriority.Friend))
+                        expect(subject.relationshipPriority).to(equal(RelationshipPriority.Following))
                     }
 
                     it("selected") {
@@ -197,9 +197,9 @@ class BlockUserModalViewControllerSpec: QuickSpec {
 
                 describe("@blockButton") {
                     it("not selected") {
-                        subject.relationshipPriority = RelationshipPriority.Friend
+                        subject.relationshipPriority = RelationshipPriority.Following
                         subject.blockButton!.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
-                        expect(subject.relationshipPriority).to(equal(RelationshipPriority.Friend))
+                        expect(subject.relationshipPriority).to(equal(RelationshipPriority.Following))
                     }
 
                     it("selected") {

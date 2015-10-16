@@ -146,17 +146,17 @@ class ElloURISpec: QuickSpec {
 
             }
 
-            describe("with Friends urls") {
+            describe("with Following urls") {
 
                 it("matches with http://ello.co/friends") {
                     let (type, data) = ElloURI.match("http://ello.co/friends")
-                    expect(type).to(equal(ElloURI.Friends))
+                    expect(type).to(equal(ElloURI.Following))
                     expect(data).to(equal("http://ello.co/friends"))
                 }
 
                 it("matches with https://www.ello.co/friends") {
                     let (type, data) = ElloURI.match("https://www.ello.co/friends")
-                    expect(type).to(equal(ElloURI.Friends))
+                    expect(type).to(equal(ElloURI.Following))
                     expect(data).to(equal("https://www.ello.co/friends"))
                 }
 
@@ -506,17 +506,17 @@ class ElloURISpec: QuickSpec {
 
             }
 
-            describe("with Friends urls") {
+            describe("with Following urls") {
 
                 it("matches with http://ello-staging.herokuapp.com/friends") {
                     let (type, data) = ElloURI.match("http://ello-staging.herokuapp.com/friends")
-                    expect(type).to(equal(ElloURI.Friends))
+                    expect(type).to(equal(ElloURI.Following))
                     expect(data).to(equal("http://ello-staging.herokuapp.com/friends"))
                 }
 
                 it("matches with https://ello-staging2.herokuapp.com/friends") {
                     let (type, data) = ElloURI.match("https://ello-staging2.herokuapp.com/friends")
-                    expect(type).to(equal(ElloURI.Friends))
+                    expect(type).to(equal(ElloURI.Following))
                     expect(data).to(equal("https://ello-staging2.herokuapp.com/friends"))
                 }
 

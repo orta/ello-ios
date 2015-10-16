@@ -23,7 +23,7 @@ class RelationshipControlSpec: QuickSpec {
         describe("@relationship") {
 
             it("sets button state properly when set to friend") {
-                subject.relationshipPriority = .Friend
+                subject.relationshipPriority = .Following
                 expect(subject.label.text) == "Friend"
                 expect(subject.mainButtonBackground.backgroundColor) == UIColor.blackColor()
             }
@@ -61,7 +61,7 @@ class RelationshipControlSpec: QuickSpec {
             describe("tapping more button") {
 
                 it("launches the block modal") {
-                    subject.relationshipPriority = .Friend
+                    subject.relationshipPriority = .Following
                     subject.moreButton.sendActionsForControlEvents(.TouchUpInside)
                     let presentedVC = relationshipController.presentingController.presentedViewController as? BlockUserModalViewController
                     expect(presentedVC).notTo(beNil())
@@ -72,10 +72,10 @@ class RelationshipControlSpec: QuickSpec {
 
                 describe("tapping the main button") {
 
-                    context("RelationshipPriority.Friend") {
+                    context("RelationshipPriority.Following") {
 
                         it("launches the following/follow as modal") {
-                            subject.relationshipPriority = .Friend
+                            subject.relationshipPriority = .Following
                             subject.mainButton.sendActionsForControlEvents(.TouchUpInside)
                             let presentedVC = relationshipController.presentingController.presentedViewController as? AlertViewController
                             expect(presentedVC).notTo(beNil())
