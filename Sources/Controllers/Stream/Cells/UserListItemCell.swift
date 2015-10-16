@@ -22,8 +22,8 @@ public class UserListItemCell: UICollectionViewCell {
         style()
     }
 
-    func setAvatarURL(url:NSURL) {
-        avatarButton.setAvatarURL(url)
+    func setUser(user: User?) {
+        avatarButton.setUser(user)
     }
 
     private func style() {

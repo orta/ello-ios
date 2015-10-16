@@ -47,7 +47,7 @@ public struct StreamHeaderCellPresenter {
                 cell.canReply = true
             }
 
-            cell.setAvatarURL(authorable.author?.avatarURL)
+            cell.setUser(authorable.author)
             cell.timeStamp = streamKind.isGridLayout ? "" : authorable.createdAt.timeAgoInWords()
 
             if streamCellItem.type == .CommentHeader {

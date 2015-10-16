@@ -29,12 +29,7 @@ public struct NotificationCellPresenter {
 
             cell.title = notification.attributedTitle
             cell.createdAt = notification.createdAt
-            if let user = notification.author {
-                cell.avatarURL = user.avatarURL
-            }
-            else {
-                cell.avatarURL = nil
-            }
+            cell.user = notification.author
             cell.imageURL = nil
             cell.messageHtml = nil
 

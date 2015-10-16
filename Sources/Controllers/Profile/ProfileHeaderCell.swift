@@ -44,7 +44,11 @@ public class ProfileHeaderCell: UICollectionViewCell {
     @IBOutlet weak var usernameRightConstraint: NSLayoutConstraint!
     weak var webLinkDelegate: WebLinkDelegate?
     weak var simpleStreamDelegate: SimpleStreamDelegate?
-    var user: User?
+    var user: User? {
+        didSet {
+            avatarButton.setUser(user)
+        }
+    }
     var currentUser: User?
 
     override public func awakeFromNib() {
@@ -65,11 +69,8 @@ public class ProfileHeaderCell: UICollectionViewCell {
         bioWebView.stopLoading()
     }
 
-    func setAvatarURL(url: NSURL) {
-        avatarButton.setAvatarURL(url)
-    }
-
     func setAvatarImage(image: UIImage) {
+        avatarButton.pin_cancelImageDownload()
         avatarButton.setImage(image, forState: .Normal)
     }
 

@@ -26,10 +26,7 @@ public struct UserListItemCellPresenter {
                 cell.relationshipControl.hidden = user.id == currentUser.id
             }
 
-            if let avatarURL = user.avatarURL {
-                cell.setAvatarURL(avatarURL)
-            }
-
+            cell.setUser(user)
             cell.relationshipControl.userId = user.id
             cell.relationshipControl.userAtName = user.atName
             cell.relationshipControl.relationshipPriority = user.relationshipPriority
