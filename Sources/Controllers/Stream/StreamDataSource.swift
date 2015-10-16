@@ -503,7 +503,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         else if let user = jsonable as? User {
             for (index, item) in visibleCellItems.enumerate() {
                 switch user.relationshipPriority {
-                case .Block:
+                case .Block, .Following, .Starred, .None:
                     if let itemUser = item.jsonable as? User where user.id == itemUser.id {
                         indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
                         items.append(item)
