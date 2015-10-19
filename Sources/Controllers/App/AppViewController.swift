@@ -210,11 +210,11 @@ extension AppViewController {
         Crashlytics.sharedInstance().setObjectValue("Join", forKey: CrashlyticsKey.StreamName.rawValue)
     }
 
-    public func showSignInScreen(completion: ElloEmptyCompletion = {}) {
+    public func showSignInScreen() {
         pushPayload = .None
         let signInController = SignInViewController()
         signInController.parentAppController = self
-        swapViewController(signInController, completion: completion)
+        swapViewController(signInController)
         Crashlytics.sharedInstance().setObjectValue("Login", forKey: CrashlyticsKey.StreamName.rawValue)
     }
 
@@ -420,9 +420,7 @@ extension AppViewController {
 extension AppViewController {
     func navigateToDeepLink(path: String) {
 
-        // NEED TO TRACK THESE CALLS!
-
-        print("path = \(path)")
+        Tracker.sharedTracker.deepLinkVisited(path)
 
         let vc = self.visibleViewController as? ElloTabBarController
         let (type, data) = ElloURI.match(path)

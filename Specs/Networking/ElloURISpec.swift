@@ -34,8 +34,6 @@ class ElloURISpec: QuickSpec {
 
             describe("ElloURI.match") {
 
-// good --------------------------------------------------------------------------
-
                 describe("with Search urls") {
 
                     it("does not match https://www.ello.co/searchyface") {
