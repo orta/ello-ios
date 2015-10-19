@@ -436,6 +436,14 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                     oldUser.followersCount = user.followersCount
                     oldUser.followingCount = user.followingCount
                 }
+
+                if let authorable = item.jsonable as? Authorable,
+                    author = authorable.author
+                where author.id == user.id {
+                    author.relationshipPriority = user.relationshipPriority
+                    author.followersCount = user.followersCount
+                    author.followingCount = user.followingCount
+                }
             }
             collectionView.reloadItemsAtIndexPaths(changedItems.0)
         case .Block, .Mute:
@@ -511,6 +519,13 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                     else if let itemComment = item.jsonable as? Comment {
                         if  user.id == itemComment.authorId ||
                             user.id == itemComment.parentPost?.authorId
+                        {
+                            indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
+                            items.append(item)
+                        }
+                    }
+                    else if let itemNotification = item.jsonable as? Notification {
+                        if user.id == itemNotification.author?.id
                         {
                             indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
                             items.append(item)
