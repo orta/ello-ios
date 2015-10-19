@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>org-appextension-feature-password-management</string>
-	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -47,6 +43,10 @@
 			</dict>
 		</array>
 	</dict>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>org-appextension-feature-password-management</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -62,6 +62,8 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSContactsUsageDescription</key>
+	<string>Import your contacts to find your friends on Ello. We will extract the e-mail addresses, irreversibly hash them, and send them to our servers for matching. Ello will never receive nor store a copy of your address book.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AtlasTypewriterRegular.otf</string>
