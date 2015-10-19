@@ -445,8 +445,6 @@ extension AppViewController {
              .RequestInvitations,
              .RequestInvite,
              .ResetMyPassword,
-             .SearchPeople,
-             .SearchPosts,
              .Subdomain,
              .Unblock,
              .WhoMadeThis:
@@ -496,7 +494,9 @@ extension AppViewController {
             showProfileFollowingScreen(data)
         case .ProfileLoves:
             showProfileLovesScreen(data)
-        case .Search:
+        case .Search,
+             .SearchPeople,
+             .SearchPosts:
             showSearchScreen(data)
         case .Settings:
             showSettingsScreen()
