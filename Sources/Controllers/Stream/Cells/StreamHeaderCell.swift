@@ -24,8 +24,8 @@ public class StreamHeaderCell: UICollectionViewCell {
         }
     }
     var revealWidth: CGFloat {
-        if let items = bottomToolBar.items where items.count == 5 {
-            return 158.0
+        if let items = bottomToolBar.items where items.count == 4 {
+            return 106.0
         }
         else {
             return 54.0
@@ -198,14 +198,11 @@ public class StreamHeaderCell: UICollectionViewCell {
                 )
         }
 
-        replyButton.frame.size.width = buttonWidth
-        replyButton.frame.origin.x = chevronButton.frame.origin.x - buttonWidth
-        replyButton.hidden = isGridLayout || !canReply
-
         var timestampX = chevronButton.frame.x - timestampLabel.frame.width
-        if canReply {
-            timestampX -= replyButton.frame.width
-        }
+
+        replyButton.frame.size.width = buttonWidth
+        replyButton.frame.origin.x = timestampX - buttonWidth - buttonMargin - buttonMargin - sidePadding
+        replyButton.hidden = isGridLayout || !canReply
 
         var maxUsernameWidth: CGFloat = 0
         if !isGridLayout {
