@@ -430,8 +430,6 @@ extension AppViewController {
         switch type {
         case .BetaPublicProfiles,
              .Confirm,
-             .DiscoverRandom,
-             .DiscoverRelated,
              .Downloads,
              .Email,
              .External,
@@ -464,7 +462,9 @@ extension AppViewController {
         }
 
         switch type {
-        case .Discover:
+        case .Discover,
+             .DiscoverRandom,
+             .DiscoverRelated:
             showDiscoverScreen(vc)
         case .Enter, .Exit, .Root:
             break
