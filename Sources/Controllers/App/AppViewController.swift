@@ -450,7 +450,9 @@ extension AppViewController {
                 UIApplication.sharedApplication().openURL(pathURL)
             }
         default:
-            presentLoginOrSafariAlert(path)
+            if !isLoggedIn() {
+                presentLoginOrSafariAlert(path)
+            }
         }
 
         if !isLoggedIn() {
@@ -508,24 +510,22 @@ extension AppViewController {
     }
 
     private func presentLoginOrSafariAlert(path: String) {
-        if !isLoggedIn() {
-            let alertController = AlertViewController(message: path)
+        let alertController = AlertViewController(message: path)
 
-            let yes = AlertAction(title: NSLocalizedString("Login and view", comment: "Yes"), style: .Dark) { _ in
-                self.deepLinkPath = path
-                self.showSignInScreen()
-            }
-            alertController.addAction(yes)
-
-            let viewBrowser = AlertAction(title: NSLocalizedString("Open in Safari", comment: "Open in Safari"), style: .Light) { _ in
-                if let pathURL = NSURL(string: path) {
-                    UIApplication.sharedApplication().openURL(pathURL)
-                }
-            }
-            alertController.addAction(viewBrowser)
-
-            self.presentViewController(alertController, animated: true, completion: nil)
+        let yes = AlertAction(title: NSLocalizedString("Login and view", comment: "Yes"), style: .Dark) { _ in
+            self.deepLinkPath = path
+            self.showSignInScreen()
         }
+        alertController.addAction(yes)
+
+        let viewBrowser = AlertAction(title: NSLocalizedString("Open in Safari", comment: "Open in Safari"), style: .Light) { _ in
+            if let pathURL = NSURL(string: path) {
+                UIApplication.sharedApplication().openURL(pathURL)
+            }
+        }
+        alertController.addAction(viewBrowser)
+
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
 
     private func showDiscoverScreen(vc: ElloTabBarController?) {

@@ -59,8 +59,29 @@ public enum ElloURI: String {
     // only called when `ElloWebViewHelper.handleRequest` is called with `fromWebView: true` in `ElloWebBrowserViewController`
     public var loadsInWebViewFromWebView: Bool {
         switch self {
-        case .Discover, .Email, .Enter, .Friends, .Noise, .Notifications, .Post, .Profile, .Root, .Search, .Settings: return false
-        default: return true
+        case .BetaPublicProfiles,
+             .Confirm,
+             .Downloads,
+             .Email,
+             .External,
+             .FaceMaker,
+             .ForgotMyPassword,
+             .FreedomOfSpeech,
+             .Invitations,
+             .Manifesto,
+             .NativeRedirect,
+             .PasswordResetError,
+             .RandomSearch,
+             .RequestInvitation,
+             .RequestInvitations,
+             .RequestInvite,
+             .ResetMyPassword,
+             .Subdomain,
+             .Unblock,
+             .WhoMadeThis:
+            return true
+        default:
+            return false
         }
 
     }

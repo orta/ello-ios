@@ -183,16 +183,6 @@ public class StreamContainerViewController: StreamableViewController {
         control.tintColor = .blackColor()
         streamsSegmentedControl = control
     }
-
-    public func showFriends() {
-        showSegmentIndex(0)
-        streamsSegmentedControl.selectedSegmentIndex = 0
-    }
-
-    public func showNoise() {
-        showSegmentIndex(1)
-        streamsSegmentedControl.selectedSegmentIndex = 1
-    }
     
     private func showSegmentIndex(index: Int) {
         for controller in childStreamControllers {
@@ -227,6 +217,19 @@ public class StreamContainerViewController: StreamableViewController {
 
     @IBAction func streamSegmentTapped(sender: UISegmentedControl) {
         showSegmentIndex(sender.selectedSegmentIndex)
+    }
+}
+
+public extension StreamContainerViewController {
+
+    func showFriends() {
+        showSegmentIndex(0)
+        streamsSegmentedControl.selectedSegmentIndex = 0
+    }
+
+    func showNoise() {
+        showSegmentIndex(1)
+        streamsSegmentedControl.selectedSegmentIndex = 1
     }
 }
 
