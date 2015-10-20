@@ -10,7 +10,7 @@ import SVGKit
 
 
 public class AvatarButton: UIButton {
-    var starIcon: UIImageView! = UIImageView()
+    var starIcon = UIImageView()
     var starIconHidden = false
 
     public override init(frame: CGRect) {
