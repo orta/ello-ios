@@ -66,7 +66,6 @@ extension ElloWebBrowserViewController: KINWebBrowserDelegate {
 
 }
 
-// MARK: warning - make sure webLinkTapped handles the new Universal Links
 // MARK: ElloWebBrowserViewController : WebLinkDelegate
 extension ElloWebBrowserViewController : WebLinkDelegate {
     public func webLinkTapped(type: ElloURI, data: String) {
