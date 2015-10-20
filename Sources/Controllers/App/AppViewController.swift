@@ -483,9 +483,9 @@ extension AppViewController {
                 showOnboardingScreen(user)
             }
         case .Post:
-            showPostDetailScreen(data)
+            showPostDetailScreen(data, path: path)
         case .Profile:
-            showProfileScreen(data)
+            showProfileScreen(data, path: path)
         case .ProfileFollowers:
             showProfileFollowersScreen(data)
         case .ProfileFollowing:
@@ -564,16 +564,16 @@ extension AppViewController {
         }
     }
 
-    private func showProfileScreen(username: String) {
-        // works for valid profiles, we need to launch mobile safari if it 404s
+    private func showProfileScreen(username: String, path: String) {
         let profileVC = ProfileViewController(userParam: "~\(username)")
+        profileVC.deeplinkPath = path
         profileVC.currentUser = currentUser
         pushDeepLinkViewController(profileVC)
     }
 
-    private func showPostDetailScreen(postParam: String) {
-        // works for valid posts, we need to handle 404
+    private func showPostDetailScreen(postParam: String, path: String) {
         let postDetailVC = PostDetailViewController(postParam: "~\(postParam)")
+        postDetailVC.deeplinkPath = path
         postDetailVC.currentUser = currentUser
         pushDeepLinkViewController(postDetailVC)
     }
