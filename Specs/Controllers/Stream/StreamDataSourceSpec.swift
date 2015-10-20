@@ -788,13 +788,22 @@ class StreamDataSourceSpec: QuickSpec {
 
                     it("updates posts from that user") {
                         stubCellItems(streamKind: StreamKind.SimpleStream(endpoint: ElloAPI.FriendStream, title: "some title"))
-                        var user1 = subject.userForIndexPath(indexPath0)
-                        expect(user1!.followersCount) == "stub-user-followers-count"
-                        expect(user1!.relationshipPriority.rawValue) == RelationshipPriority.None.rawValue
+                        var user1 = subject.userForIndexPath(indexPath0)!
+                        expect(user1.followersCount) == "stub-user-followers-count"
+                        expect(user1.relationshipPriority.rawValue) == RelationshipPriority.None.rawValue
                         subject.modifyUserRelationshipItems(User.stub(["id": "user1", "followersCount": "2", "followingCount": 2, "relationshipPriority": RelationshipPriority.Following.rawValue]), collectionView: fakeCollectionView)
-                        user1 = subject.userForIndexPath(indexPath0)
-                        expect(user1!.followersCount) == "2"
-                        expect(user1!.relationshipPriority.rawValue) == RelationshipPriority.Following.rawValue
+                        user1 = subject.userForIndexPath(indexPath0)!
+                        expect(user1.followersCount) == "2"
+                        expect(user1.relationshipPriority.rawValue) == RelationshipPriority.Following.rawValue
+                    }
+
+                    it("shows the star on the avatarButton") {
+                        stubCellItems(streamKind: StreamKind.SimpleStream(endpoint: ElloAPI.FriendStream, title: "some title"))
+                        subject.modifyUserRelationshipItems(User.stub(["id": "user1", "followersCount": "2", "followingCount": 2, "relationshipPriority": RelationshipPriority.Starred.rawValue]), collectionView: fakeCollectionView)
+                        let indexPath = NSIndexPath(forItem: 1, inSection: 0)
+                        let headerCellItem = subject.visibleStreamCellItem(at: indexPath)!
+                        let post = headerCellItem.jsonable as? Post
+                        expect(post?.author?.relationshipPriority) == .Starred
                     }
 
                     xit("updates comments from that user") {

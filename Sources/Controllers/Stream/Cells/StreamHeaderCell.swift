@@ -88,8 +88,8 @@ public class StreamHeaderCell: UICollectionViewCell {
         return self.deleteItem.customView as! ImageLabelControl
     }
 
-    func setAvatarURL(url:NSURL?) {
-        avatarButton.setAvatarURL(url)
+    func setUser(user: User?) {
+        avatarButton.setUser(user)
     }
 
     override public func awakeFromNib() {
