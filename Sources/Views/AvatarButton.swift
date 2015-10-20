@@ -70,7 +70,7 @@ public class AvatarButton: UIButton {
         if let imageView = self.imageView {
             imageView.layer.cornerRadius = imageView.bounds.size.height / CGFloat(2)
         }
-        if let starIcon = starIcon, star = starIcon.image {
+        if let star = starIcon.image {
             let naturalSize = star.size
             let scale = frame.width / 60
             starIcon.frame.size = CGSize(width: scale * naturalSize.width, height: scale * naturalSize.height)
