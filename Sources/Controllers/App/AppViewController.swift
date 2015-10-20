@@ -425,33 +425,14 @@ extension AppViewController {
         let vc = self.visibleViewController as? ElloTabBarController
         let (type, data) = ElloURI.match(path)
 
-        switch type {
-        case .BetaPublicProfiles,
-             .Confirm,
-             .Downloads,
-             .Email,
-             .External,
-             .FaceMaker,
-             .ForgotMyPassword,
-             .FreedomOfSpeech,
-             .Invitations,
-             .Manifesto,
-             .NativeRedirect,
-             .PasswordResetError,
-             .RandomSearch,
-             .RequestInvitation,
-             .RequestInvitations,
-             .RequestInvite,
-             .ResetMyPassword,
-             .Subdomain,
-             .Unblock,
-             .WhoMadeThis:
-            if let pathURL = NSURL(string: path) {
-                UIApplication.sharedApplication().openURL(pathURL)
-            }
-        default:
+        if type.shouldLoadInApp {
             if !isLoggedIn() {
                 presentLoginOrSafariAlert(path)
+            }
+        }
+        else {
+            if let pathURL = NSURL(string: path) {
+                UIApplication.sharedApplication().openURL(pathURL)
             }
         }
 

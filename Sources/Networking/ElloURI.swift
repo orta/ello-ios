@@ -56,8 +56,14 @@ public enum ElloURI: String {
     case Email = "(.+)@(.+)\\.([a-z]{2,})"
     case External = "https?:\\/\\/.{3,}"
 
-    // only called when `ElloWebViewHelper.handleRequest` is called with `fromWebView: true` in `ElloWebBrowserViewController`
     public var loadsInWebViewFromWebView: Bool {
+        switch self {
+        case .Discover, .Email, .Enter, .Friends, .Noise, .Notifications, .Post, .Profile, .Root, .Search, .Settings: return false
+        default: return true
+        }
+    }
+
+    public var shouldLoadInApp: Bool {
         switch self {
         case .BetaPublicProfiles,
              .Confirm,
@@ -79,11 +85,10 @@ public enum ElloURI: String {
              .Subdomain,
              .Unblock,
              .WhoMadeThis:
-            return true
-        default:
             return false
+        default:
+            return true
         }
-
     }
 
     // get the proper domain
