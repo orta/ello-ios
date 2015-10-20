@@ -422,21 +422,21 @@ extension AppViewController {
 
         Tracker.sharedTracker.deepLinkVisited(path)
 
-        let vc = self.visibleViewController as? ElloTabBarController
         let (type, data) = ElloURI.match(path)
 
-        if type.shouldLoadInApp {
-            if !isLoggedIn() {
-                presentLoginOrSafariAlert(path)
-            }
-        }
-        else {
+        guard type.shouldLoadInApp else {
             if let pathURL = NSURL(string: path) {
                 UIApplication.sharedApplication().openURL(pathURL)
             }
+            return
         }
 
-        if !isLoggedIn() {
+        guard isLoggedIn() else {
+            presentLoginOrSafariAlert(path)
+            return
+        }
+
+        guard let vc = self.visibleViewController as? ElloTabBarController else {
             return
         }
 
@@ -491,6 +491,10 @@ extension AppViewController {
     }
 
     private func presentLoginOrSafariAlert(path: String) {
+        guard !isLoggedIn() else {
+            return
+        }
+
         let alertController = AlertViewController(message: path)
 
         let yes = AlertAction(title: NSLocalizedString("Login and view", comment: "Yes"), style: .Dark) { _ in
@@ -509,13 +513,13 @@ extension AppViewController {
         self.presentViewController(alertController, animated: true, completion: nil)
     }
 
-    private func showDiscoverScreen(vc: ElloTabBarController?) {
-        vc?.selectedTab = .Discovery
+    private func showDiscoverScreen(vc: ElloTabBarController) {
+        vc.selectedTab = .Discovery
     }
 
-    private func showFriendsScreen(vc: ElloTabBarController?) {
-        vc?.selectedTab = .Stream
-        if let navVC = vc?.selectedViewController as? ElloNavigationController,
+    private func showFriendsScreen(vc: ElloTabBarController) {
+        vc.selectedTab = .Stream
+        if let navVC = vc.selectedViewController as? ElloNavigationController,
             streamVC = navVC.topViewController as? StreamContainerViewController
         {
             streamVC.currentUser = currentUser
@@ -523,9 +527,9 @@ extension AppViewController {
         }
     }
 
-    private func showNoiseScreen(vc: ElloTabBarController?) {
-        vc?.selectedTab = .Stream
-        if let navVC = vc?.selectedViewController as? ElloNavigationController,
+    private func showNoiseScreen(vc: ElloTabBarController) {
+        vc.selectedTab = .Stream
+        if let navVC = vc.selectedViewController as? ElloNavigationController,
             streamVC = navVC.topViewController as? StreamContainerViewController
         {
             streamVC.currentUser = currentUser
@@ -533,9 +537,9 @@ extension AppViewController {
         }
     }
 
-    private func showNotificationsScreen(vc: ElloTabBarController?, category: String) {
-        vc?.selectedTab = .Notifications
-        if let navVC = vc?.selectedViewController as? ElloNavigationController,
+    private func showNotificationsScreen(vc: ElloTabBarController, category: String) {
+        vc.selectedTab = .Notifications
+        if let navVC = vc.selectedViewController as? ElloNavigationController,
             notificationsVC = navVC.topViewController as? NotificationsViewController
         {
             let notificationFilterType = NotificationFilterType.fromCategory(category)

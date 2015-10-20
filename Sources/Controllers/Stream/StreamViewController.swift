@@ -636,7 +636,6 @@ extension StreamViewController : UserDelegate {
 
 }
 
-// MARK: warning - make sure webLinkTapped handles the new Universal Links
 // MARK: StreamViewController : WebLinkDelegate
 extension StreamViewController : WebLinkDelegate {
 
