@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E26a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <scenes>
         <!--Ello Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
             <objects>
-                <tabBarController storyboardIdentifier="ElloTabBarController" id="49e-Tb-3d3" customClass="ElloTabBarController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="ElloTabBarController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="49e-Tb-3d3" customClass="ElloTabBarController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="W28-zg-YXA" customClass="ElloTabBar" customModule="Ello" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="975" width="768" height="49"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <animations/>
                         <color key="backgroundColor" red="0.85294646024703979" green="0.0019912233110517263" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="barTintColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
                     </tabBar>
@@ -37,20 +39,23 @@
                         <viewControllerLayoutGuide type="bottom" id="Cu5-ro-RnE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="b3f-dm-11N">
-                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sxq-dN-l1X">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </scrollView>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BcZ-aZ-i5r" customClass="ElloNavigationBar" customModule="Ello" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="20" width="600" height="44"/>
+                                <animations/>
                                 <items>
                                     <navigationItem title="Title" id="N7N-z9-gvV"/>
                                 </items>
                             </navigationBar>
                         </subviews>
+                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Sxq-dN-l1X" firstAttribute="top" secondItem="b3f-dm-11N" secondAttribute="top" id="3a0-nd-GXS"/>
@@ -89,16 +94,19 @@
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="hOT-bT-dJV">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
+                                <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <collectionViewLayout key="collectionViewLayout" id="RLZ-Kl-cg7" customClass="StreamCollectionViewLayout" customModule="Ello" customModuleProvider="target"/>
                                 <cells/>
                             </collectionView>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mm7-D5-eh7" userLabel="noResultsLabel">
                                 <rect key="frame" x="15" y="113" width="570" height="0.0"/>
+                                <animations/>
                                 <attributedString key="attributedText"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
+                        <animations/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="hOT-bT-dJV" firstAttribute="top" secondItem="x9i-Ne-hXf" secondAttribute="top" id="1HK-ru-RpT"/>
@@ -126,7 +134,7 @@
         <!--StreamContainer Navigation Controller-->
         <scene sceneID="c48-ys-FOn">
             <objects>
-                <navigationController storyboardIdentifier="StreamContainerViewController" navigationBarHidden="YES" id="6gB-P3-Psq" userLabel="StreamContainer Navigation Controller" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="StreamContainerViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" navigationBarHidden="YES" id="6gB-P3-Psq" userLabel="StreamContainer Navigation Controller" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <tabBarItem key="tabBarItem" title="" id="aLZ-c4-Yur">
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
@@ -135,11 +143,13 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="Tgb-bf-SEj">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Qz1-hz-MJ9">
                         <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
                     </toolbar>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="string" keyPath="rootViewControllerName" value="StreamContainerViewController"/>
@@ -155,7 +165,7 @@
         <!--Notifications Navigation Controller-->
         <scene sceneID="hm1-Di-XPS">
             <objects>
-                <navigationController storyboardIdentifier="NotificationsViewController" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="OLo-wM-vov" userLabel="Notifications Navigation Controller" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="NotificationsViewController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" navigationBarHidden="YES" id="OLo-wM-vov" userLabel="Notifications Navigation Controller" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" id="cPa-gy-q4n">
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
                     </tabBarItem>
@@ -163,6 +173,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Lwj-gZ-4Ny">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <userDefinedRuntimeAttributes>
@@ -176,7 +187,7 @@
         <!--Profile View Controller-->
         <scene sceneID="hfY-Uc-rBK">
             <objects>
-                <navigationController storyboardIdentifier="ProfileViewController" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="HTb-EB-4Yn" userLabel="Profile View Controller" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="ProfileViewController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" navigationBarHidden="YES" id="HTb-EB-4Yn" userLabel="Profile View Controller" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" id="6NF-g8-Kfc">
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
                     </tabBarItem>
@@ -184,6 +195,7 @@
                     <navigationBar key="navigationBar" hidden="YES" contentMode="scaleToFill" id="Hgb-rg-okC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <userDefinedRuntimeAttributes>
@@ -197,7 +209,7 @@
         <!--Discover Navigation Controller-->
         <scene sceneID="N4e-A4-BeS">
             <objects>
-                <navigationController storyboardIdentifier="DiscoverViewController" id="rfd-p2-XSV" userLabel="Discover Navigation Controller" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="DiscoverViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="rfd-p2-XSV" userLabel="Discover Navigation Controller" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <tabBarItem key="tabBarItem" title="" id="acW-dT-cKf">
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
@@ -206,6 +218,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="F8U-89-LVE">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <userDefinedRuntimeAttributes>
@@ -219,7 +232,7 @@
         <!--Ello Navigation Controller-->
         <scene sceneID="3Vb-Rm-HKL">
             <objects>
-                <navigationController storyboardIdentifier="OmnibarViewController" automaticallyAdjustsScrollViewInsets="NO" id="jRU-db-VFH" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="OmnibarViewController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="jRU-db-VFH" customClass="ElloNavigationController" customModule="Ello" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" id="kAH-dT-zG0">
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
                     </tabBarItem>
@@ -227,6 +240,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="4Of-Xc-qiM">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <userDefinedRuntimeAttributes>
