@@ -142,8 +142,7 @@ public class AppViewController: BaseElloViewController {
     }
 
     func failedToLoadCurrentUser(failure: ElloErrorCompletion?, error: NSError) {
-        let authToken = AuthToken()
-        authToken.reset()
+        AuthToken.reset()
         showButtons()
         failure?(error: error)
     }
@@ -392,7 +391,7 @@ public extension AppViewController {
 
     private func logOutCurrentUser() {
         PushNotificationController.sharedController.deregisterStoredToken()
-        AuthToken().reset()
+        AuthToken.reset()
         NSURLCache.sharedURLCache().removeAllCachedResponses()
         currentUser = nil
     }
