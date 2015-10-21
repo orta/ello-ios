@@ -24,9 +24,10 @@ public class AvatarButton: UIButton {
     }
 
     private func setup() {
-        let star = SVGKImage(named: "star.svg").UIImage!
+        let starSVG = SVGKImage(named: "star_selected.svg")
+        let star = starSVG.UIImage!
         starIcon.image = star
-        starIcon.frame.size = star.size
+        starIcon.frame.size = CGSize(width: 15, height: 15)
         starIcon.hidden = true
         addSubview(starIcon)
         clipsToBounds = false
@@ -70,12 +71,11 @@ public class AvatarButton: UIButton {
         if let imageView = self.imageView {
             imageView.layer.cornerRadius = imageView.bounds.size.height / CGFloat(2)
         }
-        if let star = starIcon.image {
-            let naturalSize = star.size
-            let scale = frame.width / 60
-            starIcon.frame.size = CGSize(width: scale * naturalSize.width, height: scale * naturalSize.height)
-            starIcon.center = CGPoint(x: frame.width, y: 0)
-        }
+        
+        let naturalSize = starIcon.frame.size
+        let scale = frame.width / 60
+        starIcon.frame.size = CGSize(width: scale * naturalSize.width, height: scale * naturalSize.height)
+        starIcon.center = CGPoint(x: frame.width, y: 0)
     }
 
 }

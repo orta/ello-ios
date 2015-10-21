@@ -9,66 +9,81 @@
 import Foundation
 import SVGKit
 
-public class RelationshipControl: UIControl {
+private let ViewHeight: CGFloat = 30
+private let ButtonWidth: CGFloat = 30
+private let MoreButtonMargin: CGFloat = 5
+private let MinViewWidth: CGFloat = 105
 
-    private let size = CGSize(width: 82, height: 30)
-    private let sizeWithMore = CGSize(width: 132, height: 30)
-    private var config = Config.Follow
-    private let contentContainer = UIView(frame: CGRectZero)
-    public let label = UILabel(frame: CGRectZero)
-    private let icon = UIImageView(frame: CGRectZero)
-    public let mainButton = UIButton(frame: CGRectZero)
-    lazy public var moreButton: UIButton = {
-        let button = UIButton(type: .Custom)
-        button.frame = CGRect(x:0, y: 0, width: 44, height: 30)
-        button.setTitle("", forState: .Normal)
-        button.setSVGImages("dots")
-        button.addTarget(self, action: Selector("moreTapped:"), forControlEvents: .TouchUpInside)
+
+public class RelationshipControl: UIView {
+    let followingButton: FollowButton = FollowButton()
+    let starredButton: UIButton = {
+        let button = UIButton()
+        button.setImage(SVGKImage(named: "star_normal.svg").UIImage!, forState: .Normal)
+        button.setImage(SVGKImage(named: "star_selected.svg").UIImage!, forState: .Highlighted)
         return button
     }()
-    public let mainButtonBackground = UIView(frame: CGRectZero)
+
+    lazy public var moreButton: UIButton = {
+        let button = UIButton(type: .Custom)
+        button.frame = CGRect(x:0, y: 0, width: 44, height: ViewHeight)
+        button.setSVGImages("dots")
+        return button
+    }()
 
     public var userId: String
     public var userAtName: String
 
     public weak var relationshipDelegate: RelationshipDelegate?
-    public var relationshipPriority:RelationshipPriority = .None {
-        didSet { updateRelationshipPriority(relationshipPriority) }
-    }
-
-    override public var selected: Bool {
-        didSet {
-            if !highlighted { updateTitles(selected) }
-        }
-    }
-
-    override public var highlighted: Bool {
-        didSet {
-            if !selected { updateTitles(highlighted) }
-        }
+    public var relationshipPriority: RelationshipPriority = .None {
+        didSet { updateRelationshipPriority() }
     }
 
     public var showMoreButton = false {
         didSet {
             moreButton.hidden = !showMoreButton
-            updateLayout()
+            setNeedsLayout()
             invalidateIntrinsicContentSize()
         }
+    }
+
+    required public override init(frame: CGRect) {
+        self.userId = ""
+        self.userAtName = ""
+        super.init(frame: frame)
+        setup()
     }
 
     required public init?(coder: NSCoder) {
         self.userId = ""
         self.userAtName = ""
         super.init(coder: coder)
+        setup()
+    }
+
+    private func setup() {
         addSubviews()
         addTargets()
         moreButton.hidden = true
-        label.attributedText = styleText(config.name, color: config.normalTextColor)
-        mainButtonBackground.layer.borderWidth = 1
+        updateRelationshipPriority()
     }
 
     public override func intrinsicContentSize() -> CGSize {
-        return showMoreButton ? sizeWithMore : size
+        var totalSize = CGSize(width: 0, height: ViewHeight)
+        let followingSize = followingButton.intrinsicContentSize()
+        if followingSize.width > MinViewWidth {
+            totalSize.width += followingSize.width
+        }
+        else {
+            totalSize.width += MinViewWidth
+        }
+        totalSize.width += ButtonWidth
+
+        if showMoreButton {
+            totalSize.width += ButtonWidth + MoreButtonMargin
+        }
+
+        return totalSize
     }
 
     // MARK: IBActions
@@ -80,155 +95,141 @@ public class RelationshipControl: UIControl {
         }
     }
 
-    @IBAction func buttonTouchUpInside(sender: UIButton) {
-        if relationshipPriority == .Mute {
-            relationshipDelegate?.launchBlockModal(userId, userAtName: userAtName, relationshipPriority: relationshipPriority) {
-                [unowned self] relationshipPriority in
-                self.relationshipPriority = relationshipPriority
-            }
+    @IBAction func starredButtonTapped(sender: UIButton) {
+        switch relationshipPriority {
+        case .Mute:
+            launchBlockModal()
+        case .Starred:
+            handleUnstar()
+        default:
+            handleStar()
         }
-        else {
-            handleTapped(sender)
+    }
+
+    @IBAction func followingButtonTapped(sender: UIButton) {
+        switch relationshipPriority {
+        case .Mute:
+            launchBlockModal()
+        case .Following, .Starred:
+            handleUnfollow()
+        default:
+            handleFollow()
         }
-        highlighted = false
     }
 
-    @IBAction func buttonTouchUpOutside(sender: UIButton) {
-        highlighted = false
+    private func launchBlockModal() {
+        guard relationshipPriority == .Mute else {
+            return
+        }
+
+        relationshipDelegate?.launchBlockModal(userId, userAtName: userAtName, relationshipPriority: relationshipPriority) {
+            [unowned self] relationshipPriority in
+            self.relationshipPriority = relationshipPriority
+        }
     }
 
-    @IBAction func buttonTouchDown(sender: UIButton) {
-        highlighted = true
-    }
-
-    private func handleTapped(sender: UIButton) {
-        relationshipDelegate?.relationshipTapped(userId, relationshipPriority: relationshipPriority) {
-            [unowned self] (status, relationshipPriority) in
+    private func handleRelationship(newRelationshipPriority: RelationshipPriority) {
+        self.userInteractionEnabled = false
+        relationshipDelegate?.relationshipTapped(userId, relationshipPriority: newRelationshipPriority) { [unowned self] (status, relationshipPriority) in
+            self.userInteractionEnabled = true
             if let newRelationshipPriority = relationshipPriority?.subject?.relationshipPriority {
                 self.relationshipPriority = newRelationshipPriority
             }
         }
     }
 
+    private func handleFollow() {
+        handleRelationship(.Following)
+    }
+
+    private func handleStar() {
+        handleRelationship(.Starred)
+    }
+
+    private func handleUnstar() {
+        handleRelationship(.Following)
+    }
+
+    private func handleUnfollow() {
+        handleRelationship(.Inactive)
+    }
+
     // MARK: Private
     private func addSubviews() {
-        addSubview(mainButtonBackground)
         addSubview(moreButton)
-        mainButtonBackground.addSubview(contentContainer)
-        contentContainer.addSubview(icon)
-        contentContainer.addSubview(label)
-        addSubview(mainButton)
+        addSubview(starredButton)
+        addSubview(followingButton)
     }
 
     private func addTargets() {
-        mainButton.addTarget(self, action: Selector("buttonTouchUpInside:"), forControlEvents: .TouchUpInside)
-        mainButton.addTarget(self, action: Selector("buttonTouchDown:"), forControlEvents: [.TouchDown, .TouchDragEnter])
-        mainButton.addTarget(self, action: Selector("buttonTouchUpOutside:"), forControlEvents: [.TouchCancel, .TouchDragExit])
+        moreButton.addTarget(self, action: Selector("moreTapped:"), forControlEvents: .TouchUpInside)
+        followingButton.addTarget(self, action: Selector("followingButtonTapped:"), forControlEvents: .TouchUpInside)
+        starredButton.addTarget(self, action: Selector("starredButtonTapped:"), forControlEvents: .TouchUpInside)
     }
 
-    private func updateTitles(active: Bool) {
-        icon.image = config.normalIcon
-        label.attributedText = styleText(config.name, color: active ? config.selectedTextColor : config.normalTextColor)
-        mainButtonBackground.backgroundColor = active ? config.selectedBackgroundColor : config.normalBackgroundColor
-        mainButtonBackground.layer.borderColor = config.borderColor.CGColor
-        updateLayout()
-    }
-
-    private func updateRelationshipPriority(relationshipPriority: RelationshipPriority) {
+    private func updateRelationshipPriority() {
+        let config: Config
         switch relationshipPriority {
         case .Following: config = .Following
         case .Starred: config = .Starred
         case .Mute: config = .Muted
-        default: config = .Follow
+        default: config = .None
         }
 
-        updateTitles(false)
+        followingButton.config = config
+        if config.starred {
+            let star = SVGKImage(named: "star_selected.svg").UIImage!
+            starredButton.setImage(star, forState: .Normal)
+        }
+        else {
+            let star = SVGKImage(named: "star_normal.svg").UIImage!
+            starredButton.setImage(star, forState: .Normal)
+        }
     }
 
-    private func updateLayout() {
-        label.sizeToFit()
-        let textWidth = label.attributedText?.widthForHeight(0) ?? 0
-        let iconWidth = config.normalIcon?.size.width ?? 0
-        let contentWidth = textWidth + iconWidth
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        if showMoreButton {
+            moreButton.frame = CGRect(x: 0, y: 0, width: ButtonWidth, height: ViewHeight)
+            followingButton.frame = CGRect(x: moreButton.frame.maxX + MoreButtonMargin, y: 0, width: frame.width - 2 * ButtonWidth - MoreButtonMargin, height: ViewHeight)
+        }
+        else {
+            moreButton.frame = CGRectZero
+            followingButton.frame = CGRect(x: 0, y: 0, width: frame.width - ButtonWidth, height: ViewHeight)
+        }
 
-        // subtract 3 pts if icon is showing
-        let contentX: CGFloat = (size.width / 2 - contentWidth / 2) - (iconWidth > 0 ? 3 : 0)
-
-        contentContainer.frame =
-            CGRect(
-                x: contentX,
-                y: 0,
-                width: contentWidth,
-                height: size.height
-        )
-
-        icon.frame.size.width = config.normalIcon?.size.width ?? 0
-        icon.frame.size.height = config.normalIcon?.size.height ?? 0
-        icon.frame.origin.x = 0
-        icon.frame.origin.y = size.height / 2 - icon.frame.size.height / 2
-        mainButton.frame.size.width = size.width
-        mainButton.frame.size.height = size.height
-        label.frame.origin.x = config.normalIcon?.size.width ?? 0
-        label.frame.origin.y = size.height / 2 - label.frame.size.height / 2
-        let mainButtonX = !showMoreButton ? 0 : moreButton.frame.size.width + 6
-        mainButton.frame.origin.x = mainButtonX
-        mainButtonBackground.frame = mainButton.frame
-    }
-
-    private func styleText(title: String, color: UIColor) -> NSAttributedString {
-        let attributed = NSMutableAttributedString(string: title)
-        let range = NSRange(location: 0, length: title.characters.count)
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = .Left
-
-        let attributes = [
-            NSFontAttributeName : UIFont.typewriterFont(12),
-            NSForegroundColorAttributeName : color,
-            NSParagraphStyleAttributeName : paragraphStyle
-        ]
-        attributed.addAttributes(attributes, range: range)
-        return attributed
+        starredButton.frame = CGRect(x: frame.width - ButtonWidth, y: 0, width: ButtonWidth, height: ViewHeight)
     }
 
     private enum Config {
-        case Follow
         case Starred
         case Following
         case Muted
+        case None
 
-        var name: String {
+        var title: String {
             switch self {
-            case .Follow: return "Follow"
-            case .Starred: return "Noise"
-            case .Following: return "Friend"
-            case .Muted: return "Muted"
+            case .None: return NSLocalizedString("Follow", comment: "Follow button title")
+            case .Starred, .Following: return NSLocalizedString("Following", comment: "Following button title")
+            case .Muted: return NSLocalizedString("Muted", comment: "Muted button title")
             }
         }
 
-        var normalIcon: UIImage? {
+        var starred: Bool {
             switch self {
-            case .Follow: return SVGKImage(named: "plussmall_selected.svg").UIImage!
-            case .Starred, .Following: return SVGKImage(named: "checksmall_white.svg").UIImage!
-            case .Muted: return .None
-            }
-        }
-
-        var selectedIcon: UIImage? {
-            switch self {
-            case .Follow: return SVGKImage(named: "plussmall_white.svg").UIImage!
-            case .Starred, .Following: return SVGKImage(named: "checksmall_selected.svg").UIImage!
-            case .Muted: return .None
+            case .Starred: return true
+            default: return false
             }
         }
 
         var normalTextColor: UIColor {
             switch self {
-            case .Follow: return .blackColor()
+            case .None: return .blackColor()
             default: return .whiteColor()
             }
         }
 
-        var selectedTextColor: UIColor {
+        var highlightedTextColor: UIColor {
             return .whiteColor()
         }
 
@@ -242,17 +243,73 @@ public class RelationshipControl: UIControl {
         var normalBackgroundColor: UIColor {
             switch self {
             case .Muted: return .redColor()
-            case .Follow: return .whiteColor()
+            case .None: return .whiteColor()
             default: return .blackColor()
             }
         }
 
         var selectedBackgroundColor: UIColor {
             switch self {
-            case .Muted: return .redColor()
-            case .Follow: return .blackColor()
+            case .Muted: return UIColor.redFFCCCC()
+            case .None: return .blackColor()
             default: return .grey4D()
             }
+        }
+
+        var image: UIImage? {
+            switch self {
+            case .Muted: return nil
+            case .Starred, .Following: return SVGKImage(named: "checksmall_white.svg").UIImage!
+            default: return SVGKImage(named: "plussmall_selected.svg").UIImage
+            }
+        }
+
+        var highlightedImage: UIImage? {
+            switch self {
+            case .Muted, .Starred, .Following: return self.image
+            default: return SVGKImage(named: "plussmall_white.svg").UIImage
+            }
+        }
+    }
+
+    class FollowButton: WhiteElloButton {
+        private var config: Config = .None {
+            didSet {
+                setTitleColor(config.normalTextColor, forState: .Normal)
+                setTitleColor(config.highlightedTextColor, forState: .Highlighted)
+                setTitleColor(UIColor.greyC(), forState: .Disabled)
+                setTitle(config.title, forState: .Normal)
+                borderColor = config.borderColor
+                setImage(config.image, forState: .Normal)
+                setImage(config.highlightedImage, forState: .Highlighted)
+
+                updateOutline()
+            }
+        }
+
+        var borderColor = UIColor.greyE5()
+
+        override func sharedSetup() {
+            super.sharedSetup()
+            contentEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 10)
+            let plus = SVGKImage(named: "plussmall_selected.svg").UIImage!
+            setImage(plus, forState: .Normal)
+
+            layer.borderWidth = 1
+            updateOutline()
+            config = .None
+            backgroundColor = config.normalBackgroundColor
+        }
+
+        override var highlighted: Bool {
+            didSet {
+                updateOutline()
+            }
+        }
+
+        private func updateOutline() {
+            layer.borderColor = borderColor.CGColor
+            backgroundColor = highlighted ? config.selectedBackgroundColor : config.normalBackgroundColor
         }
     }
 }

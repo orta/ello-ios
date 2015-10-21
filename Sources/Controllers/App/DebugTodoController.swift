@@ -70,6 +70,11 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
             Crashlytics.sharedInstance().crash()
         }
 
+        addAction("Debug Views") { [unowned self] in
+            let vc = DebugViewsController()
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+
         addAction("Show Rate Prompt") {
             Rate.sharedRate.prompt()
         }
