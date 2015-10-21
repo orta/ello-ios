@@ -1,3 +1,64 @@
+### Ello Build 1.2.0(3305) October 21, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #599 - Universal Links
+iOS 9 added support for Universal Links, Apple's marketing name for an app handling links without the corresponding website loading the page first.
+
+***NEED TO UPDATE aasa.json with "asterisk" paths for co.ello.Ello before launching***
+
+This PR implements full Universal Link handling for ello.co and all of the staging servers. This *DOES NOT* handle iOS 8 deep linking or push notification deep linking although the mechanism to do so is part of this PR so it will be easy to add in the future. There are a handful of links that do not have meaningful content in the app, those links redirect back out to Mobile Safari.
+
+If I user is logged out when the app attempts to load a universal link the user is prompted to view the link in Mobile Safari or to login and visit the link in-app.
+
+For tracking the single function that all deep links/ push notifications and universal links route through tracks with the event name `"Deep Link Visited"` and passes the deep link path as a property ie. `https://ello.co/friends`.
+
+A quick note about Universal Links. They are easiest to test outside of the actual website. When tapping on a link in an email or a google result they are triggered. Once on the website they do not trigger when navigating around the site for obvious reasons (it would be super annoying to have every tap launch the app if you preferred using the website).
+
+To test this out I used a bunch of test links:
+
+WTF: https://ello.co/wtf
+FRIENDS: https://ello.co/friends
+NOISE: https://ello.co/noise
+ONBOARDING: https://ello.co/onboarding
+JOIN: https://ello.co/join
+LOGIN: https://ello.co/login
+SEARCH: https://ello.co/search
+SEARCH TERMS: https://ello.co/search?terms=rainbows+unicorns
+NOTIFICATIONS: https://ello.co/notifications
+NOTIFICATIONS ALL: https://ello.co/notifications/all 
+NOTIFICATIONS COMMENTS: https://ello.co/notifications/comments
+NOTIFICATIONS LOVES: https://ello.co/notifications/loves
+NOTIFICATIONS MENTIONS: https://ello.co/notifications/mentions
+NOTIFICATIONS RELATIONSHIPS: https://ello.co/notifications/relationships
+NOTIFICATIONS REPOSTS: https://ello.co/notifications/reposts
+NOTIFICATIONS JIBBERISH: https://ello.co/notifications/JIBBERISH
+SEAN: https://ello.co/sean
+SEAN VALID POST: https://ello.co/sean/post/cfQ-8GMPiTMxaPgnkZkCog
+SEAN INVALID POST: https://ello.co/sean/post/NO-GO
+SEAN’S FOLLOWERS: https://ello.co/sean/followers
+SEAN’S FOLLOWING: https://ello.co/sean/following
+SEAN’S LOVES: https://ello.co/sean/loves
+DISCOVER: https://ello.co/discover
+DISCOVER RANDOM: https://ello.co/discover/random
+DISCOVER RELATED: https://ello.co/discover/related
+SETTINGS: https://ello.co/settings
+NOT A REAL USER: https://ello.co/aaaaaabbbbbbbbccccccccdddd
+—————————————————————————
+NOT-IN-APP: https://ello.co/beta-public-profiles
+ROOT: https://ello.co
+
+------
+
+#### #596 - Ensure comment edit button visibility
+Fixes: https://www.pivotaltracker.com/story/show/106031694
+
+* Move reply button left of the timestamp
+    
+------------
+
 ### Ello Build 1.1.0(3275) October 16, 2015
 
     RELEASE NOTES
