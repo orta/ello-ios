@@ -447,7 +447,8 @@ extension AppViewController {
             showDiscoverScreen(vc)
         case .Enter, .Exit, .Root:
             break
-        case .Friends:
+        case .Friends,
+             .Following:
             showFriendsScreen(vc)
         case .Join:
             if !isLoggedIn() {
@@ -457,7 +458,8 @@ extension AppViewController {
             if !isLoggedIn() {
                 showSignInScreen()
             }
-        case .Noise:
+        case .Noise,
+             .Starred:
             showNoiseScreen(vc)
         case .Notifications:
             showNotificationsScreen(vc, category: data)
