@@ -406,7 +406,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
             if shouldReload {
                 let (indexPaths, items) = elementsForJSONAble(jsonable, change: change)
                 for item in items {
-                    item.jsonable = jsonable
+                    item.jsonable = item.jsonable.merge(jsonable)
                 }
                 collectionView.reloadItemsAtIndexPaths(indexPaths)
             }

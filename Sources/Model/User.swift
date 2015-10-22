@@ -161,6 +161,17 @@ public final class User: JSONAble {
 
 // MARK: JSONAble
 
+    public override func merge(other: JSONAble) -> JSONAble {
+        if let otherUser = other as? User {
+            if (otherUser.formattedShortBio ?? "").characters.count == 0 {
+                otherUser.formattedShortBio = formattedShortBio
+                otherUser.externalLinksList = externalLinksList
+            }
+            return otherUser
+        }
+        return other
+    }
+
     override public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         let json = JSON(data)
         Crashlytics.sharedInstance().setObjectValue(json.rawString(), forKey: CrashlyticsKey.UserFromJSON.rawValue)
