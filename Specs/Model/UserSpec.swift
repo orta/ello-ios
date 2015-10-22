@@ -139,5 +139,29 @@ class UserSpec: QuickSpec {
             }
         }
 
+        describe("merge(JSONAble)") {
+            it("returns non-User objects") {
+                let post: Post = stub([:])
+                let user: User = stub([:])
+                expect(user.merge(post)) == post
+            }
+            it("returns User objects") {
+                let userA: User = stub([:])
+                let userB: User = stub([:])
+                expect(userA.merge(userB)) == userB
+            }
+            it("merges the formattedShortBio") {
+                let userA: User = stub(["formattedShortBio": "userA"])
+                let userB: User = stub(["formattedShortBio": "userB"])
+                let merged = userA.merge(userB) as! User
+                expect(merged.formattedShortBio) == "userB"
+            }
+            it("preserves the formattedShortBio") {
+                let userA: User = stub(["formattedShortBio": "userA"])
+                let userB: User = stub(["formattedShortBio": ""])
+                let merged = userA.merge(userB) as! User
+                expect(merged.formattedShortBio) == "userA"
+            }
+        }
     }
 }
