@@ -17,12 +17,12 @@ public enum RelationshipRequestStatus: String {
     case Failure = "failure"
 }
 
-public protocol RelationshipControllerDelegate: NSObjectProtocol {
+public protocol RelationshipControllerDelegate: class {
     func shouldSubmitRelationship(userId: String, relationshipPriority: RelationshipPriority) -> Bool
     func relationshipChanged(userId: String, status: RelationshipRequestStatus, relationship: Relationship?)
 }
 
-public protocol RelationshipDelegate: NSObjectProtocol {
+public protocol RelationshipDelegate: class {
     func relationshipTapped(userId: String, relationshipPriority: RelationshipPriority, complete: RelationshipChangeCompletion)
     func launchBlockModal(userId: String, userAtName: String, relationshipPriority: RelationshipPriority, changeClosure: RelationshipChangeClosure)
     func updateRelationship(userId: String, relationshipPriority: RelationshipPriority, complete: RelationshipChangeCompletion)
