@@ -22,8 +22,8 @@ class StreamKindSpec: QuickSpec {
 
                 it("is correct for all cases") {
                     expect(StreamKind.Discover(type: .Recommended, perPage: 1).name) == "Discover"
-                    expect(StreamKind.Following.name) == "Friends"
-                    expect(StreamKind.Starred.name) == "Noise"
+                    expect(StreamKind.Following.name) == "Following"
+                    expect(StreamKind.Starred.name) == "Starred"
                     expect(StreamKind.Notifications(category: "").name) == "Notifications"
                     expect(StreamKind.PostDetail(postParam: "param").name) == "Post Detail"
                     expect(StreamKind.Profile(perPage: 1).name) == "Profile"
@@ -37,8 +37,8 @@ class StreamKindSpec: QuickSpec {
 
                 it("is correct for all cases") {
                     expect(StreamKind.Discover(type: .Recommended, perPage: 1).lastViewedCreatedAtKey) == "Discover_createdAt"
-                    expect(StreamKind.Following.lastViewedCreatedAtKey) == "Friends_createdAt"
-                    expect(StreamKind.Starred.lastViewedCreatedAtKey) == "Noise_createdAt"
+                    expect(StreamKind.Following.lastViewedCreatedAtKey) == "Following_createdAt"
+                    expect(StreamKind.Starred.lastViewedCreatedAtKey) == "Starred_createdAt"
                     expect(StreamKind.Notifications(category: "").lastViewedCreatedAtKey) == "Notifications_createdAt"
                     expect(StreamKind.PostDetail(postParam: "param").lastViewedCreatedAtKey) == "Post Detail_createdAt"
                     expect(StreamKind.Profile(perPage: 1).lastViewedCreatedAtKey) == "Profile_createdAt"
