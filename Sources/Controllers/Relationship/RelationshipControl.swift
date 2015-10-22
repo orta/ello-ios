@@ -46,6 +46,7 @@ public class RelationshipControl: UIView {
             invalidateIntrinsicContentSize()
         }
     }
+
     public var showMoreButton = false {
         didSet {
             moreButton.hidden = !showMoreButton
@@ -222,7 +223,7 @@ public class RelationshipControl: UIView {
             starredButtonWidth = 0
         }
 
-        followingButton.frame = bounds.shrinkLeft(moreButtonWidth).shrinkRight(starredButtonWidth)
+        followingButton.frame = bounds.inset(top: 0, left: moreButtonWidth, bottom: 0, right: starredButtonWidth)
     }
 
     private enum Config {
