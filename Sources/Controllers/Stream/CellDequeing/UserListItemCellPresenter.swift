@@ -28,11 +28,6 @@ public struct UserListItemCellPresenter {
 
             cell.relationshipControl.showStarredButton = streamKind.showStarredButton
             cell.setUser(user)
-            cell.relationshipControl.userId = user.id
-            cell.relationshipControl.userAtName = user.atName
-            cell.relationshipControl.relationshipPriority = user.relationshipPriority
-            cell.usernameLabel.text = user.atName
-            cell.nameLabel.text = user.name
         }
     }
 }
