@@ -16,8 +16,6 @@ public class FakeImageManager: PINRemoteImageManager {
         downloads = [NSURL]()
     }
 
-    public override init(){}
-
     override public func prefetchImageWithURL(url: NSURL!, options: PINRemoteImageManagerDownloadOptions) {
         downloads.append(url)
     }

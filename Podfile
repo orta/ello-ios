@@ -38,9 +38,9 @@ pod 'TimeAgoInWords', git: 'https://github.com/ello/TimeAgoInWords'
 pod 'WebLinking', '~> 1.0'
 
 target 'Specs' do
-  pod 'Nimble', '2.0.0-rc.3'
-  pod 'OHHTTPStubs', '~> 4.1.0'
-  pod 'Quick', '~> 0.6.0'
+  pod 'Nimble', git: 'https://github.com/Quick/Nimble', branch: 'xcode7.1'
+  pod 'OHHTTPStubs', '~> 4.3'
+  pod 'Quick', git: 'https://github.com/Quick/Quick', branch: 'xcode7.1'
 end
 
 plugin 'cocoapods-keys', {

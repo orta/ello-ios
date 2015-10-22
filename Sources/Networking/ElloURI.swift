@@ -16,6 +16,7 @@ public enum ElloURI: String {
     case DiscoverRelated = "discover/related"
     case Enter = "enter"
     case Friends = "friends"
+    case Following = "following"
     case Noise = "noise"
     case Notifications = "notifications(\\/?|\\/\\S+)$"
     case Post = "\\/post\\/[^\\/]+\\/?$"
@@ -49,6 +50,7 @@ public enum ElloURI: String {
     case ResetMyPassword = "reset-my-password"
     case Root = "?$"
     case Subdomain = "\\/\\/.+(?<!(w{3}|staging))\\."
+    case Starred = "starred"
     case Unblock = "unblock"
     case WhoMadeThis = "who-made-this"
     case WTF = "(wtf$|wtf\\/.*$)"
@@ -197,6 +199,7 @@ public enum ElloURI: String {
         FreedomOfSpeech,
         FaceMaker,
         Friends,
+        Following,
         Invitations,
         Join,
         Login,
@@ -215,6 +218,7 @@ public enum ElloURI: String {
         SearchPosts,
         Search,
         Settings,
+        Starred,
         Unblock,
         WhoMadeThis,
         // profile specific
