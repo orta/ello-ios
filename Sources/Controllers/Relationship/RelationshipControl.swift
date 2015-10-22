@@ -39,6 +39,13 @@ public class RelationshipControl: UIView {
         didSet { updateRelationshipPriority() }
     }
 
+    public var showStarredButton = true {
+        didSet {
+            starredButton.hidden = !showStarredButton
+            setNeedsLayout()
+            invalidateIntrinsicContentSize()
+        }
+    }
     public var showMoreButton = false {
         didSet {
             moreButton.hidden = !showMoreButton
@@ -64,7 +71,8 @@ public class RelationshipControl: UIView {
     private func setup() {
         addSubviews()
         addTargets()
-        moreButton.hidden = true
+        starredButton.hidden = !showStarredButton
+        moreButton.hidden = !showMoreButton
         updateRelationshipPriority()
     }
 
@@ -77,7 +85,10 @@ public class RelationshipControl: UIView {
         else {
             totalSize.width += MinViewWidth
         }
-        totalSize.width += ButtonWidth
+
+        if showStarredButton {
+            totalSize.width += ButtonWidth
+        }
 
         if showMoreButton {
             totalSize.width += ButtonWidth + MoreButtonMargin
@@ -189,16 +200,29 @@ public class RelationshipControl: UIView {
 
     public override func layoutSubviews() {
         super.layoutSubviews()
+
+        let starredButtonWidth: CGFloat
+        let moreButtonWidth: CGFloat
+
         if showMoreButton {
             moreButton.frame = CGRect(x: 0, y: 0, width: ButtonWidth, height: ViewHeight)
-            followingButton.frame = CGRect(x: moreButton.frame.maxX + MoreButtonMargin, y: 0, width: frame.width - 2 * ButtonWidth - MoreButtonMargin, height: ViewHeight)
+            moreButtonWidth = ButtonWidth + MoreButtonMargin
         }
         else {
             moreButton.frame = CGRectZero
-            followingButton.frame = CGRect(x: 0, y: 0, width: frame.width - ButtonWidth, height: ViewHeight)
+            moreButtonWidth = 0
         }
 
-        starredButton.frame = CGRect(x: frame.width - ButtonWidth, y: 0, width: ButtonWidth, height: ViewHeight)
+        if showStarredButton {
+            starredButton.frame = CGRect(x: frame.width - ButtonWidth, y: 0, width: ButtonWidth, height: ViewHeight)
+            starredButtonWidth = ButtonWidth
+        }
+        else {
+            starredButton.frame = CGRectZero
+            starredButtonWidth = 0
+        }
+
+        followingButton.frame = bounds.shrinkLeft(moreButtonWidth).shrinkRight(starredButtonWidth)
     }
 
     private enum Config {

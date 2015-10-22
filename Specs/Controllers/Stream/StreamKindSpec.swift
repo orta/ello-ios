@@ -114,6 +114,30 @@ class StreamKindSpec: QuickSpec {
                 // important but time consuming to implement this one, little by little!
             }
 
+            describe("showStarredButton") {
+
+                let tests: [(Bool, StreamKind)] = [
+                    (true, StreamKind.Discover(type: .Recommended, perPage: 1)),
+                    (true, StreamKind.Following),
+                    (true, StreamKind.Starred),
+                    (true, StreamKind.Notifications(category: "")),
+                    (true, StreamKind.PostDetail(postParam: "param")),
+                    (true, StreamKind.Profile(perPage: 1)),
+                    (true, StreamKind.Unknown),
+                    (true, StreamKind.UserStream(userParam: "n/a")),
+                    (true, StreamKind.SimpleStream(endpoint: ElloAPI.SearchForPosts(terms: "meat"), title: "meat")),
+                    (true, StreamKind.SimpleStream(endpoint: ElloAPI.UserStreamFollowers(userId: "12345"), title: "")),
+                    (false, StreamKind.SimpleStream(endpoint: ElloAPI.AwesomePeopleStream, title: "")),
+                    (false, StreamKind.SimpleStream(endpoint: ElloAPI.CommunitiesStream, title: "")),
+                    (false, StreamKind.SimpleStream(endpoint: ElloAPI.FoundersStream, title: "")),
+                ]
+                for (shouldStar, streamKind) in tests {
+                    it("is \(shouldStar) for \(streamKind)") {
+                        expect(streamKind.showStarredButton) == shouldStar
+                    }
+                }
+            }
+
             describe("isGridLayout") {
 
                 it("is correct for all cases") {

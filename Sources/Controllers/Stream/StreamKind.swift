@@ -167,7 +167,22 @@ public enum StreamKind {
         return self.columnCount > 1
     }
 
-   public var isDetail: Bool {
+    public var showStarredButton: Bool {
+        switch self {
+        case let .SimpleStream(endpoint, _):
+            switch endpoint {
+            case .AwesomePeopleStream, .CommunitiesStream, .FoundersStream:
+                return false
+            default:
+                break
+            }
+        default:
+            break
+        }
+        return true
+    }
+
+    public var isDetail: Bool {
         switch self {
         case .PostDetail: return true
         default: return false

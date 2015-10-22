@@ -15,8 +15,8 @@ import Moya
 
 class RelationshipControlSpec: QuickSpec {
     override func spec() {
-        fdescribe("RelationshipControl") {
-            let subject: RelationshipControl! = RelationshipControl(coder: NSKeyedUnarchiver(forReadingWithData: NSData()))
+        describe("RelationshipControl") {
+            let subject = RelationshipControl()
             var presentingController = UIViewController()
             self.showController(presentingController)
             var relationshipController = RelationshipController(presentingController: presentingController)
@@ -47,6 +47,29 @@ class RelationshipControlSpec: QuickSpec {
                         expect(subject.followingButton.currentTitle) == "Follow"
                         expect(subject.followingButton.backgroundColor) == UIColor.whiteColor()
                     }
+                }
+            }
+
+            describe("intrinsicContentSize()") {
+                it("should calculate when showMoreButton=false showStarredButton=false") {
+                    subject.showMoreButton = false
+                    subject.showStarredButton = false
+                    expect(subject.intrinsicContentSize()) == CGSize(width: 105, height: 30)
+                }
+                it("should calculate when showMoreButton=true showStarredButton=false") {
+                    subject.showMoreButton = true
+                    subject.showStarredButton = false
+                    expect(subject.intrinsicContentSize()) == CGSize(width: 140, height: 30)
+                }
+                it("should calculate when showMoreButton=false showStarredButton=true") {
+                    subject.showMoreButton = false
+                    subject.showStarredButton = true
+                    expect(subject.intrinsicContentSize()) == CGSize(width: 135, height: 30)
+                }
+                it("should calculate when showMoreButton=true showStarredButton=true") {
+                    subject.showMoreButton = true
+                    subject.showStarredButton = true
+                    expect(subject.intrinsicContentSize()) == CGSize(width: 170, height: 30)
                 }
             }
 
