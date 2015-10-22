@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import Foundation
 import SVGKit
 
 private let ViewHeight: CGFloat = 30
