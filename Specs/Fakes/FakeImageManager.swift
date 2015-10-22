@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import PINRemoteImage 
+import PINRemoteImage
 
 public class FakeImageManager: PINRemoteImageManager {
 
