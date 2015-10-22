@@ -158,12 +158,12 @@ public class ProfileViewController: StreamableViewController {
     private func showUserLoadFailure() {
         let message = NSLocalizedString("Something went wrong. Thank you for your patience with Ello Beta!", comment: "Initial stream load failure")
         let alertController = AlertViewController(message: message)
-        let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
-        alertController.addAction(action)
-        logPresentingAlert("ProfileViewController")
-        presentViewController(alertController, animated: true) {
+        let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark) { _ in
             self.navigationController?.popViewControllerAnimated(true)
         }
+        alertController.addAction(action)
+        logPresentingAlert("ProfileViewController")
+        presentViewController(alertController, animated: true, completion: nil)
     }
 
     private func setupNoPosts() {
