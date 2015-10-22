@@ -22,8 +22,8 @@ public enum StreamKind {
     public var name:String {
         switch self {
         case .Discover: return "Discover"
-        case .Following: return "Friends"
-        case .Starred: return "Noise"
+        case .Following: return "Following"
+        case .Starred: return "Starred"
         case .Notifications: return "Notifications"
         case .PostDetail: return "Post Detail"
         case .Profile: return "Profile"

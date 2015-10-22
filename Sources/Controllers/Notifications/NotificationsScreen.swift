@@ -14,6 +14,14 @@ public protocol NotificationsScreenDelegate {
 }
 
 public class NotificationsScreen : UIView {
+
+    private let filterAllButton = NotificationsScreen.filterButton(title: "All")
+    private let filterCommentsButton = NotificationsScreen.filterButton(imageName: "bubble")
+    private let filterMentionButton = NotificationsScreen.filterButton(title: "@")
+    private let filterHeartButton = NotificationsScreen.filterButton(imageName: "hearts")
+    private let filterRepostButton = NotificationsScreen.filterButton(imageName: "repost")
+    private let filterInviteButton = NotificationsScreen.filterButton(imageName: "relationships")
+
     private class func filterButton() -> UIButton {
         let button = UIButton()
         button.titleLabel!.font = UIFont.typewriterFont(12)
@@ -44,15 +52,8 @@ public class NotificationsScreen : UIView {
     var navBarVisible = true
 
     override public init(frame: CGRect) {
-        let filterAllButton = NotificationsScreen.filterButton(title: "All")
-        let filterCommentsButton = NotificationsScreen.filterButton(imageName: "bubble")
-        let filterMentionButton = NotificationsScreen.filterButton(title: "@")
-        filterMentionButton.titleLabel!.font = UIFont.typewriterFont(14)
 
-        // no loves yet!
-        let filterHeartButton = NotificationsScreen.filterButton(imageName: "hearts")
-        let filterRepostButton = NotificationsScreen.filterButton(imageName: "repost")
-        let filterInviteButton = NotificationsScreen.filterButton(imageName: "relationships")
+        filterMentionButton.titleLabel!.font = UIFont.typewriterFont(14)
 
         super.init(frame: frame)
         backgroundColor = UIColor.whiteColor()
@@ -119,6 +120,17 @@ public class NotificationsScreen : UIView {
 
 // MARK: Filter Bar
 extension NotificationsScreen {
+
+    func selectFilterButton(filterType: NotificationFilterType) {
+        switch filterType {
+        case .All: filterBar.selectButton(filterAllButton)
+        case .Comments: filterBar.selectButton(filterCommentsButton)
+        case .Mention: filterBar.selectButton(filterMentionButton)
+        case .Heart: filterBar.selectButton(filterHeartButton)
+        case .Repost: filterBar.selectButton(filterRepostButton)
+        case .Relationship: filterBar.selectButton(filterInviteButton)
+        }
+    }
 
     func animateNavigationBar(visible visible: Bool) {
         navBarVisible = visible

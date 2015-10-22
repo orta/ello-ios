@@ -24,7 +24,7 @@ public class ProfileViewController: StreamableViewController {
     let initialStreamKind: StreamKind
     var currentUserChangedNotification: NotificationObserver?
     var postChangedNotification: NotificationObserver?
-
+    var deeplinkPath: String?
     private var isSetup = false
 
     weak var navigationBar: ElloNavigationBar!
@@ -140,7 +140,16 @@ public class ProfileViewController: StreamableViewController {
                 self.userLoaded(user, responseConfig: responseConfig)
             },
             failure: { (error, statusCode) in
-                self.showUserLoadFailure()
+                if let deeplinkPath = self.deeplinkPath,
+                    deeplinkURL = NSURL(string: deeplinkPath)
+                {
+                    UIApplication.sharedApplication().openURL(deeplinkURL)
+                    self.deeplinkPath = nil
+                    self.navigationController?.popViewControllerAnimated(true)
+                }
+                else {
+                    self.showUserLoadFailure()
+                }
                 self.streamViewController.doneLoading()
             }
         )
@@ -149,12 +158,12 @@ public class ProfileViewController: StreamableViewController {
     private func showUserLoadFailure() {
         let message = NSLocalizedString("Something went wrong. Thank you for your patience with Ello Beta!", comment: "Initial stream load failure")
         let alertController = AlertViewController(message: message)
-        let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
-        alertController.addAction(action)
-        logPresentingAlert("ProfileViewController")
-        presentViewController(alertController, animated: true) {
+        let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark) { _ in
             self.navigationController?.popViewControllerAnimated(true)
         }
+        alertController.addAction(action)
+        logPresentingAlert("ProfileViewController")
+        presentViewController(alertController, animated: true, completion: nil)
     }
 
     private func setupNoPosts() {

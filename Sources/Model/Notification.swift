@@ -33,6 +33,18 @@ public enum NotificationFilterType: String {
                 return "relationships"
         }
     }
+
+    static func fromCategory(categoryString: String?) -> NotificationFilterType {
+        let category = categoryString ?? ""
+        switch category {
+        case "comments": return .Comments
+        case "mentions": return .Mention
+        case "loves": return .Heart
+        case "reposts": return .Repost
+        case "relationships": return .Relationship
+        default: return .All
+        }
+    }
 }
 
 let NotificationVersion = 1
