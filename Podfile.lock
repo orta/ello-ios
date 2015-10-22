@@ -1,41 +1,45 @@
 PODS:
   - 1PasswordExtension (1.6.1)
-  - Alamofire (2.0.0)
-  - Analytics/Core-iOS (2.0.8):
+  - Alamofire (2.0.2)
+  - Analytics/Core-iOS (2.0.14):
     - TRVSDictionaryWithCaseInsensitivity (= 0.0.2)
-  - Analytics/Segmentio (2.0.8):
+  - Analytics/Segmentio (2.0.14):
     - Analytics/Core-iOS
-  - CocoaLumberjack (2.0.1):
-    - CocoaLumberjack/Default (= 2.0.1)
-    - CocoaLumberjack/Extensions (= 2.0.1)
-  - CocoaLumberjack/Core (2.0.1)
-  - CocoaLumberjack/Default (2.0.1):
+  - CocoaLumberjack (2.1.0-beta):
+    - CocoaLumberjack/Default (= 2.1.0-beta)
+    - CocoaLumberjack/Extensions (= 2.1.0-beta)
+  - CocoaLumberjack/Core (2.1.0-beta)
+  - CocoaLumberjack/Default (2.1.0-beta):
     - CocoaLumberjack/Core
-  - CocoaLumberjack/Extensions (2.0.1):
+  - CocoaLumberjack/Extensions (2.1.0-beta):
     - CocoaLumberjack/Default
-  - Crashlytics (3.3.1)
+  - Crashlytics (3.3.4)
   - CRToast (0.0.7)
-  - Fabric (1.5.1):
-    - Fabric/Base (= 1.5.1)
-  - Fabric/Base (1.5.1)
-  - Firebase (2.3.3)
+  - Fabric (1.5.5):
+    - Fabric/Base (= 1.5.5)
+  - Fabric/Base (1.5.5)
+  - Firebase (2.4.2)
   - FLAnimatedImage (1.0.8)
   - iRate (1.11.4)
   - JTSImageViewController (1.5)
   - Keys (1.0.0)
   - KINWebBrowser (1.1.0)
-  - LUKeychainAccess (1.2.4)
+  - LUKeychainAccess (1.2.5)
   - MBProgressHUD (0.9.1)
-  - Moya (2.2.1):
-    - Moya/Core (= 2.2.1)
-  - Moya/Core (2.2.1):
+  - Moya (2.4.1):
+    - Moya/Core (= 2.4.1)
+  - Moya/Core (2.4.1):
     - Alamofire (~> 2.0)
   - Nimble (2.0.0-rc.3)
   - OHHTTPStubs (4.1.0)
-  - PINCache (2.0)
-  - PINRemoteImage (1.1.2):
+  - PINCache (2.1)
+  - PINRemoteImage (1.2.1):
+    - PINRemoteImage/FLAnimatedImage (= 1.2.1)
+  - PINRemoteImage/Core (1.2.1):
+    - PINCache (>= 2.1)
+  - PINRemoteImage/FLAnimatedImage (1.2.1):
     - FLAnimatedImage (>= 1.0)
-    - PINCache (>= 2.0)
+    - PINRemoteImage/Core
   - Quick (0.6.0)
   - Result (0.6-beta.1)
   - SSPullToRefresh (1.2.4)
@@ -120,7 +124,7 @@ CHECKOUT OPTIONS:
     :commit: 7e3eb2e99609ab56facdf31feabb36bacff56f35
     :git: https://github.com/ello/KINWebBrowser
   SVGKit:
-    :commit: b469997307bb537775733eb62c1593d3380b135a
+    :commit: 461fcc45a5607df5b8aa32fd126f8a7476d4034d
     :git: https://github.com/SVGKit/SVGKit
   SwiftyJSON:
     :commit: c96832365b9ba4e8fa17fad2fa67399e3ed055de
@@ -134,25 +138,25 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   1PasswordExtension: 42b79b7ac6d8e7468b22b7a651fc0b445bcdbd3e
-  Alamofire: 2f13548b29d25a58ecd91c9225fb51493e2b782b
-  Analytics: a927e695c29b9b06b38137bb6608e9924ccc94cb
-  CocoaLumberjack: 019d1361244274a6138c788c6cb80baabc13fb8f
-  Crashlytics: 0e61bdda9def51f1e99720f804eebe94865442b2
+  Alamofire: 8edbab00802a752bb5240cc2abe70e7e881488ad
+  Analytics: 8222d617458c19a63138dc5a8f2b7ee790f710f0
+  CocoaLumberjack: 89ff78bbc0723eec8f761f1274993e0699facab8
+  Crashlytics: 41c082440d2e14da444186fff65e79c0b4b35d4c
   CRToast: eb22641501990233c53cb8f83f7d2ea87e0ddf73
-  Fabric: 03c3b3fe77e11a2bc31421b989a9c7adaa4779a5
-  Firebase: 2db60272f68ce40c7d47e5ae6eddc16977c65d4c
+  Fabric: 190bf1a6eb65f7500de1347d027d2e59a7e53db1
+  Firebase: 5e898ed5012c81d28ca5fae1113c6b61a172bc6d
   FLAnimatedImage: 7599ec218dceacdcacbdfccb2947415c2619cd11
   iRate: 599ed07c854e0695f3c605d1b2a64c67d912acb7
   JTSImageViewController: 89ae3c003060c65418fd3224ebbd67acc6046608
   Keys: 7d2ff6ff42f6903358267ce56e9392f83c31acfe
   KINWebBrowser: dad85d7d93e6f4620a8589b96992394affffa66e
-  LUKeychainAccess: 6479edb12cf06e11ff3336f796959eedbc58f714
+  LUKeychainAccess: d22fc00b33ad92c7532962b86daa94c14b85ecbe
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
-  Moya: 017c5161f463d524fc73aa24b62c3740b71e0ca9
+  Moya: aa0fba7f9c98a0bcb95f2d4222ee848dcb0e4b8e
   Nimble: 9dff98ee195ffe7351d3b2fb01d3a1420fd97948
   OHHTTPStubs: f3473ab21dbf0815253ac96b977d5c36f1daad09
-  PINCache: ca953ba93ce1edde056fdd99121ee65b295a08c9
-  PINRemoteImage: 0696e5f679deabf2e2ddfb57085fb978ca51bfc3
+  PINCache: 0581b0a7578fc0bbc6c7a8b70b0615388bea064c
+  PINRemoteImage: 7560f0c975b0495d232e954342c5f49979335015
   Quick: 563686dbcf0ae0f9f7401ac9cd2d786ee1b7f3d7
   Result: af24e3e57ab81005ec4221a53fd36dc1e7a52869
   SSPullToRefresh: 369e862c1d6528c7a354fc85cd4763d4e670e9af

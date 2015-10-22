@@ -24,7 +24,7 @@ public class ProfileViewController: StreamableViewController {
     let initialStreamKind: StreamKind
     var currentUserChangedNotification: NotificationObserver?
     var postChangedNotification: NotificationObserver?
-
+    var deeplinkPath: String?
     private var isSetup = false
 
     weak var navigationBar: ElloNavigationBar!
@@ -140,7 +140,16 @@ public class ProfileViewController: StreamableViewController {
                 self.userLoaded(user, responseConfig: responseConfig)
             },
             failure: { (error, statusCode) in
-                self.showUserLoadFailure()
+                if let deeplinkPath = self.deeplinkPath,
+                    deeplinkURL = NSURL(string: deeplinkPath)
+                {
+                    UIApplication.sharedApplication().openURL(deeplinkURL)
+                    self.deeplinkPath = nil
+                    self.navigationController?.popViewControllerAnimated(true)
+                }
+                else {
+                    self.showUserLoadFailure()
+                }
                 self.streamViewController.doneLoading()
             }
         )

@@ -107,14 +107,14 @@ public class ProfileHeaderCell: UICollectionViewCell {
             let noResultsTitle: String
             let noResultsBody: String
             if user.id == currentUser?.id {
-                noResultsTitle = NSLocalizedString("You aren't following anyone yet!", comment: "No following results title")
-                noResultsBody = NSLocalizedString("Ello is way more rad when you're following lots of people.\n\nUse Discover to find people you're interested in, and to find or invite your friends.\nYou can also use Search (upper right) to look for new and excellent people!", comment: "No following results body.")
+                noResultsTitle = InterfaceString.Following.CurrentUserNoResultsTitle.localized
+                noResultsBody = InterfaceString.Following.CurrentUserNoResultsBody.localized
             }
             else {
-                noResultsTitle = "This person isn't following anyone yet!"
-                noResultsBody = "Follow, mention them, comment, repost or love one of their posts and maybe they'll follow you back ;)"
+                noResultsTitle = InterfaceString.Following.NoResultsTitle.localized
+                noResultsBody = InterfaceString.Following.NoResultsBody.localized
             }
-            simpleStreamDelegate?.showSimpleStream(.UserStreamFollowing(userId: user.id), title: NSLocalizedString("Following", comment: "Following title"), noResultsMessages: (title: noResultsTitle, body: noResultsBody))
+            simpleStreamDelegate?.showSimpleStream(.UserStreamFollowing(userId: user.id), title: InterfaceString.Following.Title.localized, noResultsMessages: (title: noResultsTitle, body: noResultsBody))
         }
     }
 
@@ -123,14 +123,14 @@ public class ProfileHeaderCell: UICollectionViewCell {
             let noResultsTitle: String
             let noResultsBody: String
             if user.id == currentUser?.id {
-                noResultsTitle = NSLocalizedString("You don't have any followers yet!", comment: "No followers results title")
-                noResultsBody = NSLocalizedString("Here's some tips on how to get new followers: use Discover to find people you're interested in, and to find or invite your friends. When you see things you like you can comment, repost, mention people and love the posts that you most enjoy. ", comment: "No followers results body.")
+                noResultsTitle = InterfaceString.Followers.CurrentUserNoResultsTitle.localized
+                noResultsBody = InterfaceString.Followers.CurrentUserNoResultsBody.localized
             }
             else {
-                noResultsTitle = "This person doesn't have any followers yet! "
-                noResultsBody = "Be the first to follow them and give them some love! Following interesting people makes Ello way more fun."
+                noResultsTitle = InterfaceString.Followers.NoResultsTitle.localized
+                noResultsBody = InterfaceString.Followers.NoResultsBody.localized
             }
-            simpleStreamDelegate?.showSimpleStream(.UserStreamFollowers(userId: user.id), title: NSLocalizedString("Followers", comment: "Followers title"), noResultsMessages: (title: noResultsTitle, body: noResultsBody))
+            simpleStreamDelegate?.showSimpleStream(.UserStreamFollowers(userId: user.id), title: InterfaceString.Followers.Title.localized, noResultsMessages: (title: noResultsTitle, body: noResultsBody))
         }
     }
 
@@ -139,14 +139,14 @@ public class ProfileHeaderCell: UICollectionViewCell {
             let noResultsTitle: String
             let noResultsBody: String
             if user.id == currentUser?.id {
-                noResultsTitle = NSLocalizedString("You haven't Loved any posts yet!", comment: "No loves results title")
-                noResultsBody = NSLocalizedString("You can use Ello Loves as a way to bookmark the things you care about most. Go Love someone's post, and it will be added to this stream.", comment: "No loves results body.")
+                noResultsTitle = InterfaceString.Loves.CurrentUserNoResultsTitle.localized
+                noResultsBody = InterfaceString.Loves.CurrentUserNoResultsBody.localized
             }
             else {
-                noResultsTitle = NSLocalizedString("This person hasn’t Loved any posts yet!", comment: "No loves results title")
-                noResultsBody = NSLocalizedString("Ello Loves are a way to bookmark the things you care about most. When they love something the posts will appear here.", comment: "No loves results body.")
+                noResultsTitle = InterfaceString.Loves.NoResultsTitle.localized
+                noResultsBody = InterfaceString.Loves.NoResultsBody.localized
             }
-            simpleStreamDelegate?.showSimpleStream(.Loves(userId: user.id), title: NSLocalizedString("Loves", comment: "love stream"), noResultsMessages: (title: noResultsTitle, body: noResultsBody))
+            simpleStreamDelegate?.showSimpleStream(.Loves(userId: user.id), title: InterfaceString.Loves.Title.localized, noResultsMessages: (title: noResultsTitle, body: noResultsBody))
         }
     }
 

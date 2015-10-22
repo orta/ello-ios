@@ -16,7 +16,14 @@ class RateSpec: QuickSpec {
         describe("Rate") {
 
             let agent = SpecsTrackingAgent()
-            Tracker.sharedTracker.overrideAgent = agent
+
+            beforeEach {
+                Tracker.sharedTracker.overrideAgent = agent
+            }
+
+            afterEach {
+                Tracker.sharedTracker.overrideAgent = nil
+            }
 
             it("is the iRate delegate") {
                 expect(iRate.sharedInstance().delegate) === Rate.sharedRate
@@ -70,7 +77,7 @@ class RateSpec: QuickSpec {
                 it("tracks when it prompts for a rating") {
                     Rate.sharedRate.iRateDidPromptForRating()
 
-                     expect(agent.lastEvent) == "rate prompt shown"
+                    expect(agent.lastEvent) == "rate prompt shown"
                 }
 
                 it("tracks when the user attempts to rate the app") {
