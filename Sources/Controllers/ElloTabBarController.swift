@@ -34,7 +34,7 @@ public enum ElloTab: Int {
         switch self {
             case Discovery:     return "Discover: Find friends and creators. View beautiful art & inspiring stories."
             case Notifications: return "Notifications: Stay up to date with real-time alerts."
-            case Stream:        return "Streams: View posts by everyone you follow. Keep them organized in Friends & Noise."
+            case Stream:        return "Streams: View posts by everyone you follow. Keep them organized in Following & Starred."
             case Profile:       return "Your Profile: Everything you’ve posted in one place. Settings too!"
             case Post:          return "Post: Text, images, links & GIFs from one easy place."
         }
