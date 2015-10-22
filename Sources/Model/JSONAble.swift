@@ -38,6 +38,10 @@ public class JSONAble: NSObject, NSCoding {
     public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         return JSONAble(version: JSONAbleVersion)
     }
+
+    public func merge(other: JSONAble) -> JSONAble {
+        return other
+    }
 }
 
 // MARK: Links methods to get JSONAbles

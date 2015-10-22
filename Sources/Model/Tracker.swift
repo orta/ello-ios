@@ -377,6 +377,11 @@ public extension Tracker {
         log("Views button tapped, [post_id: \(post.id)]")
         agent.track("Views button tapped", properties: ["post_id": post.id])
     }
+
+    func deepLinkVisited(path: String) {
+        log("Deep Link Visited, [path: \(path)]")
+        agent.track("Deep Link Visited", properties: ["path": path])
+    }
 }
 
 // MARK: Content Actions

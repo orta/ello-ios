@@ -15,6 +15,7 @@ public class NotificationsViewController: StreamableViewController, Notification
 
     private var hasNewContent = false
     private var newNotificationsObserver: NotificationObserver?
+    public var categoryFilterType = NotificationFilterType.All
 
     override public var tabBarItem: UITabBarItem? {
         get { return UITabBarItem.svgItem("bolt") }
@@ -54,7 +55,7 @@ public class NotificationsViewController: StreamableViewController, Notification
 
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
         scrollLogic.navBarHeight = 44
-        streamViewController.streamKind = .Notifications(category: nil)
+        streamViewController.streamKind = .Notifications(category: categoryFilterType.category)
         ElloHUD.showLoadingHudInView(streamViewController.view)
         let noResultsTitle = NSLocalizedString("Welcome to your Notifications Center!", comment: "No notification results title")
         let noResultsBody = NSLocalizedString("Whenever someone mentions you, follows you, accepts an invitation, comments, reposts or Loves one of your posts, you'll be notified here.", comment: "No notification results body.")
@@ -104,6 +105,11 @@ public class NotificationsViewController: StreamableViewController, Notification
 
     public func activatedCategory(filterTypeStr: String) {
         let filterType = NotificationFilterType(rawValue: filterTypeStr)!
+        activatedCategory(filterType)
+    }
+
+    public func activatedCategory(filterType: NotificationFilterType) {
+        screen.selectFilterButton(filterType)
         streamViewController.streamKind = .Notifications(category: filterType.category)
         ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.hideNoResults()

@@ -14,7 +14,8 @@ public class PostDetailViewController: StreamableViewController {
     var postParam: String!
     var navigationBar: ElloNavigationBar!
     var localToken: String!
-
+    var deeplinkPath: String?
+    
     required public init(postParam: String) {
         self.postParam = postParam
         super.init(nibName: nil, bundle: nil)
@@ -73,7 +74,16 @@ public class PostDetailViewController: StreamableViewController {
                 self.postLoaded(post, responseConfig: responseConfig)
             },
             failure: { (error, statusCode) in
-                self.showPostLoadFailure()
+                if let deeplinkPath = self.deeplinkPath,
+                    deeplinkURL = NSURL(string: deeplinkPath)
+                {
+                    UIApplication.sharedApplication().openURL(deeplinkURL)
+                    self.deeplinkPath = nil
+                    self.navigationController?.popViewControllerAnimated(true)
+                }
+                else {
+                   self.showPostLoadFailure()
+                }
                 self.streamViewController.doneLoading()
             }
         )
@@ -82,11 +92,11 @@ public class PostDetailViewController: StreamableViewController {
     private func showPostLoadFailure() {
         let message = NSLocalizedString("Something went wrong. Thank you for your patience with Ello Beta!", comment: "Initial stream load failure")
         let alertController = AlertViewController(message: message)
-        let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
-        alertController.addAction(action)
-        self.presentViewController(alertController, animated: true) {
+        let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark) { _ in
             self.navigationController?.popViewControllerAnimated(true)
         }
+        alertController.addAction(action)
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
 
     private func setupNavigationBar() {
