@@ -17,12 +17,12 @@ public enum RelationshipRequestStatus: String {
     case Failure = "failure"
 }
 
-public protocol RelationshipControllerDelegate: NSObjectProtocol {
+public protocol RelationshipControllerDelegate: class {
     func shouldSubmitRelationship(userId: String, relationshipPriority: RelationshipPriority) -> Bool
     func relationshipChanged(userId: String, status: RelationshipRequestStatus, relationship: Relationship?)
 }
 
-public protocol RelationshipDelegate: NSObjectProtocol {
+public protocol RelationshipDelegate: class {
     func relationshipTapped(userId: String, relationshipPriority: RelationshipPriority, complete: RelationshipChangeCompletion)
     func launchBlockModal(userId: String, userAtName: String, relationshipPriority: RelationshipPriority, changeClosure: RelationshipChangeClosure)
     func updateRelationship(userId: String, relationshipPriority: RelationshipPriority, complete: RelationshipChangeCompletion)
@@ -47,56 +47,7 @@ extension RelationshipController: RelationshipDelegate {
             return
         }
 
-        var message = ""
-        switch relationshipPriority {
-        case .Starred, .Following: message = NSLocalizedString("Following as", comment: "Following as")
-        default: message = NSLocalizedString("Follow as", comment: "Follow as")
-        }
-
-        let helpText = NSLocalizedString("Follow the people you care about most in FRIENDS, which displays each post in an expanded, list format. It's a great way to look at full-sized content by people you are really interested in following.\n\nPut everyone else in NOISE, which offers a compressed, fluid-grid based layout that makes it easy for browsing lots of posts quickly.", comment: "Follow instructions")
-
-        let alertController = AlertViewController(message: message, textAlignment: .Center, type: .Clear, helpText: helpText)
-
-        // Following
-        let friendStyle: ActionStyle = relationshipPriority == .Following ? .Dark : .White
-        let friendIcon: UIImage = relationshipPriority == .Following ?  SVGKImage(named: "checksmall_white.svg").UIImage! : SVGKImage(named: "plussmall_selected.svg").UIImage!
-        let friendAction = AlertAction(
-            title: NSLocalizedString("Friend", comment: "Friend"),
-            icon: friendIcon,
-            style: friendStyle) { _ in
-                if relationshipPriority != .Following {
-                    self.updateRelationship(userId, relationshipPriority: .Following, complete: complete)
-                }
-        }
-        alertController.addAction(friendAction)
-
-        // Starred
-        let noiseStyle: ActionStyle = relationshipPriority == .Starred ? .Dark : .White
-        let noiseIcon: UIImage = relationshipPriority == .Starred ?  SVGKImage(named: "checksmall_white.svg").UIImage! : SVGKImage(named: "plussmall_selected.svg").UIImage!
-        let noiseAction = AlertAction(
-            title: NSLocalizedString("Noise", comment: "Noise"),
-            icon: noiseIcon,
-            style: noiseStyle) { _ in
-                if relationshipPriority != .Starred {
-                    self.updateRelationship(userId, relationshipPriority: .Starred, complete: complete)
-                }
-        }
-        alertController.addAction(noiseAction)
-
-        // Unfollow
-        if relationshipPriority == .Starred || relationshipPriority == .Following {
-            let unfollowAction = AlertAction(
-                title: NSLocalizedString("Unfollow", comment: "Unfollow"),
-                icon: nil,
-                style: .Light) { _ in
-                    self.updateRelationship(userId, relationshipPriority: .Inactive, complete: complete)
-            }
-            alertController.addAction(unfollowAction)
-        }
-
-        Tracker.sharedTracker.relationshipModalLaunched()
-        logPresentingAlert(presentingController.readableClassName())
-        presentingController.presentViewController(alertController, animated: true, completion: .None)
+        self.updateRelationship(userId, relationshipPriority: relationshipPriority, complete: complete)
     }
 
     public func launchBlockModal(userId: String, userAtName: String, relationshipPriority: RelationshipPriority, changeClosure: RelationshipChangeClosure) {
