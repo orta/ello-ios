@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import PINRemoteImage
+import PINRemoteImage 
 
 public class FakeImageManager: PINRemoteImageManager {
 
@@ -15,8 +15,6 @@ public class FakeImageManager: PINRemoteImageManager {
     public func reset() {
         downloads = [NSURL]()
     }
-
-    public override init(){}
 
     override public func prefetchImageWithURL(url: NSURL!, options: PINRemoteImageManagerDownloadOptions) {
         downloads.append(url)
