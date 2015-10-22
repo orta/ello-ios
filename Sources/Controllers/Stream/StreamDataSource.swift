@@ -418,7 +418,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                 where item.type == .Footer {
                     indexPaths.append(path)
                 }
-                item.jsonable = jsonable
+                item.jsonable = item.jsonable.merge(jsonable)
             }
             collectionView.reloadItemsAtIndexPaths(indexPaths)
         default: break
