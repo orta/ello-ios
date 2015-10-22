@@ -11,7 +11,7 @@ import SVGKit
 
 public class StreamContainerViewController: StreamableViewController {
     private var loggedPromptEventForThisSession = false
-    private var noiseLoaded = false
+    private var starredLoaded = false
     private var reloadStreamContentObserver: NotificationObserver?
     private var friendsViewController: StreamViewController?
     private var appBackgroundObserver: NotificationObserver?
@@ -159,14 +159,14 @@ public class StreamContainerViewController: StreamableViewController {
 
             switch kind {
             case .Following:
-                let noResultsTitle = NSLocalizedString("Welcome to your Friends Stream!", comment: "No friend results title")
-                let noResultsBody = NSLocalizedString("You aren't following anyone in Friends yet.\n\nWhen you follow someone as a Friend their posts will show up here. Ello is way more rad when you're following lots of people.\n\nUse Discover to find people you're interested in, and to find or invite your friends.", comment: "No friend results body.")
+                let noResultsTitle = NSLocalizedString("Welcome to Following!", comment: "No following results title")
+                let noResultsBody = NSLocalizedString("Follow people and things that inspire you.", comment: "No following results body.")
                 friendsViewController = vc
                 vc.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
                 vc.loadInitialPage()
             case .Starred:
-                let noResultsTitle = NSLocalizedString("Welcome to your Noise Stream!", comment: "No noise results title")
-                let noResultsBody = NSLocalizedString("You aren't following anyone in Noise yet.\n\nWhen you follow someone as Noise their posts will show up here. Ello is way more rad when you're following lots of people.\n\nUse Discover to find people you're interested in, and to find or invite your friends.", comment: "No noise results body.")
+                let noResultsTitle = NSLocalizedString("Welcome to Starred!", comment: "No starred results title")
+                let noResultsBody = NSLocalizedString("When you Star someone their posts appear here. Star people to create a second stream.", comment: "No following results body.")
                 vc.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
             default:
                 break
@@ -183,7 +183,7 @@ public class StreamContainerViewController: StreamableViewController {
         control.tintColor = .blackColor()
         streamsSegmentedControl = control
     }
-    
+
     private func showSegmentIndex(index: Int) {
         for controller in childStreamControllers {
             controller.collectionView.scrollsToTop = false
@@ -200,8 +200,8 @@ public class StreamContainerViewController: StreamableViewController {
         let stream = StreamKind.streamValues[index]
         Tracker.sharedTracker.streamAppeared(stream.name)
 
-        if index == 1 && !noiseLoaded {
-            noiseLoaded = true
+        if index == 1 && !starredLoaded {
+            starredLoaded = true
             childStreamControllers[1].loadInitialPage()
         }
     }
