@@ -19,6 +19,7 @@ public enum ElloURI: String {
     case Following = "following"
     case Noise = "noise"
     case Notifications = "notifications(\\/?|\\/\\S+)$"
+    case OldStylePost = "notifications/posts\\/[^\\/]+\\/?$"
     case Post = "\\/post\\/[^\\/]+\\/?$"
     case Profile = "\\/?$"
     case ProfileFollowers = "followers\\/?$"
@@ -137,6 +138,7 @@ public enum ElloURI: String {
         case .Email, .External: return rawValue
         case .Notifications: return "\(ElloURI.fuzzyDomain)\\/\(rawValue)"
         case .Post: return "\(ElloURI.userPathRegex)\(rawValue)"
+        case .OldStylePost: return "\(rawValue)"
         case .Profile: return "\(ElloURI.userPathRegex)\(rawValue)"
         case .ProfileFollowers, .ProfileFollowing, .ProfileLoves: return "\(ElloURI.userPathRegex)\(rawValue)"
         case .Search: return "\(ElloURI.fuzzyDomain)\\/\(rawValue)"
@@ -160,7 +162,7 @@ public enum ElloURI: String {
             let last = urlArr.last ?? url
             let lastArr = last.characters.split { $0 == "?" }.map { String($0) }
             return lastArr.first ?? url
-        case .Post, .Profile:
+        case .Post, .Profile, .OldStylePost:
             let urlArr = url.characters.split { $0 == "/" }.map { String($0) }
             let last = urlArr.last ?? url
             let lastArr = last.characters.split { $0 == "?" }.map { String($0) }
@@ -206,6 +208,7 @@ public enum ElloURI: String {
         Manifesto,
         NativeRedirect,
         Noise,
+        OldStylePost,
         Notifications,
         Onboarding,
         PasswordResetError,
