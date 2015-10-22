@@ -15,7 +15,7 @@ private let MinViewWidth: CGFloat = 105
 
 
 public class RelationshipControl: UIView {
-    let followingButton: FollowButton = FollowButton()
+    let followingButton = FollowButton()
     let starredButton: UIButton = {
         let button = UIButton()
         button.setImage(SVGKImage(named: "star_normal.svg").UIImage!, forState: .Normal)
