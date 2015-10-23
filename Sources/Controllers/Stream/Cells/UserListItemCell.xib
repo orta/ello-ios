@@ -27,20 +27,20 @@
                         </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="462" placeholderIntrinsicHeight="22" text="@username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WxT-0L-Vvg" userLabel="usernameLabel">
-                        <rect key="frame" x="70" y="25" width="462" height="22"/>
+                        <rect key="frame" x="70" y="25" width="444" height="22"/>
                         <animations/>
                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="462" placeholderIntrinsicHeight="15" text="First Last" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pb5-AC-nFA" userLabel="nameLabel">
-                        <rect key="frame" x="70" y="55" width="462" height="15"/>
+                        <rect key="frame" x="70" y="55" width="444" height="15"/>
                         <animations/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <view clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" placeholderIntrinsicWidth="105" placeholderIntrinsicHeight="30" translatesAutoresizingMaskIntoConstraints="NO" id="Erd-4A-4rH" userLabel="relationshipControl" customClass="RelationshipControl" customModule="Ello" customModuleProvider="target">
-                        <rect key="frame" x="542" y="28" width="87" height="30"/>
+                    <view clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" placeholderIntrinsicWidth="105" placeholderIntrinsicHeight="30" translatesAutoresizingMaskIntoConstraints="NO" id="Erd-4A-4rH" userLabel="relationshipControl" customClass="RelationshipControl" customModule="Ello" customModuleProvider="target">
+                        <rect key="frame" x="524" y="28" width="105" height="30"/>
                         <animations/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
