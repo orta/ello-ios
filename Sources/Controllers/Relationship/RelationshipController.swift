@@ -43,7 +43,8 @@ extension RelationshipController: RelationshipDelegate {
     public func relationshipTapped(userId: String, relationshipPriority: RelationshipPriority, complete: RelationshipChangeCompletion) {
 
         if let shouldSubmit = delegate?.shouldSubmitRelationship(userId, relationshipPriority: relationshipPriority) where !shouldSubmit {
-            complete(status: .Success, relationship: nil)
+            let relationship = Relationship(id: NSUUID().UUIDString, createdAt: NSDate(), ownerId: "", subjectId: userId)
+            complete(status: .Success, relationship: relationship)
             return
         }
 
