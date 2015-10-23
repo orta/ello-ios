@@ -466,7 +466,7 @@ extension AppViewController {
             if let user = currentUser {
                 showOnboardingScreen(user)
             }
-        case .Post, .OldStylePost:
+        case .Post, .PushNotificationPost:
             showPostDetailScreen(data, path: path)
         case .Profile:
             showProfileScreen(data, path: path)
