@@ -100,7 +100,11 @@ public class RelationshipControl: UIView {
     // MARK: IBActions
 
     @IBAction func moreTapped(sender: UIButton) {
-        relationshipDelegate?.launchBlockModal(userId, userAtName: userAtName, relationshipPriority: relationshipPriority) {
+        guard let relationshipDelegate = relationshipDelegate else {
+            return
+        }
+
+        relationshipDelegate.launchBlockModal(userId, userAtName: userAtName, relationshipPriority: relationshipPriority) {
             [unowned self] relationshipPriority in
             self.relationshipPriority = relationshipPriority
         }
@@ -133,17 +137,25 @@ public class RelationshipControl: UIView {
             return
         }
 
-        relationshipDelegate?.launchBlockModal(userId, userAtName: userAtName, relationshipPriority: relationshipPriority) {
+        guard let relationshipDelegate = relationshipDelegate else {
+            return
+        }
+
+        relationshipDelegate.launchBlockModal(userId, userAtName: userAtName, relationshipPriority: relationshipPriority) {
             [unowned self] relationshipPriority in
             self.relationshipPriority = relationshipPriority
         }
     }
 
     private func handleRelationship(newRelationshipPriority: RelationshipPriority) {
+        guard let relationshipDelegate = relationshipDelegate else {
+            return
+        }
+
         self.userInteractionEnabled = false
-        relationshipDelegate?.relationshipTapped(userId, relationshipPriority: newRelationshipPriority) { [unowned self] (status, relationshipPriority) in
+        relationshipDelegate.relationshipTapped(userId, relationshipPriority: newRelationshipPriority) { [unowned self] (status, relationship) in
             self.userInteractionEnabled = true
-            if let newRelationshipPriority = relationshipPriority?.subject?.relationshipPriority {
+            if let newRelationshipPriority = relationship?.subject?.relationshipPriority {
                 self.relationshipPriority = newRelationshipPriority
             }
         }
