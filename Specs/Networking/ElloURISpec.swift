@@ -144,7 +144,7 @@ class ElloURISpec: QuickSpec {
                     }
                 }
 
-                fdescribe("push notifiation routes") {
+                describe("push notifiation routes") {
                     let tests: [String: (input: String, outputURI: ElloURI, outputData: String)] = [
                         "with Post urls": (input: "notifications/posts/2345", outputURI: .PushNotificationPost, outputData: "2345"),
                         "with Post Comment urls": (input: "notifications/posts/2345/comments/666", outputURI: .PushNotificationComment, outputData: "2345"),

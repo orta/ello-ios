@@ -18,10 +18,10 @@ public enum ElloURI: String {
     case Friends = "friends"
     case Following = "following"
     case Noise = "noise"
-    case Notifications = "notifications(\\/?|\\/\\S+)$"
-    case PushNotificationPost = "notifications/posts/[^\\/]+\\/?$"
+    case Notifications = "notifications(?:\\/?|\\/([^\\/]+)/?)$"
+    case PushNotificationPost = "notifications/posts/([^\\/]+)\\/?$"
     case PushNotificationComment = "notifications/posts/([^\\/]+)\\/comments/([^\\/]+)$"
-    case Post = "\\/post\\/[^\\/]+\\/?$"
+    case Post = "\\/post\\/([^\\/]+)\\/?$"
     case Profile = "\\/?$"
     case ProfileFollowers = "followers\\/?$"
     case ProfileFollowing = "following\\/?$"
@@ -121,7 +121,7 @@ public enum ElloURI: String {
     public static var baseURL: String { return "\(ElloURI.httpProtocol)://\(ElloURI.domain)" }
 
     // this is taken directly from app/models/user.rb
-    static let usernameRegex = "[\\w\\-]+"
+    static let usernameRegex = "([\\w\\-]+)"
     static let fuzzyDomain: String = "((w{3}\\.)?ello\\.co|ello-staging\\d?\\.herokuapp\\.com)"
     static var userPathRegex: String { return "\(ElloURI.fuzzyDomain)\\/\(ElloURI.usernameRegex)\\??.*" }
 
@@ -149,28 +149,22 @@ public enum ElloURI: String {
     }
 
     private func data(url: String) -> String {
+        let regex = Regex(self.regexPattern)
         switch self {
         case .PushNotificationComment:
-            let urlArr = url.characters.split { $0 == "/" }.map { String($0) }
-            return urlArr.last ?? url
+            return regex?.matchingGroups(url).safeValue(1) ?? url
         case .Notifications:
-            let urlArr = url.characters.split { $0 == "/" }.map { String($0) }
-            return urlArr.last ?? url
+            return regex?.matchingGroups(url).safeValue(2) ?? "notifications"
         case .ProfileFollowers, .ProfileFollowing, .ProfileLoves:
-            let urlArr = url.characters.split { $0 == "/" }.map { String($0) }.filter {
-                switch $0 {
-                case "following", "followers", "loves": return false
-                default: return true
-                }
-            }
-            let last = urlArr.last ?? url
+            return regex?.matchingGroups(url).safeValue(2) ?? url
+        case .Post:
+            let last = regex?.matchingGroups(url).safeValue(3) ?? url
             let lastArr = last.characters.split { $0 == "?" }.map { String($0) }
-            return lastArr.first ?? url
-        case .Post, .Profile, .PushNotificationPost:
-            let urlArr = url.characters.split { $0 == "/" }.map { String($0) }
-            let last = urlArr.last ?? url
-            let lastArr = last.characters.split { $0 == "?" }.map { String($0) }
-            return lastArr.first ?? url
+            return lastArr.first ?? last
+        case .PushNotificationPost:
+            return regex?.matchingGroups(url).safeValue(1) ?? url
+        case .Profile:
+            return regex?.matchingGroups(url).safeValue(2) ?? url
         case .Search:
             if let urlComponents = NSURLComponents(string: url),
                 queryItems = urlComponents.queryItems,
