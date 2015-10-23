@@ -38,6 +38,16 @@ class Regex {
         let matches = self.regex.matchesInString(input, options: [], range: NSRange(location: 0, length: nsstring.length))
         var ret = [String]()
         for match in matches {
+            let range = match.rangeAtIndex(0)
+            ret.append(nsstring.substringWithRange(range))
+        }
+        return ret
+    }
+
+    func matchingGroups(input: String) -> [String] {
+        let nsstring = input as NSString
+        var ret = [String]()
+        if let match = self.regex.firstMatchInString(input, options: [], range: NSRange(location: 0, length: nsstring.length)) {
             for i in 0..<match.numberOfRanges {
                 let range = match.rangeAtIndex(i)
                 ret.append(nsstring.substringWithRange(range))

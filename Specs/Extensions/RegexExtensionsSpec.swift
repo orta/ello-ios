@@ -78,6 +78,35 @@ class RegexExtensionsSpec: QuickSpec {
                         }
                     }
                 }
+                context("matches(String) with groups") {
+                    let regex = Regex("([a-zA-Z]+)(\\d+)")!
+                    let expectations = [
+                        "test1": ["test1"],
+                        "test1 test2": ["test1", "test2"],
+                        "!test1!ing2!": ["test1", "ing2"],
+                        "BOO1!": ["BOO1"],
+                    ]
+                    for (test, expectation) in expectations {
+                        let expected = expectation.joinWithSeparator(",")
+                        it("'\(test)' should return \(expected)") {
+                            expect(regex.matches(test)) == expectation
+                        }
+                    }
+                }
+                context("matchingGroups(String)") {
+                    let regex = Regex("(\\w+)/(\\w+)")!
+                    let expectations = [
+                        "test1/test2": ["test1/test2", "test1", "test2"],
+                        "test1/test2\ntest3/test4": ["test1/test2", "test1", "test2"],
+                        "!test1/test2!": ["test1/test2", "test1", "test2"],
+                    ]
+                    for (test, expectation) in expectations {
+                        let expected = expectation.joinWithSeparator(",")
+                        it("'\(test)' should return \(expected)") {
+                            expect(regex.matchingGroups(test)) == expectation
+                        }
+                    }
+                }
             }
             context("testing with regex operators =~ !~") {
                 let pattern = "^tes*t$"
