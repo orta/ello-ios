@@ -77,8 +77,13 @@ extension ElloWebBrowserViewController : WebLinkDelegate {
         case .Enter, .Exit, .Root: self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
         case .Friends, .Following, .Noise, .Starred: self.selectTab(.Stream)
         case .Notifications: self.selectTab(.Notifications)
-        case .Post: self.showPostDetail(data)
-        case .Profile: self.showProfile(data)
+        case .Post,
+             .PushNotificationPost,
+             .PushNotificationComment:
+            self.showPostDetail(data)
+        case .Profile,
+             .PushNotificationUser:
+            self.showProfile(data)
         case .Search: showSearch(data)
         case .Settings: self.showSettings()
         }

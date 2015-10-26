@@ -18,8 +18,11 @@ public enum ElloURI: String {
     case Friends = "friends"
     case Following = "following"
     case Noise = "noise"
-    case Notifications = "notifications(\\/?|\\/\\S+)$"
-    case Post = "\\/post\\/[^\\/]+\\/?$"
+    case Notifications = "notifications(?:\\/?|\\/([^\\/]+)/?)$"
+    case PushNotificationComment = "notifications/posts/([^\\/]+)\\/comments/([^\\/]+)$"
+    case PushNotificationPost = "notifications/posts/([^\\/]+)\\/?$"
+    case PushNotificationUser = "notifications/users/([^\\/]+)\\/?$"
+    case Post = "\\/post\\/([^\\/]+)\\/?$"
     case Profile = "\\/?$"
     case ProfileFollowers = "followers\\/?$"
     case ProfileFollowing = "following\\/?$"
@@ -119,7 +122,7 @@ public enum ElloURI: String {
     public static var baseURL: String { return "\(ElloURI.httpProtocol)://\(ElloURI.domain)" }
 
     // this is taken directly from app/models/user.rb
-    static let usernameRegex = "[\\w\\-]+"
+    static let usernameRegex = "([\\w\\-]+)"
     static let fuzzyDomain: String = "((w{3}\\.)?ello\\.co|ello-staging\\d?\\.herokuapp\\.com)"
     static var userPathRegex: String { return "\(ElloURI.fuzzyDomain)\\/\(ElloURI.usernameRegex)\\??.*" }
 
@@ -137,6 +140,7 @@ public enum ElloURI: String {
         case .Email, .External: return rawValue
         case .Notifications: return "\(ElloURI.fuzzyDomain)\\/\(rawValue)"
         case .Post: return "\(ElloURI.userPathRegex)\(rawValue)"
+        case .PushNotificationComment, .PushNotificationPost, .PushNotificationUser: return "\(rawValue)"
         case .Profile: return "\(ElloURI.userPathRegex)\(rawValue)"
         case .ProfileFollowers, .ProfileFollowing, .ProfileLoves: return "\(ElloURI.userPathRegex)\(rawValue)"
         case .Search: return "\(ElloURI.fuzzyDomain)\\/\(rawValue)"
@@ -146,25 +150,24 @@ public enum ElloURI: String {
     }
 
     private func data(url: String) -> String {
+        let regex = Regex(self.regexPattern)
         switch self {
+        case .PushNotificationUser:
+            return regex?.matchingGroups(url).safeValue(1) ?? url
+        case .PushNotificationComment:
+            return regex?.matchingGroups(url).safeValue(1) ?? url
         case .Notifications:
-            let urlArr = url.characters.split { $0 == "/" }.map { String($0) }
-            return urlArr.last ?? url
+            return regex?.matchingGroups(url).safeValue(2) ?? "notifications"
         case .ProfileFollowers, .ProfileFollowing, .ProfileLoves:
-            let urlArr = url.characters.split { $0 == "/" }.map { String($0) }.filter {
-                switch $0 {
-                case "following", "followers", "loves": return false
-                default: return true
-                }
-            }
-            let last = urlArr.last ?? url
+            return regex?.matchingGroups(url).safeValue(2) ?? url
+        case .Post:
+            let last = regex?.matchingGroups(url).safeValue(3) ?? url
             let lastArr = last.characters.split { $0 == "?" }.map { String($0) }
-            return lastArr.first ?? url
-        case .Post, .Profile:
-            let urlArr = url.characters.split { $0 == "/" }.map { String($0) }
-            let last = urlArr.last ?? url
-            let lastArr = last.characters.split { $0 == "?" }.map { String($0) }
-            return lastArr.first ?? url
+            return lastArr.first ?? last
+        case .PushNotificationPost:
+            return regex?.matchingGroups(url).safeValue(1) ?? url
+        case .Profile:
+            return regex?.matchingGroups(url).safeValue(2) ?? url
         case .Search:
             if let urlComponents = NSURLComponents(string: url),
                 queryItems = urlComponents.queryItems,
@@ -206,6 +209,9 @@ public enum ElloURI: String {
         Manifesto,
         NativeRedirect,
         Noise,
+        PushNotificationComment,
+        PushNotificationPost,
+        PushNotificationUser,
         Notifications,
         Onboarding,
         PasswordResetError,
