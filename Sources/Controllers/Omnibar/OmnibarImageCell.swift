@@ -23,6 +23,11 @@ public class OmnibarImageCell: UITableViewCell {
         set { flImageView.image = newValue }
     }
 
+    public var omnibarAnimagedImage: FLAnimatedImage? {
+        get { return flImageView.animatedImage }
+        set { flImageView.animatedImage = newValue }
+    }
+
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
