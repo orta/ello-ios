@@ -13,68 +13,70 @@ import Nimble
 
 class StreamContainerViewControllerSpec: QuickSpec {
     override func spec() {
+        describe("StreamContainerViewController") {
 
-        var controller = StreamContainerViewController.instantiateFromStoryboard()
-        describe("initialization") {
-
-            beforeEach {
-                controller = StreamContainerViewController.instantiateFromStoryboard()
-            }
-
-            describe("storyboard") {
+            var controller = StreamContainerViewController.instantiateFromStoryboard()
+            describe("initialization") {
 
                 beforeEach {
+                    controller = StreamContainerViewController.instantiateFromStoryboard()
+                }
+
+                describe("storyboard") {
+
+                    beforeEach {
+                        controller.loadView()
+                        controller.viewDidLoad()
+                    }
+
+                    it("IBOutlets are  not nil") {
+                        expect(controller.scrollView).notTo(beNil())
+                        expect(controller.navigationBar).notTo(beNil())
+                        expect(controller.navigationBarTopConstraint).notTo(beNil())
+                    }
+
+                }
+
+                it("can be instantiated from storyboard") {
+                    expect(controller).notTo(beNil())
+                }
+
+                it("is a BaseElloViewController") {
+                    expect(controller).to(beAKindOf(BaseElloViewController.self))
+                }
+
+                it("is a StreamContainerViewController") {
+                    expect(controller).to(beAKindOf(StreamContainerViewController.self))
+                }
+
+                it("has a tab bar item") {
+                    expect(controller.tabBarItem).notTo(beNil())
+
+                    let selectedImage:UIImage = controller.navigationController!.tabBarItem.valueForKey("selectedImage") as! UIImage
+
+                    expect(selectedImage).notTo(beNil())
+                }
+            }
+
+            describe("-viewDidLoad:") {
+
+                beforeEach {
+                    controller = StreamContainerViewController.instantiateFromStoryboard()
                     controller.loadView()
                     controller.viewDidLoad()
                 }
 
-                it("IBOutlets are  not nil") {
-                    expect(controller.scrollView).notTo(beNil())
-                    expect(controller.navigationBar).notTo(beNil())
-                    expect(controller.navigationBarTopConstraint).notTo(beNil())
+                it("has streams") {
+                    expect(controller.streamControllerViews.count) == 2
                 }
 
-            }
+                it("IBActions are wired up") {
+                    let streamsSegmentedControlActions = controller.streamsSegmentedControl.actionsForTarget(controller, forControlEvent: UIControlEvents.ValueChanged)
 
-            it("can be instantiated from storyboard") {
-                expect(controller).notTo(beNil())
-            }
+                    expect(streamsSegmentedControlActions).to(contain("streamSegmentTapped:"))
 
-            it("is a BaseElloViewController") {
-                expect(controller).to(beAKindOf(BaseElloViewController.self))
-            }
-
-            it("is a StreamContainerViewController") {
-                expect(controller).to(beAKindOf(StreamContainerViewController.self))
-            }
-
-            it("has a tab bar item") {
-                expect(controller.tabBarItem).notTo(beNil())
-
-                let selectedImage:UIImage = controller.navigationController!.tabBarItem.valueForKey("selectedImage") as! UIImage
-
-                expect(selectedImage).notTo(beNil())
-            }
-        }
-
-        describe("-viewDidLoad:") {
-
-            beforeEach {
-                controller = StreamContainerViewController.instantiateFromStoryboard()
-                controller.loadView()
-                controller.viewDidLoad()
-            }
-
-            it("has streams") {
-                expect(controller.streamControllerViews.count) == 2
-            }
-
-            it("IBActions are wired up") {
-                let streamsSegmentedControlActions = controller.streamsSegmentedControl.actionsForTarget(controller, forControlEvent: UIControlEvents.ValueChanged)
-
-                expect(streamsSegmentedControlActions).to(contain("streamSegmentTapped:"))
-
-                expect(streamsSegmentedControlActions?.count) == 1
+                    expect(streamsSegmentedControlActions?.count) == 1
+                }
             }
         }
     }
