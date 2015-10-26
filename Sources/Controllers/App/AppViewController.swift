@@ -80,14 +80,6 @@ public class AppViewController: BaseElloViewController {
         postNotification(Application.Notifications.ViewSizeDidChange, value: size)
     }
 
-    public override func encodeRestorableStateWithCoder(coder: NSCoder) {
-        super.encodeRestorableStateWithCoder(coder)
-    }
-
-    public override func decodeRestorableStateWithCoder(coder: NSCoder) {
-        super.decodeRestorableStateWithCoder(coder)
-    }
-
     public class func instantiateFromStoryboard() -> AppViewController {
         return UIStoryboard.storyboardWithId(.App, storyboardName: "App") as! AppViewController
     }
