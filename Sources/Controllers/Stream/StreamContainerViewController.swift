@@ -8,14 +8,32 @@
 
 import UIKit
 import SVGKit
+import SwiftyUserDefaults
+
+private let CurrentStream = "Ello.StreamContainerViewController.CurrentStream"
 
 public class StreamContainerViewController: StreamableViewController {
     private var loggedPromptEventForThisSession = false
-    private var starredLoaded = false
     private var reloadStreamContentObserver: NotificationObserver?
     private var friendsViewController: StreamViewController?
     private var appBackgroundObserver: NotificationObserver?
     private var appForegroundObserver: NotificationObserver?
+
+    public let streamValues: [StreamKind] = [.Following, .Starred]
+    private lazy var streamLoaded: [Bool] = [false, false] // needs to hold same number of 'false's as streamValues
+
+    private var _currentStreamIndex: Int?
+    public var currentStreamIndex: Int {
+        get {
+            let index = _currentStreamIndex ?? Defaults[CurrentStream].int ?? 0
+            _currentStreamIndex = index
+            return index
+        }
+        set(newValue) {
+            _currentStreamIndex = newValue
+            Defaults[CurrentStream] = newValue
+        }
+    }
 
     enum Notifications : String {
         case StreamDetailTapped = "StreamDetailTappedNotification"
@@ -58,11 +76,15 @@ public class StreamContainerViewController: StreamableViewController {
         addSearchButton()
         navigationBar.items = [elloNavigationItem]
 
-        let initialStream = childStreamControllers[0]
-        scrollLogic.prevOffset = initialStream.collectionView.contentOffset
-        initialStream.collectionView.scrollsToTop = true
+        let index = currentStreamIndex
+        let stream = streamValues[index]
+        let initialController = childStreamControllers[index]
+        scrollLogic.prevOffset = initialController.collectionView.contentOffset
+        initialController.collectionView.scrollsToTop = true
+        streamsSegmentedControl.selectedSegmentIndex = index
+        initialController.loadInitialPage()
+        streamLoaded[index] = true
 
-        let stream = StreamKind.streamValues[0]
         Tracker.sharedTracker.streamAppeared(stream.name)
     }
 
@@ -120,7 +142,7 @@ public class StreamContainerViewController: StreamableViewController {
             view.frame = CGRect(x: width * CGFloat(index), y: 0, width: width, height: height)
         }
 
-        scrollView.contentSize = CGSize(width: width * CGFloat(StreamKind.streamValues.count), height: height)
+        scrollView.contentSize = CGSize(width: width * CGFloat(streamValues.count), height: height)
 
         let selectedIndex = streamsSegmentedControl.selectedSegmentIndex
         let x = CGFloat(selectedIndex) * width
@@ -135,7 +157,7 @@ public class StreamContainerViewController: StreamableViewController {
         let width:CGFloat = scrollView.frame.size.width
         let height:CGFloat = scrollView.frame.size.height
 
-        for (index, kind) in StreamKind.streamValues.enumerate() {
+        for (index, kind) in streamValues.enumerate() {
             let vc = StreamViewController.instantiateFromStoryboard()
             vc.currentUser = currentUser
             vc.streamKind = kind
@@ -163,7 +185,6 @@ public class StreamContainerViewController: StreamableViewController {
                 let noResultsBody = NSLocalizedString("Follow people and things that inspire you.", comment: "No following results body.")
                 friendsViewController = vc
                 vc.noResultsMessages = (title: noResultsTitle, body: noResultsBody)
-                vc.loadInitialPage()
             case .Starred:
                 let noResultsTitle = NSLocalizedString("Welcome to Starred!", comment: "No starred results title")
                 let noResultsBody = NSLocalizedString("When you Star someone their posts appear here. Star people to create a second stream.", comment: "No following results body.")
@@ -175,7 +196,7 @@ public class StreamContainerViewController: StreamableViewController {
     }
 
     private func setupStreamsSegmentedControl() {
-        let control = UISegmentedControl(items: StreamKind.streamValues.map{ $0.name })
+        let control = UISegmentedControl(items: streamValues.map{ $0.name })
         control.addTarget(self, action: Selector("streamSegmentTapped:"), forControlEvents: .ValueChanged)
         control.frame.size.height = 19.0
         control.layer.borderWidth = 1.0
@@ -197,12 +218,13 @@ public class StreamContainerViewController: StreamableViewController {
         let rect = CGRect(x: x, y: 0, width: width, height: height)
         scrollView.scrollRectToVisible(rect, animated: true)
 
-        let stream = StreamKind.streamValues[index]
+        currentStreamIndex = index
+        let stream = streamValues[currentStreamIndex]
         Tracker.sharedTracker.streamAppeared(stream.name)
 
-        if index == 1 && !starredLoaded {
-            starredLoaded = true
-            childStreamControllers[1].loadInitialPage()
+        if !streamLoaded[index] {
+            streamLoaded[index] = true
+            childStreamControllers[index].loadInitialPage()
         }
     }
 

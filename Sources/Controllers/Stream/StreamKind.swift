@@ -195,7 +195,5 @@ public enum StreamKind {
         default: return false
         }
     }
-
-    static let streamValues = [Following, Starred]
 }
 
