@@ -22,15 +22,11 @@ public class StreamContainerViewController: StreamableViewController {
     public let streamValues: [StreamKind] = [.Following, .Starred]
     private lazy var streamLoaded: [Bool] = [false, false] // needs to hold same number of 'false's as streamValues
 
-    private var _currentStreamIndex: Int?
     public var currentStreamIndex: Int {
         get {
-            let index = _currentStreamIndex ?? Defaults[CurrentStreamKey].int ?? 0
-            _currentStreamIndex = index
-            return index
+            return Defaults[CurrentStreamKey].int ?? 0
         }
         set(newValue) {
-            _currentStreamIndex = newValue
             Defaults[CurrentStreamKey] = newValue
         }
     }
