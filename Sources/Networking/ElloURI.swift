@@ -19,8 +19,9 @@ public enum ElloURI: String {
     case Following = "following"
     case Noise = "noise"
     case Notifications = "notifications(?:\\/?|\\/([^\\/]+)/?)$"
-    case PushNotificationPost = "notifications/posts/([^\\/]+)\\/?$"
     case PushNotificationComment = "notifications/posts/([^\\/]+)\\/comments/([^\\/]+)$"
+    case PushNotificationPost = "notifications/posts/([^\\/]+)\\/?$"
+    case PushNotificationUser = "notifications/users/([^\\/]+)\\/?$"
     case Post = "\\/post\\/([^\\/]+)\\/?$"
     case Profile = "\\/?$"
     case ProfileFollowers = "followers\\/?$"
@@ -139,7 +140,7 @@ public enum ElloURI: String {
         case .Email, .External: return rawValue
         case .Notifications: return "\(ElloURI.fuzzyDomain)\\/\(rawValue)"
         case .Post: return "\(ElloURI.userPathRegex)\(rawValue)"
-        case .PushNotificationPost, .PushNotificationComment: return "\(rawValue)"
+        case .PushNotificationComment, .PushNotificationPost, .PushNotificationUser: return "\(rawValue)"
         case .Profile: return "\(ElloURI.userPathRegex)\(rawValue)"
         case .ProfileFollowers, .ProfileFollowing, .ProfileLoves: return "\(ElloURI.userPathRegex)\(rawValue)"
         case .Search: return "\(ElloURI.fuzzyDomain)\\/\(rawValue)"
@@ -151,6 +152,8 @@ public enum ElloURI: String {
     private func data(url: String) -> String {
         let regex = Regex(self.regexPattern)
         switch self {
+        case .PushNotificationUser:
+            return regex?.matchingGroups(url).safeValue(1) ?? url
         case .PushNotificationComment:
             return regex?.matchingGroups(url).safeValue(1) ?? url
         case .Notifications:
@@ -206,8 +209,9 @@ public enum ElloURI: String {
         Manifesto,
         NativeRedirect,
         Noise,
-        PushNotificationPost,
         PushNotificationComment,
+        PushNotificationPost,
+        PushNotificationUser,
         Notifications,
         Onboarding,
         PasswordResetError,
