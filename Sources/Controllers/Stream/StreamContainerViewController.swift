@@ -10,7 +10,7 @@ import UIKit
 import SVGKit
 import SwiftyUserDefaults
 
-let CurrentStream = "Ello.StreamContainerViewController.CurrentStream"
+let CurrentStreamKey = "Ello.StreamContainerViewController.CurrentStream"
 
 public class StreamContainerViewController: StreamableViewController {
     private var loggedPromptEventForThisSession = false
@@ -25,13 +25,13 @@ public class StreamContainerViewController: StreamableViewController {
     private var _currentStreamIndex: Int?
     public var currentStreamIndex: Int {
         get {
-            let index = _currentStreamIndex ?? Defaults[CurrentStream].int ?? 0
+            let index = _currentStreamIndex ?? Defaults[CurrentStreamKey].int ?? 0
             _currentStreamIndex = index
             return index
         }
         set(newValue) {
             _currentStreamIndex = newValue
-            Defaults[CurrentStream] = newValue
+            Defaults[CurrentStreamKey] = newValue
         }
     }
 
