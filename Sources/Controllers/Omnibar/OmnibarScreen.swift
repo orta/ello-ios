@@ -721,9 +721,14 @@ extension OmnibarScreen: UITableViewDelegate, UITableViewDataSource {
             case let .AttributedText(attributedText):
                 let textCell = cell as! OmnibarTextCell
                 textCell.attributedText = attributedText
-            case let .Image(image, _, _):
+            case let .Image(image, data, _):
                 let imageCell = cell as! OmnibarImageCell
-                imageCell.omnibarImage = image
+                if let data = data {
+                    imageCell.omnibarAnimagedImage = FLAnimatedImage(animatedGIFData: data)
+                }
+                else {
+                    imageCell.omnibarImage = image
+                }
                 imageCell.reordering = reordering
             case let .Error(url):
                 let textCell = cell as! OmnibarErrorCell

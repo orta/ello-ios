@@ -466,9 +466,12 @@ extension AppViewController {
             if let user = currentUser {
                 showOnboardingScreen(user)
             }
-        case .Post:
+        case .Post,
+             .PushNotificationComment,
+             .PushNotificationPost:
             showPostDetailScreen(data, path: path)
-        case .Profile:
+        case .Profile,
+             .PushNotificationUser:
             showProfileScreen(data, path: path)
         case .ProfileFollowers:
             showProfileFollowersScreen(data)

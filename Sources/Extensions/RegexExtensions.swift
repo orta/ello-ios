@@ -48,9 +48,13 @@ class Regex {
         let nsstring = input as NSString
         var ret = [String]()
         if let match = self.regex.firstMatchInString(input, options: [], range: NSRange(location: 0, length: nsstring.length)) {
+
             for i in 0..<match.numberOfRanges {
                 let range = match.rangeAtIndex(i)
-                ret.append(nsstring.substringWithRange(range))
+                if range.location != NSNotFound {
+                    let matchedString = nsstring.substringWithRange(range)
+                    ret.append(matchedString)
+                }
             }
         }
         return ret

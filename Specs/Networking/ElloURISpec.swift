@@ -144,6 +144,25 @@ class ElloURISpec: QuickSpec {
                     }
                 }
 
+                describe("push notifiation routes") {
+                    let tests: [String: (input: String, outputURI: ElloURI, outputData: String)] = [
+                        "with User urls": (input: "notifications/users/696", outputURI: .PushNotificationUser, outputData: "696"),
+                        "with Post urls": (input: "notifications/posts/2345", outputURI: .PushNotificationPost, outputData: "2345"),
+                        "with Post Comment urls": (input: "notifications/posts/2345/comments/666", outputURI: .PushNotificationComment, outputData: "2345"),
+                    ]
+
+                    for (description, test) in tests {
+
+                        describe(description) {
+                            it("matches route correctly") {
+                                let (type, data) = ElloURI.match("\(test.input)")
+                                expect(type).to(equal(test.outputURI))
+                                expect(data) == test.outputData
+                            }
+                        }
+                    }
+                }
+
                 describe("app loadable routes") {
                     let tests: [String: (input: String, outputURI: ElloURI, outputData: String)] = [
                         "with Search urls": (input: "search", outputURI: .Search, outputData: ""),

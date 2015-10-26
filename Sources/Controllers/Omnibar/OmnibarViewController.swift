@@ -238,6 +238,9 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
                 if let image = result.image {
                     regions[index] = .Image(image, nil, nil)
                 }
+                else if let animatedImage = result.animatedImage {
+                    regions[index] = .Image(animatedImage.posterImage, animatedImage.data, "image/gif")
+                }
                 else {
                     regions[index] = .Error(imageURL)
                 }
