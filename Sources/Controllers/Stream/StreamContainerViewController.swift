@@ -10,7 +10,7 @@ import UIKit
 import SVGKit
 import SwiftyUserDefaults
 
-private let CurrentStream = "Ello.StreamContainerViewController.CurrentStream"
+let CurrentStream = "Ello.StreamContainerViewController.CurrentStream"
 
 public class StreamContainerViewController: StreamableViewController {
     private var loggedPromptEventForThisSession = false
@@ -148,7 +148,6 @@ public class StreamContainerViewController: StreamableViewController {
         let x = CGFloat(selectedIndex) * width
         let rect = CGRect(x: x, y: 0, width: width, height: height)
         scrollView.scrollRectToVisible(rect, animated: false)
-
     }
 
     private func setupChildViewControllers() {
