@@ -63,4 +63,3 @@ class StreamRepostHeaderCellPresenterSpec: QuickSpec {
         }
     }
 }
-
