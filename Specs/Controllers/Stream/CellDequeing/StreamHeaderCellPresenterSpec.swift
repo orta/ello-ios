@@ -60,34 +60,6 @@ class StreamHeaderCellPresenterSpec: QuickSpec {
                     StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
                     expect(cell.streamKind?.name) == StreamKind.Following.name
                 }
-
-                context("gridLayout streamKind") {
-                    it("sets isGridLayout") {
-                        cell.isGridLayout = false
-                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Starred, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
-                        expect(cell.isGridLayout) == true
-                    }
-
-                    it("sets avatarHeight") {
-                        cell.avatarHeight = 0
-                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Starred, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
-                        expect(cell.avatarHeight) == 30.0
-                    }
-                }
-
-                context("not-gridLayout streamKind") {
-                    it("sets isGridLayout") {
-                        cell.isGridLayout = true
-                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
-                        expect(cell.isGridLayout) == false
-                    }
-
-                    it("sets avatarHeight") {
-                        cell.avatarHeight = 0
-                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
-                        expect(cell.avatarHeight) == 60.0
-                    }
-                }
                 it("sets scrollView.scrollEnabled") {
                     cell.scrollView.scrollEnabled = true
                     StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
@@ -117,6 +89,34 @@ class StreamHeaderCellPresenterSpec: QuickSpec {
                     cell.usernameButton.setTitle("", forState: .Normal)
                     StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
                     expect(cell.usernameButton.currentTitle) == "@ello"
+                }
+
+                context("gridLayout streamKind") {
+                    it("sets isGridLayout") {
+                        cell.isGridLayout = false
+                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Starred, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                        expect(cell.isGridLayout) == true
+                    }
+
+                    it("sets avatarHeight") {
+                        cell.avatarHeight = 0
+                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Starred, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                        expect(cell.avatarHeight) == 30.0
+                    }
+                }
+
+                context("not-gridLayout streamKind") {
+                    it("sets isGridLayout") {
+                        cell.isGridLayout = true
+                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                        expect(cell.isGridLayout) == false
+                    }
+
+                    it("sets avatarHeight") {
+                        cell.avatarHeight = 0
+                        StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                        expect(cell.avatarHeight) == 60.0
+                    }
                 }
             }
 
