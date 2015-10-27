@@ -25,7 +25,7 @@ class StreamRepostHeaderCellPresenterSpec: QuickSpec {
 
                     StreamRepostHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
-                    expect(cell.sourceTextView.text) == "Source: @666"
+                    expect(cell.sourceTextView.text) == "Reposted by: @username"
                     expect(cell.viaTextView.text) == "Via: @999"
                     expect(cell.viaTextViewHeight.constant) == 15
                 }
@@ -47,7 +47,7 @@ class StreamRepostHeaderCellPresenterSpec: QuickSpec {
 
                     StreamRepostHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
 
-                    expect(cell.sourceTextView.text) == "Source: @666"
+                    expect(cell.sourceTextView.text) == "Reposted by: @username"
                     expect(cell.viaTextView.text) == ""
                     expect(cell.viaTextViewHeight.constant) == 0
                 }

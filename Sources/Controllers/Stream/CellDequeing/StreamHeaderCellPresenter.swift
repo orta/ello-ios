@@ -23,9 +23,10 @@ public struct StreamHeaderCellPresenter {
         {
             cell.close()
             cell.indexPath = indexPath
-
+            cell.streamKind = streamKind
             cell.ownPost = false
             cell.ownComment = false
+            cell.isGridLayout = streamKind.isGridLayout
 
             if let currentUser = currentUser,
                 comment = streamCellItem.jsonable as? Comment
@@ -41,14 +42,12 @@ public struct StreamHeaderCellPresenter {
             var author = authorable.author
             var followButtonVisible = false
             if streamCellItem.type == .Header {
-                cell.streamKind = streamKind
                 cell.avatarHeight = streamKind.isGridLayout ? 30.0 : 60.0
                 cell.scrollView.scrollEnabled = false
                 cell.chevronHidden = true
                 cell.goToPostView.hidden = false
 
-                if let repostAuthor = (streamCellItem.jsonable as? Post)?.repostAuthor
-                {
+                if let repostAuthor = (streamCellItem.jsonable as? Post)?.repostAuthor {
                     author = repostAuthor
 
                     if let author = author {
@@ -64,20 +63,16 @@ public struct StreamHeaderCellPresenter {
                 cell.canReply = false
             }
             else {
-                cell.canReply = true
-            }
-
-            cell.setUser(authorable.author)
-            cell.followButtonVisible = followButtonVisible
-            cell.timeStamp = streamKind.isGridLayout ? "" : authorable.createdAt.timeAgoInWords()
-
-            if streamCellItem.type == .CommentHeader {
                 cell.avatarHeight = 30.0
                 cell.scrollView.scrollEnabled = true
                 cell.chevronHidden = false
                 cell.goToPostView.hidden = true
+                cell.canReply = true
             }
-            cell.updateUsername(author?.atName ?? "", isGridLayout: streamKind.isGridLayout)
+
+            cell.setUser(author)
+            cell.followButtonVisible = followButtonVisible
+            cell.timeStamp = streamKind.isGridLayout ? "" : authorable.createdAt.timeAgoInWords()
             cell.layoutIfNeeded()
         }
     }

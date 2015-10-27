@@ -103,6 +103,9 @@ public class StreamHeaderCell: UICollectionViewCell {
 
     func setUser(user: User?) {
         avatarButton.setUser(user)
+        let username = user?.atName ?? ""
+        usernameButton.setTitle(username, forState: UIControlState.Normal)
+        usernameButton.sizeToFit()
     }
 
     override public func awakeFromNib() {
@@ -146,12 +149,6 @@ public class StreamHeaderCell: UICollectionViewCell {
     }
 
 // MARK: - Public
-
-    public func updateUsername(username: String, isGridLayout: Bool = false) {
-        self.isGridLayout = isGridLayout
-        usernameButton.setTitle(username, forState: UIControlState.Normal)
-        usernameButton.sizeToFit()
-    }
 
     public func close() {
         isOpen = false
@@ -211,7 +208,7 @@ public class StreamHeaderCell: UICollectionViewCell {
                 )
         }
 
-        let timestampX = chevronButton.frame.x - timestampLabel.frame.width
+        var timestampX = chevronButton.frame.x - timestampLabel.frame.width
         timestampLabel.frame = CGRect(
             x: timestampX,
             y: innerContentView.frame.midY - timestampLabel.frame.height/2,
