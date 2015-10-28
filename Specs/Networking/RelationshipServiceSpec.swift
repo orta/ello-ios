@@ -21,7 +21,7 @@ class RelationshipServiceSpec: QuickSpec {
             it("succeeds") {
                 ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour)
                 var loadedSuccessfully = false
-                subject.updateRelationship(userId: "42", relationshipPriority: RelationshipPriority.Following,
+                subject.updateRelationship(currentUserId: "", userId: "42", relationshipPriority: RelationshipPriority.Following,
                     success: {
                         (data, responseConfig) in
                         loadedSuccessfully = true
@@ -34,7 +34,7 @@ class RelationshipServiceSpec: QuickSpec {
             it("fails") {
                 ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.errorEndpointsClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour)
                 var loadedSuccessfully = true
-                subject.updateRelationship(userId: "42", relationshipPriority: RelationshipPriority.Following,
+                subject.updateRelationship(currentUserId: "", userId: "42", relationshipPriority: RelationshipPriority.Following,
                     success: {
                         (data, responseConfig) in
                         loadedSuccessfully = true
