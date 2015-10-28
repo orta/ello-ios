@@ -25,10 +25,11 @@ public protocol RelationshipControllerDelegate: class {
 public protocol RelationshipDelegate: class {
     func relationshipTapped(userId: String, relationshipPriority: RelationshipPriority, complete: RelationshipChangeCompletion)
     func launchBlockModal(userId: String, userAtName: String, relationshipPriority: RelationshipPriority, changeClosure: RelationshipChangeClosure)
-    func updateRelationship(userId: String, relationshipPriority: RelationshipPriority, complete: RelationshipChangeCompletion)
+    func updateRelationship(currentUserId: String, userId: String, relationshipPriority: RelationshipPriority, complete: RelationshipChangeCompletion)
 }
 
 public class RelationshipController: NSObject {
+    public var currentUser: User?
     public weak var delegate: RelationshipControllerDelegate?
     public let presentingController: UIViewController
 
@@ -48,7 +49,7 @@ extension RelationshipController: RelationshipDelegate {
             return
         }
 
-        self.updateRelationship(userId, relationshipPriority: relationshipPriority, complete: complete)
+        self.updateRelationship(self.currentUser?.id ?? "", userId: userId, relationshipPriority: relationshipPriority, complete: complete)
     }
 
     public func launchBlockModal(userId: String, userAtName: String, relationshipPriority: RelationshipPriority, changeClosure: RelationshipChangeClosure) {
@@ -57,8 +58,8 @@ extension RelationshipController: RelationshipDelegate {
         presentingController.presentViewController(vc, animated: true, completion: nil)
     }
 
-    public func updateRelationship(userId: String, relationshipPriority: RelationshipPriority, complete: RelationshipChangeCompletion){
-        RelationshipService().updateRelationship(userId: userId, relationshipPriority: relationshipPriority,
+    public func updateRelationship(currentUserId: String, userId: String, relationshipPriority: RelationshipPriority, complete: RelationshipChangeCompletion){
+        RelationshipService().updateRelationship(currentUserId: self.currentUser?.id ?? "", userId: userId, relationshipPriority: relationshipPriority,
             success: { (data, responseConfig) in
                 if let relationship = data as? Relationship {
                     complete(status: .Success, relationship: relationship)
