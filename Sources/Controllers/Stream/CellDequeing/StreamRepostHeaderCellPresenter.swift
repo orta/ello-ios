@@ -20,23 +20,11 @@ public struct StreamRepostHeaderCellPresenter {
         if let cell = cell as? StreamRepostHeaderCell,
             post = streamCellItem.jsonable as? Post
         {
-            cell.viaTextView.clearText()
-            cell.sourceTextView.clearText()
-
-            if let repostViaPath = post.repostViaPath where post.repostViaId != nil {
-                let components = repostViaPath.componentsSeparatedByString("/").filter { !$0.isEmpty }
-                if let username = components.first {
-                    cell.viaTextViewHeight.constant = 15.0
-                    cell.viaTextView.appendTextWithAction("Via: @\(username)", link: "userId", object: "~\(username)")
-                } else {
-                    cell.viaTextViewHeight.constant = 0.0
-                }
-            } else {
-                cell.viaTextViewHeight.constant = 0.0
-            }
-
             if let author = post.author {
-                cell.sourceTextView.appendTextWithAction("Reposted by: \(author.atName)", link: "userId", object: author.id)
+                cell.atName = author.atName
+            }
+            else {
+                cell.atName = ""
             }
         }
     }
