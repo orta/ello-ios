@@ -66,7 +66,7 @@ public class OnboardingUserListViewController: StreamableViewController, Onboard
 
     public func onboardingWillProceed(proceed: (OnboardingData?) -> Void) {
         let users = userItems().map { $0.jsonable as! User }
-        let friendUserIds = users.filter { (user: User) -> Bool in return user.relationshipPriority == .Friend }.map { $0.id }
+        let friendUserIds = users.filter { (user: User) -> Bool in return user.relationshipPriority == .Following }.map { $0.id }
 
         if self.users?.count == friendUserIds.count {
             Tracker.sharedTracker.followedAllFeatured()
@@ -77,7 +77,7 @@ public class OnboardingUserListViewController: StreamableViewController, Onboard
 
         if friendUserIds.count > 0 {
             ElloHUD.showLoadingHud()
-            RelationshipService().bulkUpdateRelationships(userIds: friendUserIds, relationshipPriority: .Friend,
+            RelationshipService().bulkUpdateRelationships(userIds: friendUserIds, relationshipPriority: .Following,
                 success: { data in
                     ElloHUD.hideLoadingHud()
                     proceed(self.onboardingData)
@@ -109,12 +109,7 @@ public class OnboardingUserListViewController: StreamableViewController, Onboard
         let jsonables = streamViewController.dataSource.streamCellItems.map { (item: StreamCellItem) in return item.jsonable }
         for jsonable in jsonables {
             if let user = jsonable as? User where user.id == userId {
-                if relationshipPriority == .None {
-                    user.relationshipPriority = .Friend
-                }
-                else {
-                    user.relationshipPriority = .None
-                }
+                user.relationshipPriority = relationshipPriority
                 break
             }
         }
@@ -138,7 +133,7 @@ extension OnboardingUserListViewController {
     func followedCount() -> Int {
         if let users = users {
             return users.reduce(0) { (followedCount: Int, user: User) -> Int in
-                if user.relationshipPriority == .Friend || user.relationshipPriority == .Noise {
+                if user.relationshipPriority == .Following || user.relationshipPriority == .Starred {
                     return followedCount + 1
                 }
                 return followedCount
@@ -176,7 +171,7 @@ extension OnboardingUserListViewController {
     }
 
     func friendAll(users: [User]) {
-        setAllRelationships(users, relationship: .Friend)
+        setAllRelationships(users, relationship: .Following)
     }
 
     func friendNone(users: [User]) {

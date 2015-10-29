@@ -13,9 +13,12 @@ func stub<T: Stubbable>(values: [String : AnyObject]) -> T {
     return T.stub(values)
 }
 
-func urlFromValue(value: AnyObject? = nil) -> NSURL? {
-    if value == nil { return nil }
-    else if let url = value as? NSURL {
+func urlFromValue(value: AnyObject?) -> NSURL? {
+    guard let value = value else {
+        return nil
+    }
+
+    if let url = value as? NSURL {
         return url
     } else if let str = value as? String {
         return NSURL(string: str)
@@ -26,15 +29,19 @@ func urlFromValue(value: AnyObject? = nil) -> NSURL? {
 let stubbedTextRegion: TextRegion = stub([:])
 
 protocol Stubbable: NSObjectProtocol {
-    static func stub(values: [String : AnyObject]) -> Self
+    static func stub(values: [String: AnyObject]) -> Self
 }
 
 extension User: Stubbable {
-    class func stub(values: [String : AnyObject]) -> User {
+    class func stub(values: [String: AnyObject]) -> User {
 
-        let relationship = (values["relationshipPriority"] as? String).map {
-            RelationshipPriority(stringValue: $0)
-        } ?? RelationshipPriority.None
+        let relationshipPriority: RelationshipPriority
+        if let priorityName = values["relationshipPriority"] as? String {
+            relationshipPriority = RelationshipPriority(stringValue: priorityName) ?? RelationshipPriority.None
+        }
+        else {
+            relationshipPriority = RelationshipPriority.None
+        }
 
         let user =  User(
             id: (values["id"] as? String) ?? NSUUID().UUIDString,
@@ -42,7 +49,7 @@ extension User: Stubbable {
             username: (values["username"] as? String) ?? "username",
             name: (values["name"] as? String) ?? "name",
             experimentalFeatures: (values["experimentalFeatures"] as? Bool) ?? false,
-            relationshipPriority: relationship,
+            relationshipPriority: relationshipPriority,
             postsAdultContent: (values["postsAdultContent"] as? Bool) ?? false,
             viewsAdultContent: (values["viewsAdultContent"] as? Bool) ?? false,
             hasCommentingEnabled: (values["hasCommentingEnabled"] as? Bool) ?? true,
@@ -80,7 +87,7 @@ extension User: Stubbable {
 }
 
 extension Love: Stubbable {
-    class func stub(values: [String : AnyObject]) -> Love {
+    class func stub(values: [String: AnyObject]) -> Love {
 
         // create necessary links
 
@@ -104,7 +111,7 @@ extension Love: Stubbable {
 }
 
 extension Profile: Stubbable {
-    class func stub(values: [String : AnyObject]) -> Profile {
+    class func stub(values: [String: AnyObject]) -> Profile {
         let profile = Profile(
             createdAt: (values["createdAt"] as? NSDate) ?? NSDate(),
             shortBio: (values["shortBio"] as? String) ?? "shortBio",
@@ -134,7 +141,7 @@ extension Profile: Stubbable {
 }
 
 extension Post: Stubbable {
-    class func stub(values: [String : AnyObject]) -> Post {
+    class func stub(values: [String: AnyObject]) -> Post {
 
         // create necessary links
 
@@ -154,6 +161,11 @@ extension Post: Stubbable {
             loved: (values["loved"] as? Bool) ?? false,
             summary: (values["summary"] as? [Regionable]) ?? [stubbedTextRegion]
         )
+
+        if let repostAuthor = values["repostAuthor"] as? User {
+            ElloLinkedStore.sharedInstance.setObject(repostAuthor, forKey: repostAuthor.id, inCollection: MappingType.UsersType.rawValue)
+            post.addLinkObject("repost_author", key: repostAuthor.id, collection: MappingType.UsersType.rawValue)
+        }
 
         // optional
         post.body = (values["body"] as? [Regionable]) ?? [stubbedTextRegion]
@@ -188,7 +200,7 @@ extension Post: Stubbable {
         return post
     }
 
-    class func stubWithRegions(values: [String : AnyObject], summary: [Regionable] = [], content: [Regionable] = []) -> Post {
+    class func stubWithRegions(values: [String: AnyObject], summary: [Regionable] = [], content: [Regionable] = []) -> Post {
         var mutatedValues = values
         mutatedValues.updateValue(summary, forKey: "summary")
         let post: Post = stub(mutatedValues)
@@ -199,7 +211,7 @@ extension Post: Stubbable {
 }
 
 extension Comment: Stubbable {
-    class func stub(values: [String : AnyObject]) -> Comment {
+    class func stub(values: [String: AnyObject]) -> Comment {
 
         // create necessary links
         let author: User = (values["author"] as? User) ?? User.stub(["id": values["authorId"] ?? NSUUID().UUIDString])
@@ -230,7 +242,7 @@ extension Comment: Stubbable {
 }
 
 extension TextRegion: Stubbable {
-    class func stub(values: [String : AnyObject]) -> TextRegion {
+    class func stub(values: [String: AnyObject]) -> TextRegion {
         return TextRegion(
             content: (values["content"] as? String) ?? "Lorem Ipsum"
         )
@@ -238,7 +250,7 @@ extension TextRegion: Stubbable {
 }
 
 extension ImageRegion: Stubbable {
-    class func stub(values: [String : AnyObject]) -> ImageRegion {
+    class func stub(values: [String: AnyObject]) -> ImageRegion {
         let imageRegion = ImageRegion(alt: (values["alt"] as? String) ?? "imageRegion")
         imageRegion.url = urlFromValue(values["url"])
         if let asset = values["asset"] as? Asset {
@@ -250,7 +262,7 @@ extension ImageRegion: Stubbable {
 }
 
 extension EmbedRegion: Stubbable {
-    class func stub(values: [String : AnyObject]) -> EmbedRegion {
+    class func stub(values: [String: AnyObject]) -> EmbedRegion {
         let serviceString = (values["service"] as? String) ?? EmbedType.Youtube.rawValue
         let embedRegion = EmbedRegion(
             id: (values["id"] as? String) ?? NSUUID().UUIDString,
@@ -265,13 +277,13 @@ extension EmbedRegion: Stubbable {
 }
 
 extension UnknownRegion: Stubbable {
-    class func stub(values: [String : AnyObject]) -> UnknownRegion {
+    class func stub(values: [String: AnyObject]) -> UnknownRegion {
         return UnknownRegion(name: "no-op")
     }
 }
 
 extension AutoCompleteResult: Stubbable {
-    class func stub(values: [String : AnyObject]) -> AutoCompleteResult {
+    class func stub(values: [String: AnyObject]) -> AutoCompleteResult {
         let result = AutoCompleteResult()
         result.url = urlFromValue(values["url"]) ?? NSURL(string: "http://www.google.com")!
         result.name = (values["name"] as? String) ?? "666"
@@ -280,7 +292,7 @@ extension AutoCompleteResult: Stubbable {
 }
 
 extension Activity: Stubbable {
-    class func stub(values: [String : AnyObject]) -> Activity {
+    class func stub(values: [String: AnyObject]) -> Activity {
 
         let activityKindString = (values["kind"] as? String) ?? Activity.Kind.FriendPost.rawValue
         let subjectTypeString = (values["subjectType"] as? String) ?? SubjectType.Post.rawValue
@@ -310,7 +322,7 @@ extension Activity: Stubbable {
 }
 
 extension Asset: Stubbable {
-    class func stub(values: [String : AnyObject]) -> Asset {
+    class func stub(values: [String: AnyObject]) -> Asset {
         let asset = Asset(id: (values["id"] as? String) ?? NSUUID().UUIDString)
         let defaultAttachment = values["attachment"] as? Attachment
         asset.optimized = (values["optimized"] as? Attachment) ?? defaultAttachment
@@ -330,7 +342,7 @@ extension Asset: Stubbable {
 }
 
 extension Attachment: Stubbable {
-    class func stub(values: [String : AnyObject]) -> Attachment {
+    class func stub(values: [String: AnyObject]) -> Attachment {
         let attachment = Attachment(url: urlFromValue(values["url"]) ?? NSURL(string: "http://www.google.com")!)
         attachment.height = values["height"] as? Int
         attachment.width = values["width"] as? Int
@@ -341,13 +353,13 @@ extension Attachment: Stubbable {
 }
 
 extension Notification: Stubbable {
-    class func stub(values: [String : AnyObject]) -> Notification {
+    class func stub(values: [String: AnyObject]) -> Notification {
         return Notification(activity: (values["activity"] as? Activity) ?? Activity.stub([:]))
     }
 }
 
 extension Relationship: Stubbable {
-    class func stub(values: [String : AnyObject]) -> Relationship {
+    class func stub(values: [String: AnyObject]) -> Relationship {
         // create necessary links
         let owner: User = (values["owner"] as? User) ?? User.stub(["relationshipPriority": "self", "id": values["ownerId"] ?? NSUUID().UUIDString])
         ElloLinkedStore.sharedInstance.setObject(owner, forKey: owner.id, inCollection: MappingType.UsersType.rawValue)
@@ -364,7 +376,7 @@ extension Relationship: Stubbable {
 }
 
 extension LocalPerson: Stubbable {
-    class func stub(values: [String : AnyObject]) -> LocalPerson {
+    class func stub(values: [String: AnyObject]) -> LocalPerson {
         return LocalPerson(
             name: (values["name"] as? String) ?? "Sterling Archer",
             emails: (values["emails"] as? [String]) ?? ["sterling_archer@gmail.com"],
@@ -374,7 +386,7 @@ extension LocalPerson: Stubbable {
 }
 
 extension StreamCellItem: Stubbable {
-    class func stub(values: [String : AnyObject]) -> StreamCellItem {
+    class func stub(values: [String: AnyObject]) -> StreamCellItem {
         return StreamCellItem(
             jsonable: (values["jsonable"] as? JSONAble) ?? Post.stub([:]),
             type: (values["type"] as? StreamCellType) ?? StreamCellType.Header

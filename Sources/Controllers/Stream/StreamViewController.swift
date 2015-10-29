@@ -156,11 +156,8 @@ public class StreamViewController: BaseElloViewController {
 
     override public func didSetCurrentUser() {
         dataSource.currentUser = currentUser
-
-        if let postbarController = postbarController {
-            postbarController.currentUser = currentUser
-        }
-
+        relationshipController?.currentUser = currentUser
+        postbarController?.currentUser = currentUser
         super.didSetCurrentUser()
     }
 
@@ -500,6 +497,7 @@ public class StreamViewController: BaseElloViewController {
         self.postbarController = postbarController
 
         relationshipController = RelationshipController(presentingController: self)
+        relationshipController?.currentUser = self.currentUser
         dataSource.relationshipDelegate = relationshipController
 
         // set delegates
@@ -725,6 +723,13 @@ extension StreamViewController : UICollectionViewDelegate {
                     let post = comment.parentPost
                 {
                     postTappedDelegate?.postTapped(post)
+                }
+            }
+            else if tappedCell is StreamRepostHeaderCell {
+                if let post = dataSource.postForIndexPath(indexPath),
+                    user = post.author
+                {
+                    userTappedDelegate?.userTapped(user)
                 }
             }
             else if let post = dataSource.postForIndexPath(indexPath) {

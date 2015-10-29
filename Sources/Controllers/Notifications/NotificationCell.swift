@@ -108,15 +108,9 @@ public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
         }
     }
 
-    var avatarURL: NSURL? {
-        willSet(newValue) {
-            if let url = newValue {
-                avatarButton.setAvatarURL(url)
-            }
-            else {
-                avatarButton.pin_cancelImageDownload()
-                avatarButton.setImage(nil, forState: .Normal)
-            }
+    var user: User? {
+        didSet {
+            avatarButton.setUser(user)
         }
     }
 

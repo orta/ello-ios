@@ -27,7 +27,7 @@ class StreamInviteFriendsCellPresenterSpec: QuickSpec {
             }
 
             it("sets the person and name label correctly") {
-                StreamInviteFriendsCellPresenter.configure(cell, streamCellItem: item, streamKind: StreamKind.Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                StreamInviteFriendsCellPresenter.configure(cell, streamCellItem: item, streamKind: StreamKind.Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
                 expect(cell.nameLabel.text) == "The Devil"
                 expect(cell.person) == person
             }
@@ -39,7 +39,7 @@ class StreamInviteFriendsCellPresenterSpec: QuickSpec {
             // not 100% sure why this isn't doing what I expect it to
             xit("sets the button text to Re-send if in the cache") {
                 cell.inviteCache?.saveInvite(person.identifier)
-                StreamInviteFriendsCellPresenter.configure(cell, streamCellItem: item, streamKind: StreamKind.Friend, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
+                StreamInviteFriendsCellPresenter.configure(cell, streamCellItem: item, streamKind: StreamKind.Following, indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: nil)
                 expect(cell.inviteButton.titleLabel?.text) == "Re-send"
             }
         }

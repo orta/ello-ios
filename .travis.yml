@@ -25,9 +25,6 @@ before_script:
 
 script: 'set -o pipefail && xcodebuild -workspace Ello.xcworkspace -scheme Ello -configuration Debug -destination "OS=9.0,name=iPhone 6" clean test | xcpretty -f `xcpretty-travis-formatter`'
 
-branches:
-  only:
-  - master
 notifications:
   email: false
   slack:

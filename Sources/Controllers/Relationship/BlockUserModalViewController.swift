@@ -126,14 +126,16 @@ public class BlockUserModalViewController: BaseElloViewController {
         } else {
             relationshipPriority = newRelationship
         }
-        relationshipDelegate?.updateRelationship(userId, relationshipPriority: relationshipPriority) {
-            [unowned self] (status, relationship) in
+
+        relationshipDelegate?.updateRelationship(currentUser?.id ?? "", userId: userId, relationshipPriority: relationshipPriority) {
+            (status, relationship) in
             switch status {
             case .Success:
                 self.changeClosure(relationshipPriority: self.relationshipPriority)
                 self.closeModal(nil)
             case .Failure:
                 self.relationshipPriority = prevRelationship
+                self.changeClosure(relationshipPriority: prevRelationship)
             }
         }
     }

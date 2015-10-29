@@ -22,8 +22,15 @@ public class UserListItemCell: UICollectionViewCell {
         style()
     }
 
-    func setAvatarURL(url:NSURL) {
-        avatarButton.setAvatarURL(url)
+    func setUser(user: User?) {
+        avatarButton.setUser(user)
+
+        relationshipControl.userId = user?.id ?? ""
+        relationshipControl.userAtName = user?.atName ?? ""
+        relationshipControl.relationshipPriority = user?.relationshipPriority ?? RelationshipPriority.None
+
+        usernameLabel.text = user?.atName ?? ""
+        nameLabel.text = user?.name ?? ""
     }
 
     private func style() {

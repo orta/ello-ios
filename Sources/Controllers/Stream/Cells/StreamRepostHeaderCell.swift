@@ -6,37 +6,31 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import Foundation
+import SVGKit
 
-public class StreamRepostHeaderCell: UICollectionViewCell, ElloTextViewDelegate {
 
-    @IBOutlet weak var viaTextViewHeight: NSLayoutConstraint!
-    weak var viaTextView: ElloTextView!
-    weak var sourceTextView: ElloTextView!
+public class StreamRepostHeaderCell: UICollectionViewCell {
+
+    @IBOutlet var repostedByLabel: ElloLabel!
+    @IBOutlet var repostIconView: UIImageView!
     weak var userDelegate: UserDelegate?
 
-    override public func awakeFromNib() {
-        super.awakeFromNib()
-        viaTextView.textViewDelegate = self
-        configureTextView(viaTextView)
-        sourceTextView.textViewDelegate = self
-        configureTextView(sourceTextView)
-    }
-
-    func configureTextView(textview: UITextView) {
-        textview.scrollEnabled = false
-        textview.textContainer.maximumNumberOfLines = 0
-        textview.textContainer.lineBreakMode = NSLineBreakMode.ByTruncatingTail
-    }
-
-    func textViewTapped(link: String, object: ElloAttributedObject) {
-        switch object {
-        case let .AttributedUserId(userId):
-            userDelegate?.userTappedParam(userId)
-        default: break
+    var atName: String = "" {
+        didSet {
+            if atName != "" {
+                repostedByLabel.setLabelText("by \(atName)", color: UIColor.greyA())
+            }
+            else {
+                repostedByLabel.setLabelText("")
+            }
         }
     }
 
-    func textViewTappedDefault() {}
+    override public func awakeFromNib() {
+        super.awakeFromNib()
+        repostIconView.image = SVGKImage(named: "repost_normal.svg").UIImage!
+        repostedByLabel.numberOfLines = 0
+        repostedByLabel.lineBreakMode = NSLineBreakMode.ByTruncatingTail
+    }
 
 }

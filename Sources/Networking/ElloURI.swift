@@ -63,7 +63,7 @@ public enum ElloURI: String {
 
     public var loadsInWebViewFromWebView: Bool {
         switch self {
-        case .Discover, .Email, .Enter, .Friends, .Noise, .Notifications, .Post, .Profile, .Root, .Search, .Settings: return false
+        case .Discover, .Email, .Enter, .Following, .Starred, .Notifications, .Post, .Profile, .Root, .Search, .Settings: return false
         default: return true
         }
     }

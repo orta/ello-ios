@@ -21,7 +21,7 @@ class PostbarControllerSpec: QuickSpec {
             "lovesCount": 5,
             ])
         let controller = StreamViewController.instantiateFromStoryboard()
-        let streamKind: StreamKind = .Friend
+        let streamKind: StreamKind = .Following
         let webView = UIWebView(frame: CGRectMake(0, 0, 320, 640))
         let textSizeCalculator = FakeStreamTextCellSizeCalculator(webView: UIWebView(frame: webView.frame))
         let notificationSizeCalculator = FakeStreamNotificationCellSizeCalculator(webView: UIWebView(frame: webView.frame))

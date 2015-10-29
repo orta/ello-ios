@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
@@ -29,6 +29,7 @@
                         <subviews>
                             <button opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GKO-1x-QWx" userLabel="avatarButton" customClass="AvatarButton" customModule="Ello" customModuleProvider="target">
                                 <rect key="frame" x="15" y="-77" width="122" height="122"/>
+                                <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="122" id="3aZ-xd-avL" userLabel="avatarButton - height"/>
@@ -42,12 +43,14 @@
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6nJ-r0-lN7" userLabel="usernameLabel">
                                 <rect key="frame" x="15" y="120" width="510" height="18"/>
+                                <animations/>
                                 <fontDescription key="fontDescription" name="AtlasGrotesk-Bold" family="Atlas Grotesk" pointSize="18"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NSFW" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jg3-QQ-cbq" userLabel="nsfwLabel" customClass="ElloLabel" customModule="Ello" customModuleProvider="target">
                                 <rect key="frame" x="540" y="120" width="45" height="18"/>
+                                <animations/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="45" id="Umw-Va-yXP" userLabel="nsfwLabel - width"/>
@@ -59,19 +62,32 @@
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="4sI-yA-gkk" userLabel="nameLabel">
                                 <rect key="frame" x="15" y="148" width="570" height="12"/>
+                                <animations/>
                                 <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="12"/>
                                 <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" placeholderIntrinsicWidth="82" placeholderIntrinsicHeight="30" translatesAutoresizingMaskIntoConstraints="NO" id="z1n-fe-u7L" userLabel="relationshipControl" customClass="RelationshipControl" customModule="Ello" customModuleProvider="target">
                                 <rect key="frame" x="503" y="10" width="82" height="30"/>
+                                <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qUL-8u-vZD" userLabel="profileButtonsView">
                                 <rect key="frame" x="421" y="15" width="164" height="30"/>
                                 <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kzz-fr-myT" userLabel="inviteButton">
+                                        <rect key="frame" x="-5" y="-2" width="30" height="34"/>
+                                        <animations/>
+                                        <state key="normal" title="Inv">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="inviteTapped:" destination="OE9-ll-CIs" eventType="touchUpInside" id="KxP-aZ-5qo"/>
+                                        </connections>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5A8-1y-eA5" userLabel="editProfileButton" customClass="OutlineElloButton" customModule="Ello" customModuleProvider="target">
                                         <rect key="frame" x="42" y="0.0" width="122" height="30"/>
+                                        <animations/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="1Va-Sz-pnL"/>
                                             <constraint firstAttribute="width" constant="122" id="eow-gE-aGn"/>
@@ -83,16 +99,8 @@
                                             <action selector="editProfileTapped:" destination="OE9-ll-CIs" eventType="touchUpInside" id="3D7-wc-dFI"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kzz-fr-myT" userLabel="inviteButton">
-                                        <rect key="frame" x="-5" y="-2" width="30" height="34"/>
-                                        <state key="normal" title="Inv">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="inviteTapped:" destination="OE9-ll-CIs" eventType="touchUpInside" id="KxP-aZ-5qo"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
+                                <animations/>
                                 <color key="backgroundColor" red="0.05276594215375896" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="164" id="3Zt-4u-cGH" userLabel="profileButtonsView - width"/>
@@ -105,10 +113,12 @@
                             </view>
                             <webView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PtF-QI-fk2" userLabel="bioWebView">
                                 <rect key="frame" x="15" y="178" width="570" height="312"/>
+                                <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </webView>
                             <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="34" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zV5-bQ-18e" customClass="TwoLineButton" customModule="Ello" customModuleProvider="target">
                                 <rect key="frame" x="15" y="59" width="50" height="34"/>
+                                <animations/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Posts">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -119,6 +129,7 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="34" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gWi-lG-cJp" customClass="TwoLineButton" customModule="Ello" customModuleProvider="target">
                                 <rect key="frame" x="90" y="59" width="50" height="34"/>
+                                <animations/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Following">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -129,6 +140,7 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="34" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FV1-FS-QMz" customClass="TwoLineButton" customModule="Ello" customModuleProvider="target">
                                 <rect key="frame" x="165" y="59" width="50" height="34"/>
+                                <animations/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Followers">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -139,6 +151,7 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="34" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rQa-MW-cCK" customClass="TwoLineButton" customModule="Ello" customModuleProvider="target">
                                 <rect key="frame" x="240" y="59" width="50" height="34"/>
+                                <animations/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Loves">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -148,6 +161,7 @@
                                 </connections>
                             </button>
                         </subviews>
+                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="GKO-1x-QWx" firstAttribute="leading" secondItem="U6M-uB-CWv" secondAttribute="leading" constant="15" id="2QO-Ec-DPT" userLabel="avatarButton - left"/>
@@ -179,8 +193,10 @@
                         </constraints>
                     </view>
                 </subviews>
+                <animations/>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
+            <animations/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="U6M-uB-CWv" firstAttribute="top" secondItem="OE9-ll-CIs" secondAttribute="top" constant="110" id="joA-XB-bkx" userLabel="viewTopConstraint"/>

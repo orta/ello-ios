@@ -35,7 +35,7 @@ class RelationshipControllerSpec: QuickSpec {
                     ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour)
                     var expectedStatus = RelationshipRequestStatus.Failure
 
-                    subject.updateRelationship("test-user-id", relationshipPriority: RelationshipPriority.Friend) {
+                    subject.updateRelationship("", userId: "test-user-id", relationshipPriority: RelationshipPriority.Following) {
                         (status, _) in
                         expectedStatus = status
                     }
@@ -47,7 +47,7 @@ class RelationshipControllerSpec: QuickSpec {
 
                     var expectedStatus = RelationshipRequestStatus.Success
 
-                    subject.updateRelationship("test-user-id", relationshipPriority: RelationshipPriority.Friend) {
+                    subject.updateRelationship("", userId: "test-user-id", relationshipPriority: RelationshipPriority.Following) {
                         (status, _) in
                         expectedStatus = status
                     }
@@ -58,7 +58,7 @@ class RelationshipControllerSpec: QuickSpec {
             describe("-launchBlockModal:userAtName:relationship:changeClosure:") {
 
                 it("launches the block user modal view controller") {
-                    subject.launchBlockModal("user-id", userAtName: "@666", relationshipPriority: RelationshipPriority.Friend) {
+                    subject.launchBlockModal("user-id", userAtName: "@666", relationshipPriority: RelationshipPriority.Following) {
                         _ in
                     }
                     let presentedVC = subject.presentingController.presentedViewController as! BlockUserModalViewController

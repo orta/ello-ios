@@ -47,8 +47,8 @@ class StreamDataSourceSpec: QuickSpec {
             beforeEach {
                 ElloProvider.sharedProvider = MoyaProvider(endpointClosure: ElloProvider.endpointClosure, stubBehavior: MoyaProvider.ImmediateStubbingBehaviour)
                 vc = StreamViewController.instantiateFromStoryboard()
-                vc.streamKind = StreamKind.Friend
-                subject = StreamDataSource(streamKind: .Friend,
+                vc.streamKind = StreamKind.Following
+                subject = StreamDataSource(streamKind: .Following,
                     textSizeCalculator: textSizeCalculator,
                     notificationSizeCalculator: notificationSizeCalculator,
                     profileHeaderSizeCalculator: profileHeaderSizeCalculator,
@@ -169,7 +169,7 @@ class StreamDataSourceSpec: QuickSpec {
                         for index in 1...10 {
                             posts.append(Post.stub(["id": "\(index)"]))
                         }
-                        let cellItems = StreamCellItemParser().parse(posts, streamKind: .Friend)
+                        let cellItems = StreamCellItemParser().parse(posts, streamKind: .Following)
                         subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                             vc.collectionView.dataSource = subject
                             vc.collectionView.reloadData()
@@ -218,7 +218,7 @@ class StreamDataSourceSpec: QuickSpec {
                                 ])
                             )
                         }
-                        let cellItems = StreamCellItemParser().parse(posts, streamKind: .Friend)
+                        let cellItems = StreamCellItemParser().parse(posts, streamKind: .Following)
                         subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                             vc.collectionView.dataSource = subject
                             vc.collectionView.reloadData()
@@ -245,7 +245,7 @@ class StreamDataSourceSpec: QuickSpec {
                                 ])
                             )
                         }
-                        let cellItems = StreamCellItemParser().parse(posts, streamKind: .Friend)
+                        let cellItems = StreamCellItemParser().parse(posts, streamKind: .Following)
                         subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                             vc.collectionView.dataSource = subject
                             vc.collectionView.reloadData()
@@ -261,7 +261,7 @@ class StreamDataSourceSpec: QuickSpec {
             describe("indexPathForItem(_:)") {
                 var postItem: StreamCellItem!
                 beforeEach {
-                    let cellItems = StreamCellItemParser().parse([Post.stub([:])], streamKind: .Friend)
+                    let cellItems = StreamCellItemParser().parse([Post.stub([:])], streamKind: .Following)
                     postItem = cellItems[0]
                     subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
@@ -287,7 +287,7 @@ class StreamDataSourceSpec: QuickSpec {
             describe("postForIndexPath(_:)") {
 
                 beforeEach {
-                    let cellItems = StreamCellItemParser().parse([Post.stub([:])], streamKind: .Friend)
+                    let cellItems = StreamCellItemParser().parse([Post.stub([:])], streamKind: .Following)
                     subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
                         vc.collectionView.reloadData()
@@ -313,7 +313,7 @@ class StreamDataSourceSpec: QuickSpec {
                     let asset = Asset.stub([:])
                     let region = ImageRegion.stub(["asset": asset])
                     let post = Post.stub(["content": [region]])
-                    let cellItems = StreamCellItemParser().parse([post], streamKind: .Friend)
+                    let cellItems = StreamCellItemParser().parse([post], streamKind: .Following)
                     subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
                         vc.collectionView.reloadData()
@@ -336,7 +336,7 @@ class StreamDataSourceSpec: QuickSpec {
             describe("commentForIndexPath(_:)") {
 
                 beforeEach {
-                    let cellItems = StreamCellItemParser().parse([Comment.stub([:])], streamKind: .Friend)
+                    let cellItems = StreamCellItemParser().parse([Comment.stub([:])], streamKind: .Following)
                     subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
                         vc.collectionView.reloadData()
@@ -360,9 +360,9 @@ class StreamDataSourceSpec: QuickSpec {
 
                 beforeEach {
                     let parser = StreamCellItemParser()
-                    let postCellItems = parser.parse([Post.stub(["id": "666"])], streamKind: .Friend)
-                    let commentCellItems = parser.parse([Comment.stub(["parentPostId": "666"]), Comment.stub(["parentPostId": "666"])], streamKind: .Friend)
-                    let otherPostCellItems = parser.parse([Post.stub(["id": "777"])], streamKind: .Friend)
+                    let postCellItems = parser.parse([Post.stub(["id": "666"])], streamKind: .Following)
+                    let commentCellItems = parser.parse([Comment.stub(["parentPostId": "666"]), Comment.stub(["parentPostId": "666"])], streamKind: .Following)
+                    let otherPostCellItems = parser.parse([Post.stub(["id": "777"])], streamKind: .Following)
                     let cellItems = postCellItems + commentCellItems + otherPostCellItems
                     subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
@@ -431,28 +431,28 @@ class StreamDataSourceSpec: QuickSpec {
                     var cellItems = [StreamCellItem]()
                     let parser = StreamCellItemParser()
                     // creates 4 cells
-                    let post1CellItems = parser.parse([Post.stub(["id": "666"])], streamKind: .Friend)
+                    let post1CellItems = parser.parse([Post.stub(["id": "666"])], streamKind: .Following)
                     cellItems = post1CellItems
                     // creates 4 cells 2x2
-                    let comment1CellItems = parser.parse([Comment.stub(["parentPostId": "666"]), Comment.stub(["parentPostId": "666"])], streamKind: .Friend)
+                    let comment1CellItems = parser.parse([Comment.stub(["parentPostId": "666"]), Comment.stub(["parentPostId": "666"])], streamKind: .Following)
                     cellItems += comment1CellItems
                     // one cell
                     let seeMoreCellItem = StreamCellItem(jsonable: Comment.stub(["parentPostId": "666"]), type: .SeeMoreComments)
                     cellItems.append(seeMoreCellItem)
                     // creates 4 cells
-                    let post2CellItems = parser.parse([Post.stub(["id": "777"])], streamKind: .Friend)
+                    let post2CellItems = parser.parse([Post.stub(["id": "777"])], streamKind: .Following)
                     cellItems += post2CellItems
                     // creates 2 cells
-                    let comment2CellItems = parser.parse([Comment.stub(["parentPostId": "777"])], streamKind: .Friend)
+                    let comment2CellItems = parser.parse([Comment.stub(["parentPostId": "777"])], streamKind: .Following)
                     cellItems += comment2CellItems
                     // creates 5 cells
-                    let post3CellItems = parser.parse([Post.stub(["id": "888", "contentWarning": "NSFW"])], streamKind: .Friend)
+                    let post3CellItems = parser.parse([Post.stub(["id": "888", "contentWarning": "NSFW"])], streamKind: .Following)
                     cellItems += post3CellItems
                     // create 1 cell
                     let createCommentCellItem = StreamCellItem(jsonable: Comment.stub(["parentPostId": "888"]), type: .CreateComment)
                     cellItems.append(createCommentCellItem)
                     // creates 2 cells
-                    let comment3CellItems = parser.parse([Comment.stub(["parentPostId": "888"])], streamKind: .Friend)
+                    let comment3CellItems = parser.parse([Comment.stub(["parentPostId": "888"])], streamKind: .Following)
                     cellItems += comment3CellItems
                     subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
@@ -494,7 +494,7 @@ class StreamDataSourceSpec: QuickSpec {
 
             describe("footerIndexPathForPost(_:)") {
                 beforeEach {
-                    let cellItems = StreamCellItemParser().parse([Post.stub(["id": "456"])], streamKind: .Friend)
+                    let cellItems = StreamCellItemParser().parse([Post.stub(["id": "456"])], streamKind: .Following)
                     subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
                         vc.collectionView.reloadData()
@@ -516,9 +516,9 @@ class StreamDataSourceSpec: QuickSpec {
 
                     let stubCommentCellItems: (commentsVisible: Bool) -> Void = { (commentsVisible: Bool) in
                         let parser = StreamCellItemParser()
-                        let postCellItems = parser.parse([Post.stub(["id": "456"])], streamKind: .Friend)
+                        let postCellItems = parser.parse([Post.stub(["id": "456"])], streamKind: .Following)
                         let commentButtonCellItem = [StreamCellItem(jsonable: Comment.stub(["parentPostId": "456"]), type: .CreateComment)]
-                        let commentCellItems = parser.parse([Comment.stub(["parentPostId": "456", "id" : "111"])], streamKind: .Friend)
+                        let commentCellItems = parser.parse([Comment.stub(["parentPostId": "456", "id" : "111"])], streamKind: .Following)
                         var cellItems = postCellItems
                         if commentsVisible {
                             cellItems = cellItems + commentButtonCellItem + commentCellItems
@@ -581,7 +581,7 @@ class StreamDataSourceSpec: QuickSpec {
                             )
                         }
 
-                        let cellItems = StreamCellItemParser().parse(posts, streamKind: .Friend)
+                        let cellItems = StreamCellItemParser().parse(posts, streamKind: .Following)
                         subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
                             vc.collectionView.dataSource = subject
                             vc.collectionView.reloadData()
@@ -590,10 +590,10 @@ class StreamDataSourceSpec: QuickSpec {
 
                     describe(".Create") {
 
-                        context("StreamKind.Friend") {
+                        context("StreamKind.Following") {
 
                             it("inserts the new post at 0, 0") {
-                                subject.streamKind = .Friend
+                                subject.streamKind = .Following
                                 expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 20
                                 subject.modifyItems(Post.stub(["id": "new_post"]), change: .Create, collectionView: fakeCollectionView)
                                 expect(subject.postForIndexPath(indexPath0)!.id) == "new_post"
@@ -642,10 +642,10 @@ class StreamDataSourceSpec: QuickSpec {
                             }
                         }
 
-                        context("StreamKind.Noise") {
+                        context("StreamKind.Starred") {
 
                             it("does not insert a post") {
-                                subject.streamKind = .Noise
+                                subject.streamKind = .Starred
 
                                 expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 20
 
@@ -673,7 +673,7 @@ class StreamDataSourceSpec: QuickSpec {
                     describe(".Delete") {
 
                         beforeEach {
-                            subject.streamKind = .Friend
+                            subject.streamKind = .Following
                         }
 
                         it("removes the deleted post") {
@@ -692,7 +692,7 @@ class StreamDataSourceSpec: QuickSpec {
                     describe(".Update") {
 
                         beforeEach {
-                            subject.streamKind = .Friend
+                            subject.streamKind = .Following
                         }
 
                         it("updates the updated post") {
@@ -788,13 +788,22 @@ class StreamDataSourceSpec: QuickSpec {
 
                     it("updates posts from that user") {
                         stubCellItems(streamKind: StreamKind.SimpleStream(endpoint: ElloAPI.FriendStream, title: "some title"))
-                        var user1 = subject.userForIndexPath(indexPath0)
-                        expect(user1!.followersCount) == "stub-user-followers-count"
-                        expect(user1!.relationshipPriority.rawValue) == RelationshipPriority.None.rawValue
-                        subject.modifyUserRelationshipItems(User.stub(["id": "user1", "followersCount": "2", "followingCount": 2, "relationshipPriority": RelationshipPriority.Friend.rawValue]), collectionView: fakeCollectionView)
-                        user1 = subject.userForIndexPath(indexPath0)
-                        expect(user1!.followersCount) == "2"
-                        expect(user1!.relationshipPriority.rawValue) == RelationshipPriority.Friend.rawValue
+                        var user1 = subject.userForIndexPath(indexPath0)!
+                        expect(user1.followersCount) == "stub-user-followers-count"
+                        expect(user1.relationshipPriority.rawValue) == RelationshipPriority.None.rawValue
+                        subject.modifyUserRelationshipItems(User.stub(["id": "user1", "followersCount": "2", "followingCount": 2, "relationshipPriority": RelationshipPriority.Following.rawValue]), collectionView: fakeCollectionView)
+                        user1 = subject.userForIndexPath(indexPath0)!
+                        expect(user1.followersCount) == "2"
+                        expect(user1.relationshipPriority.rawValue) == RelationshipPriority.Following.rawValue
+                    }
+
+                    it("shows the star on the avatarButton") {
+                        stubCellItems(streamKind: StreamKind.SimpleStream(endpoint: ElloAPI.FriendStream, title: "some title"))
+                        subject.modifyUserRelationshipItems(User.stub(["id": "user1", "followersCount": "2", "followingCount": 2, "relationshipPriority": RelationshipPriority.Starred.rawValue]), collectionView: fakeCollectionView)
+                        let indexPath = NSIndexPath(forItem: 1, inSection: 0)
+                        let headerCellItem = subject.visibleStreamCellItem(at: indexPath)!
+                        let post = headerCellItem.jsonable as? Post
+                        expect(post?.author?.relationshipPriority) == .Starred
                     }
 
                     xit("updates comments from that user") {
@@ -867,11 +876,11 @@ class StreamDataSourceSpec: QuickSpec {
                     var items = [StreamCellItem]()
                     let parser = StreamCellItemParser()
                     post = Post.stub(["id": "666"])
-                    items += parser.parse([post], streamKind: .Friend)
+                    items += parser.parse([post], streamKind: .Following)
                     items.append(StreamCellItem(jsonable: Comment.newCommentForPost(post, currentUser: User.stub([:])), type: .CreateComment))
-                    items += parser.parse([Comment.stub(["parentPostId": "666"]), Comment.stub(["parentPostId": "666"])], streamKind: .Friend)
-                    items += parser.parse([Post.stub(["id": "777"])], streamKind: .Friend)
-                    items += parser.parse([Comment.stub(["parentPostId": "777"])], streamKind: .Friend)
+                    items += parser.parse([Comment.stub(["parentPostId": "666"]), Comment.stub(["parentPostId": "666"])], streamKind: .Following)
+                    items += parser.parse([Post.stub(["id": "777"])], streamKind: .Following)
+                    items += parser.parse([Comment.stub(["parentPostId": "777"])], streamKind: .Following)
 
                     subject.appendUnsizedCellItems(items, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
@@ -898,11 +907,11 @@ class StreamDataSourceSpec: QuickSpec {
                     var items = [StreamCellItem]()
                     let parser = StreamCellItemParser()
                     post = Post.stub(["id": "666"])
-                    items += parser.parse([post], streamKind: .Friend)
+                    items += parser.parse([post], streamKind: .Following)
                     items.append(StreamCellItem(jsonable: Comment.newCommentForPost(post, currentUser: User.stub([:])), type: .CreateComment))
-                    items += parser.parse([Comment.stub(["parentPostId": "666"]), Comment.stub(["parentPostId": "666"])], streamKind: .Friend)
-                    items += parser.parse([Post.stub(["id": "777"])], streamKind: .Friend)
-                    items += parser.parse([Comment.stub(["parentPostId": "777"])], streamKind: .Friend)
+                    items += parser.parse([Comment.stub(["parentPostId": "666"]), Comment.stub(["parentPostId": "666"])], streamKind: .Following)
+                    items += parser.parse([Post.stub(["id": "777"])], streamKind: .Following)
+                    items += parser.parse([Comment.stub(["parentPostId": "777"])], streamKind: .Following)
 
                     subject.appendUnsizedCellItems(items, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
@@ -923,7 +932,7 @@ class StreamDataSourceSpec: QuickSpec {
                 beforeEach {
                     var items = [StreamCellItem]()
                     let parser = StreamCellItemParser()
-                    items += parser.parse([Post.stub(["id": "666", "content": [TextRegion.stub([:])]])], streamKind: .Friend)
+                    items += parser.parse([Post.stub(["id": "666", "content": [TextRegion.stub([:])]])], streamKind: .Following)
 
                     subject.appendUnsizedCellItems(items, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
@@ -1082,8 +1091,8 @@ class StreamDataSourceSpec: QuickSpec {
                     let parser = StreamCellItemParser()
                     postToToggle = Post.stub(["contentWarning" : "warning! b000000bs!", "content": [ImageRegion.stub([:])]])
                     postNotToToggle = Post.stub(["contentWarning" : "warning! b000000bs!", "content": [ImageRegion.stub([:])]])
-                    items += parser.parse([postToToggle], streamKind: .Friend)
-                    items += parser.parse([postNotToToggle], streamKind: .Friend)
+                    items += parser.parse([postToToggle], streamKind: .Following)
+                    items += parser.parse([postNotToToggle], streamKind: .Following)
 
                     subject.appendUnsizedCellItems(items, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
@@ -1179,9 +1188,9 @@ class StreamDataSourceSpec: QuickSpec {
                     var items = [StreamCellItem]()
                     let parser = StreamCellItemParser()
                     post = Post.stub(["id": "666", "content": [TextRegion.stub([:])]])
-                    items += parser.parse([post], streamKind: .Friend)
+                    items += parser.parse([post], streamKind: .Following)
                     items.append(StreamCellItem(jsonable: Comment.newCommentForPost(post, currentUser: User.stub([:])), type: .CreateComment))
-                    items += parser.parse([Comment.stub(["parentPostId": "666"]), Comment.stub(["parentPostId": "666"])], streamKind: .Friend)
+                    items += parser.parse([Comment.stub(["parentPostId": "666"]), Comment.stub(["parentPostId": "666"])], streamKind: .Following)
 
                     subject.appendUnsizedCellItems(items, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
@@ -1205,7 +1214,7 @@ class StreamDataSourceSpec: QuickSpec {
 
                     let parser = StreamCellItemParser()
                     let post2 = Post.stub(["id": "555"])
-                    let items = parser.parse([post2], streamKind: .Friend)
+                    let items = parser.parse([post2], streamKind: .Following)
                     subject.appendUnsizedCellItems(items, withWidth: webView.frame.width) { cellCount in
                         vc.collectionView.dataSource = subject
                         vc.collectionView.reloadData()
@@ -1377,7 +1386,7 @@ class StreamDataSourceSpec: QuickSpec {
 //            xdescribe("-collectionView:cellForItemAtIndexPath:") {
 //
 //                beforeEach {
-//                    subject = StreamDataSource(streamKind: .Friend,
+//                    subject = StreamDataSource(streamKind: .Following,
 //                        textSizeCalculator: textSizeCalculator,
 //                        notificationSizeCalculator: notificationSizeCalculator,
 //                        profileHeaderSizeCalculator: profileHeaderSizeCalculator)

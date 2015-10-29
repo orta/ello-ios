@@ -100,7 +100,7 @@ public class Keyboard {
             options = UIViewAnimationOptions(rawValue: curveInt)
         }
         else {
-            curve == .EaseOut
+            curve = .EaseOut
             options = .CurveEaseOut
         }
     }

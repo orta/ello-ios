@@ -29,7 +29,7 @@ class NewContentServiceSpec: QuickSpec {
                 let feb_01_2015 = NSDate(timeIntervalSince1970: 1422748800)
                 let mar_01_2015 = NSDate(timeIntervalSince1970: 1425168000)
                 let apr_01_2015 = NSDate(timeIntervalSince1970: 1427846400)
-                let streamKind = StreamKind.Friend
+                let streamKind = StreamKind.Following
 
                 let post: Post = stub(["id" : "1", "createdAt" : jan_01_2015])
                 let post2: Post = stub(["id" : "2", "createdAt" : feb_01_2015])

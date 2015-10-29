@@ -23,6 +23,14 @@ public class StreamHeaderCell: UICollectionViewCell {
             self.updateItems()
         }
     }
+
+    public var followButtonVisible = false {
+        didSet {
+            relationshipControl.hidden = !followButtonVisible
+            timestampLabel.hidden = followButtonVisible
+        }
+    }
+
     var revealWidth: CGFloat {
         if let items = bottomToolBar.items where items.count == 4 {
             return 106.0
@@ -50,10 +58,16 @@ public class StreamHeaderCell: UICollectionViewCell {
     @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var chevronButton: StreamFooterButton!
     @IBOutlet weak var usernameButton: UIButton!
+    @IBOutlet weak var relationshipControl: RelationshipControl!
     @IBOutlet weak var replyButton: UIButton!
     var isGridLayout = false
 
-    weak var postbarDelegate: PostbarDelegate?
+    public weak var relationshipDelegate: RelationshipDelegate? {
+        get { return relationshipControl.relationshipDelegate }
+        set { relationshipControl.relationshipDelegate = newValue }
+    }
+    public weak var postbarDelegate: PostbarDelegate?
+    public weak var userDelegate: UserDelegate?
 
     var avatarHeight: CGFloat = 60.0 {
         didSet { setNeedsDisplay() }
@@ -71,7 +85,6 @@ public class StreamHeaderCell: UICollectionViewCell {
     var chevronHidden = false
 
     var streamKind:StreamKind?
-    weak var userDelegate: UserDelegate?
 
     let flagItem = ElloPostToolBarOption.Flag.barButtonItem()
     public var flagControl: ImageLabelControl {
@@ -88,8 +101,11 @@ public class StreamHeaderCell: UICollectionViewCell {
         return self.deleteItem.customView as! ImageLabelControl
     }
 
-    func setAvatarURL(url:NSURL?) {
-        avatarButton.setAvatarURL(url)
+    func setUser(user: User?) {
+        avatarButton.setUser(user)
+        let username = user?.atName ?? ""
+        usernameButton.setTitle(username, forState: UIControlState.Normal)
+        usernameButton.sizeToFit()
     }
 
     override public func awakeFromNib() {
@@ -133,12 +149,6 @@ public class StreamHeaderCell: UICollectionViewCell {
     }
 
 // MARK: - Public
-
-    public func updateUsername(username: String, isGridLayout: Bool = false) {
-        self.isGridLayout = isGridLayout
-        usernameButton.setTitle(username, forState: UIControlState.Normal)
-        usernameButton.sizeToFit()
-    }
 
     public func close() {
         isOpen = false
@@ -199,6 +209,18 @@ public class StreamHeaderCell: UICollectionViewCell {
         }
 
         var timestampX = chevronButton.frame.x - timestampLabel.frame.width
+        timestampLabel.frame = CGRect(
+            x: timestampX,
+            y: innerContentView.frame.midY - timestampLabel.frame.height/2,
+            width: timestampLabel.frame.width,
+            height: timestampLabel.frame.height)
+
+        let relationshipControlSize = relationshipControl.intrinsicContentSize()
+        relationshipControl.frame = CGRect(
+            x: innerContentView.frame.width - sidePadding - relationshipControlSize.width,
+            y: (innerContentView.frame.height - relationshipControlSize.height) / 2,
+            width: relationshipControlSize.width,
+            height: relationshipControlSize.height)
 
         replyButton.frame.size.width = buttonWidth
         replyButton.frame.origin.x = timestampX - buttonWidth - buttonMargin - buttonMargin - sidePadding

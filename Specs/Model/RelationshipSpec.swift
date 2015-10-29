@@ -10,7 +10,7 @@ class RelationshipPrioritySpec: QuickSpec {
                 it("returns a Relationship created from the raw value"){
                     let relationship = RelationshipPriority(stringValue: "friend")
 
-                    expect(relationship).to(equal(RelationshipPriority.Friend))
+                    expect(relationship).to(equal(RelationshipPriority.Following))
                 }
             }
 
@@ -84,9 +84,9 @@ class RelationshipSpec: QuickSpec {
                     expect(wasSuccessfulArchived).to(beTrue())
                 }
             }
-            
+
             context("decoding") {
-                
+
                 it("decodes successfully") {
                     let expectedCreatedAt = NSDate()
                     let relationship: Relationship = stub([

@@ -22,8 +22,8 @@ class StreamKindSpec: QuickSpec {
 
                 it("is correct for all cases") {
                     expect(StreamKind.Discover(type: .Recommended, perPage: 1).name) == "Discover"
-                    expect(StreamKind.Friend.name) == "Friends"
-                    expect(StreamKind.Noise.name) == "Noise"
+                    expect(StreamKind.Following.name) == "Following"
+                    expect(StreamKind.Starred.name) == "Starred"
                     expect(StreamKind.Notifications(category: "").name) == "Notifications"
                     expect(StreamKind.PostDetail(postParam: "param").name) == "Post Detail"
                     expect(StreamKind.Profile(perPage: 1).name) == "Profile"
@@ -37,8 +37,8 @@ class StreamKindSpec: QuickSpec {
 
                 it("is correct for all cases") {
                     expect(StreamKind.Discover(type: .Recommended, perPage: 1).lastViewedCreatedAtKey) == "Discover_createdAt"
-                    expect(StreamKind.Friend.lastViewedCreatedAtKey) == "Friends_createdAt"
-                    expect(StreamKind.Noise.lastViewedCreatedAtKey) == "Noise_createdAt"
+                    expect(StreamKind.Following.lastViewedCreatedAtKey) == "Following_createdAt"
+                    expect(StreamKind.Starred.lastViewedCreatedAtKey) == "Starred_createdAt"
                     expect(StreamKind.Notifications(category: "").lastViewedCreatedAtKey) == "Notifications_createdAt"
                     expect(StreamKind.PostDetail(postParam: "param").lastViewedCreatedAtKey) == "Post Detail_createdAt"
                     expect(StreamKind.Profile(perPage: 1).lastViewedCreatedAtKey) == "Profile_createdAt"
@@ -52,8 +52,8 @@ class StreamKindSpec: QuickSpec {
 
                 it("is correct for all cases") {
                     expect(StreamKind.Discover(type: .Recommended, perPage: 1).columnCount) == 2
-                    expect(StreamKind.Friend.columnCount) == 1
-                    expect(StreamKind.Noise.columnCount) == 2
+                    expect(StreamKind.Following.columnCount) == 1
+                    expect(StreamKind.Starred.columnCount) == 2
                     expect(StreamKind.Notifications(category: "").columnCount) == 1
                     expect(StreamKind.PostDetail(postParam: "param").columnCount) == 1
                     expect(StreamKind.Profile(perPage: 1).columnCount) == 1
@@ -68,8 +68,8 @@ class StreamKindSpec: QuickSpec {
 
                 it("is correct for all cases") {
                     expect(StreamKind.Discover(type: .Recommended, perPage: 1).tappingTextOpensDetail) == true
-                    expect(StreamKind.Friend.tappingTextOpensDetail) == false
-                    expect(StreamKind.Noise.tappingTextOpensDetail) == true
+                    expect(StreamKind.Following.tappingTextOpensDetail) == false
+                    expect(StreamKind.Starred.tappingTextOpensDetail) == true
                     expect(StreamKind.Notifications(category: "").tappingTextOpensDetail) == true
                     expect(StreamKind.PostDetail(postParam: "param").tappingTextOpensDetail) == false
                     expect(StreamKind.Profile(perPage: 1).tappingTextOpensDetail) == false
@@ -83,8 +83,8 @@ class StreamKindSpec: QuickSpec {
 
                 it("is correct for all cases") {
                     expect(StreamKind.Discover(type: .Recommended, perPage: 1).endpoint.path) == "/api/\(ElloAPI.apiVersion)/discover/users/\(DiscoverType.Recommended.rawValue)"
-                    expect(StreamKind.Friend.endpoint.path) == "/api/\(ElloAPI.apiVersion)/streams/friend"
-                    expect(StreamKind.Noise.endpoint.path) == "/api/\(ElloAPI.apiVersion)/streams/noise"
+                    expect(StreamKind.Following.endpoint.path) == "/api/\(ElloAPI.apiVersion)/streams/friend"
+                    expect(StreamKind.Starred.endpoint.path) == "/api/\(ElloAPI.apiVersion)/streams/noise"
                     expect(StreamKind.Notifications(category: "").endpoint.path) == "/api/\(ElloAPI.apiVersion)/notifications"
                     expect(StreamKind.PostDetail(postParam: "param").endpoint.path) == "/api/\(ElloAPI.apiVersion)/posts/param"
                     expect(StreamKind.Profile(perPage: 1).endpoint.path) == "/api/\(ElloAPI.apiVersion)/profile"
@@ -99,8 +99,8 @@ class StreamKindSpec: QuickSpec {
 
                 it("is correct for all cases") {
                     expect(StreamKind.Discover(type: .Recommended, perPage: 1).relationship) == RelationshipPriority.Null
-                    expect(StreamKind.Friend.relationship) == RelationshipPriority.Friend
-                    expect(StreamKind.Noise.relationship) == RelationshipPriority.Noise
+                    expect(StreamKind.Following.relationship) == RelationshipPriority.Following
+                    expect(StreamKind.Starred.relationship) == RelationshipPriority.Starred
                     expect(StreamKind.Notifications(category: "").relationship) == RelationshipPriority.Null
                     expect(StreamKind.PostDetail(postParam: "param").relationship) == RelationshipPriority.Null
                     expect(StreamKind.Profile(perPage: 1).relationship) == RelationshipPriority.Null
@@ -114,12 +114,36 @@ class StreamKindSpec: QuickSpec {
                 // important but time consuming to implement this one, little by little!
             }
 
+            describe("showStarredButton") {
+
+                let tests: [(Bool, StreamKind)] = [
+                    (true, StreamKind.Discover(type: .Recommended, perPage: 1)),
+                    (true, StreamKind.Following),
+                    (true, StreamKind.Starred),
+                    (true, StreamKind.Notifications(category: "")),
+                    (true, StreamKind.PostDetail(postParam: "param")),
+                    (true, StreamKind.Profile(perPage: 1)),
+                    (true, StreamKind.Unknown),
+                    (true, StreamKind.UserStream(userParam: "n/a")),
+                    (true, StreamKind.SimpleStream(endpoint: ElloAPI.SearchForPosts(terms: "meat"), title: "meat")),
+                    (true, StreamKind.SimpleStream(endpoint: ElloAPI.UserStreamFollowers(userId: "12345"), title: "")),
+                    (false, StreamKind.SimpleStream(endpoint: ElloAPI.AwesomePeopleStream, title: "")),
+                    (false, StreamKind.SimpleStream(endpoint: ElloAPI.CommunitiesStream, title: "")),
+                    (false, StreamKind.SimpleStream(endpoint: ElloAPI.FoundersStream, title: "")),
+                ]
+                for (shouldStar, streamKind) in tests {
+                    it("is \(shouldStar) for \(streamKind)") {
+                        expect(streamKind.showStarredButton) == shouldStar
+                    }
+                }
+            }
+
             describe("isGridLayout") {
 
                 it("is correct for all cases") {
                     expect(StreamKind.Discover(type: .Recommended, perPage: 1).isGridLayout) == true
-                    expect(StreamKind.Friend.isGridLayout) == false
-                    expect(StreamKind.Noise.isGridLayout) == true
+                    expect(StreamKind.Following.isGridLayout) == false
+                    expect(StreamKind.Starred.isGridLayout) == true
                     expect(StreamKind.Notifications(category: "").isGridLayout) == false
                     expect(StreamKind.PostDetail(postParam: "param").isGridLayout) == false
                     expect(StreamKind.Profile(perPage: 1).isGridLayout) == false
@@ -134,8 +158,8 @@ class StreamKindSpec: QuickSpec {
 
                 it("is correct for all cases") {
                     expect(StreamKind.Discover(type: .Recommended, perPage: 1).isDetail) == false
-                    expect(StreamKind.Friend.isDetail) == false
-                    expect(StreamKind.Noise.isDetail) == false
+                    expect(StreamKind.Following.isDetail) == false
+                    expect(StreamKind.Starred.isDetail) == false
                     expect(StreamKind.Notifications(category: "").isDetail) == false
                     expect(StreamKind.PostDetail(postParam: "param").isDetail) == true
                     expect(StreamKind.Profile(perPage: 1).isDetail) == false
@@ -150,8 +174,8 @@ class StreamKindSpec: QuickSpec {
 
                 it("is correct for all cases") {
                     expect(StreamKind.Discover(type: .Recommended, perPage: 1).supportsLargeImages) == false
-                    expect(StreamKind.Friend.supportsLargeImages) == false
-                    expect(StreamKind.Noise.supportsLargeImages) == false
+                    expect(StreamKind.Following.supportsLargeImages) == false
+                    expect(StreamKind.Starred.supportsLargeImages) == false
                     expect(StreamKind.Notifications(category: "").supportsLargeImages) == false
                     expect(StreamKind.PostDetail(postParam: "param").supportsLargeImages) == true
                     expect(StreamKind.Profile(perPage: 1).supportsLargeImages) == false

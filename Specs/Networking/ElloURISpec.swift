@@ -50,7 +50,7 @@ class ElloURISpec: QuickSpec {
                         expect(type).to(equal(ElloURI.Email))
                         expect(data).to(equal("mailto:archer@example.com"))
                     }
-                    
+
                 }
 
                 let domains = [

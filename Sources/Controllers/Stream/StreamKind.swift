@@ -10,8 +10,8 @@ import Foundation
 
 public enum StreamKind {
     case Discover(type: DiscoverType, perPage: Int)
-    case Friend
-    case Noise
+    case Following
+    case Starred
     case Notifications(category: String?)
     case PostDetail(postParam: String)
     case Profile(perPage: Int)
@@ -22,8 +22,8 @@ public enum StreamKind {
     public var name:String {
         switch self {
         case .Discover: return "Discover"
-        case .Friend: return "Friends"
-        case .Noise: return "Noise"
+        case .Following: return "Following"
+        case .Starred: return "Starred"
         case .Notifications: return "Notifications"
         case .PostDetail: return "Post Detail"
         case .Profile: return "Profile"
@@ -39,7 +39,7 @@ public enum StreamKind {
 
     public var columnCount: Int {
         switch self {
-        case .Noise, .Discover: return 2
+        case .Starred, .Discover: return 2
         case let .SimpleStream(endpoint, _):
             switch endpoint {
             case .SearchForPosts: return 2
@@ -51,7 +51,7 @@ public enum StreamKind {
 
     public var tappingTextOpensDetail: Bool {
         switch self {
-            case .PostDetail, .Friend, .Profile, .UserStream:
+            case .PostDetail, .Following, .Profile, .UserStream:
                 return false
             default:
                 return true
@@ -61,8 +61,8 @@ public enum StreamKind {
     public var endpoint: ElloAPI {
         switch self {
         case let .Discover(type, perPage): return ElloAPI.Discover(type: type, perPage: perPage)
-        case .Friend: return .FriendStream
-        case .Noise: return .NoiseStream
+        case .Following: return .FriendStream
+        case .Starred: return .NoiseStream
         case let .Notifications(category): return .NotificationsStream(category: category)
         case let .PostDetail(postParam): return .PostDetail(postParam: postParam)
         case let .Profile(perPage): return .Profile(perPage: perPage)
@@ -74,8 +74,8 @@ public enum StreamKind {
 
     public var relationship: RelationshipPriority {
         switch self {
-        case .Friend: return .Friend
-        case .Noise: return .Noise
+        case .Following: return .Following
+        case .Starred: return .Starred
         default: return .Null
         }
     }
@@ -104,7 +104,7 @@ public enum StreamKind {
                         }
                         return accum
                     }
-                    
+
                 }
                 else if let users = jsonables as? [User] {
                     return users.reduce([]) { accum, user in
@@ -167,7 +167,22 @@ public enum StreamKind {
         return self.columnCount > 1
     }
 
-   public var isDetail: Bool {
+    public var showStarredButton: Bool {
+        switch self {
+        case let .SimpleStream(endpoint, _):
+            switch endpoint {
+            case .AwesomePeopleStream, .CommunitiesStream, .FoundersStream:
+                return false
+            default:
+                break
+            }
+        default:
+            break
+        }
+        return true
+    }
+
+    public var isDetail: Bool {
         switch self {
         case .PostDetail: return true
         default: return false
@@ -180,7 +195,5 @@ public enum StreamKind {
         default: return false
         }
     }
-
-    static let streamValues = [Friend, Noise]
 }
 

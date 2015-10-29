@@ -236,6 +236,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
             case .CreateComment:
                 (cell as! StreamCreateCommentCell).delegate = postbarDelegate
             case .Header, .CommentHeader:
+                (cell as! StreamHeaderCell).relationshipDelegate = relationshipDelegate
                 (cell as! StreamHeaderCell).postbarDelegate = postbarDelegate
                 (cell as! StreamHeaderCell).userDelegate = userDelegate
             case .Image:
@@ -309,7 +310,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
             // else if post, add new post cells
             else if let _ = jsonable as? Post {
                 switch streamKind {
-                case .Friend: indexPath = NSIndexPath(forItem: 0, inSection: 0)
+                case .Following: indexPath = NSIndexPath(forItem: 0, inSection: 0)
                 case .Profile: indexPath = NSIndexPath(forItem: 1, inSection: 0)
                 case let .UserStream(userParam):
                     if currentUser?.id == userParam {
@@ -427,7 +428,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
 
     public func modifyUserRelationshipItems(user: User, collectionView: UICollectionView) {
         switch user.relationshipPriority {
-        case .Friend, .Noise, .Inactive:
+        case .Following, .Starred, .Inactive:
             let changedItems = elementsForJSONAble(user, change: .Update)
             for item in changedItems.1 {
                 if let oldUser = item.jsonable as? User {
@@ -435,6 +436,14 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                     oldUser.relationshipPriority = user.relationshipPriority
                     oldUser.followersCount = user.followersCount
                     oldUser.followingCount = user.followingCount
+                }
+
+                if let authorable = item.jsonable as? Authorable,
+                    author = authorable.author
+                where author.id == user.id {
+                    author.relationshipPriority = user.relationshipPriority
+                    author.followersCount = user.followersCount
+                    author.followingCount = user.followingCount
                 }
             }
             collectionView.reloadItemsAtIndexPaths(changedItems.0)
@@ -503,7 +512,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         else if let user = jsonable as? User {
             for (index, item) in visibleCellItems.enumerate() {
                 switch user.relationshipPriority {
-                case .Block:
+                case .Block, .Following, .Starred, .None, .Inactive:
                     if let itemUser = item.jsonable as? User where user.id == itemUser.id {
                         indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
                         items.append(item)
@@ -511,6 +520,13 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                     else if let itemComment = item.jsonable as? Comment {
                         if  user.id == itemComment.authorId ||
                             user.id == itemComment.parentPost?.authorId
+                        {
+                            indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
+                            items.append(item)
+                        }
+                    }
+                    else if let itemNotification = item.jsonable as? Notification {
+                        if user.id == itemNotification.author?.id
                         {
                             indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
                             items.append(item)

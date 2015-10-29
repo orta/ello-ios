@@ -15,7 +15,7 @@ extension StreamCellItemParser {
         var retItems = [StreamCellItem]()
         for item in items {
             if let post = item as? Post {
-                retItems += testingPostCellItems([post], streamKind: .Friend)
+                retItems += testingPostCellItems([post], streamKind: .Following)
             }
             if let comment = item as? Comment {
                 retItems += testingCommentCellItems([comment])
