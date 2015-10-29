@@ -76,14 +76,14 @@ class StreamContainerViewControllerSpec: QuickSpec {
                 it("should move the scroll view") {
                     Defaults[CurrentStreamKey] = 1
                     controller = StreamContainerViewController.instantiateFromStoryboard()
-                    self.showController(controller)
+                    showController(controller)
                     expect(controller.scrollView.contentOffset) == CGPoint(x: UIScreen.mainScreen().bounds.size.width, y: 0)
                 }
 
                 it("should update the currentStreamIndex") {
                     Defaults[CurrentStreamKey] = 0
                     controller = StreamContainerViewController.instantiateFromStoryboard()
-                    self.showController(controller)
+                    showController(controller)
                     controller.streamsSegmentedControl.selectedSegmentIndex = 1
                     controller.streamSegmentTapped(controller.streamsSegmentedControl)
                     expect(controller.currentStreamIndex) == 1

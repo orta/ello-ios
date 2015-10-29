@@ -18,8 +18,8 @@ PODS:
   - Fabric (1.5.5):
     - Fabric/Base (= 1.5.5)
   - Fabric/Base (1.5.5)
-  - Firebase (2.4.2)
   - FBSnapshotTestCase (1.8.1)
+  - Firebase (2.4.2)
   - FLAnimatedImage (1.0.8)
   - iRate (1.11.4)
   - JTSImageViewController (1.5)
@@ -32,6 +32,10 @@ PODS:
   - Moya/Core (2.4.1):
     - Alamofire (~> 2.0)
   - Nimble (2.0.0)
+  - Nimble-Snapshots (1.0.0):
+    - FBSnapshotTestCase (~> 1.7)
+    - Nimble (~> 2.0.0-rc.2)
+    - Quick (~> 0.5)
   - OHHTTPStubs (4.3.0):
     - OHHTTPStubs/Default (= 4.3.0)
   - OHHTTPStubs/Core (4.3.0)
@@ -51,10 +55,6 @@ PODS:
   - PINRemoteImage/Core (1.2.1):
     - PINCache (>= 2.1)
   - PINRemoteImage/FLAnimatedImage (1.2.1):
-  - Nimble-Snapshots (1.0.0):
-    - FBSnapshotTestCase (~> 1.7)
-    - Nimble (~> 2.0.0-rc.2)
-    - Quick (~> 0.5)
     - FLAnimatedImage (>= 1.0)
     - PINRemoteImage/Core
   - Quick (0.7.0)
@@ -89,8 +89,8 @@ DEPENDENCIES:
   - MBProgressHUD (~> 0.9.0)
   - Moya (~> 2.2)
   - Nimble (from `https://github.com/Quick/Nimble`, branch `xcode7.1`)
-  - OHHTTPStubs (~> 4.3)
   - Nimble-Snapshots (from `https://github.com/ello/Nimble-Snapshots`)
+  - OHHTTPStubs (~> 4.3)
   - PINRemoteImage (~> 1.1)
   - Quick (from `https://github.com/Quick/Quick`, branch `xcode7.1`)
   - Result (= 0.6-beta.1)
@@ -118,11 +118,11 @@ EXTERNAL SOURCES:
   Nimble:
     :branch: xcode7.1
     :git: https://github.com/Quick/Nimble
+  Nimble-Snapshots:
+    :git: https://github.com/ello/Nimble-Snapshots
   Quick:
     :branch: xcode7.1
     :git: https://github.com/Quick/Quick
-  Nimble-Snapshots:
-    :git: https://github.com/ello/Nimble-Snapshots
   SVGKit:
     :git: https://github.com/SVGKit/SVGKit
   SwiftyJSON:
@@ -152,12 +152,12 @@ CHECKOUT OPTIONS:
   Nimble:
     :commit: dd3652d3788f1dd4e9838140399f774dcea56ec2
     :git: https://github.com/Quick/Nimble
-  Quick:
-    :commit: d1d795e58d0f972e8acacaee62a83d4b86db11dd
-    :git: https://github.com/Quick/Quick
   Nimble-Snapshots:
     :commit: 08551a5b9d7590a2d33f58f9df27ec5b1c045505
     :git: https://github.com/ello/Nimble-Snapshots
+  Quick:
+    :commit: d1d795e58d0f972e8acacaee62a83d4b86db11dd
+    :git: https://github.com/Quick/Quick
   SVGKit:
     :commit: 461fcc45a5607df5b8aa32fd126f8a7476d4034d
     :git: https://github.com/SVGKit/SVGKit
@@ -179,8 +179,8 @@ SPEC CHECKSUMS:
   Crashlytics: 41c082440d2e14da444186fff65e79c0b4b35d4c
   CRToast: eb22641501990233c53cb8f83f7d2ea87e0ddf73
   Fabric: 190bf1a6eb65f7500de1347d027d2e59a7e53db1
-  Firebase: 5e898ed5012c81d28ca5fae1113c6b61a172bc6d
   FBSnapshotTestCase: 3dc3899168747a0319c5278f5b3445c13a6532dd
+  Firebase: 5e898ed5012c81d28ca5fae1113c6b61a172bc6d
   FLAnimatedImage: 7599ec218dceacdcacbdfccb2947415c2619cd11
   iRate: 599ed07c854e0695f3c605d1b2a64c67d912acb7
   JTSImageViewController: 89ae3c003060c65418fd3224ebbd67acc6046608
@@ -190,11 +190,11 @@ SPEC CHECKSUMS:
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
   Moya: aa0fba7f9c98a0bcb95f2d4222ee848dcb0e4b8e
   Nimble: 1b4a306f27b2355c8c789087e092decb1a226238
+  Nimble-Snapshots: c16dd279a4840ec06288198fafd53f3c17750ff3
   OHHTTPStubs: 0aec5755528693a165bd616cb79f69387de306a8
   PINCache: 0581b0a7578fc0bbc6c7a8b70b0615388bea064c
   PINRemoteImage: 7560f0c975b0495d232e954342c5f49979335015
   Quick: c99021edb599f0aae3319455778ce36d00be140b
-  Nimble-Snapshots: c16dd279a4840ec06288198fafd53f3c17750ff3
   Result: af24e3e57ab81005ec4221a53fd36dc1e7a52869
   SSPullToRefresh: 369e862c1d6528c7a354fc85cd4763d4e670e9af
   SVGKit: cf06ac3067c4d5e927e5f93ba6a7e4d7171a7502
