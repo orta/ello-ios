@@ -209,11 +209,3 @@ public func haveImageRegion<S: OmnibarScreenProtocol>(equal image: UIImage) -> N
         return false
     }
 }
-
-private func allSubviewsIn(view: UIView) -> [UIView] {
-    var retVal = [view]
-    for subview in view.subviews {
-        retVal += allSubviewsIn(subview)
-    }
-    return retVal
-}
