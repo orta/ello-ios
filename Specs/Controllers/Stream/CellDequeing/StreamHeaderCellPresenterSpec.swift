@@ -125,7 +125,7 @@ class StreamHeaderCellPresenterSpec: QuickSpec {
                     let repostAuthor: User = stub([
                         "id": "reposterId",
                         "username": "reposter",
-                        "relationshipPriority": RelationshipPriority.Starred,
+                        "relationshipPriority": RelationshipPriority.Starred.rawValue,
                     ])
                     let post: Post = stub([
                         "id" : "768",
@@ -161,7 +161,7 @@ class StreamHeaderCellPresenterSpec: QuickSpec {
                     let repostAuthor: User = stub([
                         "id": "reposterId",
                         "username": "reposter",
-                        "relationshipPriority": RelationshipPriority.Starred,
+                        "relationshipPriority": RelationshipPriority.Starred.rawValue,
                     ])
                     let post: Post = stub([
                         "id" : "768",
