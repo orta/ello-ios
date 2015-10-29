@@ -18,15 +18,19 @@ public struct StreamHeaderCellPresenter {
         indexPath: NSIndexPath,
         currentUser: User?)
     {
-        if let cell = cell as? StreamHeaderCell {
+        if let cell = cell as? StreamHeaderCell,
+            authorable = streamCellItem.jsonable as? Authorable
+        {
             cell.close()
             cell.indexPath = indexPath
-            let authorable = streamCellItem.jsonable as! Authorable
-
+            cell.streamKind = streamKind
             cell.ownPost = false
             cell.ownComment = false
+            cell.isGridLayout = streamKind.isGridLayout
 
-            if let currentUser = currentUser, let comment = authorable as? Comment {
+            if let currentUser = currentUser,
+                comment = streamCellItem.jsonable as? Comment
+            {
                 if comment.authorId == currentUser.id {
                     cell.ownComment = true
                 }
@@ -35,28 +39,40 @@ public struct StreamHeaderCellPresenter {
                 }
             }
 
+            var author = authorable.author
+            var followButtonVisible = false
             if streamCellItem.type == .Header {
-                cell.streamKind = streamKind
                 cell.avatarHeight = streamKind.isGridLayout ? 30.0 : 60.0
                 cell.scrollView.scrollEnabled = false
                 cell.chevronHidden = true
                 cell.goToPostView.hidden = false
+
+                if let repostAuthor = (streamCellItem.jsonable as? Post)?.repostAuthor {
+                    author = repostAuthor
+
+                    if let author = author {
+                        cell.relationshipControl.userId = author.id
+                        cell.relationshipControl.userAtName = author.atName
+                        cell.relationshipControl.relationshipPriority = author.relationshipPriority
+                    }
+
+                    if streamKind.isDetail {
+                        followButtonVisible = true
+                    }
+                }
                 cell.canReply = false
             }
             else {
-                cell.canReply = true
-            }
-
-            cell.setUser(authorable.author)
-            cell.timeStamp = streamKind.isGridLayout ? "" : authorable.createdAt.timeAgoInWords()
-
-            if streamCellItem.type == .CommentHeader {
                 cell.avatarHeight = 30.0
                 cell.scrollView.scrollEnabled = true
                 cell.chevronHidden = false
                 cell.goToPostView.hidden = true
+                cell.canReply = true
             }
-            cell.updateUsername(authorable.author?.atName ?? "", isGridLayout: streamKind.isGridLayout)
+
+            cell.setUser(author)
+            cell.followButtonVisible = followButtonVisible
+            cell.timeStamp = streamKind.isGridLayout ? "" : authorable.createdAt.timeAgoInWords()
             cell.layoutIfNeeded()
         }
     }

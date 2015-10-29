@@ -92,6 +92,11 @@
                                                     <action selector="usernameTapped:" destination="drA-zU-V9q" eventType="touchUpInside" id="gnL-P6-2WP"/>
                                                 </connections>
                                             </button>
+                                            <view contentMode="scaleToFill" id="He7-hG-gQl" userLabel="relationshipControl" customClass="RelationshipControl" customModule="Ello" customModuleProvider="target">
+                                                <rect key="frame" x="46" y="8" width="152" height="34"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" id="MiT-PR-hRg" userLabel="replyButton">
                                                 <rect key="frame" x="527" y="0.0" width="34" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
@@ -129,6 +134,7 @@
                 <outlet property="containerView" destination="3xt-dC-FN7" id="6OH-eC-0ir"/>
                 <outlet property="goToPostView" destination="JtJ-e8-xTH" id="d3f-SA-Fpq"/>
                 <outlet property="innerContentView" destination="GaF-Tx-YnB" id="MaJ-m3-eBU"/>
+                <outlet property="relationshipControl" destination="He7-hG-gQl" id="bVI-h5-win"/>
                 <outlet property="replyButton" destination="MiT-PR-hRg" id="MpA-gQ-2Re"/>
                 <outlet property="scrollView" destination="wSf-I7-82o" id="Hrm-Me-eV1"/>
                 <outlet property="timestampLabel" destination="zST-5M-mHb" id="rz7-sL-nBo"/>

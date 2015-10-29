@@ -45,7 +45,7 @@ public struct StreamCellItemParser {
             cellItems += postToggleItems(post)
             if post.isRepost {
                 // add repost header with via/source
-                let repostHeaderHeight: CGFloat = post.repostViaPath == nil ? 25.0 : 40.0
+                let repostHeaderHeight = CGFloat(30)
                 cellItems.append(StreamCellItem(jsonable: post, type: .RepostHeader(height: repostHeaderHeight)))
                 // add repost content
                 // this is weird, but the post summary is actually the repost summary on reposts

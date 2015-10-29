@@ -212,7 +212,7 @@ extension ElloProvider {
                     failure: { _ in
                         // if the token has changed, then some *other* network request probably issued
                         // a 'refreshToken' request that *succeeded*.
-                        if AuthToken().isValid && token != AuthToken().token {
+                        if token != AuthToken().token {
                             self.retryRequest(target, success: success, failure: failure)
                         }
                         else {
