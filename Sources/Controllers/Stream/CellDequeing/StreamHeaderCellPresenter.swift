@@ -55,10 +55,10 @@ public struct StreamHeaderCellPresenter {
                         cell.relationshipControl.userAtName = author.atName
                         cell.relationshipControl.relationshipPriority = author.relationshipPriority
                     }
+                }
 
-                    if streamKind.isDetail {
-                        followButtonVisible = true
-                    }
+                if streamKind.isDetail {
+                    followButtonVisible = true
                 }
                 cell.canReply = false
             }
