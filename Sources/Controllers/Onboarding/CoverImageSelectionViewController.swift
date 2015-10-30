@@ -30,24 +30,31 @@ public class CoverImageSelectionViewController: OnboardingUploadImageViewControl
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
+        guard let chooseCoverImageView = chooseCoverImageView,
+            chooseImageButton = chooseImageButton,
+            onboardingHeader = onboardingHeader
+        else {
+            return
+        }
+
         let chooseCoverImage = chooseCoverImageDefault()
         let width = min(view.frame.width, Size.maxWidth)
         let aspect = width / chooseCoverImage.size.width
 
-        onboardingHeader!.frame.size.width = view.frame.width
-        onboardingHeader!.sizeToFit()
+        onboardingHeader.frame.size.width = view.frame.width
+        onboardingHeader.sizeToFit()
 
-        chooseCoverImageView!.frame = CGRect(
+        chooseCoverImageView.frame = CGRect(
             x: (view.frame.width - width) / 2,
-            y: onboardingHeader!.frame.maxY + 23,
+            y: onboardingHeader.frame.maxY + 23,
             width: width,
             height: chooseCoverImage.size.height * aspect
             )
 
         let chooseWidth = width - 30
-        chooseImageButton!.frame = CGRect(
+        chooseImageButton.frame = CGRect(
             x: (view.frame.width - chooseWidth) / 2,
-            y: chooseCoverImageView!.frame.maxY + 23,
+            y: chooseCoverImageView.frame.maxY + 23,
             width: chooseWidth,
             height: 50
             )

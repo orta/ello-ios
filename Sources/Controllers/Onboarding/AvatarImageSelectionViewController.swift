@@ -29,31 +29,38 @@ public class AvatarImageSelectionViewController: OnboardingUploadImageViewContro
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
+        guard let chooseCoverImageView = chooseCoverImageView,
+            chooseAvatarImageView = chooseAvatarImageView,
+            chooseImageButton = chooseImageButton
+        else {
+            return
+        }
+
         let chooseCoverImage = chooseCoverImageDefault()
         let chooseAvatarImage = chooseAvatarImageDefault()
         let width = min(view.frame.width, Size.maxWidth)
         let scale = width / CGFloat(375)
         let aspect = width / chooseCoverImage.size.width
 
-        chooseCoverImageView!.frame = CGRect(
+        chooseCoverImageView.frame = CGRect(
             x: (view.frame.width - width) / 2,
             y: 0,
             width: width,
             height: chooseCoverImage.size.height * aspect
             )
 
-        chooseAvatarImageView!.frame = CGRect(
-            x: chooseCoverImageView!.frame.minX,
-            y: chooseCoverImageView!.frame.maxY - 65,
+        chooseAvatarImageView.frame = CGRect(
+            x: chooseCoverImageView.frame.minX,
+            y: chooseCoverImageView.frame.maxY - 65,
             width: chooseAvatarImage.size.width * scale,
             height: chooseAvatarImage.size.height * scale
             )
-        chooseAvatarImageView!.layer.cornerRadius = chooseAvatarImageView!.frame.size.width / 2
+        chooseAvatarImageView.layer.cornerRadius = chooseAvatarImageView.frame.size.width / 2
 
         let chooseWidth = width - 30
-        chooseImageButton!.frame = CGRect(
+        chooseImageButton.frame = CGRect(
             x: (view.frame.width - chooseWidth) / 2,
-            y: chooseAvatarImageView!.frame.maxY + 39,
+            y: chooseAvatarImageView.frame.maxY + 39,
             width: chooseWidth,
             height: 50
             )

@@ -35,9 +35,13 @@ public class ProfileInfoViewController: OnboardingUploadImageViewController {
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        if let linksField = linksField {
-            let margin = CGFloat(15)
-            scrollView.contentSize = CGSize(width: view.frame.width, height: linksField.frame.maxY + margin)
+        guard let chooseCoverImageView = chooseCoverImageView,
+            chooseAvatarImageView = chooseAvatarImageView,
+            nameField = nameField,
+            bioField = bioField,
+            linksField = linksField
+        else {
+            return
         }
 
         let chooseCoverImage = chooseCoverImageDefault()
@@ -46,39 +50,41 @@ public class ProfileInfoViewController: OnboardingUploadImageViewController {
         let aspect = width / chooseCoverImage.size.width
         let scale = width / CGFloat(375)
 
-        chooseCoverImageView!.frame = CGRect(
+        chooseCoverImageView.frame = CGRect(
             x: (view.frame.width - width) / 2,
             y: -87,
             width: width,
             height: chooseCoverImage.size.height * aspect
             )
 
-        chooseAvatarImageView!.frame = CGRect(
-            x: chooseCoverImageView!.frame.minX,
-            y: chooseCoverImageView!.frame.maxY - 65,
+        chooseAvatarImageView.frame = CGRect(
+            x: chooseCoverImageView.frame.minX,
+            y: chooseCoverImageView.frame.maxY - 65,
             width: chooseAvatarImage.size.width * scale,
             height: chooseAvatarImage.size.height * scale
             )
-        chooseAvatarImageView!.layer.cornerRadius = chooseAvatarImageView!.frame.size.width / 2
+        chooseAvatarImageView.layer.cornerRadius = chooseAvatarImageView.frame.size.width / 2
 
-        nameField!.frame = CGRect(
+        nameField.frame = CGRect(
             x: (view.frame.width - width) / 2,
-            y: chooseAvatarImageView!.frame.maxY + 44,
+            y: chooseAvatarImageView.frame.maxY + 44,
             width: width,
             height: 34
             )
-        bioField!.frame = CGRect(
+        bioField.frame = CGRect(
             x: (view.frame.width - width) / 2,
-            y: nameField!.frame.maxY + 26,
+            y: nameField.frame.maxY + 26,
             width: width,
             height: 34
             )
-        linksField!.frame = CGRect(
+        linksField.frame = CGRect(
             x: (view.frame.width - width) / 2,
-            y: bioField!.frame.maxY + 26,
+            y: bioField.frame.maxY + 26,
             width: width,
             height: 34
             )
+        let margin = CGFloat(15)
+        scrollView.contentSize = CGSize(width: view.frame.width, height: linksField.frame.maxY + margin)
     }
 
     override public func viewWillAppear(animated: Bool) {
