@@ -38,7 +38,7 @@ class PostbarControllerSpec: QuickSpec {
             )
             controller.collectionView.dataSource = controller.dataSource
 
-            self.showController(controller)
+            showController(controller)
             controller.streamKind = streamKind
 
             subject = PostbarController(collectionView: controller.collectionView, dataSource: controller.dataSource, presentingController: controller)

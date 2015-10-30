@@ -36,8 +36,8 @@ public class SpecsTrackingAgent: AnalyticsAgent {
     }
 
     public func screen(screenTitle: String!, properties: [NSObject: AnyObject]!) {
-        lastScreenTitle = screenTitle
-        lastProperties = properties
+        lastScreenTitle = screenTitle ?? ""
+        lastProperties = properties ?? [:]
     }
 
     public func reset() {

@@ -29,8 +29,34 @@ public class AvatarImageSelectionViewController: OnboardingUploadImageViewContro
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        let x = chooseCoverImageView?.frame.minX ?? CGFloat(0)
-        self.chooseAvatarImageView?.frame.origin.x = x
+        let chooseCoverImage = chooseCoverImageDefault()
+        let chooseAvatarImage = chooseAvatarImageDefault()
+        let width = min(view.frame.width, Size.maxWidth)
+        let scale = width / CGFloat(375)
+        let aspect = width / chooseCoverImage.size.width
+
+        chooseCoverImageView!.frame = CGRect(
+            x: (view.frame.width - width) / 2,
+            y: 0,
+            width: width,
+            height: chooseCoverImage.size.height * aspect
+            )
+
+        chooseAvatarImageView!.frame = CGRect(
+            x: chooseCoverImageView!.frame.minX,
+            y: chooseCoverImageView!.frame.maxY - 65,
+            width: chooseAvatarImage.size.width * scale,
+            height: chooseAvatarImage.size.height * scale
+            )
+        chooseAvatarImageView!.layer.cornerRadius = chooseAvatarImageView!.frame.size.width / 2
+
+        let chooseWidth = width - 30
+        chooseImageButton!.frame = CGRect(
+            x: (view.frame.width - chooseWidth) / 2,
+            y: chooseAvatarImageView!.frame.maxY + 39,
+            width: chooseWidth,
+            height: 50
+            )
     }
 
 }
@@ -60,9 +86,8 @@ private extension AvatarImageSelectionViewController {
         let chooseAvatarImage = chooseAvatarImageDefault()
         let width = min(view.frame.width, Size.maxWidth)
         let scale = width / CGFloat(375)
-        let x = chooseCoverImageView?.frame.minX ?? CGFloat(0)
         let chooseAvatarImageView = UIImageView(frame: CGRect(
-            x: x,
+            x: chooseCoverImageView!.frame.minX,
             y: chooseCoverImageView!.frame.maxY - 65,
             width: chooseAvatarImage.size.width * scale,
             height: chooseAvatarImage.size.height * scale
@@ -78,12 +103,13 @@ private extension AvatarImageSelectionViewController {
 
     private func setupChooseImageButton() {
         let width = min(view.frame.width, Size.maxWidth)
+        let chooseWidth = width - 30
         let chooseImageButton = ElloButton(frame: CGRect(
-            x: (view.frame.width - width) / 2,
-            y: chooseAvatarImageView!.frame.maxY + 24,
-            width: width,
-            height: 80
-            ).inset(all: 15))
+            x: (view.frame.width - chooseWidth) / 2,
+            y: chooseAvatarImageView!.frame.maxY + 39,
+            width: chooseWidth,
+            height: 50
+            ))
         chooseImageButton.autoresizingMask = [.FlexibleLeftMargin, .FlexibleRightMargin, .FlexibleBottomMargin]
         chooseImageButton.setTitle(NSLocalizedString("Pick an Avatar", comment: "Pick an avatar button"), forState: .Normal)
         chooseImageButton.addTarget(self, action: Selector("chooseImageTapped"), forControlEvents: .TouchUpInside)

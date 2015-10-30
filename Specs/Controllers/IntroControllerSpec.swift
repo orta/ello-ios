@@ -12,24 +12,28 @@ import Nimble
 
 class IntroControllerSpec: QuickSpec {
     override func spec() {
-        
-        var controller = IntroController()
-        describe("initialization") {
-            
-            beforeEach {
-                controller = IntroController()
+        describe("IntroController") {
+            var controller = IntroController()
+            describe("initialization") {
+                beforeEach {
+                    controller = IntroController()
+                }
+
+                it("can be instantiated") {
+                    expect(controller).notTo(beNil())
+                }
+
+                it("is a UIViewController") {
+                    expect(controller).to(beAKindOf(UIViewController.self))
+                }
+
+                it("is a IntroController") {
+                    expect(controller).to(beAKindOf(IntroController.self))
+                }
             }
-            
-            it("can be instantiated") {
-                expect(controller).notTo(beNil())
-            }
-            
-            it("is a UIViewController") {
-                expect(controller).to(beAKindOf(UIViewController.self))
-            }
-            
-            it("is a IntroController") {
-                expect(controller).to(beAKindOf(IntroController.self))
+            describe("snapshots") {
+                let subject = IntroController()
+                validateAllSnapshots(subject, named: "IntroController")
             }
         }
     }

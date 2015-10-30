@@ -432,13 +432,13 @@ class ElloAPISpec: QuickSpec {
 
                 describe("NotificationsStream") {
 
-                    context("without a category") {
+                    it("without a category") {
                         let params = ElloAPI.NotificationsStream(category: nil).parameters
                         expect(params["per_page"] as? Int) == 10
                         expect(params["category"]).to(beNil())
                     }
 
-                    context("with a category") {
+                    it("with a category") {
                         let params = ElloAPI.NotificationsStream(category: "all").parameters
                         expect(params["per_page"] as? Int) == 10
                         expect(params["category"] as? String) == "all"

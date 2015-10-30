@@ -1,6 +1,6 @@
+import Ello
 import Quick
 import Nimble
-import Ello
 
 class AlertViewControllerSpec: QuickSpec {
     override func spec() {
@@ -14,6 +14,13 @@ class AlertViewControllerSpec: QuickSpec {
                 expect(controller.topPadding).toNot(beNil())
                 expect(controller.leftPadding).toNot(beNil())
             }
+        }
+        describe("snapshots") {
+            let subject = AlertViewController(message: "hey there!")
+            let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
+            subject.addAction(action)
+
+            validateAllSnapshots(subject)
         }
         describe("contentView") {
             it("accepts a contentView") {

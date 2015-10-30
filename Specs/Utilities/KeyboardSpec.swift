@@ -20,7 +20,7 @@ class KeyboardSpec: QuickSpec {
         xdescribe("Responds to keyboard being shown") {
             beforeEach() {
                 let controller = UIViewController()
-                window = self.showController(controller)
+                window = showController(controller)
 
                 textView = UITextView(frame: window.bounds)
                 textView.becomeFirstResponder()

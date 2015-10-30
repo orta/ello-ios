@@ -146,7 +146,7 @@ public extension AlertViewController {
     }
 }
 
-extension AlertViewController {
+public extension AlertViewController {
     func addAction(action: AlertAction) {
         actions.append(action)
         tableView.reloadData()
@@ -248,7 +248,7 @@ extension AlertViewController: UITableViewDataSource {
     }
 
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(AlertCell.reuseIdentifier(), forIndexPath: indexPath) 
+        let cell = tableView.dequeueReusableCellWithIdentifier(AlertCell.reuseIdentifier(), forIndexPath: indexPath)
         if let action = actions.safeValue(indexPath.row) {
             let presenter = AlertCellPresenter(action: action, textAlignment: textAlignment)
             presenter.configureCell(cell, type: self.type)

@@ -6,27 +6,9 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-public class ProfileInfoViewController: BaseElloViewController, OnboardingStep {
-    struct Size {
-        static let maxWidth = CGFloat(500)
-    }
-    weak var onboardingViewController: OnboardingViewController?
-    var onboardingData: OnboardingData? {
-        didSet {
-            if let image = onboardingData?.coverImage {
-                chooseCoverImageView?.image = image
-            }
-            if let image = onboardingData?.avatarImage {
-                chooseAvatarImageView?.image = image
-            }
-        }
-    }
-
+public class ProfileInfoViewController: OnboardingUploadImageViewController {
     var keyboardWillShowObserver: NotificationObserver?
     var keyboardWillHideObserver: NotificationObserver?
-
-    var chooseCoverImageView: UIImageView?
-    var chooseAvatarImageView: UIImageView?
 
     var nameField: UITextField?
     var bioField: UITextField?
@@ -53,21 +35,50 @@ public class ProfileInfoViewController: BaseElloViewController, OnboardingStep {
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        let x = chooseCoverImageView?.frame.minX ?? CGFloat(0)
-        self.chooseAvatarImageView?.frame.origin.x = x
-
         if let linksField = linksField {
             let margin = CGFloat(15)
             scrollView.contentSize = CGSize(width: view.frame.width, height: linksField.frame.maxY + margin)
         }
-    }
 
-    public func onboardingStepBegin() {
-        nameField?.text = onboardingData?.name ?? ""
-        bioField?.text = onboardingData?.bio ?? ""
-        linksField?.text = onboardingData?.links ?? ""
+        let chooseCoverImage = chooseCoverImageDefault()
+        let chooseAvatarImage = chooseAvatarImageDefault()
+        let width = min(view.frame.width, Size.maxWidth)
+        let aspect = width / chooseCoverImage.size.width
+        let scale = width / CGFloat(375)
 
-        onboardingViewController?.canGoNext = true
+        chooseCoverImageView!.frame = CGRect(
+            x: (view.frame.width - width) / 2,
+            y: -87,
+            width: width,
+            height: chooseCoverImage.size.height * aspect
+            )
+
+        chooseAvatarImageView!.frame = CGRect(
+            x: chooseCoverImageView!.frame.minX,
+            y: chooseCoverImageView!.frame.maxY - 65,
+            width: chooseAvatarImage.size.width * scale,
+            height: chooseAvatarImage.size.height * scale
+            )
+        chooseAvatarImageView!.layer.cornerRadius = chooseAvatarImageView!.frame.size.width / 2
+
+        nameField!.frame = CGRect(
+            x: (view.frame.width - width) / 2,
+            y: chooseAvatarImageView!.frame.maxY + 44,
+            width: width,
+            height: 34
+            )
+        bioField!.frame = CGRect(
+            x: (view.frame.width - width) / 2,
+            y: nameField!.frame.maxY + 26,
+            width: width,
+            height: 34
+            )
+        linksField!.frame = CGRect(
+            x: (view.frame.width - width) / 2,
+            y: bioField!.frame.maxY + 26,
+            width: width,
+            height: 34
+            )
     }
 
     override public func viewWillAppear(animated: Bool) {
@@ -80,11 +91,15 @@ public class ProfileInfoViewController: BaseElloViewController, OnboardingStep {
         removeNotificationObservers()
     }
 
-}
+    public override func onboardingStepBegin() {
+        nameField?.text = onboardingData?.name ?? ""
+        bioField?.text = onboardingData?.bio ?? ""
+        linksField?.text = onboardingData?.links ?? ""
 
-public extension ProfileInfoViewController {
+        onboardingViewController?.canGoNext = true
+    }
 
-    public func onboardingWillProceed(proceed: (OnboardingData?) -> Void) {
+    public override func onboardingWillProceed(proceed: (OnboardingData?) -> Void) {
         let name = nameField?.text ?? ""
         let links = linksField?.text ?? ""
         let bio = bioField?.text ?? ""
@@ -109,16 +124,16 @@ public extension ProfileInfoViewController {
             ProfileService().updateUserProfile(info, success: { _ in
                 ElloHUD.hideLoadingHud()
                 proceed(self.onboardingData)
-            }, failure: { _ in
-                ElloHUD.hideLoadingHud()
-                let message = NSLocalizedString("Something is wrong with those links.\n\nThey need to start with ‘http://’ or ‘https://’", comment: "Updating Links failed during onboarding message")
-                let alertController = AlertViewController(message: message)
+                }, failure: { _ in
+                    ElloHUD.hideLoadingHud()
+                    let message = NSLocalizedString("Something is wrong with those links.\n\nThey need to start with ‘http://’ or ‘https://’", comment: "Updating Links failed during onboarding message")
+                    let alertController = AlertViewController(message: message)
 
-                let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
-                alertController.addAction(action)
+                    let action = AlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .Dark, handler: nil)
+                    alertController.addAction(action)
 
-                logPresentingAlert("ProfileInfoViewController")
-                self.presentViewController(alertController, animated: true, completion: nil)
+                    logPresentingAlert("ProfileInfoViewController")
+                    self.presentViewController(alertController, animated: true, completion: nil)
             })
         }
         else {
@@ -131,7 +146,7 @@ public extension ProfileInfoViewController {
 // MARK: View setup
 private extension ProfileInfoViewController {
     func setupChooseCoverImageView() {
-        let chooseCoverImage = UIImage(named: "choose-header-image")!
+        let chooseCoverImage = chooseCoverImageDefault()
         let width = min(view.frame.width, Size.maxWidth)
         let aspect = width / chooseCoverImage.size.width
         let chooseCoverImageView = UIImageView(frame: CGRect(
@@ -149,12 +164,11 @@ private extension ProfileInfoViewController {
     }
 
     func setupChooseAvatarImageView() {
-        let chooseAvatarImage = UIImage(named: "choose-avatar-image")!
+        let chooseAvatarImage = chooseAvatarImageDefault()
         let width = min(view.frame.width, Size.maxWidth)
         let scale = width / CGFloat(375)
-        let x = chooseCoverImageView?.frame.minX ?? CGFloat(0)
         let chooseAvatarImageView = UIImageView(frame: CGRect(
-            x: x,
+            x: chooseCoverImageView!.frame.minX,
             y: chooseCoverImageView!.frame.maxY - 65,
             width: chooseAvatarImage.size.width * scale,
             height: chooseAvatarImage.size.height * scale
@@ -269,7 +283,7 @@ extension ProfileInfoViewController {
         let height = CGFloat(1)
         let line = UIView(frame: CGRect(x: 0, y: field.frame.height - height, width: field.frame.width, height: height))
         line.backgroundColor = .greyE5()
-        line.autoresizingMask = [.FlexibleLeftMargin, .FlexibleRightMargin, .FlexibleTopMargin]
+        line.autoresizingMask = [.FlexibleWidth, .FlexibleTopMargin]
         field.addSubview(line)
         return field
     }

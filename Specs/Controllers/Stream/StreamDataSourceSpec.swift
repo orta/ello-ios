@@ -64,7 +64,7 @@ class StreamDataSourceSpec: QuickSpec {
                     return true
                 }
                 vc.dataSource = subject
-                self.showController(vc)
+                showController(vc)
                 fakeCollectionView = FakeCollectionView(frame: vc.collectionView.frame, collectionViewLayout: vc.collectionView.collectionViewLayout)
             }
 

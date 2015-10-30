@@ -17,7 +17,7 @@ class RelationshipControlSpec: QuickSpec {
         describe("RelationshipControl") {
             let subject = RelationshipControl()
             var presentingController = UIViewController()
-            self.showController(presentingController)
+            showController(presentingController)
             var relationshipController = RelationshipController(presentingController: presentingController)
 
             describe("@relationship") {
@@ -100,7 +100,7 @@ class RelationshipControlSpec: QuickSpec {
 
                 beforeEach {
                     presentingController = UIViewController()
-                    self.showController(presentingController)
+                    showController(presentingController)
                     relationshipController = RelationshipController(presentingController: presentingController)
                     subject.relationshipDelegate = relationshipController
                 }
