@@ -48,18 +48,18 @@ public class StreamHeaderCell: UICollectionViewCell {
     var cellOpenObserver: NotificationObserver?
     var isOpen = false
 
-    weak var avatarButton: AvatarButton!
-    @IBOutlet weak var goToPostView: UIView!
-    @IBOutlet weak var bottomToolBar: UIToolbar!
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var innerContentView: UIView!
-    @IBOutlet weak var bottomContentView: UIView!
-    @IBOutlet weak var timestampLabel: UILabel!
-    @IBOutlet weak var chevronButton: StreamFooterButton!
-    @IBOutlet weak var usernameButton: UIButton!
-    @IBOutlet weak var relationshipControl: RelationshipControl!
-    @IBOutlet weak var replyButton: UIButton!
+    @IBOutlet var avatarButton: AvatarButton!
+    @IBOutlet var goToPostView: UIView!
+    @IBOutlet var bottomToolBar: UIToolbar!
+    @IBOutlet var scrollView: UIScrollView!
+    @IBOutlet var containerView: UIView!
+    @IBOutlet var innerContentView: UIView!
+    @IBOutlet var bottomContentView: UIView!
+    @IBOutlet var timestampLabel: UILabel!
+    @IBOutlet var chevronButton: StreamFooterButton!
+    @IBOutlet var usernameButton: UIButton!
+    @IBOutlet var relationshipControl: RelationshipControl!
+    @IBOutlet var replyButton: UIButton!
     var isGridLayout = false
 
     public weak var relationshipDelegate: RelationshipDelegate? {
@@ -84,7 +84,7 @@ public class StreamHeaderCell: UICollectionViewCell {
 
     var chevronHidden = false
 
-    var streamKind:StreamKind?
+    var streamKind: StreamKind?
 
     let flagItem = ElloPostToolBarOption.Flag.barButtonItem()
     public var flagControl: ImageLabelControl {
