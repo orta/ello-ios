@@ -177,23 +177,27 @@ public class StreamHeaderCell: UICollectionViewCell {
     }
 
     private func positionTopContent() {
-        let sidePadding: CGFloat = 15
+        let leftSidePadding: CGFloat = 15
+        let rightSidePadding: CGFloat = 15
+        let relationshipControlPadding: CGFloat = 7
+        let avatarPadding: CGFloat = 15
+
         let timestampMargin: CGFloat = 11.5
         let buttonWidth: CGFloat = 30
         let buttonMargin: CGFloat = 5
         let minimumUsernameWidth: CGFloat = 44
 
         avatarButton.frame = CGRect(
-            x: sidePadding,
+            x: leftSidePadding,
             y: innerContentView.frame.midY - avatarHeight/2,
             width: avatarHeight,
             height: avatarHeight
             )
-        let usernameX = avatarButton.frame.maxX + sidePadding
+        let usernameX = avatarButton.frame.maxX + avatarPadding
 
         if chevronHidden {
             chevronButton.frame = CGRect(
-                x: innerContentView.frame.width - sidePadding,
+                x: innerContentView.frame.width - rightSidePadding,
                 y: 0,
                 width: 0,
                 height: frame.height
@@ -217,18 +221,18 @@ public class StreamHeaderCell: UICollectionViewCell {
 
         let relationshipControlSize = relationshipControl.intrinsicContentSize()
         relationshipControl.frame = CGRect(
-            x: innerContentView.frame.width - sidePadding - relationshipControlSize.width,
+            x: innerContentView.frame.width - relationshipControlPadding - relationshipControlSize.width,
             y: (innerContentView.frame.height - relationshipControlSize.height) / 2,
             width: relationshipControlSize.width,
             height: relationshipControlSize.height)
 
         replyButton.frame.size.width = buttonWidth
-        replyButton.frame.origin.x = timestampX - buttonWidth - buttonMargin - buttonMargin - sidePadding
+        replyButton.frame.origin.x = timestampX - buttonWidth - buttonMargin - buttonMargin - rightSidePadding
         replyButton.hidden = isGridLayout || !canReply
 
         var maxUsernameWidth: CGFloat = 0
         if !isGridLayout {
-            maxUsernameWidth = timestampX - usernameX - sidePadding
+            maxUsernameWidth = timestampX - usernameX - rightSidePadding
 
             if canReply {
                 maxUsernameWidth -= replyButton.frame.width - timestampMargin
@@ -236,7 +240,7 @@ public class StreamHeaderCell: UICollectionViewCell {
             }
         }
         else {
-            maxUsernameWidth = innerContentView.frame.width - usernameX - sidePadding
+            maxUsernameWidth = innerContentView.frame.width - usernameX - rightSidePadding
         }
 
         timestampLabel.frame = CGRect(

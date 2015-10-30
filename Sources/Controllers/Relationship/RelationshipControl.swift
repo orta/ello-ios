@@ -11,6 +11,7 @@ import SVGKit
 private let ViewHeight: CGFloat = 30
 private let ButtonWidth: CGFloat = 30
 private let MoreButtonMargin: CGFloat = 5
+private let StarredButtonMargin: CGFloat = 7
 private let MinViewWidth: CGFloat = 105
 
 
@@ -87,7 +88,7 @@ public class RelationshipControl: UIView {
         }
 
         if showStarredButton {
-            totalSize.width += ButtonWidth
+            totalSize.width += ButtonWidth + StarredButtonMargin
         }
 
         if showMoreButton {
@@ -232,7 +233,7 @@ public class RelationshipControl: UIView {
 
         if showStarredButton {
             starredButton.frame = CGRect(x: frame.width - ButtonWidth, y: 0, width: ButtonWidth, height: ViewHeight)
-            starredButtonWidth = ButtonWidth
+            starredButtonWidth = ButtonWidth + StarredButtonMargin
         }
         else {
             starredButton.frame = CGRectZero
