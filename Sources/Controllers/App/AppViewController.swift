@@ -363,16 +363,17 @@ extension AppViewController {
 // MARK: Logout events
 public extension AppViewController {
     func userLoggedOut() {
+        logOutCurrentUser()
+
         if isLoggedIn() {
-            logOutCurrentUser()
             removeViewController()
         }
     }
 
     public func forceLogOut(shouldAlert: Bool) {
-        if isLoggedIn() {
-            logOutCurrentUser()
+        logOutCurrentUser()
 
+        if isLoggedIn() {
             removeViewController() {
                 if shouldAlert {
                     let message = NSLocalizedString("You have been automatically logged out", comment: "Automatically logged out message")
