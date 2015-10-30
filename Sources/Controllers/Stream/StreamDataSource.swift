@@ -80,12 +80,19 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     public func userForIndexPath(indexPath: NSIndexPath) -> User? {
-        let item = visibleStreamCellItem(at: indexPath)
+        if let item = visibleStreamCellItem(at: indexPath) {
+            if case .Header = item.type,
+                let repostAuthor = (item.jsonable as? Post)?.repostAuthor
+            {
+                return repostAuthor
+            }
 
-        if let authorable = item?.jsonable as? Authorable {
-            return authorable.author
+            if let authorable = item.jsonable as? Authorable {
+                return authorable.author
+            }
+            return item.jsonable as? User
         }
-        return item?.jsonable as? User
+        return nil
     }
 
     public func postForIndexPath(indexPath: NSIndexPath) -> Post? {
