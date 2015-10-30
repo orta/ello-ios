@@ -42,7 +42,7 @@ public class RelationshipController: NSObject {
 // MARK: RelationshipController: RelationshipDelegate
 extension RelationshipController: RelationshipDelegate {
     public func relationshipTapped(userId: String, relationshipPriority: RelationshipPriority, complete: RelationshipChangeCompletion) {
-
+        Tracker.sharedTracker.relationshipButtonTapped(relationshipPriority, userId: userId)
         if let shouldSubmit = delegate?.shouldSubmitRelationship(userId, relationshipPriority: relationshipPriority) where !shouldSubmit {
             let relationship = Relationship(id: NSUUID().UUIDString, createdAt: NSDate(), ownerId: "", subjectId: userId)
             complete(status: .Success, relationship: relationship)
