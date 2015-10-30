@@ -25,6 +25,14 @@ public enum RelationshipPriority: String {
     public init(stringValue: String) {
         self = RelationshipPriority(rawValue: stringValue) ?? .None
     }
+
+    var buttonName: String {
+        switch self {
+        case .Following: return "following"
+        case .Starred: return "starred"
+        default: return self.rawValue
+        }
+    }
 }
 
 let RelationshipVersion = 1
