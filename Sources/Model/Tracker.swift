@@ -525,7 +525,7 @@ public extension Tracker {
         agent.track("Relationship Priority failed", properties: ["new_value": relationshipPriority.rawValue, "user_id": userId])
     }
 
-    func relationshipButtonTapped(relationshipPriority: RelationshipPriority, userId: userId) {
+    func relationshipButtonTapped(relationshipPriority: RelationshipPriority, userId: String) {
         log("Relationship button tapped")
         agent.track("Relationship button tapped", properties: ["button": relationshipPriority.buttonName, "user_id": userId])
     }
