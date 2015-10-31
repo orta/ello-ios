@@ -420,7 +420,6 @@ extension AppViewController {
 // MARK: URL Handling
 extension AppViewController {
     func navigateToDeepLink(path: String) {
-
         Tracker.sharedTracker.deepLinkVisited(path)
 
         let (type, data) = ElloURI.match(path)
@@ -429,6 +428,12 @@ extension AppViewController {
             if let pathURL = NSURL(string: path) {
                 UIApplication.sharedApplication().openURL(pathURL)
             }
+            return
+        }
+
+        let authToken = AuthToken()
+        if !isLoggedIn() && authToken.isPresent && authToken.isAuthenticated {
+            self.deepLinkPath = path
             return
         }
 
