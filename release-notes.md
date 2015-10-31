@@ -1,3 +1,86 @@
+### Ello Build 1.2.0(3402) October 29, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #615 - Starred into master
+EVERY LINE MUST BE REVIEWED.
+
+Oh wait, we already did that.
+
+MAKE IT SO!  PUSH IT LIVE!
+
+------
+
+#### #613 - optimistic mute block
+First stab at an optimistic service. Success is called immediately when a user is muted or blocked and subsequently updated once the network responds.
+
+------
+
+#### #612 - Add cache age and size limits
+This PR adds a age limit of 2 weeks to images in our disk cache as well as a total size limit of 250MB.
+
+------
+
+#### #610 - Fix: Posts with gifs are now editable
+Prior to this PR editing a post with gifs resulted in a failure message in the omnibar. In addition we now support viewing animated gifs while posting.
+
+------
+
+#### #609 - Push notification deeplinking
+I introduced a regression with the latest Universal Links PR in #599. Namely, push notification deep linking stopped working. This PR brings back deep linking for the 3 types of deep linking push notifications. Posts, Comments and Users.
+
+------
+
+#### #607 - Fixes and improvements to the Following/Starred button
+Onboarding had some bugs, and this implements the "assume success" idea that I totally invented on my own but I think it's going to be a thing.
+
+------
+
+#### #608 - Regex Additions
+Fix 'matches' to return array of all matches, and adds 'matchingGroups', which returns first match and all capture groups
+
+------
+
+#### #603 - Updates the RelationshipControl UI
+- Friend -> Following
+- Noise -> Starred
+- removed modal to choose friend/noise
+- updated specs accordingly
+
+------
+
+#### #605 - use a quick 'merge' method to preserve 'detail' information
+like formattedShortBio and externalLinksList
+
+AWWW YEAH
+
+------
+
+#### #604 - fixes the 'pop' behavior when profile or post-detail fails
+instead of popping immediately (which doesn't work), the controller pops after the alert is acknowledged.
+
+------
+
+#### #600 - Moves the auth-token and related info to the keychain
+Also migrates the existing info from the defaults, where it was before.
+Specs updated accordingly.
+
+------
+
+#### #601 - Add following & starred universal links
+Add `/following` and `/starred` path handling to the universal link handler. They are aliased to `/friends` and `/noise`
+
+This PR also contains an Xcode 7.1 change to the project file.
+
+------
+
+#### #602 - Friends -> Following, Noise -> Starred
+This PR updates a few user facing usages of Friends and Noise to Following and Starred.
+    
+------------
+
 ### Ello Build 1.2.0(3305) October 21, 2015
 
     RELEASE NOTES
