@@ -14,7 +14,7 @@ import Nimble_Snapshots
 
 class NewElloTabBarSpecs: QuickSpec {
     override func spec() {
-        fdescribe("NewElloTabBar.ItemView") {
+        describe("NewElloTabBar.ItemView") {
             let tests: [String: NewElloTabBar.Item] = [
                 "should support a selected? title": NewElloTabBar.Item(alignment: .Left, display: .Title(InterfaceString.Following.Title.localized), redDotHidden: true),
                 "should support a selected? title with a red dot": NewElloTabBar.Item(alignment: .Left, display: .Title(InterfaceString.Following.Title.localized), redDotHidden: false),
@@ -38,7 +38,7 @@ class NewElloTabBarSpecs: QuickSpec {
                 }
             }
         }
-        fdescribe("NewElloTabBar") {
+        describe("NewElloTabBar") {
             it("should accept empty NewElloTabBar.Items") {
                 let subject = NewElloTabBar()
                 let items: [NewElloTabBar.Item] = []
