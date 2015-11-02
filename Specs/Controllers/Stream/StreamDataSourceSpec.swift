@@ -402,7 +402,7 @@ class StreamDataSourceSpec: QuickSpec {
 
             }
 
-            fdescribe("userForIndexPath(_:)") {
+            describe("userForIndexPath(_:)") {
                 context("Returning a user-jsonable subject") {
                     beforeEach {
                         let userStreamKind = StreamKind.SimpleStream(endpoint: ElloAPI.UserStream(userParam: "42"), title: "yup")
