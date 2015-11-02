@@ -12,6 +12,14 @@ func logPresentingAlert(name: String) {
     Crashlytics.sharedInstance().setObjectValue(name, forKey: CrashlyticsKey.AlertPresenter.rawValue)
 }
 
+#if DEBUG
+func log(message: String) {
+    print(message)
+}
+#else
+func log(message: String) {}
+#endif
+
 
 // MARK: Animations
 

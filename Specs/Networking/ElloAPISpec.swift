@@ -96,7 +96,7 @@ class ElloAPISpec: QuickSpec {
                         expect(ElloAPI.ProfileDelete.path) == "/api/v2/profile"
                     }
                     it("ReAuth is valid") {
-                        expect(ElloAPI.ReAuth.path) == "/api/oauth/token"
+                        expect(ElloAPI.ReAuth(token: "").path) == "/api/oauth/token"
                     }
                     it("Relationship is valid") {
                         expect(ElloAPI.Relationship(userId: "1234", relationship: "friend").path) == "/api/v2/users/1234/add/friend"
@@ -166,7 +166,7 @@ class ElloAPISpec: QuickSpec {
                         ElloAPI.ProfileToggles,
                         ElloAPI.ProfileUpdate(body: [:]),
                         ElloAPI.PushSubscriptions(token: NSData()),
-                        ElloAPI.ReAuth,
+                        ElloAPI.ReAuth(token: ""),
                         ElloAPI.Relationship(userId: "", relationship: ""),
                         ElloAPI.RelationshipBatch(userIds: [""], relationship: ""),
                         ElloAPI.RePost(postId: ""),
@@ -278,7 +278,7 @@ class ElloAPISpec: QuickSpec {
                         ElloAPI.ProfileUpdate(body: [:]),
                         ElloAPI.ProfileDelete,
                         ElloAPI.PushSubscriptions(token: NSData()),
-                        ElloAPI.ReAuth,
+                        ElloAPI.ReAuth(token: ""),
                         ElloAPI.Relationship(userId: "", relationship: ""),
                         ElloAPI.RelationshipBatch(userIds: [""], relationship: ""),
                         ElloAPI.RePost(postId: ""),
@@ -460,11 +460,11 @@ class ElloAPISpec: QuickSpec {
                 }
 
                 it("ReAuth") {
-                    let params = ElloAPI.ReAuth.parameters
+                    let params = ElloAPI.ReAuth(token: "refresh").parameters
                     expect(params["client_id"]).notTo(beNil())
                     expect(params["client_secret"]).notTo(beNil())
                     expect(params["grant_type"] as? String) == "refresh_token"
-                    expect(params["refresh_token"]).notTo(beNil())
+                    expect(params["refresh_token"] as? String) == "refresh"
                 }
 
                 it("RelationshipBatch") {
