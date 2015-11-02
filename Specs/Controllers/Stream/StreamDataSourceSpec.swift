@@ -403,25 +403,91 @@ class StreamDataSourceSpec: QuickSpec {
             }
 
             describe("userForIndexPath(_:)") {
+                context("Returning a user-jsonable subject") {
+                    beforeEach {
+                        let userStreamKind = StreamKind.SimpleStream(endpoint: ElloAPI.UserStream(userParam: "42"), title: "yup")
+                        let cellItems = StreamCellItemParser().parse([User.stub(["id": "42"])], streamKind: userStreamKind)
+                        subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
+                            vc.collectionView.dataSource = subject
+                            vc.collectionView.reloadData()
+                        }
+                    }
 
-                beforeEach {
-                    let cellItems = StreamCellItemParser().parse([User.stub(["id": "42"])], streamKind: .SimpleStream(endpoint: ElloAPI.UserStream(userParam: "42"), title: "yup"))
-                    subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
-                        vc.collectionView.dataSource = subject
-                        vc.collectionView.reloadData()
+                    it("returns a user") {
+                        expect(subject.userForIndexPath(indexPath0)).to(beAKindOf(User.self))
+                    }
+                    it("returns user 42") {
+                        if let user = subject.userForIndexPath(indexPath0) {
+                            expect(user.id) == "42"
+                        }
+                    }
+
+                    it("returns nil when out of bounds") {
+                        expect(subject.userForIndexPath(indexPathOutOfBounds)).to(beNil())
+                    }
+
+                    it("returns nil when invalid section") {
+                        expect(subject.userForIndexPath(indexPathInvalidSection)).to(beNil())
                     }
                 }
+                context("Returning an author subject") {
+                    beforeEach {
+                        let cellItems = StreamCellItemParser().parse([Post.stub(["author": User.stub(["id": "42"])])], streamKind: .Following)
+                        subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
+                            vc.collectionView.dataSource = subject
+                            vc.collectionView.reloadData()
+                        }
+                    }
 
-                it("returns a user") {
-                    expect(subject.userForIndexPath(indexPath0)).to(beAKindOf(User.self))
+                    it("returns a user") {
+                        expect(subject.userForIndexPath(indexPath0)).to(beAKindOf(User.self))
+                    }
+                    it("returns user 42") {
+                        if let user = subject.userForIndexPath(indexPath0) {
+                            expect(user.id) == "42"
+                        }
+                    }
+
+                    it("returns nil when out of bounds") {
+                        expect(subject.userForIndexPath(indexPathOutOfBounds)).to(beNil())
+                    }
+
+                    it("returns nil when invalid section") {
+                        expect(subject.userForIndexPath(indexPathInvalidSection)).to(beNil())
+                    }
                 }
+                context("Returning a repostAuthor subject") {
+                    beforeEach {
+                        let repost = Post.stub([
+                                "id": "\(index)",
+                                "repostAuthor": User.stub(["id": "42"]),
+                                "repostContent": [TextRegion.stub([:]), TextRegion.stub([:])],
+                                "content": [TextRegion.stub([:]), TextRegion.stub([:])]
+                                ])
 
-                it("returns nil when out of bounds") {
-                    expect(subject.userForIndexPath(indexPathOutOfBounds)).to(beNil())
-                }
+                        let cellItems = StreamCellItemParser().parse([repost], streamKind: .Following)
+                        subject.appendUnsizedCellItems(cellItems, withWidth: webView.frame.width) { cellCount in
+                            vc.collectionView.dataSource = subject
+                            vc.collectionView.reloadData()
+                        }
+                    }
 
-                it("returns nil when invalid section") {
-                    expect(subject.userForIndexPath(indexPathInvalidSection)).to(beNil())
+                    it("returns a user") {
+                        expect(subject.userForIndexPath(indexPath0)).to(beAKindOf(User.self))
+                    }
+                    it("returns user 42") {
+                        if let user = subject.userForIndexPath(indexPath0) {
+                            expect(user.id) == "42"
+                        }
+                    }
+
+                    it("returns nil when out of bounds") {
+                        expect(subject.userForIndexPath(indexPathOutOfBounds)).to(beNil())
+                    }
+
+                    it("returns nil when invalid section") {
+                        expect(subject.userForIndexPath(indexPathInvalidSection)).to(beNil())
+                    }
                 }
             }
 
