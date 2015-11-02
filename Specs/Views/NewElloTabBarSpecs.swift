@@ -64,6 +64,7 @@ class NewElloTabBarSpecs: QuickSpec {
                     subject.items = [
                         NewElloTabBar.Item(alignment: .Left, display: .Title(InterfaceString.Following.Title.localized), redDotHidden: true),
                         NewElloTabBar.Item(alignment: .Left, display: .Title(InterfaceString.Starred.Title.localized), redDotHidden: false),
+                        NewElloTabBar.Item(alignment: .Left, display: .Title(InterfaceString.Discover.Title.localized), redDotHidden: true),
                         NewElloTabBar.Item(alignment: .Right, display: .SVG("bolt"), redDotHidden: false),
                         NewElloTabBar.Item(alignment: .Right, display: .SVG("search"), redDotHidden: true),
                     ]

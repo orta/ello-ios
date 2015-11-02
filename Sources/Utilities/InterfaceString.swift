@@ -65,6 +65,17 @@ public enum InterfaceString {
         }
     }
 
+    public enum Discover {
+        case Title
+
+        var localized: String {
+            switch self {
+            case .Title:
+                return NSLocalizedString("Discover", comment: "Discover title")
+            }
+        }
+    }
+
     public enum Loves {
         case CurrentUserNoResultsBody
         case CurrentUserNoResultsTitle

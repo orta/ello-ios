@@ -42,7 +42,7 @@ class NewElloTabBar: UIView {
 
     class ItemView: UIView {
         struct Size {
-            static let redDotRadius: CGFloat = 2.5
+            static let redDotRadius: CGFloat = 2
         }
 
         let item: Item
@@ -97,6 +97,7 @@ class NewElloTabBar: UIView {
                 let titleView = self.contentView as! ElloSizeableLabel
                 let color = selected ? UIColor.blackColor() : UIColor.greyA()
                 titleView.setLabelText(title, color: color)
+                titleView.clipsToBounds = false
             case let .SVG(svgName):
                 let svgView = self.contentView as! UIImageView
                 let actualName = selected ? "\(svgName)_selected" : "\(svgName)_normal"
@@ -108,11 +109,12 @@ class NewElloTabBar: UIView {
             super.layoutSubviews()
 
             let contentSize = contentView.intrinsicContentSize()
+            let actualSize = CGSize(width: contentSize.width + 2, height: contentSize.height + 2)
             contentView.frame = CGRect(
-                x: (bounds.width - contentSize.width) / 2,
-                y: (bounds.height - contentSize.height) / 2,
-                width: contentSize.width,
-                height: contentSize.height
+                x: (bounds.width - actualSize.width) / 2,
+                y: (bounds.height - actualSize.height) / 2,
+                width: actualSize.width,
+                height: actualSize.height
                 )
             let radius = Size.redDotRadius
             let offset: CGPoint
