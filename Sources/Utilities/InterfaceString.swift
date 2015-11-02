@@ -54,6 +54,17 @@ public enum InterfaceString {
         }
     }
 
+    public enum Starred {
+        case Title
+
+        var localized: String {
+            switch self {
+            case .Title:
+                return NSLocalizedString("Starred", comment: "Starred title")
+            }
+        }
+    }
+
     public enum Loves {
         case CurrentUserNoResultsBody
         case CurrentUserNoResultsTitle
@@ -76,5 +87,5 @@ public enum InterfaceString {
             }
         }
     }
-    
+
 }
