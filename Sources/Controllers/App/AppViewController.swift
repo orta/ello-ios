@@ -431,8 +431,7 @@ extension AppViewController {
             return
         }
 
-        let authToken = AuthToken()
-        if !isLoggedIn() && authToken.isPresent && authToken.isAuthenticated {
+        guard !stillLoggingIn() else {
             self.deepLinkPath = path
             return
         }
@@ -499,6 +498,11 @@ extension AppViewController {
                 UIApplication.sharedApplication().openURL(pathURL)
             }
         }
+    }
+
+    private func stillLoggingIn() -> Bool {
+        let authToken = AuthToken()
+        return !isLoggedIn() && authToken.isPresent && authToken.isAuthenticated
     }
 
     private func presentLoginOrSafariAlert(path: String) {
