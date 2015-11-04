@@ -156,6 +156,35 @@ class StreamHeaderCellPresenterSpec: QuickSpec {
                 }
             }
 
+            context("when item is a Post Header with author and PostDetail streamKind") {
+                beforeEach {
+                    let author: User = stub([
+                        "id": "authorId",
+                        "username": "author",
+                        "relationshipPriority": RelationshipPriority.Following.rawValue,
+                    ])
+                    let post: Post = stub([
+                        "id" : "768",
+                        "author": author,
+                        "viewsCount" : 9,
+                        "repostsCount" : 4,
+                        "commentsCount" : 6,
+                        "lovesCount" : 14,
+                    ])
+
+                    cell = StreamHeaderCell.loadFromNib() as StreamHeaderCell
+                    item = StreamCellItem(jsonable: post, type: .Header)
+                }
+                it("sets followButtonVisible") {
+                    cell.followButtonVisible = false
+                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .PostDetail(postParam: "768"), indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                    expect(cell.followButtonVisible) == true
+                    expect(cell.relationshipControl.userId) == "authorId"
+                    expect(cell.relationshipControl.userAtName) == "@author"
+                    expect(cell.relationshipControl.relationshipPriority) == RelationshipPriority.Following
+                }
+            }
+
             context("when item is a Post Header with repostAuthor and PostDetail streamKind") {
                 beforeEach {
                     let repostAuthor: User = stub([
@@ -180,6 +209,30 @@ class StreamHeaderCellPresenterSpec: QuickSpec {
                     cell.followButtonVisible = false
                     StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .PostDetail(postParam: "768"), indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
                     expect(cell.followButtonVisible) == true
+                    expect(cell.relationshipControl.userId) == "reposterId"
+                    expect(cell.relationshipControl.userAtName) == "@reposter"
+                    expect(cell.relationshipControl.relationshipPriority) == RelationshipPriority.Starred
+                }
+            }
+
+            context("when item is a Post Header with author and PostDetail streamKind, but currentUser is the author") {
+                beforeEach {
+                    let post: Post = stub([
+                        "id" : "768",
+                        "author": currentUser,
+                        "viewsCount" : 9,
+                        "repostsCount" : 4,
+                        "commentsCount" : 6,
+                        "lovesCount" : 14,
+                        ])
+
+                    cell = StreamHeaderCell.loadFromNib() as StreamHeaderCell
+                    item = StreamCellItem(jsonable: post, type: .Header)
+                }
+                it("sets followButtonVisible") {
+                    cell.followButtonVisible = true
+                    StreamHeaderCellPresenter.configure(cell, streamCellItem: item, streamKind: .PostDetail(postParam: "768"), indexPath: NSIndexPath(forItem: 0, inSection: 0), currentUser: currentUser)
+                    expect(cell.followButtonVisible) == false
                 }
             }
 
