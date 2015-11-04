@@ -20,11 +20,10 @@ public class PostEditingService: NSObject {
 
     public enum PostContentRegion {
         case Text(String)
-        case Image(UIImage)
-        case ImageData(UIImage, NSData, String)
+        case ImageData(UIImage, NSData?, String?)
     }
 
-    typealias ImageData = (UIImage, NSData, String)
+    typealias ImageData = (UIImage, NSData?, String?)
 
     var editPost: Post?
     var editComment: Comment?
@@ -48,7 +47,6 @@ public class PostEditingService: NSObject {
     // rawSections is String or UIImage objects
     func create(content rawContent: [PostContentRegion], authorId: String, success: CreatePostSuccessCompletion, failure: ElloFailureCompletion?) {
         var textEntries = [(Int, String)]()
-        var imageEntries = [(Int, UIImage)]()
         var imageDataEntries = [(Int, ImageData)]()
 
         // if necessary, the rawSource should be converted to API-ready content,
@@ -57,8 +55,6 @@ public class PostEditingService: NSObject {
             switch section {
             case let .Text(text):
                 textEntries.append((index, text))
-            case let .Image(image):
-                imageEntries.append((index, image))
             case let .ImageData(image, data, type):
                 imageDataEntries.append((index, (image, data, type)))
             }
@@ -68,17 +64,7 @@ public class PostEditingService: NSObject {
             return (index, TextRegion(content: text))
         }
 
-        if imageEntries.count > 0 {
-            uploadImages(imageEntries, success: { imageRegions in
-                indexedRegions += imageRegions.map() { entry in
-                    let (index, region) = entry
-                    return (index, region as Regionable)
-                }
-
-                self.create(regions: self.sortedRegions(indexedRegions), authorId: authorId, success: success, failure: failure)
-            }, failure: failure)
-        }
-        else if imageDataEntries.count > 0 {
+        if imageDataEntries.count > 0 {
             uploadImages(imageDataEntries, success: { imageRegions in
                 indexedRegions += imageRegions.map() { entry in
                     let (index, region) = entry
@@ -152,7 +138,7 @@ public class PostEditingService: NSObject {
     // Another way to upload the images would be to generate one AmazonCredentials
     // object, and pass that to the uploader.  The uploader would need to
     // generate unique image names in that case.
-    func uploadImages(imageEntries: [(Int, UIImage)], success: UploadImagesSuccessCompletion, failure: ElloFailureCompletion?) {
+    func uploadImages(imageEntries: [(Int, ImageData)], success: UploadImagesSuccessCompletion, failure: ElloFailureCompletion?) {
         var uploaded = [(Int, ImageRegion)]()
 
         // if any upload fails, the entire post creationg fails
@@ -170,36 +156,77 @@ public class PostEditingService: NSObject {
         })
         var prevUploadOperation: NSOperation?
 
-        for imageEntry in imageEntries {
+        for dataEntry in imageEntries {
             let uploadOperation = AsyncOperation(block: { done in
                 if anyError != nil {
                     done()
                     return
                 }
 
-                let (imageIndex, image) = imageEntry
-                let filename = "\(NSUUID().UUIDString).jpg"
+                let (imageIndex, (image, data, contentType)) = dataEntry
+
+                let filename: String
+                switch contentType ?? "" {
+                case "image/gif":
+                    filename = "\(NSUUID().UUIDString).gif"
+                case "image/png":
+                    filename = "\(NSUUID().UUIDString).png"
+                default:
+                    filename = "\(NSUUID().UUIDString).jpg"
+                }
+
+                let failureHandler: ElloFailureCompletion = { error, statusCode in
+                    anyError = error
+                    anyStatusCode = statusCode
+                    done()
+                }
 
                 let uploadService = S3UploadingService()
-                uploadService.upload(image, filename: filename,
-                    success: { url in
-                        let imageRegion = ImageRegion(alt: filename)
-                        imageRegion.url = url
+                if let data = data, contentType = contentType {
+                    uploadService.upload(data, filename: filename, contentType: contentType,
+                        success: { url in
+                            let imageRegion = ImageRegion(alt: filename)
+                            imageRegion.url = url
 
-                        if let url = url {
-                            let asset = Asset(image: image, url: url)
-                            ElloLinkedStore.sharedInstance.setObject(asset, forKey: asset.id, inCollection: MappingType.AssetsType.rawValue)
-                            imageRegion.addLinkObject("assets", key: asset.id, collection: MappingType.AssetsType.rawValue)
-                        }
+                            if let url = url {
+                                let asset = Asset(url: url)
+                                asset.optimized?.type = contentType
+                                asset.optimized?.size = data.length
+                                asset.optimized?.width = Int(image.size.width)
+                                asset.optimized?.height = Int(image.size.height)
 
-                        uploaded.append((imageIndex, imageRegion))
-                        done()
-                    },
-                    failure: { error, statusCode in
-                        anyError = error
-                        anyStatusCode = statusCode
-                        done()
-                    })
+                                let attachment = Attachment(url: url)
+                                attachment.width = Int(image.size.width)
+                                attachment.height = Int(image.size.height)
+                                attachment.image = image
+                                asset.hdpi = attachment
+
+                                ElloLinkedStore.sharedInstance.setObject(asset, forKey: asset.id, inCollection: MappingType.AssetsType.rawValue)
+                                imageRegion.addLinkObject("assets", key: asset.id, collection: MappingType.AssetsType.rawValue)
+                            }
+                            
+                            uploaded.append((imageIndex, imageRegion))
+                            done()
+                        },
+                        failure: failureHandler)
+                }
+                else {
+                    uploadService.upload(image, filename: filename,
+                        success: { url in
+                            let imageRegion = ImageRegion(alt: filename)
+                            imageRegion.url = url
+
+                            if let url = url {
+                                let asset = Asset(image: image, url: url)
+                                ElloLinkedStore.sharedInstance.setObject(asset, forKey: asset.id, inCollection: MappingType.AssetsType.rawValue)
+                                imageRegion.addLinkObject("assets", key: asset.id, collection: MappingType.AssetsType.rawValue)
+                            }
+
+                            uploaded.append((imageIndex, imageRegion))
+                            done()
+                        },
+                        failure: failureHandler)
+                }
             })
 
             doneOperation.addDependency(uploadOperation)
@@ -212,73 +239,6 @@ public class PostEditingService: NSObject {
             prevUploadOperation = uploadOperation
         }
         operationQueue.addOperation(doneOperation)
-    }
-
-    func uploadImages(imageDataEntries: [(Int, ImageData)], success: UploadImagesSuccessCompletion, failure: ElloFailureCompletion?) {
-        var uploaded = [(Int, ImageRegion)]()
-
-        // if any upload fails, the entire post creationg fails
-        var anyError: NSError?
-        var anyStatusCode: Int?
-
-        let allDone = after(imageDataEntries.count) {
-            if let error = anyError {
-                failure?(error: error, statusCode: anyStatusCode)
-            }
-            else {
-                success(uploaded)
-            }
-        }
-
-        for dataEntry in imageDataEntries {
-            if let _ = anyError {
-                allDone()
-                continue
-            }
-
-            let (imageIndex, (image, data, contentType)) = dataEntry
-            let filename: String
-            switch contentType {
-            case "image/gif":
-                filename = "\(NSUUID().UUIDString).gif"
-            case "image/png":
-                filename = "\(NSUUID().UUIDString).png"
-            default:
-                filename = "\(NSUUID().UUIDString).jpg"
-            }
-
-            let uploadService = S3UploadingService()
-            uploadService.upload(data, filename: filename, contentType: contentType,
-                success: { url in
-                    let imageRegion = ImageRegion(alt: filename)
-                    imageRegion.url = url
-
-                    if let url = url {
-                        let asset = Asset(url: url)
-                        asset.optimized?.type = contentType
-                        asset.optimized?.size = data.length
-                        asset.optimized?.width = Int(image.size.width)
-                        asset.optimized?.height = Int(image.size.height)
-
-                        let attachment = Attachment(url: url)
-                        attachment.width = Int(image.size.width)
-                        attachment.height = Int(image.size.height)
-                        attachment.image = image
-                        asset.hdpi = attachment
-
-                        ElloLinkedStore.sharedInstance.setObject(asset, forKey: asset.id, inCollection: MappingType.AssetsType.rawValue)
-                        imageRegion.addLinkObject("assets", key: asset.id, collection: MappingType.AssetsType.rawValue)
-                    }
-
-                    uploaded.append((imageIndex, imageRegion))
-                    allDone()
-                },
-                failure: { error, statusCode in
-                    anyError = error
-                    anyStatusCode = statusCode
-                    allDone()
-                })
-        }
     }
 
     // this happens just before create(regions:).  The original index of each

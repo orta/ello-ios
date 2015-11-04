@@ -324,12 +324,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
                     content.append(.Text(ElloAttributedString.render(attributedText)))
                 }
             case let .Image(image, data, contentType):
-                if let data = data, contentType = contentType {
-                    content.append(.ImageData(image, data, contentType))
-                }
-                else {
-                    content.append(.Image(image))
-                }
+                content.append(.ImageData(image, data, contentType))
             default:
                 break // there are "non submittable" types from OmnibarRegion, like Spacer and ImageURL
             }
