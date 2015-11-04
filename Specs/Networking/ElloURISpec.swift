@@ -85,6 +85,17 @@ class ElloURISpec: QuickSpec {
 
                 describe("specific urls") {
                     let tests: [String: (input: String, outputURI: ElloURI, outputData: String)] = [
+
+                        "with ello://notification url schemes": (
+                            input: "ello://notifications",
+                            outputURI: .Notifications,
+                            outputData: "notifications"
+                        ),
+                        "with ello://777/followers url schemes": (
+                            input: "ello://777/followers",
+                            outputURI: .ProfileFollowers,
+                            outputData: "777"
+                        ),
                         "with Subdomain(short) urls": (
                             input: "https://flowers.ello.co",
                             outputURI: .Subdomain,
@@ -100,7 +111,6 @@ class ElloURISpec: QuickSpec {
                             outputURI: .WTF,
                             outputData: "https://ello.co/wtf"
                         ),
-
                         "with wtf/help urls": (
                             input: "https://ello.co/wtf/help",
                             outputURI: .WTF,

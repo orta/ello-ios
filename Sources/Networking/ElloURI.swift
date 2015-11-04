@@ -127,12 +127,13 @@ public enum ElloURI: String {
     static var userPathRegex: String { return "\(ElloURI.fuzzyDomain)\\/\(ElloURI.usernameRegex)\\??.*" }
 
     public static func match(url: String) -> (type: ElloURI, data: String) {
+        let trimmed = ElloURI.replaceElloScheme(url)
         for type in self.all {
-            if let _ = url.rangeOfString(type.regexPattern, options: .RegularExpressionSearch) {
-                return (type, type.data(url))
+            if let _ = trimmed.rangeOfString(type.regexPattern, options: .RegularExpressionSearch) {
+                return (type, type.data(trimmed))
             }
         }
-        return (self.External, self.External.data(url))
+        return (self.External, self.External.data(trimmed))
     }
 
     private var regexPattern: String {
@@ -147,6 +148,13 @@ public enum ElloURI: String {
         case .Subdomain: return "\(rawValue)\(ElloURI.fuzzyDomain)"
         default: return "\(ElloURI.fuzzyDomain)\\/\(rawValue)\\/?$"
         }
+    }
+
+    private static func replaceElloScheme(path: String) -> String {
+        if path.beginsWith("ello://") {
+            return path.stringByReplacingOccurrencesOfString("ello://", withString: "\(baseURL)/")
+        }
+        return path
     }
 
     private func data(url: String) -> String {
