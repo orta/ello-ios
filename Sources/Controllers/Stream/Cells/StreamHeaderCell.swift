@@ -106,6 +106,10 @@ public class StreamHeaderCell: UICollectionViewCell {
         let username = user?.atName ?? ""
         usernameButton.setTitle(username, forState: UIControlState.Normal)
         usernameButton.sizeToFit()
+
+        relationshipControl.relationshipPriority = user?.relationshipPriority ?? .Inactive
+        relationshipControl.userId = user?.id ?? ""
+        relationshipControl.userAtName = user?.atName ?? ""
     }
 
     override public func awakeFromNib() {

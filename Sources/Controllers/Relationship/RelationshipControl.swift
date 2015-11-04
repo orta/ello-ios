@@ -156,7 +156,7 @@ public class RelationshipControl: UIView {
         self.userInteractionEnabled = false
         let prevRelationshipPriority = self.relationshipPriority
         self.relationshipPriority = newRelationshipPriority
-        relationshipDelegate.relationshipTapped(userId, relationshipPriority: newRelationshipPriority) { [unowned self] (status, relationship) in
+        relationshipDelegate.relationshipTapped(userId, relationshipPriority: newRelationshipPriority) { (status, relationship) in
             self.userInteractionEnabled = true
             if let newRelationshipPriority = relationship?.subject?.relationshipPriority {
                 self.relationshipPriority = newRelationshipPriority
