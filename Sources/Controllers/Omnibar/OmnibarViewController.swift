@@ -353,13 +353,13 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         }
 
         if content.count > 0 {
-            ElloHUD.showLoadingHud()
+            ElloHUD.showLoadingHudInView(view)
             if let authorId = currentUser?.id {
                 service.create(
                     content: content,
                     authorId: authorId,
                     success: { postOrComment in
-                        ElloHUD.hideLoadingHud()
+                        ElloHUD.hideLoadingHudInView(self.view)
 
                         if self.editPost != nil || self.editComment != nil {
                             NSURLCache.sharedURLCache().removeAllCachedResponses()
@@ -375,13 +375,13 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
                         }
                     },
                     failure: { error, statusCode in
-                        ElloHUD.hideLoadingHud()
+                        ElloHUD.hideLoadingHudInView(self.view)
                         self.contentCreationFailed(error.elloErrorMessage ?? error.localizedDescription)
                     }
                 )
             }
             else {
-                ElloHUD.hideLoadingHud()
+                ElloHUD.hideLoadingHudInView(self.view)
                 contentCreationFailed(NSLocalizedString("No content was submitted", comment: "No content was submitted"))
             }
         }
