@@ -47,7 +47,7 @@ public class ProfileInfoViewController: OnboardingUploadImageViewController {
         let chooseCoverImage = chooseCoverImageDefault()
         let chooseAvatarImage = chooseAvatarImageDefault()
         let width = min(view.frame.width, Size.maxWidth)
-        let textWidth = width - 20
+        let textWidth = width - 30
         let aspect = width / chooseCoverImage.size.width
         let scale = width / CGFloat(375)
 
@@ -59,7 +59,7 @@ public class ProfileInfoViewController: OnboardingUploadImageViewController {
             )
 
         chooseAvatarImageView.frame = CGRect(
-            x: chooseCoverImageView.frame.minX,
+            x: chooseCoverImageView.frame.minX + 15,
             y: chooseCoverImageView.frame.maxY - 65,
             width: chooseAvatarImage.size.width * scale,
             height: chooseAvatarImage.size.height * scale

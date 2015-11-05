@@ -17,6 +17,11 @@ class ProfileInfoViewControllerSpec: QuickSpec {
     override func spec() {
         describe("ProfileInfoViewController") {
             let subject = ProfileInfoViewController()
+            let onboardingData = OnboardingData()
+            onboardingData.avatarImage = UIImage.imageWithColor(.redColor(), size: CGSize(width: 500, height: 500))
+            onboardingData.coverImage = UIImage.imageWithColor(.greenColor(), size: CGSize(width: 1000, height: 1000))
+            subject.onboardingData = onboardingData
+
             context("iPad in landscape") {
                 beforeEach {
                     let parent = UIView(frame: CGRect(x: 0, y: 0, width: 1024, height: 768))
@@ -28,7 +33,7 @@ class ProfileInfoViewControllerSpec: QuickSpec {
                 describe("view") {
                     it("should match the screenshot") {
                         let view = subject.view
-                        expect(view).to(haveValidSnapshot())
+                        expect(view).to(recordSnapshot())
                     }
                 }
             }
@@ -43,7 +48,7 @@ class ProfileInfoViewControllerSpec: QuickSpec {
                 describe("view") {
                     it("should match the screenshot") {
                         let view = subject.view
-                        expect(view).to(haveValidSnapshot())
+                        expect(view).to(recordSnapshot())
                     }
                 }
             }
@@ -58,7 +63,7 @@ class ProfileInfoViewControllerSpec: QuickSpec {
                 describe("view") {
                     it("should match the screenshot") {
                         let view = subject.view
-                        expect(view).to(haveValidSnapshot())
+                        expect(view).to(recordSnapshot())
                     }
                 }
             }
@@ -73,7 +78,7 @@ class ProfileInfoViewControllerSpec: QuickSpec {
                 describe("view") {
                     it("should match the screenshot") {
                         let view = subject.view
-                        expect(view).to(haveValidSnapshot())
+                        expect(view).to(recordSnapshot())
                     }
                 }
             }
@@ -88,7 +93,7 @@ class ProfileInfoViewControllerSpec: QuickSpec {
                 describe("view") {
                     it("should match the screenshot") {
                         let view = subject.view
-                        expect(view).to(haveValidSnapshot())
+                        expect(view).to(recordSnapshot())
                     }
                 }
             }
@@ -103,7 +108,7 @@ class ProfileInfoViewControllerSpec: QuickSpec {
                 describe("view") {
                     it("should match the screenshot") {
                         let view = subject.view
-                        expect(view).to(haveValidSnapshot())
+                        expect(view).to(recordSnapshot())
                     }
                 }
             }
