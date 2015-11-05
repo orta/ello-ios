@@ -142,8 +142,7 @@ public class RelationshipControl: UIView {
             return
         }
 
-        relationshipDelegate.launchBlockModal(userId, userAtName: userAtName, relationshipPriority: relationshipPriority) {
-            [unowned self] relationshipPriority in
+        relationshipDelegate.launchBlockModal(userId, userAtName: userAtName, relationshipPriority: relationshipPriority) { relationshipPriority in
             self.relationshipPriority = relationshipPriority
         }
     }
