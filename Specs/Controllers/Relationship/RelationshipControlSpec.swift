@@ -50,8 +50,7 @@ class RelationshipControlSpec: QuickSpec {
             }
 
             describe("intrinsicContentSize()") {
-                it("should calculate when showMoreButton=false showStarredButton=false") {
-                    subject.showMoreButton = false
+                it("should calculate when showStarredButton=false") {
                     subject.showStarredButton = false
                     let expectedSize = CGSize(width: 105, height: 30)
                     expect(subject.intrinsicContentSize()) == expectedSize
@@ -60,20 +59,9 @@ class RelationshipControlSpec: QuickSpec {
                     expect(subject.moreButton.frame) == CGRectZero
                     expect(subject.starredButton.frame) == CGRectZero
                     expect(subject.followingButton.frame) == CGRect(x: 0, y: 0, width: 105, height: 30)
+                    expect(subject).to(recordSnapshot())
                 }
-                it("should calculate when showMoreButton=true showStarredButton=false") {
-                    subject.showMoreButton = true
-                    subject.showStarredButton = false
-                    let expectedSize = CGSize(width: 140, height: 30)
-                    expect(subject.intrinsicContentSize()) == expectedSize
-                    subject.frame = CGRect(origin: CGPointZero, size: expectedSize)
-                    subject.layoutIfNeeded()
-                    expect(subject.moreButton.frame) == CGRect(x: 0, y: 0, width: 30, height: 30)
-                    expect(subject.starredButton.frame) == CGRectZero
-                    expect(subject.followingButton.frame) == CGRect(x: 35, y: 0, width: 105, height: 30)
-                }
-                it("should calculate when showMoreButton=false showStarredButton=true") {
-                    subject.showMoreButton = false
+                it("should calculate when showStarredButton=true") {
                     subject.showStarredButton = true
                     let expectedSize = CGSize(width: 142, height: 30)
                     expect(subject.intrinsicContentSize()) == expectedSize
@@ -82,17 +70,7 @@ class RelationshipControlSpec: QuickSpec {
                     expect(subject.moreButton.frame) == CGRectZero
                     expect(subject.starredButton.frame) == CGRect(x: 112, y: 0, width: 30, height: 30)
                     expect(subject.followingButton.frame) == CGRect(x: 0, y: 0, width: 105, height: 30)
-                }
-                it("should calculate when showMoreButton=true showStarredButton=true") {
-                    subject.showMoreButton = true
-                    subject.showStarredButton = true
-                    let expectedSize = CGSize(width: 177, height: 30)
-                    expect(subject.intrinsicContentSize()) == expectedSize
-                    subject.frame = CGRect(origin: CGPointZero, size: expectedSize)
-                    subject.layoutIfNeeded()
-                    expect(subject.moreButton.frame) == CGRect(x: 0, y: 0, width: 30, height: 30)
-                    expect(subject.starredButton.frame) == CGRect(x: 147, y: 0, width: 30, height: 30)
-                    expect(subject.followingButton.frame) == CGRect(x: 35, y: 0, width: 105, height: 30)
+                    expect(subject).to(recordSnapshot())
                 }
             }
 

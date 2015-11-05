@@ -8,6 +8,8 @@
 
 import UIKit
 import FLAnimatedImage
+import SVGKit
+
 
 public class ProfileViewController: StreamableViewController {
 
@@ -198,7 +200,21 @@ public class ProfileViewController: StreamableViewController {
             self.elloNavigationItem.leftBarButtonItems = [item]
             self.elloNavigationItem.fixNavBarItemPadding()
         }
-        addSearchButton()
+        addMoreFollowingButton()
+    }
+
+    func addMoreFollowingButton() {
+        elloNavigationItem.rightBarButtonItem = UIBarButtonItem(image: SVGKImage(named: "dots_normal.svg").UIImage!, style: .Done, target: self, action: Selector("moreButtonTapped"))
+    }
+
+    func moreButtonTapped() {
+        if let user = user {
+            let userId = user.id
+            let userAtName = user.atName
+            let relationshipPriority = user.relationshipPriority
+            streamViewController.relationshipController?.launchBlockModal(userId, userAtName: userAtName, relationshipPriority: relationshipPriority) { relationshipPriority in
+            }
+        }
     }
 
     private func userLoaded(user: User, responseConfig: ResponseConfig) {
