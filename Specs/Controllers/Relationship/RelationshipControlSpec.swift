@@ -30,7 +30,7 @@ class RelationshipControlSpec: QuickSpec {
 
                 it("sets button state properly when set to noise") {
                     subject.relationshipPriority = .Starred
-                    expect(subject.followingButton.currentTitle) == "Following"
+                    expect(subject.followingButton.currentTitle) == "Starred"
                     expect(subject.followingButton.backgroundColor) == UIColor.blackColor()
                 }
 

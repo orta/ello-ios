@@ -252,7 +252,9 @@ public class RelationshipControl: UIView {
         var title: String {
             switch self {
             case .None: return NSLocalizedString("Follow", comment: "Follow button title")
-            case .Starred, .Following: return NSLocalizedString("Following", comment: "Following button title")
+            case .Following: return InterfaceString.Following.Title.localized
+//            case .Starred: return InterfaceString.Starred.Title.localized
+            case .Starred: return NSLocalizedString("Starred", comment: "Starred button title")
             case .Muted: return NSLocalizedString("Muted", comment: "Muted button title")
             }
         }
