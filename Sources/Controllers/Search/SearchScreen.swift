@@ -46,7 +46,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
 // MARK: init
 
     public init(frame: CGRect, isSearchView: Bool = true, navBarTitle: String? = NSLocalizedString("Search", comment: "Search navbar title"), fieldPlaceholderText: String? = NSLocalizedString("Search Ello", comment: "search ello placeholder text")) {
-        throttled = debounce(0.5)
+        throttled = debounce(0.8)
         bottomInset = 0
         self.navBarTitle = navBarTitle
         self.fieldPlaceholderText = fieldPlaceholderText
