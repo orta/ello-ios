@@ -434,30 +434,43 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     public func modifyUserRelationshipItems(user: User, collectionView: UICollectionView) {
-        switch user.relationshipPriority {
-        case .Following, .Starred, .Inactive:
-            let changedItems = elementsForJSONAble(user, change: .Update)
-            for item in changedItems.1 {
-                if let oldUser = item.jsonable as? User {
-                    // relationship changes
-                    oldUser.relationshipPriority = user.relationshipPriority
-                    oldUser.followersCount = user.followersCount
-                    oldUser.followingCount = user.followingCount
-                }
+        let changedItems = elementsForJSONAble(user, change: .Update)
+        for item in changedItems.1 {
+            if let oldUser = item.jsonable as? User {
+                // relationship changes
+                oldUser.relationshipPriority = user.relationshipPriority
+                oldUser.followersCount = user.followersCount
+                oldUser.followingCount = user.followingCount
+            }
 
-                if let authorable = item.jsonable as? Authorable,
-                    author = authorable.author
+            if let authorable = item.jsonable as? Authorable,
+                author = authorable.author
                 where author.id == user.id {
                     author.relationshipPriority = user.relationshipPriority
                     author.followersCount = user.followersCount
                     author.followingCount = user.followingCount
-                }
             }
-            collectionView.reloadItemsAtIndexPaths(changedItems.0)
-        case .Block, .Mute:
-            modifyItems(user, change: .Delete, collectionView: collectionView)
-        default: break
         }
+        collectionView.reloadItemsAtIndexPaths(changedItems.0)
+
+        switch user.relationshipPriority {
+        case .Block, .Mute:
+            var shouldDelete = true
+
+            switch streamKind {
+            case let .UserStream(userId):
+                shouldDelete = user.id != userId
+            default:
+                break
+            }
+
+            if shouldDelete {
+                modifyItems(user, change: .Delete, collectionView: collectionView)
+            }
+        default:
+            break
+        }
+
         // TODO: figure out why the above doesn't update the counts.
         if user.id == currentUser?.id {
             modifyItems(user, change: .Update, collectionView: collectionView)
@@ -519,7 +532,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         else if let user = jsonable as? User {
             for (index, item) in visibleCellItems.enumerate() {
                 switch user.relationshipPriority {
-                case .Block, .Following, .Starred, .None, .Inactive:
+                case .Following, .Starred, .None, .Inactive, .Block, .Mute:
                     if let itemUser = item.jsonable as? User where user.id == itemUser.id {
                         indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
                         items.append(item)
@@ -532,23 +545,17 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                             items.append(item)
                         }
                     }
-                    else if let itemNotification = item.jsonable as? Notification {
-                        if user.id == itemNotification.author?.id
-                        {
-                            indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
-                            items.append(item)
-                        }
+                    else if let itemNotification = item.jsonable as? Notification where user.id == itemNotification.author?.id {
+                        indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
+                        items.append(item)
                     }
                     else if let itemPost = item.jsonable as? Post where user.id == itemPost.authorId {
                         indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
                         items.append(item)
                     }
-                case .Mute:
-                    if streamKind.name == StreamKind.Notifications(category: nil).name {
-                        if let itemNotification = item.jsonable as? Notification where user.id == itemNotification.author?.id {
-                            indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
-                            items.append(item)
-                        }
+                    else if let itemPost = item.jsonable as? Post where user.id == itemPost.repostAuthor?.id {
+                        indexPaths.append(NSIndexPath(forItem: index, inSection: 0))
+                        items.append(item)
                     }
                 default:
                     if let itemUser = item.jsonable as? User where user.id == itemUser.id {
