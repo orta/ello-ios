@@ -1,3 +1,108 @@
+### Ello Build 1.2.0(3445) November 3, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #621 - Prevent deep link login alert when cold launching
+Manual testing found a bug in the deep linking implementation. Specifically, if the app was cold launched (non running in the background) from a deep link the "login to view" alert was mistakenly displayed. This was due to the mistaken assumption that deep linking would always have the nav showing if the user was logged in. When the user cold launches the app the deep linking code was triggered before a controller existed and executed the logged out deep link flow.
+
+------
+
+#### #620 - Fixes to Follow/Star
+MY BAD YO
+
+------
+
+#### #619 - adds debugging breakpoints, messages, and moves the refreskToken *into* ReAuth endpoint
+
+------
+
+#### #618 - fixes 'follow button on post detail'
+yup, that did the trick.
+
+------
+
+#### #617 - fixes the 'starIcon' on AvatarButton, and specs it out
+
+------
+
+#### #616 - Adds Following/Starred button tracking
+The network events are still using "friends/noise" for tracking, so we'll have new events (remove modal events, add button events), and old events (friends/noise relationships), so we should be able to watch new behavior *and* change in old behavior.
+
+w00t.
+
+------
+
+#### #593 - Snapshot Specs
+
+------
+
+#### #615 - Starred into master
+EVERY LINE MUST BE REVIEWED.
+
+Oh wait, we already did that.
+
+MAKE IT SO!  PUSH IT LIVE!
+
+------
+
+#### #613 - optimistic mute block
+First stab at an optimistic service. Success is called immediately when a user is muted or blocked and subsequently updated once the network responds.
+
+------
+
+#### #612 - Add cache age and size limits
+This PR adds a age limit of 2 weeks to images in our disk cache as well as a total size limit of 250MB.
+
+------
+
+#### #610 - Fix: Posts with gifs are now editable
+Prior to this PR editing a post with gifs resulted in a failure message in the omnibar. In addition we now support viewing animated gifs while posting.
+
+------
+
+#### #609 - Push notification deeplinking
+I introduced a regression with the latest Universal Links PR in #599. Namely, push notification deep linking stopped working. This PR brings back deep linking for the 3 types of deep linking push notifications. Posts, Comments and Users.
+
+------
+
+#### #607 - Fixes and improvements to the Following/Starred button
+Onboarding had some bugs, and this implements the "assume success" idea that I totally invented on my own but I think it's going to be a thing.
+
+------
+
+#### #608 - Regex Additions
+Fix 'matches' to return array of all matches, and adds 'matchingGroups', which returns first match and all capture groups
+
+------
+
+#### #603 - Updates the RelationshipControl UI
+- Friend -> Following
+- Noise -> Starred
+- removed modal to choose friend/noise
+- updated specs accordingly
+
+------
+
+#### #605 - use a quick 'merge' method to preserve 'detail' information
+like formattedShortBio and externalLinksList
+
+AWWW YEAH
+
+------
+
+#### #604 - fixes the 'pop' behavior when profile or post-detail fails
+instead of popping immediately (which doesn't work), the controller pops after the alert is acknowledged.
+
+------
+
+#### #600 - Moves the auth-token and related info to the keychain
+Also migrates the existing info from the defaults, where it was before.
+Specs updated accordingly.
+    
+------------
+
 ### Ello Build 1.2.0(3402) October 29, 2015
 
     RELEASE NOTES
