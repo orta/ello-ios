@@ -470,11 +470,6 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         default:
             break
         }
-
-        // TODO: figure out why the above doesn't update the counts.
-        if user.id == currentUser?.id {
-            modifyItems(user, change: .Update, collectionView: collectionView)
-        }
     }
 
     public func modifyUserSettingsItems(user: User, collectionView: UICollectionView) {
