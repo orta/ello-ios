@@ -18,7 +18,11 @@ PODS:
   - Fabric (1.5.5):
     - Fabric/Base (= 1.5.5)
   - Fabric/Base (1.5.5)
-  - FBSnapshotTestCase (1.8.1)
+  - FBSnapshotTestCase (2.0.7):
+    - FBSnapshotTestCase/SwiftSupport (= 2.0.7)
+  - FBSnapshotTestCase/Core (2.0.7)
+  - FBSnapshotTestCase/SwiftSupport (2.0.7):
+    - FBSnapshotTestCase/Core
   - Firebase (2.4.2)
   - FLAnimatedImage (1.0.8)
   - iRate (1.11.4)
@@ -32,10 +36,10 @@ PODS:
   - Moya/Core (2.4.1):
     - Alamofire (~> 2.0)
   - Nimble (2.0.0)
-  - Nimble-Snapshots (1.0.0):
-    - FBSnapshotTestCase (~> 1.7)
-    - Nimble (~> 2.0.0-rc.2)
-    - Quick (~> 0.5)
+  - Nimble-Snapshots (3.0.0):
+    - FBSnapshotTestCase (~> 2.0.7)
+    - Nimble
+    - Quick
   - OHHTTPStubs (4.3.0):
     - OHHTTPStubs/Default (= 4.3.0)
   - OHHTTPStubs/Core (4.3.0)
@@ -89,7 +93,7 @@ DEPENDENCIES:
   - MBProgressHUD (~> 0.9.0)
   - Moya (~> 2.2)
   - Nimble (from `https://github.com/Quick/Nimble`, branch `xcode7.1`)
-  - Nimble-Snapshots (from `https://github.com/ello/Nimble-Snapshots`)
+  - Nimble-Snapshots (~> 3.0)
   - OHHTTPStubs (~> 4.3)
   - PINRemoteImage (~> 1.1)
   - Quick (from `https://github.com/Quick/Quick`, branch `xcode7.1`)
@@ -118,8 +122,6 @@ EXTERNAL SOURCES:
   Nimble:
     :branch: xcode7.1
     :git: https://github.com/Quick/Nimble
-  Nimble-Snapshots:
-    :git: https://github.com/ello/Nimble-Snapshots
   Quick:
     :branch: xcode7.1
     :git: https://github.com/Quick/Quick
@@ -152,9 +154,6 @@ CHECKOUT OPTIONS:
   Nimble:
     :commit: dd3652d3788f1dd4e9838140399f774dcea56ec2
     :git: https://github.com/Quick/Nimble
-  Nimble-Snapshots:
-    :commit: 08551a5b9d7590a2d33f58f9df27ec5b1c045505
-    :git: https://github.com/ello/Nimble-Snapshots
   Quick:
     :commit: d1d795e58d0f972e8acacaee62a83d4b86db11dd
     :git: https://github.com/Quick/Quick
@@ -179,7 +178,7 @@ SPEC CHECKSUMS:
   Crashlytics: 41c082440d2e14da444186fff65e79c0b4b35d4c
   CRToast: eb22641501990233c53cb8f83f7d2ea87e0ddf73
   Fabric: 190bf1a6eb65f7500de1347d027d2e59a7e53db1
-  FBSnapshotTestCase: 3dc3899168747a0319c5278f5b3445c13a6532dd
+  FBSnapshotTestCase: 7e85180d0d141a0cf472352edda7e80d7eaeb547
   Firebase: 5e898ed5012c81d28ca5fae1113c6b61a172bc6d
   FLAnimatedImage: 7599ec218dceacdcacbdfccb2947415c2619cd11
   iRate: 599ed07c854e0695f3c605d1b2a64c67d912acb7
@@ -190,7 +189,7 @@ SPEC CHECKSUMS:
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
   Moya: aa0fba7f9c98a0bcb95f2d4222ee848dcb0e4b8e
   Nimble: 1b4a306f27b2355c8c789087e092decb1a226238
-  Nimble-Snapshots: c16dd279a4840ec06288198fafd53f3c17750ff3
+  Nimble-Snapshots: ab41dd737dcd33a0b0cb005a30465fef70b7207a
   OHHTTPStubs: 0aec5755528693a165bd616cb79f69387de306a8
   PINCache: 0581b0a7578fc0bbc6c7a8b70b0615388bea064c
   PINRemoteImage: 7560f0c975b0495d232e954342c5f49979335015

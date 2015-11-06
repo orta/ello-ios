@@ -498,7 +498,6 @@ public class StreamViewController: BaseElloViewController {
 
         relationshipController = RelationshipController(presentingController: self)
         relationshipController?.currentUser = self.currentUser
-        dataSource.relationshipDelegate = relationshipController
 
         // set delegates
         dataSource.imageDelegate = self
@@ -506,6 +505,7 @@ public class StreamViewController: BaseElloViewController {
         dataSource.simpleStreamDelegate = self
         dataSource.userDelegate = self
         dataSource.webLinkDelegate = self
+        dataSource.relationshipDelegate = relationshipController
 
         collectionView.dataSource = dataSource
     }
