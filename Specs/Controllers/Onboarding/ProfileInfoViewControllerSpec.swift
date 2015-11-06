@@ -33,7 +33,7 @@ class ProfileInfoViewControllerSpec: QuickSpec {
                 describe("view") {
                     it("should match the screenshot") {
                         let view = subject.view
-                        expect(view).to(recordSnapshot())
+                        expect(view).to(haveValidSnapshot())
                     }
                 }
             }
@@ -48,7 +48,7 @@ class ProfileInfoViewControllerSpec: QuickSpec {
                 describe("view") {
                     it("should match the screenshot") {
                         let view = subject.view
-                        expect(view).to(recordSnapshot())
+                        expect(view).to(haveValidSnapshot())
                     }
                 }
             }
@@ -63,7 +63,7 @@ class ProfileInfoViewControllerSpec: QuickSpec {
                 describe("view") {
                     it("should match the screenshot") {
                         let view = subject.view
-                        expect(view).to(recordSnapshot())
+                        expect(view).to(haveValidSnapshot())
                     }
                 }
             }
@@ -78,7 +78,7 @@ class ProfileInfoViewControllerSpec: QuickSpec {
                 describe("view") {
                     it("should match the screenshot") {
                         let view = subject.view
-                        expect(view).to(recordSnapshot())
+                        expect(view).to(haveValidSnapshot())
                     }
                 }
             }
@@ -93,7 +93,7 @@ class ProfileInfoViewControllerSpec: QuickSpec {
                 describe("view") {
                     it("should match the screenshot") {
                         let view = subject.view
-                        expect(view).to(recordSnapshot())
+                        expect(view).to(haveValidSnapshot())
                     }
                 }
             }
@@ -108,7 +108,7 @@ class ProfileInfoViewControllerSpec: QuickSpec {
                 describe("view") {
                     it("should match the screenshot") {
                         let view = subject.view
-                        expect(view).to(recordSnapshot())
+                        expect(view).to(haveValidSnapshot())
                     }
                 }
             }
