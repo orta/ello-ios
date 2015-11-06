@@ -47,6 +47,7 @@ public class ProfileInfoViewController: OnboardingUploadImageViewController {
         let chooseCoverImage = chooseCoverImageDefault()
         let chooseAvatarImage = chooseAvatarImageDefault()
         let width = min(view.frame.width, Size.maxWidth)
+        let textWidth = width - 30
         let aspect = width / chooseCoverImage.size.width
         let scale = width / CGFloat(375)
 
@@ -58,7 +59,7 @@ public class ProfileInfoViewController: OnboardingUploadImageViewController {
             )
 
         chooseAvatarImageView.frame = CGRect(
-            x: chooseCoverImageView.frame.minX,
+            x: chooseCoverImageView.frame.minX + 15,
             y: chooseCoverImageView.frame.maxY - 65,
             width: chooseAvatarImage.size.width * scale,
             height: chooseAvatarImage.size.height * scale
@@ -66,21 +67,21 @@ public class ProfileInfoViewController: OnboardingUploadImageViewController {
         chooseAvatarImageView.layer.cornerRadius = chooseAvatarImageView.frame.size.width / 2
 
         nameField.frame = CGRect(
-            x: (view.frame.width - width) / 2,
+            x: (view.frame.width - textWidth) / 2,
             y: chooseAvatarImageView.frame.maxY + 44,
-            width: width,
+            width: textWidth,
             height: 34
             )
         bioField.frame = CGRect(
-            x: (view.frame.width - width) / 2,
+            x: (view.frame.width - textWidth) / 2,
             y: nameField.frame.maxY + 26,
-            width: width,
+            width: textWidth,
             height: 34
             )
         linksField.frame = CGRect(
-            x: (view.frame.width - width) / 2,
+            x: (view.frame.width - textWidth) / 2,
             y: bioField.frame.maxY + 26,
-            width: width,
+            width: textWidth,
             height: 34
             )
         let margin = CGFloat(15)

@@ -49,12 +49,6 @@ public struct StreamHeaderCellPresenter {
 
                 if let repostAuthor = (streamCellItem.jsonable as? Post)?.repostAuthor {
                     author = repostAuthor
-
-                    if let author = author {
-                        cell.relationshipControl.userId = author.id
-                        cell.relationshipControl.userAtName = author.atName
-                        cell.relationshipControl.relationshipPriority = author.relationshipPriority
-                    }
                 }
 
                 if streamKind.isDetail {
@@ -68,6 +62,10 @@ public struct StreamHeaderCellPresenter {
                 cell.chevronHidden = false
                 cell.goToPostView.hidden = true
                 cell.canReply = true
+            }
+
+            if author?.id == currentUser?.id {
+                followButtonVisible = false
             }
 
             cell.setUser(author)

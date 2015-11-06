@@ -147,7 +147,7 @@ class OmnibarViewControllerSpec: QuickSpec {
                     let content = subject.generatePostContent(regions)
                     expect(content.count) == 3
 
-                    guard case let PostEditingService.PostContentRegion.Image(outImage) = content[0] else {
+                    guard case let PostEditingService.PostContentRegion.ImageData(outImage, _, _) = content[0] else {
                         fail("content[0] is not PostEditingService.PostContentRegion.Image")
                         return
                     }
