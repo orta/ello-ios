@@ -29,8 +29,8 @@ class AutoCompleteCellPresenterSpec: QuickSpec {
 
                     AutoCompleteCellPresenter.configure(cell, item: item)
 
-
                     expect(cell.name.text) == "@Billy"
+                    expect(cell.avatar.url) == NSURL(string: "http://www.example.com/image")!
                     expect(cell.selectionStyle) == UITableViewCellSelectionStyle.None
                     expect(cell.name.textColor) == UIColor.whiteColor()
                     expect(cell.name.font ) == UIFont.typewriterFont(12)
