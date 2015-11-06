@@ -30,6 +30,39 @@ class AvatarButtonSpec: QuickSpec {
                     expect(subject.starIcon.frame.size) == CGSize(width: 15, height: 15)
                 }
             }
+            context("assigning user") {
+                var subject: AvatarButton!
+                var user: User!
+                let url = NSURL(string: "http://www.example.com/image")!
+
+                beforeEach {
+                    subject = AvatarButton()
+                    user = User(id: NSUUID().UUIDString, href: "", username: "@ello", name: "", experimentalFeatures: false, relationshipPriority: RelationshipPriority.None, postsAdultContent: false, viewsAdultContent: false, hasCommentingEnabled: true, hasSharingEnabled: true, hasRepostingEnabled: true, hasLovesEnabled: true)
+                }
+
+                it("should assign the asset url") {
+                    let asset = Asset(url: url)
+                    user.avatar = asset
+                    subject.setUser(user)
+                }
+
+                it("should assign the asset large url") {
+                    let asset = Asset(id: NSUUID().UUIDString)
+                    let attachment = Attachment(url: url)
+                    asset.large = attachment
+                    user.avatar = asset
+                    subject.setUser(user)
+                }
+
+                it("should assign the asset optimized url") {
+                    let asset = Asset(id: NSUUID().UUIDString)
+                    let attachment = Attachment(url: url)
+                    asset.optimized = attachment
+                    user.avatar = asset
+                    subject.setUser(user)
+                }
+
+            }
         }
     }
 }

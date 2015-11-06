@@ -26,6 +26,9 @@ public final class Asset: JSONAble {
     public var xxhdpi: Attachment?
     public var original: Attachment?
     // optional avatar
+    public var largeOrBest: Attachment? {
+        return large ?? optimized ?? xxhdpi ?? xhdpi ?? hdpi ?? regular
+    }
     public var large: Attachment?
     public var regular: Attachment?
     public var small: Attachment?

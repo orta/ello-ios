@@ -10,6 +10,8 @@ import SVGKit
 
 
 public class AvatarButton: UIButton {
+    public var url: NSURL?
+
     var starIcon = UIImageView()
     var starIconHidden = false
     let starSize = CGSize(width: 15, height: 15)
@@ -41,6 +43,8 @@ public class AvatarButton: UIButton {
         starIcon.hidden = starIconHidden || (user?.relationshipPriority != .Starred)
 
         if let url = user?.avatarURL {
+            self.url = url
+
             self.pin_setImageFromURL(url) { result in
                 if result.image != nil {
                     if result.resultType != .MemoryCache {
@@ -60,6 +64,9 @@ public class AvatarButton: UIButton {
                     self.setDefaultImage()
                 }
             }
+        }
+        else {
+            self.url = nil
         }
     }
 
