@@ -472,13 +472,15 @@ extension AppViewController {
             if let user = currentUser {
                 showOnboardingScreen(user)
             }
-        case .Post,
-             .PushNotificationComment,
-             .PushNotificationPost:
+        case .Post:
             showPostDetailScreen(data, path: path)
-        case .Profile,
-             .PushNotificationUser:
+        case .PushNotificationComment,
+             .PushNotificationPost:
+            showPostDetailScreen(data, path: path, isSlug: false)
+        case .Profile:
             showProfileScreen(data, path: path)
+        case .PushNotificationUser:
+            showProfileScreen(data, path: path, isSlug: false)
         case .ProfileFollowers:
             showProfileFollowersScreen(data)
         case .ProfileFollowing:
@@ -564,15 +566,17 @@ extension AppViewController {
         }
     }
 
-    private func showProfileScreen(username: String, path: String) {
-        let profileVC = ProfileViewController(userParam: "~\(username)")
+    private func showProfileScreen(userParam: String, path: String, isSlug: Bool = true) {
+        let param = isSlug ? "~\(userParam)" : userParam
+        let profileVC = ProfileViewController(userParam: param)
         profileVC.deeplinkPath = path
         profileVC.currentUser = currentUser
         pushDeepLinkViewController(profileVC)
     }
 
-    private func showPostDetailScreen(postParam: String, path: String) {
-        let postDetailVC = PostDetailViewController(postParam: "~\(postParam)")
+    private func showPostDetailScreen(postParam: String, path: String, isSlug: Bool = true) {
+        let param = isSlug ? "~\(postParam)" : postParam
+        let postDetailVC = PostDetailViewController(postParam: param)
         postDetailVC.deeplinkPath = path
         postDetailVC.currentUser = currentUser
         pushDeepLinkViewController(postDetailVC)
