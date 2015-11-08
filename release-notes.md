@@ -1,3 +1,35 @@
+### Ello Build 1.2.0(3471) November 6, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #626 - Fixes the autocomplete avatars
+
+------
+
+#### #624 - Refactors the mute & block code so it's consistent
+The `StreamDataSource` methods that return `StreamCellItems` for a given `User` were trying to be "smart", but they were just being confusing.
+
+Also prevents specs from running on an @3x device, because snapshot specs will all fail.
+
+------
+
+#### #625 - Change button title to 'Starred' when relationship is 'Starred'
+^ what he said.
+
+------
+
+#### #623 - Fixes to the current build
+- Fixes the relationship control on post detail
+- Moves the Omnibar spinner into the view, not the window
+- Fixes image uploading, so that animated and static images can both be uploaded
+- more provisioning profiles (CS/QA team, and Grant Blakeman)
+- hide follow button on own header cell (spec'd)
+- fixes ProfileInfoViewController margins (snapshot spec'd)
+    
+------------
+
 ### Ello Build 1.2.0(3445) November 3, 2015
 
     RELEASE NOTES
