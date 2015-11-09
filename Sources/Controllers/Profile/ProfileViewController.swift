@@ -204,6 +204,14 @@ public class ProfileViewController: StreamableViewController {
     }
 
     func addMoreFollowingButton() {
+        if let currentUser = currentUser where userParam == currentUser.id || userParam == "~\(currentUser.username)" {
+            return
+        }
+
+        if let user = user, currentUser = currentUser where user.id == currentUser.id {
+            return
+        }
+
         elloNavigationItem.rightBarButtonItem = UIBarButtonItem(image: SVGKImage(named: "dots_normal.svg").UIImage!, style: .Done, target: self, action: Selector("moreButtonTapped"))
     }
 
@@ -309,6 +317,8 @@ extension ProfileViewController {
             if cachedImage(.CoverImage) == nil {
                 self.currentUser?.coverImage = user.coverImage
             }
+
+            elloNavigationItem.rightBarButtonItem = nil
         }
     }
 }
