@@ -52,7 +52,6 @@ public class StreamHeaderCell: UICollectionViewCell {
     @IBOutlet var goToPostView: UIView!
     @IBOutlet var bottomToolBar: UIToolbar!
     @IBOutlet var scrollView: UIScrollView!
-    @IBOutlet var containerView: UIView!
     @IBOutlet var innerContentView: UIView!
     @IBOutlet var bottomContentView: UIView!
     @IBOutlet var timestampLabel: UILabel!
@@ -143,7 +142,6 @@ public class StreamHeaderCell: UICollectionViewCell {
         contentView.frame = bounds
         innerContentView.frame = bounds
         bottomContentView.frame = bounds
-        containerView.frame = bounds
         scrollView.frame = bounds
         bottomToolBar.frame = bounds
         chevronButton.setSVGImages("abracket")
