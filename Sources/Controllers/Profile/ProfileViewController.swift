@@ -29,7 +29,7 @@ public class ProfileViewController: StreamableViewController {
     var deeplinkPath: String?
     private var isSetup = false
 
-    weak var navigationBar: ElloNavigationBar!
+    @IBOutlet weak var navigationBar: ElloNavigationBar!
     @IBOutlet weak var noPostsView: UIView!
     @IBOutlet weak var noPostsHeader: UILabel!
     @IBOutlet weak var noPostsBody: UILabel!
