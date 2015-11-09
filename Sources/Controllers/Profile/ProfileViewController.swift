@@ -49,7 +49,7 @@ public class ProfileViewController: StreamableViewController {
 
     // this should only be initialized this way for currentUser in tab nav
     required public init(user: User) {
-        // this user should have the .proifle on it since it is currentUser
+        // this user must have the profile property assigned (since it is currentUser)
         self.user = user
         self.userParam = user.id
         self.initialStreamKind = .Profile(perPage: 10)
