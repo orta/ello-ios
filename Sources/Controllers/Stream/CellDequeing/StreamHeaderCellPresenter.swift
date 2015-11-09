@@ -28,6 +28,13 @@ public struct StreamHeaderCellPresenter {
             cell.ownComment = false
             cell.isGridLayout = streamKind.isGridLayout
 
+            switch streamKind {
+            case .PostDetail:
+                cell.showUsername = false
+            default:
+                cell.showUsername = true
+            }
+
             if let currentUser = currentUser,
                 comment = streamCellItem.jsonable as? Comment
             {

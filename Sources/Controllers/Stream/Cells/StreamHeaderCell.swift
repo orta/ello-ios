@@ -26,8 +26,7 @@ public class StreamHeaderCell: UICollectionViewCell {
 
     public var followButtonVisible = false {
         didSet {
-            relationshipControl.hidden = !followButtonVisible
-            timestampLabel.hidden = followButtonVisible
+            setNeedsLayout()
         }
     }
 
@@ -60,6 +59,11 @@ public class StreamHeaderCell: UICollectionViewCell {
     @IBOutlet var relationshipControl: RelationshipControl!
     @IBOutlet var replyButton: UIButton!
     var isGridLayout = false
+    var showUsername = true {
+        didSet {
+            setNeedsLayout()
+        }
+    }
 
     public weak var relationshipDelegate: RelationshipDelegate? {
         get { return relationshipControl.relationshipDelegate }
@@ -181,7 +185,6 @@ public class StreamHeaderCell: UICollectionViewCell {
     private func positionTopContent() {
         let leftSidePadding: CGFloat = 15
         let rightSidePadding: CGFloat = 15
-        let relationshipControlPadding: CGFloat = 7
         let avatarPadding: CGFloat = 15
 
         let timestampMargin: CGFloat = 11.5
@@ -221,12 +224,23 @@ public class StreamHeaderCell: UICollectionViewCell {
             width: timestampLabel.frame.width,
             height: timestampLabel.frame.height)
 
-        let relationshipControlSize = relationshipControl.intrinsicContentSize()
-        relationshipControl.frame = CGRect(
-            x: innerContentView.frame.width - relationshipControlPadding - relationshipControlSize.width,
-            y: (innerContentView.frame.height - relationshipControlSize.height) / 2,
-            width: relationshipControlSize.width,
-            height: relationshipControlSize.height)
+        relationshipControl.hidden = !followButtonVisible
+        if followButtonVisible {
+            let relationshipControlSize = relationshipControl.intrinsicContentSize()
+            relationshipControl.frame.size = relationshipControlSize
+            relationshipControl.frame.origin.y = (innerContentView.frame.height - relationshipControlSize.height) / 2
+
+            if showUsername {
+                let relationshipControlPadding: CGFloat = 7
+                relationshipControl.frame.origin.x = innerContentView.frame.width - relationshipControlPadding - relationshipControlSize.width
+                usernameButton.hidden = false
+            }
+            else {
+                let relationshipControlPadding: CGFloat = 15
+                relationshipControl.frame.origin.x = avatarButton.frame.maxX + relationshipControlPadding
+                usernameButton.hidden = true
+            }
+        }
 
         replyButton.frame.size.width = buttonWidth
         replyButton.frame.origin.x = timestampX - buttonWidth - buttonMargin - buttonMargin - rightSidePadding
