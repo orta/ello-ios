@@ -1,3 +1,16 @@
+### Ello Build 1.2.0(3474) November 8, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #627 - Handle post and profile id from push notifications
+Push notification payloads do not send `username` for profiles or a `slug` for posts as previously assumed. Push notifications send `user_id` and `post_id`. Universal Links use `~username` and `~post-slug` to load their respective content. The new deep linking code treated all deep linking to profiles and posts the same. This PR fixes that by using `user_id` and `post_id` respectively when deep linking from a push notification. The result is that push notifications to posts or profiles now load correctly.
+
+To test the feature you'll need to build to device with the `co.ello.ElloDev` provisioning profile and interact with push notifications both while using the app and with the app not in memory. The expected behavior is that tapping a follow push notification displays the followers profile. Tapping a love/repost/comment push notification should display the post.
+    
+------------
+
 ### Ello Build 1.2.0(3471) November 6, 2015
 
     RELEASE NOTES
