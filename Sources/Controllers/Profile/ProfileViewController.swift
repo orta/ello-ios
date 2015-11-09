@@ -221,6 +221,7 @@ public class ProfileViewController: StreamableViewController {
             let userAtName = user.atName
             let relationshipPriority = user.relationshipPriority
             streamViewController.relationshipController?.launchBlockModal(userId, userAtName: userAtName, relationshipPriority: relationshipPriority) { relationshipPriority in
+                user.relationshipPriority = relationshipPriority
             }
         }
     }
