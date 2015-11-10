@@ -144,7 +144,7 @@ platform :ios do
       build_secret: '***REMOVED***',
       ipa_path: "./Build/Ello.ipa",
       groups: groups,
-      notifications: true,
+      notifications: "YES",
       notes_path: notes_path
     )
   end
