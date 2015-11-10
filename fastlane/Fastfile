@@ -1,0 +1,175 @@
+# Customise this file, documentation can be found here:
+# https://github.com/KrauseFx/fastlane/tree/master/docs
+# All available actions: https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md
+# can also be listed using the `fastlane actions` command
+
+# Change the syntax highlighting to Ruby
+# All lines starting with a # are ignored when running `fastlane`
+
+# By default, fastlane will send which actions are used
+# No personal data is shared, more information on https://github.com/fastlane/enhancer
+# Uncomment the following line to opt out
+# opt_out_usage
+
+# If you want to automatically update fastlane if a new version is available:
+update_fastlane
+
+# This is the minimum version number required.
+# Update this, if you use features of a newer version
+fastlane_version "1.37.0"
+
+default_platform :ios
+
+
+platform :ios do
+  before_all do
+    ENV["SLACK_URL"] = "https://hooks.slack.com/services/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"
+    ENV["FL_VERSION_NUMBER_VERSION_NUMBER"] = "1.3.0"
+    increment_version_number
+  end
+
+  ######################### PUBLIC LANES ##########################
+
+  lane :rainbow_devs do
+    rainbow(
+      groups: 'ios-devs',
+      release_notes_task: "bundle exec rake generate:release_notes_devs"
+    )
+  end
+  
+  lane :rainbow_testers do
+    rainbow(
+      groups: 'ios-devs,testers',
+      release_notes_task: "bundle exec rake generate:release_notes"
+    )
+  end
+
+  lane :donut_devs do
+    donut(
+      groups: 'ios-devs',
+      release_notes_task: "bundle exec rake generate:release_notes_devs"
+    )
+  end
+  
+  lane :donut_testers do
+    donut(
+      groups: 'ios-devs,testers',
+      release_notes_task: "bundle exec rake generate:release_notes"
+    )
+  end
+
+  ######################### PRIVATE LANES #########################
+
+  desc "Submit a Rainbow Build to Crashlytics"
+  desc "This will also make sure the profile is up to date"
+  private_lane :rainbow do |options|
+    groups = options[:groups]
+    release_notes_task = options[:release_notes_task]
+    # setup the production configuration
+    sh "bundle exec rake generate:prod_keys"
+    
+    cert( 
+      output_path: "./certs"
+    )
+    
+    udid = sigh(app_identifier: "co.ello.ElloDev", output_path: "./fastlane/profiles")
+    
+    # use the UDID of the newly created provisioning profile
+    ENV["PROFILE_UDID"] = udid
+
+    gym(
+      scheme: "Ello", 
+      configuration: "CrashlyticsProduction",
+      output_directory: "./Build",
+      output_name: "Ello.ipa",
+      sdk: "iphoneos"
+    )
+
+    sh "bundle exec rake generate:release_notes"
+
+    upload_to_crashlytics(
+      groups: groups,
+      notes_path: "./Build/crashlytics-release-notes.md"
+    )
+    
+    sh "bundle exec rake upload:rainbow_dsym"
+
+    post_to_slack(scheme: ":rainbow:", destination: "Crashlytics")
+
+  end
+
+  desc "Submit a Donut Build to Crashlytics"
+  desc "This will also make sure the profile is up to date"
+  private_lane :donut do |options|
+    groups = options[:groups]
+    release_notes_task = options[:release_notes_task]
+    # setup the production configuration
+    sh "bundle exec rake generate:staging_keys"
+    
+    cert( 
+      output_path: "./certs"
+    )
+    
+    udid = sigh(app_identifier: "co.ello.ElloStage", output_path: "./fastlane/profiles")
+    
+    # use the UDID of the newly created provisioning profile
+    ENV["PROFILE_UDID"] = udid
+
+    gym(
+      scheme: "Ello", 
+      configuration: "CrashlyticsStaging",
+      output_directory: "./Build",
+      output_name: "Ello.ipa",
+      sdk: "iphoneos"
+    )
+
+    upload_to_crashlytics(
+      groups: groups,
+      notes_path: "./bin/crashlytics-staging-release-notes.md"
+    )
+
+    sh "bundle exec rake upload:donut_dsym"
+
+    post_to_slack(scheme: ":doughnut:", destination: "Crashlytics")
+
+  end
+
+  private_lane :upload_to_crashlytics do |options|
+    groups      = options[:groups]
+    notes_path  = options[:notes_path]
+
+    crashlytics(
+      crashlytics_path: './Pods/Crashlytics/Crashlytics.framework',
+      api_token: '***REMOVED***',
+      build_secret: '***REMOVED***',
+      ipa_path: "./Build/Ello.ipa",
+      groups: groups,
+      notifications: true,
+      notes_path: notes_path
+    )
+  end
+
+  private_lane :post_to_slack do |options|
+    scheme      = options[:scheme]
+    version     = get_version_number(xcodeproj: "Ello.xcodeproj")
+    build       = get_build_number(xcodeproj: "Ello.xcodeproj")
+    destination = options[:destination]
+
+    slack(
+      message: "<!here|here>: New :iphone: #{scheme} *#{version}* (#{build}) has been submitted to *#{destination}*  :rocket:",
+    )
+
+  end
+
+  error do |lane, exception|
+    slack(
+      message: exception.message,
+      success: false
+    )
+  end
+end
+
+
+
+# More information about multiple platforms in fastlane: https://github.com/KrauseFx/fastlane/blob/master/docs/Platforms.md
+# All available actions: https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md

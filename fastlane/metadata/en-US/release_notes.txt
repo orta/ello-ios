@@ -1,0 +1,9 @@
+We re-enabled 1Password support that unfortunately had to be disabled in a previous release. We missed it too!
+
+We added landscape and multitasking support for iPADs! Almost all of our negative reviews were about this issue, so let us know what you think!
+
+We yanked the comment reply tool outside of the little hidden menu near each comment, making replies much easier. Enjoy!
+
+We broke GIF uploading in the last release, but fixed it up for you in this one! Sorry about that. Commence animating all the things!
+
+We fixed a bug with the editing of long text posts. We love you @ellowrites community!
