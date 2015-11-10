@@ -41,7 +41,6 @@ public class UserAvatarsCell: UICollectionViewCell {
         loadingLabel.font = UIFont.typewriterFont(12)
         seeAllButton.titleLabel?.textColor = UIColor.greyA()
         seeAllButton.titleLabel?.font = UIFont.typewriterFont(12)
-        avatarsView.clipsToBounds = true
     }
 
     private func updateAvatars() {

@@ -12,8 +12,8 @@ import TimeAgoInWords
 public struct StreamHeaderCellPresenter {
 
     static func configure(
-        cell:UICollectionViewCell,
-        streamCellItem:StreamCellItem,
+        cell: UICollectionViewCell,
+        streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: NSIndexPath,
         currentUser: User?)
@@ -27,6 +27,13 @@ public struct StreamHeaderCellPresenter {
             cell.ownPost = false
             cell.ownComment = false
             cell.isGridLayout = streamKind.isGridLayout
+
+            switch streamKind {
+            case .PostDetail:
+                cell.showUsername = false
+            default:
+                cell.showUsername = true
+            }
 
             if let currentUser = currentUser,
                 comment = streamCellItem.jsonable as? Comment
