@@ -13,7 +13,10 @@ public class AvatarButton: UIButton {
     public var url: NSURL?
 
     var starIcon = UIImageView()
-    var starIconHidden = false
+    var starIconHidden: Bool {
+        get { return true }
+        set { }
+    }
     let starSize = CGSize(width: 15, height: 15)
 
     public override init(frame: CGRect) {
