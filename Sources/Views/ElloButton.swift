@@ -118,6 +118,35 @@ public class OutlineElloButton: WhiteElloButton {
     }
 }
 
+
+public class RoundedElloButton: ElloButton {
+
+    override public func sharedSetup() {
+        super.sharedSetup()
+        self.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        self.setTitleColor(UIColor.greyE5(), forState: .Highlighted)
+        self.setTitleColor(UIColor.greyC(), forState: .Disabled)
+        self.backgroundColor = .clearColor()
+        updateOutline()
+    }
+
+    override public var highlighted: Bool {
+        didSet {
+            updateOutline()
+        }
+    }
+
+    private func updateOutline() {
+        layer.borderColor = highlighted ? UIColor.greyE5().CGColor : UIColor.blackColor().CGColor
+        layer.borderWidth = 1
+    }
+
+    override public func layoutSubviews() {
+        super.layoutSubviews()
+        layer.cornerRadius = min(frame.height, frame.width) / 2
+    }
+}
+
 public class ElloPostButton: ElloButton {
 
     override public func updateStyle() {

@@ -306,6 +306,11 @@ public class RelationshipControl: UIView {
             backgroundColor = config.normalBackgroundColor
         }
 
+        override func layoutSubviews() {
+            super.layoutSubviews()
+            layer.cornerRadius = min(frame.height, frame.width) / 2
+        }
+
         override var highlighted: Bool {
             didSet {
                 updateOutline()

@@ -43,7 +43,7 @@ public class ProfileViewController: StreamableViewController {
     @IBOutlet weak var noPostsViewHeight: NSLayoutConstraint!
     @IBOutlet weak var navigationBarTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var gradientViewTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var relationshipControlTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var relationshipControlsViewTopConstraint: NSLayoutConstraint!
 
     required public init(userParam: String) {
         self.userParam = userParam
@@ -146,7 +146,7 @@ public class ProfileViewController: StreamableViewController {
 
         animate {
             self.updateGradientViewConstraint()
-            self.relationshipControlTopConstraint.constant = self.navigationBar.frame.height + 15
+            self.relationshipControlsViewTopConstraint.constant = self.navigationBar.frame.height
             self.view.layoutIfNeeded()
         }
     }
@@ -158,7 +158,7 @@ public class ProfileViewController: StreamableViewController {
 
         animate {
             self.updateGradientViewConstraint()
-            self.relationshipControlTopConstraint.constant = 15
+            self.relationshipControlsViewTopConstraint.constant = 0
             self.view.layoutIfNeeded()
         }
     }

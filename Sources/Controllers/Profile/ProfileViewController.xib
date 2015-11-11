@@ -19,7 +19,7 @@
                 <outlet property="noPostsView" destination="83s-Z9-BEn" id="MQ5-vh-YPw"/>
                 <outlet property="noPostsViewHeight" destination="kB9-gw-WNj" id="nkR-u5-VHk"/>
                 <outlet property="relationshipControl" destination="ggp-mI-YuR" id="hN5-jY-ce0"/>
-                <outlet property="relationshipControlTopConstraint" destination="yto-Al-7GD" id="MN1-Vu-eyc"/>
+                <outlet property="relationshipControlsViewTopConstraint" destination="YGc-K8-0Zc" id="aJ3-eb-5ti"/>
                 <outlet property="view" destination="iN0-l3-epB" id="6s2-PA-CIX"/>
                 <outlet property="viewContainer" destination="wlf-zL-93E" id="IUa-jv-6Wt"/>
             </connections>
@@ -50,10 +50,34 @@
                         <constraint firstAttribute="height" constant="155" id="IJv-kH-wVt"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" placeholderIntrinsicWidth="82" placeholderIntrinsicHeight="30" translatesAutoresizingMaskIntoConstraints="NO" id="ggp-mI-YuR" userLabel="relationshipControl" customClass="RelationshipControl" customModule="Ello" customModuleProvider="target">
-                    <rect key="frame" x="511" y="5" width="82" height="30"/>
+                <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RRI-jo-8jI" userLabel="relationshipControlsView">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="60"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DaU-0S-xWR" customClass="RoundedElloButton" customModule="Ello" customModuleProvider="target">
+                            <rect key="frame" x="15" y="15" width="100" height="30"/>
+                            <animations/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="100" id="fag-ZT-HBM"/>
+                            </constraints>
+                            <state key="normal" title="@mention"/>
+                        </button>
+                        <view opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="82" placeholderIntrinsicHeight="30" translatesAutoresizingMaskIntoConstraints="NO" id="ggp-mI-YuR" userLabel="relationshipControl" customClass="RelationshipControl" customModule="Ello" customModuleProvider="target">
+                            <rect key="frame" x="125" y="15" width="468" height="30"/>
+                            <animations/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
+                    </subviews>
                     <animations/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="ggp-mI-YuR" firstAttribute="leading" secondItem="DaU-0S-xWR" secondAttribute="trailing" constant="10" id="0Ib-fg-TtA"/>
+                        <constraint firstItem="ggp-mI-YuR" firstAttribute="top" secondItem="RRI-jo-8jI" secondAttribute="top" constant="15" id="BTh-xN-CCE"/>
+                        <constraint firstAttribute="bottom" secondItem="ggp-mI-YuR" secondAttribute="bottom" constant="15" id="KQj-Si-qeQ"/>
+                        <constraint firstItem="DaU-0S-xWR" firstAttribute="top" secondItem="RRI-jo-8jI" secondAttribute="top" constant="15" id="SOU-J3-U96"/>
+                        <constraint firstAttribute="bottom" secondItem="DaU-0S-xWR" secondAttribute="bottom" constant="15" id="XbJ-gK-rKJ"/>
+                        <constraint firstItem="DaU-0S-xWR" firstAttribute="leading" secondItem="RRI-jo-8jI" secondAttribute="leading" constant="15" id="led-eC-i3m"/>
+                        <constraint firstAttribute="trailing" secondItem="ggp-mI-YuR" secondAttribute="trailing" constant="7" id="qUK-5a-Opn"/>
+                    </constraints>
                 </view>
                 <view hidden="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="83s-Z9-BEn" userLabel="noPostsView">
                     <rect key="frame" x="0.0" y="385" width="600" height="215"/>
@@ -103,22 +127,25 @@ Follow or mention them to help them get started!  </string>
                 <constraint firstAttribute="trailing" secondItem="Dl8-ha-LxN" secondAttribute="trailing" id="4VW-hR-wV5" userLabel="navigationBar - right"/>
                 <constraint firstItem="hfy-he-l1y" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="8IL-1x-9Hi"/>
                 <constraint firstAttribute="top" secondItem="Dl8-ha-LxN" secondAttribute="top" id="HAg-hv-aOW" userLabel="navigationBar - top"/>
-                <constraint firstAttribute="trailing" secondItem="ggp-mI-YuR" secondAttribute="trailing" constant="7" id="Juc-Uh-Vt7"/>
                 <constraint firstItem="wlf-zL-93E" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="K3x-o1-2W5" userLabel="viewContainer - left"/>
                 <constraint firstItem="wlf-zL-93E" firstAttribute="bottom" secondItem="iN0-l3-epB" secondAttribute="bottom" id="Kzz-uf-eqd" userLabel="viewContainer - bottom"/>
                 <constraint firstAttribute="bottom" secondItem="83s-Z9-BEn" secondAttribute="bottom" id="PdW-uX-5p2" userLabel="noPostsView - bottom"/>
                 <constraint firstItem="wlf-zL-93E" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailing" id="Rwp-mf-G91" userLabel="viewContainer - right"/>
+                <constraint firstItem="RRI-jo-8jI" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="YGc-K8-0Zc"/>
+                <constraint firstItem="RRI-jo-8jI" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="h3c-RO-kha"/>
                 <constraint firstAttribute="trailing" secondItem="83s-Z9-BEn" secondAttribute="trailing" id="j9j-3T-w8g" userLabel="noPostsView - right"/>
                 <constraint firstItem="83s-Z9-BEn" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="kyP-8W-Ihs" userLabel="noPostsView - left"/>
                 <constraint firstAttribute="centerX" secondItem="A2p-8r-avy" secondAttribute="centerX" id="naz-Ui-54x" userLabel="coverImage - centerX"/>
+                <constraint firstItem="RRI-jo-8jI" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="oSU-GW-cXd"/>
                 <constraint firstItem="Dl8-ha-LxN" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="sky-eS-kcB" userLabel="navigationBar - left"/>
                 <constraint firstItem="hfy-he-l1y" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="tU5-MR-hv2"/>
                 <constraint firstItem="hfy-he-l1y" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="w5L-Z5-pfF"/>
                 <constraint firstItem="A2p-8r-avy" firstAttribute="top" secondItem="wlf-zL-93E" secondAttribute="top" id="wz7-ye-x4t" userLabel="coverImage - top"/>
                 <constraint firstItem="wlf-zL-93E" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="xTE-z7-na0" userLabel="viewContainer - top"/>
-                <constraint firstItem="ggp-mI-YuR" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="5" id="yto-Al-7GD"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
         </view>
     </objects>
 </document>
