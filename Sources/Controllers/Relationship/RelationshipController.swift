@@ -10,7 +10,7 @@ import Foundation
 import SVGKit
 
 public typealias RelationshipChangeClosure = (relationshipPriority: RelationshipPriority) -> Void
-public typealias RelationshipChangeCompletion = (status: RelationshipRequestStatus, relationship: Relationship?) -> Void
+public typealias RelationshipChangeCompletion = (status: RelationshipRequestStatus, relationship: Relationship?, isFinalValue: Bool) -> Void
 
 public enum RelationshipRequestStatus: String {
     case Success = "success"
@@ -45,7 +45,7 @@ extension RelationshipController: RelationshipDelegate {
         Tracker.sharedTracker.relationshipButtonTapped(relationshipPriority, userId: userId)
         if let shouldSubmit = delegate?.shouldSubmitRelationship(userId, relationshipPriority: relationshipPriority) where !shouldSubmit {
             let relationship = Relationship(id: NSUUID().UUIDString, createdAt: NSDate(), ownerId: "", subjectId: userId)
-            complete(status: .Success, relationship: relationship)
+            complete(status: .Success, relationship: relationship, isFinalValue: true)
             return
         }
 
@@ -59,10 +59,12 @@ extension RelationshipController: RelationshipDelegate {
     }
 
     public func updateRelationship(currentUserId: String, userId: String, relationshipPriority: RelationshipPriority, complete: RelationshipChangeCompletion){
+
         RelationshipService().updateRelationship(currentUserId: self.currentUser?.id ?? "", userId: userId, relationshipPriority: relationshipPriority,
             success: { (data, responseConfig) in
                 if let relationship = data as? Relationship {
-                    complete(status: .Success, relationship: relationship)
+                    complete(status: .Success, relationship: relationship, isFinalValue: responseConfig.isFinalValue)
+
                     self.delegate?.relationshipChanged(userId, status: .Success, relationship: relationship)
                     if let owner = relationship.owner {
                         postNotification(RelationshipChangedNotification, value: owner)
@@ -72,13 +74,15 @@ extension RelationshipController: RelationshipDelegate {
                     }
                 }
                 else {
-                    complete(status: .Success, relationship: nil)
+                    complete(status: .Success, relationship: nil, isFinalValue: responseConfig.isFinalValue)
+
                     self.delegate?.relationshipChanged(userId, status: .Success, relationship: nil)
                 }
             },
             failure: {
                 (error, statusCode) in
-                complete(status: .Failure, relationship: nil)
+                complete(status: .Failure, relationship: nil, isFinalValue: true)
+
                 self.delegate?.relationshipChanged(userId, status: .Failure, relationship: nil)
             }
         )

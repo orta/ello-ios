@@ -128,7 +128,7 @@ public class BlockUserModalViewController: BaseElloViewController {
         }
 
         relationshipDelegate?.updateRelationship(currentUser?.id ?? "", userId: userId, relationshipPriority: relationshipPriority) {
-            (status, relationship) in
+            (status, relationship, isFinalValue) in
             switch status {
             case .Success:
                 self.changeClosure(relationshipPriority: self.relationshipPriority)
