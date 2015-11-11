@@ -119,6 +119,10 @@ public class ProfileViewController: StreamableViewController {
         {
             Tracker.sharedTracker.ownProfileViewed(handle)
         }
+
+        if let user = user {
+            updateCurrentUser(user)
+        }
     }
 
     override public func viewDidLayoutSubviews() {
