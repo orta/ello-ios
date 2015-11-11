@@ -23,7 +23,6 @@ public struct ProfileHeaderCellPresenter {
             let user = streamCellItem.jsonable as! User
             cell.user = user
             cell.currentUser = currentUser
-            cell.relationshipControl.hidden = false
             cell.nsfwLabel.hidden = true
             cell.usernameRightConstraint.constant = user.postsAdultContent ? 75.0 : 15.0
 
@@ -34,7 +33,6 @@ public struct ProfileHeaderCellPresenter {
             else {
                 isCurrentUser = false
             }
-            cell.relationshipControl.hidden = isCurrentUser
             cell.profileButtonsView.hidden = !isCurrentUser
 
             if let cachedImage = TemporaryCache.load(.Avatar)
@@ -44,9 +42,6 @@ public struct ProfileHeaderCellPresenter {
             }
 
             cell.viewTopConstraint.constant = UIWindow.windowWidth() / ratio
-            cell.relationshipControl.userId = user.id
-            cell.relationshipControl.userAtName = user.atName
-            cell.relationshipControl.relationshipPriority = user.relationshipPriority
             cell.usernameLabel.text = user.atName
             cell.nameLabel.text = user.name
             cell.bioWebView.loadHTMLString(StreamTextCellHTML.postHTML(user.headerHTMLContent), baseURL: NSURL(string: "/"))

@@ -58,6 +58,7 @@ public class RelationshipControl: UIView {
         addTargets()
         starredButton.hidden = !showStarredButton
         updateRelationshipPriority()
+        backgroundColor = .clearColor()
     }
 
     public override func intrinsicContentSize() -> CGSize {
@@ -247,7 +248,7 @@ public class RelationshipControl: UIView {
         var normalBackgroundColor: UIColor {
             switch self {
             case .Muted: return .redColor()
-            case .None: return .whiteColor()
+            case .None: return .clearColor()
             default: return .blackColor()
             }
         }

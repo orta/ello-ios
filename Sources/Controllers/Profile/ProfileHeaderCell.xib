@@ -67,11 +67,6 @@
                                 <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" placeholderIntrinsicWidth="82" placeholderIntrinsicHeight="30" translatesAutoresizingMaskIntoConstraints="NO" id="z1n-fe-u7L" userLabel="relationshipControl" customClass="RelationshipControl" customModule="Ello" customModuleProvider="target">
-                                <rect key="frame" x="511" y="10" width="82" height="30"/>
-                                <animations/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qUL-8u-vZD" userLabel="profileButtonsView">
                                 <rect key="frame" x="421" y="15" width="164" height="30"/>
                                 <subviews>
@@ -165,7 +160,6 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="GKO-1x-QWx" firstAttribute="leading" secondItem="U6M-uB-CWv" secondAttribute="leading" constant="15" id="2QO-Ec-DPT" userLabel="avatarButton - left"/>
-                            <constraint firstAttribute="trailing" secondItem="z1n-fe-u7L" secondAttribute="trailing" constant="7" id="9GS-Lt-V2i" userLabel="relationshipControl - right"/>
                             <constraint firstItem="6nJ-r0-lN7" firstAttribute="top" secondItem="U6M-uB-CWv" secondAttribute="top" constant="120" id="Ddo-EZ-be4" userLabel="usernameLabel - top"/>
                             <constraint firstAttribute="trailing" secondItem="jg3-QQ-cbq" secondAttribute="trailing" constant="15" id="Fsb-5X-fVf" userLabel="nsfwLabel - right"/>
                             <constraint firstItem="gWi-lG-cJp" firstAttribute="leading" secondItem="zV5-bQ-18e" secondAttribute="trailing" constant="25" id="L8y-zo-dCA"/>
@@ -188,7 +182,6 @@
                             <constraint firstItem="PtF-QI-fk2" firstAttribute="leading" secondItem="U6M-uB-CWv" secondAttribute="leading" constant="15" id="iXW-yx-3h5" userLabel="bioWebView - left"/>
                             <constraint firstItem="qUL-8u-vZD" firstAttribute="top" secondItem="U6M-uB-CWv" secondAttribute="top" constant="15" id="j0U-0u-ejJ" userLabel="profileButtonsView - top"/>
                             <constraint firstItem="rQa-MW-cCK" firstAttribute="leading" secondItem="FV1-FS-QMz" secondAttribute="trailing" constant="25" id="nGC-2a-7Pa"/>
-                            <constraint firstItem="z1n-fe-u7L" firstAttribute="top" secondItem="U6M-uB-CWv" secondAttribute="top" constant="10" id="qqq-bR-0mq" userLabel="relationshipControl - top"/>
                             <constraint firstItem="zV5-bQ-18e" firstAttribute="leading" secondItem="U6M-uB-CWv" secondAttribute="leading" constant="15" id="vbw-Bn-rGH"/>
                         </constraints>
                     </view>
@@ -217,7 +210,6 @@
                 <outlet property="nsfwLabel" destination="jg3-QQ-cbq" id="eOp-A0-dm6"/>
                 <outlet property="postsButton" destination="zV5-bQ-18e" id="sSJ-kH-vgM"/>
                 <outlet property="profileButtonsView" destination="qUL-8u-vZD" id="BzV-jE-ocb"/>
-                <outlet property="relationshipControl" destination="z1n-fe-u7L" id="RL1-u0-atC"/>
                 <outlet property="usernameLabel" destination="6nJ-r0-lN7" id="l3X-Xg-ciD"/>
                 <outlet property="usernameRightConstraint" destination="g4B-Iy-Q5X" id="kyg-Zh-flK"/>
                 <outlet property="viewTopConstraint" destination="joA-XB-bkx" id="KPR-mq-9Eo"/>

@@ -33,10 +33,17 @@ public class ProfileViewController: StreamableViewController {
     @IBOutlet weak var noPostsView: UIView!
     @IBOutlet weak var noPostsHeader: UILabel!
     @IBOutlet weak var noPostsBody: UILabel!
-    @IBOutlet weak var navigationBarTopConstraint: NSLayoutConstraint!
+
     @IBOutlet weak var coverImage: FLAnimatedImageView!
+    @IBOutlet weak var relationshipControl: RelationshipControl!
+    @IBOutlet weak var gradientView: UIView!
+    let gradientLayer = CAGradientLayer()
+
     @IBOutlet weak var coverImageHeight: NSLayoutConstraint!
     @IBOutlet weak var noPostsViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var navigationBarTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var gradientViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var relationshipControlTopConstraint: NSLayoutConstraint!
 
     required public init(userParam: String) {
         self.userParam = userParam
@@ -87,6 +94,24 @@ public class ProfileViewController: StreamableViewController {
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
         ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.loadInitialPage()
+        relationshipControl.relationshipDelegate = streamViewController.dataSource.relationshipDelegate
+
+        gradientLayer.frame = CGRect(
+            x: 0,
+            y: 0,
+            width: gradientView.frame.width,
+            height: gradientView.frame.height
+            )
+        gradientLayer.locations = [0, 0.1, 0.6, 1]
+        gradientLayer.colors = [
+            UIColor.whiteColor().CGColor,
+            UIColor.whiteColor().CGColor,
+            UIColor.whiteColor().colorWithAlphaComponent(0.5).CGColor,
+            UIColor.whiteColor().colorWithAlphaComponent(0).CGColor,
+        ]
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+        gradientLayer.endPoint = CGPoint(x: 0, y: 1)
+        gradientView.layer.addSublayer(gradientLayer)
 
         if let handle = currentUser?.atName,
             let userHandle = user?.atName
@@ -102,6 +127,8 @@ public class ProfileViewController: StreamableViewController {
         height += ElloNavigationBar.Size.height
         coverImageHeight.constant = max(height - streamViewController.collectionView.contentOffset.y, height)
         coverImageHeightStart = height
+
+        gradientLayer.frame.size = gradientView.frame.size
     }
 
     override func showNavBars(scrollToBottom : Bool) {
@@ -112,12 +139,41 @@ public class ProfileViewController: StreamableViewController {
         if scrollToBottom {
             self.scrollToBottom(streamViewController)
         }
+
+        animate {
+            self.updateGradientViewConstraint()
+            self.relationshipControlTopConstraint.constant = self.navigationBar.frame.height + 15
+            self.view.layoutIfNeeded()
+        }
     }
 
     override func hideNavBars() {
         super.hideNavBars()
         hideNavBar(animated: true)
         updateInsets()
+
+        animate {
+            self.updateGradientViewConstraint()
+            self.relationshipControlTopConstraint.constant = 15
+            self.view.layoutIfNeeded()
+        }
+    }
+
+    private func updateGradientViewConstraint() {
+        let scrollView = streamViewController.collectionView
+        let additional: CGFloat = navBarsVisible() ? navigationBar.frame.height : 0
+        let constant: CGFloat
+
+        if scrollView.contentOffset.y < 0 {
+            constant = 0
+        }
+        else if scrollView.contentOffset.y > 90 {
+            constant = -90
+        }
+        else {
+            constant = -scrollView.contentOffset.y
+        }
+        gradientViewTopConstraint.constant = constant + additional
     }
 
     private func updateInsets() {
@@ -232,6 +288,11 @@ public class ProfileViewController: StreamableViewController {
         }
         self.user = user
         updateCurrentUser(user)
+
+        gradientView.hidden = (user.id == currentUser?.id)
+        relationshipControl.userId = user.id
+        relationshipControl.userAtName = user.atName
+        relationshipControl.relationshipPriority = user.relationshipPriority
 
         // need to reassign the userParam to the id for paging
         userParam = user.id
@@ -352,6 +413,8 @@ extension ProfileViewController {
         if let start = coverImageHeightStart {
             coverImageHeight.constant = max(start - scrollView.contentOffset.y, start)
         }
+
+        updateGradientViewConstraint()
 
         super.streamViewDidScroll(scrollView)
     }

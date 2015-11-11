@@ -27,21 +27,21 @@ public class ProfileHeaderCell: UICollectionViewCell {
         }
     }
 
-    weak var avatarButton: AvatarButton!
+    @IBOutlet weak var avatarButton: AvatarButton!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
-    weak var relationshipControl: RelationshipControl!
     @IBOutlet weak var viewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var bioWebView: UIWebView!
     @IBOutlet weak var profileButtonsView: UIView!
     @IBOutlet weak var editProfileButton: OutlineElloButton!
-    weak public var postsButton: TwoLineButton!
-    weak var followersButton: TwoLineButton!
-    weak var followingButton: TwoLineButton!
-    weak var lovesButton: TwoLineButton!
+    @IBOutlet weak var postsButton: TwoLineButton!
+    @IBOutlet weak var followersButton: TwoLineButton!
+    @IBOutlet weak var followingButton: TwoLineButton!
+    @IBOutlet weak var lovesButton: TwoLineButton!
     @IBOutlet weak var inviteButton: UIButton!
-    weak var nsfwLabel: ElloLabel!
+    @IBOutlet weak var nsfwLabel: ElloLabel!
     @IBOutlet weak var usernameRightConstraint: NSLayoutConstraint!
+
     weak var webLinkDelegate: WebLinkDelegate?
     weak var simpleStreamDelegate: SimpleStreamDelegate?
     var user: User? {
