@@ -381,6 +381,8 @@ extension ProfileViewController {
             }
 
             elloNavigationItem.rightBarButtonItem = nil
+            gradientView.hidden = true
+            relationshipControl.hidden = true
         }
     }
 }
