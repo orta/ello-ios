@@ -463,7 +463,21 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
             }
         }
 
-        collectionView.reloadItemsAtIndexPaths(changedPaths)
+        let reloadPaths: [NSIndexPath]
+        if collectionView.window != nil {
+            reloadPaths = changedPaths.filter { path in
+                if let item = visibleStreamCellItem(at: path)
+                    where item.type == .ProfileHeader
+                {
+                    return false
+                }
+                return true
+            }
+        }
+        else {
+            reloadPaths = changedPaths
+        }
+        collectionView.reloadItemsAtIndexPaths(reloadPaths)
 
         switch user.relationshipPriority {
         case .Block, .Mute:
