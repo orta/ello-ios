@@ -212,7 +212,10 @@ public class SettingsViewController: UITableViewController, ControllerThatMightH
         }
 
         linksTextFieldView.label.setLabelText(NSLocalizedString("Links", comment: "links setting"))
-        linksTextFieldView.textField.keyboardType = UIKeyboardType.URL
+        linksTextFieldView.textField.spellCheckingType = .No
+        linksTextFieldView.textField.autocapitalizationType = .None
+        linksTextFieldView.textField.autocorrectionType = .No
+        linksTextFieldView.textField.keyboardType = .ASCIICapable
         if let user = currentUser, let links = user.externalLinksList {
             var urls = [String]()
             for link in links {
