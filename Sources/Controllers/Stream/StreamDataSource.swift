@@ -434,8 +434,9 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     public func modifyUserRelationshipItems(user: User, collectionView: UICollectionView) {
-        let changedItems = elementsForJSONAble(user, change: .Update)
-        for item in changedItems.1 {
+        let (changedPaths, changedItems) = elementsForJSONAble(user, change: .Update)
+
+        for (index, item) in changedItems.enumerate() {
             if let oldUser = item.jsonable as? User {
                 // relationship changes
                 oldUser.relationshipPriority = user.relationshipPriority
@@ -445,13 +446,24 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
 
             if let authorable = item.jsonable as? Authorable,
                 author = authorable.author
-                where author.id == user.id {
-                    author.relationshipPriority = user.relationshipPriority
-                    author.followersCount = user.followersCount
-                    author.followingCount = user.followingCount
+                where author.id == user.id
+            {
+                author.relationshipPriority = user.relationshipPriority
+                author.followersCount = user.followersCount
+                author.followingCount = user.followingCount
+            }
+
+            if let post = item.jsonable as? Post,
+                repostAuthor = post.repostAuthor
+                where repostAuthor.id == user.id
+            {
+                repostAuthor.relationshipPriority = user.relationshipPriority
+                repostAuthor.followersCount = user.followersCount
+                repostAuthor.followingCount = user.followingCount
             }
         }
-        collectionView.reloadItemsAtIndexPaths(changedItems.0)
+
+        collectionView.reloadItemsAtIndexPaths(changedPaths)
 
         switch user.relationshipPriority {
         case .Block, .Mute:
@@ -473,13 +485,13 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     }
 
     public func modifyUserSettingsItems(user: User, collectionView: UICollectionView) {
-        let changedItems = elementsForJSONAble(user, change: .Update)
-        for item in changedItems.1 {
+        let (changedPaths, changedItems) = elementsForJSONAble(user, change: .Update)
+        for item in changedItems {
             if let _ = item.jsonable as? User {
                 item.jsonable = user
             }
         }
-        collectionView.reloadItemsAtIndexPaths(changedItems.0)
+        collectionView.reloadItemsAtIndexPaths(changedPaths)
     }
 
     public func removeItemsForJSONAble(jsonable: JSONAble, change: ContentChange) -> [NSIndexPath] {
