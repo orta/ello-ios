@@ -36,7 +36,7 @@ class RelationshipControllerSpec: QuickSpec {
                     var expectedStatus = RelationshipRequestStatus.Failure
 
                     subject.updateRelationship("", userId: "test-user-id", relationshipPriority: RelationshipPriority.Following) {
-                        (status, _) in
+                        (status, _, _) in
                         expectedStatus = status
                     }
                     expect(expectedStatus).to(equal(RelationshipRequestStatus.Success))
@@ -48,7 +48,7 @@ class RelationshipControllerSpec: QuickSpec {
                     var expectedStatus = RelationshipRequestStatus.Success
 
                     subject.updateRelationship("", userId: "test-user-id", relationshipPriority: RelationshipPriority.Following) {
-                        (status, _) in
+                        (status, _, _) in
                         expectedStatus = status
                     }
                     expect(expectedStatus).to(equal(RelationshipRequestStatus.Failure))
