@@ -208,7 +208,10 @@ private extension ProfileInfoViewController {
         let linksField = generateTextField(placeholder: NSLocalizedString("Links (optional)", comment: "Links (optional) placeholder text"),
             font: UIFont.typewriterFont(12),
             y: bioField.frame.maxY + 26)
-        linksField.keyboardType = .URL
+        linksField.spellCheckingType = .No
+        linksField.autocapitalizationType = .None
+        linksField.autocorrectionType = .No
+        linksField.keyboardType = .ASCIICapable
         linksField.returnKeyType = .Go
         view.addSubview(linksField)
         self.linksField = linksField
