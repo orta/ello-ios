@@ -171,8 +171,8 @@ public class ProfileViewController: StreamableViewController {
         if scrollView.contentOffset.y < 0 {
             constant = 0
         }
-        else if scrollView.contentOffset.y > 90 {
-            constant = -90
+        else if scrollView.contentOffset.y > 45 {
+            constant = -45
         }
         else {
             constant = -scrollView.contentOffset.y
