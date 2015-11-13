@@ -41,7 +41,7 @@ class ElloAPISpec: QuickSpec {
                         expect(ElloAPI.Availability(content: [:]).path) == "/api/v2/availability"
                     }
                     it("AwesomePeopleStream is valid") {
-                        expect(ElloAPI.AwesomePeopleStream.path) == "/api/v2/discover/users/recommended"
+                        expect(ElloAPI.AwesomePeopleStream.path) == "/api/v2/discover/users/onboarding"
                     }
                     it("CommunitiesStream is valid") {
                         expect(ElloAPI.CommunitiesStream.path) == "/api/v2/interest_categories/members"
