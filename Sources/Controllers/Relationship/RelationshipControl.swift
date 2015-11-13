@@ -126,8 +126,10 @@ public class RelationshipControl: UIView {
         switch relationshipPriority {
         case .Mute:
             launchBlockModal()
-        case .Following, .Starred:
+        case .Following:
             handleUnfollow()
+        case .Starred:
+            handleUnstar()
         default:
             handleFollow()
         }

@@ -141,10 +141,10 @@ class RelationshipControlSpec: QuickSpec {
 
                         context("RelationshipPriority.Starred") {
 
-                            it("unfollows the user") {
+                            it("unstars the user") {
                                 subject.relationshipPriority = .Starred
                                 subject.followingButton.sendActionsForControlEvents(.TouchUpInside)
-                                expect(subject.relationshipPriority) == RelationshipPriority.Inactive
+                                expect(subject.relationshipPriority) == RelationshipPriority.Following
                             }
                         }
                     }
