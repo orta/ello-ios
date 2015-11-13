@@ -23,8 +23,6 @@ public struct ProfileHeaderCellPresenter {
             let user = streamCellItem.jsonable as! User
             cell.user = user
             cell.currentUser = currentUser
-            cell.nsfwLabel.hidden = true
-            cell.usernameRightConstraint.constant = user.postsAdultContent ? 75.0 : 15.0
 
             let isCurrentUser: Bool
             if let currentUser = currentUser {
@@ -33,7 +31,7 @@ public struct ProfileHeaderCellPresenter {
             else {
                 isCurrentUser = false
             }
-            cell.profileButtonsView.hidden = !isCurrentUser
+            cell.profileButtonsView.hidden = true
 
             if let cachedImage = TemporaryCache.load(.Avatar)
                 where isCurrentUser

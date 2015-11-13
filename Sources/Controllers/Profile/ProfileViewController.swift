@@ -37,6 +37,7 @@ public class ProfileViewController: StreamableViewController {
     @IBOutlet weak var coverImage: FLAnimatedImageView!
     @IBOutlet weak var relationshipControl: RelationshipControl!
     @IBOutlet weak var gradientView: UIView!
+    @IBOutlet weak var relationshipControlsView: UIView!
     let gradientLayer = CAGradientLayer()
 
     @IBOutlet weak var coverImageHeight: NSLayoutConstraint!
@@ -299,7 +300,6 @@ public class ProfileViewController: StreamableViewController {
         self.user = user
         updateCurrentUser(user)
 
-        gradientView.hidden = (user.id == currentUser?.id)
         relationshipControl.userId = user.id
         relationshipControl.userAtName = user.atName
         relationshipControl.relationshipPriority = user.relationshipPriority
@@ -392,7 +392,7 @@ extension ProfileViewController {
 
             elloNavigationItem.rightBarButtonItem = nil
             gradientView.hidden = true
-            relationshipControl.hidden = true
+            relationshipControlsView.hidden = true
         }
     }
 }

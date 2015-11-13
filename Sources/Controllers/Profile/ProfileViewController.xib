@@ -19,6 +19,7 @@
                 <outlet property="noPostsView" destination="83s-Z9-BEn" id="MQ5-vh-YPw"/>
                 <outlet property="noPostsViewHeight" destination="kB9-gw-WNj" id="nkR-u5-VHk"/>
                 <outlet property="relationshipControl" destination="ggp-mI-YuR" id="hN5-jY-ce0"/>
+                <outlet property="relationshipControlsView" destination="RRI-jo-8jI" id="GhE-bs-0Bz"/>
                 <outlet property="relationshipControlsViewTopConstraint" destination="YGc-K8-0Zc" id="aJ3-eb-5ti"/>
                 <outlet property="view" destination="iN0-l3-epB" id="6s2-PA-CIX"/>
                 <outlet property="viewContainer" destination="wlf-zL-93E" id="IUa-jv-6Wt"/>
