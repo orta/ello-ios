@@ -31,8 +31,11 @@ public class ResponseConfig: CustomStringConvertible {
     public var totalPagesRemaining: String?
     public var statusCode: Int?
     public var lastModified: String?
+    public var isFinalValue: Bool
 
-    public init() {}
+    public init(isFinalValue: Bool = true) {
+        self.isFinalValue = isFinalValue
+    }
 
     public func isOutOfData() -> Bool {
 
