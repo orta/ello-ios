@@ -148,7 +148,9 @@ public class ProfileViewController: StreamableViewController {
         animate {
             self.updateGradientViewConstraint()
             self.relationshipControlsViewTopConstraint.constant = self.navigationBar.frame.height
-            self.view.layoutIfNeeded()
+
+            self.relationshipControlsView.frame.origin.y = self.relationshipControlsViewTopConstraint.constant
+            self.gradientView.frame.origin.y = self.gradientViewTopConstraint.constant
         }
     }
 
