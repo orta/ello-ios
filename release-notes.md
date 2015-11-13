@@ -1,3 +1,63 @@
+### Ello Build 1.2.0(3513) November 13, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #622 - New Tab Bar
+This tab bar is currently "in isolation", it's built and tested, but not used.  Let's merge, so the code doesn't get stale.
+
+------
+
+#### #636 - Uh oh, onboarding URL is wrong
+The "awesome people" API URL is `/discover/users/onboarding`, *not* `/discover/users/recommended`.
+
+------
+
+#### #634 - Don't flash the Bio when tapping Follow/Star
+To prevent this, we need to prevent the cell from being reloaded.  The approach here (see b41a43d) is to remove any index path that points to a *currently visible* `ProfileHeaderCell`.  "*currently visible*" is determined by checking for `collectionView.window`, which is `nil` if it is not currently on screen.
+
+[Finishes #107010624]
+
+------
+
+#### #633 - "Faster" Follow button
+adds a very simple 'isFinalValue', the follow button is disabled until the network request is complete
+
+------
+
+#### #632 - Tapping 'Starred' only unstars, doesn't unfollow
+also, found where the Keychain was getting reset, so now you won't be logged out after running specs.
+
+------
+
+#### #635 - Change "Links" keyboard to `.ASCIICapable`
+Still pretty easy to enter URLs, but includes spacebar.
+
+[Finishes #106901222]
+
+------
+
+#### #631 - Star is never visible on AvatarButton
+go ahead, try to set it to false, see what happens
+
+------
+
+#### #629 - Creates a serial NSOperationQueue to handle reauth.
+This just queues the requests, nothing more, we could be checking for whether the token was changed.  But something to try.
+
+------
+
+#### #628 - Moves the Following button in Post Detail
+- Hides the username field
+- Shows the timestamp
+- *also fixes the clipping avatarButton issue*
+
+[Finishes #97911118]
+[Finishes #107742214]
+    
+------------
+
 ### Ello Build 1.2.0(3474) November 8, 2015
 
     RELEASE NOTES
