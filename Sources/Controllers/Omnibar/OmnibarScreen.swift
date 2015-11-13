@@ -58,15 +58,12 @@ public enum OmnibarRegion {
 
 public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     struct Size {
-        static let margins = UIEdgeInsets(top: 0, left: 15, bottom: 10, right: 15)
-        static let textMargins = UIEdgeInsets(top: 22, left: 30, bottom: 9, right: 30)
-        static let labelCorrection = CGFloat(8.5)
+        static let margins = UIEdgeInsets(top: 17, left: 15, bottom: 10, right: 15)
+        static let toolbarMargin = CGFloat(10)
         static let tableTopInset = CGFloat(22.5)
         static let bottomTextMargin = CGFloat(1)
-        static let toolbarMargins = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
-        static let toolbarHeight = CGFloat(45)
-        static let avatarHeight = CGFloat(40)
-        static let buttonMargin = CGFloat(10)
+        static let avatarSize = CGFloat(30)
+        static let buttonMargin = CGFloat(0)
     }
 
     class func canEditRegions(regions: [Regionable]?) -> Bool {
@@ -125,7 +122,8 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         willSet(newValue) {
             if avatarURL != newValue {
                 if let avatarURL = newValue {
-                    avatarButton.pin_setImageFromURL(avatarURL)                }
+                    avatarButton.pin_setImageFromURL(avatarURL)
+                }
                 else {
                     avatarButton.pin_cancelImageDownload()
                     avatarButton.setImage(nil, forState: .Normal)
@@ -162,10 +160,10 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
     public let avatarButton = UIButton()
     public let cancelButton = UIButton()
-    public let editButton = UIButton()
+    public let reorderButton = UIButton()
     public let cameraButton = UIButton()
     public let submitButton = ElloPostButton()
-    public let buttonContainer = UIView(frame: CGRect(x: 0, y: 0, width: 3 * Size.buttonMargin + 4 * Size.toolbarHeight, height: Size.toolbarHeight))
+    var buttonViews: [UIView]!
     let statusBarUnderlay = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 20))
 
     let regionsTableView = UITableView()
@@ -230,22 +228,21 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
     // buttons that make up the "toolbar"
     private func setupToolbarButtons() {
-        editButton.setSVGImages("reorder")
-        editButton.addTarget(self, action: Selector("toggleReorderingTable"), forControlEvents: .TouchUpInside)
-
-        cameraButton.setSVGImages("camera")
-        cameraButton.addTarget(self, action: Selector("addImageAction"), forControlEvents: .TouchUpInside)
-
+        cancelButton.contentEdgeInsets = UIEdgeInsets(top: 4, left: 7.5, bottom: 4, right: 7.5)
         cancelButton.setSVGImages("x")
         cancelButton.addTarget(self, action: Selector("cancelEditingAction"), forControlEvents: .TouchUpInside)
 
+        reorderButton.contentEdgeInsets = UIEdgeInsets(top: 4, left: 12.5, bottom: 4, right: 12.5)
+        reorderButton.setSVGImages("reorder")
+        reorderButton.addTarget(self, action: Selector("toggleReorderingTable"), forControlEvents: .TouchUpInside)
+
+        cameraButton.contentEdgeInsets = UIEdgeInsets(top: 4, left: 12.5, bottom: 4, right: 12.5)
+        cameraButton.setSVGImages("camera")
+        cameraButton.addTarget(self, action: Selector("addImageAction"), forControlEvents: .TouchUpInside)
+
+        submitButton.contentEdgeInsets = UIEdgeInsets(top: 8, left: 35, bottom: 8, right: 15)
+        submitButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         submitButton.addTarget(self, action: Selector("submitAction"), forControlEvents: .TouchUpInside)
-        submitButton.setTitleColor(UIColor.whiteColor(), forState: .Disabled)
-        let image = SVGKImage(named: "arrow_white").UIImage!
-        let imageView = UIImageView(image: image)
-        imageView.center = CGPoint(x: submitButton.frame.width - image.size.width / 2 - 13, y: submitButton.frame.height / CGFloat(2))
-        imageView.autoresizingMask = [.FlexibleLeftMargin, .FlexibleTopMargin, .FlexibleBottomMargin]
-        submitButton.addSubview(imageView)
     }
 
     // The textContainer is the outer gray background.  The text view is
@@ -285,14 +282,19 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
             textScrollView,
             navigationBar,
             avatarButton,
-            buttonContainer,
         ]
         for view in views as [UIView] {
             self.addSubview(view)
         }
 
-        for view in [cancelButton, editButton, cameraButton, submitButton] as [UIView] {
-            buttonContainer.addSubview(view)
+        buttonViews = [
+            cancelButton,
+            reorderButton,
+//            cameraButton,
+            submitButton,
+        ]
+        for view in buttonViews as [UIView] {
+            self.addSubview(view)
         }
 
         textScrollView.addSubview(textContainer)
@@ -449,14 +451,14 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
             if reorderableRegions.count == 0 { return }
 
             stopEditing()
-            editButton.setSVGImages("check")
-            editButton.selected = true
+            reorderButton.setSVGImages("check")
+            reorderButton.selected = true
         }
         else {
             submitableRegions = convertReorderableRegions(reorderableRegions)
             editableRegions = generateEditableRegions(submitableRegions)
-            editButton.setSVGImages("reorder")
-            editButton.selected = false
+            reorderButton.setSVGImages("reorder")
+            reorderButton.selected = false
         }
 
         self.reordering = reordering
@@ -514,37 +516,37 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         super.layoutSubviews()
 
         let screenTop: CGFloat
-        let toolbarMargins: UIEdgeInsets
         if canGoBack {
             UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Slide)
             navigationBar.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: ElloNavigationBar.Size.height)
             screenTop = navigationBar.frame.height
             statusBarUnderlay.hidden = true
-            toolbarMargins = UIEdgeInsets(top: CGFloat(0), left: CGFloat(0), bottom: Size.toolbarMargins.bottom, right: Size.toolbarMargins.right)
         }
         else {
             screenTop = CGFloat(20)
             navigationBar.frame = CGRectZero
             statusBarUnderlay.hidden = false
-            toolbarMargins = Size.toolbarMargins
         }
 
-        buttonContainer.frame = CGRect(x: frame.width - toolbarMargins.right, y: screenTop + toolbarMargins.top, width: 0, height: Size.toolbarHeight + toolbarMargins.bottom)
-            .growLeft(buttonContainer.frame.width)
+        let toolbarTop = screenTop + Size.margins.top
+        var buttonX = frame.width - Size.margins.right
+        var firstMargin = CGFloat(10)
+        for view in buttonViews.reverse() {
+            view.frame.size = view.intrinsicContentSize()
+            buttonX -= view.frame.size.width
+            view.frame.origin = CGPoint(x: buttonX, y: toolbarTop)
 
-        var buttonX = CGFloat(0)
-        for view in buttonContainer.subviews {
-            view.frame.size = CGSize(width: Size.toolbarHeight, height: Size.toolbarHeight)
-            view.frame.origin = CGPoint(x: buttonX, y: 0)
-            buttonX += Size.buttonMargin + Size.toolbarHeight
+            buttonX -= Size.buttonMargin
+            buttonX -= firstMargin
+            firstMargin = 0
         }
 
         let avatarViewLeft = Size.margins.left
-        let avatarViewTop = buttonContainer.frame.minY + (Size.toolbarHeight - Size.avatarHeight) / 2
-        avatarButton.frame = CGRect(x: avatarViewLeft, y: avatarViewTop, width: Size.avatarHeight, height: Size.avatarHeight)
+        let avatarViewTop = toolbarTop
+        avatarButton.frame = CGRect(x: avatarViewLeft, y: avatarViewTop, width: Size.avatarSize, height: Size.avatarSize)
         avatarButton.layer.cornerRadius = avatarButton.frame.size.height / CGFloat(2)
 
-        regionsTableView.frame = CGRect(x: 0, y: buttonContainer.frame.maxY, right: bounds.size.width, bottom: bounds.size.height)
+        regionsTableView.frame = CGRect(x: 0, y: avatarButton.frame.maxY + Size.toolbarMargin, right: bounds.size.width, bottom: bounds.size.height)
         textScrollView.frame = regionsTableView.frame
 
         var bottomInset = Keyboard.shared().keyboardBottomInset(inView: self)
@@ -721,6 +723,7 @@ extension OmnibarScreen: UITableViewDelegate, UITableViewDataSource {
             case let .AttributedText(attributedText):
                 let textCell = cell as! OmnibarTextCell
                 textCell.attributedText = attributedText
+                textCell.isFirst = path.row == 0
             case let .Image(image, data, _):
                 let imageCell = cell as! OmnibarImageCell
                 if let data = data {

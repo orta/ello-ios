@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SVGKit
 
 public class ElloButton: UIButton {
 
@@ -119,15 +120,42 @@ public class OutlineElloButton: WhiteElloButton {
 }
 
 public class ElloPostButton: ElloButton {
+    var pencilView: UIImageView!
 
-    override public func updateStyle() {
-        backgroundColor = enabled ? .blackColor() : .greyA()
+    override public var highlighted: Bool {
+        didSet {
+            updateStyle()
+        }
     }
 
     override public func sharedSetup() {
-        titleLabel?.font = UIFont.typewriterFont(12)
+        setTitle(NSLocalizedString("Post", comment: "Post button title"), forState: .Normal)
+        titleLabel?.font = UIFont.regularFont(14)
         setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        setTitleColor(UIColor.greyA(), forState: .Highlighted)
         setTitleColor(UIColor.whiteColor(), forState: .Disabled)
+
+        let image = SVGKImage(named: "pencil_white").UIImage!
+        pencilView = UIImageView(image: image)
+        pencilView.center = bounds.center
+        pencilView.autoresizingMask = [.FlexibleRightMargin, .FlexibleTopMargin, .FlexibleBottomMargin]
+        addSubview(pencilView)
+
         updateStyle()
     }
+
+    override public func updateStyle() {
+        let image = highlighted ? SVGKImage(named: "pencil_normal").UIImage! : SVGKImage(named: "pencil_white").UIImage!
+        pencilView.image = image
+
+        backgroundColor = enabled ? .blackColor() : .greyA()
+    }
+
+    override public func layoutSubviews() {
+        super.layoutSubviews()
+        pencilView.frame.origin.x = 10
+        pencilView.center.y = bounds.size.height / 2
+        layer.cornerRadius = min(bounds.size.width, bounds.size.height) / 2
+    }
+
 }
