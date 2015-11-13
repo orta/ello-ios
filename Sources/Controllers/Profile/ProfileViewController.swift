@@ -275,6 +275,12 @@ public class ProfileViewController: StreamableViewController {
         elloNavigationItem.rightBarButtonItem = UIBarButtonItem(image: SVGKImage(named: "dots_normal.svg").UIImage!, style: .Done, target: self, action: Selector("moreButtonTapped"))
     }
 
+    @IBAction func mentionButtonTapped() {
+        if let user = user {
+            createPost(text: "\(user.atName) ", fromController: self)
+        }
+    }
+
     func moreButtonTapped() {
         if let user = user {
             let userId = user.id

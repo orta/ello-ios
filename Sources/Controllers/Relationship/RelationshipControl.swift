@@ -248,7 +248,7 @@ public class RelationshipControl: UIView {
         var normalBackgroundColor: UIColor {
             switch self {
             case .Muted: return .redColor()
-            case .None: return .clearColor()
+            case .None: return UIColor.whiteColor().colorWithAlphaComponent(0.5)
             default: return .blackColor()
             }
         }

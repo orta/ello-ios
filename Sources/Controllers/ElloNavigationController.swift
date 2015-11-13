@@ -35,7 +35,10 @@ public class ElloNavigationController: UINavigationController {
             switch self {
             case Notifications: return NotificationsViewController()
             case Profile: return ProfileViewController(user: user)
-            case Omnibar: return OmnibarViewController()
+            case Omnibar:
+                let vc = OmnibarViewController()
+                vc.canGoBack = false
+                return vc
             case Discover: return DiscoverViewController()
             }
         }

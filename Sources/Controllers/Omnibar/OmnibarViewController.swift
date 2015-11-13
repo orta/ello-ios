@@ -27,6 +27,13 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     var editComment: Comment?
     var rawEditBody: [Regionable]?
     var defaultText: String?
+    var canGoBack: Bool = true {
+        didSet {
+            if isViewLoaded() {
+                screen.canGoBack = canGoBack
+            }
+        }
+    }
 
     typealias CommentSuccessListener = (comment: Comment) -> Void
     typealias PostSuccessListener = (post: Post) -> Void
@@ -74,6 +81,11 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         self.defaultText = defaultText
     }
 
+    convenience public init(defaultText: String?) {
+        self.init(nibName: nil, bundle: nil)
+        self.defaultText = defaultText
+    }
+
     public func omnibarDataName() -> String? {
         if let post = parentPost {
             return "omnibar_v2_comment_\(post.repostId ?? post.id)"
@@ -97,7 +109,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     override public func loadView() {
         self.view = OmnibarScreen(frame: UIScreen.mainScreen().bounds)
 
-        screen.canGoBack = parentPost != nil || editPost != nil || editComment != nil
+        screen.canGoBack = canGoBack
         screen.currentUser = currentUser
         if let text = defaultText {
             screen.regions = [OmnibarRegion.Text(text)]
@@ -274,7 +286,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     }
 
     public func omnibarCancel() {
-        if parentPost != nil || editPost != nil || editComment != nil {
+        if canGoBack {
             if let fileName = omnibarDataName() {
                 var dataRegions = [NSObject]()
                 for region in screen.regions {
