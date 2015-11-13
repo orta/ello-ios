@@ -49,10 +49,10 @@ extension ElloAPI: CustomStringConvertible, CustomDebugStringConvertible {
             return "Relationship(userId: \(userId), relationship: \(relationship))"
         case let .RelationshipBatch(userIds, relationship):
             return "RelationshipBatch(userIds: \(userIds), relationship: \(relationship))"
-        case let .UpdatePost(postId, body):
-            return "UpdatePost(postId: \(postId), body: \(body))"
-        case let .UpdateComment(postId, commentId, body):
-            return "UpdateComment(postId: \(postId), commentId: \(commentId), body: \(body))"
+        case let .UpdatePost(postId, _):
+            return "UpdatePost(postId: \(postId))"
+        case let .UpdateComment(postId, commentId, _):
+            return "UpdateComment(postId: \(postId), commentId: \(commentId))"
         case let .UserStream(userParam):
             return "UserStream(userParam: \(userParam))"
         case let .UserStreamFollowers(userId):

@@ -17,7 +17,6 @@ public class SimpleStreamViewController: StreamableViewController {
         self.endpoint = endpoint
         super.init(nibName: nil, bundle: nil)
         self.title = title
-        view.backgroundColor = .whiteColor()
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -26,6 +25,7 @@ public class SimpleStreamViewController: StreamableViewController {
 
     override public func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .whiteColor()
         setupNavigationBar()
         scrollLogic.prevOffset = streamViewController.collectionView.contentOffset
         scrollLogic.navBarHeight = 44

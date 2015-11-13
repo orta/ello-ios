@@ -86,17 +86,3 @@ public class ElloSizeableLabel: ElloLabel {
         ]
     }
 }
-
-public class ElloWelcomeDiscoverLabel: ElloLabel {
-    override public func attributes(color: UIColor, alignment: NSTextAlignment) -> [String : AnyObject] {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 6
-        paragraphStyle.alignment = alignment
-
-        return [
-            NSFontAttributeName : font,
-            NSForegroundColorAttributeName : color,
-            NSParagraphStyleAttributeName : paragraphStyle
-        ]
-    }
-}
