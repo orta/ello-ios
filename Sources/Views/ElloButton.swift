@@ -19,18 +19,18 @@ public class ElloButton: UIButton {
         didSet { updateStyle() }
     }
 
-    public func updateStyle() {
+    func updateStyle() {
         self.backgroundColor = enabled ? .blackColor() : .grey231F20()
     }
 
     required override public init(frame: CGRect) {
         super.init(frame: frame)
-        self.sharedSetup()
+        sharedSetup()
     }
 
     required public init?(coder: NSCoder) {
         super.init(coder: coder)
-        self.sharedSetup()
+        sharedSetup()
     }
 
     public override func awakeFromNib() {
@@ -50,11 +50,11 @@ public class ElloButton: UIButton {
 
 public class LightElloButton: ElloButton {
 
-    override public func updateStyle() {
+    override func updateStyle() {
         self.backgroundColor = enabled ? .greyE5() : .greyF1()
     }
 
-    override public func sharedSetup() {
+    override func sharedSetup() {
         self.titleLabel?.font = UIFont.typewriterFont(12)
         self.titleLabel?.numberOfLines = 1
         self.setTitleColor(UIColor.grey6(), forState: .Normal)
@@ -74,7 +74,7 @@ public class WhiteElloButton: ElloButton {
         super.init(coder: coder)
     }
 
-    override public func updateStyle() {
+    override func updateStyle() {
         if !enabled {
             self.backgroundColor = .greyA()
         }
@@ -86,7 +86,7 @@ public class WhiteElloButton: ElloButton {
         }
     }
 
-    override public func sharedSetup() {
+    override func sharedSetup() {
         super.sharedSetup()
         self.titleLabel?.font = UIFont.typewriterFont(12)
         self.setTitleColor(UIColor.blackColor(), forState: .Normal)
@@ -98,7 +98,7 @@ public class WhiteElloButton: ElloButton {
 
 public class OutlineElloButton: WhiteElloButton {
 
-    override public func sharedSetup() {
+    override func sharedSetup() {
         super.sharedSetup()
         self.setTitleColor(UIColor.blackColor(), forState: .Normal)
         self.setTitleColor(UIColor.greyE5(), forState: .Highlighted)
@@ -128,7 +128,7 @@ public class ElloPostButton: ElloButton {
         }
     }
 
-    override public func sharedSetup() {
+    override func sharedSetup() {
         setTitle(NSLocalizedString("Post", comment: "Post button title"), forState: .Normal)
         titleLabel?.font = UIFont.regularFont(14)
         setTitleColor(UIColor.whiteColor(), forState: .Normal)
@@ -144,7 +144,7 @@ public class ElloPostButton: ElloButton {
         updateStyle()
     }
 
-    override public func updateStyle() {
+    override func updateStyle() {
         let image = highlighted ? SVGKImage(named: "pencil_normal").UIImage! : SVGKImage(named: "pencil_white").UIImage!
         pencilView.image = image
 

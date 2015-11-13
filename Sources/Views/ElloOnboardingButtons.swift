@@ -33,7 +33,7 @@ public class OnboardingBackButton: UIButton {
 
 public class OnboardingSkipButton: WhiteElloButton {
 
-    override public func sharedSetup() {
+    override func sharedSetup() {
         super.sharedSetup()
         self.setTitleColor(UIColor.greyA(), forState: .Normal)
         self.setTitle(NSLocalizedString("Skip", comment: "Skip button"), forState: .Normal)
@@ -49,7 +49,7 @@ public class OnboardingNextButton: LightElloButton {
         updateImage()
     }
 
-    override public func sharedSetup() {
+    override func sharedSetup() {
         super.sharedSetup()
         titleEdgeInsets.right = 20
 
@@ -107,7 +107,7 @@ public class FollowAllElloButton: ElloButton {
         self.backgroundColor = selected ? .blackColor() : .whiteColor()
     }
 
-    private func updateOutline() {
+    func updateOutline() {
         self.layer.borderColor = (currentTitleColor ?? UIColor.whiteColor()).CGColor
         self.layer.borderWidth = 1
     }
