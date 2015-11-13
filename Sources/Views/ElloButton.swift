@@ -34,6 +34,11 @@ public class ElloButton: UIButton {
 
     public override func awakeFromNib() {
         super.awakeFromNib()
+
+        if buttonType != .Custom {
+            print("Warning, ElloButton instance '\(currentTitle)' should be configured as 'Custom', not \(buttonType)")
+        }
+
         updateStyle()
     }
 
