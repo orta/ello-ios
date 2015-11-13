@@ -436,7 +436,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     public func modifyUserRelationshipItems(user: User, collectionView: UICollectionView) {
         let (changedPaths, changedItems) = elementsForJSONAble(user, change: .Update)
 
-        for (index, item) in changedItems.enumerate() {
+        for item in changedItems {
             if let oldUser = item.jsonable as? User {
                 // relationship changes
                 oldUser.relationshipPriority = user.relationshipPriority
