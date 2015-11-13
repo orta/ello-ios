@@ -21,6 +21,11 @@ func showController(viewController: UIViewController) -> UIWindow {
     else {
         frame = UIScreen.mainScreen().bounds
     }
+
+    if #available(iOS 9.0, *) {
+        viewController.loadViewIfNeeded()
+    }
+
     let window = UIWindow(frame: frame)
     window.makeKeyAndVisible()
     window.rootViewController = viewController
