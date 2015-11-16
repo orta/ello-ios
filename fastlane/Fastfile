@@ -72,8 +72,7 @@ platform :ios do
       output_path: "./certs"
     )
     
-    udid = sigh(app_identifier: "co.ello.ElloDev", output_path: "./fastlane/profiles")
-    
+    udid = sigh(app_identifier: "co.ello.ElloDev", adhoc: true, output_path: "./fastlane/profiles")
     # use the UDID of the newly created provisioning profile
     ENV["PROFILE_UDID"] = udid
 
@@ -110,7 +109,7 @@ platform :ios do
       output_path: "./certs"
     )
     
-    udid = sigh(app_identifier: "co.ello.ElloStage", output_path: "./fastlane/profiles")
+    udid = sigh(app_identifier: "co.ello.ElloStage", adhoc: true, output_path: "./fastlane/profiles")
     
     # use the UDID of the newly created provisioning profile
     ENV["PROFILE_UDID"] = udid
