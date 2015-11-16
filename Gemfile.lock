@@ -1,3 +1,24 @@
+GIT
+  remote: git://github.com/CocoaPods/CocoaPods.git
+  revision: 7b3c417e4107b9208740ad3a5bb900d14679cdd3
+  ref: 7b3c417e4107b9208740ad3a5bb900d14679cdd3
+  specs:
+    cocoapods (0.39.0)
+      activesupport (>= 4.0.2)
+      claide (~> 0.9.1)
+      cocoapods-core (= 0.39.0)
+      cocoapods-downloader (~> 0.9.3)
+      cocoapods-plugins (~> 0.4.2)
+      cocoapods-search (~> 0.1.0)
+      cocoapods-stats (~> 0.6.2)
+      cocoapods-trunk (~> 0.6.4)
+      cocoapods-try (~> 0.5.1)
+      colored (~> 1.2)
+      escape (~> 0.0.4)
+      molinillo (~> 0.4.0)
+      nap (~> 1.0)
+      xcodeproj (~> 0.28.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -20,21 +41,6 @@ GEM
       fastlane_core (>= 0.19.0, < 1.0.0)
       spaceship (>= 0.6.0)
     claide (0.9.1)
-    cocoapods (0.39.0)
-      activesupport (>= 4.0.2)
-      claide (~> 0.9.1)
-      cocoapods-core (= 0.39.0)
-      cocoapods-downloader (~> 0.9.3)
-      cocoapods-plugins (~> 0.4.2)
-      cocoapods-search (~> 0.1.0)
-      cocoapods-stats (~> 0.6.2)
-      cocoapods-trunk (~> 0.6.4)
-      cocoapods-try (~> 0.5.1)
-      colored (~> 1.2)
-      escape (~> 0.0.4)
-      molinillo (~> 0.4.0)
-      nap (~> 1.0)
-      xcodeproj (~> 0.28.2)
     cocoapods-core (0.39.0)
       activesupport (>= 4.0.2)
       fuzzy_match (~> 2.0.4)
@@ -280,7 +286,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  cocoapods (= 0.39.0)
+  cocoapods!
   cocoapods-keys (~> 1.5.1)
   dotenv
   fastlane (~> 1.38.0)
