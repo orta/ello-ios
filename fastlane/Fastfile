@@ -31,29 +31,29 @@ platform :ios do
   ######################### PUBLIC LANES ##########################
 
   lane :appstore do
-    # # setup the production configuration
-    # sh "bundle exec rake generate:prod_keys"
+    # setup the production configuration
+    sh "bundle exec rake generate:prod_keys"
     
-    # cert( 
-    #   output_path: "./certs"
-    # )
+    cert( 
+      output_path: "./certs"
+    )
     
-    # udid = sigh(
-    #   app_identifier: "co.ello.Ello", 
-    #   output_path: "./fastlane/profiles",
-    #   development: false
-    # )
-    # # use the UDID of the newly created provisioning profile
-    # ENV["PROFILE_UDID"] = udid
+    udid = sigh(
+      app_identifier: "co.ello.Ello", 
+      output_path: "./fastlane/profiles",
+      development: false
+    )
+    # use the UDID of the newly created provisioning profile
+    ENV["PROFILE_UDID"] = udid
 
-    # gym(
-    #   scheme: "Ello", 
-    #   configuration: "Release",
-    #   output_directory: "./Build",
-    #   output_name: "Ello.ipa",
-    #   sdk: "iphoneos",
-    #   clean: true
-    # )
+    gym(
+      scheme: "Ello", 
+      configuration: "Release",
+      output_directory: "./Build",
+      output_name: "Ello.ipa",
+      sdk: "iphoneos",
+      clean: true
+    )
     
     deliver(
       submit_for_review: false,
@@ -62,9 +62,9 @@ platform :ios do
       force: true
     )
 
-    # sh "bundle exec rake upload:appstore_dsym"
+    sh "bundle exec rake upload:appstore_dsym"
 
-    # post_to_slack(scheme: ":ello:", destination: ":apple:")
+    post_to_slack(scheme: ":ello:", destination: ":apple:")
   end
 
   lane :rainbow_devs do
