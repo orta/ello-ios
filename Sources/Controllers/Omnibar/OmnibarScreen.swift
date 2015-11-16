@@ -156,6 +156,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
     weak public var delegate: OmnibarScreenDelegate?
 
+    let statusBarUnderlay = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 20))
     public let navigationBar = ElloNavigationBar(frame: CGRectZero)
 
     public let avatarButton = UIButton()
@@ -164,7 +165,6 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     public let cameraButton = UIButton()
     public let submitButton = ElloPostButton()
     var buttonViews: [UIView]!
-    let statusBarUnderlay = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 20))
 
     let regionsTableView = UITableView()
     let textScrollView = UIScrollView()
