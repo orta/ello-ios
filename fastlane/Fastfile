@@ -208,12 +208,12 @@ platform :ios do
 
   end
 
-  # error do |lane, exception|
-  #   slack(
-  #     message: exception.message,
-  #     success: false
-  #   )
-  # end
+  error do |lane, exception|
+    slack(
+      message: exception.message,
+      success: false
+    )
+  end
 end
 
 
