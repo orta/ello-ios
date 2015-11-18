@@ -37,3 +37,4 @@ Pods/*
 # tmp
 tmp/
 
+fastlane/report.xml
