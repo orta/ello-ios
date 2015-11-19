@@ -33,7 +33,7 @@ class GenerateReleaseNotes
 
   # grab out build verion info
   def set_versions
-    @git_release_version = `git describe --tags --always --abbrev=0`.strip()
+    @release_version = `/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "Support/Info.plist"`.strip()
     @number_of_commits = `git rev-list master | wc -l | tr -d ' '`.strip()
   end
 
@@ -54,7 +54,7 @@ class GenerateReleaseNotes
 
   def update_release_notes
     # new release notes
-    release_notes = "### Ello Build #{@git_release_version}(#{@number_of_commits}) #{Time.now.strftime("%B %-d, %Y")}\n\n"
+    release_notes = "### Ello Build #{@release_version}(#{@number_of_commits}) #{Time.now.strftime("%B %-d, %Y")}\n\n"
     release_notes << <<-EOF
     #{@pull_request_notes.count > 1 ? @pull_request_notes.join("\n\n------\n\n") : 'No completed pull requests since last distribution.'}
     #{"\n------------\n"}
