@@ -61,7 +61,8 @@ public class Keyboard {
         visible = true
         setFromNotification(notification)
         endFrame = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-        bottomInset = endFrame.size.height
+        let window = UIWindow.mainWindow
+        bottomInset = window.frame.size.height - endFrame.origin.y
 
         postNotification(Notifications.KeyboardWillShow, value: self)
     }

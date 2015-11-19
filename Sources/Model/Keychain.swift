@@ -32,7 +32,9 @@ struct Keychain: KeychainType {
 
     var authToken: String? {
         get { return LUKeychainAccess.standardKeychainAccess().stringForKey(AuthTokenKey) as String? }
-        set { LUKeychainAccess.standardKeychainAccess().setString(newValue, forKey: AuthTokenKey) }
+        set {
+            LUKeychainAccess.standardKeychainAccess().setString(newValue, forKey: AuthTokenKey)
+        }
     }
 
     var refreshAuthToken: String? {

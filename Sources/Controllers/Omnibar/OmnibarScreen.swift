@@ -63,7 +63,8 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         static let tableTopInset = CGFloat(22.5)
         static let bottomTextMargin = CGFloat(1)
         static let avatarSize = CGFloat(30)
-        static let buttonMargin = CGFloat(0)
+        static let keyboardButtonSize = CGSize(width: 54, height: 44)
+        static let keyboardButtonMargin = CGFloat(1)
     }
 
     class func canEditRegions(regions: [Regionable]?) -> Bool {
@@ -157,19 +158,29 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     weak public var delegate: OmnibarScreenDelegate?
 
     let statusBarUnderlay = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 20))
-    public let navigationBar = ElloNavigationBar(frame: CGRectZero)
+    let navigationBar = ElloNavigationBar(frame: CGRectZero)
 
-    public let avatarButton = UIButton()
-    public let cancelButton = UIButton()
-    public let reorderButton = UIButton()
-    public let cameraButton = UIButton()
-    public let submitButton = ElloPostButton()
-    var buttonViews: [UIView]!
+// MARK: toolbar buttons
+    var toolbarButtonViews: [UIView]!
+    let avatarButton = UIButton()
+    let cancelButton = UIButton()
+    let reorderButton = UIButton()
+    let originalCameraButton = UIButton()
+    let submitButton = ElloPostButton()
+
+// MARK: keyboard buttons
+    var keyboardButtonViews: [UIView]!
+    var keyboardButtonView = UIView()
+    let boldButton = UIButton()
+    let italicButton = UIButton()
+    let linkButton = UIButton()
+    let keyboardCameraButton = UIButton()
+    let tabbarCameraButton = UIButton()
 
     let regionsTableView = UITableView()
     let textScrollView = UIScrollView()
     let textContainer = UIView()
-    public let textView: UITextView
+    let textView: UITextView
     var autoCompleteContainer = UIView()
     var autoCompleteThrottle = debounce(0.4)
     var autoCompleteShowing = false
@@ -236,9 +247,9 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         reorderButton.setSVGImages("reorder")
         reorderButton.addTarget(self, action: Selector("toggleReorderingTable"), forControlEvents: .TouchUpInside)
 
-        cameraButton.contentEdgeInsets = UIEdgeInsets(top: 4, left: 12.5, bottom: 4, right: 12.5)
-        cameraButton.setSVGImages("camera")
-        cameraButton.addTarget(self, action: Selector("addImageAction"), forControlEvents: .TouchUpInside)
+        originalCameraButton.contentEdgeInsets = UIEdgeInsets(top: 4, left: 12.5, bottom: 4, right: 12.5)
+        originalCameraButton.setSVGImages("camera")
+        originalCameraButton.addTarget(self, action: Selector("addImageAction"), forControlEvents: .TouchUpInside)
 
         submitButton.contentEdgeInsets = UIEdgeInsets(top: 8, left: 35, bottom: 8, right: 15)
         submitButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -287,18 +298,74 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
             self.addSubview(view)
         }
 
-        buttonViews = [
+        toolbarButtonViews = [
             cancelButton,
             reorderButton,
-//            cameraButton,
+            originalCameraButton,
             submitButton,
         ]
-        for view in buttonViews as [UIView] {
-            self.addSubview(view)
+        for button in toolbarButtonViews as [UIView] {
+            self.addSubview(button)
         }
+
+        keyboardButtonView.backgroundColor = UIColor.greyC()
+        keyboardButtonViews = [
+            boldButton,
+            italicButton,
+            linkButton,
+        ]
+
+        for button in keyboardButtonViews as [UIView] {
+            button.backgroundColor = UIColor.greyA()
+            button.frame.size = Size.keyboardButtonSize
+            keyboardButtonView.addSubview(button)
+        }
+
+        boldButton.addTarget(self, action: Selector("boldButtonTapped"), forControlEvents: .TouchUpInside)
+        boldButton.setAttributedTitle(NSAttributedString(string: "B", attributes: [
+            NSFontAttributeName: UIFont.typewriterBoldFont(12),
+            NSForegroundColorAttributeName: UIColor.whiteColor()
+        ]), forState: .Normal)
+        boldButton.setAttributedTitle(NSAttributedString(string: "B", attributes: [
+            NSFontAttributeName: UIFont.typewriterBoldFont(12),
+            NSForegroundColorAttributeName: UIColor.grey6()
+        ]), forState: .Highlighted)
+        boldButton.setAttributedTitle(NSAttributedString(string: "B", attributes: [
+            NSFontAttributeName: UIFont.typewriterBoldFont(12),
+            NSForegroundColorAttributeName: UIColor.blackColor()
+            ]), forState: .Selected)
+
+        italicButton.addTarget(self, action: Selector("italicButtonTapped"), forControlEvents: .TouchUpInside)
+        italicButton.setAttributedTitle(NSAttributedString(string: "I", attributes: [
+            NSFontAttributeName: UIFont.typewriterItalicFont(12),
+            NSForegroundColorAttributeName: UIColor.whiteColor()
+        ]), forState: .Normal)
+        italicButton.setAttributedTitle(NSAttributedString(string: "I", attributes: [
+            NSFontAttributeName: UIFont.typewriterItalicFont(12),
+            NSForegroundColorAttributeName: UIColor.grey6()
+        ]), forState: .Highlighted)
+        italicButton.setAttributedTitle(NSAttributedString(string: "I", attributes: [
+            NSFontAttributeName: UIFont.typewriterItalicFont(12),
+            NSForegroundColorAttributeName: UIColor.blackColor()
+            ]), forState: .Selected)
+
+        linkButton.addTarget(self, action: Selector("linkButtonTapped"), forControlEvents: .TouchUpInside)
+        linkButton.enabled = false
+        linkButton.setImage(SVGKImage(named: "link_white.svg").UIImage!, forState: .Normal)
+        linkButton.setImage(SVGKImage(named: "breaklink_white.svg").UIImage!, forState: .Selected)
+
+        for button in [tabbarCameraButton, keyboardCameraButton] {
+            button.backgroundColor = UIColor.blackColor()
+            button.setSVGImages("camera", white: true)
+            button.addTarget(self, action: Selector("addImageAction"), forControlEvents: .TouchUpInside)
+            button.frame.size.height = Size.keyboardButtonSize.height
+        }
+        addSubview(tabbarCameraButton)
+        keyboardButtonView.addSubview(keyboardCameraButton)
 
         textScrollView.addSubview(textContainer)
         textScrollView.addSubview(textView)
+        textView.inputAccessoryView = keyboardButtonView
         textScrollView.hidden = true
     }
 
@@ -358,6 +425,24 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         textScrollView.scrollsToTop = false
         regionsTableView.scrollsToTop = true
         currentTextPath = nil
+    }
+
+    private func updateCurrentText(text: NSAttributedString) {
+        if let path = currentTextPath {
+            updateText(text, atPath: path)
+        }
+    }
+
+    private func updateText(text: NSAttributedString, atPath path: NSIndexPath) {
+        let newRegion: OmnibarRegion = .AttributedText(text)
+        let (index, _) = editableRegions[path.row]
+        if let index = index {
+            submitableRegions[index] = newRegion
+            editableRegions[path.row] = (index, newRegion)
+
+            regionsTableView.reloadData()
+            updateEditingAtPath(path, scrollPosition: .Bottom)
+        }
     }
 
     public func startEditingAtPath(path: NSIndexPath) {
@@ -485,24 +570,16 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
     public func keyboardWillShow() {
         self.setNeedsLayout()
-        UIView.animateWithDuration(Keyboard.shared().duration,
-            delay: 0.0,
-            options: Keyboard.shared().options,
-            animations: {
-                self.layoutIfNeeded()
-            },
-            completion: nil)
+        animate(duration: Keyboard.shared().duration, options: Keyboard.shared().options) {
+            self.layoutIfNeeded()
+        }
     }
 
     public func keyboardWillHide() {
         self.setNeedsLayout()
-        UIView.animateWithDuration(Keyboard.shared().duration,
-            delay: 0.0,
-            options: Keyboard.shared().options,
-            animations: {
-                self.layoutIfNeeded()
-            },
-            completion: nil)
+        animate(duration: Keyboard.shared().duration, options: Keyboard.shared().options) {
+            self.layoutIfNeeded()
+        }
     }
 
     private func resignKeyboard() {
@@ -531,12 +608,11 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         let toolbarTop = screenTop + Size.margins.top
         var buttonX = frame.width - Size.margins.right
         var firstMargin = CGFloat(10)
-        for view in buttonViews.reverse() {
+        for view in toolbarButtonViews.reverse() {
             view.frame.size = view.intrinsicContentSize()
             buttonX -= view.frame.size.width
             view.frame.origin = CGPoint(x: buttonX, y: toolbarTop)
 
-            buttonX -= Size.buttonMargin
             buttonX -= firstMargin
             firstMargin = 0
         }
@@ -550,17 +626,39 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         textScrollView.frame = regionsTableView.frame
 
         var bottomInset = Keyboard.shared().keyboardBottomInset(inView: self)
-        if bottomInset == 0 {
-            bottomInset = ElloTabBar.Size.height + Size.margins.bottom
+
+        if Keyboard.shared().visible && bottomInset < 100 {
+            tabbarCameraButton.hidden = true
         }
         else {
-            bottomInset += Size.bottomTextMargin
+            tabbarCameraButton.hidden = false
+        }
+
+        if bottomInset == 0 {
+            bottomInset = ElloTabBar.Size.height + Size.keyboardButtonSize.height
+        }
+        else {
+            bottomInset += Size.keyboardButtonSize.height
         }
 
         regionsTableView.contentInset.top = Size.tableTopInset
         regionsTableView.contentInset.bottom = bottomInset
         regionsTableView.scrollIndicatorInsets.bottom = bottomInset
         synchronizeScrollViews()
+
+        keyboardButtonView.frame.size = CGSize(width: frame.width, height: Size.keyboardButtonSize.height)
+        tabbarCameraButton.frame.size = CGSize(width: frame.width, height: Size.keyboardButtonSize.height)
+        tabbarCameraButton.frame.origin.y = frame.height - ElloTabBar.Size.height - Size.keyboardButtonSize.height
+
+        var x = CGFloat(0)
+        for view in keyboardButtonViews {
+            view.frame.origin.x = x
+            x += view.frame.size.width
+            x += Size.keyboardButtonMargin
+        }
+        let remainingCameraWidth = frame.width - x
+        keyboardCameraButton.frame.origin.x = keyboardButtonView.frame.width - remainingCameraWidth
+        keyboardCameraButton.frame.size.width = remainingCameraWidth
     }
 
     private func synchronizeScrollViews() {
@@ -580,7 +678,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     }
 
     public func updateButtons() {
-        cameraButton.enabled = !reordering
+        originalCameraButton.enabled = !reordering
         submitButton.enabled = !reordering && canPost()
     }
 
@@ -621,6 +719,122 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
             stopEditing()
             delegate?.omnibarSubmitted(submitableRegions)
         }
+    }
+
+    func boldButtonTapped() {
+        let font = textView.typingAttributes[NSFontAttributeName] as? UIFont
+        let fontName = font?.fontName ?? "AtlasTypewriter-Regular"
+
+        let newFont: UIFont
+        switch fontName {
+        case UIFont.typewriterEditorFont(12).fontName:
+            newFont = UIFont.typewriterEditorBoldFont(12)
+            boldButton.selected = true
+        case UIFont.typewriterEditorItalicFont(12).fontName:
+            newFont = UIFont.typewriterEditorBoldItalicFont(12)
+            boldButton.selected = true
+        case UIFont.typewriterEditorBoldFont(12).fontName:
+            newFont = UIFont.typewriterEditorFont(12)
+            boldButton.selected = false
+        case UIFont.typewriterEditorBoldItalicFont(12).fontName:
+            newFont = UIFont.typewriterEditorItalicFont(12)
+            boldButton.selected = false
+        default:
+            newFont = UIFont.typewriterEditorBoldFont(12)
+            boldButton.selected = true
+        }
+
+        if let selection = textView.selectedTextRange
+            where !selection.empty
+        {
+            let range = textView.selectedRange
+            let currentText = NSMutableAttributedString(attributedString: textView.attributedText)
+            let attributes = [NSFontAttributeName: newFont]
+            currentText.addAttributes(attributes, range: textView.selectedRange)
+            textView.attributedText = currentText
+            textView.selectedRange = range
+
+            updateCurrentText(currentText)
+        }
+        else {
+            textView.typingAttributes = ElloAttributedString.attrs([
+                NSFontAttributeName: newFont,
+            ])
+        }
+    }
+
+    func italicButtonTapped() {
+        let font = textView.typingAttributes[NSFontAttributeName] as? UIFont
+        let fontName = font?.fontName ?? "AtlasTypewriter-Regular"
+
+        let newFont: UIFont
+        switch fontName {
+        case UIFont.typewriterEditorFont(12).fontName:
+            newFont = UIFont.typewriterEditorItalicFont(12)
+            italicButton.selected = true
+        case UIFont.typewriterEditorItalicFont(12).fontName:
+            newFont = UIFont.typewriterEditorFont(12)
+            italicButton.selected = false
+        case UIFont.typewriterEditorBoldFont(12).fontName:
+            newFont = UIFont.typewriterEditorBoldItalicFont(12)
+            italicButton.selected = true
+        case UIFont.typewriterEditorBoldItalicFont(12).fontName:
+            newFont = UIFont.typewriterEditorBoldFont(12)
+            italicButton.selected = false
+        default:
+            newFont = UIFont.typewriterEditorItalicFont(12)
+            italicButton.selected = true
+        }
+
+        if let selection = textView.selectedTextRange
+            where !selection.empty
+        {
+            let range = textView.selectedRange
+            let currentText = NSMutableAttributedString(attributedString: textView.attributedText)
+            let attributes = [NSFontAttributeName: newFont]
+            currentText.addAttributes(attributes, range: textView.selectedRange)
+            textView.attributedText = currentText
+            textView.selectedRange = range
+
+            updateCurrentText(currentText)
+        }
+        else {
+            textView.typingAttributes = ElloAttributedString.attrs([
+                NSFontAttributeName: newFont,
+            ])
+        }
+    }
+
+    func linkButtonTapped() {
+        var range = textView.selectedRange
+        guard range.location != NSNotFound else { return }
+
+        if range.length == 0 {
+            var effectiveRange: NSRange? = NSRange(location: 0, length: 0)
+            if let _ = textView.textStorage.attribute(NSLinkAttributeName, atIndex: range.location, effectiveRange: &effectiveRange!),
+                effectiveRange = effectiveRange
+            {
+                range = effectiveRange
+            }
+        }
+        guard range.length > 0 else { return }
+
+        let currentAttrs = textView.textStorage.attributesAtIndex(range.location, effectiveRange: nil)
+        if currentAttrs[NSLinkAttributeName] != nil {
+            textView.textStorage.removeAttribute(NSLinkAttributeName, range: range)
+            textView.textStorage.removeAttribute(NSUnderlineStyleAttributeName, range: range)
+            linkButton.selected = false
+        }
+        else {
+            textView.textStorage.addAttributes([
+                NSLinkAttributeName: NSURL(string: "https://ello.co")!,
+                NSUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue,
+            ], range: range)
+            linkButton.selected = true
+            updateCurrentText(textView.textStorage)
+        }
+
+        linkButton.enabled = textView.selectedRange.length >= 0
     }
 
 // MARK: Post logic
@@ -905,24 +1119,54 @@ extension OmnibarScreen: UITextViewDelegate {
     }
 
     public func textViewDidChange(textView: UITextView) {
-        if let path = currentTextPath, _ = regionsTableView.cellForRowAtIndexPath(path) {
+        if let path = currentTextPath
+            where regionsTableView.cellForRowAtIndexPath(path) != nil
+        {
             var currentText = textView.attributedText
             if currentText.string.characters.count == 0 {
                 currentText = ElloAttributedString.style("")
                 textView.typingAttributes = ElloAttributedString.attrs()
+                boldButton.selected = false
+                italicButton.selected = false
             }
 
-            let newRegion: OmnibarRegion = .AttributedText(currentText)
-            let (index, _) = editableRegions[path.row]
-            if let index = index {
-                submitableRegions[index] = newRegion
-                editableRegions[path.row] = (index, newRegion)
-
-                regionsTableView.reloadData()
-                updateEditingAtPath(path, scrollPosition: .Bottom)
-            }
+            updateText(currentText, atPath: path)
         }
         updateButtons()
+    }
+
+    public func textViewDidChangeSelection(textView: UITextView) {
+        let font = textView.typingAttributes[NSFontAttributeName] as? UIFont
+        let fontName = font?.fontName ?? "AtlasTypewriter-Regular"
+
+        switch fontName {
+        case UIFont.typewriterEditorItalicFont(12).fontName:
+            boldButton.selected = false
+            italicButton.selected = true
+        case UIFont.typewriterEditorBoldFont(12).fontName:
+            boldButton.selected = true
+            italicButton.selected = false
+        case UIFont.typewriterEditorBoldItalicFont(12).fontName:
+            boldButton.selected = true
+            italicButton.selected = true
+        default:
+            boldButton.selected = false
+            italicButton.selected = false
+        }
+
+        if let _ = textView.typingAttributes[NSLinkAttributeName] as? NSURL {
+            linkButton.selected = true
+            linkButton.enabled = true
+        }
+        else if let selection = textView.selectedTextRange
+        where selection.empty {
+            linkButton.selected = false
+            linkButton.enabled = false
+        }
+        else {
+            linkButton.selected = false
+            linkButton.enabled = true
+        }
     }
 
     private func emojiKeyboardShowing() -> Bool {
@@ -933,7 +1177,7 @@ extension OmnibarScreen: UITextViewDelegate {
         if autoCompleteShowing {
             autoCompleteShowing = false
             textView.autocorrectionType = .Yes
-            textView.inputAccessoryView = nil
+            textView.inputAccessoryView = keyboardButtonView
             textView.resignFirstResponder()
             textView.becomeFirstResponder()
         }

@@ -79,30 +79,40 @@ public struct ElloAttributedString {
     public static func render(input: NSAttributedString) -> String {
         var output = ""
         input.enumerateAttributesInRange(NSRange(location: 0, length: input.length), options: .LongestEffectiveRangeNotRequired) { (attrs, range, stopPtr) in
-            var tags = [String]()
+            // (tagName, attributes?)
+            var tags = [(String, String?)]()
             if let underlineStyle = attrs[NSUnderlineStyleAttributeName] as? Int
             where underlineStyle == NSUnderlineStyle.StyleSingle.rawValue {
-                tags.append("u")
+                tags.append(("u", nil))
             }
 
             if let font = attrs[NSFontAttributeName] as? UIFont {
                 if font.fontName == UIFont.typewriterEditorBoldFont(12).fontName {
-                    tags.append("strong")
+                    tags.append(("strong", nil))
                 }
                 else if font.fontName == UIFont.typewriterEditorBoldItalicFont(12).fontName {
-                    tags.append("strong")
-                    tags.append("em")
+                    tags.append(("strong", nil))
+                    tags.append(("em", nil))
                 }
                 else if font.fontName == UIFont.typewriterEditorItalicFont(12).fontName {
-                    tags.append("em")
+                    tags.append(("em", nil))
                 }
             }
 
-            for tag in tags {
-                output += "<\(tag)>"
+            if let link = attrs[NSLinkAttributeName] as? NSURL {
+                tags.append(("a", "href=\"\(link.absoluteString.entitiesEncoded())\""))
+            }
+
+            for (tag, attrs) in tags {
+                output += "<\(tag)"
+                if let attrs = attrs {
+                    output += " "
+                    output += attrs
+                }
+                output += ">"
             }
             output += (input.string as NSString).substringWithRange(range).entitiesEncoded()
-            for tag in tags.reverse() {
+            for (tag, _) in tags.reverse() {
                 output += "</\(tag)>"
             }
         }
