@@ -225,6 +225,7 @@ public class StreamHeaderCell: UICollectionViewCell {
             height: timestampLabel.frame.height)
 
         relationshipControl.hidden = !followButtonVisible
+        usernameButton.hidden = followButtonVisible
         if followButtonVisible {
             let relationshipControlSize = relationshipControl.intrinsicContentSize()
             relationshipControl.frame.size = relationshipControlSize
@@ -233,12 +234,10 @@ public class StreamHeaderCell: UICollectionViewCell {
             if showUsername {
                 let relationshipControlPadding: CGFloat = 7
                 relationshipControl.frame.origin.x = innerContentView.frame.width - relationshipControlPadding - relationshipControlSize.width
-                usernameButton.hidden = false
             }
             else {
                 let relationshipControlPadding: CGFloat = 15
                 relationshipControl.frame.origin.x = avatarButton.frame.maxX + relationshipControlPadding
-                usernameButton.hidden = true
             }
         }
 

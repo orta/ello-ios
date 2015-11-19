@@ -64,6 +64,7 @@ public struct StreamHeaderCellPresenter {
                 cell.canReply = false
             }
             else {
+                cell.showUsername = true
                 cell.avatarHeight = 30.0
                 cell.scrollView.scrollEnabled = true
                 cell.chevronHidden = false
