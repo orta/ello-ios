@@ -12,25 +12,43 @@ public enum ActionStyle {
     case White
     case Light
     case Dark
+    case OKCancel
+    case URLInput
 }
 
 public struct AlertAction {
     public let title: String
-    public let icon: UIImage?
     public let style: ActionStyle
     public let handler: AlertHandler
 
-    public init(title: String, style: ActionStyle, handler: AlertHandler) {
+    public var isInput: Bool {
+        switch style {
+        case .URLInput, .OKCancel:
+            return true
+        default:
+            return false
+        }
+    }
+
+    public init(title: String, style: ActionStyle, handler: AlertHandler = nil) {
         self.title = title
-        self.icon = nil
         self.style = style
         self.handler = handler
     }
 
-    public init(title: String, icon: UIImage?, style: ActionStyle, handler: AlertHandler) {
-        self.title = title
-        self.icon = icon
-        self.style = style
-        self.handler = handler
+    public var configure: (cell: AlertCell, type: AlertType, action: AlertAction, textAlignment: NSTextAlignment) -> Void {
+        switch style {
+        case .White:
+            return AlertCellPresenter.configureForWhiteAction
+        case .Light:
+            return AlertCellPresenter.configureForLightAction
+        case .Dark:
+            return AlertCellPresenter.configureForDarkAction
+        case .OKCancel:
+            return AlertCellPresenter.configureForOKCancelAction
+        case .URLInput:
+            return AlertCellPresenter.configureForURLAction
+        }
     }
+
 }

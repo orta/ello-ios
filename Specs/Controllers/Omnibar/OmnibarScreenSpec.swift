@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import Ello
+@testable import Ello
 import Quick
 import Nimble
 
@@ -131,16 +131,18 @@ class OmnibarScreenSpec: QuickSpec {
                             subject.layoutIfNeeded()
                             expect(subject.navigationBar.frame.height) > 0
                         }
-                        it("should position the avatarButton and buttonContainer") {
+                        it("should position the avatarButton and toolbarButtonViews") {
                             subject.canGoBack = false
                             subject.layoutIfNeeded()
                             let avatarY = subject.avatarButton.frame.minY
-                            let toolbarY = subject.buttonContainer.frame.minY
 
                             subject.canGoBack = true
                             subject.layoutIfNeeded()
                             expect(subject.avatarButton.frame.minY) > avatarY
-                            expect(subject.buttonContainer.frame.minY) > toolbarY
+                            for button in subject.toolbarButtonViews {
+                                let toolbarY = button.frame.minY
+                                expect(button.frame.minY) > toolbarY
+                            }
                         }
                     }
                     context("when false") {
@@ -149,16 +151,18 @@ class OmnibarScreenSpec: QuickSpec {
                             subject.layoutIfNeeded()
                             expect(subject.navigationBar.frame.height) <= 0
                         }
-                        it("should position the avatarButton and buttonContainer") {
+                        it("should position the avatarButton and toolbarButtonViews") {
                             subject.canGoBack = true
                             subject.layoutIfNeeded()
                             let avatarY = subject.avatarButton.frame.minY
-                            let toolbarY = subject.buttonContainer.frame.minY
 
                             subject.canGoBack = false
                             subject.layoutIfNeeded()
                             expect(subject.avatarButton.frame.minY) < avatarY
-                            expect(subject.buttonContainer.frame.minY) < toolbarY
+                            for button in subject.toolbarButtonViews {
+                                let toolbarY = button.frame.minY
+                                expect(button.frame.minY) < toolbarY
+                            }
                         }
                     }
                 }
@@ -289,23 +293,6 @@ class OmnibarScreenSpec: QuickSpec {
                             subject.reorderingTable(true)
                             subject.updateButtons()
                             expect(subject.submitButton.enabled) == false
-                        }
-                    }
-
-                    context("if not reordering") {
-                        it("should enable camera") {
-                            subject.regions = [.Text("test")]
-                            subject.reorderingTable(false)
-                            subject.updateButtons()
-                            expect(subject.cameraButton.enabled) == true
-                        }
-                    }
-                        context("if reordering and posts are not empty") {
-                        it("should disable camera") {
-                            subject.regions = [.Text("test")]
-                            subject.reorderingTable(true)
-                            subject.updateButtons()
-                            expect(subject.cameraButton.enabled) == false
                         }
                     }
 

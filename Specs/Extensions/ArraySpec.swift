@@ -27,7 +27,19 @@ class ArraySpec: QuickSpec {
                 expect(val2).to(beNil())
             }
         }
-        describe("any(test:(T)->Bool)->Bool") {
+        describe("find(test:(T) -> Bool) -> Bool") {
+            let subject = [1,2,3]
+            it("should return 2 if test passes") {
+                expect(subject.find { $0 == 2 }) == 2
+            }
+            it("should return 1 when first test passes") {
+                expect(subject.find { $0 < 4 }) == 1
+            }
+            it("should return nil if no tests pass") {
+                expect(subject.find { $0 < 0 }).to(beNil())
+            }
+        }
+        describe("any(test:(T) -> Bool) -> Bool") {
             let subject = [1,2,3]
             it("should return true if any pass") {
                 expect(subject.any { $0 == 2 }) == true
@@ -39,7 +51,7 @@ class ArraySpec: QuickSpec {
                 expect(subject.any { $0 < 0 }) == false
             }
         }
-        describe("all(test:(T)->Bool)->Bool") {
+        describe("all(test:(T) -> Bool) -> Bool") {
             let subject = [1,2,3]
             it("should return false if only one pass") {
                 expect(subject.all { $0 == 2 }) == false

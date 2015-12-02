@@ -165,7 +165,6 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     let avatarButton = UIButton()
     let cancelButton = UIButton()
     let reorderButton = UIButton()
-    let originalCameraButton = UIButton()
     let submitButton = ElloPostButton()
 
 // MARK: keyboard buttons
@@ -191,6 +190,9 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         submitableRegions = [.Text("")]
         textView = OmnibarTextCell.generateTextView()
         textView.backgroundColor = UIColor.clearColor()
+        textView.tintColor = UIColor.blackColor()
+        textView.keyboardAppearance = .Dark
+
         super.init(frame: frame)
 
         backgroundColor = UIColor.whiteColor()
@@ -247,10 +249,6 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         reorderButton.setSVGImages("reorder")
         reorderButton.addTarget(self, action: Selector("toggleReorderingTable"), forControlEvents: .TouchUpInside)
 
-        originalCameraButton.contentEdgeInsets = UIEdgeInsets(top: 4, left: 12.5, bottom: 4, right: 12.5)
-        originalCameraButton.setSVGImages("camera")
-        originalCameraButton.addTarget(self, action: Selector("addImageAction"), forControlEvents: .TouchUpInside)
-
         submitButton.contentEdgeInsets = UIEdgeInsets(top: 8, left: 35, bottom: 8, right: 15)
         submitButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         submitButton.addTarget(self, action: Selector("submitAction"), forControlEvents: .TouchUpInside)
@@ -301,7 +299,6 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         toolbarButtonViews = [
             cancelButton,
             reorderButton,
-            originalCameraButton,
             submitButton,
         ]
         for button in toolbarButtonViews as [UIView] {
@@ -627,13 +624,6 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
         var bottomInset = Keyboard.shared().keyboardBottomInset(inView: self)
 
-        if Keyboard.shared().visible && bottomInset < 100 {
-            tabbarCameraButton.hidden = true
-        }
-        else {
-            tabbarCameraButton.hidden = false
-        }
-
         if bottomInset == 0 {
             bottomInset = ElloTabBar.Size.height + Size.keyboardButtonSize.height
         }
@@ -648,7 +638,13 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
         keyboardButtonView.frame.size = CGSize(width: frame.width, height: Size.keyboardButtonSize.height)
         tabbarCameraButton.frame.size = CGSize(width: frame.width, height: Size.keyboardButtonSize.height)
-        tabbarCameraButton.frame.origin.y = frame.height - ElloTabBar.Size.height - Size.keyboardButtonSize.height
+
+        if Keyboard.shared().active {
+            tabbarCameraButton.frame.origin.y = frame.height
+        }
+        else {
+            tabbarCameraButton.frame.origin.y = frame.height - ElloTabBar.Size.height - Size.keyboardButtonSize.height
+        }
 
         var x = CGFloat(0)
         for view in keyboardButtonViews {
@@ -678,7 +674,6 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     }
 
     public func updateButtons() {
-        originalCameraButton.enabled = !reordering
         submitButton.enabled = !reordering && canPost()
     }
 
@@ -810,6 +805,8 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         guard range.location != NSNotFound else { return }
 
         if range.length == 0 {
+            range.location -= 1
+
             var effectiveRange: NSRange? = NSRange(location: 0, length: 0)
             if let _ = textView.textStorage.attribute(NSLinkAttributeName, atIndex: range.location, effectiveRange: &effectiveRange!),
                 effectiveRange = effectiveRange
@@ -826,15 +823,48 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
             linkButton.selected = false
         }
         else {
-            textView.textStorage.addAttributes([
-                NSLinkAttributeName: NSURL(string: "https://ello.co")!,
-                NSUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue,
-            ], range: range)
-            linkButton.selected = true
-            updateCurrentText(textView.textStorage)
+            requestLinkURL() { url in
+                if let url = url {
+                    self.textView.textStorage.addAttributes([
+                        NSLinkAttributeName: url,
+                        NSUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue,
+                        ], range: range)
+                    self.linkButton.selected = true
+                    self.linkButton.enabled = true
+                    self.updateCurrentText(self.textView.textStorage)
+                }
+            }
         }
 
-        linkButton.enabled = textView.selectedRange.length >= 0
+        linkButton.enabled = textView.selectedRange.length > 0
+    }
+
+    func requestLinkURL(handler: (NSURL?) -> Void) {
+        let alertController = AlertViewController()
+
+        let urlAction = AlertAction(title: NSLocalizedString("Enter the URL", comment: "Enter the URL"), style: .URLInput)
+        alertController.addAction(urlAction)
+
+        let okCancelAction = AlertAction(title: "", style: .OKCancel) { _ in
+            if let urlString = alertController.actionInputs.safeValue(0) {
+                let url: NSURL?
+                if let urlTest = NSURL(string: urlString) where urlTest.scheme != "" {
+                    url = urlTest
+                }
+                else if let urlTest = NSURL(string: "http://\(urlString)") {
+                    url = urlTest
+                }
+                else {
+                    url = nil
+                }
+
+                handler(url)
+            }
+        }
+        alertController.addAction(okCancelAction)
+
+        logPresentingAlert("OmnibarViewController")
+        delegate?.omnibarPresentController(alertController)
     }
 
 // MARK: Post logic

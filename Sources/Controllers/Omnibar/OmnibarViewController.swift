@@ -167,8 +167,8 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
             screen.avatarURL = currentUser?.avatarURL
         }
 
-        keyboardWillShowObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillShow, block: self.willShow)
-        keyboardWillHideObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillHide, block: self.willHide)
+        keyboardWillShowObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillShow, block: self.keyboardWillShow)
+        keyboardWillHideObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillHide, block: self.keyboardWillHide)
         view.setNeedsLayout()
 
         let isEditing = (editPost != nil || editComment != nil)
@@ -253,11 +253,11 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
         }
     }
 
-    func willShow(keyboard: Keyboard) {
+    func keyboardWillShow(keyboard: Keyboard) {
         screen.keyboardWillShow()
     }
 
-    func willHide(keyboard: Keyboard) {
+    func keyboardWillHide(keyboard: Keyboard) {
         screen.keyboardWillHide()
     }
 
