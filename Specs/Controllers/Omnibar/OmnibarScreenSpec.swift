@@ -134,13 +134,13 @@ class OmnibarScreenSpec: QuickSpec {
                         it("should position the avatarButton and toolbarButtonViews") {
                             subject.canGoBack = false
                             subject.layoutIfNeeded()
+                            let toolbarY = subject.toolbarButtonViews[0].frame.minY
                             let avatarY = subject.avatarButton.frame.minY
 
                             subject.canGoBack = true
                             subject.layoutIfNeeded()
                             expect(subject.avatarButton.frame.minY) > avatarY
                             for button in subject.toolbarButtonViews {
-                                let toolbarY = button.frame.minY
                                 expect(button.frame.minY) > toolbarY
                             }
                         }
@@ -154,13 +154,13 @@ class OmnibarScreenSpec: QuickSpec {
                         it("should position the avatarButton and toolbarButtonViews") {
                             subject.canGoBack = true
                             subject.layoutIfNeeded()
+                            let toolbarY = subject.toolbarButtonViews[0].frame.minY
                             let avatarY = subject.avatarButton.frame.minY
 
                             subject.canGoBack = false
                             subject.layoutIfNeeded()
                             expect(subject.avatarButton.frame.minY) < avatarY
                             for button in subject.toolbarButtonViews {
-                                let toolbarY = button.frame.minY
                                 expect(button.frame.minY) < toolbarY
                             }
                         }
