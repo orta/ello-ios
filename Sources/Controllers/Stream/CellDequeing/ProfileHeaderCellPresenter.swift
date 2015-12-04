@@ -24,6 +24,20 @@ public struct ProfileHeaderCellPresenter {
             cell.user = user
             cell.currentUser = currentUser
 
+            cell.onWebContentReady { webView in
+                let webViewHeight = webView.windowContentSize()?.height ?? 0
+                let actualHeight = ProfileHeaderCellSizeCalculator.calculateHeightBasedOn(
+                    webViewHeight: webViewHeight,
+                    width: cell.frame.size.width
+                    )
+                if actualHeight != streamCellItem.calculatedOneColumnCellHeight {
+                    streamCellItem.calculatedWebHeight = webViewHeight
+                    streamCellItem.calculatedOneColumnCellHeight = actualHeight
+                    streamCellItem.calculatedMultiColumnCellHeight = actualHeight
+                    postNotification(StreamNotification.UpdateCellHeightNotification, value: cell)
+                }
+            }
+
             let isCurrentUser: Bool
             if let currentUser = currentUser {
                 isCurrentUser = user.id == currentUser.id

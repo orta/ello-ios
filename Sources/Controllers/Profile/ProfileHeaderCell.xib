@@ -4,7 +4,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="AtlasGroteskBold.otf">
@@ -34,7 +33,6 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="122" id="3aZ-xd-avL" userLabel="avatarButton - height"/>
                                     <constraint firstAttribute="width" constant="122" id="7G6-ms-sEZ" userLabel="avatarButton - width"/>
-                                    <constraint firstAttribute="width" secondItem="GKO-1x-QWx" secondAttribute="height" multiplier="1:1" id="Ph8-FR-olc" userLabel="avatarButton - ratio"/>
                                 </constraints>
                                 <state key="normal">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

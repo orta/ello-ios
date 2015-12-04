@@ -220,6 +220,10 @@ class ProfileViewControllerSpec: QuickSpec {
                 }
             }
 
+            context("snapshots") {
+                let subject = ProfileViewController(userParam: "42")
+                validateAllSnapshots(subject)
+            }
         }
     }
 }

@@ -20,6 +20,8 @@ public protocol PostsTappedResponder {
 }
 
 public class ProfileHeaderCell: UICollectionViewCell {
+    typealias WebContentReady = (webView : UIWebView) -> Void
+
     // this little hack prevents constraints from breaking on initial load
     override public var bounds: CGRect {
         didSet {
@@ -48,6 +50,7 @@ public class ProfileHeaderCell: UICollectionViewCell {
         }
     }
     var currentUser: User?
+    var webContentReady: WebContentReady?
 
     override public func awakeFromNib() {
         super.awakeFromNib()
@@ -55,6 +58,10 @@ public class ProfileHeaderCell: UICollectionViewCell {
         bioWebView.delegate = self
         editProfileButton.titleLabel?.font = UIFont.typewriterFont(12.0)
         avatarButton.starIconHidden = true
+    }
+
+    func onWebContentReady(handler: WebContentReady?) {
+        webContentReady = handler
     }
 
     override public func layoutSubviews() {
@@ -160,5 +167,6 @@ extension ProfileHeaderCell: UIWebViewDelegate {
         UIView.animateWithDuration(0.15) {
             self.contentView.alpha = 1.0
         }
+        webContentReady?(webView: webView)
     }
 }
