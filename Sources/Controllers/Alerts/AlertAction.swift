@@ -7,6 +7,12 @@
 //
 
 public typealias AlertHandler = ((AlertAction) -> Void)?
+public typealias AlertCellConfigClosure = (
+    cell: AlertCell,
+    type: AlertType,
+    action: AlertAction,
+    textAlignment: NSTextAlignment
+) -> Void
 
 public enum ActionStyle {
     case White
@@ -36,7 +42,7 @@ public struct AlertAction {
         self.handler = handler
     }
 
-    public var configure: (cell: AlertCell, type: AlertType, action: AlertAction, textAlignment: NSTextAlignment) -> Void {
+    public var configure: AlertCellConfigClosure {
         switch style {
         case .White:
             return AlertCellPresenter.configureForWhiteAction
