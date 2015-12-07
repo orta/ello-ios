@@ -59,7 +59,7 @@ class RelationshipControlSpec: QuickSpec {
                     subject.layoutIfNeeded()
                     expect(subject.starredButton.frame) == CGRectZero
                     expect(subject.followingButton.frame) == CGRect(x: 0, y: 0, width: 105, height: 30)
-                    expect(subject).to(recordSnapshot())
+                    expect(subject).to(haveValidSnapshot())
                 }
                 it("should calculate when showStarredButton=true") {
                     subject.showStarredButton = true
@@ -69,7 +69,7 @@ class RelationshipControlSpec: QuickSpec {
                     subject.layoutIfNeeded()
                     expect(subject.starredButton.frame) == CGRect(x: 112, y: 0, width: 30, height: 30)
                     expect(subject.followingButton.frame) == CGRect(x: 0, y: 0, width: 105, height: 30)
-                    expect(subject).to(recordSnapshot())
+                    expect(subject).to(haveValidSnapshot())
                 }
             }
 
