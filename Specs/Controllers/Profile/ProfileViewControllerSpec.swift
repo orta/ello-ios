@@ -24,7 +24,7 @@ class ProfileViewControllerSpec: QuickSpec {
                     expect(subject).notTo(beNil())
                 }
 
-                describe("IBOutles") {
+                describe("IBOutlets") {
                     beforeEach {
                         showController(subject)
                     }
