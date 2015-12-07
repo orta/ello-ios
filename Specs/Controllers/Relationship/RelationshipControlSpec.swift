@@ -23,29 +23,37 @@ class RelationshipControlSpec: QuickSpec {
 
             describe("@relationship") {
 
-                it("sets button state properly when set to friend") {
+                it("sets button state properly when set to Following") {
                     subject.relationshipPriority = .Following
                     expect(subject.followingButton.currentTitle) == "Following"
                     expect(subject.followingButton.backgroundColor) == UIColor.blackColor()
+                    subject.frame.size = subject.intrinsicContentSize()
+                    expect(subject).to(haveValidSnapshot())
                 }
 
-                it("sets button state properly when set to noise") {
+                it("sets button state properly when set to Starred") {
                     subject.relationshipPriority = .Starred
                     expect(subject.followingButton.currentTitle) == "Starred"
                     expect(subject.followingButton.backgroundColor) == UIColor.blackColor()
+                    subject.frame.size = subject.intrinsicContentSize()
+                    expect(subject).to(haveValidSnapshot())
                 }
 
-                it("sets button state properly when set to mute") {
+                it("sets button state properly when set to Muted") {
                     subject.relationshipPriority = .Mute
                     expect(subject.followingButton.currentTitle) == "Muted"
                     expect(subject.followingButton.backgroundColor) == UIColor.redColor()
+                    subject.frame.size = subject.intrinsicContentSize()
+                    expect(subject).to(haveValidSnapshot())
                 }
 
-                it("sets button state properly when set to anything else") {
-                    for relationshipPriority in [RelationshipPriority.Inactive, RelationshipPriority.None, RelationshipPriority.Null, RelationshipPriority.Me] {
+                for relationshipPriority in [RelationshipPriority.Inactive, RelationshipPriority.None, RelationshipPriority.Null, RelationshipPriority.Me] {
+                    it("sets button state properly when set to \(relationshipPriority)") {
                         subject.relationshipPriority = relationshipPriority
                         expect(subject.followingButton.currentTitle) == "Follow"
-                        expect(subject.followingButton.backgroundColor) == UIColor.whiteColor()
+                        expect(subject.followingButton.backgroundColor) == UIColor.whiteColor().colorWithAlphaComponent(0.5)
+                        subject.frame.size = subject.intrinsicContentSize()
+                        expect(subject).to(haveValidSnapshot())
                     }
                 }
             }
@@ -59,7 +67,6 @@ class RelationshipControlSpec: QuickSpec {
                     subject.layoutIfNeeded()
                     expect(subject.starredButton.frame) == CGRectZero
                     expect(subject.followingButton.frame) == CGRect(x: 0, y: 0, width: 105, height: 30)
-                    expect(subject).to(haveValidSnapshot())
                 }
                 it("should calculate when showStarredButton=true") {
                     subject.showStarredButton = true
@@ -69,7 +76,6 @@ class RelationshipControlSpec: QuickSpec {
                     subject.layoutIfNeeded()
                     expect(subject.starredButton.frame) == CGRect(x: 112, y: 0, width: 30, height: 30)
                     expect(subject.followingButton.frame) == CGRect(x: 0, y: 0, width: 105, height: 30)
-                    expect(subject).to(haveValidSnapshot())
                 }
             }
 
