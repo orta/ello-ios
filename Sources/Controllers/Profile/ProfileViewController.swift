@@ -97,22 +97,7 @@ public class ProfileViewController: StreamableViewController {
         streamViewController.loadInitialPage()
         relationshipControl.relationshipDelegate = streamViewController.dataSource.relationshipDelegate
 
-        gradientLayer.frame = CGRect(
-            x: 0,
-            y: 0,
-            width: gradientView.frame.width,
-            height: gradientView.frame.height
-            )
-        gradientLayer.locations = [0, 0.1, 0.6, 1]
-        gradientLayer.colors = [
-            UIColor.whiteColor().CGColor,
-            UIColor.whiteColor().CGColor,
-            UIColor.whiteColor().colorWithAlphaComponent(0.5).CGColor,
-            UIColor.whiteColor().colorWithAlphaComponent(0).CGColor,
-        ]
-        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
-        gradientLayer.endPoint = CGPoint(x: 0, y: 1)
-        gradientView.layer.addSublayer(gradientLayer)
+        setupGradient()
 
         if let handle = currentUser?.atName,
             let userHandle = user?.atName
@@ -264,6 +249,25 @@ public class ProfileViewController: StreamableViewController {
             self.elloNavigationItem.fixNavBarItemPadding()
         }
         addMoreFollowingButton()
+    }
+
+    private func setupGradient() {
+        gradientLayer.frame = CGRect(
+            x: 0,
+            y: 0,
+            width: gradientView.frame.width,
+            height: gradientView.frame.height
+        )
+        gradientLayer.locations = [0, 0.1, 0.6, 1]
+        gradientLayer.colors = [
+            UIColor.whiteColor().CGColor,
+            UIColor.whiteColor().CGColor,
+            UIColor.whiteColor().colorWithAlphaComponent(0.5).CGColor,
+            UIColor.whiteColor().colorWithAlphaComponent(0).CGColor,
+        ]
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+        gradientLayer.endPoint = CGPoint(x: 0, y: 1)
+        gradientView.layer.addSublayer(gradientLayer)
     }
 
     func addMoreFollowingButton() {
