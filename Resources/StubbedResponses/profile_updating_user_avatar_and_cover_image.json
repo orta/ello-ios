@@ -60,8 +60,12 @@
         "posts_count": 0,
         "relationship_priority": "self",
         "short_bio": "Have been **spying** for a while now.",
+        "subscribe_to_daily_ello": true,
+        "subscribe_to_onboarding_drip": true,
         "subscribe_to_users_email_list": true,
+        "subscribe_to_weekly_ello": true,
         "username": "archer",
-        "views_adult_content": true
+        "views_adult_content": true,
+        "web_onboarding_version": null
     }
 }

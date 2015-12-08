@@ -13,6 +13,11 @@
                     "label": "Comments"
                 },
                 {
+                    "info": "Allow people to love my posts.",
+                    "key": "has_loves_enabled",
+                    "label": "Loves"
+                },
+                {
                     "info": "Allow people to share my posts.",
                     "key": "has_sharing_enabled",
                     "label": "Sharing"
@@ -35,6 +40,11 @@
                         "label": "Learn more",
                         "url": "https://ello.co/wtf/post/privacy"
                     }
+                },
+                {
+                    "info": "Let friends who have my email address find me on Ello.",
+                    "key": "discoverable",
+                    "label": "Discoverability"
                 }
             ],
             "label": "Preferences"
@@ -45,6 +55,11 @@
                     "info": "Receive an e-mail when other people comment on your posts.",
                     "key": "notify_of_comments_via_email",
                     "label": "Comments"
+                },
+                {
+                    "info": "Receive an e-mail when other people love your posts.",
+                    "key": "notify_of_loves_via_email",
+                    "label": "Loves"
                 },
                 {
                     "info": "Receive an e-mail when other people mention you in a post.",
@@ -67,38 +82,67 @@
                     "label": "Invitations"
                 }
             ],
-            "label": "Notifications"
+            "label": "Email Notifications"
+        },
+        {
+            "items": [
+                {
+                    "info": "Receive a push notification when other people comment on your posts.",
+                    "key": "notify_of_comments_via_push",
+                    "label": "Comments"
+                },
+                {
+                    "info": "Receive a push notification when other people mention you in a post.",
+                    "key": "notify_of_mentions_via_push",
+                    "label": "Mentions"
+                },
+                {
+                    "info": "Receive a push notification when other people love your posts.",
+                    "key": "notify_of_loves_via_push",
+                    "label": "Loves"
+                },
+                {
+                    "info": "Receive a push notification when other people repost your posts.",
+                    "key": "notify_of_reposts_via_push",
+                    "label": "Reposts"
+                },
+                {
+                    "info": "Receive a push notification when other people follow you.",
+                    "key": "notify_of_new_followers_via_push",
+                    "label": "New Followers"
+                },
+                {
+                    "info": "Receive a push notification when other people accept your invitations.",
+                    "key": "notify_of_invitation_acceptances_via_push",
+                    "label": "Invitations"
+                }
+            ],
+            "label": "Push Notifications"
         },
         {
             "items": [
                 {
                     "info": "Receive e-mails from Ello with service updates and feature announcements",
                     "key": "subscribe_to_users_email_list",
-                    "label": "Updates & Announcements"
+                    "label": "News & Features"
+                },
+                {
+                    "info": "Receive a weekly curated email of inspiring Ello posts",
+                    "key": "subscribe_to_weekly_ello",
+                    "label": "Weekly Ello"
+                },
+                {
+                    "info": "Receive a daily curated email of inspiring Ello posts",
+                    "key": "subscribe_to_daily_ello",
+                    "label": "Daily Ello"
+                },
+                {
+                    "info": "Receive e-mails with tips and tricks on how to use Ello",
+                    "key": "subscribe_to_onboarding_drip",
+                    "label": "Tips for Getting Started"
                 }
             ],
             "label": "Newsletters"
-        },
-        {
-            "items": [
-                {
-                    "key": "views_adult_content",
-                    "label": "View Adult-oriented Content",
-                    "link": {
-                        "label": "What does this mean?",
-                        "url": "https://ello.co/wtf/post/rules"
-                    }
-                },
-                {
-                    "key": "posts_adult_content",
-                    "label": "Post Adult-oriented Content",
-                    "link": {
-                        "label": "What does this mean?",
-                        "url": "https://ello.co/wtf/post/rules"
-                    }
-                }
-            ],
-            "label": "NSFW"
         }
     ]
 }
