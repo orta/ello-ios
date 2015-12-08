@@ -204,6 +204,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         setupNavigationBar()
         setupToolbarButtons()
         setupTableViews()
+        setupKeyboardViews()
         setupViewHierarchy()
     }
 
@@ -285,37 +286,17 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         textView.autocorrectionType = .Yes
     }
 
-    private func setupViewHierarchy() {
-        let views = [
-            regionsTableView,
-            textScrollView,
-            navigationBar,
-            avatarButton,
-        ]
-        for view in views as [UIView] {
-            self.addSubview(view)
-        }
-
-        toolbarButtonViews = [
-            cancelButton,
-            reorderButton,
-            submitButton,
-        ]
-        for button in toolbarButtonViews as [UIView] {
-            self.addSubview(button)
-        }
-
-        keyboardButtonView.backgroundColor = UIColor.greyC()
+    private func setupKeyboardViews() {
         keyboardButtonViews = [
             boldButton,
             italicButton,
             linkButton,
         ]
 
+        keyboardButtonView.backgroundColor = UIColor.greyC()
         for button in keyboardButtonViews as [UIView] {
             button.backgroundColor = UIColor.greyA()
             button.frame.size = Size.keyboardButtonSize
-            keyboardButtonView.addSubview(button)
         }
 
         boldButton.addTarget(self, action: Selector("boldButtonTapped"), forControlEvents: .TouchUpInside)
@@ -357,6 +338,32 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
             button.addTarget(self, action: Selector("addImageAction"), forControlEvents: .TouchUpInside)
             button.frame.size.height = Size.keyboardButtonSize.height
         }
+    }
+
+    private func setupViewHierarchy() {
+        let views = [
+            regionsTableView,
+            textScrollView,
+            navigationBar,
+            avatarButton,
+        ]
+        for view in views as [UIView] {
+            self.addSubview(view)
+        }
+
+        toolbarButtonViews = [
+            cancelButton,
+            reorderButton,
+            submitButton,
+        ]
+        for button in toolbarButtonViews as [UIView] {
+            self.addSubview(button)
+        }
+
+        for button in keyboardButtonViews as [UIView] {
+            keyboardButtonView.addSubview(button)
+        }
+
         addSubview(tabbarCameraButton)
         keyboardButtonView.addSubview(keyboardCameraButton)
 
