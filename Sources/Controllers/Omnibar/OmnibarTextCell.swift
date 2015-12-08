@@ -15,7 +15,7 @@ public class OmnibarTextCell: UITableViewCell {
     }
 
     public let textView: UITextView
-    public var isFirst: Bool = false
+    public var isFirst = false
 
     class func generateTextView() -> UITextView {
         let textView = UITextView()
