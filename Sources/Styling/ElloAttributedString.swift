@@ -7,6 +7,16 @@
 //
 
 public struct ElloAttributedString {
+    private struct HtmlTagTuple {
+        let tag: String
+        let attributes: String?
+
+        init(_ tag: String, attributes: String? = nil) {
+            self.tag = tag
+            self.attributes = attributes
+        }
+    }
+
     public static func attrs(allAddlAttrs: [String: AnyObject]...) -> [String: AnyObject] {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 6
@@ -80,40 +90,40 @@ public struct ElloAttributedString {
         var output = ""
         input.enumerateAttributesInRange(NSRange(location: 0, length: input.length), options: .LongestEffectiveRangeNotRequired) { (attrs, range, stopPtr) in
             // (tagName, attributes?)
-            var tags = [(String, String?)]()
+            var tags = [HtmlTagTuple]()
             if let underlineStyle = attrs[NSUnderlineStyleAttributeName] as? Int
             where underlineStyle == NSUnderlineStyle.StyleSingle.rawValue {
-                tags.append(("u", nil))
+                tags.append(HtmlTagTuple("u"))
             }
 
             if let font = attrs[NSFontAttributeName] as? UIFont {
                 if font.fontName == UIFont.typewriterEditorBoldFont(12).fontName {
-                    tags.append(("strong", nil))
+                    tags.append(HtmlTagTuple("strong"))
                 }
                 else if font.fontName == UIFont.typewriterEditorBoldItalicFont(12).fontName {
-                    tags.append(("strong", nil))
-                    tags.append(("em", nil))
+                    tags.append(HtmlTagTuple("strong"))
+                    tags.append(HtmlTagTuple("em"))
                 }
                 else if font.fontName == UIFont.typewriterEditorItalicFont(12).fontName {
-                    tags.append(("em", nil))
+                    tags.append(HtmlTagTuple("em"))
                 }
             }
 
             if let link = attrs[NSLinkAttributeName] as? NSURL {
-                tags.append(("a", "href=\"\(link.absoluteString.entitiesEncoded())\""))
+                tags.append(HtmlTagTuple("a", attributes: "href=\"\(link.absoluteString.entitiesEncoded())\""))
             }
 
-            for (tag, attrs) in tags {
-                output += "<\(tag)"
-                if let attrs = attrs {
+            for htmlTag in tags {
+                output += "<\(htmlTag.tag)"
+                if let attrs = htmlTag.attributes {
                     output += " "
                     output += attrs
                 }
                 output += ">"
             }
             output += (input.string as NSString).substringWithRange(range).entitiesEncoded()
-            for (tag, _) in tags.reverse() {
-                output += "</\(tag)>"
+            for htmlTag in tags.reverse() {
+                output += "</\(htmlTag.tag)>"
             }
         }
         return output
