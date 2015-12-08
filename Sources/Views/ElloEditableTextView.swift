@@ -21,7 +21,7 @@ public class ElloEditableTextView: UITextView {
 
     func sharedSetup() {
         backgroundColor = UIColor.greyE5()
-        font = UIFont.typewriterFont(12)
+        font = UIFont.defaultFont()
         textColor = UIColor.blackColor()
         contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
         scrollsToTop = false

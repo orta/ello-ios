@@ -39,7 +39,7 @@ private extension NotificationBanner {
                 kCRToastAnimationInTimeIntervalKey: DefaultAnimationDuration,
                 kCRToastAnimationOutTimeIntervalKey: DefaultAnimationDuration,
 
-                kCRToastFontKey: UIFont.typewriterFont(12.0),
+                kCRToastFontKey: UIFont.defaultFont(),
                 kCRToastTextAlignmentKey: NSTextAlignment.Left.rawValue,
                 kCRToastTextMaxNumberOfLinesKey: 2,
             ]

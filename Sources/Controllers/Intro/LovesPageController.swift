@@ -12,15 +12,15 @@ class LovesPageController: IntroPageController {
 
     weak var lovesLabel: ElloLabel!
     @IBOutlet weak var getStartedButton: LightElloButton!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        lovesLabel.font = .regularBoldFont(18)
-        getStartedButton.titleLabel!.font = .typewriterFont(12)
+        lovesLabel.font = .defaultBoldFont(18)
+        getStartedButton.titleLabel?.font = .defaultFont()
         getStartedButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
         getStartedButton.setBackgroundImage(UIImage.imageWithColor(.whiteColor()), forState: .Normal)
     }
-    
+
     @IBAction func didTouchGetStarted(sender: AnyObject) {
         parentViewController?.dismissViewControllerAnimated(false, completion: nil)
     }

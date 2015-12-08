@@ -64,7 +64,7 @@ public class StreamViewController: BaseElloViewController {
             titleParagraphStyle.lineSpacing = 17
 
             let titleAttributes = [
-                NSFontAttributeName : UIFont.regularBoldFont(18.0),
+                NSFontAttributeName : UIFont.defaultBoldFont(18),
                 NSForegroundColorAttributeName : UIColor.blackColor(),
                 NSParagraphStyleAttributeName : titleParagraphStyle
             ]
@@ -73,7 +73,7 @@ public class StreamViewController: BaseElloViewController {
             bodyParagraphStyle.lineSpacing = 8
 
             let bodyAttributes = [
-                NSFontAttributeName : UIFont.typewriterFont(12.0),
+                NSFontAttributeName : UIFont.defaultFont(),
                 NSForegroundColorAttributeName : UIColor.blackColor(),
                 NSParagraphStyleAttributeName : bodyParagraphStyle
             ]

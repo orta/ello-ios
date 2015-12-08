@@ -24,7 +24,7 @@ public class NotificationsScreen : UIView {
 
     private class func filterButton() -> UIButton {
         let button = UIButton()
-        button.titleLabel!.font = UIFont.typewriterFont(12)
+        button.titleLabel?.font = UIFont.defaultFont()
         button.setTitleColor(UIColor.whiteColor(), forState: .Selected)
         button.setTitleColor(UIColor.greyA(), forState: .Normal)
         button.setBackgroundImage(UIImage.imageWithColor(UIColor.blackColor()), forState: .Selected)
@@ -53,7 +53,7 @@ public class NotificationsScreen : UIView {
 
     override public init(frame: CGRect) {
 
-        filterMentionButton.titleLabel!.font = UIFont.typewriterFont(14)
+        filterMentionButton.titleLabel!.font = UIFont.defaultFont(16)
 
         super.init(frame: frame)
         backgroundColor = UIColor.whiteColor()

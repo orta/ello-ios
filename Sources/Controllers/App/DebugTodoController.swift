@@ -229,7 +229,7 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
         if path.section == actionsSection {
             let cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Action")
             if let label = cell.textLabel, action = actions.safeValue(path.row) {
-                label.font = UIFont.typewriterBoldFont(12)
+                label.font = UIFont.defaultBoldFont()
                 label.text = action.0
             }
             return cell
@@ -238,7 +238,7 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
         if entries.count == 0 {
             let cell = tableView.dequeueReusableCellWithIdentifier("loading")
             if let label = cell?.textLabel {
-                label.font = UIFont.regularBoldFont(12)
+                label.font = UIFont.defaultBoldFont()
                 label.text = "Loading…"
             }
             return cell ?? UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Action")
@@ -248,7 +248,7 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
         if let group = groupForSection(path.section) {
             let groupEntries = todosInGroup(group)
             if let entry = groupEntries.safeValue(path.row), label = cell.textLabel, details = cell.detailTextLabel {
-                label.font = UIFont.typewriterFont(12)
+                label.font = UIFont.defaultFont()
                 label.text = entry.name
                 details.textColor = UIColor.greyA()
                 details.text = "Checked: \(entry.done)"

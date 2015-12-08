@@ -132,7 +132,7 @@ public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
         messageWebView.delegate = self
 
         createdAtLabel.textColor = UIColor.greyA()
-        createdAtLabel.font = UIFont.typewriterFont(12)
+        createdAtLabel.font = UIFont.typewriterFont()
         createdAtLabel.text = ""
 
         for view in [avatarButton, titleTextView, notificationImageView, messageWebView, createdAtLabel] {
@@ -168,7 +168,6 @@ public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
         titleTextView.frame = avatarButton.frame.fromRight()
             .shiftRight(Size.innerTextMargin)
             .withWidth(titleWidth)
-        titleTextView.sizeToFit()
 
         let createdAtHeight = Size.createdAtHeight
         createdAtLabel.frame = avatarButton.frame.fromRight()

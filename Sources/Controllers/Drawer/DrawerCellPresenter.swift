@@ -11,11 +11,11 @@ public struct DrawerCellPresenter {
     public static func configure(cell: DrawerCell, item: DrawerItem) {
         switch item.type {
         case .Plain:
-            cell.label.font = UIFont.typewriterFont(12)
+            cell.label.font = UIFont.defaultFont()
             cell.label.textColor = .greyA()
             cell.line.hidden = true
         default:
-            cell.label.font = UIFont.regularBoldFont(18)
+            cell.label.font = UIFont.defaultBoldFont(18)
             cell.label.textColor = .blackColor()
             cell.line.hidden = false
         }
