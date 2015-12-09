@@ -76,6 +76,17 @@ public enum InterfaceString {
         }
     }
 
+    public enum Profile {
+        case Title
+
+        var localized: String {
+            switch self {
+            case .Title:
+                return NSLocalizedString("Profile", comment: "Profile Title")
+            }
+        }
+    }
+
     public enum Loves {
         case CurrentUserNoResultsBody
         case CurrentUserNoResultsTitle
