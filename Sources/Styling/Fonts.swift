@@ -23,7 +23,7 @@ extension UIFont {
     public class func editorFont(size: CGFloat = 14) -> UIFont { return UIFont(name: "AtlasGrotesk-Regular", size: size)! }
     public class func editorItalicFont(size: CGFloat = 14) -> UIFont { return UIFont(name: "AtlasGrotesk-RegularItalic", size: size)! }
     public class func editorBoldFont(size: CGFloat = 14) -> UIFont { return UIFont(name: "AtlasGrotesk-Bold", size: size)! }
-    public class func editorBoldItalicFont(size: CGFloat = 14) -> UIFont { return UIFont(name: "AtlasGrotesk-BoldItalic", size: size)! }
+    public class func editorBoldItalicFont(size: CGFloat = 14) -> UIFont { return UIFont(name: "AtlasGrotesk-Bold", size: size)! }
 
     public class func printAvailableFonts() {
         for familyName:AnyObject in UIFont.familyNames()
