@@ -26,7 +26,7 @@ public struct StreamHeaderCellPresenter {
             cell.streamKind = streamKind
             cell.ownPost = false
             cell.ownComment = false
-            cell.isGridLayout = streamKind.isGridView // cachedLayoutForStreamkind(streamKind)
+            cell.isGridLayout = streamKind.isGridView
 
             switch streamKind {
             case .PostDetail:
