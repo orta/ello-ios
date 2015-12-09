@@ -11,19 +11,24 @@ import SVGKit
 
 extension UIButton {
 
-    func setSVGImages(named: String, degree: Double = 0) {
-        self.setSVGImage("\(named)_normal.svg", forState: .Normal, degree: degree)
-        self.setSVGImage("\(named)_selected.svg", forState: .Selected, degree: degree)
+    func setSVGImages(named: String, degree: Double = 0, white: Bool = false) {
+        if white {
+            setSVGImage("\(named)_white.svg", forState: .Normal, degree: degree)
+        }
+        else {
+            setSVGImage("\(named)_normal.svg", forState: .Normal, degree: degree)
+        }
+        setSVGImage("\(named)_selected.svg", forState: .Selected, degree: degree)
     }
 
     func setSVGImage(var named: String, forState state: UIControlState = .Normal, degree: Double = 0) {
         if named.rangeOfString(".svg") == nil {
             named = named + ".svg"
         }
-        self.setImage(SVGKImage(named: named).UIImage!, forState: state)
+        setImage(SVGKImage(named: named).UIImage!, forState: state)
         if degree != 0 {
             let radians = (degree * M_PI) / 180.0
-            self.transform = CGAffineTransformMakeRotation(CGFloat(radians))
+            transform = CGAffineTransformMakeRotation(CGFloat(radians))
         }
     }
 }

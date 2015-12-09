@@ -32,7 +32,7 @@ class KeyboardSpec: QuickSpec {
             }
 
             it("sets the 'visible' property") {
-                expect(keyboard.visible).to(equal(true))
+                expect(keyboard.active).to(equal(true))
             }
 
             it("sets the 'curve' property") {

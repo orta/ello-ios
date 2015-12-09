@@ -24,7 +24,8 @@ public class Keyboard {
         let _ = shared()
     }
 
-    public var visible = false
+    public var active = false
+    public var external = false
     public var bottomInset: CGFloat = 0.0
     public var endFrame = CGRectZero
     public var curve = UIViewAnimationCurve.Linear
@@ -58,10 +59,12 @@ public class Keyboard {
 
     @objc
     func willShow(notification : NSNotification) {
-        visible = true
+        active = true
         setFromNotification(notification)
         endFrame = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-        bottomInset = endFrame.size.height
+        let window = UIWindow.mainWindow
+        bottomInset = window.frame.size.height - endFrame.origin.y
+        external = endFrame.size.height > bottomInset
 
         postNotification(Notifications.KeyboardWillShow, value: self)
     }
@@ -73,10 +76,18 @@ public class Keyboard {
 
     @objc
     func willHide(notification : NSNotification) {
-        visible = false
         setFromNotification(notification)
         endFrame = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
         bottomInset = 0
+
+        let windowBottom = UIWindow.mainWindow.frame.size.height
+        if endFrame.origin.y >= windowBottom {
+            active = false
+            external = false
+        }
+        else {
+            external = true
+        }
 
         postNotification(Notifications.KeyboardWillHide, value: self)
     }

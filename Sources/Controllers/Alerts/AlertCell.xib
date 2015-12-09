@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E17e" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="AtlasTypewriterRegular.otf">
@@ -15,36 +16,69 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bcg-QX-D1W" id="uBn-Zs-uUM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="59.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qam-Ud-NtM">
                         <rect key="frame" x="0.0" y="5" width="320" height="49"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="99L-M3-YcC" userLabel="iconImageView">
-                                <rect key="frame" x="13" y="15" width="20" height="20"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="20" id="Ndc-b2-qPO"/>
-                                    <constraint firstAttribute="height" constant="20" id="wqY-9r-eiH"/>
-                                </constraints>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j76-h0-pQH" customClass="ElloLabel" customModule="Ello" customModuleProvider="target">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j76-h0-pQH" userLabel="label" customClass="ElloLabel" customModule="Ello" customModuleProvider="target">
                                 <rect key="frame" x="18" y="8" width="284" height="33"/>
+                                <animations/>
                                 <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="12"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yPN-41-xC7" userLabel="input">
+                                <rect key="frame" x="10" y="8" width="300" height="33"/>
+                                <animations/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="didUpdateInput" destination="bcg-QX-D1W" eventType="valueChanged" id="eRq-EF-4e8"/>
+                                </connections>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="puD-t2-fUB" userLabel="okButton" customClass="ElloButton" customModule="Ello" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="155" height="49"/>
+                                <animations/>
+                                <state key="normal" title="OK"/>
+                                <connections>
+                                    <action selector="didTapOkButton" destination="bcg-QX-D1W" eventType="touchUpInside" id="6oh-3u-gKT"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="see-O7-Ve3" userLabel="cancelButton" customClass="LightElloButton" customModule="Ello" customModuleProvider="target">
+                                <rect key="frame" x="165" y="0.0" width="155" height="49"/>
+                                <animations/>
+                                <state key="normal" title="Cancel"/>
+                                <connections>
+                                    <action selector="didTapCancelButton" destination="bcg-QX-D1W" eventType="touchUpInside" id="SZP-Ou-Nao"/>
+                                </connections>
+                            </button>
                         </subviews>
+                        <animations/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="j76-h0-pQH" secondAttribute="trailing" constant="18" id="13p-Vy-FF7"/>
-                            <constraint firstItem="99L-M3-YcC" firstAttribute="leading" secondItem="qam-Ud-NtM" secondAttribute="leading" constant="13" id="2XR-HI-aH2"/>
+                            <constraint firstItem="yPN-41-xC7" firstAttribute="leading" secondItem="qam-Ud-NtM" secondAttribute="leading" constant="10" id="36W-dx-Y9l"/>
                             <constraint firstItem="j76-h0-pQH" firstAttribute="leading" secondItem="qam-Ud-NtM" secondAttribute="leading" constant="18" id="39F-0v-F06"/>
+                            <constraint firstItem="see-O7-Ve3" firstAttribute="top" secondItem="puD-t2-fUB" secondAttribute="top" id="4dF-wl-348"/>
+                            <constraint firstItem="puD-t2-fUB" firstAttribute="leading" secondItem="qam-Ud-NtM" secondAttribute="leading" id="56c-PG-o6Z"/>
+                            <constraint firstItem="see-O7-Ve3" firstAttribute="bottom" secondItem="puD-t2-fUB" secondAttribute="bottom" id="56f-pp-W0z"/>
                             <constraint firstItem="j76-h0-pQH" firstAttribute="top" secondItem="qam-Ud-NtM" secondAttribute="top" constant="8" id="7wZ-jL-bvG"/>
                             <constraint firstAttribute="bottom" secondItem="j76-h0-pQH" secondAttribute="bottom" constant="8" id="AtS-D2-D93"/>
-                            <constraint firstAttribute="centerY" secondItem="99L-M3-YcC" secondAttribute="centerY" id="gIe-ye-Ope"/>
+                            <constraint firstItem="puD-t2-fUB" firstAttribute="top" secondItem="qam-Ud-NtM" secondAttribute="top" id="BTl-Ly-U83"/>
+                            <constraint firstAttribute="bottom" secondItem="puD-t2-fUB" secondAttribute="bottom" id="BdL-9P-SZ0"/>
+                            <constraint firstItem="yPN-41-xC7" firstAttribute="top" secondItem="j76-h0-pQH" secondAttribute="top" id="Ozg-bO-bis"/>
+                            <constraint firstItem="puD-t2-fUB" firstAttribute="width" secondItem="see-O7-Ve3" secondAttribute="width" id="UVw-Qv-Cig"/>
+                            <constraint firstItem="yPN-41-xC7" firstAttribute="bottom" secondItem="j76-h0-pQH" secondAttribute="bottom" id="YhX-3D-46G"/>
+                            <constraint firstItem="see-O7-Ve3" firstAttribute="leading" secondItem="puD-t2-fUB" secondAttribute="trailing" constant="10" id="jsn-qw-8N4"/>
+                            <constraint firstAttribute="trailing" secondItem="see-O7-Ve3" secondAttribute="trailing" id="k6b-VL-nGG"/>
+                            <constraint firstAttribute="trailing" secondItem="yPN-41-xC7" secondAttribute="trailing" constant="10" id="l2g-zb-p1G"/>
                         </constraints>
                     </view>
                 </subviews>
+                <animations/>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="qam-Ud-NtM" secondAttribute="bottom" constant="5" id="0WF-gU-CMo"/>
                     <constraint firstItem="qam-Ud-NtM" firstAttribute="leading" secondItem="uBn-Zs-uUM" secondAttribute="leading" id="5GP-ID-elU"/>
@@ -52,11 +86,14 @@
                     <constraint firstAttribute="trailing" secondItem="qam-Ud-NtM" secondAttribute="trailing" id="ggj-1r-FHq"/>
                 </constraints>
             </tableViewCellContentView>
+            <animations/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <connections>
                 <outlet property="background" destination="qam-Ud-NtM" id="u7S-Pk-fmf"/>
-                <outlet property="iconImageView" destination="99L-M3-YcC" id="Nm3-lP-p7B"/>
+                <outlet property="cancelButton" destination="see-O7-Ve3" id="kw4-lv-TDi"/>
+                <outlet property="input" destination="yPN-41-xC7" id="eTp-GE-ZL2"/>
                 <outlet property="label" destination="j76-h0-pQH" id="VvA-eL-X7A"/>
+                <outlet property="okButton" destination="puD-t2-fUB" id="D0D-ah-UEE"/>
             </connections>
             <point key="canvasLocation" x="329" y="215"/>
         </tableViewCell>

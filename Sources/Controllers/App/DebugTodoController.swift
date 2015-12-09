@@ -143,7 +143,7 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
             let action = AlertAction(title: group, style: .Light, handler: { _ in self.addTodoItemInGroup(group) })
             alertController.addAction(action)
         }
-        let action = AlertAction(title: "Cancel", style: ActionStyle.Dark, handler: nil)
+        let action = AlertAction(title: NSLocalizedString("Cancel", comment: "Cancel"), style: .Dark, handler: nil)
         alertController.addAction(action)
 
         presentViewController(alertController, animated: true, completion: nil)
@@ -157,7 +157,7 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
             textField.spellCheckingType = .Default
             textField.placeholder = "Name"
         }
-        let done = UIAlertAction(title: "Done", style: .Default, handler: { action in
+        let done = UIAlertAction(title: NSLocalizedString("Done", comment: "Done"), style: .Default, handler: { action in
             if let field = ctlr.textFields?.safeValue(0),
                 text = field.text,
                 ref = self.todoListRef?.childByAutoId()

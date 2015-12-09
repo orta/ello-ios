@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SVGKit
 
 public class ElloButton: UIButton {
 
@@ -18,18 +19,18 @@ public class ElloButton: UIButton {
         didSet { updateStyle() }
     }
 
-    public func updateStyle() {
+    func updateStyle() {
         self.backgroundColor = enabled ? .blackColor() : .grey231F20()
     }
 
     required override public init(frame: CGRect) {
         super.init(frame: frame)
-        self.sharedSetup()
+        sharedSetup()
     }
 
     required public init?(coder: NSCoder) {
         super.init(coder: coder)
-        self.sharedSetup()
+        sharedSetup()
     }
 
     public override func awakeFromNib() {
@@ -54,11 +55,11 @@ public class ElloButton: UIButton {
 
 public class LightElloButton: ElloButton {
 
-    override public func updateStyle() {
+    override func updateStyle() {
         self.backgroundColor = enabled ? .greyE5() : .greyF1()
     }
 
-    override public func sharedSetup() {
+    override func sharedSetup() {
         self.titleLabel?.font = UIFont.typewriterFont(12)
         self.titleLabel?.numberOfLines = 1
         self.setTitleColor(UIColor.grey6(), forState: .Normal)
@@ -78,7 +79,7 @@ public class WhiteElloButton: ElloButton {
         super.init(coder: coder)
     }
 
-    override public func updateStyle() {
+    override func updateStyle() {
         if !enabled {
             self.backgroundColor = .greyA()
         }
@@ -90,7 +91,7 @@ public class WhiteElloButton: ElloButton {
         }
     }
 
-    override public func sharedSetup() {
+    override func sharedSetup() {
         super.sharedSetup()
         self.titleLabel?.font = UIFont.typewriterFont(12)
         self.setTitleColor(UIColor.blackColor(), forState: .Normal)
@@ -102,7 +103,7 @@ public class WhiteElloButton: ElloButton {
 
 public class OutlineElloButton: WhiteElloButton {
 
-    override public func sharedSetup() {
+    override func sharedSetup() {
         super.sharedSetup()
         self.setTitleColor(UIColor.blackColor(), forState: .Normal)
         self.setTitleColor(UIColor.greyE5(), forState: .Highlighted)
@@ -166,17 +167,44 @@ public class RoundedElloButton: ElloButton {
 }
 
 public class ElloPostButton: ElloButton {
+    var pencilView: UIImageView!
 
-    override public func updateStyle() {
+    override public var highlighted: Bool {
+        didSet {
+            updateStyle()
+        }
+    }
+
+    override func sharedSetup() {
+        setTitle(NSLocalizedString("Post", comment: "Post button title"), forState: .Normal)
+        titleLabel?.font = UIFont.regularFont(14)
+        setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        setTitleColor(UIColor.greyA(), forState: .Highlighted)
+        setTitleColor(UIColor.whiteColor(), forState: .Disabled)
+
+        let image = SVGKImage(named: "pencil_white").UIImage!
+        pencilView = UIImageView(image: image)
+        pencilView.center = bounds.center
+        pencilView.autoresizingMask = [.FlexibleRightMargin, .FlexibleTopMargin, .FlexibleBottomMargin]
+        addSubview(pencilView)
+
+        updateStyle()
+    }
+
+    override func updateStyle() {
+        let image = highlighted ? SVGKImage(named: "pencil_normal").UIImage! : SVGKImage(named: "pencil_white").UIImage!
+        pencilView.image = image
+
         backgroundColor = enabled ? .blackColor() : .greyA()
     }
 
-    override public func sharedSetup() {
-        titleLabel?.font = UIFont.typewriterFont(12)
-        setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        setTitleColor(UIColor.whiteColor(), forState: .Disabled)
-        updateStyle()
+    override public func layoutSubviews() {
+        super.layoutSubviews()
+        pencilView.frame.origin.x = 10
+        pencilView.center.y = bounds.size.height / 2
+        layer.cornerRadius = min(bounds.size.width, bounds.size.height) / 2
     }
+
 }
 
 

@@ -46,6 +46,9 @@ public class AlertViewController: UIViewController {
     @IBOutlet public weak var leftPadding: NSLayoutConstraint!
     @IBOutlet public weak var rightPadding: NSLayoutConstraint!
 
+    var keyboardWillShowObserver: NotificationObserver?
+    var keyboardWillHideObserver: NotificationObserver?
+
     // assign a contentView to show a message or spinner.  The contentView frame
     // size must be set.
     public var contentView: UIView? {
@@ -70,6 +73,17 @@ public class AlertViewController: UIViewController {
     public var autoDismiss = true
 
     public private(set) var actions: [AlertAction] = []
+    private var inputs: [String] = []
+    var actionInputs: [String] {
+        var retVals: [String] = []
+        for (index, action) in actions.enumerate() {
+            if action.isInput {
+                retVals.append(inputs[index])
+            }
+        }
+        return retVals
+    }
+
     private let textAlignment: NSTextAlignment
     public var type: AlertType = .Normal {
         didSet {
@@ -130,6 +144,10 @@ public extension AlertViewController {
 
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+
+        keyboardWillShowObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillShow, block: self.keyboardUpdateFrame)
+        keyboardWillHideObserver = NotificationObserver(notification: Keyboard.Notifications.KeyboardWillHide, block: self.keyboardUpdateFrame)
+
         if type == .Clear {
             leftPadding.constant = 5
             rightPadding.constant = 5
@@ -138,35 +156,60 @@ public extension AlertViewController {
 
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        tableView.scrollEnabled = (CGRectGetHeight(self.view.frame) == MaxHeight)
+        tableView.scrollEnabled = (view.frame.height == MaxHeight)
+    }
+
+    public override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        keyboardWillShowObserver?.removeObserver()
+        keyboardWillShowObserver = nil
+        keyboardWillHideObserver?.removeObserver()
+        keyboardWillHideObserver = nil
     }
 
     public func dismiss(animated: Bool = true, completion: ElloEmptyCompletion? = .None) {
         dismissViewControllerAnimated(animated, completion: completion)
+    }
+
+    func keyboardUpdateFrame(keyboard: Keyboard) {
+        let availHeight = UIWindow.mainWindow.frame.height - (Keyboard.shared().active ? Keyboard.shared().endFrame.height : 0)
+        let top = max(15, (availHeight - view.frame.height) / 2)
+        animate(duration: Keyboard.shared().duration) {
+            self.view.frame.origin.y = top
+
+            let bottomInset = Keyboard.shared().keyboardBottomInset(inView: self.tableView)
+            self.tableView.contentInset.bottom = bottomInset
+            self.tableView.scrollIndicatorInsets.bottom = bottomInset
+            self.tableView.scrollEnabled = (bottomInset > 0 || self.view.frame.height == MaxHeight)
+        }
     }
 }
 
 public extension AlertViewController {
     func addAction(action: AlertAction) {
         actions.append(action)
+        inputs.append("")
+
         tableView.reloadData()
     }
 
     func resetActions() {
         actions = []
+        inputs = []
+
         tableView.reloadData()
     }
 }
 
 extension AlertViewController {
     private func willSetContentView() {
-        if let contentView = self.contentView {
+        if let contentView = contentView {
             contentView.removeFromSuperview()
         }
     }
 
     private func didSetContentView() {
-        if let contentView = self.contentView {
+        if let contentView = contentView {
             self.tableView.hidden = true
             self.view.addSubview(contentView)
         }
@@ -192,7 +235,6 @@ extension AlertViewController: AlertHeaderDelegate {
         alertController.modalBackgroundColor = .clearColor()
         let gotItAction = AlertAction(
             title: NSLocalizedString("Got it", comment: "Ok"),
-            icon: nil,
             style: .Dark,
             handler: nil)
         alertController.addAction(gotItAction)
@@ -216,10 +258,10 @@ extension AlertViewController: UITableViewDelegate {
             dismiss()
         }
 
-        if let action = actions.safeValue(indexPath.row) {
-            nextTick {
-                action.handler?(action)
-            }
+        if let action = actions.safeValue(indexPath.row)
+            where !action.isInput
+        {
+            action.handler?(action)
         }
     }
 
@@ -248,12 +290,38 @@ extension AlertViewController: UITableViewDataSource {
     }
 
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(AlertCell.reuseIdentifier(), forIndexPath: indexPath)
-        if let action = actions.safeValue(indexPath.row) {
-            let presenter = AlertCellPresenter(action: action, textAlignment: textAlignment)
-            presenter.configureCell(cell, type: self.type)
+        let cell = tableView.dequeueReusableCellWithIdentifier(AlertCell.reuseIdentifier(), forIndexPath: indexPath) as! AlertCell
+
+        if let action = actions.safeValue(indexPath.row), input = inputs.safeValue(indexPath.row) {
+            action.configure(cell: cell, type: type, action: action, textAlignment: textAlignment)
+
+            cell.input.text = input
+            cell.onInputChanged = { text in
+                self.inputs[indexPath.row] = text
+            }
         }
+
+        cell.delegate = self
         cell.backgroundColor = type.cellColor
         return cell
+    }
+}
+
+extension AlertViewController: AlertCellDelegate {
+    public func tappedOkButton() {
+        dismiss()
+
+        if let action = actions.find({ action in
+            switch action.style {
+            case .OKCancel: return true
+            default: return false
+            }
+        }) {
+            action.handler?(action)
+        }
+    }
+
+    public func tappedCancelButton() {
+        dismiss()
     }
 }

@@ -15,6 +15,7 @@ public class OmnibarTextCell: UITableViewCell {
     }
 
     public let textView: UITextView
+    public var isFirst = false
 
     class func generateTextView() -> UITextView {
         let textView = UITextView()
@@ -37,8 +38,11 @@ public class OmnibarTextCell: UITableViewCell {
             if newValue.string.characters.count > 0 {
                 textView.attributedText = newValue
             }
+            else if isFirst {
+                textView.attributedText = ElloAttributedString.style("Say Ello...", [NSForegroundColorAttributeName: UIColor.blackColor()])
+            }
             else {
-                textView.attributedText = ElloAttributedString.style("Add more text...", [NSForegroundColorAttributeName: UIColor.greyC()])
+                textView.attributedText = ElloAttributedString.style("Add more text...", [NSForegroundColorAttributeName: UIColor.blackColor()])
             }
         }
     }

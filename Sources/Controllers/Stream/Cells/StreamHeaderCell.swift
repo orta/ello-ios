@@ -300,7 +300,7 @@ public class StreamHeaderCell: UICollectionViewCell {
         cellOpenObserver = NotificationObserver(notification: streamCellDidOpenNotification) { cell in
             if cell != self && self.isOpen {
                 nextTick {
-                    animate(0.25) {
+                    animate(duration: 0.25) {
                         self.close()
                     }
                 }

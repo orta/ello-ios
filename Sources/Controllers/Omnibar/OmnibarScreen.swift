@@ -58,15 +58,13 @@ public enum OmnibarRegion {
 
 public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     struct Size {
-        static let margins = UIEdgeInsets(top: 0, left: 15, bottom: 10, right: 15)
-        static let textMargins = UIEdgeInsets(top: 22, left: 30, bottom: 9, right: 30)
-        static let labelCorrection = CGFloat(8.5)
+        static let margins = UIEdgeInsets(top: 17, left: 15, bottom: 10, right: 15)
+        static let toolbarMargin = CGFloat(10)
         static let tableTopInset = CGFloat(22.5)
         static let bottomTextMargin = CGFloat(1)
-        static let toolbarMargins = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
-        static let toolbarHeight = CGFloat(45)
-        static let avatarHeight = CGFloat(40)
-        static let buttonMargin = CGFloat(10)
+        static let avatarSize = CGFloat(30)
+        static let keyboardButtonSize = CGSize(width: 54, height: 44)
+        static let keyboardButtonMargin = CGFloat(1)
     }
 
     class func canEditRegions(regions: [Regionable]?) -> Bool {
@@ -125,7 +123,8 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         willSet(newValue) {
             if avatarURL != newValue {
                 if let avatarURL = newValue {
-                    avatarButton.pin_setImageFromURL(avatarURL)                }
+                    avatarButton.pin_setImageFromURL(avatarURL)
+                }
                 else {
                     avatarButton.pin_cancelImageDownload()
                     avatarButton.setImage(nil, forState: .Normal)
@@ -158,20 +157,29 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
     weak public var delegate: OmnibarScreenDelegate?
 
-    public let navigationBar = ElloNavigationBar(frame: CGRectZero)
-
-    public let avatarButton = UIButton()
-    public let cancelButton = UIButton()
-    public let editButton = UIButton()
-    public let cameraButton = UIButton()
-    public let submitButton = ElloPostButton()
-    public let buttonContainer = UIView(frame: CGRect(x: 0, y: 0, width: 3 * Size.buttonMargin + 4 * Size.toolbarHeight, height: Size.toolbarHeight))
     let statusBarUnderlay = UIView(frame: CGRect(x: 0, y: 0, width: 320, height: 20))
+    let navigationBar = ElloNavigationBar(frame: CGRectZero)
+
+// MARK: toolbar buttons
+    var toolbarButtonViews: [UIView]!
+    let avatarButton = UIButton()
+    let cancelButton = UIButton()
+    let reorderButton = UIButton()
+    let submitButton = ElloPostButton()
+
+// MARK: keyboard buttons
+    var keyboardButtonViews: [UIView]!
+    var keyboardButtonView = UIView()
+    let boldButton = UIButton()
+    let italicButton = UIButton()
+    let linkButton = UIButton()
+    let keyboardCameraButton = UIButton()
+    let tabbarCameraButton = UIButton()
 
     let regionsTableView = UITableView()
     let textScrollView = UIScrollView()
     let textContainer = UIView()
-    public let textView: UITextView
+    let textView: UITextView
     var autoCompleteContainer = UIView()
     var autoCompleteThrottle = debounce(0.4)
     var autoCompleteShowing = false
@@ -182,6 +190,9 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         submitableRegions = [.Text("")]
         textView = OmnibarTextCell.generateTextView()
         textView.backgroundColor = UIColor.clearColor()
+        textView.tintColor = UIColor.blackColor()
+        textView.keyboardAppearance = .Dark
+
         super.init(frame: frame)
 
         backgroundColor = UIColor.whiteColor()
@@ -193,6 +204,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         setupNavigationBar()
         setupToolbarButtons()
         setupTableViews()
+        setupKeyboardViews()
         setupViewHierarchy()
     }
 
@@ -230,22 +242,17 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
     // buttons that make up the "toolbar"
     private func setupToolbarButtons() {
-        editButton.setSVGImages("reorder")
-        editButton.addTarget(self, action: Selector("toggleReorderingTable"), forControlEvents: .TouchUpInside)
-
-        cameraButton.setSVGImages("camera")
-        cameraButton.addTarget(self, action: Selector("addImageAction"), forControlEvents: .TouchUpInside)
-
+        cancelButton.contentEdgeInsets = UIEdgeInsets(top: 4, left: 7.5, bottom: 4, right: 7.5)
         cancelButton.setSVGImages("x")
         cancelButton.addTarget(self, action: Selector("cancelEditingAction"), forControlEvents: .TouchUpInside)
 
+        reorderButton.contentEdgeInsets = UIEdgeInsets(top: 4, left: 12.5, bottom: 4, right: 12.5)
+        reorderButton.setSVGImages("reorder")
+        reorderButton.addTarget(self, action: Selector("toggleReorderingTable"), forControlEvents: .TouchUpInside)
+
+        submitButton.contentEdgeInsets = UIEdgeInsets(top: 8, left: 35, bottom: 8, right: 15)
+        submitButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         submitButton.addTarget(self, action: Selector("submitAction"), forControlEvents: .TouchUpInside)
-        submitButton.setTitleColor(UIColor.whiteColor(), forState: .Disabled)
-        let image = SVGKImage(named: "arrow_white").UIImage!
-        let imageView = UIImageView(image: image)
-        imageView.center = CGPoint(x: submitButton.frame.width - image.size.width / 2 - 13, y: submitButton.frame.height / CGFloat(2))
-        imageView.autoresizingMask = [.FlexibleLeftMargin, .FlexibleTopMargin, .FlexibleBottomMargin]
-        submitButton.addSubview(imageView)
     }
 
     // The textContainer is the outer gray background.  The text view is
@@ -279,24 +286,90 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         textView.autocorrectionType = .Yes
     }
 
+    private func setupKeyboardViews() {
+        keyboardButtonViews = [
+            boldButton,
+            italicButton,
+            linkButton,
+        ]
+
+        keyboardButtonView.backgroundColor = UIColor.greyC()
+        for button in keyboardButtonViews as [UIView] {
+            button.backgroundColor = UIColor.greyA()
+            button.frame.size = Size.keyboardButtonSize
+        }
+
+        boldButton.addTarget(self, action: Selector("boldButtonTapped"), forControlEvents: .TouchUpInside)
+        boldButton.setAttributedTitle(NSAttributedString(string: "B", attributes: [
+            NSFontAttributeName: UIFont.typewriterBoldFont(12),
+            NSForegroundColorAttributeName: UIColor.whiteColor()
+        ]), forState: .Normal)
+        boldButton.setAttributedTitle(NSAttributedString(string: "B", attributes: [
+            NSFontAttributeName: UIFont.typewriterBoldFont(12),
+            NSForegroundColorAttributeName: UIColor.grey6()
+        ]), forState: .Highlighted)
+        boldButton.setAttributedTitle(NSAttributedString(string: "B", attributes: [
+            NSFontAttributeName: UIFont.typewriterBoldFont(12),
+            NSForegroundColorAttributeName: UIColor.blackColor()
+            ]), forState: .Selected)
+
+        italicButton.addTarget(self, action: Selector("italicButtonTapped"), forControlEvents: .TouchUpInside)
+        italicButton.setAttributedTitle(NSAttributedString(string: "I", attributes: [
+            NSFontAttributeName: UIFont.typewriterItalicFont(12),
+            NSForegroundColorAttributeName: UIColor.whiteColor()
+        ]), forState: .Normal)
+        italicButton.setAttributedTitle(NSAttributedString(string: "I", attributes: [
+            NSFontAttributeName: UIFont.typewriterItalicFont(12),
+            NSForegroundColorAttributeName: UIColor.grey6()
+        ]), forState: .Highlighted)
+        italicButton.setAttributedTitle(NSAttributedString(string: "I", attributes: [
+            NSFontAttributeName: UIFont.typewriterItalicFont(12),
+            NSForegroundColorAttributeName: UIColor.blackColor()
+            ]), forState: .Selected)
+
+        linkButton.addTarget(self, action: Selector("linkButtonTapped"), forControlEvents: .TouchUpInside)
+        linkButton.enabled = false
+        linkButton.setImage(SVGKImage(named: "link_white.svg").UIImage!, forState: .Normal)
+        linkButton.setImage(SVGKImage(named: "breaklink_white.svg").UIImage!, forState: .Selected)
+
+        for button in [tabbarCameraButton, keyboardCameraButton] {
+            button.backgroundColor = UIColor.blackColor()
+            button.setSVGImages("camera", white: true)
+            button.addTarget(self, action: Selector("addImageAction"), forControlEvents: .TouchUpInside)
+            button.frame.size.height = Size.keyboardButtonSize.height
+        }
+    }
+
     private func setupViewHierarchy() {
         let views = [
             regionsTableView,
             textScrollView,
             navigationBar,
             avatarButton,
-            buttonContainer,
         ]
         for view in views as [UIView] {
             self.addSubview(view)
         }
 
-        for view in [cancelButton, editButton, cameraButton, submitButton] as [UIView] {
-            buttonContainer.addSubview(view)
+        toolbarButtonViews = [
+            cancelButton,
+            reorderButton,
+            submitButton,
+        ]
+        for button in toolbarButtonViews as [UIView] {
+            self.addSubview(button)
         }
+
+        for button in keyboardButtonViews as [UIView] {
+            keyboardButtonView.addSubview(button)
+        }
+
+        addSubview(tabbarCameraButton)
+        keyboardButtonView.addSubview(keyboardCameraButton)
 
         textScrollView.addSubview(textContainer)
         textScrollView.addSubview(textView)
+        textView.inputAccessoryView = keyboardButtonView
         textScrollView.hidden = true
     }
 
@@ -356,6 +429,24 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         textScrollView.scrollsToTop = false
         regionsTableView.scrollsToTop = true
         currentTextPath = nil
+    }
+
+    private func updateCurrentText(text: NSAttributedString) {
+        if let path = currentTextPath {
+            updateText(text, atPath: path)
+        }
+    }
+
+    private func updateText(text: NSAttributedString, atPath path: NSIndexPath) {
+        let newRegion: OmnibarRegion = .AttributedText(text)
+        let (index, _) = editableRegions[path.row]
+        if let index = index {
+            submitableRegions[index] = newRegion
+            editableRegions[path.row] = (index, newRegion)
+
+            regionsTableView.reloadData()
+            updateEditingAtPath(path, scrollPosition: .Bottom)
+        }
     }
 
     public func startEditingAtPath(path: NSIndexPath) {
@@ -449,14 +540,14 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
             if reorderableRegions.count == 0 { return }
 
             stopEditing()
-            editButton.setSVGImages("check")
-            editButton.selected = true
+            reorderButton.setSVGImages("check")
+            reorderButton.selected = true
         }
         else {
             submitableRegions = convertReorderableRegions(reorderableRegions)
             editableRegions = generateEditableRegions(submitableRegions)
-            editButton.setSVGImages("reorder")
-            editButton.selected = false
+            reorderButton.setSVGImages("reorder")
+            reorderButton.selected = false
         }
 
         self.reordering = reordering
@@ -483,24 +574,16 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
     public func keyboardWillShow() {
         self.setNeedsLayout()
-        UIView.animateWithDuration(Keyboard.shared().duration,
-            delay: 0.0,
-            options: Keyboard.shared().options,
-            animations: {
-                self.layoutIfNeeded()
-            },
-            completion: nil)
+        animate(duration: Keyboard.shared().duration, options: Keyboard.shared().options) {
+            self.layoutIfNeeded()
+        }
     }
 
     public func keyboardWillHide() {
         self.setNeedsLayout()
-        UIView.animateWithDuration(Keyboard.shared().duration,
-            delay: 0.0,
-            options: Keyboard.shared().options,
-            animations: {
-                self.layoutIfNeeded()
-            },
-            completion: nil)
+        animate(duration: Keyboard.shared().duration, options: Keyboard.shared().options) {
+            self.layoutIfNeeded()
+        }
     }
 
     private func resignKeyboard() {
@@ -514,51 +597,71 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         super.layoutSubviews()
 
         let screenTop: CGFloat
-        let toolbarMargins: UIEdgeInsets
         if canGoBack {
             UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Slide)
             navigationBar.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: ElloNavigationBar.Size.height)
             screenTop = navigationBar.frame.height
             statusBarUnderlay.hidden = true
-            toolbarMargins = UIEdgeInsets(top: CGFloat(0), left: CGFloat(0), bottom: Size.toolbarMargins.bottom, right: Size.toolbarMargins.right)
         }
         else {
             screenTop = CGFloat(20)
             navigationBar.frame = CGRectZero
             statusBarUnderlay.hidden = false
-            toolbarMargins = Size.toolbarMargins
         }
 
-        buttonContainer.frame = CGRect(x: frame.width - toolbarMargins.right, y: screenTop + toolbarMargins.top, width: 0, height: Size.toolbarHeight + toolbarMargins.bottom)
-            .growLeft(buttonContainer.frame.width)
+        let toolbarTop = screenTop + Size.margins.top
+        var buttonX = frame.width - Size.margins.right
+        var firstMargin = CGFloat(10)
+        for view in toolbarButtonViews.reverse() {
+            view.frame.size = view.intrinsicContentSize()
+            buttonX -= view.frame.size.width
+            view.frame.origin = CGPoint(x: buttonX, y: toolbarTop)
 
-        var buttonX = CGFloat(0)
-        for view in buttonContainer.subviews {
-            view.frame.size = CGSize(width: Size.toolbarHeight, height: Size.toolbarHeight)
-            view.frame.origin = CGPoint(x: buttonX, y: 0)
-            buttonX += Size.buttonMargin + Size.toolbarHeight
+            buttonX -= firstMargin
+            firstMargin = 0
         }
 
         let avatarViewLeft = Size.margins.left
-        let avatarViewTop = buttonContainer.frame.minY + (Size.toolbarHeight - Size.avatarHeight) / 2
-        avatarButton.frame = CGRect(x: avatarViewLeft, y: avatarViewTop, width: Size.avatarHeight, height: Size.avatarHeight)
+        let avatarViewTop = toolbarTop
+        avatarButton.frame = CGRect(x: avatarViewLeft, y: avatarViewTop, width: Size.avatarSize, height: Size.avatarSize)
         avatarButton.layer.cornerRadius = avatarButton.frame.size.height / CGFloat(2)
 
-        regionsTableView.frame = CGRect(x: 0, y: buttonContainer.frame.maxY, right: bounds.size.width, bottom: bounds.size.height)
+        regionsTableView.frame = CGRect(x: 0, y: avatarButton.frame.maxY + Size.toolbarMargin, right: bounds.size.width, bottom: bounds.size.height)
         textScrollView.frame = regionsTableView.frame
 
         var bottomInset = Keyboard.shared().keyboardBottomInset(inView: self)
+
         if bottomInset == 0 {
-            bottomInset = ElloTabBar.Size.height + Size.margins.bottom
+            bottomInset = ElloTabBar.Size.height + Size.keyboardButtonSize.height
         }
         else {
-            bottomInset += Size.bottomTextMargin
+            bottomInset += Size.keyboardButtonSize.height
         }
 
         regionsTableView.contentInset.top = Size.tableTopInset
         regionsTableView.contentInset.bottom = bottomInset
         regionsTableView.scrollIndicatorInsets.bottom = bottomInset
         synchronizeScrollViews()
+
+        keyboardButtonView.frame.size = CGSize(width: frame.width, height: Size.keyboardButtonSize.height)
+        tabbarCameraButton.frame.size = CGSize(width: frame.width, height: Size.keyboardButtonSize.height)
+
+        if Keyboard.shared().active {
+            tabbarCameraButton.frame.origin.y = frame.height
+        }
+        else {
+            tabbarCameraButton.frame.origin.y = frame.height - ElloTabBar.Size.height - Size.keyboardButtonSize.height
+        }
+
+        var x = CGFloat(0)
+        for view in keyboardButtonViews {
+            view.frame.origin.x = x
+            x += view.frame.size.width
+            x += Size.keyboardButtonMargin
+        }
+        let remainingCameraWidth = frame.width - x
+        keyboardCameraButton.frame.origin.x = keyboardButtonView.frame.width - remainingCameraWidth
+        keyboardCameraButton.frame.size.width = remainingCameraWidth
     }
 
     private func synchronizeScrollViews() {
@@ -578,7 +681,6 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     }
 
     public func updateButtons() {
-        cameraButton.enabled = !reordering
         submitButton.enabled = !reordering && canPost()
     }
 
@@ -619,6 +721,157 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
             stopEditing()
             delegate?.omnibarSubmitted(submitableRegions)
         }
+    }
+
+    func boldButtonTapped() {
+        let font = textView.typingAttributes[NSFontAttributeName] as? UIFont
+        let fontName = font?.fontName ?? "AtlasTypewriter-Regular"
+
+        let newFont: UIFont
+        switch fontName {
+        case UIFont.typewriterEditorFont(12).fontName:
+            newFont = UIFont.typewriterEditorBoldFont(12)
+            boldButton.selected = true
+        case UIFont.typewriterEditorItalicFont(12).fontName:
+            newFont = UIFont.typewriterEditorBoldItalicFont(12)
+            boldButton.selected = true
+        case UIFont.typewriterEditorBoldFont(12).fontName:
+            newFont = UIFont.typewriterEditorFont(12)
+            boldButton.selected = false
+        case UIFont.typewriterEditorBoldItalicFont(12).fontName:
+            newFont = UIFont.typewriterEditorItalicFont(12)
+            boldButton.selected = false
+        default:
+            newFont = UIFont.typewriterEditorBoldFont(12)
+            boldButton.selected = true
+        }
+
+        if let selection = textView.selectedTextRange
+            where !selection.empty
+        {
+            let range = textView.selectedRange
+            let currentText = NSMutableAttributedString(attributedString: textView.attributedText)
+            let attributes = [NSFontAttributeName: newFont]
+            currentText.addAttributes(attributes, range: textView.selectedRange)
+            textView.attributedText = currentText
+            textView.selectedRange = range
+
+            updateCurrentText(currentText)
+        }
+        else {
+            textView.typingAttributes = ElloAttributedString.attrs([
+                NSFontAttributeName: newFont,
+            ])
+        }
+    }
+
+    func italicButtonTapped() {
+        let font = textView.typingAttributes[NSFontAttributeName] as? UIFont
+        let fontName = font?.fontName ?? "AtlasTypewriter-Regular"
+
+        let newFont: UIFont
+        switch fontName {
+        case UIFont.typewriterEditorFont(12).fontName:
+            newFont = UIFont.typewriterEditorItalicFont(12)
+            italicButton.selected = true
+        case UIFont.typewriterEditorItalicFont(12).fontName:
+            newFont = UIFont.typewriterEditorFont(12)
+            italicButton.selected = false
+        case UIFont.typewriterEditorBoldFont(12).fontName:
+            newFont = UIFont.typewriterEditorBoldItalicFont(12)
+            italicButton.selected = true
+        case UIFont.typewriterEditorBoldItalicFont(12).fontName:
+            newFont = UIFont.typewriterEditorBoldFont(12)
+            italicButton.selected = false
+        default:
+            newFont = UIFont.typewriterEditorItalicFont(12)
+            italicButton.selected = true
+        }
+
+        if let selection = textView.selectedTextRange
+            where !selection.empty
+        {
+            let range = textView.selectedRange
+            let currentText = NSMutableAttributedString(attributedString: textView.attributedText)
+            let attributes = [NSFontAttributeName: newFont]
+            currentText.addAttributes(attributes, range: textView.selectedRange)
+            textView.attributedText = currentText
+            textView.selectedRange = range
+
+            updateCurrentText(currentText)
+        }
+        else {
+            textView.typingAttributes = ElloAttributedString.attrs([
+                NSFontAttributeName: newFont,
+            ])
+        }
+    }
+
+    func linkButtonTapped() {
+        var range = textView.selectedRange
+        guard range.location != NSNotFound else { return }
+
+        if range.length == 0 {
+            range.location -= 1
+
+            var effectiveRange: NSRange? = NSRange(location: 0, length: 0)
+            if let _ = textView.textStorage.attribute(NSLinkAttributeName, atIndex: range.location, effectiveRange: &effectiveRange!),
+                effectiveRange = effectiveRange
+            {
+                range = effectiveRange
+            }
+        }
+        guard range.length > 0 else { return }
+
+        let currentAttrs = textView.textStorage.attributesAtIndex(range.location, effectiveRange: nil)
+        if currentAttrs[NSLinkAttributeName] != nil {
+            textView.textStorage.removeAttribute(NSLinkAttributeName, range: range)
+            textView.textStorage.removeAttribute(NSUnderlineStyleAttributeName, range: range)
+            linkButton.selected = false
+        }
+        else {
+            requestLinkURL() { url in
+                if let url = url {
+                    self.textView.textStorage.addAttributes([
+                        NSLinkAttributeName: url,
+                        NSUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue,
+                        ], range: range)
+                    self.linkButton.selected = true
+                    self.linkButton.enabled = true
+                    self.updateCurrentText(self.textView.textStorage)
+                }
+            }
+        }
+
+        linkButton.enabled = textView.selectedRange.length > 0
+    }
+
+    func requestLinkURL(handler: (NSURL?) -> Void) {
+        let alertController = AlertViewController()
+
+        let urlAction = AlertAction(title: NSLocalizedString("Enter the URL", comment: "Enter the URL"), style: .URLInput)
+        alertController.addAction(urlAction)
+
+        let okCancelAction = AlertAction(title: "", style: .OKCancel) { _ in
+            if let urlString = alertController.actionInputs.safeValue(0) {
+                let url: NSURL?
+                if let urlTest = NSURL(string: urlString) where urlTest.scheme != "" {
+                    url = urlTest
+                }
+                else if let urlTest = NSURL(string: "http://\(urlString)") {
+                    url = urlTest
+                }
+                else {
+                    url = nil
+                }
+
+                handler(url)
+            }
+        }
+        alertController.addAction(okCancelAction)
+
+        logPresentingAlert("OmnibarViewController")
+        delegate?.omnibarPresentController(alertController)
     }
 
 // MARK: Post logic
@@ -721,6 +974,7 @@ extension OmnibarScreen: UITableViewDelegate, UITableViewDataSource {
             case let .AttributedText(attributedText):
                 let textCell = cell as! OmnibarTextCell
                 textCell.attributedText = attributedText
+                textCell.isFirst = path.row == 0
             case let .Image(image, data, _):
                 let imageCell = cell as! OmnibarImageCell
                 if let data = data {
@@ -902,24 +1156,54 @@ extension OmnibarScreen: UITextViewDelegate {
     }
 
     public func textViewDidChange(textView: UITextView) {
-        if let path = currentTextPath, _ = regionsTableView.cellForRowAtIndexPath(path) {
+        if let path = currentTextPath
+            where regionsTableView.cellForRowAtIndexPath(path) != nil
+        {
             var currentText = textView.attributedText
             if currentText.string.characters.count == 0 {
                 currentText = ElloAttributedString.style("")
                 textView.typingAttributes = ElloAttributedString.attrs()
+                boldButton.selected = false
+                italicButton.selected = false
             }
 
-            let newRegion: OmnibarRegion = .AttributedText(currentText)
-            let (index, _) = editableRegions[path.row]
-            if let index = index {
-                submitableRegions[index] = newRegion
-                editableRegions[path.row] = (index, newRegion)
-
-                regionsTableView.reloadData()
-                updateEditingAtPath(path, scrollPosition: .Bottom)
-            }
+            updateText(currentText, atPath: path)
         }
         updateButtons()
+    }
+
+    public func textViewDidChangeSelection(textView: UITextView) {
+        let font = textView.typingAttributes[NSFontAttributeName] as? UIFont
+        let fontName = font?.fontName ?? "AtlasTypewriter-Regular"
+
+        switch fontName {
+        case UIFont.typewriterEditorItalicFont(12).fontName:
+            boldButton.selected = false
+            italicButton.selected = true
+        case UIFont.typewriterEditorBoldFont(12).fontName:
+            boldButton.selected = true
+            italicButton.selected = false
+        case UIFont.typewriterEditorBoldItalicFont(12).fontName:
+            boldButton.selected = true
+            italicButton.selected = true
+        default:
+            boldButton.selected = false
+            italicButton.selected = false
+        }
+
+        if let _ = textView.typingAttributes[NSLinkAttributeName] as? NSURL {
+            linkButton.selected = true
+            linkButton.enabled = true
+        }
+        else if let selection = textView.selectedTextRange
+        where selection.empty {
+            linkButton.selected = false
+            linkButton.enabled = false
+        }
+        else {
+            linkButton.selected = false
+            linkButton.enabled = true
+        }
     }
 
     private func emojiKeyboardShowing() -> Bool {
@@ -930,7 +1214,7 @@ extension OmnibarScreen: UITextViewDelegate {
         if autoCompleteShowing {
             autoCompleteShowing = false
             textView.autocorrectionType = .Yes
-            textView.inputAccessoryView = nil
+            textView.inputAccessoryView = keyboardButtonView
             textView.resignFirstResponder()
             textView.becomeFirstResponder()
         }
