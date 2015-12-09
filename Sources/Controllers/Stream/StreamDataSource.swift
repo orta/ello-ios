@@ -48,6 +48,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
     weak public var relationshipDelegate: RelationshipDelegate?
     weak public var simpleStreamDelegate: SimpleStreamDelegate?
     weak public var inviteDelegate: InviteDelegate?
+    weak public var columnToggleDelegate: ColumnToggleDelegate?
     public let inviteCache = InviteCache()
 
     public init(
@@ -239,7 +240,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
 
             switch streamCellItem.type {
             case .ColumnToggle:
-                (cell as! ColumnToggleCell).columnToggleDelegate = self
+                (cell as! ColumnToggleCell).columnToggleDelegate = columnToggleDelegate
             case .Footer:
                 (cell as! StreamFooterCell).delegate = postbarDelegate
             case .CreateComment:
@@ -756,14 +757,6 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         }
     }
 }
-
-extension StreamDataSource: ColumnToggleDelegate {
-
-    public func columnToggleTapped(gridMode: Bool) {
-        print("columnToggleTapped \(gridMode)")
-    }
-}
-
 
 // MARK: For Testing
 public extension StreamDataSource {

@@ -16,7 +16,7 @@ public struct ColumnToggleCellPresenter {
         currentUser: User?)
     {
         if let cell = cell as? ColumnToggleCell {
-
+            cell.isGridView = streamKind.isGridView
         }
     }
 }

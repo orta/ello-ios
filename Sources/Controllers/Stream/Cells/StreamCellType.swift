@@ -141,6 +141,7 @@ public enum StreamCellType: Equatable {
 
     public var configure: CellConfigClosure {
         switch self {
+        case ColumnToggle: return ColumnToggleCellPresenter.configure
         case CommentHeader, Header: return StreamHeaderCellPresenter.configure
         case CreateComment: return StreamCreateCommentCellPresenter.configure
         case Embed: return StreamEmbedCellPresenter.configure
@@ -223,6 +224,8 @@ public enum StreamCellType: Equatable {
 
     public var multiColumnHeight: CGFloat {
         switch self {
+        case .ColumnToggle:
+            return 40.0
         case CommentHeader,
              Header,
              InviteFriends,
@@ -261,7 +264,6 @@ public enum StreamCellType: Equatable {
              OnboardingHeader,
              ProfileHeader,
              SeeMoreComments,
-             Spacer,
              StreamLoading,
              UserAvatars,
              UserListItem:
@@ -273,6 +275,7 @@ public enum StreamCellType: Equatable {
              Image,
              Notification,
              RepostHeader,
+             Spacer,
              Text,
              Toggle,
              Unknown:

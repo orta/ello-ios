@@ -53,7 +53,7 @@ public class PostbarController: NSObject, PostbarDelegate {
     }
 
     public func commentsButtonTapped(cell:StreamFooterCell, imageLabelControl: ImageLabelControl) {
-        guard !dataSource.streamKind.isGridLayout else {
+        guard !dataSource.streamKind.isGridView else {
             cell.cancelCommentLoading()
             if let indexPath = collectionView.indexPathForCell(cell) {
                 self.viewsButtonTapped(indexPath)

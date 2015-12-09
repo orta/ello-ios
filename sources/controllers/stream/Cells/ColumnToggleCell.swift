@@ -9,19 +9,37 @@
 import Foundation
 
 public class ColumnToggleCell: UICollectionViewCell {
+
     static let reuseIdentifier = "ColumnToggleCell"
 
+    public var isGridView: Bool = false {
+        didSet {
+            gridButton.selected = isGridView
+            listButton.selected = !isGridView
+        }
+    }
     @IBOutlet weak var gridButton: UIButton!
-    @IBOutlet weak var singleButton: UIButton!
+    @IBOutlet weak var listButton: UIButton!
 
     weak var columnToggleDelegate: ColumnToggleDelegate?
 
-    @IBAction func gridTapped(sender: UIButton) {
-        columnToggleDelegate?.columnToggleTapped(true)
+    override public func awakeFromNib() {
+        super.awakeFromNib()
+        backgroundColor = UIColor.greyF2()
+        gridButton.setSVGImages("grid")
+        listButton.setSVGImages("list")
+        gridButton.backgroundColor = .greyF2()
+        listButton.backgroundColor = .greyF2()
     }
 
-    @IBAction func singleTapped(sender: UIButton) {
-        columnToggleDelegate?.columnToggleTapped(false)
+    @IBAction func gridTapped(sender: UIButton) {
+        isGridView = true
+        columnToggleDelegate?.columnToggleTapped(isGridView)
+    }
+
+    @IBAction func listTapped(sender: UIButton) {
+        isGridView = false
+        columnToggleDelegate?.columnToggleTapped(isGridView)
     }
 
 }

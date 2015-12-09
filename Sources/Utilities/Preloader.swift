@@ -85,11 +85,11 @@ public struct Preloader {
     }
 
     private func preloadUserAvatar(post: Post, streamKind: StreamKind) {
-        if let content = streamKind.isGridLayout ? post.summary: post.content {
+        if let content = post.content {
             for region in content {
                 if let imageRegion = region as? ImageRegion,
                     let asset = imageRegion.asset,
-                    let attachment = streamKind.isGridLayout ? asset.gridLayoutAttachment : asset.oneColumnAttachment
+                    let attachment = asset.oneColumnAttachment
                 {
                     preloadUrl(attachment.url)
                 }
@@ -98,7 +98,7 @@ public struct Preloader {
     }
 
     private func preloadImagesinPost(post: Post, streamKind: StreamKind) {
-        if let content = streamKind.isGridLayout ? post.summary: post.content {
+        if let content = post.content {
             preloadImagesInRegions(content, streamKind: streamKind)
         }
     }
@@ -107,8 +107,7 @@ public struct Preloader {
         for region in regions {
             if  let imageRegion = region as? ImageRegion,
                 let asset = imageRegion.asset,
-                let attachment = streamKind.isGridLayout ?
-                    asset.gridLayoutAttachment : asset.oneColumnAttachment
+                let attachment = asset.oneColumnAttachment
             {
                 preloadUrl(attachment.url)
             }
