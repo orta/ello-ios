@@ -34,7 +34,7 @@ public class TwoLineButton: UIButton {
 
     // MARK: Private
 
-    private func attributes(color: UIColor, font: UIFont, underline: Bool = false) -> [String : AnyObject] {
+    private func attributes(color: UIColor, font: UIFont) -> [String : AnyObject] {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 5
         paragraphStyle.alignment = .Left
@@ -43,7 +43,6 @@ public class TwoLineButton: UIButton {
             NSFontAttributeName : font,
             NSForegroundColorAttributeName : color,
             NSParagraphStyleAttributeName : paragraphStyle,
-            NSUnderlineStyleAttributeName : (underline ? NSUnderlineStyle.StyleSingle.rawValue : NSUnderlineStyle.StyleNone.rawValue)
         ]
     }
 
@@ -51,8 +50,8 @@ public class TwoLineButton: UIButton {
         let countNormalAttributes = attributes(UIColor.blackColor(), font: UIFont.regularBoldFont(12))
         let countSelectedAttributes = attributes(UIColor.greyA(), font: UIFont.regularBoldFont(12))
 
-        let titleNormalAttributes = attributes(UIColor.greyA(), font: UIFont.typewriterFont(12), underline: true)
-        let titleSelectedAttributes = attributes(UIColor.greyE5(), font: UIFont.typewriterFont(12), underline: true)
+        let titleNormalAttributes = attributes(UIColor.greyA(), font: UIFont.typewriterFont(12))
+        let titleSelectedAttributes = attributes(UIColor.greyE5(), font: UIFont.typewriterFont(12))
 
         let attributedNormalCount = NSAttributedString(string: count + "\n", attributes: countNormalAttributes)
         let attributedSelectedCount = NSAttributedString(string: count + "\n", attributes: countSelectedAttributes)

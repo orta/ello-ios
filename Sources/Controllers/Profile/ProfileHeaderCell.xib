@@ -3,14 +3,13 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="AtlasGroteskBold.otf">
             <string>AtlasGrotesk-Bold</string>
         </mutableArray>
         <mutableArray key="AtlasTypewriterRegular.otf">
-            <string>AtlasTypewriter-Regular</string>
             <string>AtlasTypewriter-Regular</string>
         </mutableArray>
     </customFonts>
@@ -28,13 +27,12 @@
                         <rect key="frame" x="0.0" y="110" width="600" height="490"/>
                         <subviews>
                             <button opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GKO-1x-QWx" userLabel="avatarButton" customClass="AvatarButton" customModule="Ello" customModuleProvider="target">
-                                <rect key="frame" x="15" y="-77" width="122" height="122"/>
+                                <rect key="frame" x="463" y="-61" width="122" height="122"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="122" id="3aZ-xd-avL" userLabel="avatarButton - height"/>
                                     <constraint firstAttribute="width" constant="122" id="7G6-ms-sEZ" userLabel="avatarButton - width"/>
-                                    <constraint firstAttribute="width" secondItem="GKO-1x-QWx" secondAttribute="height" multiplier="1:1" id="Ph8-FR-olc" userLabel="avatarButton - ratio"/>
                                 </constraints>
                                 <state key="normal">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -42,38 +40,21 @@
                                 </state>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6nJ-r0-lN7" userLabel="usernameLabel">
-                                <rect key="frame" x="15" y="120" width="510" height="18"/>
+                                <rect key="frame" x="22" y="23" width="109" height="18"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" name="AtlasGrotesk-Bold" family="Atlas Grotesk" pointSize="18"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NSFW" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jg3-QQ-cbq" userLabel="nsfwLabel" customClass="ElloLabel" customModule="Ello" customModuleProvider="target">
-                                <rect key="frame" x="540" y="120" width="45" height="18"/>
-                                <animations/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="45" id="Umw-Va-yXP" userLabel="nsfwLabel - width"/>
-                                    <constraint firstAttribute="height" constant="18" id="e8J-m3-1dj" userLabel="nsfwLabel - height"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="10"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="4sI-yA-gkk" userLabel="nameLabel">
-                                <rect key="frame" x="15" y="148" width="570" height="12"/>
+                                <rect key="frame" x="22" y="51" width="70" height="12"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="12"/>
                                 <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" placeholderIntrinsicWidth="82" placeholderIntrinsicHeight="30" translatesAutoresizingMaskIntoConstraints="NO" id="z1n-fe-u7L" userLabel="relationshipControl" customClass="RelationshipControl" customModule="Ello" customModuleProvider="target">
-                                <rect key="frame" x="511" y="10" width="82" height="30"/>
-                                <animations/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qUL-8u-vZD" userLabel="profileButtonsView">
-                                <rect key="frame" x="421" y="15" width="164" height="30"/>
+                                <rect key="frame" x="421" y="71" width="164" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kzz-fr-myT" userLabel="inviteButton">
                                         <rect key="frame" x="-5" y="-2" width="30" height="34"/>
@@ -112,12 +93,12 @@
                                 </constraints>
                             </view>
                             <webView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PtF-QI-fk2" userLabel="bioWebView">
-                                <rect key="frame" x="15" y="178" width="570" height="312"/>
+                                <rect key="frame" x="15" y="157" width="570" height="333"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </webView>
                             <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="34" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zV5-bQ-18e" customClass="TwoLineButton" customModule="Ello" customModuleProvider="target">
-                                <rect key="frame" x="15" y="59" width="50" height="34"/>
+                                <rect key="frame" x="15" y="93" width="50" height="34"/>
                                 <animations/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Posts">
@@ -128,7 +109,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="34" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gWi-lG-cJp" customClass="TwoLineButton" customModule="Ello" customModuleProvider="target">
-                                <rect key="frame" x="90" y="59" width="50" height="34"/>
+                                <rect key="frame" x="90" y="93" width="50" height="34"/>
                                 <animations/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Following">
@@ -139,7 +120,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="34" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FV1-FS-QMz" customClass="TwoLineButton" customModule="Ello" customModuleProvider="target">
-                                <rect key="frame" x="165" y="59" width="50" height="34"/>
+                                <rect key="frame" x="165" y="93" width="50" height="34"/>
                                 <animations/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Followers">
@@ -150,7 +131,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="34" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rQa-MW-cCK" customClass="TwoLineButton" customModule="Ello" customModuleProvider="target">
-                                <rect key="frame" x="240" y="59" width="50" height="34"/>
+                                <rect key="frame" x="240" y="93" width="50" height="34"/>
                                 <animations/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Loves">
@@ -164,31 +145,25 @@
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="GKO-1x-QWx" firstAttribute="leading" secondItem="U6M-uB-CWv" secondAttribute="leading" constant="15" id="2QO-Ec-DPT" userLabel="avatarButton - left"/>
-                            <constraint firstAttribute="trailing" secondItem="z1n-fe-u7L" secondAttribute="trailing" constant="7" id="9GS-Lt-V2i" userLabel="relationshipControl - right"/>
-                            <constraint firstItem="6nJ-r0-lN7" firstAttribute="top" secondItem="U6M-uB-CWv" secondAttribute="top" constant="120" id="Ddo-EZ-be4" userLabel="usernameLabel - top"/>
-                            <constraint firstAttribute="trailing" secondItem="jg3-QQ-cbq" secondAttribute="trailing" constant="15" id="Fsb-5X-fVf" userLabel="nsfwLabel - right"/>
+                            <constraint firstItem="zV5-bQ-18e" firstAttribute="top" secondItem="4sI-yA-gkk" secondAttribute="bottom" constant="30" id="8lf-xk-RmT"/>
                             <constraint firstItem="gWi-lG-cJp" firstAttribute="leading" secondItem="zV5-bQ-18e" secondAttribute="trailing" constant="25" id="L8y-zo-dCA"/>
-                            <constraint firstAttribute="trailing" secondItem="4sI-yA-gkk" secondAttribute="trailing" constant="15" id="LRT-Ky-0HQ" userLabel="nameLabel - right"/>
+                            <constraint firstAttribute="trailing" secondItem="GKO-1x-QWx" secondAttribute="trailing" constant="15" id="M2I-u4-D8V"/>
+                            <constraint firstItem="5A8-1y-eA5" firstAttribute="top" secondItem="GKO-1x-QWx" secondAttribute="bottom" constant="10" id="MWU-og-Ju4"/>
+                            <constraint firstItem="4sI-yA-gkk" firstAttribute="top" secondItem="6nJ-r0-lN7" secondAttribute="bottom" constant="10" id="T3z-Gz-rKC"/>
                             <constraint firstItem="gWi-lG-cJp" firstAttribute="top" secondItem="zV5-bQ-18e" secondAttribute="top" id="TuL-FF-5Vx"/>
                             <constraint firstItem="FV1-FS-QMz" firstAttribute="leading" secondItem="gWi-lG-cJp" secondAttribute="trailing" constant="25" id="WyN-Ml-Ufz"/>
                             <constraint firstAttribute="trailing" secondItem="qUL-8u-vZD" secondAttribute="trailing" constant="15" id="Y5o-4P-9X5" userLabel="profileButtonsView - right"/>
-                            <constraint firstItem="zV5-bQ-18e" firstAttribute="top" secondItem="U6M-uB-CWv" secondAttribute="top" constant="59" id="Ybu-by-AXv"/>
-                            <constraint firstItem="PtF-QI-fk2" firstAttribute="top" secondItem="U6M-uB-CWv" secondAttribute="top" constant="178" id="aCa-OD-wbJ" userLabel="bioWebView - top"/>
                             <constraint firstAttribute="bottom" secondItem="PtF-QI-fk2" secondAttribute="bottom" id="asL-h7-HRo" userLabel="bioWebView - bottom"/>
-                            <constraint firstItem="jg3-QQ-cbq" firstAttribute="top" secondItem="U6M-uB-CWv" secondAttribute="top" constant="120" id="bDt-Pv-fmh" userLabel="nsfwLabel - top"/>
-                            <constraint firstItem="4sI-yA-gkk" firstAttribute="top" secondItem="U6M-uB-CWv" secondAttribute="top" constant="148" id="bpo-CL-YJN" userLabel="nameLabel - top"/>
-                            <constraint firstItem="GKO-1x-QWx" firstAttribute="top" secondItem="U6M-uB-CWv" secondAttribute="top" constant="-77" id="dw5-Cp-ekQ" userLabel="avatarButton - top"/>
+                            <constraint firstItem="GKO-1x-QWx" firstAttribute="centerY" secondItem="U6M-uB-CWv" secondAttribute="top" id="dw5-Cp-ekQ" userLabel="avatarButton - top"/>
                             <constraint firstItem="FV1-FS-QMz" firstAttribute="top" secondItem="rQa-MW-cCK" secondAttribute="top" id="fLE-9x-27E"/>
-                            <constraint firstItem="4sI-yA-gkk" firstAttribute="leading" secondItem="U6M-uB-CWv" secondAttribute="leading" constant="15" id="fOj-SB-PJt" userLabel="nameLabel - left"/>
-                            <constraint firstAttribute="trailing" secondItem="6nJ-r0-lN7" secondAttribute="trailing" constant="75" id="g4B-Iy-Q5X" userLabel="usernameRightConstraint"/>
+                            <constraint firstItem="4sI-yA-gkk" firstAttribute="leading" secondItem="U6M-uB-CWv" secondAttribute="leading" constant="22" id="fOj-SB-PJt" userLabel="nameLabel - left"/>
                             <constraint firstItem="gWi-lG-cJp" firstAttribute="top" secondItem="FV1-FS-QMz" secondAttribute="top" id="gHh-Cw-fxe"/>
                             <constraint firstAttribute="trailing" secondItem="PtF-QI-fk2" secondAttribute="trailing" constant="15" id="hke-ib-z8g" userLabel="bioWebView - right"/>
-                            <constraint firstItem="6nJ-r0-lN7" firstAttribute="leading" secondItem="U6M-uB-CWv" secondAttribute="leading" constant="15" id="hxF-e7-Mft" userLabel="usernameLabel - left"/>
+                            <constraint firstItem="6nJ-r0-lN7" firstAttribute="leading" secondItem="U6M-uB-CWv" secondAttribute="leading" constant="22" id="hxF-e7-Mft" userLabel="usernameLabel - left"/>
                             <constraint firstItem="PtF-QI-fk2" firstAttribute="leading" secondItem="U6M-uB-CWv" secondAttribute="leading" constant="15" id="iXW-yx-3h5" userLabel="bioWebView - left"/>
-                            <constraint firstItem="qUL-8u-vZD" firstAttribute="top" secondItem="U6M-uB-CWv" secondAttribute="top" constant="15" id="j0U-0u-ejJ" userLabel="profileButtonsView - top"/>
+                            <constraint firstItem="PtF-QI-fk2" firstAttribute="top" secondItem="zV5-bQ-18e" secondAttribute="bottom" constant="30" id="lxA-cc-mIY"/>
                             <constraint firstItem="rQa-MW-cCK" firstAttribute="leading" secondItem="FV1-FS-QMz" secondAttribute="trailing" constant="25" id="nGC-2a-7Pa"/>
-                            <constraint firstItem="z1n-fe-u7L" firstAttribute="top" secondItem="U6M-uB-CWv" secondAttribute="top" constant="10" id="qqq-bR-0mq" userLabel="relationshipControl - top"/>
+                            <constraint firstItem="4sI-yA-gkk" firstAttribute="baseline" secondItem="GKO-1x-QWx" secondAttribute="bottom" id="p63-LA-Zui"/>
                             <constraint firstItem="zV5-bQ-18e" firstAttribute="leading" secondItem="U6M-uB-CWv" secondAttribute="leading" constant="15" id="vbw-Bn-rGH"/>
                         </constraints>
                     </view>
@@ -214,12 +189,9 @@
                 <outlet property="inviteButton" destination="kzz-fr-myT" id="BfZ-yc-FUH"/>
                 <outlet property="lovesButton" destination="rQa-MW-cCK" id="jPK-SM-55L"/>
                 <outlet property="nameLabel" destination="4sI-yA-gkk" id="I9n-2e-2mB"/>
-                <outlet property="nsfwLabel" destination="jg3-QQ-cbq" id="eOp-A0-dm6"/>
                 <outlet property="postsButton" destination="zV5-bQ-18e" id="sSJ-kH-vgM"/>
                 <outlet property="profileButtonsView" destination="qUL-8u-vZD" id="BzV-jE-ocb"/>
-                <outlet property="relationshipControl" destination="z1n-fe-u7L" id="RL1-u0-atC"/>
                 <outlet property="usernameLabel" destination="6nJ-r0-lN7" id="l3X-Xg-ciD"/>
-                <outlet property="usernameRightConstraint" destination="g4B-Iy-Q5X" id="kyg-Zh-flK"/>
                 <outlet property="viewTopConstraint" destination="joA-XB-bkx" id="KPR-mq-9Eo"/>
             </connections>
             <point key="canvasLocation" x="822" y="484"/>

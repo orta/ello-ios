@@ -569,7 +569,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
     private func resetEditor() {
         hideAutoComplete(textView)
-        resignKeyboard()
+        stopEditing()
         textView.text = ""
         updateButtons()
         submitableRegions = [.Text("")]

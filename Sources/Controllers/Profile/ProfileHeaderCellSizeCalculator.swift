@@ -9,15 +9,15 @@
 import Foundation
 
 public class ProfileHeaderCellSizeCalculator: NSObject {
+    static let ratio: CGFloat = 16.0/9.0
 
     let webView: UIWebView
     var maxWidth: CGFloat = 0.0
     public var cellItems: [StreamCellItem] = []
     public var completion: ElloEmptyCompletion = {}
-    let ratio:CGFloat = 16.0/9.0
 
-    required public init(webView wv: UIWebView) {
-        self.webView = wv
+    required public init(webView: UIWebView) {
+        self.webView = webView
         super.init()
         webView.delegate = self
     }
@@ -44,27 +44,35 @@ public class ProfileHeaderCellSizeCalculator: NSObject {
         }
     }
 
-    private func assignCellHeight(hv: CGFloat) {
+    private func assignCellHeight(webViewHeight: CGFloat) {
         if let cellItem = cellItems.safeValue(0) {
+            let height = ProfileHeaderCellSizeCalculator.calculateHeightBasedOn(
+                webViewHeight: webViewHeight,
+                width: maxWidth
+                )
             self.cellItems.removeAtIndex(0)
-            var height: CGFloat = maxWidth / ratio // cover image size
-            height += 193.0 // top of webview
-            // add web view height and bottom padding
-            if hv > 0.0 {
-                height += hv
-            }
+            cellItem.calculatedWebHeight = webViewHeight
             cellItem.calculatedOneColumnCellHeight = height
             cellItem.calculatedMultiColumnCellHeight = height
         }
         loadNext()
     }
+
+    class func calculateHeightBasedOn(webViewHeight webViewHeight: CGFloat, width: CGFloat) -> CGFloat {
+        var height: CGFloat = width / ratio // cover image size
+        height += 166 // top of webview
+        // add web view height and bottom padding
+        height += max(webViewHeight, 0)
+        return height
+    }
+
 }
 
 extension ProfileHeaderCellSizeCalculator: UIWebViewDelegate {
 
     public func webViewDidFinishLoad(webView: UIWebView) {
-        let jsResult = webView.stringByEvaluatingJavaScriptFromString("window.contentHeight()") ?? "0.0"
-        assignCellHeight(CGFloat((jsResult as NSString).doubleValue))
+        let webViewHeight = webView.windowContentSize()?.height ?? 0
+        assignCellHeight(webViewHeight)
     }
 
 }

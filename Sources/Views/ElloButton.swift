@@ -34,6 +34,11 @@ public class ElloButton: UIButton {
 
     public override func awakeFromNib() {
         super.awakeFromNib()
+
+        if buttonType != .Custom {
+            print("Warning, ElloButton instance '\(currentTitle)' should be configured as 'Custom', not \(buttonType)")
+        }
+
         updateStyle()
     }
 
@@ -118,6 +123,48 @@ public class OutlineElloButton: WhiteElloButton {
     }
 }
 
+
+public class RoundedElloButton: ElloButton {
+    var borderColor: UIColor = UIColor.blackColor() {
+        didSet {
+            updateOutline()
+        }
+    }
+    var titleColor: UIColor = UIColor.blackColor() {
+        didSet {
+            updateStyle()
+        }
+    }
+
+    override public func updateStyle() {
+        setTitleColor(titleColor, forState: .Normal)
+        setTitleColor(UIColor.greyE5(), forState: .Highlighted)
+        setTitleColor(UIColor.greyC(), forState: .Disabled)
+    }
+
+    override public func sharedSetup() {
+        super.sharedSetup()
+        backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
+        updateOutline()
+    }
+
+    override public var highlighted: Bool {
+        didSet {
+            updateOutline()
+        }
+    }
+
+    private func updateOutline() {
+        layer.borderColor = highlighted ? UIColor.greyE5().CGColor : borderColor.CGColor
+        layer.borderWidth = 1
+    }
+
+    override public func layoutSubviews() {
+        super.layoutSubviews()
+        layer.cornerRadius = min(frame.height, frame.width) / 2
+    }
+}
+
 public class ElloPostButton: ElloButton {
 
     override public func updateStyle() {
@@ -129,5 +176,26 @@ public class ElloPostButton: ElloButton {
         setTitleColor(UIColor.whiteColor(), forState: .Normal)
         setTitleColor(UIColor.whiteColor(), forState: .Disabled)
         updateStyle()
+    }
+}
+
+
+public class ElloMentionButton: RoundedElloButton {
+    override public func updateStyle() {
+        setTitleColor(titleColor, forState: .Normal)
+        setTitleColor(UIColor.whiteColor(), forState: .Highlighted)
+        setTitleColor(UIColor.greyC(), forState: .Disabled)
+    }
+
+    override public var highlighted: Bool {
+        didSet {
+            updateOutline()
+        }
+    }
+
+    override private func updateOutline() {
+        backgroundColor = highlighted ? UIColor.grey4D() : UIColor.whiteColor().colorWithAlphaComponent(0.5)
+        layer.borderColor = highlighted ? UIColor.blackColor().CGColor : borderColor.CGColor
+        layer.borderWidth = 1
     }
 }

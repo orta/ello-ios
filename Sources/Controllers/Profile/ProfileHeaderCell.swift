@@ -20,6 +20,8 @@ public protocol PostsTappedResponder {
 }
 
 public class ProfileHeaderCell: UICollectionViewCell {
+    typealias WebContentReady = (webView : UIWebView) -> Void
+
     // this little hack prevents constraints from breaking on initial load
     override public var bounds: CGRect {
         didSet {
@@ -27,21 +29,19 @@ public class ProfileHeaderCell: UICollectionViewCell {
         }
     }
 
-    weak var avatarButton: AvatarButton!
+    @IBOutlet weak var avatarButton: AvatarButton!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
-    weak var relationshipControl: RelationshipControl!
     @IBOutlet weak var viewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var bioWebView: UIWebView!
     @IBOutlet weak var profileButtonsView: UIView!
     @IBOutlet weak var editProfileButton: OutlineElloButton!
-    weak public var postsButton: TwoLineButton!
-    weak var followersButton: TwoLineButton!
-    weak var followingButton: TwoLineButton!
-    weak var lovesButton: TwoLineButton!
+    @IBOutlet weak var postsButton: TwoLineButton!
+    @IBOutlet weak var followersButton: TwoLineButton!
+    @IBOutlet weak var followingButton: TwoLineButton!
+    @IBOutlet weak var lovesButton: TwoLineButton!
     @IBOutlet weak var inviteButton: UIButton!
-    weak var nsfwLabel: ElloLabel!
-    @IBOutlet weak var usernameRightConstraint: NSLayoutConstraint!
+
     weak var webLinkDelegate: WebLinkDelegate?
     weak var simpleStreamDelegate: SimpleStreamDelegate?
     var user: User? {
@@ -50,6 +50,7 @@ public class ProfileHeaderCell: UICollectionViewCell {
         }
     }
     var currentUser: User?
+    var webContentReady: WebContentReady?
 
     override public func awakeFromNib() {
         super.awakeFromNib()
@@ -57,6 +58,10 @@ public class ProfileHeaderCell: UICollectionViewCell {
         bioWebView.delegate = self
         editProfileButton.titleLabel?.font = UIFont.typewriterFont(12.0)
         avatarButton.starIconHidden = true
+    }
+
+    func onWebContentReady(handler: WebContentReady?) {
+        webContentReady = handler
     }
 
     override public func layoutSubviews() {
@@ -78,11 +83,6 @@ public class ProfileHeaderCell: UICollectionViewCell {
     private func style() {
         usernameLabel.font = UIFont.regularBoldFont(18.0)
         usernameLabel.textColor = UIColor.blackColor()
-
-        nsfwLabel.font = UIFont.typewriterFont(10.0)
-        nsfwLabel.textColor = UIColor.greyA()
-        nsfwLabel.backgroundColor = UIColor.greyE5()
-        nsfwLabel.text = NSLocalizedString("NSFW", comment: "Not Safe For Work")
 
         nameLabel.font = UIFont.typewriterFont(12.0)
         nameLabel.textColor = UIColor.greyA()
@@ -167,5 +167,6 @@ extension ProfileHeaderCell: UIWebViewDelegate {
         UIView.animateWithDuration(0.15) {
             self.contentView.alpha = 1.0
         }
+        webContentReady?(webView: webView)
     }
 }

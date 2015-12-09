@@ -256,7 +256,6 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                 (cell as! NotificationCell).userDelegate = userDelegate
                 (cell as! NotificationCell).delegate = notificationDelegate
             case .ProfileHeader:
-                (cell as! ProfileHeaderCell).relationshipControl.relationshipDelegate = relationshipDelegate
                 (cell as! ProfileHeaderCell).simpleStreamDelegate = simpleStreamDelegate
                 (cell as! ProfileHeaderCell).webLinkDelegate = webLinkDelegate
             case .RepostHeader:

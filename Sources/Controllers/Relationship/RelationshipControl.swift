@@ -10,7 +10,6 @@ import SVGKit
 
 private let ViewHeight: CGFloat = 30
 private let ButtonWidth: CGFloat = 30
-private let MoreButtonMargin: CGFloat = 5
 private let StarredButtonMargin: CGFloat = 7
 private let MinViewWidth: CGFloat = 105
 
@@ -21,13 +20,6 @@ public class RelationshipControl: UIView {
         let button = UIButton()
         button.setImage(SVGKImage(named: "star_normal.svg").UIImage!, forState: .Normal)
         button.setImage(SVGKImage(named: "star_selected.svg").UIImage!, forState: .Highlighted)
-        return button
-    }()
-
-    lazy public var moreButton: UIButton = {
-        let button = UIButton(type: .Custom)
-        button.frame = CGRect(x:0, y: 0, width: 44, height: ViewHeight)
-        button.setSVGImages("dots")
         return button
     }()
 
@@ -42,14 +34,6 @@ public class RelationshipControl: UIView {
     public var showStarredButton = true {
         didSet {
             starredButton.hidden = !showStarredButton
-            setNeedsLayout()
-            invalidateIntrinsicContentSize()
-        }
-    }
-
-    public var showMoreButton = false {
-        didSet {
-            moreButton.hidden = !showMoreButton
             setNeedsLayout()
             invalidateIntrinsicContentSize()
         }
@@ -73,8 +57,8 @@ public class RelationshipControl: UIView {
         addSubviews()
         addTargets()
         starredButton.hidden = !showStarredButton
-        moreButton.hidden = !showMoreButton
         updateRelationshipPriority()
+        backgroundColor = .clearColor()
     }
 
     public override func intrinsicContentSize() -> CGSize {
@@ -91,30 +75,15 @@ public class RelationshipControl: UIView {
             totalSize.width += ButtonWidth + StarredButtonMargin
         }
 
-        if showMoreButton {
-            totalSize.width += ButtonWidth + MoreButtonMargin
-        }
-
         return totalSize
     }
 
     // MARK: IBActions
 
-    @IBAction func moreTapped(sender: UIButton) {
-        guard let relationshipDelegate = relationshipDelegate else {
-            return
-        }
-
-        relationshipDelegate.launchBlockModal(userId, userAtName: userAtName, relationshipPriority: relationshipPriority) {
-            [unowned self] relationshipPriority in
-            self.relationshipPriority = relationshipPriority
-        }
-    }
-
     @IBAction func starredButtonTapped(sender: UIButton) {
         switch relationshipPriority {
         case .Mute:
-            launchBlockModal()
+            launchUnmuteModal()
         case .Starred:
             handleUnstar()
         default:
@@ -125,7 +94,7 @@ public class RelationshipControl: UIView {
     @IBAction func followingButtonTapped(sender: UIButton) {
         switch relationshipPriority {
         case .Mute:
-            launchBlockModal()
+            launchUnmuteModal()
         case .Following:
             handleUnfollow()
         case .Starred:
@@ -135,7 +104,7 @@ public class RelationshipControl: UIView {
         }
     }
 
-    private func launchBlockModal() {
+    private func launchUnmuteModal() {
         guard relationshipPriority == .Mute else {
             return
         }
@@ -189,13 +158,11 @@ public class RelationshipControl: UIView {
 
     // MARK: Private
     private func addSubviews() {
-        addSubview(moreButton)
         addSubview(starredButton)
         addSubview(followingButton)
     }
 
     private func addTargets() {
-        moreButton.addTarget(self, action: Selector("moreTapped:"), forControlEvents: .TouchUpInside)
         followingButton.addTarget(self, action: Selector("followingButtonTapped:"), forControlEvents: .TouchUpInside)
         starredButton.addTarget(self, action: Selector("starredButtonTapped:"), forControlEvents: .TouchUpInside)
     }
@@ -224,16 +191,6 @@ public class RelationshipControl: UIView {
         super.layoutSubviews()
 
         let starredButtonWidth: CGFloat
-        let moreButtonWidth: CGFloat
-
-        if showMoreButton {
-            moreButton.frame = CGRect(x: 0, y: 0, width: ButtonWidth, height: ViewHeight)
-            moreButtonWidth = ButtonWidth + MoreButtonMargin
-        }
-        else {
-            moreButton.frame = CGRectZero
-            moreButtonWidth = 0
-        }
 
         if showStarredButton {
             starredButton.frame = CGRect(x: frame.width - ButtonWidth, y: 0, width: ButtonWidth, height: ViewHeight)
@@ -244,7 +201,7 @@ public class RelationshipControl: UIView {
             starredButtonWidth = 0
         }
 
-        followingButton.frame = bounds.inset(top: 0, left: moreButtonWidth, bottom: 0, right: starredButtonWidth)
+        followingButton.frame = bounds.inset(top: 0, left: 0, bottom: 0, right: starredButtonWidth)
     }
 
     private enum Config {
@@ -291,7 +248,7 @@ public class RelationshipControl: UIView {
         var normalBackgroundColor: UIColor {
             switch self {
             case .Muted: return .redColor()
-            case .None: return .whiteColor()
+            case .None: return UIColor.whiteColor().colorWithAlphaComponent(0.5)
             default: return .blackColor()
             }
         }
@@ -347,6 +304,11 @@ public class RelationshipControl: UIView {
             updateOutline()
             config = .None
             backgroundColor = config.normalBackgroundColor
+        }
+
+        override func layoutSubviews() {
+            super.layoutSubviews()
+            layer.cornerRadius = min(frame.height, frame.width) / 2
         }
 
         override var highlighted: Bool {

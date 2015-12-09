@@ -20,9 +20,10 @@ public protocol UserTappedDelegate : NSObjectProtocol {
 }
 
 public protocol CreatePostDelegate: NSObjectProtocol {
-    func createComment(post: Post, text: String?, fromController: StreamViewController)
-    func editComment(comment: Comment, fromController: StreamViewController)
-    func editPost(post: Post, fromController: StreamViewController)
+    func createPost(text text: String?, fromController: UIViewController)
+    func createComment(post: Post, text: String?, fromController: UIViewController)
+    func editComment(comment: Comment, fromController: UIViewController)
+    func editPost(post: Post, fromController: UIViewController)
 }
 
 public protocol InviteResponder: NSObjectProtocol {
@@ -223,20 +224,29 @@ extension StreamableViewController: UserTappedDelegate {
 
 // MARK: CreatePostDelegate
 extension StreamableViewController: CreatePostDelegate {
-    public func createComment(post: Post, text: String?, fromController: StreamViewController) {
-        let vc = OmnibarViewController(parentPost: post, defaultText: text)
+    public func createPost(text text: String?, fromController: UIViewController) {
+        let vc = OmnibarViewController(defaultText: text)
         vc.currentUser = self.currentUser
-        vc.onCommentSuccess() { _ in
+        vc.onPostSuccess { _ in
             self.navigationController?.popViewControllerAnimated(true)
         }
         self.navigationController?.pushViewController(vc, animated: true)
     }
 
-    public func editComment(comment: Comment, fromController: StreamViewController) {
+    public func createComment(post: Post, text: String?, fromController: UIViewController) {
+        let vc = OmnibarViewController(parentPost: post, defaultText: text)
+        vc.currentUser = self.currentUser
+        vc.onCommentSuccess { _ in
+            self.navigationController?.popViewControllerAnimated(true)
+        }
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+
+    public func editComment(comment: Comment, fromController: UIViewController) {
         if OmnibarViewController.canEditRegions(comment.content) {
             let vc = OmnibarViewController(editComment: comment)
             vc.currentUser = self.currentUser
-            vc.onCommentSuccess() { _ in
+            vc.onCommentSuccess { _ in
                 self.navigationController?.popViewControllerAnimated(true)
             }
             self.navigationController?.pushViewController(vc, animated: true)
@@ -250,7 +260,7 @@ extension StreamableViewController: CreatePostDelegate {
         }
     }
 
-    public func editPost(post: Post, fromController: StreamViewController) {
+    public func editPost(post: Post, fromController: UIViewController) {
         if OmnibarViewController.canEditRegions(post.content) {
             let vc = OmnibarViewController(editPost: post)
             vc.currentUser = self.currentUser

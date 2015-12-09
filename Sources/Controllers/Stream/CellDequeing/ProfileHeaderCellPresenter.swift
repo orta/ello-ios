@@ -23,9 +23,20 @@ public struct ProfileHeaderCellPresenter {
             let user = streamCellItem.jsonable as! User
             cell.user = user
             cell.currentUser = currentUser
-            cell.relationshipControl.hidden = false
-            cell.nsfwLabel.hidden = true
-            cell.usernameRightConstraint.constant = user.postsAdultContent ? 75.0 : 15.0
+
+            cell.onWebContentReady { webView in
+                let webViewHeight = webView.windowContentSize()?.height ?? 0
+                let actualHeight = ProfileHeaderCellSizeCalculator.calculateHeightBasedOn(
+                    webViewHeight: webViewHeight,
+                    width: cell.frame.size.width
+                    )
+                if actualHeight != streamCellItem.calculatedOneColumnCellHeight {
+                    streamCellItem.calculatedWebHeight = webViewHeight
+                    streamCellItem.calculatedOneColumnCellHeight = actualHeight
+                    streamCellItem.calculatedMultiColumnCellHeight = actualHeight
+                    postNotification(StreamNotification.UpdateCellHeightNotification, value: cell)
+                }
+            }
 
             let isCurrentUser: Bool
             if let currentUser = currentUser {
@@ -34,10 +45,7 @@ public struct ProfileHeaderCellPresenter {
             else {
                 isCurrentUser = false
             }
-            cell.relationshipControl.hidden = isCurrentUser
-
-            cell.profileButtonsView.hidden = !cell.relationshipControl.hidden
-            cell.relationshipControl.showMoreButton = !cell.relationshipControl.hidden
+            cell.profileButtonsView.hidden = true
 
             if let cachedImage = TemporaryCache.load(.Avatar)
                 where isCurrentUser
@@ -46,9 +54,6 @@ public struct ProfileHeaderCellPresenter {
             }
 
             cell.viewTopConstraint.constant = UIWindow.windowWidth() / ratio
-            cell.relationshipControl.userId = user.id
-            cell.relationshipControl.userAtName = user.atName
-            cell.relationshipControl.relationshipPriority = user.relationshipPriority
             cell.usernameLabel.text = user.atName
             cell.nameLabel.text = user.name
             cell.bioWebView.loadHTMLString(StreamTextCellHTML.postHTML(user.headerHTMLContent), baseURL: NSURL(string: "/"))
