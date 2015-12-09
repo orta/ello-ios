@@ -6,11 +6,11 @@
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
     </dependencies>
     <customFonts key="customFonts">
-        <mutableArray key="AtlasGroteskBold.otf">
-            <string>AtlasGrotesk-Bold</string>
+        <mutableArray key="AtlasGroteskRegular.otf">
+            <string>AtlasGrotesk-Regular</string>
         </mutableArray>
-        <mutableArray key="AtlasTypewriterRegular.otf">
-            <string>AtlasTypewriter-Regular</string>
+        <mutableArray key="AtlasTypewriterBold.otf">
+            <string>AtlasTypewriter-Bold</string>
         </mutableArray>
     </customFonts>
     <objects>
@@ -40,16 +40,16 @@
                                 </state>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6nJ-r0-lN7" userLabel="usernameLabel">
-                                <rect key="frame" x="22" y="23" width="109" height="18"/>
+                                <rect key="frame" x="22" y="23" width="92.5" height="16"/>
                                 <animations/>
-                                <fontDescription key="fontDescription" name="AtlasGrotesk-Bold" family="Atlas Grotesk" pointSize="18"/>
+                                <fontDescription key="fontDescription" name="AtlasTypewriter-Bold" family="Atlas Typewriter" pointSize="16"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="4sI-yA-gkk" userLabel="nameLabel">
-                                <rect key="frame" x="22" y="51" width="70" height="12"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Full Name" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="4sI-yA-gkk" userLabel="nameLabel">
+                                <rect key="frame" x="22" y="49" width="68.5" height="14"/>
                                 <animations/>
-                                <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="12"/>
+                                <fontDescription key="fontDescription" name="AtlasGrotesk-Regular" family="Atlas Grotesk" pointSize="14"/>
                                 <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>

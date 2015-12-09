@@ -56,7 +56,7 @@ public class ProfileHeaderCell: UICollectionViewCell {
         super.awakeFromNib()
         style()
         bioWebView.delegate = self
-        editProfileButton.titleLabel?.font = UIFont.typewriterFont(12.0)
+        editProfileButton.titleLabel?.font = UIFont.defaultFont()
         avatarButton.starIconHidden = true
     }
 
@@ -81,10 +81,10 @@ public class ProfileHeaderCell: UICollectionViewCell {
     }
 
     private func style() {
-        usernameLabel.font = UIFont.regularBoldFont(18.0)
+        usernameLabel.font = UIFont.defaultBoldFont(18)
         usernameLabel.textColor = UIColor.blackColor()
 
-        nameLabel.font = UIFont.typewriterFont(12.0)
+        nameLabel.font = UIFont.defaultFont()
         nameLabel.textColor = UIColor.greyA()
 
         profileButtonsView.backgroundColor = UIColor.whiteColor()
