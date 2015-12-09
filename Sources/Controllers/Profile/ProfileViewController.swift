@@ -216,7 +216,7 @@ public class ProfileViewController: StreamableViewController {
         streamViewController.responseConfig = responseConfig
         // clear out this view
         streamViewController.clearForInitialLoad()
-        title = user.atName ?? "Profile"
+        title = user.atName ?? NSLocalizedString("Profile", comment: "Profile")
         if let cachedImage = cachedImage(.CoverImage) {
             coverImage.image = cachedImage
             self.coverImage.alpha = 1.0
