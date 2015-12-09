@@ -273,7 +273,7 @@ public class StreamFooterCell: UICollectionViewCell {
     }
 
     @IBAction func shareButtonTapped() {
-        delegate?.shareButtonTapped(self.indexPath)
+        delegate?.shareButtonTapped(self.indexPath, sourceView: shareControl)
     }
 
     @IBAction func deleteButtonTapped() {
