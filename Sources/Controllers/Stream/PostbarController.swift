@@ -353,7 +353,7 @@ public class PostbarController: NSObject, PostbarDelegate {
     }
 
     public func flagCommentButtonTapped(indexPath: NSIndexPath) {
-        if let comment = dataSource.commentForIndexPath(indexPath) {
+        if let comment = commentForIndexPath(indexPath) {
             let flagger = ContentFlagger(
                 presentingController: presentingController,
                 flaggableId: comment.id,

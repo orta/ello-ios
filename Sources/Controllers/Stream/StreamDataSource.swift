@@ -304,6 +304,8 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
         switch change {
         case .Create:
             var indexPath: NSIndexPath?
+            var reloadPaths: [NSIndexPath]?
+
             // if comment, add new comment cells
             if  let comment = jsonable as? Comment,
                 let parentPost = comment.parentPost
@@ -314,6 +316,7 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                         indexPath = NSIndexPath(forItem: first.item + 1, inSection: first.section)
                     }
                 }
+                reloadPaths = indexPaths
             }
 
             // else if post, add new post cells
@@ -348,6 +351,12 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
                     startingIndexPath: indexPath)
                     { newIndexPaths in
                         collectionView.insertItemsAtIndexPaths(newIndexPaths)
+                        if let prevReloadPaths = reloadPaths {
+                            let reloadPaths = prevReloadPaths.map { path in
+                                return NSIndexPath(forItem: path.item + newIndexPaths.count, inSection: path.section)
+                            }
+                            collectionView.reloadItemsAtIndexPaths(reloadPaths)
+                        }
                     }
             }
 
