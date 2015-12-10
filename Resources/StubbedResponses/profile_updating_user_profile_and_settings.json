@@ -59,8 +59,12 @@
         "posts_count": 0,
         "relationship_priority": "self",
         "short_bio": "I work for **Odin** now! MOTHER!",
+        "subscribe_to_daily_ello": false,
+        "subscribe_to_onboarding_drip": false,
         "subscribe_to_users_email_list": false,
+        "subscribe_to_weekly_ello": false,
         "username": "odinarcher",
-        "views_adult_content": false
+        "views_adult_content": false,
+        "web_onboarding_version": "3"
     }
 }
