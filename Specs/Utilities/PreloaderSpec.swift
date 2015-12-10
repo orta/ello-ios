@@ -172,17 +172,19 @@ class PreloaderSpec: QuickSpec {
             }
 
             it("loads hdpi for single column StreamKinds") {
+                StreamKind.Following.setIsGridView(false)
                 subject.preloadImages([oneImagePost], streamKind: StreamKind.Following)
 
                 // grab the second image, first is the avatar of post's author
                 expect(fakeManager.downloads[1].absoluteString) == "http://www.example.com/hdpi.jpg"
             }
 
-            it("loads mdpi for grid layout StreamKinds") {
+            it("loads hpdi for grid layout StreamKinds") {
+                StreamKind.Starred.setIsGridView(true)
                 subject.preloadImages([imagePostWithSummary], streamKind: StreamKind.Starred)
 
                 // grab the second image, first is the avatar of post's author
-                expect(fakeManager.downloads[1].absoluteString) == "http://www.example.com/mdpi.jpg"
+                expect(fakeManager.downloads[1].absoluteString) == "http://www.example.com/hdpi.jpg"
             }
 
             it("loads regular for avatars") {

@@ -100,7 +100,7 @@ public class StreamFooterCell: UICollectionViewCell {
         updateButtonVisibility(self.lovesControl, visibility: loveVisibility)
         var toolbarItems: [UIBarButtonItem] = []
 
-        if streamKind.isGridLayout {
+        if streamKind.isGridView {
 
             toolbarItems.append(fixedItem(-15))
             if commentVisibility.isVisible {

@@ -75,7 +75,7 @@ public struct StreamImageCellPresenter {
             }
 
             let columnWidth: CGFloat
-            if streamKind.isGridLayout {
+            if streamKind.isGridView {
                 cell.failWidthConstraint.constant = StreamImageCellPresenter.multiColumnFailWidth
                 cell.failHeightConstraint.constant = StreamImageCellPresenter.multiColumnFailHeight
                 attachmentToLoad = attachmentToLoad ?? imageRegion.asset?.gridLayoutAttachment

@@ -17,6 +17,7 @@ private struct ElloColors {
     static let greyC            : UIColor = UIColor(hex: 0xCCCCCC)
     static let greyE5           : UIColor = UIColor(hex: 0xE5E5E5)
     static let greyF1           : UIColor = UIColor(hex: 0xF1F1F1)
+    static let greyF2           : UIColor = UIColor(hex: 0xF2F2F2)
     static let yellowFFFFCC     : UIColor = UIColor(hex: 0xFFFFCC)
     static let redFFCCCC        : UIColor = UIColor(hex: 0xFFCCCC)
     static let modalBackground  : UIColor = UIColor(white: 0x000000, alpha: 0.7)
@@ -55,6 +56,7 @@ public extension UIColor {
     // not popular
     class func grey6() -> UIColor { return ElloColors.grey6 }
     class func greyF1() -> UIColor { return ElloColors.greyF1 }
+    class func greyF2() -> UIColor { return ElloColors.greyF2 }
     class func grey4D() -> UIColor { return ElloColors.grey4D }
 
     // explains itself

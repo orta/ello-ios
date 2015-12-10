@@ -123,8 +123,8 @@ public struct StreamFooterCellPresenter {
         cell: StreamFooterCell,
         streamKind: StreamKind)
     {
-        cell.scrollView.scrollEnabled = !streamKind.isGridLayout
-        cell.chevronButton.hidden = streamKind.isGridLayout
+        cell.scrollView.scrollEnabled = !streamKind.isGridView
+        cell.chevronButton.hidden = streamKind.isGridView
     }
 
     private static func configureDisplayCounts(
@@ -132,7 +132,7 @@ public struct StreamFooterCellPresenter {
         post: Post,
         streamKind: StreamKind)
     {
-        if streamKind.isGridLayout {
+        if streamKind.isGridView {
             cell.views = ""
             cell.reposts = ""
             cell.loves = ""

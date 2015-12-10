@@ -11,6 +11,7 @@ import UIKit
 import SSPullToRefresh
 import FLAnimatedImage
 import Crashlytics
+import SwiftyUserDefaults
 
 // MARK: Delegate Implementations
 public protocol InviteDelegate: NSObjectProtocol {
@@ -42,6 +43,10 @@ public protocol WebLinkDelegate: NSObjectProtocol {
     func webLinkTapped(type: ElloURI, data: String)
 }
 
+public protocol ColumnToggleDelegate: NSObjectProtocol {
+    func columnToggleTapped(isGridView: Bool)
+}
+
 // MARK: StreamNotification
 public struct StreamNotification {
     static let AnimateCellHeightNotification = TypedNotification<StreamImageCell>(name: "AnimateCellHeightNotification")
@@ -56,7 +61,10 @@ public class StreamViewController: BaseElloViewController {
     @IBOutlet weak public var noResultsTopConstraint: NSLayoutConstraint!
     private let defaultNoResultsTopConstant: CGFloat = 113
     var canLoadNext = false
+
     var streamables:[Streamable]?
+
+    var currentJSONables = [JSONAble]()
 
     public var noResultsMessages = (title: "", body: "") {
         didSet {
@@ -273,8 +281,23 @@ public class StreamViewController: BaseElloViewController {
                     if !self.isValidInitialPageLoadingToken(localToken) { return }
                     self.clearForInitialLoad()
                     self.responseConfig = responseConfig
-                    // this calls doneLoading when cells are added
-                    self.appendUnsizedCellItems(StreamCellItemParser().parse(jsonables, streamKind: self.streamKind, currentUser: self.currentUser), withWidth: nil)
+                    self.currentJSONables = jsonables
+                    let items: [StreamCellItem]
+                    if self.streamKind.hasGridViewToggle {
+                        let toggleCellItem = StreamCellItem(jsonable: JSONAble(version: 1), type: .ColumnToggle)
+                        // this calls doneLoading when cells are added
+                        items = [toggleCellItem] + StreamCellItemParser().parse(jsonables, streamKind: self.streamKind, currentUser: self.currentUser)
+                    }
+                    else {
+                        items = StreamCellItemParser().parse(jsonables, streamKind: self.streamKind, currentUser: self.currentUser)
+                    }
+
+                    self.appendUnsizedCellItems(items, withWidth: nil, completion: { indexPaths in
+                        if self.streamKind.gridViewPreferenceSet {
+                            self.collectionView.layoutIfNeeded()
+                            self.collectionView.setContentOffset(self.streamKind.gridPreferenceSetOffset, animated: false)
+                        }
+                    })
                 }, failure: { (error, statusCode) in
                     print("failed to load \(self.streamKind.name) stream (reason: \(error))")
                     self.initialLoadFailure()
@@ -475,11 +498,13 @@ public class StreamViewController: BaseElloViewController {
 
     private func setupDataSource() {
         let webView = UIWebView(frame: view.bounds)
-        dataSource = StreamDataSource(streamKind: streamKind,
+        dataSource = StreamDataSource(
+            streamKind: streamKind,
             textSizeCalculator: StreamTextCellSizeCalculator(webView: UIWebView(frame: webView.frame)),
             notificationSizeCalculator: StreamNotificationCellSizeCalculator(webView: UIWebView(frame: webView.frame)),
             profileHeaderSizeCalculator: ProfileHeaderCellSizeCalculator(webView: UIWebView(frame: webView.frame)),
-            imageSizeCalculator: StreamImageCellSizeCalculator())
+            imageSizeCalculator: StreamImageCellSizeCalculator()
+        )
 
         dataSource.streamCollapsedFilter = { item in
             if !item.type.collapsable {
@@ -505,6 +530,7 @@ public class StreamViewController: BaseElloViewController {
         dataSource.simpleStreamDelegate = self
         dataSource.userDelegate = self
         dataSource.webLinkDelegate = self
+        dataSource.columnToggleDelegate = self
         dataSource.relationshipDelegate = relationshipController
 
         collectionView.dataSource = dataSource
@@ -531,6 +557,36 @@ extension StreamViewController: InviteDelegate {
                 }
             )
         }
+    }
+}
+
+// MARK: StreamViewController: ColumnToggleDelegate
+extension StreamViewController: ColumnToggleDelegate {
+    public func columnToggleTapped(isGridView: Bool) {
+        guard self.streamKind.isGridView != isGridView else {
+            return
+        }
+        self.streamKind.setGridViewPreference()
+        UIView.animateWithDuration(0.2, animations: {
+            self.collectionView.alpha = 0
+            }, completion: { _ in
+                self.toggleGrid(isGridView)
+            }
+        )
+    }
+
+    public func toggleGrid(isGridView: Bool) {
+        self.streamKind.setIsGridView(isGridView)
+        let toggleCellItem = StreamCellItem(jsonable: JSONAble(version: 1), type: .ColumnToggle)
+        // this calls doneLoading when cells are added
+        let items = [toggleCellItem] + StreamCellItemParser().parse(self.currentJSONables, streamKind: self.streamKind, currentUser: self.currentUser)
+        self.removeAllCellItems()
+        self.appendUnsizedCellItems(items, withWidth: nil) { indexPaths in
+            animate {
+                self.collectionView.alpha = 1
+            }
+        }
+        self.setupCollectionViewLayout()
     }
 }
 
@@ -594,7 +650,7 @@ extension StreamViewController: StreamImageCellDelegate {
         let post = indexPath.flatMap(dataSource.postForIndexPath)
         let imageAsset = indexPath.flatMap(dataSource.imageAssetForIndexPath)
 
-        if streamKind.isGridLayout || cell.isGif {
+        if streamKind.isGridView || cell.isGif {
             if let post = post {
                 postTappedDelegate?.postTapped(post)
             }
@@ -849,4 +905,3 @@ extension StreamViewController : UIScrollViewDelegate {
         }
     }
 }
-

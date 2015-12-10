@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftyUserDefaults
 
 public enum StreamKind {
     case Discover(type: DiscoverType, perPage: Int)
@@ -19,7 +20,7 @@ public enum StreamKind {
     case Unknown
     case UserStream(userParam: String)
 
-    public var name:String {
+    public var name: String {
         switch self {
         case .Discover: return "Discover"
         case .Following: return "Following"
@@ -33,19 +34,30 @@ public enum StreamKind {
         }
     }
 
+    public var cacheKey: String {
+        switch self {
+        case let .SimpleStream(endpoint, _):
+            switch endpoint {
+            case .SearchForPosts:
+                return "SearchForPosts"
+            default:
+                return self.name
+            }
+        default:
+            return self.name
+        }
+    }
+
     public var lastViewedCreatedAtKey: String {
         return self.name + "_createdAt"
     }
 
     public var columnCount: Int {
-        switch self {
-        case .Starred, .Discover: return 2
-        case let .SimpleStream(endpoint, _):
-            switch endpoint {
-            case .SearchForPosts: return 2
-            default: return 1
-            }
-        default: return 1
+        if self.isGridView {
+            return 2
+        }
+        else {
+            return 1
         }
     }
 
@@ -163,8 +175,54 @@ public enum StreamKind {
         return []
     }
 
-    public var isGridLayout: Bool {
-        return self.columnCount > 1
+    public var gridPreferenceSetOffset: CGPoint {
+        switch self {
+        case .Discover: return CGPoint(x: 0, y: -80)
+        default: return CGPoint(x: 0, y: -20)
+        }
+    }
+
+    public var avatarHeight: CGFloat {
+        return self.isGridView ? 30.0 : 60.0
+    }
+
+    public func contentForPost(post: Post) -> [Regionable]? {
+        return self.isGridView ? post.summary : post.content
+    }
+
+    public func setGridViewPreference() {
+        Defaults["\(self.cacheKey)GridViewPreferenceSet"] = true
+    }
+
+    public var gridViewPreferenceSet: Bool {
+        let prefSet = Defaults["\(self.cacheKey)GridViewPreferenceSet"].bool
+        return prefSet != nil
+    }
+
+    public func setIsGridView(isGridView: Bool) {
+        Defaults["\(self.cacheKey)IsGridView"] = isGridView
+    }
+
+    public var isGridView: Bool {
+        if Defaults["\(self.cacheKey)IsGridView"].bool == nil {
+            self.setIsGridView(false)
+        }
+
+        return Defaults["\(self.cacheKey)IsGridView"].bool ?? false
+    }
+
+    public var hasGridViewToggle: Bool {
+        switch self {
+        case .Following, .Starred, .Discover: return true
+        case let .SimpleStream(endpoint, _):
+            switch endpoint {
+            case .SearchForPosts:
+                return true
+            default:
+                return false
+            }
+        default: return false
+        }
     }
 
     public var showStarredButton: Bool {
