@@ -8,8 +8,6 @@
 
 import UIKit
 
-var boldItalic: String? = nil
-
 extension UIFont {
     public class func defaultFont(size: CGFloat = 14) -> UIFont { return UIFont(name: "AtlasGrotesk-Regular", size: size)! }
     public class func defaultBoldFont(size: CGFloat = 14) -> UIFont { return UIFont(name: "AtlasGrotesk-Bold", size: size)! }
@@ -25,19 +23,7 @@ extension UIFont {
     public class func editorFont(size: CGFloat = 14) -> UIFont { return UIFont(name: "AtlasGrotesk-Regular", size: size)! }
     public class func editorItalicFont(size: CGFloat = 14) -> UIFont { return UIFont(name: "AtlasGrotesk-RegularItalic", size: size)! }
     public class func editorBoldFont(size: CGFloat = 14) -> UIFont { return UIFont(name: "AtlasGrotesk-Bold", size: size)! }
-    public class func editorBoldItalicFont(size: CGFloat = 14) -> UIFont { return UIFont(name: boldItalic!, size: size)! }
-
-    public class func findBoldItalic() {
-        for familyName in UIFont.familyNames() {
-            if familyName == "Atlas Grotesk Web" {
-                for fontName in UIFont.fontNamesForFamilyName(familyName) {
-                    boldItalic = fontName
-                    print("today, the font name is \(fontName)")
-                    return
-                }
-            }
-        }
-    }
+    public class func editorBoldItalicFont(size: CGFloat = 14) -> UIFont { return UIFont(name: "AtlasGroteskWeb-Regular", size: size)! }
 
     public class func printAvailableFonts() {
         for familyName:AnyObject in UIFont.familyNames()
