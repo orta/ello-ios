@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -28,7 +28,6 @@
                         <subviews>
                             <button opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GKO-1x-QWx" userLabel="avatarButton" customClass="AvatarButton" customModule="Ello" customModuleProvider="target">
                                 <rect key="frame" x="463" y="-61" width="122" height="122"/>
-                                <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="122" id="3aZ-xd-avL" userLabel="avatarButton - height"/>
@@ -41,65 +40,22 @@
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6nJ-r0-lN7" userLabel="usernameLabel">
                                 <rect key="frame" x="22" y="23" width="109" height="18"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" name="AtlasGrotesk-Bold" family="Atlas Grotesk" pointSize="18"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="4sI-yA-gkk" userLabel="nameLabel">
                                 <rect key="frame" x="22" y="51" width="70" height="12"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" name="AtlasTypewriter-Regular" family="Atlas Typewriter" pointSize="12"/>
                                 <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qUL-8u-vZD" userLabel="profileButtonsView">
-                                <rect key="frame" x="421" y="71" width="164" height="30"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kzz-fr-myT" userLabel="inviteButton">
-                                        <rect key="frame" x="-5" y="-2" width="30" height="34"/>
-                                        <animations/>
-                                        <state key="normal" title="Inv">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="inviteTapped:" destination="OE9-ll-CIs" eventType="touchUpInside" id="KxP-aZ-5qo"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5A8-1y-eA5" userLabel="editProfileButton" customClass="OutlineElloButton" customModule="Ello" customModuleProvider="target">
-                                        <rect key="frame" x="42" y="0.0" width="122" height="30"/>
-                                        <animations/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="1Va-Sz-pnL"/>
-                                            <constraint firstAttribute="width" constant="122" id="eow-gE-aGn"/>
-                                        </constraints>
-                                        <state key="normal" title="Edit Profile">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="editProfileTapped:" destination="OE9-ll-CIs" eventType="touchUpInside" id="3D7-wc-dFI"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <animations/>
-                                <color key="backgroundColor" red="0.05276594215375896" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="164" id="3Zt-4u-cGH" userLabel="profileButtonsView - width"/>
-                                    <constraint firstItem="5A8-1y-eA5" firstAttribute="leading" secondItem="kzz-fr-myT" secondAttribute="trailing" constant="17" id="5q2-84-9YF" userLabel="settingsButton - inviteButton - horiz"/>
-                                    <constraint firstAttribute="centerY" secondItem="5A8-1y-eA5" secondAttribute="centerY" id="EbB-CO-wKv" userLabel="settingsButton - vert center"/>
-                                    <constraint firstAttribute="trailing" secondItem="5A8-1y-eA5" secondAttribute="trailing" id="Fzh-4i-v41" userLabel="settingsButton - right"/>
-                                    <constraint firstAttribute="centerY" secondItem="kzz-fr-myT" secondAttribute="centerY" id="WIf-oo-vaa" userLabel="inviteButton - vert center"/>
-                                    <constraint firstAttribute="height" constant="30" id="eEd-xT-8Lk" userLabel="profileButtonsView - height"/>
-                                </constraints>
-                            </view>
                             <webView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PtF-QI-fk2" userLabel="bioWebView">
                                 <rect key="frame" x="15" y="157" width="570" height="333"/>
-                                <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </webView>
                             <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="34" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zV5-bQ-18e" customClass="TwoLineButton" customModule="Ello" customModuleProvider="target">
                                 <rect key="frame" x="15" y="93" width="50" height="34"/>
-                                <animations/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Posts">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -110,7 +66,6 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="34" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gWi-lG-cJp" customClass="TwoLineButton" customModule="Ello" customModuleProvider="target">
                                 <rect key="frame" x="90" y="93" width="50" height="34"/>
-                                <animations/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Following">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -121,7 +76,6 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="34" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FV1-FS-QMz" customClass="TwoLineButton" customModule="Ello" customModuleProvider="target">
                                 <rect key="frame" x="165" y="93" width="50" height="34"/>
-                                <animations/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Followers">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -132,7 +86,6 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="34" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rQa-MW-cCK" customClass="TwoLineButton" customModule="Ello" customModuleProvider="target">
                                 <rect key="frame" x="240" y="93" width="50" height="34"/>
-                                <animations/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Loves">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -142,17 +95,14 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="zV5-bQ-18e" firstAttribute="top" secondItem="4sI-yA-gkk" secondAttribute="bottom" constant="30" id="8lf-xk-RmT"/>
                             <constraint firstItem="gWi-lG-cJp" firstAttribute="leading" secondItem="zV5-bQ-18e" secondAttribute="trailing" constant="25" id="L8y-zo-dCA"/>
                             <constraint firstAttribute="trailing" secondItem="GKO-1x-QWx" secondAttribute="trailing" constant="15" id="M2I-u4-D8V"/>
-                            <constraint firstItem="5A8-1y-eA5" firstAttribute="top" secondItem="GKO-1x-QWx" secondAttribute="bottom" constant="10" id="MWU-og-Ju4"/>
                             <constraint firstItem="4sI-yA-gkk" firstAttribute="top" secondItem="6nJ-r0-lN7" secondAttribute="bottom" constant="10" id="T3z-Gz-rKC"/>
                             <constraint firstItem="gWi-lG-cJp" firstAttribute="top" secondItem="zV5-bQ-18e" secondAttribute="top" id="TuL-FF-5Vx"/>
                             <constraint firstItem="FV1-FS-QMz" firstAttribute="leading" secondItem="gWi-lG-cJp" secondAttribute="trailing" constant="25" id="WyN-Ml-Ufz"/>
-                            <constraint firstAttribute="trailing" secondItem="qUL-8u-vZD" secondAttribute="trailing" constant="15" id="Y5o-4P-9X5" userLabel="profileButtonsView - right"/>
                             <constraint firstAttribute="bottom" secondItem="PtF-QI-fk2" secondAttribute="bottom" id="asL-h7-HRo" userLabel="bioWebView - bottom"/>
                             <constraint firstItem="GKO-1x-QWx" firstAttribute="centerY" secondItem="U6M-uB-CWv" secondAttribute="top" id="dw5-Cp-ekQ" userLabel="avatarButton - top"/>
                             <constraint firstItem="FV1-FS-QMz" firstAttribute="top" secondItem="rQa-MW-cCK" secondAttribute="top" id="fLE-9x-27E"/>
@@ -168,10 +118,8 @@
                         </constraints>
                     </view>
                 </subviews>
-                <animations/>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
-            <animations/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="U6M-uB-CWv" firstAttribute="top" secondItem="OE9-ll-CIs" secondAttribute="top" constant="110" id="joA-XB-bkx" userLabel="viewTopConstraint"/>
@@ -183,14 +131,11 @@
             <connections>
                 <outlet property="avatarButton" destination="GKO-1x-QWx" id="dbf-G3-Qty"/>
                 <outlet property="bioWebView" destination="PtF-QI-fk2" id="WKn-ZP-Rnw"/>
-                <outlet property="editProfileButton" destination="5A8-1y-eA5" id="63Z-Zi-mgf"/>
                 <outlet property="followersButton" destination="FV1-FS-QMz" id="z6Y-Re-O1r"/>
                 <outlet property="followingButton" destination="gWi-lG-cJp" id="aqG-Wn-ZAX"/>
-                <outlet property="inviteButton" destination="kzz-fr-myT" id="BfZ-yc-FUH"/>
                 <outlet property="lovesButton" destination="rQa-MW-cCK" id="jPK-SM-55L"/>
                 <outlet property="nameLabel" destination="4sI-yA-gkk" id="I9n-2e-2mB"/>
                 <outlet property="postsButton" destination="zV5-bQ-18e" id="sSJ-kH-vgM"/>
-                <outlet property="profileButtonsView" destination="qUL-8u-vZD" id="BzV-jE-ocb"/>
                 <outlet property="usernameLabel" destination="6nJ-r0-lN7" id="l3X-Xg-ciD"/>
                 <outlet property="viewTopConstraint" destination="joA-XB-bkx" id="KPR-mq-9Eo"/>
             </connections>

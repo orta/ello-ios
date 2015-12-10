@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
@@ -10,8 +10,11 @@
             <connections>
                 <outlet property="coverImage" destination="A2p-8r-avy" id="rSd-eN-nHc"/>
                 <outlet property="coverImageHeight" destination="Uoo-CU-1JR" id="c4J-Uw-hAx"/>
+                <outlet property="editButton" destination="kD4-Ej-tpx" id="jed-1t-Lhd"/>
                 <outlet property="gradientView" destination="hfy-he-l1y" id="CQV-zA-B37"/>
                 <outlet property="gradientViewTopConstraint" destination="w5L-Z5-pfF" id="eOq-gU-AZ3"/>
+                <outlet property="inviteButton" destination="gLE-mz-Ozo" id="wVp-Pv-k7R"/>
+                <outlet property="mentionButton" destination="DaU-0S-xWR" id="jTJ-Da-Ecr"/>
                 <outlet property="navigationBar" destination="Dl8-ha-LxN" id="bbX-bK-6CN"/>
                 <outlet property="navigationBarTopConstraint" destination="HAg-hv-aOW" id="jh6-WX-a9E"/>
                 <outlet property="noPostsBody" destination="E3h-ug-Jgs" id="bok-bW-hsl"/>
@@ -32,7 +35,6 @@
             <subviews>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="A2p-8r-avy" userLabel="coverImage" customClass="FLAnimatedImageView">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="338"/>
-                    <animations/>
                     <constraints>
                         <constraint firstAttribute="height" constant="338" id="Uoo-CU-1JR" userLabel="coverImageHeight"/>
                         <constraint firstAttribute="width" secondItem="A2p-8r-avy" secondAttribute="height" multiplier="16:9" id="kN1-ds-Pba" userLabel="coverImage - ratio"/>
@@ -40,12 +42,10 @@
                 </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wlf-zL-93E" userLabel="viewContainer">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                    <animations/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hfy-he-l1y" userLabel="gradientView">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="155"/>
-                    <animations/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="155" id="IJv-kH-wVt"/>
@@ -54,11 +54,11 @@
                 <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RRI-jo-8jI" userLabel="relationshipControlsView">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="60"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DaU-0S-xWR" customClass="ElloMentionButton" customModule="Ello" customModuleProvider="target">
+                        <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DaU-0S-xWR" userLabel="mentionButton" customClass="ElloMentionButton" customModule="Ello" customModuleProvider="target">
                             <rect key="frame" x="15" y="15" width="100" height="30"/>
-                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="100" id="fag-ZT-HBM"/>
+                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="gm7-uW-u2m"/>
                             </constraints>
                             <state key="normal" title="@ Mention"/>
                             <connections>
@@ -67,31 +67,57 @@
                         </button>
                         <view opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="82" placeholderIntrinsicHeight="30" translatesAutoresizingMaskIntoConstraints="NO" id="ggp-mI-YuR" userLabel="relationshipControl" customClass="RelationshipControl" customModule="Ello" customModuleProvider="target">
                             <rect key="frame" x="310" y="15" width="283" height="30"/>
-                            <animations/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="283" id="k54-9K-K89"/>
                             </constraints>
                         </view>
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gLE-mz-Ozo" userLabel="inviteButton" customClass="ElloMentionButton" customModule="Ello" customModuleProvider="target">
+                            <rect key="frame" x="15" y="15" width="100" height="30"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="100" id="3Nl-bx-0fq"/>
+                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="dmg-6w-afY"/>
+                            </constraints>
+                            <state key="normal" title="Invite"/>
+                            <connections>
+                                <action selector="inviteButtonTapped" destination="-1" eventType="touchUpInside" id="tnp-X8-h8l"/>
+                                <action selector="mentionButtonTapped" destination="-1" eventType="touchUpInside" id="3Xe-yt-EsV"/>
+                            </connections>
+                        </button>
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="82" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kD4-Ej-tpx" userLabel="editButton" customClass="ElloMentionButton" customModule="Ello" customModuleProvider="target">
+                            <rect key="frame" x="302" y="15" width="283" height="30"/>
+                            <constraints>
+                                <constraint firstAttribute="width" relation="lessThanOrEqual" constant="283" id="UHh-oe-fLG"/>
+                            </constraints>
+                            <state key="normal" title="Edit Profile"/>
+                            <connections>
+                                <action selector="editButtonTapped" destination="-1" eventType="touchUpInside" id="qfJ-Od-yHv"/>
+                            </connections>
+                        </button>
                     </subviews>
-                    <animations/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstItem="ggp-mI-YuR" firstAttribute="leading" secondItem="DaU-0S-xWR" secondAttribute="trailing" priority="750" constant="10" id="0Ib-fg-TtA"/>
-                        <constraint firstItem="ggp-mI-YuR" firstAttribute="top" secondItem="RRI-jo-8jI" secondAttribute="top" constant="15" id="BTh-xN-CCE"/>
-                        <constraint firstAttribute="bottom" secondItem="ggp-mI-YuR" secondAttribute="bottom" constant="15" id="KQj-Si-qeQ"/>
-                        <constraint firstItem="DaU-0S-xWR" firstAttribute="top" secondItem="RRI-jo-8jI" secondAttribute="top" constant="15" id="SOU-J3-U96"/>
-                        <constraint firstAttribute="bottom" secondItem="DaU-0S-xWR" secondAttribute="bottom" constant="15" id="XbJ-gK-rKJ"/>
-                        <constraint firstItem="DaU-0S-xWR" firstAttribute="leading" secondItem="RRI-jo-8jI" secondAttribute="leading" constant="15" id="led-eC-i3m"/>
-                        <constraint firstAttribute="trailing" secondItem="ggp-mI-YuR" secondAttribute="trailing" constant="7" id="qUK-5a-Opn"/>
+                        <constraint firstItem="ggp-mI-YuR" firstAttribute="leading" secondItem="DaU-0S-xWR" secondAttribute="trailing" priority="750" constant="10" id="0Ib-fg-TtA" userLabel="relationshipControl.leading"/>
+                        <constraint firstItem="kD4-Ej-tpx" firstAttribute="leading" secondItem="gLE-mz-Ozo" secondAttribute="trailing" priority="750" constant="10" id="7ym-HJ-haZ" userLabel="editButton.leading"/>
+                        <constraint firstItem="ggp-mI-YuR" firstAttribute="top" secondItem="RRI-jo-8jI" secondAttribute="top" constant="15" id="BTh-xN-CCE" userLabel="relationshipControl.top"/>
+                        <constraint firstItem="kD4-Ej-tpx" firstAttribute="top" secondItem="RRI-jo-8jI" secondAttribute="top" constant="15" id="FGm-Il-jj8" userLabel="editButton.top"/>
+                        <constraint firstItem="gLE-mz-Ozo" firstAttribute="top" secondItem="RRI-jo-8jI" secondAttribute="top" constant="15" id="JcM-aH-BH1" userLabel="Invite.top"/>
+                        <constraint firstAttribute="bottom" secondItem="ggp-mI-YuR" secondAttribute="bottom" constant="15" id="KQj-Si-qeQ" userLabel="relationshipControl.bottom"/>
+                        <constraint firstAttribute="bottom" secondItem="kD4-Ej-tpx" secondAttribute="bottom" constant="15" id="LJh-Mi-lrh" userLabel="editButton.bottom"/>
+                        <constraint firstItem="gLE-mz-Ozo" firstAttribute="leading" secondItem="RRI-jo-8jI" secondAttribute="leading" constant="15" id="SFC-X6-YRD" userLabel="Invite.leading"/>
+                        <constraint firstItem="DaU-0S-xWR" firstAttribute="top" secondItem="RRI-jo-8jI" secondAttribute="top" constant="15" id="SOU-J3-U96" userLabel="@ Mention.top"/>
+                        <constraint firstAttribute="bottom" secondItem="DaU-0S-xWR" secondAttribute="bottom" constant="15" id="XbJ-gK-rKJ" userLabel="@ Mention.bottom"/>
+                        <constraint firstItem="DaU-0S-xWR" firstAttribute="leading" secondItem="RRI-jo-8jI" secondAttribute="leading" constant="15" id="led-eC-i3m" userLabel="@ Mention.leading"/>
+                        <constraint firstAttribute="bottom" secondItem="gLE-mz-Ozo" secondAttribute="bottom" constant="15" id="mv5-O8-IJi" userLabel="Invite.bottom"/>
+                        <constraint firstAttribute="trailing" secondItem="ggp-mI-YuR" secondAttribute="trailing" constant="7" id="qUK-5a-Opn" userLabel="relationshipControl.trailing"/>
+                        <constraint firstAttribute="trailing" secondItem="kD4-Ej-tpx" secondAttribute="trailing" constant="15" id="xrH-GU-8s2" userLabel="editButton.trailing"/>
                     </constraints>
                 </view>
                 <view hidden="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="83s-Z9-BEn" userLabel="noPostsView">
                     <rect key="frame" x="0.0" y="385" width="600" height="215"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E3h-ug-Jgs" userLabel="noPostsBody">
-                            <rect key="frame" x="15" y="60.5" width="570" height="61"/>
-                            <animations/>
+                            <rect key="frame" x="15" y="60" width="570" height="61"/>
                             <string key="text">This person hasn’t posted yet.
 
 Follow or mention them to help them get started!  </string>
@@ -100,12 +126,10 @@ Follow or mention them to help them get started!  </string>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ello is more fun with friends!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qw8-zL-hLi" userLabel="noPostsHeader">
                             <rect key="frame" x="15" y="20" width="570" height="20.5"/>
-                            <animations/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
-                    <animations/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstItem="E3h-ug-Jgs" firstAttribute="leading" secondItem="83s-Z9-BEn" secondAttribute="leading" constant="15" id="BFA-lW-Le7" userLabel="noPostsBody - left "/>
@@ -119,7 +143,6 @@ Follow or mention them to help them get started!  </string>
                 </view>
                 <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dl8-ha-LxN" customClass="ElloNavigationBar" customModule="Ello" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="64"/>
-                    <animations/>
                     <constraints>
                         <constraint firstAttribute="height" constant="64" id="eET-wo-pdN"/>
                     </constraints>
@@ -128,7 +151,6 @@ Follow or mention them to help them get started!  </string>
                     </items>
                 </navigationBar>
             </subviews>
-            <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="Dl8-ha-LxN" secondAttribute="trailing" id="4VW-hR-wV5" userLabel="navigationBar - right"/>
