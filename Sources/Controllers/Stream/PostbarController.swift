@@ -17,7 +17,7 @@ public protocol PostbarDelegate : NSObjectProtocol {
     func editPostButtonTapped(indexPath: NSIndexPath)
     func lovesButtonTapped(cell: StreamFooterCell, indexPath: NSIndexPath)
     func repostButtonTapped(indexPath: NSIndexPath)
-    func shareButtonTapped(indexPath: NSIndexPath)
+    func shareButtonTapped(indexPath: NSIndexPath, sourceView: UIView)
     func flagPostButtonTapped(indexPath: NSIndexPath)
     func flagCommentButtonTapped(indexPath: NSIndexPath)
     func replyToCommentButtonTapped(indexPath: NSIndexPath)
@@ -53,7 +53,7 @@ public class PostbarController: NSObject, PostbarDelegate {
     }
 
     public func commentsButtonTapped(cell:StreamFooterCell, imageLabelControl: ImageLabelControl) {
-        guard !dataSource.streamKind.isGridLayout else {
+        guard !dataSource.streamKind.isGridView else {
             cell.cancelCommentLoading()
             if let indexPath = collectionView.indexPathForCell(cell) {
                 self.viewsButtonTapped(indexPath)
@@ -322,20 +322,20 @@ public class PostbarController: NSObject, PostbarDelegate {
         )
     }
 
-    public func shareButtonTapped(indexPath: NSIndexPath) {
+    public func shareButtonTapped(indexPath: NSIndexPath, sourceView: UIView) {
         if  let post = dataSource.postForIndexPath(indexPath),
             let shareLink = post.shareLink
         {
             Tracker.sharedTracker.postShared(post)
             let activityVC = UIActivityViewController(activityItems: [shareLink], applicationActivities:nil)
             if UI_USER_INTERFACE_IDIOM() == .Phone {
+                activityVC.modalPresentationStyle = .FullScreen
                 logPresentingAlert(presentingController?.readableClassName() ?? "PostbarController")
                 presentingController?.presentViewController(activityVC, animated: true) { }
             }
             else {
-                let cell = dataSource.collectionView(collectionView, cellForItemAtIndexPath: indexPath)
-                activityVC.popoverPresentationController?.sourceView = cell
                 activityVC.modalPresentationStyle = .Popover
+                activityVC.popoverPresentationController?.sourceView = sourceView
                 logPresentingAlert(presentingController?.readableClassName() ?? "PostbarController")
                 presentingController?.presentViewController(activityVC, animated: true) { }
             }

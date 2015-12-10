@@ -100,7 +100,7 @@ public class StreamFooterCell: UICollectionViewCell {
         updateButtonVisibility(self.lovesControl, visibility: loveVisibility)
         var toolbarItems: [UIBarButtonItem] = []
 
-        if streamKind.isGridLayout {
+        if streamKind.isGridView {
 
             toolbarItems.append(fixedItem(-15))
             if commentVisibility.isVisible {
@@ -273,7 +273,7 @@ public class StreamFooterCell: UICollectionViewCell {
     }
 
     @IBAction func shareButtonTapped() {
-        delegate?.shareButtonTapped(self.indexPath)
+        delegate?.shareButtonTapped(self.indexPath, sourceView: shareControl)
     }
 
     @IBAction func deleteButtonTapped() {

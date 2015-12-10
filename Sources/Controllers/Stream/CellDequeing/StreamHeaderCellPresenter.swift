@@ -26,7 +26,7 @@ public struct StreamHeaderCellPresenter {
             cell.streamKind = streamKind
             cell.ownPost = false
             cell.ownComment = false
-            cell.isGridLayout = streamKind.isGridLayout
+            cell.isGridLayout = streamKind.isGridView
 
             switch streamKind {
             case .PostDetail:
@@ -49,7 +49,7 @@ public struct StreamHeaderCellPresenter {
             var author = authorable.author
             var followButtonVisible = false
             if streamCellItem.type == .Header {
-                cell.avatarHeight = streamKind.isGridLayout ? 30.0 : 60.0
+                cell.avatarHeight = streamKind.avatarHeight
                 cell.scrollView.scrollEnabled = false
                 cell.chevronHidden = true
                 cell.goToPostView.hidden = false
@@ -78,7 +78,7 @@ public struct StreamHeaderCellPresenter {
 
             cell.setUser(author)
             cell.followButtonVisible = followButtonVisible
-            cell.timeStamp = streamKind.isGridLayout ? "" : authorable.createdAt.timeAgoInWords()
+            cell.timeStamp = streamKind.isGridView ? "" : authorable.createdAt.timeAgoInWords()
             cell.layoutIfNeeded()
         }
     }

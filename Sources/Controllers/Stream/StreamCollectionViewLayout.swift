@@ -89,22 +89,10 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
         super.init(coder: aDecoder)
     }
 
-    func itemWidthInSectionAtIndex (section : NSInteger) -> CGFloat {
-        let sectionInsets = delegate?.colletionView?(collectionView!, layout: self, insetForSectionAtIndex: section)
-        let insets:UIEdgeInsets = sectionInsets ?? self.sectionInset
-
-        let width:CGFloat = collectionView!.frame.size.width - insets.left - insets.right
-        let spaceColumCount = CGFloat(columnCount-1)
-        return floor((width - (spaceColumCount * minimumColumnSpacing)) / CGFloat(columnCount))
-    }
-
     override public func prepareLayout(){
         super.prepareLayout()
 
-
-
-        let numberOfSections = self.collectionView!.numberOfSections()
-        if numberOfSections == 0 {
+        guard let numberOfSections = self.collectionView?.numberOfSections() else {
             return
         }
 
@@ -132,12 +120,14 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
         }
     }
 
-    private func addAttributesForSection(section:Int) {
+    private func addAttributesForSection(section: Int) {
 
         var attributes = UICollectionViewLayoutAttributes()
 
         let width = collectionView!.frame.size.width - sectionInset.left - sectionInset.right
+
         let spaceColumCount = CGFloat(columnCount-1)
+
         let itemWidth = floor((width - (spaceColumCount * minimumColumnSpacing)) / CGFloat(columnCount))
 
         let itemCount = collectionView!.numberOfItemsInSection(section)
@@ -148,7 +138,8 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
         var currentColumIndex = 0
         for index in 0..<itemCount {
             let indexPath = NSIndexPath(forItem: index, inSection: section)
-            let itemGroup:String? = self.delegate?.collectionView?(self.collectionView!, layout: self, groupForItemAtIndexPath: indexPath)
+            let itemGroup: String? = self.delegate?.collectionView?(self.collectionView!, layout: self, groupForItemAtIndexPath: indexPath)
+            let isFullWidth = self.delegate?.collectionView?(self.collectionView!, layout: self, isFullWidthAtIndexPath: indexPath) ?? false
             if let itemGroup = itemGroup {
                 if itemGroup != groupIndex {
                     groupIndex = itemGroup
@@ -158,21 +149,36 @@ public class StreamCollectionViewLayout : UICollectionViewLayout {
             else {
                 currentColumIndex = nextColumnIndexForItem(index)
             }
-            let xOffset = sectionInset.left + (itemWidth + minimumColumnSpacing) * CGFloat(currentColumIndex)
+
+            var calculatedColumnCount = columnCount
+            var calculatedItemWidth = itemWidth
+            if isFullWidth {
+                calculatedItemWidth = floor(width)
+                calculatedColumnCount = 1
+                currentColumIndex = 0
+            }
+
+            let xOffset = sectionInset.left + (calculatedItemWidth + minimumColumnSpacing) * CGFloat(currentColumIndex)
             let yOffset = columnHeights[currentColumIndex]
 
             var itemHeight : CGFloat = 0.0
 
-            if let height = delegate?.collectionView(self.collectionView!, layout: self, heightForItemAtIndexPath: indexPath, numberOfColumns: columnCount) {
+            if let height = delegate?.collectionView(self.collectionView!, layout: self, heightForItemAtIndexPath: indexPath, numberOfColumns: calculatedColumnCount) {
                 itemHeight = height
             }
 
             attributes = UICollectionViewLayoutAttributes(forCellWithIndexPath: indexPath)
-            attributes.frame = CGRectMake(xOffset, CGFloat(yOffset), itemWidth, itemHeight)
+            attributes.frame = CGRectMake(xOffset, CGFloat(yOffset), calculatedItemWidth, itemHeight)
             itemAttributes.append(attributes)
 
             allItemAttributes.append(attributes)
-            columnHeights[currentColumIndex] = Double(CGRectGetMaxY(attributes.frame))
+            if isFullWidth && columnCount > 1 {
+                columnHeights[0] = Double(CGRectGetMaxY(attributes.frame))
+                columnHeights[1] = Double(CGRectGetMaxY(attributes.frame))
+            }
+            else {
+                columnHeights[currentColumIndex] = Double(CGRectGetMaxY(attributes.frame))
+            }
         }
 
         sectionItemAttributes.append(itemAttributes)

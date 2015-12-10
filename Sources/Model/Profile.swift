@@ -30,6 +30,8 @@ public final class Profile: JSONAble {
     public let notifyOfNewFollowersViaEmail: Bool
     public let notifyOfRepostsViaEmail: Bool
     public let subscribeToUsersEmailList: Bool
+    public let subscribeToDailyEllo: Bool
+    public let subscribeToWeeklyEllo: Bool
     public let subscribeToOnboardingDrip: Bool
     public let notifyOfCommentsViaPush: Bool
     public let notifyOfLovesViaPush: Bool
@@ -55,6 +57,8 @@ public final class Profile: JSONAble {
         notifyOfNewFollowersViaEmail: Bool,
         notifyOfRepostsViaEmail: Bool,
         subscribeToUsersEmailList: Bool,
+        subscribeToDailyEllo: Bool,
+        subscribeToWeeklyEllo: Bool,
         subscribeToOnboardingDrip: Bool,
         notifyOfCommentsViaPush: Bool,
         notifyOfLovesViaPush : Bool,
@@ -78,6 +82,8 @@ public final class Profile: JSONAble {
         self.notifyOfNewFollowersViaEmail = notifyOfNewFollowersViaEmail
         self.notifyOfRepostsViaEmail = notifyOfRepostsViaEmail
         self.subscribeToUsersEmailList = subscribeToUsersEmailList
+        self.subscribeToDailyEllo = subscribeToDailyEllo
+        self.subscribeToWeeklyEllo = subscribeToWeeklyEllo
         self.subscribeToOnboardingDrip = subscribeToOnboardingDrip
         self.notifyOfCommentsViaPush = notifyOfCommentsViaPush
         self.notifyOfLovesViaPush = notifyOfLovesViaPush
@@ -109,6 +115,8 @@ public final class Profile: JSONAble {
         self.notifyOfNewFollowersViaEmail = decoder.decodeKey("notifyOfNewFollowersViaEmail")
         self.notifyOfRepostsViaEmail = decoder.decodeKey("notifyOfRepostsViaEmail")
         self.subscribeToUsersEmailList = decoder.decodeKey("subscribeToUsersEmailList")
+        self.subscribeToDailyEllo = decoder.decodeKey("subscribeToDailyEllo")
+        self.subscribeToWeeklyEllo = decoder.decodeKey("subscribeToWeeklyEllo")
         self.subscribeToOnboardingDrip = decoder.decodeKey("subscribeToOnboardingDrip")
         self.notifyOfCommentsViaPush = decoder.decodeKey("notifyOfCommentsViaPush")
         self.notifyOfLovesViaPush = decoder.decodeKey("notifyOfLovesViaPush")
@@ -138,6 +146,8 @@ public final class Profile: JSONAble {
         coder.encodeObject(notifyOfNewFollowersViaEmail, forKey: "notifyOfNewFollowersViaEmail")
         coder.encodeObject(notifyOfRepostsViaEmail, forKey: "notifyOfRepostsViaEmail")
         coder.encodeObject(subscribeToUsersEmailList, forKey: "subscribeToUsersEmailList")
+        coder.encodeObject(subscribeToDailyEllo, forKey: "subscribeToDailyEllo")
+        coder.encodeObject(subscribeToWeeklyEllo, forKey: "subscribeToWeeklyEllo")
         coder.encodeObject(subscribeToOnboardingDrip, forKey: "subscribeToOnboardingDrip")
         coder.encodeObject(notifyOfCommentsViaPush, forKey: "notifyOfCommentsViaPush")
         coder.encodeObject(notifyOfLovesViaPush, forKey: "notifyOfLovesViaPush")
@@ -170,6 +180,8 @@ public final class Profile: JSONAble {
             notifyOfNewFollowersViaEmail: json["notify_of_new_followers_via_email"].boolValue,
             notifyOfRepostsViaEmail: json["notify_of_reposts_via_email"].boolValue,
             subscribeToUsersEmailList: json["subscribe_to_users_email_list"].boolValue,
+            subscribeToDailyEllo: json["subscribe_to_daily_ello"].boolValue,
+            subscribeToWeeklyEllo: json["subscribe_to_weekly_ello"].boolValue,
             subscribeToOnboardingDrip: json["subscribe_to_onboarding_drip"].boolValue,
             notifyOfCommentsViaPush: json["notify_of_comments_via_push"].boolValue,
             notifyOfLovesViaPush : json["notify_of_loves_via_push"].boolValue,

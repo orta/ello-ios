@@ -973,8 +973,8 @@ extension OmnibarScreen: UITableViewDelegate, UITableViewDataSource {
             switch region {
             case let .AttributedText(attributedText):
                 let textCell = cell as! OmnibarTextCell
-                textCell.attributedText = attributedText
                 textCell.isFirst = path.row == 0
+                textCell.attributedText = attributedText
             case let .Image(image, data, _):
                 let imageCell = cell as! OmnibarImageCell
                 if let data = data {

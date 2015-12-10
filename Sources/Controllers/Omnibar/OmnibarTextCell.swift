@@ -15,7 +15,13 @@ public class OmnibarTextCell: UITableViewCell {
     }
 
     public let textView: UITextView
-    public var isFirst = false
+    public var isFirst = false {
+        didSet {
+            if isFirst && attributedText.string.characters.count == 0 {
+                textView.attributedText = ElloAttributedString.style("Say Ello...", [NSForegroundColorAttributeName: UIColor.blackColor()])
+            }
+        }
+    }
 
     class func generateTextView() -> UITextView {
         let textView = UITextView()
@@ -33,10 +39,9 @@ public class OmnibarTextCell: UITableViewCell {
     }
 
     public var attributedText: NSAttributedString {
-        get { return textView.attributedText }
-        set {
-            if newValue.string.characters.count > 0 {
-                textView.attributedText = newValue
+        didSet {
+            if attributedText.string.characters.count > 0 {
+                textView.attributedText = attributedText
             }
             else if isFirst {
                 textView.attributedText = ElloAttributedString.style("Say Ello...", [NSForegroundColorAttributeName: UIColor.blackColor()])
@@ -49,6 +54,7 @@ public class OmnibarTextCell: UITableViewCell {
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         textView = OmnibarTextCell.generateTextView()
+        attributedText = NSAttributedString(string: "")
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         textView.userInteractionEnabled = false

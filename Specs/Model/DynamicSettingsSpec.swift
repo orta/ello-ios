@@ -18,7 +18,7 @@ class DynamicSettingsSpec: QuickSpec {
 
             expect(dynamicSettings.count) == 4
             expect(dynamicSettings.first?.label) == "Preferences"
-            expect(dynamicSettings.first?.settings.count) == 6
+            expect(dynamicSettings.first?.settings.count) == 8
             expect(dynamicSettings.first?.settings.first?.label) == "Public Profile"
         }
     }
