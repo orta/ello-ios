@@ -26,7 +26,7 @@ public struct UserListItemCellPresenter {
                 cell.relationshipControl.hidden = user.id == currentUser.id
             }
 
-            cell.relationshipControl.showStarredButton = streamKind.showStarredButton
+            cell.relationshipControl.showStarButton = streamKind.showStarButton
             cell.setUser(user)
         }
     }

@@ -225,7 +225,7 @@ public enum StreamKind {
         }
     }
 
-    public var showStarredButton: Bool {
+    public var showStarButton: Bool {
         switch self {
         case let .SimpleStream(endpoint, _):
             switch endpoint {

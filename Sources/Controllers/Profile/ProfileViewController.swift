@@ -16,7 +16,7 @@ public class ElloMentionButton: RoundedElloButton {
         super.sharedSetup()
 
         setTitleColor(UIColor.blackColor(), forState: .Normal)
-        setTitleColor(UIColor.whiteColor(), forState: .Highlighted)
+        setTitleColor(UIColor.grey6(), forState: .Highlighted)
         setTitleColor(UIColor.greyC(), forState: .Disabled)
     }
 
@@ -123,6 +123,7 @@ public class ProfileViewController: StreamableViewController {
         ElloHUD.showLoadingHudInView(streamViewController.view)
         streamViewController.loadInitialPage()
         relationshipControl.relationshipDelegate = streamViewController.dataSource.relationshipDelegate
+        relationshipControl.style = .ProfileView
 
         setupGradient()
 
