@@ -36,6 +36,9 @@ public class ProfileViewController: StreamableViewController {
 
     @IBOutlet weak var coverImage: FLAnimatedImageView!
     @IBOutlet weak var relationshipControl: RelationshipControl!
+    @IBOutlet weak var mentionButton: UIButton!
+    @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var inviteButton: UIButton!
     @IBOutlet weak var gradientView: UIView!
     @IBOutlet weak var relationshipControlsView: UIView!
     let gradientLayer = CAGradientLayer()
@@ -288,6 +291,14 @@ public class ProfileViewController: StreamableViewController {
         }
     }
 
+    @IBAction func editButtonTapped() {
+        onEditProfile()
+    }
+
+    @IBAction func inviteButtonTapped() {
+        onInviteFriends()
+    }
+
     func moreButtonTapped() {
         if let user = user {
             let userId = user.id
@@ -397,8 +408,17 @@ extension ProfileViewController {
             }
 
             elloNavigationItem.rightBarButtonItem = nil
-            gradientView.hidden = true
-            relationshipControlsView.hidden = true
+
+            mentionButton.hidden = true
+            relationshipControl.hidden = true
+            editButton.hidden = false
+            inviteButton.hidden = false
+        }
+        else {
+            mentionButton.hidden = false
+            relationshipControl.hidden = false
+            editButton.hidden = true
+            inviteButton.hidden = true
         }
     }
 }

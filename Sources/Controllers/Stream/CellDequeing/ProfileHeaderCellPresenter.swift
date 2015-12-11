@@ -45,7 +45,6 @@ public struct ProfileHeaderCellPresenter {
             else {
                 isCurrentUser = false
             }
-            cell.profileButtonsView.hidden = true
 
             if let cachedImage = TemporaryCache.load(.Avatar)
                 where isCurrentUser

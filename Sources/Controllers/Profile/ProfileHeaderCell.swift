@@ -34,13 +34,10 @@ public class ProfileHeaderCell: UICollectionViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var viewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var bioWebView: UIWebView!
-    @IBOutlet weak var profileButtonsView: UIView!
-    @IBOutlet weak var editProfileButton: OutlineElloButton!
     @IBOutlet weak var postsButton: TwoLineButton!
     @IBOutlet weak var followersButton: TwoLineButton!
     @IBOutlet weak var followingButton: TwoLineButton!
     @IBOutlet weak var lovesButton: TwoLineButton!
-    @IBOutlet weak var inviteButton: UIButton!
 
     weak var webLinkDelegate: WebLinkDelegate?
     weak var simpleStreamDelegate: SimpleStreamDelegate?
@@ -56,7 +53,6 @@ public class ProfileHeaderCell: UICollectionViewCell {
         super.awakeFromNib()
         style()
         bioWebView.delegate = self
-        editProfileButton.titleLabel?.font = UIFont.defaultFont()
         avatarButton.starIconHidden = true
     }
 
@@ -86,22 +82,11 @@ public class ProfileHeaderCell: UICollectionViewCell {
 
         nameLabel.font = UIFont.defaultFont()
         nameLabel.textColor = UIColor.greyA()
-
-        profileButtonsView.backgroundColor = UIColor.whiteColor()
-
-        inviteButton.setTitle("", forState: .Normal)
-        inviteButton.setSVGImages("xpmcirc")
-        inviteButton.addTarget(self, action: Selector("inviteTapped:"), forControlEvents: UIControlEvents.TouchUpInside)
     }
 
     @IBAction func editProfileTapped(sender: UIButton) {
         let responder = targetForAction("onEditProfile", withSender: self) as? EditProfileResponder
         responder?.onEditProfile()
-    }
-
-    @IBAction func inviteTapped(sender: UIButton) {
-        let responder = targetForAction("onInviteFriends", withSender: self) as? InviteResponder
-        responder?.onInviteFriends()
     }
 
     @IBAction func followingTapped(sender: UIButton) {
