@@ -26,6 +26,7 @@ public class ProfileViewController: StreamableViewController {
     let initialStreamKind: StreamKind
     var currentUserChangedNotification: NotificationObserver?
     var postChangedNotification: NotificationObserver?
+    var relationshipChangedNotification: NotificationObserver?
     var deeplinkPath: String?
     private var isSetup = false
 
@@ -56,6 +57,11 @@ public class ProfileViewController: StreamableViewController {
 
         streamViewController.streamKind = initialStreamKind
         streamViewController.initialLoadClosure = reloadEntireProfile
+        relationshipChangedNotification = NotificationObserver(notification: RelationshipChangedNotification) { [unowned self] user in
+            if self.user?.id == user.id {
+                self.updateRelationshipPriority(user.relationshipPriority)
+            }
+        }
     }
 
     // this should only be initialized this way for currentUser in tab nav
@@ -83,6 +89,8 @@ public class ProfileViewController: StreamableViewController {
         currentUserChangedNotification = nil
         postChangedNotification?.removeObserver()
         postChangedNotification = nil
+        relationshipChangedNotification?.removeObserver()
+        relationshipChangedNotification = nil
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -265,7 +273,7 @@ public class ProfileViewController: StreamableViewController {
         gradientLayer.colors = [
             UIColor.whiteColor().CGColor,
             UIColor.whiteColor().CGColor,
-            UIColor.whiteColor().colorWithAlphaComponent(0.5).CGColor,
+            UIColor.whiteColor().colorWithAlphaComponent(0.8).CGColor,
             UIColor.whiteColor().colorWithAlphaComponent(0).CGColor,
         ]
         gradientLayer.startPoint = CGPoint(x: 0, y: 0)
@@ -420,6 +428,11 @@ extension ProfileViewController {
             editButton.hidden = true
             inviteButton.hidden = true
         }
+    }
+
+    public func updateRelationshipPriority(relationshipPriority: RelationshipPriority) {
+        relationshipControl.relationshipPriority = relationshipPriority
+        self.user?.relationshipPriority = relationshipPriority
     }
 }
 

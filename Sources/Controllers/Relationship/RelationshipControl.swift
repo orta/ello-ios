@@ -9,19 +9,14 @@
 import SVGKit
 
 private let ViewHeight: CGFloat = 30
-private let ButtonWidth: CGFloat = 30
-private let StarredButtonMargin: CGFloat = 7
+private let StarButtonWidth: CGFloat = 50
+private let StarredButtonMargin: CGFloat = 10
 private let MinViewWidth: CGFloat = 105
 
 
 public class RelationshipControl: UIView {
     let followingButton = FollowButton()
-    let starredButton: UIButton = {
-        let button = UIButton()
-        button.setImage(SVGKImage(named: "star_normal.svg").UIImage!, forState: .Normal)
-        button.setImage(SVGKImage(named: "star_selected.svg").UIImage!, forState: .Highlighted)
-        return button
-    }()
+    let starredButton = StarButton()
 
     public var userId: String
     public var userAtName: String
@@ -72,7 +67,7 @@ public class RelationshipControl: UIView {
         }
 
         if showStarredButton {
-            totalSize.width += ButtonWidth + StarredButtonMargin
+            totalSize.width += StarButtonWidth + StarredButtonMargin
         }
 
         return totalSize
@@ -177,14 +172,11 @@ public class RelationshipControl: UIView {
         }
 
         followingButton.config = config
-        if config.starred {
-            let star = SVGKImage(named: "star_selected.svg").UIImage!
-            starredButton.setImage(star, forState: .Normal)
-        }
-        else {
-            let star = SVGKImage(named: "star_normal.svg").UIImage!
-            starredButton.setImage(star, forState: .Normal)
-        }
+        starredButton.config = config
+        starredButton.hidden = (relationshipPriority == .Mute) || !showStarredButton
+
+        setNeedsLayout()
+        invalidateIntrinsicContentSize()
     }
 
     public override func layoutSubviews() {
@@ -192,9 +184,9 @@ public class RelationshipControl: UIView {
 
         let starredButtonWidth: CGFloat
 
-        if showStarredButton {
-            starredButton.frame = CGRect(x: frame.width - ButtonWidth, y: 0, width: ButtonWidth, height: ViewHeight)
-            starredButtonWidth = ButtonWidth + StarredButtonMargin
+        if relationshipPriority != .Mute && showStarredButton {
+            starredButton.frame = CGRect(x: frame.width - StarButtonWidth, y: 0, width: StarButtonWidth, height: ViewHeight)
+            starredButtonWidth = StarButtonWidth + StarredButtonMargin
         }
         else {
             starredButton.frame = CGRectZero
@@ -247,8 +239,15 @@ public class RelationshipControl: UIView {
         var normalBackgroundColor: UIColor {
             switch self {
             case .Muted: return .redColor()
-            case .None: return UIColor.whiteColor().colorWithAlphaComponent(0.5)
+            case .None: return UIColor.clearColor()
             default: return .blackColor()
+            }
+        }
+
+        var starBackgroundColor: UIColor {
+            switch self {
+            case .Starred: return UIColor.blackColor()
+            default: return .clearColor()
             }
         }
 
@@ -276,22 +275,19 @@ public class RelationshipControl: UIView {
         }
     }
 
-    class FollowButton: WhiteElloButton {
+    class FollowButton: RoundedElloButton {
         private var config: Config = .None {
             didSet {
                 setTitleColor(config.normalTextColor, forState: .Normal)
                 setTitleColor(config.highlightedTextColor, forState: .Highlighted)
                 setTitleColor(UIColor.greyC(), forState: .Disabled)
                 setTitle(config.title, forState: .Normal)
-                borderColor = config.borderColor
                 setImage(config.image, forState: .Normal)
                 setImage(config.highlightedImage, forState: .Highlighted)
-
-                updateOutline()
+                borderColor = config.borderColor
             }
         }
 
-        var borderColor = UIColor.greyE5()
 
         override func sharedSetup() {
             super.sharedSetup()
@@ -299,26 +295,42 @@ public class RelationshipControl: UIView {
             let plus = SVGKImage(named: "plussmall_selected.svg").UIImage!
             setImage(plus, forState: .Normal)
 
-            layer.borderWidth = 1
-            updateOutline()
             config = .None
             backgroundColor = config.normalBackgroundColor
+            borderColor = UIColor.greyE5()
         }
 
-        override func layoutSubviews() {
-            super.layoutSubviews()
-            layer.cornerRadius = min(frame.height, frame.width) / 2
+        override func updateOutline() {
+            layer.borderColor = borderColor.CGColor
+            backgroundColor = highlighted ? config.selectedBackgroundColor : config.normalBackgroundColor
         }
+    }
 
-        override var highlighted: Bool {
+    class StarButton: RoundedElloButton {
+        private var config: Config = .None {
             didSet {
+                if config.starred {
+                    let star = SVGKImage(named: "star_selected.svg").UIImage!
+                    setImage(star, forState: .Normal)
+                }
+                else {
+                    let star = SVGKImage(named: "star_normal.svg").UIImage!
+                    setImage(star, forState: .Normal)
+                }
+                backgroundColor = config.starBackgroundColor
+
                 updateOutline()
             }
         }
 
-        private func updateOutline() {
-            layer.borderColor = borderColor.CGColor
-            backgroundColor = highlighted ? config.selectedBackgroundColor : config.normalBackgroundColor
+        override func sharedSetup() {
+            super.sharedSetup()
+
+            setImage(SVGKImage(named: "star_normal.svg").UIImage!, forState: .Normal)
+            setImage(SVGKImage(named: "star_selected.svg").UIImage!, forState: .Highlighted)
+
+            config = .None
+            backgroundColor = config.starBackgroundColor
         }
     }
 }
