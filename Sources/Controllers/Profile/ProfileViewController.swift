@@ -11,6 +11,22 @@ import FLAnimatedImage
 import SVGKit
 
 
+public class ElloMentionButton: RoundedElloButton {
+    override public func sharedSetup() {
+        super.sharedSetup()
+
+        setTitleColor(UIColor.blackColor(), forState: .Normal)
+        setTitleColor(UIColor.whiteColor(), forState: .Highlighted)
+        setTitleColor(UIColor.greyC(), forState: .Disabled)
+    }
+
+    override func updateOutline() {
+        super.updateOutline()
+        backgroundColor = highlighted ? UIColor.grey4D() : UIColor.whiteColor()
+    }
+}
+
+
 public class ProfileViewController: StreamableViewController {
 
     override public var tabBarItem: UITabBarItem? {
