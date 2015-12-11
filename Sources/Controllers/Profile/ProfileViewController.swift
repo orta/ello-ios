@@ -394,6 +394,15 @@ extension ProfileViewController {
     }
 
     public func updateCurrentUser(user: User) {
+        // if this is called before the view is loaded, the IBOutlets will not
+        // be set.
+        if #available(iOS 9.0, *) {
+            loadViewIfNeeded()
+        }
+        else {
+            _ = view
+        }
+
         if user.id == self.currentUser?.id {
             // only update the avatar and coverImage assets if there is nothing
             // in the cache.  If images are in the cache, that implies that the

@@ -224,6 +224,16 @@ class ProfileViewControllerSpec: QuickSpec {
                 let subject = ProfileViewController(userParam: "42")
                 validateAllSnapshots(subject)
             }
+
+            context("snapshots - currentUser") {
+                let user: User = stub([:])
+                let subject = ProfileViewController(user: user)
+                beforeEach {
+                    subject.currentUser = user
+                    subject.updateCurrentUser(user)
+                }
+                validateAllSnapshots(subject)
+            }
         }
     }
 }
