@@ -191,13 +191,13 @@ private extension ProfileInfoViewController {
 
     func setupTextFields() {
         let nameField = generateTextField(placeholder: NSLocalizedString("Name (optional)", comment: "Name (optional) placeholder text"),
-            font: UIFont.typewriterBoldFont(18),
+            font: UIFont.defaultBoldFont(18),
             y: chooseAvatarImageView!.frame.maxY + 44)
         view.addSubview(nameField)
         self.nameField = nameField
 
         let bioField = generateTextField(placeholder: NSLocalizedString("Bio (optional)", comment: "Bio (optional) placeholder text"),
-            font: UIFont.typewriterFont(12),
+            font: UIFont.defaultFont(),
             y: nameField.frame.maxY + 26)
         bioField.autocapitalizationType = .Sentences
         bioField.autocorrectionType = .Default
@@ -206,7 +206,7 @@ private extension ProfileInfoViewController {
         self.bioField = bioField
 
         let linksField = generateTextField(placeholder: NSLocalizedString("Links (optional)", comment: "Links (optional) placeholder text"),
-            font: UIFont.typewriterFont(12),
+            font: UIFont.defaultFont(),
             y: bioField.frame.maxY + 26)
         linksField.spellCheckingType = .No
         linksField.autocapitalizationType = .None

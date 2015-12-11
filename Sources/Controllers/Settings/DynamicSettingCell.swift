@@ -24,9 +24,9 @@ public class DynamicSettingCell: UITableViewCell {
 
     public override func awakeFromNib() {
         super.awakeFromNib()
-        titleLabel.font = .typewriterFont(12.0)
+        titleLabel.font = .defaultFont()
         titleLabel.textColor = .blackColor()
-        descriptionLabel.font = .typewriterFont(12.0)
+        descriptionLabel.font = .defaultFont()
         descriptionLabel.textColor = .greyA()
     }
 

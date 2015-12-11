@@ -99,7 +99,7 @@ public class FollowAllElloButton: ElloButton {
     }
 
     override public func sharedSetup() {
-        self.titleLabel?.font = UIFont.typewriterFont(12)
+        self.titleLabel?.font = UIFont.defaultFont()
         self.titleLabel?.numberOfLines = 1
         self.setTitleColor(UIColor.blackColor(), forState: .Normal)
         self.setTitleColor(UIColor.whiteColor(), forState: .Selected)

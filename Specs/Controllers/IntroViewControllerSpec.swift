@@ -1,5 +1,5 @@
 //
-//  IntroControllerSpec.swift
+//  IntroViewControllerSpec.swift
 //  Ello
 //
 //  Created by Brandon Brisbon on 5/28/15.
@@ -10,13 +10,13 @@ import Ello
 import Quick
 import Nimble
 
-class IntroControllerSpec: QuickSpec {
+class IntroViewControllerSpec: QuickSpec {
     override func spec() {
-        describe("IntroController") {
-            var controller = IntroController()
+        describe("IntroViewController") {
+            var controller = IntroViewController()
             describe("initialization") {
                 beforeEach {
-                    controller = IntroController()
+                    controller = IntroViewController()
                 }
 
                 it("can be instantiated") {
@@ -27,13 +27,13 @@ class IntroControllerSpec: QuickSpec {
                     expect(controller).to(beAKindOf(UIViewController.self))
                 }
 
-                it("is a IntroController") {
-                    expect(controller).to(beAKindOf(IntroController.self))
+                it("is a IntroViewController") {
+                    expect(controller).to(beAKindOf(IntroViewController.self))
                 }
             }
             describe("snapshots") {
-                let subject = IntroController()
-                validateAllSnapshots(subject, named: "IntroController")
+                let subject = IntroViewController()
+                validateAllSnapshots(subject, named: "IntroViewController")
             }
         }
     }

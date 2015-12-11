@@ -729,20 +729,20 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
         let newFont: UIFont
         switch fontName {
-        case UIFont.typewriterEditorFont(12).fontName:
-            newFont = UIFont.typewriterEditorBoldFont(12)
+        case UIFont.editorFont().fontName:
+            newFont = UIFont.editorBoldFont()
             boldButton.selected = true
-        case UIFont.typewriterEditorItalicFont(12).fontName:
-            newFont = UIFont.typewriterEditorBoldItalicFont(12)
+        case UIFont.editorItalicFont().fontName:
+            newFont = UIFont.editorBoldItalicFont()
             boldButton.selected = true
-        case UIFont.typewriterEditorBoldFont(12).fontName:
-            newFont = UIFont.typewriterEditorFont(12)
+        case UIFont.editorBoldFont().fontName:
+            newFont = UIFont.editorFont()
             boldButton.selected = false
-        case UIFont.typewriterEditorBoldItalicFont(12).fontName:
-            newFont = UIFont.typewriterEditorItalicFont(12)
+        case UIFont.editorBoldItalicFont().fontName:
+            newFont = UIFont.editorItalicFont()
             boldButton.selected = false
         default:
-            newFont = UIFont.typewriterEditorBoldFont(12)
+            newFont = UIFont.editorBoldFont()
             boldButton.selected = true
         }
 
@@ -771,20 +771,20 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
         let newFont: UIFont
         switch fontName {
-        case UIFont.typewriterEditorFont(12).fontName:
-            newFont = UIFont.typewriterEditorItalicFont(12)
+        case UIFont.editorFont().fontName:
+            newFont = UIFont.editorItalicFont()
             italicButton.selected = true
-        case UIFont.typewriterEditorItalicFont(12).fontName:
-            newFont = UIFont.typewriterEditorFont(12)
+        case UIFont.editorItalicFont().fontName:
+            newFont = UIFont.editorFont()
             italicButton.selected = false
-        case UIFont.typewriterEditorBoldFont(12).fontName:
-            newFont = UIFont.typewriterEditorBoldItalicFont(12)
+        case UIFont.editorBoldFont().fontName:
+            newFont = UIFont.editorBoldItalicFont()
             italicButton.selected = true
-        case UIFont.typewriterEditorBoldItalicFont(12).fontName:
-            newFont = UIFont.typewriterEditorBoldFont(12)
+        case UIFont.editorBoldItalicFont().fontName:
+            newFont = UIFont.editorBoldFont()
             italicButton.selected = false
         default:
-            newFont = UIFont.typewriterEditorItalicFont(12)
+            newFont = UIFont.editorItalicFont()
             italicButton.selected = true
         }
 
@@ -1174,16 +1174,16 @@ extension OmnibarScreen: UITextViewDelegate {
 
     public func textViewDidChangeSelection(textView: UITextView) {
         let font = textView.typingAttributes[NSFontAttributeName] as? UIFont
-        let fontName = font?.fontName ?? "AtlasTypewriter-Regular"
+        let fontName = font?.fontName ?? "AtlasGrotesk-Regular"
 
         switch fontName {
-        case UIFont.typewriterEditorItalicFont(12).fontName:
+        case UIFont.editorItalicFont().fontName:
             boldButton.selected = false
             italicButton.selected = true
-        case UIFont.typewriterEditorBoldFont(12).fontName:
+        case UIFont.editorBoldFont().fontName:
             boldButton.selected = true
             italicButton.selected = false
-        case UIFont.typewriterEditorBoldItalicFont(12).fontName:
+        case UIFont.editorBoldItalicFont().fontName:
             boldButton.selected = true
             italicButton.selected = true
         default:

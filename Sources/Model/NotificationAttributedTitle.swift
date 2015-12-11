@@ -10,7 +10,7 @@ public struct NotificationAttributedTitle {
 
     static private func attrs(addlAttrs : [String : AnyObject] = [:]) -> [String : AnyObject] {
         let attrs: [String: AnyObject] = [
-            NSFontAttributeName: UIFont.typewriterFont(12),
+            NSFontAttributeName: UIFont.defaultFont(),
             NSForegroundColorAttributeName: UIColor.greyA(),
         ]
         return attrs + addlAttrs

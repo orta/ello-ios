@@ -56,11 +56,11 @@ public class JoinViewController: BaseElloViewController, HasAppController {
 
         let attrs = ElloAttributedString.attrs([
             NSForegroundColorAttributeName: UIColor.greyA(),
-            NSFontAttributeName: UIFont.typewriterFont(12),
+            NSFontAttributeName: UIFont.defaultFont(),
         ])
         let linkAttrs = ElloAttributedString.attrs(ElloAttributedString.linkAttrs(), [
             NSForegroundColorAttributeName: UIColor.greyA(),
-            NSFontAttributeName: UIFont.typewriterFont(12),
+            NSFontAttributeName: UIFont.defaultFont(),
         ])
         termsButton.setAttributedTitle(
             NSAttributedString(string: "By Clicking Create Account you are agreeing to our ", attributes: attrs) + NSAttributedString(string: "Terms", attributes: linkAttrs), forState: .Normal)

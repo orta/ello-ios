@@ -9,7 +9,7 @@
 import UIKit
 
 public class ElloToggleButton: UIButton {
-    private let attributes = [NSFontAttributeName: UIFont.typewriterFont(12.0)]
+    private let attributes = [NSFontAttributeName: UIFont.defaultFont()]
 
     public var value: Bool = false {
         didSet {

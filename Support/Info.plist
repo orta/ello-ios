@@ -63,17 +63,19 @@
 		</dict>
 	</dict>
 	<key>NSContactsUsageDescription</key>
-	<string>Import your contacts to find your friends on Ello. We will extract the e-mail addresses, irreversibly hash them, and send them to our servers for matching. Ello will never receive nor store a copy of your address book.</string>
+	<string>Import your contacts to find people you know on Ello. We will extract the e-mail addresses, irreversibly hash them, and send them to our servers for matching. Ello will never receive nor store a copy of your address book.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AtlasTypewriterRegular.otf</string>
+		<string>AtlasTypewriterRegularItalic.otf</string>
 		<string>AtlasTypewriterBold.otf</string>
 		<string>AtlasTypewriterBoldItalic.otf</string>
-		<string>AtlasGroteskBold.otf</string>
-		<string>AtlasGroteskRegular.otf</string>
-		<string>AtlasTypewriterRegularItalic.otf</string>
-		<string>AtlasTypewriterMediumItalic.otf</string>
 		<string>AtlasTypewriterMedium.otf</string>
+		<string>AtlasTypewriterMediumItalic.otf</string>
+		<string>AtlasGroteskBold.otf</string>
+		<string>AtlasGroteskBoldItalic.otf</string>
+		<string>AtlasGroteskRegular.otf</string>
+		<string>AtlasGroteskRegularItalic.otf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

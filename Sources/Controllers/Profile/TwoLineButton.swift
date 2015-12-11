@@ -47,11 +47,11 @@ public class TwoLineButton: UIButton {
     }
 
     private func updateText() {
-        let countNormalAttributes = attributes(UIColor.blackColor(), font: UIFont.regularBoldFont(12))
-        let countSelectedAttributes = attributes(UIColor.greyA(), font: UIFont.regularBoldFont(12))
+        let countNormalAttributes = attributes(UIColor.blackColor(), font: UIFont.defaultBoldFont())
+        let countSelectedAttributes = attributes(UIColor.greyA(), font: UIFont.defaultBoldFont())
 
-        let titleNormalAttributes = attributes(UIColor.greyA(), font: UIFont.typewriterFont(12))
-        let titleSelectedAttributes = attributes(UIColor.greyE5(), font: UIFont.typewriterFont(12))
+        let titleNormalAttributes = attributes(UIColor.greyA(), font: UIFont.defaultFont())
+        let titleSelectedAttributes = attributes(UIColor.greyE5(), font: UIFont.defaultFont())
 
         let attributedNormalCount = NSAttributedString(string: count + "\n", attributes: countNormalAttributes)
         let attributedSelectedCount = NSAttributedString(string: count + "\n", attributes: countSelectedAttributes)

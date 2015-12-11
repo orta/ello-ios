@@ -77,7 +77,7 @@ public class StreamCreateCommentCell: UICollectionViewCell {
         createCommentLabel.frame = createCommentBackground.bounds.inset(top: 0, left: Size.ButtonLabelMargin, bottom: 0, right: 0)
         createCommentLabel.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         createCommentLabel.text = "Comment..."
-        createCommentLabel.font = UIFont.typewriterFont(12)
+        createCommentLabel.font = UIFont.defaultFont()
         createCommentLabel.textColor = UIColor.whiteColor()
         createCommentLabel.textAlignment = .Left
     }

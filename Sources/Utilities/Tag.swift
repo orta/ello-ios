@@ -294,7 +294,7 @@ public class Tag: CustomStringConvertible {
 
     private func attrd(text: String, let addlAttrs: [String: AnyObject] = [:]) -> NSAttributedString {
         let defaultAttrs: [String: AnyObject] = [
-            NSFontAttributeName: UIFont.typewriterEditorFont(12),
+            NSFontAttributeName: UIFont.editorFont(),
             NSForegroundColorAttributeName: UIColor.blackColor(),
         ]
         return NSAttributedString(string: text, attributes: defaultAttrs + addlAttrs)
@@ -317,21 +317,21 @@ public class Tag: CustomStringConvertible {
                 newAttrs[NSUnderlineStyleAttributeName] = NSUnderlineStyle.StyleSingle.rawValue
             case "b", "strong":
                 if let existingFont = inheritedAttrs[NSFontAttributeName] as? UIFont
-                where existingFont.fontName == UIFont.typewriterEditorItalicFont(12).fontName
+                where existingFont.fontName == UIFont.editorItalicFont().fontName
                 {
-                    newAttrs[NSFontAttributeName] = UIFont.typewriterEditorBoldItalicFont(12)
+                    newAttrs[NSFontAttributeName] = UIFont.editorBoldItalicFont()
                 }
                 else {
-                    newAttrs[NSFontAttributeName] = UIFont.typewriterEditorBoldFont(12)
+                    newAttrs[NSFontAttributeName] = UIFont.editorBoldFont()
                 }
             case "i", "em":
                 if let existingFont = inheritedAttrs[NSFontAttributeName] as? UIFont
-                where existingFont.fontName == UIFont.typewriterEditorBoldFont(12).fontName
+                where existingFont.fontName == UIFont.editorBoldFont().fontName
                 {
-                    newAttrs[NSFontAttributeName] = UIFont.typewriterEditorBoldItalicFont(12)
+                    newAttrs[NSFontAttributeName] = UIFont.editorBoldItalicFont()
                 }
                 else {
-                    newAttrs[NSFontAttributeName] = UIFont.typewriterEditorItalicFont(12)
+                    newAttrs[NSFontAttributeName] = UIFont.editorItalicFont()
                 }
             default:
                 break

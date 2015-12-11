@@ -25,10 +25,10 @@ public class StreamInviteFriendsCell: UICollectionViewCell {
 
     override public func awakeFromNib() {
         super.awakeFromNib()
-        nameLabel.font = UIFont.typewriterFont(12.0)
+        nameLabel.font = UIFont.defaultFont()
         nameLabel.textColor = UIColor.greyA()
         nameLabel.lineBreakMode = NSLineBreakMode.ByTruncatingTail
-        inviteButton.titleLabel?.font = UIFont.typewriterFont(12.0)
+        inviteButton.titleLabel?.font = UIFont.defaultFont()
         // bottom border
         bottomBorder.backgroundColor = UIColor.greyF1().CGColor
         self.layer.addSublayer(bottomBorder)

@@ -21,7 +21,7 @@ public class NotificationFilterButton: UIButton {
     }
 
     private func setup() {
-        self.titleLabel!.font = UIFont.typewriterFont(12)
+        self.titleLabel?.font = UIFont.defaultFont()
         self.setTitleColor(UIColor.whiteColor(), forState: .Selected)
         self.setTitleColor(UIColor.greyA(), forState: .Normal)
         self.setBackgroundImage(UIImage(named: "selected-pixel"), forState: .Selected)
