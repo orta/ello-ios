@@ -98,7 +98,7 @@ public class BlockUserModalViewController: BaseElloViewController {
         backgroundButton.backgroundColor = UIColor.modalBackground()
         modalView.backgroundColor = UIColor.redColor()
         for label in [titleLabel, muteLabel, blockLabel] {
-            label.font = UIFont.typewriterFont(12)
+            label.font = UIFont.defaultFont()
             label.textColor = UIColor.whiteColor()
             label.lineBreakMode = .ByWordWrapping
             label.numberOfLines = 0

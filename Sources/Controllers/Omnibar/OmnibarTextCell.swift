@@ -26,7 +26,7 @@ public class OmnibarTextCell: UITableViewCell {
     class func generateTextView() -> UITextView {
         let textView = UITextView()
         textView.textColor = UIColor.blackColor()
-        textView.font = UIFont.typewriterEditorFont(12)
+        textView.font = UIFont.editorFont()
         textView.textContainerInset = UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)
         textView.textContainer.lineFragmentPadding = 0
         textView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]

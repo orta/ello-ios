@@ -101,7 +101,7 @@ public class SearchScreen: UIView, SearchScreenProtocol {
         searchField = UITextField(frame: CGRect(x: 0, y: 0, width: searchControlsContainer.frame.size.width, height: searchControlsContainer.frame.size.height - 10))
         searchField.autoresizingMask = [.FlexibleWidth, .FlexibleBottomMargin]
         searchField.clearButtonMode = .WhileEditing
-        searchField.font = UIFont.regularBoldFont(18)
+        searchField.font = UIFont.defaultBoldFont(18)
         searchField.textColor = UIColor.blackColor()
         searchField.attributedPlaceholder = NSAttributedString(string: "  \(fieldPlaceholderText)", attributes: [NSForegroundColorAttributeName: UIColor.greyA()])
         searchField.autocapitalizationType = .None

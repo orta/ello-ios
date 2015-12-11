@@ -44,7 +44,7 @@ public class ImageLabelControl: UIControl {
     let outerPadding: CGFloat = 5
     let minWidth: CGFloat = 44
     let height: CGFloat = 44
-    let titleFont = UIFont.typewriterFont(12)
+    let titleFont = UIFont.defaultFont()
     let contentContainer = UIView(frame: CGRectZero)
     let label = UILabel(frame: CGRectZero)
     let button = UIButton(frame: CGRectZero)

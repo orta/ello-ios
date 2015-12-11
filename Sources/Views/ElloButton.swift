@@ -44,7 +44,7 @@ public class ElloButton: UIButton {
     }
 
     func sharedSetup() {
-        self.titleLabel?.font = UIFont.typewriterFont(12)
+        self.titleLabel?.font = UIFont.defaultFont()
         self.titleLabel?.numberOfLines = 1
         self.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.setTitleColor(UIColor.greyA(), forState: .Disabled)
@@ -60,7 +60,7 @@ public class LightElloButton: ElloButton {
     }
 
     override func sharedSetup() {
-        self.titleLabel?.font = UIFont.typewriterFont(12)
+        self.titleLabel?.font = UIFont.defaultFont()
         self.titleLabel?.numberOfLines = 1
         self.setTitleColor(UIColor.grey6(), forState: .Normal)
         self.setTitleColor(UIColor.blackColor(), forState: .Highlighted)
@@ -93,7 +93,7 @@ public class WhiteElloButton: ElloButton {
 
     override func sharedSetup() {
         super.sharedSetup()
-        self.titleLabel?.font = UIFont.typewriterFont(12)
+        self.titleLabel?.font = UIFont.defaultFont()
         self.setTitleColor(UIColor.blackColor(), forState: .Normal)
         self.setTitleColor(UIColor.grey6(), forState: .Highlighted)
         self.setTitleColor(UIColor.greyC(), forState: .Disabled)
@@ -177,7 +177,7 @@ public class ElloPostButton: ElloButton {
 
     override func sharedSetup() {
         setTitle(NSLocalizedString("Post", comment: "Post button title"), forState: .Normal)
-        titleLabel?.font = UIFont.regularFont(14)
+        titleLabel?.font = UIFont.defaultFont()
         setTitleColor(UIColor.whiteColor(), forState: .Normal)
         setTitleColor(UIColor.greyA(), forState: .Highlighted)
         setTitleColor(UIColor.whiteColor(), forState: .Disabled)

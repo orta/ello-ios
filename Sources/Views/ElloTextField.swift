@@ -44,7 +44,7 @@ public class ElloTextField: UITextField {
 
     func sharedSetup() {
         self.backgroundColor = UIColor.greyE5()
-        self.font = UIFont.typewriterFont(12.0)
+        self.font = UIFont.defaultFont()
         self.textColor = UIColor.blackColor()
 
         self.setNeedsDisplay()

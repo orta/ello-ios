@@ -23,7 +23,7 @@ public struct ElloAttributedString {
 
         var attrs: [String: AnyObject] = [
             NSParagraphStyleAttributeName: paragraphStyle,
-            NSFontAttributeName: UIFont.typewriterFont(12),
+            NSFontAttributeName: UIFont.defaultFont(),
             NSForegroundColorAttributeName: UIColor.blackColor(),
         ]
         for addlAttrs in allAddlAttrs {
@@ -97,14 +97,14 @@ public struct ElloAttributedString {
             }
 
             if let font = attrs[NSFontAttributeName] as? UIFont {
-                if font.fontName == UIFont.typewriterEditorBoldFont(12).fontName {
+                if font.fontName == UIFont.editorBoldFont().fontName {
                     tags.append(HtmlTagTuple("strong"))
                 }
-                else if font.fontName == UIFont.typewriterEditorBoldItalicFont(12).fontName {
+                else if font.fontName == UIFont.editorBoldItalicFont().fontName {
                     tags.append(HtmlTagTuple("strong"))
                     tags.append(HtmlTagTuple("em"))
                 }
-                else if font.fontName == UIFont.typewriterEditorItalicFont(12).fontName {
+                else if font.fontName == UIFont.editorItalicFont().fontName {
                     tags.append(HtmlTagTuple("em"))
                 }
             }

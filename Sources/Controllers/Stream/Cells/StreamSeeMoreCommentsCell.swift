@@ -22,7 +22,7 @@ public class StreamSeeMoreCommentsCell: UICollectionViewCell {
         buttonContainer.backgroundColor = .greyA()
         seeMoreButton.setTitleColor(UIColor.greyA(), forState: UIControlState.Normal)
         seeMoreButton.backgroundColor = .whiteColor()
-        seeMoreButton.titleLabel?.font = .typewriterFont(12.0)
+        seeMoreButton.titleLabel?.font = .defaultFont()
     }
 
 }

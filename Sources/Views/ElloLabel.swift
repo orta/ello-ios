@@ -27,7 +27,7 @@ public class ElloLabel: UILabel {
         paragraphStyle.alignment = alignment
 
         return [
-            NSFontAttributeName : UIFont.typewriterFont(12.0),
+            NSFontAttributeName : UIFont.defaultFont(),
             NSForegroundColorAttributeName : color,
             NSParagraphStyleAttributeName : paragraphStyle
         ]

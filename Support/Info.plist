@@ -67,13 +67,15 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>AtlasTypewriterRegular.otf</string>
+		<string>AtlasTypewriterRegularItalic.otf</string>
 		<string>AtlasTypewriterBold.otf</string>
 		<string>AtlasTypewriterBoldItalic.otf</string>
-		<string>AtlasGroteskBold.otf</string>
-		<string>AtlasGroteskRegular.otf</string>
-		<string>AtlasTypewriterRegularItalic.otf</string>
-		<string>AtlasTypewriterMediumItalic.otf</string>
 		<string>AtlasTypewriterMedium.otf</string>
+		<string>AtlasTypewriterMediumItalic.otf</string>
+		<string>AtlasGroteskBold.otf</string>
+		<string>AtlasGroteskBoldItalic.otf</string>
+		<string>AtlasGroteskRegular.otf</string>
+		<string>AtlasGroteskRegularItalic.otf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
