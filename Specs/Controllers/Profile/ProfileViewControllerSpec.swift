@@ -229,9 +229,9 @@ class ProfileViewControllerSpec: QuickSpec {
                 let user: User = stub([:])
                 let subject = ProfileViewController(user: user)
                 beforeEach {
+                    showController(subject)
                     subject.currentUser = user
                     subject.updateCurrentUser(user)
-                    showController(subject)
                 }
                 validateAllSnapshots(subject)
             }
