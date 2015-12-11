@@ -105,9 +105,6 @@ public class OutlineElloButton: WhiteElloButton {
 
     override func sharedSetup() {
         super.sharedSetup()
-        setTitleColor(UIColor.blackColor(), forState: .Normal)
-        setTitleColor(UIColor.greyE5(), forState: .Highlighted)
-        setTitleColor(UIColor.greyC(), forState: .Disabled)
         backgroundColor = .whiteColor()
         updateOutline()
     }
@@ -131,33 +128,23 @@ public class RoundedElloButton: ElloButton {
             updateOutline()
         }
     }
-    var titleColor: UIColor = UIColor.blackColor() {
-        didSet {
-            updateStyle()
-        }
-    }
-
-    override public func updateStyle() {
-        setTitleColor(titleColor, forState: .Normal)
-        setTitleColor(UIColor.greyE5(), forState: .Highlighted)
-        setTitleColor(UIColor.greyC(), forState: .Disabled)
-    }
 
     override public func sharedSetup() {
         super.sharedSetup()
-        backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
+        setTitleColor(UIColor.blackColor(), forState: .Normal)
+        setTitleColor(UIColor.grey6(), forState: .Highlighted)
+        setTitleColor(UIColor.greyC(), forState: .Disabled)
+        layer.borderWidth = 1
+        backgroundColor = UIColor.clearColor()
         updateOutline()
     }
 
-    override public var highlighted: Bool {
-        didSet {
-            updateOutline()
-        }
+    override func updateStyle() {
+        backgroundColor = enabled ? .clearColor() : .grey231F20()
     }
 
-    private func updateOutline() {
-        layer.borderColor = highlighted ? UIColor.greyE5().CGColor : borderColor.CGColor
-        layer.borderWidth = 1
+    func updateOutline() {
+        layer.borderColor = borderColor.CGColor
     }
 
     override public func layoutSubviews() {
@@ -209,21 +196,16 @@ public class ElloPostButton: ElloButton {
 
 
 public class ElloMentionButton: RoundedElloButton {
-    override public func updateStyle() {
-        setTitleColor(titleColor, forState: .Normal)
+    override public func sharedSetup() {
+        super.sharedSetup()
+
+        setTitleColor(UIColor.blackColor(), forState: .Normal)
         setTitleColor(UIColor.whiteColor(), forState: .Highlighted)
         setTitleColor(UIColor.greyC(), forState: .Disabled)
     }
 
-    override public var highlighted: Bool {
-        didSet {
-            updateOutline()
-        }
-    }
-
-    override private func updateOutline() {
-        backgroundColor = highlighted ? UIColor.grey4D() : UIColor.whiteColor().colorWithAlphaComponent(0.5)
-        layer.borderColor = highlighted ? UIColor.blackColor().CGColor : borderColor.CGColor
-        layer.borderWidth = 1
+    override func updateOutline() {
+        super.updateOutline()
+        backgroundColor = highlighted ? UIColor.grey4D() : UIColor.whiteColor()
     }
 }
