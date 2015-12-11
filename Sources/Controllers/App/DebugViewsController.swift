@@ -43,8 +43,6 @@ class DebugViewsController: UIViewController {
 
                 prevControl = control
             }
-        } else {
-            // Fallback on earlier versions
         }
     }
 
