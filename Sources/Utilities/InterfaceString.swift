@@ -18,7 +18,7 @@ public enum InterfaceString {
         var localized: String {
             switch self {
             case .CurrentUserNoResultsBody:
-                return NSLocalizedString("Here's some tips on how to get new followers: use Discover to find people you're interested in, and to find or invite your friends. When you see things you like you can comment, repost, mention people and love the posts that you most enjoy. ", comment: "Current user no followers results body.")
+                return NSLocalizedString("Here's some tips on how to get new followers: use Discover to find people you're interested in, and to find or invite your contacts. When you see things you like you can comment, repost, mention people and love the posts that you most enjoy. ", comment: "Current user no followers results body.")
             case .CurrentUserNoResultsTitle:
                 return NSLocalizedString("You don't have any followers yet!", comment: "Current user no followers results title")
             case .NoResultsBody:
@@ -41,7 +41,7 @@ public enum InterfaceString {
         var localized: String {
             switch self {
             case .CurrentUserNoResultsBody:
-                return NSLocalizedString("Ello is way more rad when you're following lots of people.\n\nUse Discover to find people you're interested in, and to find or invite your friends.\nYou can also use Search (upper right) to look for new and excellent people!", comment: "Current user No following results body.")
+                return NSLocalizedString("Ello is way more rad when you're following lots of people.\n\nUse Discover to find people you're interested in, and to find or invite your contacts.\nYou can also use Search (upper right) to look for new and excellent people!", comment: "Current user No following results body.")
             case .CurrentUserNoResultsTitle:
                 return NSLocalizedString("You aren't following anyone yet!", comment: "Current user no following results title")
             case .NoResultsBody:
