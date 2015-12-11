@@ -20,7 +20,7 @@ public class ElloButton: UIButton {
     }
 
     func updateStyle() {
-        self.backgroundColor = enabled ? .blackColor() : .grey231F20()
+        backgroundColor = enabled ? .blackColor() : .grey231F20()
     }
 
     required override public init(frame: CGRect) {
@@ -44,10 +44,10 @@ public class ElloButton: UIButton {
     }
 
     func sharedSetup() {
-        self.titleLabel?.font = UIFont.defaultFont()
-        self.titleLabel?.numberOfLines = 1
-        self.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        self.setTitleColor(UIColor.greyA(), forState: .Disabled)
+        titleLabel?.font = UIFont.defaultFont()
+        titleLabel?.numberOfLines = 1
+        setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        setTitleColor(UIColor.greyA(), forState: .Disabled)
         updateStyle()
     }
 
@@ -56,15 +56,15 @@ public class ElloButton: UIButton {
 public class LightElloButton: ElloButton {
 
     override func updateStyle() {
-        self.backgroundColor = enabled ? .greyE5() : .greyF1()
+        backgroundColor = enabled ? .greyE5() : .greyF1()
     }
 
     override func sharedSetup() {
-        self.titleLabel?.font = UIFont.defaultFont()
-        self.titleLabel?.numberOfLines = 1
-        self.setTitleColor(UIColor.grey6(), forState: .Normal)
-        self.setTitleColor(UIColor.blackColor(), forState: .Highlighted)
-        self.setTitleColor(UIColor.greyC(), forState: .Disabled)
+        titleLabel?.font = UIFont.defaultFont()
+        titleLabel?.numberOfLines = 1
+        setTitleColor(UIColor.grey6(), forState: .Normal)
+        setTitleColor(UIColor.blackColor(), forState: .Highlighted)
+        setTitleColor(UIColor.greyC(), forState: .Disabled)
     }
 
 }
@@ -81,23 +81,23 @@ public class WhiteElloButton: ElloButton {
 
     override func updateStyle() {
         if !enabled {
-            self.backgroundColor = .greyA()
+            backgroundColor = .greyA()
         }
         else if selected {
-            self.backgroundColor = .blackColor()
+            backgroundColor = .blackColor()
         }
         else {
-            self.backgroundColor = .whiteColor()
+            backgroundColor = .whiteColor()
         }
     }
 
     override func sharedSetup() {
         super.sharedSetup()
-        self.titleLabel?.font = UIFont.defaultFont()
-        self.setTitleColor(UIColor.blackColor(), forState: .Normal)
-        self.setTitleColor(UIColor.grey6(), forState: .Highlighted)
-        self.setTitleColor(UIColor.greyC(), forState: .Disabled)
-        self.setTitleColor(UIColor.whiteColor(), forState: .Selected)
+        titleLabel?.font = UIFont.defaultFont()
+        setTitleColor(UIColor.blackColor(), forState: .Normal)
+        setTitleColor(UIColor.grey6(), forState: .Highlighted)
+        setTitleColor(UIColor.greyC(), forState: .Disabled)
+        setTitleColor(UIColor.whiteColor(), forState: .Selected)
     }
 }
 
@@ -105,10 +105,10 @@ public class OutlineElloButton: WhiteElloButton {
 
     override func sharedSetup() {
         super.sharedSetup()
-        self.setTitleColor(UIColor.blackColor(), forState: .Normal)
-        self.setTitleColor(UIColor.greyE5(), forState: .Highlighted)
-        self.setTitleColor(UIColor.greyC(), forState: .Disabled)
-        self.backgroundColor = .whiteColor()
+        setTitleColor(UIColor.blackColor(), forState: .Normal)
+        setTitleColor(UIColor.greyE5(), forState: .Highlighted)
+        setTitleColor(UIColor.greyC(), forState: .Disabled)
+        backgroundColor = .whiteColor()
         updateOutline()
     }
 
@@ -119,8 +119,8 @@ public class OutlineElloButton: WhiteElloButton {
     }
 
     private func updateOutline() {
-        self.layer.borderColor = highlighted ? UIColor.greyE5().CGColor : UIColor.blackColor().CGColor
-        self.layer.borderWidth = 1
+        layer.borderColor = highlighted ? UIColor.greyE5().CGColor : UIColor.blackColor().CGColor
+        layer.borderWidth = 1
     }
 }
 
