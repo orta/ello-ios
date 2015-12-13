@@ -56,6 +56,48 @@ public enum OmnibarRegion {
 }
 
 
+public class ElloPostButton: ElloButton {
+    var pencilView: UIImageView!
+
+    override public var highlighted: Bool {
+        didSet {
+            updateStyle()
+        }
+    }
+
+    override func sharedSetup() {
+        setTitle(NSLocalizedString("Post", comment: "Post button title"), forState: .Normal)
+        titleLabel?.font = UIFont.defaultFont()
+        setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        setTitleColor(UIColor.greyA(), forState: .Highlighted)
+        setTitleColor(UIColor.whiteColor(), forState: .Disabled)
+
+        let image = SVGKImage(named: "pencil_white").UIImage!
+        pencilView = UIImageView(image: image)
+        pencilView.center = bounds.center
+        pencilView.autoresizingMask = [.FlexibleRightMargin, .FlexibleTopMargin, .FlexibleBottomMargin]
+        addSubview(pencilView)
+
+        updateStyle()
+    }
+
+    override func updateStyle() {
+        let image = highlighted ? SVGKImage(named: "pencil_normal").UIImage! : SVGKImage(named: "pencil_white").UIImage!
+        pencilView.image = image
+
+        backgroundColor = enabled ? .blackColor() : .greyA()
+    }
+
+    override public func layoutSubviews() {
+        super.layoutSubviews()
+        pencilView.frame.origin.x = 10
+        pencilView.center.y = bounds.size.height / 2
+        layer.cornerRadius = min(bounds.size.width, bounds.size.height) / 2
+    }
+
+}
+
+
 public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     struct Size {
         static let margins = UIEdgeInsets(top: 17, left: 15, bottom: 10, right: 15)
