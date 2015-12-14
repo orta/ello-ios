@@ -6,9 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import Foundation
-import SVGKit
-
 public class StreamEmbedCell: StreamImageCell {
 
     @IBOutlet weak var playIcon: UIImageView!
@@ -20,7 +17,7 @@ public class StreamEmbedCell: StreamImageCell {
         }
     }
 
-    public func setPlayImageIcon(icon: String) {
-        playIcon.image = SVGKImage(named: icon).UIImage!
+    public func setPlayImageIcon(icon: Interface.Image) {
+        playIcon.image = icon.normalImage
     }
 }

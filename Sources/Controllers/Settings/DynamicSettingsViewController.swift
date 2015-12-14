@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import UIKit
 import SwiftyJSON
 
 private let DynamicSettingsCellHeight: CGFloat = 50
@@ -75,7 +74,7 @@ class DynamicSettingsViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("PreferenceCell", forIndexPath: indexPath) 
+        let cell = tableView.dequeueReusableCellWithIdentifier("PreferenceCell", forIndexPath: indexPath)
 
         switch DynamicSettingsSection(rawValue: indexPath.section) ?? .Unknown {
         case .DynamicSettings:

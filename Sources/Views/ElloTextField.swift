@@ -6,19 +6,18 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
-import UIKit
-import SVGKit
-
-enum ValidationState: String {
-    case Loading = "circ_normal.svg"
-    case Error = "x_red.svg"
-    case OK = "check_green.svg"
-    case None = ""
+enum ValidationState {
+    case Loading
+    case Error
+    case OK
+    case None
 
     var imageRepresentation: UIImage? {
         switch self {
-        case .None: return .None
-        default: return SVGKImage(named: self.rawValue).UIImage
+        case .Loading: return Interface.Image.ValidationLoading.normalImage
+        case .Error: return Interface.Image.ValidationError.normalImage
+        case .OK: return Interface.Image.ValidationOK.normalImage
+        case .None: return nil
         }
     }
 }

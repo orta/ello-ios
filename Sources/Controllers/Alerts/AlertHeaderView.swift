@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import SVGKit
-
 public protocol AlertHeaderDelegate: NSObjectProtocol {
     func helpTapped()
 }
@@ -21,7 +19,7 @@ public class AlertHeaderView: UIView {
 
     public override func awakeFromNib() {
         super.awakeFromNib()
-        helpButton.setImage(SVGKImage(named: "question_normal.svg").UIImage!, forState: .Normal)
+        helpButton.setImage(Interface.Image.Question.normalImage, forState: .Normal)
         helpButtonWidthConstraint.constant = 0
     }
 

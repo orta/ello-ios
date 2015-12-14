@@ -6,8 +6,6 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
-import UIKit
-
 public extension String {
 
     func isValidEmail() -> Bool {

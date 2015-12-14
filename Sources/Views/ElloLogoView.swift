@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import UIKit
-import SVGKit
 import QuartzCore
 import FLAnimatedImage
 
@@ -29,7 +27,7 @@ public class ElloLogoView: FLAnimatedImageView {
 
     override public init(frame: CGRect) {
         super.init(frame: frame)
-        self.image = SVGKImage(named: "ello_logo.svg").UIImage
+        self.image = Interface.Image.ElloLogo.normalImage
     }
 
     func animateLogo() {

@@ -6,11 +6,8 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
-import UIKit
-import Foundation
 import FLAnimatedImage
 import PINRemoteImage
-import SVGKit
 import Alamofire
 
 public class StreamImageCell: StreamRegionableCell {
@@ -49,7 +46,7 @@ public class StreamImageCell: StreamRegionableCell {
     public var isLargeImage: Bool {
         get { return !(largeImagePlayButton?.hidden ?? true) }
         set {
-            largeImagePlayButton?.image = SVGKImage(named: "embetter_video_play.svg").UIImage
+            largeImagePlayButton?.image = Interface.Image.VideoPlay.normalImage
             largeImagePlayButton?.hidden = !newValue
         }
     }
@@ -63,7 +60,7 @@ public class StreamImageCell: StreamRegionableCell {
     override public func awakeFromNib() {
         super.awakeFromNib()
         if let playButton = largeImagePlayButton {
-            playButton.image = SVGKImage(named: "embetter_video_play.svg").UIImage!
+            playButton.image = Interface.Image.VideoPlay.normalImage
         }
     }
 

@@ -6,8 +6,6 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
-import UIKit
-
 extension UIWindow {
     class var mainWindow: UIWindow {
         return UIApplication.sharedApplication().keyWindow ?? UIWindow()

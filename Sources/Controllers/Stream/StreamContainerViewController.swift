@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import UIKit
-import SVGKit
 import SwiftyUserDefaults
 
 let CurrentStreamKey = "Ello.StreamContainerViewController.CurrentStream"
@@ -36,7 +34,7 @@ public class StreamContainerViewController: StreamableViewController {
     }
 
     override public var tabBarItem: UITabBarItem? {
-        get { return UITabBarItem.svgItem("circbig") }
+        get { return UITabBarItem.item(.CircBig) }
         set { self.tabBarItem = newValue }
     }
 
@@ -68,7 +66,7 @@ public class StreamContainerViewController: StreamableViewController {
         setupStreamsSegmentedControl()
         setupChildViewControllers()
         elloNavigationItem.titleView = streamsSegmentedControl
-        elloNavigationItem.leftBarButtonItem = UIBarButtonItem(image: SVGKImage(named: "burger_normal.svg").UIImage!, style: .Done, target: self, action: Selector("hamburgerButtonTapped"))
+        elloNavigationItem.leftBarButtonItem = UIBarButtonItem(image: Interface.Image.Burger.normalImage, style: .Done, target: self, action: Selector("hamburgerButtonTapped"))
         addSearchButton()
         navigationBar.items = [elloNavigationItem]
 

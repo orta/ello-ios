@@ -6,9 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import UIKit
-import Foundation
-
 @objc
 public protocol EditProfileResponder {
     func onEditProfile()

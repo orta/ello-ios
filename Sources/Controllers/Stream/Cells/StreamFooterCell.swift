@@ -6,9 +6,6 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
-import UIKit
-import Foundation
-
 let streamCellDidOpenNotification = TypedNotification<UICollectionViewCell>(name: "StreamCellDidOpenNotification")
 
 public class StreamFooterCell: UICollectionViewCell {
@@ -172,6 +169,7 @@ public class StreamFooterCell: UICollectionViewCell {
         bottomToolBar.barTintColor = UIColor.whiteColor()
         bottomToolBar.clipsToBounds = true
         bottomToolBar.layer.borderColor = UIColor.whiteColor().CGColor
+        chevronButton.setImages(.AngleBracket)
 
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = false
@@ -313,7 +311,6 @@ public class StreamFooterCell: UICollectionViewCell {
         scrollView.frame = newBounds
         toolBar.frame = newBounds
         bottomToolBar.frame = newBounds
-        chevronButton.setSVGImages("abracket")
         chevronButton.frame = CGRect(
             x: newBounds.width - 40,
             y: newBounds.height/2 - 22,

@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import UIKit
 import Crashlytics
 
 public protocol AutoCompleteDelegate: NSObjectProtocol {
@@ -66,7 +65,7 @@ public extension AutoCompleteViewController {
                 loaded(count: self.dataSource.items.count)
         }, failure: showAutoCompleteLoadFailure)
     }
-    
+
     func showAutoCompleteLoadFailure(error: NSError, statusCode:Int?) {
         let message = NSLocalizedString("Something went wrong. Thank you for your patience with Ello Beta!", comment: "Initial stream load failure")
         let alertController = AlertViewController(message: message)

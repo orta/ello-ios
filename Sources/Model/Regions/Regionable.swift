@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import UIKit
-
 @objc
 public protocol Regionable {
     var kind:String { get }

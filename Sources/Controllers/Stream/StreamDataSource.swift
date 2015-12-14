@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
-import UIKit
 import WebKit
 
 public class StreamDataSource: NSObject, UICollectionViewDataSource {

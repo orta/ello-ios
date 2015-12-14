@@ -25,7 +25,7 @@ public class OnboardingBackButton: UIButton {
     }
 
     func sharedSetup() {
-        self.setSVGImages("abracket", degree: 180.0)
+        self.setImages(.AngleBracket, degree: 180)
         self.backgroundColor = enabled ? .greyE5() : .greyF1()
     }
 
@@ -71,13 +71,13 @@ public class OnboardingNextButton: LightElloButton {
 
     func updateImage() {
         if !enabled {
-            chevron?.setSVGImage("abracket_disabled")
+            chevron?.image = Interface.Image.AngleBracket.disabledImage
         }
         else if highlighted {
-            chevron?.setSVGImage("abracket_selected")
+            chevron?.image = Interface.Image.AngleBracket.selectedImage
         }
         else {
-            chevron?.setSVGImage("abracket_normal")
+            chevron?.image = Interface.Image.AngleBracket.normalImage
         }
     }
 

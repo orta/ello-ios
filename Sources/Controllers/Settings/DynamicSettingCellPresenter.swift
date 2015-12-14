@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import UIKit
-
 public struct DynamicSettingCellPresenter {
     public static func configure(cell: DynamicSettingCell, setting: DynamicSetting, currentUser: User) {
         cell.titleLabel.text = setting.label

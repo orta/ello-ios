@@ -6,21 +6,19 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import Foundation
-import SVGKit
-
 public struct UserAvatarsCellPresenter {
 
     public static func configure(
-        cell:UICollectionViewCell,
-        streamCellItem:StreamCellItem,
+        cell: UICollectionViewCell,
+        streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: NSIndexPath,
         currentUser: User?)
     {
-        if let cell = cell as? UserAvatarsCell, let model = streamCellItem.jsonable as? UserAvatarCellModel
+        if let cell = cell as? UserAvatarsCell,
+            model = streamCellItem.jsonable as? UserAvatarCellModel
         {
-            cell.imageView.image = SVGKImage(named: model.icon).UIImage
+            cell.imageView.image = model.icon.normalImage
             cell.userAvatarCellModel = model
             cell.loadingLabel.hidden = model.hasUsers
         }

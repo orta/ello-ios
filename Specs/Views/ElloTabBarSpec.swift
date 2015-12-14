@@ -22,11 +22,11 @@ class ElloTabBarSpec: QuickSpec {
 
             beforeEach {
                 let items = [
-                    UITabBarItem.svgItem("sparkles"),
-                    UITabBarItem.svgItem("bolt"),
-                    UITabBarItem.svgItem("circbig"),
-                    UITabBarItem.svgItem("person"),
-                    UITabBarItem.svgItem("omni"),
+                    UITabBarItem.item(.Sparkles),
+                    UITabBarItem.item(.Bolt),
+                    UITabBarItem.item(.CircBig),
+                    UITabBarItem.item(.Person),
+                    UITabBarItem.item(.Omni),
                 ]
                 subject = ElloTabBar()
                 subject.items = items

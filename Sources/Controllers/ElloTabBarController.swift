@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
-import UIKit
 import SwiftyUserDefaults
 
 public enum ElloTab: Int {

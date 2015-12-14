@@ -6,11 +6,9 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import UIKit
 import Photos
 import MobileCoreServices
 import FLAnimatedImage
-import SVGKit
 import PINRemoteImage
 
 
@@ -72,7 +70,7 @@ public class ElloPostButton: ElloButton {
         setTitleColor(UIColor.greyA(), forState: .Highlighted)
         setTitleColor(UIColor.whiteColor(), forState: .Disabled)
 
-        let image = SVGKImage(named: "pencil_white").UIImage!
+        let image = Interface.Image.Pencil.whiteImage
         pencilView = UIImageView(image: image)
         pencilView.center = bounds.center
         pencilView.autoresizingMask = [.FlexibleRightMargin, .FlexibleTopMargin, .FlexibleBottomMargin]
@@ -82,7 +80,7 @@ public class ElloPostButton: ElloButton {
     }
 
     override func updateStyle() {
-        let image = highlighted ? SVGKImage(named: "pencil_normal").UIImage! : SVGKImage(named: "pencil_white").UIImage!
+        let image = highlighted ? Interface.Image.Pencil.normalImage : Interface.Image.Pencil.whiteImage
         pencilView.image = image
 
         backgroundColor = enabled ? .blackColor() : .greyA()
@@ -285,16 +283,23 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     // buttons that make up the "toolbar"
     private func setupToolbarButtons() {
         cancelButton.contentEdgeInsets = UIEdgeInsets(top: 4, left: 7.5, bottom: 4, right: 7.5)
-        cancelButton.setSVGImages("x")
+        cancelButton.setImages(.X)
         cancelButton.addTarget(self, action: Selector("cancelEditingAction"), forControlEvents: .TouchUpInside)
 
         reorderButton.contentEdgeInsets = UIEdgeInsets(top: 4, left: 12.5, bottom: 4, right: 12.5)
-        reorderButton.setSVGImages("reorder")
+        reorderButton.setImages(.Reorder)
         reorderButton.addTarget(self, action: Selector("toggleReorderingTable"), forControlEvents: .TouchUpInside)
 
         submitButton.contentEdgeInsets = UIEdgeInsets(top: 8, left: 35, bottom: 8, right: 15)
         submitButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         submitButton.addTarget(self, action: Selector("submitAction"), forControlEvents: .TouchUpInside)
+
+        for button in [tabbarCameraButton, keyboardCameraButton] {
+            button.backgroundColor = UIColor.blackColor()
+            button.setImages(.Camera, white: true)
+            button.addTarget(self, action: Selector("addImageAction"), forControlEvents: .TouchUpInside)
+            button.frame.size.height = Size.keyboardButtonSize.height
+        }
     }
 
     // The textContainer is the outer gray background.  The text view is
@@ -371,15 +376,8 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
         linkButton.addTarget(self, action: Selector("linkButtonTapped"), forControlEvents: .TouchUpInside)
         linkButton.enabled = false
-        linkButton.setImage(SVGKImage(named: "link_white.svg").UIImage!, forState: .Normal)
-        linkButton.setImage(SVGKImage(named: "breaklink_white.svg").UIImage!, forState: .Selected)
-
-        for button in [tabbarCameraButton, keyboardCameraButton] {
-            button.backgroundColor = UIColor.blackColor()
-            button.setSVGImages("camera", white: true)
-            button.addTarget(self, action: Selector("addImageAction"), forControlEvents: .TouchUpInside)
-            button.frame.size.height = Size.keyboardButtonSize.height
-        }
+        linkButton.setImage(Interface.Image.Link.whiteImage, forState: .Normal)
+        linkButton.setImage(Interface.Image.BreakLink.whiteImage, forState: .Selected)
     }
 
     private func setupViewHierarchy() {
@@ -582,13 +580,13 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
             if reorderableRegions.count == 0 { return }
 
             stopEditing()
-            reorderButton.setSVGImages("check")
+            reorderButton.setImages(.Check)
             reorderButton.selected = true
         }
         else {
             submitableRegions = convertReorderableRegions(reorderableRegions)
             editableRegions = generateEditableRegions(submitableRegions)
-            reorderButton.setSVGImages("reorder")
+            reorderButton.setImages(.Reorder)
             reorderButton.selected = false
         }
 

@@ -6,9 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import UIKit
 import FLAnimatedImage
-import SVGKit
 
 public class StreamCreateCommentCell: UICollectionViewCell {
     public struct Size {
@@ -63,8 +61,8 @@ public class StreamCreateCommentCell: UICollectionViewCell {
         self.contentView.addSubview(createCommentBackground)
         createCommentBackground.addSubview(createCommentLabel)
 
-        replyAllButton.setImage(SVGKImage(named: "replyall_normal.svg").UIImage, forState: .Normal)
-        replyAllButton.setImage(SVGKImage(named: "replyall_selected.svg").UIImage, forState: .Highlighted)
+        replyAllButton.setImage(Interface.Image.ReplyAll.normalImage, forState: .Normal)
+        replyAllButton.setImage(Interface.Image.ReplyAll.selectedImage, forState: .Highlighted)
         replyAllButton.addTarget(self, action: Selector("replyAllTapped"), forControlEvents: .TouchUpInside)
 
         avatarView.backgroundColor = UIColor.blackColor()

@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import SVGKit
-
 private let ViewHeight: CGFloat = 30
 private let MinViewWidth: CGFloat = 105
 
@@ -285,15 +283,15 @@ public class RelationshipControl: UIView {
         var image: UIImage? {
             switch self {
             case .Muted: return nil
-            case .Starred, .Following: return SVGKImage(named: "checksmall_white.svg").UIImage!
-            default: return SVGKImage(named: "plussmall_selected.svg").UIImage
+            case .Starred, .Following: return Interface.Image.CheckSmall.whiteImage
+            default: return Interface.Image.PlusSmall.selectedImage
             }
         }
 
         var highlightedImage: UIImage? {
             switch self {
             case .Muted, .Starred, .Following: return self.image
-            default: return SVGKImage(named: "plussmall_white.svg").UIImage
+            default: return Interface.Image.PlusSmall.whiteImage
             }
         }
     }
@@ -315,8 +313,7 @@ public class RelationshipControl: UIView {
         override func sharedSetup() {
             super.sharedSetup()
             contentEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 10)
-            let plus = SVGKImage(named: "plussmall_selected.svg").UIImage!
-            setImage(plus, forState: .Normal)
+            setImage(Interface.Image.PlusSmall.selectedImage, forState: .Normal)
 
             config = .None
             backgroundColor = config.normalBackgroundColor
@@ -357,23 +354,23 @@ public class RelationshipControl: UIView {
             switch style {
                 case .ProfileView:
                     if selected {
-                        setImage(SVGKImage(named: "star_white.svg").UIImage!, forState: .Normal)
+                        setImage(Interface.Image.Star.whiteImage, forState: .Normal)
                     }
                     else {
-                        setImage(SVGKImage(named: "star_normal.svg").UIImage!, forState: .Normal)
+                        setImage(Interface.Image.Star.normalImage, forState: .Normal)
                     }
-                    setImage(SVGKImage(named: "star_white.svg").UIImage!, forState: .Highlighted)
+                    setImage(Interface.Image.Star.whiteImage, forState: .Highlighted)
                     layer.borderWidth = 1
                     backgroundColor = config.starBackgroundColor
                     imageEdgeInsets.top = -1
                 default:
                     if selected {
-                        setImage(SVGKImage(named: "star_selected.svg").UIImage!, forState: .Normal)
+                        setImage(Interface.Image.Star.selectedImage, forState: .Normal)
                     }
                     else {
-                        setImage(SVGKImage(named: "star_normal.svg").UIImage!, forState: .Normal)
+                        setImage(Interface.Image.Star.normalImage, forState: .Normal)
                     }
-                    setImage(SVGKImage(named: "star_selected.svg").UIImage!, forState: .Highlighted)
+                    setImage(Interface.Image.Star.selectedImage, forState: .Highlighted)
                     layer.borderWidth = 0
                     backgroundColor = .clearColor()
                     imageEdgeInsets.top = 0

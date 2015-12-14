@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import SVGKit
-
 public class NarrationView: UIView {
     struct Size {
         static let margins = CGFloat(15)
@@ -40,7 +38,7 @@ public class NarrationView: UIView {
     private let pointer: UIImageView = {
         let pointer = UIImageView()
         pointer.contentMode = .ScaleAspectFit
-        pointer.image = SVGKImage(named: "narration_pointer.svg").UIImage
+        pointer.image = Interface.Image.NarrationPointer.normalImage
         return pointer
     }()
 

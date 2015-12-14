@@ -11,7 +11,7 @@ import Foundation
 let UserAvatarCellModelVersion = 1
 public final class UserAvatarCellModel: JSONAble {
 
-    public let icon: String
+    public let icon: Interface.Image
     public let seeMoreTitle: String
     public let indexPath: NSIndexPath
     public var endpoint: ElloAPI?
@@ -24,7 +24,7 @@ public final class UserAvatarCellModel: JSONAble {
         return false
     }
 
-    public init(icon: String, seeMoreTitle: String, indexPath: NSIndexPath) {
+    public init(icon: Interface.Image, seeMoreTitle: String, indexPath: NSIndexPath) {
         self.icon = icon
         self.seeMoreTitle = seeMoreTitle
         self.indexPath = indexPath
@@ -49,7 +49,7 @@ public final class UserAvatarCellModel: JSONAble {
 
     override public class func fromJSON(data:[String: AnyObject], fromLinked: Bool = false) -> JSONAble {
         return UserAvatarCellModel(
-            icon: (data["icon"] as? String) ?? "hearts_normal.svg",
+            icon: Interface.Image(rawValue: (data["icon"] as? String) ?? "hearts")!,
             seeMoreTitle: (data["seeMoreTitle"] as? String) ?? "",
             indexPath: (data["indexPath"] as? NSIndexPath) ?? NSIndexPath(forItem: 0, inSection: 0)
         )

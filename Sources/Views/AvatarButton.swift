@@ -6,9 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import SVGKit
-
-
 public class AvatarButton: UIButton {
     public var url: NSURL?
 
@@ -30,8 +27,7 @@ public class AvatarButton: UIButton {
     }
 
     private func setup() {
-        let starSVG = SVGKImage(named: "star_selected.svg")
-        let star = starSVG.UIImage!
+        let star = Interface.Image.Star.selectedImage
         starIcon.image = star
         starIcon.frame.size = starSize
         starIcon.hidden = true

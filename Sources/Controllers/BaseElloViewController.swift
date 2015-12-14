@@ -6,8 +6,6 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
-import UIKit
-
 @objc public protocol ControllerThatMightHaveTheCurrentUser {
     var currentUser: User? { get set }
 }
