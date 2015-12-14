@@ -54,51 +54,9 @@ public enum OmnibarRegion {
 }
 
 
-public class ElloPostButton: ElloButton {
-    var pencilView: UIImageView!
-
-    override public var highlighted: Bool {
-        didSet {
-            updateStyle()
-        }
-    }
-
-    override func sharedSetup() {
-        setTitle(NSLocalizedString("Post", comment: "Post button title"), forState: .Normal)
-        titleLabel?.font = UIFont.defaultFont()
-        setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        setTitleColor(UIColor.greyA(), forState: .Highlighted)
-        setTitleColor(UIColor.whiteColor(), forState: .Disabled)
-
-        let image = Interface.Image.Pencil.whiteImage
-        pencilView = UIImageView(image: image)
-        pencilView.center = bounds.center
-        pencilView.autoresizingMask = [.FlexibleRightMargin, .FlexibleTopMargin, .FlexibleBottomMargin]
-        addSubview(pencilView)
-
-        updateStyle()
-    }
-
-    override func updateStyle() {
-        let image = highlighted ? Interface.Image.Pencil.normalImage : Interface.Image.Pencil.whiteImage
-        pencilView.image = image
-
-        backgroundColor = enabled ? .blackColor() : .greyA()
-    }
-
-    override public func layoutSubviews() {
-        super.layoutSubviews()
-        pencilView.frame.origin.x = 10
-        pencilView.center.y = bounds.size.height / 2
-        layer.cornerRadius = min(bounds.size.width, bounds.size.height) / 2
-    }
-
-}
-
-
 public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     struct Size {
-        static let margins = UIEdgeInsets(top: 17, left: 15, bottom: 10, right: 15)
+        static let margins = UIEdgeInsets(top: 17, left: 15, bottom: 10, right: 21)
         static let toolbarMargin = CGFloat(10)
         static let tableTopInset = CGFloat(22.5)
         static let bottomTextMargin = CGFloat(1)
@@ -205,7 +163,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     let avatarButton = UIButton()
     let cancelButton = UIButton()
     let reorderButton = UIButton()
-    let submitButton = ElloPostButton()
+    let cameraButton = UIButton()
 
 // MARK: keyboard buttons
     var keyboardButtonViews: [UIView]!
@@ -213,8 +171,8 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     let boldButton = UIButton()
     let italicButton = UIButton()
     let linkButton = UIButton()
-    let keyboardCameraButton = UIButton()
-    let tabbarCameraButton = UIButton()
+    let keyboardSubmitButton = UIButton()
+    let tabbarSubmitButton = UIButton()
 
     let regionsTableView = UITableView()
     let textScrollView = UIScrollView()
@@ -290,14 +248,19 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         reorderButton.setImages(.Reorder)
         reorderButton.addTarget(self, action: Selector("toggleReorderingTable"), forControlEvents: .TouchUpInside)
 
-        submitButton.contentEdgeInsets = UIEdgeInsets(top: 8, left: 35, bottom: 8, right: 15)
-        submitButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        submitButton.addTarget(self, action: Selector("submitAction"), forControlEvents: .TouchUpInside)
+        cameraButton.contentEdgeInsets = UIEdgeInsets(top: 4, left: 7.5, bottom: 4, right: 7.5)
+        cameraButton.setImages(.Camera)
+        cameraButton.addTarget(self, action: Selector("addImageAction"), forControlEvents: .TouchUpInside)
 
-        for button in [tabbarCameraButton, keyboardCameraButton] {
+        for button in [tabbarSubmitButton, keyboardSubmitButton] {
             button.backgroundColor = UIColor.blackColor()
-            button.setImages(.Camera, white: true)
-            button.addTarget(self, action: Selector("addImageAction"), forControlEvents: .TouchUpInside)
+            button.setImages(.Pencil, white: true)
+            button.setTitle("Post", forState: .Normal)
+            button.setTitleColor(.whiteColor(), forState: .Normal)
+            button.setTitleColor(.grey6(), forState: .Disabled)
+            button.contentEdgeInsets.left = -5
+            button.imageEdgeInsets.right = 5
+            button.addTarget(self, action: Selector("submitAction"), forControlEvents: .TouchUpInside)
             button.frame.size.height = Size.keyboardButtonSize.height
         }
     }
@@ -394,7 +357,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         toolbarButtonViews = [
             cancelButton,
             reorderButton,
-            submitButton,
+            cameraButton,
         ]
         for button in toolbarButtonViews as [UIView] {
             self.addSubview(button)
@@ -404,8 +367,8 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
             keyboardButtonView.addSubview(button)
         }
 
-        addSubview(tabbarCameraButton)
-        keyboardButtonView.addSubview(keyboardCameraButton)
+        addSubview(tabbarSubmitButton)
+        keyboardButtonView.addSubview(keyboardSubmitButton)
 
         textScrollView.addSubview(textContainer)
         textScrollView.addSubview(textView)
@@ -651,14 +614,10 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
         let toolbarTop = screenTop + Size.margins.top
         var buttonX = frame.width - Size.margins.right
-        var firstMargin = CGFloat(10)
         for view in toolbarButtonViews.reverse() {
             view.frame.size = view.intrinsicContentSize()
             buttonX -= view.frame.size.width
             view.frame.origin = CGPoint(x: buttonX, y: toolbarTop)
-
-            buttonX -= firstMargin
-            firstMargin = 0
         }
 
         let avatarViewLeft = Size.margins.left
@@ -684,13 +643,13 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
         synchronizeScrollViews()
 
         keyboardButtonView.frame.size = CGSize(width: frame.width, height: Size.keyboardButtonSize.height)
-        tabbarCameraButton.frame.size = CGSize(width: frame.width, height: Size.keyboardButtonSize.height)
+        tabbarSubmitButton.frame.size = CGSize(width: frame.width, height: Size.keyboardButtonSize.height)
 
         if Keyboard.shared().active {
-            tabbarCameraButton.frame.origin.y = frame.height
+            tabbarSubmitButton.frame.origin.y = frame.height
         }
         else {
-            tabbarCameraButton.frame.origin.y = frame.height - ElloTabBar.Size.height - Size.keyboardButtonSize.height
+            tabbarSubmitButton.frame.origin.y = frame.height - ElloTabBar.Size.height - Size.keyboardButtonSize.height
         }
 
         var x = CGFloat(0)
@@ -700,8 +659,8 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
             x += Size.keyboardButtonMargin
         }
         let remainingCameraWidth = frame.width - x
-        keyboardCameraButton.frame.origin.x = keyboardButtonView.frame.width - remainingCameraWidth
-        keyboardCameraButton.frame.size.width = remainingCameraWidth
+        keyboardSubmitButton.frame.origin.x = keyboardButtonView.frame.width - remainingCameraWidth
+        keyboardSubmitButton.frame.size.width = remainingCameraWidth
     }
 
     private func synchronizeScrollViews() {
@@ -721,7 +680,9 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
     }
 
     public func updateButtons() {
-        submitButton.enabled = !reordering && canPost()
+        let canSubmit = !reordering && canPost()
+        keyboardSubmitButton.enabled = canSubmit
+        tabbarSubmitButton.enabled = canSubmit
     }
 
 // MARK: Button Actions
