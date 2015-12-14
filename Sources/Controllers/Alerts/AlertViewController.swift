@@ -9,7 +9,6 @@
 import Crashlytics
 
 private let DesiredWidth: CGFloat = 300
-private let HelpButtonSpace: CGFloat = 49
 private let MaxHeight = UIScreen.mainScreen().applicationFrame.height - 20
 
 public enum AlertType {
@@ -97,10 +96,11 @@ public class AlertViewController: UIViewController {
 
     public var message: String {
         get { return headerView.label.text ?? "" }
-        set(text) { headerView.label.setLabelText(text, color: UIColor.blackColor())}
+        set(text) {
+            headerView.label.setLabelText(text, color: UIColor.blackColor())
+            tableView.reloadData()
+        }
     }
-
-    public var helpText: String?
 
     private let headerView: AlertHeaderView = {
         return AlertHeaderView.loadFromNib()
@@ -114,16 +114,13 @@ public class AlertViewController: UIViewController {
         return 2 * topPadding.constant
     }
 
-    public init(message: String? = nil, textAlignment: NSTextAlignment = .Center, type: AlertType = .Normal, helpText: String? = nil) {
-        self.helpText = helpText
+    public init(message: String? = nil, textAlignment: NSTextAlignment = .Center, type: AlertType = .Normal) {
         self.textAlignment = textAlignment
         super.init(nibName: "AlertViewController", bundle: NSBundle(forClass: AlertViewController.self))
 
         modalPresentationStyle = .Custom
         transitioningDelegate = self
         headerView.label.setLabelText(message ?? "", color: type.headerTextColor)
-        headerView.helpButtonVisible = helpText != nil
-        headerView.delegate = self
 
         view.backgroundColor = type.backgroundColor
         tableView.backgroundColor = type.backgroundColor
@@ -228,20 +225,6 @@ extension AlertViewController {
     }
 }
 
-// MARK: AlertHeaderDelegate
-extension AlertViewController: AlertHeaderDelegate {
-    public func helpTapped() {
-        let alertController = AlertViewController(message: helpText, textAlignment: .Center, type: .Normal)
-        alertController.modalBackgroundColor = .clearColor()
-        let gotItAction = AlertAction(
-            title: NSLocalizedString("Got it", comment: "Ok"),
-            style: .Dark,
-            handler: nil)
-        alertController.addAction(gotItAction)
-        self.presentViewController(alertController, animated: true, completion: .None)
-    }
-}
-
 // MARK: UIViewControllerTransitioningDelegate
 extension AlertViewController: UIViewControllerTransitioningDelegate {
     public func presentationControllerForPresentedViewController(presented: UIViewController, presentingViewController presenting: UIViewController, sourceViewController source: UIViewController) -> UIPresentationController? {
@@ -276,8 +259,7 @@ extension AlertViewController: UITableViewDelegate {
         if message.characters.count == 0 {
             return 0
         }
-        let space = helpText == nil ? 0 : HelpButtonSpace
-        let size = CGSize(width: DesiredWidth - totalHorizontalPadding - space, height: .max)
+        let size = CGSize(width: DesiredWidth - totalHorizontalPadding, height: .max)
         let height = headerView.label.sizeThatFits(size).height
         return height
     }
