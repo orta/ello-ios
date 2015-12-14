@@ -164,7 +164,7 @@ class StreamKindSpec: QuickSpec {
                 // important but time consuming to implement this one, little by little!
             }
 
-            describe("showStarredButton") {
+            describe("showStarButton") {
 
                 let tests: [(Bool, StreamKind)] = [
                     (true, StreamKind.Discover(type: .Recommended, perPage: 1)),
@@ -183,7 +183,7 @@ class StreamKindSpec: QuickSpec {
                 ]
                 for (shouldStar, streamKind) in tests {
                     it("is \(shouldStar) for \(streamKind)") {
-                        expect(streamKind.showStarredButton) == shouldStar
+                        expect(streamKind.showStarButton) == shouldStar
                     }
                 }
             }
@@ -239,7 +239,7 @@ class StreamKindSpec: QuickSpec {
                 }
             }
 
-            
+
 
             describe("hasGridViewToggle") {
 

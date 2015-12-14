@@ -33,7 +33,6 @@ public class NarrationView: UIView {
         label.allowsEditingTextAttributes = false
         label.selectable = false
         label.textColor = .whiteColor()
-        label.font = .defaultFont()
         label.textContainer.lineFragmentPadding = 0
         label.backgroundColor = .clearColor()
         return label
@@ -50,18 +49,14 @@ public class NarrationView: UIView {
         set { pointer.frame.origin.x = newValue - pointer.frame.size.width / 2 }
     }
 
+    public var title: String = "" {
+        didSet {
+            updateTitleAndText()
+        }
+    }
     public var text: String = "" {
         didSet {
-            let style = NSMutableParagraphStyle()
-            style.lineSpacing = 6
-
-            let attributes = [
-                NSFontAttributeName : label.font ?? UIFont.defaultFont(),
-                NSForegroundColorAttributeName : label.textColor ?? UIColor.blackColor(),
-                NSParagraphStyleAttributeName : style
-            ]
-
-            label.attributedText = NSMutableAttributedString(string: text, attributes: attributes)
+            updateTitleAndText()
         }
     }
 
@@ -75,6 +70,24 @@ public class NarrationView: UIView {
 
     required public init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    private func updateTitleAndText() {
+        let style = NSMutableParagraphStyle()
+        style.lineSpacing = 6
+
+        let titleAttributes = [
+            NSFontAttributeName : UIFont.defaultBoldFont(),
+            NSForegroundColorAttributeName : UIColor.whiteColor(),
+            NSParagraphStyleAttributeName : style
+        ]
+        let textAttributes = [
+            NSFontAttributeName : UIFont.defaultFont(),
+            NSForegroundColorAttributeName : UIColor.whiteColor(),
+            NSParagraphStyleAttributeName : style
+        ]
+
+        label.attributedText = NSMutableAttributedString(string: title + "\n", attributes: titleAttributes) + NSMutableAttributedString(string: text, attributes: textAttributes)
     }
 
     override public func layoutSubviews() {

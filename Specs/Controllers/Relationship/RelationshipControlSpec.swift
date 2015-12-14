@@ -51,7 +51,7 @@ class RelationshipControlSpec: QuickSpec {
                     it("sets button state properly when set to \(relationshipPriority)") {
                         subject.relationshipPriority = relationshipPriority
                         expect(subject.followingButton.currentTitle) == "Follow"
-                        expect(subject.followingButton.backgroundColor) == UIColor.whiteColor().colorWithAlphaComponent(0.5)
+                        expect(subject.followingButton.backgroundColor) == UIColor.clearColor()
                         subject.frame.size = subject.intrinsicContentSize()
                         expect(subject).to(haveValidSnapshot())
                     }
@@ -59,22 +59,22 @@ class RelationshipControlSpec: QuickSpec {
             }
 
             describe("intrinsicContentSize()") {
-                it("should calculate when showStarredButton=false") {
-                    subject.showStarredButton = false
+                it("should calculate when showStarButton=false") {
+                    subject.showStarButton = false
                     let expectedSize = CGSize(width: 105, height: 30)
                     expect(subject.intrinsicContentSize()) == expectedSize
                     subject.frame = CGRect(origin: CGPointZero, size: expectedSize)
                     subject.layoutIfNeeded()
-                    expect(subject.starredButton.frame) == CGRectZero
+                    expect(subject.starButton.frame) == CGRectZero
                     expect(subject.followingButton.frame) == CGRect(x: 0, y: 0, width: 105, height: 30)
                 }
-                it("should calculate when showStarredButton=true") {
-                    subject.showStarredButton = true
+                it("should calculate when showStarButton=true") {
+                    subject.showStarButton = true
                     let expectedSize = CGSize(width: 142, height: 30)
                     expect(subject.intrinsicContentSize()) == expectedSize
                     subject.frame = CGRect(origin: CGPointZero, size: expectedSize)
                     subject.layoutIfNeeded()
-                    expect(subject.starredButton.frame) == CGRect(x: 112, y: 0, width: 30, height: 30)
+                    expect(subject.starButton.frame) == CGRect(x: 112, y: 0, width: 30, height: 30)
                     expect(subject.followingButton.frame) == CGRect(x: 0, y: 0, width: 105, height: 30)
                 }
             }
@@ -129,7 +129,7 @@ class RelationshipControlSpec: QuickSpec {
 
                                 it("stars the user") {
                                     subject.relationshipPriority = relationshipPriority
-                                    subject.starredButton.sendActionsForControlEvents(.TouchUpInside)
+                                    subject.starButton.sendActionsForControlEvents(.TouchUpInside)
                                     expect(subject.relationshipPriority) == RelationshipPriority.Starred
                                 }
                             }
@@ -139,7 +139,7 @@ class RelationshipControlSpec: QuickSpec {
 
                             it("stars the user") {
                                 subject.relationshipPriority = .Following
-                                subject.starredButton.sendActionsForControlEvents(.TouchUpInside)
+                                subject.starButton.sendActionsForControlEvents(.TouchUpInside)
                                 expect(subject.relationshipPriority) == RelationshipPriority.Starred
                             }
                         }
@@ -148,7 +148,7 @@ class RelationshipControlSpec: QuickSpec {
 
                             it("unstars the user") {
                                 subject.relationshipPriority = .Starred
-                                subject.starredButton.sendActionsForControlEvents(.TouchUpInside)
+                                subject.starButton.sendActionsForControlEvents(.TouchUpInside)
                                 expect(subject.relationshipPriority) == RelationshipPriority.Following
                             }
                         }

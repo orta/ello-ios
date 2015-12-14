@@ -9,19 +9,37 @@
 import SVGKit
 
 private let ViewHeight: CGFloat = 30
-private let ButtonWidth: CGFloat = 30
-private let StarredButtonMargin: CGFloat = 7
 private let MinViewWidth: CGFloat = 105
+
+
+public enum RelationshipControlStyle {
+    case Default
+    case ProfileView
+
+    var starButtonMargin: CGFloat {
+        switch self {
+            case .ProfileView: return 10
+            default: return 7
+        }
+    }
+
+    var starButtonWidth: CGFloat {
+        switch self {
+            case .ProfileView: return 50
+            default: return 30
+        }
+    }
+}
 
 
 public class RelationshipControl: UIView {
     let followingButton = FollowButton()
-    let starredButton: UIButton = {
-        let button = UIButton()
-        button.setImage(SVGKImage(named: "star_normal.svg").UIImage!, forState: .Normal)
-        button.setImage(SVGKImage(named: "star_selected.svg").UIImage!, forState: .Highlighted)
-        return button
-    }()
+    let starButton = StarButton()
+    var style: RelationshipControlStyle = .Default {
+        didSet {
+            starButton.style = style
+        }
+    }
 
     public var userId: String
     public var userAtName: String
@@ -31,9 +49,9 @@ public class RelationshipControl: UIView {
         didSet { updateRelationshipPriority() }
     }
 
-    public var showStarredButton = true {
+    public var showStarButton = true {
         didSet {
-            starredButton.hidden = !showStarredButton
+            starButton.hidden = !showStarButton
             setNeedsLayout()
             invalidateIntrinsicContentSize()
         }
@@ -56,7 +74,7 @@ public class RelationshipControl: UIView {
     private func setup() {
         addSubviews()
         addTargets()
-        starredButton.hidden = !showStarredButton
+        starButton.hidden = !showStarButton
         updateRelationshipPriority()
         backgroundColor = .clearColor()
     }
@@ -71,8 +89,8 @@ public class RelationshipControl: UIView {
             totalSize.width += MinViewWidth
         }
 
-        if showStarredButton {
-            totalSize.width += ButtonWidth + StarredButtonMargin
+        if showStarButton {
+            totalSize.width += style.starButtonWidth + style.starButtonMargin
         }
 
         return totalSize
@@ -80,7 +98,7 @@ public class RelationshipControl: UIView {
 
     // MARK: IBActions
 
-    @IBAction func starredButtonTapped(sender: UIButton) {
+    @IBAction func starButtonTapped(sender: UIButton) {
         switch relationshipPriority {
         case .Mute:
             launchUnmuteModal()
@@ -158,13 +176,13 @@ public class RelationshipControl: UIView {
 
     // MARK: Private
     private func addSubviews() {
-        addSubview(starredButton)
+        addSubview(starButton)
         addSubview(followingButton)
     }
 
     private func addTargets() {
         followingButton.addTarget(self, action: Selector("followingButtonTapped:"), forControlEvents: .TouchUpInside)
-        starredButton.addTarget(self, action: Selector("starredButtonTapped:"), forControlEvents: .TouchUpInside)
+        starButton.addTarget(self, action: Selector("starButtonTapped:"), forControlEvents: .TouchUpInside)
     }
 
     private func updateRelationshipPriority() {
@@ -177,31 +195,28 @@ public class RelationshipControl: UIView {
         }
 
         followingButton.config = config
-        if config.starred {
-            let star = SVGKImage(named: "star_selected.svg").UIImage!
-            starredButton.setImage(star, forState: .Normal)
-        }
-        else {
-            let star = SVGKImage(named: "star_normal.svg").UIImage!
-            starredButton.setImage(star, forState: .Normal)
-        }
+        starButton.config = config
+        starButton.hidden = (relationshipPriority == .Mute) || !showStarButton
+
+        setNeedsLayout()
+        invalidateIntrinsicContentSize()
     }
 
     public override func layoutSubviews() {
         super.layoutSubviews()
 
-        let starredButtonWidth: CGFloat
+        let starButtonWidth: CGFloat
 
-        if showStarredButton {
-            starredButton.frame = CGRect(x: frame.width - ButtonWidth, y: 0, width: ButtonWidth, height: ViewHeight)
-            starredButtonWidth = ButtonWidth + StarredButtonMargin
+        if relationshipPriority != .Mute && showStarButton {
+            starButton.frame = CGRect(x: frame.width - style.starButtonWidth, y: 0, width: style.starButtonWidth, height: ViewHeight)
+            starButtonWidth = style.starButtonWidth + style.starButtonMargin
         }
         else {
-            starredButton.frame = CGRectZero
-            starredButtonWidth = 0
+            starButton.frame = CGRectZero
+            starButtonWidth = 0
         }
 
-        followingButton.frame = bounds.inset(top: 0, left: 0, bottom: 0, right: starredButtonWidth)
+        followingButton.frame = bounds.inset(top: 0, left: 0, bottom: 0, right: starButtonWidth)
     }
 
     private enum Config {
@@ -247,8 +262,15 @@ public class RelationshipControl: UIView {
         var normalBackgroundColor: UIColor {
             switch self {
             case .Muted: return .redColor()
-            case .None: return UIColor.whiteColor().colorWithAlphaComponent(0.5)
+            case .None: return UIColor.clearColor()
             default: return .blackColor()
+            }
+        }
+
+        var starBackgroundColor: UIColor {
+            switch self {
+            case .Starred: return UIColor.blackColor()
+            default: return .clearColor()
             }
         }
 
@@ -276,22 +298,19 @@ public class RelationshipControl: UIView {
         }
     }
 
-    class FollowButton: WhiteElloButton {
+    class FollowButton: RoundedElloButton {
         private var config: Config = .None {
             didSet {
                 setTitleColor(config.normalTextColor, forState: .Normal)
                 setTitleColor(config.highlightedTextColor, forState: .Highlighted)
                 setTitleColor(UIColor.greyC(), forState: .Disabled)
                 setTitle(config.title, forState: .Normal)
-                borderColor = config.borderColor
                 setImage(config.image, forState: .Normal)
                 setImage(config.highlightedImage, forState: .Highlighted)
-
-                updateOutline()
+                borderColor = config.borderColor
             }
         }
 
-        var borderColor = UIColor.greyE5()
 
         override func sharedSetup() {
             super.sharedSetup()
@@ -299,26 +318,67 @@ public class RelationshipControl: UIView {
             let plus = SVGKImage(named: "plussmall_selected.svg").UIImage!
             setImage(plus, forState: .Normal)
 
-            layer.borderWidth = 1
-            updateOutline()
             config = .None
             backgroundColor = config.normalBackgroundColor
+            borderColor = UIColor.greyE5()
         }
 
-        override func layoutSubviews() {
-            super.layoutSubviews()
-            layer.cornerRadius = min(frame.height, frame.width) / 2
+        override func updateOutline() {
+            layer.borderColor = borderColor.CGColor
+            backgroundColor = highlighted ? config.selectedBackgroundColor : config.normalBackgroundColor
         }
+    }
 
-        override var highlighted: Bool {
+    class StarButton: RoundedElloButton {
+        var style: RelationshipControlStyle = .Default {
             didSet {
-                updateOutline()
+                updateStyle()
             }
         }
 
-        private func updateOutline() {
-            layer.borderColor = borderColor.CGColor
-            backgroundColor = highlighted ? config.selectedBackgroundColor : config.normalBackgroundColor
+        private var config: Config = .None {
+            didSet {
+                updateOutline()
+                updateStyle()
+            }
+        }
+
+        override func sharedSetup() {
+            super.sharedSetup()
+
+            config = .None
+            updateStyle()
+        }
+
+        override func updateStyle() {
+            super.updateStyle()
+
+            let selected = config.starred
+            switch style {
+                case .ProfileView:
+                    if selected {
+                        setImage(SVGKImage(named: "star_white.svg").UIImage!, forState: .Normal)
+                    }
+                    else {
+                        setImage(SVGKImage(named: "star_normal.svg").UIImage!, forState: .Normal)
+                    }
+                    setImage(SVGKImage(named: "star_white.svg").UIImage!, forState: .Highlighted)
+                    layer.borderWidth = 1
+                    backgroundColor = config.starBackgroundColor
+                    imageEdgeInsets.top = -1
+                default:
+                    if selected {
+                        setImage(SVGKImage(named: "star_selected.svg").UIImage!, forState: .Normal)
+                    }
+                    else {
+                        setImage(SVGKImage(named: "star_normal.svg").UIImage!, forState: .Normal)
+                    }
+                    setImage(SVGKImage(named: "star_selected.svg").UIImage!, forState: .Highlighted)
+                    layer.borderWidth = 0
+                    backgroundColor = .clearColor()
+                    imageEdgeInsets.top = 0
+            }
+
         }
     }
 }

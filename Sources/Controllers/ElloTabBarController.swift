@@ -30,13 +30,23 @@ public enum ElloTab: Int {
 
     public var narrationDefaultKey: String { return "ElloTabBarControllerDidShowNarration\(title)" }
 
+    public var narrationTitle: String {
+        switch self {
+            case Discovery:     return "Discover"
+            case Notifications: return "Notifications"
+            case Stream:        return "Streams"
+            case Profile:       return "Your Profile"
+            case Post:          return "Post"
+        }
+    }
+
     public var narrationText: String {
         switch self {
-            case Discovery:     return "Discover\nFind friends and creators. View beautiful art & inspiring stories."
-            case Notifications: return "Notifications\nStay up to date with real-time alerts."
-            case Stream:        return "Streams\nView posts by everyone you follow. Keep them organized in Following & Starred."
-            case Profile:       return "Your Profile\nEverything you’ve posted in one place. Settings too!"
-            case Post:          return "Post\nText, images, links & GIFs from one easy place."
+            case Discovery:     return "Find friends and creators. View beautiful art & inspiring stories."
+            case Notifications: return "Stay up to date with real-time alerts."
+            case Stream:        return "View posts by everyone you follow. Keep them organized in Following & Starred."
+            case Profile:       return "Everything you’ve posted in one place. Settings too!"
+            case Post:          return "Text, images, links & GIFs from one easy place."
         }
     }
 
@@ -379,6 +389,7 @@ extension ElloTabBarController {
                 self.narrationView.pointerX = rect.midX
             }
         }
+        narrationView.title = NSLocalizedString(selectedTab.narrationTitle, comment: "\(selectedTab.title) narration title")
         narrationView.text = NSLocalizedString(selectedTab.narrationText, comment: "\(selectedTab.title) narration text")
     }
 
