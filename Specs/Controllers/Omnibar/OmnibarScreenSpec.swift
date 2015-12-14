@@ -277,14 +277,16 @@ class OmnibarScreenSpec: QuickSpec {
                             subject.regions = [OmnibarRegion]()
                             expect(subject.canPost()) == false
                             subject.updateButtons()
-                            expect(subject.submitButton.enabled) == false
+                            expect(subject.keyboardSubmitButton.enabled) == false
+                            expect(subject.tabbarSubmitButton.enabled) == false
                         }
                     }
                         context("if posts are not empty") {
                         it("should enable posting") {
                             subject.regions = [.Text("test")]
                             subject.updateButtons()
-                            expect(subject.submitButton.enabled) == true
+                            expect(subject.keyboardSubmitButton.enabled) == true
+                            expect(subject.tabbarSubmitButton.enabled) == true
                         }
                         context("if reordering and posts are not empty") {
                             }
@@ -292,7 +294,8 @@ class OmnibarScreenSpec: QuickSpec {
                             subject.regions = [.Text("test")]
                             subject.reorderingTable(true)
                             subject.updateButtons()
-                            expect(subject.submitButton.enabled) == false
+                            expect(subject.keyboardSubmitButton.enabled) == false
+                            expect(subject.tabbarSubmitButton.enabled) == false
                         }
                     }
 

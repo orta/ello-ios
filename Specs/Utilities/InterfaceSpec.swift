@@ -16,6 +16,21 @@ class InterfaceSpec: QuickSpec {
     override func spec() {
         describe("Interface") {
             describe("Image") {
+                describe("image(style:)") {
+                    let styles: [(Interface.Image, Interface.Image.Style)] = [
+                        (.ElloLogo, .Normal),
+                        (.Eye, .Selected),
+                        (.BreakLink, .White),
+                        (.AngleBracket, .Disabled),
+                        (.X, .Red),
+                    ]
+                    for (interfaceImage, style) in styles {
+                        it("\(interfaceImage) should have style \(style)") {
+                            expect(interfaceImage.image(style)).notTo(beNil())
+                        }
+                    }
+                }
+
                 describe("normalImage") {
                     let normalImages: [Interface.Image] = [
                         .ElloLogo,

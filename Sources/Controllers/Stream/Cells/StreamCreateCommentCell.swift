@@ -61,8 +61,8 @@ public class StreamCreateCommentCell: UICollectionViewCell {
         self.contentView.addSubview(createCommentBackground)
         createCommentBackground.addSubview(createCommentLabel)
 
-        replyAllButton.setImage(Interface.Image.ReplyAll.normalImage, forState: .Normal)
-        replyAllButton.setImage(Interface.Image.ReplyAll.selectedImage, forState: .Highlighted)
+        replyAllButton.setImage(.ReplyAll, imageStyle: .Normal, forState: .Normal)
+        replyAllButton.setImage(.ReplyAll, imageStyle: .Selected, forState: .Highlighted)
         replyAllButton.addTarget(self, action: Selector("replyAllTapped"), forControlEvents: .TouchUpInside)
 
         avatarView.backgroundColor = UIColor.blackColor()
