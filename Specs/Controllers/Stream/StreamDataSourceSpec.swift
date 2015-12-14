@@ -30,6 +30,7 @@ class StreamDataSourceSpec: QuickSpec {
 
     override func spec() {
         let indexPath0 = NSIndexPath(forItem: 0, inSection: 0)
+        let indexPath1 = NSIndexPath(forItem: 1, inSection: 0)
         let indexPathOutOfBounds = NSIndexPath(forItem: 1000, inSection: 0)
         let indexPathInvalidSection = NSIndexPath(forItem: 0, inSection: 10)
 
@@ -658,11 +659,11 @@ class StreamDataSourceSpec: QuickSpec {
 
                         context("StreamKind.Following") {
 
-                            it("inserts the new post at 0, 0") {
+                            it("inserts the new post at 1, 0") {
                                 subject.streamKind = .Following
                                 expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 20
                                 subject.modifyItems(Post.stub(["id": "new_post"]), change: .Create, collectionView: fakeCollectionView)
-                                expect(subject.postForIndexPath(indexPath0)!.id) == "new_post"
+                                expect(subject.postForIndexPath(indexPath1)!.id) == "new_post"
                                 expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 24
                             }
 
@@ -730,7 +731,7 @@ class StreamDataSourceSpec: QuickSpec {
 
                                 subject.modifyItems(love, change: .Create, collectionView: fakeCollectionView)
 
-                                expect(subject.postForIndexPath(indexPath0)!.id) == "post1"
+                                expect(subject.postForIndexPath(indexPath1)!.id) == "post1"
                                 expect(subject.collectionView(vc.collectionView, numberOfItemsInSection: 0)) == 24
                             }
                         }

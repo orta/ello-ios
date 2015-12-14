@@ -321,27 +321,12 @@ public class StreamDataSource: NSObject, UICollectionViewDataSource {
 
             // else if post, add new post cells
             else if let _ = jsonable as? Post {
-                switch streamKind {
-                case .Following: indexPath = NSIndexPath(forItem: 0, inSection: 0)
-                case .Profile: indexPath = NSIndexPath(forItem: 1, inSection: 0)
-                case let .UserStream(userParam):
-                    if currentUser?.id == userParam {
-                        indexPath = NSIndexPath(forItem: 1, inSection: 0)
-                    }
-                default: break
-                }
+                indexPath = streamKind.clientSidePostInsertIndexPath(currentUser?.id)
             }
 
             // else if love, add post to loves
             else if let _ = jsonable as? Love {
-                switch streamKind {
-                case let .SimpleStream(endpoint, _):
-                    switch endpoint {
-                    case .Loves: indexPath = NSIndexPath(forItem: 0, inSection: 0)
-                    default: break
-                    }
-                default: break
-                }
+                indexPath = streamKind.clientSideLoveInsertIndexPath
             }
 
             if let indexPath = indexPath {
