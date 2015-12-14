@@ -1,3 +1,23 @@
+### Ello Build 1.3.0(3614) December 11, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #647 - move 'edit profile' and 'invite' buttons into ProfileViewController
+[Finishes #105703904]
+
+------
+
+#### #644 - New Fonts!
+Updates all the fonts.
+
+------
+
+#### #646 - change friends to contacts around invites
+    
+------------
+
 ### Ello Build 1.3.0(3585) December 10, 2015
 
     RELEASE NOTES
