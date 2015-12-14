@@ -17,7 +17,7 @@ public class OmnibarViewController: BaseElloViewController, OmnibarScreenDelegat
     var keyboardWillHideObserver: NotificationObserver?
 
     override public var tabBarItem: UITabBarItem? {
-        get { return UITabBarItem.svgItem("omni") }
+        get { return UITabBarItem.item(.Omni) }
         set { self.tabBarItem = newValue }
     }
 

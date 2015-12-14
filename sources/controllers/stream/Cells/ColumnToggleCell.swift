@@ -26,8 +26,8 @@ public class ColumnToggleCell: UICollectionViewCell {
     override public func awakeFromNib() {
         super.awakeFromNib()
         backgroundColor = UIColor.greyF2()
-        gridButton.setSVGImages("grid")
-        listButton.setSVGImages("list")
+        gridButton.setImages(.Grid)
+        listButton.setImages(.List)
         gridButton.backgroundColor = .greyF2()
         listButton.backgroundColor = .greyF2()
     }

@@ -136,7 +136,7 @@ public class StreamHeaderCell: UICollectionViewCell {
         goToPostView.addGestureRecognizer(goToPostTapRecognizer)
 
         replyButton.setTitle("", forState: .Normal)
-        replyButton.setSVGImages("reply")
+        replyButton.setImages(.Reply)
     }
 
     override public func layoutSubviews() {
@@ -148,7 +148,7 @@ public class StreamHeaderCell: UICollectionViewCell {
         bottomContentView.frame = bounds
         scrollView.frame = bounds
         bottomToolBar.frame = bounds
-        chevronButton.setSVGImages("abracket")
+        chevronButton.setImages(.AngleBracket)
         scrollView.contentSize = CGSizeMake(contentView.frame.size.width + revealWidth, scrollView.frame.size.height)
         positionTopContent()
         repositionBottomContent()

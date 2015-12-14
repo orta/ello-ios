@@ -18,7 +18,7 @@ public class NotificationsViewController: StreamableViewController, Notification
     public var categoryFilterType = NotificationFilterType.All
 
     override public var tabBarItem: UITabBarItem? {
-        get { return UITabBarItem.svgItem("bolt") }
+        get { return UITabBarItem.item(.Bolt) }
         set { self.tabBarItem = newValue }
     }
 

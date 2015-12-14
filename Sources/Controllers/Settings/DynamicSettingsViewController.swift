@@ -75,7 +75,7 @@ class DynamicSettingsViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("PreferenceCell", forIndexPath: indexPath) 
+        let cell = tableView.dequeueReusableCellWithIdentifier("PreferenceCell", forIndexPath: indexPath)
 
         switch DynamicSettingsSection(rawValue: indexPath.section) ?? .Unknown {
         case .DynamicSettings:

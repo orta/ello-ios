@@ -100,13 +100,13 @@ private extension DrawerViewController {
     }
 
     func addLeftButtons() {
-        let logoView = UIImageView(image: SVGKImage(named: "ello_logo.svg").UIImage!)
+        let logoView = UIImageView(image: Interface.Image.ElloLogo.normalImage)
         logoView.frame = CGRect(x: 15, y: 30, width: 24, height: 24)
         navigationBar.addSubview(logoView)
     }
 
     func addHamburgerButton() {
-        let button = UIBarButtonItem(image: SVGKImage(named: "burger_normal.svg").UIImage!, style: .Done, target: self, action: Selector("hamburgerButtonTapped"))
+        let button = UIBarButtonItem(image: Interface.Image.Burger.normalImage, style: .Done, target: self, action: Selector("hamburgerButtonTapped"))
         elloNavigationItem.rightBarButtonItems = [button]
     }
 

@@ -30,7 +30,7 @@ public class ElloMentionButton: RoundedElloButton {
 public class ProfileViewController: StreamableViewController {
 
     override public var tabBarItem: UITabBarItem? {
-        get { return UITabBarItem.svgItem("person") }
+        get { return UITabBarItem.item(.Person) }
         set { self.tabBarItem = newValue }
     }
 
@@ -307,7 +307,7 @@ public class ProfileViewController: StreamableViewController {
             return
         }
 
-        elloNavigationItem.rightBarButtonItem = UIBarButtonItem(image: SVGKImage(named: "dots_normal.svg").UIImage!, style: .Done, target: self, action: Selector("moreButtonTapped"))
+        elloNavigationItem.rightBarButtonItem = UIBarButtonItem(image: Interface.Image.Dots.normalImage, style: .Done, target: self, action: Selector("moreButtonTapped"))
     }
 
     @IBAction func mentionButtonTapped() {

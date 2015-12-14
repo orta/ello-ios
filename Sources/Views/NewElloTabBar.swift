@@ -17,7 +17,7 @@ class NewElloTabBar: UIView {
 
     enum Display {
         case Title(String)
-        case SVG(String)
+        case Image(Interface.Image)
     }
 
     struct Item {
@@ -32,9 +32,9 @@ class NewElloTabBar: UIView {
             }
         }
 
-        var svg: String? {
+        var interfaceImage: Interface.Image? {
             switch display {
-            case let .SVG(svg): return svg
+            case let .Image(interfaceImage): return interfaceImage
             default: return nil
             }
         }
@@ -69,7 +69,7 @@ class NewElloTabBar: UIView {
                 let underlineView = UIView()
                 underlineView.backgroundColor = UIColor.blackColor()
                 self.underlineView = underlineView
-            case .SVG:
+            case .Image:
                 self.contentView = UIImageView()
                 self.underlineView = nil
             }
@@ -98,10 +98,10 @@ class NewElloTabBar: UIView {
                 let color = selected ? UIColor.blackColor() : UIColor.greyA()
                 titleView.setLabelText(title, color: color)
                 titleView.clipsToBounds = false
-            case let .SVG(svgName):
-                let svgView = self.contentView as! UIImageView
-                let actualName = selected ? "\(svgName)_selected" : "\(svgName)_normal"
-                svgView.image = SVGKImage(named: actualName).UIImage
+            case let .Image(interfaceImage):
+                let imageView = self.contentView as! UIImageView
+                let actualImage = selected ? interfaceImage.selectedImage : interfaceImage.normalImage
+                imageView.image = actualImage
             }
         }
 
@@ -121,7 +121,7 @@ class NewElloTabBar: UIView {
             switch item.display {
             case .Title:
                 offset = CGPoint(x: 0, y: 12.5)
-            case .SVG:
+            case .Image:
                 offset = CGPoint(x: -3.5, y: 12.5)
             }
             redDot.frame = CGRect(
@@ -148,7 +148,7 @@ class NewElloTabBar: UIView {
             switch item.display {
             case .Title:
                 contentSize.width += 11  // margins for the red dot
-            case .SVG:
+            case .Image:
                 contentSize.width = 24  // icon + red dot size
             }
             contentSize.height = 50  // tab bar height

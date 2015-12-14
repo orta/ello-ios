@@ -29,7 +29,7 @@ public class ElloLogoView: FLAnimatedImageView {
 
     override public init(frame: CGRect) {
         super.init(frame: frame)
-        self.image = SVGKImage(named: "ello_logo.svg").UIImage
+        self.image = Interface.Image.ElloLogo.normalImage
     }
 
     func animateLogo() {

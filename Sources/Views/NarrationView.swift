@@ -40,7 +40,7 @@ public class NarrationView: UIView {
     private let pointer: UIImageView = {
         let pointer = UIImageView()
         pointer.contentMode = .ScaleAspectFit
-        pointer.image = SVGKImage(named: "narration_pointer.svg").UIImage
+        pointer.image = Interface.Image.NarrationPointer.normalImage
         return pointer
     }()
 

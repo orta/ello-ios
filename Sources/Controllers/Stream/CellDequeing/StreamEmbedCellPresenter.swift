@@ -29,10 +29,10 @@ public struct StreamEmbedCellPresenter {
             }
             cell.embedUrl = embedData.url
             if embedData.isAudioEmbed {
-                cell.setPlayImageIcon("embetter_audio_play.svg")
+                cell.setPlayImageIcon(.AudioPlay)
             }
             else {
-                cell.setPlayImageIcon("embetter_video_play.svg")
+                cell.setPlayImageIcon(.VideoPlay)
             }
 
             if let photoURL = photoToLoad {

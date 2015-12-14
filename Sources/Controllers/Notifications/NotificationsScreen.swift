@@ -16,11 +16,11 @@ public protocol NotificationsScreenDelegate {
 public class NotificationsScreen : UIView {
 
     private let filterAllButton = NotificationsScreen.filterButton(title: "All")
-    private let filterCommentsButton = NotificationsScreen.filterButton(imageName: "bubble")
+    private let filterCommentsButton = NotificationsScreen.filterButton(image: .Comments)
     private let filterMentionButton = NotificationsScreen.filterButton(title: "@")
-    private let filterHeartButton = NotificationsScreen.filterButton(imageName: "hearts")
-    private let filterRepostButton = NotificationsScreen.filterButton(imageName: "repost")
-    private let filterInviteButton = NotificationsScreen.filterButton(imageName: "relationships")
+    private let filterHeartButton = NotificationsScreen.filterButton(image: .Heart)
+    private let filterRepostButton = NotificationsScreen.filterButton(image: .Repost)
+    private let filterInviteButton = NotificationsScreen.filterButton(image: .Invite)
 
     private class func filterButton() -> UIButton {
         let button = UIButton()
@@ -31,10 +31,10 @@ public class NotificationsScreen : UIView {
         button.setBackgroundImage(UIImage.imageWithColor(UIColor.greyE5()), forState: .Normal)
         return button
     }
-    private class func filterButton(imageName imageName: String) -> UIButton {
+    private class func filterButton(image interfaceImage: Interface.Image) -> UIButton {
         let button = filterButton()
-        button.setSVGImage("\(imageName)_normal.svg", forState: .Normal)
-        button.setSVGImage("\(imageName)_white.svg", forState: .Selected)
+        button.setImage(interfaceImage.normalImage, forState: .Normal)
+        button.setImage(interfaceImage.whiteImage, forState: .Selected)
         button.imageView!.contentMode = .ScaleAspectFit
         return button
     }

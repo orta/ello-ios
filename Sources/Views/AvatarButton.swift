@@ -30,8 +30,7 @@ public class AvatarButton: UIButton {
     }
 
     private func setup() {
-        let starSVG = SVGKImage(named: "star_selected.svg")
-        let star = starSVG.UIImage!
+        let star = Interface.Image.Star.selectedImage
         starIcon.image = star
         starIcon.frame.size = starSize
         starIcon.hidden = true

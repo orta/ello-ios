@@ -6,18 +6,16 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import SVGKit
-
 public class CommentsIcon: BasicIcon {
     private let commentTailView: UIView
 
     public init() {
-        let iconImage = SVGKImage(named: "bubble_body_normal.svg").UIImage!
-        let iconSelectedImage = SVGKImage(named: "bubble_body_selected.svg").UIImage!
+        let iconImage = Interface.Image.BubbleBody.normalImage
+        let iconSelectedImage = Interface.Image.BubbleBody.selectedImage
         let icon = UIImageView(image: iconImage)
         let iconSelected = UIImageView(image: iconSelectedImage)
 
-        let commentTail = SVGKImage(named: "bubble_tail.svg").UIImage!
+        let commentTail = Interface.Image.BubbleTail.normalImage
         commentTailView = UIImageView(image: commentTail)
         super.init(normalIconView: icon, selectedIconView: iconSelected)
         addSubview(commentTailView)

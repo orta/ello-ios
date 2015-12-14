@@ -18,9 +18,9 @@ public class ElloWebBrowserViewController: KINWebBrowserViewController {
     public class func navigationControllerWithBrowser(webBrowser: ElloWebBrowserViewController) -> ElloNavigationController {
         // tell AppDelegate to allow rotation
         AppDelegate.restrictRotation = false
-        let xButton = UIBarButtonItem(image: SVGKImage(named: "x_normal.svg").UIImage!, style: UIBarButtonItemStyle.Plain, target: webBrowser, action: Selector("doneButtonPressed:"))
+        let xButton = UIBarButtonItem(image: Interface.Image.X.normalImage, style: UIBarButtonItemStyle.Plain, target: webBrowser, action: Selector("doneButtonPressed:"))
 
-        let shareButton = UIBarButtonItem(image: SVGKImage(named: "share_normal.svg").UIImage!, style: UIBarButtonItemStyle.Plain, target: webBrowser, action: Selector("actionButtonPressed:"))
+        let shareButton = UIBarButtonItem(image: Interface.Image.Share.normalImage, style: UIBarButtonItemStyle.Plain, target: webBrowser, action: Selector("actionButtonPressed:"))
 
         webBrowser.navigationItem.leftBarButtonItem = xButton
         webBrowser.navigationItem.rightBarButtonItem = shareButton

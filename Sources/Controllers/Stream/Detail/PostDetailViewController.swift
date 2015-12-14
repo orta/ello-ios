@@ -132,7 +132,7 @@ public class PostDetailViewController: StreamableViewController {
         // add lovers and reposters
         if let lovers = post.lovesCount where lovers > 0 {
             items.append(StreamCellItem(jsonable: JSONAble.fromJSON([:], fromLinked: false), type: .Spacer(height: 4.0)))
-            loversModel = UserAvatarCellModel(icon: "hearts_normal.svg", seeMoreTitle: NSLocalizedString("Loved by", comment: "Loved by title"), indexPath: NSIndexPath(forItem: items.count, inSection: 0))
+            loversModel = UserAvatarCellModel(icon: .Heart, seeMoreTitle: NSLocalizedString("Loved by", comment: "Loved by title"), indexPath: NSIndexPath(forItem: items.count, inSection: 0))
             loversModel!.endpoint = .PostLovers(postId: post.id)
             items.append(StreamCellItem(jsonable: loversModel!, type: .UserAvatars))
         }
@@ -141,7 +141,7 @@ public class PostDetailViewController: StreamableViewController {
             if loversModel == nil {
                 items.append(StreamCellItem(jsonable: JSONAble.fromJSON([:], fromLinked: false), type: .Spacer(height: 4.0)))
             }
-            repostersModel = UserAvatarCellModel(icon: "repost_normal.svg", seeMoreTitle: NSLocalizedString("Reposted by", comment: "Reposted by title"), indexPath: NSIndexPath(forItem: items.count, inSection: 0))
+            repostersModel = UserAvatarCellModel(icon: .Repost, seeMoreTitle: NSLocalizedString("Reposted by", comment: "Reposted by title"), indexPath: NSIndexPath(forItem: items.count, inSection: 0))
             repostersModel!.endpoint = .PostReposters(postId: post.id)
             items.append(StreamCellItem(jsonable: repostersModel!, type: .UserAvatars))
         }

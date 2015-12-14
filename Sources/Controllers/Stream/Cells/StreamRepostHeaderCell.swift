@@ -28,7 +28,7 @@ public class StreamRepostHeaderCell: UICollectionViewCell {
 
     override public func awakeFromNib() {
         super.awakeFromNib()
-        repostIconView.image = SVGKImage(named: "repost_normal.svg").UIImage!
+        repostIconView.image = Interface.Image.Repost.normalImage
         repostedByLabel.numberOfLines = 0
         repostedByLabel.lineBreakMode = NSLineBreakMode.ByTruncatingTail
     }

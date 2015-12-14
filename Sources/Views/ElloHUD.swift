@@ -27,7 +27,7 @@ class ElloHUD: NSObject {
         let hud = MBProgressHUD.showHUDAddedTo(view, animated: true)
         hud.opacity = 0.0
 
-        let elloLogo = UIImageView(image: SVGKImage(named: "ello_logo.svg").UIImage!)
+        let elloLogo = UIImageView(image: Interface.Image.ElloLogo.normalImage)
         elloLogo.bounds = CGRectMake(0, 0, 60, 60)
 
         let rotate = CABasicAnimation(keyPath: "transform.rotation")

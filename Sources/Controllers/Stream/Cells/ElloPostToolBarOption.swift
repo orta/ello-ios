@@ -23,23 +23,23 @@ public enum ElloPostToolBarOption {
     func imageLabelControl() -> UIControl {
         switch self {
         case .Views:
-            return imageLabelControl("eye")
+            return imageLabelControl(.Eye)
         case .Comments:
             return ImageLabelControl(icon: CommentsIcon(), title: "")
         case .Loves:
-            return imageLabelControl("hearts")
+            return imageLabelControl(.Heart)
         case .Repost:
-            return imageLabelControl("repost")
+            return imageLabelControl(.Repost)
         case .Share:
-            return imageLabelControl("share")
+            return imageLabelControl(.Share)
         case .Delete:
-            return imageLabelControl("xbox")
+            return imageLabelControl(.XBox)
         case .Edit:
-            return imageLabelControl("pencil")
+            return imageLabelControl(.Pencil)
         case .Reply:
-            return imageLabelControl("reply")
+            return imageLabelControl(.Reply)
         case .Flag:
-            return imageLabelControl("flag")
+            return imageLabelControl(.Flag)
         }
     }
 
@@ -47,11 +47,9 @@ public enum ElloPostToolBarOption {
         return UIBarButtonItem(customView: self.imageLabelControl())
     }
 
-    private func imageLabelControl(imageName: String, count: Int = 0) -> UIControl {
-        let iconImage = SVGKImage(named: "\(imageName)_normal.svg").UIImage!
-        let iconSelectedImage = SVGKImage(named: "\(imageName)_selected.svg").UIImage!
-        let icon = UIImageView(image: iconImage)
-        let iconSelected = UIImageView(image: iconSelectedImage)
+    private func imageLabelControl(interfaceImage: Interface.Image, count: Int = 0) -> UIControl {
+        let icon = UIImageView(image: interfaceImage.normalImage)
+        let iconSelected = UIImageView(image: interfaceImage.selectedImage)
         let basicIcon = BasicIcon(normalIconView: icon, selectedIconView: iconSelected)
         return ImageLabelControl(icon: basicIcon, title: count.numberToHuman())
     }

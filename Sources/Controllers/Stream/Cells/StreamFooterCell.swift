@@ -172,6 +172,7 @@ public class StreamFooterCell: UICollectionViewCell {
         bottomToolBar.barTintColor = UIColor.whiteColor()
         bottomToolBar.clipsToBounds = true
         bottomToolBar.layer.borderColor = UIColor.whiteColor().CGColor
+        chevronButton.setImages(.AngleBracket)
 
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = false
@@ -313,7 +314,6 @@ public class StreamFooterCell: UICollectionViewCell {
         scrollView.frame = newBounds
         toolBar.frame = newBounds
         bottomToolBar.frame = newBounds
-        chevronButton.setSVGImages("abracket")
         chevronButton.frame = CGRect(
             x: newBounds.width - 40,
             y: newBounds.height/2 - 22,

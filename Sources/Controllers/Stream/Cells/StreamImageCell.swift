@@ -49,7 +49,7 @@ public class StreamImageCell: StreamRegionableCell {
     public var isLargeImage: Bool {
         get { return !(largeImagePlayButton?.hidden ?? true) }
         set {
-            largeImagePlayButton?.image = SVGKImage(named: "embetter_video_play.svg").UIImage
+            largeImagePlayButton?.image = Interface.Image.VideoPlay.normalImage
             largeImagePlayButton?.hidden = !newValue
         }
     }
@@ -63,7 +63,7 @@ public class StreamImageCell: StreamRegionableCell {
     override public func awakeFromNib() {
         super.awakeFromNib()
         if let playButton = largeImagePlayButton {
-            playButton.image = SVGKImage(named: "embetter_video_play.svg").UIImage!
+            playButton.image = Interface.Image.VideoPlay.normalImage
         }
     }
 

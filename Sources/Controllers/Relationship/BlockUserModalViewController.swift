@@ -103,7 +103,7 @@ public class BlockUserModalViewController: BaseElloViewController {
             label.lineBreakMode = .ByWordWrapping
             label.numberOfLines = 0
         }
-        closeButton.setSVGImage("x_white")
+        closeButton.setImages(.X, white: true)
     }
 
     private func setText() {

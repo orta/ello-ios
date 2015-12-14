@@ -18,7 +18,7 @@ public class DiscoverViewController: StreamableViewController {
     @IBOutlet weak var inviteLabel: UILabel!
 
     override public var tabBarItem: UITabBarItem? {
-        get { return UITabBarItem.svgItem("sparkles", insets: UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)) }
+        get { return UITabBarItem.item(.Sparkles, insets: UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)) }
         set { self.tabBarItem = newValue }
     }
 
@@ -78,7 +78,7 @@ public class DiscoverViewController: StreamableViewController {
     }
 
     private func setupInviteFriendsButton() {
-        chevron.image = SVGKImage(named: "abracket_white.svg").UIImage!
+        chevron.image = Interface.Image.AngleBracket.whiteImage
         inviteLabel.text = NSLocalizedString("Find & invite your friends", comment: "Find & invite")
         inviteLabel.font = UIFont.defaultFont()
         inviteLabel.textColor = .whiteColor()

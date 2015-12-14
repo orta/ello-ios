@@ -18,8 +18,8 @@ class NewElloTabBarSpecs: QuickSpec {
             let tests: [String: NewElloTabBar.Item] = [
                 "should support a selected? title": NewElloTabBar.Item(alignment: .Left, display: .Title(InterfaceString.Following.Title.localized), redDotHidden: true),
                 "should support a selected? title with a red dot": NewElloTabBar.Item(alignment: .Left, display: .Title(InterfaceString.Following.Title.localized), redDotHidden: false),
-                "should support a selected? svg": NewElloTabBar.Item(alignment: .Left, display: .SVG("bolt"), redDotHidden: true),
-                "should support a selected? svg with a red dot": NewElloTabBar.Item(alignment: .Left, display: .SVG("bolt"), redDotHidden: false),
+                "should support a selected? svg": NewElloTabBar.Item(alignment: .Left, display: .Image(.Bolt), redDotHidden: true),
+                "should support a selected? svg with a red dot": NewElloTabBar.Item(alignment: .Left, display: .Image(.Bolt), redDotHidden: false),
             ]
             for (description, item) in tests {
                 let unselectedDescription = description.stringByReplacingOccurrencesOfString("selected? ", withString: "")
@@ -49,12 +49,12 @@ class NewElloTabBarSpecs: QuickSpec {
                 let subject = NewElloTabBar()
                 subject.items = [
                     NewElloTabBar.Item(alignment: .Left, display: .Title(InterfaceString.Following.Title.localized), redDotHidden: true),
-                    NewElloTabBar.Item(alignment: .Right, display: .SVG("bolt"), redDotHidden: false),
+                    NewElloTabBar.Item(alignment: .Right, display: .Image(.Bolt), redDotHidden: false),
                 ]
 
                 expect(subject.items.count) == 2
                 expect(subject.items[0].title) == InterfaceString.Following.Title.localized
-                expect(subject.items[1].svg) == "bolt"
+                expect(subject.items[1].interfaceImage) == .Bolt
             }
             describe("snapshots") {
                 var subject: NewElloTabBar!
@@ -65,8 +65,8 @@ class NewElloTabBarSpecs: QuickSpec {
                         NewElloTabBar.Item(alignment: .Left, display: .Title(InterfaceString.Following.Title.localized), redDotHidden: true),
                         NewElloTabBar.Item(alignment: .Left, display: .Title(InterfaceString.Starred.Title.localized), redDotHidden: false),
                         NewElloTabBar.Item(alignment: .Left, display: .Title(InterfaceString.Discover.Title.localized), redDotHidden: true),
-                        NewElloTabBar.Item(alignment: .Right, display: .SVG("bolt"), redDotHidden: false),
-                        NewElloTabBar.Item(alignment: .Right, display: .SVG("search"), redDotHidden: true),
+                        NewElloTabBar.Item(alignment: .Right, display: .Image(.Bolt), redDotHidden: false),
+                        NewElloTabBar.Item(alignment: .Right, display: .Image(.Search), redDotHidden: true),
                     ]
                 }
                 let tests: [String: CGSize] = [
