@@ -9,13 +9,14 @@
 public struct UserAvatarsCellPresenter {
 
     public static func configure(
-        cell:UICollectionViewCell,
-        streamCellItem:StreamCellItem,
+        cell: UICollectionViewCell,
+        streamCellItem: StreamCellItem,
         streamKind: StreamKind,
         indexPath: NSIndexPath,
         currentUser: User?)
     {
-        if let cell = cell as? UserAvatarsCell, let model = streamCellItem.jsonable as? UserAvatarCellModel
+        if let cell = cell as? UserAvatarsCell,
+            model = streamCellItem.jsonable as? UserAvatarCellModel
         {
             cell.imageView.image = model.icon.normalImage
             cell.userAvatarCellModel = model
