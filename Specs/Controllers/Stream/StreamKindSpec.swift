@@ -199,6 +199,7 @@ class StreamKindSpec: QuickSpec {
                     StreamKind.Profile(perPage: 1).setIsGridView(false)
                     StreamKind.Following.setIsGridView(false)
                     StreamKind.SimpleStream(endpoint: ElloAPI.SearchForPosts(terms: "meat"), title: "meat").setIsGridView(false)
+                    StreamKind.SimpleStream(endpoint: ElloAPI.Loves(userId: "123"), title: "123").setIsGridView(false)
                     StreamKind.Unknown.setIsGridView(false)
                     StreamKind.UserStream(userParam: "n/a").setIsGridView(false)
                 }
@@ -233,6 +234,12 @@ class StreamKindSpec: QuickSpec {
                     StreamKind.SimpleStream(endpoint: ElloAPI.SearchForPosts(terms: "meat"), title: "meat").setIsGridView(false)
                     expect(StreamKind.SimpleStream(endpoint: ElloAPI.SearchForPosts(terms: "meat"), title: "meat").isGridView) == false
 
+                    StreamKind.SimpleStream(endpoint: ElloAPI.Loves(userId: "123"), title: "123").setIsGridView(true)
+                    expect(StreamKind.SimpleStream(endpoint: ElloAPI.Loves(userId: "123"), title: "123").isGridView) == true
+
+                    StreamKind.SimpleStream(endpoint: ElloAPI.Loves(userId: "123"), title: "123").setIsGridView(false)
+                    expect(StreamKind.SimpleStream(endpoint: ElloAPI.Loves(userId: "123"), title: "123").isGridView) == false
+
                     expect(StreamKind.SimpleStream(endpoint: ElloAPI.SearchForUsers(terms: "meat"), title: "meat").isGridView) == false
                     expect(StreamKind.Unknown.isGridView) == false
                     expect(StreamKind.UserStream(userParam: "n/a").isGridView) == false
@@ -251,6 +258,7 @@ class StreamKindSpec: QuickSpec {
                     expect(StreamKind.PostDetail(postParam: "param").hasGridViewToggle) == false
                     expect(StreamKind.Profile(perPage: 1).hasGridViewToggle) == false
                     expect(StreamKind.SimpleStream(endpoint: ElloAPI.SearchForPosts(terms: "meat"), title: "meat").hasGridViewToggle) == true
+                    expect(StreamKind.SimpleStream(endpoint: ElloAPI.Loves(userId: "123"), title: "123").hasGridViewToggle) == true
                     expect(StreamKind.SimpleStream(endpoint: ElloAPI.SearchForUsers(terms: "meat"), title: "meat").hasGridViewToggle) == false
                     expect(StreamKind.Unknown.hasGridViewToggle) == false
                     expect(StreamKind.UserStream(userParam: "n/a").hasGridViewToggle) == false
@@ -305,6 +313,7 @@ class StreamKindSpec: QuickSpec {
                     expect(StreamKind.Profile(perPage: 1).gridPreferenceSetOffset) == normalOffset
                     expect(StreamKind.SimpleStream(endpoint: ElloAPI.SearchForPosts(terms: "meat"), title: "meat").gridPreferenceSetOffset) == normalOffset
                     expect(StreamKind.SimpleStream(endpoint: ElloAPI.SearchForUsers(terms: "meat"), title: "meat").gridPreferenceSetOffset) == normalOffset
+                    expect(StreamKind.SimpleStream(endpoint: ElloAPI.Loves(userId: "123"), title: "123").gridPreferenceSetOffset) == normalOffset
                     expect(StreamKind.Unknown.gridPreferenceSetOffset) == normalOffset
                     expect(StreamKind.UserStream(userParam: "n/a").gridPreferenceSetOffset) == normalOffset
                 }
