@@ -6,9 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import UIKit
-
-
 class DynamicSettingCategoryViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ControllerThatMightHaveTheCurrentUser {
     var category: DynamicSettingCategory?
     var currentUser: User?

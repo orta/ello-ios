@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import SVGKit
-
 private let ViewHeight: CGFloat = 30
 private let MinViewWidth: CGFloat = 105
 

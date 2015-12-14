@@ -6,9 +6,7 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import UIKit
 import FLAnimatedImage
-import SVGKit
 
 public class StreamCreateCommentCell: UICollectionViewCell {
     public struct Size {

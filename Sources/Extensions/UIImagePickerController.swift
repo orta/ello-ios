@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import UIKit
-
 extension UIImagePickerController {
     class var elloImagePickerController: UIImagePickerController {
         let controller = UIImagePickerController()

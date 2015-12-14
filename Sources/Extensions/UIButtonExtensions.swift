@@ -6,9 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import Foundation
-import SVGKit
-
 extension UIButton {
 
     func setImages(image: Interface.Image, degree: Double = 0, white: Bool = false) {

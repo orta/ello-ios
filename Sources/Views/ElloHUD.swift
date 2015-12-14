@@ -6,9 +6,7 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
-import UIKit
 import MBProgressHUD
-import SVGKit
 
 class ElloHUD: NSObject {
 

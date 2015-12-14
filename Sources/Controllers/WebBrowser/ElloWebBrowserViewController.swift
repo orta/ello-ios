@@ -7,7 +7,6 @@
 //
 
 import KINWebBrowser
-import SVGKit
 import Crashlytics
 
 public class ElloWebBrowserViewController: KINWebBrowserViewController {

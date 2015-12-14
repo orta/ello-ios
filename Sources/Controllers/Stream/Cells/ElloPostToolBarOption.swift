@@ -6,9 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import UIKit
-import SVGKit
-
 public enum ElloPostToolBarOption {
     case Views
     case Comments

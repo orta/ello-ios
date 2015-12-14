@@ -6,9 +6,6 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
-import UIKit
-import SVGKit
-
 public class ElloButton: UIButton {
 
     override public var enabled: Bool {

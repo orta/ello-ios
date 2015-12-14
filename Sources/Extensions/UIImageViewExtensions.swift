@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import SVGKit
-
 extension UIImageView {
 
     func setImage(interfaceImage: Interface.Image, degree: Double) {

@@ -6,9 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import UIKit
-import SVGKit
-
 public protocol PostTappedDelegate : NSObjectProtocol {
     func postTapped(post: Post)
     func postTapped(postId postId: String)

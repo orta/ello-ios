@@ -6,9 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import Foundation
-import SVGKit
-
 public class StreamLoadingCell: UICollectionViewCell {
 
     lazy var elloLogo: ElloLogoView = {

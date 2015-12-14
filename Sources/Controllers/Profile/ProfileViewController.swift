@@ -6,10 +6,7 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
-import UIKit
 import FLAnimatedImage
-import SVGKit
-
 
 public class ElloMentionButton: RoundedElloButton {
     override public func sharedSetup() {

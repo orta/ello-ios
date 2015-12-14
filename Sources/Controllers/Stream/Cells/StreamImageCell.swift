@@ -6,11 +6,8 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
-import UIKit
-import Foundation
 import FLAnimatedImage
 import PINRemoteImage
-import SVGKit
 import Alamofire
 
 public class StreamImageCell: StreamRegionableCell {

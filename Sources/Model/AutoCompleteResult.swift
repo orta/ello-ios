@@ -7,9 +7,7 @@
 //
 
 import Crashlytics
-import Foundation
 import SwiftyJSON
-import UIKit
 
 let AutoCompleteResultVersion: Int = 1
 

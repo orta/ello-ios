@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import UIKit
-
 public class StreamToggleCell: UICollectionViewCell {
 
     let closedMessage = NSLocalizedString("Tap to View.", comment: "Tap to View.")

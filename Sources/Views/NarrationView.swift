@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import SVGKit
-
 public class NarrationView: UIView {
     struct Size {
         static let margins = CGFloat(15)

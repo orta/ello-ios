@@ -1,9 +1,5 @@
 // Playground - noun: a place where people can play
 
-import Foundation
-import UIKit
-
-
 func findUsername(text: String) -> (Bool, String?) {
     if text.rangeOfString("\\s?@{1}\\w+", options: .RegularExpressionSearch) != nil {
         return (true, text)

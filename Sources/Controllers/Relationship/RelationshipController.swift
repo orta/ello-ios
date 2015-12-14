@@ -6,9 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import Foundation
-import SVGKit
-
 public typealias RelationshipChangeClosure = (relationshipPriority: RelationshipPriority) -> Void
 public typealias RelationshipChangeCompletion = (status: RelationshipRequestStatus, relationship: Relationship?, isFinalValue: Bool) -> Void
 

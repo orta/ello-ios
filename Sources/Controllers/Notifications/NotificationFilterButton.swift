@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import UIKit
-
 public class NotificationFilterButton: UIButton {
 
     override public init(frame: CGRect) {

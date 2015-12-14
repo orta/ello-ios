@@ -6,9 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import SVGKit
-
-
 public class AvatarButton: UIButton {
     public var url: NSURL?
 

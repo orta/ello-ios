@@ -6,8 +6,6 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
-import Foundation
-import UIKit
 import SSPullToRefresh
 import FLAnimatedImage
 import Crashlytics

@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
-import UIKit
 import SwiftyUserDefaults
 import Crashlytics
 
@@ -681,8 +680,6 @@ public extension AppViewController {
 }
 
 #if DEBUG
-
-import SVGKit
 
 var isShowingDebug = false
 var debugTodoController = DebugTodoController()

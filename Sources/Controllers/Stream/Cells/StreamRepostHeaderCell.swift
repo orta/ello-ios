@@ -6,9 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import SVGKit
-
-
 public class StreamRepostHeaderCell: UICollectionViewCell {
 
     @IBOutlet var repostedByLabel: ElloLabel!

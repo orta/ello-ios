@@ -6,9 +6,7 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
-import UIKit
 import Moya
-
 
 public typealias StreamSuccessCompletion = (jsonables: [JSONAble], responseConfig: ResponseConfig) -> Void
 public typealias UserSuccessCompletion = (user: User, responseConfig: ResponseConfig) -> Void
@@ -90,7 +88,7 @@ public class StreamService: NSObject {
                     for comment in comments {
                         comment.loadedFromPostId = postId
                     }
-                    
+
                     if let streamKind = streamKind {
                         Preloader().preloadImages(comments, streamKind: streamKind)
                     }

@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import UIKit
-
 public class PostDetailViewController: StreamableViewController {
 
     var post: Post?
@@ -15,7 +13,7 @@ public class PostDetailViewController: StreamableViewController {
     var navigationBar: ElloNavigationBar!
     var localToken: String!
     var deeplinkPath: String?
-    
+
     required public init(postParam: String) {
         self.postParam = postParam
         super.init(nibName: nil, bundle: nil)

@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import UIKit
-
 extension UIScreenEdgePanGestureRecognizer {
     func percentageThroughView(backEdge: UIRectEdge) -> CGFloat {
         let view = self.view!

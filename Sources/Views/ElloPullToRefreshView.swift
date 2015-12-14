@@ -6,10 +6,8 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import UIKit
 import SSPullToRefresh
 import QuartzCore
-import SVGKit
 
 class ElloPullToRefreshView: UIView, SSPullToRefreshContentView {
 

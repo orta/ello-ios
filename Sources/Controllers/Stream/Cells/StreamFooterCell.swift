@@ -6,9 +6,6 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
-import UIKit
-import Foundation
-
 let streamCellDidOpenNotification = TypedNotification<UICollectionViewCell>(name: "StreamCellDidOpenNotification")
 
 public class StreamFooterCell: UICollectionViewCell {

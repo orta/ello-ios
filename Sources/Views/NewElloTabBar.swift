@@ -6,9 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import SVGKit
-
-
 class NewElloTabBar: UIView {
     enum Alignment {
         case Left

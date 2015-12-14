@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import UIKit
 import SwiftyJSON
 
 private let DynamicSettingsCellHeight: CGFloat = 50

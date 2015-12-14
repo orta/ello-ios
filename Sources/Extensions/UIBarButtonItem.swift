@@ -6,9 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import Foundation
-import SVGKit
-
 extension UIBarButtonItem {
 
     class func backChevronWithTarget(target:AnyObject, action:Selector) -> UIBarButtonItem {

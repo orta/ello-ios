@@ -1,7 +1,3 @@
-import Foundation
-import UIKit
-
-
 let PreserveWs = [
     "style",
     "script"

@@ -7,9 +7,6 @@
 //  Big thanks to https://github.com/chiahsien
 //  Swiftified and modified https://github.com/chiahsien/CHTCollectionViewWaterfallLayout
 
-import Foundation
-import UIKit
-
 @objc
 public protocol StreamCollectionViewLayoutDelegate: UICollectionViewDelegate {
 

@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import SVGKit
-
 @objc
 public protocol NotificationsScreenDelegate {
     func activatedCategory(filter : String)

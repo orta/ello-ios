@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Ello. All rights reserved.
 //
 
-import UIKit
-
 public protocol DynamicSettingCellDelegate {
     func toggleSetting(setting: DynamicSetting, value: Bool)
     func deleteAccount()

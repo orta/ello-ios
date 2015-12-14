@@ -6,9 +6,6 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
-import UIKit
-import Foundation
-
 public class StreamHeaderCell: UICollectionViewCell {
 
     public var indexPath = NSIndexPath(forItem: 0, inSection: 0)

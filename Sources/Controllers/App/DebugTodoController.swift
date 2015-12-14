@@ -8,7 +8,6 @@
 
 #if DEBUG
 
-import SVGKit
 import SwiftyUserDefaults
 import Crashlytics
 

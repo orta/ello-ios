@@ -6,8 +6,6 @@
 //  Copyright (c) 2014 Ello. All rights reserved.
 //
 
-import UIKit
-
 extension UIFont {
     public class func defaultFont(size: CGFloat = 14) -> UIFont { return UIFont(name: "AtlasGrotesk-Regular", size: size)! }
     public class func defaultBoldFont(size: CGFloat = 14) -> UIFont { return UIFont(name: "AtlasGrotesk-Bold", size: size)! }
