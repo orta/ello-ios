@@ -19,7 +19,7 @@ public class AlertHeaderView: UIView {
 
     public override func awakeFromNib() {
         super.awakeFromNib()
-        helpButton.setImage(Interface.Image.Question.normalImage, forState: .Normal)
+        helpButton.setImage(.Question, imageStyle: .Normal, forState: .Normal)
         helpButtonWidthConstraint.constant = 0
     }
 

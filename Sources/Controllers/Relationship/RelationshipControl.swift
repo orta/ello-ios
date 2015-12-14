@@ -313,7 +313,7 @@ public class RelationshipControl: UIView {
         override func sharedSetup() {
             super.sharedSetup()
             contentEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 10)
-            setImage(Interface.Image.PlusSmall.selectedImage, forState: .Normal)
+            setImage(.PlusSmall, imageStyle: .Selected, forState: .Normal)
 
             config = .None
             backgroundColor = config.normalBackgroundColor
@@ -354,23 +354,23 @@ public class RelationshipControl: UIView {
             switch style {
                 case .ProfileView:
                     if selected {
-                        setImage(Interface.Image.Star.whiteImage, forState: .Normal)
+                        setImage(.Star, imageStyle: .White, forState: .Normal)
                     }
                     else {
-                        setImage(Interface.Image.Star.normalImage, forState: .Normal)
+                        setImage(.Star, imageStyle: .Normal, forState: .Normal)
                     }
-                    setImage(Interface.Image.Star.whiteImage, forState: .Highlighted)
+                    setImage(.Star, imageStyle: .White, forState: .Highlighted)
                     layer.borderWidth = 1
                     backgroundColor = config.starBackgroundColor
                     imageEdgeInsets.top = -1
                 default:
                     if selected {
-                        setImage(Interface.Image.Star.selectedImage, forState: .Normal)
+                        setImage(.Star, imageStyle: .Selected, forState: .Normal)
                     }
                     else {
-                        setImage(Interface.Image.Star.normalImage, forState: .Normal)
+                        setImage(.Star, imageStyle: .Normal, forState: .Normal)
                     }
-                    setImage(Interface.Image.Star.selectedImage, forState: .Highlighted)
+                    setImage(.Star, imageStyle: .Selected, forState: .Highlighted)
                     layer.borderWidth = 0
                     backgroundColor = .clearColor()
                     imageEdgeInsets.top = 0

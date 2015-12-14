@@ -376,8 +376,8 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
         linkButton.addTarget(self, action: Selector("linkButtonTapped"), forControlEvents: .TouchUpInside)
         linkButton.enabled = false
-        linkButton.setImage(Interface.Image.Link.whiteImage, forState: .Normal)
-        linkButton.setImage(Interface.Image.BreakLink.whiteImage, forState: .Selected)
+        linkButton.setImage(.Link, imageStyle: .White, forState: .Normal)
+        linkButton.setImage(.BreakLink, imageStyle: .White, forState: .Selected)
     }
 
     private func setupViewHierarchy() {

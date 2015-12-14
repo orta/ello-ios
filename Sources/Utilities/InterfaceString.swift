@@ -11,6 +11,14 @@ import SVGKit
 
 public enum Interface {
     public enum Image: String {
+        public enum Style {
+            case Normal
+            case White
+            case Selected
+            case Disabled
+            case Red
+        }
+
         case ElloLogo = "ello_logo"
 
         // Postbar Icons
@@ -77,6 +85,16 @@ public enum Interface {
         // Embeds
         case AudioPlay = "embetter_audio_play"
         case VideoPlay = "embetter_video_play"
+
+        func image(style: Style) -> UIImage! {
+            switch style {
+            case .Normal:   return normalImage
+            case .White:    return whiteImage
+            case .Selected: return selectedImage
+            case .Disabled: return disabledImage
+            case .Red:      return redImage
+            }
+        }
 
         var normalImage: UIImage! {
             switch self {
