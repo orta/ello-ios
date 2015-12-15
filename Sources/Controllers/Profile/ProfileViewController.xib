@@ -22,8 +22,8 @@
                 <outlet property="noPostsView" destination="83s-Z9-BEn" id="MQ5-vh-YPw"/>
                 <outlet property="noPostsViewHeight" destination="kB9-gw-WNj" id="nkR-u5-VHk"/>
                 <outlet property="relationshipControl" destination="ggp-mI-YuR" id="hN5-jY-ce0"/>
-                <outlet property="relationshipControlsView" destination="RRI-jo-8jI" id="GhE-bs-0Bz"/>
-                <outlet property="relationshipControlsViewTopConstraint" destination="YGc-K8-0Zc" id="aJ3-eb-5ti"/>
+                <outlet property="relationshipControlsView" destination="51L-yd-xBc" id="WRS-BJ-zZr"/>
+                <outlet property="relationshipControlsViewTopConstraint" destination="2Pz-hn-YLD" id="Xnm-tg-NrE"/>
                 <outlet property="view" destination="iN0-l3-epB" id="6s2-PA-CIX"/>
                 <outlet property="viewContainer" destination="wlf-zL-93E" id="IUa-jv-6Wt"/>
             </connections>
@@ -44,75 +44,98 @@
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
-                <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hfy-he-l1y" userLabel="gradientView">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="155"/>
+                <view hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hfy-he-l1y" userLabel="gradientView">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="155" id="IJv-kH-wVt"/>
+                        <constraint firstAttribute="height" constant="50" id="IJv-kH-wVt"/>
                     </constraints>
                 </view>
-                <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RRI-jo-8jI" userLabel="relationshipControlsView">
+                <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="51L-yd-xBc" userLabel="relationshipControlsView">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="60"/>
-                    <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DaU-0S-xWR" userLabel="mentionButton" customClass="ElloMentionButton" customModule="Ello" customModuleProvider="target">
-                            <rect key="frame" x="15" y="15" width="100" height="30"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="100" id="fag-ZT-HBM"/>
-                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="gm7-uW-u2m"/>
-                            </constraints>
-                            <state key="normal" title="@ Mention"/>
-                            <connections>
-                                <action selector="mentionButtonTapped" destination="-1" eventType="touchUpInside" id="Pmg-zf-vvO"/>
-                            </connections>
-                        </button>
-                        <view opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="82" placeholderIntrinsicHeight="30" translatesAutoresizingMaskIntoConstraints="NO" id="ggp-mI-YuR" userLabel="relationshipControl" customClass="RelationshipControl" customModule="Ello" customModuleProvider="target">
-                            <rect key="frame" x="310" y="15" width="283" height="30"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <constraints>
-                                <constraint firstAttribute="width" relation="lessThanOrEqual" constant="283" id="k54-9K-K89"/>
-                            </constraints>
-                        </view>
-                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gLE-mz-Ozo" userLabel="inviteButton" customClass="ElloMentionButton" customModule="Ello" customModuleProvider="target">
-                            <rect key="frame" x="15" y="15" width="100" height="30"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="100" id="3Nl-bx-0fq"/>
-                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="dmg-6w-afY"/>
-                            </constraints>
-                            <state key="normal" title="Invite"/>
-                            <connections>
-                                <action selector="inviteButtonTapped" destination="-1" eventType="touchUpInside" id="tnp-X8-h8l"/>
-                                <action selector="mentionButtonTapped" destination="-1" eventType="touchUpInside" id="3Xe-yt-EsV"/>
-                            </connections>
-                        </button>
-                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="82" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kD4-Ej-tpx" userLabel="editButton" customClass="ElloMentionButton" customModule="Ello" customModuleProvider="target">
-                            <rect key="frame" x="302" y="15" width="283" height="30"/>
-                            <constraints>
-                                <constraint firstAttribute="width" relation="lessThanOrEqual" constant="283" id="UHh-oe-fLG"/>
-                            </constraints>
-                            <state key="normal" title="Edit Profile"/>
-                            <connections>
-                                <action selector="editButtonTapped" destination="-1" eventType="touchUpInside" id="qfJ-Od-yHv"/>
-                            </connections>
-                        </button>
-                    </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="h2z-2r-Nd3">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="60"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ybV-4d-cbH">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="60"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="v69-vi-xVu">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="60"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DaU-0S-xWR" userLabel="mentionButton" customClass="ElloMentionButton" customModule="Ello" customModuleProvider="target">
+                                            <rect key="frame" x="15" y="15" width="100" height="30"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="30" id="D1z-Xm-LU0"/>
+                                                <constraint firstAttribute="width" priority="750" constant="100" id="fjD-Xq-neQ"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="gm7-uW-u2m"/>
+                                            </constraints>
+                                            <state key="normal" title="@ Mention"/>
+                                            <connections>
+                                                <action selector="mentionButtonTapped" destination="-1" eventType="touchUpInside" id="Pmg-zf-vvO"/>
+                                            </connections>
+                                        </button>
+                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="100" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gLE-mz-Ozo" userLabel="inviteButton" customClass="ElloMentionButton" customModule="Ello" customModuleProvider="target">
+                                            <rect key="frame" x="15" y="15" width="100" height="30"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" priority="750" constant="100" id="1Ra-Ff-Vi3"/>
+                                                <constraint firstAttribute="height" constant="30" id="ZvK-dX-cI4"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="dmg-6w-afY"/>
+                                            </constraints>
+                                            <state key="normal" title="Invite"/>
+                                            <connections>
+                                                <action selector="inviteButtonTapped" destination="-1" eventType="touchUpInside" id="tnp-X8-h8l"/>
+                                                <action selector="mentionButtonTapped" destination="-1" eventType="touchUpInside" id="3Xe-yt-EsV"/>
+                                            </connections>
+                                        </button>
+                                        <view opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="82" placeholderIntrinsicHeight="30" translatesAutoresizingMaskIntoConstraints="NO" id="ggp-mI-YuR" userLabel="relationshipControl" customClass="RelationshipControl" customModule="Ello" customModuleProvider="target">
+                                            <rect key="frame" x="302" y="15" width="283" height="30"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="30" id="Ksh-N2-rRd"/>
+                                                <constraint firstAttribute="width" relation="lessThanOrEqual" constant="283" id="k54-9K-K89"/>
+                                            </constraints>
+                                        </view>
+                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="82" placeholderIntrinsicHeight="30" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kD4-Ej-tpx" userLabel="editButton" customClass="ElloMentionButton" customModule="Ello" customModuleProvider="target">
+                                            <rect key="frame" x="307" y="15" width="283" height="30"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" relation="lessThanOrEqual" constant="283" id="UHh-oe-fLG"/>
+                                                <constraint firstAttribute="height" constant="30" id="jtK-c6-SqN"/>
+                                            </constraints>
+                                            <state key="normal" title="Edit Profile"/>
+                                            <connections>
+                                                <action selector="editButtonTapped" destination="-1" eventType="touchUpInside" id="qfJ-Od-yHv"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="ggp-mI-YuR" secondAttribute="bottom" constant="15" id="5ot-OC-TCX"/>
+                                        <constraint firstItem="DaU-0S-xWR" firstAttribute="leading" secondItem="v69-vi-xVu" secondAttribute="leading" constant="15" id="AzB-4B-GF9"/>
+                                        <constraint firstAttribute="bottom" secondItem="DaU-0S-xWR" secondAttribute="bottom" constant="15" id="OBu-80-D0g"/>
+                                        <constraint firstItem="gLE-mz-Ozo" firstAttribute="leading" secondItem="v69-vi-xVu" secondAttribute="leading" constant="15" id="YOv-pH-ks8"/>
+                                        <constraint firstAttribute="bottom" secondItem="gLE-mz-Ozo" secondAttribute="bottom" constant="15" id="nwp-XW-zi6"/>
+                                        <constraint firstItem="ggp-mI-YuR" firstAttribute="leading" secondItem="DaU-0S-xWR" secondAttribute="trailing" priority="750" constant="10" id="p1s-4G-3pm"/>
+                                        <constraint firstAttribute="trailing" secondItem="kD4-Ej-tpx" secondAttribute="trailing" constant="10" id="qKR-1X-BXb"/>
+                                        <constraint firstAttribute="bottom" secondItem="kD4-Ej-tpx" secondAttribute="bottom" constant="15" id="rJZ-hk-NWe"/>
+                                        <constraint firstAttribute="trailing" secondItem="ggp-mI-YuR" secondAttribute="trailing" constant="15" id="ukc-Op-lKb"/>
+                                        <constraint firstItem="kD4-Ej-tpx" firstAttribute="leading" secondItem="gLE-mz-Ozo" secondAttribute="trailing" priority="750" constant="10" id="xfV-H8-krg"/>
+                                    </constraints>
+                                </view>
+                                <blurEffect style="light"/>
+                            </visualEffectView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="ybV-4d-cbH" firstAttribute="height" secondItem="h2z-2r-Nd3" secondAttribute="height" id="4aT-pI-ZBB"/>
+                            <constraint firstItem="ybV-4d-cbH" firstAttribute="centerY" secondItem="h2z-2r-Nd3" secondAttribute="centerY" id="8NP-Yg-eE8"/>
+                            <constraint firstItem="ybV-4d-cbH" firstAttribute="centerX" secondItem="h2z-2r-Nd3" secondAttribute="centerX" id="cL2-AU-lD6"/>
+                            <constraint firstItem="ybV-4d-cbH" firstAttribute="width" secondItem="h2z-2r-Nd3" secondAttribute="width" id="oPu-Je-UmY"/>
+                        </constraints>
+                    </view>
                     <constraints>
-                        <constraint firstItem="ggp-mI-YuR" firstAttribute="leading" secondItem="DaU-0S-xWR" secondAttribute="trailing" priority="750" constant="10" id="0Ib-fg-TtA" userLabel="relationshipControl.leading"/>
-                        <constraint firstItem="kD4-Ej-tpx" firstAttribute="leading" secondItem="gLE-mz-Ozo" secondAttribute="trailing" priority="750" constant="10" id="7ym-HJ-haZ" userLabel="editButton.leading"/>
-                        <constraint firstItem="ggp-mI-YuR" firstAttribute="top" secondItem="RRI-jo-8jI" secondAttribute="top" constant="15" id="BTh-xN-CCE" userLabel="relationshipControl.top"/>
-                        <constraint firstItem="kD4-Ej-tpx" firstAttribute="top" secondItem="RRI-jo-8jI" secondAttribute="top" constant="15" id="FGm-Il-jj8" userLabel="editButton.top"/>
-                        <constraint firstItem="gLE-mz-Ozo" firstAttribute="top" secondItem="RRI-jo-8jI" secondAttribute="top" constant="15" id="JcM-aH-BH1" userLabel="Invite.top"/>
-                        <constraint firstAttribute="bottom" secondItem="ggp-mI-YuR" secondAttribute="bottom" constant="15" id="KQj-Si-qeQ" userLabel="relationshipControl.bottom"/>
-                        <constraint firstAttribute="bottom" secondItem="kD4-Ej-tpx" secondAttribute="bottom" constant="15" id="LJh-Mi-lrh" userLabel="editButton.bottom"/>
-                        <constraint firstItem="gLE-mz-Ozo" firstAttribute="leading" secondItem="RRI-jo-8jI" secondAttribute="leading" constant="15" id="SFC-X6-YRD" userLabel="Invite.leading"/>
-                        <constraint firstItem="DaU-0S-xWR" firstAttribute="top" secondItem="RRI-jo-8jI" secondAttribute="top" constant="15" id="SOU-J3-U96" userLabel="@ Mention.top"/>
-                        <constraint firstAttribute="bottom" secondItem="DaU-0S-xWR" secondAttribute="bottom" constant="15" id="XbJ-gK-rKJ" userLabel="@ Mention.bottom"/>
-                        <constraint firstItem="DaU-0S-xWR" firstAttribute="leading" secondItem="RRI-jo-8jI" secondAttribute="leading" constant="15" id="led-eC-i3m" userLabel="@ Mention.leading"/>
-                        <constraint firstAttribute="bottom" secondItem="gLE-mz-Ozo" secondAttribute="bottom" constant="15" id="mv5-O8-IJi" userLabel="Invite.bottom"/>
-                        <constraint firstAttribute="trailing" secondItem="ggp-mI-YuR" secondAttribute="trailing" constant="7" id="qUK-5a-Opn" userLabel="relationshipControl.trailing"/>
-                        <constraint firstAttribute="trailing" secondItem="kD4-Ej-tpx" secondAttribute="trailing" constant="15" id="xrH-GU-8s2" userLabel="editButton.trailing"/>
+                        <constraint firstAttribute="height" constant="60" id="3YF-Rk-QJN"/>
                     </constraints>
-                </view>
+                    <blurEffect style="light"/>
+                </visualEffectView>
                 <view hidden="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="83s-Z9-BEn" userLabel="noPostsView">
                     <rect key="frame" x="0.0" y="385" width="600" height="215"/>
                     <subviews>
@@ -153,19 +176,19 @@ Follow or mention them to help them get started!  </string>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="51L-yd-xBc" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="2Pz-hn-YLD"/>
                 <constraint firstAttribute="trailing" secondItem="Dl8-ha-LxN" secondAttribute="trailing" id="4VW-hR-wV5" userLabel="navigationBar - right"/>
                 <constraint firstItem="hfy-he-l1y" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="8IL-1x-9Hi"/>
                 <constraint firstAttribute="top" secondItem="Dl8-ha-LxN" secondAttribute="top" id="HAg-hv-aOW" userLabel="navigationBar - top"/>
                 <constraint firstItem="wlf-zL-93E" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="K3x-o1-2W5" userLabel="viewContainer - left"/>
                 <constraint firstItem="wlf-zL-93E" firstAttribute="bottom" secondItem="iN0-l3-epB" secondAttribute="bottom" id="Kzz-uf-eqd" userLabel="viewContainer - bottom"/>
+                <constraint firstItem="51L-yd-xBc" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Lp5-SP-DOE"/>
+                <constraint firstItem="51L-yd-xBc" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="OQD-yi-J6S"/>
                 <constraint firstAttribute="bottom" secondItem="83s-Z9-BEn" secondAttribute="bottom" id="PdW-uX-5p2" userLabel="noPostsView - bottom"/>
                 <constraint firstItem="wlf-zL-93E" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailing" id="Rwp-mf-G91" userLabel="viewContainer - right"/>
-                <constraint firstItem="RRI-jo-8jI" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="YGc-K8-0Zc"/>
-                <constraint firstItem="RRI-jo-8jI" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="h3c-RO-kha"/>
                 <constraint firstAttribute="trailing" secondItem="83s-Z9-BEn" secondAttribute="trailing" id="j9j-3T-w8g" userLabel="noPostsView - right"/>
                 <constraint firstItem="83s-Z9-BEn" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="kyP-8W-Ihs" userLabel="noPostsView - left"/>
                 <constraint firstAttribute="centerX" secondItem="A2p-8r-avy" secondAttribute="centerX" id="naz-Ui-54x" userLabel="coverImage - centerX"/>
-                <constraint firstItem="RRI-jo-8jI" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="oSU-GW-cXd"/>
                 <constraint firstItem="Dl8-ha-LxN" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="sky-eS-kcB" userLabel="navigationBar - left"/>
                 <constraint firstItem="hfy-he-l1y" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="tU5-MR-hv2"/>
                 <constraint firstItem="hfy-he-l1y" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="w5L-Z5-pfF"/>
