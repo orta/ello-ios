@@ -1,3 +1,49 @@
+### Ello Build 1.3.0(3647) December 14, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #655 - Fixes/changes from T&L
+- fixes the 'allow push notifications' alert (auto-layout issue)
+- fixes font size on web view content
+
+------
+
+#### #654 - New posts & loves are added below grid/list toggle
+New posts and loves were getting added above the grid/list toggle. No more!
+
+------
+
+#### #653 - Converts "named" images to "compiled" images
+Using `Interface.Image` enumeration, all images can be Enum values, with specs to make sure those images actually exist.
+
+------
+
+#### #652 - Add grid/list toggle to loves
+Forgot to add the grid/list toggle to loves. Loves be toggle-less no more :raised_hands:
+
+------
+
+#### #651 - Build 3614
+
+------
+
+#### #648 - Fixes the reply button by re-assigning the index path to comment cells
+
+------
+
+#### #649 - remove old debug code (don't need 'todo entries')
+
+------
+
+#### #650 - Fixes and changes from product
+Changes the RelationshipControl in Profile view
+Fixes to the buttons in general
+Changes tab bar narration popups (bold titles)
+    
+------------
+
 ### Ello Build 1.3.0(3614) December 11, 2015
 
     RELEASE NOTES
