@@ -20,6 +20,9 @@ fastlane_version "1.39.0"
 
 default_platform :ios
 
+# handy commands to run if you're having issues with certs & profiles
+# cert -o "./certs"
+# sigh -a "co.ello.ElloDev" --adhoc -o "./fastlane/profiles" --development
 
 platform :ios do
   before_all do
@@ -34,6 +37,8 @@ platform :ios do
   ######################### PUBLIC LANES ##########################
 
   lane :appstore do
+    sh "bundle"
+
     # setup the production configuration
     sh "bundle exec rake generate:prod_keys"
     
@@ -105,6 +110,9 @@ platform :ios do
   private_lane :rainbow do |options|
     groups = options[:groups]
     release_notes_task = options[:release_notes_task]
+
+    sh "bundle"
+
     # setup the production configuration
     sh "bundle exec rake generate:prod_keys"
     
@@ -148,6 +156,9 @@ platform :ios do
   private_lane :donut do |options|
     groups = options[:groups]
     release_notes_task = options[:release_notes_task]
+
+    sh "bundle"
+
     # setup the production configuration
     sh "bundle exec rake generate:staging_keys"
     
