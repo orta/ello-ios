@@ -37,7 +37,7 @@ platform :ios do
   ######################### PUBLIC LANES ##########################
 
   lane :appstore do
-    sh "bundle"
+    sh "bundle install"
 
     # setup the production configuration
     sh "bundle exec rake generate:prod_keys"
@@ -111,7 +111,7 @@ platform :ios do
     groups = options[:groups]
     release_notes_task = options[:release_notes_task]
 
-    sh "bundle"
+    sh "bundle install"
 
     # setup the production configuration
     sh "bundle exec rake generate:prod_keys"
@@ -157,7 +157,7 @@ platform :ios do
     groups = options[:groups]
     release_notes_task = options[:release_notes_task]
 
-    sh "bundle"
+    sh "bundle install"
 
     # setup the production configuration
     sh "bundle exec rake generate:staging_keys"
