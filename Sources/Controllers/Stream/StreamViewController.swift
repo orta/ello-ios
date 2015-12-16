@@ -681,11 +681,15 @@ extension StreamViewController: UserDelegate {
         }
     }
 
+    public func userTapped(user: User) {
+        userTappedDelegate?.userTapped(user)
+    }
+
     public func userTappedAvatar(cell: UICollectionViewCell) {
         if let indexPath = collectionView.indexPathForCell(cell),
            user = dataSource.userForIndexPath(indexPath)
         {
-            userTappedDelegate?.userTapped(user)
+            userTapped(user)
         }
     }
 
@@ -776,7 +780,7 @@ extension StreamViewController: UICollectionViewDelegate {
         }
         else if tappedCell is UserListItemCell {
             if let user = dataSource.userForIndexPath(indexPath) {
-                userTappedDelegate?.userTapped(user)
+                userTapped(user)
             }
         }
         else if tappedCell is StreamSeeMoreCommentsCell {
@@ -790,7 +794,7 @@ extension StreamViewController: UICollectionViewDelegate {
             if let post = dataSource.postForIndexPath(indexPath),
                 user = post.author
             {
-                userTappedDelegate?.userTapped(user)
+                userTapped(user)
             }
         }
         else if let post = dataSource.postForIndexPath(indexPath) {
@@ -806,7 +810,7 @@ extension StreamViewController: UICollectionViewDelegate {
             let notification = item.jsonable as? Notification,
             let user = notification.subject as? User
         {
-            userTappedDelegate?.userTapped(user)
+            userTapped(user)
         }
         else if let comment = dataSource.commentForIndexPath(indexPath),
             let post = comment.parentPost
