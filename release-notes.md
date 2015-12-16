@@ -1,3 +1,18 @@
+### Ello Build 1.3.0(3671) December 16, 2015
+
+    RELEASE NOTES
+
+------
+
+#### #659 - Changes all the fonts and refactors the xib files
+
+------
+
+#### #658 - Adds the "tap comments to create a comment when 0 comments" feature
+Finishes [#107082870]
+    
+------------
+
 ### Ello Build 1.3.0(3655) December 16, 2015
 
     No completed pull requests since last distribution.
