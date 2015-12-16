@@ -220,12 +220,12 @@ class ProfileViewControllerSpec: QuickSpec {
                 }
             }
 
-            context("snapshots") {
+            xcontext("snapshots") {
                 let subject = ProfileViewController(userParam: "42")
                 validateAllSnapshots(subject)
             }
 
-            context("snapshots - currentUser") {
+            xcontext("snapshots - currentUser") {
                 let user: User = stub([:])
                 let subject = ProfileViewController(user: user)
                 beforeEach {
