@@ -442,6 +442,10 @@ public class PostbarController: NSObject, PostbarDelegate {
             startingIndexPath: commentsStartingIndexPath) { (indexPaths) in
                 self.collectionView.insertItemsAtIndexPaths(indexPaths)
                 cell.commentsControl.enabled = true
+
+                if indexPaths.count == 1 && jsonables.count == 0 {
+                    self.presentingController?.createCommentTapped(post)
+                }
             }
     }
 
