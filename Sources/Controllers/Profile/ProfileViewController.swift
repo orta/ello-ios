@@ -171,7 +171,12 @@ public class ProfileViewController: StreamableViewController {
 
         animate {
             self.updateGradientViewConstraint()
-            self.relationshipControlsViewTopConstraint.constant = 0
+            if self.user?.id == self.currentUser?.id && self.user?.id != nil {
+                self.relationshipControlsViewTopConstraint.constant = -self.relationshipControlsView.frame.height
+            }
+            else {
+                self.relationshipControlsViewTopConstraint.constant = 0
+            }
             self.view.layoutIfNeeded()
         }
     }
@@ -261,7 +266,7 @@ public class ProfileViewController: StreamableViewController {
         attrString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range:NSMakeRange(0, attrString.length))
         paragraphStyle.lineSpacing = 4
 
-        noPostsBody.font = UIFont.typewriterFont(12)
+        noPostsBody.font = UIFont.defaultFont()
         noPostsBody.attributedText = attrString
     }
 

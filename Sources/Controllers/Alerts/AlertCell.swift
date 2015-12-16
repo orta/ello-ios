@@ -27,7 +27,7 @@ public class AlertCell: UITableViewCell {
         super.awakeFromNib()
 
         input.backgroundColor = UIColor.whiteColor()
-        input.font = UIFont.typewriterFont(12.0)
+        input.font = UIFont.defaultFont()
         input.textColor = UIColor.blackColor()
         input.tintColor = UIColor.blackColor()
         input.clipsToBounds = false
