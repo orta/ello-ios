@@ -283,11 +283,10 @@ public class ProfileViewController: StreamableViewController {
             width: gradientView.frame.width,
             height: gradientView.frame.height
         )
-        gradientLayer.locations = [0, 0.1, 0.6, 1]
+        gradientLayer.locations = [0, 0.8, 1]
         gradientLayer.colors = [
             UIColor.whiteColor().CGColor,
-            UIColor.whiteColor().CGColor,
-            UIColor.whiteColor().colorWithAlphaComponent(0.8).CGColor,
+            UIColor.whiteColor().colorWithAlphaComponent(0.5).CGColor,
             UIColor.whiteColor().colorWithAlphaComponent(0).CGColor,
         ]
         gradientLayer.startPoint = CGPoint(x: 0, y: 0)
