@@ -61,6 +61,18 @@ class DebugTodoController: UIViewController, UITableViewDataSource, UITableViewD
             self.navigationController?.pushViewController(vc, animated: true)
         }
 
+        addAction("Show Notification") {
+            appController.dismissViewControllerAnimated(false, completion: nil)
+            delay(0.5) {
+                PushNotificationController.sharedController.receivedNotification(UIApplication.sharedApplication(), userInfo: [
+                    "application_target": "notifications/posts/6178",
+                    "aps": [
+                        "alert": ["body": "Hello, Ello!"]
+                    ]
+                ])
+            }
+        }
+
         addAction("Show Rate Prompt") {
             Rate.sharedRate.prompt()
         }
