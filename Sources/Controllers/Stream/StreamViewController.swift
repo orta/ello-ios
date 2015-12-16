@@ -761,51 +761,51 @@ extension StreamViewController: UICollectionViewDelegate {
     }
 
     public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-            let tappedCell = collectionView.cellForItemAtIndexPath(indexPath)
+        let tappedCell = collectionView.cellForItemAtIndexPath(indexPath)
 
-            if tappedCell is StreamToggleCell {
-                dataSource.toggleCollapsedForIndexPath(indexPath)
-                collectionView.reloadData()
+        if tappedCell is StreamToggleCell {
+            dataSource.toggleCollapsedForIndexPath(indexPath)
+            collectionView.reloadData()
+        }
+        else if tappedCell is UserListItemCell {
+            if let user = dataSource.userForIndexPath(indexPath) {
+                userTappedDelegate?.userTapped(user)
             }
-            else if tappedCell is UserListItemCell {
-                if let user = dataSource.userForIndexPath(indexPath) {
-                    userTappedDelegate?.userTapped(user)
-                }
-            }
-            else if tappedCell is StreamSeeMoreCommentsCell {
-                if  let comment = dataSource.commentForIndexPath(indexPath),
-                    let post = comment.parentPost
-                {
-                    postTappedDelegate?.postTapped(post)
-                }
-            }
-            else if tappedCell is StreamRepostHeaderCell {
-                if let post = dataSource.postForIndexPath(indexPath),
-                    user = post.author
-                {
-                    userTappedDelegate?.userTapped(user)
-                }
-            }
-            else if let post = dataSource.postForIndexPath(indexPath) {
+        }
+        else if tappedCell is StreamSeeMoreCommentsCell {
+            if  let comment = dataSource.commentForIndexPath(indexPath),
+                let post = comment.parentPost
+            {
                 postTappedDelegate?.postTapped(post)
             }
-            else if let item = dataSource.visibleStreamCellItem(at: indexPath),
-                let notification = item.jsonable as? Notification,
-                let postId = notification.postId
-            {
-                postTappedDelegate?.postTapped(postId: postId)
-            }
-            else if let item = dataSource.visibleStreamCellItem(at: indexPath),
-                let notification = item.jsonable as? Notification,
-                let user = notification.subject as? User
+        }
+        else if tappedCell is StreamRepostHeaderCell {
+            if let post = dataSource.postForIndexPath(indexPath),
+                user = post.author
             {
                 userTappedDelegate?.userTapped(user)
             }
-            else if let comment = dataSource.commentForIndexPath(indexPath),
-                let post = comment.parentPost
-            {
-                createPostDelegate?.createComment(post, text: nil, fromController: self)
-            }
+        }
+        else if let post = dataSource.postForIndexPath(indexPath) {
+            postTappedDelegate?.postTapped(post)
+        }
+        else if let item = dataSource.visibleStreamCellItem(at: indexPath),
+            let notification = item.jsonable as? Notification,
+            let postId = notification.postId
+        {
+            postTappedDelegate?.postTapped(postId: postId)
+        }
+        else if let item = dataSource.visibleStreamCellItem(at: indexPath),
+            let notification = item.jsonable as? Notification,
+            let user = notification.subject as? User
+        {
+            userTappedDelegate?.userTapped(user)
+        }
+        else if let comment = dataSource.commentForIndexPath(indexPath),
+            let post = comment.parentPost
+        {
+            createPostDelegate?.createComment(post, text: nil, fromController: self)
+        }
     }
 
     public func collectionView(collectionView: UICollectionView,
