@@ -1,3 +1,9 @@
+### Ello Build 1.3.0(3655) December 16, 2015
+
+    No completed pull requests since last distribution.
+    
+------------
+
 ### Ello Build 1.3.0(3654) December 15, 2015
 
     RELEASE NOTES
