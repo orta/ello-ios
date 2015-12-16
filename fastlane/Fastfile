@@ -22,7 +22,7 @@ default_platform :ios
 
 # handy commands to run if you're having issues with certs & profiles
 # cert -o "./certs"
-# sigh -a "co.ello.ElloDev" --adhoc -o "./fastlane/profiles" --development
+# sigh -a "co.ello.ElloDev" --adhoc -o "./fastlane/profiles"
 
 platform :ios do
   before_all do
@@ -104,7 +104,6 @@ platform :ios do
   end
 
   ######################### PRIVATE LANES #########################
-
   desc "Submit a Rainbow Build to Crashlytics"
   desc "This will also make sure the profile is up to date"
   private_lane :rainbow do |options|
