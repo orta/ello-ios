@@ -33,10 +33,6 @@
                                     <constraint firstAttribute="height" constant="122" id="3aZ-xd-avL" userLabel="avatarButton - height"/>
                                     <constraint firstAttribute="width" constant="122" id="7G6-ms-sEZ" userLabel="avatarButton - width"/>
                                 </constraints>
-                                <state key="normal">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6nJ-r0-lN7" userLabel="usernameLabel">
                                 <rect key="frame" x="15" y="22" width="109" height="18"/>
@@ -57,9 +53,7 @@
                             <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="34" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zV5-bQ-18e" customClass="TwoLineButton" customModule="Ello" customModuleProvider="target">
                                 <rect key="frame" x="15" y="94" width="50" height="34"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Posts">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
+                                <state key="normal" title="Posts"/>
                                 <connections>
                                     <action selector="postsTapped:" destination="OE9-ll-CIs" eventType="touchUpInside" id="AAh-LR-lbM"/>
                                 </connections>
@@ -67,9 +61,7 @@
                             <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="34" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gWi-lG-cJp" customClass="TwoLineButton" customModule="Ello" customModuleProvider="target">
                                 <rect key="frame" x="90" y="94" width="50" height="34"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Following">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
+                                <state key="normal" title="Following"/>
                                 <connections>
                                     <action selector="followingTapped:" destination="OE9-ll-CIs" eventType="touchUpInside" id="1U1-mi-ilG"/>
                                 </connections>
@@ -77,9 +69,7 @@
                             <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="34" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FV1-FS-QMz" customClass="TwoLineButton" customModule="Ello" customModuleProvider="target">
                                 <rect key="frame" x="165" y="94" width="50" height="34"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Followers">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
+                                <state key="normal" title="Followers"/>
                                 <connections>
                                     <action selector="followersTapped:" destination="OE9-ll-CIs" eventType="touchUpInside" id="EaW-fg-RT0"/>
                                 </connections>
@@ -87,9 +77,7 @@
                             <button opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="50" placeholderIntrinsicHeight="34" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rQa-MW-cCK" customClass="TwoLineButton" customModule="Ello" customModuleProvider="target">
                                 <rect key="frame" x="240" y="94" width="50" height="34"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="Loves">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
+                                <state key="normal" title="Loves"/>
                                 <connections>
                                     <action selector="lovesTapped:" destination="OE9-ll-CIs" eventType="touchUpInside" id="nWd-zb-a4k"/>
                                 </connections>

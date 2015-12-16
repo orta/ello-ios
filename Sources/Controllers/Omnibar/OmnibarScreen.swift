@@ -258,6 +258,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
             button.setTitle("Post", forState: .Normal)
             button.setTitleColor(.whiteColor(), forState: .Normal)
             button.setTitleColor(.grey6(), forState: .Disabled)
+            button.titleLabel?.font = UIFont.defaultFont()
             button.contentEdgeInsets.left = -5
             button.imageEdgeInsets.right = 5
             button.addTarget(self, action: Selector("submitAction"), forControlEvents: .TouchUpInside)
@@ -311,29 +312,29 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
         boldButton.addTarget(self, action: Selector("boldButtonTapped"), forControlEvents: .TouchUpInside)
         boldButton.setAttributedTitle(NSAttributedString(string: "B", attributes: [
-            NSFontAttributeName: UIFont.typewriterBoldFont(12),
+            NSFontAttributeName: UIFont.defaultBoldFont(),
             NSForegroundColorAttributeName: UIColor.whiteColor()
         ]), forState: .Normal)
         boldButton.setAttributedTitle(NSAttributedString(string: "B", attributes: [
-            NSFontAttributeName: UIFont.typewriterBoldFont(12),
+            NSFontAttributeName: UIFont.defaultBoldFont(),
             NSForegroundColorAttributeName: UIColor.grey6()
         ]), forState: .Highlighted)
         boldButton.setAttributedTitle(NSAttributedString(string: "B", attributes: [
-            NSFontAttributeName: UIFont.typewriterBoldFont(12),
+            NSFontAttributeName: UIFont.defaultBoldFont(),
             NSForegroundColorAttributeName: UIColor.blackColor()
             ]), forState: .Selected)
 
         italicButton.addTarget(self, action: Selector("italicButtonTapped"), forControlEvents: .TouchUpInside)
         italicButton.setAttributedTitle(NSAttributedString(string: "I", attributes: [
-            NSFontAttributeName: UIFont.typewriterItalicFont(12),
+            NSFontAttributeName: UIFont.defaultItalicFont(),
             NSForegroundColorAttributeName: UIColor.whiteColor()
         ]), forState: .Normal)
         italicButton.setAttributedTitle(NSAttributedString(string: "I", attributes: [
-            NSFontAttributeName: UIFont.typewriterItalicFont(12),
+            NSFontAttributeName: UIFont.defaultItalicFont(),
             NSForegroundColorAttributeName: UIColor.grey6()
         ]), forState: .Highlighted)
         italicButton.setAttributedTitle(NSAttributedString(string: "I", attributes: [
-            NSFontAttributeName: UIFont.typewriterItalicFont(12),
+            NSFontAttributeName: UIFont.defaultItalicFont(),
             NSForegroundColorAttributeName: UIColor.blackColor()
             ]), forState: .Selected)
 
@@ -726,7 +727,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
     func boldButtonTapped() {
         let font = textView.typingAttributes[NSFontAttributeName] as? UIFont
-        let fontName = font?.fontName ?? "AtlasTypewriter-Regular"
+        let fontName = (font ?? UIFont.editorFont()).fontName
 
         let newFont: UIFont
         switch fontName {
@@ -768,7 +769,7 @@ public class OmnibarScreen: UIView, OmnibarScreenProtocol {
 
     func italicButtonTapped() {
         let font = textView.typingAttributes[NSFontAttributeName] as? UIFont
-        let fontName = font?.fontName ?? "AtlasTypewriter-Regular"
+        let fontName = (font ?? UIFont.editorFont()).fontName
 
         let newFont: UIFont
         switch fontName {

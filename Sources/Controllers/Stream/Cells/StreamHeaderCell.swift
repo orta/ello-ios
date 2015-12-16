@@ -313,7 +313,7 @@ public class StreamHeaderCell: UICollectionViewCell {
     }
 
     private func styleUsernameButton() {
-        usernameButton.titleLabel?.font = UIFont.typewriterFont(12.0)
+        usernameButton.titleLabel?.font = UIFont.defaultFont()
         usernameButton.setTitleColor(UIColor.greyA(), forState: UIControlState.Normal)
         usernameButton.titleLabel?.lineBreakMode = NSLineBreakMode.ByTruncatingTail
         usernameButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
@@ -321,7 +321,7 @@ public class StreamHeaderCell: UICollectionViewCell {
 
     private func styleTimestampLabel() {
         timestampLabel.textColor = UIColor.greyA()
-        timestampLabel.font = UIFont.typewriterFont(12.0)
+        timestampLabel.font = UIFont.defaultFont()
     }
 
     private func repositionBottomContent() {

@@ -131,7 +131,7 @@ public class NotificationCell : UICollectionViewCell, UIWebViewDelegate {
         messageWebView.delegate = self
 
         createdAtLabel.textColor = UIColor.greyA()
-        createdAtLabel.font = UIFont.typewriterFont()
+        createdAtLabel.font = UIFont.defaultFont()
         createdAtLabel.text = ""
 
         for view in [avatarButton, titleTextView, notificationImageView, messageWebView, createdAtLabel] {

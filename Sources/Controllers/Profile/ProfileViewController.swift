@@ -261,7 +261,7 @@ public class ProfileViewController: StreamableViewController {
         attrString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range:NSMakeRange(0, attrString.length))
         paragraphStyle.lineSpacing = 4
 
-        noPostsBody.font = UIFont.typewriterFont(12)
+        noPostsBody.font = UIFont.defaultFont()
         noPostsBody.attributedText = attrString
     }
 
